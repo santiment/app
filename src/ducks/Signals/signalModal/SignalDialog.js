@@ -83,6 +83,7 @@ const SignalDialog = ({
 
   return (
     <Dialog
+      defaultOpen={dialogOpenState}
       open={dialogOpenState}
       withAnimation={false}
       onOpen={() => {

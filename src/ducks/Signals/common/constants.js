@@ -1,4 +1,4 @@
-export const SIGNAL_ROUTES = {
+export const ALERT_ROUTES = {
   ALERTS: '/alerts',
   ALERT: `/alerts/:id`
 }

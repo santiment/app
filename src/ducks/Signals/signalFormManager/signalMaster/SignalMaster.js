@@ -10,7 +10,7 @@ import {
   getNewTitle,
   getNewDescription
 } from '../../utils/utils'
-import { SIGNAL_ROUTES } from '../../common/constants'
+import { ALERT_ROUTES } from '../../common/constants'
 import TriggerForm from '../signalCrudForm/signal/TriggerForm'
 import SharedTriggerForm from '../sharedForm/SharedTriggerForm'
 import {
@@ -179,7 +179,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateTrigger(payload))
   },
   redirect: () => {
-    dispatch(push(SIGNAL_ROUTES.MY_SIGNALS))
+    dispatch(push(ALERT_ROUTES.ALERTS))
   }
 })
 
