@@ -184,10 +184,7 @@ export function useTimeseries (
             .catch(({ message }) => {
               if (raceCondition) return
 
-              if (
-                attempt < 5 &&
-                message.includes('Unexpected token < in JSON at position')
-              ) {
+              if (attempt < 5 && message.includes('JSON')) {
                 attempt += 1
                 return setTimeout(getTimeseries, 2000)
               }
