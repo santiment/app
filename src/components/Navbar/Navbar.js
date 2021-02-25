@@ -36,17 +36,21 @@ const ExternalLink = ({ children, className, ...rest }) => (
   </a>
 )
 
-const HEADER_DD_OFFSET_X = (() => {
+const HEADER_DD_PARAMS = (() => {
   const { isLaptop, isTablet } = mapSizesToProps({
     width: window.innerWidth,
     height: window.innerHeight
   })
 
-  if ((isLaptop, isTablet)) {
-    return -130
+  if (isLaptop || isTablet) {
+    return {
+      offsetX: -180
+    }
   }
 
-  return undefined
+  return {
+    position: 'start'
+  }
 })()
 
 const leftLinks = [
@@ -60,30 +64,21 @@ const leftLinks = [
     children: 'Charts',
     as: Link,
     Dropdown: NavbarChartsDropdown,
-    ddParams: {
-      position: 'start',
-      offsetX: HEADER_DD_OFFSET_X
-    }
+    ddParams: HEADER_DD_PARAMS
   },
   {
     href: 'https://insights.santiment.net/',
     children: 'Insights',
     as: ExternalLink,
     Dropdown: InsightsDropdown,
-    ddParams: {
-      position: 'start',
-      offsetX: HEADER_DD_OFFSET_X
-    }
+    ddParams: HEADER_DD_PARAMS
   },
   {
     to: '/watchlists',
     children: 'Watchlists',
     as: Link,
     Dropdown: MarketDropdown,
-    ddParams: {
-      position: 'start',
-      offsetX: HEADER_DD_OFFSET_X
-    }
+    ddParams: HEADER_DD_PARAMS
   }
 ]
 
