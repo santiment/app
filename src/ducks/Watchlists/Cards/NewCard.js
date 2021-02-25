@@ -6,7 +6,7 @@ import LoginPopup from '../../../components/banners/feature/PopupBanner'
 import { useUserWatchlists, useUserScreeners } from '../gql/hooks'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import NewWatchlist from '../Actions/New'
-import { Plus } from '../../../components/Illustrations/Plus'
+import { SvgNew } from '../../../components/Illustrations/NewCard'
 import styles from './NewCard.module.scss'
 import cardStyles from './Card.module.scss'
 
@@ -20,7 +20,7 @@ const Trigger = ({ type, showProBanner, ...props }) => {
       )}
       {...props}
     >
-      <Plus isDisabled={showProBanner} />
+      <SvgNew isDisabled={showProBanner} />
       <div className={styles.createLink}>
         Create {type}
         {showProBanner && <ProLabel className={styles.proLabel} as={'span'} />}
