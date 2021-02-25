@@ -126,7 +126,8 @@ const Canvas = ({
 }
 
 Canvas.defaultProps = {
-  domainGroups: []
+  domainGroups: [],
+  ErrorMsg: {}
 }
 
 export default Canvas
