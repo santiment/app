@@ -1353,7 +1353,7 @@ export const couldShowChart = (
     selector
   } = settings
 
-  if (target.watchlist_id) {
+  if (target && target.watchlist_id) {
     return false
   }
 
@@ -1868,9 +1868,7 @@ export const skipHistoricalPreview = ({ settings }) => {
 }
 
 export const getSlugFromSignalTarget = ({ settings }) => {
-  const {
-    target: { watchlist_id }
-  } = settings
+  const { target: { watchlist_id } = {} } = settings
 
   const [watchlist] = useWatchlist({ id: watchlist_id })
 
