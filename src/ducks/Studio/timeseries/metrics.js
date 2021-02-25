@@ -304,5 +304,6 @@ export const METRICS = [
   'eth_trade_volume_by_token',
   'stablecoin_trade_volume_by_token',
   'token_eth_price_by_dex_5m',
-  'exchange_balance_per_exchange'
+  'exchange_balance_per_exchange',
+  'mvrv_usd_z_score'
 ]
