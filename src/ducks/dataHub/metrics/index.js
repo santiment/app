@@ -172,7 +172,6 @@ export const Metric = {
     node: 'filledLine',
     group: 'Network Value',
     label: 'MVRV-Z',
-    fullTitle: 'Daily MVRV-Z USD Score"',
     formatter: mvrvFormatter,
     axisFormatter: mvrvFormatter
   },
