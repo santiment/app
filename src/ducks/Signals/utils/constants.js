@@ -158,6 +158,21 @@ export const PRICE_ABS_CHANGE_OUTSIDE = {
   dependencies: ['absoluteBorders', 'timeWindow']
 }
 
+export const AMOUNT_ABS_CHANGE_UP_MODEL = {
+  metric: PRICE_ABSOLUTE_CHANGE,
+  subMetric: PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
+  label: 'Amount up',
+  value: ETH_WALLETS_OPERATIONS.AMOUNT_UP,
+  dependencies: ['absoluteThreshold', 'timeWindow']
+}
+export const AMOUNT_ABS_CHANGE_DOWN_MODEL = {
+  metric: PRICE_ABSOLUTE_CHANGE,
+  subMetric: PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
+  label: 'Amount down',
+  value: ETH_WALLETS_OPERATIONS.AMOUNT_DOWN,
+  dependencies: ['absoluteThreshold', 'timeWindow']
+}
+
 export const TRENDING_WORDS_METRIC = {
   label: 'Santrends',
   value: TRENDING_WORDS,
@@ -228,11 +243,22 @@ export const COMMON_PROPS_FOR_METRIC = [
   PRICE_PERCENT_CHANGE_ONE_OF_MODEL
 ]
 
+const WALLET_MOVEMENT_OPTIONS = [
+  ...COMMON_PROPS_FOR_METRIC,
+  {
+    label: 'Amount change',
+    type: 'header',
+    divider: true
+  },
+  AMOUNT_ABS_CHANGE_UP_MODEL,
+  AMOUNT_ABS_CHANGE_DOWN_MODEL
+]
+
 export const METRIC_TO_TYPES = {
   [PRICE]: COMMON_PROPS_FOR_METRIC,
   [DAILY_ACTIVE_ADDRESSES]: PRICE_OPTIONS,
   [PRICE_VOLUME_DIFFERENCE]: [PRICE_VOLUME_DIFFERENCE_METRIC],
-  [ETH_WALLET]: COMMON_PROPS_FOR_METRIC
+  [ETH_WALLET]: WALLET_MOVEMENT_OPTIONS
 }
 
 export const frequencyTymeValueBuilder = value => {

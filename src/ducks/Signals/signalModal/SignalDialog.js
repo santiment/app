@@ -81,11 +81,11 @@ const SignalDialog = ({
     )
   }
 
+  // GarageInc : 27.02.2021, removed withAnimation={false}
   return (
     <Dialog
       defaultOpen={dialogOpenState}
       open={dialogOpenState}
-      withAnimation={false}
       onOpen={() => {
         // Track opening New signal Dialog
         trackEvent(
