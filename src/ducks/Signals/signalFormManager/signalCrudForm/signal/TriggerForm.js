@@ -172,7 +172,7 @@ export const TriggerForm = ({
         }
 
         const isValidForm =
-          isValid && (!errors || Object.keys(errors).length === 0)
+          isValid || (!errors || Object.keys(errors).length === 0)
 
         const showDivider = showTypes || metricValueBlocks
 
