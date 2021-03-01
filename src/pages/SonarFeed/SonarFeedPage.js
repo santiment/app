@@ -103,16 +103,17 @@ const SonarFeed = ({
   )
 
   const {
-    settings: { isTelegramAllowAlerts }
+    settings: { isTelegramAllowAlerts },
+    loading: loadingSettings
   } = useUserSettings()
 
   useEffect(
     () => {
-      if (!isTelegramAllowAlerts && isLoggedIn) {
+      if (!loadingSettings && !isTelegramAllowAlerts && isLoggedIn) {
         showTelegramAlert()
       }
     },
-    [isTelegramAllowAlerts, isLoggedIn]
+    [isTelegramAllowAlerts, loadingSettings, isLoggedIn]
   )
 
   useEffect(() => {
