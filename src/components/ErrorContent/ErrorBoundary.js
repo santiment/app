@@ -7,9 +7,25 @@ class ErrorBoundary extends Component {
     error: null
   }
 
-  componentDidCatch (error, errorInfo) {
+  setError (error) {
     this.setState({ error })
+  }
+
+  componentDidCatch (error, errorInfo) {
+    this.setError(error)
     Sentry.captureException(error, { extra: errorInfo })
+  }
+
+  componentWillMount () {
+    this.unlisten = this.props.history.listen((location, action) => {
+      if (this.state.error) {
+        this.setError()
+      }
+    })
+  }
+
+  componentWillUnmount () {
+    this.unlisten()
   }
 
   render () {

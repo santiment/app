@@ -222,10 +222,11 @@ export const App = ({
   token,
   isOffline,
   showFooter,
-  location: { pathname, search }
+  location: { pathname, search },
+  history
 }) => (
   <div className='App'>
-    <ErrorBoundary>
+    <ErrorBoundary history={history}>
       {isOffline && (
         <div className={styles.offline}>
           It looks like you are offline. Some actions might not work.
@@ -239,7 +240,7 @@ export const App = ({
       <GdprRedirector pathname={pathname} />
       {isDesktop && <UrlModals />}
 
-      <ErrorBoundary>
+      <ErrorBoundary history={history}>
         <Switch>
           <Route path={SHARE_PATH} component={PageLoader} />
           {['erc20', 'all', 'list', 'screener'].map(name => (
