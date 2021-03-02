@@ -22,6 +22,7 @@ import { mapSizesToProps } from '../../utils/withSizes'
 import NavbarMore from './NavbarMore/NavbarMore'
 import { NavbarItem } from './NavbarItem'
 import { useDialogState } from '../../hooks/dialog'
+import { DEFAULT_SCREENER } from '../../ducks/Screener/utils'
 import styles from './Navbar.module.scss'
 
 const ExternalLink = ({ children, className, ...rest }) => (
@@ -79,7 +80,7 @@ const leftLinks = [
 
 const leftLinksV2 = [
   {
-    to: '/screener/new',
+    to: DEFAULT_SCREENER.href,
     children: 'Screener',
     as: Link,
     Dropdown: ScreenerDropdown,
@@ -170,20 +171,18 @@ const Navbar = ({ activeLink = '/', isLaptop, isTablet }) => {
 
         {leftLinks.map((item, index) => (
           <NavbarItem
-            key={index}
+            key={'left' + index}
             item={item}
             activeLink={activeLink}
-            index={index}
           />
         ))}
 
         {!showMore &&
           leftLinksV2.map((item, index) => (
             <NavbarItem
-              key={index}
+              key={'leftV2' + index}
               item={item}
               activeLink={activeLink}
-              index={index}
             />
           ))}
 
