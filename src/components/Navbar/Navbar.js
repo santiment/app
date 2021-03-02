@@ -18,11 +18,6 @@ import SantimentProductsTooltip, {
   MenuItemArrow
 } from './SantimentProductsTooltip/SantimentProductsTooltip'
 import UserAvatar from '../../pages/Account/avatar/UserAvatar'
-import {
-  isDynamicWatchlist,
-  getWatchlistId
-} from '../../ducks/Watchlists/utils'
-import { useShortWatchlist } from '../../ducks/Watchlists/gql/hooks'
 import { mapSizesToProps } from '../../utils/withSizes'
 import NavbarMore from './NavbarMore/NavbarMore'
 import { NavbarItem } from './NavbarItem'
@@ -151,14 +146,7 @@ const Logo = (
   </Link>
 )
 
-const Navbar = ({ activeLink = '/', search, isLaptop, isTablet }) => {
-  const id = getWatchlistId(search)
-  const [watchlist = {}] = useShortWatchlist({
-    id,
-    skip: !activeLink.includes('assets')
-  })
-  let isScreener = isDynamicWatchlist(watchlist)
-
+const Navbar = ({ activeLink = '/', isLaptop, isTablet }) => {
   const showMore = isLaptop || isTablet
 
   return (
@@ -184,7 +172,6 @@ const Navbar = ({ activeLink = '/', search, isLaptop, isTablet }) => {
           <NavbarItem
             key={index}
             item={item}
-            isScreener={isScreener}
             activeLink={activeLink}
             index={index}
           />
@@ -195,7 +182,6 @@ const Navbar = ({ activeLink = '/', search, isLaptop, isTablet }) => {
             <NavbarItem
               key={index}
               item={item}
-              isScreener={isScreener}
               activeLink={activeLink}
               index={index}
             />

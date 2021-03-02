@@ -1,13 +1,9 @@
 import React from 'react'
 import PageLoader from '../../components/Loader/PageLoader'
-import {
-  useUserScreeners,
-  useCreateScreener
-} from '../../ducks/Watchlists/gql/hooks'
-import {
-  isDefaultScreenerPath,
-  getWatchlistLink
-} from '../../ducks/Watchlists/utils'
+import { getScreenerLink } from '../../ducks/Watchlists/url'
+import { useCreateScreener } from '../../ducks/Watchlists/gql/hooks'
+import { useUserScreeners } from '../../ducks/Watchlists/gql/queries'
+import { checkIsDefaultScreener } from '../../ducks/Screener/utils'
 
 function redirectToUserWatchlist ({
   createScreener,
@@ -15,20 +11,16 @@ function redirectToUserWatchlist ({
   history,
   screeners
 }) {
-  const isDefaultFirstScreener = isDefaultScreenerPath(screeners[0].to)
+  const isDefaultFirstScreener = checkIsDefaultScreener(screeners[0].href)
 
   if (isDefaultFirstScreener) {
     if (!isLoadingNewScreener) {
-      createScreener({ name: 'My Screener', isPublic: false }).then(
-        screener => {
-          history.push(getWatchlistLink(screener))
-        }
+      createScreener({ name: 'My Screener', isPublic: false }).then(screener =>
+        history.push(getScreenerLink(screener))
       )
     }
-  }
-
-  if (!isDefaultFirstScreener) {
-    history.push(getWatchlistLink(screeners[0]))
+  } else {
+    history.push(getScreenerLink(screeners[0]))
   }
 }
 
