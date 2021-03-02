@@ -5,17 +5,17 @@ import Loader from '@santiment-network/ui/Loader/Loader'
 import WatchlistsAnon from '../../../ducks/Watchlists/Templates/Anon/WatchlistsAnon'
 import EmptySection from './EmptySection'
 import CreateWatchlistBtn from './CreateWatchlistBtn'
-import {
-  BLOCKCHAIN_ADDRESS,
-  getWatchlistLink
-} from '../../../ducks/Watchlists/utils'
+import { BLOCKCHAIN_ADDRESS } from '../../../ducks/Watchlists/utils'
 import { VisibilityIndicator } from '../../VisibilityIndicator'
 import { useUser } from '../../../stores/user'
 import {
   useUserAddressWatchlists,
   useUserWatchlists
 } from '../../../ducks/Watchlists/gql/queries'
-import { getAddressesWatchlistLink } from '../../../ducks/Watchlists/url'
+import {
+  getAddressesWatchlistLink,
+  getProjectsWatchlistLink
+} from '../../../ducks/Watchlists/url'
 import { sortById } from '../../../utils/sortMethods'
 import { getBlockMinHeight } from '../utils'
 import styles from './WatchlistsDropdown.module.scss'
@@ -65,7 +65,7 @@ const WatchlistList = ({ watchlists, activeLink }) => (
         const link =
           type === BLOCKCHAIN_ADDRESS
             ? getAddressesWatchlistLink(watchlist)
-            : getWatchlistLink(watchlist)
+            : getProjectsWatchlistLink(watchlist)
         return (
           <Button
             fluid

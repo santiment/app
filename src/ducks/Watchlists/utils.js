@@ -4,10 +4,6 @@ import queryString from 'query-string'
 
 export const ALL_PROJECTS_WATCHLIST_SLUG = 'projects'
 
-export function getWatchlistLink ({ name, id }) {
-  return `/assets/list?name=${encodeURIComponent(name)}@${id}`
-}
-
 export function isStaticWatchlist (watchlist) {
   const { name } = watchlist.function || {}
   return name === 'empty'

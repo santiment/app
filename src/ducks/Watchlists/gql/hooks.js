@@ -19,9 +19,6 @@ import {
   countAssetsSort,
   isStaticWatchlist,
   isDynamicWatchlist,
-  PROJECT,
-  BLOCKCHAIN_ADDRESS,
-  getWatchlistLink,
   getNormalizedListItems,
   getWatchlistAlias
 } from '../utils'
@@ -35,6 +32,8 @@ import {
 import { DEFAULT_SCREENER, DEFAULT_SCREENER_FN } from '../../Screener/utils'
 import NotificationActions from '../../../components/NotificationActions/NotificationActions'
 import { ADDRESS_WATCHLIST_QUERY } from '../../WatchlistAddressesTable/gql/queries'
+import { BLOCKCHAIN_ADDRESS, PROJECT } from '../detector'
+import { getWatchlistLink } from '../url'
 
 const EMPTY_ARRAY = []
 const DEFAULT_WATCHLISTS = []
@@ -280,7 +279,7 @@ export function useCreateWatchlist () {
               <WatchlistNotificationActions
                 id={id}
                 name={name}
-                toLink={getWatchlistLink({ id, name })}
+                toLink={getWatchlistLink(createWatchlist)}
               />
             )
           })

@@ -1,6 +1,5 @@
 import '@santiment-network/ui/main.scss'
 
-import './NavbarStory.js'
 import './EditorStory.js'
 import './SharePanelStory'
 import './NewInsightsStory'
@@ -13,4 +12,3 @@ import './ProjectLabelStory'
 import './AssetsMobileStory'
 import './MobileHeaderStory'
 import './FeaturedInsightsStory'
-import './NewsStory'

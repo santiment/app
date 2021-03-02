@@ -1,4 +1,10 @@
 import { getSEOLinkFromIdAndTitle } from '../../utils/url'
+import {
+  BLOCKCHAIN_ADDRESS,
+  PROJECT,
+  SCREENER,
+  detectWatchlistType
+} from './detector'
 
 export const LIST_PATH = {
   PROJECT: '/watchlist/projects/',
@@ -14,3 +20,19 @@ export const getProjectsWatchlistLink = ({ id, name }) =>
 
 export const getScreenerLink = ({ id, name }) =>
   `${LIST_PATH.SCREENER}${getSEOLinkFromIdAndTitle(id, name)}`
+
+export function getWatchlistLink (watchlist) {
+  const { type } = detectWatchlistType(watchlist)
+
+  switch (type) {
+    case BLOCKCHAIN_ADDRESS:
+      return getAddressesWatchlistLink(watchlist)
+    case PROJECT:
+      return getProjectsWatchlistLink(watchlist)
+    case SCREENER:
+      return getScreenerLink(watchlist)
+    default: {
+      return getProjectsWatchlistLink(watchlist)
+    }
+  }
+}
