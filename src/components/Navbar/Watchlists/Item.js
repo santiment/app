@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
 import styles from './MarketDropdown.module.scss'
 
-const Item = ({ name, link, activeLink }) => (
+const Item = ({ name, children, link, activeLink }) => (
   <Button
     fluid
     variant='ghost'
@@ -12,7 +12,7 @@ const Item = ({ name, link, activeLink }) => (
     isActive={link === activeLink}
     className={styles.btn}
   >
-    {name}
+    {name || children}
   </Button>
 )
 

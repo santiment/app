@@ -57,6 +57,7 @@ export const USER_SHORT_WATCHLISTS_QUERY = gql`
       id
       name
       type
+      slug
       function
       insertedAt
       isPublic
