@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import StartGuide from './StartGuide'
 import Cabinet from './Cabinet'
 import { Section, Container, Row } from '../index'
@@ -11,6 +12,16 @@ const TabType = {
   START_GUIDE: 'Quick Start Guide',
   CABINET: 'Cabinet'
 }
+
+const TabHash = {
+  [TabType.CABINET]: '#cabinet'
+}
+
+const HashTab = Object.entries(TabHash).reduce((acc, [key, value]) => {
+  acc[value] = key
+  return acc
+}, {})
+
 const TabTypeComponent = {
   [TabType.START_GUIDE]: StartGuide,
   [TabType.CABINET]: Cabinet
@@ -18,7 +29,11 @@ const TabTypeComponent = {
 
 const toggleVisibility = tab => (tab ? null : TabType.START_GUIDE)
 const saveTab = tab => localStorage.setItem(LS_PERSONAL_TAB, tab || '')
+
 function loadTab () {
+  const hashTab = HashTab[window.location.hash]
+  if (hashTab) return hashTab
+
   const tab = localStorage.getItem(LS_PERSONAL_TAB)
   return tab === null ? TabType.START_GUIDE : tab
 }
@@ -36,11 +51,21 @@ const Header = ({ tabState }) => (
 )
 
 const Personal = () => {
+  const history = useHistory()
   const tabState = useState(loadTab)
-  const activeTab = tabState[0]
+
+  const [activeTab] = tabState
   const Content = TabTypeComponent[activeTab]
 
-  useEffect(() => saveTab(activeTab), [activeTab])
+  useEffect(
+    () => {
+      saveTab(activeTab)
+
+      const hash = TabHash[activeTab] || ''
+      history.replace(window.location.pathname + hash)
+    },
+    [activeTab]
+  )
 
   return (
     <Section>
