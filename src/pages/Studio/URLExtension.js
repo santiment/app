@@ -3,9 +3,19 @@ import { Helmet } from 'react-helmet'
 import { withRouter } from 'react-router-dom'
 import { parse } from 'query-string'
 import { updateShortUrl, buildChartShorthandPath } from './utils'
+import { store } from '../../redux'
 import { useUser } from '../../stores/user'
+import { showNotification } from '../../actions/rootActions'
 import { getShortUrl } from '../../components/Share/utils'
 import { generateUrlV2 } from '../../ducks/Studio/url/generate'
+
+const onShortUrlUpdateError = () =>
+  store.dispatch(
+    showNotification({
+      title: 'Short URL update failed',
+      variant: 'error'
+    })
+  )
 
 const URLExtension = ({
   history,
@@ -41,21 +51,26 @@ const URLExtension = ({
       const fullUrl = '/charts?' + serializedLayout
 
       if (fullUrl !== prevFullUrlRef.current) {
-        const [shortUrl, setShortUrl] = shortUrlState
+        const replaceHistory = () => history.replace(fullUrl)
+        let [shortUrl, setShortUrl] = shortUrlState
+
         prevFullUrlRef.current = fullUrl
 
-        if (!isLoggedIn) return history.replace(fullUrl)
+        if (!isLoggedIn) return replaceHistory()
 
-        if (shortUrl) {
-          updateShortUrl(shortUrl, fullUrl).catch(console.error)
-        } else {
-          getShortUrl(fullUrl)
-            .then(shortUrl => {
-              setShortUrl(shortUrl)
-              history.replace(buildChartShorthandPath(shortUrl))
-            })
-            .catch(console.error)
-        }
+        const shortUrlPromise = shortUrl
+          ? updateShortUrl(shortUrl, fullUrl)
+          : getShortUrl(fullUrl).then(newShortUrl => {
+            shortUrl = newShortUrl
+            setShortUrl(newShortUrl)
+          })
+
+        shortUrlPromise
+          .then(() => history.replace(buildChartShorthandPath(shortUrl)))
+          .catch(() => {
+            replaceHistory()
+            onShortUrlUpdateError()
+          })
       }
     },
     [settings, widgets, sidepanel]
