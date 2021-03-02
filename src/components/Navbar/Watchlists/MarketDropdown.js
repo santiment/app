@@ -5,7 +5,10 @@ import Item from './Item'
 import { getBlockMinHeight } from '../utils'
 import WatchlistsDropdown from './WatchlistsDropdown'
 import { getRecentWatchlists } from '../../../utils/recent'
-import { getProjectsWatchlistLink } from '../../../ducks/Watchlists/url'
+import {
+  getProjectsWatchlistLink,
+  getWatchlistLink
+} from '../../../ducks/Watchlists/url'
 import { useRecentWatchlists } from '../../../ducks/Watchlists/gql/hooks'
 import { useFeaturedWatchlists } from '../../../ducks/Watchlists/gql/queries'
 import styles from './MarketDropdown.module.scss'
@@ -44,7 +47,7 @@ const MarketDropdown = ({ activeLink }) => {
                     <Item
                       key={idx}
                       name={list.name}
-                      link={getProjectsWatchlistLink(list)}
+                      link={getWatchlistLink(list)}
                       activeLink={activeLink}
                     />
                   ))}
