@@ -1,0 +1,75 @@
+import React, { useMemo, useState } from 'react'
+import ScreenerChartTitle from './ScreenerChartTitle'
+import Range from '../WatchlistOverview/WatchlistAnomalies/Range'
+import { INFOGRAPHIC_CURRENCIES } from './utils'
+import styles from './ProjectsChart.module.scss'
+
+const CURRENCY_RANGES = Object.values(INFOGRAPHIC_CURRENCIES)
+
+export const useInfographicRanges = ranges => {
+  const [currency, setCurrency] = useState(INFOGRAPHIC_CURRENCIES.USD)
+
+  const currentRanges = useMemo(() => ranges[currency], [currency, ranges])
+
+  return { currency, setCurrency, currentRanges }
+}
+
+export const PriceInfographicTitleRanges = ({
+  label,
+  type,
+  title,
+  setIntervalIndex,
+  ranges,
+  intervalIndex,
+  currency,
+  setCurrency,
+  currencyRanges = CURRENCY_RANGES
+}) => {
+  return (
+    <>
+      <ScreenerChartTitle type={type} title={`${title}, %`} />
+      <Range
+        className={styles.selector}
+        range={label}
+        changeRange={() => {
+          setIntervalIndex((intervalIndex + 1) % ranges.length)
+        }}
+      />
+      <Range
+        className={styles.selector}
+        range={currency.toUpperCase()}
+        disabled={currencyRanges.length === 1}
+        changeRange={() => {
+          const currentIndex = currencyRanges.indexOf(currency)
+          const target =
+            currencyRanges[(currentIndex + 1) % currencyRanges.length]
+
+          setCurrency(target)
+        }}
+      />
+    </>
+  )
+}
+
+export const SocialInfographicTitleRanges = ({
+  setIntervalIndex,
+  title,
+  label,
+  intervalIndex,
+  ranges
+}) => {
+  return (
+    <>
+      <ScreenerChartTitle type='Treemap' title={`${title}, %`} />
+      <Range
+        className={styles.selector}
+        range={label}
+        changeRange={() => {
+          setIntervalIndex(
+            ranges.length === 1 ? 0 : (intervalIndex + 1) % ranges.length
+          )
+        }}
+      />
+    </>
+  )
+}

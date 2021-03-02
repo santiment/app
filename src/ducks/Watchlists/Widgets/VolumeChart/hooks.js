@@ -13,7 +13,7 @@ export const useWithColors = (data, key, sorter) => {
       const sorted = data.sort(sorter)
       setResult(mapToColors(sorted, key))
     },
-    [data.length, key, sorter]
+    [data, key, sorter]
   )
 
   return result
@@ -73,7 +73,9 @@ export const useProjectRanges = ({
       interval: label,
       metric: sortByMetric || metric,
       desc
-    })
+    }),
+    metric,
+    interval: label
   }
 
   const [data, loading] = isSocialVolume

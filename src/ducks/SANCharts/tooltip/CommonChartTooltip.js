@@ -111,11 +111,13 @@ export const ProjectsChartTooltip = ({
             return (
               <Fragment key={dataKey || index}>
                 {payloadLabels.map(({ key: labelKey, label, formatter }) => {
+                  const value = original[labelKey] || 0
+
                   return (
                     <div key={labelKey} className={styles.row}>
                       <span className={styles.key}>{label}</span>
                       <span className={styles.value}>
-                        {formatter(100 * original[labelKey])}
+                        {formatter(100 * value)}
                       </span>
                     </div>
                   )

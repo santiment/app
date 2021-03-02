@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/react-hooks'
+import gql from 'graphql-tag'
 import {
-  ALL_PROJECTS_PRICE_CHANGES_QUERY,
   ALL_PROJECTS_SOCIAL_VOLUME_CHANGES_QUERY,
   PROJECT_BY_ID_QUERY,
   PROJECT_WITH_SLUG_QUERY
@@ -69,8 +69,35 @@ export function useProjectsSocialVolumeChanges ({
   )
 }
 
-export function useProjectPriceChanges ({ listId, orderBy, limit = 100 }) {
-  const query = useQuery(ALL_PROJECTS_PRICE_CHANGES_QUERY, {
+const buildQuery = ({ metric, interval }) => gql`
+  query allProjectsByFunction($fn: json) {
+    allProjectsByFunction(function: $fn) {
+      projects {
+        slug
+        ticker
+        name
+        ${metric}: aggregatedTimeseriesData(
+          metric: "${metric}"
+          from: "utc_now-${interval}"
+          to: "utc_now"
+          aggregation: LAST
+        )
+        marketcapUsd
+        priceUsd
+      }
+    }
+  }
+`
+
+export function useProjectPriceChanges ({
+  metric,
+  interval,
+  listId,
+  orderBy,
+  limit = 100
+}) {
+  const gqlQuery = buildQuery({ metric, interval })
+  const query = useQuery(gqlQuery, {
     variables: {
       fn: makeFn({ listId, limit, orderBy })
     }
