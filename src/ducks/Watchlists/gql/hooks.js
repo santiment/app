@@ -21,8 +21,6 @@ import {
   isDynamicWatchlist,
   PROJECT,
   BLOCKCHAIN_ADDRESS,
-  DEFAULT_SCREENER,
-  DEFAULT_SCREENER_FUNCTION,
   getWatchlistLink,
   getNormalizedListItems,
   getWatchlistAlias
@@ -34,6 +32,7 @@ import {
   ADDRESS_WATCHLISTS_QUERY,
   USER_SHORT_WATCHLISTS_QUERY
 } from './queries'
+import { DEFAULT_SCREENER, DEFAULT_SCREENER_FN } from '../../Screener/utils'
 import NotificationActions from '../../../components/NotificationActions/NotificationActions'
 import { ADDRESS_WATCHLIST_QUERY } from '../../WatchlistAddressesTable/gql/queries'
 
@@ -197,7 +196,7 @@ export function useCreateScreener () {
   })
 
   function createScreener ({ name = 'My Screener', isPublic = false }) {
-    const screenerFunction = JSON.stringify(DEFAULT_SCREENER_FUNCTION)
+    const screenerFunction = JSON.stringify(DEFAULT_SCREENER_FN)
 
     return mutate({
       variables: {
@@ -259,7 +258,7 @@ export function useCreateWatchlist () {
     const creationType = getCreationType(type)
 
     const watchlistFunction = JSON.stringify(
-      payloadFunction || DEFAULT_SCREENER_FUNCTION
+      payloadFunction || DEFAULT_SCREENER_FN
     )
 
     return mutate({

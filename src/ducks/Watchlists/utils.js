@@ -37,10 +37,6 @@ export function getWatchlistId (search) {
   }
 }
 
-export function isDefaultScreenerPath (pathname) {
-  return pathname === DEFAULT_SCREENER.to
-}
-
 export function hasAssetById ({ id, listItems }) {
   if (!id || !listItems) return
   return listItems.some(({ id: projectId }) => projectId === id)
@@ -91,17 +87,6 @@ export const getHelmetTags = (isList, listName) => {
       ? 'Santiment Watchlists let you keep track of different crypto projects, and compare their performance, on-chain behavior and development activity.'
       : 'Financial, on-chain and development data for 1100+ crypto projects in the Santiment database, including BTC, XRP, ETH and 700+ ERC-20 tokens'
   }
-}
-
-export const DEFAULT_SCREENER = {
-  name: 'My screener',
-  to: '/assets/screener',
-  assetType: 'screener'
-}
-
-export const DEFAULT_SCREENER_FUNCTION = {
-  args: { size: 10000 },
-  name: 'top_all_projects'
 }
 
 export function countAssetsSort ({ count: countA }, { count: countB }) {

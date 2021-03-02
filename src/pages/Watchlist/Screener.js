@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
-import {
-  DEFAULT_SCREENER_FUNCTION as DEFAULT_FUNC,
-  useScreenerUrl
-} from '../../ducks/Watchlists/utils'
+import { useScreenerUrl } from '../../ducks/Watchlists/utils'
 import {
   getProjectsByFunction,
   getAssetsByFunction,
@@ -19,8 +16,11 @@ import {
 import { addRecentScreeners } from '../../utils/recent'
 import { useUser } from '../../stores/user'
 import { tableQuery } from '../../ducks/Watchlists/gql'
-import { DEFAULT_SCREENER_ID } from '../../ducks/Watchlists/gql/queries'
 import { getColumns } from '../../ducks/Watchlists/Widgets/Table/Columns/builder'
+import {
+  DEFAULT_SCREENER_FN,
+  DEFAULT_SCREENER_ID
+} from '../../ducks/Screener/utils'
 import styles from './Screener.module.scss'
 
 const pageSize = 20
@@ -45,7 +45,7 @@ const Screener = ({
   ])
   const [updateWatchlist, { loading: isUpdating }] = useUpdateWatchlist()
   const [screenerFunc, setScreenerFunc] = useState(
-    watchlist.function || DEFAULT_FUNC
+    watchlist.function || DEFAULT_SCREENER_FN
   )
   const { assets, projectsCount, loading } = getProjectsByFunction(
     ...buildFunctionQuery()
@@ -81,7 +81,7 @@ const Screener = ({
     () => {
       const func = watchlist.function
       if (func !== screenerFunc) {
-        if (!func && screenerFunc === DEFAULT_FUNC) {
+        if (!func && screenerFunc === DEFAULT_SCREENER_FN) {
           return
         }
 

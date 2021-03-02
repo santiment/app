@@ -1,4 +1,4 @@
-import { DEFAULT_SCREENER_FUNCTION } from '../../utils'
+import { DEFAULT_SCREENER_FN } from '../../../Screener/utils'
 
 export function getNewFunction (filter, baseProjects = []) {
   const args = { filters: filter }
@@ -9,7 +9,7 @@ export function getNewFunction (filter, baseProjects = []) {
 
   return filter.length > 0 || baseProjects.length > 0
     ? { args, name: 'selector' }
-    : DEFAULT_SCREENER_FUNCTION
+    : DEFAULT_SCREENER_FN
 }
 
 // for screeners that created with old way
@@ -49,13 +49,13 @@ export function filterMetricsBySearch (value = '', metrics) {
   return passedMetrics
 }
 
-export function buildFunction ({ func, pagination, orderBy }) {
-  if (func.name === DEFAULT_SCREENER_FUNCTION.name) {
+export function buildFunction ({ fn, pagination, orderBy }) {
+  if (fn.name === DEFAULT_SCREENER_FN.name) {
     return { args: { pagination, orderBy, filters: [] }, name: 'selector' }
   } else {
     return {
-      ...func,
-      args: { pagination, orderBy, ...func.args }
+      ...fn,
+      args: { pagination, orderBy, ...fn.args }
     }
   }
 }
