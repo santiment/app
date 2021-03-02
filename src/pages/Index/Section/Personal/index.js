@@ -52,22 +52,25 @@ const Header = ({ tabState }) => (
 
 const Personal = () => {
   const history = useHistory()
-  const [activeTab, setTab] = useState(loadTab)
+  const tabState = useState(loadTab)
+
+  const [activeTab] = tabState
   const Content = TabTypeComponent[activeTab]
 
-  useEffect(() => saveTab(activeTab), [activeTab])
+  useEffect(
+    () => {
+      saveTab(activeTab)
 
-  function updateTab (target) {
-    setTab(target)
-
-    const hash = TabHash[target] || ''
-    history.replace(window.location.pathname + hash)
-  }
+      const hash = TabHash[activeTab] || ''
+      history.replace(window.location.pathname + hash)
+    },
+    [activeTab]
+  )
 
   return (
     <Section>
       <Container>
-        <Header tabState={[activeTab, updateTab]} />
+        <Header tabState={tabState} />
         {Content && <Content />}
       </Container>
     </Section>
