@@ -167,6 +167,14 @@ export const Metric = {
     shortLabel: 'St. to Fl.',
     isBeta: true
   },
+  mvrv_usd_z_score: {
+    category: 'On-chain',
+    node: 'filledLine',
+    group: 'Network Value',
+    label: 'MVRV-Z',
+    formatter: mvrvFormatter,
+    axisFormatter: mvrvFormatter
+  },
   mvrv_usd: {
     category: 'On-chain',
     node: 'filledLine',

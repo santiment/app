@@ -245,7 +245,8 @@ export const Description = {
     </>
   ),
   [Metric.whale_transaction_count.key]:
-    'Number of Transactions Transferring More Than 100k USD'
+    'Number of Transactions Transferring More Than 100k USD',
+  [Metric.mvrv_usd_z_score.key]: 'Daily MVRV-Z USD Score'
 }
 
 export const rebuildDescriptions = Submetrics => {
