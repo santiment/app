@@ -44,7 +44,7 @@ const Screener = ({
     activeColumnsKeys
   ])
   const [updateWatchlist, { loading: isUpdating }] = useUpdateWatchlist()
-  const [screenerFunc, setScreenerFunc] = useState(
+  const [screenerFn, setScreenerFn] = useState(
     watchlist.function || DEFAULT_SCREENER_FN
   )
   const { assets, projectsCount, loading } = getProjectsByFunction(
@@ -79,13 +79,13 @@ const Screener = ({
 
   useEffect(
     () => {
-      const func = watchlist.function
-      if (func !== screenerFunc) {
-        if (!func && screenerFunc === DEFAULT_SCREENER_FN) {
+      const fn = watchlist.function
+      if (fn !== screenerFn) {
+        if (!fn && screenerFn === DEFAULT_SCREENER_FN) {
           return
         }
 
-        setScreenerFunc(func)
+        setScreenerFn(fn)
       }
     },
     [watchlist.function]
@@ -97,7 +97,7 @@ const Screener = ({
         setPagination({ ...pagination, page: 1 })
       }
     },
-    [screenerFunc]
+    [screenerFn]
   )
 
   useEffect(
@@ -109,15 +109,15 @@ const Screener = ({
     [id]
   )
 
-  function updateWatchlistFunction (func) {
+  function updateWatchlistFunction (fn) {
     if (watchlist.id) {
-      updateWatchlist(watchlist, { function: func })
+      updateWatchlist(watchlist, { function: fn })
     }
   }
 
   function buildFunctionQuery () {
     return [
-      buildFunction({ func: screenerFunc, pagination, orderBy }),
+      buildFunction({ fn: screenerFn, pagination, orderBy }),
       tableQuery(activeColumns)
     ]
   }
@@ -175,8 +175,8 @@ const Screener = ({
         isAuthor={isAuthor}
         isAuthorLoading={userLoading || isLoading}
         isLoggedIn={isLoggedIn}
-        screenerFunction={screenerFunc}
-        setScreenerFunction={setScreenerFunc}
+        screenerFunction={screenerFn}
+        setScreenerFunction={setScreenerFn}
         isUpdatingWatchlist={isUpdating}
         updateWatchlistFunction={updateWatchlistFunction}
         isDefaultScreener={isDefaultScreener}

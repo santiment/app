@@ -17,7 +17,9 @@ export const NavbarItem = ({
 
   if (rest.to === '/watchlists') {
     isActive =
-      activeLink.includes('/assets') || activeLink.includes('/watchlist')
+      (activeLink.includes('/assets') &&
+        !activeLink.includes('/assets/screener')) ||
+      activeLink.includes('/watchlist')
   }
 
   if (rest.to === DEFAULT_SCREENER.href) {
