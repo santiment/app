@@ -7,53 +7,41 @@ import { Tab } from '../Trends'
 import Toggle from '../../../../components/VisibilityIndicator/Toggle'
 import styles from './index.module.scss'
 
-const tabByAnchor = () => {
-  const hash = window.location.hash
-
-  if (hash === TabType.CABINET.anchor) {
-    return TabType.CABINET.title
-  }
-}
-
 const LS_PERSONAL_TAB = 'LS_PERSONAL_TAB'
 const TabType = {
-  START_GUIDE: {
-    title: 'Quick Start Guide'
-  },
-  CABINET: {
-    title: 'Cabinet',
-    anchor: '#cabinet'
-  }
+  START_GUIDE: 'Quick Start Guide',
+  CABINET: 'Cabinet'
 }
+
+const TabHash = {
+  [TabType.CABINET]: '#cabinet'
+}
+
+const HashTab = Object.entries(TabHash).reduce((acc, [key, value]) => {
+  acc[value] = key
+  return acc
+}, {})
+
 const TabTypeComponent = {
-  [TabType.START_GUIDE.title]: StartGuide,
-  [TabType.CABINET.title]: Cabinet
+  [TabType.START_GUIDE]: StartGuide,
+  [TabType.CABINET]: Cabinet
 }
 
-const toggleVisibility = tab => (tab ? null : TabType.START_GUIDE.title)
+const toggleVisibility = tab => (tab ? null : TabType.START_GUIDE)
 const saveTab = tab => localStorage.setItem(LS_PERSONAL_TAB, tab || '')
+
 function loadTab () {
-  const savedTab = localStorage.getItem(LS_PERSONAL_TAB)
-  const anchorTab = tabByAnchor()
+  const hashTab = HashTab[window.location.hash]
+  if (hashTab) return hashTab
 
-  const target = anchorTab || savedTab
-  const currentTab = target === null ? TabType.START_GUIDE.title : target
-
-  if (currentTab && currentTab !== savedTab) {
-    saveTab(target)
-  }
-
-  return currentTab
+  const tab = localStorage.getItem(LS_PERSONAL_TAB)
+  return tab === null ? TabType.START_GUIDE : tab
 }
 
 const Header = ({ tabState }) => (
   <Row className={styles.header}>
-    <Tab tab={TabType.START_GUIDE.title} tabState={tabState} />
-    <Tab
-      tab={TabType.CABINET.title}
-      tabState={tabState}
-      className={styles.cabinet}
-    />
+    <Tab tab={TabType.START_GUIDE} tabState={tabState} />
+    <Tab tab={TabType.CABINET} tabState={tabState} className={styles.cabinet} />
     <Toggle
       className={styles.toggle}
       isActive={tabState[0]}
@@ -63,24 +51,17 @@ const Header = ({ tabState }) => (
 )
 
 const Personal = () => {
+  const history = useHistory()
   const [activeTab, setTab] = useState(loadTab)
   const Content = TabTypeComponent[activeTab]
-
-  const history = useHistory()
 
   useEffect(() => saveTab(activeTab), [activeTab])
 
   function updateTab (target) {
     setTab(target)
 
-    if (target) {
-      const tab = Object.values(TabType).find(({ title }) => title === target)
-      const anchor = tab.anchor ? tab.anchor : ''
-
-      if (tab) {
-        history.replace(`${window.location.pathname}${anchor}`)
-      }
-    }
+    const hash = TabHash[target] || ''
+    history.replace(window.location.pathname + hash)
   }
 
   return (
