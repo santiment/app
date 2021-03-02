@@ -2,6 +2,9 @@ import React, { useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 import { withRouter } from 'react-router-dom'
 import { parse } from 'query-string'
+import { updateShortUrl, buildChartShorthandPath } from './utils'
+import { useUser } from '../../stores/user'
+import { getShortUrl } from '../../components/Share/utils'
 import { generateUrlV2 } from '../../ducks/Studio/url/generate'
 
 const URLExtension = ({
@@ -9,9 +12,12 @@ const URLExtension = ({
   settings,
   widgets,
   sidepanel,
+  shortUrlState,
+  prevFullUrlRef,
   setSettings
 }) => {
   const { slug, name, ticker } = settings
+  const { isLoggedIn } = useUser()
 
   // NOTE: This version of withRouter does not trigger rerender on location change (it depends on the root component rerender [@vanguard | Oct 8, 2020]
   useEffect(
@@ -27,13 +33,30 @@ const URLExtension = ({
 
   useEffect(
     () => {
-      history.replace(
-        `${window.location.pathname}?${generateUrlV2({
-          settings,
-          widgets,
-          sidepanel
-        })}`
-      )
+      const serializedLayout = generateUrlV2({
+        settings,
+        widgets,
+        sidepanel
+      })
+      const fullUrl = '/charts?' + serializedLayout
+
+      if (fullUrl !== prevFullUrlRef.current) {
+        const [shortUrl, setShortUrl] = shortUrlState
+        prevFullUrlRef.current = fullUrl
+
+        if (!isLoggedIn) return history.replace(fullUrl)
+
+        if (shortUrl) {
+          updateShortUrl(shortUrl, fullUrl).catch(console.error)
+        } else {
+          getShortUrl(fullUrl)
+            .then(shortUrl => {
+              setShortUrl(shortUrl)
+              history.replace(buildChartShorthandPath(shortUrl))
+            })
+            .catch(console.error)
+        }
+      }
     },
     [settings, widgets, sidepanel]
   )
