@@ -23,7 +23,8 @@ export function checkIsDefaultScreener (pathname) {
 export function checkIsScreener (watchlist) {
   const isAllProjectsList = watchlist.slug === 'projects'
   const { name } = watchlist.function || OBJ
-  const isScreenerFunction = name === 'selector' || name === 'top_all_projects'
+  const isScreenerFunction =
+    name && (name === 'selector' || name === 'top_all_projects')
 
   return !isAllProjectsList && isScreenerFunction
 }

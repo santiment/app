@@ -8,8 +8,8 @@ import { getRecentAssets, getRecentWatchlists } from '../../utils/recent'
 import { formatNumber } from '../../utils/formatting'
 import WatchlistCard from '../../ducks/Watchlists/Cards/ProjectCard'
 import { useRecentWatchlists } from '../../ducks/Watchlists/gql/hooks'
-import { checkIsScreener } from '../../ducks/Watchlists/gql/queries'
 import { useRecentAssets } from '../../hooks/recents'
+import { checkIsScreener } from '../../ducks/Screener/utils'
 import styles from './RecentlyWatched.module.scss'
 
 export const Asset = ({ project, classes = {}, onClick }) => {
