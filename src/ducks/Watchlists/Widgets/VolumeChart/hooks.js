@@ -19,7 +19,7 @@ export const useWithColors = (data, key, sorter) => {
   return result
 }
 
-const useChartInterval = ({ settings, ranges, onChangeInterval }) => {
+const useChartInterval = ({ type, settings, ranges, onChangeSettings }) => {
   const defaultSelectedIndex =
     settings && settings.interval
       ? ranges.findIndex(({ label }) => label === settings.interval)
@@ -31,7 +31,7 @@ const useChartInterval = ({ settings, ranges, onChangeInterval }) => {
 
   useEffect(
     () => {
-      onChangeInterval(ranges[intervalIndex])
+      onChangeSettings(type, ranges[intervalIndex])
     },
     [intervalIndex]
   )
@@ -57,14 +57,15 @@ export const useProjectRanges = ({
   desc = true,
   isSocialVolume = false,
   settings,
-  onChangeInterval,
+  onChangeSettings,
+  type,
   sortByMetric
 }) => {
   const {
     setIntervalIndex,
     intervalIndex,
     rangeItem: { label, key, metric = key }
-  } = useChartInterval({ settings, ranges, onChangeInterval })
+  } = useChartInterval({ settings, type, ranges, onChangeSettings })
 
   const hookProps = {
     listId,

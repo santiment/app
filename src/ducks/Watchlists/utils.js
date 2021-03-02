@@ -179,33 +179,23 @@ export const useScreenerUrl = ({ location, history, defaultParams }) => {
 }
 
 export const useScreenerUrlUpdaters = (widgets, setWidgets) => {
-  const onChangeInterval = useCallback(
-    (key, { label: interval }) => {
+  const onChangeSettings = useCallback(
+    (key, { label: interval, sorter, currency }) => {
+      const widget = widgets[key]
       setWidgets({
         ...widgets,
         [key]: {
-          ...widgets[key],
-          interval
+          ...widget,
+          interval: interval || widget.interval,
+          sorter: sorter || widget.sorter,
+          currency: currency || widget.currency
         }
       })
     },
     [widgets, setWidgets]
   )
 
-  const onChangeSorter = useCallback(
-    (key, sorter) => {
-      setWidgets({
-        ...widgets,
-        [key]: {
-          ...widgets[key],
-          sorter
-        }
-      })
-    },
-    [widgets, setWidgets]
-  )
-
-  return { onChangeInterval, onChangeSorter }
+  return { onChangeSettings }
 }
 
 export function getNormalizedListItems (listItems) {

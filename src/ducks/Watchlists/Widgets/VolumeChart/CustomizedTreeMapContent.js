@@ -19,7 +19,6 @@ const CustomizedTreeMapContent = props => {
 
   const item = children[index]
 
-  console.log(dataKey, item)
   const { ticker = '', color } = item
   const value = renderPercent(100 * item[dataKey])
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { ProjectsMapWrapper } from '../../../ducks/Watchlists/Widgets/VolumeChart/ProjectsTreeMap'
+import { ProjectsTreeMap } from '../../../ducks/Watchlists/Widgets/VolumeChart/ProjectsTreeMap'
 import {
   PRICE_CHANGE_RANGES,
   SOCIAL_VOLUME_CHANGE_RANGES
@@ -32,40 +32,36 @@ const Infographics = ({
 
   const { isPro } = useUserSubscriptionStatus()
 
-  const { onChangeSorter, onChangeInterval } = useScreenerUrlUpdaters(
-    widgets,
-    setWidgets
-  )
+  const { onChangeSettings } = useScreenerUrlUpdaters(widgets, setWidgets)
 
   return (
     <div className={className}>
       {isPriceTreeMap && (
         <div className={styles.treeMaps}>
-          <ProjectsMapWrapper
+          <ProjectsTreeMap
             listId={listId}
             className={styles.containerTreeMap}
             title='Price Changes'
             ranges={PRICE_CHANGE_RANGES}
             settings={priceTreeMap}
             sortByMetric='marketcap_usd'
-            onChangeInterval={value => onChangeInterval('priceTreeMap', value)}
+            type='priceTreeMap'
+            onChangeSettings={onChangeSettings}
           />
         </div>
       )}
       {isVolumeTreeMap && (
         <div className={styles.treeMaps}>
           {isPro ? (
-            <ProjectsMapWrapper
+            <ProjectsTreeMap
               listId={listId}
               className={styles.containerTreeMap}
               title='Social Volume Changes'
               ranges={SOCIAL_VOLUME_CHANGE_RANGES}
-              isSocialVolume={true}
               settings={socialVolumeTreeMap}
               sortByMetric='marketcap_usd'
-              onChangeInterval={value =>
-                onChangeInterval('socialVolumeTreeMap', value)
-              }
+              type='socialVolumeTreeMap'
+              onChangeSettings={onChangeSettings}
             />
           ) : (
             <MakeProSubscriptionCard />
@@ -74,10 +70,10 @@ const Infographics = ({
       )}
       {isPriceChartActive && (
         <ProjectsChart
+          type='priceBarChart'
           listId={listId}
           settings={priceBarChart}
-          onChangeInterval={value => onChangeInterval('priceBarChart', value)}
-          onChangeSorter={value => onChangeSorter('priceBarChart', value)}
+          onChangeSettings={onChangeSettings}
         />
       )}
 

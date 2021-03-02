@@ -14,17 +14,25 @@ import {
 } from './InfographicTitles'
 import styles from './ProjectsChart.module.scss'
 
-export const ProjectsMapWrapper = ({
+export const ProjectsTreeMap = ({
   listId,
   ranges,
   className,
   title,
-  isSocialVolume = false,
   settings,
-  onChangeInterval,
-  sortByMetric
+  onChangeSettings,
+  sortByMetric,
+  type
 }) => {
-  const { currentRanges, currency, setCurrency } = useInfographicRanges(ranges)
+  const { currency: defaultCurrency } = settings
+  const { currentRanges, currency, setCurrency } = useInfographicRanges({
+    onChangeSettings,
+    type,
+    ranges,
+    defaultCurrency
+  })
+
+  const isSocialVolume = type === 'socialVolumeTreeMap'
 
   const {
     data,
@@ -38,13 +46,12 @@ export const ProjectsMapWrapper = ({
     ranges: currentRanges,
     isSocialVolume,
     settings,
-    onChangeInterval,
-    sortByMetric
+    onChangeSettings,
+    sortByMetric,
+    type
   })
   const noData = !loading && data.length === 0
   const colored = useWithColors(data, key)
-
-  console.log(key, data)
 
   return (
     <div className={className}>

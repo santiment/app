@@ -59,10 +59,13 @@ const ProjectsChart = ({
   listId,
   redirect,
   settings,
-  onChangeInterval,
-  onChangeSorter
+  onChangeSettings,
+  type
 }) => {
-  const { sorter: { sortBy = 'marketcapUsd', desc: sortDesc } = {} } = settings
+  const {
+    sorter: { sortBy = 'marketcapUsd', desc: sortDesc } = {},
+    currency: defaultCurrency
+  } = settings
   const defaultIndex = useMemo(
     () => {
       const index = SORT_RANGES.findIndex(
@@ -79,7 +82,7 @@ const ProjectsChart = ({
 
   useEffect(
     () => {
-      onChangeSorter({
+      onChangeSettings(type, {
         sortBy: sortByKey,
         desc
       })
@@ -87,9 +90,12 @@ const ProjectsChart = ({
     [sortByKey, desc]
   )
 
-  const { currentRanges, currency, setCurrency } = useInfographicRanges(
-    PRICE_CHANGE_RANGES
-  )
+  const { currentRanges, currency, setCurrency } = useInfographicRanges({
+    type,
+    ranges: PRICE_CHANGE_RANGES,
+    defaultCurrency,
+    onChangeSettings
+  })
 
   const {
     data,
@@ -104,7 +110,8 @@ const ProjectsChart = ({
     sortByMetric: sortByKey,
     desc,
     settings,
-    onChangeInterval
+    onChangeSettings,
+    type: type
   })
 
   const colored = useMemo(

@@ -53,6 +53,7 @@ const Screener = ({
   const { user = {}, loading: userLoading } = useUser()
   const [tableLoading, setTableLoading] = useState(true)
   const { widgets, setWidgets } = useScreenerUrl({ location, history })
+
   const AppElem = document.getElementsByClassName('App')[0]
 
   if (AppElem) {

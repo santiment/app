@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import ScreenerChartTitle from './ScreenerChartTitle'
 import Range from '../WatchlistOverview/WatchlistAnomalies/Range'
 import { INFOGRAPHIC_CURRENCIES } from './utils'
@@ -6,10 +6,22 @@ import styles from './ProjectsChart.module.scss'
 
 const CURRENCY_RANGES = Object.values(INFOGRAPHIC_CURRENCIES)
 
-export const useInfographicRanges = ranges => {
-  const [currency, setCurrency] = useState(INFOGRAPHIC_CURRENCIES.USD)
+export const useInfographicRanges = ({
+  type,
+  onChangeSettings,
+  ranges,
+  defaultCurrency = INFOGRAPHIC_CURRENCIES.USD
+}) => {
+  const [currency, setCurrency] = useState(defaultCurrency)
 
   const currentRanges = useMemo(() => ranges[currency], [currency, ranges])
+
+  useEffect(
+    () => {
+      onChangeSettings(type, { currency })
+    },
+    [currency]
+  )
 
   return { currency, setCurrency, currentRanges }
 }
