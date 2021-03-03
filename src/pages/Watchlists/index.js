@@ -23,8 +23,8 @@ import {
 import MobileAnonBanner from '../../ducks/Watchlists/Templates/Anon/WatchlistsAnon'
 import InlineBanner from '../../components/banners/feature/InlineBanner'
 import { createWatchlist as createAddressesWatchlist } from '../../ducks/HistoricalBalance/Address/AddToWatchlist'
-import styles from './index.module.scss'
 import EmptySection from './EmptySection'
+import styles from './index.module.scss'
 
 const LoginBanner = ({ isDesktop }) =>
   isDesktop ? (

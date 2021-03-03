@@ -11,11 +11,14 @@ export const PUBLIC_USER_DATA_QUERY = gql`
       avatarUrl
       watchlists {
         ...generalListData
-        stats {
-          blockchainAddressesCount
-        }
         historicalStats(from: "utc_now-7d", to: "utc_now", interval: "6h") {
           marketcap
+        }
+      }
+      addressesWatchlists: watchlists(type: BLOCKCHAIN_ADDRESS) {
+        ...generalListData
+        stats {
+          blockchainAddressesCount
         }
       }
       followers {
