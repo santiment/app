@@ -22,7 +22,7 @@ const Extensions = props => (
 
 export default ({ location }) => {
   const [parsedUrl, setParsedUrl] = useState()
-  const shortUrlState = useState()
+  const shortUrlHashState = useState()
   const prevFullUrlRef = useRef()
 
   useEffect(() => {
@@ -33,15 +33,15 @@ export default ({ location }) => {
       return setParsedUrl(parseUrlV2(search))
     }
 
-    const setShortUrl = shortUrlState[1]
-    const shorthand = pathname.slice(SHORTHAND_OFFSET, SHORTHAND_RIGHT_INDEX)
+    const setShortUrlHash = shortUrlHashState[1]
+    const shortUrlHash = pathname.slice(SHORTHAND_OFFSET, SHORTHAND_RIGHT_INDEX)
 
-    getFullUrl(shorthand)
+    getFullUrl(shortUrlHash)
       .then(fullUrl => {
         if (isRacing) return
 
         prevFullUrlRef.current = fullUrl
-        setShortUrl(shorthand)
+        setShortUrlHash(shortUrlHash)
         setParsedUrl(parseUrlV2(fullUrl))
       })
       .catch(e => console.error(e))
@@ -55,7 +55,7 @@ export default ({ location }) => {
     <ChartPage
       parsedUrl={parsedUrl}
       Extensions={Extensions}
-      shortUrlState={shortUrlState}
+      shortUrlHashState={shortUrlHashState}
       prevFullUrlRef={prevFullUrlRef}
     />
   )

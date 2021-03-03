@@ -22,7 +22,7 @@ const URLExtension = ({
   settings,
   widgets,
   sidepanel,
-  shortUrlState,
+  shortUrlHashState,
   prevFullUrlRef,
   setSettings
 }) => {
@@ -52,21 +52,21 @@ const URLExtension = ({
 
       if (fullUrl !== prevFullUrlRef.current) {
         const replaceHistory = () => history.replace(fullUrl)
-        let [shortUrl, setShortUrl] = shortUrlState
+        let [shortUrlHash, setShortUrlHash] = shortUrlHashState
 
         prevFullUrlRef.current = fullUrl
 
         if (!isLoggedIn) return replaceHistory()
 
-        const shortUrlPromise = shortUrl
-          ? updateShortUrl(shortUrl, fullUrl)
-          : getShortUrl(fullUrl).then(newShortUrl => {
-            shortUrl = newShortUrl
-            setShortUrl(newShortUrl)
+        const shortUrlPromise = shortUrlHash
+          ? updateShortUrl(shortUrlHash, fullUrl)
+          : getShortUrl(fullUrl).then(newShortUrlHash => {
+            shortUrlHash = newShortUrlHash
+            setShortUrlHash(newShortUrlHash)
           })
 
         shortUrlPromise
-          .then(() => history.replace(buildChartShorthandPath(shortUrl)))
+          .then(() => history.replace(buildChartShorthandPath(shortUrlHash)))
           .catch(() => {
             replaceHistory()
             onShortUrlUpdateError()

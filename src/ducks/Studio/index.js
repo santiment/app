@@ -306,6 +306,7 @@ export const Studio = ({
           widgets={widgets}
           settings={settings}
           sidepanel={sidepanel}
+          shortUrlHashState={props.shortUrlHashState}
           isICOPriceActive={isICOPriceActive}
           isOverviewOpened={isOverviewOpened}
           // fn

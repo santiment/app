@@ -13,17 +13,15 @@ import { useShortShareLink } from '../../../components/Share/hooks'
 import { SAN_HEADER_HEIGHT } from '../../../constants'
 import styles from './Settings.module.scss'
 
+const getBrowserUrl = () => Promise.resolve(window.location.href)
+
 export const CopyLink = ({ shareLink, getShareLink, className }) => {
   const [timer, setTimer] = useState()
 
   useEffect(() => () => clearTimeout(timer), [timer])
 
   function onClick () {
-    if (shareLink) {
-      copy(shareLink)
-    } else {
-      getShareLink().then(copy)
-    }
+    getShareLink().then(copy)
     setTimer(setTimeout(() => setTimer(), 2000))
   }
 
@@ -35,8 +33,11 @@ export const CopyLink = ({ shareLink, getShareLink, className }) => {
   )
 }
 
-export const ShareButton = () => {
+export const ShareButton = ({ shortUrlHash }) => {
   const { shortShareLink, getShortShareLink } = useShortShareLink()
+
+  const shareLink = shortUrlHash ? window.location.href : shortShareLink
+  const getShareLink = shortUrlHash ? getBrowserUrl : getShortShareLink
 
   return (
     <>
@@ -45,7 +46,7 @@ export const ShareButton = () => {
           <Button
             {...props}
             border
-            onMouseDown={getShortShareLink}
+            onMouseDown={getShareLink}
             className={styles.share}
           >
             <Icon type='share' className={styles.share__icon} />
@@ -53,9 +54,9 @@ export const ShareButton = () => {
           </Button>
         )}
         classes={styles}
-        shareLink={shortShareLink}
+        shareLink={shareLink}
       />
-      <CopyLink shareLink={shortShareLink} getShareLink={getShortShareLink} />
+      <CopyLink shareLink={shortShareLink} getShareLink={getShareLink} />
     </>
   )
 }
@@ -66,6 +67,7 @@ export default ({
   metrics,
   settings,
   sidepanel,
+  shortUrlHash,
   isOverviewOpened,
   changeTimePeriod,
   toggleSidepanel,
@@ -109,7 +111,7 @@ export default ({
         />
       )}
 
-      <ShareButton />
+      <ShareButton shortUrlHash={shortUrlHash} />
 
       <Button
         border
