@@ -9,7 +9,6 @@ import WatchlistCard from '../../ducks/Watchlists/Cards/ProjectCard'
 import WatchlistAddressCard from '../../ducks/Watchlists/Cards/AddressCard'
 import { WatchlistCards } from '../../ducks/Watchlists/Cards/Card'
 import FeaturedWatchlistCards from '../../ducks/Watchlists/Cards/Featured'
-import { WatchlistEmptySection } from '../../ducks/Watchlists/Cards/MyWatchlist'
 import {
   useAddressWatchlists,
   useUserWatchlists,
@@ -25,6 +24,7 @@ import MobileAnonBanner from '../../ducks/Watchlists/Templates/Anon/WatchlistsAn
 import InlineBanner from '../../components/banners/feature/InlineBanner'
 import { createWatchlist as createAddressesWatchlist } from '../../ducks/HistoricalBalance/Address/AddToWatchlist'
 import styles from './index.module.scss'
+import EmptySection from './EmptySection'
 
 const LoginBanner = ({ isDesktop }) =>
   isDesktop ? (
@@ -73,7 +73,7 @@ const MyWatchlists = ({ data, addressesData, isDesktop }) => {
   if (watchlists.length === 0 && addressesWatchlists.length === 0) {
     return (
       <Content>
-        <WatchlistEmptySection
+        <EmptySection
           wrapperClassName={styles.empty}
           className={styles.empty__img}
         />

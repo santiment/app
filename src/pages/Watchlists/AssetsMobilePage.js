@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import cx from 'classnames'
 import throttle from 'lodash.throttle'
 import List from 'react-virtualized/dist/commonjs/List'
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
@@ -83,7 +82,7 @@ const AssetsMobilePage = props => {
   }
 
   return (
-    <div className={cx('page', styles.wrapper)}>
+    <div className={'page'}>
       <GetAssets
         {...props}
         sortBy={SORT_TYPES.marketcap}
