@@ -1,13 +1,18 @@
-import React, { useEffect } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 import { withRouter } from 'react-router-dom'
 import { parse } from 'query-string'
 import { updateShortUrl, buildChartShortPath } from './utils'
 import { store } from '../../redux'
 import { useUser } from '../../stores/user'
+import { getIdFromSEOLink } from '../../utils/url'
 import { showNotification } from '../../actions/rootActions'
 import { getShortUrl } from '../../components/Share/utils'
 import { generateUrlV2 } from '../../ducks/Studio/url/generate'
+import { getChartWidgetsFromTemplate } from '../../ducks/Studio/Template/utils'
+import { getTemplate } from '../../ducks/Studio/Template/gql/hooks'
+
+const getFullUrl = config => '/charts?' + generateUrlV2(config)
 
 const checkIsNotAuthorError = ({ message }) => message.includes('another user')
 
@@ -26,31 +31,51 @@ const URLExtension = ({
   sidepanel,
   shortUrlHashState,
   prevFullUrlRef,
-  setSettings
+  setSettings,
+  setWidgets
 }) => {
   const { slug, name, ticker } = settings
   const { isLoggedIn } = useUser()
+  const slugRef = useRef(slug)
 
   // NOTE: This version of withRouter does not trigger rerender on location change (it depends on the root component rerender [@vanguard | Oct 8, 2020]
   useEffect(
-    () =>
-      history.listen(({ search }) => {
+    () => {
+      let prevPathname = ''
+      history.listen(({ search, pathname }) => {
+        if (prevPathname !== pathname) {
+          prevPathname = pathname
+          const templateId = getIdFromSEOLink(pathname)
+
+          if (templateId) {
+            return getTemplate(templateId)
+              .then(template => {
+                const newSettings = { ...settings, ...template.project }
+                const newWidgets = getChartWidgetsFromTemplate(template)
+                setSettings(newSettings)
+                setWidgets(newWidgets)
+              })
+              .catch(console.error)
+          }
+        }
+
         const searchSlug = parse(search).slug
-        if (searchSlug && searchSlug !== slug) {
+        if (searchSlug && searchSlug !== slugRef.current) {
           setSettings(settings => ({ ...settings, slug: searchSlug }))
         }
-      }),
-    [slug]
+      })
+    },
+
+    []
   )
 
   useEffect(
     () => {
-      const serializedLayout = generateUrlV2({
+      const fullUrl = getFullUrl({
         settings,
         widgets,
         sidepanel
       })
-      const fullUrl = '/charts?' + serializedLayout
 
       if (fullUrl !== prevFullUrlRef.current) {
         const replaceHistory = () => history.replace(fullUrl)

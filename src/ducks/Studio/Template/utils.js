@@ -3,14 +3,19 @@ import {
   getMetricByKey,
   getProjectMetricByKey
 } from '../metrics'
+import ChartWidget from '../Widget/ChartWidget'
 import { COMPARE_CONNECTOR } from '../url/utils'
+import { parseSharedWidgets, translateMultiChartToWidgets } from '../url/parse'
 import { capitalizeStr } from '../../../utils/utils'
 import { PATHS } from '../../../paths'
-import { getSEOLinkFromIdAndTitle } from '../../../components/Insight/utils'
+import { getSEOLinkFromIdAndTitle } from '../../../utils/url'
 
 const LAST_USED_TEMPLATE = 'LAST_USED_TEMPLATE'
 
 export const getMetricKey = ({ key }) => key
+
+export const getTemplateSharePath = ({ id, title }) =>
+  '/charts/' + getSEOLinkFromIdAndTitle(id, title || '')
 
 export function prepareTemplateLink (template, asProject) {
   if (!template) {
@@ -145,4 +150,26 @@ const getTemplateAssets = ({ metrics, project: { slug, name } }) => {
   })
 
   return assets.map(slug => capitalizeStr(slug))
+}
+
+export function getChartWidgetsFromTemplate (template) {
+  const { project, options } = template
+  const metrics = parseTemplateMetrics(template.metrics, project)
+  let widgets
+
+  if (options && options.widgets) {
+    widgets = parseSharedWidgets(options.widgets, project)
+  } else {
+    if (options && options.multi_chart) {
+      widgets = translateMultiChartToWidgets(metrics)
+    } else {
+      widgets = [
+        ChartWidget.new({
+          metrics
+        })
+      ]
+    }
+  }
+
+  return widgets
 }

@@ -8,7 +8,7 @@ import TemplateTitle from './Title'
 import {
   buildTemplateMetrics,
   extractTemplateProject,
-  parseTemplateMetrics
+  getChartWidgetsFromTemplate
 } from './utils'
 import { notifySave } from './notifications'
 import {
@@ -24,9 +24,7 @@ import DeleteTemplate from './Dialog/Delete/DeleteTemplate'
 import ShareTemplate from './Share/ShareTemplate'
 import { isUserAuthorOfTemplate } from './Dialog/LoadTemplate/utils'
 import { useKeyboardCmdShortcut } from '../hooks'
-import { parseSharedWidgets, translateMultiChartToWidgets } from '../url/parse'
 import { normalizeWidgets } from '../url/generate'
-import ChartWidget from '../Widget/ChartWidget'
 import { useUser } from '../../../stores/user'
 import { useProjectById } from '../../../hooks/project'
 import { PATHS } from '../../../paths'
@@ -61,29 +59,13 @@ const Template = ({
 
     if (!template) return
 
-    const { project, metrics: templateMetrics, options } = template
-    const metrics = parseTemplateMetrics(templateMetrics, project)
+    const { project } = template
 
     if (onProjectSelect && !projectFromUrl && project) {
       onProjectSelect(project)
     }
 
-    let widgets
-    if (options && options.widgets) {
-      widgets = parseSharedWidgets(options.widgets, project)
-    } else {
-      if (options && options.multi_chart) {
-        widgets = translateMultiChartToWidgets(metrics)
-      } else {
-        widgets = [
-          ChartWidget.new({
-            metrics
-          })
-        ]
-      }
-    }
-
-    setWidgets(widgets)
+    setWidgets(getChartWidgetsFromTemplate(template))
   }
 
   const [selectedTemplate, setSelectedTemplate, loading] = useSelectedTemplate(

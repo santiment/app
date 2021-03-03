@@ -344,6 +344,7 @@ export const Studio = ({
         settings={settings}
         sidepanel={sidepanel}
         setSettings={setSettings}
+        setWidgets={setWidgets}
       />
     </div>
   )
