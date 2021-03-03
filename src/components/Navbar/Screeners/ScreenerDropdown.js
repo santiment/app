@@ -2,25 +2,25 @@ import React, { useMemo } from 'react'
 import cx from 'classnames'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import CreateScreenerBtn from './NewScreenerBtn'
-import { VisibilityIndicator } from '../../VisibilityIndicator'
-import {
-  useUserScreeners,
-  useRecentWatchlists
-} from '../../../ducks/Watchlists/gql/hooks'
-import { getRecentScreeners } from '../../../utils/recent'
-import { useUser } from '../../../stores/user'
-import { sortById } from '../../../utils/sortMethods'
-import { useFeaturedScreeners } from '../../../ducks/Watchlists/gql/queries'
-import { getBlockMinHeight } from '../utils'
 import Item from '../Watchlists/Item'
+import { getBlockMinHeight } from '../utils'
+import { useUser } from '../../../stores/user'
+import CreateScreenerBtn from './NewScreenerBtn'
+import { sortById } from '../../../utils/sortMethods'
+import { getRecentScreeners } from '../../../utils/recent'
+import { VisibilityIndicator } from '../../VisibilityIndicator'
 import { getScreenerLink } from '../../../ducks/Watchlists/url'
+import { useRecentWatchlists } from '../../../ducks/Watchlists/gql/hooks'
+import {
+  useFeaturedScreeners,
+  useUserScreeners
+} from '../../../ducks/Watchlists/gql/queries'
 import wrapperStyles from '../Watchlists/MarketDropdown.module.scss'
 import styles from '../Watchlists/WatchlistsDropdown.module.scss'
 
 const ScreenerDropdown = ({ activeLink }) => {
   const [featuredScreeners = []] = useFeaturedScreeners()
-  const [screeners = [], loading] = useUserScreeners()
+  const [screeners, loading] = useUserScreeners()
   const { loading: isLoggedInPending } = useUser()
   const isLoading = loading || isLoggedInPending
   const sortedScreeners = useMemo(() => screeners.sort(sortById), [screeners])
@@ -91,7 +91,7 @@ const List = ({ screeners, activeLink }) => (
         <Item
           key={idx}
           name={list.name}
-          link={getScreenerLink(list)}
+          link={list.href || getScreenerLink(list)}
           activeLink={activeLink}
         >
           <span className={styles.watchlistName}>{list.name}</span>

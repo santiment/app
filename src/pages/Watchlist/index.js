@@ -4,12 +4,11 @@ import WatchlistPage from '../Watchlist/Watchlist'
 import ScreenerPage from './Screener'
 import NewScreener from './NewScreenerFromDefault'
 import { useWatchlist } from '../../ducks/Watchlists/gql/hooks'
-import { checkIsDefaultScreener } from '../../ducks/Screener/utils'
 import {
-  getWatchlistId,
-  isDynamicWatchlist,
-  getWatchlistName
-} from '../../ducks/Watchlists/utils'
+  checkIsDefaultScreener,
+  checkIsScreener
+} from '../../ducks/Screener/utils'
+import { getWatchlistId, getWatchlistName } from '../../ducks/Watchlists/utils'
 
 const Watchlist = ({ isLoggedIn, ...props }) => {
   const id = getWatchlistId(props.location.search)
@@ -34,7 +33,7 @@ const Watchlist = ({ isLoggedIn, ...props }) => {
   }
 
   const name = getWatchlistName(props)
-  let isScreener = isDynamicWatchlist(watchlist) || name === 'My Screener'
+  let isScreener = checkIsScreener(watchlist) || name === 'My Screener'
 
   return isScreener ? (
     <ScreenerPage

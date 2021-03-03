@@ -3,9 +3,10 @@ import cx from 'classnames'
 import { ProLabel } from '../../../components/ProLabel'
 import ProPopupWrapper from '../../../components/ProPopup/Wrapper'
 import LoginPopup from '../../../components/banners/feature/PopupBanner'
-import { useUserWatchlists, useUserScreeners } from '../gql/hooks'
+import { useUserWatchlists } from '../gql/hooks'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import NewWatchlist from '../Actions/New'
+import { useUserScreeners } from '../gql/queries'
 import { SvgNew } from '../../../components/Illustrations/NewCard'
 import styles from './NewCard.module.scss'
 import cardStyles from './Card.module.scss'
@@ -53,7 +54,7 @@ const NewWatchlistCard = ({ createWatchlist }) => {
 }
 
 const NewScreenerCard = () => {
-  const [screeners = []] = useUserScreeners()
+  const [screeners] = useUserScreeners()
   const { isPro } = useUserSubscriptionStatus()
 
   return !isPro ? (

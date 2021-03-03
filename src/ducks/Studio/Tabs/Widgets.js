@@ -28,6 +28,7 @@ const Chart = ({
   settings,
   widgets,
   sidepanel,
+  shortUrlHashState,
   isOverviewOpened,
   setWidgets,
   toggleSidepanel,
@@ -95,6 +96,7 @@ const Chart = ({
         widgets={widgets}
         sidepanel={sidepanel}
         metrics={allMetrics}
+        shortUrlHash={shortUrlHashState && shortUrlHashState[0]}
         isOverviewOpened={isOverviewOpened}
         setWidgets={setWidgets}
         changeTimePeriod={changeTimePeriod}

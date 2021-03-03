@@ -10,8 +10,9 @@ import SaveAs from '../../Actions/SaveAs'
 import New from '../../Actions/New'
 import { ProLabel } from '../../../../components/ProLabel'
 import ProPopupWrapper from '../../../../components/ProPopup/Wrapper'
-import { useUserScreeners, useUpdateWatchlist } from '../../gql/hooks'
+import { useUpdateWatchlist } from '../../gql/hooks'
 import { notifyUpdate } from './notifications'
+import { useUserScreeners } from '../../gql/queries'
 import styles from './BaseActions.module.scss'
 
 export const Icon = ({ className, ...props }) => (
@@ -98,7 +99,7 @@ const BaseActions = ({
 
   const [isMenuOpened, setIsMenuOpened] = useState(false)
   const [isEditPopupOpened, setIsEditPopupOpened] = useState(false)
-  const [screeners = []] = useUserScreeners()
+  const [screeners] = useUserScreeners()
   const [updateWatchlist, { loading }] = useUpdateWatchlist()
 
   return (

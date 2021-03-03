@@ -70,10 +70,12 @@ export const normalizeWidget = ({
 })
 
 export const normalizeWidgets = widgets => widgets.map(normalizeWidget)
+const normalizeSettings = ({ projectId, ticker, title, name, ...settings }) =>
+  settings
 
 export function buildShareConfig ({ settings, widgets, sidepanel }) {
   return {
-    settings: JSON.stringify(settings),
+    settings: JSON.stringify(normalizeSettings(settings)),
     widgets: JSON.stringify(normalizeWidgets(widgets)),
     sidepanel: sidepanel ? JSON.stringify({ type: sidepanel }) : undefined
   }
