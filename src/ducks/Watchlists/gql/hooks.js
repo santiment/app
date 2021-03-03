@@ -17,7 +17,6 @@ import {
 import { PROJECTS_WATCHLIST_QUERY } from '../../../queries/WatchlistGQL'
 import {
   countAssetsSort,
-  isStaticWatchlist,
   getNormalizedListItems,
   getWatchlistAlias
 } from '../utils'
@@ -28,7 +27,7 @@ import {
   ADDRESS_WATCHLISTS_QUERY,
   USER_SHORT_WATCHLISTS_QUERY
 } from './queries'
-import { DEFAULT_SCREENER_FN } from '../../Screener/utils'
+import { checkIsNotScreener, DEFAULT_SCREENER_FN } from '../../Screener/utils'
 import NotificationActions from '../../../components/NotificationActions/NotificationActions'
 import { ADDRESS_WATCHLIST_QUERY } from '../../WatchlistAddressesTable/gql/queries'
 import { BLOCKCHAIN_ADDRESS, PROJECT } from '../detector'
@@ -120,7 +119,7 @@ export function useUserWatchlists () {
   const { fetchWatchlists: watchlists } = data || {}
 
   return [
-    watchlists ? watchlists.filter(isStaticWatchlist) : DEFAULT_WATCHLISTS,
+    watchlists ? watchlists.filter(checkIsNotScreener) : DEFAULT_WATCHLISTS,
     loading,
     error
   ]

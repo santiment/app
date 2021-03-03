@@ -2,28 +2,6 @@ import qs from 'query-string'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import queryString from 'query-string'
 
-export const ALL_PROJECTS_WATCHLIST_SLUG = 'projects'
-
-export function isStaticWatchlist (watchlist) {
-  const { name } = watchlist.function || {}
-  return name === 'empty'
-}
-
-export function isDynamicWatchlist (watchlist = {}) {
-  if (watchlist === null) {
-    return
-  }
-
-  const { name } = watchlist.function || {}
-  if (watchlist.slug === ALL_PROJECTS_WATCHLIST_SLUG) {
-    return false
-  }
-
-  return (
-    name !== 'empty' && (name === 'selector' || name === 'top_all_projects')
-  )
-}
-
 export function getWatchlistId (search) {
   const { name: str } = qs.parse(search) || {}
 
