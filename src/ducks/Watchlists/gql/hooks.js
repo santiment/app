@@ -18,7 +18,6 @@ import { PROJECTS_WATCHLIST_QUERY } from '../../../queries/WatchlistGQL'
 import {
   countAssetsSort,
   isStaticWatchlist,
-  isDynamicWatchlist,
   getNormalizedListItems,
   getWatchlistAlias
 } from '../utils'
@@ -29,7 +28,7 @@ import {
   ADDRESS_WATCHLISTS_QUERY,
   USER_SHORT_WATCHLISTS_QUERY
 } from './queries'
-import { DEFAULT_SCREENER, DEFAULT_SCREENER_FN } from '../../Screener/utils'
+import { DEFAULT_SCREENER_FN } from '../../Screener/utils'
 import NotificationActions from '../../../components/NotificationActions/NotificationActions'
 import { ADDRESS_WATCHLIST_QUERY } from '../../WatchlistAddressesTable/gql/queries'
 import { BLOCKCHAIN_ADDRESS, PROJECT } from '../detector'
@@ -37,7 +36,6 @@ import { getWatchlistLink } from '../url'
 
 const EMPTY_ARRAY = []
 const DEFAULT_WATCHLISTS = []
-const DEFAULT_SCREENERS = [DEFAULT_SCREENER]
 
 function buildWatchlistsCacheUpdater (reducer) {
   return (cache, { data }) => {
@@ -126,22 +124,6 @@ export function useUserWatchlists () {
     loading,
     error
   ]
-}
-
-export function useUserScreeners () {
-  const { isLoggedIn } = useUser()
-
-  const { data, loading, error } = useQuery(USER_WATCHLISTS_QUERY, {
-    skip: !isLoggedIn
-  })
-
-  const { fetchWatchlists: watchlists } = data || {}
-  let screeners = []
-  if (watchlists && watchlists.length) {
-    screeners = watchlists.filter(isDynamicWatchlist)
-  }
-
-  return [screeners.length > 0 ? screeners : DEFAULT_SCREENERS, loading, error]
 }
 
 export function useRecentWatchlists (watchlistsIDs) {

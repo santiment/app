@@ -7,7 +7,11 @@ import {
 } from '../../WatchlistAddressesTable/gql/queries'
 import { useUser } from '../../../stores/user'
 import { BLOCKCHAIN_ADDRESS } from '../utils'
-import { DEFAULT_SCREENER } from '../../Screener/utils'
+import {
+  checkIsNotScreener,
+  checkIsScreener,
+  DEFAULT_SCREENER
+} from '../../Screener/utils'
 
 const noop = _ => _
 const ARRAY = []
@@ -104,9 +108,6 @@ export function useFeaturedWatchlists () {
 export function useFeaturedScreeners () {
   return useShortWatchlists(FEATURED_SCREENERS_QUERY)
 }
-
-export const checkIsScreener = ({ function: fn }) => fn.name !== 'empty'
-export const checkIsNotScreener = watchlist => !checkIsScreener(watchlist)
 
 function useShortWatchlistsLoader (filter, reduce = noop, options) {
   const { isLoggedIn } = useUser()

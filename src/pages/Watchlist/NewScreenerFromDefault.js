@@ -25,7 +25,7 @@ function redirectToUserWatchlist ({
 }
 
 const NewScreener = ({ history }) => {
-  const [screeners = [], isLoadingScreenersList] = useUserScreeners()
+  const [screeners, isLoadingScreenersList] = useUserScreeners()
   const [
     createScreener,
     { loading: isLoadingNewScreener }
