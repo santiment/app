@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { client } from '../../../apollo'
 import * as Sentry from '@sentry/react'
@@ -8,7 +8,6 @@ import {
   USER_WATCHLISTS_QUERY,
   CREATE_WATCHLIST_MUTATION,
   UPDATE_WATCHLIST_MUTATION,
-  ACCESS_RESTRICTIONS_QUERY,
   getRecentWatchlist,
   REMOVE_WATCHLIST_MUTATION
 } from './index'
@@ -304,34 +303,6 @@ export function useUpdateWatchlist () {
   }
 
   return [updateWatchlist, data]
-}
-
-export function useRestrictedMetrics () {
-  const { data, loading } = useQuery(ACCESS_RESTRICTIONS_QUERY)
-
-  return useMemo(
-    () => {
-      if (data && data.getAccessRestrictions) {
-        const allMetrics = []
-        const restrictedMetrics = []
-
-        data.getAccessRestrictions.forEach(({ name, type, restrictedFrom }) => {
-          allMetrics.push(name)
-          if (type === 'metric' && restrictedFrom !== null) {
-            restrictedMetrics.push(name)
-          }
-        })
-        return { restrictedMetrics, allMetrics, loading }
-      } else {
-        return {
-          restrictedMetrics: EMPTY_ARRAY,
-          allMetrics: EMPTY_ARRAY,
-          loading
-        }
-      }
-    },
-    [data]
-  )
 }
 
 export function getProjectsByFunction (func, query) {

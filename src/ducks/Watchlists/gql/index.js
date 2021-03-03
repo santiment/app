@@ -58,18 +58,6 @@ export const USER_WATCHLISTS_QUERY = gql`
   ${PROJECT_ITEM_FRAGMENT}
 `
 
-export const ACCESS_RESTRICTIONS_QUERY = gql`
-  query getAccessRestrictions {
-    getAccessRestrictions {
-      name
-      type
-      isRestricted
-      restrictedFrom
-      restrictedTo
-    }
-  }
-`
-
 export const REMOVE_WATCHLIST_MUTATION = gql`
   mutation removeWatchlist($id: Int!) {
     removeWatchlist(id: $id) {
