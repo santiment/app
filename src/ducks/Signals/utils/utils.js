@@ -49,7 +49,9 @@ import {
   CHANNELS_MAP,
   POSSIBLE_METRICS_FOR_CHART,
   SIGNAL_METRIC_TYPES,
-  METRIC_TYPES
+  METRIC_TYPES,
+  AMOUNT_ABS_CHANGE_UP_MODEL,
+  AMOUNT_ABS_CHANGE_DOWN_MODEL
 } from './constants'
 import { capitalizeStr } from '../../../utils/utils'
 import { formatNumber } from '../../../utils/formatting'
@@ -204,6 +206,13 @@ const getFormTriggerType = ({ target, type, operation }) => {
     }
     case PRICE_ABS_CHANGE_OUTSIDE.value: {
       return PRICE_ABS_CHANGE_OUTSIDE
+    }
+
+    case ETH_WALLETS_OPERATIONS.AMOUNT_DOWN: {
+      return AMOUNT_ABS_CHANGE_DOWN_MODEL
+    }
+    case ETH_WALLETS_OPERATIONS.AMOUNT_UP: {
+      return AMOUNT_ABS_CHANGE_UP_MODEL
     }
 
     case TRENDING_WORDS_WORD_MENTIONED.value: {
@@ -801,11 +810,12 @@ export const mapFormToPACTriggerSettings = formProps => {
     signalType
   )
   return {
-    type: key ? METRIC_TYPES.METRIC_SIGNAL : type,
+    type: getAlertType(key, type),
     metric: key || metric,
     ...newTarget,
     channel: getChannels(formProps),
-    operation: getTriggerOperation(formProps)
+    operation: getTriggerOperation(formProps),
+    time_window: getTimeWindow(formProps)
   }
 }
 
@@ -830,6 +840,7 @@ export const mapFormToDAATriggerSettings = formProps => {
       metric,
       ...newTarget,
       channel: getChannels(formProps),
+      time_window: getTimeWindow(formProps),
       operation: getTriggerOperation(formProps)
     }
   } else {
@@ -1195,7 +1206,7 @@ export const metricTypesBlockErrors = values => {
 
 const checkByKey = (errors, key, source, dependencies) => {
   const val = source[key]
-  if (dependencies.indexOf(key) !== -1) {
+  if (dependencies && dependencies.indexOf(key) !== -1) {
     if (!val) {
       errors[key] = REQUIRED_MESSAGE
     } else if (val <= 0) {
@@ -1221,11 +1232,7 @@ export const metricValuesBlockErrors = values => {
     return errors
   }
 
-  if (
-    type.metric === DAILY_ACTIVE_ADDRESSES ||
-    type.metric === PRICE_PERCENT_CHANGE ||
-    metric.value === ETH_WALLET
-  ) {
+  if (type.metric === PRICE_PERCENT_CHANGE) {
     if (type.dependencies) {
       errors = checkByKey(errors, 'percentThreshold', values, type.dependencies)
       errors = checkByKey(
@@ -1240,7 +1247,6 @@ export const metricValuesBlockErrors = values => {
         values,
         type.dependencies
       )
-      errors = checkByKey(errors, 'timeWindow', values, type.dependencies)
     }
   }
 
@@ -1261,6 +1267,10 @@ export const metricValuesBlockErrors = values => {
 
   if (type.metric === PRICE_VOLUME_DIFFERENCE) {
     errors = checkByKey(errors, 'threshold', values, type.dependencies)
+  }
+
+  if (!isDailyMetric(metric.key)) {
+    errors = checkByKey(errors, 'timeWindow', values, type.dependencies)
   }
 
   return errors
@@ -1351,7 +1361,7 @@ export const couldShowChart = (
     selector
   } = settings
 
-  if (target.watchlist_id) {
+  if (target && target.watchlist_id) {
     return false
   }
 
@@ -1866,9 +1876,7 @@ export const skipHistoricalPreview = ({ settings }) => {
 }
 
 export const getSlugFromSignalTarget = ({ settings }) => {
-  const {
-    target: { watchlist_id }
-  } = settings
+  const { target: { watchlist_id } = {} } = settings
 
   const [watchlist] = useWatchlist({ id: watchlist_id })
 

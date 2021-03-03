@@ -43,9 +43,7 @@ const FOOTER_DISABLED_FOR = [
   PATHS.SOCIAL_TOOl,
   PATHS.INDEX,
   PATHS.STABLECOINS,
-  PATHS.SHEETS_TEMPLATES,
-  PATHS.LIST,
-  PATHS.SCREENER
+  PATHS.SHEETS_TEMPLATES
 ]
 const FOOTER_ABSOLUTE_FOR = [
   PATHS.LOGIN,
@@ -222,10 +220,11 @@ export const App = ({
   token,
   isOffline,
   showFooter,
-  location: { pathname, search }
+  location: { pathname, search },
+  history
 }) => (
   <div className='App'>
-    <ErrorBoundary>
+    <ErrorBoundary history={history}>
       {isOffline && (
         <div className={styles.offline}>
           It looks like you are offline. Some actions might not work.
@@ -239,7 +238,7 @@ export const App = ({
       <GdprRedirector pathname={pathname} />
       {isDesktop && <UrlModals />}
 
-      <ErrorBoundary>
+      <ErrorBoundary history={history}>
         <Switch>
           <Route path={SHARE_PATH} component={PageLoader} />
           {['erc20', 'all', 'list', 'screener'].map(name => (
@@ -366,7 +365,7 @@ export const App = ({
             )}
           />
           <Route
-            path={['/alerts', '/alert']}
+            path={'/alerts'}
             render={props => (
               <LoadableSonarFeedPage
                 isDesktop={isDesktop}
@@ -377,10 +376,13 @@ export const App = ({
           />
           <Redirect
             from='/sonar/signal/:id/edit'
-            to={`/alert/:id/edit/${search}`}
+            to={`/alerts/:id/edit/${search}`}
           />
-          <Redirect from='/sonar/signal/:id' to={`/alert/:id/${search}`} />
+          <Redirect from='/alert/:id/edit' to={`/alerts/:id/edit/${search}`} />
+          <Redirect from='/alert/:id' to={`/alerts/:id`} />
+          <Redirect from='/sonar/signal/:id' to={`/alerts/:id/${search}`} />
           <Redirect from='/sonar/my-signals' to={`/alerts${search}`} />
+          <Redirect from='/sonar/my-alerts' to={`/alerts${search}`} />
           <Route path='/logout' component={LogoutPage} />
           <Route
             exact

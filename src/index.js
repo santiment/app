@@ -107,7 +107,7 @@ const main = () => {
             <Router history={history}>
               <Switch>
                 <Route exact path='/chart' component={ChartPage} />
-                <Route path='/' component={App} />
+                <Route path='/' component={App} history={history} />
               </Switch>
             </Router>
           </Provider>

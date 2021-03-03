@@ -29,9 +29,10 @@ function useRestrictedInfo (metrics) {
         if (race) return
 
         metrics.forEach(({ key, queryKey = key, label }, i) => {
-          const { restrictedFrom: from, restrictedTo: to } = MetricsBoundaries[
-            queryKey
-          ]
+          const metricBoundaries = MetricsBoundaries[queryKey]
+          if (!metricBoundaries) return
+
+          const { restrictedFrom: from, restrictedTo: to } = metricBoundaries
 
           if (from || to) {
             infos.push({

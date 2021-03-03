@@ -2,9 +2,9 @@ import React from 'react'
 import gql from 'graphql-tag'
 import Recent, { getItemBuilder, Column } from './Recent'
 import { VisibilityIndicator } from '../../../../components/VisibilityIndicator'
-import { getWatchlistLink } from '../../../../ducks/Watchlists/utils'
 import { millify } from '../../../../utils/formatting'
 import PercentChanges from '../../../../components/PercentChanges'
+import { getWatchlistLink } from '../../../../ducks/Watchlists/url'
 import styles from '../index.module.scss'
 
 const getItem = getItemBuilder(gql`
@@ -12,6 +12,9 @@ const getItem = getItemBuilder(gql`
     item: watchlist(id: $id) {
       id
       name
+      type
+      slug
+      function
       isPublic
       historicalStats(from: "utc_now-1d", to: "utc_now", interval: "1d") {
         marketcap

@@ -38,7 +38,9 @@ function newMetricRestrictions (query, accessor) {
     return metricKey
       ? promise.then(MetricsRestrictions => {
         const MetricRestrictions = MetricsRestrictions[metricKey]
-        return accessor ? accessor(MetricRestrictions) : MetricRestrictions
+        return MetricRestrictions && accessor
+          ? accessor(MetricRestrictions)
+          : MetricRestrictions
       })
       : promise
   }

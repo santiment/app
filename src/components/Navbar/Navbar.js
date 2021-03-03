@@ -18,15 +18,11 @@ import SantimentProductsTooltip, {
   MenuItemArrow
 } from './SantimentProductsTooltip/SantimentProductsTooltip'
 import UserAvatar from '../../pages/Account/avatar/UserAvatar'
-import {
-  isDynamicWatchlist,
-  getWatchlistId
-} from '../../ducks/Watchlists/utils'
-import { useShortWatchlist } from '../../ducks/Watchlists/gql/hooks'
 import { mapSizesToProps } from '../../utils/withSizes'
 import NavbarMore from './NavbarMore/NavbarMore'
 import { NavbarItem } from './NavbarItem'
 import { useDialogState } from '../../hooks/dialog'
+import { DEFAULT_SCREENER } from '../../ducks/Screener/utils'
 import styles from './Navbar.module.scss'
 
 const ExternalLink = ({ children, className, ...rest }) => (
@@ -36,17 +32,21 @@ const ExternalLink = ({ children, className, ...rest }) => (
   </a>
 )
 
-const HEADER_DD_OFFSET_X = (() => {
+const HEADER_DD_PARAMS = (() => {
   const { isLaptop, isTablet } = mapSizesToProps({
     width: window.innerWidth,
     height: window.innerHeight
   })
 
-  if ((isLaptop, isTablet)) {
-    return -130
+  if (isLaptop || isTablet) {
+    return {
+      offsetX: -180
+    }
   }
 
-  return undefined
+  return {
+    position: 'start'
+  }
 })()
 
 const leftLinks = [
@@ -60,36 +60,27 @@ const leftLinks = [
     children: 'Charts',
     as: Link,
     Dropdown: NavbarChartsDropdown,
-    ddParams: {
-      position: 'start',
-      offsetX: HEADER_DD_OFFSET_X
-    }
+    ddParams: HEADER_DD_PARAMS
   },
   {
     href: 'https://insights.santiment.net/',
     children: 'Insights',
     as: ExternalLink,
     Dropdown: InsightsDropdown,
-    ddParams: {
-      position: 'start',
-      offsetX: HEADER_DD_OFFSET_X
-    }
+    ddParams: HEADER_DD_PARAMS
   },
   {
     to: '/watchlists',
     children: 'Watchlists',
     as: Link,
     Dropdown: MarketDropdown,
-    ddParams: {
-      position: 'start',
-      offsetX: HEADER_DD_OFFSET_X
-    }
+    ddParams: HEADER_DD_PARAMS
   }
 ]
 
 const leftLinksV2 = [
   {
-    to: '/screener/new',
+    to: DEFAULT_SCREENER.href,
     children: 'Screener',
     as: Link,
     Dropdown: ScreenerDropdown,
@@ -156,14 +147,7 @@ const Logo = (
   </Link>
 )
 
-const Navbar = ({ activeLink = '/', search, isLaptop, isTablet }) => {
-  const id = getWatchlistId(search)
-  const [watchlist = {}] = useShortWatchlist({
-    id,
-    skip: !activeLink.includes('assets')
-  })
-  let isScreener = isDynamicWatchlist(watchlist)
-
+const Navbar = ({ activeLink = '/', isLaptop, isTablet }) => {
   const showMore = isLaptop || isTablet
 
   return (
@@ -187,22 +171,18 @@ const Navbar = ({ activeLink = '/', search, isLaptop, isTablet }) => {
 
         {leftLinks.map((item, index) => (
           <NavbarItem
-            key={index}
+            key={'left' + index}
             item={item}
-            isScreener={isScreener}
             activeLink={activeLink}
-            index={index}
           />
         ))}
 
         {!showMore &&
           leftLinksV2.map((item, index) => (
             <NavbarItem
-              key={index}
+              key={'leftV2' + index}
               item={item}
-              isScreener={isScreener}
               activeLink={activeLink}
-              index={index}
             />
           ))}
 

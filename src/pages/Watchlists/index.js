@@ -100,7 +100,7 @@ const MyWatchlists = ({ data, addressesData, isDesktop }) => {
   )
 }
 
-const MyScreeners = ({ Card }) => {
+const MyScreeners = () => {
   const [watchlists, isLoading] = useUserScreeners()
   if (isLoading) return null
 

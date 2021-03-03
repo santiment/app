@@ -6,8 +6,8 @@ import {
   SHORT_LIST_ITEMS_FRAGMENT
 } from '../../WatchlistAddressesTable/gql/queries'
 import { useUser } from '../../../stores/user'
-import { isStage } from '../../../utils/utils'
 import { BLOCKCHAIN_ADDRESS } from '../utils'
+import { DEFAULT_SCREENER } from '../../Screener/utils'
 
 const noop = _ => _
 const ARRAY = []
@@ -56,6 +56,8 @@ export const USER_SHORT_WATCHLISTS_QUERY = gql`
     fetchWatchlists(type: $type) {
       id
       name
+      type
+      slug
       function
       insertedAt
       isPublic
@@ -132,15 +134,7 @@ export const useUserAddressWatchlists = () =>
     }
   })
 
-export const DEFAULT_SCREENER_ID = isStage ? 1183 : 5496
-
-const DEFAULT_SCREENERS = [
-  {
-    name: 'My screener',
-    href: '/screener/new',
-    id: DEFAULT_SCREENER_ID
-  }
-]
+const DEFAULT_SCREENERS = [DEFAULT_SCREENER]
 export const useUserScreeners = () =>
   useShortWatchlistsLoader(checkIsScreener, watchlists =>
     watchlists.length > 0 ? watchlists : DEFAULT_SCREENERS

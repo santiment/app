@@ -9,7 +9,7 @@ import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import SonarFeedHeader from './SonarFeedActions/SonarFeedHeader'
 import { showNotification } from '../../actions/rootActions'
 import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
-import { SIGNAL_ROUTES } from '../../ducks/Signals/common/constants'
+import { ALERT_ROUTES } from '../../ducks/Signals/common/constants'
 import {
   getShareSignalParams,
   useSignal
@@ -19,6 +19,7 @@ import { RecommendedSignals } from './SonarFeedRecommendations'
 import { METRIC_TYPES } from '../../ducks/Signals/utils/constants'
 import ScreenerSignalDialog from '../../ducks/Signals/ScreenerSignal/ScreenerSignalDialog'
 import { useUserSettings } from '../../stores/user/settings'
+import { useUser } from '../../stores/user'
 import styles from './SonarFeedPage.module.scss'
 
 const baseLocation = '/sonar'
@@ -29,27 +30,28 @@ const LoadableMySignals = Loadable({
 })
 
 const DEFAULT_ROUTE = {
-  index: SIGNAL_ROUTES.ALERTS,
+  index: ALERT_ROUTES.ALERTS,
   content: 'My alerts',
   component: LoadableMySignals
 }
 
-const MY_SIGNALS_LIST = {
+const ALERTS_LIST = {
   ...DEFAULT_ROUTE,
-  path: SIGNAL_ROUTES.ALERTS
+  path: ALERT_ROUTES.ALERTS
 }
 
-const MY_SIGNALS_MODAL_VIEW = {
+const ALERTS_MODAL_VIEW = {
   ...DEFAULT_ROUTE,
-  path: [SIGNAL_ROUTES.ALERT, SIGNAL_ROUTES.LEGACY_ALERT],
+  path: ALERT_ROUTES.ALERT,
   hidden: true
 }
-const tabs = [MY_SIGNALS_LIST, MY_SIGNALS_MODAL_VIEW]
+const tabs = [ALERTS_LIST, ALERTS_MODAL_VIEW]
 
 const SignalModal = ({ id: triggerId, params }) => {
   const shareSignalParams = getShareSignalParams(params)
 
-  const { data = {}, loading } = useSignal({ triggerId, skip: !triggerId })
+  const isOpen = !!triggerId
+  const { data = {}, loading } = useSignal({ triggerId, skip: !isOpen })
 
   if (loading || !data) {
     return null
@@ -58,15 +60,13 @@ const SignalModal = ({ id: triggerId, params }) => {
   const { trigger: { trigger = {} } = {} } = data
   const { settings: { type } = {} } = trigger
 
-  const isOpen = !!triggerId
-
   switch (type) {
     case METRIC_TYPES.SCREENER_SIGNAL: {
       return (
         <ScreenerSignalDialog
           signal={trigger}
           defaultOpen={isOpen}
-          goBackTo={SIGNAL_ROUTES.ALERTS}
+          goBackTo={ALERT_ROUTES.ALERTS}
         />
       )
     }
@@ -86,15 +86,12 @@ const SonarFeed = ({
   location: { pathname },
   isLoggedIn,
   isDesktop,
-  isUserLoading,
   showTelegramAlert
 }) => {
-  if (pathname === baseLocation) {
-    return <Redirect to={tabs[0].index} />
-  }
+  const { loading: isUserLoading } = useUser()
   const pathParams = useMemo(
     () => {
-      const parsed = matchPath(pathname, SIGNAL_ROUTES.ALERT)
+      const parsed = matchPath(pathname, ALERT_ROUTES.ALERT)
 
       return parsed ? parsed.params : undefined
     },
@@ -106,16 +103,17 @@ const SonarFeed = ({
   )
 
   const {
-    settings: { hasTelegramConnected }
+    settings: { isTelegramAllowAlerts },
+    loading: loadingSettings
   } = useUserSettings()
 
   useEffect(
     () => {
-      if (!hasTelegramConnected && isLoggedIn) {
+      if (!loadingSettings && !isTelegramAllowAlerts && isLoggedIn) {
         showTelegramAlert()
       }
     },
-    [hasTelegramConnected, isLoggedIn]
+    [isTelegramAllowAlerts, loadingSettings, isLoggedIn]
   )
 
   useEffect(() => {
@@ -130,8 +128,12 @@ const SonarFeed = ({
         setTriggerId(pathParams.id)
       }
     },
-    [pathname]
+    [pathParams]
   )
+
+  if (pathname === baseLocation) {
+    return <Redirect to={tabs[0].index} />
+  }
 
   const defaultRoute = <Route component={tabs[0].component} />
 
@@ -167,12 +169,6 @@ const SonarFeed = ({
   )
 }
 
-const mapStateToProps = state => {
-  return {
-    isUserLoading: state.user && !!state.user.isLoading
-  }
-}
-
 const mapDispatchToProps = dispatch => ({
   showTelegramAlert: () => {
     dispatch(
@@ -193,7 +189,7 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(SonarFeed)
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { METRIC_TYPES } from '../../ducks/Signals/utils/constants'
-import { getWatchlistLink } from '../../ducks/Watchlists/utils'
+import { getScreenerLink } from '../../ducks/Watchlists/url'
 import styles from './ScreenerTriggerDescription.module.scss'
 
 const ScreenerTriggerDescription = ({ trigger, data }) => {
@@ -19,7 +19,7 @@ const ScreenerTriggerDescription = ({ trigger, data }) => {
     operation: { selector: { watchlist_id } = {} } = {}
   } = data
 
-  const link = getWatchlistLink({ id: watchlist_id })
+  const link = getScreenerLink({ id: watchlist_id })
 
   return (
     <div className={styles.description}>

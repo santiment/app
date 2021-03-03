@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { PROJECT_METRICS_BY_SLUG_QUERY } from '../../../../Studio/withMetrics'
-import { getData } from '../../../../Studio/timeseries/fetcher'
+import { fetchData } from '../../../../Studio/timeseries/fetcher'
 import { cancelQuery } from '../../../../Studio/timeseries/hooks'
 
 const hashAssets = assets => assets.reduce((acc, { slug }) => acc + slug, '')
@@ -64,7 +64,7 @@ export function useAvailableMetrics (assets) {
           return [...loadingsSet]
         })
 
-        const request = getData(
+        const request = fetchData(
           PROJECT_METRICS_BY_SLUG_QUERY,
           { slug },
           abortController.signal
