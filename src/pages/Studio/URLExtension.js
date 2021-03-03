@@ -2,12 +2,14 @@ import React, { useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 import { withRouter } from 'react-router-dom'
 import { parse } from 'query-string'
-import { updateShortUrl, buildChartShorthandPath } from './utils'
+import { updateShortUrl, buildChartShortPath } from './utils'
 import { store } from '../../redux'
 import { useUser } from '../../stores/user'
 import { showNotification } from '../../actions/rootActions'
 import { getShortUrl } from '../../components/Share/utils'
 import { generateUrlV2 } from '../../ducks/Studio/url/generate'
+
+const checkIsNotAuthorError = ({ message }) => message.includes('another user')
 
 const onShortUrlUpdateError = () =>
   store.dispatch(
@@ -56,21 +58,32 @@ const URLExtension = ({
 
         prevFullUrlRef.current = fullUrl
 
-        if (!isLoggedIn) return replaceHistory()
+        if (!isLoggedIn) {
+          setShortUrlHash(undefined)
+          return replaceHistory()
+        }
 
-        const shortUrlPromise = shortUrlHash
-          ? updateShortUrl(shortUrlHash, fullUrl)
-          : getShortUrl(fullUrl).then(newShortUrlHash => {
-            shortUrlHash = newShortUrlHash
-            setShortUrlHash(newShortUrlHash)
-          })
+        mutateShortUrl()
+        function mutateShortUrl () {
+          const shortUrlPromise = shortUrlHash
+            ? updateShortUrl(shortUrlHash, fullUrl)
+            : getShortUrl(fullUrl).then(newShortUrlHash => {
+              shortUrlHash = newShortUrlHash
+              setShortUrlHash(newShortUrlHash)
+            })
 
-        shortUrlPromise
-          .then(() => history.replace(buildChartShorthandPath(shortUrlHash)))
-          .catch(() => {
-            replaceHistory()
-            onShortUrlUpdateError()
-          })
+          shortUrlPromise
+            .then(() => history.replace(buildChartShortPath(shortUrlHash)))
+            .catch(error => {
+              if (checkIsNotAuthorError(error)) {
+                shortUrlHash = undefined
+                return mutateShortUrl()
+              }
+
+              replaceHistory()
+              onShortUrlUpdateError()
+            })
+        }
       }
     },
     [settings, widgets, sidepanel]

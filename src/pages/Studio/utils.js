@@ -4,7 +4,7 @@ import { client } from '../../apollo'
 export const SHORTHAND_OFFSET = '/charts/'.length
 export const SHORTHAND_POSTFIX = '_sCl'
 export const SHORTHAND_RIGHT_INDEX = -SHORTHAND_POSTFIX.length
-export const buildChartShorthandPath = shortUrl =>
+export const buildChartShortPath = shortUrl =>
   `/charts/${shortUrl}${SHORTHAND_POSTFIX}`
 
 const UPDATE_SHORT_URL_MUTATION = gql`
