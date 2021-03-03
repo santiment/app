@@ -19,14 +19,14 @@ import Copy from '../../Actions/Copy'
 import SaveAs from '../../Actions/SaveAs'
 import DownloadCSV from '../../Actions/DownloadCSV'
 import { COMMON_SETTINGS, COLUMNS_SETTINGS } from './columns'
-import { useUserWatchlists } from '../../gql/hooks'
 import { markedAsShowed } from '../../../SANCharts/SidecarExplanationTooltip'
 import { EXPLANATION_TOOLTIP_MARK } from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
 import CompareInfo from './CompareInfo/CompareInfo'
 import CompareAction from './CompareInfo/CompareAction'
-import { usePriceGraph } from '../Table/PriceGraph/hooks'
-import { normalizeGraphData } from '../Table/PriceGraph/utils'
+import { usePriceGraph } from './PriceGraph/hooks'
+import { normalizeGraphData } from './PriceGraph/utils'
 import { FILTERS_EXPLANATION_TOOLTIP_MARK } from '../Filter/Trigger'
+import { useUserProjectWatchlists } from '../../gql/lists/hooks'
 import './ProjectsTable.scss'
 import styles from './AssetsTable.module.scss'
 
@@ -80,7 +80,7 @@ const AssetsTable = ({
 }) => {
   const [markedAsNew, setAsNewMarked] = useState()
   const [visibleItems, setVisibleItems] = useState([])
-  const [watchlists = []] = useUserWatchlists()
+  const [watchlists] = useUserProjectWatchlists()
   const [graphData] = usePriceGraph({ slugs: visibleItems })
   const normalizedItems = normalizeGraphData(graphData, items, 'priceChart7d')
   const hideMarkedAsNew = useCallback(() => {

@@ -10,11 +10,11 @@ import {
   getWatchlistLink
 } from '../../../ducks/Watchlists/url'
 import { useRecentWatchlists } from '../../../ducks/Watchlists/gql/hooks'
-import { useFeaturedWatchlists } from '../../../ducks/Watchlists/gql/queries'
+import { useFeaturedWatchlists } from '../../../ducks/Watchlists/gql/lists/hooks'
 import styles from './MarketDropdown.module.scss'
 
 const MarketDropdown = ({ activeLink }) => {
-  const [watchlists = []] = useFeaturedWatchlists()
+  const [watchlists] = useFeaturedWatchlists()
   const watchlistsIDs = getRecentWatchlists().filter(Boolean)
   const [recentWatchlists] = useRecentWatchlists(watchlistsIDs)
 

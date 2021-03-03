@@ -4,10 +4,10 @@ import Panel from '@santiment-network/ui/Panel'
 import Message from '@santiment-network/ui/Message'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import { InputWithIcon as Input } from '@santiment-network/ui/Input'
-import { useUserWatchlists } from '../../../gql/hooks'
 import { useMessage, useStateMetadata } from './hooks'
 import Item from './Item'
 import ResetButton from './ResetButton'
+import { useUserProjectWatchlists } from '../../../gql/lists/hooks'
 import {
   makeHumanReadableState,
   ALL_ASSETS_TEXT,
@@ -19,7 +19,7 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects, isViewMode }) => {
   const [state, setState] = useState(
     baseProjects.length > 0 ? baseProjects : ALL_ASSETS_TEXT
   )
-  const [watchlists = []] = useUserWatchlists()
+  const [watchlists = []] = useUserProjectWatchlists()
   const { idNameMap, setIdNameMap } = useStateMetadata(state)
   // const [currentSearch, setCurrentSearch] = useState('')
   const { message, updateMessage } = useMessage(state)

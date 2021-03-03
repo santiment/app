@@ -12,7 +12,7 @@ import { ProLabel } from '../../../../components/ProLabel'
 import ProPopupWrapper from '../../../../components/ProPopup/Wrapper'
 import { useUpdateWatchlist } from '../../gql/hooks'
 import { notifyUpdate } from './notifications'
-import { useUserScreeners } from '../../gql/queries'
+import { useUserScreeners } from '../../gql/lists/hooks'
 import styles from './BaseActions.module.scss'
 
 export const Icon = ({ className, ...props }) => (

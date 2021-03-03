@@ -5,18 +5,18 @@ import EmptySection from './EmptySection'
 import CreateWatchlistBtn from './CreateWatchlistBtn'
 import { VisibilityIndicator } from '../../VisibilityIndicator'
 import { useUser } from '../../../stores/user'
-import {
-  useUserAddressWatchlists,
-  useUserWatchlists
-} from '../../../ducks/Watchlists/gql/queries'
 import { getWatchlistLink } from '../../../ducks/Watchlists/url'
 import { sortById } from '../../../utils/sortMethods'
 import { getBlockMinHeight } from '../utils'
 import Item from './Item'
+import {
+  useUserAddressWatchlists,
+  useUserProjectWatchlists
+} from '../../../ducks/Watchlists/gql/lists/hooks'
 import styles from './WatchlistsDropdown.module.scss'
 
 const WatchlistsDropdown = ({ activeLink }) => {
-  const [projectsWatchlists, loading] = useUserWatchlists()
+  const [projectsWatchlists, loading] = useUserProjectWatchlists()
   const [addressesWatchlists, loadingAddresses] = useUserAddressWatchlists()
   const { loading: isLoggedInPending, isLoggedIn } = useUser()
   const isLoading = loading || loadingAddresses || isLoggedInPending

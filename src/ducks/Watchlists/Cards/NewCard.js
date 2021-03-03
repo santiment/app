@@ -3,11 +3,10 @@ import cx from 'classnames'
 import { ProLabel } from '../../../components/ProLabel'
 import ProPopupWrapper from '../../../components/ProPopup/Wrapper'
 import LoginPopup from '../../../components/banners/feature/PopupBanner'
-import { useUserWatchlists } from '../gql/hooks'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import NewWatchlist from '../Actions/New'
-import { useUserScreeners } from '../gql/queries'
 import { SvgNew } from '../../../components/Illustrations/NewCard'
+import { useUserProjectWatchlists, useUserScreeners } from '../gql/lists/hooks'
 import styles from './NewCard.module.scss'
 import cardStyles from './Card.module.scss'
 
@@ -39,7 +38,7 @@ const NewCard = ({ type = 'watchlist', ...props }) => {
 }
 
 const NewWatchlistCard = ({ createWatchlist }) => {
-  const [watchlists = []] = useUserWatchlists()
+  const [watchlists] = useUserProjectWatchlists()
 
   return (
     <LoginPopup trigger={props => <Trigger type='watchlist' {...props} />}>

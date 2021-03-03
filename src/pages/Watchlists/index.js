@@ -9,11 +9,7 @@ import WatchlistCard from '../../ducks/Watchlists/Cards/ProjectCard'
 import WatchlistAddressCard from '../../ducks/Watchlists/Cards/AddressCard'
 import { WatchlistCards } from '../../ducks/Watchlists/Cards/Card'
 import FeaturedWatchlistCards from '../../ducks/Watchlists/Cards/Featured'
-import {
-  useAddressWatchlists,
-  useUserWatchlists,
-  useUserScreeners
-} from '../../ducks/Watchlists/gql/queries'
+import { useAddressWatchlists } from '../../ducks/Watchlists/gql/queries'
 import NewWatchlistCard from '../../ducks/Watchlists/Cards/NewCard'
 import {
   newRenderQueue,
@@ -24,6 +20,10 @@ import MobileAnonBanner from '../../ducks/Watchlists/Templates/Anon/WatchlistsAn
 import InlineBanner from '../../components/banners/feature/InlineBanner'
 import { createWatchlist as createAddressesWatchlist } from '../../ducks/HistoricalBalance/Address/AddToWatchlist'
 import EmptySection from './EmptySection'
+import {
+  useUserProjectWatchlists,
+  useUserScreeners
+} from '../../ducks/Watchlists/gql/lists/hooks'
 import styles from './index.module.scss'
 
 const LoginBanner = ({ isDesktop }) =>
@@ -109,7 +109,7 @@ const MyScreeners = () => {
 
 const Watchlists = ({ isDesktop }) => {
   const { isLoggedIn, loading } = useUser()
-  const userWatchlistsData = useUserWatchlists()
+  const userWatchlistsData = useUserProjectWatchlists()
   const userAddressesWatchlistsData = useAddressWatchlists()
 
   return (

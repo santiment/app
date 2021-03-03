@@ -16,13 +16,11 @@ import { getNormalizedListItems, getWatchlistAlias } from '../utils'
 import { notifyErrorUpdate } from '../Widgets/TopPanel/notifications'
 import { useUser } from '../../../stores/user'
 import { showNotification } from '../../../actions/rootActions'
-import {
-  ADDRESS_WATCHLISTS_QUERY,
-  USER_SHORT_WATCHLISTS_QUERY
-} from './queries'
+import { ADDRESS_WATCHLISTS_QUERY } from './queries'
 import { checkIsNotScreener, stringifyFn } from '../../Screener/utils'
 import NotificationActions from '../../../components/NotificationActions/NotificationActions'
 import { ADDRESS_WATCHLIST_QUERY } from '../../WatchlistAddressesTable/gql/queries'
+import { USER_SHORT_WATCHLISTS_QUERY } from './lists/queries'
 import { BLOCKCHAIN_ADDRESS, PROJECT } from '../detector'
 import { getWatchlistLink } from '../url'
 
