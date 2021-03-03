@@ -17,6 +17,10 @@
   }
 }
 
+.block__lists {
+  @include grid-wrap(3);
+}
+
 .insights {
   margin-top: -40px;
 }

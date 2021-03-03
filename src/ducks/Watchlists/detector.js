@@ -6,12 +6,17 @@ export const SCREENER = 'SCREENER'
 
 export function detectWatchlistType (watchlist) {
   if (watchlist.type === BLOCKCHAIN_ADDRESS) {
-    return { type: BLOCKCHAIN_ADDRESS, label: 'watchlist' }
+    return BLOCKCHAIN_ADDRESS
   }
 
   if (checkIsScreener(watchlist)) {
-    return { type: SCREENER, label: 'screener' }
+    return SCREENER
   }
 
-  return { type: PROJECT, label: 'watchlist' }
+  return PROJECT
 }
+
+export const isAddressesWatchlist = list =>
+  detectWatchlistType(list) === BLOCKCHAIN_ADDRESS
+export const isProjectWatchlist = list => detectWatchlistType(list) === PROJECT
+export const isScreener = list => detectWatchlistType(list) === SCREENER

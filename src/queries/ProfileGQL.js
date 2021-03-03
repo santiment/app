@@ -1,9 +1,6 @@
 import gql from 'graphql-tag'
 import { TRIGGERS_COMMON_FRAGMENT } from '../ducks/Signals/common/queries'
-import {
-  WATCHLIST_GENERAL_FRAGMENT,
-  PROJECT_ITEM_FRAGMENT
-} from './WatchlistGQL'
+import { WATCHLIST_GENERAL_FRAGMENT } from './WatchlistGQL'
 
 export const PUBLIC_USER_DATA_QUERY = gql`
   query getUser($userId: ID, $username: String) {
@@ -14,7 +11,12 @@ export const PUBLIC_USER_DATA_QUERY = gql`
       avatarUrl
       watchlists {
         ...generalListData
-        ...listShortItems
+        stats {
+          blockchainAddressesCount
+        }
+        historicalStats(from: "utc_now-7d", to: "utc_now", interval: "6h") {
+          marketcap
+        }
       }
       followers {
         count
@@ -42,7 +44,6 @@ export const PUBLIC_USER_DATA_QUERY = gql`
   }
   ${TRIGGERS_COMMON_FRAGMENT}
   ${WATCHLIST_GENERAL_FRAGMENT}
-  ${PROJECT_ITEM_FRAGMENT}
 `
 
 export const FOLLOW_MUTATION = gql(`

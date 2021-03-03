@@ -22,9 +22,7 @@ export const getScreenerLink = ({ id, name }) =>
   `${LIST_PATH.SCREENER}${getSEOLinkFromIdAndTitle(id, name)}`
 
 export function getWatchlistLink (watchlist) {
-  const { type } = detectWatchlistType(watchlist)
-
-  switch (type) {
+  switch (detectWatchlistType(watchlist)) {
     case BLOCKCHAIN_ADDRESS:
       return getAddressesWatchlistLink(watchlist)
     case PROJECT:
