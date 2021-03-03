@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import copy from 'copy-to-clipboard'
 import * as Sentry from '@sentry/react'
 import Button from '@santiment-network/ui/Button'
-import { ErrorSvg } from './utils'
+import ErrorSvg from '../Illustrations/Error'
 import { showNotification } from '../../actions/rootActions'
 import styles from './ErrorContent.module.scss'
 
