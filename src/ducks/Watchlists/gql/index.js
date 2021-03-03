@@ -76,15 +76,6 @@ export const ACCESS_RESTRICTIONS_QUERY = gql`
   }
 `
 
-export const AVAILABLE_SEGMENTS_QUERY = gql`
-  query allMarketSegments {
-    allMarketSegments {
-      count
-      name
-    }
-  }
-`
-
 export const REMOVE_WATCHLIST_MUTATION = gql`
   mutation removeWatchlist($id: Int!) {
     removeWatchlist(id: $id) {

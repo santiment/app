@@ -9,17 +9,12 @@ import {
   CREATE_WATCHLIST_MUTATION,
   UPDATE_WATCHLIST_MUTATION,
   AVAILABLE_METRICS_QUERY,
-  AVAILABLE_SEGMENTS_QUERY,
   ACCESS_RESTRICTIONS_QUERY,
   getRecentWatchlist,
   REMOVE_WATCHLIST_MUTATION
 } from './index'
 import { PROJECTS_WATCHLIST_QUERY } from '../../../queries/WatchlistGQL'
-import {
-  countAssetsSort,
-  getNormalizedListItems,
-  getWatchlistAlias
-} from '../utils'
+import { getNormalizedListItems, getWatchlistAlias } from '../utils'
 import { notifyErrorUpdate } from '../Widgets/TopPanel/notifications'
 import { useUser } from '../../../stores/user'
 import { showNotification } from '../../../actions/rootActions'
@@ -350,18 +345,6 @@ export function useRestrictedMetrics () {
       }
     },
     [data]
-  )
-}
-
-export function useAvailableSegments () {
-  const { data, loading } = useQuery(AVAILABLE_SEGMENTS_QUERY)
-
-  return useMemo(
-    () => [
-      data ? data.allMarketSegments.sort(countAssetsSort) : EMPTY_ARRAY,
-      loading
-    ],
-    [data, loading]
   )
 }
 
