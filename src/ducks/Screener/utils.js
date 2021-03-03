@@ -16,9 +16,8 @@ export const DEFAULT_SCREENER_FN = {
 }
 
 // NOTE: remove '/assets/screener' after full migration [@haritonasty 02.03.2021]
-export function checkIsDefaultScreener (pathname) {
-  return pathname === DEFAULT_SCREENER.href || pathname === '/assets/screener'
-}
+export const checkIsDefaultScreener = path =>
+  path === DEFAULT_SCREENER.href || path === '/assets/screener'
 
 export function checkIsScreener (watchlist) {
   const isAllProjectsList = watchlist.slug === 'projects'
@@ -30,3 +29,5 @@ export function checkIsScreener (watchlist) {
 }
 
 export const checkIsNotScreener = watchlist => !checkIsScreener(watchlist)
+
+export const stringifyFn = (fn = DEFAULT_SCREENER_FN) => JSON.stringify(fn)

@@ -58,12 +58,6 @@ export const USER_WATCHLISTS_QUERY = gql`
   ${PROJECT_ITEM_FRAGMENT}
 `
 
-export const AVAILABLE_METRICS_QUERY = gql`
-  query getAvailableMetrics {
-    getAvailableMetrics
-  }
-`
-
 export const ACCESS_RESTRICTIONS_QUERY = gql`
   query getAccessRestrictions {
     getAccessRestrictions {

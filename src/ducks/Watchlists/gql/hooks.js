@@ -8,7 +8,6 @@ import {
   USER_WATCHLISTS_QUERY,
   CREATE_WATCHLIST_MUTATION,
   UPDATE_WATCHLIST_MUTATION,
-  AVAILABLE_METRICS_QUERY,
   ACCESS_RESTRICTIONS_QUERY,
   getRecentWatchlist,
   REMOVE_WATCHLIST_MUTATION
@@ -22,7 +21,7 @@ import {
   ADDRESS_WATCHLISTS_QUERY,
   USER_SHORT_WATCHLISTS_QUERY
 } from './queries'
-import { checkIsNotScreener, DEFAULT_SCREENER_FN } from '../../Screener/utils'
+import { checkIsNotScreener, stringifyFn } from '../../Screener/utils'
 import NotificationActions from '../../../components/NotificationActions/NotificationActions'
 import { ADDRESS_WATCHLIST_QUERY } from '../../WatchlistAddressesTable/gql/queries'
 import { BLOCKCHAIN_ADDRESS, PROJECT } from '../detector'
@@ -171,13 +170,11 @@ export function useCreateScreener () {
   })
 
   function createScreener ({ name = 'My Screener', isPublic = false }) {
-    const screenerFunction = JSON.stringify(DEFAULT_SCREENER_FN)
-
     return mutate({
       variables: {
         name,
         isPublic,
-        function: screenerFunction
+        function: stringifyFn()
       }
     }).then(({ data: { createWatchlist } }) => createWatchlist)
   }
@@ -229,18 +226,14 @@ export function useCreateWatchlist () {
 
   function createWatchlist (props) {
     const { type, function: payloadFunction, listItems = [], ...rest } = props
-
     const creationType = getCreationType(type)
-
-    const watchlistFunction = JSON.stringify(
-      payloadFunction || DEFAULT_SCREENER_FN
-    )
 
     return mutate({
       variables: {
         ...rest,
         type: creationType,
-        function: type === 'screener' ? watchlistFunction : undefined,
+        function:
+          type === 'screener' ? stringifyFn(payloadFunction) : undefined,
         listItems:
           type === 'watchlist' ? getNormalizedListItems(listItems) : undefined
       }
@@ -313,13 +306,6 @@ export function useUpdateWatchlist () {
   return [updateWatchlist, data]
 }
 
-export function useAvailableMetrics () {
-  const { data: { getAvailableMetrics } = {}, loading } = useQuery(
-    AVAILABLE_METRICS_QUERY
-  )
-  return { availableMetrics: getAvailableMetrics, loading }
-}
-
 export function useRestrictedMetrics () {
   const { data, loading } = useQuery(ACCESS_RESTRICTIONS_QUERY)
 
@@ -374,12 +360,12 @@ const extractData = ({ data }) => {
   }
 }
 
-export const getAssetsByFunction = (func, query) =>
+export const getAssetsByFunction = (fn, query) =>
   client
     .query({
       fetchPolicy: 'network-only',
       query,
-      variables: { fn: JSON.stringify(func) }
+      variables: { fn: stringifyFn(fn) }
     })
     .then(extractData)
 
