@@ -36,12 +36,15 @@ export const ChartProvider = ({
 
       clearCtx(chart)
 
-      if (data.length === 0) return
-
       chart.data = data
       chart.scale = scale
       chart.colors = colors
       chart.domainGroups = domainGroups
+
+      if (data.length === 0) {
+        chart.points = []
+        return
+      }
 
       updateChartState(
         chart,
