@@ -89,6 +89,17 @@ export function useFeaturedTemplates () {
   ]
 }
 
+export const getTemplate = id =>
+  client
+    .query({
+      query: TEMPLATE_QUERY,
+      fetchPolicy: 'network-only',
+      variables: {
+        id
+      }
+    })
+    .then(({ data: { template } }) => template)
+
 export function useSelectedTemplate (templates, selectTemplate) {
   const urlId = getTemplateIdFromURL()
   const [selectedTemplate, setSelectedTemplate] = useState()
@@ -99,21 +110,14 @@ export function useSelectedTemplate (templates, selectTemplate) {
       return
     }
 
-    const targetTemplate = { id: urlId }
+    const targetTemplate = { id: +urlId }
 
     setSelectedTemplate(targetTemplate)
 
     setLoading(true)
 
-    client
-      .query({
-        query: TEMPLATE_QUERY,
-        fetchPolicy: 'network-only',
-        variables: {
-          id: +targetTemplate.id
-        }
-      })
-      .then(({ data: { template } }) => {
+    getTemplate(targetTemplate.id)
+      .then(template => {
         setSelectedTemplate(template)
 
         if (template && template.id) {

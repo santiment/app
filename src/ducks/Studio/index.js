@@ -30,7 +30,8 @@ export const Studio = ({
   defaultWidgets,
   defaultSidepanel,
   defaultSettings = DEFAULT_SETTINGS,
-  Extensions
+  Extensions,
+  ...props
 }) => {
   const [widgets, setWidgets] = useState(defaultWidgets)
   const [settings, setSettings] = useState(defaultSettings)
@@ -305,6 +306,7 @@ export const Studio = ({
           widgets={widgets}
           settings={settings}
           sidepanel={sidepanel}
+          shortUrlHashState={props.shortUrlHashState}
           isICOPriceActive={isICOPriceActive}
           isOverviewOpened={isOverviewOpened}
           // fn
@@ -337,10 +339,12 @@ export const Studio = ({
         )}
       </main>
       <Extensions
+        {...props}
         widgets={widgets}
         settings={settings}
         sidepanel={sidepanel}
         setSettings={setSettings}
+        setWidgets={setWidgets}
       />
     </div>
   )

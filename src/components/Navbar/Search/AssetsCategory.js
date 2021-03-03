@@ -56,7 +56,7 @@ const useSearchableAssets = assets =>
 
 export const propsAccessor = ({ slug }) => ({
   key: slug,
-  to: '/studio?slug=' + slug
+  to: '/charts?slug=' + slug
 })
 
 export const Asset = ({ name, ticker }) => (

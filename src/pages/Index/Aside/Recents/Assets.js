@@ -7,7 +7,7 @@ import ProjectIcon from '../../../../components/ProjectIcon/ProjectIcon'
 import { usdFormatter } from '../../../../ducks/dataHub/metrics/formatters'
 import styles from '../index.module.scss'
 
-const getLink = ({ slug }) => `/studio?slug=${slug}`
+const getLink = ({ slug }) => `/charts?slug=${slug}`
 const getData = ({ data }) => data.items.projects
 
 const query = gql`
