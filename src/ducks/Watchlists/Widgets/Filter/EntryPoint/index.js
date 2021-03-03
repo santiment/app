@@ -19,7 +19,7 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects, isViewMode }) => {
   const [state, setState] = useState(
     baseProjects.length > 0 ? baseProjects : ALL_ASSETS_TEXT
   )
-  const [watchlists = []] = useUserProjectWatchlists()
+  const [watchlists] = useUserProjectWatchlists()
   const { idNameMap, setIdNameMap } = useStateMetadata(state)
   // const [currentSearch, setCurrentSearch] = useState('')
   const { message, updateMessage } = useMessage(state)
