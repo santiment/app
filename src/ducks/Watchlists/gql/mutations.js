@@ -1,12 +1,10 @@
 import gql from 'graphql-tag'
 import { ADDRESS_WATCHLISTS_QUERY } from './queries'
 import { client } from '../../../apollo'
-import {
-  LIST_ITEMS_FRAGMENT,
-  SHORT_WATCHLIST_GENERAL_FRAGMENT
-} from '../../WatchlistAddressesTable/gql/queries'
+import { LIST_ITEMS_FRAGMENT } from '../../WatchlistAddressesTable/gql/queries'
 import { normalizeItems } from './helpers'
 import { BLOCKCHAIN_ADDRESS, PROJECT } from '../utils'
+import { SHORT_WATCHLIST_FRAGMENT } from './fragments'
 import { updateWatchlistOnEdit } from './hooks'
 
 export const UPDATE_WATCHLIST_SHORT_MUTATION = gql`
@@ -30,7 +28,7 @@ export const UPDATE_WATCHLIST_SHORT_MUTATION = gql`
       ...listItemsFragment
     }
   }
-  ${SHORT_WATCHLIST_GENERAL_FRAGMENT}
+  ${SHORT_WATCHLIST_FRAGMENT}
   ${LIST_ITEMS_FRAGMENT}
 `
 
@@ -52,7 +50,7 @@ export const CREATE_WATCHLIST_MUTATION = gql`
       ...generalFragment
     }
   }
-  ${SHORT_WATCHLIST_GENERAL_FRAGMENT}
+  ${SHORT_WATCHLIST_FRAGMENT}
 `
 
 const removeTypename = ({ __typename, ...rest }) => rest
@@ -101,7 +99,11 @@ function updateWatchlistsOnCreation (cache, { data: { createWatchlist } }) {
     query: ADDRESS_WATCHLISTS_QUERY,
     data: {
       fetchWatchlists: fetchWatchlists.concat([
-        { ...createWatchlist, listItems: [] }
+        {
+          ...createWatchlist,
+          listItems: [],
+          stats: { blockchainAddressesCount: 0, __typename: 'WatchlistStats' }
+        }
       ])
     }
   })
