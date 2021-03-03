@@ -8,20 +8,3 @@
   position: sticky;
   top: 0;
 }
-
-.edit {
-  margin: 0;
-}
-
-.share {
-  margin-left: auto;
-  padding: 0;
-}
-
-.copy {
-  border: none;
-
-  &:hover svg {
-    fill: var(--jungle-green);
-  }
-}
