@@ -13,7 +13,10 @@ import { useShortShareLink } from '../../../components/Share/hooks'
 import { SAN_HEADER_HEIGHT } from '../../../constants'
 import styles from './Settings.module.scss'
 
-const getBrowserUrl = () => Promise.resolve(window.location.href)
+function getBrowserUrl () {
+  const { origin, pathname } = window.location
+  return Promise.resolve(origin + pathname)
+}
 
 export const CopyLink = ({ shareLink, getShareLink, className }) => {
   const [timer, setTimer] = useState()
@@ -33,8 +36,8 @@ export const CopyLink = ({ shareLink, getShareLink, className }) => {
   )
 }
 
-export const ShareButton = ({ shortUrlHash }) => {
-  const { shortShareLink, getShortShareLink } = useShortShareLink()
+export const ShareButton = ({ sharePath, shortUrlHash }) => {
+  const { shortShareLink, getShortShareLink } = useShortShareLink(sharePath)
 
   const shareLink = shortUrlHash ? window.location.href : shortShareLink
   const getShareLink = shortUrlHash ? getBrowserUrl : getShortShareLink

@@ -37,6 +37,7 @@ const URLExtension = ({
   const { slug, name, ticker } = settings
   const { isLoggedIn } = useUser()
   const slugRef = useRef(slug)
+  slugRef.current = slug
 
   // NOTE: This version of withRouter does not trigger rerender on location change (it depends on the root component rerender [@vanguard | Oct 8, 2020]
   useEffect(

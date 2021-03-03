@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from 'react'
 import URLExtension from './URLExtension'
 import RecentAssetExtension from './RecentAssetExtension'
 import {
-  SHORTHAND_OFFSET,
-  SHORTHAND_RIGHT_INDEX,
-  SHORTHAND_POSTFIX
+  SHORT_URL_OFFSET,
+  SHORT_URL_RIGHT_INDEX,
+  SHORT_URL_POSTFIX
 } from './utils'
 import ChartPage from '../Chart'
 import { getIdFromSEOLink } from '../../utils/url'
@@ -35,7 +35,7 @@ export default ({ location }) => {
     const templateId = getIdFromSEOLink(pathname)
 
     if (Number.isFinite(templateId)) {
-      getTemplate(templateId)
+      return getTemplate(templateId)
         .then(template => {
           if (isRacing) return
 
@@ -45,15 +45,14 @@ export default ({ location }) => {
           })
         })
         .catch(console.error)
-      return
     }
 
-    if (!pathname.endsWith(SHORTHAND_POSTFIX)) {
+    if (!pathname.endsWith(SHORT_URL_POSTFIX)) {
       return setParsedUrl(parseUrlV2(search))
     }
 
     const setShortUrlHash = shortUrlHashState[1]
-    const shortUrlHash = pathname.slice(SHORTHAND_OFFSET, SHORTHAND_RIGHT_INDEX)
+    const shortUrlHash = pathname.slice(SHORT_URL_OFFSET, SHORT_URL_RIGHT_INDEX)
 
     getFullUrl(shortUrlHash)
       .then(fullUrl => {
