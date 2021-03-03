@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
-import {
-  DEFAULT_SCREENER_FUNCTION as DEFAULT_FUNC,
-  useScreenerUrl
-} from '../../ducks/Watchlists/utils'
+import { useScreenerUrl } from '../../ducks/Watchlists/utils'
 import {
   getProjectsByFunction,
   getAssetsByFunction,
@@ -19,8 +16,11 @@ import {
 import { addRecentScreeners } from '../../utils/recent'
 import { useUser } from '../../stores/user'
 import { tableQuery } from '../../ducks/Watchlists/gql'
-import { DEFAULT_SCREENER_ID } from '../../ducks/Watchlists/gql/queries'
 import { getColumns } from '../../ducks/Watchlists/Widgets/Table/Columns/builder'
+import {
+  DEFAULT_SCREENER_FN,
+  DEFAULT_SCREENER_ID
+} from '../../ducks/Screener/utils'
 import styles from './Screener.module.scss'
 
 const pageSize = 20
@@ -44,8 +44,8 @@ const Screener = ({
     activeColumnsKeys
   ])
   const [updateWatchlist, { loading: isUpdating }] = useUpdateWatchlist()
-  const [screenerFunc, setScreenerFunc] = useState(
-    watchlist.function || DEFAULT_FUNC
+  const [screenerFn, setScreenerFn] = useState(
+    watchlist.function || DEFAULT_SCREENER_FN
   )
   const { assets, projectsCount, loading } = getProjectsByFunction(
     ...buildFunctionQuery()
@@ -79,13 +79,13 @@ const Screener = ({
 
   useEffect(
     () => {
-      const func = watchlist.function
-      if (func !== screenerFunc) {
-        if (!func && screenerFunc === DEFAULT_FUNC) {
+      const fn = watchlist.function
+      if (fn !== screenerFn) {
+        if (!fn && screenerFn === DEFAULT_SCREENER_FN) {
           return
         }
 
-        setScreenerFunc(func)
+        setScreenerFn(fn)
       }
     },
     [watchlist.function]
@@ -97,7 +97,7 @@ const Screener = ({
         setPagination({ ...pagination, page: 1 })
       }
     },
-    [screenerFunc]
+    [screenerFn]
   )
 
   useEffect(
@@ -109,15 +109,15 @@ const Screener = ({
     [id]
   )
 
-  function updateWatchlistFunction (func) {
+  function updateWatchlistFunction (fn) {
     if (watchlist.id) {
-      updateWatchlist(watchlist, { function: func })
+      updateWatchlist(watchlist, { function: fn })
     }
   }
 
   function buildFunctionQuery () {
     return [
-      buildFunction({ func: screenerFunc, pagination, orderBy }),
+      buildFunction({ fn: screenerFn, pagination, orderBy }),
       tableQuery(activeColumns)
     ]
   }
@@ -175,8 +175,8 @@ const Screener = ({
         isAuthor={isAuthor}
         isAuthorLoading={userLoading || isLoading}
         isLoggedIn={isLoggedIn}
-        screenerFunction={screenerFunc}
-        setScreenerFunction={setScreenerFunc}
+        screenerFunction={screenerFn}
+        setScreenerFunction={setScreenerFn}
         isUpdatingWatchlist={isUpdating}
         updateWatchlistFunction={updateWatchlistFunction}
         isDefaultScreener={isDefaultScreener}

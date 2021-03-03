@@ -3,18 +3,20 @@ import Card from './Card'
 import styles from './AddressCard.module.scss'
 
 const AddressCard = props => {
-  const { listItems } = props.watchlist
-  const { length } = listItems
+  const { stats } = props.watchlist
+  const { blockchainAddressesCount } = stats
 
   return (
     <Card
       {...props}
       classes={styles}
       middleChildren={
-        length ? (
+        blockchainAddressesCount ? (
           <>
-            {length}
-            <div className={styles.address}>address{length > 1 && 'es'}</div>
+            {blockchainAddressesCount}
+            <div className={styles.address}>
+              address{blockchainAddressesCount > 1 && 'es'}
+            </div>
           </>
         ) : (
           <div className={styles.address}>No addresses</div>

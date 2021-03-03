@@ -1,14 +1,13 @@
 import React from 'react'
 import cx from 'classnames'
-import { isDefaultScreenerPath } from '../../ducks/Watchlists/utils'
 import Button from '@santiment-network/ui/Button'
+import { DEFAULT_SCREENER } from '../../ducks/Screener/utils'
 import SmoothDropdownItem from '../SmoothDropdown/SmoothDropdownItem'
 import styles from './Navbar.module.scss'
 
 export const NavbarItem = ({
   item: { Dropdown, ddParams, onOpen, onClose, ...rest },
-  activeLink,
-  isScreener
+  activeLink
 }) => {
   let isActive = activeLink.includes(rest.to)
 
@@ -16,12 +15,15 @@ export const NavbarItem = ({
     isActive = activeLink === '/'
   }
 
-  if (rest.to === '/assets' && activeLink.includes(rest.to)) {
-    isActive = !isDefaultScreenerPath(activeLink) && !isScreener
+  if (rest.to === '/watchlists') {
+    isActive =
+      (activeLink.includes('/assets') &&
+        !activeLink.includes('/assets/screener')) ||
+      activeLink.includes('/watchlist')
   }
 
-  if (rest.to === '/assets/screener' && activeLink.includes('/assets')) {
-    isActive = isDefaultScreenerPath(activeLink) || isScreener
+  if (rest.to === DEFAULT_SCREENER.href) {
+    isActive = activeLink.includes('/screener')
   }
 
   const button = (
