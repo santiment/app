@@ -1,6 +1,7 @@
 import qs from 'query-string'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import queryString from 'query-string'
+import { INFOGRAPHICS } from './Widgets/VolumeChart/utils'
 
 export const ALL_PROJECTS_WATCHLIST_SLUG = 'projects'
 
@@ -113,13 +114,13 @@ const DEFAULT_SCREENER_URL_PARAMS = {
   isPriceTreeMap: false,
   isVolumeTreeMap: false,
   isMovement: false,
-  priceBarChart: {
+  [INFOGRAPHICS.PRICE_BAR_CHART]: {
     interval: '24h'
   },
-  socialVolumeTreeMap: {
+  [INFOGRAPHICS.SOCIAL_VOLUME_TREE_MAP]: {
     interval: '24h'
   },
-  priceTreeMap: {
+  [INFOGRAPHICS.PRICE_TREE_MAP]: {
     interval: '24h'
   }
 }

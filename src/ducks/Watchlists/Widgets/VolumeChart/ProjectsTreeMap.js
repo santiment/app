@@ -5,10 +5,10 @@ import { ProjectsChartTooltip } from '../../../SANCharts/tooltip/CommonChartTool
 import ColorsExplanation, { COLOR_MAPS } from './ColorsExplanation'
 import NoDataCharts from './NoDataCharts'
 import { useProjectRanges, useWithColors } from './hooks'
-import { getTooltipLabels, tooltipLabelFormatter } from './utils'
+import { getTooltipLabels, INFOGRAPHICS, tooltipLabelFormatter } from './utils'
 import CustomizedTreeMapContent from './CustomizedTreeMapContent'
 import {
-  SocialInfographicTitleRanges,
+  InfographicTitleRanges,
   PriceInfographicTitleRanges,
   useInfographicRanges
 } from './InfographicTitles'
@@ -32,7 +32,7 @@ export const ProjectsTreeMap = ({
     defaultCurrency
   })
 
-  const isSocialVolume = type === 'socialVolumeTreeMap'
+  const isSocialVolume = type === INFOGRAPHICS.SOCIAL_VOLUME_TREE_MAP
 
   const {
     data,
@@ -57,7 +57,8 @@ export const ProjectsTreeMap = ({
     <div className={className}>
       <div className={styles.title}>
         {isSocialVolume ? (
-          <SocialInfographicTitleRanges
+          <InfographicTitleRanges
+            type='Treemap'
             setIntervalIndex={setIntervalIndex}
             ranges={currentRanges}
             label={label}

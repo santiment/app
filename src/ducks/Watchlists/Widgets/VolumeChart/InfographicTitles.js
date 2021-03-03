@@ -26,6 +26,30 @@ export const useInfographicRanges = ({
   return { currency, setCurrency, currentRanges }
 }
 
+export const InfographicTitleRanges = ({
+  setIntervalIndex,
+  title,
+  type,
+  label,
+  intervalIndex,
+  ranges
+}) => {
+  return (
+    <>
+      <ScreenerChartTitle type={type} title={`${title}, %`} />
+      <Range
+        className={styles.selector}
+        range={label}
+        changeRange={() => {
+          setIntervalIndex(
+            ranges.length === 1 ? 0 : (intervalIndex + 1) % ranges.length
+          )
+        }}
+      />
+    </>
+  )
+}
+
 export const PriceInfographicTitleRanges = ({
   label,
   type,
@@ -39,14 +63,15 @@ export const PriceInfographicTitleRanges = ({
 }) => {
   return (
     <>
-      <ScreenerChartTitle type={type} title={`${title}, %`} />
-      <Range
-        className={styles.selector}
-        range={label}
-        changeRange={() => {
-          setIntervalIndex((intervalIndex + 1) % ranges.length)
-        }}
+      <InfographicTitleRanges
+        title={title}
+        type={type}
+        intervalIndex={intervalIndex}
+        label={label}
+        ranges={ranges}
+        setIntervalIndex={setIntervalIndex}
       />
+
       <Range
         className={styles.selector}
         range={currency.toUpperCase()}
@@ -57,29 +82,6 @@ export const PriceInfographicTitleRanges = ({
             currencyRanges[(currentIndex + 1) % currencyRanges.length]
 
           setCurrency(target)
-        }}
-      />
-    </>
-  )
-}
-
-export const SocialInfographicTitleRanges = ({
-  setIntervalIndex,
-  title,
-  label,
-  intervalIndex,
-  ranges
-}) => {
-  return (
-    <>
-      <ScreenerChartTitle type='Treemap' title={`${title}, %`} />
-      <Range
-        className={styles.selector}
-        range={label}
-        changeRange={() => {
-          setIntervalIndex(
-            ranges.length === 1 ? 0 : (intervalIndex + 1) % ranges.length
-          )
         }}
       />
     </>

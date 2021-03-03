@@ -99,6 +99,26 @@ export const ALL_PROJECTS_SOCIAL_VOLUME_CHANGES_QUERY = gql`
   }
 `
 
+export const buildInfographicQuery = ({ metric, interval }) => gql`
+  query allProjectsByFunction($fn: json) {
+    allProjectsByFunction(function: $fn) {
+      projects {
+        slug
+        ticker
+        name
+        ${metric}: aggregatedTimeseriesData(
+          metric: "${metric}"
+          from: "utc_now-${interval}"
+          to: "utc_now"
+          aggregation: LAST
+        )
+        marketcapUsd
+        priceUsd
+      }
+    }
+  }
+`
+
 const ethereumData = gql`
   fragment ethereumData on Project {
     fundsRaisedUsdIcoEndPrice

@@ -1,6 +1,7 @@
 import React from 'react'
 import { ProjectsTreeMap } from '../../../ducks/Watchlists/Widgets/VolumeChart/ProjectsTreeMap'
 import {
+  INFOGRAPHICS,
   PRICE_CHANGE_RANGES,
   SOCIAL_VOLUME_CHANGE_RANGES
 } from '../../../ducks/Watchlists/Widgets/VolumeChart/utils'
@@ -45,7 +46,7 @@ const Infographics = ({
             ranges={PRICE_CHANGE_RANGES}
             settings={priceTreeMap}
             sortByMetric='marketcap_usd'
-            type='priceTreeMap'
+            type={INFOGRAPHICS.PRICE_TREE_MAP}
             onChangeSettings={onChangeSettings}
           />
         </div>
@@ -60,7 +61,7 @@ const Infographics = ({
               ranges={SOCIAL_VOLUME_CHANGE_RANGES}
               settings={socialVolumeTreeMap}
               sortByMetric='marketcap_usd'
-              type='socialVolumeTreeMap'
+              type={INFOGRAPHICS.SOCIAL_VOLUME_TREE_MAP}
               onChangeSettings={onChangeSettings}
             />
           ) : (
@@ -70,7 +71,7 @@ const Infographics = ({
       )}
       {isPriceChartActive && (
         <ProjectsChart
-          type='priceBarChart'
+          type={INFOGRAPHICS.PRICE_BAR_CHART}
           listId={listId}
           settings={priceBarChart}
           onChangeSettings={onChangeSettings}

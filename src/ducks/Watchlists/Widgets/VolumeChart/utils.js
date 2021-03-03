@@ -32,6 +32,12 @@ export const INFOGRAPHIC_CURRENCIES = {
   BTC: 'btc'
 }
 
+export const INFOGRAPHICS = {
+  SOCIAL_VOLUME_TREE_MAP: 'socialVolumeTreeMap',
+  PRICE_TREE_MAP: 'priceTreeMap',
+  PRICE_BAR_CHART: 'priceBarChart'
+}
+
 export const PRICE_CHANGE_RANGES = {
   [INFOGRAPHIC_CURRENCIES.USD]: [
     {
