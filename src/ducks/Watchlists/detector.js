@@ -15,8 +15,3 @@ export function detectWatchlistType (watchlist) {
 
   return PROJECT
 }
-
-export const isAddressesWatchlist = list =>
-  detectWatchlistType(list) === BLOCKCHAIN_ADDRESS
-export const isProjectWatchlist = list => detectWatchlistType(list) === PROJECT
-export const isScreener = list => detectWatchlistType(list) === SCREENER
