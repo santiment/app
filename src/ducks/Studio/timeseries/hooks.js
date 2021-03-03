@@ -189,6 +189,7 @@ export function useTimeseries (
                 return setTimeout(getTimeseries, 2000)
               }
 
+              setTimeseries(() => mergedData)
               setErrorMsg(state => {
                 state[key] = substituteErrorMsg(message)
                 return { ...state }

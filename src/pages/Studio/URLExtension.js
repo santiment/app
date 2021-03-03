@@ -2,27 +2,12 @@ import React, { useRef, useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 import { withRouter } from 'react-router-dom'
 import { parse } from 'query-string'
-import { updateShortUrl, buildChartShortPath } from './utils'
-import { store } from '../../redux'
-import { useUser } from '../../stores/user'
 import { getIdFromSEOLink } from '../../utils/url'
-import { showNotification } from '../../actions/rootActions'
-import { getShortUrl } from '../../components/Share/utils'
 import { generateUrlV2 } from '../../ducks/Studio/url/generate'
 import { getChartWidgetsFromTemplate } from '../../ducks/Studio/Template/utils'
 import { getTemplate } from '../../ducks/Studio/Template/gql/hooks'
 
 const getFullUrl = config => '/charts?' + generateUrlV2(config)
-
-const checkIsNotAuthorError = ({ message }) => message.includes('another user')
-
-const onShortUrlUpdateError = () =>
-  store.dispatch(
-    showNotification({
-      title: 'Short URL update failed',
-      variant: 'error'
-    })
-  )
 
 const URLExtension = ({
   history,
@@ -35,7 +20,6 @@ const URLExtension = ({
   setWidgets
 }) => {
   const { slug, name, ticker } = settings
-  const { isLoggedIn } = useUser()
   const slugRef = useRef(slug)
   slugRef.current = slug
 
@@ -80,36 +64,9 @@ const URLExtension = ({
 
       if (fullUrl !== prevFullUrlRef.current) {
         const replaceHistory = () => history.replace(fullUrl)
-        let [shortUrlHash, setShortUrlHash] = shortUrlHashState
-
         prevFullUrlRef.current = fullUrl
 
-        if (!isLoggedIn) {
-          setShortUrlHash(undefined)
-          return replaceHistory()
-        }
-
-        mutateShortUrl()
-        function mutateShortUrl () {
-          const shortUrlPromise = shortUrlHash
-            ? updateShortUrl(shortUrlHash, fullUrl)
-            : getShortUrl(fullUrl).then(newShortUrlHash => {
-              shortUrlHash = newShortUrlHash
-              setShortUrlHash(newShortUrlHash)
-            })
-
-          shortUrlPromise
-            .then(() => history.replace(buildChartShortPath(shortUrlHash)))
-            .catch(error => {
-              if (checkIsNotAuthorError(error)) {
-                shortUrlHash = undefined
-                return mutateShortUrl()
-              }
-
-              replaceHistory()
-              onShortUrlUpdateError()
-            })
-        }
+        return replaceHistory() // TODO: Delete after enabling short urls [@vanguard | Mar  3, 2021]
       }
     },
     [settings, widgets, sidepanel]
