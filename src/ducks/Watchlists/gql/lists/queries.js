@@ -42,10 +42,10 @@ export function useWatchlistsLoader (query, options, cb = CB) {
 }
 
 export function useUserWatchlistsLoader (
-  cb = CB,
+  cb,
   options,
   query = USER_SHORT_WATCHLISTS_QUERY
 ) {
   const { isLoggedIn } = useUser()
-  return useWatchlistsLoader(query, { skip: !isLoggedIn, ...options })
+  return useWatchlistsLoader(query, { skip: !isLoggedIn, ...options }, cb)
 }
