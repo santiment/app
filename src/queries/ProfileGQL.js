@@ -15,12 +15,6 @@ export const PUBLIC_USER_DATA_QUERY = gql`
           marketcap
         }
       }
-      addressesWatchlists: watchlists(type: BLOCKCHAIN_ADDRESS) {
-        ...generalListData
-        stats {
-          blockchainAddressesCount
-        }
-      }
       followers {
         count
         users {
