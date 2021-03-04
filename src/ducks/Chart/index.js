@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
 import cx from 'classnames'
-import COLOR from '@santiment-network/ui/variables.scss'
 import { initChart, updateChartState } from '@santiment-network/chart'
 import { initTooltip } from '@santiment-network/chart/tooltip'
 import {
@@ -324,18 +323,9 @@ const Chart = ({
 
   function marker (ctx, key, value, x, y) {
     const { colors } = chart
-    const RADIUS = 4
 
-    if (key === 'isAnomaly' || key.includes('_anomaly')) {
-      ctx.beginPath()
-      ctx.arc(x + RADIUS, y + 1, RADIUS, 0, 2 * Math.PI)
-      ctx.lineWidth = 1.5
-      ctx.strokeStyle = COLOR.persimmon
-      ctx.stroke()
-    } else {
-      ctx.fillStyle = colors[key]
-      ctx.fillRect(x, y, 8, 2)
-    }
+    ctx.fillStyle = colors[key]
+    ctx.fillRect(x, y, 8, 2)
   }
 
   return (

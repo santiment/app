@@ -1,5 +1,4 @@
 import { METRICS, GET_METRIC } from './metrics'
-import { AnomalyFetcher, OldAnomalyFetcher } from './anomalies'
 import { aliasTransform, normalizeInterval } from './utils'
 import { HISTORICAL_BALANCE_QUERY } from './queries/historicaBalance'
 import { GAS_USED_QUERY } from './queries/gasUsed'
@@ -41,8 +40,6 @@ const Fetcher = METRICS.reduce((acc, metric) => {
 }, Object.create(null))
 
 Object.assign(Fetcher, {
-  anomalies: OldAnomalyFetcher,
-  anomaly: AnomalyFetcher,
   gasUsed: {
     query: GAS_USED_QUERY,
     preTransform: aliasTransform('gasUsed')
@@ -106,14 +103,10 @@ export const getQuery = (metric, metricSettings) => {
   return query
 }
 
-export const getPreTransform = ({ key, queryKey = key, metricAnomaly }) => {
+export const getPreTransform = ({ key, queryKey = key }) => {
   const { preTransform } = Fetcher[queryKey]
 
-  if (queryKey === 'anomaly') {
-    return preTransform(key)
-  } else if (queryKey === 'anomalies') {
-    return preTransform(metricAnomaly)
-  } else if (transformAliases.has(queryKey)) {
+  if (transformAliases.has(queryKey)) {
     return preTransform(key)
   }
 
