@@ -1,6 +1,7 @@
 import qs from 'query-string'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import queryString from 'query-string'
+import { INFOGRAPHICS } from './Widgets/VolumeChart/utils'
 
 export function getWatchlistId (search) {
   const { name: str } = qs.parse(search) || {}
@@ -68,13 +69,13 @@ const DEFAULT_SCREENER_URL_PARAMS = {
   isPriceTreeMap: false,
   isVolumeTreeMap: false,
   isMovement: false,
-  priceBarChart: {
+  [INFOGRAPHICS.PRICE_BAR_CHART]: {
     interval: '24h'
   },
-  socialVolumeTreeMap: {
+  [INFOGRAPHICS.SOCIAL_VOLUME_TREE_MAP]: {
     interval: '24h'
   },
-  priceTreeMap: {
+  [INFOGRAPHICS.PRICE_TREE_MAP]: {
     interval: '24h'
   }
 }
@@ -134,33 +135,23 @@ export const useScreenerUrl = ({ location, history, defaultParams }) => {
 }
 
 export const useScreenerUrlUpdaters = (widgets, setWidgets) => {
-  const onChangeInterval = useCallback(
-    (key, { label: interval }) => {
+  const onChangeSettings = useCallback(
+    (key, { label: interval, sorter, currency }) => {
+      const widget = widgets[key]
       setWidgets({
         ...widgets,
         [key]: {
-          ...widgets[key],
-          interval
+          ...widget,
+          interval: interval || widget.interval,
+          sorter: sorter || widget.sorter,
+          currency: currency || widget.currency
         }
       })
     },
     [widgets, setWidgets]
   )
 
-  const onChangeSorter = useCallback(
-    (key, sorter) => {
-      setWidgets({
-        ...widgets,
-        [key]: {
-          ...widgets[key],
-          sorter
-        }
-      })
-    },
-    [widgets, setWidgets]
-  )
-
-  return { onChangeInterval, onChangeSorter }
+  return { onChangeSettings }
 }
 
 export function getNormalizedListItems (listItems) {

@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/react-hooks'
 import {
-  ALL_PROJECTS_PRICE_CHANGES_QUERY,
   ALL_PROJECTS_SOCIAL_VOLUME_CHANGES_QUERY,
+  buildInfographicQuery,
   PROJECT_BY_ID_QUERY,
   PROJECT_WITH_SLUG_QUERY
 } from '../ducks/Watchlists/gql/allProjectsGQL'
@@ -69,8 +69,15 @@ export function useProjectsSocialVolumeChanges ({
   )
 }
 
-export function useProjectPriceChanges ({ listId, orderBy, limit = 100 }) {
-  const query = useQuery(ALL_PROJECTS_PRICE_CHANGES_QUERY, {
+export function useProjectPriceChanges ({
+  metric,
+  interval,
+  listId,
+  orderBy,
+  limit = 100
+}) {
+  const gqlQuery = buildInfographicQuery({ metric, interval })
+  const query = useQuery(gqlQuery, {
     variables: {
       fn: makeFn({ listId, limit, orderBy })
     }

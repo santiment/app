@@ -26,35 +26,79 @@ export const getTooltipLabels = memoize(({ key, label }) => {
   ]
 })
 
-export const PRICE_CHANGE_RANGES = [
-  {
-    label: '24h',
-    key: 'price_usd_change_1d'
-  },
-  {
-    label: '7d',
-    key: 'price_usd_change_7d'
-  },
-  {
-    label: '30d',
-    key: 'price_usd_change_30d'
-  }
-]
+export const INFOGRAPHIC_CURRENCIES = {
+  USD: 'usd',
+  ETH: 'eth',
+  BTC: 'btc'
+}
 
-export const SOCIAL_VOLUME_CHANGE_RANGES = [
-  {
-    label: '24h',
-    key: 'social_volume_total_change_1d'
-  },
-  {
-    label: '7d',
-    key: 'social_volume_total_change_7d'
-  },
-  {
-    label: '30d',
-    key: 'social_volume_total_change_30d'
-  }
-]
+export const INFOGRAPHICS = {
+  SOCIAL_VOLUME_TREE_MAP: 'socialVolumeTreeMap',
+  PRICE_TREE_MAP: 'priceTreeMap',
+  PRICE_BAR_CHART: 'priceBarChart'
+}
+
+export const PRICE_CHANGE_RANGES = {
+  [INFOGRAPHIC_CURRENCIES.USD]: [
+    {
+      label: '24h',
+      key: 'price_usd_change_1d'
+    },
+    {
+      label: '7d',
+      key: 'price_usd_change_7d'
+    },
+    {
+      label: '30d',
+      key: 'price_usd_change_30d'
+    }
+  ],
+  [INFOGRAPHIC_CURRENCIES.BTC]: [
+    {
+      label: '24h',
+      key: 'price_btc_change_1d'
+    },
+    {
+      label: '7d',
+      key: 'price_btc_change_7d'
+    },
+    {
+      label: '30d',
+      key: 'price_btc_change_30d'
+    }
+  ],
+  [INFOGRAPHIC_CURRENCIES.ETH]: [
+    {
+      label: '24h',
+      key: 'price_eth_change_1d'
+    },
+    {
+      label: '7d',
+      key: 'price_eth_change_7d'
+    },
+    {
+      label: '30d',
+      key: 'price_eth_change_30d'
+    }
+  ]
+}
+
+export const SOCIAL_VOLUME_CHANGE_RANGES = {
+  [INFOGRAPHIC_CURRENCIES.USD]: [
+    {
+      label: '24h',
+      key: 'social_volume_total_change_1d'
+    },
+    {
+      label: '7d',
+      key: 'social_volume_total_change_7d'
+    },
+    {
+      label: '30d',
+      key: 'social_volume_total_change_30d'
+    }
+  ]
+}
 
 export const SORT_RANGES = [
   {

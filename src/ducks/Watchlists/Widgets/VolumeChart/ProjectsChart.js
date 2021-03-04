@@ -17,7 +17,6 @@ import { ProjectsChartTooltip } from '../../../SANCharts/tooltip/CommonChartTool
 import Range from '../WatchlistOverview/WatchlistAnomalies/Range'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
 import NoDataCharts from './NoDataCharts'
-import ScreenerChartTitle from './ScreenerChartTitle'
 import { useProjectRanges } from './hooks'
 import {
   getBarColor,
@@ -26,6 +25,10 @@ import {
   PRICE_CHANGE_RANGES,
   SORT_RANGES
 } from './utils'
+import {
+  PriceInfographicTitleRanges,
+  useInfographicRanges
+} from './InfographicTitles'
 import styles from './ProjectsChart.module.scss'
 
 const renderCustomizedLabel = props => {
@@ -46,7 +49,7 @@ const renderCustomizedLabel = props => {
         fontSize={fontSize}
         fontWeight={500}
       >
-        {getBarValue(+value)}
+        {value && getBarValue(+value)}
       </text>
     </g>
   )
@@ -56,10 +59,13 @@ const ProjectsChart = ({
   listId,
   redirect,
   settings,
-  onChangeInterval,
-  onChangeSorter
+  onChangeSettings,
+  type
 }) => {
-  const { sorter: { sortBy = 'marketcapUsd', desc: sortDesc } = {} } = settings
+  const {
+    sorter: { sortBy = 'marketcapUsd', desc: sortDesc } = {},
+    currency: defaultCurrency
+  } = settings
   const defaultIndex = useMemo(
     () => {
       const index = SORT_RANGES.findIndex(
@@ -76,13 +82,20 @@ const ProjectsChart = ({
 
   useEffect(
     () => {
-      onChangeSorter({
+      onChangeSettings(type, {
         sortBy: sortByKey,
         desc
       })
     },
     [sortByKey, desc]
   )
+
+  const { currentRanges, currency, setCurrency } = useInfographicRanges({
+    type,
+    ranges: PRICE_CHANGE_RANGES,
+    defaultCurrency,
+    onChangeSettings
+  })
 
   const {
     data,
@@ -93,11 +106,12 @@ const ProjectsChart = ({
     key
   } = useProjectRanges({
     listId,
-    ranges: PRICE_CHANGE_RANGES,
+    ranges: currentRanges,
     sortByMetric: sortByKey,
     desc,
     settings,
-    onChangeInterval
+    onChangeSettings,
+    type: type
   })
 
   const colored = useMemo(
@@ -126,13 +140,15 @@ const ProjectsChart = ({
     <div className={styles.container}>
       <div className={styles.title}>
         <div className={styles.range}>
-          <ScreenerChartTitle type='Bar chart' title='Price Changes, %' />
-          <Range
-            className={styles.selector}
-            range={label}
-            changeRange={() => {
-              setIntervalIndex((intervalIndex + 1) % PRICE_CHANGE_RANGES.length)
-            }}
+          <PriceInfographicTitleRanges
+            type='Bar chart'
+            title='Price Changes'
+            intervalIndex={intervalIndex}
+            label={label}
+            ranges={currentRanges}
+            setIntervalIndex={setIntervalIndex}
+            currency={currency}
+            setCurrency={setCurrency}
           />
         </div>
         <div className={cx(styles.range, styles.sortedBy)}>
