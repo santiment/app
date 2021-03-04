@@ -2,8 +2,8 @@ import React from 'react'
 import PageLoader from '../../components/Loader/PageLoader'
 import { getScreenerLink } from '../../ducks/Watchlists/url'
 import { useCreateScreener } from '../../ducks/Watchlists/gql/hooks'
-import { useUserScreeners } from '../../ducks/Watchlists/gql/queries'
 import { checkIsDefaultScreener } from '../../ducks/Screener/utils'
+import { useUserScreeners } from '../../ducks/Watchlists/gql/lists/hooks'
 
 function redirectToUserWatchlist ({
   createScreener,
