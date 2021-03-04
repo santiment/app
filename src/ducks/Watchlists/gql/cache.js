@@ -1,6 +1,6 @@
 import { getWatchlistsShortQuery } from './lists/helpers'
 
-function watchlistsCacheUpdater (visitor) {
+function visitWatchlistsCache (visitor) {
   return (cache, { data }) => {
     const { type } = data.watchlist
     const query = getWatchlistsShortQuery(type)
@@ -12,3 +12,7 @@ function watchlistsCacheUpdater (visitor) {
     })
   }
 }
+
+export const updateWatchlistsOnCreation = visitWatchlistsCache(
+  ({ watchlist }, watchlists) => watchlists.concat([watchlist])
+)

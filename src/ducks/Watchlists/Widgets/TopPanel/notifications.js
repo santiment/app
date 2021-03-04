@@ -1,16 +1,23 @@
-import { store } from '../../../../redux'
+import { store, history } from '../../../../redux'
 import { showNotification } from '../../../../actions/rootActions'
 
 const dispatchNotification = payload =>
   store.dispatch(showNotification(payload))
 
-export function notifyCreation () {
-  return dispatchNotification({
+export const notifyCreation = (title, link) =>
+  dispatchNotification({
     variant: 'success',
-    title: 'Screener created',
-    description: 'New screener has been created successfully.'
+    title: `New ${title} was created`,
+    description: !link && `New ${title} has been created successfully.`,
+    actions: link && [{ label: 'Open', onClick: () => history.push(link) }]
   })
-}
+
+export const notifyErrorCreation = title =>
+  dispatchNotification({
+    variant: 'error',
+    title: `Couldn't create the ${title}. Please, contact our support`,
+    dismissAfter: 5000
+  })
 
 export function notifyUpdate (type) {
   return dispatchNotification({
