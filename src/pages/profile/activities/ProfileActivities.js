@@ -5,15 +5,15 @@ import PublicInsights from '../insights/PublicInsights'
 import PublicWatchlists from '../watchlists/PublicWatchlists'
 import { useUserTemplates } from '../../../ducks/Studio/Template/gql/hooks'
 import ProfileTemplates from '../templates/ProfileTemplates'
-import {
-  isAddressesWatchlist,
-  isProjectWatchlist,
-  isScreener
-} from '../../../ducks/Watchlists/detector'
 import ProjectCard from '../../../ducks/Watchlists/Cards/ProjectCard'
 import AddressCard from '../../../ducks/Watchlists/Cards/AddressCard'
+import {
+  checkIsNotScreener,
+  checkIsScreener
+} from '../../../ducks/Screener/utils'
 import styles from './ProfileActivities.module.scss'
 
+const ARRAY = []
 const STEPS = {
   INSIGHTS: '#insights',
   SIGNALS: '#signals',
@@ -27,14 +27,19 @@ const Counter = ({ value }) => {
   return <div className={styles.counter}>({value})</div>
 }
 
-const ProfileActivities = ({ profile }) => {
-  const { id: profileId, insightsCount, triggers, watchlists = [] } = profile
-
+const ProfileActivities = ({
+  profile: {
+    id: profileId,
+    insightsCount,
+    triggers,
+    watchlists = ARRAY,
+    addressesWatchlists = ARRAY
+  }
+}) => {
   const [step, setStep] = useState(window.location.hash || STEPS.INSIGHTS)
   const [templates] = useUserTemplates(profileId)
-  const screeners = watchlists.filter(isScreener)
-  const projectWatchlists = watchlists.filter(isProjectWatchlist)
-  const addressesWatchlists = watchlists.filter(isAddressesWatchlist)
+  const screeners = watchlists.filter(checkIsScreener)
+  const projectWatchlists = watchlists.filter(checkIsNotScreener)
 
   const goTo = val => {
     window.location.hash = val

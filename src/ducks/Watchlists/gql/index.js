@@ -58,33 +58,6 @@ export const USER_WATCHLISTS_QUERY = gql`
   ${PROJECT_ITEM_FRAGMENT}
 `
 
-export const AVAILABLE_METRICS_QUERY = gql`
-  query getAvailableMetrics {
-    getAvailableMetrics
-  }
-`
-
-export const ACCESS_RESTRICTIONS_QUERY = gql`
-  query getAccessRestrictions {
-    getAccessRestrictions {
-      name
-      type
-      isRestricted
-      restrictedFrom
-      restrictedTo
-    }
-  }
-`
-
-export const AVAILABLE_SEGMENTS_QUERY = gql`
-  query allMarketSegments {
-    allMarketSegments {
-      count
-      name
-    }
-  }
-`
-
 export const REMOVE_WATCHLIST_MUTATION = gql`
   mutation removeWatchlist($id: Int!) {
     removeWatchlist(id: $id) {

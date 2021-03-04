@@ -63,10 +63,6 @@ export const getHelmetTags = (isList, listName) => {
   }
 }
 
-export function countAssetsSort ({ count: countA }, { count: countB }) {
-  return countA > countB ? -1 : 1
-}
-
 const DEFAULT_SCREENER_URL_PARAMS = {
   isPriceChartActive: false,
   isPriceTreeMap: false,

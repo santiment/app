@@ -18,16 +18,6 @@ export const WATCHLIST_GENERAL_FRAGMENT = gql`
   }
 `
 
-export const SHORT_WATCHLIST_GENERAL_FRAGMENT = gql`
-  fragment generalFragment on UserList {
-    id
-    name
-    type
-    isPublic
-    insertedAt
-  }
-`
-
 export const LIST_ITEMS_FRAGMENT = gql`
   fragment listItemsFragment on UserList {
     listItems {

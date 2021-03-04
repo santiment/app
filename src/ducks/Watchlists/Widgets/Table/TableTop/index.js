@@ -4,13 +4,13 @@ import Icon from '@santiment-network/ui/Icon'
 import Copy from '../../../Actions/Copy'
 import SaveAs from '../../../Actions/SaveAs'
 import DownloadCSV from '../../../Actions/DownloadCSV'
-import { useUserWatchlists } from '../../../gql/hooks'
 import CompareInfo from '../CompareInfo/CompareInfo'
 import CompareAction from '../CompareInfo/CompareAction'
 import Refresh from '../../../../../components/Refresh/Refresh'
 import ProPopupWrapper from '../../../../../components/ProPopup/Wrapper'
 import ExplanationTooltip from '../../../../../components/ExplanationTooltip/ExplanationTooltip'
 import ColumnsToggler from '../Columns/Toggler'
+import { useUserProjectWatchlists } from '../../../gql/lists/hooks'
 import styles from './index.module.scss'
 
 const EMPTY_OBJ = {}
@@ -30,7 +30,7 @@ const TableTop = ({
   watchlist = EMPTY_OBJ
 }) => {
   const [refreshTimestamp, setRefreshTimestamp] = useState(Date.now)
-  const [watchlists = []] = useUserWatchlists()
+  const [watchlists] = useUserProjectWatchlists()
   const disabledComparision = comparingAssets.length < 2
 
   return (

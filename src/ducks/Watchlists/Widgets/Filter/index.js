@@ -15,7 +15,7 @@ import { getCategoryGraph } from '../../../Studio/Sidebar/utils'
 import { countCategoryActiveMetrics } from '../../../SANCharts/ChartMetricSelector'
 import { getNewFunction, extractFilters, filterMetricsBySearch } from './utils'
 import { isContainMetric } from './detector'
-import { useAvailableMetrics } from '../../gql/hooks'
+import { useAvailableMetrics } from './hooks'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import { APP_STATES } from '../../../Updates/reducers'
 import {
@@ -54,7 +54,7 @@ const Filter = ({
   const [isOutdatedVersion, setIsOutdatedVersion] = useState(false)
   const [isActiveFiltersOnly, setIsActiveFiltersOnly] = useState(false)
   const [isWereChanges, setIsWereChanges] = useState(false)
-  const { availableMetrics = [] } = useAvailableMetrics()
+  const { availableMetrics } = useAvailableMetrics()
   const [isReset, setIsReset] = useState(false)
   const { isPro } = useUserSubscriptionStatus()
 

@@ -14,12 +14,12 @@ import { useRecentWatchlists } from '../../../ducks/Watchlists/gql/hooks'
 import {
   useFeaturedScreeners,
   useUserScreeners
-} from '../../../ducks/Watchlists/gql/queries'
+} from '../../../ducks/Watchlists/gql/lists/hooks'
 import wrapperStyles from '../Watchlists/MarketDropdown.module.scss'
 import styles from '../Watchlists/WatchlistsDropdown.module.scss'
 
 const ScreenerDropdown = ({ activeLink }) => {
-  const [featuredScreeners = []] = useFeaturedScreeners()
+  const [featuredScreeners] = useFeaturedScreeners()
   const [screeners, loading] = useUserScreeners()
   const { loading: isLoggedInPending } = useUser()
   const isLoading = loading || isLoggedInPending

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { client } from '../../../apollo'
 import * as Sentry from '@sentry/react'
@@ -8,28 +8,19 @@ import {
   USER_WATCHLISTS_QUERY,
   CREATE_WATCHLIST_MUTATION,
   UPDATE_WATCHLIST_MUTATION,
-  AVAILABLE_METRICS_QUERY,
-  AVAILABLE_SEGMENTS_QUERY,
-  ACCESS_RESTRICTIONS_QUERY,
   getRecentWatchlist,
   REMOVE_WATCHLIST_MUTATION
 } from './index'
 import { PROJECTS_WATCHLIST_QUERY } from '../../../queries/WatchlistGQL'
-import {
-  countAssetsSort,
-  getNormalizedListItems,
-  getWatchlistAlias
-} from '../utils'
+import { getNormalizedListItems, getWatchlistAlias } from '../utils'
 import { notifyErrorUpdate } from '../Widgets/TopPanel/notifications'
 import { useUser } from '../../../stores/user'
 import { showNotification } from '../../../actions/rootActions'
-import {
-  ADDRESS_WATCHLISTS_QUERY,
-  USER_SHORT_WATCHLISTS_QUERY
-} from './queries'
-import { checkIsNotScreener, DEFAULT_SCREENER_FN } from '../../Screener/utils'
+import { ADDRESS_WATCHLISTS_QUERY } from './queries'
+import { checkIsNotScreener, stringifyFn } from '../../Screener/utils'
 import NotificationActions from '../../../components/NotificationActions/NotificationActions'
 import { ADDRESS_WATCHLIST_QUERY } from '../../WatchlistAddressesTable/gql/queries'
+import { USER_SHORT_WATCHLISTS_QUERY } from './lists/queries'
 import { BLOCKCHAIN_ADDRESS, PROJECT } from '../detector'
 import { getWatchlistLink } from '../url'
 
@@ -176,13 +167,11 @@ export function useCreateScreener () {
   })
 
   function createScreener ({ name = 'My Screener', isPublic = false }) {
-    const screenerFunction = JSON.stringify(DEFAULT_SCREENER_FN)
-
     return mutate({
       variables: {
         name,
         isPublic,
-        function: screenerFunction
+        function: stringifyFn()
       }
     }).then(({ data: { createWatchlist } }) => createWatchlist)
   }
@@ -234,18 +223,14 @@ export function useCreateWatchlist () {
 
   function createWatchlist (props) {
     const { type, function: payloadFunction, listItems = [], ...rest } = props
-
     const creationType = getCreationType(type)
-
-    const watchlistFunction = JSON.stringify(
-      payloadFunction || DEFAULT_SCREENER_FN
-    )
 
     return mutate({
       variables: {
         ...rest,
         type: creationType,
-        function: type === 'screener' ? watchlistFunction : undefined,
+        function:
+          type === 'screener' ? stringifyFn(payloadFunction) : undefined,
         listItems:
           type === 'watchlist' ? getNormalizedListItems(listItems) : undefined
       }
@@ -318,53 +303,6 @@ export function useUpdateWatchlist () {
   return [updateWatchlist, data]
 }
 
-export function useAvailableMetrics () {
-  const { data: { getAvailableMetrics } = {}, loading } = useQuery(
-    AVAILABLE_METRICS_QUERY
-  )
-  return { availableMetrics: getAvailableMetrics, loading }
-}
-
-export function useRestrictedMetrics () {
-  const { data, loading } = useQuery(ACCESS_RESTRICTIONS_QUERY)
-
-  return useMemo(
-    () => {
-      if (data && data.getAccessRestrictions) {
-        const allMetrics = []
-        const restrictedMetrics = []
-
-        data.getAccessRestrictions.forEach(({ name, type, restrictedFrom }) => {
-          allMetrics.push(name)
-          if (type === 'metric' && restrictedFrom !== null) {
-            restrictedMetrics.push(name)
-          }
-        })
-        return { restrictedMetrics, allMetrics, loading }
-      } else {
-        return {
-          restrictedMetrics: EMPTY_ARRAY,
-          allMetrics: EMPTY_ARRAY,
-          loading
-        }
-      }
-    },
-    [data]
-  )
-}
-
-export function useAvailableSegments () {
-  const { data, loading } = useQuery(AVAILABLE_SEGMENTS_QUERY)
-
-  return useMemo(
-    () => [
-      data ? data.allMarketSegments.sort(countAssetsSort) : EMPTY_ARRAY,
-      loading
-    ],
-    [data, loading]
-  )
-}
-
 export function getProjectsByFunction (func, query) {
   const { data, loading, error } = useQuery(query, {
     skip: !func,
@@ -391,12 +329,12 @@ const extractData = ({ data }) => {
   }
 }
 
-export const getAssetsByFunction = (func, query) =>
+export const getAssetsByFunction = (fn, query) =>
   client
     .query({
       fetchPolicy: 'network-only',
       query,
-      variables: { fn: JSON.stringify(func) }
+      variables: { fn: stringifyFn(fn) }
     })
     .then(extractData)
 

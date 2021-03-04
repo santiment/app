@@ -1,9 +1,9 @@
 import React from 'react'
-import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import ProjectCard, { useMarketcap } from './ProjectCard'
+import { useQuery } from '@apollo/react-hooks'
 import { WatchlistCards } from './Card'
-import { useFeaturedWatchlists } from '../gql/queries'
+import ProjectCard, { useMarketcap } from './ProjectCard'
+import { useFeaturedWatchlists } from '../gql/lists/hooks'
 
 const FEATURED_WATCHLISTS_MARKETCAP_HISTORY_QUERY = gql`
   query {
