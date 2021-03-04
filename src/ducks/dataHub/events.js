@@ -1,5 +1,3 @@
-import { Metric } from './metrics'
-
 export const Event = {
   trendPositionHistory: {
     key: 'trendPositionHistory',
@@ -25,10 +23,5 @@ export const Event = {
           return `${val}th`
       }
     }
-  },
-  metricAnomalyKey: {
-    label: 'Anomaly',
-    isAnomaly: true,
-    formatter: val => Metric[val].label
   }
 }

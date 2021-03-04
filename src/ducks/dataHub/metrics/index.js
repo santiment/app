@@ -91,7 +91,6 @@ export const Metric = {
     node: 'bar',
     label: 'Social Volume',
     shortLabel: 'Soc. Vol.',
-    anomalyKey: 'SOCIAL_VOLUME',
     advancedView: 'Social Context',
     formatter: value => tooltipValueFormatter({ value })
   },
@@ -122,7 +121,6 @@ export const Metric = {
     group: 'Network Activity',
     label: 'Daily Active Addresses',
     shortLabel: 'Daily A.A.',
-    anomalyKey: 'DAILY_ACTIVE_ADDRESSES',
     abbreviation: 'daa',
     video: 'https://www.youtube.com/watch?v=n3dUvWvQEpQ',
     historicalTriggersDataKey: 'active_addresses'
@@ -245,7 +243,6 @@ export const Metric = {
     node: 'line',
     label: 'Development Activity',
     shortLabel: 'Dev. Activity',
-    anomalyKey: 'DEV_ACTIVITY',
     reqMeta: {
       transform: {
         type: 'moving_average',

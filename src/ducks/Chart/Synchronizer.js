@@ -66,18 +66,8 @@ function colorTrend (position) {
 }
 
 export function prepareEvents (events) {
-  return events.map(({ datetime, position, metricAnomalyKey }) => {
+  return events.map(({ datetime, position }) => {
     const date = +new Date(datetime)
-    if (metricAnomalyKey) {
-      const { label, dataKey = metricAnomalyKey } = Metric[metricAnomalyKey]
-      return {
-        key: 'isAnomaly',
-        metric: dataKey,
-        datetime: date,
-        value: label,
-        color: COLOR.persimmon
-      }
-    }
 
     const color = colorTrend(position)
     return {

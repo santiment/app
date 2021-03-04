@@ -25,7 +25,6 @@ export const COMMON_CHART_OPTIONS = {
 export const DEFAULT_OPTIONS = {
   isLogScale: false,
   isICOPriceActive: false,
-  isAnomalyActive: getSavedToggle('isAnomalyActive'),
   isMultiChartsActive: getSavedMulticharts(),
   isClosestDataActive: getSavedToggle('isClosestDataActive', true),
   ...COMMON_CHART_OPTIONS
