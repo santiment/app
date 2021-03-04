@@ -25,12 +25,10 @@ export function getWatchlistLink (watchlist) {
   switch (detectWatchlistType(watchlist)) {
     case BLOCKCHAIN_ADDRESS:
       return getAddressesWatchlistLink(watchlist)
-    case PROJECT:
-      return getProjectsWatchlistLink(watchlist)
     case SCREENER:
       return getScreenerLink(watchlist)
-    default: {
+    case PROJECT:
+    default:
       return getProjectsWatchlistLink(watchlist)
-    }
   }
 }

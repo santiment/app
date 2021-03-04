@@ -4,9 +4,9 @@ import { useQuery } from '@apollo/react-hooks'
 import { SHORT_WATCHLIST_FRAGMENT } from '../fragments'
 import { useUser } from '../../../../stores/user'
 
-export const USER_SHORT_WATCHLISTS_QUERY = gql`
-  query fetchWatchlists($type: WatchlistTypeEnum) {
-    fetchWatchlists(type: $type) {
+export const USER_SHORT_WATCHLISTS_QUERY = type => gql`
+  query fetchWatchlists {
+    watchlists: fetchWatchlists(type: ${type}) {
       ...generalFragment
     }
   }
@@ -15,7 +15,7 @@ export const USER_SHORT_WATCHLISTS_QUERY = gql`
 
 export const FEATURED_WATCHLISTS_QUERY = gql`
   query featuredWatchlists {
-    fetchWatchlists: featuredWatchlists {
+    watchlists: featuredWatchlists {
       id
       name
     }
@@ -24,7 +24,7 @@ export const FEATURED_WATCHLISTS_QUERY = gql`
 
 export const FEATURED_SCREENERS_QUERY = gql`
   query featuredScreeners {
-    fetchWatchlists: featuredScreeners {
+    watchlists: featuredScreeners {
       id
       name
     }
@@ -36,16 +36,10 @@ const CB = _ => _
 
 export function useWatchlistsLoader (query, options, cb = CB) {
   const { data, loading } = useQuery(query, options)
-  return useMemo(() => [data ? cb(data.fetchWatchlists) : ARRAY, loading], [
-    data
-  ])
+  return useMemo(() => [data ? cb(data.watchlists) : ARRAY, loading], [data])
 }
 
-export function useUserWatchlistsLoader (
-  cb,
-  options,
-  query = USER_SHORT_WATCHLISTS_QUERY
-) {
+export function useUserWatchlistsLoader (cb, query) {
   const { isLoggedIn } = useUser()
-  return useWatchlistsLoader(query, { skip: !isLoggedIn, ...options }, cb)
+  return useWatchlistsLoader(query, { skip: !isLoggedIn }, cb)
 }

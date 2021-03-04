@@ -3,6 +3,8 @@ import {
   checkIsScreener,
   DEFAULT_SCREENER
 } from '../../../Screener/utils'
+import { USER_SHORT_WATCHLISTS_QUERY } from './queries'
+import { BLOCKCHAIN_ADDRESS, PROJECT, SCREENER } from '../../detector'
 
 const DEFAULT_SCREENERS = [DEFAULT_SCREENER]
 
@@ -17,3 +19,14 @@ export const filterIfScreener = lists => lists.filter(checkIsScreener)
 export const filterIfNotScreener = lists => lists.filter(checkIsNotScreener)
 export const getScreenersList = lists =>
   lists.length > 0 ? lists : DEFAULT_SCREENERS
+
+export function getWatchlistsShortQuery (type) {
+  switch (type) {
+    case BLOCKCHAIN_ADDRESS:
+      return USER_SHORT_WATCHLISTS_QUERY(BLOCKCHAIN_ADDRESS)
+    case PROJECT:
+    case SCREENER:
+    default:
+      return USER_SHORT_WATCHLISTS_QUERY(PROJECT)
+  }
+}

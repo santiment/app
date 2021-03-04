@@ -34,15 +34,15 @@ function buildWatchlistsCacheUpdater (reducer) {
     const query =
       watchlist.type === BLOCKCHAIN_ADDRESS
         ? ADDRESS_WATCHLISTS_QUERY
-        : USER_SHORT_WATCHLISTS_QUERY
+        : USER_SHORT_WATCHLISTS_QUERY(PROJECT)
 
-    const { fetchWatchlists } = cache.readQuery({
+    const { watchlists } = cache.readQuery({
       query: query
     })
 
     cache.writeQuery({
       query: query,
-      data: { fetchWatchlists: reducer(data, fetchWatchlists) }
+      data: { watchlists: reducer(data, watchlists) }
     })
   }
 }
