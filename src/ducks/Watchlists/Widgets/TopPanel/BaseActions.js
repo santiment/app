@@ -13,6 +13,7 @@ import ProPopupWrapper from '../../../../components/ProPopup/Wrapper'
 import { useUpdateWatchlist } from '../../gql/hooks'
 import { notifyUpdate } from './notifications'
 import { useUserScreeners } from '../../gql/lists/hooks'
+import { SCREENER } from '../../detector'
 import styles from './BaseActions.module.scss'
 
 export const Icon = ({ className, ...props }) => (
@@ -36,7 +37,6 @@ const Trigger = ({
   isActive,
   onPrimaryAction,
   isLoading,
-  lists,
   openMenu
 }) => {
   const [isEditPopupOpened, setIsEditPopupOpened] = useState(false)
@@ -45,8 +45,7 @@ const Trigger = ({
     <div className={styles.trigger} ref={forwardedRef}>
       <EditForm
         title={'Edit ' + type}
-        type='screener'
-        lists={lists}
+        type={type}
         id={watchlist.id}
         onFormSubmit={payload =>
           onPrimaryAction(payload).then(() => setIsEditPopupOpened(false))
@@ -89,18 +88,16 @@ const BaseActions = ({
   isPro,
   isAuthorLoading,
   onClick,
-  type = 'screener',
-  createWatchlist,
-  noItemsCheck
+  type
 }) => {
   if (!id) {
     return null
   }
-
   const [isMenuOpened, setIsMenuOpened] = useState(false)
   const [isEditPopupOpened, setIsEditPopupOpened] = useState(false)
   const [screeners] = useUserScreeners()
   const [updateWatchlist, { loading }] = useUpdateWatchlist()
+  const showDelete = isAuthor && (type !== SCREENER || screeners.length > 1)
 
   return (
     <div onClick={onClick} className={cx(styles.container, className)}>
@@ -108,7 +105,6 @@ const BaseActions = ({
         <ContextMenu
           trigger={
             <Trigger
-              lists={screeners}
               watchlist={watchlist}
               name={name}
               openMenu={() => setIsMenuOpened(true)}
@@ -130,7 +126,6 @@ const BaseActions = ({
           <Panel variant='modal' className={styles.wrapper}>
             <EditForm
               type={type}
-              lists={screeners}
               title={'Edit ' + type}
               id={watchlist.id}
               isLoading={loading}
@@ -155,7 +150,7 @@ const BaseActions = ({
               }
             />
             <ProPopupWrapper
-              type='screener'
+              type={type}
               trigger={props => (
                 <Button {...props}>
                   <Icon type='disk' />
@@ -165,11 +160,9 @@ const BaseActions = ({
               )}
             >
               <SaveAs
-                type='screener'
+                type={type}
                 onSubmit={() => setIsMenuOpened(false)}
                 watchlist={watchlist}
-                lists={screeners}
-                createWatchlist={createWatchlist}
                 trigger={
                   <Button>
                     <Icon type='disk' />
@@ -191,9 +184,7 @@ const BaseActions = ({
             >
               <New
                 type={type}
-                lists={screeners}
                 onSubmit={() => setIsMenuOpened(false)}
-                createWatchlist={createWatchlist}
                 trigger={
                   <Button>
                     <Icon type='plus-round' />
@@ -203,7 +194,7 @@ const BaseActions = ({
                 }
               />
             </ProPopupWrapper>
-            {isAuthor && (noItemsCheck || screeners.length > 1) && (
+            {showDelete && (
               <Delete
                 title={`Do you want to delete this ${type}?`}
                 id={id}
@@ -232,8 +223,6 @@ const BaseActions = ({
           <SaveAs
             type={type}
             watchlist={watchlist}
-            lists={screeners}
-            createWatchlist={createWatchlist}
             trigger={
               <Button border className={styles.saveAsNonAuthor}>
                 <Icon type='disk' />

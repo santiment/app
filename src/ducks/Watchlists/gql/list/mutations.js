@@ -1,24 +1,31 @@
 import gql from 'graphql-tag'
 import * as Sentry from '@sentry/react'
 import { useMutation } from '@apollo/react-hooks'
-import { getTitleByWatchlistType, SCREENER } from '../../detector'
+import { history } from '../../../../redux'
 import { getWatchlistLink } from '../../url'
-import { transformToServerType } from '../helpers'
 import { stringifyFn } from '../../../Screener/utils'
 import { updateWatchlistsOnCreation } from '../cache'
 import { SHORT_WATCHLIST_FRAGMENT } from '../fragments'
+import { normalizeItems, transformToServerType } from '../helpers'
+import {
+  BLOCKCHAIN_ADDRESS,
+  getTitleByWatchlistType,
+  PROJECT,
+  SCREENER
+} from '../../detector'
 import {
   notifyCreation,
   notifyErrorCreation
 } from '../../Widgets/TopPanel/notifications'
 
-export const CREATE_WATCHLIST_MUTATION = gql`
+const CREATE_WATCHLIST_MUTATION = gql`
   mutation createWatchlist(
     $type: WatchlistTypeEnum
     $name: String!
     $description: String
     $isPublic: Boolean
     $isScreener: Boolean
+    $function: json
     $listItems: [InputListItem]
   ) {
     watchlist: createWatchlist(
@@ -26,6 +33,7 @@ export const CREATE_WATCHLIST_MUTATION = gql`
       name: $name
       description: $description
       isPublic: $isPublic
+      function: $function
       isScreener: $isScreener
       listItems: $listItems
     ) {
@@ -35,13 +43,13 @@ export const CREATE_WATCHLIST_MUTATION = gql`
   ${SHORT_WATCHLIST_FRAGMENT}
 `
 
-export function useCreateWatchlist () {
+export function useCreateWatchlist (type) {
   const [mutate, data] = useMutation(CREATE_WATCHLIST_MUTATION, {
     update: updateWatchlistsOnCreation
   })
 
   function createWatchlist (props) {
-    const { type, function: fn, listItems, name, description, isPublic } = props
+    const { function: fn, listItems, name, description, isPublic } = props
     return mutate({
       variables: {
         type: transformToServerType(type),
@@ -68,9 +76,14 @@ export function useCreateWatchlist () {
       })
       .catch(error => {
         Sentry.captureException(error)
-        notifyErrorCreation(title)
+        notifyErrorCreation(getTitleByWatchlistType(type))
       })
   }
 
   return [createWatchlist, data]
 }
+
+export const useCreateProjectWatchlist = () => useCreateWatchlist(PROJECT)
+export const useCreateScreener = () => useCreateWatchlist(SCREENER)
+export const useCreateAddressesWatchlist = () =>
+  useCreateWatchlist(BLOCKCHAIN_ADDRESS)

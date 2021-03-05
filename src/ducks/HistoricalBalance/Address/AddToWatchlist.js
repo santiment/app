@@ -3,15 +3,10 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import AddToWatchlistDialog from '../../Watchlists/Actions/Add/Add'
 import { useAddressWatchlists } from '../../Watchlists/gql/queries'
-import {
-  updateWatchlistShort,
-  createAddressesWatchlist
-} from '../../Watchlists/gql/mutations'
+import { updateWatchlistShort } from '../../Watchlists/gql/mutations'
 import { Infrastructure } from '../../../utils/address'
 import styles from './index.module.scss'
 
-export const createWatchlist = (watchlist, setDialog) =>
-  createAddressesWatchlist(watchlist).then(() => setDialog(false))
 const updateWatchlist = ({ id, listItems }) =>
   updateWatchlistShort({ id: +id, listItems })
 
@@ -57,7 +52,6 @@ const AddToWatchlist = ({ address, infrastructure }) => {
         </Button>
       }
       getWatchlists={useAddressWatchlists}
-      createWatchlist={createWatchlist}
       checkIsWatchlistSelected={checkIsSelected}
       onChangesApply={onChangesApply}
     />

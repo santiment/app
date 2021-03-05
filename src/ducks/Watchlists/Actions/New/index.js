@@ -1,29 +1,22 @@
 import React from 'react'
 import EditForm from '../Edit/EditForm'
-import { useCreateWatchlist } from '../../gql/hooks'
-import { getWatchlistAlias } from '../../utils'
 import { useDialogState } from '../../../../hooks/dialog'
+import { getTitleByWatchlistType } from '../../detector'
+import { useCreateWatchlist } from '../../gql/list/mutations'
 
-const NewWatchlist = ({
-  createWatchlist: forceCreateWrapper,
-  trigger,
-  lists,
-  type = 'watchlist'
-}) => {
+const NewWatchlist = ({ trigger, lists, type = 'watchlist' }) => {
   const { closeDialog, isOpened, toggleOpen } = useDialogState(false)
 
-  const [createWatchlist, data] = useCreateWatchlist()
+  const [createWatchlist, data] = useCreateWatchlist(type)
   const { loading } = data
 
   function onCreate (data) {
-    const callback = forceCreateWrapper || createWatchlist
-
-    callback(data, closeDialog).then(closeDialog)
+    createWatchlist(data).then(closeDialog)
   }
 
   return (
     <EditForm
-      title={`New ${getWatchlistAlias(type)}`}
+      title={`New ${getTitleByWatchlistType(type)}`}
       type={type}
       buttonLabel='Create'
       onFormSubmit={({ name, description, isPublic }) => {

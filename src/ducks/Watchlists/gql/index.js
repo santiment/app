@@ -68,31 +68,6 @@ export const REMOVE_WATCHLIST_MUTATION = gql`
   }
 `
 
-export const CREATE_WATCHLIST_MUTATION = gql`
-  mutation createWatchlist(
-    $type: WatchlistTypeEnum
-    $isPublic: Boolean
-    $name: String!
-    $description: String
-    $function: json
-    $listItems: [InputListItem]
-  ) {
-    createWatchlist(
-      type: $type
-      isPublic: $isPublic
-      name: $name
-      description: $description
-      function: $function
-      listItems: $listItems
-    ) {
-      ...generalListData
-      ...listShortItems
-    }
-  }
-  ${WATCHLIST_GENERAL_FRAGMENT}
-  ${PROJECT_ITEM_FRAGMENT}
-`
-
 export const UPDATE_WATCHLIST_MUTATION = gql`
   mutation updateWatchlist(
     $id: Int!

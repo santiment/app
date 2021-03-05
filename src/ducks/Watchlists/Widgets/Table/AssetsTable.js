@@ -26,7 +26,7 @@ import CompareAction from './CompareInfo/CompareAction'
 import { usePriceGraph } from './PriceGraph/hooks'
 import { normalizeGraphData } from './PriceGraph/utils'
 import { FILTERS_EXPLANATION_TOOLTIP_MARK } from '../Filter/Trigger'
-import { useUserProjectWatchlists } from '../../gql/lists/hooks'
+import { PROJECT } from '../../detector'
 import './ProjectsTable.scss'
 import styles from './AssetsTable.module.scss'
 
@@ -80,7 +80,6 @@ const AssetsTable = ({
 }) => {
   const [markedAsNew, setAsNewMarked] = useState()
   const [visibleItems, setVisibleItems] = useState([])
-  const [watchlists] = useUserProjectWatchlists()
   const [graphData] = usePriceGraph({ slugs: visibleItems })
   const normalizedItems = normalizeGraphData(graphData, items, 'priceChart7d')
   const hideMarkedAsNew = useCallback(() => {
@@ -244,8 +243,7 @@ const AssetsTable = ({
           />
           <SaveAs
             watchlist={watchlist}
-            lists={watchlists}
-            type='watchlist'
+            type={PROJECT}
             trigger={
               <div className={cx(styles.action, styles.action__saveAs)}>
                 <ExplanationTooltip

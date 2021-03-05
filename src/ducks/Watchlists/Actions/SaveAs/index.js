@@ -1,27 +1,19 @@
 import React from 'react'
 import EditForm from '../Edit/EditForm'
 import { useUser } from '../../../../stores/user'
-import LoginPopup from '../../../../components/banners/feature/PopupBanner'
-import { useCreateWatchlist } from '../../gql/hooks'
 import { useDialogState } from '../../../../hooks/dialog'
+import { useCreateWatchlist } from '../../gql/list/mutations'
+import LoginPopup from '../../../../components/banners/feature/PopupBanner'
 
-const SaveAs = ({
-  createWatchlist: forceCreateWrapper,
-  watchlist,
-  lists,
-  trigger,
-  type
-}) => {
+const SaveAs = ({ watchlist, lists, trigger, type }) => {
   const { closeDialog, isOpened, toggleOpen } = useDialogState(false)
   const { isLoggedIn } = useUser()
 
-  const [createWatchlist, data] = useCreateWatchlist()
+  const [createWatchlist, data] = useCreateWatchlist(type)
   const { loading } = data
 
   function onCreate (data) {
-    const callback = forceCreateWrapper || createWatchlist
-
-    callback(data, closeDialog).then(closeDialog)
+    createWatchlist(data).then(closeDialog)
   }
 
   if (type === 'watchlist' && !isLoggedIn) {

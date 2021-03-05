@@ -13,7 +13,6 @@ export const Divider = () => <div className={styles.divider} />
 const WatchlistTable = ({
   watchlist,
   className,
-  createWatchlist,
   normalizeCSVData,
   onRefreshClick,
   ...props
@@ -33,14 +32,8 @@ const WatchlistTable = ({
         />
 
         <div className={styles.actions}>
-          <SaveAs
-            watchlist={watchlist}
-            items={items}
-            createWatchlist={createWatchlist}
-          />
-
+          <SaveAs watchlist={watchlist} />
           <Divider />
-
           <DownloadCSV watchlist={watchlist} data={csvData} />
         </div>
       </div>

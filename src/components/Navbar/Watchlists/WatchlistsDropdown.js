@@ -34,14 +34,11 @@ const WatchlistsDropdown = ({ activeLink }) => {
     .sort(sortById)
 
   return watchlists.length === 0 ? (
-    <EmptySection watchlists={watchlists} />
+    <EmptySection />
   ) : (
     <>
       <WatchlistList watchlists={watchlists} activeLink={activeLink} />
-      <CreateWatchlistBtn
-        watchlists={watchlists}
-        className={styles.watchlistBtn}
-      />
+      <CreateWatchlistBtn className={styles.watchlistBtn} />
     </>
   )
 }

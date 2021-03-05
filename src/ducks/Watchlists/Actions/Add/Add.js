@@ -24,8 +24,7 @@ const Watchlists = ({
   selections,
   onLoaded,
   onWatchlistClick,
-  getWatchlists,
-  createWatchlist
+  getWatchlists
 }) => {
   const { watchlists, isLoading } = getWatchlists()
 
@@ -55,7 +54,6 @@ const Watchlists = ({
       <NewWatchlist
         trigger={<NewBtn border disabled={isLoading} className={styles.new} />}
         lists={watchlists}
-        createWatchlist={createWatchlist}
       />
     </>
   )
@@ -66,7 +64,6 @@ const AddToWatchlistDialog = ({
   title = 'Add to watchlist',
   trigger,
   getWatchlists,
-  createWatchlist,
   checkIsWatchlistSelected,
   onChangesApply
 }) => {
@@ -154,7 +151,6 @@ const AddToWatchlistDialog = ({
         <Watchlists
           selections={selections}
           getWatchlists={getWatchlists}
-          createWatchlist={createWatchlist}
           onWatchlistClick={toggleWatchlist}
           onLoaded={onWatchlistsLoaded}
         />

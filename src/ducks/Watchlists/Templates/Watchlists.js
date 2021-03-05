@@ -6,6 +6,7 @@ import { VisibilityIndicator } from '../../../components/VisibilityIndicator'
 import NewWatchlist from '../Actions/New'
 import NewBtn from '../Actions/New/NewBtn'
 import styles from './Watchlists.module.scss'
+import { PROJECT } from '../detector'
 
 const Watchlists = ({
   lists = [],
@@ -46,9 +47,8 @@ const Watchlists = ({
       </div>
     </div>
     <NewWatchlist
-      type='watchlist'
+      type={PROJECT}
       trigger={<NewBtn border className={styles.watchlistNew} />}
-      lists={lists}
     />
   </>
 )

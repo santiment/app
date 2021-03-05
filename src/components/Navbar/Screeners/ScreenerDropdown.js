@@ -73,7 +73,7 @@ const ScreenerDropdown = ({ activeLink }) => {
             ) : (
               <List screeners={sortedScreeners} activeLink={activeLink} />
             )}
-            <CreateScreenerBtn screeners={screeners} />
+            <CreateScreenerBtn />
           </div>
         </div>
       </div>

@@ -1,9 +1,6 @@
 import gql from 'graphql-tag'
-import { ADDRESS_WATCHLISTS_QUERY } from './queries'
 import { client } from '../../../apollo'
 import { LIST_ITEMS_FRAGMENT } from '../../WatchlistAddressesTable/gql/queries'
-import { normalizeItems } from './helpers'
-import { BLOCKCHAIN_ADDRESS, PROJECT } from '../utils'
 import { SHORT_WATCHLIST_FRAGMENT } from './fragments'
 import { updateWatchlistOnEdit } from './hooks'
 
@@ -32,27 +29,6 @@ export const UPDATE_WATCHLIST_SHORT_MUTATION = gql`
   ${LIST_ITEMS_FRAGMENT}
 `
 
-export const CREATE_WATCHLIST_MUTATION = gql`
-  mutation createWatchlist(
-    $type: WatchlistTypeEnum
-    $name: String!
-    $description: String
-    $isPublic: Boolean
-    $listItems: [InputListItem]
-  ) {
-    createWatchlist(
-      type: $type
-      name: $name
-      description: $description
-      isPublic: $isPublic
-      listItems: $listItems
-    ) {
-      ...generalFragment
-    }
-  }
-  ${SHORT_WATCHLIST_FRAGMENT}
-`
-
 const removeTypename = ({ __typename, ...rest }) => rest
 function normalizeListItems ({ listItems, ...rest }) {
   const newListItems =
@@ -74,40 +50,3 @@ export const updateWatchlistShort = variables =>
     update: updateWatchlistOnEdit,
     variables: normalizeListItems(variables)
   })
-
-const watchlistCreator = type => ({ name, description, isPublic, listItems }) =>
-  client
-    .mutate({
-      update: updateWatchlistsOnCreation,
-      mutation: CREATE_WATCHLIST_MUTATION,
-      variables: {
-        type,
-        name,
-        description,
-        isPublic,
-        listItems: listItems && normalizeItems(listItems)
-      }
-    })
-    .then(({ data }) => data.createWatchlist)
-
-function updateWatchlistsOnCreation (cache, { data: { createWatchlist } }) {
-  const { fetchWatchlists } = cache.readQuery({
-    query: ADDRESS_WATCHLISTS_QUERY
-  })
-
-  cache.writeQuery({
-    query: ADDRESS_WATCHLISTS_QUERY,
-    data: {
-      fetchWatchlists: fetchWatchlists.concat([
-        {
-          ...createWatchlist,
-          listItems: [],
-          stats: { blockchainAddressesCount: 0, __typename: 'WatchlistStats' }
-        }
-      ])
-    }
-  })
-}
-
-export const createProjectsWatchlist = watchlistCreator(PROJECT)
-export const createAddressesWatchlist = watchlistCreator(BLOCKCHAIN_ADDRESS)

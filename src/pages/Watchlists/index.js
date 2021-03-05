@@ -18,7 +18,11 @@ import {
 } from '../../ducks/renderQueue/sized'
 import MobileAnonBanner from '../../ducks/Watchlists/Templates/Anon/WatchlistsAnon'
 import InlineBanner from '../../components/banners/feature/InlineBanner'
-import { createWatchlist as createAddressesWatchlist } from '../../ducks/HistoricalBalance/Address/AddToWatchlist'
+import {
+  BLOCKCHAIN_ADDRESS,
+  PROJECT,
+  SCREENER
+} from '../../ducks/Watchlists/detector'
 import EmptySection from './EmptySection'
 import {
   useUserProjectWatchlists,
@@ -49,7 +53,7 @@ const QueuedProjectCard = props => {
   )
 }
 
-const Cards = ({ watchlists, path, Card = QueuedProjectCard, ...props }) => (
+const Cards = ({ watchlists, path, Card = QueuedProjectCard, type }) => (
   <>
     <WatchlistCards
       className={styles.card}
@@ -59,7 +63,7 @@ const Cards = ({ watchlists, path, Card = QueuedProjectCard, ...props }) => (
     />
 
     <DesktopOnly>
-      <NewWatchlistCard {...props} />
+      <NewWatchlistCard type={type} />
     </DesktopOnly>
   </>
 )
@@ -85,7 +89,7 @@ const MyWatchlists = ({ data, addressesData, isDesktop }) => {
     <>
       <h3 className={styles.subtitle}>Projects</h3>
       <Content isGrid={isDesktop} className={styles.projects}>
-        <Cards watchlists={watchlists} />
+        <Cards watchlists={watchlists} type={PROJECT} />
       </Content>
 
       <h3 className={styles.subtitle}>Addresses</h3>
@@ -93,7 +97,7 @@ const MyWatchlists = ({ data, addressesData, isDesktop }) => {
         <Cards
           Card={WatchlistAddressCard}
           watchlists={addressesWatchlists}
-          createWatchlist={createAddressesWatchlist}
+          type={BLOCKCHAIN_ADDRESS}
         />
       </Content>
     </>
@@ -104,7 +108,7 @@ const MyScreeners = () => {
   const [watchlists, isLoading] = useUserScreeners()
   if (isLoading) return null
 
-  return <Cards watchlists={watchlists} path='/screener/' type='screener' />
+  return <Cards watchlists={watchlists} path='/screener/' type={SCREENER} />
 }
 
 const Watchlists = ({ isDesktop }) => {

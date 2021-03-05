@@ -5,6 +5,7 @@ import { useQuery } from '@apollo/react-hooks'
 import { Link } from 'react-router-dom'
 import Icon from '@santiment-network/ui/Icon'
 import { Row as BaseRow } from '../index'
+import { PROJECT } from '../../../../ducks/Watchlists/detector'
 import NewWatchlist from '../../../../ducks/Watchlists/Actions/New'
 import styles from './index.module.scss'
 
@@ -127,7 +128,7 @@ const StartGuide = () => {
         isActive={charts}
       />
       <NewWatchlist
-        type='watchlist'
+        type={PROJECT}
         trigger={
           <Row
             title='Create your first Watchlist'
