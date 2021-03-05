@@ -165,9 +165,9 @@ const BaseActions = ({
             />
             {isAuthor && (
               <Delete
-                title='Do you want to delete this watchlist?'
                 id={id}
                 name={name}
+                type={type}
                 trigger={
                   <Button variant='negative' className={styles.delete}>
                     <Icon type='remove' />

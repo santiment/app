@@ -14,5 +14,9 @@ function visitWatchlistsCache (visitor) {
 }
 
 export const updateWatchlistsOnCreation = visitWatchlistsCache(
-  ({ watchlist }, watchlists) => watchlists.concat([watchlist])
+  ({ watchlist }, lists) => lists.concat([watchlist])
+)
+
+export const updateWatchlistsOnDelete = visitWatchlistsCache(
+  ({ watchlist }, lists) => lists.filter(({ id }) => +id !== +watchlist.id)
 )

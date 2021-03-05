@@ -4,7 +4,7 @@ import { useMutation } from '@apollo/react-hooks'
 import { history } from '../../../../redux'
 import { getWatchlistLink } from '../../url'
 import { stringifyFn } from '../../../Screener/utils'
-import { updateWatchlistsOnCreation } from '../cache'
+import { updateWatchlistsOnCreation, updateWatchlistsOnDelete } from '../cache'
 import { SHORT_WATCHLIST_FRAGMENT } from '../fragments'
 import { normalizeItems, transformToServerType } from '../helpers'
 import {
@@ -15,7 +15,8 @@ import {
 } from '../../detector'
 import {
   notifyCreation,
-  notifyErrorCreation
+  notifyDeletion,
+  notifyError
 } from '../../Widgets/TopPanel/notifications'
 
 const CREATE_WATCHLIST_MUTATION = gql`
@@ -41,6 +42,16 @@ const CREATE_WATCHLIST_MUTATION = gql`
     }
   }
   ${SHORT_WATCHLIST_FRAGMENT}
+`
+
+const REMOVE_WATCHLIST_MUTATION = gql`
+  mutation removeWatchlist($id: Int!) {
+    watchlist: removeWatchlist(id: $id) {
+      id
+      name
+      type
+    }
+  }
 `
 
 export function useCreateWatchlist (type) {
@@ -76,11 +87,28 @@ export function useCreateWatchlist (type) {
       })
       .catch(error => {
         Sentry.captureException(error)
-        notifyErrorCreation(getTitleByWatchlistType(type))
+        notifyError(getTitleByWatchlistType(type), 'create')
       })
   }
 
   return [createWatchlist, data]
+}
+
+export function useRemoveWatchlist (type) {
+  const [mutate, data] = useMutation(REMOVE_WATCHLIST_MUTATION, {
+    update: updateWatchlistsOnDelete
+  })
+
+  function onDelete (id, name) {
+    return mutate({ variables: { id: +id } })
+      .then(() => notifyDeletion(name))
+      .catch(error => {
+        Sentry.captureException(error)
+        notifyError(getTitleByWatchlistType(type), 'delete')
+      })
+  }
+
+  return { onDelete, data }
 }
 
 export const useCreateProjectWatchlist = () => useCreateWatchlist(PROJECT)

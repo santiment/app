@@ -1,13 +1,15 @@
 import React from 'react'
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
+import { getTitleByWatchlistType } from '../../detector'
+import { useRemoveWatchlist } from '../../gql/list/mutations'
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog'
-import { useRemovingWatchlist } from '../../gql/hooks'
 
-const WatchlistDeleteDialog = props => {
-  const { onDelete } = useRemovingWatchlist()
+const WatchlistDeleteDialog = ({ type, ...props }) => {
+  const title = `Do you want to delete this ${getTitleByWatchlistType(type)}?`
+  const { onDelete } = useRemoveWatchlist(type)
 
-  return <ConfirmDialog {...props} onApprove={onDelete} />
+  return <ConfirmDialog title={title} {...props} onApprove={onDelete} />
 }
 
 const mapDispatchToProps = dispatch => {
