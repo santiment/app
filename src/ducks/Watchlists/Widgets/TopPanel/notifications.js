@@ -9,14 +9,21 @@ export const notifyCreation = (title, link) =>
     variant: 'success',
     title: `New ${title} was created`,
     description: !link && `New ${title} has been created successfully.`,
-    actions: link && [{ label: 'Open', onClick: () => history.push(link) }]
+    actions: link && [{ label: 'Open', onClick: () => history.push(link) }],
+    dismissAfter: link ? 7000 : 4000
   })
 
-export const notifyErrorCreation = title =>
+export const notifyError = (title, action) =>
   dispatchNotification({
     variant: 'error',
-    title: `Couldn't create the ${title}. Please, contact our support`,
+    title: `Couldn't ${action} the ${title}. Please, contact our support`,
     dismissAfter: 5000
+  })
+
+export const notifyDeletion = name =>
+  dispatchNotification({
+    variant: 'success',
+    title: `“${name}” have been deleted successfully`
   })
 
 export function notifyUpdate (type) {

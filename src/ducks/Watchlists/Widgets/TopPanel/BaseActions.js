@@ -196,9 +196,9 @@ const BaseActions = ({
             </ProPopupWrapper>
             {showDelete && (
               <Delete
-                title={`Do you want to delete this ${type}?`}
                 id={id}
                 name={name}
+                type={type}
                 trigger={
                   <Button variant='negative' className={styles.delete}>
                     <Icon type='remove' />

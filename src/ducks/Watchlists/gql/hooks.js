@@ -1,47 +1,21 @@
 import { useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { client } from '../../../apollo'
-import * as Sentry from '@sentry/react'
-import { store } from '../../../redux'
 import {
   WATCHLIST_SHORT_QUERY,
   USER_WATCHLISTS_QUERY,
   UPDATE_WATCHLIST_MUTATION,
-  getRecentWatchlist,
-  REMOVE_WATCHLIST_MUTATION
+  getRecentWatchlist
 } from './index'
 import { PROJECTS_WATCHLIST_QUERY } from '../../../queries/WatchlistGQL'
 import { notifyErrorUpdate } from '../Widgets/TopPanel/notifications'
 import { useUser } from '../../../stores/user'
-import { showNotification } from '../../../actions/rootActions'
-import { ADDRESS_WATCHLISTS_QUERY } from './queries'
 import { checkIsNotScreener, stringifyFn } from '../../Screener/utils'
 import { ADDRESS_WATCHLIST_QUERY } from '../../WatchlistAddressesTable/gql/queries'
-import { USER_SHORT_WATCHLISTS_QUERY } from './lists/queries'
-import { BLOCKCHAIN_ADDRESS, PROJECT } from '../detector'
+import { BLOCKCHAIN_ADDRESS } from '../detector'
 
 const EMPTY_ARRAY = []
 const DEFAULT_WATCHLISTS = []
-
-function buildWatchlistsCacheUpdater (reducer) {
-  return (cache, { data }) => {
-    const watchlist = data.removeWatchlist
-
-    const query =
-      watchlist.type === BLOCKCHAIN_ADDRESS
-        ? ADDRESS_WATCHLISTS_QUERY
-        : USER_SHORT_WATCHLISTS_QUERY(PROJECT)
-
-    const { watchlists } = cache.readQuery({
-      query: query
-    })
-
-    cache.writeQuery({
-      query: query,
-      data: { watchlists: reducer(data, watchlists) }
-    })
-  }
-}
 
 function buildWatchlistCacheUpdater (reducer) {
   return (cache, { data }) => {
@@ -62,11 +36,6 @@ function buildWatchlistCacheUpdater (reducer) {
     })
   }
 }
-
-const updateWatchlistsOnDelete = buildWatchlistsCacheUpdater(
-  ({ removeWatchlist }, watchlists) =>
-    watchlists.filter(({ id }) => +id !== +removeWatchlist.id)
-)
 
 export const updateWatchlistOnEdit = buildWatchlistCacheUpdater(
   ({ updateWatchlist }, watchlist) => ({ ...watchlist, ...updateWatchlist })
@@ -151,33 +120,6 @@ export function useRecentWatchlists (watchlistsIDs) {
   )
 
   return [recentWatchlists, isLoading, isError]
-}
-
-export const useRemovingWatchlist = () => {
-  const [mutate, data] = useMutation(REMOVE_WATCHLIST_MUTATION, {
-    update: updateWatchlistsOnDelete
-  })
-
-  function onDelete (id, name) {
-    return mutate({
-      variables: {
-        id: +id
-      }
-    })
-      .then(() => {
-        store.dispatch(
-          showNotification({
-            variant: 'success',
-            title: `“${name}” have been successfully deleted`
-          })
-        )
-      })
-      .catch(error => {
-        Sentry.captureException(error)
-      })
-  }
-
-  return { onDelete, data }
 }
 
 export function useUpdateWatchlist () {

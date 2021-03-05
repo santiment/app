@@ -58,16 +58,6 @@ export const USER_WATCHLISTS_QUERY = gql`
   ${PROJECT_ITEM_FRAGMENT}
 `
 
-export const REMOVE_WATCHLIST_MUTATION = gql`
-  mutation removeWatchlist($id: Int!) {
-    removeWatchlist(id: $id) {
-      id
-      name
-      type
-    }
-  }
-`
-
 export const UPDATE_WATCHLIST_MUTATION = gql`
   mutation updateWatchlist(
     $id: Int!
