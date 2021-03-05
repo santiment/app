@@ -48,7 +48,6 @@ const REMOVE_WATCHLIST_MUTATION = gql`
   mutation removeWatchlist($id: Int!) {
     watchlist: removeWatchlist(id: $id) {
       id
-      name
       type
     }
   }

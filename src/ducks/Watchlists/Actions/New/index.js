@@ -4,7 +4,7 @@ import { useDialogState } from '../../../../hooks/dialog'
 import { getTitleByWatchlistType } from '../../detector'
 import { useCreateWatchlist } from '../../gql/list/mutations'
 
-const NewWatchlist = ({ trigger, lists, type = 'watchlist' }) => {
+const NewWatchlist = ({ trigger, type }) => {
   const { closeDialog, isOpened, toggleOpen } = useDialogState(false)
 
   const [createWatchlist, data] = useCreateWatchlist(type)
@@ -20,11 +20,11 @@ const NewWatchlist = ({ trigger, lists, type = 'watchlist' }) => {
       type={type}
       buttonLabel='Create'
       onFormSubmit={({ name, description, isPublic }) => {
-        onCreate({ name, description, isPublic, type })
+        onCreate({ name, description, isPublic })
       }}
       isLoading={loading}
       open={isOpened}
-      lists={lists}
+      lists={[]}
       toggleOpen={toggleOpen}
       trigger={trigger}
     />
