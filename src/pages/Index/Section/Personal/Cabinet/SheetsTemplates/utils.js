@@ -16,9 +16,24 @@ const ExternalLink = ({ href, children }) => {
 
 export const SheetsTemplatesList = [
   {
-    title: 'Holders Distribution',
+    title: 'Whale Holder Distribution',
     linkToTemplate:
-      'https://docs.google.com/spreadsheets/d/130DSq8KPXIEGBn25HQeI5-dCSeoDTwR6rR8UXC5b0gw/view'
+      'https://docs.google.com/spreadsheets/d/130DSq8KPXIEGBn25HQeI5-dCSeoDTwR6rR8UXC5b0gw/view',
+    description: (
+      <>
+        This model provides the 1-day, 7-day, and 90-day percent changes to the
+        amount of whale addresses for 40+ assets, to instantly compare which
+        coins are seeing the biggest rises in major stakers. Prices very often
+        follow the behavior of the largest addresses, and when there is an
+        increasing amount of them, it's generally a sign that a price rise can
+        inevitably follow.
+        <div className={styles.block}>
+          For most projects, an address with over $100K USD is what we deem to
+          be a whale. For extremely large assets, this curriculum rises to $1M
+          or even $10M for projects like BTC or ETH.
+        </div>
+      </>
+    )
   },
   {
     title: 'MVRV Danger & Opportunity Zones',
