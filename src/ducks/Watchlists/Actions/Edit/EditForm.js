@@ -29,25 +29,28 @@ const EditForm = ({
 
   function onSubmit (evt) {
     evt.preventDefault()
+    let err = ''
 
     const { name, description, isPublic, error } = formState
 
     if (!error) {
-      checkName(name)
+      err = checkName(name)
     }
 
-    if (error) {
+    if (error || err) {
       return
     }
 
     if (
       name === defaultSettings.name &&
       description === defaultSettings.description &&
-      isPublic === defaultSettings.isPublic
+      isPublic === defaultSettings.isPublic &&
+      id
     ) {
       toggleOpen(false)
     } else {
-      onFormSubmit({ name, description, isPublic, type })
+      onFormSubmit({ name, description, isPublic })
+      setFormState({ ...defaultSettings })
     }
   }
 
@@ -87,15 +90,13 @@ const EditForm = ({
     }
 
     setFormState(state => ({ ...state, error }))
+    return error
   }
 
   return (
     <Dialog
       open={isOpen}
-      onClose={() => {
-        toggleOpen(false)
-        setFormState({ ...defaultSettings })
-      }}
+      onClose={() => toggleOpen(false)}
       onOpen={() => {
         toggleOpen(true)
         setFormState({ ...defaultSettings })

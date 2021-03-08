@@ -1,6 +1,7 @@
 import React from 'react'
 import EditForm from '../Edit/EditForm'
 import { useUser } from '../../../../stores/user'
+import { useUserWatchlists } from '../../gql/lists/hooks'
 import { useDialogState } from '../../../../hooks/dialog'
 import { useCreateWatchlist } from '../../gql/list/mutations'
 import { getTitleByWatchlistType, SCREENER } from '../../detector'
@@ -10,8 +11,9 @@ import ProPopupWrapper from '../../../../components/ProPopup/Wrapper'
 
 const SaveAs = ({ watchlist, trigger, type }) => {
   const { isLoggedIn } = useUser()
-  const { isPro } = useUserSubscriptionStatus()
+  const [lists] = useUserWatchlists(type)
   const title = getTitleByWatchlistType(type)
+  const { isPro } = useUserSubscriptionStatus()
   const [createWatchlist, { loading }] = useCreateWatchlist(type)
   const { closeDialog, isOpened, toggleOpen } = useDialogState(false)
 
@@ -23,21 +25,27 @@ const SaveAs = ({ watchlist, trigger, type }) => {
     return <LoginPopup>{trigger}</LoginPopup>
   }
 
+  function onSubmit ({ name, description, isPublic }) {
+    createWatchlist({
+      name,
+      description,
+      isPublic,
+      function: watchlist.function,
+      listItems: watchlist.listItems,
+      openOnSuccess: true
+    }).then(closeDialog)
+  }
+
   return (
     <EditForm
-      lists={[]}
+      lists={lists}
       title={'Save as ' + title}
-      type={type}
-      id={watchlist.id}
-      onFormSubmit={({ name, description, isPublic }) => {
-        createWatchlist({
-          name,
-          description,
-          isPublic,
-          function: watchlist.function,
-          listItems: watchlist.listItems
-        }).then(closeDialog)
+      type={title}
+      settings={{
+        name: watchlist.name,
+        description: watchlist.description
       }}
+      onFormSubmit={onSubmit}
       isLoading={loading}
       open={isOpened}
       toggleOpen={toggleOpen}

@@ -32,3 +32,20 @@ export const useFeaturedWatchlists = () =>
   useWatchlistsLoader(FEATURED_WATCHLISTS_QUERY, OBJ, sortFeaturedWatchlists)
 export const useFeaturedScreeners = () =>
   useWatchlistsLoader(FEATURED_SCREENERS_QUERY)
+
+export const useUserWatchlists = type => {
+  switch (type) {
+    case SCREENER:
+      return useUserWatchlistsLoader(
+        screenersCB,
+        getWatchlistsShortQuery(SCREENER)
+      )
+    case PROJECT:
+    case BLOCKCHAIN_ADDRESS:
+    default:
+      return useUserWatchlistsLoader(
+        filterIfNotScreener,
+        getWatchlistsShortQuery(type)
+      )
+  }
+}

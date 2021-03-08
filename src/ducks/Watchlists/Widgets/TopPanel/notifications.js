@@ -1,6 +1,8 @@
 import { store, history } from '../../../../redux'
 import { showNotification } from '../../../../actions/rootActions'
 
+const ARR = []
+
 const dispatchNotification = payload =>
   store.dispatch(showNotification(payload))
 
@@ -9,7 +11,9 @@ export const notifyCreation = (title, link) =>
     variant: 'success',
     title: `New ${title} was created`,
     description: !link && `New ${title} has been created successfully.`,
-    actions: link && [{ label: 'Open', onClick: () => history.push(link) }],
+    actions: link
+      ? [{ label: 'Open', onClick: () => history.push(link) }]
+      : ARR,
     dismissAfter: link ? 7000 : 4000
   })
 

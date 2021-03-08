@@ -16,6 +16,7 @@ import {
 import AssetsTemplates from '../../ducks/Watchlists/Widgets/Table/AssetsTemplates'
 import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/columns'
 import { useAssetsAnomalyToggler } from './hooks/useAssetsAnomalyToggler'
+import { PROJECT } from '../../ducks/Watchlists/detector'
 import { addRecentWatchlists } from '../../utils/recent'
 import Infographics from './Infographics'
 import styles from './Watchlist.module.scss'
@@ -84,17 +85,12 @@ const WatchlistPage = props => {
             <>
               <TopPanel
                 name={changingName && upperCaseFirstLetter(changingName)}
-                description={(props.watchlist || {}).description}
-                id={listId}
-                assets={items}
+                type={PROJECT}
                 watchlist={props.watchlist}
                 isMonitored={isMonitored}
-                isAuthor={isCurrentUserTheAuthor}
-                isAuthorLoading={isLoading}
                 className={styles.top}
                 widgets={widgets}
                 setWidgets={setWidgets}
-                type='watchlist'
               />
               {isLoading && <PageLoader />}
 
