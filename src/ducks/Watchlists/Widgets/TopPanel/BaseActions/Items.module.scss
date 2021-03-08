@@ -1,0 +1,21 @@
+.icon {
+  margin-right: 8px;
+}
+
+.btn {
+  justify-content: flex-start;
+  align-items: center;
+  padding: 8px;
+  width: auto;
+  margin: 2px 8px;
+  fill: var(--casper);
+
+  &:hover {
+    fill: var(--jungle-green-light-3);
+  }
+}
+
+.saveAsNonAuthor {
+  padding: 12px;
+  background-color: inherit !important;
+}

@@ -1,47 +1,43 @@
 import React from 'react'
 import cx from 'classnames'
-import BaseActions from '../WatchlistBaseActions'
-import Share from '../../../Actions/Share'
+import Title from '../Title'
 import Widgets from '../Widgets'
+import BaseActions from '../BaseActions'
+import Share from '../../../Actions/Share'
+import { useIsAuthor } from '../../../gql/list/hooks'
 import WeeklyReport from '../../../Actions/WeeklyReport'
-import HelpPopup from '../../../../../components/HelpPopup/HelpPopup'
 import styles from '../index.module.scss'
 
 const TopPanel = ({
   name,
-  description,
-  id,
+  type,
   watchlist,
-  isAuthor,
-  isAuthorLoading,
   className,
   isMonitored,
-  assets,
-  ...props
+  widgets,
+  setWidgets
 }) => {
+  const { isAuthor, isAuthorLoading } = useIsAuthor(watchlist)
   return (
     <section className={cx(styles.wrapper, className)}>
       <div className={styles.row}>
-        <h1 className={styles.name}>{name}</h1>
-        {description && (
-          <HelpPopup triggerClassName={styles.description}>
-            {description}
-          </HelpPopup>
-        )}
-        {id && (
-          <BaseActions
-            isAuthor={isAuthor}
-            isAuthorLoading={isAuthorLoading}
-            watchlist={watchlist}
-            assets={assets}
-          />
-        )}
+        <Title name={name} watchlist={watchlist} />
+        <BaseActions
+          isAuthor={isAuthor}
+          isAuthorLoading={isAuthorLoading}
+          watchlist={watchlist}
+          type={type}
+        />
       </div>
       <div className={styles.row}>
-        <Widgets {...props} />
+        {widgets && <Widgets widgets={widgets} setWidgets={setWidgets} />}
         {watchlist && <Share watchlist={watchlist} isAuthor={isAuthor} />}
         {isAuthor && (
-          <WeeklyReport id={id} name={name} isMonitored={isMonitored} />
+          <WeeklyReport
+            id={watchlist.id}
+            name={name}
+            isMonitored={isMonitored}
+          />
         )}
       </div>
     </section>

@@ -5,18 +5,21 @@ import { useDialogState } from '../../../../hooks/dialog'
 import { useCreateWatchlist } from '../../gql/list/mutations'
 import { getTitleByWatchlistType, SCREENER } from '../../detector'
 import LoginPopup from '../../../../components/banners/feature/PopupBanner'
+import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
+import ProPopupWrapper from '../../../../components/ProPopup/Wrapper'
 
 const SaveAs = ({ watchlist, trigger, type }) => {
   const { isLoggedIn } = useUser()
+  const { isPro } = useUserSubscriptionStatus()
   const title = getTitleByWatchlistType(type)
   const [createWatchlist, { loading }] = useCreateWatchlist(type)
   const { closeDialog, isOpened, toggleOpen } = useDialogState(false)
 
-  function onCreate (data) {
-    createWatchlist(data).then(closeDialog)
+  if (type === SCREENER && !isPro) {
+    return <ProPopupWrapper type={SCREENER}>{trigger}</ProPopupWrapper>
   }
 
-  if (type !== SCREENER && !isLoggedIn) {
+  if (!isLoggedIn) {
     return <LoginPopup>{trigger}</LoginPopup>
   }
 
@@ -27,13 +30,13 @@ const SaveAs = ({ watchlist, trigger, type }) => {
       type={type}
       id={watchlist.id}
       onFormSubmit={({ name, description, isPublic }) => {
-        onCreate({
+        createWatchlist({
           name,
           description,
           isPublic,
           function: watchlist.function,
           listItems: watchlist.listItems
-        })
+        }).then(closeDialog)
       }}
       isLoading={loading}
       open={isOpened}

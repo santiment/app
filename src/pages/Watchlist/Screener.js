@@ -14,7 +14,7 @@ import {
   DIRECTIONS
 } from '../../ducks/Watchlists/Widgets/Table/Columns/defaults'
 import { addRecentScreeners } from '../../utils/recent'
-import { useUser } from '../../stores/user'
+import { SCREENER } from '../../ducks/Watchlists/detector'
 import { tableQuery } from '../../ducks/Watchlists/gql'
 import { getColumns } from '../../ducks/Watchlists/Widgets/Table/Columns/builder'
 import {
@@ -28,13 +28,11 @@ const EMPTY_ARRAY = []
 
 const Screener = ({
   watchlist,
-  name,
   isLoggedIn,
   isDefaultScreener,
   location,
   history,
-  id,
-  isLoading
+  id
 }) => {
   const defaultPagination = { page: 1, pageSize: +pageSize }
   const [pagination, setPagination] = useState(defaultPagination)
@@ -50,7 +48,6 @@ const Screener = ({
   const { assets, projectsCount, loading } = getProjectsByFunction(
     ...buildFunctionQuery()
   )
-  const { user = {}, loading: userLoading } = useUser()
   const [tableLoading, setTableLoading] = useState(true)
   const { widgets, setWidgets } = useScreenerUrl({ location, history })
 
@@ -152,7 +149,6 @@ const Screener = ({
     [activeColumns]
   )
 
-  const title = watchlist.name || name || 'My screener'
   // temporal solution @haritonasty 18 Jan, 2021
   const allItems = useMemo(
     () =>
@@ -162,19 +158,13 @@ const Screener = ({
     [watchlist]
   )
 
-  const isAuthor = user && watchlist.user && watchlist.user.id === user.id
-
   return (
     <>
       <TopPanel
-        name={title}
-        description={(watchlist || {}).description}
-        id={id}
+        type={SCREENER}
+        watchlist={watchlist}
         projectsCount={projectsCount}
         loading={tableLoading}
-        watchlist={watchlist}
-        isAuthor={isAuthor}
-        isAuthorLoading={userLoading || isLoading}
         isLoggedIn={isLoggedIn}
         screenerFunction={screenerFn}
         setScreenerFunction={setScreenerFn}
@@ -183,7 +173,6 @@ const Screener = ({
         isDefaultScreener={isDefaultScreener}
         widgets={widgets}
         setWidgets={setWidgets}
-        type='screener'
       />
 
       {!loading && (
@@ -202,7 +191,7 @@ const Screener = ({
         projectsCount={projectsCount}
         loading={tableLoading}
         type='screener'
-        listName={title}
+        listName={watchlist.name}
         watchlist={watchlist}
         fetchData={fetchData}
         refetchAssets={refetchAssets}
@@ -210,7 +199,6 @@ const Screener = ({
         activeColumns={activeColumns}
         setOrderBy={setOrderBy}
         updateActiveColumnsKeys={setActiveColumnsKeys}
-        isAuthor={isAuthor}
         pageSize={pagination.pageSize}
         pageIndex={pagination.page - 1}
         onChangePage={pageIndex =>
