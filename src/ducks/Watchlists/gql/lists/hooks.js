@@ -15,18 +15,16 @@ import {
 
 const OBJ = {}
 
+const screenersCB = lists => getScreenersList(filterIfScreener(lists))
+export const useUserScreeners = () =>
+  useUserWatchlistsLoader(screenersCB, getWatchlistsShortQuery(SCREENER))
 export const useUserProjectWatchlists = () =>
   useUserWatchlistsLoader(filterIfNotScreener, getWatchlistsShortQuery(PROJECT))
-
 export const useUserAddressWatchlists = () =>
   useUserWatchlistsLoader(
     filterIfNotScreener,
     getWatchlistsShortQuery(BLOCKCHAIN_ADDRESS)
   )
-
-const screenersCB = lists => getScreenersList(filterIfScreener(lists))
-export const useUserScreeners = () =>
-  useUserWatchlistsLoader(screenersCB, getWatchlistsShortQuery(SCREENER))
 
 export const useFeaturedWatchlists = () =>
   useWatchlistsLoader(FEATURED_WATCHLISTS_QUERY, OBJ, sortFeaturedWatchlists)
@@ -36,16 +34,11 @@ export const useFeaturedScreeners = () =>
 export const useUserWatchlists = type => {
   switch (type) {
     case SCREENER:
-      return useUserWatchlistsLoader(
-        screenersCB,
-        getWatchlistsShortQuery(SCREENER)
-      )
-    case PROJECT:
+      return useUserScreeners()
     case BLOCKCHAIN_ADDRESS:
+      return useUserAddressWatchlists()
+    case PROJECT:
     default:
-      return useUserWatchlistsLoader(
-        filterIfNotScreener,
-        getWatchlistsShortQuery(type)
-      )
+      return useUserProjectWatchlists()
   }
 }

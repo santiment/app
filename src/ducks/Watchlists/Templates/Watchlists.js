@@ -48,6 +48,7 @@ const Watchlists = ({
     </div>
     <NewWatchlist
       type={PROJECT}
+      openOnSuccess={false}
       trigger={<NewBtn border className={styles.watchlistNew} />}
     />
   </>

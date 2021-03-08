@@ -70,15 +70,16 @@ const EditForm = ({
 
   function checkName (name = '') {
     let error = ''
+    const comparedName = name.trim().toLowerCase()
     const hasSameName = lists.filter(
-      list => list.name.toLowerCase() === name.toLowerCase()
+      list => list.name.toLowerCase() === comparedName
     )
 
-    if (!name || name.length < MIN_LENGTH) {
+    if (!comparedName || comparedName.length < MIN_LENGTH) {
       error = SHORT_NAME_ERROR
     }
 
-    if (!ALLOWED_SYMBOLS_REGEXP.test(name)) {
+    if (!ALLOWED_SYMBOLS_REGEXP.test(comparedName)) {
       error = BAD_SYMBOLS_ERROR
     }
 
