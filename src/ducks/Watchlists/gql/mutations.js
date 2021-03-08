@@ -5,22 +5,8 @@ import { SHORT_WATCHLIST_FRAGMENT } from './fragments'
 import { updateWatchlistOnEdit } from './hooks'
 
 export const UPDATE_WATCHLIST_SHORT_MUTATION = gql`
-  mutation updateWatchlist(
-    $id: Int!
-    $isPublic: Boolean
-    $name: String
-    $description: String
-    $function: json
-    $listItems: [InputListItem]
-  ) {
-    updateWatchlist(
-      id: $id
-      isPublic: $isPublic
-      name: $name
-      description: $description
-      function: $function
-      listItems: $listItems
-    ) {
+  mutation updateWatchlist($id: Int!, $listItems: [InputListItem]) {
+    updateWatchlist(id: $id, listItems: $listItems) {
       ...generalFragment
       ...listItemsFragment
     }

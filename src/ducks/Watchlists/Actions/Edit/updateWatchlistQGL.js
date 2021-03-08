@@ -29,7 +29,6 @@ export const updateWatchlistGQL = gql`
       name
       color
       insertedAt
-      updatedAt
     }
   }
 `

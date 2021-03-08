@@ -127,14 +127,8 @@ export function useUpdateWatchlist () {
     update: updateWatchlistOnEdit
   })
 
-  function updateWatchlist (oldWatchlist, newParams) {
-    const {
-      id,
-      isPublic,
-      name,
-      description,
-      function: oldFunction
-    } = oldWatchlist
+  function updateWatchlist (watchlist, newParams) {
+    const { id, isPublic, name, description, function: oldFn } = watchlist
 
     return mutate({
       variables: {
@@ -143,14 +137,10 @@ export function useUpdateWatchlist () {
           newParams.isPublic === undefined ? isPublic : newParams.isPublic,
         name: newParams.name || name,
         description: newParams.description || description,
-        function:
-          JSON.stringify(newParams.function) || JSON.stringify(oldFunction)
+        function: stringifyFn(newParams.function || oldFn)
       }
     })
-      .then(({ data: { updateWatchlist: watchlist } }) => ({
-        ...oldWatchlist,
-        ...watchlist
-      }))
+      .then(({ data }) => ({ ...watchlist, ...data.updateWatchlist }))
       .catch(notifyErrorUpdate)
   }
 

@@ -1,25 +1,10 @@
 import gql from 'graphql-tag'
 import { client } from '../../../apollo'
-import { generalData, PROJECT_RECENT_DATA_FRAGMENT } from './allProjectsGQL'
 import { AGGREGATIONS_UPPER } from '../Widgets/Filter/dataHub/aggregations'
-
-export const WATCHLIST_GENERAL_FRAGMENT = gql`
-  fragment generalListData on UserList {
-    id
-    isPublic
-    name
-    slug
-    description
-    function
-    insertedAt
-    isMonitored
-    updatedAt
-    type
-    user {
-      id
-    }
-  }
-`
+import {
+  SHORT_WATCHLIST_FRAGMENT,
+  WATCHLIST_GENERAL_FRAGMENT
+} from './fragments'
 
 export const PROJECT_ITEM_FRAGMENT = gql`
   fragment listShortItems on UserList {
@@ -41,7 +26,7 @@ export const PROJECT_ITEM_FRAGMENT = gql`
 export const WATCHLIST_SHORT_QUERY = gql`
   query watchlist($id: ID!) {
     watchlist(id: $id) {
-      ...generalListData
+      ...generalFragment
     }
   }
   ${WATCHLIST_GENERAL_FRAGMENT}
@@ -50,11 +35,11 @@ export const WATCHLIST_SHORT_QUERY = gql`
 export const USER_WATCHLISTS_QUERY = gql`
   query fetchWatchlists {
     fetchWatchlists {
-      ...generalListData
+      ...generalFragment
       ...listShortItems
     }
   }
-  ${WATCHLIST_GENERAL_FRAGMENT}
+  ${SHORT_WATCHLIST_FRAGMENT}
   ${PROJECT_ITEM_FRAGMENT}
 `
 
@@ -73,18 +58,10 @@ export const UPDATE_WATCHLIST_MUTATION = gql`
       description: $description
       function: $function
     ) {
-      ...generalListData
-      listItems {
-        project {
-          ...generalData
-          ...recentProjectData
-        }
-      }
+      ...generalFragment
     }
   }
-  ${WATCHLIST_GENERAL_FRAGMENT}
-  ${generalData}
-  ${PROJECT_RECENT_DATA_FRAGMENT}
+  ${SHORT_WATCHLIST_FRAGMENT}
 `
 
 export const getRecentWatchlist = id =>

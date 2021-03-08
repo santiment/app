@@ -40,7 +40,7 @@ export function notifyUpdate (title) {
 export function notifyErrorUpdate () {
   return dispatchNotification({
     variant: 'error',
-    title: 'Error during the saving screener process',
+    title: 'Error during the saving process',
     dismissAfter: 5000
   })
 }

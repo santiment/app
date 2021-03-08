@@ -1,22 +1,6 @@
 import gql from 'graphql-tag'
 import { client } from '../../../apollo'
-
-export const WATCHLIST_GENERAL_FRAGMENT = gql`
-  fragment generalFragment on UserList {
-    id
-    name
-    description
-    function
-    updatedAt
-    insertedAt
-    isMonitored
-    isPublic
-    type
-    user {
-      id
-    }
-  }
-`
+import { WATCHLIST_GENERAL_FRAGMENT } from '../../Watchlists/gql/fragments'
 
 export const LIST_ITEMS_FRAGMENT = gql`
   fragment listItemsFragment on UserList {

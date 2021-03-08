@@ -53,7 +53,6 @@ const EditForm = ({
       toggleOpen(false)
     } else {
       onFormSubmit({ name, description, isPublic })
-      setFormState({ ...defaultSettings })
     }
   }
 
