@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import Input from '@santiment-network/ui/Input'
 import Label from '@santiment-network/ui/Label'
-import PublicityToggle from '../ChangeVisibility/Toggle'
+import { SCREENER } from '../../detector'
 import { useDebounce } from '../../../../hooks/index'
+import PublicityToggle from '../ChangeVisibility/Toggle'
+import { useUserWatchlists } from '../../gql/lists/hooks'
 import styles from './EditForm.module.scss'
 
 const MIN_LENGTH = 3
@@ -13,19 +15,20 @@ const NAME_EXISTS_ERROR = 'You has already use this name'
 const ALLOWED_SYMBOLS_REGEXP = /^([.\-/_' ,\w]*)$/
 
 const EditForm = ({
-  buttonLabel = 'Save',
-  isLoading,
-  onFormSubmit,
-  defaultSettings,
-  open: isOpen,
-  toggleOpen,
   id,
   type,
-  lists = [],
+  isLoading,
+  toggleOpen,
+  open: isOpen,
+  onFormSubmit,
+  defaultSettings,
+  buttonLabel = 'Save',
   ...props
 }) => {
+  const [lists] = useUserWatchlists(type)
   const [formState, setFormState] = useState(defaultSettings)
   const debouncedCheckName = useDebounce(checkName, 300)
+  const placeholder = type === SCREENER ? 'Most price performance' : 'Favorites'
 
   function onSubmit (evt) {
     evt.preventDefault()
@@ -99,30 +102,31 @@ const EditForm = ({
       open={isOpen}
       onClose={() => toggleOpen(false)}
       onOpen={() => {
-        toggleOpen(true)
+        console.log('here')
         setFormState({ ...defaultSettings })
+        toggleOpen(true)
       }}
-      {...props}
       classes={styles}
+      {...props}
     >
       <form className={styles.wrapper} onSubmit={onSubmit}>
         <Label accent='waterloo' className={styles.name__label}>
           {`Name (${formState.name.length}/25)`}
         </Label>
-        <Input
-          autoFocus
-          name='name'
-          className={styles.input}
-          placeholder={`For example, ${
-            type === 'watchlist' ? 'Favorites' : 'Most price performance'
-          }`}
-          maxLength='25'
-          defaultValue={formState.name}
-          onChange={onInputChange}
-          isError={formState.error}
-          errorText={formState.error}
-          autoComplete='off'
-        />
+        {isOpen && (
+          <Input
+            autoFocus
+            name='name'
+            maxLength='25'
+            autoComplete='off'
+            className={styles.input}
+            onChange={onInputChange}
+            isError={formState.error}
+            errorText={formState.error}
+            defaultValue={formState.name}
+            placeholder={'For example, ' + placeholder}
+          />
+        )}
         <button
           // hack for submiting form
           type='submit'
@@ -131,12 +135,14 @@ const EditForm = ({
         <Label accent='waterloo' className={styles.description__label}>
           Description (optional)
         </Label>
-        <textarea
-          className={styles.textarea}
-          name='description'
-          defaultValue={formState.description || ''}
-          onChange={onTextareaChange}
-        />
+        {isOpen && (
+          <textarea
+            name='description'
+            className={styles.textarea}
+            onChange={onTextareaChange}
+            defaultValue={formState.description || ''}
+          />
+        )}
         <div className={styles.actions}>
           <Dialog.Approve
             className={styles.btn}

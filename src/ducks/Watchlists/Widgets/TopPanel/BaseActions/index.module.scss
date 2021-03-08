@@ -3,3 +3,14 @@
 .container {
   margin-left: 16px;
 }
+
+.wrapper {
+  width: 175px;
+  display: flex;
+  padding: 6px 0;
+  flex-direction: column;
+
+  @include responsive('phone-xs', 'phone') {
+    width: 100%;
+  }
+}

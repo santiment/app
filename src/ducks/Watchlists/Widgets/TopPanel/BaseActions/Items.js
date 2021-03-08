@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
+import EditForm from '../../../Actions/Edit/EditForm'
 import styles from './Items.module.scss'
 
 export const Item = ({
@@ -27,3 +28,52 @@ export const NonAuthorTrigger = props => (
     Save as
   </Item>
 )
+
+export const Trigger = ({
+  type,
+  title,
+  watchlist,
+  forwardedRef,
+  isActive,
+  onPrimaryAction,
+  isLoading,
+  openMenu
+}) => {
+  const { name, description, isPublic } = watchlist
+  const [opened, setOpened] = useState(false)
+
+  function onSubmit (props) {
+    onPrimaryAction(props).then(() => setOpened(false))
+  }
+
+  return (
+    <div className={styles.trigger} ref={forwardedRef}>
+      <EditForm
+        type={type}
+        open={opened}
+        id={watchlist.id}
+        isLoading={isLoading}
+        toggleOpen={setOpened}
+        title={'Edit ' + title}
+        onFormSubmit={onSubmit}
+        settings={{ name, description, isPublic }}
+        trigger={<Button className={styles.trigger__text}>Edit</Button>}
+      />
+      <div
+        className={cx(
+          styles.trigger__arrowBtn,
+          isActive && styles.trigger__arrowBtn_active
+        )}
+        onClick={openMenu}
+      >
+        <Icon
+          type='arrow-down'
+          className={cx(
+            styles.trigger__arrow,
+            isActive && styles.trigger__arrow_active
+          )}
+        />
+      </div>
+    </div>
+  )
+}

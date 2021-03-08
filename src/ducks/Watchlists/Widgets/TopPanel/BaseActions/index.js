@@ -1,10 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { NonAuthorTrigger } from './Items'
+import Panel from '@santiment-network/ui/Panel/Panel'
+import ContextMenu from '@santiment-network/ui/ContextMenu'
 import SaveAs from '../../../Actions/SaveAs'
+import { notifyUpdate } from '../notifications'
+import { NonAuthorTrigger, Trigger } from './Items'
+import { useUpdateWatchlist } from '../../../gql/hooks'
+import { useUserWatchlists } from '../../../gql/lists/hooks'
+import { getTitleByWatchlistType, SCREENER } from '../../../detector'
 import styles from './index.module.scss'
 
 const Actions = ({ watchlist, type, onClick, isAuthor, isAuthorLoading }) => {
+  const [isMenuOpened, setIsMenuOpened] = useState(false)
+  const [isEditPopupOpened, setIsEditPopupOpened] = useState(false)
+  const [lists] = useUserWatchlists(type)
+  const [updateWatchlist, { loading }] = useUpdateWatchlist()
+
   if (!watchlist.id || isAuthorLoading) {
     return null
   }
@@ -19,14 +30,45 @@ const Actions = ({ watchlist, type, onClick, isAuthor, isAuthorLoading }) => {
         />
       </div>
     )
+  } else {
+    const title = getTitleByWatchlistType(type)
+    const showDelete = isAuthor && (type !== SCREENER || lists.length > 1)
+
+    const onEditApprove = props =>
+      updateWatchlist(watchlist, { ...props }).then(() => notifyUpdate(title))
+
+    return (
+      <div onClick={onClick} className={styles.container}>
+        <ContextMenu
+          trigger={
+            <Trigger
+              type={type}
+              title={title}
+              isLoading={loading}
+              watchlist={watchlist}
+              onPrimaryAction={onEditApprove}
+              openMenu={() => setIsMenuOpened(true)}
+            />
+          }
+          align='start'
+          position='bottom'
+          open={isMenuOpened}
+          passOpenStateAs='isActive'
+          onClose={() => setIsMenuOpened(false)}
+        >
+          <Panel variant='modal' className={styles.wrapper}>
+            hello
+          </Panel>
+        </ContextMenu>
+      </div>
+    )
   }
-  return <div onClick={onClick} className={styles.container} />
 }
 
 Actions.propTypes = {
+  onClick: PropTypes.func,
   isAuthor: PropTypes.bool.isRequired,
-  isAuthorLoading: PropTypes.bool.isRequired,
-  onClick: PropTypes.func
+  isAuthorLoading: PropTypes.bool.isRequired
 }
 
 Actions.defaultProps = {

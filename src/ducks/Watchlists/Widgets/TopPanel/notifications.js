@@ -30,10 +30,10 @@ export const notifyDeletion = name =>
     title: `“${name}” have been deleted successfully`
   })
 
-export function notifyUpdate (type) {
+export function notifyUpdate (title) {
   return dispatchNotification({
     variant: 'success',
-    title: `Your ${type} has been updated successfully`
+    title: `Your ${title} has been updated successfully`
   })
 }
 

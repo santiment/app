@@ -1,7 +1,6 @@
 import React from 'react'
 import EditForm from '../Edit/EditForm'
 import { useUser } from '../../../../stores/user'
-import { useUserWatchlists } from '../../gql/lists/hooks'
 import { useDialogState } from '../../../../hooks/dialog'
 import { useCreateWatchlist } from '../../gql/list/mutations'
 import { getTitleByWatchlistType, SCREENER } from '../../detector'
@@ -11,7 +10,6 @@ import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions
 
 const SaveAs = ({ watchlist, trigger, type }) => {
   const { isLoggedIn } = useUser()
-  const [lists] = useUserWatchlists(type)
   const title = getTitleByWatchlistType(type)
   const { isPro } = useUserSubscriptionStatus()
   const { name, description, listItems, function: fn } = watchlist
@@ -26,21 +24,18 @@ const SaveAs = ({ watchlist, trigger, type }) => {
     return <LoginPopup>{trigger}</LoginPopup>
   }
 
-  function onSubmit ({ name, description, isPublic }) {
+  function onSubmit (props) {
     createWatchlist({
-      name,
-      isPublic,
-      description,
-      function: fn,
+      ...props,
       listItems,
+      function: fn,
       openOnSuccess: true
     }).then(closeDialog)
   }
 
   return (
     <EditForm
-      type={title}
-      lists={lists}
+      type={type}
       open={isOpened}
       trigger={trigger}
       isLoading={loading}

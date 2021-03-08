@@ -19,3 +19,52 @@
   padding: 12px;
   background-color: inherit !important;
 }
+
+.trigger {
+  border: 1px solid var(--mystic);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  height: 32px;
+
+  &__text {
+    background: inherit;
+    border-right: 1px solid var(--porcelain);
+    border-radius: 0;
+    padding: 5px 15px;
+    height: 30px;
+
+    &:hover {
+      background: inherit;
+    }
+  }
+
+  &__arrowBtn {
+    padding: 13px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    fill: var(--waterloo);
+    transition: background-color 0.2s ease-in-out;
+
+    &:hover {
+      fill: var(--jungle-green);
+    }
+
+    &_active {
+      fill: var(--jungle-green);
+      background-color: var(--jungle-green-light-2);
+    }
+  }
+
+  &__arrow {
+    box-sizing: content-box;
+    transition: transform 0.2s ease-in-out;
+
+    &_active {
+      transform: rotate(180deg);
+    }
+  }
+}
