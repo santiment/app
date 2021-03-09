@@ -27,7 +27,7 @@ export default ({ location }) => {
     const templateId = getIdFromSEOLink(pathname)
 
     if (Number.isFinite(templateId)) {
-      return getTemplate(templateId)
+      getTemplate(templateId)
         .then(template => {
           setParsedUrl({
             settings: template.project,
@@ -35,6 +35,7 @@ export default ({ location }) => {
           })
         })
         .catch(console.error)
+      return
     }
 
     setParsedUrl(parseUrlV2(search)) // TODO: Delete after enabling short urls [@vanguard | Mar  3, 2021]
