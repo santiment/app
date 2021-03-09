@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import styles from './IndexTab.module.scss'
 import cx from 'classnames'
 import { SignalModal } from '../../pages/SonarFeed/SonarFeedPage'
+import styles from './IndexTab.module.scss'
 
 const IndexTab = ({ tabs }) => {
   const [activeTab, setTab] = useState(0)

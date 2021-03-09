@@ -139,8 +139,6 @@ const SignalMaster = ({
 
   const [settings, metaForm] = formData
 
-  console.log('isSharedPreview', isSharedPreview, stateTrigger)
-
   return (
     <div className={cx(styles.wrapper, isSharedPreview && styles.sharedForm)}>
       {!isSharedPreview && (
