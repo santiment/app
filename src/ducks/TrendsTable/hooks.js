@@ -9,63 +9,87 @@ import {
 import { calcPercentageChange } from '../../utils/utils'
 
 const ARRAY = []
-export function useTrendingWords (variables) {
-  const { data, loading } = useQuery(TRENDING_WORDS_QUERY, { variables })
-
-  let trendingWords = ARRAY
-  if (data) {
-    const item = data.getTrendingWords[0]
-    if (item) {
-      trendingWords = item.topWords
-    }
-  }
-
-  return { trendingWords, isLoading: loading }
+const LOADING = {
+  data: ARRAY,
+  isLoading: true
 }
 
-export function useTrendSocialVolumeChange (trend, skip, onLoad) {
-  const { data } = useQuery(LAST_DAY_SOCIAL_VOLUME_QUERY, {
-    skip,
-    variables: trend
-  })
+const wordAccessor = ({ word }) => word
+
+export function useTrendingWords (variables) {
+  const { data } = useQuery(TRENDING_WORDS_QUERY, { variables })
 
   return useMemo(
     () => {
-      const { score } = trend
-      const value = Math.round(score)
+      if (!data) return { trendingWords: ARRAY, words: ARRAY, isLoading: true }
 
-      if (!data) {
-        return {
-          value
-        }
+      let trendingWords = ARRAY
+      const item = data.getTrendingWords[0]
+      if (item) {
+        trendingWords = item.topWords
       }
-      if (onLoad) onLoad()
 
-      const lastScore = data.getMetric.timeseriesData[0].value
       return {
-        value,
-        change: calcPercentageChange(lastScore, score)
+        trendingWords,
+        words: trendingWords.map(wordAccessor),
+        isLoading: false
       }
     },
     [data]
   )
 }
 
-const LOADING = {
-  data: ARRAY,
-  isLoading: true
+function useTrendsSocialVolume (query, words) {
+  const { data } = useQuery(query, {
+    variables: {
+      words
+    }
+  })
+
+  return useMemo(
+    () => {
+      if (!data) return
+
+      const { wordsSocialVolume } = data
+      const WordSocialVolume = {}
+
+      wordsSocialVolume.forEach(({ word, timeseriesData }) => {
+        WordSocialVolume[word] = timeseriesData
+      })
+
+      return WordSocialVolume
+    },
+    [data]
+  )
 }
-export function useTrendSocialVolume (trend, skip, onLoad) {
-  const { data } = useQuery(SOCIAL_VOLUME_QUERY, { skip, variables: trend })
+
+export function useTrendSocialVolumeChange (words, trend) {
+  const data = useTrendsSocialVolume(LAST_DAY_SOCIAL_VOLUME_QUERY, words)
+
+  return useMemo(
+    () => {
+      if (!data) return {}
+
+      const [{ value: oldValue }, { value: newValue }] = data[trend.word]
+
+      return {
+        value: Math.round(newValue),
+        change: calcPercentageChange(oldValue, newValue)
+      }
+    },
+    [data]
+  )
+}
+
+export function useTrendSocialVolume (words, trend) {
+  const data = useTrendsSocialVolume(SOCIAL_VOLUME_QUERY, words)
 
   return useMemo(
     () => {
       if (!data) return LOADING
-      if (onLoad) onLoad()
 
-      const socialVolumes = data.getMetric.timeseriesData
       return {
-        data: [...socialVolumes, { value: trend.score }],
+        data: data[trend.word],
         isLoading: false
       }
     },
