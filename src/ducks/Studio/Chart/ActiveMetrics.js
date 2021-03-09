@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import MetricLock from './MetricLock'
+import MetricFavorite from './MetricFavorite'
 import MetricErrorExplanation from './MetricErrorExplanation/MetricErrorExplanation'
 import MetricIcon from '../../SANCharts/MetricIcon'
 import { getMetricLabel } from '../../dataHub/metrics/labels'
 import { isStage } from '../../../utils/utils'
+import { useFavoriteMetrics } from '../../../stores/user/metrics'
 import ExplanationTooltip from '../../../components/ExplanationTooltip/ExplanationTooltip'
 import styles from './ActiveMetrics.module.scss'
 
@@ -58,6 +60,8 @@ const MetricButton = ({
   colors,
   error,
   metricSettings,
+  favoriteMetricSet,
+  isLoggedIn,
   isWithIcon,
   isLoading,
   isRemovable,
@@ -121,6 +125,12 @@ const MetricButton = ({
             project={settings}
             onClick={onLockClick}
           />
+          {isLoggedIn && (
+            <MetricFavorite
+              metric={metric}
+              favoriteMetricSet={favoriteMetricSet}
+            />
+          )}
         </Actions>
       )}
     </Button>
@@ -135,6 +145,7 @@ export default ({
   loadings,
   toggleMetric,
   ErrorMsg = {},
+  isLoggedIn,
   isSingleWidget,
   isWithIcon = true,
   isWithSettings = false,
@@ -146,6 +157,10 @@ export default ({
 }) => {
   const isMoreThanOneMetric = activeMetrics.length > 1 || !isSingleWidget
   const [errorsForMetrics, setErrorsForMetrics] = useState()
+  const { favoriteMetrics } = useFavoriteMetrics()
+  const favoriteMetricSet = useMemo(() => new Set(favoriteMetrics), [
+    favoriteMetrics
+  ])
 
   useEffect(() => {
     let mounted = true
@@ -177,6 +192,7 @@ export default ({
       error={ErrorMsg[metric.key]}
       metricSettings={metricSettings}
       isWithIcon={isWithIcon}
+      isLoggedIn={isLoggedIn}
       isLoading={loadings.includes(metric)}
       isRemovable={isMoreThanOneMetric && toggleMetric}
       isWithSettings={isWithSettings}
@@ -187,6 +203,7 @@ export default ({
       onSettingsClick={onSettingsClick}
       errorsForMetrics={errors}
       settings={settings}
+      favoriteMetricSet={favoriteMetricSet}
     />
   ))
 }

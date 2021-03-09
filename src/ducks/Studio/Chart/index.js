@@ -205,6 +205,7 @@ const Chart = ({
           ErrorMsg={ErrorMsg}
           eventLoadings={eventLoadings}
           isSingleWidget={isSingleWidget}
+          isLoggedIn={isLoggedIn}
           toggleMetric={onMetricRemove}
           onLockClick={toggleMetricLock}
           onMetricHover={onMetricHover}

@@ -10,6 +10,7 @@ import Button from './Button'
 import styles from './MetricSelector/index.module.scss'
 
 const DEFAULT_OPENED_CATEGORY = {
+  Favorites: true,
   Financial: true,
   'Santiment Insights': true,
   'Santiment Alerts': true
@@ -30,6 +31,7 @@ const Category = ({
   hasTopHolders,
   project,
   NewMetricsCategory,
+  GroupNode,
   ...rest
 }) => {
   const [hidden, setHidden] = useState(!DEFAULT_OPENED_CATEGORY[title])
@@ -65,7 +67,7 @@ const Category = ({
           </>
         )}
         {Object.keys(groups).map(group => (
-          <Group
+          <GroupNode
             key={group}
             title={group}
             nodes={groups[group]}
@@ -81,7 +83,8 @@ const Category = ({
 Category.defaultProps = {
   NewMetricsCategory: {},
   NewMetricsGroup: {},
-  NewMetric: {}
+  NewMetric: {},
+  GroupNode: Group
 }
 
 export default Category
