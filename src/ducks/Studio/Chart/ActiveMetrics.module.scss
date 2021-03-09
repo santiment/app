@@ -136,3 +136,17 @@
     transform: rotate(360deg);
   }
 }
+
+.favorite {
+  stroke: var(--casper);
+  fill: var(--white);
+
+  &:hover {
+    stroke: var(--texas-rose);
+  }
+
+  &_active {
+    stroke: var(--texas-rose);
+    fill: var(--texas-rose);
+  }
+}
