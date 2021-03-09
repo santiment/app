@@ -8,7 +8,6 @@ export const TRENDING_WORDS_QUERY = gql`
   ) {
     getTrendingWords(size: 10, from: $from, to: $to, interval: $interval) {
       topWords {
-        score
         word
       }
     }
@@ -33,18 +32,19 @@ export const TRENDING_WORDS_CONTEXT_QUERY = gql`
 `
 
 const newSocialVolumeQuery = (from, interval = '1d') => gql`
-  query getMetric($word: String!) {
-    getMetric(metric: "social_volume_total") {
-      timeseriesData(
-        from: "${from}"
-        to: "utc_now"
-        interval: "${interval}"
-        selector: { text: $word }
-      ) {
-        value
+  query wordsSocialVolume($words: [String]) {
+    wordsSocialVolume(
+      selector: {words: $words},
+      from: "${from}",
+      to: "utc_now",
+      interval: "${interval}"
+    ) {
+      word
+      timeseriesData {
+    	  value: mentionsCount
       }
     }
-  }
+}
 `
 
 export const LAST_DAY_SOCIAL_VOLUME_QUERY = newSocialVolumeQuery('utc_now-1d')

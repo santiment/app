@@ -4,7 +4,6 @@ import { COLUMNS, Column } from './columns'
 import { useTrendingWords } from './hooks'
 import Table from '../_Table'
 import { useColumns } from '../_Table/hooks'
-import { newRenderQueue, withRenderQueueProvider } from '../renderQueue/sized'
 import styles from './index.module.scss'
 
 const LINK_SELECTOR = `.${styles.word}`
@@ -17,7 +16,7 @@ const TrendsTable = ({
   isCompact,
   ...props
 }) => {
-  const { trendingWords, isLoading } = useTrendingWords(period)
+  const { trendingWords, words, isLoading } = useTrendingWords(period)
   const columns = useColumns(
     COLUMNS,
     isCompact ? COMPACT_HIDDEN_COLUMNS : hiddenColumnIds
@@ -37,10 +36,11 @@ const TrendsTable = ({
       minRows={10}
       columns={columns}
       itemKeyProperty='word'
+      itemProps={{ words }}
       isLoading={isLoading}
       onRowClick={onRowClick}
     />
   )
 }
 
-export default withRenderQueueProvider(TrendsTable, newRenderQueue(2))
+export default TrendsTable
