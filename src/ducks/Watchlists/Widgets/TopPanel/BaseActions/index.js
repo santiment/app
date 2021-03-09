@@ -7,14 +7,13 @@ import SaveAsAction from '../../../Actions/SaveAs'
 import { useUserWatchlists } from '../../../gql/lists/hooks'
 import { useUpdateWatchlist } from '../../../gql/list/mutations'
 import { getTitleByWatchlistType, SCREENER } from '../../../detector'
-import { Delete, New, SaveAs, NonAuthorTrigger, Trigger } from './Items'
+import { Delete, New, SaveAs, Edit, NonAuthorTrigger, Trigger } from './Items'
 import styles from './index.module.scss'
 
 const Actions = ({ watchlist, type, onClick, isAuthor, isAuthorLoading }) => {
-  const [isMenuOpened, setIsMenuOpened] = useState(false)
-  const [isEditPopupOpened, setIsEditPopupOpened] = useState(false)
   const [lists] = useUserWatchlists(type)
   const [updateWatchlist, { loading }] = useUpdateWatchlist()
+  const [isMenuOpened, setIsMenuOpened] = useState(false)
 
   if (!watchlist.id || isAuthorLoading) {
     return null
@@ -36,7 +35,10 @@ const Actions = ({ watchlist, type, onClick, isAuthor, isAuthorLoading }) => {
     const showDelete = isAuthor && (type !== SCREENER || lists.length > 1)
 
     const onEditApprove = props =>
-      updateWatchlist(watchlist, { ...props }).then(() => notifyUpdate(title))
+      updateWatchlist(watchlist, { ...props }).then(() => {
+        setIsMenuOpened(false)
+        notifyUpdate(title)
+      })
 
     return (
       <div onClick={onClick} className={styles.container}>
@@ -58,6 +60,13 @@ const Actions = ({ watchlist, type, onClick, isAuthor, isAuthorLoading }) => {
           onClose={() => setIsMenuOpened(false)}
         >
           <Panel variant='modal' className={styles.wrapper}>
+            <Edit
+              type={type}
+              title={title}
+              watchlist={watchlist}
+              isLoading={loading}
+              onSubmit={onEditApprove}
+            />
             <SaveAs type={type} watchlist={watchlist} />
             <New type={type} />
             {showDelete && <Delete id={id} name={name} title={title} />}
