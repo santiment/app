@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
+import DeleteAction from '../../../Actions/Delete'
 import EditForm from '../../../Actions/Edit/EditForm'
 import styles from './Items.module.scss'
 
@@ -77,3 +78,16 @@ export const Trigger = ({
     </div>
   )
 }
+
+export const Delete = ({ id, name, title }) => (
+  <DeleteAction
+    title={`Do you want to delete this ${title}?`}
+    id={id}
+    name={name}
+    trigger={
+      <Item icon='remove' accent='negative' className={styles.delete}>
+        Delete
+      </Item>
+    }
+  />
+)
