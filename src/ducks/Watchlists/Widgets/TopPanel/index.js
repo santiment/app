@@ -39,7 +39,11 @@ const TopPanel = ({
       className={cx(styles.wrapper, isFilterOpen && styles.open, className)}
     >
       <div className={styles.row}>
-        <Title name={name} watchlist={watchlist} />
+        <Title
+          name={name}
+          watchlist={watchlist}
+          isDefaultScreener={isDefaultScreener}
+        />
         <BaseActions
           type={type}
           watchlist={watchlist}
