@@ -29,3 +29,9 @@
   flex-wrap: wrap;
   padding-right: 4px;
 }
+
+.trx {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
