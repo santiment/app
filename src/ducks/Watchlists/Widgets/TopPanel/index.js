@@ -16,6 +16,7 @@ const TopPanel = ({
   type,
   widgets,
   setWidgets,
+  className,
   watchlist,
   isLoggedIn,
   projectsCount,
@@ -34,7 +35,9 @@ const TopPanel = ({
   }
 
   return (
-    <section className={cx(styles.wrapper, isFilterOpen && styles.open)}>
+    <section
+      className={cx(styles.wrapper, isFilterOpen && styles.open, className)}
+    >
       <div className={styles.row}>
         <Title name={name} watchlist={watchlist} />
         <BaseActions

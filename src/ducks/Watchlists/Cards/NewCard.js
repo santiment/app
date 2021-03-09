@@ -2,7 +2,6 @@ import React from 'react'
 import cx from 'classnames'
 import NewWatchlist from '../Actions/New'
 import { ProLabel } from '../../../components/ProLabel'
-import ProPopupWrapper from '../../../components/ProPopup/Wrapper'
 import { SvgNew } from '../../../components/Illustrations/NewCard'
 import { BLOCKCHAIN_ADDRESS, PROJECT, SCREENER } from '../detector'
 import LoginPopup from '../../../components/banners/feature/PopupBanner'
@@ -47,12 +46,11 @@ const NewWatchlistCard = ({ type }) => (
 const NewScreenerCard = () => {
   const { isPro } = useUserSubscriptionStatus()
 
-  return !isPro ? (
-    <ProPopupWrapper type={SCREENER}>
-      <Trigger showProBanner title='screener' />
-    </ProPopupWrapper>
-  ) : (
-    <NewWatchlist trigger={<Trigger title='screener' />} type={SCREENER} />
+  return (
+    <NewWatchlist
+      trigger={<Trigger title='screener' showProBanner={!isPro} />}
+      type={SCREENER}
+    />
   )
 }
 
