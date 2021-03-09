@@ -66,7 +66,7 @@ function getBubbleFontColorHex (bgColor, isNightMode) {
   const g = parseInt(bgColor.slice(3, 5), 16)
   const b = parseInt(bgColor.slice(5, 7), 16)
 
-  const threshold = 150 - (isNightMode ? 12 : 0)
+  const threshold = 175 - (isNightMode ? 37 : 0)
 
   return r * 0.299 + g * 0.587 + b * 0.114 > threshold ? '#000000' : '#ffffff'
 }
