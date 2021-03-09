@@ -40,7 +40,7 @@ class EditableInput extends PureComponent {
           disabled={isEmailConnected}
           defaultValue={defaultValue}
           onChange={this.onChange}
-          isError={error}
+          isError={!!error}
           onBlur={this.onSubmit}
         />
         {error && (

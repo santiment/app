@@ -4,11 +4,16 @@ import { useMutation } from '@apollo/react-hooks'
 import { history } from '../../../../redux'
 import { getWatchlistLink } from '../../url'
 import { stringifyFn } from '../../../Screener/utils'
-import { updateWatchlistsOnCreation, updateWatchlistsOnDelete } from '../cache'
 import { SHORT_WATCHLIST_FRAGMENT } from '../fragments'
 import { normalizeItems, transformToServerType } from '../helpers'
 import {
+  updateWatchlistOnEdit,
+  updateWatchlistsOnCreation,
+  updateWatchlistsOnDelete
+} from '../cache'
+import {
   BLOCKCHAIN_ADDRESS,
+  detectWatchlistType,
   getTitleByWatchlistType,
   PROJECT,
   SCREENER
@@ -48,11 +53,69 @@ const REMOVE_WATCHLIST_MUTATION = gql`
   mutation removeWatchlist($id: Int!) {
     watchlist: removeWatchlist(id: $id) {
       id
-      name
       type
     }
   }
 `
+
+const UPDATE_WATCHLIST_MUTATION = gql`
+  mutation updateWatchlist(
+    $id: Int!
+    $name: String
+    $function: json
+    $isPublic: Boolean
+    $description: String
+    $isMonitored: Boolean
+  ) {
+    updateWatchlist(
+      id: $id
+      name: $name
+      function: $function
+      isPublic: $isPublic
+      description: $description
+      isMonitored: $isMonitored
+    ) {
+      ...generalFragment
+      isMonitored
+    }
+  }
+  ${SHORT_WATCHLIST_FRAGMENT}
+`
+
+export function useUpdateWatchlist () {
+  const [mutate, data] = useMutation(UPDATE_WATCHLIST_MUTATION, {
+    update: updateWatchlistOnEdit
+  })
+
+  function updateWatchlist (watchlist, newParams) {
+    const { id, name, description, function: oldFn } = watchlist
+    const isPublic =
+      newParams.isPublic === undefined ? watchlist.isPublic : newParams.isPublic
+    const isMonitored =
+      newParams.isMonitored === undefined
+        ? watchlist.isMonitored
+        : newParams.isMonitored
+
+    return mutate({
+      variables: {
+        id: +id,
+        isPublic,
+        isMonitored,
+        name: newParams.name || name,
+        description: newParams.description || description,
+        function: stringifyFn(newParams.function || oldFn)
+      }
+    })
+      .then(({ data }) => ({ ...watchlist, ...data.updateWatchlist }))
+      .catch(err => {
+        const type = detectWatchlistType(watchlist)
+        Sentry.captureException(err)
+        notifyError(getTitleByWatchlistType(type), 'update')
+      })
+  }
+
+  return [updateWatchlist, data]
+}
 
 export function useCreateWatchlist (type) {
   const [mutate, data] = useMutation(CREATE_WATCHLIST_MUTATION, {
@@ -85,8 +148,8 @@ export function useCreateWatchlist (type) {
 
         return watchlist
       })
-      .catch(error => {
-        Sentry.captureException(error)
+      .catch(err => {
+        Sentry.captureException(err)
         notifyError(getTitleByWatchlistType(type), 'create')
       })
   }
@@ -102,8 +165,8 @@ export function useRemoveWatchlist (type) {
   function onDelete (id, name) {
     return mutate({ variables: { id: +id } })
       .then(() => notifyDeletion(name))
-      .catch(error => {
-        Sentry.captureException(error)
+      .catch(err => {
+        Sentry.captureException(err)
         notifyError(getTitleByWatchlistType(type), 'delete')
       })
   }

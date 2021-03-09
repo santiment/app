@@ -4,24 +4,7 @@ import {
   project,
   PROJECT_RECENT_DATA_FRAGMENT
 } from '../ducks/Watchlists/gql/allProjectsGQL'
-
-export const WATCHLIST_GENERAL_FRAGMENT = gql`
-  fragment generalListData on UserList {
-    id
-    isPublic
-    name
-    slug
-    description
-    function
-    insertedAt
-    isMonitored
-    updatedAt
-    type
-    user {
-      id
-    }
-  }
-`
+import { WATCHLIST_GENERAL_FRAGMENT } from '../ducks/Watchlists/gql/fragments'
 
 export const PROJECT_ITEM_FRAGMENT = gql`
   fragment listShortItems on UserList {
@@ -37,7 +20,7 @@ export const PROJECT_ITEM_FRAGMENT = gql`
 export const ALL_WATCHLISTS_QUERY = gql`
   query fetchWatchlists {
     fetchWatchlists {
-      ...generalListData
+      ...generalFragment
       ...listShortItems
     }
   }
@@ -48,7 +31,7 @@ export const ALL_WATCHLISTS_QUERY = gql`
 export const PROJECTS_WATCHLIST_QUERY = gql`
   query watchlist($id: ID!) {
     watchlist(id: $id) {
-      ...generalListData
+      ...generalFragment
       listItems {
         project {
           ...generalData
@@ -82,7 +65,7 @@ export const WATCHLISTS_SETTINGS_QUERY = gql`
 export const WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY = gql`
   query watchlist($id: ID!) {
     watchlist(id: $id) {
-      ...generalListData
+      ...generalFragment
       stats {
         projectsCount
         trendingProjects {

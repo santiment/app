@@ -1,31 +1,16 @@
 import gql from 'graphql-tag'
 import { client } from '../../../apollo'
+import { updateWatchlistOnEdit } from './cache'
 import { LIST_ITEMS_FRAGMENT } from '../../WatchlistAddressesTable/gql/queries'
-import { SHORT_WATCHLIST_FRAGMENT } from './fragments'
-import { updateWatchlistOnEdit } from './hooks'
 
 export const UPDATE_WATCHLIST_SHORT_MUTATION = gql`
-  mutation updateWatchlist(
-    $id: Int!
-    $isPublic: Boolean
-    $name: String
-    $description: String
-    $function: json
-    $listItems: [InputListItem]
-  ) {
-    updateWatchlist(
-      id: $id
-      isPublic: $isPublic
-      name: $name
-      description: $description
-      function: $function
-      listItems: $listItems
-    ) {
-      ...generalFragment
+  mutation updateWatchlist($id: Int!, $listItems: [InputListItem]) {
+    updateWatchlist(id: $id, listItems: $listItems) {
+      id
+      type
       ...listItemsFragment
     }
   }
-  ${SHORT_WATCHLIST_FRAGMENT}
   ${LIST_ITEMS_FRAGMENT}
 `
 

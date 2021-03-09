@@ -52,6 +52,7 @@ const Watchlists = ({
       </div>
 
       <NewWatchlist
+        openOnSuccess={false}
         trigger={<NewBtn border disabled={isLoading} className={styles.new} />}
         lists={watchlists}
       />

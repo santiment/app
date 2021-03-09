@@ -5,7 +5,7 @@ import Button from '@santiment-network/ui/Button'
 import {
   USER_ADD_ASSET_TO_LIST,
   USER_REMOVE_ASSET_FROM_LIST
-} from './../../../../actions/types'
+} from '../../../../actions/types'
 import { showNotification } from '../../../../actions/rootActions'
 import Watchlists from '../../Templates/Watchlists'
 import { hasAssetById } from '../../utils'

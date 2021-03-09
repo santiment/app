@@ -14,6 +14,7 @@ export function normalizeItems (items = ARR, type) {
     case BLOCKCHAIN_ADDRESS:
       return items.map(normalizeAddress)
     case SCREENER:
+      return ARR
     case PROJECT:
     default:
       return items.map(normalizeProject)

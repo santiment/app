@@ -1,6 +1,8 @@
 import { store, history } from '../../../../redux'
 import { showNotification } from '../../../../actions/rootActions'
 
+const ARR = []
+
 const dispatchNotification = payload =>
   store.dispatch(showNotification(payload))
 
@@ -9,7 +11,9 @@ export const notifyCreation = (title, link) =>
     variant: 'success',
     title: `New ${title} was created`,
     description: !link && `New ${title} has been created successfully.`,
-    actions: link && [{ label: 'Open', onClick: () => history.push(link) }],
+    actions: link
+      ? [{ label: 'Open', onClick: () => history.push(link) }]
+      : ARR,
     dismissAfter: link ? 7000 : 4000
   })
 
@@ -26,22 +30,14 @@ export const notifyDeletion = name =>
     title: `“${name}” have been deleted successfully`
   })
 
-export function notifyUpdate (type) {
+export function notifyUpdate (title) {
   return dispatchNotification({
     variant: 'success',
-    title: `Your ${type} has been updated successfully`
+    title: `Your ${title} has been updated successfully`
   })
 }
 
-export function notifyErrorUpdate () {
-  return dispatchNotification({
-    variant: 'error',
-    title: 'Error during the saving screener process',
-    dismissAfter: 5000
-  })
-}
-
-export function notifyLoginForSave (history) {
+export function notifyLoginForSave () {
   return dispatchNotification({
     variant: 'warning',
     title: `Log in to save your filter settings`,
@@ -76,6 +72,7 @@ export function notifyOutdatedVersion () {
   })
 }
 
+// NOTE: move to edit mutation [haritonasty 09.03.2021]
 export function notifyMonitoring ({ type = 'watchlist', name, isMonitored }) {
   return dispatchNotification({
     variant: 'success',

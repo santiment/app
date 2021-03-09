@@ -1,12 +1,12 @@
 import React from 'react'
 import cx from 'classnames'
 import Checkboxes from '@santiment-network/ui/Checkboxes'
+import { PROJECT } from '../detector'
 import { hasAssetById } from '../utils'
-import { VisibilityIndicator } from '../../../components/VisibilityIndicator'
 import NewWatchlist from '../Actions/New'
 import NewBtn from '../Actions/New/NewBtn'
+import { VisibilityIndicator } from '../../../components/VisibilityIndicator'
 import styles from './Watchlists.module.scss'
-import { PROJECT } from '../detector'
 
 const Watchlists = ({
   lists = [],
@@ -48,6 +48,7 @@ const Watchlists = ({
     </div>
     <NewWatchlist
       type={PROJECT}
+      openOnSuccess={false}
       trigger={<NewBtn border className={styles.watchlistNew} />}
     />
   </>

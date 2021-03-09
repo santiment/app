@@ -9,6 +9,7 @@ import CompareAction from '../CompareInfo/CompareAction'
 import Refresh from '../../../../../components/Refresh/Refresh'
 import ProPopupWrapper from '../../../../../components/ProPopup/Wrapper'
 import ExplanationTooltip from '../../../../../components/ExplanationTooltip/ExplanationTooltip'
+import { useIsAuthor } from '../../../gql/list/hooks'
 import ColumnsToggler from '../Columns/Toggler'
 import styles from './index.module.scss'
 
@@ -25,9 +26,9 @@ const TableTop = ({
   sorting,
   setOrderBy,
   updateActiveColumnsKeys,
-  isAuthor,
   watchlist = EMPTY_OBJ
 }) => {
+  const { isAuthor } = useIsAuthor(watchlist)
   const [refreshTimestamp, setRefreshTimestamp] = useState(Date.now)
   const disabledComparision = comparingAssets.length < 2
 
