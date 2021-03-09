@@ -108,4 +108,5 @@ export function toggleFavoriteMetric (metric) {
     .then(() => {
       isInFlight = false
     })
+    .catch(console.warn)
 }
