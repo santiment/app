@@ -4,7 +4,7 @@ import Panel from '@santiment-network/ui/Panel/Panel'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import SaveAs from '../../../Actions/SaveAs'
 import { notifyUpdate } from '../notifications'
-import { Delete, NonAuthorTrigger, Trigger } from './Items'
+import { Delete, New, NonAuthorTrigger, Trigger } from './Items'
 import { useUserWatchlists } from '../../../gql/lists/hooks'
 import { useUpdateWatchlist } from '../../../gql/list/mutations'
 import { getTitleByWatchlistType, SCREENER } from '../../../detector'
@@ -58,6 +58,7 @@ const Actions = ({ watchlist, type, onClick, isAuthor, isAuthorLoading }) => {
           onClose={() => setIsMenuOpened(false)}
         >
           <Panel variant='modal' className={styles.wrapper}>
+            <New type={type} onSubmit={() => setIsMenuOpened(false)} />
             {showDelete && <Delete id={id} name={name} title={title} />}
           </Panel>
         </ContextMenu>
