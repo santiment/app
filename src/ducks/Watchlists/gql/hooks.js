@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { client } from '../../../apollo'
-import { USER_WATCHLISTS_QUERY, getRecentWatchlist } from './index'
+import { getRecentWatchlist } from './index'
 import { PROJECTS_WATCHLIST_QUERY } from '../../../queries/WatchlistGQL'
-import { useUser } from '../../../stores/user'
-import { checkIsNotScreener, stringifyFn } from '../../Screener/utils'
+import { stringifyFn } from '../../Screener/utils'
 
 const EMPTY_ARRAY = []
 const DEFAULT_WATCHLISTS = []
@@ -18,20 +17,6 @@ export function useWatchlist ({ id, skip }) {
   })
 
   return [data ? data.watchlist : undefined, loading, error]
-}
-
-export function useUserWatchlists () {
-  const { isLoggedIn } = useUser()
-  const { data, loading, error } = useQuery(USER_WATCHLISTS_QUERY, {
-    skip: !isLoggedIn
-  })
-  const { fetchWatchlists: watchlists } = data || {}
-
-  return [
-    watchlists ? watchlists.filter(checkIsNotScreener) : DEFAULT_WATCHLISTS,
-    loading,
-    error
-  ]
 }
 
 export function useRecentWatchlists (watchlistsIDs) {

@@ -31,6 +31,32 @@ export const WATCHLIST_GENERAL_FRAGMENT = gql`
   }
 `
 
+export const ADDRESSES_SHORT_LIST_ITEMS_FRAGMENT = gql`
+  fragment listItemsFragment on UserList {
+    listItems {
+      blockchainAddress {
+        address
+        infrastructure
+      }
+    }
+  }
+`
+
+export const PROJECTS_SHORT_LIST_ITEMS_FRAGMENT = gql`
+  fragment listItemsFragment on UserList {
+    listItems {
+      project {
+        id
+        slug
+        name
+        ticker
+        logoUrl
+        darkLogoUrl
+      }
+    }
+  }
+`
+
 export const getStats = type =>
   type !== BLOCKCHAIN_ADDRESS
     ? ''

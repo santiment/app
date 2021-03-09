@@ -4,13 +4,13 @@ import Dialog from '@santiment-network/ui/Dialog'
 import Label from '@santiment-network/ui/Label'
 import { USER_EDIT_ASSETS_IN_LIST } from '../../../../actions/types'
 import { sortByAsDates } from '../../../../utils/sortMethods'
-import { useUserWatchlists } from '../../gql/hooks'
 import { showNotification } from '../../../../actions/rootActions'
 import Watchlists from '../../Templates/Watchlists'
 import AssetsList from './AssetsList'
 import { useUser } from '../../../../stores/user/index'
 import LoginPopup from '../../../../components/banners/feature/PopupBanner'
 import SearchProjects from '../../../../components/Search/SearchProjects'
+import { useProjectWatchlists } from '../../gql/lists/hooks'
 import styles from './index.module.scss'
 
 const WatchlistCopyPopup = ({
@@ -23,7 +23,7 @@ const WatchlistCopyPopup = ({
 }) => {
   const { isLoggedIn } = useUser()
 
-  const [watchlists = []] = useUserWatchlists()
+  const [watchlists] = useProjectWatchlists()
   const [isShown, setIsShown] = useState(false)
   const [isEditing, setEditing] = useState(false)
   const [warning, setWarning] = useState(false)

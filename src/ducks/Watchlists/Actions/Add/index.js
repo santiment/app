@@ -10,8 +10,8 @@ import { showNotification } from '../../../../actions/rootActions'
 import Watchlists from '../../Templates/Watchlists'
 import { hasAssetById } from '../../utils'
 import LoginPopup from '../../../../components/banners/feature/PopupBanner'
-import { useUserWatchlists } from '../../gql/hooks'
 import { useUser } from '../../../../stores/user'
+import { useProjectWatchlists } from '../../gql/lists/hooks'
 import styles from './index.module.scss'
 
 const AddToListBtn = (
@@ -29,11 +29,11 @@ const WatchlistPopup = ({
   dialogProps,
   ...props
 }) => {
+  const { isLoggedIn } = useUser()
+  const [watchlists] = useProjectWatchlists()
   const [changes, setChanges] = useState([])
   const [isShown, setIsShown] = useState(false)
   const [editableAssets, setEditableAssets] = useState(editableAssetsInList)
-  const [watchlists = []] = useUserWatchlists()
-  const { isLoggedIn } = useUser()
 
   if (!isLoggedIn) {
     return <LoginPopup>{trigger}</LoginPopup>

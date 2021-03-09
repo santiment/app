@@ -6,9 +6,10 @@ import {
   useWatchlistsLoader
 } from './queries'
 import {
-  filterIfNotScreener,
-  filterIfScreener,
   getScreenersList,
+  filterIfScreener,
+  filterIfNotScreener,
+  getWatchlistsQuery,
   getWatchlistsShortQuery,
   sortFeaturedWatchlists
 } from './helpers'
@@ -16,12 +17,20 @@ import {
 const OBJ = {}
 
 const screenersCB = lists => getScreenersList(filterIfScreener(lists))
+
+// use it when you don't need listItems
 export const useUserScreeners = () =>
   useUserWatchlistsLoader(getWatchlistsShortQuery(SCREENER), screenersCB)
 export const useUserProjectWatchlists = () =>
   useUserWatchlistsLoader(getWatchlistsShortQuery(PROJECT), filterIfNotScreener)
 export const useUserAddressWatchlists = () =>
   useUserWatchlistsLoader(getWatchlistsShortQuery(BLOCKCHAIN_ADDRESS))
+
+// use it when you need listItems
+export const useProjectWatchlists = () =>
+  useUserWatchlistsLoader(getWatchlistsQuery(PROJECT), filterIfNotScreener)
+export const useAddressWatchlists = () =>
+  useUserWatchlistsLoader(getWatchlistsQuery(BLOCKCHAIN_ADDRESS))
 
 export const useFeaturedWatchlists = () =>
   useWatchlistsLoader(FEATURED_WATCHLISTS_QUERY, OBJ, sortFeaturedWatchlists)

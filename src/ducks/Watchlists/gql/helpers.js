@@ -23,11 +23,11 @@ export function normalizeItems (items = ARR, type) {
 
 export function transformToServerType (type) {
   switch (type) {
-    case SCREENER:
-      return PROJECT
-    case PROJECT:
     case BLOCKCHAIN_ADDRESS:
+      return BLOCKCHAIN_ADDRESS
+    case PROJECT:
+    case SCREENER:
     default:
-      return type
+      return PROJECT
   }
 }
