@@ -39,7 +39,7 @@ const WatchlistPopup = ({
     return <LoginPopup>{trigger}</LoginPopup>
   }
 
-  const lists = watchlists.sort(sortWatchlists).map(list => ({
+  const lists = watchlists.map(list => ({
     ...list,
     listItems: list.listItems.map(assets => assets.project)
   }))
@@ -120,11 +120,6 @@ const WatchlistPopup = ({
     </Dialog>
   )
 }
-
-const sortWatchlists = (
-  { insertedAt: insertedList1 },
-  { insertedAt: insertedList2 }
-) => new Date(insertedList1) - new Date(insertedList2)
 
 const mapStateToProps = state => ({
   watchlistUi: state.watchlistUi
