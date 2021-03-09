@@ -101,7 +101,6 @@ const EditForm = ({
       open={isOpen}
       onClose={() => toggleOpen(false)}
       onOpen={() => {
-        console.log('here')
         setFormState({ ...defaultSettings })
         toggleOpen(true)
       }}

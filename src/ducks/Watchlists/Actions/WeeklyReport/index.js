@@ -66,7 +66,6 @@ const WeeklyReport = ({ trigger, watchlist }) => {
   const onSave = () => {
     if (isEmailConnected && initialIsMonitored !== isMonitored) {
       updateWatchlist(watchlist, { isMonitored }).then(state => {
-        console.log(state)
         toggleIsMonitored(state.isMonitored)
       })
     }

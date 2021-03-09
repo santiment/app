@@ -3,6 +3,7 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import NewAction from '../../../Actions/New'
+import SaveAsAction from '../../../Actions/SaveAs'
 import DeleteAction from '../../../Actions/Delete'
 import EditForm from '../../../Actions/Edit/EditForm'
 import styles from './Items.module.scss'
@@ -98,5 +99,13 @@ export const New = ({ type, onSubmit }) => (
     type={type}
     onSubmit={onSubmit}
     trigger={<Item icon='plus-round'>New</Item>}
+  />
+)
+
+export const SaveAs = ({ type, watchlist }) => (
+  <SaveAsAction
+    type={type}
+    watchlist={watchlist}
+    trigger={<Item icon='disk'>Save as</Item>}
   />
 )

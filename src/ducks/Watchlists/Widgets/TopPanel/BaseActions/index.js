@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
-import SaveAs from '../../../Actions/SaveAs'
 import { notifyUpdate } from '../notifications'
-import { Delete, New, NonAuthorTrigger, Trigger } from './Items'
+import SaveAsAction from '../../../Actions/SaveAs'
 import { useUserWatchlists } from '../../../gql/lists/hooks'
 import { useUpdateWatchlist } from '../../../gql/list/mutations'
 import { getTitleByWatchlistType, SCREENER } from '../../../detector'
+import { Delete, New, SaveAs, NonAuthorTrigger, Trigger } from './Items'
 import styles from './index.module.scss'
 
 const Actions = ({ watchlist, type, onClick, isAuthor, isAuthorLoading }) => {
@@ -23,7 +23,7 @@ const Actions = ({ watchlist, type, onClick, isAuthor, isAuthorLoading }) => {
   if (!isAuthor) {
     return (
       <div onClick={onClick} className={styles.container}>
-        <SaveAs
+        <SaveAsAction
           type={type}
           watchlist={watchlist}
           trigger={<NonAuthorTrigger />}
@@ -58,7 +58,8 @@ const Actions = ({ watchlist, type, onClick, isAuthor, isAuthorLoading }) => {
           onClose={() => setIsMenuOpened(false)}
         >
           <Panel variant='modal' className={styles.wrapper}>
-            <New type={type} onSubmit={() => setIsMenuOpened(false)} />
+            <SaveAs type={type} watchlist={watchlist} />
+            <New type={type} />
             {showDelete && <Delete id={id} name={name} title={title} />}
           </Panel>
         </ContextMenu>
