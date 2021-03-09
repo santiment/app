@@ -36,7 +36,7 @@ const CB = _ => _
 
 export function useWatchlistsLoader (query, options, cb = CB) {
   const { data, loading } = useQuery(query, options)
-  return useMemo(() => [data ? cb(data.watchlists) : ARRAY, loading], [data])
+  return useMemo(() => [cb(data ? data.watchlists : ARRAY), loading], [data])
 }
 
 export function useUserWatchlistsLoader (cb, query) {

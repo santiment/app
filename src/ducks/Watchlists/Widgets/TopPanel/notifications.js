@@ -37,7 +37,7 @@ export function notifyUpdate (title) {
   })
 }
 
-export function notifyLoginForSave (history) {
+export function notifyLoginForSave () {
   return dispatchNotification({
     variant: 'warning',
     title: `Log in to save your filter settings`,

@@ -33,7 +33,6 @@ const Filter = ({
   isLoggedIn,
   isDefaultScreener,
   loading,
-  history,
   appVersionState,
   isOpen,
   setIsOpen,
@@ -84,7 +83,7 @@ const Filter = ({
   useEffect(
     () => {
       if (!isLoggedIn && !isViewMode && isWereChanges && isOpen) {
-        notifyLoginForSave(history)
+        notifyLoginForSave()
       }
     },
     [isWereChanges]
