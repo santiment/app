@@ -47,7 +47,7 @@ const ALERTS_MODAL_VIEW = {
 }
 const tabs = [ALERTS_LIST, ALERTS_MODAL_VIEW]
 
-const SignalModal = ({ id: triggerId, params }) => {
+export const SignalModal = ({ id: triggerId, params, ...rest }) => {
   const shareSignalParams = getShareSignalParams(params)
 
   const isOpen = !!triggerId
@@ -76,6 +76,7 @@ const SignalModal = ({ id: triggerId, params }) => {
           id={triggerId}
           shareParams={shareSignalParams}
           defaultOpen={isOpen}
+          {...rest}
         />
       )
     }

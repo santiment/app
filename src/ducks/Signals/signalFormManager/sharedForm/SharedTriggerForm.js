@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import Button from '@santiment-network/ui/Button'
 import { couldShowChart } from '../../utils/utils'
 import SignalPreview from '../../chart/preview/SignalPreview'
@@ -7,19 +6,27 @@ import NoSignalPreview from '../../chart/preview/NoSignalPreview'
 import { DesktopOnly, MobileOnly } from '../../../../components/Responsive'
 import CopySignal from '../../../../components/SignalCard/controls/CopySignal'
 import { isStrictTrendingWords } from '../../../../components/SignalCard/card/utils'
+import { useUser } from '../../../../stores/user'
 import styles from './ShareTriggerForm.module.scss'
 
 const SharedTriggerForm = ({
-  id,
   trigger,
   onOpen,
   onCreate,
   settings,
   originalTrigger,
-  isAuthor,
+  userId,
   SignalCard
 }) => {
   const { metric } = settings
+  const { id } = trigger
+
+  const { user } = useUser()
+  const isAuthor = user && +userId === +user.id
+
+  if (!originalTrigger.id) {
+    return null
+  }
 
   const {
     settings: originalSettings,
@@ -104,12 +111,4 @@ const SharedTriggerForm = ({
   )
 }
 
-const mapStateToProps = (state, { userId }) => {
-  const { user: { data: { id } = {} } = {} } = state
-
-  return {
-    isAuthor: +id === +userId
-  }
-}
-
-export default connect(mapStateToProps)(SharedTriggerForm)
+export default SharedTriggerForm

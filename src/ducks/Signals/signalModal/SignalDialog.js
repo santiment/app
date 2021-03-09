@@ -32,7 +32,7 @@ const SignalDialog = ({
 }) => {
   const [dialogTitle, onSetDialogTitle] = useState('')
   const [isAnonWarning, setAnonWarning] = useState(false)
-  const [openSharedForm, setOpenForm] = useState(isShared)
+  const [isSharedPreview, setSharedPreview] = useState(isShared)
   const [trackEvent] = useTrackEvents()
 
   const { variant, border } = buttonParams
@@ -57,18 +57,16 @@ const SignalDialog = ({
 
   useEffect(
     () => {
-      if (openSharedForm !== isShared) {
-        setOpenForm(isShared)
-      }
+      setSharedPreview(isShared)
     },
     [isShared]
   )
 
   useEffect(
     () => {
-      openSharedForm && onSetDialogTitle('Alert details')
+      isSharedPreview && onSetDialogTitle('Alert details')
     },
-    [openSharedForm]
+    [isSharedPreview]
   )
 
   const canOpen = (isLoggedIn || isShared) && !isAnonWarning
@@ -104,7 +102,7 @@ const SignalDialog = ({
       }
       title={
         <TriggerModalTitle
-          showSharedBtn={isShared && !openSharedForm}
+          showSharedBtn={isShared && !isSharedPreview}
           isError={isError}
           dialogTitle={dialogTitle}
           isLoggedIn={isLoggedIn}
@@ -122,8 +120,8 @@ const SignalDialog = ({
           <>
             {canOpen && (
               <SignalMaster
-                setOpenSharedForm={setOpenForm}
-                openSharedForm={openSharedForm}
+                setSharedPreview={setSharedPreview}
+                isSharedPreview={isSharedPreview}
                 isShared={isShared}
                 trigger={trigger}
                 setTitle={onSetDialogTitle}
