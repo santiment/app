@@ -79,7 +79,7 @@ function updateFavoriteMetricsCache (_, { data }) {
 export const mutateFavoriteMetrics = metrics =>
   client.mutate({
     mutation: UPDATE_USER_FAVORIT_METRICS_MUTATION,
-    variables: { metrics },
+    variables: { metrics: metrics.map(keyAccessor) },
     update: updateFavoriteMetricsCache
   })
 
@@ -103,7 +103,7 @@ export function toggleFavoriteMetric (metric) {
         favoriteMetricsSet.add(metric)
       }
 
-      return mutateFavoriteMetrics([...favoriteMetricsSet].map(keyAccessor))
+      return mutateFavoriteMetrics([...favoriteMetricsSet])
     })
     .then(() => {
       isInFlight = false

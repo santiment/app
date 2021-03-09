@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
-import Button from './Button'
+import MetricButton from './Button'
 import { NO_GROUP } from './utils'
 import { useIsBetaMode } from '../../../stores/ui'
 import styles from './MetricSelector/index.module.scss'
@@ -66,6 +66,7 @@ export const GroupNodes = ({
   NewMetric,
   ErrorMsg,
   btnProps = {},
+  Button,
   ...rest
 }) => {
   const isBeta = useIsBetaMode()
@@ -74,7 +75,7 @@ export const GroupNodes = ({
     <div
       className={cx(styles.group__list, hidden && styles.group__list_hidden)}
     >
-      {nodes.map(({ item, subitems }) => {
+      {nodes.map(({ item, subitems }, index) => {
         const {
           hidden,
           showRoot = true,
@@ -98,6 +99,7 @@ export const GroupNodes = ({
           <Fragment key={item.key}>
             {showRoot && (
               <Button
+                index={index}
                 metric={item}
                 label={rootLabel}
                 onClick={() => toggleMetric(item, project)}
@@ -146,7 +148,8 @@ export const GroupNodes = ({
 }
 
 Group.defaultProps = {
-  OpenedGroup: {}
+  OpenedGroup: {},
+  Button: MetricButton
 }
 
 export default Group

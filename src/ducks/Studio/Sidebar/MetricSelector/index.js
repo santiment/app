@@ -6,7 +6,10 @@ import MetricButton from '../Button'
 import { NO_GROUP } from '../utils'
 import { HolderDistributionMetric } from '../../Chart/Sidepanel/HolderDistribution/metrics'
 import { rebuildDescriptions } from '../../../dataHub/metrics/descriptions'
-import { useFavoriteMetrics } from '../../../../stores/user/metrics'
+import {
+  useFavoriteMetrics,
+  mutateFavoriteMetrics
+} from '../../../../stores/user/metrics'
 import styles from '../Button/index.module.scss'
 
 const convertMetricToSidebarItem = item => ({ item })
@@ -17,25 +20,31 @@ const SortableList = SortableContainer(props => (
   <Group {...props} Button={SortableItem} />
 ))
 
-const SortableGroup = ({ onDragEnd, ...props }) => (
+const SortableGroup = ({ onDragEnd, onDragStart, ...props }) => (
   <SortableList
     {...props}
     axis='y'
     distance={20}
-    onSortEnd={onDragEnd}
     helperClass={styles.dragged}
+    onSortStart={onDragStart}
+    onSortEnd={onDragEnd}
   />
 )
 
-const MetricSelector = ({ categories = {}, availableMetrics, ...props }) => {
+const MetricSelector = ({
+  categories = {},
+  availableMetrics,
+  setIsDraggingMetric,
+  ...props
+}) => {
   const { Submetrics } = props
   const { favoriteMetrics } = useFavoriteMetrics()
   const [favorites, setFavorites] = useState(favoriteMetrics)
+
   const favoritesGroup = useMemo(
     () => ({ [NO_GROUP]: favorites.map(convertMetricToSidebarItem) }),
     [favorites]
   )
-
   const hasTopHolders = useMemo(
     () =>
       availableMetrics.includes(
@@ -55,10 +64,12 @@ const MetricSelector = ({ categories = {}, availableMetrics, ...props }) => {
 
   function onDragEnd ({ oldIndex, newIndex }) {
     const newFavoriteMetrics = favoriteMetrics.slice()
-    const oldMetric = newFavoriteMetrics.splice(oldIndex, 1)
-    console.log(oldMetric, favoriteMetrics[oldIndex])
+    newFavoriteMetrics.splice(oldIndex, 1)
     newFavoriteMetrics.splice(newIndex, 0, favoriteMetrics[oldIndex])
+
+    mutateFavoriteMetrics(newFavoriteMetrics)
     setFavorites(newFavoriteMetrics)
+    setIsDraggingMetric(false)
   }
 
   return (
@@ -70,6 +81,7 @@ const MetricSelector = ({ categories = {}, availableMetrics, ...props }) => {
           {...props}
           GroupNode={SortableGroup}
           onDragEnd={onDragEnd}
+          onDragStart={() => setIsDraggingMetric(true)}
         />
       ) : null}
 

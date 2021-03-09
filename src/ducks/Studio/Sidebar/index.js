@@ -83,23 +83,25 @@ const Sidebar = ({
   const { settings } = props
   const [activeTab, setActiveTab] = useState(DEFAULT_TAB)
   const [metricProject, setMetricProject] = useState(settings)
+  const [isDraggingMetric, setIsDraggingMetric] = useState(false)
   const ProjectMetrics = useProjectMetrics(
     metricProject.slug,
     hiddenMetrics,
     noMarketSegments
   )
 
+  const isOpened = isPeeked || isDraggingMetric
   const TabComponent = TabToComponent[activeTab]
 
   useEffect(() => setMetricProject(settings), [settings.slug, settings.name])
   useEffect(() => saveIsSidebarLocked(isLocked), [isLocked])
 
   return (
-    <CSSTransition in={isPeeked} timeout={200} classNames={TRANSITION_CLASSES}>
+    <CSSTransition in={isOpened} timeout={200} classNames={TRANSITION_CLASSES}>
       <aside
         className={cx(
           styles.wrapper,
-          isPeeked && styles.wrapper_opened,
+          isOpened && styles.wrapper_opened,
           (isLocked || isOverviewOpened) && styles.wrapper_locked
         )}
         onMouseEnter={() => setIsPeeked(true)}
@@ -119,6 +121,7 @@ const Sidebar = ({
               {...props}
               {...ProjectMetrics}
               project={metricProject}
+              setIsDraggingMetric={setIsDraggingMetric}
             />
           </div>
           <CloseButton
