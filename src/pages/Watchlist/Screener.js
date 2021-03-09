@@ -2,8 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import { useScreenerUrl } from '../../ducks/Watchlists/utils'
 import {
   getProjectsByFunction,
-  getAssetsByFunction,
-  useUpdateWatchlist
+  getAssetsByFunction
 } from '../../ducks/Watchlists/gql/hooks'
 import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
 import AssetsTable from '../../ducks/Watchlists/Widgets/Table'
@@ -17,6 +16,7 @@ import { addRecentScreeners } from '../../utils/recent'
 import { SCREENER } from '../../ducks/Watchlists/detector'
 import { tableQuery } from '../../ducks/Watchlists/gql'
 import { getColumns } from '../../ducks/Watchlists/Widgets/Table/Columns/builder'
+import { useUpdateWatchlist } from '../../ducks/Watchlists/gql/list/mutations'
 import {
   DEFAULT_SCREENER_FN,
   DEFAULT_SCREENER_ID
