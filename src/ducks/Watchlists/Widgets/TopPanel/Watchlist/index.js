@@ -14,7 +14,6 @@ const TopPanel = ({
   type,
   watchlist,
   className,
-  isMonitored,
   widgets,
   setWidgets
 }) => {
@@ -33,13 +32,7 @@ const TopPanel = ({
       <div className={styles.row}>
         {widgets && <Widgets widgets={widgets} setWidgets={setWidgets} />}
         {watchlist && <Share watchlist={watchlist} isAuthor={isAuthor} />}
-        {isAuthor && type === PROJECT && (
-          <WeeklyReport
-            id={watchlist.id}
-            name={name}
-            isMonitored={isMonitored}
-          />
-        )}
+        {isAuthor && type === PROJECT && <WeeklyReport watchlist={watchlist} />}
       </div>
     </section>
   )

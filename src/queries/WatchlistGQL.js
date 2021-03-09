@@ -65,7 +65,7 @@ export const WATCHLISTS_SETTINGS_QUERY = gql`
 export const WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY = gql`
   query watchlist($id: ID!) {
     watchlist(id: $id) {
-      ...PROJECTS_WATCHLIST_QUERY
+      ...generalFragment
       stats {
         projectsCount
         trendingProjects {

@@ -4,9 +4,9 @@ import Dialog from '@santiment-network/ui/Dialog'
 import Button from '@santiment-network/ui/Button'
 import Toggle from '@santiment-network/ui/Toggle'
 import Notification from '@santiment-network/ui/Notification'
-import EmailImage from './EmailImage'
 import Trigger from './Trigger'
-import { useMonitoringWatchlist } from './hooks'
+import EmailImage from './EmailImage'
+import { useUpdateWatchlist } from '../../gql/list/mutations'
 import EmailSetting from '../../../../pages/Account/EmailSetting'
 import { useUserSettings } from '../../../../stores/user/settings'
 import { notifyMonitoring } from '../../Widgets/TopPanel/notifications'
@@ -43,19 +43,15 @@ const STATUSES = {
   error: 'Error during typing email'
 }
 
-const WeeklyReport = ({
-  trigger,
-  isMonitored: initialIsMonitored,
-  id,
-  name
-}) => {
+const WeeklyReport = ({ trigger, watchlist }) => {
+  const { isMonitored: initialIsMonitored, name } = watchlist
   const {
     settings: { isEmailConnected }
   } = useUserSettings()
   const [isShown, setIsShown] = useState(false)
   const [isMonitored, toggleIsMonitored] = useState(initialIsMonitored)
   const [emailStatus, toggleEmailStatus] = useState()
-  const [updateWatchlist] = useMonitoringWatchlist()
+  const [updateWatchlist] = useUpdateWatchlist()
 
   const close = () => {
     setIsShown(false)
@@ -69,11 +65,16 @@ const WeeklyReport = ({
 
   const onSave = () => {
     if (isEmailConnected && initialIsMonitored !== isMonitored) {
-      updateWatchlist(id, isMonitored).then(state => toggleIsMonitored(state))
+      updateWatchlist(watchlist, { isMonitored }).then(state => {
+        console.log(state)
+        toggleIsMonitored(state.isMonitored)
+      })
     }
 
     if (!isEmailConnected && emailStatus === STATUSES.success) {
-      updateWatchlist(id, isMonitored).then(state => toggleIsMonitored(state))
+      updateWatchlist(watchlist, { isMonitored }).then(state =>
+        toggleIsMonitored(state.isMonitored)
+      )
     }
 
     notifyMonitoring({ name, isMonitored, type: 'watchlist' })

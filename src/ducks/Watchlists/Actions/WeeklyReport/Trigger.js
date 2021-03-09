@@ -8,7 +8,7 @@ const Trigger = ({ isMonitored }) => (
   <Button
     border
     variant='flat'
-    accent={isMonitored ? '' : 'positive'}
+    accent='positive'
     className={cx(styles.trigger, isMonitored && styles.trigger__active)}
   >
     <Icon type='report' className={styles.icon} />

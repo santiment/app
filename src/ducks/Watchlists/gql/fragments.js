@@ -17,13 +17,13 @@ export const WATCHLIST_GENERAL_FRAGMENT = gql`
   fragment generalFragment on UserList {
     id
     name
+    type
     slug
-    description
     function
     isPublic
     insertedAt
+    description
     isMonitored
-    type
     user {
       id
     }
