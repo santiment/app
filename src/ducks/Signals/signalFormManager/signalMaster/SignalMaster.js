@@ -73,10 +73,10 @@ const SignalMaster = ({
   redirect,
   updateTrigger,
   createTrigger,
-  isShared = false,
   formChangedCallback,
-  openSharedForm = false,
-  setOpenSharedForm,
+  setSharedPreview,
+  isShared = false,
+  isSharedPreview = false,
   toggleAnon,
   isLoggedIn
 }) => {
@@ -88,7 +88,7 @@ const SignalMaster = ({
     ...propsTrigger
   })
 
-  const [formData, setFormData] = useState(
+  const [formData, setFormData] = useState(() =>
     getFormData(stateTrigger, metaFormSettings)
   )
 
@@ -139,9 +139,11 @@ const SignalMaster = ({
 
   const [settings, metaForm] = formData
 
+  console.log('isSharedPreview', isSharedPreview, stateTrigger)
+
   return (
-    <div className={cx(styles.wrapper, openSharedForm && styles.sharedForm)}>
-      {!openSharedForm && (
+    <div className={cx(styles.wrapper, isSharedPreview && styles.sharedForm)}>
+      {!isSharedPreview && (
         <TriggerForm
           setTitle={setTitle}
           id={stateTrigger.id}
@@ -153,11 +155,10 @@ const SignalMaster = ({
           formChangedCallback={formChangedCallback}
         />
       )}
-      {openSharedForm && (
+      {isSharedPreview && (
         <SharedTriggerForm
-          id={stateTrigger.id}
           trigger={stateTrigger}
-          onOpen={data => (isLoggedIn ? setOpenSharedForm(data) : toggleAnon())}
+          onOpen={data => (isLoggedIn ? setSharedPreview(data) : toggleAnon())}
           onCreate={() =>
             isLoggedIn ? handleSettingsChange(settings) : toggleAnon()
           }

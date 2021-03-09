@@ -101,7 +101,7 @@ const rightLinks = [
     children: 'Academy',
     as: ExternalLink,
     Dropdown: NavbarHelpDropdown,
-    className: styles.help
+    className: styles.btn
   },
   {
     to: '/pricing',

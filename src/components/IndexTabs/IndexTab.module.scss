@@ -23,6 +23,12 @@
   display: flex;
   margin-bottom: 32px;
   color: var(--rhino);
+  justify-content: space-between;
 
   @include text('h4', 'm');
+}
+
+.tabs {
+  display: flex;
+  flex: 1;
 }
