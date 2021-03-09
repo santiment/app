@@ -9,7 +9,6 @@ import WatchlistCard from '../../ducks/Watchlists/Cards/ProjectCard'
 import WatchlistAddressCard from '../../ducks/Watchlists/Cards/AddressCard'
 import { WatchlistCards } from '../../ducks/Watchlists/Cards/Card'
 import FeaturedWatchlistCards from '../../ducks/Watchlists/Cards/Featured'
-import { useAddressWatchlists } from '../../ducks/Watchlists/gql/queries'
 import NewWatchlistCard from '../../ducks/Watchlists/Cards/NewCard'
 import {
   newRenderQueue,
@@ -25,6 +24,7 @@ import {
 } from '../../ducks/Watchlists/detector'
 import EmptySection from './EmptySection'
 import {
+  useUserAddressWatchlists,
   useUserProjectWatchlists,
   useUserScreeners
 } from '../../ducks/Watchlists/gql/lists/hooks'
@@ -70,9 +70,9 @@ const Cards = ({ watchlists, path, Card = QueuedProjectCard, type }) => (
 
 const MyWatchlists = ({ data, addressesData, isDesktop }) => {
   const [watchlists, isLoading] = data
-  const addressesWatchlists = addressesData.watchlists
+  const [addressesWatchlists, addressesWatchlistsLoading] = addressesData
 
-  if (isLoading && addressesData.isAddressesLoading) return null
+  if (isLoading && addressesWatchlistsLoading) return null
 
   if (watchlists.length === 0 && addressesWatchlists.length === 0) {
     return (
@@ -114,7 +114,7 @@ const MyScreeners = () => {
 const Watchlists = ({ isDesktop }) => {
   const { isLoggedIn, loading } = useUser()
   const userWatchlistsData = useUserProjectWatchlists()
-  const userAddressesWatchlistsData = useAddressWatchlists()
+  const userAddressesWatchlistsData = useUserAddressWatchlists()
 
   return (
     <Page

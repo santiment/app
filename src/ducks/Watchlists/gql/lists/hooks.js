@@ -17,14 +17,11 @@ const OBJ = {}
 
 const screenersCB = lists => getScreenersList(filterIfScreener(lists))
 export const useUserScreeners = () =>
-  useUserWatchlistsLoader(screenersCB, getWatchlistsShortQuery(SCREENER))
+  useUserWatchlistsLoader(getWatchlistsShortQuery(SCREENER), screenersCB)
 export const useUserProjectWatchlists = () =>
-  useUserWatchlistsLoader(filterIfNotScreener, getWatchlistsShortQuery(PROJECT))
+  useUserWatchlistsLoader(getWatchlistsShortQuery(PROJECT), filterIfNotScreener)
 export const useUserAddressWatchlists = () =>
-  useUserWatchlistsLoader(
-    filterIfNotScreener,
-    getWatchlistsShortQuery(BLOCKCHAIN_ADDRESS)
-  )
+  useUserWatchlistsLoader(getWatchlistsShortQuery(BLOCKCHAIN_ADDRESS))
 
 export const useFeaturedWatchlists = () =>
   useWatchlistsLoader(FEATURED_WATCHLISTS_QUERY, OBJ, sortFeaturedWatchlists)

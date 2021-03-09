@@ -1,4 +1,5 @@
 import gql from 'graphql-tag'
+import { BLOCKCHAIN_ADDRESS } from '../detector'
 
 export const SHORT_WATCHLIST_FRAGMENT = gql`
   fragment generalFragment on UserList {
@@ -29,3 +30,11 @@ export const WATCHLIST_GENERAL_FRAGMENT = gql`
     }
   }
 `
+
+export const getStats = type =>
+  type !== BLOCKCHAIN_ADDRESS
+    ? ''
+    : `
+  stats {
+    blockchainAddressesCount
+  }`

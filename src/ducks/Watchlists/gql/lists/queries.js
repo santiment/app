@@ -1,13 +1,14 @@
 import { useMemo } from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
-import { SHORT_WATCHLIST_FRAGMENT } from '../fragments'
 import { useUser } from '../../../../stores/user'
+import { getStats, SHORT_WATCHLIST_FRAGMENT } from '../fragments'
 
 export const USER_SHORT_WATCHLISTS_QUERY = type => gql`
   query fetchWatchlists {
     watchlists: fetchWatchlists(type: ${type}) {
       ...generalFragment
+      ${getStats(type)}
     }
   }
   ${SHORT_WATCHLIST_FRAGMENT}
@@ -39,7 +40,7 @@ export function useWatchlistsLoader (query, options, cb = CB) {
   return useMemo(() => [cb(data ? data.watchlists : ARRAY), loading], [data])
 }
 
-export function useUserWatchlistsLoader (cb, query) {
+export function useUserWatchlistsLoader (query, cb) {
   const { isLoggedIn } = useUser()
   return useWatchlistsLoader(query, { skip: !isLoggedIn }, cb)
 }
