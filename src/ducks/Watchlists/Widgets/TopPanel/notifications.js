@@ -37,14 +37,6 @@ export function notifyUpdate (title) {
   })
 }
 
-export function notifyErrorUpdate () {
-  return dispatchNotification({
-    variant: 'error',
-    title: 'Error during the saving process',
-    dismissAfter: 5000
-  })
-}
-
 export function notifyLoginForSave (history) {
   return dispatchNotification({
     variant: 'warning',
@@ -80,6 +72,7 @@ export function notifyOutdatedVersion () {
   })
 }
 
+// NOTE: move to edit mutation [haritonasty 09.03.2021]
 export function notifyMonitoring ({ type = 'watchlist', name, isMonitored }) {
   return dispatchNotification({
     variant: 'success',
