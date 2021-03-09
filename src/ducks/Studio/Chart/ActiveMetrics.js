@@ -16,11 +16,11 @@ const API_TEST_URL = isStage
   ? 'https://apitestsweb-stage.santiment.net/gql_test_suite/latest.json'
   : 'https://apitestsweb-production.santiment.net/gql_test_suite/latest.json'
 
-const Actions = ({ children, isActive }) => (
+const Actions = ({ children, childrenOffset, isActive }) => (
   <div
     className={cx(styles.settings, isActive && styles.settings_active)}
     style={{
-      '--items': children.length
+      '--items': children.length - childrenOffset
     }}
   >
     <div className={styles.settings__visible}>{children}</div>
@@ -117,7 +117,10 @@ const MetricButton = ({
       )}
 
       {isWithSettings && (
-        <Actions isActive={metricSettings === metric}>
+        <Actions
+          isActive={metricSettings === metric}
+          childrenOffset={1 - isLoggedIn}
+        >
           <Customization metric={metric} onClick={onSettingsClick} />
           <MetricLock
             metrics={metrics}

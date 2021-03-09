@@ -24,7 +24,7 @@ const SortableGroup = ({ onDragEnd, onDragStart, ...props }) => (
   <SortableList
     {...props}
     axis='y'
-    distance={20}
+    distance={10}
     helperClass={styles.dragged}
     onSortStart={onDragStart}
     onSortEnd={onDragEnd}
