@@ -11,6 +11,7 @@ import ProPopupWrapper from '../../../../../components/ProPopup/Wrapper'
 import ExplanationTooltip from '../../../../../components/ExplanationTooltip/ExplanationTooltip'
 import { useIsAuthor } from '../../../gql/list/hooks'
 import ColumnsToggler from '../Columns/Toggler'
+import { PROJECT } from '../../../detector'
 import styles from './index.module.scss'
 
 const EMPTY_OBJ = {}
@@ -112,7 +113,7 @@ const TableTop = ({
         />
         <SaveAs
           watchlist={watchlist}
-          type='watchlist'
+          type={PROJECT}
           trigger={
             <div className={cx(styles.action, styles.action__saveAs)}>
               <ExplanationTooltip

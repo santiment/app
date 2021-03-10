@@ -107,7 +107,7 @@ const WatchlistPage = props => {
                     filterType={filterType}
                     items={showingAssets}
                     goto={props.history.push}
-                    type='watchlist'
+                    type={PROJECT}
                     preload={props.preload}
                     listName={title}
                     allColumns={ASSETS_TABLE_COLUMNS}
