@@ -4,11 +4,15 @@ import { useMutation } from '@apollo/react-hooks'
 import { history } from '../../../../redux'
 import { getWatchlistLink } from '../../url'
 import { stringifyFn } from '../../../Screener/utils'
-import { SHORT_WATCHLIST_FRAGMENT } from '../fragments'
+import {
+  getListItemsFragment,
+  getStats,
+  SHORT_WATCHLIST_FRAGMENT
+} from '../fragments'
 import { normalizeItems, transformToServerType } from '../helpers'
 import {
-  updateWatchlistOnEdit,
   updateWatchlistsOnCreation,
+  updateWatchlistOnEdit,
   updateWatchlistsOnDelete
 } from '../cache'
 import {
@@ -24,7 +28,7 @@ import {
   notifyError
 } from '../../Widgets/TopPanel/notifications'
 
-const CREATE_WATCHLIST_MUTATION = gql`
+const CREATE_WATCHLIST_MUTATION = type => gql`
   mutation createWatchlist(
     $type: WatchlistTypeEnum
     $name: String!
@@ -44,9 +48,12 @@ const CREATE_WATCHLIST_MUTATION = gql`
       listItems: $listItems
     ) {
       ...generalFragment
+      ...listItemsFragment
+      ${getStats(type)}
     }
   }
   ${SHORT_WATCHLIST_FRAGMENT}
+  ${getListItemsFragment(type)}
 `
 
 const REMOVE_WATCHLIST_MUTATION = gql`
@@ -118,7 +125,7 @@ export function useUpdateWatchlist () {
 }
 
 export function useCreateWatchlist (type) {
-  const [mutate, data] = useMutation(CREATE_WATCHLIST_MUTATION, {
+  const [mutate, data] = useMutation(CREATE_WATCHLIST_MUTATION(type), {
     update: updateWatchlistsOnCreation
   })
 
