@@ -1,32 +1,15 @@
 import gql from 'graphql-tag'
+import { generalData, project } from '../ducks/Watchlists/gql/allProjectsGQL'
 import {
-  generalData,
-  project,
-  PROJECT_RECENT_DATA_FRAGMENT
-} from '../ducks/Watchlists/gql/allProjectsGQL'
-import { WATCHLIST_GENERAL_FRAGMENT } from '../ducks/Watchlists/gql/fragments'
-
-export const PROJECT_ITEM_FRAGMENT = gql`
-  fragment listShortItems on UserList {
-    listItems {
-      project {
-        id
-        slug
-      }
-    }
-  }
-`
+  PROJECTS_LIST_ITEMS_FRAGMENT,
+  WATCHLIST_GENERAL_FRAGMENT
+} from '../ducks/Watchlists/gql/fragments'
 
 export const PROJECTS_WATCHLIST_QUERY = gql`
   query watchlist($id: ID!) {
     watchlist(id: $id) {
       ...generalFragment
-      listItems {
-        project {
-          ...generalData
-          ...recentProjectData
-        }
-      }
+      ...listItemsFragment
       tableConfiguration {
         id
         title
@@ -35,8 +18,7 @@ export const PROJECTS_WATCHLIST_QUERY = gql`
     }
   }
   ${WATCHLIST_GENERAL_FRAGMENT}
-  ${generalData}
-  ${PROJECT_RECENT_DATA_FRAGMENT}
+  ${PROJECTS_LIST_ITEMS_FRAGMENT}
 `
 
 export const WATCHLISTS_SETTINGS_QUERY = gql`

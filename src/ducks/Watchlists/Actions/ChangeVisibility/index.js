@@ -4,7 +4,7 @@ import { useUpdateWatchlist } from '../../gql/list/mutations'
 
 const PublicityToggle = ({ watchlist, ...props }) => {
   const [isActive, setActive] = useState(watchlist.isPublic)
-  const [updateWatchlist] = useUpdateWatchlist()
+  const [updateWatchlist] = useUpdateWatchlist(watchlist.type)
 
   return (
     <Toggle

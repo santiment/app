@@ -1,37 +1,15 @@
-import gql from 'graphql-tag'
 import { client } from '../../../apollo'
+import { normalizeItems } from './helpers'
 import { updateWatchlistOnEdit } from './cache'
-import { LIST_ITEMS_FRAGMENT } from '../../WatchlistAddressesTable/gql/queries'
-
-export const UPDATE_WATCHLIST_SHORT_MUTATION = gql`
-  mutation updateWatchlist($id: Int!, $listItems: [InputListItem]) {
-    updateWatchlist(id: $id, listItems: $listItems) {
-      id
-      type
-      ...listItemsFragment
-    }
-  }
-  ${LIST_ITEMS_FRAGMENT}
-`
-
-const removeTypename = ({ __typename, ...rest }) => rest
-function normalizeListItems ({ listItems, ...rest }) {
-  const newListItems =
-    listItems &&
-    listItems.map(item => {
-      const newItem = removeTypename(item)
-      Object.keys(newItem).forEach(key => {
-        newItem[key] = removeTypename(newItem[key])
-      })
-      return newItem
-    })
-
-  return { ...rest, listItems: newListItems }
-}
+import { BLOCKCHAIN_ADDRESS } from '../detector'
+import { UPDATE_WATCHLIST_MUTATION } from './list/mutations'
 
 export const updateWatchlistShort = variables =>
   client.mutate({
-    mutation: UPDATE_WATCHLIST_SHORT_MUTATION,
+    mutation: UPDATE_WATCHLIST_MUTATION(BLOCKCHAIN_ADDRESS),
     update: updateWatchlistOnEdit,
-    variables: normalizeListItems(variables)
+    variables: {
+      ...variables,
+      listItems: normalizeItems(variables.listItems, BLOCKCHAIN_ADDRESS)
+    }
   })

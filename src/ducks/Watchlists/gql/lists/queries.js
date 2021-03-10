@@ -5,7 +5,7 @@ import { useUser } from '../../../../stores/user'
 import {
   getStats,
   SHORT_WATCHLIST_FRAGMENT,
-  getListItemsFragment
+  getListItemsShortFragment
 } from '../fragments'
 
 export const USER_SHORT_WATCHLISTS_QUERY = type => gql`
@@ -27,7 +27,7 @@ export const USER_WATCHLISTS_QUERY = type => gql`
       }
     }
     ${SHORT_WATCHLIST_FRAGMENT}
-    ${getListItemsFragment(type)}
+    ${getListItemsShortFragment(type)}
   `
 
 export const FEATURED_WATCHLISTS_QUERY = gql`
