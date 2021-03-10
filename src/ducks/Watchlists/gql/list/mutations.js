@@ -1,14 +1,21 @@
 import gql from 'graphql-tag'
 import * as Sentry from '@sentry/react'
+import { client } from '../../../../apollo'
 import { useMutation } from '@apollo/react-hooks'
 import { history } from '../../../../redux'
 import { getWatchlistLink } from '../../url'
 import { stringifyFn } from '../../../Screener/utils'
-import { SHORT_WATCHLIST_FRAGMENT } from '../fragments'
+import {
+  getListItemsFragment,
+  getListItemsShortFragment,
+  getStats,
+  SHORT_WATCHLIST_FRAGMENT,
+  WATCHLIST_GENERAL_FRAGMENT
+} from '../fragments'
 import { normalizeItems, transformToServerType } from '../helpers'
 import {
-  updateWatchlistOnEdit,
   updateWatchlistsOnCreation,
+  updateWatchlistOnEdit,
   updateWatchlistsOnDelete
 } from '../cache'
 import {
@@ -24,7 +31,7 @@ import {
   notifyError
 } from '../../Widgets/TopPanel/notifications'
 
-const CREATE_WATCHLIST_MUTATION = gql`
+const CREATE_WATCHLIST_MUTATION = type => gql`
   mutation createWatchlist(
     $type: WatchlistTypeEnum
     $name: String!
@@ -44,9 +51,12 @@ const CREATE_WATCHLIST_MUTATION = gql`
       listItems: $listItems
     ) {
       ...generalFragment
+      ...listItemsFragment
+      ${getStats(type)}
     }
   }
   ${SHORT_WATCHLIST_FRAGMENT}
+  ${getListItemsShortFragment(type)}
 `
 
 const REMOVE_WATCHLIST_MUTATION = gql`
@@ -58,7 +68,7 @@ const REMOVE_WATCHLIST_MUTATION = gql`
   }
 `
 
-const UPDATE_WATCHLIST_MUTATION = gql`
+export const UPDATE_WATCHLIST_MUTATION = type => gql`
   mutation updateWatchlist(
     $id: Int!
     $name: String
@@ -66,6 +76,7 @@ const UPDATE_WATCHLIST_MUTATION = gql`
     $isPublic: Boolean
     $description: String
     $isMonitored: Boolean
+    $listItems: [InputListItem]
   ) {
     updateWatchlist(
       id: $id
@@ -74,21 +85,33 @@ const UPDATE_WATCHLIST_MUTATION = gql`
       isPublic: $isPublic
       description: $description
       isMonitored: $isMonitored
+      listItems: $listItems
     ) {
       ...generalFragment
-      isMonitored
+      ...listItemsFragment
+      tableConfiguration {
+        id
+        title
+        columns
+      }
+      ${getStats(type)}
     }
   }
-  ${SHORT_WATCHLIST_FRAGMENT}
+  ${WATCHLIST_GENERAL_FRAGMENT}
+  ${getListItemsFragment(type)}
 `
 
-export function useUpdateWatchlist () {
-  const [mutate, data] = useMutation(UPDATE_WATCHLIST_MUTATION, {
+export function useUpdateWatchlist (type) {
+  const [mutate, data] = useMutation(UPDATE_WATCHLIST_MUTATION(type), {
     update: updateWatchlistOnEdit
   })
 
   function updateWatchlist (watchlist, newParams) {
-    const { id, name, description, function: oldFn } = watchlist
+    const { id, name, function: oldFn } = watchlist
+    const description =
+      newParams.description === undefined
+        ? watchlist.description
+        : newParams.description
     const isPublic =
       newParams.isPublic === undefined ? watchlist.isPublic : newParams.isPublic
     const isMonitored =
@@ -101,8 +124,8 @@ export function useUpdateWatchlist () {
         id: +id,
         isPublic,
         isMonitored,
+        description,
         name: newParams.name || name,
-        description: newParams.description || description,
         function: stringifyFn(newParams.function || oldFn)
       }
     })
@@ -117,8 +140,18 @@ export function useUpdateWatchlist () {
   return [updateWatchlist, data]
 }
 
+export const updateWatchlistShort = variables =>
+  client.mutate({
+    mutation: UPDATE_WATCHLIST_MUTATION(BLOCKCHAIN_ADDRESS),
+    update: updateWatchlistOnEdit,
+    variables: {
+      ...variables,
+      listItems: normalizeItems(variables.listItems, BLOCKCHAIN_ADDRESS)
+    }
+  })
+
 export function useCreateWatchlist (type) {
-  const [mutate, data] = useMutation(CREATE_WATCHLIST_MUTATION, {
+  const [mutate, data] = useMutation(CREATE_WATCHLIST_MUTATION(type), {
     update: updateWatchlistsOnCreation
   })
 

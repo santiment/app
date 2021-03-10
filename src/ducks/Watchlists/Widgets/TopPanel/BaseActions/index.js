@@ -12,7 +12,7 @@ import styles from './index.module.scss'
 
 const Actions = ({ watchlist, type, onClick, isAuthor, isAuthorLoading }) => {
   const [lists] = useUserWatchlists(type)
-  const [updateWatchlist, { loading }] = useUpdateWatchlist()
+  const [updateWatchlist, { loading }] = useUpdateWatchlist(type)
   const [isMenuOpened, setIsMenuOpened] = useState(false)
 
   if (!watchlist.id || isAuthorLoading) {

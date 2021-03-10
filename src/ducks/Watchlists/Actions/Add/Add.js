@@ -5,8 +5,9 @@ import Loader from '@santiment-network/ui/Loader/Loader'
 import NewWatchlist from '../New'
 import NewBtn from '../New/NewBtn'
 import { store } from '../../../../redux'
-import { VisibilityIndicator } from '../../../../components/VisibilityIndicator'
+import { BLOCKCHAIN_ADDRESS } from '../../detector'
 import { showNotification } from '../../../../actions/rootActions'
+import { VisibilityIndicator } from '../../../../components/VisibilityIndicator'
 import styles from './Add.module.scss'
 
 const Watchlist = ({ watchlist, isActive, onClick }) => {
@@ -26,7 +27,7 @@ const Watchlists = ({
   onWatchlistClick,
   getWatchlists
 }) => {
-  const { watchlists, isLoading } = getWatchlists()
+  const [watchlists, isLoading] = getWatchlists()
 
   useEffect(
     () => {
@@ -52,9 +53,9 @@ const Watchlists = ({
       </div>
 
       <NewWatchlist
+        type={BLOCKCHAIN_ADDRESS}
         openOnSuccess={false}
         trigger={<NewBtn border disabled={isLoading} className={styles.new} />}
-        lists={watchlists}
       />
     </>
   )

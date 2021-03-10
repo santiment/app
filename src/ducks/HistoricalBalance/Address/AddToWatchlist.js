@@ -1,10 +1,10 @@
 import React from 'react'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
-import AddToWatchlistDialog from '../../Watchlists/Actions/Add/Add'
-import { useAddressWatchlists } from '../../Watchlists/gql/queries'
-import { updateWatchlistShort } from '../../Watchlists/gql/mutations'
 import { Infrastructure } from '../../../utils/address'
+import AddToWatchlistDialog from '../../Watchlists/Actions/Add/Add'
+import { useAddressWatchlists } from '../../Watchlists/gql/lists/hooks'
+import { updateWatchlistShort } from '../../Watchlists/gql/list/mutations'
 import styles from './index.module.scss'
 
 const updateWatchlist = ({ id, listItems }) =>
@@ -48,7 +48,7 @@ const AddToWatchlist = ({ address, infrastructure }) => {
           disabled={infrastructure !== Infrastructure.ETH}
         >
           <Icon type='copy' className={styles.btn__icon} />
-          Add to Watchlist
+          Add to watchlist
         </Button>
       }
       getWatchlists={useAddressWatchlists}

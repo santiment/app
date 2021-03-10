@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import Input from '@santiment-network/ui/Input'
 import Label from '@santiment-network/ui/Label'
-import { SCREENER } from '../../detector'
-import { useDebounce } from '../../../../hooks/index'
-import PublicityToggle from '../ChangeVisibility/Toggle'
-import { useUserWatchlists } from '../../gql/lists/hooks'
-import styles from './EditForm.module.scss'
+import { SCREENER } from '../../../detector'
+import { useDebounce } from '../../../../../hooks/index'
+import PublicityToggle from '../../ChangeVisibility/Toggle'
+import { useUserWatchlists } from '../../../gql/lists/hooks'
+import styles from './index.module.scss'
 
 const MIN_LENGTH = 3
 const SHORT_NAME_ERROR = `The name should be at least ${MIN_LENGTH} characters`

@@ -41,7 +41,9 @@ const Screener = ({
   const activeColumns = useMemo(() => getColumns(activeColumnsKeys), [
     activeColumnsKeys
   ])
-  const [updateWatchlist, { loading: isUpdating }] = useUpdateWatchlist()
+  const [updateWatchlist, { loading: isUpdating }] = useUpdateWatchlist(
+    SCREENER
+  )
   const [screenerFn, setScreenerFn] = useState(
     watchlist.function || DEFAULT_SCREENER_FN
   )

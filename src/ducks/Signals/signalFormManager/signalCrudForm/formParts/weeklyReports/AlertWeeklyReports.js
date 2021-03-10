@@ -9,7 +9,7 @@ import { useUpdateWatchlist } from '../../../../../Watchlists/gql/list/mutations
 const AlertWeeklyReports = ({ watchlist }) => {
   const { isMonitored: initialMonitoring } = watchlist
   const [isMonitored, setMonitored] = useState(initialMonitoring)
-  const [updateWatchlist] = useUpdateWatchlist()
+  const [updateWatchlist] = useUpdateWatchlist(watchlist.type)
 
   const {
     settings: { isEmailConnected }

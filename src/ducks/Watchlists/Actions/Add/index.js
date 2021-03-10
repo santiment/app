@@ -10,8 +10,8 @@ import { showNotification } from '../../../../actions/rootActions'
 import Watchlists from '../../Templates/Watchlists'
 import { hasAssetById } from '../../utils'
 import LoginPopup from '../../../../components/banners/feature/PopupBanner'
-import { useUserWatchlists } from '../../gql/hooks'
 import { useUser } from '../../../../stores/user'
+import { useProjectWatchlists } from '../../gql/lists/hooks'
 import styles from './index.module.scss'
 
 const AddToListBtn = (
@@ -29,17 +29,17 @@ const WatchlistPopup = ({
   dialogProps,
   ...props
 }) => {
+  const { isLoggedIn } = useUser()
+  const [watchlists] = useProjectWatchlists()
   const [changes, setChanges] = useState([])
   const [isShown, setIsShown] = useState(false)
   const [editableAssets, setEditableAssets] = useState(editableAssetsInList)
-  const [watchlists = []] = useUserWatchlists()
-  const { isLoggedIn } = useUser()
 
   if (!isLoggedIn) {
     return <LoginPopup>{trigger}</LoginPopup>
   }
 
-  const lists = watchlists.sort(sortWatchlists).map(list => ({
+  const lists = watchlists.map(list => ({
     ...list,
     listItems: list.listItems.map(assets => assets.project)
   }))
@@ -120,11 +120,6 @@ const WatchlistPopup = ({
     </Dialog>
   )
 }
-
-const sortWatchlists = (
-  { insertedAt: insertedList1 },
-  { insertedAt: insertedList2 }
-) => new Date(insertedList1) - new Date(insertedList2)
 
 const mapStateToProps = state => ({
   watchlistUi: state.watchlistUi

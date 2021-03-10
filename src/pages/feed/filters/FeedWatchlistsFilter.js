@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom'
 import Select from '@santiment-network/ui/Search/Select/Select'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import FeedFiltersDdWrapper from './FeedFiltersDdWrapper'
-import { useUserWatchlists } from '../../../ducks/Watchlists/gql/hooks'
+import { useProjectWatchlists } from '../../../ducks/Watchlists/gql/lists/hooks'
 import styles from './FeedFiltersDdWrapper.module.scss'
 
 const FeedWatchlistsFilter = ({ ids, onUpdate }) => {
-  const [watchlists = [], loading] = useUserWatchlists()
+  const [watchlists, loading] = useProjectWatchlists()
 
   return (
     <FeedFiltersDdWrapper
