@@ -16,7 +16,6 @@ import ExplanationTooltip from '../../../../components/ExplanationTooltip/Explan
 import AssetsToggleColumns from './AssetsToggleColumns'
 import { COLUMNS } from './asset-columns'
 import Copy from '../../Actions/Copy'
-import SaveAs from '../../Actions/SaveAs'
 import DownloadCSV from '../../Actions/DownloadCSV'
 import { COMMON_SETTINGS, COLUMNS_SETTINGS } from './columns'
 import { markedAsShowed } from '../../../SANCharts/SidecarExplanationTooltip'
@@ -26,7 +25,6 @@ import CompareAction from './CompareInfo/CompareAction'
 import { usePriceGraph } from './PriceGraph/hooks'
 import { normalizeGraphData } from './PriceGraph/utils'
 import { FILTERS_EXPLANATION_TOOLTIP_MARK } from '../Filter/Trigger'
-import { PROJECT } from '../../detector'
 import './ProjectsTable.scss'
 import styles from './AssetsTable.module.scss'
 
@@ -230,28 +228,13 @@ const AssetsTable = ({
           <Copy
             id={typeInfo.listId}
             trigger={
-              <div className={cx(styles.action, styles.action__withLine)}>
+              <div className={styles.action}>
                 <ExplanationTooltip
                   text='Copy assets to watchlist'
                   offsetY={10}
                   className={styles.action__tooltip}
                 >
                   <Icon type='copy' />
-                </ExplanationTooltip>
-              </div>
-            }
-          />
-          <SaveAs
-            watchlist={watchlist}
-            type={PROJECT}
-            trigger={
-              <div className={cx(styles.action, styles.action__saveAs)}>
-                <ExplanationTooltip
-                  text='Save as watchlist'
-                  offsetY={10}
-                  className={styles.action__tooltip}
-                >
-                  <Icon type='add-watchlist' />
                 </ExplanationTooltip>
               </div>
             }

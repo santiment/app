@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from 'react'
-import SaveAs from './SaveAs'
 import DownloadCSV from './DownloadCSV'
 import PagedTable from '../_Table/Paged'
 import { CHECKBOX_COLUMN, INDEX_COLUMN } from '../_Table/columns'
@@ -32,8 +31,6 @@ const WatchlistTable = ({
         />
 
         <div className={styles.actions}>
-          <SaveAs watchlist={watchlist} />
-          <Divider />
           <DownloadCSV watchlist={watchlist} data={csvData} />
         </div>
       </div>
