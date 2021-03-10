@@ -1,21 +1,38 @@
 import { useMemo } from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
-import { SHORT_WATCHLIST_FRAGMENT } from '../fragments'
 import { useUser } from '../../../../stores/user'
+import {
+  getStats,
+  SHORT_WATCHLIST_FRAGMENT,
+  getListItemsShortFragment
+} from '../fragments'
 
-export const USER_SHORT_WATCHLISTS_QUERY = gql`
-  query fetchWatchlists($type: WatchlistTypeEnum) {
-    fetchWatchlists(type: $type) {
+export const USER_SHORT_WATCHLISTS_QUERY = type => gql`
+  query fetchWatchlists {
+    watchlists: fetchWatchlists(type: ${type}) {
       ...generalFragment
+      ${getStats(type)}
     }
   }
   ${SHORT_WATCHLIST_FRAGMENT}
 `
 
+export const USER_WATCHLISTS_QUERY = type => gql`
+    query fetchWatchlists {
+      watchlists: fetchWatchlists(type: ${type}) {
+        ...generalFragment
+        ...listItemsFragment
+        ${getStats(type)}
+      }
+    }
+    ${SHORT_WATCHLIST_FRAGMENT}
+    ${getListItemsShortFragment(type)}
+  `
+
 export const FEATURED_WATCHLISTS_QUERY = gql`
   query featuredWatchlists {
-    fetchWatchlists: featuredWatchlists {
+    watchlists: featuredWatchlists {
       id
       name
     }
@@ -24,7 +41,7 @@ export const FEATURED_WATCHLISTS_QUERY = gql`
 
 export const FEATURED_SCREENERS_QUERY = gql`
   query featuredScreeners {
-    fetchWatchlists: featuredScreeners {
+    watchlists: featuredScreeners {
       id
       name
     }
@@ -36,16 +53,10 @@ const CB = _ => _
 
 export function useWatchlistsLoader (query, options, cb = CB) {
   const { data, loading } = useQuery(query, options)
-  return useMemo(() => [data ? cb(data.fetchWatchlists) : ARRAY, loading], [
-    data
-  ])
+  return useMemo(() => [cb(data ? data.watchlists : ARRAY), loading], [data])
 }
 
-export function useUserWatchlistsLoader (
-  cb,
-  options,
-  query = USER_SHORT_WATCHLISTS_QUERY
-) {
+export function useUserWatchlistsLoader (query, cb) {
   const { isLoggedIn } = useUser()
-  return useWatchlistsLoader(query, { skip: !isLoggedIn, ...options }, cb)
+  return useWatchlistsLoader(query, { skip: !isLoggedIn }, cb)
 }

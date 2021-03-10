@@ -14,7 +14,6 @@ const AssetsTable = ({
   items = [],
   loading,
   type,
-  isAuthor,
   listName,
   watchlist,
   refetchAssets,
@@ -53,7 +52,6 @@ const AssetsTable = ({
         listName={listName}
         items={allItems}
         watchlist={watchlist}
-        isAuthor={isAuthor}
         isLoading={loading}
         columns={columns}
         sorting={sorting}

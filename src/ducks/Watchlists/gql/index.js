@@ -1,125 +1,15 @@
 import gql from 'graphql-tag'
 import { client } from '../../../apollo'
-import { generalData, PROJECT_RECENT_DATA_FRAGMENT } from './allProjectsGQL'
 import { AGGREGATIONS_UPPER } from '../Widgets/Filter/dataHub/aggregations'
-
-export const WATCHLIST_GENERAL_FRAGMENT = gql`
-  fragment generalListData on UserList {
-    id
-    isPublic
-    name
-    slug
-    description
-    function
-    insertedAt
-    isMonitored
-    updatedAt
-    type
-    user {
-      id
-    }
-  }
-`
-
-export const PROJECT_ITEM_FRAGMENT = gql`
-  fragment listShortItems on UserList {
-    listItems {
-      project {
-        id
-        slug
-        name
-        ticker
-        priceUsd
-        percentChange7d
-        logoUrl
-        darkLogoUrl
-      }
-    }
-  }
-`
+import { SHORT_WATCHLIST_FRAGMENT } from './fragments'
 
 export const WATCHLIST_SHORT_QUERY = gql`
   query watchlist($id: ID!) {
     watchlist(id: $id) {
-      ...generalListData
+      ...generalFragment
     }
   }
-  ${WATCHLIST_GENERAL_FRAGMENT}
-`
-
-export const USER_WATCHLISTS_QUERY = gql`
-  query fetchWatchlists {
-    fetchWatchlists {
-      ...generalListData
-      ...listShortItems
-    }
-  }
-  ${WATCHLIST_GENERAL_FRAGMENT}
-  ${PROJECT_ITEM_FRAGMENT}
-`
-
-export const REMOVE_WATCHLIST_MUTATION = gql`
-  mutation removeWatchlist($id: Int!) {
-    removeWatchlist(id: $id) {
-      id
-      name
-      type
-    }
-  }
-`
-
-export const CREATE_WATCHLIST_MUTATION = gql`
-  mutation createWatchlist(
-    $type: WatchlistTypeEnum
-    $isPublic: Boolean
-    $name: String!
-    $description: String
-    $function: json
-    $listItems: [InputListItem]
-  ) {
-    createWatchlist(
-      type: $type
-      isPublic: $isPublic
-      name: $name
-      description: $description
-      function: $function
-      listItems: $listItems
-    ) {
-      ...generalListData
-      ...listShortItems
-    }
-  }
-  ${WATCHLIST_GENERAL_FRAGMENT}
-  ${PROJECT_ITEM_FRAGMENT}
-`
-
-export const UPDATE_WATCHLIST_MUTATION = gql`
-  mutation updateWatchlist(
-    $id: Int!
-    $isPublic: Boolean
-    $name: String
-    $description: String
-    $function: json
-  ) {
-    updateWatchlist(
-      id: $id
-      isPublic: $isPublic
-      name: $name
-      description: $description
-      function: $function
-    ) {
-      ...generalListData
-      listItems {
-        project {
-          ...generalData
-          ...recentProjectData
-        }
-      }
-    }
-  }
-  ${WATCHLIST_GENERAL_FRAGMENT}
-  ${generalData}
-  ${PROJECT_RECENT_DATA_FRAGMENT}
+  ${SHORT_WATCHLIST_FRAGMENT}
 `
 
 export const getRecentWatchlist = id =>

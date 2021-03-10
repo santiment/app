@@ -1,43 +1,22 @@
 import React from 'react'
 import PageLoader from '../../components/Loader/PageLoader'
 import { getScreenerLink } from '../../ducks/Watchlists/url'
-import { useCreateScreener } from '../../ducks/Watchlists/gql/hooks'
 import { checkIsDefaultScreener } from '../../ducks/Screener/utils'
 import { useUserScreeners } from '../../ducks/Watchlists/gql/lists/hooks'
+import { useCreateScreener } from '../../ducks/Watchlists/gql/list/mutations'
 
-function redirectToUserWatchlist ({
-  createScreener,
-  isLoadingNewScreener,
-  history,
-  screeners
-}) {
-  const isDefaultFirstScreener = checkIsDefaultScreener(screeners[0].href)
+const NewScreener = ({ history }) => {
+  const [screeners, isScreenersLoading] = useUserScreeners()
+  const [createScreener, { loading }] = useCreateScreener()
 
-  if (isDefaultFirstScreener) {
-    if (!isLoadingNewScreener) {
+  if (!isScreenersLoading && checkIsDefaultScreener(screeners[0].href)) {
+    if (!loading) {
       createScreener({ name: 'My Screener', isPublic: false }).then(screener =>
         history.push(getScreenerLink(screener))
       )
     }
   } else {
     history.push(getScreenerLink(screeners[0]))
-  }
-}
-
-const NewScreener = ({ history }) => {
-  const [screeners, isLoadingScreenersList] = useUserScreeners()
-  const [
-    createScreener,
-    { loading: isLoadingNewScreener }
-  ] = useCreateScreener()
-
-  if (!isLoadingScreenersList) {
-    redirectToUserWatchlist({
-      createScreener,
-      isLoadingNewScreener,
-      history,
-      screeners
-    })
   }
 
   return <PageLoader />

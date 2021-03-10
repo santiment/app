@@ -3,6 +3,8 @@ import {
   checkIsScreener,
   DEFAULT_SCREENER
 } from '../../../Screener/utils'
+import { transformToServerType } from '../helpers'
+import { USER_SHORT_WATCHLISTS_QUERY, USER_WATCHLISTS_QUERY } from './queries'
 
 const DEFAULT_SCREENERS = [DEFAULT_SCREENER]
 
@@ -17,3 +19,9 @@ export const filterIfScreener = lists => lists.filter(checkIsScreener)
 export const filterIfNotScreener = lists => lists.filter(checkIsNotScreener)
 export const getScreenersList = lists =>
   lists.length > 0 ? lists : DEFAULT_SCREENERS
+
+export const getWatchlistsShortQuery = type =>
+  USER_SHORT_WATCHLISTS_QUERY(transformToServerType(type))
+
+export const getWatchlistsQuery = type =>
+  USER_WATCHLISTS_QUERY(transformToServerType(type))

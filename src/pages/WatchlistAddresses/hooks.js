@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { ADDRESS_WATCHLIST_QUERY } from '../../ducks/WatchlistAddressesTable/gql/queries'
-import { useUser } from '../../stores/user'
 
 const OBJECT = {}
 const ARRAY = []
@@ -15,13 +14,6 @@ export function useAddressWatchlist (id) {
     watchlist: data ? data.watchlist || OBJECT : OBJECT,
     isLoading: loading
   }
-}
-
-export function useIsWatchlistAuthor (watchlist) {
-  const { user } = useUser()
-  const userId = user && user.id
-  const authorId = watchlist.user && watchlist.user.id
-  return userId === authorId
 }
 
 const itemAccessor = ({ blockchainAddress }) => blockchainAddress

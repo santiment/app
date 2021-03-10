@@ -21,17 +21,6 @@
   position: absolute;
 }
 
-.name {
-  @include text('h4');
-
-  white-space: nowrap;
-  margin: 0;
-}
-
-.description {
-  margin: 0 0 0 10px;
-}
-
 .row {
   display: flex;
   align-items: center;

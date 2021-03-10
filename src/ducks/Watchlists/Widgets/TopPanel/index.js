@@ -1,31 +1,31 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import BaseActions from './BaseActions'
-import Widgets from './Widgets'
-import Share from '../../Actions/Share'
+import Title from './Title'
 import Filter from '../Filter'
-import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
+import Widgets from './Widgets'
+import BaseActions from './BaseActions'
+import Share from '../../Actions/Share'
+import { useIsAuthor } from '../../gql/list/hooks'
+import { PROJECT, SCREENER } from '../../detector'
+import WeeklyReport from '../../Actions/WeeklyReport'
 import ScreenerSignalDialog from '../../../Signals/ScreenerSignal/ScreenerSignalDialog'
-import HelpPopup from '../../../../components/HelpPopup/HelpPopup'
 import styles from './index.module.scss'
 
 const TopPanel = ({
   name,
-  description,
-  id,
+  type,
+  widgets,
+  setWidgets,
+  className,
   watchlist,
-  isAuthor,
-  isAuthorLoading,
   isLoggedIn,
-  assets,
   projectsCount,
   isDefaultScreener,
   isUpdatingWatchlist,
   updateWatchlistFunction,
-  type = 'screener',
   ...props
 }) => {
-  const { isPro } = useUserSubscriptionStatus()
+  const { isAuthor, isAuthorLoading } = useIsAuthor(watchlist)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
 
   function closeFilter () {
@@ -35,56 +35,65 @@ const TopPanel = ({
   }
 
   return (
-    <section className={cx(styles.wrapper, isFilterOpen && styles.open)}>
+    <section
+      className={cx(styles.wrapper, isFilterOpen && styles.open, className)}
+    >
       <div className={styles.row}>
-        <h1 className={styles.name}>{name}</h1>
-        {description && (
-          <HelpPopup triggerClassName={styles.description}>
-            {description}
-          </HelpPopup>
-        )}
-        {id && (
-          <BaseActions
-            name={name}
-            id={id}
-            isAuthor={isAuthor}
-            isPro={isPro}
-            isAuthorLoading={isAuthorLoading}
-            description={description}
-            watchlist={watchlist}
-            onClick={closeFilter}
-            type={type}
-          />
-        )}
+        <Title
+          name={name}
+          watchlist={watchlist}
+          isDefaultScreener={isDefaultScreener}
+        />
+        <BaseActions
+          type={type}
+          watchlist={watchlist}
+          onClick={closeFilter}
+          isAuthor={isAuthor}
+          isAuthorLoading={isAuthorLoading}
+        />
         {isUpdatingWatchlist && (
           <span className={styles.saving}>Saving...</span>
         )}
       </div>
-      <div className={styles.row}>
-        <div onClick={closeFilter} className={styles.row}>
-          <Share watchlist={watchlist} isAuthor={isAuthor} />
-          {!isDefaultScreener && <div className={styles.divider} />}
-          {(isAuthor || isDefaultScreener) && (
-            <>
-              <ScreenerSignalDialog watchlistId={watchlist.id} />
-              <div className={styles.divider} />
-            </>
-          )}
-          <Widgets {...props} />
+      {type === SCREENER ? (
+        <div className={styles.row}>
+          <div onClick={closeFilter} className={styles.row}>
+            {isAuthor && !isDefaultScreener && (
+              <>
+                <Share watchlist={watchlist} isAuthor={isAuthor} />
+                <div className={styles.divider} />
+              </>
+            )}
+            {(isAuthor || isDefaultScreener) && (
+              <>
+                <ScreenerSignalDialog watchlistId={watchlist.id} />
+                <div className={styles.divider} />
+              </>
+            )}
+            <Widgets widgets={widgets} setWidgets={setWidgets} />
+          </div>
+          <Filter
+            watchlist={watchlist}
+            projectsCount={projectsCount}
+            isAuthor={isAuthor}
+            isAuthorLoading={isAuthorLoading}
+            isLoggedIn={isLoggedIn}
+            isDefaultScreener={isDefaultScreener}
+            setIsOpen={setIsFilterOpen}
+            isOpen={isFilterOpen}
+            updateWatchlistFunction={updateWatchlistFunction}
+            {...props}
+          />
         </div>
-        <Filter
-          watchlist={watchlist}
-          projectsCount={projectsCount}
-          isAuthor={isAuthor}
-          isAuthorLoading={isAuthorLoading}
-          isLoggedIn={isLoggedIn}
-          isDefaultScreener={isDefaultScreener}
-          setIsOpen={setIsFilterOpen}
-          isOpen={isFilterOpen}
-          updateWatchlistFunction={updateWatchlistFunction}
-          {...props}
-        />
-      </div>
+      ) : (
+        <div className={styles.row}>
+          {widgets && <Widgets widgets={widgets} setWidgets={setWidgets} />}
+          {watchlist && <Share watchlist={watchlist} isAuthor={isAuthor} />}
+          {isAuthor && type === PROJECT && (
+            <WeeklyReport watchlist={watchlist} />
+          )}
+        </div>
+      )}
     </section>
   )
 }

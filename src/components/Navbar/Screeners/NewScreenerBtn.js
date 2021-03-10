@@ -1,36 +1,25 @@
 import React from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
-import NewScreener from '../../../ducks/Watchlists/Actions/New'
 import { ProLabel } from '../../ProLabel'
-import ProPopupWrapper from '../../ProPopup/Wrapper'
+import { SCREENER } from '../../../ducks/Watchlists/detector'
+import NewScreener from '../../../ducks/Watchlists/Actions/New'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import styles from '../Watchlists/EmptySection.module.scss'
 
-const CreateScreenerBtn = ({ className, screeners }) => {
+const CreateScreenerBtn = ({ className }) => {
   const { isPro } = useUserSubscriptionStatus()
 
   return (
-    <ProPopupWrapper
-      type='screener'
-      trigger={props => (
-        <Button border className={cx(styles.createBtn, className)} {...props}>
+    <NewScreener
+      type={SCREENER}
+      trigger={
+        <Button border className={cx(styles.createBtn, className)}>
           Create screener
           {!isPro && <ProLabel className={styles.proLabel} />}
         </Button>
-      )}
-    >
-      <NewScreener
-        lists={screeners}
-        type='screener'
-        trigger={
-          <Button border className={cx(styles.createBtn, className)}>
-            Create screener
-            {!isPro && <ProLabel className={styles.proLabel} />}
-          </Button>
-        }
-      />
-    </ProPopupWrapper>
+      }
+    />
   )
 }
 

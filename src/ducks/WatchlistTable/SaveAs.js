@@ -17,24 +17,12 @@ export const SaveAsButton = props => (
   </div>
 )
 
-const SaveAsPopupTrigger = ({
-  type,
-  watchlist,
-  userWatchlists,
-  createWatchlist
-}) => (
-  <SaveAs
-    watchlist={watchlist}
-    lists={userWatchlists}
-    type={type}
-    createWatchlist={createWatchlist}
-    trigger={<SaveAsButton />}
-  />
+const SaveAsPopupTrigger = ({ type, watchlist }) => (
+  <SaveAs watchlist={watchlist} type={type} trigger={<SaveAsButton />} />
 )
 
 SaveAsPopupTrigger.defaultProps = {
-  type: 'watchlist',
-  userWatchlists: []
+  type: 'watchlist' // refactor type
 }
 
 export default SaveAsPopupTrigger

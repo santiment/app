@@ -15,3 +15,14 @@ export function detectWatchlistType (watchlist) {
 
   return PROJECT
 }
+
+export function getTitleByWatchlistType (type) {
+  switch (type) {
+    case SCREENER:
+      return 'screener'
+    case BLOCKCHAIN_ADDRESS:
+    case PROJECT:
+    default:
+      return 'watchlist'
+  }
+}

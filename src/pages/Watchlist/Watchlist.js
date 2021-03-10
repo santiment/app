@@ -4,9 +4,8 @@ import qs from 'query-string'
 import { getOrigin } from '../../utils/utils'
 import { useComparingAssets } from '../../ducks/Watchlists/Widgets/Table/CompareDialog/hooks'
 import PageLoader from '../../components/Loader/PageLoader'
-import { upperCaseFirstLetter } from '../../utils/formatting'
 import GetAssets from '../../ducks/Watchlists/Widgets/Table/GetAssets'
-import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel/Watchlist'
+import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
 import AssetsTable from '../../ducks/Watchlists/Widgets/Table/AssetsTable'
 import {
   getHelmetTags,
@@ -16,6 +15,7 @@ import {
 import AssetsTemplates from '../../ducks/Watchlists/Widgets/Table/AssetsTemplates'
 import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/columns'
 import { useAssetsAnomalyToggler } from './hooks/useAssetsAnomalyToggler'
+import { PROJECT } from '../../ducks/Watchlists/detector'
 import { addRecentWatchlists } from '../../utils/recent'
 import Infographics from './Infographics'
 import styles from './Watchlist.module.scss'
@@ -63,8 +63,7 @@ const WatchlistPage = props => {
             isCurrentUserTheAuthor,
             isPublicWatchlist,
             items = [],
-            trendingAssets = [],
-            isMonitored
+            trendingAssets = []
           } = Assets
 
           if (items !== currentItems) {
@@ -78,23 +77,14 @@ const WatchlistPage = props => {
 
           const showingAssets = filteredItems || items
 
-          const changingName = (props.watchlist || {}).name || props.name
-
           return (
             <>
               <TopPanel
-                name={changingName && upperCaseFirstLetter(changingName)}
-                description={(props.watchlist || {}).description}
-                id={listId}
-                assets={items}
-                watchlist={props.watchlist}
-                isMonitored={isMonitored}
-                isAuthor={isCurrentUserTheAuthor}
-                isAuthorLoading={isLoading}
-                className={styles.top}
+                type={PROJECT}
                 widgets={widgets}
                 setWidgets={setWidgets}
-                type='watchlist'
+                className={styles.top}
+                watchlist={props.watchlist}
               />
               {isLoading && <PageLoader />}
 
@@ -117,7 +107,7 @@ const WatchlistPage = props => {
                     filterType={filterType}
                     items={showingAssets}
                     goto={props.history.push}
-                    type='watchlist'
+                    type={PROJECT}
                     preload={props.preload}
                     listName={title}
                     allColumns={ASSETS_TABLE_COLUMNS}

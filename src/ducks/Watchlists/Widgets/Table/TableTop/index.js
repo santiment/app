@@ -9,8 +9,9 @@ import CompareAction from '../CompareInfo/CompareAction'
 import Refresh from '../../../../../components/Refresh/Refresh'
 import ProPopupWrapper from '../../../../../components/ProPopup/Wrapper'
 import ExplanationTooltip from '../../../../../components/ExplanationTooltip/ExplanationTooltip'
+import { useIsAuthor } from '../../../gql/list/hooks'
 import ColumnsToggler from '../Columns/Toggler'
-import { useUserProjectWatchlists } from '../../../gql/lists/hooks'
+import { PROJECT } from '../../../detector'
 import styles from './index.module.scss'
 
 const EMPTY_OBJ = {}
@@ -26,11 +27,10 @@ const TableTop = ({
   sorting,
   setOrderBy,
   updateActiveColumnsKeys,
-  isAuthor,
   watchlist = EMPTY_OBJ
 }) => {
+  const { isAuthor } = useIsAuthor(watchlist)
   const [refreshTimestamp, setRefreshTimestamp] = useState(Date.now)
-  const [watchlists] = useUserProjectWatchlists()
   const disabledComparision = comparingAssets.length < 2
 
   return (
@@ -113,8 +113,7 @@ const TableTop = ({
         />
         <SaveAs
           watchlist={watchlist}
-          lists={watchlists}
-          type='watchlist'
+          type={PROJECT}
           trigger={
             <div className={cx(styles.action, styles.action__saveAs)}>
               <ExplanationTooltip

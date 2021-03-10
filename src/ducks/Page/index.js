@@ -11,7 +11,6 @@ const Page = ({
   headerClassName,
   children,
   title,
-  actions,
   isPhone,
   isCentered,
   isWithPadding
@@ -19,7 +18,6 @@ const Page = ({
   <div className={cx(styles.wrapper, className, isCentered && styles.centered)}>
     <div className={cx(styles.header, headerClassName)}>
       {title && <h1 className={styles.title}>{title}</h1>}
-      {actions}
       {isPhone && (
         <Link to='/search' className={styles.search}>
           <Icon type='search' className={styles.search__icon} />

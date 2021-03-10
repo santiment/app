@@ -1,10 +1,11 @@
 import React, { useMemo, useState } from 'react'
-import SaveAs from './SaveAs'
+import Button from '@santiment-network/ui/Button'
 import DownloadCSV from './DownloadCSV'
 import PagedTable from '../_Table/Paged'
 import { CHECKBOX_COLUMN, INDEX_COLUMN } from '../_Table/columns'
 import { useSelectedItemsSet } from '../_Table/hooks'
 import Refresh from '../../components/Refresh/Refresh'
+import EditAddresses from '../Watchlists/Actions/Edit/EditAddresses/EditAddresses'
 import styles from './index.module.scss'
 
 export const DEFAULT_COLUMNS = [CHECKBOX_COLUMN, INDEX_COLUMN]
@@ -13,7 +14,6 @@ export const Divider = () => <div className={styles.divider} />
 const WatchlistTable = ({
   watchlist,
   className,
-  createWatchlist,
   normalizeCSVData,
   onRefreshClick,
   ...props
@@ -25,6 +25,14 @@ const WatchlistTable = ({
   return (
     <div className={styles.wrapper}>
       <div className={styles.top}>
+        <EditAddresses
+          watchlist={watchlist}
+          trigger={
+            <Button border accent='positive'>
+              Edit addresses
+            </Button>
+          }
+        />
         <Refresh
           timestamp={refreshTimestamp}
           onRefreshClick={() =>
@@ -33,14 +41,6 @@ const WatchlistTable = ({
         />
 
         <div className={styles.actions}>
-          <SaveAs
-            watchlist={watchlist}
-            items={items}
-            createWatchlist={createWatchlist}
-          />
-
-          <Divider />
-
           <DownloadCSV watchlist={watchlist} data={csvData} />
         </div>
       </div>

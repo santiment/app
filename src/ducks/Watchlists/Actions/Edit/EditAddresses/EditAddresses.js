@@ -3,13 +3,14 @@ import Dialog from '@santiment-network/ui/Dialog'
 import Input from '@santiment-network/ui/Input'
 import Button from '@santiment-network/ui/Button'
 import { useDialogState } from '../../../../../hooks/dialog'
-import { updateWatchlistShort } from '../../../gql/mutations'
 import EditableList, { rowAddressRenderer } from '../EditableList'
 import { hasAddress } from '../../../utils'
 import {
   getAddressInfrastructure,
   Infrastructure
 } from '../../../../../utils/address'
+import { useIsAuthor } from '../../../gql/list/hooks'
+import { updateWatchlistShort } from '../../../gql/list/mutations'
 import styles from './EditAddresses.module.scss'
 
 const updateWatchlist = ({ id, listItems }) =>
@@ -30,6 +31,7 @@ const mapAddressToAPIType = ({ address, infrastructure }) => {
 
 const EditAddresses = ({ trigger, watchlist }) => {
   const { id, name } = watchlist
+  const { isAuthor } = useIsAuthor(watchlist)
 
   const listItems = useMemo(
     () => {
@@ -89,6 +91,10 @@ const EditAddresses = ({ trigger, watchlist }) => {
     }
 
     setError(!value || !valid)
+  }
+
+  if (!isAuthor) {
+    return null
   }
 
   return (

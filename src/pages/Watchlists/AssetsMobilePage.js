@@ -143,12 +143,10 @@ const AssetsMobilePage = props => {
                 rightActions={
                   <WatchlistActions
                     watchlist={watchlist}
-                    isDesktop={false}
                     isAuthor={isCurrentUserTheAuthor}
                     id={listId}
                     title={title}
                     items={items}
-                    isMonitored={isMonitored}
                   />
                 }
               />

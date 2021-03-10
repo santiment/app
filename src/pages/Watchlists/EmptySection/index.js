@@ -3,6 +3,7 @@ import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import NewWatchlist from '../../../ducks/Watchlists/Actions/New'
 import Section from '../../../components/EmptySection/EmptySection'
+import { PROJECT } from '../../../ducks/Watchlists/detector'
 import styles from './index.module.scss'
 
 export const EmptySection = ({ className, wrapperClassName }) => (
@@ -20,7 +21,7 @@ export const EmptySection = ({ className, wrapperClassName }) => (
             Create watchlist
           </Button>
         }
-        type='watchlist'
+        type={PROJECT}
       />
     </div>
   </Section>
