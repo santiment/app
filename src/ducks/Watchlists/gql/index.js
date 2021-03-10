@@ -3,23 +3,6 @@ import { client } from '../../../apollo'
 import { AGGREGATIONS_UPPER } from '../Widgets/Filter/dataHub/aggregations'
 import { SHORT_WATCHLIST_FRAGMENT } from './fragments'
 
-export const PROJECT_ITEM_FRAGMENT = gql`
-  fragment listShortItems on UserList {
-    listItems {
-      project {
-        id
-        slug
-        name
-        ticker
-        priceUsd
-        percentChange7d
-        logoUrl
-        darkLogoUrl
-      }
-    }
-  }
-`
-
 export const WATCHLIST_SHORT_QUERY = gql`
   query watchlist($id: ID!) {
     watchlist(id: $id) {
@@ -27,17 +10,6 @@ export const WATCHLIST_SHORT_QUERY = gql`
     }
   }
   ${SHORT_WATCHLIST_FRAGMENT}
-`
-
-export const USER_WATCHLISTS_QUERY = gql`
-  query fetchWatchlists {
-    fetchWatchlists {
-      ...generalFragment
-      ...listShortItems
-    }
-  }
-  ${SHORT_WATCHLIST_FRAGMENT}
-  ${PROJECT_ITEM_FRAGMENT}
 `
 
 export const getRecentWatchlist = id =>

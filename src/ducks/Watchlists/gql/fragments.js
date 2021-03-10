@@ -64,3 +64,8 @@ export const getStats = type =>
   stats {
     blockchainAddressesCount
   }`
+
+export const getListItemsFragment = type =>
+  type === BLOCKCHAIN_ADDRESS
+    ? ADDRESSES_SHORT_LIST_ITEMS_FRAGMENT
+    : PROJECTS_SHORT_LIST_ITEMS_FRAGMENT
