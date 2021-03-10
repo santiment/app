@@ -9,6 +9,7 @@ import {
   getAddressInfrastructure,
   Infrastructure
 } from '../../../../../utils/address'
+import { useIsAuthor } from '../../../gql/list/hooks'
 import { updateWatchlistShort } from '../../../gql/list/mutations'
 import styles from './EditAddresses.module.scss'
 
@@ -30,6 +31,7 @@ const mapAddressToAPIType = ({ address, infrastructure }) => {
 
 const EditAddresses = ({ trigger, watchlist }) => {
   const { id, name } = watchlist
+  const { isAuthor } = useIsAuthor(watchlist)
 
   const listItems = useMemo(
     () => {
@@ -89,6 +91,10 @@ const EditAddresses = ({ trigger, watchlist }) => {
     }
 
     setError(!value || !valid)
+  }
+
+  if (!isAuthor) {
+    return null
   }
 
   return (

@@ -3,6 +3,7 @@ import ReactTable from 'react-table-6'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
+import Button from '@santiment-network/ui/Button'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
 import 'react-table-6/react-table.css'
 import {
@@ -25,6 +26,7 @@ import CompareAction from './CompareInfo/CompareAction'
 import { usePriceGraph } from './PriceGraph/hooks'
 import { normalizeGraphData } from './PriceGraph/utils'
 import { FILTERS_EXPLANATION_TOOLTIP_MARK } from '../Filter/Trigger'
+import EditAssets from '../../Actions/Edit/EditAssets'
 import './ProjectsTable.scss'
 import styles from './AssetsTable.module.scss'
 
@@ -164,6 +166,17 @@ const AssetsTable = ({
   return (
     <div className={styles.container} id='table'>
       <div className={styles.top} id='tableTop'>
+        <EditAssets
+          name={watchlist.name}
+          id={watchlist.id}
+          watchlist={watchlist}
+          assets={items}
+          trigger={
+            <Button border accent='positive'>
+              Add assets
+            </Button>
+          }
+        />
         {filterType ? (
           <span className={styles.based}>
             Showed based on {filterType} anomalies
