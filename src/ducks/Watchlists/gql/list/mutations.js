@@ -1,5 +1,6 @@
 import gql from 'graphql-tag'
 import * as Sentry from '@sentry/react'
+import { client } from '../../../../apollo'
 import { useMutation } from '@apollo/react-hooks'
 import { history } from '../../../../redux'
 import { getWatchlistLink } from '../../url'
@@ -138,6 +139,16 @@ export function useUpdateWatchlist (type) {
 
   return [updateWatchlist, data]
 }
+
+export const updateWatchlistShort = variables =>
+  client.mutate({
+    mutation: UPDATE_WATCHLIST_MUTATION(BLOCKCHAIN_ADDRESS),
+    update: updateWatchlistOnEdit,
+    variables: {
+      ...variables,
+      listItems: normalizeItems(variables.listItems, BLOCKCHAIN_ADDRESS)
+    }
+  })
 
 export function useCreateWatchlist (type) {
   const [mutate, data] = useMutation(CREATE_WATCHLIST_MUTATION(type), {
