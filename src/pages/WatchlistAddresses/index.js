@@ -8,8 +8,8 @@ import WatchlistAddressesTable from '../../ducks/WatchlistAddressesTable'
 import PageLoader from '../../components/Loader/PageLoader'
 import { mapSizesToProps } from '../../utils/withSizes'
 import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
-import styles from './index.module.scss'
 import { BLOCKCHAIN_ADDRESS } from '../../ducks/Watchlists/detector'
+import styles from './index.module.scss'
 
 const WatchlistAddress = ({ match, isPhone }) => {
   const { watchlist, isLoading } = useAddressWatchlist(
