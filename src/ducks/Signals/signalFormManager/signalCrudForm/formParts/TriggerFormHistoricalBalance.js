@@ -43,8 +43,6 @@ const mapAssetsToAllProjects = (all, heldAssets) =>
     )
     if (foundInAll) {
       foundInAll.balance = balance
-      /* console.log(foundInAll, balance, heldAssets) */
-      // safe to replace here
       acc.push(foundInAll)
     }
     return acc
@@ -142,7 +140,6 @@ const TriggerFormHistoricalBalance = ({
           asset = getFromAll(allProjects, newTarget)
         }
       }
-      // safe to replace here
 
       if (asset) {
         setTarget(asset)
@@ -161,7 +158,6 @@ const TriggerFormHistoricalBalance = ({
   const disabledWalletField =
     (!hasHBAddresses(ethAddress) && target.length > 1) ||
     (allProjects.length > 0 && !isErc20Assets(target, allProjects))
-  // safe to replace
 
   const validateAddressField = useCallback(
     inputAssets => {
