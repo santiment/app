@@ -26,9 +26,17 @@
   justify-content: space-between;
 
   @include text('h4', 'm');
+
+  @include responsive('phone', 'phone-xs') {
+    flex-wrap: wrap;
+  }
 }
 
 .tabs {
   display: flex;
   flex: 1;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-bottom: 16px;
+  }
 }
