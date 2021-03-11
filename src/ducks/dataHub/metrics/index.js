@@ -10,6 +10,14 @@ import {
 import { updateTooltipSettings } from '../tooltipSettings'
 import { Node } from '../../Chart/nodes'
 import { millify } from '../../../utils/formatting'
+import {
+  HolderDistributionCombinedBalanceAbsoluteMetric,
+  HolderDistributionMetric
+} from '../../Studio/Chart/Sidepanel/HolderDistribution/metrics'
+import {
+  HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE,
+  HOLDER_DISTRIBUTION_NODE
+} from '../../Studio/Sidebar/nodes'
 
 export function deriveMetric (baseMetric, newMetric) {
   const { key, queryKey = key, domainGroup = key } = baseMetric
@@ -94,10 +102,21 @@ export const Metric = {
     advancedView: 'Social Context',
     formatter: value => tooltipValueFormatter({ value })
   },
+  social_active_users: {
+    queryKey: 'social_active_users',
+    category: 'Social',
+    shortLabel: 'Soc. Act. Us.',
+    node: 'bar',
+    withoutRoot: true,
+    showRoot: false,
+    isBeta: true,
+    checkIsVisible: ({ isBeta: isBetaApp }) => isBetaApp,
+    domainGroup: 'social_active_users'
+  },
   age_consumed: {
     category: 'On-chain',
     node: 'bar',
-    group: 'Network Activity',
+    group: 'Long-term holders',
     label: 'Age Consumed',
     shortLabel: 'Age Cons.',
     abbreviation: 'tac',
@@ -109,7 +128,7 @@ export const Metric = {
     category: 'On-chain',
     node: 'line',
     group: 'Exchanges',
-    label: 'Exchange Flow Balance',
+    label: 'Exchange Balance',
     shortLabel: 'Exc. Flow Bal.',
     abbreviation: 'efb',
     video: 'https://www.youtube.com/watch?v=0R6GDF2bg6A',
@@ -129,13 +148,13 @@ export const Metric = {
     category: 'On-chain',
     node: 'line',
     group: 'Exchanges',
-    label: 'Coin Supply on Exchanges (as % of total supply)',
+    label: 'Supply on Exchanges (as % of total supply)',
     shortLabel: '% TS on Exc.'
   },
   topHoldersPercentOfTotalSupply: {
     category: 'On-chain',
     node: 'line',
-    label: 'Amount held by top addresses (as % of total supply)',
+    label: 'Supply held by top addresses (as % of total supply)',
     shortLabel: 'ahta',
     group: 'Top Holders'
   },
@@ -150,7 +169,7 @@ export const Metric = {
   dormant_circulation: {
     category: 'On-chain',
     node: 'line',
-    group: 'Network Activity',
+    group: 'Long-term holders',
     label: 'Dormant Circulation',
     rootLabel: 'Dormant Circulation (365d)',
     shortLabel: 'Dorm. Circ.',
@@ -161,7 +180,7 @@ export const Metric = {
     category: 'On-chain',
     node: 'line',
     group: 'Network Activity',
-    label: 'Stock To Flow',
+    label: 'Stock to Flow ratio',
     shortLabel: 'St. to Fl.',
     isBeta: true
   },
@@ -169,7 +188,7 @@ export const Metric = {
     category: 'On-chain',
     node: 'filledLine',
     group: 'Network Value',
-    label: 'MVRV-Z',
+    label: 'MVRV Ratio (Z score)',
     formatter: mvrvFormatter,
     axisFormatter: mvrvFormatter
   },
@@ -177,7 +196,7 @@ export const Metric = {
     category: 'On-chain',
     node: 'filledLine',
     group: 'Network Value',
-    label: 'MVRV',
+    label: 'MVRV ratio',
     fullTitle: 'Market Value To Realized Value',
     shortLabel: 'MVRV',
     abbreviation: 'mvrv',
@@ -234,8 +253,8 @@ export const Metric = {
   },
   whale_transaction_count: {
     category: 'On-chain',
-    group: 'Network Activity',
-    label: 'Whale Transactions Count',
+    group: 'Whales',
+    label: 'Whale Transaction Count',
     node: 'autoWidthBar'
   },
   dev_activity: {
@@ -334,7 +353,7 @@ export const Metric = {
   },
   network_profit_loss: {
     node: 'line',
-    label: 'Network Realized Profit or Loss (USD)',
+    label: 'Network Realized Profit/Loss',
     shortLabel: 'NR P. or L.',
     group: 'Network Value',
     category: 'On-chain'
@@ -370,129 +389,129 @@ export const Metric = {
   },
   supply_on_exchanges: {
     node: 'line',
-    label: 'Coin Supply on Exchanges',
+    label: 'Supply on Exchanges',
     category: 'On-chain',
     group: 'Exchanges'
   },
   supply_outside_exchanges: {
     node: 'line',
-    label: 'Coin Supply outside of Exchanges',
+    label: 'Supply outside of Exchanges',
     category: 'On-chain',
     group: 'Exchanges'
   },
   amount_in_top_holders: {
     node: 'line',
-    label: 'Amount held by top addresses',
+    label: 'Supply held by top addresses',
     category: 'On-chain',
     group: 'Top Holders'
   },
   amount_in_exchange_top_holders: {
     node: 'line',
-    label: 'Amount held by top exchange addresses',
+    label: 'Supply held by top non-exchange addresses',
     category: 'On-chain',
-    group: 'Top Holders'
+    group: 'Whales'
   },
   amount_in_non_exchange_top_holders: {
     node: 'line',
-    label: 'Amount held by top non-exchange addresses',
+    label: 'Supply held by top non-exchange addresses',
     category: 'On-chain',
     group: 'Top Holders'
   },
   sentiment_positive_total: {
     node: 'line',
-    label: 'Sentiment Positive Total',
+    label: 'Positive sentiment (Total)',
     category: 'Social',
-    group: 'Sentiment Total'
+    group: 'Total sentiment'
   },
   sentiment_positive_telegram: {
     node: 'line',
-    label: 'Sentiment Positive Telegram',
+    label: 'Positive sentiment (Telegram)',
     category: 'Social',
-    group: 'Sentiment Telegram'
+    group: 'Telegram sentiment'
   },
   sentiment_positive_reddit: {
     node: 'line',
-    label: 'Sentiment Positive Reddit',
+    label: 'Positive sentiment (Reddit)',
     category: 'Social',
-    group: 'Sentiment Reddit'
+    group: 'Reddit sentiment'
   },
   sentiment_positive_twitter: {
     node: 'line',
-    label: 'Sentiment Positive Twitter',
+    label: 'Positive sentiment (Twitter)',
     category: 'Social',
-    group: 'Sentiment Twitter'
+    group: 'Twitter sentiment'
   },
   sentiment_negative_total: {
     node: 'line',
-    label: 'Sentiment Negative Total',
+    label: 'Negative sentiment (Total)',
     category: 'Social',
-    group: 'Sentiment Total'
+    group: 'Total sentiment'
   },
   sentiment_negative_telegram: {
     node: 'line',
-    label: 'Sentiment Negative Telegram',
+    label: 'Negative sentiment (Telegram)',
     category: 'Social',
-    group: 'Sentiment Telegram'
+    group: 'Telegram sentiment'
   },
   sentiment_negative_reddit: {
     node: 'line',
-    label: 'Sentiment Negative Reddit',
+    label: 'Negative sentiment (Reddit)',
     category: 'Social',
-    group: 'Sentiment Reddit'
+    group: 'Reddit sentiment'
   },
   sentiment_negative_twitter: {
     node: 'line',
-    label: 'Sentiment Negative Twitter',
+    label: 'Negative sentiment (Twitter)',
     category: 'Social',
-    group: 'Sentiment Twitter'
+    group: 'Twitter sentiment'
   },
   sentiment_balance_total: {
     node: 'filledLine',
-    label: 'Sentiment Balance Total',
+    label: 'Average Sentiment (Total)',
     category: 'Social',
-    group: 'Sentiment Total'
+    group: 'Total sentiment'
   },
   sentiment_balance_reddit: {
     node: 'filledLine',
-    label: 'Sentiment Balance Reddit',
+    label: 'Average Sentiment (Reddit)',
     category: 'Social',
-    group: 'Sentiment Reddit'
+    group: 'Reddit sentiment'
   },
   sentiment_balance_telegram: {
     node: 'filledLine',
-    label: 'Sentiment Balance Telegram',
+    label: 'Average Sentiment (Telegram)',
     category: 'Social',
-    group: 'Sentiment Telegram'
+    group: 'Telegram sentiment'
   },
   sentiment_balance_twitter: {
     node: 'filledLine',
-    label: 'Sentiment Balance Twitter',
+    label: 'Average Sentiment (Twitter)',
     category: 'Social',
-    group: 'Sentiment Twitter'
+    group: 'Twitter sentiment'
   },
   sentiment_volume_consumed_total: {
     node: 'filledLine',
-    label: 'Weighted Social Sentiment Total',
+    label: 'Weighted sentiment (Total)',
     category: 'Social',
-    group: 'Sentiment Total'
+    group: 'Total sentiment'
   },
   sentiment_volume_consumed_telegram: {
     node: 'filledLine',
-    label: 'Weighted Social Sentiment Telegram',
+    label: 'Weighted sentiment (Telegram)',
     category: 'Social',
-    group: 'Sentiment Telegram'
+    group: 'Telegram sentiment'
   },
   sentiment_volume_consumed_reddit: {
     node: 'filledLine',
-    label: 'Weighted Social Sentiment Reddit',
+    label: 'Weighted sentiment (Reddit)',
     category: 'Social',
-    group: 'Sentiment Reddit'
+    group: 'Reddit sentiment'
   },
   sentiment_volume_consumed_twitter: {
     node: 'filledLine',
-    label: 'Weighted Social Sentiment Twitter',
+    label: 'Weighted sentiment (Twitter)',
     category: 'Social',
-    group: 'Sentiment Twitter'
+    group: 'Twitter sentiment'
   },
   bitmex_perpetual_basis_ratio: {
     node: 'line',
@@ -529,18 +548,6 @@ export const Metric = {
     shortLabel: 'Defi Locked',
     fill: true,
     isBeta: true
-  },
-  social_active_users: {
-    queryKey: 'social_active_users',
-    category: 'Social',
-    group: 'Social Active Users',
-    shortLabel: 'Soc. Act. Us.',
-    node: 'bar',
-    withoutRoot: true,
-    showRoot: false,
-    isBeta: true,
-    checkIsVisible: ({ isBeta: isBetaApp }) => isBetaApp,
-    domainGroup: 'social_active_users'
   },
   price_daa_divergence: {
     category: 'Indicators',
@@ -677,7 +684,12 @@ export const Metric = {
     node: 'area',
     checkIsVisible: ({ slug }) => slug === 'ethereum',
     label: 'Median Fees (USD)'
-  }
+  },
+  [HolderDistributionMetric.holders_distribution_1_to_10
+    .key]: HOLDER_DISTRIBUTION_NODE,
+  [HolderDistributionCombinedBalanceAbsoluteMetric
+    .holders_distribution_combined_balance_1_to_10
+    .key]: HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE
 }
 
 Object.keys(Metric).forEach(key => {
