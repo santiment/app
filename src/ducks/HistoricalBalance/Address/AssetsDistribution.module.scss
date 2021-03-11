@@ -4,7 +4,8 @@
   @include text('caption');
 
   color: var(--waterloo);
-  margin: 0 72px;
+  margin-left: 72px;
+  max-width: 336px;
 }
 
 .title {
@@ -12,22 +13,43 @@
 }
 
 .historgram {
-  width: 336px;
   display: flex;
   height: 8px;
   border-radius: 4px;
   overflow: hidden;
   margin: 16px 0;
+  width: 100%;
 }
 
 .slice {
   height: 8px;
   background: var(--color);
   width: var(--width);
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 1px;
+    height: 100%;
+    right: 0;
+    background: var(--white);
+  }
+
+  &:last-child::after {
+    display: none;
+  }
+
+  &_other {
+    flex: 1;
+    background: var(--mystic);
+  }
 }
 
 .projects {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .project {
@@ -48,4 +70,11 @@
 
 .percent {
   color: var(--waterloo);
+}
+
+.collapsed {
+  color: var(--jungle-green);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-style: dashed;
 }

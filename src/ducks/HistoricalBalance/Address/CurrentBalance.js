@@ -6,10 +6,10 @@ import styles from './CurrentBalance.module.scss'
 const distributionSorter = ({ balanceUsd: a }, { balanceUsd: b }) => b - a
 const intlFormatter = new Intl.NumberFormat('en-EN', {
   style: 'currency',
-  currency: 'USD',
+  currency: 'USD'
 })
 
-function useCurrentBalance(walletAssets) {
+function useCurrentBalance (walletAssets) {
   const { projects } = useProjects()
 
   return useMemo(
@@ -34,23 +34,24 @@ function useCurrentBalance(walletAssets) {
 
         distributions[i] = {
           ticker,
-          balance: millify(balance),
+          balance: millify(balance)
         }
       }
 
       return {
         usd: intlFormatter.format(totalBalance),
-        distributions,
+        totalBalance,
+        distributions
       }
     },
-    [projects, walletAssets],
+    [projects, walletAssets]
   )
 }
 
 const CurrentBalance = ({ walletAssets }) => {
-  const { usd, distributions } = useCurrentBalance(walletAssets)
+  const { usd, totalBalance, distributions } = useCurrentBalance(walletAssets)
 
-  if (!usd) return null
+  if (!totalBalance) return null
 
   return (
     <div className={styles.wrapper}>
@@ -66,7 +67,7 @@ const CurrentBalance = ({ walletAssets }) => {
             <div key={ticker} className={styles.project}>
               {ticker} {balance}
             </div>
-          ) : null,
+          ) : null
         )}
       </div>
     </div>

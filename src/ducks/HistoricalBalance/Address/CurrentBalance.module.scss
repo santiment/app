@@ -1,5 +1,11 @@
 @import '~@santiment-network/ui/mixins';
 
+.wrapper {
+  position: relative;
+  width: 250px;
+  margin-left: 72px;
+}
+
 .wrapper,
 .currency {
   @include text('caption');
@@ -20,12 +26,14 @@
 
 .projects {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .project {
-  margin-left: 8px;
+  margin-right: 8px;
+  white-space: nowrap;
 
-  &:first-child {
+  &:last-child {
     margin: 0;
   }
 }
