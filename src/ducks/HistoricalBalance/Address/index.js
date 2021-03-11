@@ -4,7 +4,7 @@ import Input from '@santiment-network/ui/Input'
 import Labels from './Labels'
 import Actions from './Actions'
 import AssetsDistribution from './AssetsDistribution'
-
+import CurrentBalance from './CurrentBalance'
 import Setting from '../Setting'
 import {
   Infrastructure,
@@ -81,6 +81,7 @@ export const AddressSetting = ({
       />
 
       <AssetsDistribution walletAssets={walletAssets} />
+      <CurrentBalance walletAssets={walletAssets} />
     </div>
   )
 }

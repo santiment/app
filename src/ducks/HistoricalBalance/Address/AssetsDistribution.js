@@ -3,7 +3,7 @@ import { capitalizeStr } from '../../../utils/utils'
 import { useProjects, getProjectInfo } from '../../../stores/projects'
 import styles from './AssetsDistribution.module.scss'
 
-const distributionSorter = ({ percent: a }, { percent: b }) => b - a
+const distributionSorter = ({ balance: a }, { balance: b }) => b - a
 const checkIsSmallDistribution = percent => percent < 0.5
 const smallDistributionFinder = ({ percent }) =>
   checkIsSmallDistribution(percent)
@@ -58,7 +58,7 @@ const AssetsDistribution = ({ walletAssets }) => {
 
   return (
     <div className={styles.wrapper}>
-      <h4 className={styles.title}>Assets distribution</h4>
+      <div className={styles.title}>Assets distribution</div>
       <div className={styles.historgram}>
         {biggestDistributions.map(({ name, style }) => (
           <div key={name} style={style} className={styles.slice} />
