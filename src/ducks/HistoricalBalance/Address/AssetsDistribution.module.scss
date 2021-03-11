@@ -1,0 +1,49 @@
+@import '~@santiment-network/ui/mixins';
+
+.title {
+  @include text('caption', 'm');
+
+  color: var(--waterloo);
+  margin: 0;
+}
+
+.historgram {
+  width: 336px;
+  display: flex;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 16px 0;
+}
+
+.slice {
+  height: 8px;
+  background: var(--color);
+  width: var(--width);
+}
+
+.projects {
+  display: flex;
+}
+
+.project {
+  @include text('caption', 'm');
+
+  color: var(--rhino);
+  margin-right: 10px;
+
+  &::before {
+    content: '';
+    height: 2px;
+    width: 10px;
+    background: var(--color);
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 1px;
+    margin-right: 6px;
+  }
+}
+
+.percent {
+  color: var(--waterloo);
+}
