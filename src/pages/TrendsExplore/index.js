@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { compose, withProps } from 'recompose'
@@ -11,10 +11,9 @@ import { addRecentTrends } from '../../utils/recent'
 import { trackTopicSearch } from '../../components/Trends/Search/utils'
 import SocialGrid from '../../components/SocialGrid'
 import { getTopicsFromUrl, updTopicsInUrl } from './url'
-import { detectWordWithAllTickersSlugs } from './utils'
 import Search from './Search'
 import Sidebar from './Sidebar'
-import { useProjects } from '../../ducks/Studio/Compare/withProjects'
+import { useProjects, getProjectInfo } from '../../stores/projects'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import styles from './index.module.scss'
 
@@ -31,12 +30,24 @@ const TrendsExplore = ({
   isDesktop,
   data: { wordContext: wordData = [], loading, error } = {}
 }) => {
-  const [allAssets] = useProjects()
+  const { projects } = useProjects()
   const { isPro: hasPremium } = useUserSubscriptionStatus()
   const [topics, setTopics] = useState([topic, ...addedTopics].filter(Boolean))
-  const [linkedAssets, setLinkedAssets] = useState(EMPTY_MAP)
   const [activeLinkedAssets, setActiveLinkedAssets] = useState(EMPTY_MAP)
+  const linkedAssets = useMemo(
+    () => {
+      if (projects.length === 0) return EMPTY_MAP
 
+      const newLinkedAssets = new Map()
+      topics.forEach(topic =>
+        newLinkedAssets.set(topic, getProjectInfo(projects, topic, topic))
+      )
+      return newLinkedAssets
+    },
+    [topics, projects]
+  )
+
+  useEffect(() => topics.forEach(addRecentTrends), [topics])
   useEffect(
     () => {
       if (topic !== '') {
@@ -48,22 +59,6 @@ const TrendsExplore = ({
       }
     },
     [topic, addedTopics]
-  )
-
-  useEffect(
-    () => {
-      const newLinkedAssets = new Map()
-      topics.forEach(topic => {
-        addRecentTrends(topic)
-        newLinkedAssets.set(
-          topic,
-          detectWordWithAllTickersSlugs({ word: topic, allAssets })
-        )
-      })
-
-      setLinkedAssets(newLinkedAssets)
-    },
-    [topics]
   )
 
   function updTopics (newTopics) {

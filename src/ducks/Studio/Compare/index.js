@@ -5,22 +5,24 @@ import Icon from '@santiment-network/ui/Icon'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Panel from '@santiment-network/ui/Panel'
 import Comparable from './Comparable'
-import withProjects from './withProjects'
-import { projectSorter, hashComparable, buildHiddenMetrics } from './utils'
+import { hashComparable, buildHiddenMetrics } from './utils'
 import { MAX_METRICS_AMOUNT } from '../constraints'
 import { FIAT_MARKET_ASSETS } from '../../dataHub/fiat'
+import { useProjects } from '../../../stores/projects'
 import styles from './index.module.scss'
 
 const Compare = ({
   slug,
-  allProjects,
   comparables,
   activeMetrics,
   className,
   MetricColor,
   ...rest
 }) => {
+  const { projects: allProjects } = useProjects()
   const [projects, setProjects] = useState(allProjects)
+  const canSelectMoreMetrics = activeMetrics.length < MAX_METRICS_AMOUNT
+  const hiddenMetricsMap = buildHiddenMetrics(comparables)
 
   useEffect(
     () => {
@@ -28,15 +30,10 @@ const Compare = ({
         allProjects
           .concat(FIAT_MARKET_ASSETS)
           .filter(project => project.slug !== slug)
-          .sort(projectSorter)
       )
     },
     [allProjects, slug]
   )
-
-  const canSelectMoreMetrics = activeMetrics.length < MAX_METRICS_AMOUNT
-
-  const hiddenMetricsMap = buildHiddenMetrics(comparables)
 
   return (
     <ContextMenu
@@ -82,4 +79,4 @@ const Compare = ({
   )
 }
 
-export default withProjects(Compare)
+export default Compare
