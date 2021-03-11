@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react'
 import gql from 'graphql-tag'
 import Tabs from '@santiment-network/ui/Tabs'
-import { projectSorter } from './utils'
-import { ALL_PROJECTS_QUERY, projectSearchData } from './withProjects'
 import { client } from '../../../apollo'
+import { PROJECTS_QUERY, projectBaseData } from '../../../stores/projects'
 
 const Category = {
   All: 'All',
@@ -20,25 +19,25 @@ const GET_WATCHLIST_QUERY = slug => gql`
       id
       listItems {
         project {
-          ...projectSearchData
+          ...projectBaseData
         }
       }
     }
   }
-  ${projectSearchData}
+  ${projectBaseData}
 `
 
 export const ERC20_PROJECTS_QUERY = gql`
   query allErc20Projects($minVolume: Int = 0) {
     projects: allErc20Projects(minVolume: $minVolume) {
-      ...projectSearchData
+      ...projectBaseData
     }
   }
-  ${projectSearchData}
+  ${projectBaseData}
 `
 
 export const CategoryQuery = {
-  [Category.All]: ALL_PROJECTS_QUERY,
+  [Category.All]: PROJECTS_QUERY,
   [Category.ERC20]: ERC20_PROJECTS_QUERY,
   [Category.Stablecoins]: GET_WATCHLIST_QUERY('stablecoins'),
   [Category.DeFi]: GET_WATCHLIST_QUERY('defi')
@@ -56,7 +55,7 @@ export const CategoryDataExtracter = {
   [Category.DeFi]: watchlistProjectsExtracter
 }
 
-const normalizeData = data => data.slice().sort(projectSorter)
+const normalizeData = data => data.slice()
 
 const noop = data => data
 

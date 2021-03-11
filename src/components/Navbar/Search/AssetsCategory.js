@@ -1,27 +1,8 @@
 import React, { useMemo } from 'react'
-import gql from 'graphql-tag'
-import { useQuery } from '@apollo/react-hooks'
 import Category from './Category'
 import { filterSearchableItems } from './utils'
+import { useProjects } from '../../../stores/projects'
 import styles from './Category.module.scss'
-
-const DEFAULT_SUGGESTIONS = []
-
-const ALL_ASSETS_QUERY = gql`
-  query {
-    assets: allProjects(minVolume: 0) {
-      id
-      slug
-      name
-      ticker
-    }
-  }
-`
-
-function useAssets () {
-  const { data } = useQuery(ALL_ASSETS_QUERY)
-  return data ? data.assets : DEFAULT_SUGGESTIONS
-}
 
 function assetsFilterPredicate (value) {
   const searchTerm = value.toLowerCase()
@@ -66,7 +47,7 @@ export const Asset = ({ name, ticker }) => (
 )
 
 const AssetsCategory = ({ searchTerm, ...props }) => {
-  const assets = useAssets()
+  const assets = useProjects().projects
   const searchableAssets = useSearchableAssets(assets)
   const suggestions = useMemo(
     () => {

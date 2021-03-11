@@ -7,8 +7,8 @@ import { isValidHBAddress, hasHBAddresses } from '../../../utils/utils'
 import { TriggerProjectsSelector } from './projectsSelector/TriggerProjectsSelector'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import { NOT_VALID_HB_ADDRESS } from '../../../utils/constants'
-import { useProjects } from '../../../../Studio/Compare/withProjects'
 import { getAddressInfrastructure } from '../../../../../utils/address'
+import { useProjects } from '../../../../../stores/projects'
 import styles from '../signal/TriggerForm.module.scss'
 
 const isInAssetsList = (heldAssets, target) => {
@@ -43,6 +43,8 @@ const mapAssetsToAllProjects = (all, heldAssets) =>
     )
     if (foundInAll) {
       foundInAll.balance = balance
+      /* console.log(foundInAll, balance, heldAssets) */
+      // safe to replace here
       acc.push(foundInAll)
     }
     return acc
@@ -97,7 +99,7 @@ const TriggerFormHistoricalBalance = ({
   byAddress
 }) => {
   const { heldAssets, isLoading: heldLoading } = useHeldAssets(byAddress)
-  const [allProjects, loading] = useProjects()
+  const { projects: allProjects, isLoading: loading } = useProjects()
 
   const allLoading = useMemo(() => loading || heldLoading, [
     loading,
@@ -140,6 +142,7 @@ const TriggerFormHistoricalBalance = ({
           asset = getFromAll(allProjects, newTarget)
         }
       }
+      // safe to replace here
 
       if (asset) {
         setTarget(asset)
@@ -158,6 +161,7 @@ const TriggerFormHistoricalBalance = ({
   const disabledWalletField =
     (!hasHBAddresses(ethAddress) && target.length > 1) ||
     (allProjects.length > 0 && !isErc20Assets(target, allProjects))
+  // safe to replace
 
   const validateAddressField = useCallback(
     inputAssets => {
