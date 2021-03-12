@@ -47,8 +47,8 @@ const AddToWatchlist = ({ address, infrastructure }) => {
           className={styles.btn}
           disabled={infrastructure !== Infrastructure.ETH}
         >
-          <Icon type='copy' className={styles.btn__icon} />
-          Add to watchlist
+          <Icon type='plus-round' className={styles.btn__icon} />
+          Add to Watchlist
         </Button>
       }
       getWatchlists={useAddressWatchlists}

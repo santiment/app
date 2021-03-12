@@ -28,7 +28,8 @@ const SignalDialog = ({
   canRedirect,
   metaFormSettings,
   buttonParams,
-  SignalMaster
+  SignalMaster,
+  noLoginPopupContainer
 }) => {
   const [dialogTitle, onSetDialogTitle] = useState('')
   const [isAnonWarning, setAnonWarning] = useState(false)
@@ -73,7 +74,7 @@ const SignalDialog = ({
 
   if ((isAnonWarning || !canOpen) && !isLoggedIn) {
     return (
-      <LoginPopup>
+      <LoginPopup noContainer={noLoginPopupContainer}>
         {dialogTrigger || signalModalTrigger(enabled, label, variant, border)}
       </LoginPopup>
     )

@@ -10,6 +10,7 @@ import {
   Infrastructure,
   getAddressInfrastructure
 } from '../../../utils/address'
+import { DesktopOnly } from '../../../components/Responsive'
 import styles from './index.module.scss'
 
 export const AddressSetting = ({
@@ -80,8 +81,18 @@ export const AddressSetting = ({
         assets={chartAssets}
       />
 
-      <AssetsDistribution walletAssets={walletAssets} />
-      <CurrentBalance walletAssets={walletAssets} />
+      <DesktopOnly>
+        <div className={styles.widgets}>
+          <AssetsDistribution
+            walletAssets={walletAssets}
+            className={styles.widget}
+          />
+          <CurrentBalance
+            walletAssets={walletAssets}
+            className={styles.widget}
+          />
+        </div>
+      </DesktopOnly>
     </div>
   )
 }

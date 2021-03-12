@@ -4,7 +4,6 @@
   @include text('caption');
 
   color: var(--waterloo);
-  margin-left: 72px;
   width: 336px;
 }
 
@@ -77,4 +76,8 @@
   cursor: pointer;
   text-decoration: underline;
   text-decoration-style: dashed;
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
 }

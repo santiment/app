@@ -41,6 +41,7 @@ const CreateAlert = ({ assets, address, trigger }) => {
         ...DEFAULTS
       }}
       buttonParams={PARAMS}
+      noLoginPopupContainer
     />
   )
 }
