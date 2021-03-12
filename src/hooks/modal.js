@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 
 export function newModalController (name, Component) {
   const controller = {
+    open: () => controller.setIsOpened(true),
+    close: () => controller.setIsOpened(false),
     [name]: props => (
       <Component
         position='bottom'
@@ -21,8 +23,7 @@ export function useControlledModal (modalController, isOpenedDefault) {
   const controller = useState(modalController)[0]
 
   controller.isOpened = isOpened
-  controller.open = () => setIsOpened(true)
-  controller.close = () => setIsOpened(false)
+  controller.setIsOpened = setIsOpened
 
   return controller
 }
