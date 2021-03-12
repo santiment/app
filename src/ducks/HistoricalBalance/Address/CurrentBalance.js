@@ -34,7 +34,7 @@ function useCurrentBalance (walletAssets) {
 
         distributions[i] = {
           ticker,
-          balance: millify(balance)
+          balance: millify(balance, balance < 1 ? 3 : 1)
         }
       }
 

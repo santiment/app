@@ -16,6 +16,8 @@ const COLORS = [
   '#8358ff',
   '#18c0e4'
 ]
+const MAX_COLOR_PROJECTS = COLORS.length
+const MAX_DESCRIBED_PROJECTS = 6
 
 const distributionSorter = ({ balance: a }, { balance: b }) => b - a
 const checkIsSmallDistribution = percent => percent < 0.5
@@ -90,21 +92,23 @@ const CollapsedDistributions = ({ distributions }) => (
 const AssetsDistribution = ({ walletAssets }) => {
   const distributions = useDistributions(walletAssets)
   const biggestDistributions = useMemo(
-    () =>
-      distributions.slice(0, distributions.findIndex(smallDistributionFinder)),
+    () => {
+      const index = distributions.findIndex(smallDistributionFinder)
+      return index === -1 ? distributions : distributions.slice(0, index)
+    },
     [distributions]
   )
 
   if (distributions.length === 0) return null
 
-  const historgramProjects = biggestDistributions.slice(0, 8)
-  const hiddenProjects = distributions.slice(8)
+  const historgramProjects = biggestDistributions.slice(0, MAX_COLOR_PROJECTS)
+  const hiddenProjects = distributions.slice(MAX_DESCRIBED_PROJECTS)
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>Assets distribution</div>
       <div className={styles.historgram}>
-        {historgramProjects.slice(0, 8).map(({ name, style }) => (
+        {historgramProjects.map(({ name, style }) => (
           <div key={name} style={style} className={styles.slice} />
         ))}
         {historgramProjects.length < biggestDistributions.length && (
@@ -113,8 +117,10 @@ const AssetsDistribution = ({ walletAssets }) => {
       </div>
 
       <div className={styles.projects}>
-        <Distributions distributions={distributions.slice(0, 6)} />
-        {!!hiddenProjects.length && (
+        <Distributions
+          distributions={distributions.slice(0, MAX_DESCRIBED_PROJECTS)}
+        />
+        {hiddenProjects.length !== 0 && (
           <CollapsedDistributions distributions={hiddenProjects} />
         )}
       </div>
