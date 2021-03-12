@@ -92,7 +92,8 @@ const DashboardMetricChart = ({
   measurement,
   sliceMetricsCount = 1,
   onLoad,
-  projectSelector
+  projectSelector,
+  canvasSettings
 }) => {
   const MetricTransformer = useMirroredTransformer(metrics)
   const [MetricSettingsMap] = useState(new Map())
@@ -248,6 +249,7 @@ const DashboardMetricChart = ({
         sliceMetricsCount={sliceMetricsCount}
         options={options}
         chartRef={chartRef}
+        canvasSettings={canvasSettings}
       />
 
       <MobileOnly>

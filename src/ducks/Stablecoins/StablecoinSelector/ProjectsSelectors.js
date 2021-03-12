@@ -93,7 +93,3 @@ export const DashboardProjectSelector = ({
 export const StablecoinsSelector = ({ ...rest }) => (
   <DashboardProjectSelector type={'Stablecoins'} {...rest} />
 )
-
-export const ERC20Selector = ({ ...rest }) => (
-  <DashboardProjectSelector type={'ERC20'} {...rest} />
-)

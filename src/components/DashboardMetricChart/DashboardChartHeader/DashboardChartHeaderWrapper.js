@@ -17,9 +17,9 @@ export const DashboardIntervals = ({ interval, setInterval, intervals }) => {
       options={tabs}
       defaultSelectedIndex={interval.label}
       onSelect={tab => {
-        const foundTab = intervals.find(({ label }) => label === tab)
-        if (foundTab) {
-          setInterval(foundTab)
+        const target = intervals.find(({ label }) => label === tab)
+        if (target) {
+          setInterval(target)
         }
       }}
       className={styles.tabs}
@@ -46,9 +46,9 @@ export const DashboardCalendar = ({ interval, setInterval, intervals }) => {
   }
 
   const onTimerangeChange = range => {
-    const foundTab = intervals.find(({ value }) => value === range)
-    if (foundTab) {
-      setInterval(foundTab)
+    const target = intervals.find(({ value }) => value === range)
+    if (target) {
+      setInterval(target)
     }
   }
 

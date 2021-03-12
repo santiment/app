@@ -37,7 +37,7 @@ const DexPriceMeasurement = ({
 
   return (
     <div className={cx(styles.container, className)}>
-      Metric measurement:
+      Metrics measurement:
       <Range
         className={styles.selectors}
         btnClassName={styles.btn}

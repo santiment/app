@@ -6,6 +6,7 @@
   padding: 8px 11px 8px 16px;
   border-bottom: 1px solid var(--porcelain);
   color: var(--rhino);
+  flex-wrap: wrap;
 
   @include text('body-2', 'm');
 
