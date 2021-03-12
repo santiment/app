@@ -72,6 +72,7 @@ const HistoricalBalance = ({
       <AddressSetting
         className={isPhone && styles.address_phone}
         settings={settings}
+        walletAssets={walletAssets}
         chartAssets={chartAssets}
         isError={isError}
         onAddressChange={onAddressChange}

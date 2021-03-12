@@ -3,6 +3,8 @@ import cx from 'classnames'
 import Input from '@santiment-network/ui/Input'
 import Labels from './Labels'
 import Actions from './Actions'
+import AssetsDistribution from './AssetsDistribution'
+import CurrentBalance from './CurrentBalance'
 import Setting from '../Setting'
 import {
   Infrastructure,
@@ -13,6 +15,7 @@ import styles from './index.module.scss'
 export const AddressSetting = ({
   className,
   settings,
+  walletAssets,
   chartAssets,
   isError,
   onAddressChange
@@ -76,6 +79,9 @@ export const AddressSetting = ({
         infrastructure={infrastructure}
         assets={chartAssets}
       />
+
+      <AssetsDistribution walletAssets={walletAssets} />
+      <CurrentBalance walletAssets={walletAssets} />
     </div>
   )
 }

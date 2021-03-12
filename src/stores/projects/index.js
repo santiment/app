@@ -14,7 +14,6 @@ export const projectBaseData = gql`
   }
 `
 
-// NOTE: Please, create different GQL for additional properties [@vanguard | Mar 11, 2021]
 export const PROJECTS_QUERY = gql`
   query {
     projects: allProjects(minVolume: 0) {
