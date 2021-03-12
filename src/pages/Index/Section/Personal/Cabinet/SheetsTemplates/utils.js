@@ -14,10 +14,10 @@ const ExternalLink = ({ href, children }) => {
   )
 }
 
-export const SheetsTemplatesList = [
+export const DEFAULT_SHEETS_TEMPLATES = [
   {
-    title: 'Whale Holder Distribution',
-    linkToTemplate:
+    name: 'Whale Holder Distribution',
+    url:
       'https://docs.google.com/spreadsheets/d/130DSq8KPXIEGBn25HQeI5-dCSeoDTwR6rR8UXC5b0gw/view',
     description: (
       <>
@@ -33,10 +33,11 @@ export const SheetsTemplatesList = [
           or even $10M for projects like BTC or ETH.
         </div>
       </>
-    )
+    ),
+    isPro: true
   },
   {
-    title: 'MVRV Danger & Opportunity Zones',
+    name: 'MVRV Danger & Opportunity Zones',
     description: (
       <>
         It’s extremely helpful to have context when understanding where we are
@@ -63,11 +64,11 @@ export const SheetsTemplatesList = [
         </div>
       </>
     ),
-    linkToTemplate:
+    url:
       'https://docs.google.com/spreadsheets/d/1wYTvxKYNYry_pJ-RB4kzbpVF60c26RlTfkMla05jG34/view'
   },
   {
-    title: 'Top Holders Supply',
+    name: 'Top Holders Supply',
     description: (
       <>
         Crypto is still a whale's playground.{' '}
@@ -88,12 +89,12 @@ export const SheetsTemplatesList = [
         </div>
       </>
     ),
-    linkToTemplate:
+    url:
       'https://docs.google.com/spreadsheets/d/1JZ11YeGMmeLqaODp9puNTaV2BJNkncnk1gOPSHlZ-20/view'
   },
   {
-    title: 'Token Age Consumed',
-    linkToTemplate:
+    name: 'Token Age Consumed',
+    url:
       'https://docs.google.com/spreadsheets/d/1elZAnyR_0JPI7L3pQY2c9mG2TEvex-XQv8Lk_XYhVIk/view',
     description: (
       <>
@@ -113,7 +114,7 @@ export const SheetsTemplatesList = [
   },
 
   {
-    title: 'NVT Token Circulation',
+    name: 'NVT Token Circulation',
     description: (
       <>
         This template calculates the NVT (Network Value to Transactions) for
@@ -133,11 +134,11 @@ export const SheetsTemplatesList = [
         </div>
       </>
     ),
-    linkToTemplate:
+    url:
       'https://docs.google.com/spreadsheets/d/1CpPBVgJJ-6T5EIKHkeMKBG954Rp5HlEHtevSzXOns1Y/view'
   },
   {
-    title: 'Daily Active Addresses Divergence',
+    name: 'Daily Active Addresses Divergence',
     description: (
       <>
         We{' '}
@@ -158,13 +159,13 @@ export const SheetsTemplatesList = [
         </div>
       </>
     ),
-    linkToTemplate:
+    url:
       'https://docs.google.com/spreadsheets/d/1opTpz2lDBXd9o6izMoUHzTWEU-pw-UAD2CuI-s4BWoA/view'
   },
 
   {
-    title: 'Top Transactions',
-    linkToTemplate:
+    name: 'Top Transactions',
+    url:
       'https://docs.google.com/spreadsheets/d/1vvhzCUnmXv2n-XP5juUxizVtn6Xbj-OcS78wq0cT46s/view',
     description: (
       <>
@@ -189,7 +190,7 @@ export const SheetsTemplatesList = [
     )
   },
   {
-    title: 'Thresholds Crossed',
+    name: 'Thresholds Crossed',
     description: (
       <>
         The next time you hear someone claim that 'Bitcoin will never fall below
@@ -206,12 +207,12 @@ export const SheetsTemplatesList = [
         </div>
       </>
     ),
-    linkToTemplate:
+    url:
       'https://docs.google.com/spreadsheets/d/1irxlgPqMMq6x2kgCdo4K0tr8ec6tYauR2xY5NO4zIgY/view'
   },
   {
-    title: 'Exchange Percent of Supply',
-    linkToTemplate:
+    name: 'Exchange Percent of Supply',
+    url:
       'https://docs.google.com/spreadsheets/d/19lwjC_odu3MnpkXCvMF2JrGrhC6YwZl6bVZiRxO4BXA/view',
     description: (
       <>
@@ -241,7 +242,7 @@ export const SheetsTemplatesList = [
     )
   },
   {
-    title: 'Distribution Index',
+    name: 'Distribution Index',
     description: (
       <>
         Our research has shown that distributed coins (supply dispersed among
@@ -253,10 +254,10 @@ export const SheetsTemplatesList = [
         </div>
       </>
     ),
-    linkToTemplate: 'https://insights.santiment.net/read/314'
+    url: 'https://insights.santiment.net/read/314'
   },
   {
-    title: 'ETH-ERC20 Correlation Index',
+    name: 'ETH-ERC20 Correlation Index',
     description: (
       <>
         Our previous analysis indicates that ERC-20 coins tend to be less
@@ -268,11 +269,10 @@ export const SheetsTemplatesList = [
         </div>
       </>
     ),
-    linkToTemplate:
-      'https://santiment.net/blog/eth-vs-erc-20-market-cap-comparison/'
+    url: 'https://santiment.net/blog/eth-vs-erc-20-market-cap-comparison/'
   },
   {
-    title: 'Stablecoin Volatility Index',
+    name: 'Stablecoin Volatility Index',
     description: (
       <>
         Stablecoins are more volatile than you think. This presents a novel
@@ -284,10 +284,10 @@ export const SheetsTemplatesList = [
         </div>
       </>
     ),
-    linkToTemplate: 'https://partners.santiment.net/blog/stablecoin-volatility/'
+    url: 'https://partners.santiment.net/blog/stablecoin-volatility/'
   },
   {
-    title: 'Least Correlated Coins to BTC & ETH',
+    name: 'Least Correlated Coins to BTC & ETH',
     description: (
       <>
         According to our research, a portfolio of coins that are least
@@ -299,7 +299,7 @@ export const SheetsTemplatesList = [
         </div>
       </>
     ),
-    linkToTemplate:
+    url:
       'https://partners.santiment.net/blog/is-diversification-worth-it-in-crypto/'
   }
 ]
