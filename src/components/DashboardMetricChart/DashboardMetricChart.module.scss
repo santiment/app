@@ -8,12 +8,12 @@
 }
 
 .sharedAxisToggle {
-  margin: 0 19px 9px auto;
+  margin: 0 10px 0 0;
 
   @include text('body-3', 'm');
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
-    margin: 8px 0 8px auto;
+    margin: 0 0 8px auto;
   }
 }
 
@@ -24,7 +24,6 @@
 }
 
 .measurements {
-  padding-bottom: 9px;
   margin-left: 4px;
 }
 

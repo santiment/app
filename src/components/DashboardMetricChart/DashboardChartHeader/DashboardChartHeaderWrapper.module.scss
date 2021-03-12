@@ -3,7 +3,7 @@
 .container {
   display: flex;
   justify-content: space-between;
-  padding: 9px 11px 0 16px;
+  padding: 8px 11px 8px 16px;
   border-bottom: 1px solid var(--porcelain);
   color: var(--rhino);
 
@@ -39,4 +39,8 @@
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     padding: 0 8px 9px 8px;
   }
+}
+
+.calendar {
+  width: 167px;
 }

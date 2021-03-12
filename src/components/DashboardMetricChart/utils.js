@@ -18,6 +18,7 @@ export const makeIntervalSelectors = ({
   }
 
   return {
+    index: val,
     value: val,
     label: label,
     requestParams
@@ -34,49 +35,63 @@ export const makeMetric = (key, label, formatter = formatNumber) => {
 
 export const INTERVAL_30_DAYS = makeIntervalSelectors({
   val: '30d',
-  label: '1M',
+  label: 'Last 1 month',
   interval: '3h'
 })
 
 export const INTERVAL_6_MONTHS = makeIntervalSelectors({
   val: '183d',
-  label: '6M',
+  label: 'Last 6 months',
   interval: '1d'
 })
 
 export const INTERVAL_3_MONTHS = makeIntervalSelectors({
   val: '90d',
-  label: '3M',
+  label: 'Last 3 months',
   interval: '8h'
 })
 
 const INTERVAL_DAY = makeIntervalSelectors({
   val: '1d',
-  label: '1D',
+  label: 'Last 1 day',
   interval: '15m'
 })
 
+const INTERVAL_1_YEAR = makeIntervalSelectors({
+  val: '1y',
+  label: 'Last 1 year',
+  interval: '1d'
+})
+
+const INTERVAL_WEEK = makeIntervalSelectors({
+  val: '1w',
+  label: 'Last 1 week',
+  interval: '1h'
+})
+
+const INTERVAL_ALL_TIME = makeIntervalSelectors({
+  val: 'all',
+  label: 'All time',
+  interval: '1d',
+  from: CRYPTO_ERA_START_DATE
+})
+
 export const NON_DAILY_INTERVAL_SELECTORS = [
-  makeIntervalSelectors({ val: '1w', label: '1W', interval: '1h' }),
+  INTERVAL_WEEK,
   INTERVAL_30_DAYS,
   INTERVAL_3_MONTHS,
   INTERVAL_6_MONTHS,
-  makeIntervalSelectors({ val: '1y', label: '1Y', interval: '1d' }),
-  makeIntervalSelectors({
-    val: 'all',
-    label: 'All',
-    interval: '1d',
-    from: CRYPTO_ERA_START_DATE
-  })
+  INTERVAL_1_YEAR,
+  INTERVAL_ALL_TIME
 ]
 
 export const ETH2_INTERVAL_SELECTORS = [
   INTERVAL_DAY,
-  makeIntervalSelectors({ val: '1w', label: '1W', interval: '1h' }),
+  INTERVAL_WEEK,
   INTERVAL_30_DAYS,
   INTERVAL_3_MONTHS,
   INTERVAL_6_MONTHS,
-  makeIntervalSelectors({ val: '1y', label: '1Y', interval: '1d' })
+  INTERVAL_1_YEAR
 ]
 
 export const DEFAULT_INTERVAL_SELECTORS = [
@@ -86,14 +101,14 @@ export const DEFAULT_INTERVAL_SELECTORS = [
 
 export const DEX_INTERVAL_SELECTORS = [
   INTERVAL_DAY,
-  makeIntervalSelectors({ val: '1w', label: '1W', interval: '1h' }),
+  INTERVAL_WEEK,
   INTERVAL_30_DAYS,
-  makeIntervalSelectors({ val: '90d', label: '3M', interval: '8h' }),
-  makeIntervalSelectors({ val: '183d', label: '6m', interval: '1d' }),
-  makeIntervalSelectors({ val: '1y', label: '1Y', interval: '1d' }),
+  INTERVAL_3_MONTHS,
+  INTERVAL_6_MONTHS,
+  INTERVAL_1_YEAR,
   makeIntervalSelectors({
     val: 'all',
-    label: 'All',
+    label: 'All time',
     interval: '1d',
     from: DEX_ERA_START_DATE
   })

@@ -1,10 +1,11 @@
-import React, { useMemo } from 'react'
-import { QueuedDashboardMetricChart as DashboardMetricChart } from '../../../components/DashboardMetricChart/DashboardMetricChart'
+import React from 'react'
 import {
   DEX_INTERVAL_SELECTORS,
   makeMetric
 } from '../../../components/DashboardMetricChart/utils'
-import { mapDEXMetrics } from '../DexTradesSegmentedByDEX/DexTradesSegmentedByDEX'
+import { DEX_VOLUME_METRICS } from '../DexTradesSegmentedByDEX/DexTradesSegmentedByDEX'
+import DashboardProjectChart from '../../../components/DashboardMetricChart/DashboardProjectChart/DashboardProjectChart'
+import { DEFAULT_DEX_PROJECT, useProjectMetricBuilder } from '../utils'
 
 export const DEX_AMOUNT_METRICS = [
   makeMetric('total_trade_amount_by_dex', 'Total Trade Amount'),
@@ -14,16 +15,15 @@ export const DEX_AMOUNT_METRICS = [
 ]
 
 const DexTradesTotalNumber = ({ measurement }) => {
-  const metrics = useMemo(
-    () => {
-      return mapDEXMetrics(DEX_AMOUNT_METRICS, measurement)
-    },
-    [measurement]
-  )
+  const metricsBuilder = useProjectMetricBuilder({
+    measurement,
+    baseMetrics: DEX_VOLUME_METRICS
+  })
 
   return (
-    <DashboardMetricChart
-      metrics={metrics}
+    <DashboardProjectChart
+      project={DEFAULT_DEX_PROJECT}
+      metricsBuilder={metricsBuilder}
       intervals={DEX_INTERVAL_SELECTORS}
     />
   )
