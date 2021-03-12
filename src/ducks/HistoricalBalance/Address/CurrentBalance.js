@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import cx from 'classnames'
 import { useProjects, getProjectInfo } from '../../../stores/projects'
 import { millify } from '../../../utils/formatting'
 import styles from './CurrentBalance.module.scss'
@@ -48,13 +49,13 @@ function useCurrentBalance (walletAssets) {
   )
 }
 
-const CurrentBalance = ({ walletAssets }) => {
+const CurrentBalance = ({ walletAssets, className }) => {
   const { usd, totalBalance, distributions } = useCurrentBalance(walletAssets)
 
   if (!totalBalance) return null
 
   return (
-    <div className={styles.wrapper}>
+    <div className={cx(styles.wrapper, className)}>
       <div className={styles.title}>Current balance</div>
 
       <div className={styles.balance}>

@@ -89,7 +89,7 @@ const CollapsedDistributions = ({ distributions }) => (
   </CollapsedTooltip>
 )
 
-const AssetsDistribution = ({ walletAssets }) => {
+const AssetsDistribution = ({ walletAssets, className }) => {
   const distributions = useDistributions(walletAssets)
   const biggestDistributions = useMemo(
     () => {
@@ -105,7 +105,7 @@ const AssetsDistribution = ({ walletAssets }) => {
   const hiddenProjects = distributions.slice(MAX_DESCRIBED_PROJECTS)
 
   return (
-    <div className={styles.wrapper}>
+    <div className={cx(styles.wrapper, className)}>
       <div className={styles.title}>Assets distribution</div>
       <div className={styles.historgram}>
         {historgramProjects.map(({ name, style }) => (

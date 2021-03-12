@@ -2,6 +2,7 @@
 
 .wrapper {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .top,
@@ -54,4 +55,31 @@
 .actions {
   display: flex;
   margin: 16px 0 0 16px;
+}
+
+.widget {
+  margin-left: 72px;
+
+  @media only screen and (max-width: 1360px) {
+    margin-left: 24px;
+  }
+}
+
+.widgets {
+  display: flex;
+
+  @media only screen and (max-width: 1260px) {
+    flex-basis: 100%;
+    margin-top: 24px;
+    justify-content: space-between;
+
+    .widget {
+      flex: 1;
+
+      &:first-child {
+        margin: 0;
+        flex: 2;
+      }
+    }
+  }
 }
