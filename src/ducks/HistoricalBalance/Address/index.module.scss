@@ -31,8 +31,13 @@
 
 .btn {
   background: transparent;
-  fill: var(--waterloo);
+  fill: var(--casper);
   white-space: nowrap;
+
+  &:hover {
+    background: var(--athens);
+    fill: var(--waterloo);
+  }
 
   &__icon {
     margin-right: 8px;
