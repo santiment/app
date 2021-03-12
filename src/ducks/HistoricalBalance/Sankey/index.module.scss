@@ -2,7 +2,7 @@
 
 .wrapper {
   border: 1px solid var(--porcelain);
-  margin-top: 30px;
+  margin-top: 16px;
   border-radius: 4px;
 }
 
@@ -28,7 +28,7 @@
   padding: 10px;
   fill: var(--waterloo);
   cursor: pointer;
-  background: var(--athens);
+  background: var(--white);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -39,7 +39,6 @@
   }
 
   &_opened {
-    background: none;
     border-top: 1px solid var(--porcelain);
   }
 }

@@ -10,7 +10,10 @@ import { generateSearchQuery } from '../url'
 import { ShareButton } from '../../Studio/Header/Settings'
 import styles from './index.module.scss'
 
-const Configurations = ({
+const Chart = ({
+  children,
+  className,
+  canvasClassName,
   height,
   settings,
   chartAssets,
@@ -34,7 +37,7 @@ const Configurations = ({
   )
 
   return (
-    <div className={styles.wrapper}>
+    <div className={cx(styles.wrapper, className)}>
       <div className={cx(styles.header, isPhone && styles.header_phone)}>
         <Assets
           className={
@@ -64,14 +67,17 @@ const Configurations = ({
         </div>
       </div>
       <Canvas
+        className={canvasClassName}
         axesTicks={axesTicks}
         height={height}
         scale={isLog ? logScale : linearScale}
         settings={settings}
         metrics={metrics}
       />
+
+      {children}
     </div>
   )
 }
 
-export default Configurations
+export default Chart

@@ -44,3 +44,15 @@
     }
   }
 }
+
+.chart {
+  margin: 32px -32px 0;
+  padding: 24px 32px;
+  background: var(--athens);
+}
+
+.canvas {
+  background-color: var(--white);
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+}

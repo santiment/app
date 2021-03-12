@@ -77,4 +77,8 @@
   cursor: pointer;
   text-decoration: underline;
   text-decoration-style: dashed;
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
 }
