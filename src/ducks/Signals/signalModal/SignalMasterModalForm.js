@@ -24,7 +24,8 @@ const SignalMasterModalForm = ({
   redirect,
   previousPage = ALERT_ROUTES.ALERTS,
   defaultOpen = true,
-  onClose
+  onClose,
+  noLoginPopupContainer
 }) => {
   const { id: shareId, isShared: isOldShared } = shareParams
 
@@ -150,6 +151,7 @@ const SignalMasterModalForm = ({
         metaFormSettings={metaFormSettings}
         buttonParams={buttonParams}
         SignalMaster={SignalMaster}
+        noLoginPopupContainer={noLoginPopupContainer}
       />
     </>
   )

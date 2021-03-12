@@ -7,7 +7,13 @@ import { PATHS } from '../../../paths'
 import { useUser } from '../../../stores/user'
 import styles from './PopupBanner.module.scss'
 
-const PopupBanner = ({ trigger: Trigger, children, className, ...props }) => {
+const PopupBanner = ({
+  trigger: Trigger,
+  children,
+  className,
+  noContainer,
+  ...props
+}) => {
   const { isLoggedIn } = useUser()
 
   if (isLoggedIn) {
@@ -19,7 +25,9 @@ const PopupBanner = ({ trigger: Trigger, children, className, ...props }) => {
       {...props}
       title=''
       classes={{ title: styles.header }}
-      trigger={Trigger ? <Trigger /> : <div>{children}</div>}
+      trigger={
+        Trigger ? <Trigger /> : noContainer ? children : <div>{children}</div>
+      }
     >
       <div className={cx(styles.wrapper, className)}>
         <h3 className={styles.heading}>Log in to use this feature!</h3>
