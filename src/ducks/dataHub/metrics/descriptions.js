@@ -217,10 +217,10 @@ export const Description = {
   )} were transacted during a day. This is useful for spotting when really old Bitcoins move. `,
   [Metric.stock_to_flow.key]: (
     <>
-      Stock To Flow model is a measure of scarcity/abundance of particular
+      Stock To Flow ratio model is a measure of scarcity/abundance of particular
       resource. It shows how much supply enters yearly relative to the total
-      supply of the resource. We measure Stock To Flow for a given asset as the
-      ratio between{' '}
+      supply of the resource. We measure Stock To Flow ratio for a given asset
+      as the ratio between{' '}
       <Link href='https://academy.santiment.net/metrics/circulation/'>
         Total Circulation
       </Link>{' '}
