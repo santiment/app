@@ -47,7 +47,8 @@ const DashboardMetricChartWrapper = ({
   mirrorDomainGroups,
   sliceMetricsCount = 1,
   chartRef,
-  options
+  options,
+  canvasSettings
 }) => {
   const categories = useMetricCategories(metrics)
 
@@ -80,8 +81,13 @@ const DashboardMetricChartWrapper = ({
       isLoading={loadings.length > 0}
       scale={options.isLogScale ? logScale : linearScale}
       options={options}
+      canvasSettings={canvasSettings}
     />
   )
+}
+
+const DEFAULT_CANVAS_SETTING = {
+  height: 400
 }
 
 const Canvas = ({
@@ -92,6 +98,7 @@ const Canvas = ({
   settings,
   axesMetricKeys,
   options,
+  canvasSettings: { height } = DEFAULT_CANVAS_SETTING,
   ...props
 }) => {
   const { from, to } = settings
@@ -102,7 +109,7 @@ const Canvas = ({
   } = options
 
   return (
-    <SANChart height={400} {...props}>
+    <SANChart height={height} {...props}>
       {isWatermarkVisible && <Watermark light={isWatermarkLighter} />}
       <Areas />
       <Bars />

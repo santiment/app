@@ -7,7 +7,7 @@ import {
   useTimeseries
 } from '../../ducks/Studio/timeseries/hooks'
 import DashboardChartHeaderWrapper, {
-  DashboardIntervals
+  DashboardCalendar
 } from './DashboardChartHeader/DashboardChartHeaderWrapper'
 import SharedAxisToggle from '../../ducks/Studio/Chart/SharedAxisToggle'
 import { DesktopOnly, MobileOnly } from '../Responsive'
@@ -92,7 +92,8 @@ const DashboardMetricChart = ({
   measurement,
   sliceMetricsCount = 1,
   onLoad,
-  projectSelector
+  projectSelector,
+  canvasSettings
 }) => {
   const MetricTransformer = useMirroredTransformer(metrics)
   const [MetricSettingsMap] = useState(new Map())
@@ -195,7 +196,7 @@ const DashboardMetricChart = ({
           </div>
 
           <DesktopOnly>
-            <DashboardIntervals
+            <DashboardCalendar
               interval={intervalSelector}
               setInterval={onChangeInterval}
               intervals={intervals}
@@ -248,10 +249,11 @@ const DashboardMetricChart = ({
         sliceMetricsCount={sliceMetricsCount}
         options={options}
         chartRef={chartRef}
+        canvasSettings={canvasSettings}
       />
 
       <MobileOnly>
-        <DashboardIntervals
+        <DashboardCalendar
           interval={intervalSelector}
           setInterval={onChangeInterval}
           intervals={intervals}

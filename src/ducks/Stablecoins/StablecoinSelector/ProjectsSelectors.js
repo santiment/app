@@ -57,7 +57,7 @@ export const DashboardProjectInfo = createSkeletonProvider(
   )
 )
 
-const DashboardProjectSelector = ({
+export const DashboardProjectSelector = ({
   type,
   setAsset,
   asset,
@@ -76,7 +76,7 @@ const DashboardProjectSelector = ({
         setAsset(asset)
         closeDialog()
       }}
-      customTabs={[type]}
+      customTabs={type && [type]}
       showTabs={false}
       trigger={
         <DashboardProjectInfo
@@ -92,8 +92,4 @@ const DashboardProjectSelector = ({
 
 export const StablecoinsSelector = ({ ...rest }) => (
   <DashboardProjectSelector type={'Stablecoins'} {...rest} />
-)
-
-export const ERC20Selector = ({ ...rest }) => (
-  <DashboardProjectSelector type={'ERC20'} {...rest} />
 )

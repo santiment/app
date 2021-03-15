@@ -1,11 +1,11 @@
 import React from 'react'
 import cx from 'classnames'
 import HistoricalBalanceChart from '../../../HistoricalBalance/Chart/Canvas'
-import { getValidInterval } from '../../../HistoricalBalance/utils'
 import { useSettings, getWalletMetrics } from '../../../HistoricalBalance/hooks'
 import CreateAlert from '../../../HistoricalBalance/Address/CreateAlert'
 import { Calendar } from '../../../HistoricalBalance/Chart/DatePicker'
 import { toEndOfDay } from '../../../../utils/dates'
+import { getValidInterval } from '../../../SANCharts/IntervalSelector'
 import styles from './UniswapHistoricalBalance.module.scss'
 
 const WALLET_ASSETS = [

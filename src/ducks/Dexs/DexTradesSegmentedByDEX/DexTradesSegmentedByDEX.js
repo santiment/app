@@ -1,14 +1,11 @@
-import React, { useMemo } from 'react'
-import { QueuedDashboardMetricChart as DashboardMetricChart } from '../../../components/DashboardMetricChart/DashboardMetricChart'
+import React from 'react'
 import {
   DEX_INTERVAL_SELECTORS,
   makeMetric
 } from '../../../components/DashboardMetricChart/utils'
-import { Metric } from '../../dataHub/metrics'
-import {
-  DEX_BY_USD,
-  useDexMeasurement
-} from '../PriceMeasurement/DexPriceMeasurement'
+import { useDexMeasurement } from '../PriceMeasurement/DexPriceMeasurement'
+import DashboardProjectChart from '../../../components/DashboardMetricChart/DashboardProjectChart/DashboardProjectChart'
+import { DEFAULT_DEX_PROJECT, useProjectMetricBuilder } from '../utils'
 
 export const DEX_VOLUME_METRICS = [
   makeMetric('total_trade_volume_by_dex', 'Total Trade Volume'),
@@ -17,53 +14,20 @@ export const DEX_VOLUME_METRICS = [
   makeMetric('other_trade_volume_by_dex', 'Other')
 ]
 
-export function mapDEXMetrics (metrics, measurement, addPriceMetric = false) {
-  const measurementSlug = measurement.slug.replace(/-/g, '_')
-
-  const dexMetrics = metrics.map(({ key, label }) => {
-    return {
-      key: `${measurementSlug}_${key}`,
-      queryKey: key,
-      label,
-      node: 'bar',
-      fill: true,
-      domainGroup: 'decentralized_exchanges',
-      reqMeta: { slug: measurement.slug }
-    }
-  })
-
-  if (addPriceMetric) {
-    dexMetrics.push({
-      ...Metric.price_usd,
-      key: 'price_usd',
-      label: `Price ${measurement.label}`,
-      reqMeta: { slug: measurement.slug }
-    })
-  }
-
-  return dexMetrics
-}
-
 const DexTradesSegmentedByDEX = () => {
   const { measurement, setMeasurement } = useDexMeasurement()
-
-  const metrics = useMemo(
-    () => {
-      return mapDEXMetrics(
-        DEX_VOLUME_METRICS,
-        measurement,
-        measurement.slug !== DEX_BY_USD.slug
-      )
-    },
-    [measurement]
-  )
+  const metricsBuilder = useProjectMetricBuilder({
+    measurement,
+    baseMetrics: DEX_VOLUME_METRICS
+  })
 
   return (
-    <DashboardMetricChart
-      metrics={metrics}
+    <DashboardProjectChart
+      project={DEFAULT_DEX_PROJECT}
+      metricsBuilder={metricsBuilder}
       intervals={DEX_INTERVAL_SELECTORS}
-      setMeasurement={setMeasurement}
       measurement={measurement}
+      setMeasurement={setMeasurement}
     />
   )
 }

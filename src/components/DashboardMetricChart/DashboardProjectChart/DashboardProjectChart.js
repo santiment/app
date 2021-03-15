@@ -1,16 +1,21 @@
 import React, { useCallback, useState, useMemo } from 'react'
 import { useProject } from '../../../hooks/project'
 import { QueuedDashboardMetricChart as DashboardMetricChart } from '../DashboardMetricChart'
-import { ERC20Selector } from '../../../ducks/Stablecoins/StablecoinSelector/ProjectsSelectors'
-import styles from './Erc20DashChart.module.scss'
+import { DashboardProjectSelector } from '../../../ducks/Stablecoins/StablecoinSelector/ProjectsSelectors'
+import styles from './DashboardProjectChart.module.scss'
 
 const DEFAULT_PROJECT = {
   slug: 'maker',
   ticker: 'Maker'
 }
 
-const Erc20DashChart = ({ metricsBuilder, ...rest }) => {
-  const [targetProject, setProject] = useState(DEFAULT_PROJECT)
+const DashboardProjectChart = ({
+  metricsBuilder,
+  type,
+  project: defaultProject = DEFAULT_PROJECT,
+  ...rest
+}) => {
+  const [targetProject, setProject] = useState(defaultProject)
 
   const onChange = useCallback(
     project => {
@@ -34,7 +39,8 @@ const Erc20DashChart = ({ metricsBuilder, ...rest }) => {
       metrics={metrics}
       projectSelector={
         <div className={styles.project}>
-          <ERC20Selector
+          <DashboardProjectSelector
+            type={type}
             setAsset={onChange}
             asset={project}
             triggerProps={{ size: 20 }}
@@ -46,4 +52,4 @@ const Erc20DashChart = ({ metricsBuilder, ...rest }) => {
   )
 }
 
-export default Erc20DashChart
+export default DashboardProjectChart

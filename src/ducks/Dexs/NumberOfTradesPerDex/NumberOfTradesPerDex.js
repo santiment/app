@@ -1,7 +1,8 @@
-import React, { useMemo, useState } from 'react'
-import { QueuedDashboardMetricChart as DashboardMetricChart } from '../../../components/DashboardMetricChart/DashboardMetricChart'
+import React, { useState, useCallback } from 'react'
 import { DEX_INTERVAL_SELECTORS } from '../../../components/DashboardMetricChart/utils'
 import { useDexMeasurement } from '../PriceMeasurement/DexPriceMeasurement'
+import DashboardProjectChart from '../../../components/DashboardMetricChart/DashboardProjectChart/DashboardProjectChart'
+import { Metric } from '../../dataHub/metrics'
 
 export const DEXs = [
   'UniswapV2',
@@ -30,10 +31,11 @@ const NumberOfTradesPerDex = ({ metrics, measurement: strictMeasurement }) => {
   const { measurement, setMeasurement } = useDexMeasurement(strictMeasurement)
   const [rootMetric, setRootMetric] = useState(metrics[0])
 
-  const dexMetrics = useMemo(
-    () => {
+  const metricsBuilder = useCallback(
+    ({ slug }) => {
       const measurementSlug = measurement.slug.replace(/-/g, '_')
-      return DEXs.map(dex => {
+
+      const result = DEXs.map(dex => {
         return {
           key: `${rootMetric.key}_${measurementSlug}_${dex.replace('.', '_')}`,
           queryKey: rootMetric.key,
@@ -47,19 +49,32 @@ const NumberOfTradesPerDex = ({ metrics, measurement: strictMeasurement }) => {
           }
         }
       })
+
+      if (slug) {
+        result.push({
+          ...Metric.price_usd,
+          label: `Price ${slug}`,
+          reqMeta: { slug: slug }
+        })
+      }
+
+      return result
     },
     [rootMetric, measurement]
   )
 
   return (
-    <DashboardMetricChart
-      metrics={dexMetrics}
+    <DashboardProjectChart
+      metricsBuilder={metricsBuilder}
       metricSelectors={metrics}
       setRootMetric={setRootMetric}
       rootMetric={rootMetric}
       intervals={DEX_INTERVAL_SELECTORS}
       setMeasurement={strictMeasurement ? null : setMeasurement}
       measurement={measurement}
+      canvasSettings={{
+        height: 500
+      }}
     />
   )
 }
