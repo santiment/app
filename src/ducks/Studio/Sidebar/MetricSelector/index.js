@@ -4,7 +4,6 @@ import Category from '../Category'
 import Group from '../Group'
 import MetricButton from '../Button'
 import { NO_GROUP } from '../utils'
-import { HolderDistributionMetric } from '../../Chart/Sidepanel/HolderDistribution/metrics'
 import { rebuildDescriptions } from '../../../dataHub/metrics/descriptions'
 import {
   useFavoriteMetrics,
@@ -45,13 +44,6 @@ const MetricSelector = ({
     () => ({ [NO_GROUP]: favorites.map(convertMetricToSidebarItem) }),
     [favorites]
   )
-  const hasTopHolders = useMemo(
-    () =>
-      availableMetrics.includes(
-        HolderDistributionMetric.holders_distribution_1_to_10.key
-      ),
-    [availableMetrics]
-  )
 
   useEffect(() => setFavorites(favoriteMetrics), [favoriteMetrics])
 
@@ -86,13 +78,7 @@ const MetricSelector = ({
       ) : null}
 
       {Object.keys(categories).map(key => (
-        <Category
-          key={key}
-          title={key}
-          groups={categories[key]}
-          hasTopHolders={key === 'On-chain' && hasTopHolders}
-          {...props}
-        />
+        <Category key={key} title={key} groups={categories[key]} {...props} />
       ))}
     </>
   )

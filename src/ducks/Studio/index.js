@@ -24,6 +24,14 @@ import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
 import { Metric } from '../dataHub/metrics'
 import { NEW_METRIC_KEY_SET, seeMetric } from '../dataHub/metrics/news'
 import { usePressedModifier } from '../../hooks/keyboard'
+import {
+  HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE,
+  HOLDER_DISTRIBUTION_NODE
+} from './Sidebar/nodes'
+import {
+  HolderDistributionCombinedBalanceAbsoluteMetric,
+  HolderDistributionMetric
+} from './Chart/Sidepanel/HolderDistribution/metrics'
 import styles from './index.module.scss'
 
 export const Studio = ({
@@ -182,9 +190,17 @@ export const Studio = ({
       const scrollIntoView = {
         scrollIntoViewOnMount: true
       }
-      if (key === 'holder_distribution') {
+      if (
+        key === HOLDER_DISTRIBUTION_NODE.key ||
+        key === HolderDistributionMetric.holders_distribution_1_to_10.key
+      ) {
         setWidgets([...widgets, HolderDistributionWidget.new(scrollIntoView)])
-      } else if (key === 'holder_distribution_combined_balance') {
+      } else if (
+        key === HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE.key ||
+        key ===
+          HolderDistributionCombinedBalanceAbsoluteMetric
+            .holders_distribution_combined_balance_1_to_10.key
+      ) {
         setWidgets([
           ...widgets,
           HolderDistributionCombinedBalanceWidget.new(scrollIntoView)

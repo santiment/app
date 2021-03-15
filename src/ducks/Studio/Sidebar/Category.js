@@ -1,12 +1,7 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
-import {
-  HOLDER_DISTRIBUTION_NODE,
-  HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE
-} from './nodes'
 import Group from './Group'
-import Button from './Button'
 import styles from './MetricSelector/index.module.scss'
 
 const DEFAULT_OPENED_CATEGORY = {
@@ -16,27 +11,15 @@ const DEFAULT_OPENED_CATEGORY = {
   'Santiment Alerts': true
 }
 
-const WidgetButton = ({ project, widget, toggleMetric }) => (
-  <Button
-    project={project}
-    metric={widget}
-    label={widget.label}
-    onClick={() => toggleMetric(widget, project)}
-  />
-)
-
 const Category = ({
   title,
   groups,
-  hasTopHolders,
   project,
   NewMetricsCategory,
   GroupNode,
   ...rest
 }) => {
   const [hidden, setHidden] = useState(!DEFAULT_OPENED_CATEGORY[title])
-  const { toggleMetric } = rest
-
   function onToggleClick () {
     setHidden(!hidden)
   }
@@ -51,21 +34,6 @@ const Category = ({
         {title}
       </h3>
       <div className={styles.metrics}>
-        {/* TODO: Find a better way to extend metrics categories with custom metrics [@vanguard | April 3, 2020] */}
-        {hasTopHolders && (
-          <>
-            <WidgetButton
-              project={project}
-              widget={HOLDER_DISTRIBUTION_NODE}
-              toggleMetric={toggleMetric}
-            />
-            <WidgetButton
-              project={project}
-              widget={HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE}
-              toggleMetric={toggleMetric}
-            />
-          </>
-        )}
         {Object.keys(groups).map(group => (
           <GroupNode
             key={group}

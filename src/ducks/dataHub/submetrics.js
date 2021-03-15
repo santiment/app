@@ -25,8 +25,8 @@ export const SOCIAL_ACTIVE_USERS_TELEGRAM = {
   ...Metric.social_active_users,
   showRoot: true,
   key: 'social_active_users_telegram',
-  label: 'Social Active Users (Telegram)',
-  shortLabel: 'Soc. Act. Us. Tg.',
+  label: 'Active social users (Telegram)',
+  shortLabel: 'Act. Soc. Us. Tg.',
   channel: 'telegram',
   reqMeta: {
     source: 'telegram'
@@ -37,8 +37,8 @@ export const SOCIAL_ACTIVE_USERS_TWITTER = {
   ...Metric.social_active_users,
   showRoot: true,
   key: 'social_active_users_twitter',
-  label: 'Social Active Users (Twitter)',
-  shortLabel: 'Soc. Act. Us. Tw.',
+  label: 'Active social users (Twitter)',
+  shortLabel: 'Act. Soc. Us. Tw.',
   channel: 'twitter',
   reqMeta: {
     source: 'twitter_crypto'
@@ -71,7 +71,9 @@ export const Submetrics = {
       type: SIDEPANEL,
       label: 'Social Context',
       checkIsActive: ({ sidepanel }) => sidepanel === SOCIAL_CONTEXT
-    }
+    },
+    SOCIAL_ACTIVE_USERS_TELEGRAM,
+    SOCIAL_ACTIVE_USERS_TWITTER
   ],
 
   [Metric.twitter_followers.key]: SOCIAL_TWITTER_INTERVALS.map(interval => ({
@@ -88,11 +90,7 @@ export const Submetrics = {
     replacements: {
       timebound: interval
     }
-  })),
-  [Metric.social_active_users.key]: [
-    SOCIAL_ACTIVE_USERS_TELEGRAM,
-    SOCIAL_ACTIVE_USERS_TWITTER
-  ]
+  }))
 }
 
 Object.values(Submetrics).forEach(submetrics =>

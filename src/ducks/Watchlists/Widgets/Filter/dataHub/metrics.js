@@ -236,8 +236,8 @@ export const Metric = {
   exchange_balance: {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.EXCHANGES,
-    label: 'Exchange Flow Balance',
-    shortLabel: 'Ex. Flow Bal.',
+    label: 'Exchange Balance',
+    shortLabel: 'Ex. Bal.',
     aggregation: AGGREGATIONS_LOWER.SUM,
     showTimeRange: true
   },
@@ -302,7 +302,7 @@ export const Metric = {
   percent_of_total_supply_on_exchanges: {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.EXCHANGES,
-    label: 'Coin Supply on Exchanges (as % of total supply)',
+    label: 'Supply on exchanges (as % of total supply)',
     shortLabel: 'Coin Sup. on Ex.'
   },
   dex_traders_to_cexes_flow: {
