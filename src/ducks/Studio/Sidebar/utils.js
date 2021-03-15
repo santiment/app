@@ -39,6 +39,32 @@ function sortCategoryGroups (category, Submetrics) {
   return sortedCategory
 }
 
+const CUSTOM_SORTED_ORDER = [
+  Metric.social_volume_total,
+  Metric.social_active_users,
+  Metric.social_dominance_total,
+  Metric.sentiment_positive_twitter,
+  Metric.sentiment_positive_reddit,
+  Metric.sentiment_positive_total,
+  Metric.twitter_followers
+]
+
+const INDEX_MY_METRIC_KEY = {}
+
+CUSTOM_SORTED_ORDER.forEach((item, index) => {
+  INDEX_MY_METRIC_KEY[item.key] = index
+})
+
+const sortMetrics = metrics => {
+  debugger
+  return metrics.sort((a, b) => {
+    const indexA = INDEX_MY_METRIC_KEY[a] || 0
+    const indexB = INDEX_MY_METRIC_KEY[b] || 0
+
+    return indexA - indexB
+  })
+}
+
 export const getCategoryGraph = (
   availableMetrics,
   hiddenMetrics = [],
@@ -49,18 +75,20 @@ export const getCategoryGraph = (
     return {}
   }
 
+  const sortedAvailableMetrics = sortMetrics(availableMetrics)
+
   const categories = {
     Financial: undefined,
     Social: undefined,
     Development: undefined,
     Derivatives: undefined
   }
-  const { length } = availableMetrics
+  const { length } = sortedAvailableMetrics
 
   const availableTimebounds = { ...AVAILABLE_TIMEBOUNDS }
 
   for (let i = 0; i < length; i++) {
-    const availableMetric = availableMetrics[i]
+    const availableMetric = sortedAvailableMetrics[i]
 
     let metric =
       typeof availableMetric === 'object'
@@ -112,6 +140,8 @@ export const getCategoryGraph = (
 
     categories[key] = sortCategoryGroups(category, Submetrics)
   })
+
+  console.log(categories)
 
   return categories
 }
