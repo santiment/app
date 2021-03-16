@@ -122,6 +122,7 @@ const WatchlistPage = props => {
               {!isLoading && (
                 <AssetsTemplates
                   items={items}
+                  watchlist={props.watchlist}
                   isAuthor={isCurrentUserTheAuthor}
                   isPublic={isPublicWatchlist}
                   listId={listId}

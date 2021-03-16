@@ -39,6 +39,7 @@ const WatchlistActions = ({ isAuthor, id, title, items, watchlist = {} }) => {
           {isAuthor && (
             <Edit
               id={id}
+              watchlist={watchlist}
               assets={items}
               name={name}
               trigger={
