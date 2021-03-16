@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react'
+import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import DownloadCSV from './DownloadCSV'
 import PagedTable from '../_Table/Paged'
@@ -7,7 +8,6 @@ import { useSelectedItemsSet } from '../_Table/hooks'
 import Refresh from '../../components/Refresh/Refresh'
 import EditAddresses from '../Watchlists/Actions/Edit/EditAddresses/EditAddresses'
 import styles from './index.module.scss'
-import Icon from '@santiment-network/ui/Icon'
 
 export const DEFAULT_COLUMNS = [CHECKBOX_COLUMN, INDEX_COLUMN]
 export const Divider = () => <div className={styles.divider} />
