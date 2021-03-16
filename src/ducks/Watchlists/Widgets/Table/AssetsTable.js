@@ -172,7 +172,8 @@ const AssetsTable = ({
           watchlist={watchlist}
           assets={items}
           trigger={
-            <Button border accent='positive'>
+            <Button border accent='positive' className={styles.addassets}>
+              <Icon type='assets' className={styles.icon} />
               Add assets
             </Button>
           }

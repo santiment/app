@@ -7,6 +7,7 @@ import { useSelectedItemsSet } from '../_Table/hooks'
 import Refresh from '../../components/Refresh/Refresh'
 import EditAddresses from '../Watchlists/Actions/Edit/EditAddresses/EditAddresses'
 import styles from './index.module.scss'
+import Icon from '@santiment-network/ui/Icon'
 
 export const DEFAULT_COLUMNS = [CHECKBOX_COLUMN, INDEX_COLUMN]
 export const Divider = () => <div className={styles.divider} />
@@ -28,8 +29,9 @@ const WatchlistTable = ({
         <EditAddresses
           watchlist={watchlist}
           trigger={
-            <Button border accent='positive'>
-              Edit addresses
+            <Button border accent='positive' className={styles.add}>
+              <Icon type='assets' className={styles.icon} />
+              Add addresses
             </Button>
           }
         />
