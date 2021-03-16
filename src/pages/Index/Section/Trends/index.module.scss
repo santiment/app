@@ -1,4 +1,5 @@
 @import '~@santiment-network/ui/mixins';
+@import '../../../../animations';
 
 .wrapper {
   @include text('body-2');
@@ -51,4 +52,11 @@
 
 .santrends {
   margin-top: 40px;
+}
+
+.socialgrid,
+.santrends {
+  animation-name: shiftUp;
+  animation-timing-function: ease-out;
+  animation-duration: 0.5s;
 }
