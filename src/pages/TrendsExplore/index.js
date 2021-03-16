@@ -142,14 +142,9 @@ const TrendsExplore = ({ topic, addedTopics, history, isDesktop }) => {
 }
 
 export default compose(
-  withProps(({ match = { params: {} }, ...rest }) => {
-    const addedTopics = getTopicsFromUrl()
-    const word = match.params.word
-    return {
-      word,
-      topic: safeDecode(word),
-      addedTopics,
-      ...rest
-    }
-  })
+  withProps(({ match: { params = {} } = {}, ...rest }) => ({
+    topic: safeDecode(params.word),
+    addedTopics: getTopicsFromUrl(),
+    ...rest
+  }))
 )(TrendsExplore)

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useMemo } from 'react'
 import cx from 'classnames'
 import { Metric } from '../dataHub/metrics'
 import { useTimeseries, useAllTimeData } from '../Studio/timeseries/hooks'
@@ -14,17 +14,26 @@ import styles from './index.module.scss'
 function useSocialTimeseries (activeMetrics, settings, MetricSettingMap) {
   const [metrics, setMetrics] = useState([])
 
+  // NOTE(haritonasty): prevent new fetch when not assigned label and map
+  const shouldUpdate = useMemo(
+    () => MetricSettingMap && activeMetrics[1].label !== 'Price',
+    [activeMetrics]
+  )
+
   useEffect(
     () => {
-      // NOTE(haritonasty): prevent new fetch when not assigned label and map
-      if (MetricSettingMap && activeMetrics[1].label !== 'Price') {
+      if (shouldUpdate) {
         setMetrics(activeMetrics)
       }
     },
     [activeMetrics]
   )
 
-  return useTimeseries(metrics, settings, MetricSettingMap)
+  return useTimeseries(
+    shouldUpdate ? activeMetrics : metrics,
+    settings,
+    MetricSettingMap
+  )
 }
 
 const SocialTool = ({
@@ -109,6 +118,7 @@ const SocialTool = ({
 
   useEffect(
     () => {
+      console.log(priceAsset)
       if (priceAsset) {
         const newPriceMetric = {
           ...Metric.price_usd,
