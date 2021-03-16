@@ -13,7 +13,7 @@ const balanceValue = new Intl.NumberFormat('en', {
 export const COLUMNS = DEFAULT_COLUMNS.concat(
   prepareColumns([
     {
-      title: 'Transaction address',
+      title: 'Address',
       render: ({ address }) => (
         <a
           className={styles.address}
