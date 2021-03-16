@@ -5,7 +5,14 @@ import Edit from '../../Actions/Edit/EditAssets'
 import EmptySection from '../../../../components/EmptySection/EmptySection'
 import styles from '../../../../pages/Watchlists/EmptySection/index.module.scss'
 
-const AssetsTemplates = ({ isAuthor, items, listId, isPublic, title }) => (
+const AssetsTemplates = ({
+  isAuthor,
+  items,
+  listId,
+  isPublic,
+  title,
+  watchlist
+}) => (
   <>
     {!isAuthor && !isPublic && (
       <EmptySection imgClassName={styles.img}>
@@ -29,6 +36,7 @@ const AssetsTemplates = ({ isAuthor, items, listId, isPublic, title }) => (
 
         <Edit
           name={title}
+          watchlist={watchlist}
           id={listId}
           assets={items}
           trigger={
