@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import cx from 'classnames'
 import { Metric } from '../dataHub/metrics'
 import { useTimeseries, useAllTimeData } from '../Studio/timeseries/hooks'
@@ -53,28 +53,8 @@ const SocialTool = ({
     settings,
     MetricSettingMap
   )
-  const cuttedData = useMemo(
-    () => {
-      const date = new Date()
-      date.setUTCHours(0, 0, 0, 0)
-      const milliseconds = +date
-      const indexFromStartCutting = rawData.findIndex(
-        item => item.datetime >= milliseconds
-      )
-      if (indexFromStartCutting !== -1) {
-        const transformedData = rawData
-        for (let i = indexFromStartCutting; i < rawData.length; i++) {
-          const { price_usd, __typename, datetime } = transformedData[i]
-          transformedData[i] = { price_usd, __typename, datetime }
-        }
 
-        return transformedData
-      } else return rawData
-    },
-    [rawData]
-  )
-
-  const data = useEdgeGaps(cuttedData)
+  const data = useEdgeGaps(rawData)
   const [allTimeData] = useAllTimeData(
     activeMetrics,
     settings,
