@@ -1,3 +1,4 @@
+import memoize from 'lodash.memoize'
 import { Metric } from '../../dataHub/metrics'
 
 export const NO_GROUP = '_'
@@ -45,6 +46,7 @@ const CUSTOM_SORTED_ORDER = [
   Metric.social_dominance_total,
   Metric.sentiment_positive_twitter,
   Metric.sentiment_positive_reddit,
+  Metric.sentiment_positive_telegram,
   Metric.sentiment_positive_total,
   Metric.twitter_followers
 ]
@@ -55,15 +57,14 @@ CUSTOM_SORTED_ORDER.forEach((item, index) => {
   INDEX_MY_METRIC_KEY[item.key] = index
 })
 
-const sortMetrics = metrics => {
-  debugger
+const sortMetrics = memoize(metrics => {
   return metrics.sort((a, b) => {
     const indexA = INDEX_MY_METRIC_KEY[a] || 0
     const indexB = INDEX_MY_METRIC_KEY[b] || 0
 
     return indexA - indexB
   })
-}
+})
 
 export const getCategoryGraph = (
   availableMetrics,

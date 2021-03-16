@@ -156,7 +156,7 @@ export const Metric = {
     node: 'line',
     label: 'Supply held by top addresses (as % of total supply)',
     shortLabel: 'ahta',
-    group: 'Top Holders'
+    group: 'Whales'
   },
   circulation: {
     category: 'On-chain',
@@ -341,13 +341,13 @@ export const Metric = {
     category: 'On-chain',
     node: 'line',
     group: 'Network Value',
-    label: 'NVT Ratio (using Circulation)',
+    label: 'NVT Ratio (with Circulation)',
     shortLabel: 'NVT R. Circ.'
   },
   nvt_transaction_volume: {
     node: 'bar',
     group: 'Network Value',
-    label: 'NVT Ratio (using Transaction Volume)',
+    label: 'NVT Ratio (with Transaction Volume)',
     shortLabel: 'NVT R. T.V.',
     category: 'On-chain'
   },
@@ -403,7 +403,7 @@ export const Metric = {
     node: 'line',
     label: 'Supply held by top addresses',
     category: 'On-chain',
-    group: 'Top Holders'
+    group: 'Whales'
   },
   amount_in_exchange_top_holders: {
     node: 'line',
@@ -415,7 +415,7 @@ export const Metric = {
     node: 'line',
     label: 'Supply held by top non-exchange addresses',
     category: 'On-chain',
-    group: 'Top Holders'
+    group: 'Whales'
   },
   sentiment_positive_total: {
     node: 'line',
