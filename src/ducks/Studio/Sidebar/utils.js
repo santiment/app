@@ -51,16 +51,16 @@ const CUSTOM_SORTED_ORDER = [
   Metric.twitter_followers
 ]
 
-const INDEX_MY_METRIC_KEY = {}
+const INDEX_BY_METRIC_KEY = {}
 
 CUSTOM_SORTED_ORDER.forEach((item, index) => {
-  INDEX_MY_METRIC_KEY[item.key] = index
+  INDEX_BY_METRIC_KEY[item.key] = index
 })
 
 const sortMetrics = memoize(metrics => {
   return metrics.sort((a, b) => {
-    const indexA = INDEX_MY_METRIC_KEY[a] || 0
-    const indexB = INDEX_MY_METRIC_KEY[b] || 0
+    const indexA = INDEX_BY_METRIC_KEY[a] || 0
+    const indexB = INDEX_BY_METRIC_KEY[b] || 0
 
     return indexA - indexB
   })
