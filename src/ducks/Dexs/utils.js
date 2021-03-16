@@ -1,7 +1,12 @@
 import { useCallback } from 'react'
 import { Metric } from '../dataHub/metrics'
 
-export function mapDEXMetrics ({ metrics, measurement, slug: priceSlug }) {
+export function mapDEXMetrics ({
+  metrics,
+  measurement,
+  slug: priceSlug,
+  ticker = priceSlug
+}) {
   const measurementSlug = measurement.slug.replace(/-/g, '_')
 
   const dexMetrics = metrics.map(({ key, label }) => {
@@ -16,10 +21,12 @@ export function mapDEXMetrics ({ metrics, measurement, slug: priceSlug }) {
     }
   })
 
+  console.log(priceSlug, ticker)
+
   if (priceSlug) {
     dexMetrics.push({
       ...Metric.price_usd,
-      label: `Price ${priceSlug}`,
+      label: `Price (${ticker})`,
       reqMeta: { slug: priceSlug }
     })
   }
@@ -34,7 +41,7 @@ export const DEFAULT_DEX_PROJECT = {
 
 export const useProjectMetricBuilder = ({ measurement, baseMetrics }) => {
   return useCallback(
-    ({ slug }) => {
+    ({ slug, ticker }) => {
       if (!slug) {
         return []
       }
@@ -42,7 +49,8 @@ export const useProjectMetricBuilder = ({ measurement, baseMetrics }) => {
       return mapDEXMetrics({
         metrics: baseMetrics,
         measurement,
-        slug
+        slug,
+        ticker
       })
     },
     [measurement]
