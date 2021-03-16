@@ -142,8 +142,6 @@ export const getCategoryGraph = (
     categories[key] = sortCategoryGroups(category, Submetrics)
   })
 
-  console.log(categories)
-
   return categories
 }
 
