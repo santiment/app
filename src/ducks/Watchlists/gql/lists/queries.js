@@ -35,6 +35,7 @@ export const FEATURED_WATCHLISTS_QUERY = gql`
     watchlists: featuredWatchlists {
       id
       name
+      slug
     }
   }
 `

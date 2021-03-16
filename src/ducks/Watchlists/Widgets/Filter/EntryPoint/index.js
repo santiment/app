@@ -52,11 +52,10 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects, isViewMode }) => {
   const filteredCategories = useMemo(
     () =>
       categories.filter(({ id, slug }) => {
-        const isAllAssetsList = slug === ALL_PROJECTS_WATCHLIST_SLUG
         const isInState =
           Array.isArray(state) && state.some(item => item.watchlistId === +id)
 
-        return !isAllAssetsList && !isInState
+        return slug !== ALL_PROJECTS_WATCHLIST_SLUG && !isInState
       }),
     [state, categories]
   )
@@ -139,20 +138,20 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects, isViewMode }) => {
                     })}
                   </div>
                 )}
-                {filteredWatchlists.length > 0 && (
+                {message && (
+                  <Message
+                    variant='warn'
+                    icon='info-round'
+                    fill={false}
+                    className={styles.message}
+                  >
+                    {message}
+                  </Message>
+                )}
+                {filteredCategories.length > 0 && (
                   <div className={styles.list}>
-                    <h3 className={styles.heading}>My watchlists</h3>
-                    {message && (
-                      <Message
-                        variant='warn'
-                        icon='info-round'
-                        fill={false}
-                        className={styles.message}
-                      >
-                        {message}
-                      </Message>
-                    )}
-                    {filteredWatchlists.map(({ name, id, slug }) => (
+                    <h3 className={styles.heading}>Explore watchlists</h3>
+                    {filteredCategories.map(({ name, id, slug }) => (
                       <Item
                         key={id}
                         onClick={() => {
@@ -167,10 +166,10 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects, isViewMode }) => {
                     ))}
                   </div>
                 )}
-                {filteredCategories.length > 0 && (
+                {filteredWatchlists.length > 0 && (
                   <div className={styles.list}>
-                    <h3 className={styles.heading}>Explore watchlists</h3>
-                    {filteredCategories.map(({ name, id, slug }) => (
+                    <h3 className={styles.heading}>My watchlists</h3>
+                    {filteredWatchlists.map(({ name, id, slug }) => (
                       <Item
                         key={id}
                         onClick={() => {

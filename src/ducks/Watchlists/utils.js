@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import queryString from 'query-string'
 import { INFOGRAPHICS } from './Widgets/VolumeChart/utils'
 
-export const ALL_PROJECTS_WATCHLIST_SLUG = 'project'
+export const ALL_PROJECTS_WATCHLIST_SLUG = 'projects'
 
 export function getWatchlistId (search) {
   const { name: str } = qs.parse(search) || {}
