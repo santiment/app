@@ -50,6 +50,13 @@ function normalizeAxisPercent (value) {
 
 const axisPercentFormatter = value => `${normalizeAxisPercent(value)}%`
 
+export const METRIC_GROUPS = {
+  REDDIT_SENTIMENT: 'Reddit sentiment',
+  TELEGRAM_SENTIMENT: 'Telegram sentiment',
+  TWITTER_SENTIMENT: 'Twitter sentiment',
+  TOTAL_SENTIMENT: 'Total sentiment'
+}
+
 export const Metric = {
   price_usd: {
     node: 'line',
@@ -156,7 +163,7 @@ export const Metric = {
     node: 'line',
     label: 'Supply held by top addresses (as % of total supply)',
     shortLabel: 'ahta',
-    group: 'Top Holders'
+    group: 'Whales'
   },
   circulation: {
     category: 'On-chain',
@@ -341,13 +348,13 @@ export const Metric = {
     category: 'On-chain',
     node: 'line',
     group: 'Network Value',
-    label: 'NVT Ratio (using Circulation)',
+    label: 'NVT Ratio (with Circulation)',
     shortLabel: 'NVT R. Circ.'
   },
   nvt_transaction_volume: {
     node: 'bar',
     group: 'Network Value',
-    label: 'NVT Ratio (using Transaction Volume)',
+    label: 'NVT Ratio (with Transaction Volume)',
     shortLabel: 'NVT R. T.V.',
     category: 'On-chain'
   },
@@ -403,7 +410,7 @@ export const Metric = {
     node: 'line',
     label: 'Supply held by top addresses',
     category: 'On-chain',
-    group: 'Top Holders'
+    group: 'Whales'
   },
   amount_in_exchange_top_holders: {
     node: 'line',
@@ -415,103 +422,103 @@ export const Metric = {
     node: 'line',
     label: 'Supply held by top non-exchange addresses',
     category: 'On-chain',
-    group: 'Top Holders'
+    group: 'Whales'
   },
   sentiment_positive_total: {
     node: 'line',
     label: 'Positive sentiment (Total)',
     category: 'Social',
-    group: 'Total sentiment'
+    group: METRIC_GROUPS.TOTAL_SENTIMENT
   },
   sentiment_positive_telegram: {
     node: 'line',
     label: 'Positive sentiment (Telegram)',
     category: 'Social',
-    group: 'Telegram sentiment'
+    group: METRIC_GROUPS.TELEGRAM_SENTIMENT
   },
   sentiment_positive_reddit: {
     node: 'line',
     label: 'Positive sentiment (Reddit)',
     category: 'Social',
-    group: 'Reddit sentiment'
+    group: METRIC_GROUPS.REDDIT_SENTIMENT
   },
   sentiment_positive_twitter: {
     node: 'line',
     label: 'Positive sentiment (Twitter)',
     category: 'Social',
-    group: 'Twitter sentiment'
+    group: METRIC_GROUPS.TWITTER_SENTIMENT
   },
   sentiment_negative_total: {
     node: 'line',
     label: 'Negative sentiment (Total)',
     category: 'Social',
-    group: 'Total sentiment'
+    group: METRIC_GROUPS.TOTAL_SENTIMENT
   },
   sentiment_negative_telegram: {
     node: 'line',
     label: 'Negative sentiment (Telegram)',
     category: 'Social',
-    group: 'Telegram sentiment'
+    group: METRIC_GROUPS.TELEGRAM_SENTIMENT
   },
   sentiment_negative_reddit: {
     node: 'line',
     label: 'Negative sentiment (Reddit)',
     category: 'Social',
-    group: 'Reddit sentiment'
+    group: METRIC_GROUPS.REDDIT_SENTIMENT
   },
   sentiment_negative_twitter: {
     node: 'line',
     label: 'Negative sentiment (Twitter)',
     category: 'Social',
-    group: 'Twitter sentiment'
+    group: METRIC_GROUPS.TWITTER_SENTIMENT
   },
   sentiment_balance_total: {
     node: 'filledLine',
     label: 'Average Sentiment (Total)',
     category: 'Social',
-    group: 'Total sentiment'
+    group: METRIC_GROUPS.TOTAL_SENTIMENT
   },
   sentiment_balance_reddit: {
     node: 'filledLine',
     label: 'Average Sentiment (Reddit)',
     category: 'Social',
-    group: 'Reddit sentiment'
+    group: METRIC_GROUPS.REDDIT_SENTIMENT
   },
   sentiment_balance_telegram: {
     node: 'filledLine',
     label: 'Average Sentiment (Telegram)',
     category: 'Social',
-    group: 'Telegram sentiment'
+    group: METRIC_GROUPS.TELEGRAM_SENTIMENT
   },
   sentiment_balance_twitter: {
     node: 'filledLine',
     label: 'Average Sentiment (Twitter)',
     category: 'Social',
-    group: 'Twitter sentiment'
+    group: METRIC_GROUPS.TWITTER_SENTIMENT
   },
   sentiment_volume_consumed_total: {
     node: 'filledLine',
     label: 'Weighted sentiment (Total)',
     category: 'Social',
-    group: 'Total sentiment'
+    group: METRIC_GROUPS.TOTAL_SENTIMENT
   },
   sentiment_volume_consumed_telegram: {
     node: 'filledLine',
     label: 'Weighted sentiment (Telegram)',
     category: 'Social',
-    group: 'Telegram sentiment'
+    group: METRIC_GROUPS.TELEGRAM_SENTIMENT
   },
   sentiment_volume_consumed_reddit: {
     node: 'filledLine',
     label: 'Weighted sentiment (Reddit)',
     category: 'Social',
-    group: 'Reddit sentiment'
+    group: METRIC_GROUPS.REDDIT_SENTIMENT
   },
   sentiment_volume_consumed_twitter: {
     node: 'filledLine',
     label: 'Weighted sentiment (Twitter)',
     category: 'Social',
-    group: 'Twitter sentiment'
+    group: METRIC_GROUPS.TWITTER_SENTIMENT
   },
   bitmex_perpetual_basis_ratio: {
     node: 'line',
