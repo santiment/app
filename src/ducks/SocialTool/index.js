@@ -118,7 +118,6 @@ const SocialTool = ({
 
   useEffect(
     () => {
-      console.log(priceAsset)
       if (priceAsset) {
         const newPriceMetric = {
           ...Metric.price_usd,
