@@ -7,7 +7,6 @@ import styles from './Trigger.module.scss'
 const Trigger = ({ isMonitored }) => (
   <Button
     border
-    variant='flat'
     accent='positive'
     className={cx(styles.trigger, isMonitored && styles.trigger__active)}
   >

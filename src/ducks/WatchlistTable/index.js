@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react'
+import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import DownloadCSV from './DownloadCSV'
 import PagedTable from '../_Table/Paged'
@@ -28,8 +29,9 @@ const WatchlistTable = ({
         <EditAddresses
           watchlist={watchlist}
           trigger={
-            <Button border accent='positive'>
-              Edit addresses
+            <Button border accent='positive' className={styles.add}>
+              <Icon type='assets' className={styles.icon} />
+              Add addresses
             </Button>
           }
         />
