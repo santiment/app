@@ -1,4 +1,3 @@
-import memoize from 'lodash.memoize'
 import { Metric } from '../../dataHub/metrics'
 
 export const NO_GROUP = '_'
@@ -57,14 +56,14 @@ CUSTOM_SORTED_ORDER.forEach((item, index) => {
   INDEX_BY_METRIC_KEY[item.key] = index
 })
 
-const sortMetrics = memoize(metrics => {
+const sortMetrics = metrics => {
   return metrics.sort((a, b) => {
     const indexA = INDEX_BY_METRIC_KEY[a] || 0
     const indexB = INDEX_BY_METRIC_KEY[b] || 0
 
     return indexA - indexB
   })
-})
+}
 
 export const getCategoryGraph = (
   availableMetrics,
