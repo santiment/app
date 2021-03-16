@@ -1,27 +1,30 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import Panel from '@santiment-network/ui/Panel'
-// import Search from '@santiment-network/ui/Search'
 import Message from '@santiment-network/ui/Message'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import { useMessage, useStateMetadata } from './hooks'
 import Item from './Item'
 import ResetButton from './ResetButton'
-import { useUserProjectWatchlists } from '../../../gql/lists/hooks'
+import {
+  useFeaturedWatchlists,
+  useUserProjectWatchlists
+} from '../../../gql/lists/hooks'
 import {
   makeHumanReadableState,
   ALL_ASSETS_TEXT,
   MAX_VISIBLE_SYMBOLS
 } from './utils'
+import { ALL_PROJECTS_WATCHLIST_SLUG } from '../../../utils'
 import styles from './index.module.scss'
 
 const EntryPoint = ({ baseProjects = [], setBaseProjects, isViewMode }) => {
   const [state, setState] = useState(
     baseProjects.length > 0 ? baseProjects : ALL_ASSETS_TEXT
   )
+  const [categories] = useFeaturedWatchlists()
   const [watchlists] = useUserProjectWatchlists()
   const { idNameMap, setIdNameMap } = useStateMetadata(state)
-  // const [currentSearch, setCurrentSearch] = useState('')
   const { message, updateMessage } = useMessage(state)
 
   useEffect(
@@ -44,6 +47,18 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects, isViewMode }) => {
       }
     },
     [state]
+  )
+
+  const filteredCategories = useMemo(
+    () =>
+      categories.filter(({ id, slug }) => {
+        const isAllAssetsList = slug === ALL_PROJECTS_WATCHLIST_SLUG
+        const isInState =
+          Array.isArray(state) && state.some(item => item.watchlistId === +id)
+
+        return !isAllAssetsList && !isInState
+      }),
+    [state, categories]
   )
 
   const filteredWatchlists = useMemo(
@@ -100,12 +115,6 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects, isViewMode }) => {
           }
         >
           <Panel className={styles.panel}>
-            {/* <Search */}
-            {/*   autoFocus */}
-            {/*   onChange={value => setCurrentSearch(value)} */}
-            {/*   placeholder='Type to search' */}
-            {/*   className={styles.search} */}
-            {/* /> */}
             <div className={styles.content}>
               <div className={styles.scroller}>
                 {state !== ALL_ASSETS_TEXT && (
@@ -158,9 +167,24 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects, isViewMode }) => {
                     ))}
                   </div>
                 )}
-                {/* <div className={styles.list}> */}
-                {/*   <h3 className={styles.heading}>Assets</h3> */}
-                {/* </div> */}
+                {filteredCategories.length > 0 && (
+                  <div className={styles.list}>
+                    <h3 className={styles.heading}>Explore watchlists</h3>
+                    {filteredCategories.map(({ name, id, slug }) => (
+                      <Item
+                        key={id}
+                        onClick={() => {
+                          setIdNameMap({ ...idNameMap, [+id]: name })
+                          addItemInState({ watchlistId: +id })
+                        }}
+                        name={name}
+                        isDisabled={message}
+                        id={id}
+                        slug={slug}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </Panel>

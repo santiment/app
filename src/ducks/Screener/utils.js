@@ -1,4 +1,5 @@
 import { isStage } from '../../utils/utils'
+import { ALL_PROJECTS_WATCHLIST_SLUG } from '../Watchlists/utils'
 
 const OBJ = {}
 
@@ -20,7 +21,7 @@ export const checkIsDefaultScreener = path =>
   path === DEFAULT_SCREENER.href || path === '/assets/screener'
 
 export function checkIsScreener (watchlist) {
-  const isAllProjectsList = watchlist.slug === 'projects'
+  const isAllProjectsList = watchlist.slug === ALL_PROJECTS_WATCHLIST_SLUG
   const { name } = watchlist.function || OBJ
   const isScreenerFunction =
     name && (name === 'selector' || name === 'top_all_projects')
