@@ -14,17 +14,26 @@ import styles from './index.module.scss'
 function useSocialTimeseries (activeMetrics, settings, MetricSettingMap) {
   const [metrics, setMetrics] = useState([])
 
+  // NOTE(haritonasty): prevent new fetch when not assigned label and map
+  const shouldUpdate = useMemo(
+    () => MetricSettingMap && activeMetrics[1].label !== 'Price',
+    [activeMetrics]
+  )
+
   useEffect(
     () => {
-      // NOTE(haritonasty): prevent new fetch when not assigned label and map
-      if (MetricSettingMap && activeMetrics[1].label !== 'Price') {
+      if (shouldUpdate) {
         setMetrics(activeMetrics)
       }
     },
     [activeMetrics]
   )
 
-  return useTimeseries(metrics, settings, MetricSettingMap)
+  return useTimeseries(
+    shouldUpdate ? activeMetrics : metrics,
+    settings,
+    MetricSettingMap
+  )
 }
 
 const SocialTool = ({
@@ -53,28 +62,8 @@ const SocialTool = ({
     settings,
     MetricSettingMap
   )
-  const cuttedData = useMemo(
-    () => {
-      const date = new Date()
-      date.setUTCHours(0, 0, 0, 0)
-      const milliseconds = +date
-      const indexFromStartCutting = rawData.findIndex(
-        item => item.datetime >= milliseconds
-      )
-      if (indexFromStartCutting !== -1) {
-        const transformedData = rawData
-        for (let i = indexFromStartCutting; i < rawData.length; i++) {
-          const { price_usd, __typename, datetime } = transformedData[i]
-          transformedData[i] = { price_usd, __typename, datetime }
-        }
 
-        return transformedData
-      } else return rawData
-    },
-    [rawData]
-  )
-
-  const data = useEdgeGaps(cuttedData)
+  const data = useEdgeGaps(rawData)
   const [allTimeData] = useAllTimeData(
     activeMetrics,
     settings,

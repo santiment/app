@@ -22,14 +22,7 @@ const EMPTY_MAP = new Map()
 const pageDescription =
   'Explore the social volume of ANY word (or phrase) on crypto social media, including 100s of Telegram groups, crypto subreddits, discord channels, trader chats and more.'
 
-const TrendsExplore = ({
-  word,
-  topic,
-  addedTopics,
-  history,
-  isDesktop,
-  data: { wordContext: wordData = [], loading, error } = {}
-}) => {
+const TrendsExplore = ({ topic, addedTopics, history, isDesktop }) => {
   const { projects } = useProjects()
   const { isPro: hasPremium } = useUserSubscriptionStatus()
   const [topics, setTopics] = useState([topic, ...addedTopics].filter(Boolean))
@@ -149,14 +142,9 @@ const TrendsExplore = ({
 }
 
 export default compose(
-  withProps(({ match = { params: {} }, ...rest }) => {
-    const addedTopics = getTopicsFromUrl()
-    const word = match.params.word
-    return {
-      word,
-      topic: safeDecode(word),
-      addedTopics,
-      ...rest
-    }
-  })
+  withProps(({ match: { params = {} } = {}, ...rest }) => ({
+    topic: safeDecode(params.word),
+    addedTopics: getTopicsFromUrl(),
+    ...rest
+  }))
 )(TrendsExplore)
