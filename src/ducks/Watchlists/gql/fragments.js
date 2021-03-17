@@ -63,6 +63,7 @@ export const ADDRESSES_LIST_ITEMS_FRAGMENT = gql`
       blockchainAddress {
         address
         infrastructure
+        notes
         labels {
           name
           origin

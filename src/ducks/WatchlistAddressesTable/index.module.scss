@@ -14,3 +14,38 @@
   display: flex;
   margin-top: -4px;
 }
+
+.note {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+
+  & textarea {
+    background-color: inherit;
+    border: none;
+    outline: none;
+    width: 100%;
+    min-width: 250px;
+    padding: 2px 16px;
+
+    &::placeholder {
+      color: var(--waterloo);
+    }
+
+    &:hover {
+      color: var(--jungle-green);
+
+      &::placeholder {
+        color: var(--jungle-green);
+      }
+    }
+
+    &:focus {
+      color: var(--rhino);
+    }
+  }
+}
