@@ -2,10 +2,6 @@ import React from 'react'
 import { Metric } from './index'
 import { convertToReadableInterval } from '../../../utils/dates'
 import { Link } from './frequences'
-import {
-  HolderDistributionCombinedBalanceAbsoluteMetric,
-  HolderDistributionMetric
-} from '../../Studio/Chart/Sidepanel/HolderDistribution/metrics'
 
 export const SOCIAL_CONTEXT_DESCRIPTION =
   'Shows a set of words that have been frequently used alongside the coin’s name on crypto social media in the recent days.'
@@ -119,11 +115,12 @@ export const Description = {
   [Metric.amount_in_non_exchange_top_holders.key]:
     'Shows the combined balance of the top N addresses that don’t belong to exchanges',
 
-  [HolderDistributionMetric.holders_distribution_1_to_10.key]:
-    'Breaks down the number of addresses based on the amount of [Project Ticker] they hold',
-  [HolderDistributionCombinedBalanceAbsoluteMetric
-    .holders_distribution_combined_balance_1_to_10.key]:
-    'Represents the sum of all the tokens of all the addresses which hold the amount of tokens from an interval',
+  holders_distribution_1_to_10:
+    'Breaks down the number of addresses based on the amount of [Project Ticker] they hold.',
+  percent_of_holders_distribution_combined_balance_1_to_10:
+    'Represents the sum of all the tokens of all the addresses which hold the amount of tokens from an interval.',
+  holders_distribution_combined_balance_1_to_10:
+    'Represents the sum of all the tokens of all the addresses which hold the amount of tokens from an interval.',
 
   [Metric.ethSpentOverTime.key]:
     'Shows the amount of ETH moved out of the project’s ICO wallets over time',
