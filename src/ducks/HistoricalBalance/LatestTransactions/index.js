@@ -7,7 +7,8 @@ import styles from './index.module.scss'
 
 const PAGE_SIZES = buildPageSizes([20, 50])
 
-const getItemKey = ({ trxHash, slug }) => trxHash + slug
+const getItemKey = ({ trxHash, toAddress, slug, trxValue }) =>
+  trxHash + toAddress.address + slug + trxValue
 
 const LatestTransactions = ({ settings }) => {
   const pagesItems = useRef([]).current
