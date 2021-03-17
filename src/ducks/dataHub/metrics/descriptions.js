@@ -2,6 +2,10 @@ import React from 'react'
 import { Metric } from './index'
 import { convertToReadableInterval } from '../../../utils/dates'
 import { Link } from './frequences'
+import {
+  HolderDistributionCombinedBalanceAbsoluteMetric,
+  HolderDistributionMetric
+} from '../../Studio/Chart/Sidepanel/HolderDistribution/metrics'
 
 export const SOCIAL_CONTEXT_DESCRIPTION =
   'Shows a set of words that have been frequently used alongside the coin’s name on crypto social media in the recent days.'
@@ -115,9 +119,10 @@ export const Description = {
   [Metric.amount_in_non_exchange_top_holders.key]:
     'Shows the combined balance of the top N addresses that don’t belong to exchanges',
 
-  holder_distribution:
+  [HolderDistributionMetric.holders_distribution_1_to_10.key]:
     'Breaks down the number of addresses based on the amount of [Project Ticker] they hold',
-  holder_distribution_combined_balance:
+  [HolderDistributionCombinedBalanceAbsoluteMetric
+    .holders_distribution_combined_balance_1_to_10.key]:
     'Represents the sum of all the tokens of all the addresses which hold the amount of tokens from an interval',
 
   [Metric.ethSpentOverTime.key]:
@@ -233,6 +238,8 @@ export const Description = {
     'Price-Daily Addresses Divergence model tracks the relationship between the coin’s price and the amount of daily addresses interacting with the coin. When the price increases while the amount of active addresses declines, the model triggers a ‘Sell’ signal, and vice versa. Historically, strong divergences in these two metrics earmarked interesting entry/exit levels',
   [Metric.active_addresses_1h.key]:
     'Shows the number of unique addresses involved in [Project Ticker] transactions hourly. This metric indicates the hourly level of crowd interaction (or speculation) with a token',
+  [Metric.active_addresses_24h.key]:
+    'Shows the number of unique addresses involved in [Project Ticker] transactions daily. This metric indicates the daily level of crowd interaction (or speculation) with a token',
 
   [Metric.network_profit_loss.key]: (
     <>
