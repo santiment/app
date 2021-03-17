@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import cx from 'classnames'
 import {
+  distributionSorter,
   existingAssetsFilter,
   CollapsedDistributions
 } from './AssetsDistribution'
@@ -9,17 +10,17 @@ import { millify } from '../../../utils/formatting'
 import styles from './CurrentBalance.module.scss'
 
 const MAX_DISTRIBUTIONS = 5
-const distributionSorter = ({ balanceUsd: a }, { balanceUsd: b }) => b - a
 const intlFormatter = new Intl.NumberFormat('en-EN', {
   style: 'currency',
   currency: 'USD'
 })
 
-const Distribution = ({ ticker, balance }) => (
-  <div className={styles.project}>
-    {ticker} {balance}
-  </div>
-)
+const Distribution = ({ ticker, balance }) =>
+  ticker ? (
+    <div className={styles.project}>
+      {ticker} {balance}
+    </div>
+  ) : null
 
 const Distributions = ({ distributions }) =>
   distributions.map((distribution, i) => (
@@ -69,8 +70,11 @@ const CurrentBalance = ({ walletAssets, className }) => {
 
   if (!totalBalance) return null
 
-  const biggestDistributions = distributions.slice(0, MAX_DISTRIBUTIONS)
   const hiddenProjects = distributions.slice(MAX_DISTRIBUTIONS)
+  const biggestDistributions = distributions.slice(
+    0,
+    MAX_DISTRIBUTIONS + (hiddenProjects.length === 1)
+  )
 
   return (
     <div className={cx(styles.wrapper, className)}>
@@ -81,13 +85,9 @@ const CurrentBalance = ({ walletAssets, className }) => {
       </div>
 
       <div className={styles.projects}>
-        {biggestDistributions.map(({ ticker, balance }) =>
-          ticker ? (
-            <Distribution key={ticker} ticker={ticker} balance={balance} />
-          ) : null
-        )}
+        <Distributions distributions={biggestDistributions} />
 
-        {hiddenProjects.length !== 0 && (
+        {hiddenProjects.length > 1 && (
           <CollapsedDistributions
             distributions={hiddenProjects}
             Items={Distributions}
