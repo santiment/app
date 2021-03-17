@@ -1,14 +1,31 @@
 import React, { useMemo } from 'react'
 import cx from 'classnames'
+import {
+  distributionSorter,
+  existingAssetsFilter,
+  CollapsedDistributions
+} from './AssetsDistribution'
 import { useProjects, getProjectInfo } from '../../../stores/projects'
 import { millify } from '../../../utils/formatting'
 import styles from './CurrentBalance.module.scss'
 
-const distributionSorter = ({ balanceUsd: a }, { balanceUsd: b }) => b - a
+const MAX_DISTRIBUTIONS = 5
 const intlFormatter = new Intl.NumberFormat('en-EN', {
   style: 'currency',
   currency: 'USD'
 })
+
+const Distribution = ({ ticker, balance }) =>
+  ticker ? (
+    <div className={styles.project}>
+      {ticker} {balance}
+    </div>
+  ) : null
+
+const Distributions = ({ distributions }) =>
+  distributions.map((distribution, i) => (
+    <Distribution key={i} {...distribution} />
+  ))
 
 function useCurrentBalance (walletAssets) {
   const { projects } = useProjects()
@@ -18,9 +35,8 @@ function useCurrentBalance (walletAssets) {
       if (projects.length === 0) return { distributions: [] }
 
       const sortedAssets = walletAssets
-        .slice()
+        .filter(existingAssetsFilter)
         .sort(distributionSorter)
-        .slice(0, 5)
       const { length } = sortedAssets
       const distributions = new Array(length)
 
@@ -30,12 +46,12 @@ function useCurrentBalance (walletAssets) {
       }
 
       for (let i = 0; i < length; i++) {
-        const { slug, balance } = sortedAssets[i]
+        const { slug, balanceUsd } = sortedAssets[i]
         const { ticker } = getProjectInfo(projects, slug) || {}
 
         distributions[i] = {
           ticker,
-          balance: millify(balance, balance < 1 ? 3 : 1)
+          balance: '$' + millify(balanceUsd, balanceUsd < 1 ? 3 : 1)
         }
       }
 
@@ -54,6 +70,12 @@ const CurrentBalance = ({ walletAssets, className }) => {
 
   if (!totalBalance) return null
 
+  const hiddenProjects = distributions.slice(MAX_DISTRIBUTIONS)
+  const biggestDistributions = distributions.slice(
+    0,
+    MAX_DISTRIBUTIONS + (hiddenProjects.length === 1)
+  )
+
   return (
     <div className={cx(styles.wrapper, className)}>
       <div className={styles.title}>Current balance</div>
@@ -63,12 +85,13 @@ const CurrentBalance = ({ walletAssets, className }) => {
       </div>
 
       <div className={styles.projects}>
-        {distributions.map(({ ticker, balance }) =>
-          ticker ? (
-            <div key={ticker} className={styles.project}>
-              {ticker} {balance}
-            </div>
-          ) : null
+        <Distributions distributions={biggestDistributions} />
+
+        {hiddenProjects.length > 1 && (
+          <CollapsedDistributions
+            distributions={hiddenProjects}
+            Items={Distributions}
+          />
         )}
       </div>
     </div>
