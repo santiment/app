@@ -12,17 +12,17 @@ const ORANGE = '#FFAD4D'
 const GRAY = '#D2D6E7'
 
 export const COLORS = [
-  '#AC948C', // BROWN-GRAY
   '#F47BF7', // PURPLE
   RED, // RED
   '#FFCB47', // YELLOW
-  '#785549', // BROWN
   '#5275FF', // BLUE
   '#FF8450', // SALMON
+  '#785549', // BROWN
   '#D4E763', // YELLOW-GREEN
   '#FFDAC5', // PEACH
   '#37D7BA', // AQUAMARINE
   '#777777', // GREY
+  '#AC948C', // BROWN-GRAY
   '#222222', // BLACK
 
   '#14c393', // jungle-green,
