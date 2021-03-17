@@ -4,11 +4,10 @@ import {
   addCandlesTooltipPrintable
 } from '@santiment-network/chart/candles'
 import { buildPlotter } from './context'
-import { TooltipSetting } from '../dataHub/tooltipSettings'
 
 const ARRAY = []
 export default buildPlotter(chart => {
-  const { plotter, categories } = chart
+  const { plotter, categories, TooltipSetting } = chart
   const { candles = ARRAY } = categories
 
   useEffect(

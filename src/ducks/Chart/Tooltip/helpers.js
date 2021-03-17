@@ -156,7 +156,13 @@ export function plotTooltip (chart, marker, point, event) {
 
   drawAlertPlus(chart, y)
 
-  drawTooltip(ctx, point, TooltipSetting, marker, tooltipPaintConfig)
+  drawTooltip(
+    ctx,
+    point,
+    chart.TooltipSetting || TooltipSetting,
+    marker,
+    tooltipPaintConfig
+  )
 
   let offset = 0
   const isLogScale = scale === logScale

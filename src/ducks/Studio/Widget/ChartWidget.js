@@ -4,7 +4,8 @@ import ColorProvider from './ChartWidgetColorProvider'
 import {
   newWidget,
   useMetricNodeOverwrite,
-  useMirroredTransformer
+  useMirroredTransformer,
+  useWidgetMetricLabeling
 } from './utils'
 import StudioChart from '../Chart'
 import { dispatchWidgetMessage } from '../widgetMessage'
@@ -15,9 +16,7 @@ import { useTimeseries } from '../timeseries/hooks'
 import { useMetricSettingsAdjuster } from '../timeseries/candles'
 import { useEdgeGaps, useClosestValueData } from '../../Chart/hooks'
 import { useSyncDateEffect } from '../../Chart/sync'
-import { TooltipSetting } from '../../dataHub/tooltipSettings'
 import { Metric } from '../../dataHub/metrics'
-import { getMetricLabel } from '../../dataHub/metrics/labels'
 
 const EMPTY_ARRAY = []
 
@@ -74,36 +73,7 @@ export const Chart = ({
     [chartRef.current]
   )
 
-  useEffect(
-    () => {
-      const freeMetrics = metrics.filter(m => !m.project)
-      const oldLabels = new Array(freeMetrics.length)
-
-      freeMetrics.forEach((metric, i) => {
-        const { key, dataKey = key } = metric
-        const tooltipSetting = TooltipSetting[dataKey]
-
-        oldLabels[i] = [tooltipSetting, tooltipSetting.label, metric]
-
-        if (metric.indicator) {
-          const { base, indicator } = metric
-          metric.label = `${base.label} (${settings.ticker}) ${indicator.label}`
-          tooltipSetting.label = metric.label
-        } else {
-          tooltipSetting.label = getMetricLabel(metric, settings)
-        }
-      })
-
-      return () =>
-        oldLabels.forEach(([tooltipSetting, label, metric]) => {
-          tooltipSetting.label = label
-          if (metric.indicator) {
-            metric.label = label
-          }
-        })
-    },
-    [metrics, settings.ticker]
-  )
+  useWidgetMetricLabeling(chartRef, metrics, settings)
 
   useEffect(
     () => {

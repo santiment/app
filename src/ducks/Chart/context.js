@@ -4,6 +4,7 @@ import { linearScale } from '@santiment-network/chart/scales'
 import { Plotter, Observer } from './managers'
 import { domainModifier } from './domain'
 import { clearCtx } from './utils'
+import { TooltipSetting } from '../dataHub/tooltipSettings'
 import { useRedrawer } from '../../hooks'
 
 export const noop = () => {}
@@ -28,6 +29,14 @@ export const ChartProvider = ({
     chart.redraw = redrawChart
     chart.observer = Observer()
     chart.plotter = Plotter()
+
+    const chartTooltipSetting = Object.assign({}, TooltipSetting)
+    chart.TooltipSetting = chartTooltipSetting
+
+    Object.keys(chartTooltipSetting).forEach(key => {
+      chartTooltipSetting[key] = Object.assign({}, chartTooltipSetting[key])
+    })
+
     _setChart(chart)
   }, [])
 

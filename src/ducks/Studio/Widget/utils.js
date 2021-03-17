@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { MirroredMetric } from '../../dataHub/metrics/mirrored'
+import { getMetricLabel } from '../../dataHub/metrics/labels'
 
 let widgetId = -1
 
@@ -77,5 +78,41 @@ export function useWidgetProjectSettings (widget, settings) {
       return Object.assign({}, settings, widget.project)
     },
     [from, to]
+  )
+}
+
+export function useWidgetMetricLabeling (chartRef, metrics, settings) {
+  useEffect(
+    () => {
+      const chart = chartRef.current
+      if (!chart) return
+
+      const freeMetrics = metrics.filter(m => !m.project)
+      const oldLabels = new Array(freeMetrics.length)
+
+      freeMetrics.forEach((metric, i) => {
+        const { key, dataKey = key } = metric
+        const tooltipSetting = chart.TooltipSetting[dataKey]
+
+        oldLabels[i] = [tooltipSetting, tooltipSetting.label, metric]
+
+        if (metric.indicator) {
+          const { base, indicator } = metric
+          metric.label = `${base.label} (${settings.ticker}) ${indicator.label}`
+          tooltipSetting.label = metric.label
+        } else {
+          tooltipSetting.label = getMetricLabel(metric, settings)
+        }
+      })
+
+      return () =>
+        oldLabels.forEach(([tooltipSetting, label, metric]) => {
+          tooltipSetting.label = label
+          if (metric.indicator) {
+            metric.label = label
+          }
+        })
+    },
+    [metrics, settings.ticker]
   )
 }
