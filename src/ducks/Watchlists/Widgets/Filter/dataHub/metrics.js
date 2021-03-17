@@ -236,8 +236,8 @@ export const Metric = {
   exchange_balance: {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.EXCHANGES,
-    label: 'Exchange Balance',
-    shortLabel: 'Ex. Bal.',
+    label: 'Exchange Flow Balance',
+    shortLabel: 'Ex. Fl. Bal.',
     aggregation: AGGREGATIONS_LOWER.SUM,
     showTimeRange: true
   },
