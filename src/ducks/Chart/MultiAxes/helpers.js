@@ -37,11 +37,7 @@ function getLastMetricPoint (chart, domain) {
       const metricKey = unfoundMetricKeys[j]
       const metricPoint = point[metricKey]
 
-      if (
-        metricPoint &&
-        (Number.isFinite(metricPoint.value) ||
-          (metricPoint.value && metricPoint.value.open))
-      ) {
+      if (metricPoint && metricPoint.value) {
         LastMetricPoint[metricKey] = metricPoint
         unfoundMetricKeys.splice(j, 1)
       }

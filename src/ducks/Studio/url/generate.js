@@ -7,8 +7,8 @@ const getMetricsKeys = metrics => metrics.map(keyExtractor)
 function shareMetricSettings (MetricSettingMap) {
   const sharedMetricSettings = {}
 
-  MetricSettingMap.forEach((settings, { key }) => {
-    sharedMetricSettings[key] = settings
+  MetricSettingMap.forEach(({ node, interval }, { key }) => {
+    sharedMetricSettings[key] = { node, interval }
   })
 
   return sharedMetricSettings

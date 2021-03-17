@@ -6,22 +6,27 @@ import {
 import { buildPlotter } from './context'
 import { TooltipSetting } from '../dataHub/tooltipSettings'
 
-export default buildPlotter(({ plotter }) => {
-  useEffect(() => {
-    plotter.register('candless', (chart, scale, data, colors, categories) => {
-      const { candless } = categories
+const ARRAY = []
+export default buildPlotter(chart => {
+  const { plotter, categories } = chart
+  const { candles = ARRAY } = categories
 
-      candless.forEach(key => {
+  useEffect(
+    () => {
+      candles.forEach(key => {
         TooltipSetting[key].metricPrintablePusher = addCandlesTooltipPrintable
       })
 
-      plotCandles(chart, data, candless, scale, colors)
+      plotter.register('candles', (chart, scale, data, colors, categories) =>
+        plotCandles(chart, data, categories.candles, scale, colors)
+      )
 
       return () => {
-        candless.forEach(key => {
+        candles.forEach(key => {
           TooltipSetting[key].metricPrintablePusher = undefined
         })
       }
-    })
-  }, [])
+    },
+    [candles]
+  )
 })

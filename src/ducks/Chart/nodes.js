@@ -11,7 +11,7 @@ const BarNode = {
 }
 
 export const Node = Object.assign(
-  { CANDLES: 'candles', AREA: 'area' },
+  { CANDLES: 'candle', AREA: 'area' },
   LineNode,
   BarNode
 )
