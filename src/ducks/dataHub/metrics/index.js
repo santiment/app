@@ -186,7 +186,7 @@ export const Metric = {
   stock_to_flow: {
     category: 'On-chain',
     node: 'line',
-    group: 'Network Activity',
+    group: 'Network Value',
     label: 'Stock to Flow ratio',
     shortLabel: 'St. to Fl.',
     isBeta: true
