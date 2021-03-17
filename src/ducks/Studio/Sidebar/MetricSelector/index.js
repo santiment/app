@@ -66,16 +66,20 @@ const MetricSelector = ({
 
   return (
     <>
-      {favoriteMetrics.length ? (
-        <Category
-          title='Favorites'
-          groups={favoritesGroup}
-          {...props}
-          GroupNode={SortableGroup}
-          onDragEnd={onDragEnd}
-          onDragStart={() => setIsDraggingMetric(true)}
-        />
-      ) : null}
+      <Category
+        title='Favorites'
+        groups={favoritesGroup}
+        {...props}
+        GroupNode={SortableGroup}
+        onDragEnd={onDragEnd}
+        onDragStart={() => setIsDraggingMetric(true)}
+      >
+        {favoriteMetrics.length === 0 && (
+          <div className={styles.favorites}>
+            Save any metric to 'Favorites' for quick access
+          </div>
+        )}
+      </Category>
 
       {Object.keys(categories).map(key => (
         <Category key={key} title={key} groups={categories[key]} {...props} />

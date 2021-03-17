@@ -51,8 +51,8 @@ const SocialVolume = ({ trend, words }) => {
   )
 }
 
-const ConnectedWords = ({ word }) => {
-  const { data, isLoading } = useTrendWordContext(word)
+const ConnectedWords = ({ trend, words }) => {
+  const { data, isLoading } = useTrendWordContext(words, trend)
 
   return (
     <WordCloud
@@ -94,7 +94,9 @@ export const COLUMNS = [INDEX_COLUMN].concat(
     {
       title: Column.CONNECTED_WORDS,
       className: styles.cloud,
-      render: ({ word }) => <ConnectedWords word={word} />
+      render: (trend, { words }) => (
+        <ConnectedWords trend={trend} words={words} />
+      )
     }
   ])
 )
