@@ -10,6 +10,10 @@ const BarNode = {
   GREEN_RED_BAR: 'greenRedBar'
 }
 
-export const Node = Object.assign({ AREA: 'area' }, LineNode, BarNode)
+export const Node = Object.assign(
+  { CANDLES: 'candles', AREA: 'area' },
+  LineNode,
+  BarNode
+)
 export const LINES = new Set(Object.values(LineNode))
 export const BARS = new Set(Object.values(BarNode))

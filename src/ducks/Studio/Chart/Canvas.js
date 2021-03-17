@@ -5,6 +5,7 @@ import LastDayPrice from './LastDayPrice'
 import ResponsiveChart from '../../Chart/Responsive'
 import Areas from '../../Chart/Areas'
 import Lines from '../../Chart/Lines'
+import Candles from '../../Chart/Candles'
 import Bars from '../../Chart/Bars'
 import GreenRedBars from '../../Chart/GreenRedBars'
 import Tooltip from '../../Chart/Tooltip'
@@ -79,6 +80,7 @@ const Canvas = ({
       <GreenRedBars />
       <Bars />
       <Areas />
+      <Candles />
       <Lines />
       <Axes metrics={axesMetricKeys} />
       {isCartesianGridActive && <CartesianGrid />}

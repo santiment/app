@@ -12,6 +12,7 @@ import { DEFAULT_OPTIONS } from '../defaults'
 import { getMetricSetting, calculateMovingAverageFromInterval } from '../utils'
 import { convertBaseProjectMetric } from '../metrics'
 import { useTimeseries } from '../timeseries/hooks'
+import { useMetricSettingsAdjuster } from '../timeseries/candles'
 import { useEdgeGaps, useClosestValueData } from '../../Chart/hooks'
 import { useSyncDateEffect } from '../../Chart/sync'
 import { TooltipSetting } from '../../dataHub/tooltipSettings'
@@ -30,16 +31,17 @@ export const Chart = ({
   observeSyncDate,
   ...props
 }) => {
-  const { metrics, chartRef, MetricSettingMap } = widget
+  const { metrics, chartRef } = widget
   const [options, setOptions] = useState(DEFAULT_OPTIONS)
+  const MetricSettingMap = useMetricSettingsAdjuster(widget.MetricSettingMap)
   const MetricTransformer = useMirroredTransformer(metrics)
+  const MetricNode = useMetricNodeOverwrite(MetricSettingMap)
   const [rawData, loadings, ErrorMsg] = useTimeseries(
     metrics,
     settings,
     MetricSettingMap,
     MetricTransformer
   )
-  const MetricNode = useMetricNodeOverwrite(MetricSettingMap)
   const data = useEdgeGaps(
     useClosestValueData(rawData, metrics, options.isClosestDataActive)
   )

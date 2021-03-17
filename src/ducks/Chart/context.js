@@ -51,7 +51,8 @@ export const ChartProvider = ({
         data,
         categories.joinedCategories,
         domainModifier,
-        domainGroups
+        domainGroups,
+        new Set(categories.candless)
       )
 
       chart.plotter.items.forEach(plot => {

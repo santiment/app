@@ -37,7 +37,11 @@ function getLastMetricPoint (chart, domain) {
       const metricKey = unfoundMetricKeys[j]
       const metricPoint = point[metricKey]
 
-      if (metricPoint && Number.isFinite(metricPoint.value)) {
+      if (
+        metricPoint &&
+        (Number.isFinite(metricPoint.value) ||
+          (metricPoint.value && metricPoint.value.open))
+      ) {
         LastMetricPoint[metricKey] = metricPoint
         unfoundMetricKeys.splice(j, 1)
       }
@@ -81,7 +85,7 @@ function plotMetricLastValueBubble (
   const metricPoint = LastMetricPoint[metricKey]
   if (!metricPoint) return
 
-  const { y, value } = metricPoint
+  let { y, value } = metricPoint
   const { ctx, bubblesPaintConfig } = chart
   const paintConfig = Object.assign({}, bubblesPaintConfig, {
     bgColor,
@@ -90,6 +94,8 @@ function plotMetricLastValueBubble (
       bubblesPaintConfig === nightBubblesPaintConfig
     )
   })
+
+  value = value.close || value
 
   drawValueBubbleY(
     chart,
