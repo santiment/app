@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
-import { Node } from '../../Chart/nodes'
 import { PRICE_OHLC_QUERY, newOhlcPreTransformer } from './queries/price_ohlc'
+import { Node } from '../../Chart/nodes'
 
 export function useMetricSettingsAdjuster (MetricSettingMap) {
   return useMemo(

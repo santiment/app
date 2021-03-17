@@ -4,6 +4,9 @@ import Setting from './Setting'
 import { useDropdown } from './Dropdown'
 import { getMetricSetting } from '../../utils'
 import { Node, BARS } from '../../../Chart/nodes'
+import { Metric } from '../../../dataHub/metrics'
+
+const getBaseMetric = metric => metric.base || metric
 
 const NodeToLabel = {
   [Node.BAR]: 'Bar'
@@ -65,7 +68,7 @@ const NodeSetting = ({ metric, widget, rerenderWidgets }) => {
 
   return (
     <Dropdown trigger={<Setting>Style: {NodeToLabel[node]}</Setting>}>
-      {!metric.indicator && (metric.base || metric).key === 'price_usd' && (
+      {!metric.indicator && getBaseMetric(metric) === Metric.price_usd && (
         <Button
           {...CANDLES_NODE}
           activeKey={node}
