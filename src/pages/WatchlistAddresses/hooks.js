@@ -17,5 +17,11 @@ export function useAddressWatchlist (id) {
 }
 
 const itemAccessor = ({ blockchainAddress }) => blockchainAddress
-export const useAddressWatchlistItems = ({ listItems }) =>
-  useMemo(() => (listItems ? listItems.map(itemAccessor) : ARRAY), [listItems])
+export const useAddressWatchlistItems = ({ listItems, id }) =>
+  useMemo(
+    () =>
+      listItems
+        ? listItems.map(item => ({ watchlistId: id, ...itemAccessor(item) }))
+        : ARRAY,
+    [listItems]
+  )
