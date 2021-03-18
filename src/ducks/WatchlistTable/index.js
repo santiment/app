@@ -54,6 +54,7 @@ const WatchlistTable = ({
         minRows={6}
         itemProps={useSelectedItemsSet(items)}
         className={styles.table}
+        wrapperClassName={styles.tableWrapper}
       />
     </>
   )

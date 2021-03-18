@@ -37,10 +37,11 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100vh !important;
-  min-height: 100vh !important;
+  height: calc(100vh - 64px) !important;
+  min-height: calc(100vh - 64px) !important;
   overflow: auto;
   overflow: overlay;
+  scrollbar-width: thin;
 
   & header {
     position: sticky;

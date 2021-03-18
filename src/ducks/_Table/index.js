@@ -31,6 +31,7 @@ function minRowsPadding (minRows, columns, { length }) {
 
 const Table = ({
   className,
+  wrapperClassName,
   offset,
   columns,
   minRows,
@@ -41,7 +42,7 @@ const Table = ({
   getItemKey,
   onRowClick
 }) => (
-  <div className={styles.tableWrapper}>
+  <div className={cx(styles.tableWrapper, wrapperClassName)}>
     <table className={cx(styles.wrapper, className)}>
       <thead>
         <tr>
