@@ -11,6 +11,7 @@ import {
 } from '../../../../../utils/address'
 import { useIsAuthor } from '../../../gql/list/hooks'
 import { updateWatchlistShort } from '../../../gql/list/mutations'
+import { useAddressNote } from '../../../../HistoricalBalance/hooks'
 import styles from './EditAddresses.module.scss'
 
 const updateWatchlist = ({ id, listItems }) =>
@@ -20,11 +21,12 @@ export const NOT_VALID_ADDRESS = 'Not supported ETH address'
 
 const extractAddress = ({ blockchainAddress }) => blockchainAddress
 
-const mapAddressToAPIType = ({ address, infrastructure }) => {
+const mapAddressToAPIType = ({ address, infrastructure, notes }) => {
   return {
     blockchainAddress: {
       address,
-      infrastructure: infrastructure || getAddressInfrastructure(address)
+      infrastructure: infrastructure || getAddressInfrastructure(address),
+      notes
     }
   }
 }
@@ -45,6 +47,8 @@ const EditAddresses = ({ trigger, watchlist }) => {
   const [items, setItems] = useState(listItems)
   const [error, setError] = useState(false)
   const [currentAddress, setCurrentValue] = useState('')
+  const infrastructure = getAddressInfrastructure(currentAddress)
+  const notes = useAddressNote({ address: currentAddress, infrastructure })
 
   useEffect(
     () => {
@@ -72,8 +76,9 @@ const EditAddresses = ({ trigger, watchlist }) => {
 
   function onAdd () {
     const newItem = {
-      address: currentAddress,
-      infrastructure: getAddressInfrastructure(currentAddress)
+      notes,
+      infrastructure,
+      address: currentAddress
     }
 
     toggle({

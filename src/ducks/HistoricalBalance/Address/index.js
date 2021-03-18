@@ -88,6 +88,7 @@ export const AddressSetting = ({
         address={address}
         infrastructure={infrastructure}
         assets={chartAssets}
+        note={note}
       />
 
       <DesktopOnly>

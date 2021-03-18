@@ -2,8 +2,8 @@ import * as Sentry from '@sentry/react'
 import { Observable } from 'rxjs'
 import { WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY } from '../queries/WatchlistGQL.js'
 import * as actions from './../actions/types'
-import { PROJECT } from '../ducks/Watchlists/utils'
 import { ERC20_PROJECTS_QUERY } from '../ducks/Watchlists/gql/allProjectsGQL'
+import { PROJECT } from '../ducks/Watchlists/detector'
 
 const handleError = error => {
   Sentry.captureException(error)

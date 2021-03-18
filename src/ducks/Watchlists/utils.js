@@ -155,6 +155,3 @@ export const useScreenerUrlUpdaters = (widgets, setWidgets) => {
 
   return { onChangeSettings }
 }
-
-export const PROJECT = 'PROJECT'
-export const BLOCKCHAIN_ADDRESS = 'BLOCKCHAIN_ADDRESS'

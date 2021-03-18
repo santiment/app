@@ -10,7 +10,7 @@ import styles from './index.module.scss'
 const updateWatchlist = ({ id, listItems }) =>
   updateWatchlistShort({ id: +id, listItems })
 
-const AddToWatchlist = ({ address, infrastructure }) => {
+const AddToWatchlist = ({ address, infrastructure, note }) => {
   function checkIsListItemTheAddress ({ blockchainAddress }) {
     return blockchainAddress.address === address
   }
@@ -24,6 +24,7 @@ const AddToWatchlist = ({ address, infrastructure }) => {
       blockchainAddress: {
         address,
         infrastructure,
+        notes: note,
         __typename: 'BlockchainAddress'
       },
       __typename: 'ListItem'

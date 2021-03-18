@@ -37,6 +37,7 @@ const ADDRESSES_SHORT_LIST_ITEMS_FRAGMENT = gql`
       blockchainAddress {
         address
         infrastructure
+        notes
       }
     }
   }
