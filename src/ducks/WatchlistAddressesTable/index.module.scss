@@ -16,11 +16,6 @@
 }
 
 .note {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
   display: flex;
   align-items: center;
 
@@ -28,12 +23,15 @@
     background-color: inherit;
     border: none;
     outline: none;
-    width: 100%;
-    min-width: 250px;
-    padding: 2px 16px;
+    width: 200px;
+    max-width: 200px;
+    min-width: 200px;
+    padding: 0;
+    cursor: pointer;
 
     &::placeholder {
       color: var(--waterloo);
+      transition: opacity 0.15s ease-in-out;
     }
 
     &:hover {
@@ -41,11 +39,17 @@
 
       &::placeholder {
         color: var(--jungle-green);
+        will-change: opacity;
       }
     }
 
     &:focus {
       color: var(--rhino);
+      cursor: text;
+
+      &::placeholder {
+        opacity: 0;
+      }
     }
   }
 }
