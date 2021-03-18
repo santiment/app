@@ -178,7 +178,7 @@ const Table = ({
           {headerGroups.map(headerGroup => (
             <tr
               {...headerGroup.getHeaderGroupProps()}
-              className={cx(styles.headerRow, classes.headerRow)}
+              className={classes.headerRow}
             >
               {headerGroup.headers.map((column, idx) => (
                 <th

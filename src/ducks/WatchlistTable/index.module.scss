@@ -53,9 +53,6 @@
 .table {
   :global {
     th {
-      position: sticky;
-      top: calc(44px + var(--offset));
-
       &:first-child {
         line-height: 0;
       }

@@ -41,40 +41,42 @@ const Table = ({
   getItemKey,
   onRowClick
 }) => (
-  <table className={cx(styles.wrapper, className)}>
-    <thead>
-      <tr>
-        {columns.map(({ id, title, Title }) => (
-          <th key={id}>{Title ? <Title {...itemProps} /> : title}</th>
-        ))}
-      </tr>
-    </thead>
-    <tbody>
-      {items.map((item, i) => {
-        const itemIndex = offset + i
+  <div className={styles.tableWrapper}>
+    <table className={cx(styles.wrapper, className)}>
+      <thead>
+        <tr>
+          {columns.map(({ id, title, Title }) => (
+            <th key={id}>{Title ? <Title {...itemProps} /> : title}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {items.map((item, i) => {
+          const itemIndex = offset + i
 
-        return (
-          <tr
-            key={getItemKey ? getItemKey(item) : item[itemKeyProperty]}
-            onClick={onRowClick && (e => onRowClick(item, e))}
-          >
-            {columns.map(({ id, render, className }) => (
-              <td key={id} className={className}>
-                {render(item, itemProps, itemIndex)}
-              </td>
-            ))}
-          </tr>
-        )
-      })}
-      {minRowsPadding(minRows, columns, items)}
-    </tbody>
-    <caption>
-      <Skeleton show={isLoading} className={styles.skeleton} />
-      {!isLoading && items.length === 0 && (
-        <NoDataImage className={styles.nodata} />
-      )}
-    </caption>
-  </table>
+          return (
+            <tr
+              key={getItemKey ? getItemKey(item) : item[itemKeyProperty]}
+              onClick={onRowClick && (e => onRowClick(item, e))}
+            >
+              {columns.map(({ id, render, className }) => (
+                <td key={id} className={className}>
+                  {render(item, itemProps, itemIndex)}
+                </td>
+              ))}
+            </tr>
+          )
+        })}
+        {minRowsPadding(minRows, columns, items)}
+      </tbody>
+      <caption>
+        <Skeleton show={isLoading} className={styles.skeleton} />
+        {!isLoading && items.length === 0 && (
+          <NoDataImage className={styles.nodata} />
+        )}
+      </caption>
+    </table>
+  </div>
 )
 
 Table.defaultProps = {
