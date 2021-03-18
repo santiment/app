@@ -37,9 +37,10 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: calc(100vh - 64px) !important;
-  min-height: calc(100vh - 64px) !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
   overflow: auto;
+  overflow: overlay;
 
   & header {
     position: sticky;

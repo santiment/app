@@ -8,6 +8,7 @@
   left: 0;
   right: 0;
   z-index: 1;
+  margin-top: auto;
 }
 
 .padding {
@@ -15,7 +16,7 @@
 }
 
 .stickyPageControls {
-  position: fixed;
+  position: sticky;
 }
 
 .dropdown {

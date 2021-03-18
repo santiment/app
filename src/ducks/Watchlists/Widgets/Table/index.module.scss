@@ -11,7 +11,8 @@
 }
 
 .pagination {
-  position: fixed;
+  position: sticky;
+  margin-top: auto;
   bottom: 0;
   left: 0;
   right: 0;
