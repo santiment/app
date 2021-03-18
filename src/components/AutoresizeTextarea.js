@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+const cb = _ => _
+
 class AutoresizeTextarea extends Component {
   static propTypes = {
     onChange: PropTypes.func,
+    onBlur: PropTypes.func,
     defaultValue: PropTypes.string,
     className: PropTypes.string,
     placeholder: PropTypes.string,
@@ -11,7 +14,8 @@ class AutoresizeTextarea extends Component {
   }
 
   static defaultProps = {
-    onChange: () => {},
+    onChange: cb,
+    onBlur: cb,
     defaultValue: '',
     className: '',
     placeholder: '',
@@ -77,6 +81,9 @@ class AutoresizeTextarea extends Component {
       () => this.props.onChange(value)
     )
   }
+  onBlur = ({ currentTarget }) => {
+    this.props.onBlur(currentTarget.value)
+  }
 
   render () {
     const { value = '' } = this.state
@@ -99,6 +106,7 @@ class AutoresizeTextarea extends Component {
         maxLength={maxLength}
         value={value}
         onChange={this.onChange}
+        onBlur={this.onBlur}
         name={name}
       />
     )
