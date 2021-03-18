@@ -1,5 +1,6 @@
 import { METRICS, GET_METRIC } from './metrics'
 import { aliasTransform, normalizeInterval } from './utils'
+import { PRICE_OHLC_QUERY, newOhlcPreTransformer } from './queries/price_ohlc'
 import { HISTORICAL_BALANCE_QUERY } from './queries/historicaBalance'
 import { GAS_USED_QUERY } from './queries/gasUsed'
 import { ETH_SPENT_OVER_TIME_QUERY } from './queries/ethSpentOverTime'
@@ -40,6 +41,10 @@ const Fetcher = METRICS.reduce((acc, metric) => {
 }, Object.create(null))
 
 Object.assign(Fetcher, {
+  price_ohlc: {
+    query: PRICE_OHLC_QUERY,
+    preTransform: newOhlcPreTransformer
+  },
   gasUsed: {
     query: GAS_USED_QUERY,
     preTransform: aliasTransform('gasUsed')

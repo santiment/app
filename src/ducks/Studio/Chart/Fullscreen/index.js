@@ -34,7 +34,8 @@ const FullscreenChart = ({
   selectedLineState,
   isDrawingState,
   isNewDrawingState,
-  setIsICOPriceDisabled
+  setIsICOPriceDisabled,
+  cursorType
 }) => {
   const [settings, setSettings] = useState(studioSettings)
   const [options, setOptions] = useState(studioOptions)
@@ -149,8 +150,10 @@ const FullscreenChart = ({
           isDomainGroupingActive ? domainGroups : mirrorDomainGroups
         }
         selectedLineState={selectedLineState}
+        cursorType={cursorType}
         isDrawingState={isDrawingState}
         isNewDrawingState={isNewDrawingState}
+        isFullscreen
         onPointHover={undefined}
         onBrushChangeEnd={onBrushChangeEnd}
         onRangeSelect={onRangeSelect}

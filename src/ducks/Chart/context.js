@@ -23,10 +23,12 @@ export const ChartProvider = ({
   const [isAwaitingRedraw, redrawChart] = useRedrawer()
   const setChart = useCallback(chart => {
     chart.data = data
+    chart.categories = {}
     chart.scale = scale
     chart.redraw = redrawChart
     chart.observer = Observer()
     chart.plotter = Plotter()
+
     _setChart(chart)
   }, [])
 
@@ -40,6 +42,7 @@ export const ChartProvider = ({
       chart.scale = scale
       chart.colors = colors
       chart.domainGroups = domainGroups
+      chart.categories = categories
 
       if (data.length === 0) {
         chart.points = []
@@ -51,7 +54,8 @@ export const ChartProvider = ({
         data,
         categories.joinedCategories,
         domainModifier,
-        domainGroups
+        domainGroups,
+        new Set(categories.candles)
       )
 
       chart.plotter.items.forEach(plot => {
