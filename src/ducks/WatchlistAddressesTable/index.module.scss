@@ -18,6 +18,7 @@
 .note {
   display: flex;
   align-items: center;
+  padding-right: 20px;
 
   & textarea {
     background-color: inherit;
@@ -28,6 +29,7 @@
     min-width: 200px;
     padding: 0;
     cursor: pointer;
+    resize: none;
 
     &::placeholder {
       color: var(--waterloo);
