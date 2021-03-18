@@ -12,6 +12,7 @@
 
 .top {
   flex-direction: column;
+  position: relative;
 }
 
 .bottom {
@@ -82,5 +83,16 @@
         flex: 2;
       }
     }
+  }
+}
+
+.note {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+
+  @include responsive('phone', 'phone-xs') {
+    right: 16px;
+    top: 16px;
   }
 }

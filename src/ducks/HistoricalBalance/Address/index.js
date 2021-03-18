@@ -10,7 +10,10 @@ import {
   Infrastructure,
   getAddressInfrastructure
 } from '../../../utils/address'
+import { useAddressNote } from '../hooks'
 import { DesktopOnly } from '../../../components/Responsive'
+import HelpPopup from '../../../components/HelpPopup/HelpPopup'
+import stylesTooltip from '../../../components/HelpPopup/HelpPopup.module.scss'
 import styles from './index.module.scss'
 
 export const AddressSetting = ({
@@ -23,6 +26,7 @@ export const AddressSetting = ({
 }) => {
   const { address } = settings
   const [value, setValue] = useState(address)
+  const note = useAddressNote(settings)
   const infrastructure = useMemo(() => getAddressInfrastructure(value), [value])
 
   useEffect(
@@ -58,7 +62,12 @@ export const AddressSetting = ({
             isError={isError || !infrastructure}
             onChange={onChange}
           />
-
+          {note && (
+            <HelpPopup triggerClassName={styles.note}>
+              <h4 className={stylesTooltip.title}>Note</h4>
+              {note}
+            </HelpPopup>
+          )}
           <div className={styles.bottom}>
             <Labels settings={settings} />
             {value && infrastructure === Infrastructure.ETH && (

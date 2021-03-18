@@ -19,6 +19,7 @@ export const ADDRESS_QUERY = gql`
     ) {
       id
       commentsCount
+      notes
       labels {
         name
         origin
