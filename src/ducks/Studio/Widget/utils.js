@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { MirroredMetric } from '../../dataHub/metrics/mirrored'
 import { getMetricLabel } from '../../dataHub/metrics/labels'
+import { TooltipSetting } from '../../dataHub/tooltipSettings'
 
 let widgetId = -1
 
@@ -92,7 +93,7 @@ export function useWidgetMetricLabeling (chartRef, metrics, settings) {
 
       freeMetrics.forEach((metric, i) => {
         const { key, dataKey = key } = metric
-        const tooltipSetting = chart.TooltipSetting[dataKey]
+        const tooltipSetting = TooltipSetting[dataKey]
 
         oldLabels[i] = [tooltipSetting, tooltipSetting.label, metric]
 

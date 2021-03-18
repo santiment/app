@@ -51,6 +51,7 @@ const Canvas = ({
   isDomainGroupingActive,
   isICOPriceActive,
   isSelectingRange,
+  isFullscreen,
   syncTooltips,
   onBrushChangeEnd,
   onPointMouseUp,
@@ -80,7 +81,7 @@ const Canvas = ({
       <GreenRedBars />
       <Bars />
       <Areas />
-      <Candles />
+      <Candles isFullscreen={isFullscreen} />
       <Lines />
       <Axes metrics={axesMetricKeys} />
       {isCartesianGridActive && <CartesianGrid />}

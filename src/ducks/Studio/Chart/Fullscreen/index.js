@@ -156,6 +156,7 @@ const FullscreenChart = ({
         cursorType={cursorType}
         isDrawingState={isDrawingState}
         isNewDrawingState={isNewDrawingState}
+        isFullscreen
         onPointHover={undefined}
         onBrushChangeEnd={onBrushChangeEnd}
         onRangeSelect={onRangeSelect}
