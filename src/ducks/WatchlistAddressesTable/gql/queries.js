@@ -19,9 +19,5 @@ export const ADDRESS_WATCHLIST_QUERY = gql`
 const watchlistAccessor = ({ data }) => data.watchlist
 export const getAddressWatchlist = (id, fetchPolicy) =>
   client
-    .query({
-      fetchPolicy,
-      query: ADDRESS_WATCHLIST_QUERY,
-      variables: { id: +id }
-    })
+    .query({ fetchPolicy, query: ADDRESS_WATCHLIST_QUERY, variables: { id } })
     .then(watchlistAccessor)

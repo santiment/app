@@ -10,7 +10,6 @@ const normalizeAddress = ({
 const normalizeProject = ({ project: { id } }) => ({ project_id: +id })
 
 export function normalizeItems (items = ARR, type) {
-  console.log(items)
   switch (type) {
     case BLOCKCHAIN_ADDRESS:
       return items.map(normalizeAddress)
