@@ -250,7 +250,8 @@ export const Description = {
   ),
   [Metric.whale_transaction_count.key]:
     'Number of Transactions Transferring More Than 100k USD',
-  [Metric.mvrv_usd_z_score.key]: 'Daily MVRV-Z USD Score'
+  [Metric.mvrv_usd_z_score.key]:
+    'Shows the ratio between the difference of market cap and realized cap, and the standard deviation of market cap'
 }
 
 export const rebuildDescriptions = Submetrics => {
