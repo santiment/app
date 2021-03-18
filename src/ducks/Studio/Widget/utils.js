@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
+import { TooltipSetting } from '../../dataHub/tooltipSettings'
 import { MirroredMetric } from '../../dataHub/metrics/mirrored'
 import { getMetricLabel } from '../../dataHub/metrics/labels'
-import { TooltipSetting } from '../../dataHub/tooltipSettings'
 
 let widgetId = -1
 

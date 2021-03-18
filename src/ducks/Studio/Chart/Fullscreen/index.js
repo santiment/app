@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import Header from './Header'
 import ChartCanvas from '../Canvas'
-import { useWidgetMetricLabeling } from '../../Widget/utils'
 import { useTimeseries } from '../../timeseries/hooks'
 import { extractMirrorMetricsDomainGroups } from '../../../Chart/utils'
 import { MirroredMetric } from '../../../dataHub/metrics/mirrored'
@@ -84,8 +83,6 @@ const FullscreenChart = ({
     },
     [metrics]
   )
-
-  useWidgetMetricLabeling(chartRef, metrics, settings)
 
   function changeTimePeriod (fromDate, toDate) {
     const interval = getNewInterval(fromDate, toDate)
