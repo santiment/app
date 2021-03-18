@@ -32,6 +32,25 @@
   }
 }
 
+:global(.list-container) {
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: calc(100vh - 64px) !important;
+  min-height: calc(100vh - 64px) !important;
+  overflow: auto;
+
+  & header {
+    position: sticky;
+    left: 0;
+  }
+
+  & footer {
+    display: none;
+  }
+}
+
 .container {
   margin: 0 auto;
   padding-right: 15px;

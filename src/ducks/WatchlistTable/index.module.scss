@@ -1,7 +1,3 @@
-.wrapper {
-  --offset: var(--table-header-sticky-offset, 0);
-}
-
 .top,
 .actions {
   display: flex;
@@ -9,12 +5,18 @@
 }
 
 .top {
+  --table-header-sticky-offset: 64px;
+
   color: var(--waterloo);
   position: sticky;
   padding: 10px 32px;
-  top: var(--offset);
+  top: var(--table-header-sticky-offset);
   background: var(--white);
   z-index: 1;
+  left: 0;
+  height: 52px;
+  min-height: 52px;
+  width: 100%;
 }
 
 .actions {
@@ -53,6 +55,8 @@
 .table {
   :global {
     th {
+      top: calc(64px + 52px);
+
       &:first-child {
         line-height: 0;
       }
