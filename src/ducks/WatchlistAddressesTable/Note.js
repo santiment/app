@@ -9,7 +9,7 @@ const Note = ({ notes, address, onNoteUpdate }) => {
         defaultValue={notes || ''}
         placeholder='Add note'
         maxLength={45}
-        onBlur={note => onNoteUpdate({ address, note })}
+        // onBlur={note => addListItems([{ address, note }])}
       />
     </div>
   )
