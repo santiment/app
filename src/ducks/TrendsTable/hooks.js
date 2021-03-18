@@ -39,7 +39,7 @@ export function useTrendingWords (variables) {
   )
 }
 
-function useTrendsSocialVolume (query, words) {
+function useTrendWordsData (query, words) {
   const { data } = useQuery(query, {
     variables: {
       words
@@ -50,11 +50,11 @@ function useTrendsSocialVolume (query, words) {
     () => {
       if (!data) return
 
-      const { wordsSocialVolume } = data
+      const { wordsData } = data
       const WordSocialVolume = {}
 
-      wordsSocialVolume.forEach(({ word, timeseriesData }) => {
-        WordSocialVolume[word] = timeseriesData
+      wordsData.forEach(({ word, data }) => {
+        WordSocialVolume[word] = data
       })
 
       return WordSocialVolume
@@ -64,7 +64,7 @@ function useTrendsSocialVolume (query, words) {
 }
 
 export function useTrendSocialVolumeChange (words, trend) {
-  const data = useTrendsSocialVolume(LAST_DAY_SOCIAL_VOLUME_QUERY, words)
+  const data = useTrendWordsData(LAST_DAY_SOCIAL_VOLUME_QUERY, words)
 
   return useMemo(
     () => {
@@ -82,7 +82,7 @@ export function useTrendSocialVolumeChange (words, trend) {
 }
 
 export function useTrendSocialVolume (words, trend) {
-  const data = useTrendsSocialVolume(SOCIAL_VOLUME_QUERY, words)
+  const data = useTrendWordsData(SOCIAL_VOLUME_QUERY, words)
 
   return useMemo(
     () => {
@@ -97,18 +97,15 @@ export function useTrendSocialVolume (words, trend) {
   )
 }
 
-export function useTrendWordContext (trend) {
-  const { data } = useQuery(TRENDING_WORDS_CONTEXT_QUERY)
+export function useTrendWordContext (words, trend) {
+  const data = useTrendWordsData(TRENDING_WORDS_CONTEXT_QUERY, words)
+
   return useMemo(
     () => {
       if (!data) return LOADING
 
-      const trendWord = data.getTrendingWords[0].topWords.find(
-        ({ word }) => word === trend
-      )
-
       return {
-        data: trendWord ? trendWord.context.slice(0, 6) : ARRAY,
+        data: data[trend.word],
         isLoading: false
       }
     },

@@ -26,6 +26,15 @@ const Title = ({ activeMetrics, ...props }) => (
   />
 )
 
+export const HoldersDistributionTitle = ({ ticker, description }) => {
+  return (
+    <div>
+      {ticker} Supply Distribution
+      <div className={styles.description}>{description}</div>
+    </div>
+  )
+}
+
 const HolderDistributionWidget = ({
   widget,
   settings,
@@ -103,7 +112,14 @@ const HolderDistributionWidget = ({
         <Sidepanel
           className={styles.sidepanel}
           contentClassName={styles.sidepanel__content}
-          header={sidepanelHeader || `${settings.ticker} Holders Distribution`}
+          header={
+            sidepanelHeader || (
+              <HoldersDistributionTitle
+                ticker={settings.ticker}
+                description='by number of addresses'
+              />
+            )
+          }
           chartSidepane={TOP_HOLDERS_PANE}
           currentPhase={currentPhase}
           metrics={widget.metrics}

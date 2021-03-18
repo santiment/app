@@ -29,7 +29,7 @@ export const Suggestion = Object.assign(Object.create(null), {
     ]
   },
   exchange_balance: {
-    title: 'Exchange Balance',
+    title: 'Exchange Flow Balance',
     suggesters: [
       buildValueChangeSuggester(Metric.exchange_balance),
       buildPercentUpSuggester(Metric.exchange_balance)

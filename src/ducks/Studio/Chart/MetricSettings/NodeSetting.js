@@ -1,16 +1,19 @@
 import React, { useMemo } from 'react'
-import Button from '@santiment-network/ui/Button'
+import UIButton from '@santiment-network/ui/Button'
 import Setting from './Setting'
 import { useDropdown } from './Dropdown'
 import { getMetricSetting } from '../../utils'
 import { Node, BARS } from '../../../Chart/nodes'
+import { Metric } from '../../../dataHub/metrics'
+
+const getBaseMetric = metric => metric.base || metric
 
 const NodeToLabel = {
   [Node.BAR]: 'Bar'
 }
-const buildNode = (key, label) => {
-  NodeToLabel[key] = label
-  return { key, label }
+const buildNode = (id, label) => {
+  NodeToLabel[id] = label
+  return { id, label }
 }
 
 const NODES = [
@@ -20,6 +23,18 @@ const NODES = [
   buildNode(Node.GRADIENT_LINE, 'Gradient line'),
   buildNode(Node.AUTO_WIDTH_BAR, 'Bar')
 ]
+const CANDLES_NODE = buildNode(Node.CANDLES, 'Candles')
+
+const Button = ({ id, label, activeKey, activeRef, onChange }) => (
+  <UIButton
+    variant='ghost'
+    isActive={activeKey === id}
+    onClick={() => onChange(id)}
+    forwardedRef={activeKey === id ? activeRef : undefined}
+  >
+    {label}
+  </UIButton>
+)
 
 const NodeSetting = ({ metric, widget, rerenderWidgets }) => {
   const { activeRef, close, Dropdown } = useDropdown()
@@ -53,16 +68,22 @@ const NodeSetting = ({ metric, widget, rerenderWidgets }) => {
 
   return (
     <Dropdown trigger={<Setting>Style: {NodeToLabel[node]}</Setting>}>
-      {NODES.map(({ key, label }) => (
+      {!metric.indicator && getBaseMetric(metric) === Metric.price_usd && (
         <Button
-          key={key}
-          variant='ghost'
-          isActive={node === key}
-          onClick={() => onChange(key)}
-          forwardedRef={node === key ? activeRef : undefined}
-        >
-          {label}
-        </Button>
+          {...CANDLES_NODE}
+          activeKey={node}
+          activeRef={activeRef}
+          onChange={onChange}
+        />
+      )}
+      {NODES.map(nodeType => (
+        <Button
+          key={nodeType.id}
+          {...nodeType}
+          activeKey={node}
+          activeRef={activeRef}
+          onChange={onChange}
+        />
       ))}
     </Dropdown>
   )

@@ -17,6 +17,7 @@ const Category = ({
   project,
   NewMetricsCategory,
   GroupNode,
+  children,
   ...rest
 }) => {
   const [hidden, setHidden] = useState(!DEFAULT_OPENED_CATEGORY[title])
@@ -43,6 +44,7 @@ const Category = ({
             {...rest}
           />
         ))}
+        {children}
       </div>
     </div>
   )

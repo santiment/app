@@ -1,5 +1,8 @@
 import React from 'react'
-import HolderDistributionWidget, { holderDistributionBuilder } from './index'
+import HolderDistributionWidget, {
+  holderDistributionBuilder,
+  HoldersDistributionTitle
+} from './index'
 import { HOLDER_DISTRIBUTION_PERCENT_METRICS } from '../../Chart/Sidepanel/HolderDistribution/metrics'
 import { TabCombinedBalanceMetrics } from '../../Chart/Sidepanel/HolderDistribution/Tabs'
 
@@ -7,9 +10,12 @@ const HolderDistributionCombinedBalanceWidget = ({ ...props }) => (
   <HolderDistributionWidget
     isWithTabs
     TabMetrics={TabCombinedBalanceMetrics}
-    sidepanelHeader={`${
-      props.settings.ticker
-    } Holders Distribution Combined Balance`}
+    sidepanelHeader={
+      <HoldersDistributionTitle
+        ticker={props.settings.ticker}
+        description='by balance of addresses'
+      />
+    }
     {...props}
   />
 )

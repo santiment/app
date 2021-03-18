@@ -14,18 +14,22 @@ export const TRENDING_WORDS_QUERY = gql`
   }
 `
 export const TRENDING_WORDS_CONTEXT_QUERY = gql`
-  query getTrendingWords(
+  query wordsContext(
+    $words: [String]
     $from: DateTime = "utc_now-1h"
     $to: DateTime = "utc_now"
-    $interval: interval = "1h"
   ) {
-    getTrendingWords(size: 10, from: $from, to: $to, interval: $interval) {
-      topWords {
+    wordsData: wordsContext(
+      selector: { words: $words }
+      size: 10
+      from: $from
+      to: $to
+      source: ALL
+    ) {
+      word
+      data: context {
         word
-        context {
-          word
-          score
-        }
+        score
       }
     }
   }
@@ -33,14 +37,14 @@ export const TRENDING_WORDS_CONTEXT_QUERY = gql`
 
 const newSocialVolumeQuery = (from, interval = '1d') => gql`
   query wordsSocialVolume($words: [String]) {
-    wordsSocialVolume(
+    wordsData: wordsSocialVolume(
       selector: {words: $words},
       from: "${from}",
       to: "utc_now",
       interval: "${interval}"
     ) {
       word
-      timeseriesData {
+      data: timeseriesData {
     	  value: mentionsCount
       }
     }

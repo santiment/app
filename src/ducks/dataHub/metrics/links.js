@@ -52,5 +52,9 @@ export const AcademyLinks = {
   [Metric.social_volume_total.key]:
     'https://academy.santiment.net/metrics/social-volume/',
   [Metric.price_daa_divergence.key]:
-    'https://academy.santiment.net/sansheets/pro-templates/#price-daa-divergence-template'
+    'https://academy.santiment.net/sansheets/pro-templates/#price-daa-divergence-template',
+  holders_distribution_1_to_10:
+    'https://academy.santiment.net/metrics/supply-distribution/',
+  percent_of_holders_distribution_combined_balance_1_to_10:
+    'https://academy.santiment.net/metrics/supply-distribution/'
 }

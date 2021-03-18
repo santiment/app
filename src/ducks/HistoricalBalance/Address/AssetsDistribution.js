@@ -19,7 +19,9 @@ const COLORS = [
 const MAX_COLOR_PROJECTS = COLORS.length
 const MAX_DESCRIBED_PROJECTS = 6
 
-const distributionSorter = ({ balance: a }, { balance: b }) => b - a
+export const existingAssetsFilter = ({ balanceUsd }) => balanceUsd
+export const distributionSorter = ({ balanceUsd: a }, { balanceUsd: b }) =>
+  b - a
 const checkIsSmallDistribution = percent => percent < 0.5
 const smallDistributionFinder = ({ percent }) =>
   checkIsSmallDistribution(percent)
@@ -31,21 +33,23 @@ function useDistributions (walletAssets) {
     () => {
       if (projects.length === 0) return []
 
-      const { length } = walletAssets
+      const sortedAssets = walletAssets
+        .filter(existingAssetsFilter)
+        .sort(distributionSorter)
+      const { length } = sortedAssets
       const distributions = new Array(length)
-      const sortedAssets = walletAssets.slice().sort(distributionSorter)
       let totalBalance = 0
 
       for (let i = 0; i < length; i++) {
-        totalBalance += sortedAssets[i].balance
+        totalBalance += sortedAssets[i].balanceUsd
       }
 
       const scale = 100 / totalBalance
 
       for (let i = 0; i < length; i++) {
-        const { slug, balance } = sortedAssets[i]
+        const { slug, balanceUsd } = sortedAssets[i]
         const { ticker } = getProjectInfo(projects, slug) || {}
-        const percent = balance * scale
+        const percent = balanceUsd * scale
 
         distributions[i] = {
           percent,
@@ -77,7 +81,10 @@ const Distributions = ({ distributions }) =>
     <Distribution key={i} {...distribution} />
   ))
 
-const CollapsedDistributions = ({ distributions }) => (
+export const CollapsedDistributions = ({
+  distributions,
+  Items = Distributions
+}) => (
   <CollapsedTooltip
     trigger={
       <div className={styles.collapsed}>{`+${
@@ -85,7 +92,7 @@ const CollapsedDistributions = ({ distributions }) => (
       } assets`}</div>
     }
   >
-    <Distributions distributions={distributions} />
+    <Items distributions={distributions} />
   </CollapsedTooltip>
 )
 
@@ -106,7 +113,7 @@ const AssetsDistribution = ({ walletAssets, className }) => {
 
   return (
     <div className={cx(styles.wrapper, className)}>
-      <div className={styles.title}>Assets distribution</div>
+      <div className={styles.title}>Assets USD distribution</div>
       <div className={styles.historgram}>
         {historgramProjects.map(({ name, style }) => (
           <div key={name} style={style} className={styles.slice} />

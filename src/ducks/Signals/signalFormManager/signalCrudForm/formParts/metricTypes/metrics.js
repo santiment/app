@@ -30,21 +30,21 @@ export const DAILY_METRICS = [
     ...m,
     category: 'On-chain',
     node: 'line',
-    label: `Holders Distribution Absolute ${m.label}`
+    label: `Supply Distribution Absolute ${m.label}`
   })),
 
   ...Object.values(HolderDistributionPercentMetric).map(m => ({
     ...m,
     category: 'On-chain',
     node: 'line',
-    label: `Holders Distribution Percent ${m.label}`
+    label: `Supply Distribution Percent ${m.label}`
   })),
 
   ...Object.values(HolderDistributionCombinedBalanceAbsoluteMetric).map(m => ({
     ...m,
     category: 'On-chain',
     node: 'line',
-    label: `Holders Distribution Combined Balance ${m.label}`
+    label: `Supply Distribution by Balance of Addresses ${m.label}`
   }))
 ]
 

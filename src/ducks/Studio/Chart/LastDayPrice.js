@@ -20,7 +20,9 @@ function drawLastDayPrice (chart, price) {
 
   if (y > bottom || y < top) return
 
-  const text = `Last day price ${TooltipSetting.price_usd.formatter(price)}`
+  const text = `Last day price ${TooltipSetting.price_usd.formatter(
+    price.open || price
+  )}`
 
   ctx.save()
   ctx.beginPath()

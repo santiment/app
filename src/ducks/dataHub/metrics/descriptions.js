@@ -115,10 +115,12 @@ export const Description = {
   [Metric.amount_in_non_exchange_top_holders.key]:
     'Shows the combined balance of the top N addresses that don’t belong to exchanges',
 
-  holder_distribution:
-    'Breaks down the number of addresses based on the amount of [Project Ticker] they hold',
-  holder_distribution_combined_balance:
-    'Represents the sum of all the tokens of all the addresses which hold the amount of tokens from an interval',
+  holders_distribution_1_to_10:
+    'Breaks down the number of addresses based on the amount of [Project Ticker] they hold.',
+  percent_of_holders_distribution_combined_balance_1_to_10:
+    'Represents the sum of all the tokens of all the addresses which hold the amount of tokens from an interval.',
+  holders_distribution_combined_balance_1_to_10:
+    'Represents the sum of all the tokens of all the addresses which hold the amount of tokens from an interval.',
 
   [Metric.ethSpentOverTime.key]:
     'Shows the amount of ETH moved out of the project’s ICO wallets over time',
@@ -233,6 +235,8 @@ export const Description = {
     'Price-Daily Addresses Divergence model tracks the relationship between the coin’s price and the amount of daily addresses interacting with the coin. When the price increases while the amount of active addresses declines, the model triggers a ‘Sell’ signal, and vice versa. Historically, strong divergences in these two metrics earmarked interesting entry/exit levels',
   [Metric.active_addresses_1h.key]:
     'Shows the number of unique addresses involved in [Project Ticker] transactions hourly. This metric indicates the hourly level of crowd interaction (or speculation) with a token',
+  [Metric.active_addresses_24h.key]:
+    'Shows the number of unique addresses involved in [Project Ticker] transactions daily. This metric indicates the daily level of crowd interaction (or speculation) with a token',
 
   [Metric.network_profit_loss.key]: (
     <>

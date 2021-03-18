@@ -101,7 +101,8 @@ function downloadChart (
     data,
     joinedCategories,
     domainModifier,
-    domainGroups
+    domainGroups,
+    new Set(categories.candles)
   )
 
   plotter.items.forEach(plot => {

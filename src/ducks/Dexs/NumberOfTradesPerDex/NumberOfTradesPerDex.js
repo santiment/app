@@ -32,7 +32,7 @@ const NumberOfTradesPerDex = ({ metrics, measurement: strictMeasurement }) => {
   const [rootMetric, setRootMetric] = useState(metrics[0])
 
   const metricsBuilder = useCallback(
-    ({ slug }) => {
+    ({ slug, ticker }) => {
       const measurementSlug = measurement.slug.replace(/-/g, '_')
 
       const result = DEXs.map(dex => {
@@ -53,7 +53,7 @@ const NumberOfTradesPerDex = ({ metrics, measurement: strictMeasurement }) => {
       if (slug) {
         result.push({
           ...Metric.price_usd,
-          label: `Price ${slug}`,
+          label: `Price (${ticker})`,
           reqMeta: { slug: slug }
         })
       }

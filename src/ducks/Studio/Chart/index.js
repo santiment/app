@@ -185,6 +185,7 @@ const Chart = ({
             shareLink={shareLink}
             drawings={widget.drawings}
             selectedLineState={selectedLineState}
+            cursorType={chartCursor.cursorType}
             isDrawingState={isDrawingState}
             isNewDrawingState={isNewDrawingState}
             setIsICOPriceDisabled={setIsICOPriceDisabled}

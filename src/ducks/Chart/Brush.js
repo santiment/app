@@ -22,6 +22,7 @@ function getBrushPlotItems ({ items }) {
   brushItems.delete('watermark')
   brushItems.delete('lastDayPrice')
   brushItems.delete('Drawer')
+  brushItems.delete('candles')
 
   return brushItems
 }
@@ -115,9 +116,12 @@ const Brush = ({
 
       if (data.length === 0) return
 
+      const brushCategories = { ...categories }
+      brushCategories.lines = [...categories.lines, ...categories.candles]
+
       brush.plotBrushData = () =>
         getBrushPlotItems(chart.plotter).forEach(plot => {
-          plot(brush, scale, data, colors, categories)
+          plot(brush, scale, data, colors, brushCategories)
         })
       brush.redraw = () =>
         updateBrushState(brush, data, categories.joinedCategories)

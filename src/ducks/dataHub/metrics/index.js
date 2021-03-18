@@ -135,7 +135,7 @@ export const Metric = {
     category: 'On-chain',
     node: 'line',
     group: 'Exchanges',
-    label: 'Exchange Balance',
+    label: 'Exchange Flow Balance',
     shortLabel: 'Exc. Flow Bal.',
     abbreviation: 'efb',
     video: 'https://www.youtube.com/watch?v=0R6GDF2bg6A',
@@ -186,7 +186,7 @@ export const Metric = {
   stock_to_flow: {
     category: 'On-chain',
     node: 'line',
-    group: 'Network Activity',
+    group: 'Network Value',
     label: 'Stock to Flow ratio',
     shortLabel: 'St. to Fl.',
     isBeta: true
@@ -414,7 +414,7 @@ export const Metric = {
   },
   amount_in_exchange_top_holders: {
     node: 'line',
-    label: 'Supply held by top non-exchange addresses',
+    label: 'Supply held by top exchange addresses',
     category: 'On-chain',
     group: 'Whales'
   },

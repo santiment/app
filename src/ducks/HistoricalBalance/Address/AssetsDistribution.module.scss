@@ -36,12 +36,15 @@
     background: var(--white);
   }
 
-  &:last-child::after {
-    display: none;
+  &:last-child {
+    flex: 1;
+
+    &::after {
+      display: none;
+    }
   }
 
   &_other {
-    flex: 1;
     background: var(--mystic);
   }
 }
