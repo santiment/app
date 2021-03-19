@@ -16,25 +16,25 @@ function visitWatchlistsCache (visitor) {
   }
 }
 
-function visitWatchlistCache (visitor) {
-  return (cache, { data }) => {
-    const { id, type } = data.updateWatchlist
-    const query =
-      type === BLOCKCHAIN_ADDRESS
-        ? ADDRESS_WATCHLIST_QUERY
-        : PROJECTS_WATCHLIST_QUERY
+export function updateWatchlistOnEdit (cache, { data }) {
+  const updateWatchlist =
+    data.updateWatchlist || data.addWatchlistItems || data.removeWatchlistItems
+  const { id, type } = updateWatchlist
+  const query =
+    type === BLOCKCHAIN_ADDRESS
+      ? ADDRESS_WATCHLIST_QUERY
+      : PROJECTS_WATCHLIST_QUERY
 
-    const watchlist = cache.readQuery({
-      query: query,
-      variables: { id: +id }
-    })
+  const watchlist = cache.readQuery({
+    query: query,
+    variables: { id: +id }
+  })
 
-    cache.writeQuery({
-      query: query,
-      variables: { id: +id },
-      data: { watchlist: visitor(data, watchlist) }
-    })
-  }
+  cache.writeQuery({
+    query: query,
+    variables: { id: +id },
+    data: { watchlist: { ...updateWatchlist, ...watchlist } }
+  })
 }
 
 export const updateWatchlistsOnCreation = visitWatchlistsCache(
@@ -43,8 +43,4 @@ export const updateWatchlistsOnCreation = visitWatchlistsCache(
 
 export const updateWatchlistsOnDelete = visitWatchlistsCache(
   ({ watchlist }, lists) => lists.filter(({ id }) => +id !== +watchlist.id)
-)
-
-export const updateWatchlistOnEdit = visitWatchlistCache(
-  ({ updateWatchlist }, watchlist) => ({ ...watchlist, ...updateWatchlist })
 )

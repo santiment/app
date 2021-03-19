@@ -53,12 +53,6 @@ const Screener = ({
   const [tableLoading, setTableLoading] = useState(true)
   const { widgets, setWidgets } = useScreenerUrl({ location, history })
 
-  const AppElem = document.getElementsByClassName('App')[0]
-
-  if (AppElem) {
-    AppElem.classList.add('list-container')
-  }
-
   useEffect(
     () => {
       if (loading !== tableLoading) {

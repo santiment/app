@@ -37,6 +37,13 @@ export function notifyUpdate (title) {
   })
 }
 
+export function notifySaveNote () {
+  return dispatchNotification({
+    variant: 'success',
+    title: `Note has been saved successfully`
+  })
+}
+
 export function notifyLoginForSave () {
   return dispatchNotification({
     variant: 'warning',

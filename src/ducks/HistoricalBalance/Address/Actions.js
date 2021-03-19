@@ -22,7 +22,7 @@ const CreateAlertTrigger = ({ className, assets, address, isWithIcon }) => (
   />
 )
 
-const Actions = ({ address, infrastructure, assets }) => {
+const Actions = ({ address, infrastructure, assets, note }) => {
   const { ActionsMenu, close } = useControlledActionsMenu()
 
   function onCommentClick () {
@@ -41,7 +41,11 @@ const Actions = ({ address, infrastructure, assets }) => {
         )}
       >
         <CreateAlertTrigger assets={assets} address={address} isWithIcon />
-        <AddToWatchlist address={address} infrastructure={infrastructure} />
+        <AddToWatchlist
+          address={address}
+          infrastructure={infrastructure}
+          note={note}
+        />
         <Button className={styles.btn} onClick={onCommentClick}>
           <Icon type='comment' className={styles.btn__icon} />
           Comment

@@ -5,14 +5,15 @@ import WatchlistTable from '../WatchlistTable'
 
 const OBJECT = {}
 const normalizeLabel = ({ name }) => name
-function normalizeCSVItem ({ address, balanceChange, labels }) {
+function normalizeCSVItem ({ address, balanceChange, labels, notes }) {
   const { balanceEnd, balanceChangePercent } = balanceChange || OBJECT
 
   return {
     address,
     balance: balanceEnd,
     percentChange7d: balanceChangePercent,
-    labels: labels.map(normalizeLabel)
+    labels: labels.map(normalizeLabel),
+    note: notes
   }
 }
 

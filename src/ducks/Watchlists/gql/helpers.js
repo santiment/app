@@ -3,9 +3,9 @@ import { BLOCKCHAIN_ADDRESS, PROJECT, SCREENER } from '../detector'
 const ARR = []
 
 const normalizeAddress = ({
-  blockchainAddress: { address, infrastructure, note }
+  blockchainAddress: { address, infrastructure, notes }
 }) => ({
-  blockchainAddress: { address, infrastructure, note }
+  blockchainAddress: { address, infrastructure, notes }
 })
 const normalizeProject = ({ project: { id } }) => ({ project_id: +id })
 

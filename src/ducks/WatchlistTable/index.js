@@ -24,7 +24,7 @@ const WatchlistTable = ({
   const csvData = useMemo(() => normalizeCSVData(items), [items])
 
   return (
-    <div className={styles.wrapper}>
+    <>
       <div className={styles.top}>
         <EditAddresses
           watchlist={watchlist}
@@ -54,8 +54,9 @@ const WatchlistTable = ({
         minRows={6}
         itemProps={useSelectedItemsSet(items)}
         className={styles.table}
+        controlsClassName={styles.controls}
       />
-    </div>
+    </>
   )
 }
 WatchlistTable.defaultProps = {

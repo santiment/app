@@ -36,6 +36,8 @@ export function useBlockchainAddress (wallet) {
 export const useAddressLabels = wallet =>
   useBlockchainAddress(wallet).labels || DEFAULT_STATE
 
+export const useAddressNote = wallet => useBlockchainAddress(wallet).notes || ''
+
 export function useWalletAssets (wallet) {
   const { data, loading, error } = useWalletQuery(WALLET_ASSETS_QUERY, wallet)
 
