@@ -1,3 +1,8 @@
+:root {
+  --list-top-panel-height: 64px;
+  --addresses-list-table-top-height: 52px;
+}
+
 .top,
 .actions {
   display: flex;
@@ -5,17 +10,14 @@
 }
 
 .top {
-  --table-header-sticky-offset: 64px;
-
   color: var(--waterloo);
   position: sticky;
   padding: 10px 32px;
-  top: var(--table-header-sticky-offset);
+  top: var(--list-top-panel-height);
   background: var(--white);
   z-index: 1;
   left: 0;
-  height: 52px;
-  min-height: 52px;
+  height: var(--addresses-list-table-top-height);
   width: 100%;
 }
 
@@ -65,7 +67,7 @@
 
   :global {
     th {
-      top: calc(64px + 52px);
+      top: calc(var(--list-top-panel-height) + var(--addresses-list-table-top-height));
 
       &:first-child {
         line-height: 0;
