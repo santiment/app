@@ -54,15 +54,10 @@
   }
 }
 
-.tableWrapper {
-  max-width: 100vw;
-  width: 100%;
-  min-height: auto;
-}
-
 .table {
   min-width: 100%;
   width: auto;
+  height: auto;
   table-layout: fixed;
 
   :global {

@@ -8,10 +8,6 @@
   text-align: left;
 }
 
-.tableWrapper {
-  width: 100%;
-}
-
 .wrapper :global(th) {
   @include text('caption');
 
