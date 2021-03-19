@@ -19,6 +19,7 @@ export const buildPageSizes = sizes =>
   }))
 
 const PagedTable = ({
+  controlsClassName,
   stickyPageControls,
   padding,
   pageSizes,
@@ -52,7 +53,8 @@ const PagedTable = ({
         className={cx(
           styles.controls,
           stickyPageControls && styles.stickyPageControls,
-          padding && styles.padding
+          padding && styles.padding,
+          controlsClassName
         )}
       >
         <Dropdown

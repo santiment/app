@@ -15,7 +15,7 @@
   padding: 10px 32px;
   top: var(--list-top-panel-height);
   background: var(--white);
-  z-index: 1;
+  z-index: 2;
   left: 0;
   height: var(--addresses-list-table-top-height);
   width: 100%;
@@ -54,30 +54,53 @@
   }
 }
 
-.table {
-  min-width: 100%;
-  width: auto;
-  height: auto;
-  table-layout: fixed;
+.controls {
+  position: fixed;
+  left: 0;
+  right: 0;
+}
 
+/* stylelint-disable */
+.table {
   :global {
     th {
-      top: calc(var(--list-top-panel-height) + var(--addresses-list-table-top-height));
+      position: sticky;
+      top: calc(
+        var(--list-top-panel-height) + var(--addresses-list-table-top-height)
+      );
+      z-index: 2;
 
       &:first-child {
         line-height: 0;
       }
     }
 
+    td {
+      background: var(--white);
+    }
+
     tbody tr {
       height: 54px;
 
-      &:hover {
+      &:hover td {
         background: var(--athens);
+      }
+    }
+
+    th:nth-child(3) {
+      z-index: 3;
+    }
+
+    th,
+    td {
+      &:nth-child(3) {
+        position: sticky;
+        left: 0;
       }
     }
   }
 }
+/* stylelint-enable */
 
 .add {
   color: var(--rhino) !important;

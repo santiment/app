@@ -5,9 +5,7 @@
   background-color: var(--white);
   color: var(--waterloo);
   bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
+  z-index: 1;
 }
 
 .padding {
@@ -15,7 +13,7 @@
 }
 
 .stickyPageControls {
-  position: fixed;
+  position: sticky;
 }
 
 .dropdown {
