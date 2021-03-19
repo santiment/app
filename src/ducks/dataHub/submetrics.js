@@ -2,6 +2,7 @@ import { Metric } from './metrics'
 import { updateTooltipSettings } from './tooltipSettings'
 import {
   CONNECTED_WIDGET,
+  WIDGET,
   SIDEPANEL,
   ICO_PRICE
 } from '../Studio/Sidebar/Button/types'
@@ -25,8 +26,8 @@ export const FeesDistributionMetric = {
   key: 'FeesDistribution',
   type: CONNECTED_WIDGET,
   checkIsVisible: ({ slug }) => slug === 'ethereum',
-  requiredMetric: Metric.transaction_volume,
-  label: 'Fees Destribution'
+  label: 'Fees Distribution',
+  parentMetric: Metric.transaction_volume
 }
 
 export const SOCIAL_ACTIVE_USERS_TELEGRAM = {

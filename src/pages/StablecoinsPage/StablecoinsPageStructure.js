@@ -1,9 +1,11 @@
 import React, { Fragment, useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
+import Icon from '@santiment-network/ui/Icon'
 import { getNewTimerangePeriod } from '../../utils/dates'
 import IntervalsComponent from '../../components/IntervalsComponent/IntervalsComponent'
 import CheckProPaywall from '../../ducks/Stablecoins/CheckProPaywall'
 import styles from './StablecoinsPage.module.scss'
+import widgetStyles from '../../ducks/Studio/Widget/Widget.module.scss'
 
 export const BlockHeader = ({
   title,
@@ -12,7 +14,8 @@ export const BlockHeader = ({
   ranges,
   defaultIndex,
   tag,
-  className
+  className,
+  onCloseClick
 }) => {
   if (!title) {
     return null
@@ -27,6 +30,14 @@ export const BlockHeader = ({
             onChange={setInterval}
             defaultIndex={defaultIndex}
             ranges={ranges}
+          />
+        )}
+
+        {onCloseClick && (
+          <Icon
+            type='close-medium'
+            className={widgetStyles.close}
+            onClick={onCloseClick}
           />
         )}
       </div>

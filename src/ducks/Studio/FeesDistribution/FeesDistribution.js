@@ -12,8 +12,8 @@ import MakeProSubscriptionCard from '../../../pages/feed/GeneralFeed/MakeProSubs
 import { getTimePeriod } from '../../../pages/TrendsExplore/utils'
 import DaysSelector from './DaySelector'
 import { newWidget } from '../Widget/utils'
-import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
 import styles from './FeesDistribution.module.scss'
+import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
 
 export const FEE_RANGES = [
   { value: '1h', label: '1h' },
@@ -21,9 +21,6 @@ export const FEE_RANGES = [
   { value: '7d', label: '7d' },
   { value: '30d', label: '30d' }
 ]
-
-const { from, to } = getTimeIntervalFromToday(-1, DAY)
-const DEFAULT_DATES = [from, to]
 
 const FEES_DISTRIBUTION = gql`
   query ethFeesDistribution($from: DateTime!, $to: DateTime!) {
@@ -56,22 +53,22 @@ const useFeeDistributions = ({ from, to }) => {
   }
 }
 
-export const FeesDistributionTitle = ({ setInterval }) => {
-  return (
-    <BlockHeader
-      setInterval={setInterval}
-      defaultIndex={1}
-      ranges={FEE_RANGES}
-      title='Fees Distribution'
-      className={styles.header}
-    />
-  )
-}
-
-const FeesDistribution = ({ onDisable }) => {
+const FeesDistribution = ({
+  onDisable,
+  deleteConnectedWidget,
+  widget,
+  parentWidget,
+  ...rest
+}) => {
   const [interval, setInterval] = useState('1d')
-  const [customDate, setCustomDate] = useState(null)
+  const setCustomDate = useState(null)[1]
   const [settings, setSettings] = useState(formIntervalSettings(interval))
+
+  console.log(deleteConnectedWidget, widget, parentWidget, rest)
+
+  function onCloseClick () {
+    deleteConnectedWidget(widget, parentWidget)
+  }
 
   useEffect(
     () => {
@@ -84,10 +81,13 @@ const FeesDistribution = ({ onDisable }) => {
 
   return (
     <>
-      <FeesDistributionTitle
+      <BlockHeader
         setInterval={setInterval}
-        interval={interval}
-        customDate={customDate}
+        defaultIndex={1}
+        ranges={FEE_RANGES}
+        title='Fees Distribution'
+        className={styles.header}
+        onCloseClick={onCloseClick}
       />
       {isPro ? (
         <FeesDistributionChart
@@ -170,9 +170,12 @@ export const FeesDistributionChart = ({
   )
 }
 
+const DATE_RANGES = [new Date(), new Date()]
+
 FeesDistribution.new = props =>
   newWidget(FeesDistribution, {
-    datesRange: DEFAULT_DATES,
+    isBlocked: true,
+    datesRange: DATE_RANGES,
     ...props
   })
 

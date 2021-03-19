@@ -77,6 +77,8 @@
   color: var(--rhino);
   display: flex;
   text-align: left;
+  align-items: center;
+  padding-right: 16px;
 
   @include text('h4', 'm');
 
