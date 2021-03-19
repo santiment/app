@@ -11,6 +11,8 @@ import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import MakeProSubscriptionCard from '../../../pages/feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
 import { getTimePeriod } from '../../../pages/TrendsExplore/utils'
 import DaysSelector from './DaySelector'
+import { newWidget } from '../Widget/utils'
+import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
 import styles from './FeesDistribution.module.scss'
 
 export const FEE_RANGES = [
@@ -19,6 +21,9 @@ export const FEE_RANGES = [
   { value: '7d', label: '7d' },
   { value: '30d', label: '30d' }
 ]
+
+const { from, to } = getTimeIntervalFromToday(-1, DAY)
+const DEFAULT_DATES = [from, to]
 
 const FEES_DISTRIBUTION = gql`
   query ethFeesDistribution($from: DateTime!, $to: DateTime!) {
@@ -58,6 +63,7 @@ export const FeesDistributionTitle = ({ setInterval }) => {
       defaultIndex={1}
       ranges={FEE_RANGES}
       title='Fees Distribution'
+      className={styles.header}
     />
   )
 }
@@ -163,5 +169,11 @@ export const FeesDistributionChart = ({
     </div>
   )
 }
+
+FeesDistribution.new = props =>
+  newWidget(FeesDistribution, {
+    datesRange: DEFAULT_DATES,
+    ...props
+  })
 
 export default FeesDistribution
