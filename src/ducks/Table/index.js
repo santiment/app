@@ -166,93 +166,91 @@ const Table = ({
   )
 
   return (
-    <>
-      <div
-        className={cx(
-          styles.wrapper,
-          !paginationSettings && styles.wrapperOverflow,
-          className
-        )}
-      >
-        <table {...getTableProps()} className={cx(styles.table, classes.table)}>
-          <thead className={cx(styles.header, classes.header)}>
-            {headerGroups.map(headerGroup => (
+    <div
+      className={cx(
+        styles.wrapper,
+        !paginationSettings && styles.wrapperOverflow,
+        className
+      )}
+    >
+      <table {...getTableProps()} className={cx(styles.table, classes.table)}>
+        <thead className={cx(styles.header, classes.header)}>
+          {headerGroups.map(headerGroup => (
+            <tr
+              {...headerGroup.getHeaderGroupProps()}
+              className={classes.headerRow}
+            >
+              {headerGroup.headers.map((column, idx) => (
+                <th
+                  {...column.getHeaderProps(
+                    column.getSortByToggleProps({ title: '' })
+                  )}
+                  className={cx(
+                    styles.headerColumn,
+                    column.collapse && styles.collapse,
+                    column.isSorted && styles.headerColumnActive,
+                    isStickyHeader && styles.headerColumnStickyTop,
+                    isStickyColumn &&
+                      stickyColumnIdx === idx &&
+                      styles.headerColumnStickyLeft,
+                    classes.headerColumn
+                  )}
+                >
+                  <span>{column.render('Header')}</span>
+                  {column.canSort && (
+                    <span
+                      className={cx(
+                        styles.sort,
+                        column.isSortedDesc ? styles.sortDesc : styles.sortAsc
+                      )}
+                    />
+                  )}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody
+          {...getTableBodyProps()}
+          className={cx(styles.body, classes.body)}
+        >
+          {content.map(row => {
+            prepareRow(row)
+            return (
               <tr
-                {...headerGroup.getHeaderGroupProps()}
-                className={classes.headerRow}
+                {...row.getRowProps()}
+                className={cx(styles.bodyRow, classes.bodyRow)}
               >
-                {headerGroup.headers.map((column, idx) => (
-                  <th
-                    {...column.getHeaderProps(
-                      column.getSortByToggleProps({ title: '' })
-                    )}
+                {row.cells.map((cell, idx) => (
+                  <td
+                    {...cell.getCellProps()}
                     className={cx(
-                      styles.headerColumn,
-                      column.collapse && styles.collapse,
-                      column.isSorted && styles.headerColumnActive,
-                      isStickyHeader && styles.headerColumnStickyTop,
+                      styles.bodyColumn,
+                      cell.column.collapse && styles.collapse,
                       isStickyColumn &&
                         stickyColumnIdx === idx &&
-                        styles.headerColumnStickyLeft,
-                      classes.headerColumn
+                        styles.bodyColumnSticky,
+                      classes.bodyColumn
                     )}
                   >
-                    <span>{column.render('Header')}</span>
-                    {column.canSort && (
-                      <span
-                        className={cx(
-                          styles.sort,
-                          column.isSortedDesc ? styles.sortDesc : styles.sortAsc
-                        )}
-                      />
-                    )}
-                  </th>
+                    {cell.render('Cell')}
+                  </td>
                 ))}
               </tr>
-            ))}
-          </thead>
-          <tbody
-            {...getTableBodyProps()}
-            className={cx(styles.body, classes.body)}
-          >
-            {content.map(row => {
-              prepareRow(row)
-              return (
-                <tr
-                  {...row.getRowProps()}
-                  className={cx(styles.bodyRow, classes.bodyRow)}
-                >
-                  {row.cells.map((cell, idx) => (
-                    <td
-                      {...cell.getCellProps()}
-                      className={cx(
-                        styles.bodyColumn,
-                        cell.column.collapse && styles.collapse,
-                        isStickyColumn &&
-                          stickyColumnIdx === idx &&
-                          styles.bodyColumnSticky,
-                        classes.bodyColumn
-                      )}
-                    >
-                      {cell.render('Cell')}
-                    </td>
-                  ))}
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-        {!!loadingSettings && repeatLoading > 0 && (
-          <Loader
-            repeat={repeatLoading}
-            isLoading={isLoading}
-            classes={{ wrapper: classes.loader, row: classes.loaderRow }}
-          />
-        )}
-        {!!loadingSettings && !isLoading && data.length === 0 && (
-          <NoData {...noDataSettings} />
-        )}
-      </div>
+            )
+          })}
+        </tbody>
+      </table>
+      {!!loadingSettings && repeatLoading > 0 && (
+        <Loader
+          repeat={repeatLoading}
+          isLoading={isLoading}
+          classes={{ wrapper: classes.loader, row: classes.loaderRow }}
+        />
+      )}
+      {!!loadingSettings && !isLoading && data.length === 0 && (
+        <NoData {...noDataSettings} />
+      )}
       {!!paginationSettings && (
         <Pagination
           {...paginationParams}
@@ -260,7 +258,7 @@ const Table = ({
           className={classes.pagination}
         />
       )}
-    </>
+    </div>
   )
 }
 
