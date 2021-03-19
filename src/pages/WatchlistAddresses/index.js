@@ -20,12 +20,6 @@ const WatchlistAddress = ({ match, isPhone }) => {
   if (isLoading) return <PageLoader />
   if (!watchlist.id) return <Redirect to='/' />
 
-  const AppElem = document.getElementsByClassName('App')[0]
-
-  if (AppElem) {
-    AppElem.classList.add('list-container')
-  }
-
   return (
     <>
       {isPhone ? (
