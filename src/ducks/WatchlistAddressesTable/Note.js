@@ -7,26 +7,29 @@ import {
 } from '../Watchlists/Widgets/TopPanel/notifications'
 import styles from './index.module.scss'
 
-const Note = ({ notes, address, infrastructure, watchlistId }) => {
+const Note = ({ notes, address, infrastructure, watchlistId, isAuthor }) => {
   function updateItem (notes) {
-    updateWatchlistShort(
-      {
-        id: +watchlistId,
-        listItems: [{ blockchainAddress: { address, infrastructure, notes } }]
-      },
-      'ADD_ITEMS'
-    )
-      .then(() => notifySaveNote())
-      .catch(() => notifyError('note', 'save'))
+    if (isAuthor) {
+      updateWatchlistShort(
+        {
+          id: +watchlistId,
+          listItems: [{ blockchainAddress: { address, infrastructure, notes } }]
+        },
+        'ADD_ITEMS'
+      )
+        .then(() => notifySaveNote())
+        .catch(() => notifyError('note', 'save'))
+    }
   }
 
   return (
     <div className={styles.note}>
       <AutoresizeTextarea
-        defaultValue={notes || ''}
-        placeholder='Add note'
         maxLength={45}
         onBlur={updateItem}
+        readOnly={!isAuthor}
+        placeholder='Add note'
+        defaultValue={notes || ''}
       />
     </div>
   )

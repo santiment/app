@@ -88,11 +88,6 @@ export const ADD_LIST_ITEMS_MUTATION = type => gql`
     ) {
       ...generalFragment
       ...listItemsFragment
-      tableConfiguration {
-        id
-        title
-        columns
-      }
       ${getStats(type)}
     }
   }
@@ -111,11 +106,6 @@ export const REMOVE_LIST_ITEMS_MUTATION = type => gql`
     ) {
       ...generalFragment
       ...listItemsFragment
-      tableConfiguration {
-        id
-        title
-        columns
-      }
       ${getStats(type)}
     }
   }

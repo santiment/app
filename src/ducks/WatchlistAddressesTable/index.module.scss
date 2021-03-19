@@ -55,5 +55,17 @@
         opacity: 0;
       }
     }
+
+    &[readonly] {
+      &:hover,
+      &:focus {
+        cursor: default;
+        color: var(--rhino);
+      }
+
+      &::placeholder {
+        opacity: 0;
+      }
+    }
   }
 }
