@@ -80,7 +80,7 @@ export const Submetrics = {
     ...Metric.twitter_followers,
     key: `twitter_followers_${interval}`,
     queryKey: 'twitter_followers',
-    label: `Twitter Followers (${interval} change)`,
+    label: `Twitter Followers ${interval}`,
     description:
       "Shows the number changes of followers on the project's official Twitter account over time.",
     reqMeta: {
