@@ -63,13 +63,13 @@ export const Studio = ({
 
   useEffect(
     () => {
-      if (selectedMetrics.length) {
+      if (selectedMetrics.length || selectedWidgets.length) {
         setPhase(Phase.MAPVIEW_SELECTION)
       } else if (previousPhase === Phase.MAPVIEW_SELECTION) {
         setPhase(Phase.MAPVIEW)
       }
     },
-    [selectedMetrics.length]
+    [selectedMetrics.length, selectedWidgets.length]
   )
 
   function toggleOverview () {

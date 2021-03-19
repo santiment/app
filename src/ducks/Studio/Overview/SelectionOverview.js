@@ -50,7 +50,8 @@ const SelectionOverview = ({
     <div
       className={cx(
         styles.selection,
-        selectedMetrics.length && styles.selection_visible
+        (selectedMetrics.length || selectedWidgets.length) &&
+          styles.selection_visible
       )}
     >
       <div className={styles.left}>

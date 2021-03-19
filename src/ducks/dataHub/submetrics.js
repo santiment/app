@@ -2,7 +2,6 @@ import { Metric } from './metrics'
 import { updateTooltipSettings } from './tooltipSettings'
 import {
   CONNECTED_WIDGET,
-  WIDGET,
   SIDEPANEL,
   ICO_PRICE
 } from '../Studio/Sidebar/Button/types'

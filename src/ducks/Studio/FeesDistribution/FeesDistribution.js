@@ -13,7 +13,6 @@ import { getTimePeriod } from '../../../pages/TrendsExplore/utils'
 import DaysSelector from './DaySelector'
 import { newWidget } from '../Widget/utils'
 import styles from './FeesDistribution.module.scss'
-import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
 
 export const FEE_RANGES = [
   { value: '1h', label: '1h' },
@@ -63,8 +62,6 @@ const FeesDistribution = ({
   const [interval, setInterval] = useState('1d')
   const setCustomDate = useState(null)[1]
   const [settings, setSettings] = useState(formIntervalSettings(interval))
-
-  console.log(deleteConnectedWidget, widget, parentWidget, rest)
 
   function onCloseClick () {
     deleteConnectedWidget(widget, parentWidget)
