@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Route as BasicRoute,
   Switch,
   Redirect,
   withRouter
 } from 'react-router-dom'
+import cx from 'classnames'
 import Loadable from 'react-loadable'
 import withSizes from 'react-sizes'
 import { connect } from 'react-redux'
@@ -222,315 +223,348 @@ export const App = ({
   showFooter,
   location: { pathname, search },
   history
-}) => (
-  <div className='App'>
-    <ErrorBoundary history={history}>
-      {isOffline && (
-        <div className={styles.offline}>
-          It looks like you are offline. Some actions might not work.
-        </div>
-      )}
-      {isDesktop ? (
-        <Navbar activeLink={pathname} search={search} />
-      ) : (
-        <MobileNavbar activeLink={pathname} />
-      )}
-      <GdprRedirector pathname={pathname} />
-      {isDesktop && <UrlModals />}
+}) => {
+  const [isWatchlistPage, setIsWatchlistPage] = useState(false)
 
+  useEffect(
+    () => {
+      if (
+        pathname.includes(PATHS.ADDRESSES_WATCHLIST) ||
+        pathname.includes(PATHS.SCREENER)
+      ) {
+        if (!isWatchlistPage) {
+          setIsWatchlistPage(true)
+        }
+      } else if (isWatchlistPage) {
+        setIsWatchlistPage(false)
+      }
+    },
+    [pathname]
+  )
+
+  return (
+    <div className={cx('App', isWatchlistPage && 'list-container')}>
       <ErrorBoundary history={history}>
-        <Switch>
-          <Route path={SHARE_PATH} component={PageLoader} />
-          {['erc20', 'all', 'list', 'screener'].map(name => (
-            <Route
-              exact
-              key={name}
-              path={`/assets/${name}`}
-              render={props => {
-                if (isDesktop) {
+        {isOffline && (
+          <div className={styles.offline}>
+            It looks like you are offline. Some actions might not work.
+          </div>
+        )}
+        {isDesktop ? (
+          <Navbar activeLink={pathname} search={search} />
+        ) : (
+          <MobileNavbar activeLink={pathname} />
+        )}
+        <GdprRedirector pathname={pathname} />
+        {isDesktop && <UrlModals />}
+
+        <ErrorBoundary history={history}>
+          <Switch>
+            <Route path={SHARE_PATH} component={PageLoader} />
+            {['erc20', 'all', 'list', 'screener'].map(name => (
+              <Route
+                exact
+                key={name}
+                path={`/assets/${name}`}
+                render={props => {
+                  if (isDesktop) {
+                    return (
+                      <LoadableWatchlistPage
+                        type={name}
+                        isLoggedIn={isLoggedIn}
+                        preload={() => LoadableDetailedPage.preload()}
+                        {...props}
+                      />
+                    )
+                  }
                   return (
-                    <LoadableWatchlistPage
+                    <LoadableAssetsMobilePage
                       type={name}
                       isLoggedIn={isLoggedIn}
-                      preload={() => LoadableDetailedPage.preload()}
                       {...props}
                     />
                   )
+                }}
+              />
+            ))}
+            <Route exact path='/pricing' component={LoadablePricingPage} />
+            <Route
+              exact
+              path={PATHS.GDPR}
+              render={props => <GDPRPage {...props} isDesktop={isDesktop} />}
+            />
+            <Route
+              exact
+              path={PATHS.CREATE_ACCOUNT}
+              render={props => (
+                <CreateAccountFreeTrial {...props} isLoggedIn={isLoggedIn} />
+              )}
+            />
+            <Route
+              exact
+              path='/assets'
+              render={() => <LoadableAssetsPage isDesktop={isDesktop} />}
+            />
+            <Route
+              exact
+              path='/screener/:nameId'
+              render={props => (
+                <LoadableScreenerPage
+                  {...props}
+                  isDesktop={isDesktop}
+                  isLoggedIn={isLoggedIn}
+                />
+              )}
+            />
+            <Route
+              exact
+              path='/watchlist/projects/:nameId'
+              render={props => (
+                <LoadableWatchlistProjectsPage
+                  {...props}
+                  isDesktop={isDesktop}
+                />
+              )}
+            />
+            <Route
+              exact
+              path='/watchlist/addresses/:nameId'
+              component={LoadableWatchlistAddressesPage}
+            />
+            <Route
+              exact
+              path='/watchlists'
+              render={props => <LoadableWatchlistsPage isDesktop={isDesktop} />}
+            />
+            <Route
+              exact
+              path='/unsubscribe'
+              component={LoadableUnsubscribePage}
+            />
+            <Route
+              path={PATHS.FEED}
+              render={props => <LoadableFeedPage {...props} />}
+            />
+            <Route
+              exact
+              path='/search'
+              render={props => {
+                if (isDesktop) {
+                  return <Redirect to='/' />
                 }
-                return (
-                  <LoadableAssetsMobilePage
-                    type={name}
-                    isLoggedIn={isLoggedIn}
-                    {...props}
-                  />
-                )
+                return <LoadableSearchMobilePage {...props} />
               }}
             />
-          ))}
-          <Route exact path='/pricing' component={LoadablePricingPage} />
-          <Route
-            exact
-            path={PATHS.GDPR}
-            render={props => <GDPRPage {...props} isDesktop={isDesktop} />}
-          />
-          <Route
-            exact
-            path={PATHS.CREATE_ACCOUNT}
-            render={props => (
-              <CreateAccountFreeTrial {...props} isLoggedIn={isLoggedIn} />
-            )}
-          />
-          <Route
-            exact
-            path='/assets'
-            render={() => <LoadableAssetsPage isDesktop={isDesktop} />}
-          />
-          <Route
-            exact
-            path='/screener/:nameId'
-            render={props => (
-              <LoadableScreenerPage
-                {...props}
-                isDesktop={isDesktop}
-                isLoggedIn={isLoggedIn}
-              />
-            )}
-          />
-          <Route
-            exact
-            path='/watchlist/projects/:nameId'
-            render={props => (
-              <LoadableWatchlistProjectsPage {...props} isDesktop={isDesktop} />
-            )}
-          />
-          <Route
-            exact
-            path='/watchlist/addresses/:nameId'
-            component={LoadableWatchlistAddressesPage}
-          />
-          <Route
-            exact
-            path='/watchlists'
-            render={props => <LoadableWatchlistsPage isDesktop={isDesktop} />}
-          />
-          <Route
-            exact
-            path='/unsubscribe'
-            component={LoadableUnsubscribePage}
-          />
-          <Route
-            path={PATHS.FEED}
-            render={props => <LoadableFeedPage {...props} />}
-          />
-          <Route
-            exact
-            path='/search'
-            render={props => {
-              if (isDesktop) {
-                return <Redirect to='/' />
+            <Route exact path='/roadmap' component={Roadmap} />
+            <Route
+              exact
+              path='/labs/balance'
+              render={({ history }) => (
+                <LoadableHistoricalBalancePage
+                  history={history}
+                  isDesktop={isDesktop}
+                />
+              )}
+            />
+            <Route
+              exact
+              path='/projects/:slug'
+              render={props =>
+                isDesktop ? (
+                  <LoadableDetailedPage isDesktop={isDesktop} {...props} />
+                ) : (
+                  <LoadableMobileDetailedPage {...props} />
+                )
               }
-              return <LoadableSearchMobilePage {...props} />
+            />
+            <Route
+              exact
+              path='/labs/trends'
+              component={LoadableTrendsLabsPage}
+            />
+            <Route exact path='/labs' component={LoadableLabsPage} />
+            <Redirect from='/trends' to='/labs/trends' />
+            <Route
+              exact
+              path={['/labs/trends/explore/:word', '/labs/trends/explore/']}
+              render={props => (
+                <LoadableTrendsExplorePage isDesktop={isDesktop} {...props} />
+              )}
+            />
+            <Route
+              path={'/alerts'}
+              render={props => (
+                <LoadableSonarFeedPage
+                  isDesktop={isDesktop}
+                  isLoggedIn={isLoggedIn}
+                  {...props}
+                />
+              )}
+            />
+            <Redirect
+              from='/sonar/signal/:id/edit'
+              to={`/alerts/:id/edit/${search}`}
+            />
+            <Redirect
+              from='/alert/:id/edit'
+              to={`/alerts/:id/edit/${search}`}
+            />
+            <Redirect from='/alert/:id' to={`/alerts/:id`} />
+            <Redirect from='/sonar/signal/:id' to={`/alerts/:id/${search}`} />
+            <Redirect from='/sonar/my-signals' to={`/alerts${search}`} />
+            <Redirect from='/sonar/my-alerts' to={`/alerts${search}`} />
+            <Route path='/logout' component={LogoutPage} />
+            <Route
+              exact
+              path='/account'
+              render={props => (
+                <LoadableAccountPage
+                  {...props}
+                  isUserLoading={isUserLoading}
+                  isLoggedIn={isLoggedIn}
+                />
+              )}
+            />
+            <Redirect from='/ethereum-spent' to='/projects/ethereum' />
+            <Route exact path='/privacy-policy' component={PrivacyPolicyPage} />
+            <Route path='/email_login' component={EmailLoginVerification} />
+            <Route path='/verify_email' component={EmailLoginVerification} />
+            {ExternalRoutes.map(links => {
+              return links.routes.map(name => (
+                <Route
+                  key={name}
+                  path={`/${name}`}
+                  exact
+                  render={() => <ExternalRedirect to={links.to} />}
+                />
+              ))
+            })}
+            <Route
+              path='/consent'
+              render={props => (
+                <ExternalRedirect
+                  to={`${getConsentUrl()}/consent${props.location.search}`}
+                />
+              )}
+            />{' '}
+            <Route
+              path={['/profile/:id', '/profile']}
+              render={props => (
+                <LoadableProfilePage
+                  isDesktop={isDesktop}
+                  location={props.location}
+                  {...props}
+                />
+              )}
+            />
+            <Route
+              path={PATHS.LOGIN}
+              render={props => (
+                <LoadableLoginPage
+                  isLoggedIn={isLoggedIn}
+                  token={token}
+                  {...props}
+                />
+              )}
+            />
+            <Route
+              path={PATHS.PRO_METRICS}
+              render={props => (
+                <LoadableProMetricsPage isLoggedIn={isLoggedIn} {...props} />
+              )}
+            />
+            {!isDesktop && <Redirect from={PATHS.STUDIO} to='/assets' />}
+            <Route
+              path={PATHS.STUDIO}
+              render={props => (
+                <LoadableChartPage
+                  classes={{ wrapper: styles.chart }}
+                  isLoggedIn={isLoggedIn}
+                  {...props}
+                />
+              )}
+            />
+            <Route
+              path={PATHS.STABLECOINS}
+              render={props => (
+                <LoadableStablecoinsPage isDesktop={isDesktop} {...props} />
+              )}
+            />
+            <Route
+              path={PATHS.ETH2}
+              render={props => (
+                <LoadableETH2Dashboard isDesktop={isDesktop} {...props} />
+              )}
+            />
+            <Route
+              path={PATHS.ETH_ANALYSIS}
+              render={props => (
+                <LoadableEthAnalysisDashboard
+                  isDesktop={isDesktop}
+                  {...props}
+                />
+              )}
+            />
+            <Route
+              path={PATHS.UNISWAP_PROTOCOL}
+              render={props => (
+                <LoadableUniswapProtocolPage isDesktop={isDesktop} {...props} />
+              )}
+            />
+            <Route
+              path={PATHS.DEXS}
+              render={props => (
+                <LoadableDexsPage isDesktop={isDesktop} {...props} />
+              )}
+            />
+            <Route
+              path={PATHS.BTC_LOCKED}
+              render={props => <LoadableBtcLockedPage {...props} />}
+            />
+            <Route
+              path={PATHS.SHEETS_TEMPLATES}
+              render={props => (
+                <LoadableSheetsTemplatePage
+                  isLoggedIn={isLoggedIn}
+                  isDesktop={isDesktop}
+                  {...props}
+                />
+              )}
+            />
+            <Redirect from={PATHS.LABELS} to={PATHS.ETH_ANALYSIS} />
+            <Route
+              path={PATHS.CHARTS}
+              render={props => (
+                <LoadableChartPage
+                  classes={{ wrapper: styles.chart }}
+                  isLoggedIn={isLoggedIn}
+                  {...props}
+                />
+              )}
+            />
+            {!isDesktop && <Redirect from={PATHS.INDEX} to='/assets' />}
+            <Route path={PATHS.INDEX} component={LoadableIndexPage} />
+          </Switch>
+
+          <Intercom isDesktop={isDesktop} />
+        </ErrorBoundary>
+
+        <NotificationStack />
+        <CookiePopup />
+
+        {isDesktop && showFooter && (
+          <Footer
+            classes={{
+              footer:
+                isPathnameInPages(pathname, FOOTER_ABSOLUTE_FOR) &&
+                styles.footerAbsolute
             }}
           />
-          <Route exact path='/roadmap' component={Roadmap} />
-          <Route
-            exact
-            path='/labs/balance'
-            render={({ history }) => (
-              <LoadableHistoricalBalancePage
-                history={history}
-                isDesktop={isDesktop}
-              />
-            )}
-          />
-          <Route
-            exact
-            path='/projects/:slug'
-            render={props =>
-              isDesktop ? (
-                <LoadableDetailedPage isDesktop={isDesktop} {...props} />
-              ) : (
-                <LoadableMobileDetailedPage {...props} />
-              )
-            }
-          />
-          <Route exact path='/labs/trends' component={LoadableTrendsLabsPage} />
-          <Route exact path='/labs' component={LoadableLabsPage} />
-          <Redirect from='/trends' to='/labs/trends' />
-          <Route
-            exact
-            path={['/labs/trends/explore/:word', '/labs/trends/explore/']}
-            render={props => (
-              <LoadableTrendsExplorePage isDesktop={isDesktop} {...props} />
-            )}
-          />
-          <Route
-            path={'/alerts'}
-            render={props => (
-              <LoadableSonarFeedPage
-                isDesktop={isDesktop}
-                isLoggedIn={isLoggedIn}
-                {...props}
-              />
-            )}
-          />
-          <Redirect
-            from='/sonar/signal/:id/edit'
-            to={`/alerts/:id/edit/${search}`}
-          />
-          <Redirect from='/alert/:id/edit' to={`/alerts/:id/edit/${search}`} />
-          <Redirect from='/alert/:id' to={`/alerts/:id`} />
-          <Redirect from='/sonar/signal/:id' to={`/alerts/:id/${search}`} />
-          <Redirect from='/sonar/my-signals' to={`/alerts${search}`} />
-          <Redirect from='/sonar/my-alerts' to={`/alerts${search}`} />
-          <Route path='/logout' component={LogoutPage} />
-          <Route
-            exact
-            path='/account'
-            render={props => (
-              <LoadableAccountPage
-                {...props}
-                isUserLoading={isUserLoading}
-                isLoggedIn={isLoggedIn}
-              />
-            )}
-          />
-          <Redirect from='/ethereum-spent' to='/projects/ethereum' />
-          <Route exact path='/privacy-policy' component={PrivacyPolicyPage} />
-          <Route path='/email_login' component={EmailLoginVerification} />
-          <Route path='/verify_email' component={EmailLoginVerification} />
-          {ExternalRoutes.map(links => {
-            return links.routes.map(name => (
-              <Route
-                key={name}
-                path={`/${name}`}
-                exact
-                render={() => <ExternalRedirect to={links.to} />}
-              />
-            ))
-          })}
-          <Route
-            path='/consent'
-            render={props => (
-              <ExternalRedirect
-                to={`${getConsentUrl()}/consent${props.location.search}`}
-              />
-            )}
-          />{' '}
-          <Route
-            path={['/profile/:id', '/profile']}
-            render={props => (
-              <LoadableProfilePage
-                isDesktop={isDesktop}
-                location={props.location}
-                {...props}
-              />
-            )}
-          />
-          <Route
-            path={PATHS.LOGIN}
-            render={props => (
-              <LoadableLoginPage
-                isLoggedIn={isLoggedIn}
-                token={token}
-                {...props}
-              />
-            )}
-          />
-          <Route
-            path={PATHS.PRO_METRICS}
-            render={props => (
-              <LoadableProMetricsPage isLoggedIn={isLoggedIn} {...props} />
-            )}
-          />
-          {!isDesktop && <Redirect from={PATHS.STUDIO} to='/assets' />}
-          <Route
-            path={PATHS.STUDIO}
-            render={props => (
-              <LoadableChartPage
-                classes={{ wrapper: styles.chart }}
-                isLoggedIn={isLoggedIn}
-                {...props}
-              />
-            )}
-          />
-          <Route
-            path={PATHS.STABLECOINS}
-            render={props => (
-              <LoadableStablecoinsPage isDesktop={isDesktop} {...props} />
-            )}
-          />
-          <Route
-            path={PATHS.ETH2}
-            render={props => (
-              <LoadableETH2Dashboard isDesktop={isDesktop} {...props} />
-            )}
-          />
-          <Route
-            path={PATHS.ETH_ANALYSIS}
-            render={props => (
-              <LoadableEthAnalysisDashboard isDesktop={isDesktop} {...props} />
-            )}
-          />
-          <Route
-            path={PATHS.UNISWAP_PROTOCOL}
-            render={props => (
-              <LoadableUniswapProtocolPage isDesktop={isDesktop} {...props} />
-            )}
-          />
-          <Route
-            path={PATHS.DEXS}
-            render={props => (
-              <LoadableDexsPage isDesktop={isDesktop} {...props} />
-            )}
-          />
-          <Route
-            path={PATHS.BTC_LOCKED}
-            render={props => <LoadableBtcLockedPage {...props} />}
-          />
-          <Route
-            path={PATHS.SHEETS_TEMPLATES}
-            render={props => (
-              <LoadableSheetsTemplatePage
-                isLoggedIn={isLoggedIn}
-                isDesktop={isDesktop}
-                {...props}
-              />
-            )}
-          />
-          <Redirect from={PATHS.LABELS} to={PATHS.ETH_ANALYSIS} />
-          <Route
-            path={PATHS.CHARTS}
-            render={props => (
-              <LoadableChartPage
-                classes={{ wrapper: styles.chart }}
-                isLoggedIn={isLoggedIn}
-                {...props}
-              />
-            )}
-          />
-          {!isDesktop && <Redirect from={PATHS.INDEX} to='/assets' />}
-          <Route path={PATHS.INDEX} component={LoadableIndexPage} />
-        </Switch>
-
-        <Intercom isDesktop={isDesktop} />
+        )}
       </ErrorBoundary>
-
-      <NotificationStack />
-      <CookiePopup />
-
-      {isDesktop && showFooter && (
-        <Footer
-          classes={{
-            footer:
-              isPathnameInPages(pathname, FOOTER_ABSOLUTE_FOR) &&
-              styles.footerAbsolute
-          }}
-        />
-      )}
-    </ErrorBoundary>
-  </div>
-)
+    </div>
+  )
+}
 
 function isPathnameInPages (pathname, pages) {
   return pages.some(path => !pathname.replace(path, '').includes('/'))

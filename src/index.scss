@@ -9,7 +9,15 @@
     &::-webkit-scrollbar {
       display: none;
     }
+
+    // for firefox
+    scrollbar-width: none;
   }
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--casper) var(--porcelain);
 }
 
 body {
