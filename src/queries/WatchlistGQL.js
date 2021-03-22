@@ -21,19 +21,7 @@ export const PROJECTS_WATCHLIST_QUERY = gql`
   ${PROJECTS_LIST_ITEMS_FRAGMENT}
 `
 
-export const WATCHLISTS_SETTINGS_QUERY = gql`
-  query fetchWatchlists {
-    fetchWatchlists {
-      id
-      settings {
-        pageSize
-        tableColumns
-      }
-    }
-  }
-`
-
-export const WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY = gql`
+export const WATCHLIST_WITH_TRENDS_QUERY = gql`
   query watchlist($id: ID!) {
     watchlist(id: $id) {
       ...generalFragment
@@ -43,10 +31,6 @@ export const WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY = gql`
           ...generalData
           ...project
         }
-      }
-      settings {
-        pageSize
-        tableColumns
       }
       listItems {
         project {

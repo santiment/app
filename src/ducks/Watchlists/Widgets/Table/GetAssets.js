@@ -3,7 +3,7 @@ import * as qs from 'query-string'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import * as actions from './../../../../actions/types.js'
-import { sortBy } from './../../../../utils/sortMethods'
+import { sortBy } from '../../../../utils/sortMethods'
 
 export const SORT_TYPES = {
   marketcap: 'marketcapUsd',

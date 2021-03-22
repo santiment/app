@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useMemo } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import ReactTable from 'react-table-6'
 import cx from 'classnames'
 import { connect } from 'react-redux'
@@ -6,19 +6,14 @@ import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
 import 'react-table-6/react-table.css'
-import {
-  ASSETS_FETCH,
-  WATCHLIST_TOGGLE_COLUMNS
-} from '../../../../actions/types'
+import { ASSETS_FETCH } from '../../../../actions/types'
 import Refresh from '../../../../components/Refresh/Refresh'
 import NoDataTemplate from '../../../../components/NoDataTemplate/index'
 import ProPopupWrapper from '../../../../components/ProPopup/Wrapper'
 import ExplanationTooltip from '../../../../components/ExplanationTooltip/ExplanationTooltip'
-import AssetsToggleColumns from './AssetsToggleColumns'
-import { COLUMNS } from './asset-columns'
 import Copy from '../../Actions/Copy'
 import DownloadCSV from '../../Actions/DownloadCSV'
-import { COMMON_SETTINGS, COLUMNS_SETTINGS } from './columns'
+import { COMMON_SETTINGS } from './columns'
 import { markedAsShowed } from '../../../SANCharts/SidecarExplanationTooltip'
 import { EXPLANATION_TOOLTIP_MARK } from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
 import CompareInfo from './CompareInfo/CompareInfo'
@@ -29,6 +24,7 @@ import { FILTERS_EXPLANATION_TOOLTIP_MARK } from '../Filter/Trigger'
 import EditAssets from '../../Actions/Edit/EditAssets'
 import './ProjectsTable.scss'
 import styles from './AssetsTable.module.scss'
+import { COLUMNS } from './asset-columns'
 
 export const CustomNoDataComponent = ({ isLoading, description, title }) => {
   if (isLoading) {
@@ -65,16 +61,12 @@ const AssetsTable = ({
   items,
   filterType,
   showAll = false,
-  preload,
   watchlist,
   refetchAssets,
   minVolume = 0,
   listName,
   type,
-  settings,
-  allColumns,
-  setHiddenColumns,
-  showCollumnsToggle = true,
+  preload,
   className,
   compareSettings: { comparingAssets = [], addAsset, cleanAll } = {}
 }) => {
@@ -106,60 +98,10 @@ const AssetsTable = ({
   )
 
   const { isLoading, timestamp, typeInfo } = Assets
-  const key = typeInfo.listId || listName
-  const { sorting, pageSize, hiddenColumns } = settings[key] || {}
+  const sortingColumn = COMMON_SETTINGS.sorting
+  const columnsAmount = COMMON_SETTINGS.pageSize
 
-  const changeShowing = (columns, hiddenColumns) => {
-    const modifiedColumns = JSON.parse(JSON.stringify(columns))
-    hiddenColumns.forEach(name => (modifiedColumns[name].show = false))
-
-    return modifiedColumns
-  }
-
-  const savedHidden = hiddenColumns || COMMON_SETTINGS.hiddenColumns
-
-  const sortingColumn = sorting || COMMON_SETTINGS.sorting
-  const columnsAmount = pageSize || COMMON_SETTINGS.pageSize
-
-  const [hidden, changeHidden] = useState(savedHidden)
-  const [columns, changeColumns] = useState(
-    changeShowing(COLUMNS_SETTINGS, savedHidden)
-  )
-
-  if (savedHidden !== hidden) {
-    changeHidden(savedHidden)
-    changeColumns(changeShowing(COLUMNS_SETTINGS, savedHidden))
-  }
-
-  const toggleColumn = ({ name, show, selectable }) => {
-    const toggledColumns = Object.assign({}, columns)
-    // NOTE(haritonasty): such access to the fields is necessary for Safari bug (shuffle properties)
-    toggledColumns[name] = {
-      ...toggledColumns[name],
-      show: selectable ? !show : show
-    }
-
-    if (selectable) {
-      const columns = show
-        ? [...savedHidden, name]
-        : savedHidden.filter(item => item !== name)
-      setHiddenColumns({
-        listName,
-        hiddenColumns: columns,
-        listId: typeInfo.listId
-      })
-    }
-    return changeColumns(toggledColumns)
-  }
-
-  const shownColumns = useMemo(
-    () => {
-      return COLUMNS(preload).filter(
-        ({ id }) => columns[id].show && allColumns.includes(id)
-      )
-    },
-    [COLUMNS, preload, allColumns, columns]
-  )
+  const columns = COLUMNS(preload)
 
   const disabledComparision = comparingAssets.length < 2
 
@@ -204,9 +146,6 @@ const AssetsTable = ({
           </div>
         )}
         <div className={styles.actions}>
-          {showCollumnsToggle && (
-            <AssetsToggleColumns columns={columns} onChange={toggleColumn} />
-          )}
           <ProPopupWrapper
             type={type}
             trigger={props => (
@@ -270,7 +209,7 @@ const AssetsTable = ({
         defaultSorted={[sortingColumn]}
         className={cx('-highlight', styles.assetsTable, className)}
         data={normalizedItems}
-        columns={shownColumns}
+        columns={columns}
         loadingText=''
         LoadingComponent={() => (
           <CustomLoadingComponent
@@ -320,9 +259,8 @@ const AssetsTable = ({
 const mapStateToProps = ({
   projects: {
     filters: { minVolume }
-  },
-  watchlistUi: { watchlistsSettings }
-}) => ({ minVolume, settings: watchlistsSettings })
+  }
+}) => ({ minVolume })
 
 const mapDispatchToProps = (dispatch, { refetchAssets }) => ({
   refetchAssets:
@@ -335,9 +273,7 @@ const mapDispatchToProps = (dispatch, { refetchAssets }) => ({
           list: { name: listName, id: listId },
           filters: { minVolume }
         }
-      })),
-  setHiddenColumns: payload =>
-    dispatch({ type: WATCHLIST_TOGGLE_COLUMNS, payload })
+      }))
 })
 export default connect(
   mapStateToProps,
