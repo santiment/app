@@ -21,6 +21,14 @@ export const TopTransactionsTableMetric = {
   abbreviation: 'ttt'
 }
 
+export const FeesDistributionMetric = {
+  key: 'FeesDistribution',
+  type: CONNECTED_WIDGET,
+  checkIsVisible: ({ slug }) => slug === 'ethereum',
+  label: 'Fees Distribution',
+  parentMetric: Metric.transaction_volume
+}
+
 export const SOCIAL_ACTIVE_USERS_TELEGRAM = {
   ...Metric.social_active_users,
   showRoot: true,
@@ -63,7 +71,10 @@ export const Submetrics = {
     }
   ],
 
-  [Metric.transaction_volume.key]: [TopTransactionsTableMetric],
+  [Metric.transaction_volume.key]: [
+    TopTransactionsTableMetric,
+    FeesDistributionMetric
+  ],
 
   [Metric.social_volume_total.key]: [
     {
