@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import Icon from '@santiment-network/ui/Icon'
 import { newWidget } from '../utils'
@@ -8,6 +8,7 @@ import HelpPopup from '../../../../components/HelpPopup/HelpPopup'
 import TransactionTable from '../../../../components/Tables/TopTokenTransactions'
 import { TRANSACTIONS_QUERY } from '../../../../components/Tables/TopTokenTransactions/gql'
 import { normalizeTransactionData } from '../../../../pages/Detailed/transactionsInfo/utils'
+import { useTableEffects } from './hooks'
 import styles from './index.module.scss'
 import widgetStyles from '../Widget.module.scss'
 
@@ -59,43 +60,15 @@ const Header = ({ dates, onCalendarChange, onCloseClick }) => (
   </div>
 )
 
-const TopTransactionsTable = ({
-  widget,
-  parentWidget,
-  settings: { slug },
-  datesRange,
-  rerenderWidgets,
-  deleteConnectedWidget
-}) => {
-  const [dates, setDates] = useState(widget.datesRange)
+const TopTransactionsTable = ({ settings: { slug }, ...rest }) => {
+  const { onCloseClick, onCalendarChange, dates } = useTableEffects(rest)
   const [from, to] = dates
+
   const [transactions, loading] = useProjectTopTransactions(slug, from, to)
   const normalizedData = useMemo(
     () => transactions.map(trx => normalizeTransactionData(slug, trx)),
     [transactions]
   )
-
-  useEffect(
-    () => {
-      if (datesRange) {
-        const newRange = [new Date(datesRange[0]), new Date(datesRange[1])]
-        newRange[0].setHours(0, 0, 0, 0)
-        newRange[1].setHours(23, 59, 59, 999)
-        onCalendarChange(newRange)
-      }
-    },
-    [datesRange]
-  )
-
-  function onCalendarChange (newDates) {
-    widget.datesRange = newDates
-    setDates(newDates)
-    rerenderWidgets() // NOTE: Used to sync search query [@vanguard | Nov 2, 2020]
-  }
-
-  function onCloseClick () {
-    deleteConnectedWidget(widget, parentWidget)
-  }
 
   return (
     <TransactionTable
