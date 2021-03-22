@@ -3,29 +3,31 @@ import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Setting from './Setting'
 import { useDropdown } from './Dropdown'
-import { useMetricIntervals } from './hooks'
+import {
+  getValidInterval,
+  useMetricIntervals,
+  useCandlesMinIntervalGetter
+} from './hooks'
 import { mergeMetricSettingMap } from '../../utils'
 import styles from './index.module.scss'
-
-export const isAvailableInterval = (interval, intervals) =>
-  intervals.some(({ key }) => key === interval)
 
 const IntervalSetting = ({
   metric,
   widget,
   interval: chartInterval,
+  from,
+  to,
   rerenderWidgets
 }) => {
   const { activeRef, close, Dropdown } = useDropdown()
-  const intervals = useMetricIntervals(metric)
+  const candlesMinIntervalGetter = useCandlesMinIntervalGetter(from, to)
+  const intervals = useMetricIntervals(metric, candlesMinIntervalGetter)
   const interval = useMemo(
     () => {
       const settings = widget.MetricSettingMap.get(metric)
       const metricInterval = settings && settings.interval
       const interval = metricInterval || chartInterval
-      return isAvailableInterval(interval, intervals)
-        ? interval
-        : intervals[0].key
+      return getValidInterval(interval, intervals)
     },
     [widget.MetricSettingMap, intervals, metric]
   )
