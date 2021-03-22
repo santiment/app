@@ -17,6 +17,7 @@ const FlippedCursorTypeStyle = {
 
 const Tooltip = ({
   metric,
+  axesMetricKeys,
   cursorType,
   syncTooltips,
   onPointMouseDown,
@@ -33,6 +34,9 @@ const Tooltip = ({
   chart.onPointMouseUp = onPointMouseUp
   chart.onRangeSelecting = onRangeSelecting
   chart.onRangeSelected = onRangeSelected
+  if (axesMetricKeys) {
+    chart.axesMetricKeys = axesMetricKeys
+  }
 
   useEffect(() => {
     const { tooltip } = initTooltip(chart)
