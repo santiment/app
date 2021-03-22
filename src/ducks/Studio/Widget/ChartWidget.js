@@ -32,7 +32,10 @@ export const Chart = ({
 }) => {
   const { metrics, chartRef } = widget
   const [options, setOptions] = useState(DEFAULT_OPTIONS)
-  const MetricSettingMap = useMetricSettingsAdjuster(widget.MetricSettingMap)
+  const MetricSettingMap = useMetricSettingsAdjuster(
+    widget.MetricSettingMap,
+    settings
+  )
   const MetricTransformer = useMirroredTransformer(metrics)
   const MetricNode = useMetricNodeOverwrite(MetricSettingMap)
   const [rawData, loadings, ErrorMsg] = useTimeseries(

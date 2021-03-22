@@ -223,6 +223,8 @@ const Chart = ({
           interval={settings.interval}
           slug={settings.slug}
           widget={widget}
+          from={settings.from}
+          to={settings.to}
           toggleMetric={onMetricRemove}
           rerenderWidgets={rerenderWidgets}
         />
