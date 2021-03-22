@@ -1,4 +1,5 @@
 import React from 'react'
+import { useAxesMetricsKey } from '../../../../ducks/Chart/hooks'
 import Canvas from '../../../../ducks/Chart/Modular'
 import Areas from '../../../../ducks/Chart/Areas'
 import Lines from '../../../../ducks/Chart/Lines'
@@ -20,6 +21,7 @@ const Chart = ({ metrics, settings, MetricColor }) => {
   const [data] = useTimeseries(metrics, settings)
   const categories = useMetricCategories(metrics)
   const colors = useChartColors(metrics, MetricColor)
+  const axesMetricKeys = useAxesMetricsKey(metrics)
 
   return (
     <Canvas
@@ -33,7 +35,7 @@ const Chart = ({ metrics, settings, MetricColor }) => {
       <Bars />
       <Areas />
       <Lines />
-      <Tooltip metric={metrics[0].key} />
+      <Tooltip metric={axesMetricKeys[0]} axesMetricKeys={axesMetricKeys} />
     </Canvas>
   )
 }
