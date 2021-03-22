@@ -27,6 +27,7 @@ const Note = ({ notes, address, infrastructure, watchlistId, isAuthor }) => {
       <AutoresizeTextarea
         maxLength={45}
         onBlur={updateItem}
+        blurOnEnter
         readOnly={!isAuthor}
         placeholder='Add note'
         defaultValue={notes || ''}

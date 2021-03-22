@@ -10,7 +10,8 @@ class AutoresizeTextarea extends Component {
     defaultValue: PropTypes.string,
     className: PropTypes.string,
     placeholder: PropTypes.string,
-    readOnly: PropTypes.bool
+    readOnly: PropTypes.bool,
+    blurOnEnter: PropTypes.bool
   }
 
   static defaultProps = {
@@ -81,8 +82,19 @@ class AutoresizeTextarea extends Component {
       () => this.props.onChange(value)
     )
   }
+
   onBlur = ({ currentTarget }) => {
     this.props.onBlur(currentTarget.value)
+  }
+
+  onKeyDown = e => {
+    if (e.key === 'Enter' && this.props.blurOnEnter) {
+      e.stopPropagation()
+      e.preventDefault()
+      if (this.inputRef) {
+        this.inputRef.current.blur()
+      }
+    }
   }
 
   render () {
@@ -106,6 +118,7 @@ class AutoresizeTextarea extends Component {
         maxLength={maxLength}
         value={value}
         onChange={this.onChange}
+        onKeyDown={this.onKeyDown}
         onBlur={this.onBlur}
         name={name}
       />
