@@ -60,7 +60,6 @@ const FeesDistribution = ({
   ...rest
 }) => {
   const [interval, setInterval] = useState('1d')
-  const setCustomDate = useState(null)[1]
   const [settings, setSettings] = useState(formIntervalSettings(interval))
 
   function onCloseClick () {
@@ -92,7 +91,6 @@ const FeesDistribution = ({
           settings={settings}
           interval={interval}
           onDisable={onDisable}
-          onChangePeriod={setCustomDate}
         />
       ) : (
         <MakeProSubscriptionCard />
@@ -105,8 +103,7 @@ export const FeesDistributionChart = ({
   className,
   settings,
   onDisable,
-  interval,
-  onChangePeriod
+  interval
 }) => {
   const [selectedPeriod, setSelectedPeriod] = useState(null)
   const { data, loading, error } = useFeeDistributions(
@@ -130,7 +127,6 @@ export const FeesDistributionChart = ({
     () => {
       if (interval !== '1d' && selectedPeriod) {
         setSelectedPeriod(null)
-        onChangePeriod(null)
       }
     },
     [interval]
@@ -143,7 +139,6 @@ export const FeesDistributionChart = ({
 
   function changeDay (date) {
     setSelectedPeriod(getTimePeriod(date))
-    onChangePeriod(date)
   }
 
   return (
