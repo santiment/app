@@ -1660,10 +1660,10 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@santiment-network/chart@^0.10.0":
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/@santiment-network/chart/-/chart-0.10.0.tgz#7f7a0a64a917870c60ec1a54243262baf7839709"
-  integrity sha512-upDw3eLiKGA3edkivuz2cY3FBzZNzOoI+mIWedATzkeh/O+fzTdZe2KZaC6Prt/L+ouZkOQkV0POcOSIGRsM7A==
+"@santiment-network/chart@^0.10.1":
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/@santiment-network/chart/-/chart-0.10.1.tgz#a87b1d8dacc4e4c5ed1c99f284b6f8106d93b63f"
+  integrity sha512-8MJBkUoMFiwwQnoqW234uQVMSzyb+EJ1kQhHU9yrhYF7MyPbzlgp7I9pKPp3pMnAOifgoiaXVOV/4NbO2Ha9CQ==
 
 "@santiment-network/ui@^0.5.177":
   version "0.5.189"
