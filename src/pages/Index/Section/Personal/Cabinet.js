@@ -1,19 +1,22 @@
 import React from 'react'
+import { HashLink } from 'react-router-hash-link'
+import { useHistory } from 'react-router-dom'
 import Accordion from '../../Accordion'
 import { ProUpgradeBanner } from '../../../feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
-import Reports from './Cabinet/Reports'
 import CabinetTitle from './Cabinet/CabinetTitle/CabinetTitle'
 import { ReportsImg, SheetsTemplatesImg } from './Cabinet/images'
+import Reports from './Cabinet/Reports'
 import SheetsTemplates from './Cabinet/SheetsTemplates/SheetsTemplates'
+import { useDebounceEffect } from '../../../../hooks'
 import styles from './Cabinet.module.scss'
 
-const cabinets = [
+const CABINETS = [
   {
     title: (
       <CabinetTitle
         img={ReportsImg}
-        title={'Weekly Reports'}
+        title='Weekly Reports'
         description={
           'Check out our latest premium reports about crypto activity in the market'
         }
@@ -29,8 +32,10 @@ const cabinets = [
   {
     title: (
       <CabinetTitle
+        as={HashLink}
+        to='#san-sheets'
         img={<div className={styles.img}>{SheetsTemplatesImg}</div>}
-        title={'Sansheets Pro Templates'}
+        title='Sansheets Pro Templates'
         description={
           <>
             A collection of trading and research models built with{' '}
@@ -54,8 +59,32 @@ const cabinets = [
   }
 ]
 
+function hashLinkScroll ({ location }, timeout = 0) {
+  const { hash } = location
+  if (hash !== '') {
+    setTimeout(() => {
+      const elements = document.querySelectorAll(`a[href='/${hash}']`)
+      if (elements && elements.length > 0) elements[0].scrollIntoView()
+    }, timeout)
+  }
+}
+
+const useAnchorLoading = deps => {
+  const history = useHistory()
+
+  useDebounceEffect(
+    () => {
+      hashLinkScroll(history)
+    },
+    1000,
+    [history.location, ...deps]
+  )
+}
+
 const Cabinet = () => {
   const { isPro, loading } = useUserSubscriptionStatus()
+
+  useAnchorLoading([loading])
 
   if (loading) return null
 
@@ -63,7 +92,7 @@ const Cabinet = () => {
     return <ProUpgradeBanner classes={styles} />
   }
 
-  return cabinets.map(({ title, content, isOpened }, index) => (
+  return CABINETS.map(({ title, content, isOpened }, index) => (
     <Accordion
       key={index}
       title={title}

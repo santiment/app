@@ -1,8 +1,8 @@
 import React from 'react'
 import styles from './CabinetTitle.module.scss'
 
-const CabinetTitle = ({ img, title, description }) => (
-  <div className={styles.headerContainer}>
+const CabinetTitle = ({ img, title, description, as: El = 'div', ...rest }) => (
+  <El className={styles.headerContainer} {...rest}>
     <div className={styles.header}>
       {img}
 
@@ -11,7 +11,7 @@ const CabinetTitle = ({ img, title, description }) => (
         <div className={styles.header__content__description}>{description}</div>
       </div>
     </div>
-  </div>
+  </El>
 )
 
 export default CabinetTitle

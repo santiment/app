@@ -1,51 +1,74 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import StartGuide from './StartGuide'
-import Cabinet from './Cabinet'
+import { HashLink } from 'react-router-hash-link'
 import { Section, Container, Row } from '../index'
 import { Tab } from '../Trends'
 import Toggle from '../../../../components/VisibilityIndicator/Toggle'
+import StartGuide from './StartGuide'
+import Cabinet from './Cabinet'
 import styles from './index.module.scss'
 
 const LS_PERSONAL_TAB = 'LS_PERSONAL_TAB'
-const TabType = {
+export const PersonalTabType = {
   START_GUIDE: 'Quick Start Guide',
-  CABINET: 'Cabinet'
+  CABINET: 'Cabinet',
+  SHEETS: 'Sheets'
 }
 
-const TabHash = {
-  [TabType.CABINET]: '#cabinet'
+export const PersonalTabHashes = {
+  [PersonalTabType.CABINET]: '#cabinet',
+  [PersonalTabType.SHEETS]: '#san-sheets'
 }
 
-const HashTab = Object.entries(TabHash).reduce((acc, [key, value]) => {
-  acc[value] = key
-  return acc
-}, {})
+const HashTab = Object.entries(PersonalTabHashes).reduce(
+  (acc, [key, value]) => {
+    acc[value] = key
+    return acc
+  },
+  {}
+)
 
-const TabTypeComponent = {
-  [TabType.START_GUIDE]: StartGuide,
-  [TabType.CABINET]: Cabinet
+export const TabTypeComponent = {
+  [PersonalTabType.START_GUIDE]: StartGuide,
+  [PersonalTabType.CABINET]: Cabinet,
+  [PersonalTabType.SHEETS]: Cabinet
 }
 
-const toggleVisibility = tab => (tab ? null : TabType.START_GUIDE)
-const saveTab = tab => localStorage.setItem(LS_PERSONAL_TAB, tab || '')
+export const toggleVisibility = tab => {
+  return tab ? null : PersonalTabType.START_GUIDE
+}
 
-function loadTab () {
+export const saveTab = tab => localStorage.setItem(LS_PERSONAL_TAB, tab || '')
+
+export function loadTab () {
   const hashTab = HashTab[window.location.hash]
-  if (hashTab) return hashTab
+  if (hashTab) {
+    switch (hashTab) {
+      case PersonalTabType.SHEETS:
+        return PersonalTabType.CABINET
+      default:
+        return hashTab
+    }
+  }
 
   const tab = localStorage.getItem(LS_PERSONAL_TAB)
-  return tab === null ? TabType.START_GUIDE : tab
+  return tab === null ? PersonalTabType.START_GUIDE : tab
 }
 
 const Header = ({ tabState }) => (
   <Row className={styles.header}>
-    <Tab tab={TabType.START_GUIDE} tabState={tabState} />
-    <Tab tab={TabType.CABINET} tabState={tabState} className={styles.cabinet} />
+    <Tab tab={PersonalTabType.START_GUIDE} tabState={tabState} />
+    <Tab
+      tab={PersonalTabType.CABINET}
+      tabState={tabState}
+      className={styles.cabinet}
+      as={HashLink}
+      to='#san-sheets'
+    />
     <Toggle
       className={styles.toggle}
       isActive={tabState[0]}
-      onClick={() => tabState[1](toggleVisibility)}
+      onClick={() => tabState[1](toggleVisibility())}
     />
   </Row>
 )
@@ -61,7 +84,7 @@ const Personal = () => {
     () => {
       saveTab(activeTab)
 
-      const hash = TabHash[activeTab] || ''
+      const hash = PersonalTabHashes[activeTab] || ''
       history.replace(window.location.pathname + hash)
     },
     [activeTab]
