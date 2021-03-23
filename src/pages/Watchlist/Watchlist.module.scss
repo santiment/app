@@ -1,13 +1,7 @@
 @import '~@santiment-network/ui/mixins.scss';
 
-.watchlist {
-  background: var(--white);
-  min-height: calc(100vh - 70px);
-  overflow-x: hidden;
-}
-
 .top {
-  background: var(--white);
+  background-color: var(--white);
 }
 
 .left {

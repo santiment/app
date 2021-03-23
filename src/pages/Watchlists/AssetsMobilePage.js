@@ -93,7 +93,6 @@ const AssetsMobilePage = props => {
           isCurrentUserTheAuthor,
           isPublicWatchlist,
           items = [],
-          isMonitored,
           trendingAssets = []
         }) => {
           if (items !== currentItems) {
@@ -192,13 +191,7 @@ const AssetsMobilePage = props => {
                 </>
               )}
 
-              <AssetsTemplates
-                items={items}
-                isAuthor={isCurrentUserTheAuthor}
-                isPublic={isPublicWatchlist}
-                listId={listId}
-                title={title}
-              />
+              <AssetsTemplates items={items} watchlist={watchlist || {}} />
             </>
           )
         }}

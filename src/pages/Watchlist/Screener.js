@@ -12,9 +12,9 @@ import {
   DEFAULT_ORDER_BY,
   DIRECTIONS
 } from '../../ducks/Watchlists/Widgets/Table/Columns/defaults'
-import { addRecentScreeners } from '../../utils/recent'
 import { SCREENER } from '../../ducks/Watchlists/detector'
 import { tableQuery } from '../../ducks/Watchlists/gql'
+import { useRecent } from '../../ducks/Watchlists/gql/list/hooks'
 import { getColumns } from '../../ducks/Watchlists/Widgets/Table/Columns/builder'
 import { useUpdateWatchlist } from '../../ducks/Watchlists/gql/list/mutations'
 import {
@@ -34,6 +34,7 @@ const Screener = ({
   history,
   id
 }) => {
+  useRecent(watchlist, SCREENER)
   const defaultPagination = { page: 1, pageSize: +pageSize }
   const [pagination, setPagination] = useState(defaultPagination)
   const [orderBy, setOrderBy] = useState(DEFAULT_ORDER_BY)
@@ -94,15 +95,6 @@ const Screener = ({
     [screenerFn]
   )
 
-  useEffect(
-    () => {
-      if (id) {
-        addRecentScreeners(id)
-      }
-    },
-    [id]
-  )
-
   function updateWatchlistFunction (fn) {
     if (watchlist.id) {
       updateWatchlist(watchlist, { function: fn })
@@ -145,15 +137,6 @@ const Screener = ({
     [activeColumns]
   )
 
-  // temporal solution @haritonasty 18 Jan, 2021
-  const allItems = useMemo(
-    () =>
-      watchlist.listItems
-        ? watchlist.listItems.map(item => item.project)
-        : assets,
-    [watchlist]
-  )
-
   return (
     <>
       <TopPanel
@@ -173,7 +156,6 @@ const Screener = ({
 
       {!loading && (
         <Infographics
-          assets={allItems}
           widgets={widgets}
           setWidgets={setWidgets}
           listId={isDefaultScreener ? DEFAULT_SCREENER_ID : id}
@@ -183,7 +165,6 @@ const Screener = ({
 
       <AssetsTable
         items={assets}
-        allItems={allItems}
         projectsCount={projectsCount}
         loading={tableLoading}
         type={SCREENER}
