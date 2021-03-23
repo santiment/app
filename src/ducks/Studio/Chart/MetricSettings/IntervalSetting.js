@@ -15,12 +15,17 @@ const IntervalSetting = ({
   metric,
   widget,
   interval: chartInterval,
+  MetricNode,
   from,
   to,
   rerenderWidgets
 }) => {
   const { activeRef, close, Dropdown } = useDropdown()
-  const candlesMinIntervalGetter = useCandlesMinIntervalGetter(from, to)
+  const candlesMinIntervalGetter = useCandlesMinIntervalGetter(
+    MetricNode[metric.key],
+    from,
+    to
+  )
   const intervals = useMetricIntervals(metric, candlesMinIntervalGetter)
   const interval = useMemo(
     () => {

@@ -181,6 +181,7 @@ const Chart = ({
             scale={scale}
             brushData={allTimeData}
             MetricColor={MetricColor}
+            MetricNode={MetricNode}
             ErrorMsg={ErrorMsg}
             shareLink={shareLink}
             drawings={widget.drawings}
@@ -225,6 +226,7 @@ const Chart = ({
           widget={widget}
           from={settings.from}
           to={settings.to}
+          MetricNode={MetricNode}
           toggleMetric={onMetricRemove}
           rerenderWidgets={rerenderWidgets}
         />
