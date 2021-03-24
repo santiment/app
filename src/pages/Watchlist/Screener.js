@@ -16,7 +16,6 @@ import {
   DEFAULT_SCREENER_FN,
   DEFAULT_SCREENER_ID
 } from '../../ducks/Screener/utils'
-import styles from './Screener.module.scss'
 
 const Screener = ({
   watchlist,
@@ -136,7 +135,6 @@ const Screener = ({
           widgets={widgets}
           setWidgets={setWidgets}
           listId={isDefaultScreener ? DEFAULT_SCREENER_ID : id}
-          className={styles.infographics}
         />
       )}
 

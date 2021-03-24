@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import { ProjectsTreeMap } from '../../../ducks/Watchlists/Widgets/VolumeChart/ProjectsTreeMap'
 import {
   INFOGRAPHICS,
@@ -36,7 +37,7 @@ const Infographics = ({
   const { onChangeSettings } = useScreenerUrlUpdaters(widgets, setWidgets)
 
   return (
-    <div className={className}>
+    <div className={cx(styles.wrapper, className)}>
       {isPriceTreeMap && (
         <div className={styles.treeMaps}>
           <ProjectsTreeMap

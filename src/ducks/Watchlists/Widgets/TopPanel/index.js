@@ -36,7 +36,12 @@ const TopPanel = ({
 
   return (
     <section
-      className={cx(styles.wrapper, isFilterOpen && styles.open, className)}
+      className={cx(
+        styles.wrapper,
+        isFilterOpen && styles.open,
+        type !== SCREENER && styles.light,
+        className
+      )}
     >
       <div className={styles.row}>
         <Title

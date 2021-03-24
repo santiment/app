@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
+import Button from '@santiment-network/ui/Button'
 import Copy from '../../../Actions/Copy'
+import { PROJECT } from '../../../detector'
 import SaveAs from '../../../Actions/SaveAs'
-import DownloadCSV from '../../../Actions/DownloadCSV'
+import ColumnsToggler from '../Columns/Toggler'
 import CompareInfo from '../CompareInfo/CompareInfo'
+import { useIsAuthor } from '../../../gql/list/hooks'
+import DownloadCSV from '../../../Actions/DownloadCSV'
 import CompareAction from '../CompareInfo/CompareAction'
+import EditAssets from '../../../Actions/Edit/EditAssets'
 import Refresh from '../../../../../components/Refresh/Refresh'
 import ProPopupWrapper from '../../../../../components/ProPopup/Wrapper'
 import ExplanationTooltip from '../../../../../components/ExplanationTooltip/ExplanationTooltip'
-import { useIsAuthor } from '../../../gql/list/hooks'
-import ColumnsToggler from '../Columns/Toggler'
-import { PROJECT } from '../../../detector'
 import styles from './index.module.scss'
 
 const EMPTY_OBJ = {}
@@ -34,6 +36,18 @@ const TableTop = ({
 
   return (
     <div className={styles.wrapper}>
+      <EditAssets
+        name={watchlist.name}
+        id={watchlist.id}
+        watchlist={watchlist}
+        assets={items}
+        trigger={
+          <Button border accent='positive' className={styles.addassets}>
+            <Icon type='assets' className={styles.icon} />
+            Add assets
+          </Button>
+        }
+      />
       <Refresh
         timestamp={refreshTimestamp}
         isLoading={isLoading}

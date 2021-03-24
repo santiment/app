@@ -5,12 +5,6 @@ import { compose } from 'redux'
 import * as actions from './../../../../actions/types.js'
 import { sortBy } from '../../../../utils/sortMethods'
 
-export const SORT_TYPES = {
-  marketcap: 'marketcapUsd',
-  devActivity: 'averageDevActivity',
-  ethSpent: 'ethSpent'
-}
-
 const MAX_LOAD_SIZE = 1000000
 export const FIRST_LOAD_SIZE = 10
 
@@ -20,7 +14,7 @@ class GetAssets extends Component {
   }
 
   static defaultProps = {
-    sortBy: SORT_TYPES.marketcap,
+    sortBy: 'marketcapUsd',
     Assets: { items: [] }
   }
 

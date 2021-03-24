@@ -1,9 +1,8 @@
 import React from 'react'
-import { COLUMNS_NAMES } from '../../Watchlists/Widgets/Table/columns'
 import Checkbox from './index'
 
 export const CHECKBOX_COLUMN = {
-  id: COLUMNS_NAMES.checkboxes,
+  id: 'Checkboxes',
   Header: ({ getToggleAllRowsSelectedProps }) => (
     <Checkbox {...getToggleAllRowsSelectedProps()} />
   ),

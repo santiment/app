@@ -1,5 +1,11 @@
 @import '~@santiment-network/ui/mixins';
 
+.wrapper {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+}
+
 .loading {
   height: 70vh;
 }

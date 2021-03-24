@@ -12,7 +12,6 @@ import {
 } from '../../ducks/Watchlists/gql/hooks'
 import { buildFunctionQuery } from '../../ducks/Watchlists/Widgets/Filter/utils'
 import AssetsTemplates from '../../ducks/Watchlists/Widgets/Table/AssetsTemplates'
-import styles from './Watchlist.module.scss'
 
 const WatchlistPage = ({ location, history, watchlist }) => {
   const fn = useMemo(
@@ -85,7 +84,6 @@ const WatchlistPage = ({ location, history, watchlist }) => {
         type={PROJECT}
         widgets={widgets}
         setWidgets={setWidgets}
-        className={styles.top}
         watchlist={watchlist}
       />
       <Infographics
