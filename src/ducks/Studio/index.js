@@ -24,13 +24,24 @@ import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
 import { Metric } from '../dataHub/metrics'
 import { NEW_METRIC_KEY_SET, seeMetric } from '../dataHub/metrics/news'
 import { usePressedModifier } from '../../hooks/keyboard'
+import {
+  HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE,
+  HOLDER_DISTRIBUTION_NODE
+} from './Sidebar/nodes'
+import {
+  HolderDistributionCombinedBalanceAbsoluteMetric,
+  HolderDistributionMetric
+} from './Chart/Sidepanel/HolderDistribution/metrics'
+import { FeesDistributionMetric } from '../dataHub/submetrics'
+import FeesDistribution from './FeesDistribution/FeesDistribution'
 import styles from './index.module.scss'
 
 export const Studio = ({
   defaultWidgets,
   defaultSidepanel,
   defaultSettings = DEFAULT_SETTINGS,
-  Extensions
+  Extensions,
+  ...props
 }) => {
   const [widgets, setWidgets] = useState(defaultWidgets)
   const [settings, setSettings] = useState(defaultSettings)
@@ -181,9 +192,17 @@ export const Studio = ({
       const scrollIntoView = {
         scrollIntoViewOnMount: true
       }
-      if (key === 'holder_distribution') {
+      if (
+        key === HOLDER_DISTRIBUTION_NODE.key ||
+        key === HolderDistributionMetric.holders_distribution_1_to_10.key
+      ) {
         setWidgets([...widgets, HolderDistributionWidget.new(scrollIntoView)])
-      } else if (key === 'holder_distribution_combined_balance') {
+      } else if (
+        key === HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE.key ||
+        key ===
+          HolderDistributionCombinedBalanceAbsoluteMetric
+            .holders_distribution_combined_balance_1_to_10.key
+      ) {
         setWidgets([
           ...widgets,
           HolderDistributionCombinedBalanceWidget.new(scrollIntoView)
@@ -195,6 +214,8 @@ export const Studio = ({
           ...widgets,
           AdjustedPriceDAADivergenceWidget.new(scrollIntoView)
         ])
+      } else if (item === FeesDistributionMetric) {
+        setWidgets([...widgets, FeesDistribution.new(scrollIntoView)])
       }
     } else {
       appliedMetrics = toggleSelectionMetric(item, project)
@@ -305,6 +326,7 @@ export const Studio = ({
           widgets={widgets}
           settings={settings}
           sidepanel={sidepanel}
+          shortUrlHashState={props.shortUrlHashState}
           isICOPriceActive={isICOPriceActive}
           isOverviewOpened={isOverviewOpened}
           // fn
@@ -337,10 +359,12 @@ export const Studio = ({
         )}
       </main>
       <Extensions
+        {...props}
         widgets={widgets}
         settings={settings}
         sidepanel={sidepanel}
         setSettings={setSettings}
+        setWidgets={setWidgets}
       />
     </div>
   )

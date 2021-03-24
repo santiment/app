@@ -1,5 +1,5 @@
 import React from 'react'
-import Erc20DashChart from '../../../components/DashboardMetricChart/Erc20DashChart/Erc20DashChart'
+import DashboardProjectChart from '../../../components/DashboardMetricChart/DashboardProjectChart/DashboardProjectChart'
 
 function makeMetric (key, label) {
   return {
@@ -37,6 +37,8 @@ const metricsBuilder = ({ slug }) => {
   })
 }
 
-const LabelBalances = () => <Erc20DashChart metricsBuilder={metricsBuilder} />
+const LabelBalances = () => (
+  <DashboardProjectChart metricsBuilder={metricsBuilder} />
+)
 
 export default LabelBalances

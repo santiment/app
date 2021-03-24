@@ -1,12 +1,8 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
-import {
-  DEFAULT_SCREENER_FUNCTION as DEFAULT_FUNC,
-  useScreenerUrl
-} from '../../ducks/Watchlists/utils'
+import { useScreenerUrl } from '../../ducks/Watchlists/utils'
 import {
   getProjectsByFunction,
-  getAssetsByFunction,
-  useUpdateWatchlist
+  getAssetsByFunction
 } from '../../ducks/Watchlists/gql/hooks'
 import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
 import AssetsTable from '../../ducks/Watchlists/Widgets/Table'
@@ -17,10 +13,14 @@ import {
   DIRECTIONS
 } from '../../ducks/Watchlists/Widgets/Table/Columns/defaults'
 import { addRecentScreeners } from '../../utils/recent'
-import { useUser } from '../../stores/user'
+import { SCREENER } from '../../ducks/Watchlists/detector'
 import { tableQuery } from '../../ducks/Watchlists/gql'
-import { DEFAULT_SCREENER_ID } from '../../ducks/Watchlists/gql/queries'
 import { getColumns } from '../../ducks/Watchlists/Widgets/Table/Columns/builder'
+import { useUpdateWatchlist } from '../../ducks/Watchlists/gql/list/mutations'
+import {
+  DEFAULT_SCREENER_FN,
+  DEFAULT_SCREENER_ID
+} from '../../ducks/Screener/utils'
 import styles from './Screener.module.scss'
 
 const pageSize = 20
@@ -28,13 +28,11 @@ const EMPTY_ARRAY = []
 
 const Screener = ({
   watchlist,
-  name,
   isLoggedIn,
   isDefaultScreener,
   location,
   history,
-  id,
-  isLoading
+  id
 }) => {
   const defaultPagination = { page: 1, pageSize: +pageSize }
   const [pagination, setPagination] = useState(defaultPagination)
@@ -43,21 +41,17 @@ const Screener = ({
   const activeColumns = useMemo(() => getColumns(activeColumnsKeys), [
     activeColumnsKeys
   ])
-  const [updateWatchlist, { loading: isUpdating }] = useUpdateWatchlist()
-  const [screenerFunc, setScreenerFunc] = useState(
-    watchlist.function || DEFAULT_FUNC
+  const [updateWatchlist, { loading: isUpdating }] = useUpdateWatchlist(
+    SCREENER
+  )
+  const [screenerFn, setScreenerFn] = useState(
+    watchlist.function || DEFAULT_SCREENER_FN
   )
   const { assets, projectsCount, loading } = getProjectsByFunction(
     ...buildFunctionQuery()
   )
-  const { user = {}, loading: userLoading } = useUser()
   const [tableLoading, setTableLoading] = useState(true)
   const { widgets, setWidgets } = useScreenerUrl({ location, history })
-  const AppElem = document.getElementsByClassName('App')[0]
-
-  if (AppElem) {
-    AppElem.classList.add('list-container')
-  }
 
   useEffect(
     () => {
@@ -79,13 +73,13 @@ const Screener = ({
 
   useEffect(
     () => {
-      const func = watchlist.function
-      if (func !== screenerFunc) {
-        if (!func && screenerFunc === DEFAULT_FUNC) {
+      const fn = watchlist.function
+      if (fn !== screenerFn) {
+        if (!fn && screenerFn === DEFAULT_SCREENER_FN) {
           return
         }
 
-        setScreenerFunc(func)
+        setScreenerFn(fn)
       }
     },
     [watchlist.function]
@@ -97,7 +91,7 @@ const Screener = ({
         setPagination({ ...pagination, page: 1 })
       }
     },
-    [screenerFunc]
+    [screenerFn]
   )
 
   useEffect(
@@ -109,15 +103,15 @@ const Screener = ({
     [id]
   )
 
-  function updateWatchlistFunction (func) {
+  function updateWatchlistFunction (fn) {
     if (watchlist.id) {
-      updateWatchlist(watchlist, { function: func })
+      updateWatchlist(watchlist, { function: fn })
     }
   }
 
   function buildFunctionQuery () {
     return [
-      buildFunction({ func: screenerFunc, pagination, orderBy }),
+      buildFunction({ fn: screenerFn, pagination, orderBy }),
       tableQuery(activeColumns)
     ]
   }
@@ -151,7 +145,6 @@ const Screener = ({
     [activeColumns]
   )
 
-  const title = watchlist.name || name || 'My screener'
   // temporal solution @haritonasty 18 Jan, 2021
   const allItems = useMemo(
     () =>
@@ -161,28 +154,21 @@ const Screener = ({
     [watchlist]
   )
 
-  const isAuthor = user && watchlist.user && watchlist.user.id === user.id
-
   return (
     <>
       <TopPanel
-        name={title}
-        description={(watchlist || {}).description}
-        id={id}
+        type={SCREENER}
+        watchlist={watchlist}
         projectsCount={projectsCount}
         loading={tableLoading}
-        watchlist={watchlist}
-        isAuthor={isAuthor}
-        isAuthorLoading={userLoading || isLoading}
         isLoggedIn={isLoggedIn}
-        screenerFunction={screenerFunc}
-        setScreenerFunction={setScreenerFunc}
+        screenerFunction={screenerFn}
+        setScreenerFunction={setScreenerFn}
         isUpdatingWatchlist={isUpdating}
         updateWatchlistFunction={updateWatchlistFunction}
         isDefaultScreener={isDefaultScreener}
         widgets={widgets}
         setWidgets={setWidgets}
-        type='screener'
       />
 
       {!loading && (
@@ -200,8 +186,8 @@ const Screener = ({
         allItems={allItems}
         projectsCount={projectsCount}
         loading={tableLoading}
-        type='screener'
-        listName={title}
+        type={SCREENER}
+        listName={watchlist.name}
         watchlist={watchlist}
         fetchData={fetchData}
         refetchAssets={refetchAssets}
@@ -209,7 +195,6 @@ const Screener = ({
         activeColumns={activeColumns}
         setOrderBy={setOrderBy}
         updateActiveColumnsKeys={setActiveColumnsKeys}
-        isAuthor={isAuthor}
         pageSize={pagination.pageSize}
         pageIndex={pagination.page - 1}
         onChangePage={pageIndex =>

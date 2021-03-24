@@ -21,7 +21,8 @@ export const insights = [
       slug: 'bitcoin',
       ticker: 'BTC',
       from: '2020-06-08T22:00:00.000Z',
-      to: '2020-12-09T22:59:59.999Z'
+      to: '2020-12-09T22:59:59.999Z',
+      interval: '1d'
     }
   },
   {
@@ -32,7 +33,8 @@ export const insights = [
       slug: 'ethereum',
       ticker: 'ETH',
       from: '2020-06-08T22:00:00.000Z',
-      to: '2020-12-09T22:59:59.999Z'
+      to: '2020-12-09T22:59:59.999Z',
+      interval: '1d'
     }
   },
 
@@ -44,7 +46,8 @@ export const insights = [
       slug: 'yearn-finance',
       ticker: 'YFI',
       from: '2020-10-22T16:00:00.000Z',
-      to: '2020-12-12T04:00:00.000Z'
+      to: '2020-12-12T04:00:00.000Z',
+      interval: '1d'
     }
   },
 
@@ -57,7 +60,8 @@ export const insights = [
       slug: 'chainlink',
       ticker: 'LINK',
       from: '2020-06-08T22:00:00.000Z',
-      to: '2020-12-09T22:59:59.999Z'
+      to: '2020-12-09T22:59:59.999Z',
+      interval: '1d'
     }
   },
 
@@ -69,7 +73,8 @@ export const insights = [
       slug: 'uniswap',
       ticker: 'UNI',
       from: '2020-10-22T16:00:00.000Z',
-      to: '2020-12-12T04:00:00.000Z'
+      to: '2020-12-12T04:00:00.000Z',
+      interval: '1d'
     }
   }
 ]

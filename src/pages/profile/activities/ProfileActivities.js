@@ -5,13 +5,20 @@ import PublicInsights from '../insights/PublicInsights'
 import PublicWatchlists from '../watchlists/PublicWatchlists'
 import { useUserTemplates } from '../../../ducks/Studio/Template/gql/hooks'
 import ProfileTemplates from '../templates/ProfileTemplates'
-import { isStaticWatchlist } from '../../../ducks/Watchlists/utils'
+import ProjectCard from '../../../ducks/Watchlists/Cards/ProjectCard'
+import AddressCard from '../../../ducks/Watchlists/Cards/AddressCard'
+import {
+  checkIsNotScreener,
+  checkIsScreener
+} from '../../../ducks/Screener/utils'
 import styles from './ProfileActivities.module.scss'
 
+const ARRAY = []
 const STEPS = {
   INSIGHTS: '#insights',
   SIGNALS: '#signals',
   WATCHLISTS: '#watchlists',
+  ADDRESSES_WATCHLISTS: '#addresses-watchlists',
   SCREENERS: '#screeners',
   CHART_LAYOUTS: '#chart-layouts'
 }
@@ -20,13 +27,19 @@ const Counter = ({ value }) => {
   return <div className={styles.counter}>({value})</div>
 }
 
-const ProfileActivities = ({ profile }) => {
-  const { id: profileId, insightsCount, triggers, watchlists = [] } = profile
-
+const ProfileActivities = ({
+  profile: {
+    id: profileId,
+    insightsCount,
+    triggers,
+    watchlists = ARRAY,
+    addressesWatchlists = ARRAY
+  }
+}) => {
   const [step, setStep] = useState(window.location.hash || STEPS.INSIGHTS)
   const [templates] = useUserTemplates(profileId)
-  const staticWatchlists = watchlists.filter(isStaticWatchlist)
-  const screeners = watchlists.filter(item => !isStaticWatchlist(item))
+  const screeners = watchlists.filter(checkIsScreener)
+  const projectWatchlists = watchlists.filter(checkIsNotScreener)
 
   const goTo = val => {
     window.location.hash = val
@@ -49,7 +62,16 @@ const ProfileActivities = ({ profile }) => {
           )}
           onClick={() => goTo(STEPS.WATCHLISTS)}
         >
-          Watchlists <Counter value={staticWatchlists.length} />
+          Watchlists <Counter value={projectWatchlists.length} />
+        </div>
+        <div
+          className={cx(
+            styles.link,
+            step === STEPS.ADDRESSES_WATCHLISTS && styles.active
+          )}
+          onClick={() => goTo(STEPS.ADDRESSES_WATCHLISTS)}
+        >
+          Addresses Watchlists <Counter value={addressesWatchlists.length} />
         </div>
         <div
           className={cx(styles.link, step === STEPS.SCREENERS && styles.active)}
@@ -79,10 +101,20 @@ const ProfileActivities = ({ profile }) => {
           <PublicSignals userId={profileId} data={triggers} />
         )}
         {step === STEPS.WATCHLISTS && (
-          <PublicWatchlists userId={profileId} data={staticWatchlists} />
+          <PublicWatchlists watchlists={projectWatchlists} Card={ProjectCard} />
+        )}
+        {step === STEPS.ADDRESSES_WATCHLISTS && (
+          <PublicWatchlists
+            watchlists={addressesWatchlists}
+            Card={AddressCard}
+          />
         )}
         {step === STEPS.SCREENERS && (
-          <PublicWatchlists userId={profileId} data={screeners} />
+          <PublicWatchlists
+            watchlists={screeners}
+            path='/screener/'
+            Card={ProjectCard}
+          />
         )}
         {step === STEPS.CHART_LAYOUTS && (
           <ProfileTemplates userId={profileId} data={templates} />

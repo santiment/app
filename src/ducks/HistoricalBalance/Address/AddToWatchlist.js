@@ -1,21 +1,16 @@
 import React from 'react'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
-import AddToWatchlistDialog from '../../Watchlists/Actions/Add/Add'
-import { useAddressWatchlists } from '../../Watchlists/gql/queries'
-import {
-  updateWatchlistShort,
-  createAddressesWatchlist
-} from '../../Watchlists/gql/mutations'
 import { Infrastructure } from '../../../utils/address'
+import AddToWatchlistDialog from '../../Watchlists/Actions/Add/Add'
+import { useAddressWatchlists } from '../../Watchlists/gql/lists/hooks'
+import { updateWatchlistShort } from '../../Watchlists/gql/list/mutations'
 import styles from './index.module.scss'
 
-export const createWatchlist = (watchlist, setDialog) =>
-  createAddressesWatchlist(watchlist).then(() => setDialog(false))
 const updateWatchlist = ({ id, listItems }) =>
   updateWatchlistShort({ id: +id, listItems })
 
-const AddToWatchlist = ({ address, infrastructure }) => {
+const AddToWatchlist = ({ address, infrastructure, note }) => {
   function checkIsListItemTheAddress ({ blockchainAddress }) {
     return blockchainAddress.address === address
   }
@@ -29,6 +24,7 @@ const AddToWatchlist = ({ address, infrastructure }) => {
       blockchainAddress: {
         address,
         infrastructure,
+        notes: note,
         __typename: 'BlockchainAddress'
       },
       __typename: 'ListItem'
@@ -52,12 +48,11 @@ const AddToWatchlist = ({ address, infrastructure }) => {
           className={styles.btn}
           disabled={infrastructure !== Infrastructure.ETH}
         >
-          <Icon type='copy' className={styles.btn__icon} />
+          <Icon type='plus-round' className={styles.btn__icon} />
           Add to Watchlist
         </Button>
       }
       getWatchlists={useAddressWatchlists}
-      createWatchlist={createWatchlist}
       checkIsWatchlistSelected={checkIsSelected}
       onChangesApply={onChangesApply}
     />

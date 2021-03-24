@@ -172,7 +172,7 @@ export const TriggerForm = ({
         }
 
         const isValidForm =
-          isValid || !errors || Object.keys(errors).length === 0
+          isValid || (!errors || Object.keys(errors).length === 0)
 
         const showDivider = showTypes || metricValueBlocks
 
@@ -351,8 +351,8 @@ export const TriggerForm = ({
 
               <Button
                 type='submit'
-                disabled={!isValidForm || isSubmitting}
-                isActive={isValidForm && !isSubmitting}
+                disabled={!isValidForm}
+                isActive={isValidForm}
                 variant={'fill'}
                 accent='positive'
                 className={styles.submitButton}

@@ -8,26 +8,29 @@ import styles from './Widgets.module.scss'
 
 const RANGE_SELECT_SENSITIVITY = 7
 
-const Widget = ({ widget, index, datesRange, ...props }) => (
-  <>
-    <widget.Widget {...props} widget={widget} index={index} />
+const Widget = ({ widget, index, datesRange, ...props }) => {
+  return (
+    <>
+      <widget.Widget {...props} widget={widget} index={index} />
 
-    {widget.connectedWidgets.map(connectedWidget => (
-      <connectedWidget.Widget
-        {...props}
-        key={connectedWidget.id}
-        widget={connectedWidget}
-        parentWidget={widget}
-        datesRange={datesRange}
-      />
-    ))}
-  </>
-)
+      {widget.connectedWidgets.map(connectedWidget => (
+        <connectedWidget.Widget
+          {...props}
+          key={connectedWidget.id}
+          widget={connectedWidget}
+          parentWidget={widget}
+          datesRange={datesRange}
+        />
+      ))}
+    </>
+  )
+}
 
 const Chart = ({
   settings,
   widgets,
   sidepanel,
+  shortUrlHashState,
   isOverviewOpened,
   setWidgets,
   toggleSidepanel,
@@ -95,6 +98,7 @@ const Chart = ({
         widgets={widgets}
         sidepanel={sidepanel}
         metrics={allMetrics}
+        shortUrlHash={shortUrlHashState && shortUrlHashState[0]}
         isOverviewOpened={isOverviewOpened}
         setWidgets={setWidgets}
         changeTimePeriod={changeTimePeriod}

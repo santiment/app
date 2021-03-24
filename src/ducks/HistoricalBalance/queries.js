@@ -7,6 +7,7 @@ export const WALLET_ASSETS_QUERY = gql`
     ) {
       slug
       balance
+      balanceUsd
     }
   }
 `
@@ -18,6 +19,7 @@ export const ADDRESS_QUERY = gql`
     ) {
       id
       commentsCount
+      notes
       labels {
         name
         origin
@@ -33,6 +35,7 @@ export const RECENT_TRANSACTIONS_QUERY = gql`
       page: $page
       pageSize: $pageSize
       type: ERC20
+      onlySender: false
     ) {
       datetime
       fromAddress {

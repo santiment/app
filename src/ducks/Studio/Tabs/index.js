@@ -1,6 +1,5 @@
 import React from 'react'
 import { NavLink, withRouter } from 'react-router-dom'
-import { NewLabelTemplate } from '../../../components/NewLabel/NewLabel'
 import styles from './index.module.scss'
 
 const TABS = [
@@ -15,16 +14,6 @@ const TABS = [
   {
     path: '/related-insights',
     labelFormatter: name => (name ? `${name} Insights` : 'Insights')
-  },
-  {
-    path: '/fees-distribution',
-    label: (
-      <>
-        Fees Distribution
-        <NewLabelTemplate className={styles.new} />
-      </>
-    ),
-    checkVisibility: ({ slug }) => slug === 'ethereum'
   }
 ]
 

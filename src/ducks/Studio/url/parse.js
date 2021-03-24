@@ -80,7 +80,8 @@ function parseColors (
   colors = {},
   project,
   SharedKeyIndicator,
-  SharedKeyComparable
+  SharedKeyComparable,
+  SharedKeyMergedHolder
 ) {
   const Colors = {}
 
@@ -90,7 +91,10 @@ function parseColors (
       : getMetricByKey(key) && key
 
     if (!metricKey) {
-      const sharedMetric = SharedKeyIndicator[key] || SharedKeyComparable[key]
+      const sharedMetric =
+        SharedKeyIndicator[key] ||
+        SharedKeyComparable[key] ||
+        SharedKeyMergedHolder[key]
       metricKey = sharedMetric
         ? sharedMetric.key
         : buildProjectMetricKey(project, { key })
@@ -265,7 +269,8 @@ export function parseSharedWidgets (sharedWidgets, project) {
           colors,
           project,
           SharedKeyIndicator,
-          SharedKeyComparable
+          SharedKeyComparable,
+          SharedKeyMergedHolder
         ),
         MetricSettingMap: parseMetricSetting(
           settings,

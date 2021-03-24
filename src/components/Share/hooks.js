@@ -9,12 +9,13 @@ export function getCurrentPath () {
   return pathname + search
 }
 
-export function useShortShareLink () {
+export function useShortShareLink (staticPath) {
   const [shortShareLink, setShortShareLink] = useState('')
   const cache = useRef({}).current
 
   function getShortShareLink (path) {
-    const currentPath = typeof path === 'string' ? path : getCurrentPath()
+    const currentPath =
+      typeof path === 'string' ? path : staticPath || getCurrentPath()
     const cachedLink = cache[currentPath]
 
     if (cachedLink) {

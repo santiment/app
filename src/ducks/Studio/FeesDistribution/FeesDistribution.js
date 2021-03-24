@@ -11,6 +11,7 @@ import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import MakeProSubscriptionCard from '../../../pages/feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
 import { getTimePeriod } from '../../../pages/TrendsExplore/utils'
 import DaysSelector from './DaySelector'
+import ChartWidget from '../Widget/ChartWidget'
 import styles from './FeesDistribution.module.scss'
 
 export const FEE_RANGES = [
@@ -51,21 +52,13 @@ const useFeeDistributions = ({ from, to }) => {
   }
 }
 
-export const FeesDistributionTitle = ({ setInterval }) => {
-  return (
-    <BlockHeader
-      setInterval={setInterval}
-      defaultIndex={1}
-      ranges={FEE_RANGES}
-      title='Fees Distribution'
-    />
-  )
-}
-
-const FeesDistribution = ({ onDisable }) => {
+const FeesDistribution = ({ onDisable, deleteWidget, widget }) => {
   const [interval, setInterval] = useState('1d')
-  const [customDate, setCustomDate] = useState(null)
   const [settings, setSettings] = useState(formIntervalSettings(interval))
+
+  function onCloseClick () {
+    deleteWidget(widget)
+  }
 
   useEffect(
     () => {
@@ -78,10 +71,13 @@ const FeesDistribution = ({ onDisable }) => {
 
   return (
     <>
-      <FeesDistributionTitle
+      <BlockHeader
         setInterval={setInterval}
-        interval={interval}
-        customDate={customDate}
+        defaultIndex={1}
+        ranges={FEE_RANGES}
+        title='Fees Distribution'
+        className={styles.header}
+        onCloseClick={onCloseClick}
       />
       {isPro ? (
         <FeesDistributionChart
@@ -89,7 +85,6 @@ const FeesDistribution = ({ onDisable }) => {
           settings={settings}
           interval={interval}
           onDisable={onDisable}
-          onChangePeriod={setCustomDate}
         />
       ) : (
         <MakeProSubscriptionCard />
@@ -102,8 +97,7 @@ export const FeesDistributionChart = ({
   className,
   settings,
   onDisable,
-  interval,
-  onChangePeriod
+  interval
 }) => {
   const [selectedPeriod, setSelectedPeriod] = useState(null)
   const { data, loading, error } = useFeeDistributions(
@@ -127,7 +121,6 @@ export const FeesDistributionChart = ({
     () => {
       if (interval !== '1d' && selectedPeriod) {
         setSelectedPeriod(null)
-        onChangePeriod(null)
       }
     },
     [interval]
@@ -140,7 +133,6 @@ export const FeesDistributionChart = ({
 
   function changeDay (date) {
     setSelectedPeriod(getTimePeriod(date))
-    onChangePeriod(date)
   }
 
   return (
@@ -163,5 +155,15 @@ export const FeesDistributionChart = ({
     </div>
   )
 }
+
+FeesDistribution.new = props =>
+  ChartWidget.new(
+    {
+      mergedMetrics: [],
+      metrics: [],
+      ...props
+    },
+    FeesDistribution
+  )
 
 export default FeesDistribution

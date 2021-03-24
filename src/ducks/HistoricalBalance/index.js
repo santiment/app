@@ -3,10 +3,10 @@ import cx from 'classnames'
 import { ASSETS_LIMIT, withDefaults } from './defaults'
 import { useSettings, useWalletAssets } from './hooks'
 import Chart from './Chart'
-import Sankey from './Sankey'
 import AddressSetting from './Address'
 import Comments from './Comments'
-import LatestTransactions from './LatestTransactions/index.js'
+import LatestTransactions from './LatestTransactions'
+import Sankey from './Sankey'
 import { withSizes, DesktopOnly } from '../../components/Responsive'
 import { Infrastructure } from '../../utils/address'
 import styles from './index.module.scss'
@@ -72,12 +72,15 @@ const HistoricalBalance = ({
       <AddressSetting
         className={isPhone && styles.address_phone}
         settings={settings}
+        walletAssets={walletAssets}
         chartAssets={chartAssets}
         isError={isError}
         onAddressChange={onAddressChange}
       />
 
       <Chart
+        className={styles.chart}
+        canvasClassName={styles.canvas}
         height={isPhone ? 340 : 450}
         settings={settings}
         chartAssets={chartAssets}
@@ -90,13 +93,13 @@ const HistoricalBalance = ({
         changeTimePeriod={changeTimePeriod}
         setChartAssets={updateChartAssets}
         setIsLog={setIsLog}
-      />
-
-      <DesktopOnly>
-        {settings.infrastructure === Infrastructure.ETH && (
-          <Sankey settings={settings} />
-        )}
-      </DesktopOnly>
+      >
+        <DesktopOnly>
+          {settings.infrastructure === Infrastructure.ETH && (
+            <Sankey settings={settings} />
+          )}
+        </DesktopOnly>
+      </Chart>
 
       <div className={cx(styles.bottom, isPhone && styles.bottom_phone)}>
         <div className={styles.left}>

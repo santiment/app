@@ -11,10 +11,6 @@ export const TooltipSetting = {
       const { MMMM, DD, YYYY } = getDateFormats(date)
       return `${HH}:${mm}, ${MMMM} ${DD}, ${YYYY}`
     }
-  },
-  isAnomaly: {
-    label: 'Anomaly',
-    formatter: v => v
   }
 }
 

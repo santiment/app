@@ -86,7 +86,7 @@ const DexsPage = () => {
         <div className={externalStyles.inner}>
           <Block
             className={cx(externalStyles.firstBlock, styles.firstBlock)}
-            title='Volume of DEXs Trades'
+            title={ANCHORS.VolumeSegmented.label}
             tag={ANCHORS.VolumeSegmented.key}
           >
             <DexTradesSegmentedByDEX />
@@ -94,21 +94,21 @@ const DexsPage = () => {
 
           <Block
             tag={ANCHORS.DexByVolumeTrades.key}
-            title='Volume of Trades by DEXs'
+            title={ANCHORS.DexByVolumeTrades.label}
           >
             <NumberOfTradesPerDex metrics={DEX_VOLUME_METRICS} />
           </Block>
 
           <Block
             tag={ANCHORS.AmountSegmented.key}
-            title='Total Number of DEX Trades'
+            title={ANCHORS.AmountSegmented.label}
           >
             <DexTradesTotalNumber measurement={DEX_BY_USD} />
           </Block>
 
           <Block
             tag={ANCHORS.DexByAmountTrades.key}
-            title='Number of Trades Segmented by DEX'
+            title={ANCHORS.DexByAmountTrades.label}
           >
             <NumberOfTradesPerDex
               metrics={DEX_AMOUNT_METRICS}

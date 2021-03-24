@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import styles from './IndexTab.module.scss'
 import cx from 'classnames'
+import { SignalModal } from '../../pages/SonarFeed/SonarFeedPage'
+import styles from './IndexTab.module.scss'
 
 const IndexTab = ({ tabs }) => {
   const [activeTab, setTab] = useState(0)
@@ -11,23 +12,30 @@ const IndexTab = ({ tabs }) => {
   return (
     <>
       <div className={styles.header}>
-        {tabs.map((item, index) => {
-          if (!item) {
-            return null
-          }
+        <div className={styles.tabs}>
+          {tabs.map((item, index) => {
+            if (!item) {
+              return null
+            }
 
-          const { title } = item
+            const { title } = item
 
-          return (
-            <div
-              key={index}
-              className={cx(styles.title, index === activeTab && styles.active)}
-              onClick={() => setTab(index)}
-            >
-              {title}
-            </div>
-          )
-        })}
+            return (
+              <div
+                key={index}
+                className={cx(
+                  styles.title,
+                  index === activeTab && styles.active
+                )}
+                onClick={() => setTab(index)}
+              >
+                {title}
+              </div>
+            )
+          })}
+        </div>
+
+        <SignalModal canRedirect={false} />
       </div>
       {content}
     </>

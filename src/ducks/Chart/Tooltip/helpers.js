@@ -74,6 +74,7 @@ export function setupTooltip (chart, marker) {
       const index = getHoveredIndex(relativeX - left, pointWidth, points.length)
       const endPoint = points[index < 0 ? 0 : index]
 
+      clearCtx(chart, ctx)
       plotTooltip(chart, marker, endPoint)
       plotRangeSelection(chart, x, endPoint.x - x)
 

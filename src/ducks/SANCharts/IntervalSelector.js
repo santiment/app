@@ -71,6 +71,11 @@ export const formIntervalSettings = value => {
   }
 }
 
+export function getValidInterval (from, to) {
+  const interval = getNewInterval(from, to)
+  return INTERVAL_ALIAS[interval] || interval
+}
+
 const IntervalSelector = ({ from, to, interval, onIntervalChange }) => {
   const options = getAvailableIntervals(from, to)
 

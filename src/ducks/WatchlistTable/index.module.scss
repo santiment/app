@@ -1,5 +1,6 @@
-.wrapper {
-  --offset: var(--table-header-sticky-offset, 0);
+:root {
+  --list-top-panel-height: 64px;
+  --addresses-list-table-top-height: 52px;
 }
 
 .top,
@@ -12,9 +13,12 @@
   color: var(--waterloo);
   position: sticky;
   padding: 10px 32px;
-  top: var(--offset);
+  top: var(--list-top-panel-height);
   background: var(--white);
-  z-index: 1;
+  z-index: 2;
+  left: 0;
+  height: var(--addresses-list-table-top-height);
+  width: 100%;
 }
 
 .actions {
@@ -50,23 +54,59 @@
   }
 }
 
+.controls {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 22;
+}
+
+/* stylelint-disable */
 .table {
   :global {
     th {
       position: sticky;
-      top: calc(44px + var(--offset));
+      top: calc(
+        var(--list-top-panel-height) + var(--addresses-list-table-top-height)
+      );
+      z-index: 2;
 
       &:first-child {
         line-height: 0;
       }
     }
 
+    td {
+      background: var(--white);
+    }
+
     tbody tr {
       height: 54px;
 
-      &:hover {
+      &:hover td {
         background: var(--athens);
       }
     }
+
+    th:nth-child(3) {
+      z-index: 3;
+    }
+
+    th,
+    td {
+      &:nth-child(3) {
+        position: sticky;
+        left: 0;
+      }
+    }
   }
+}
+/* stylelint-enable */
+
+.add {
+  color: var(--rhino) !important;
+}
+
+.icon {
+  margin-right: 8px;
 }

@@ -173,7 +173,7 @@ HolderDistribution.defaultProps = {
   TabMetrics,
   mergedMetrics: [],
   currentPhase: 'idle',
-  header: 'Holders Distribution'
+  header: 'Supply Distribution'
 }
 
 export default HolderDistribution

@@ -2,8 +2,7 @@
 
 .wrapper {
   display: flex;
-  background: var(--athens);
-  padding: 16px 24px;
+  flex-wrap: wrap;
 }
 
 .top,
@@ -13,6 +12,7 @@
 
 .top {
   flex-direction: column;
+  position: relative;
 }
 
 .bottom {
@@ -33,8 +33,13 @@
 
 .btn {
   background: transparent;
-  fill: var(--waterloo);
+  fill: var(--casper);
   white-space: nowrap;
+
+  &:hover {
+    background: var(--athens);
+    fill: var(--waterloo);
+  }
 
   &__icon {
     margin-right: 8px;
@@ -51,4 +56,43 @@
 .actions {
   display: flex;
   margin: 16px 0 0 16px;
+}
+
+.widget {
+  margin-left: 72px;
+
+  @media only screen and (max-width: 1360px) {
+    margin-left: 24px;
+  }
+}
+
+.widgets {
+  display: flex;
+
+  @media only screen and (max-width: 1260px) {
+    flex-basis: 100%;
+    margin-top: 24px;
+    justify-content: space-between;
+
+    .widget {
+      flex: 1;
+      margin-left: 10%;
+
+      &:first-child {
+        margin: 0;
+        flex: 2;
+      }
+    }
+  }
+}
+
+.note {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+
+  @include responsive('phone', 'phone-xs') {
+    right: 16px;
+    top: 16px;
+  }
 }

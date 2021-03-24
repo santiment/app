@@ -60,8 +60,12 @@ export const Label = ({ name, origin, className, forwardedRef, ...props }) => (
   </div>
 )
 
+export const CollapsedTooltip = props => (
+  <Tooltip {...props} on='click' className={styles.collapsed__tooltip} />
+)
+
 export const CollapsedLabels = ({ labels }) => (
-  <Tooltip
+  <CollapsedTooltip
     on='click'
     className={styles.collapsed__tooltip}
     trigger={
@@ -73,7 +77,7 @@ export const CollapsedLabels = ({ labels }) => (
     }
   >
     {labels.map(Label)}
-  </Tooltip>
+  </CollapsedTooltip>
 )
 
 const Labels = ({ settings, showCount = 5 }) => {

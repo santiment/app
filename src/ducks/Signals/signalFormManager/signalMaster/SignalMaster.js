@@ -10,7 +10,7 @@ import {
   getNewTitle,
   getNewDescription
 } from '../../utils/utils'
-import { SIGNAL_ROUTES } from '../../common/constants'
+import { ALERT_ROUTES } from '../../common/constants'
 import TriggerForm from '../signalCrudForm/signal/TriggerForm'
 import SharedTriggerForm from '../sharedForm/SharedTriggerForm'
 import {
@@ -73,10 +73,10 @@ const SignalMaster = ({
   redirect,
   updateTrigger,
   createTrigger,
-  isShared = false,
   formChangedCallback,
-  openSharedForm = false,
-  setOpenSharedForm,
+  setSharedPreview,
+  isShared = false,
+  isSharedPreview = false,
   toggleAnon,
   isLoggedIn
 }) => {
@@ -88,7 +88,7 @@ const SignalMaster = ({
     ...propsTrigger
   })
 
-  const [formData, setFormData] = useState(
+  const [formData, setFormData] = useState(() =>
     getFormData(stateTrigger, metaFormSettings)
   )
 
@@ -140,8 +140,8 @@ const SignalMaster = ({
   const [settings, metaForm] = formData
 
   return (
-    <div className={cx(styles.wrapper, openSharedForm && styles.sharedForm)}>
-      {!openSharedForm && (
+    <div className={cx(styles.wrapper, isSharedPreview && styles.sharedForm)}>
+      {!isSharedPreview && (
         <TriggerForm
           setTitle={setTitle}
           id={stateTrigger.id}
@@ -153,11 +153,10 @@ const SignalMaster = ({
           formChangedCallback={formChangedCallback}
         />
       )}
-      {openSharedForm && (
+      {isSharedPreview && (
         <SharedTriggerForm
-          id={stateTrigger.id}
           trigger={stateTrigger}
-          onOpen={data => (isLoggedIn ? setOpenSharedForm(data) : toggleAnon())}
+          onOpen={data => (isLoggedIn ? setSharedPreview(data) : toggleAnon())}
           onCreate={() =>
             isLoggedIn ? handleSettingsChange(settings) : toggleAnon()
           }
@@ -179,7 +178,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateTrigger(payload))
   },
   redirect: () => {
-    dispatch(push(SIGNAL_ROUTES.MY_SIGNALS))
+    dispatch(push(ALERT_ROUTES.ALERTS))
   }
 })
 

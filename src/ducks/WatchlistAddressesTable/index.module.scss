@@ -14,3 +14,59 @@
   display: flex;
   margin-top: -4px;
 }
+
+.note {
+  display: flex;
+  align-items: center;
+  padding-right: 20px;
+
+  & textarea {
+    font-family: 'Proxima Nova', sans-serif !important;
+    background-color: inherit;
+    border: none;
+    outline: none;
+    width: 300px;
+    max-width: 310px;
+    min-width: 310px;
+    height: 60px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    padding: 0;
+    resize: none;
+
+    @include text('body-3');
+
+    &::placeholder {
+      color: var(--waterloo);
+      transition: opacity 0.15s ease-in-out;
+    }
+
+    &:hover {
+      &::placeholder {
+        color: var(--jungle-green);
+        will-change: opacity;
+      }
+    }
+
+    &:focus {
+      color: var(--rhino);
+      cursor: text;
+
+      &::placeholder {
+        opacity: 0;
+      }
+    }
+
+    &[readonly] {
+      &:hover,
+      &:focus {
+        cursor: default;
+        color: var(--rhino);
+      }
+
+      &::placeholder {
+        opacity: 0;
+      }
+    }
+  }
+}

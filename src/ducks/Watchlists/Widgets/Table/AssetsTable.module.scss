@@ -243,7 +243,6 @@
       }
     }
 
-    // [GarageInc:01.09.2020] overflow: visible; for showing tooltips on rows
     .rt-table {
       flex: 0 0;
       padding-top: 8px;
@@ -289,4 +288,12 @@
     fill: var(--jungle-green-light-3);
     color: var(--jungle-green);
   }
+}
+
+.addassets {
+  color: var(--rhino) !important;
+}
+
+.icon {
+  margin-right: 8px;
 }

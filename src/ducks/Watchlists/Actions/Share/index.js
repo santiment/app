@@ -3,36 +3,16 @@ import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Message from '@santiment-network/ui/Message'
 import PublicityToggle from '../ChangeVisibility'
-import { isDynamicWatchlist } from '../../utils'
 import ShareModalTrigger from '../../../../components/Share/ShareModalTrigger'
 import { useShortShareLink } from '../../../../components/Share/hooks'
+import { checkIsScreener } from '../../../Screener/utils'
 import styles from './index.module.scss'
-
-const CustomContent = ({ isPublic, watchlist, type }) => (
-  <>
-    <div
-      className={cx(
-        styles.messageWrapper,
-        isPublic && styles.messageWrapper__hide
-      )}
-    >
-      <Message variant='warn' className={styles.message}>
-        Your {type} is private. Please, switch it to “Public” first.
-      </Message>
-    </div>
-    <PublicityToggle
-      variant='flat'
-      watchlist={watchlist}
-      className={styles.toggle}
-    />
-  </>
-)
 
 const Share = ({ watchlist, isAuthor, className, customLink }) => {
   const [isPublic, setIsPublic] = useState(watchlist.isPublic)
   const { shortShareLink, getShortShareLink } = useShortShareLink()
 
-  const type = isDynamicWatchlist(watchlist) ? 'screener' : 'watchlist'
+  const type = checkIsScreener(watchlist) ? 'screener' : 'watchlist'
 
   useEffect(
     () => {
@@ -59,7 +39,21 @@ const Share = ({ watchlist, isAuthor, className, customLink }) => {
         </Button>
       )}
     >
-      <CustomContent watchlist={watchlist} isPublic={isPublic} type={type} />
+      <div
+        className={cx(
+          styles.messageWrapper,
+          isPublic && styles.messageWrapper__hide
+        )}
+      >
+        <Message variant='warn' className={styles.message}>
+          Your {type} is private. Please, switch it to “Public” first.
+        </Message>
+      </div>
+      <PublicityToggle
+        variant='flat'
+        watchlist={watchlist}
+        className={styles.toggle}
+      />
     </ShareModalTrigger>
   ) : null
 }

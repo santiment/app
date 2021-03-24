@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react'
 import { useDropdown } from '../../../ducks/Studio/Chart/MetricSettings/Dropdown'
-import { useMetricIntervals } from '../../../ducks/Studio/Chart/MetricSettings/hooks'
 import {
-  IntervalSettingsTemplate,
-  isAvailableInterval
-} from '../../../ducks/Studio/Chart/MetricSettings/IntervalSetting'
+  isAvailableInterval,
+  useMetricIntervals
+} from '../../../ducks/Studio/Chart/MetricSettings/hooks'
+import { IntervalSettingsTemplate } from '../../../ducks/Studio/Chart/MetricSettings/IntervalSetting'
 import styles from './DashIntervalSettings.module.scss'
 
 const DashIntervalSettings = ({ metrics, updateInterval, settings }) => {

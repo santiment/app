@@ -15,10 +15,6 @@ const LoadableRelatedInsights = Loadable({
   loader: () => import('./RelatedInsights/RelatedInsights'),
   loading: () => <PageLoader />
 })
-const LoadableFeesDistribution = Loadable({
-  loader: () => import('./FeesDistribution/FeesDistribution'),
-  loading: () => <PageLoader />
-})
 
 const Main = ({
   widgets,
@@ -30,7 +26,6 @@ const Main = ({
   ...props
 }) => {
   const { slug } = settings
-  const isEth = slug === 'ethereum'
 
   function onProjectSelect (project) {
     if (!project) return
@@ -57,11 +52,6 @@ const Main = ({
           <Route path='/:base/stats'>
             <StudioTabsKeyStats slug={slug} />
           </Route>
-          {isEth && (
-            <Route path='/:base/fees-distribution'>
-              <LoadableFeesDistribution settings={settings} />
-            </Route>
-          )}
           <Route>
             <TabsWidgets
               {...props}

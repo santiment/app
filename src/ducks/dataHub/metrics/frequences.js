@@ -102,7 +102,8 @@ const Frequences = {
   [Metric.dormant_circulation.key]: Daily,
   [Metric.stock_to_flow.key]: Daily,
   [Metric.defi_total_value_locked_usd.key]: Hourly,
-  [Metric.active_addresses_1h.key]: Hourly
+  [Metric.active_addresses_1h.key]: Hourly,
+  [Metric.active_addresses_24h.key]: Daily
 }
 
 export default Frequences

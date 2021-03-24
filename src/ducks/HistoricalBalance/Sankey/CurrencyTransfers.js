@@ -3,10 +3,7 @@ import Button from '@santiment-network/ui/Button'
 import Select from '@santiment-network/ui/Search/Select/Select'
 import { getCurrencyTransfers } from './currencies'
 import Title from './Title'
-import {
-  ALL_PROJECTS_SHORT_QUERY,
-  useProjects
-} from '../../Studio/Compare/withProjects'
+import { useProjects } from '../../../stores/projects'
 import styles from './index.module.scss'
 
 const EMPTY = []
@@ -15,8 +12,7 @@ const useTickerRank = projects =>
     () => {
       const TickerRank = {}
       for (let i = 0; i < projects.length; i++) {
-        const { ticker, rank } = projects[i]
-        TickerRank[ticker] = rank
+        TickerRank[projects[i].ticker] = i + 1
       }
       return TickerRank
     },
@@ -50,7 +46,7 @@ const Value = ({ value }) => {
 }
 
 const CurrencyTransfers = ({ address, currency, setCurrency }) => {
-  const [projects] = useProjects(ALL_PROJECTS_SHORT_QUERY)
+  const { projects } = useProjects()
   const TickerRank = useTickerRank(projects)
   const [rawCurrencies, setCurrencies] = useState(EMPTY)
   const currencies = useMemo(

@@ -10,7 +10,7 @@ import styles from './index.module.scss'
 
 const settings = {
   slug: 'uniswap',
-  interval: '15m',
+  interval: '12h',
   from: '2020-09-16T00:00:00Z',
   to: toEndOfDay(new Date()).toISOString()
 }

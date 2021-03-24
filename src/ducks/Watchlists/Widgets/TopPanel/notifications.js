@@ -1,33 +1,50 @@
-import { store } from '../../../../redux'
+import { store, history } from '../../../../redux'
 import { showNotification } from '../../../../actions/rootActions'
+
+const ARR = []
 
 const dispatchNotification = payload =>
   store.dispatch(showNotification(payload))
 
-export function notifyCreation () {
-  return dispatchNotification({
+export const notifyCreation = (title, link) =>
+  dispatchNotification({
     variant: 'success',
-    title: 'Screener created',
-    description: 'New screener has been created successfully.'
+    title: `New ${title} was created`,
+    description: !link && `New ${title} has been created successfully.`,
+    actions: link
+      ? [{ label: 'Open', onClick: () => history.push(link) }]
+      : ARR,
+    dismissAfter: link ? 7000 : 4000
   })
-}
 
-export function notifyUpdate (type) {
-  return dispatchNotification({
-    variant: 'success',
-    title: `Your ${type} has been updated successfully`
-  })
-}
-
-export function notifyErrorUpdate () {
-  return dispatchNotification({
+export const notifyError = (title, action) =>
+  dispatchNotification({
     variant: 'error',
-    title: 'Error during the saving screener process',
+    title: `Couldn't ${action} the ${title}. Please, contact our support`,
     dismissAfter: 5000
   })
+
+export const notifyDeletion = name =>
+  dispatchNotification({
+    variant: 'success',
+    title: `“${name}” have been deleted successfully`
+  })
+
+export function notifyUpdate (title) {
+  return dispatchNotification({
+    variant: 'success',
+    title: `Your ${title} has been updated successfully`
+  })
 }
 
-export function notifyLoginForSave (history) {
+export function notifySaveNote () {
+  return dispatchNotification({
+    variant: 'success',
+    title: `Note has been saved successfully`
+  })
+}
+
+export function notifyLoginForSave () {
   return dispatchNotification({
     variant: 'warning',
     title: `Log in to save your filter settings`,
@@ -62,6 +79,7 @@ export function notifyOutdatedVersion () {
   })
 }
 
+// NOTE: move to edit mutation [haritonasty 09.03.2021]
 export function notifyMonitoring ({ type = 'watchlist', name, isMonitored }) {
   return dispatchNotification({
     variant: 'success',

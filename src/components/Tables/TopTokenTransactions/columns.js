@@ -1,8 +1,22 @@
 import React from 'react'
-import { formatNumber } from '../../../utils/formatting'
 import WalletLink from '../../WalletLink/WalletLink'
+import { formatNumber } from '../../../utils/formatting'
+import styles from '../../WalletLink/WalletLink.module.scss'
 
-const TrxAddressCell = ({ value }) => <WalletLink {...value} />
+const AddressCell = ({ value }) => <WalletLink {...value} />
+
+const TrxCell = ({ value }) => (
+  <div className={styles.trx}>
+    <a
+      className={styles.link}
+      href={`https://etherscan.io/tx/${value}`}
+      target='_blank'
+      rel='noopener noreferrer'
+    >
+      {value}
+    </a>
+  </div>
+)
 
 export const DEFAULT_SORTING = [
   {
@@ -25,20 +39,19 @@ export const COLUMNS = [
   {
     Header: 'From',
     accessor: 'fromAddress',
-    Cell: TrxAddressCell,
+    Cell: AddressCell,
     disableSortBy: true
   },
   {
     Header: 'To',
     accessor: 'toAddress',
-    Cell: TrxAddressCell,
+    Cell: AddressCell,
     disableSortBy: true
   },
   {
     Header: 'TxHash',
     accessor: 'trxHash',
-    Cell: ({ value }) =>
-      TrxAddressCell({ value: { address: value, isTx: true } }),
+    Cell: TrxCell,
     disableSortBy: true
   }
 ]

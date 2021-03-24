@@ -9,7 +9,7 @@ import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import SonarFeedHeader from './SonarFeedActions/SonarFeedHeader'
 import { showNotification } from '../../actions/rootActions'
 import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
-import { SIGNAL_ROUTES } from '../../ducks/Signals/common/constants'
+import { ALERT_ROUTES } from '../../ducks/Signals/common/constants'
 import {
   getShareSignalParams,
   useSignal
@@ -30,24 +30,24 @@ const LoadableMySignals = Loadable({
 })
 
 const DEFAULT_ROUTE = {
-  index: SIGNAL_ROUTES.ALERTS,
+  index: ALERT_ROUTES.ALERTS,
   content: 'My alerts',
   component: LoadableMySignals
 }
 
-const MY_SIGNALS_LIST = {
+const ALERTS_LIST = {
   ...DEFAULT_ROUTE,
-  path: SIGNAL_ROUTES.ALERTS
+  path: ALERT_ROUTES.ALERTS
 }
 
-const MY_SIGNALS_MODAL_VIEW = {
+const ALERTS_MODAL_VIEW = {
   ...DEFAULT_ROUTE,
-  path: SIGNAL_ROUTES.ALERT,
+  path: ALERT_ROUTES.ALERT,
   hidden: true
 }
-const tabs = [MY_SIGNALS_LIST, MY_SIGNALS_MODAL_VIEW]
+const tabs = [ALERTS_LIST, ALERTS_MODAL_VIEW]
 
-const SignalModal = ({ id: triggerId, params }) => {
+export const SignalModal = ({ id: triggerId, params, ...rest }) => {
   const shareSignalParams = getShareSignalParams(params)
 
   const isOpen = !!triggerId
@@ -66,7 +66,7 @@ const SignalModal = ({ id: triggerId, params }) => {
         <ScreenerSignalDialog
           signal={trigger}
           defaultOpen={isOpen}
-          goBackTo={SIGNAL_ROUTES.ALERTS}
+          goBackTo={ALERT_ROUTES.ALERTS}
         />
       )
     }
@@ -76,6 +76,7 @@ const SignalModal = ({ id: triggerId, params }) => {
           id={triggerId}
           shareParams={shareSignalParams}
           defaultOpen={isOpen}
+          {...rest}
         />
       )
     }
@@ -91,7 +92,7 @@ const SonarFeed = ({
   const { loading: isUserLoading } = useUser()
   const pathParams = useMemo(
     () => {
-      const parsed = matchPath(pathname, SIGNAL_ROUTES.ALERT)
+      const parsed = matchPath(pathname, ALERT_ROUTES.ALERT)
 
       return parsed ? parsed.params : undefined
     },
@@ -103,16 +104,17 @@ const SonarFeed = ({
   )
 
   const {
-    settings: { isTelegramAllowAlerts }
+    settings: { isTelegramAllowAlerts },
+    loading: loadingSettings
   } = useUserSettings()
 
   useEffect(
     () => {
-      if (!isTelegramAllowAlerts && isLoggedIn) {
+      if (!loadingSettings && !isTelegramAllowAlerts && isLoggedIn) {
         showTelegramAlert()
       }
     },
-    [isTelegramAllowAlerts, isLoggedIn]
+    [isTelegramAllowAlerts, loadingSettings, isLoggedIn]
   )
 
   useEffect(() => {
@@ -135,8 +137,6 @@ const SonarFeed = ({
   }
 
   const defaultRoute = <Route component={tabs[0].component} />
-
-  console.log(pathParams) // GarageInc: checking on stage in production build
 
   return (
     <div style={{ width: '100%' }} className='page'>

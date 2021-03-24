@@ -71,7 +71,11 @@ const ConnectTelegramBlock = ({
             telegramDeepLink={telegramDeepLink}
             connectTelegram={connectTelegram}
           >
-            {isTelegramConnecting ? 'Connecting' : 'Connect'}
+            {isTelegramConnecting
+              ? 'Connecting'
+              : hasTelegramConnected
+                ? 'Connected'
+                : 'Connect'}
           </TgButton>
 
           {hasTelegramConnected && (

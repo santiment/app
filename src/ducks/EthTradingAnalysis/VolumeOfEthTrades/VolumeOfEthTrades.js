@@ -3,7 +3,7 @@ import {
   DEFAULT_INTERVAL_SELECTORS,
   INTERVAL_3_MONTHS
 } from '../../../components/DashboardMetricChart/utils'
-import Erc20DashChart from '../../../components/DashboardMetricChart/Erc20DashChart/Erc20DashChart'
+import DashboardProjectChart from '../../../components/DashboardMetricChart/DashboardProjectChart/DashboardProjectChart'
 
 const DEXs = [
   'Balancer',
@@ -42,10 +42,11 @@ const VolumeOfEthTrades = ({ metric }) => {
   ])
 
   return (
-    <Erc20DashChart
+    <DashboardProjectChart
       intervals={DEFAULT_INTERVAL_SELECTORS}
       defaultInterval={INTERVAL_3_MONTHS}
       metricsBuilder={metricsBuilder}
+      type={'ERC20'}
     />
   )
 }

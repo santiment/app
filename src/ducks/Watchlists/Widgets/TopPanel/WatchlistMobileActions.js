@@ -11,15 +11,7 @@ import VisibilityToggle from '../../Actions/ChangeVisibility'
 import { upperCaseFirstLetter } from '../../../../utils/formatting'
 import styles from './WatchlistMobileActions.module.scss'
 
-const WatchlistActions = ({
-  isAuthor,
-  id,
-  title,
-  items,
-  type,
-  isMonitored,
-  watchlist = {}
-}) => {
+const WatchlistActions = ({ isAuthor, id, title, items, watchlist = {} }) => {
   if (!watchlist) {
     return null
   }
@@ -47,6 +39,7 @@ const WatchlistActions = ({
           {isAuthor && (
             <Edit
               id={id}
+              watchlist={watchlist}
               assets={items}
               name={name}
               trigger={
@@ -66,9 +59,7 @@ const WatchlistActions = ({
           />
           {isAuthor && (
             <WeeklyReport
-              id={id}
-              isMonitored={isMonitored}
-              name={name}
+              watchlist={watchlist}
               trigger={
                 <Button variant='ghost' fluid>
                   Weekly report

@@ -1,27 +1,11 @@
 .wrapper {
-  --table-header-sticky-offset: 64px;
+  background: var(--white);
+  margin: 0;
 }
 
 .header {
   margin: 0;
-  z-index: 1;
+  z-index: 2;
   position: sticky;
   top: 0;
-}
-
-.edit {
-  margin: 0;
-}
-
-.share {
-  margin-left: auto;
-  padding: 0;
-}
-
-.copy {
-  border: none;
-
-  &:hover svg {
-    fill: var(--jungle-green);
-  }
 }

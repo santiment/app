@@ -3,7 +3,7 @@ import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import { useSignal } from '../common/getSignal'
-import { SIGNAL_ROUTES } from '../common/constants'
+import { ALERT_ROUTES } from '../common/constants'
 import ConfirmSignalModalClose from './confirmClose/ConfirmSignalModalClose'
 import SignalDialog from './SignalDialog'
 import SignalMaster from '../signalFormManager/signalMaster/SignalMaster'
@@ -22,9 +22,10 @@ const SignalMasterModalForm = ({
   shareParams = {},
   userId,
   redirect,
-  previousPage = SIGNAL_ROUTES.ALERTS,
+  previousPage = ALERT_ROUTES.ALERTS,
   defaultOpen = true,
-  onClose
+  onClose,
+  noLoginPopupContainer
 }) => {
   const { id: shareId, isShared: isOldShared } = shareParams
 
@@ -150,6 +151,7 @@ const SignalMasterModalForm = ({
         metaFormSettings={metaFormSettings}
         buttonParams={buttonParams}
         SignalMaster={SignalMaster}
+        noLoginPopupContainer={noLoginPopupContainer}
       />
     </>
   )
@@ -164,7 +166,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   redirect: url => {
-    dispatch(push(url || SIGNAL_ROUTES.ALERTS))
+    dispatch(push(url || ALERT_ROUTES.ALERTS))
   }
 })
 

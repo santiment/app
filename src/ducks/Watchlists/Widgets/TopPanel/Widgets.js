@@ -115,24 +115,22 @@ const ToggleWidget = ({ index, isActive, toggle, title }) => {
 }
 
 const SVGs = [
-  <svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none'>
+  <svg width='14' height='14' fill='none'>
     <path fill='#76E5C2' d='M0 0h7v8H0z' />
     <path fill='#8358FF' d='M7 0h7v8H7z' opacity='.6' />
     <path fill='#FFAD4D' d='M0 8h14v6H0z' opacity='.8' />
   </svg>,
-  <svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none'>
+  <svg width='14' height='14' fill='none'>
     <path fill='#89E1C9' d='M0 0h4.7v14H0z' />
     <path fill='#8358FF' d='M9.3 4H4.6v10h4.7z' opacity='.6' />
     <path fill='#FFAD4D' d='M9.3 8H14v6H9.3z' opacity='.8' />
   </svg>,
-  <svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none'>
+  <svg width='14' height='14' fill='none'>
     <path fill='#8358FF' d='M7 0h7v14H7z' opacity='.6' />
     <path fill='#76E5C2' d='M0 0h7v14H0z' />
     <path
       fill='#FFAD4D'
-      fillRule='evenodd'
       d='M12.5 2.2l-3.7 8-4-1.6-2.4 3.7-.8-.6 2.7-4.3 4 1.5 3.2-7.1 1 .4z'
-      clipRule='evenodd'
     />
   </svg>
 ]

@@ -47,7 +47,7 @@
 
   &.collapse {
     /* "collapsed" cells should be as small as possible */
-    width: 0.0000000001%;
+    width: 1px;
   }
 }
 
@@ -123,7 +123,7 @@
 
   &.collapse {
     /* "collapsed" cells should be as small as possible */
-    width: 0.0000000001%;
+    width: 1px;
   }
 }
 

@@ -3,13 +3,15 @@ import Dialog from '@santiment-network/ui/Dialog'
 import Input from '@santiment-network/ui/Input'
 import Button from '@santiment-network/ui/Button'
 import { useDialogState } from '../../../../../hooks/dialog'
-import { updateWatchlistShort } from '../../../gql/mutations'
 import EditableList, { rowAddressRenderer } from '../EditableList'
 import { hasAddress } from '../../../utils'
 import {
   getAddressInfrastructure,
   Infrastructure
 } from '../../../../../utils/address'
+import { useIsAuthor } from '../../../gql/list/hooks'
+import { updateWatchlistShort } from '../../../gql/list/mutations'
+import { useAddressNote } from '../../../../HistoricalBalance/hooks'
 import styles from './EditAddresses.module.scss'
 
 const updateWatchlist = ({ id, listItems }) =>
@@ -19,17 +21,19 @@ export const NOT_VALID_ADDRESS = 'Not supported ETH address'
 
 const extractAddress = ({ blockchainAddress }) => blockchainAddress
 
-const mapAddressToAPIType = ({ address, infrastructure }) => {
+const mapAddressToAPIType = ({ address, infrastructure, notes }) => {
   return {
     blockchainAddress: {
       address,
-      infrastructure: infrastructure || getAddressInfrastructure(address)
+      infrastructure: infrastructure || getAddressInfrastructure(address),
+      notes
     }
   }
 }
 
 const EditAddresses = ({ trigger, watchlist }) => {
   const { id, name } = watchlist
+  const { isAuthor } = useIsAuthor(watchlist)
 
   const listItems = useMemo(
     () => {
@@ -43,6 +47,8 @@ const EditAddresses = ({ trigger, watchlist }) => {
   const [items, setItems] = useState(listItems)
   const [error, setError] = useState(false)
   const [currentAddress, setCurrentValue] = useState('')
+  const infrastructure = getAddressInfrastructure(currentAddress)
+  const notes = useAddressNote({ address: currentAddress, infrastructure })
 
   useEffect(
     () => {
@@ -70,8 +76,9 @@ const EditAddresses = ({ trigger, watchlist }) => {
 
   function onAdd () {
     const newItem = {
-      address: currentAddress,
-      infrastructure: getAddressInfrastructure(currentAddress)
+      notes,
+      infrastructure,
+      address: currentAddress
     }
 
     toggle({
@@ -89,6 +96,10 @@ const EditAddresses = ({ trigger, watchlist }) => {
     }
 
     setError(!value || !valid)
+  }
+
+  if (!isAuthor) {
+    return null
   }
 
   return (

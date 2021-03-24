@@ -114,7 +114,9 @@ export function useTimeseries (
         const queryId = client.queryManager.idCounter
         const abortController = new AbortController()
 
-        const query = getQuery(metric, metricSettings)
+        const { query: metricQuery, preTransform: metricPreTransform } =
+          metricSettings || {}
+        const query = metricQuery || getQuery(metric, metricSettings)
 
         if (!fetch) {
           if (!query) {
@@ -157,7 +159,7 @@ export function useTimeseries (
           const request = fetch
             ? fetch(metric, variables)
             : getData(query, variables, abortController.signal)
-              .then(getPreTransform(metric))
+              .then(metricPreTransform || getPreTransform(metric))
               .then(MetricTransformer[metric.key] || noop)
 
           request
@@ -184,14 +186,12 @@ export function useTimeseries (
             .catch(({ message }) => {
               if (raceCondition) return
 
-              if (
-                attempt < 5 &&
-                message.includes('Unexpected token < in JSON at position')
-              ) {
+              if (attempt < 5 && message.includes('JSON')) {
                 attempt += 1
                 return setTimeout(getTimeseries, 2000)
               }
 
+              setTimeseries(() => mergedData)
               setErrorMsg(state => {
                 state[key] = substituteErrorMsg(message)
                 return { ...state }

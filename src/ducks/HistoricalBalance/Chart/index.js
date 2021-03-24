@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import cx from 'classnames'
 import { logScale, linearScale } from '@santiment-network/chart/scales'
 import Canvas, { useResponsiveTicks } from './Canvas'
@@ -6,10 +6,14 @@ import Assets from './Assets'
 import DatePicker from './DatePicker'
 import SettingsMenu from './SettingsMenu'
 import { useWalletMetrics } from '../hooks'
+import { generateSearchQuery } from '../url'
 import { ShareButton } from '../../Studio/Header/Settings'
 import styles from './index.module.scss'
 
-const Configurations = ({
+const Chart = ({
+  children,
+  className,
+  canvasClassName,
   height,
   settings,
   chartAssets,
@@ -25,9 +29,15 @@ const Configurations = ({
 }) => {
   const metrics = useWalletMetrics(chartAssets, priceAssets)
   const axesTicks = useResponsiveTicks(isPhone)
+  const sharePath = useMemo(
+    () =>
+      '/labs/balance?' +
+      generateSearchQuery(settings, chartAssets, priceAssets, isLog),
+    [settings, chartAssets, priceAssets, isLog]
+  )
 
   return (
-    <div className={styles.wrapper}>
+    <div className={cx(styles.wrapper, className)}>
       <div className={cx(styles.header, isPhone && styles.header_phone)}>
         <Assets
           className={
@@ -45,7 +55,7 @@ const Configurations = ({
             isPhone={isPhone}
             changeTimePeriod={changeTimePeriod}
           />
-          <ShareButton />
+          <ShareButton sharePath={sharePath} />
           <SettingsMenu
             isLog={isLog}
             settings={settings}
@@ -57,14 +67,17 @@ const Configurations = ({
         </div>
       </div>
       <Canvas
+        className={canvasClassName}
         axesTicks={axesTicks}
         height={height}
         scale={isLog ? logScale : linearScale}
         settings={settings}
         metrics={metrics}
       />
+
+      {children}
     </div>
   )
 }
 
-export default Configurations
+export default Chart

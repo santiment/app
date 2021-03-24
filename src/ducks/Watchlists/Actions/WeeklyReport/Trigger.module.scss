@@ -32,5 +32,10 @@
 
   &__active {
     fill: var(--waterloo);
+    border: 1px solid var(--porcelain);
+
+    &:hover {
+      border: 1px solid var(--porcelain);
+    }
   }
 }

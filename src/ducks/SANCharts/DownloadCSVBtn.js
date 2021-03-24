@@ -4,23 +4,6 @@ import Button from '@santiment-network/ui/Button'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import { mergeTimeseries } from '../Studio/timeseries/utils'
 
-const getEventsWithAnomaly = (headers, data) => {
-  const anomaly = data.find(({ metricAnomalyKey }) => metricAnomalyKey)
-
-  if (!anomaly) {
-    return [headers, data]
-  }
-
-  const anomalyHeader = [
-    {
-      key: 'metricAnomalyKey',
-      label: 'Anomaly'
-    }
-  ]
-
-  return [anomalyHeader, data]
-}
-
 const DownloadCSVBtn = ({
   title,
   data,
@@ -34,19 +17,17 @@ const DownloadCSVBtn = ({
   const { HH, mm, ss } = getTimeFormats(date)
   const filename = `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].csv`
 
-  const [eventHeaders, eventsData] = getEventsWithAnomaly(activeEvents, events)
-
   const headers = [
     { label: 'Date', key: 'datetime' },
     ...activeMetrics
-      .concat(eventHeaders)
+      .concat(activeEvents)
       .map(({ label, key, dataKey = key }) => ({
         label,
         key: dataKey
       }))
   ]
 
-  const mergedData = mergeTimeseries([data, eventsData]).map(item => ({
+  const mergedData = mergeTimeseries([data, events]).map(item => ({
     ...item,
     datetime: new Date(item.datetime).toISOString()
   }))

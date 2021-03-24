@@ -1,17 +1,6 @@
 const path = require('path')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const minimizers = []
-
-// GarageInc: special
-if(false && process.env.NODE_ENV === 'production'){
-  minimizers.push(
-    new UglifyJsPlugin({
-      uglifyOptions: {
-        keep_fnames: true
-      }
-    }))
-}
 
 module.exports = {
   mode: process.env.NODE_ENV,

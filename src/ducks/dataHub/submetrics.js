@@ -3,7 +3,8 @@ import { updateTooltipSettings } from './tooltipSettings'
 import {
   CONNECTED_WIDGET,
   SIDEPANEL,
-  ICO_PRICE
+  ICO_PRICE,
+  WIDGET
 } from '../Studio/Sidebar/Button/types'
 import {
   SPENT_COIN_COST,
@@ -21,12 +22,27 @@ export const TopTransactionsTableMetric = {
   abbreviation: 'ttt'
 }
 
+export const TopHoldersTableMetric = {
+  key: 'HoldersDistributionTable',
+  type: CONNECTED_WIDGET,
+  label: 'Top Holders Table',
+  parentMetric: Metric.amount_in_top_holders
+}
+
+export const FeesDistributionMetric = {
+  key: 'FeesDistribution',
+  type: WIDGET,
+  checkIsVisible: ({ slug }) => slug === 'ethereum',
+  label: 'Fees Distribution',
+  parentMetric: Metric.transaction_volume
+}
+
 export const SOCIAL_ACTIVE_USERS_TELEGRAM = {
   ...Metric.social_active_users,
   showRoot: true,
   key: 'social_active_users_telegram',
-  label: 'Social Active Users (Telegram)',
-  shortLabel: 'Soc. Act. Us. Tg.',
+  label: 'Active social users (Telegram)',
+  shortLabel: 'Act. Soc. Us. Tg.',
   channel: 'telegram',
   reqMeta: {
     source: 'telegram'
@@ -37,8 +53,8 @@ export const SOCIAL_ACTIVE_USERS_TWITTER = {
   ...Metric.social_active_users,
   showRoot: true,
   key: 'social_active_users_twitter',
-  label: 'Social Active Users (Twitter)',
-  shortLabel: 'Soc. Act. Us. Tw.',
+  label: 'Active social users (Twitter)',
+  shortLabel: 'Act. Soc. Us. Tw.',
   channel: 'twitter',
   reqMeta: {
     source: 'twitter_crypto'
@@ -63,7 +79,12 @@ export const Submetrics = {
     }
   ],
 
-  [Metric.transaction_volume.key]: [TopTransactionsTableMetric],
+  [Metric.amount_in_top_holders.key]: [TopHoldersTableMetric],
+
+  [Metric.transaction_volume.key]: [
+    TopTransactionsTableMetric,
+    FeesDistributionMetric
+  ],
 
   [Metric.social_volume_total.key]: [
     {
@@ -71,14 +92,16 @@ export const Submetrics = {
       type: SIDEPANEL,
       label: 'Social Context',
       checkIsActive: ({ sidepanel }) => sidepanel === SOCIAL_CONTEXT
-    }
+    },
+    SOCIAL_ACTIVE_USERS_TELEGRAM,
+    SOCIAL_ACTIVE_USERS_TWITTER
   ],
 
   [Metric.twitter_followers.key]: SOCIAL_TWITTER_INTERVALS.map(interval => ({
     ...Metric.twitter_followers,
     key: `twitter_followers_${interval}`,
     queryKey: 'twitter_followers',
-    label: `Twitter Followers (${interval} change)`,
+    label: `Twitter Followers ${interval}`,
     description:
       "Shows the number changes of followers on the project's official Twitter account over time.",
     reqMeta: {
@@ -88,11 +111,7 @@ export const Submetrics = {
     replacements: {
       timebound: interval
     }
-  })),
-  [Metric.social_active_users.key]: [
-    SOCIAL_ACTIVE_USERS_TELEGRAM,
-    SOCIAL_ACTIVE_USERS_TWITTER
-  ]
+  }))
 }
 
 Object.values(Submetrics).forEach(submetrics =>

@@ -9,6 +9,12 @@ $top: 22px;
   line-height: 20px;
   color: var(--casper);
   width: auto !important;
+
+  @media (hover: hover) {
+    &:hover {
+      color: var(--jungle-green) !important;
+    }
+  }
 }
 
 .score {

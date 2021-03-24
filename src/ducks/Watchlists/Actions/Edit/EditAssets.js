@@ -8,6 +8,7 @@ import { USER_EDIT_ASSETS_IN_LIST } from '../../../../actions/types'
 import { ALL_PROJECTS_FOR_SEARCH_QUERY } from '../../gql/allProjectsGQL'
 import EditableList from './EditableList'
 import { hasAssetById } from '../../utils'
+import { useIsAuthor } from '../../gql/list/hooks'
 import SearchProjects from '../../../../components/Search/SearchProjects'
 import styles from './EditAssets.module.scss'
 
@@ -19,8 +20,10 @@ const WatchlistEdit = ({
   data: { allProjects },
   id,
   sendChanges,
+  watchlist,
   setNotification
 }) => {
+  const { isAuthor } = useIsAuthor(watchlist)
   const [isShown, setIsShown] = useState(false)
   const [isEditing, setEditing] = useState(false)
   const [listItems, setListItems] = useState(assets)
@@ -57,6 +60,10 @@ const WatchlistEdit = ({
   }
 
   if (!isEditing && assets !== listItems) setListItems(assets)
+
+  if (!isAuthor) {
+    return null
+  }
 
   return (
     <Dialog

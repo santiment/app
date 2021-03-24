@@ -1,0 +1,37 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  width: 250px;
+}
+
+.wrapper,
+.currency {
+  @include text('caption');
+
+  color: var(--waterloo);
+}
+
+.title {
+  font-weight: 500;
+}
+
+.balance {
+  @include text('body-1');
+
+  color: var(--rhino);
+  margin: 6px 0 8px;
+}
+
+.projects {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.project {
+  margin-right: 8px;
+  white-space: nowrap;
+
+  &:last-child {
+    margin: 0;
+  }
+}

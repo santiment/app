@@ -3,6 +3,7 @@ import ReactTable from 'react-table-6'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
+import Button from '@santiment-network/ui/Button'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
 import 'react-table-6/react-table.css'
 import {
@@ -16,17 +17,16 @@ import ExplanationTooltip from '../../../../components/ExplanationTooltip/Explan
 import AssetsToggleColumns from './AssetsToggleColumns'
 import { COLUMNS } from './asset-columns'
 import Copy from '../../Actions/Copy'
-import SaveAs from '../../Actions/SaveAs'
 import DownloadCSV from '../../Actions/DownloadCSV'
 import { COMMON_SETTINGS, COLUMNS_SETTINGS } from './columns'
-import { useUserWatchlists } from '../../gql/hooks'
 import { markedAsShowed } from '../../../SANCharts/SidecarExplanationTooltip'
 import { EXPLANATION_TOOLTIP_MARK } from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
 import CompareInfo from './CompareInfo/CompareInfo'
 import CompareAction from './CompareInfo/CompareAction'
-import { usePriceGraph } from '../Table/PriceGraph/hooks'
-import { normalizeGraphData } from '../Table/PriceGraph/utils'
+import { usePriceGraph } from './PriceGraph/hooks'
+import { normalizeGraphData } from './PriceGraph/utils'
 import { FILTERS_EXPLANATION_TOOLTIP_MARK } from '../Filter/Trigger'
+import EditAssets from '../../Actions/Edit/EditAssets'
 import './ProjectsTable.scss'
 import styles from './AssetsTable.module.scss'
 
@@ -80,7 +80,6 @@ const AssetsTable = ({
 }) => {
   const [markedAsNew, setAsNewMarked] = useState()
   const [visibleItems, setVisibleItems] = useState([])
-  const [watchlists = []] = useUserWatchlists()
   const [graphData] = usePriceGraph({ slugs: visibleItems })
   const normalizedItems = normalizeGraphData(graphData, items, 'priceChart7d')
   const hideMarkedAsNew = useCallback(() => {
@@ -167,6 +166,18 @@ const AssetsTable = ({
   return (
     <div className={styles.container} id='table'>
       <div className={styles.top} id='tableTop'>
+        <EditAssets
+          name={watchlist.name}
+          id={watchlist.id}
+          watchlist={watchlist}
+          assets={items}
+          trigger={
+            <Button border accent='positive' className={styles.addassets}>
+              <Icon type='assets' className={styles.icon} />
+              Add assets
+            </Button>
+          }
+        />
         {filterType ? (
           <span className={styles.based}>
             Showed based on {filterType} anomalies
@@ -231,29 +242,13 @@ const AssetsTable = ({
           <Copy
             id={typeInfo.listId}
             trigger={
-              <div className={cx(styles.action, styles.action__withLine)}>
+              <div className={styles.action}>
                 <ExplanationTooltip
                   text='Copy assets to watchlist'
                   offsetY={10}
                   className={styles.action__tooltip}
                 >
                   <Icon type='copy' />
-                </ExplanationTooltip>
-              </div>
-            }
-          />
-          <SaveAs
-            watchlist={watchlist}
-            lists={watchlists}
-            type='watchlist'
-            trigger={
-              <div className={cx(styles.action, styles.action__saveAs)}>
-                <ExplanationTooltip
-                  text='Save as watchlist'
-                  offsetY={10}
-                  className={styles.action__tooltip}
-                >
-                  <Icon type='add-watchlist' />
                 </ExplanationTooltip>
               </div>
             }

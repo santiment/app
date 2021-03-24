@@ -28,12 +28,15 @@ const FullscreenChart = ({
   metrics,
   brushData,
   MetricColor,
+  MetricNode,
+  ErrorMsg,
   shareLink,
   drawings,
   selectedLineState,
   isDrawingState,
   isNewDrawingState,
-  setIsICOPriceDisabled
+  setIsICOPriceDisabled,
+  cursorType
 }) => {
   const [settings, setSettings] = useState(studioSettings)
   const [options, setOptions] = useState(studioOptions)
@@ -46,7 +49,12 @@ const FullscreenChart = ({
     MetricTransformer
   )
   const data = useEdgeGaps(
-    useClosestValueData(rawData, metrics, options.isClosestDataActive)
+    useClosestValueData(
+      rawData,
+      metrics,
+      options.isClosestDataActive,
+      MetricNode
+    )
   )
   const domainGroups = useDomainGroups(metrics)
   const chartRef = useRef(null)
@@ -143,12 +151,15 @@ const FullscreenChart = ({
         data={data}
         brushData={brushData}
         drawings={drawings}
+        ErrorMsg={ErrorMsg}
         domainGroups={
           isDomainGroupingActive ? domainGroups : mirrorDomainGroups
         }
         selectedLineState={selectedLineState}
+        cursorType={cursorType}
         isDrawingState={isDrawingState}
         isNewDrawingState={isNewDrawingState}
+        isFullscreen
         onPointHover={undefined}
         onBrushChangeEnd={onBrushChangeEnd}
         onRangeSelect={onRangeSelect}

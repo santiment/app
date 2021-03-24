@@ -3,6 +3,7 @@ import cx from 'classnames'
 import { GroupNodes } from '../../../../../Studio/Sidebar/Group'
 import { getAssetNewMetrics } from '../../../../../dataHub/metrics/news'
 import ExpansionItem from '../../../../../../components/ExpansionItem/ExpansionItem'
+import MetricButton from '../../../../../Studio/Sidebar/Button'
 import styles from './MetricsList.module.scss'
 
 export const NO_GROUP = '_'
@@ -120,6 +121,7 @@ const Group = ({ groupLabel, onSelect, group, project, selected, ...rest }) => {
           infoClassName: styles.info,
           tooltipPosition: 'top'
         }}
+        Button={MetricButton}
         {...rest}
       />
     </>

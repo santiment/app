@@ -10,7 +10,11 @@ export const TOPICS = [
     title: 'Wall Street Bets pumps'
   },
   { slug: 'lockdown', title: 'Lockdown' },
-  { slug: 'usdc AND visa', title: 'Visa Partners with Circle' },
+  {
+    slug: '1inch',
+    title: '1inch airdrop',
+    query: '1inch?asset=1inch&ticker=1INCH&slug=1inch'
+  },
   {
     slug: 'correction',
     title: 'BTC Correction'
@@ -20,11 +24,11 @@ export const TOPICS = [
     title: 'Fees ATH'
   },
   {
-    slug: 'fil OR filecoin',
-    title: 'Filecoin mainnet launch',
-    query: 'fil OR filecoin?asset=filecoin&ticker=FIL'
+    slug: 'delist',
+    title: 'Ripple delisting',
+    query: 'delist?asset=ripple&ticker=XRP&slug=ripple'
   },
-  { slug: 'thanksgiving', title: 'Thanksgiving Day' },
+  { slug: 'silver', title: 'Silver pumping' },
   {
     slug: 'xrp OR ripple',
     title: 'Ripple pumps',
@@ -68,22 +72,21 @@ export const INDEX_PAGE_GROUPS = [
         createdAt: '2020-12-17T15:18:20.922Z'
       },
       {
-        title: 'ETH Beacon Chain Launch',
-        slug: 'eth AND launched',
-        query: 'eth%20AND%20launched?asset=ethereum&ticker=ETH',
-        createdAt: '2020-12-17T10:07:20.922Z'
+        title: 'Tesla buying BTC',
+        slug: 'tesla',
+        createdAt: '2021-03-16T10:07:20.922Z'
       },
       {
-        title: 'Black Friday Sale',
-        slug: 'black AND friday',
-        createdAt: '2020-12-17T08:18:20.922Z'
+        title: 'BSC overtaking Ethereum',
+        slug: 'bsc',
+        query: 'bsc?asset=binance-coin&ticker=BNB',
+        createdAt: '2021-03-16T10:07:21.922Z'
       },
       {
-        title: 'Ripple Snapshot for Spark Airdrop',
-        slug: '(ripple OR xrp) AND (airdrop OR snapshot)',
-        query:
-          '(ripple%20OR%20xrp)%20AND%20(airdrop%20OR%20snapshot)?asset=ripple&ticker=XRP',
-        createdAt: '2020-12-17T07:19:20.922Z'
+        title: 'SEC against Ripple',
+        slug: 'ripple AND sec',
+        query: 'ripple%20AND%20sec?asset=ripple&ticker=XRP',
+        createdAt: '2021-03-16T10:07:22.922Z'
       }
     ]
   }

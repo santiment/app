@@ -3,7 +3,13 @@ import PropTypes from 'prop-types'
 import ProPopup from './index'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 
-const TYPES = {
+const TypeAlias = {
+  SCREENER: 'screener',
+  PROJECT: 'watchlist',
+  BLOCKCHAIN_ADDRESS: 'watchlist'
+}
+
+const MODULE = {
   screener: {
     title: 'Go Pro for full Screener access',
     description:
@@ -28,6 +34,7 @@ const TYPES = {
 
 const ProPopupWrapper = ({ type, trigger: Trigger, children, className }) => {
   const { isPro } = useUserSubscriptionStatus()
+  const module = TypeAlias[type] || type
 
   if (isPro) {
     return children
@@ -38,7 +45,7 @@ const ProPopupWrapper = ({ type, trigger: Trigger, children, className }) => {
       trigger={
         Trigger ? <Trigger /> : <div className={className}>{children}</div>
       }
-      {...TYPES[type]}
+      {...MODULE[module]}
     />
   )
 }

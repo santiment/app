@@ -5,6 +5,7 @@ import LastDayPrice from './LastDayPrice'
 import ResponsiveChart from '../../Chart/Responsive'
 import Areas from '../../Chart/Areas'
 import Lines from '../../Chart/Lines'
+import Candles from '../../Chart/Candles'
 import Bars from '../../Chart/Bars'
 import GreenRedBars from '../../Chart/GreenRedBars'
 import Tooltip from '../../Chart/Tooltip'
@@ -50,6 +51,7 @@ const Canvas = ({
   isDomainGroupingActive,
   isICOPriceActive,
   isSelectingRange,
+  isFullscreen,
   syncTooltips,
   onBrushChangeEnd,
   onPointMouseUp,
@@ -79,6 +81,7 @@ const Canvas = ({
       <GreenRedBars />
       <Bars />
       <Areas />
+      <Candles isFullscreen={isFullscreen} />
       <Lines />
       <Axes metrics={axesMetricKeys} />
       {isCartesianGridActive && <CartesianGrid />}
@@ -126,7 +129,8 @@ const Canvas = ({
 }
 
 Canvas.defaultProps = {
-  domainGroups: []
+  domainGroups: [],
+  ErrorMsg: {}
 }
 
 export default Canvas

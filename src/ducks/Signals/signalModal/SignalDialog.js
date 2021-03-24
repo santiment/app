@@ -28,11 +28,12 @@ const SignalDialog = ({
   canRedirect,
   metaFormSettings,
   buttonParams,
-  SignalMaster
+  SignalMaster,
+  noLoginPopupContainer
 }) => {
   const [dialogTitle, onSetDialogTitle] = useState('')
   const [isAnonWarning, setAnonWarning] = useState(false)
-  const [openSharedForm, setOpenForm] = useState(isShared)
+  const [isSharedPreview, setSharedPreview] = useState(isShared)
   const [trackEvent] = useTrackEvents()
 
   const { variant, border } = buttonParams
@@ -57,25 +58,23 @@ const SignalDialog = ({
 
   useEffect(
     () => {
-      if (openSharedForm !== isShared) {
-        setOpenForm(isShared)
-      }
+      setSharedPreview(isShared)
     },
     [isShared]
   )
 
   useEffect(
     () => {
-      openSharedForm && onSetDialogTitle('Alert details')
+      isSharedPreview && onSetDialogTitle('Alert details')
     },
-    [openSharedForm]
+    [isSharedPreview]
   )
 
   const canOpen = (isLoggedIn || isShared) && !isAnonWarning
 
   if ((isAnonWarning || !canOpen) && !isLoggedIn) {
     return (
-      <LoginPopup>
+      <LoginPopup noContainer={noLoginPopupContainer}>
         {dialogTrigger || signalModalTrigger(enabled, label, variant, border)}
       </LoginPopup>
     )
@@ -83,8 +82,9 @@ const SignalDialog = ({
 
   return (
     <Dialog
-      open={dialogOpenState}
+      defaultOpen={dialogOpenState}
       withAnimation={false}
+      open={dialogOpenState}
       onOpen={() => {
         // Track opening New signal Dialog
         trackEvent(
@@ -103,7 +103,7 @@ const SignalDialog = ({
       }
       title={
         <TriggerModalTitle
-          showSharedBtn={isShared && !openSharedForm}
+          showSharedBtn={isShared && !isSharedPreview}
           isError={isError}
           dialogTitle={dialogTitle}
           isLoggedIn={isLoggedIn}
@@ -121,8 +121,8 @@ const SignalDialog = ({
           <>
             {canOpen && (
               <SignalMaster
-                setOpenSharedForm={setOpenForm}
-                openSharedForm={openSharedForm}
+                setSharedPreview={setSharedPreview}
+                isSharedPreview={isSharedPreview}
                 isShared={isShared}
                 trigger={trigger}
                 setTitle={onSetDialogTitle}

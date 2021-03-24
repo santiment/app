@@ -5,7 +5,11 @@ import {
   drawYAxisTicks
 } from '@santiment-network/chart/axes'
 import { drawValueBubbleY } from '@santiment-network/chart/tooltip'
-import { dayTicksPaintConfig, dayAxesColor } from '../paintConfigs'
+import {
+  dayTicksPaintConfig,
+  dayAxesColor,
+  nightBubblesPaintConfig
+} from '../paintConfigs'
 import {
   isDayInterval,
   getDateDayMonthYear,
@@ -33,7 +37,7 @@ function getLastMetricPoint (chart, domain) {
       const metricKey = unfoundMetricKeys[j]
       const metricPoint = point[metricKey]
 
-      if (metricPoint && Number.isFinite(metricPoint.value)) {
+      if (metricPoint && metricPoint.value) {
         LastMetricPoint[metricKey] = metricPoint
         unfoundMetricKeys.splice(j, 1)
       }
@@ -56,6 +60,17 @@ function getDomainObject (domainGroups) {
   return domain
 }
 
+// NOTE: http://stackoverflow.com/a/3943023/112731 [@vanguard | Mar  9, 2021]
+function getBubbleFontColorHex (bgColor, isNightMode) {
+  const r = parseInt(bgColor.slice(1, 3), 16)
+  const g = parseInt(bgColor.slice(3, 5), 16)
+  const b = parseInt(bgColor.slice(5, 7), 16)
+
+  const threshold = 175 - (isNightMode ? 37 : 0)
+
+  return r * 0.299 + g * 0.587 + b * 0.114 > threshold ? '#000000' : '#ffffff'
+}
+
 function plotMetricLastValueBubble (
   chart,
   LastMetricPoint,
@@ -66,11 +81,17 @@ function plotMetricLastValueBubble (
   const metricPoint = LastMetricPoint[metricKey]
   if (!metricPoint) return
 
-  const { y, value } = metricPoint
+  let { y, value } = metricPoint
   const { ctx, bubblesPaintConfig } = chart
   const paintConfig = Object.assign({}, bubblesPaintConfig, {
-    bgColor
+    bgColor,
+    textColor: getBubbleFontColorHex(
+      bgColor,
+      bubblesPaintConfig === nightBubblesPaintConfig
+    )
   })
+
+  value = value.close || value
 
   drawValueBubbleY(
     chart,

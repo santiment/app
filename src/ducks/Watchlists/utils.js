@@ -1,32 +1,9 @@
 import qs from 'query-string'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import queryString from 'query-string'
+import { INFOGRAPHICS } from './Widgets/VolumeChart/utils'
 
 export const ALL_PROJECTS_WATCHLIST_SLUG = 'projects'
-
-export function getWatchlistLink ({ name, id }) {
-  return `/assets/list?name=${encodeURIComponent(name)}@${id}`
-}
-
-export function isStaticWatchlist (watchlist) {
-  const { name } = watchlist.function || {}
-  return name === 'empty'
-}
-
-export function isDynamicWatchlist (watchlist = {}) {
-  if (watchlist === null) {
-    return
-  }
-
-  const { name } = watchlist.function || {}
-  if (watchlist.slug === ALL_PROJECTS_WATCHLIST_SLUG) {
-    return false
-  }
-
-  return (
-    name !== 'empty' && (name === 'selector' || name === 'top_all_projects')
-  )
-}
 
 export function getWatchlistId (search) {
   const { name: str } = qs.parse(search) || {}
@@ -35,10 +12,6 @@ export function getWatchlistId (search) {
     const [, id] = str.split('@')
     return id
   }
-}
-
-export function isDefaultScreenerPath (pathname) {
-  return pathname === DEFAULT_SCREENER.to
 }
 
 export function hasAssetById ({ id, listItems }) {
@@ -93,33 +66,18 @@ export const getHelmetTags = (isList, listName) => {
   }
 }
 
-export const DEFAULT_SCREENER = {
-  name: 'My screener',
-  to: '/assets/screener',
-  assetType: 'screener'
-}
-
-export const DEFAULT_SCREENER_FUNCTION = {
-  args: { size: 10000 },
-  name: 'top_all_projects'
-}
-
-export function countAssetsSort ({ count: countA }, { count: countB }) {
-  return countA > countB ? -1 : 1
-}
-
 const DEFAULT_SCREENER_URL_PARAMS = {
   isPriceChartActive: false,
   isPriceTreeMap: false,
   isVolumeTreeMap: false,
   isMovement: false,
-  priceBarChart: {
+  [INFOGRAPHICS.PRICE_BAR_CHART]: {
     interval: '24h'
   },
-  socialVolumeTreeMap: {
+  [INFOGRAPHICS.SOCIAL_VOLUME_TREE_MAP]: {
     interval: '24h'
   },
-  priceTreeMap: {
+  [INFOGRAPHICS.PRICE_TREE_MAP]: {
     interval: '24h'
   }
 }
@@ -179,48 +137,21 @@ export const useScreenerUrl = ({ location, history, defaultParams }) => {
 }
 
 export const useScreenerUrlUpdaters = (widgets, setWidgets) => {
-  const onChangeInterval = useCallback(
-    (key, { label: interval }) => {
+  const onChangeSettings = useCallback(
+    (key, { label: interval, sorter, currency }) => {
+      const widget = widgets[key]
       setWidgets({
         ...widgets,
         [key]: {
-          ...widgets[key],
-          interval
+          ...widget,
+          interval: interval || widget.interval,
+          sorter: sorter || widget.sorter,
+          currency: currency || widget.currency
         }
       })
     },
     [widgets, setWidgets]
   )
 
-  const onChangeSorter = useCallback(
-    (key, sorter) => {
-      setWidgets({
-        ...widgets,
-        [key]: {
-          ...widgets[key],
-          sorter
-        }
-      })
-    },
-    [widgets, setWidgets]
-  )
-
-  return { onChangeInterval, onChangeSorter }
-}
-
-export function getNormalizedListItems (listItems) {
-  return listItems.map(val => ({ project_id: +val.project.id }))
-}
-
-export const PROJECT = 'PROJECT'
-export const BLOCKCHAIN_ADDRESS = 'BLOCKCHAIN_ADDRESS'
-
-export function getWatchlistAlias (type) {
-  switch (type) {
-    case BLOCKCHAIN_ADDRESS:
-    case PROJECT:
-      return 'watchlist'
-    default:
-      return type
-  }
+  return { onChangeSettings }
 }

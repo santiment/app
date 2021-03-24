@@ -7,7 +7,7 @@ import styles from './EditForm.module.scss'
 
 export const NewConfigTrigger = props => (
   <Button variant='flat' border className={styles.trigger} {...props}>
-    Save columns as ...
+    Save columns as set
   </Button>
 )
 

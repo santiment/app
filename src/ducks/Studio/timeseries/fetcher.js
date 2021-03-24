@@ -1,6 +1,6 @@
 import { METRICS, GET_METRIC } from './metrics'
-import { AnomalyFetcher, OldAnomalyFetcher } from './anomalies'
 import { aliasTransform, normalizeInterval } from './utils'
+import { PRICE_OHLC_QUERY, newOhlcPreTransformer } from './queries/price_ohlc'
 import { HISTORICAL_BALANCE_QUERY } from './queries/historicaBalance'
 import { GAS_USED_QUERY } from './queries/gasUsed'
 import { ETH_SPENT_OVER_TIME_QUERY } from './queries/ethSpentOverTime'
@@ -41,8 +41,10 @@ const Fetcher = METRICS.reduce((acc, metric) => {
 }, Object.create(null))
 
 Object.assign(Fetcher, {
-  anomalies: OldAnomalyFetcher,
-  anomaly: AnomalyFetcher,
+  price_ohlc: {
+    query: PRICE_OHLC_QUERY,
+    preTransform: newOhlcPreTransformer
+  },
   gasUsed: {
     query: GAS_USED_QUERY,
     preTransform: aliasTransform('gasUsed')
@@ -106,14 +108,10 @@ export const getQuery = (metric, metricSettings) => {
   return query
 }
 
-export const getPreTransform = ({ key, queryKey = key, metricAnomaly }) => {
+export const getPreTransform = ({ key, queryKey = key }) => {
   const { preTransform } = Fetcher[queryKey]
 
-  if (queryKey === 'anomaly') {
-    return preTransform(key)
-  } else if (queryKey === 'anomalies') {
-    return preTransform(metricAnomaly)
-  } else if (transformAliases.has(queryKey)) {
+  if (transformAliases.has(queryKey)) {
     return preTransform(key)
   }
 
@@ -136,7 +134,7 @@ export function getData (query, variables, signal) {
 
   return getMetricMinInterval(queryKey).then(minInterval => {
     if (minInterval) {
-      variables.interval = normalizeInterval(interval, minInterval)
+      variables.interval = normalizeInterval(interval || '', minInterval)
     }
 
     return fetchData(query, variables, signal)

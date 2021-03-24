@@ -1,16 +1,13 @@
 import { useState, useMemo } from 'react'
 import { useQuery } from '@apollo/react-hooks'
-import {
-  getValidInterval,
-  walletMetricBuilder,
-  priceMetricBuilder
-} from './utils'
+import { walletMetricBuilder, priceMetricBuilder } from './utils'
 import {
   WALLET_ASSETS_QUERY,
   ADDRESS_QUERY,
   RECENT_TRANSACTIONS_QUERY
 } from './queries'
 import { getAddressInfrastructure } from '../../utils/address'
+import { getValidInterval } from '../SANCharts/IntervalSelector'
 
 const DEFAULT_STATE = []
 
@@ -38,6 +35,8 @@ export function useBlockchainAddress (wallet) {
 }
 export const useAddressLabels = wallet =>
   useBlockchainAddress(wallet).labels || DEFAULT_STATE
+
+export const useAddressNote = wallet => useBlockchainAddress(wallet).notes || ''
 
 export function useWalletAssets (wallet) {
   const { data, loading, error } = useWalletQuery(WALLET_ASSETS_QUERY, wallet)

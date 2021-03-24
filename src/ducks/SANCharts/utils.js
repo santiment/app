@@ -20,8 +20,8 @@ export const mapDatetimeToNumber = timeseries =>
     datetime: +new Date(datetime)
   }))
 
-const getEventColor = (isAnomaly, value) => {
-  if (isAnomaly || value < 4) {
+const getEventColor = value => {
+  if (value < 4) {
     return 'var(--persimmon)'
   }
   if (value < 7) {
@@ -32,14 +32,13 @@ const getEventColor = (isAnomaly, value) => {
 
 export const getEventsTooltipInfo = events =>
   Object.keys(events).map(event => {
-    const { label, isAnomaly, ...rest } = Event[event]
+    const { label, ...rest } = Event[event]
     const value = events[event]
     return {
-      isAnomaly,
       value,
       isEvent: true,
       name: label,
-      color: getEventColor(isAnomaly, value),
+      color: getEventColor(value),
       ...rest
     }
   })

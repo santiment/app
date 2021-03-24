@@ -1,15 +1,9 @@
 import { updateTooltipSetting } from '../dataHub/tooltipSettings'
-import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
 import { usdFormatter } from '../dataHub/metrics/formatters'
 import { normalizeQueryAlias } from '../Studio/Compare/utils'
 
 const WalletMetricCache = {}
 const PriceMetricCache = {}
-
-export function getValidInterval (from, to) {
-  const interval = getNewInterval(from, to)
-  return INTERVAL_ALIAS[interval] || interval
-}
 
 const metricBuilder = (cache, slugToMetric) => asset => {
   const key = asset.slug || asset

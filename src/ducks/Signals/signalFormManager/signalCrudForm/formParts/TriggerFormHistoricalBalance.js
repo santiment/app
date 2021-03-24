@@ -7,8 +7,8 @@ import { isValidHBAddress, hasHBAddresses } from '../../../utils/utils'
 import { TriggerProjectsSelector } from './projectsSelector/TriggerProjectsSelector'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import { NOT_VALID_HB_ADDRESS } from '../../../utils/constants'
-import { useProjects } from '../../../../Studio/Compare/withProjects'
 import { getAddressInfrastructure } from '../../../../../utils/address'
+import { useProjects } from '../../../../../stores/projects'
 import styles from '../signal/TriggerForm.module.scss'
 
 const isInAssetsList = (heldAssets, target) => {
@@ -97,7 +97,7 @@ const TriggerFormHistoricalBalance = ({
   byAddress
 }) => {
   const { heldAssets, isLoading: heldLoading } = useHeldAssets(byAddress)
-  const [allProjects, loading] = useProjects()
+  const { projects: allProjects, isLoading: loading } = useProjects()
 
   const allLoading = useMemo(() => loading || heldLoading, [
     loading,

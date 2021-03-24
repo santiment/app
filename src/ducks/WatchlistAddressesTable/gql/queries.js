@@ -1,66 +1,9 @@
 import gql from 'graphql-tag'
 import { client } from '../../../apollo'
-
-export const WATCHLIST_GENERAL_FRAGMENT = gql`
-  fragment generalFragment on UserList {
-    id
-    name
-    description
-    function
-    updatedAt
-    insertedAt
-    isMonitored
-    isPublic
-    type
-    user {
-      id
-    }
-  }
-`
-
-export const SHORT_WATCHLIST_GENERAL_FRAGMENT = gql`
-  fragment generalFragment on UserList {
-    id
-    name
-    type
-    isPublic
-    insertedAt
-  }
-`
-
-export const LIST_ITEMS_FRAGMENT = gql`
-  fragment listItemsFragment on UserList {
-    listItems {
-      blockchainAddress {
-        address
-        infrastructure
-        labels {
-          name
-          origin
-        }
-        balanceChange(
-          to: "utc_now"
-          from: "utc_now-7d"
-          selector: { slug: "ethereum" }
-        ) {
-          balanceChangePercent
-          balanceEnd
-        }
-      }
-    }
-  }
-`
-
-export const SHORT_LIST_ITEMS_FRAGMENT = gql`
-  fragment listItemsFragment on UserList {
-    listItems {
-      blockchainAddress {
-        address
-        infrastructure
-      }
-    }
-  }
-`
+import {
+  ADDRESSES_LIST_ITEMS_FRAGMENT,
+  WATCHLIST_GENERAL_FRAGMENT
+} from '../../Watchlists/gql/fragments'
 
 export const ADDRESS_WATCHLIST_QUERY = gql`
   query watchlist($id: ID!) {
@@ -70,7 +13,7 @@ export const ADDRESS_WATCHLIST_QUERY = gql`
     }
   }
   ${WATCHLIST_GENERAL_FRAGMENT}
-  ${LIST_ITEMS_FRAGMENT}
+  ${ADDRESSES_LIST_ITEMS_FRAGMENT}
 `
 
 const watchlistAccessor = ({ data }) => data.watchlist

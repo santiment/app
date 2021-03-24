@@ -1,0 +1,12 @@
+@import '~@santiment-network/ui/mixins';
+
+.project {
+  margin-right: auto;
+
+  &__name {
+    @include text('body-3');
+
+    font-size: 16px !important;
+    line-height: 22px !important;
+  }
+}

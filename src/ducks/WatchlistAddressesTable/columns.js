@@ -2,6 +2,7 @@ import React from 'react'
 import MiniChart from './MiniChart'
 import Labels from './Labels'
 import { prepareColumns } from '../_Table'
+import Note from './Note'
 import { DEFAULT_COLUMNS } from '../WatchlistTable'
 import ValueChange from '../../components/ValueChange/ValueChange'
 import styles from './index.module.scss'
@@ -13,7 +14,7 @@ const balanceValue = new Intl.NumberFormat('en', {
 export const COLUMNS = DEFAULT_COLUMNS.concat(
   prepareColumns([
     {
-      title: 'Transaction address',
+      title: 'Address',
       render: ({ address }) => (
         <a
           className={styles.address}
@@ -50,6 +51,10 @@ export const COLUMNS = DEFAULT_COLUMNS.concat(
     {
       title: 'Labels',
       render: Labels
+    },
+    {
+      title: 'Note, max 80 chars',
+      render: Note
     }
   ])
 )

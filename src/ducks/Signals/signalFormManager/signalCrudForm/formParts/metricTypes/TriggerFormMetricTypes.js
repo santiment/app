@@ -88,7 +88,7 @@ const TriggerFormMetricTypes = ({
         }
       }
     },
-    [trigger.settings.target.slug, availableMetrics]
+    [slug, availableMetrics]
   )
 
   return (

@@ -8,15 +8,6 @@ const EMPTY_ARRAY = []
 const EMPTY_OBJ = {}
 const SORTER = sortBy('id')
 
-export const FEATURED_TABLE_CONFIGS_QUERY = gql`
-  query featuredTableConfigurations {
-    featuredTableConfigurations {
-      id
-      title
-    }
-  }
-`
-
 export const TABLE_CONFIGS_QUERY = gql`
   query tableConfigurations($userId: Int) {
     tableConfigurations(userId: $userId) {
@@ -28,12 +19,34 @@ export const TABLE_CONFIGS_QUERY = gql`
     }
   }
 `
-export const TABLE_CONFIG_QUERY = gql`
+
+const FEATURED_TABLE_CONFIGS_QUERY = gql`
+  query featuredTableConfigurations {
+    featuredTableConfigurations {
+      id
+      title
+    }
+  }
+`
+
+const TABLE_CONFIG_QUERY = gql`
   query tableConfiguration($id: Int!) {
     tableConfiguration(id: $id) {
       id
       title
       columns
+    }
+  }
+`
+
+const ACCESS_RESTRICTIONS_QUERY = gql`
+  query getAccessRestrictions {
+    getAccessRestrictions {
+      name
+      type
+      isRestricted
+      restrictedFrom
+      restrictedTo
     }
   }
 `
@@ -70,4 +83,32 @@ export function useTableConfig (id) {
     variables: { id }
   })
   return { tableConfig: data && data.tableConfiguration, loading, error }
+}
+
+export function useRestrictedMetrics () {
+  const { data, loading } = useQuery(ACCESS_RESTRICTIONS_QUERY)
+
+  return useMemo(
+    () => {
+      if (data && data.getAccessRestrictions) {
+        const allMetrics = []
+        const restrictedMetrics = []
+
+        data.getAccessRestrictions.forEach(({ name, type, restrictedFrom }) => {
+          allMetrics.push(name)
+          if (type === 'metric' && restrictedFrom !== null) {
+            restrictedMetrics.push(name)
+          }
+        })
+        return { restrictedMetrics, allMetrics, loading }
+      } else {
+        return {
+          restrictedMetrics: EMPTY_ARRAY,
+          allMetrics: EMPTY_ARRAY,
+          loading
+        }
+      }
+    },
+    [data]
+  )
 }

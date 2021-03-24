@@ -5,8 +5,9 @@ import Loader from '@santiment-network/ui/Loader/Loader'
 import NewWatchlist from '../New'
 import NewBtn from '../New/NewBtn'
 import { store } from '../../../../redux'
-import { VisibilityIndicator } from '../../../../components/VisibilityIndicator'
+import { BLOCKCHAIN_ADDRESS } from '../../detector'
 import { showNotification } from '../../../../actions/rootActions'
+import { VisibilityIndicator } from '../../../../components/VisibilityIndicator'
 import styles from './Add.module.scss'
 
 const Watchlist = ({ watchlist, isActive, onClick }) => {
@@ -24,10 +25,9 @@ const Watchlists = ({
   selections,
   onLoaded,
   onWatchlistClick,
-  getWatchlists,
-  createWatchlist
+  getWatchlists
 }) => {
-  const { watchlists, isLoading } = getWatchlists()
+  const [watchlists, isLoading] = getWatchlists()
 
   useEffect(
     () => {
@@ -53,9 +53,9 @@ const Watchlists = ({
       </div>
 
       <NewWatchlist
+        type={BLOCKCHAIN_ADDRESS}
+        openOnSuccess={false}
         trigger={<NewBtn border disabled={isLoading} className={styles.new} />}
-        lists={watchlists}
-        createWatchlist={createWatchlist}
       />
     </>
   )
@@ -66,7 +66,6 @@ const AddToWatchlistDialog = ({
   title = 'Add to watchlist',
   trigger,
   getWatchlists,
-  createWatchlist,
   checkIsWatchlistSelected,
   onChangesApply
 }) => {
@@ -154,7 +153,6 @@ const AddToWatchlistDialog = ({
         <Watchlists
           selections={selections}
           getWatchlists={getWatchlists}
-          createWatchlist={createWatchlist}
           onWatchlistClick={toggleWatchlist}
           onLoaded={onWatchlistsLoaded}
         />

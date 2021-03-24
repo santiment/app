@@ -1,15 +1,16 @@
 import React from 'react'
-import WatchlistCards from '../../../ducks/Watchlists/Cards/index'
+import cx from 'classnames'
+import { WatchlistCards } from '../../../ducks/Watchlists/Cards/Card'
 import styles from './../ProfilePage.module.scss'
 
-const PublicWatchlists = ({ data: watchlists }) => {
+const PublicWatchlists = ({ watchlists, ...props }) => {
   if (!watchlists || watchlists.length === 0) {
     return null
   }
 
   return (
-    <div className={styles.block}>
-      <WatchlistCards watchlists={watchlists} classes={styles} />
+    <div className={cx(styles.block, styles.block__lists)}>
+      <WatchlistCards watchlists={watchlists} {...props} />
     </div>
   )
 }

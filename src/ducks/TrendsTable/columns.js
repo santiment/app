@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Icon from '@santiment-network/ui/Icon'
 import {
   useTrendWordContext,
   useTrendSocialVolume,
@@ -8,28 +7,23 @@ import {
 } from './hooks'
 import { prepareColumns } from '../_Table'
 import { INDEX_COLUMN } from '../_Table/columns'
-import { useRenderQueueItem } from '../renderQueue/sized'
 import { Skeleton } from '../../components/Skeleton'
 import MiniChart from '../../components/MiniChart'
 import PercentChanges from '../../components/PercentChanges'
 import { WordCloud } from '../../components/WordCloud/WordCloud'
-import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import styles from './index.module.scss'
 
 const Loader = () => <Skeleton show className={styles.chart__skeleton} />
 
-const SocialVolumeChange = ({ trend }) => {
-  const { isRendered, onLoad } = useRenderQueueItem()
-  const { change } = useTrendSocialVolumeChange(trend, !isRendered, onLoad)
-
-  return change ? (
+const SocialVolumeScore = ({ value, change }) => (
+  <>
+    {value}
     <PercentChanges changes={change} className={styles.change__percent} />
-  ) : null
-}
+  </>
+)
 
-const SocialVolumeChart = ({ trend }) => {
-  const { isRendered, onLoad } = useRenderQueueItem()
-  const { data, isLoading } = useTrendSocialVolume(trend, !isRendered, onLoad)
+const SocialVolumeChart = ({ trend, words }) => {
+  const { data, isLoading } = useTrendSocialVolume(words, trend)
 
   return isLoading ? (
     <Loader />
@@ -47,33 +41,18 @@ const SocialVolumeChart = ({ trend }) => {
   )
 }
 
-const Score = ({ trend }) => {
-  const { isPro } = useUserSubscriptionStatus()
+const SocialVolume = ({ trend, words }) => {
+  const { value, change } = useTrendSocialVolumeChange(words, trend)
 
   return (
     <div className={styles.change}>
-      {Math.round(trend.score)}
-      {isPro && <SocialVolumeChange trend={trend} />}
+      {value ? <SocialVolumeScore value={value} change={change} /> : <Loader />}
     </div>
   )
 }
 
-const Paywall = () => (
-  <Link to='/pricing' className={styles.paywall}>
-    <Icon type='crown' />
-    <span className={styles.upgrade}>Upgrade</span>
-  </Link>
-)
-
-const TrendingChart = ({ trend }) => {
-  const { loading, isPro } = useUserSubscriptionStatus()
-  if (loading) return <Loader />
-
-  return isPro ? <SocialVolumeChart trend={trend} /> : <Paywall />
-}
-
-const ConnectedWords = ({ word }) => {
-  const { data, isLoading } = useTrendWordContext(word)
+const ConnectedWords = ({ trend, words }) => {
+  const { data, isLoading } = useTrendWordContext(words, trend)
 
   return (
     <WordCloud
@@ -104,16 +83,20 @@ export const COLUMNS = [INDEX_COLUMN].concat(
     },
     {
       title: Column.SOCIAL_VOLUME,
-      render: trend => <Score trend={trend} />
+      render: (trend, { words }) => <SocialVolume trend={trend} words={words} />
     },
     {
       title: Column.TRENDING_CHART,
-      render: trend => <TrendingChart trend={trend} />
+      render: (trend, { words }) => (
+        <SocialVolumeChart trend={trend} words={words} />
+      )
     },
     {
       title: Column.CONNECTED_WORDS,
       className: styles.cloud,
-      render: ({ word }) => <ConnectedWords word={word} />
+      render: (trend, { words }) => (
+        <ConnectedWords trend={trend} words={words} />
+      )
     }
   ])
 )
