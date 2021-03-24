@@ -34,6 +34,9 @@ const CABINETS = [
       <CabinetTitle
         as={HashLink}
         to='#san-sheets'
+        onClick={e => {
+          e.stopPropagation()
+        }}
         img={<div className={styles.img}>{SheetsTemplatesImg}</div>}
         title='Sansheets Pro Templates'
         description={
@@ -64,7 +67,11 @@ function hashLinkScroll ({ location }, timeout = 0) {
   if (hash !== '') {
     setTimeout(() => {
       const elements = document.querySelectorAll(`a[href='/${hash}']`)
-      if (elements && elements.length > 0) elements[0].scrollIntoView()
+      if (elements && elements.length > 0) {
+        elements[0].scrollIntoView({
+          behavior: 'smooth'
+        })
+      }
     }, timeout)
   }
 }

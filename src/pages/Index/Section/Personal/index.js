@@ -68,14 +68,16 @@ const Header = ({ tabState }) => (
     <Toggle
       className={styles.toggle}
       isActive={tabState[0]}
-      onClick={() => tabState[1](toggleVisibility())}
+      onClick={() => {
+        tabState[1](toggleVisibility(tabState[0]))
+      }}
     />
   </Row>
 )
 
 const Personal = () => {
   const history = useHistory()
-  const tabState = useState(loadTab)
+  const tabState = useState(() => loadTab())
 
   const [activeTab] = tabState
   const Content = TabTypeComponent[activeTab]
