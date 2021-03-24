@@ -25,7 +25,7 @@ const Note = ({ notes, address, infrastructure, watchlistId, isAuthor }) => {
   return (
     <div className={styles.note}>
       <AutoresizeTextarea
-        maxLength={45}
+        maxLength={80}
         onBlur={updateItem}
         blurOnEnter
         readOnly={!isAuthor}

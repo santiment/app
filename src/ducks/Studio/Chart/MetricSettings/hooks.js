@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
+import { Node } from '../../../Chart/nodes'
 import { getMetricMinInterval } from '../../../dataHub/metrics/restrictions'
 import { dateDifference, DAY } from '../../../../utils/dates'
 
@@ -83,12 +84,13 @@ export function getCandlesMinInterval (from, to) {
   return '7d'
 }
 
-export function useCandlesMinIntervalGetter (from, to) {
+export function useCandlesMinIntervalGetter (metricNode, from, to) {
   return useMemo(
     () => {
+      if (metricNode !== Node.CANDLES) return
       const minInterval = getCandlesMinInterval(from, to)
       return () => Promise.resolve(minInterval)
     },
-    [from, to]
+    [metricNode, from, to]
   )
 }

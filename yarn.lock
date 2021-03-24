@@ -1660,20 +1660,20 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@santiment-network/chart@^0.10.0":
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/@santiment-network/chart/-/chart-0.10.0.tgz#7f7a0a64a917870c60ec1a54243262baf7839709"
-  integrity sha512-upDw3eLiKGA3edkivuz2cY3FBzZNzOoI+mIWedATzkeh/O+fzTdZe2KZaC6Prt/L+ouZkOQkV0POcOSIGRsM7A==
+"@santiment-network/chart@^0.10.2":
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/@santiment-network/chart/-/chart-0.10.2.tgz#10b831711634c3f7d23db38cdf449c720f47729b"
+  integrity sha512-06wXN9I2VEkcHb6f6DQScnKijcmkZos/yU870yTGu7THcVZ/9P3s3pg/agS0i5SCaPyI5gk+zVlJRb745NbAxA==
 
 "@santiment-network/ui@^0.5.177":
   version "0.5.189"
   resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.189.tgz#86b29f1ee79d732128998c80c4ec8d83837bb953"
   integrity sha512-G+K7+JiwcgKUSuSK47hxXC3ZQQeRYlpCE5r8zmcPw+Eqm4BjhXQ7+bQmeudK9WfO7eVselt5//ZPT/C+52eMbQ==
 
-"@santiment-network/ui@^0.5.225":
-  version "0.5.225"
-  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.225.tgz#7fe738abc9ac04fac97a9974d3bc29b4f843f153"
-  integrity sha512-+Z6jPx1LXCWA4zBvu2y8A7+DFbXWZ4vMVz/LkTLbpQ13dUEvKsLunR4o35vgJJL1hW+/Om0kLSlNwZIm5vTIeA==
+"@santiment-network/ui@^0.5.227":
+  version "0.5.227"
+  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.227.tgz#151f0ecfb02c0ce2c483212f45a5133dafd24301"
+  integrity sha512-AUQG+Bi9a+2u0iEZVXgvM8LZ/XPpixFpKu/sP8JFt9vq3OU+P3t0x2EilkPKkPLT3DLO25DuF45DKh5bVMwumA==
 
 "@sentry/browser@5.24.2":
   version "5.24.2"

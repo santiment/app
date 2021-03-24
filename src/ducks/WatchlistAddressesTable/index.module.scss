@@ -21,17 +21,20 @@
   padding-right: 20px;
 
   & textarea {
+    font-family: 'Proxima Nova', sans-serif !important;
     background-color: inherit;
     border: none;
     outline: none;
-    width: 200px;
-    max-width: 210px;
-    min-width: 210px;
-    max-height: 32px;
+    width: 300px;
+    max-width: 310px;
+    min-width: 310px;
+    height: 60px;
     overflow-y: auto;
+    scrollbar-width: thin;
     padding: 0;
-    cursor: pointer;
     resize: none;
+
+    @include text('body-3');
 
     &::placeholder {
       color: var(--waterloo);
@@ -39,8 +42,6 @@
     }
 
     &:hover {
-      color: var(--jungle-green);
-
       &::placeholder {
         color: var(--jungle-green);
         will-change: opacity;

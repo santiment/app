@@ -4,7 +4,7 @@ import { Metric } from '../dataHub/metrics'
 import { checkIfAreMirrored } from '../dataHub/metrics/mirrored'
 
 const splitByComma = str => str.split(',')
-const lineMetricsFilter = ({ node }) => LINES.has(node)
+const lineMetricsFilter = node => LINES.has(node)
 const getKey = ({ key }) => key
 const getDomainGroup = ({ key, domainGroup = key }) => domainGroup
 const checkIfIsIndicatorOf = ({ key }, { indicator, queryKey }) =>
@@ -56,11 +56,15 @@ export function useDomainGroups (metrics) {
 export function useClosestValueData (
   rawData,
   metrics,
-  isClosestValueActive = true
+  isClosestValueActive = true,
+  MetricNode
 ) {
   return useMemo(
     () => {
-      const lineMetrics = metrics.filter(lineMetricsFilter)
+      const lineMetrics = metrics.filter(({ key, node }) => {
+        const newNode = MetricNode && MetricNode[key]
+        return lineMetricsFilter(newNode || node)
+      })
       const dataLength = rawData.length
       const metricLength = lineMetrics.length
 

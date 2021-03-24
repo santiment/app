@@ -134,7 +134,7 @@ export function getData (query, variables, signal) {
 
   return getMetricMinInterval(queryKey).then(minInterval => {
     if (minInterval) {
-      variables.interval = normalizeInterval(interval, minInterval)
+      variables.interval = normalizeInterval(interval || '', minInterval)
     }
 
     return fetchData(query, variables, signal)

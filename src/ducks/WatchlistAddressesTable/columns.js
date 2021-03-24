@@ -53,7 +53,7 @@ export const COLUMNS = DEFAULT_COLUMNS.concat(
       render: Labels
     },
     {
-      title: 'Note, max 45 chars',
+      title: 'Note, max 80 chars',
       render: Note
     }
   ])

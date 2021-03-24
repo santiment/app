@@ -45,7 +45,12 @@ export const Chart = ({
     MetricTransformer
   )
   const data = useEdgeGaps(
-    useClosestValueData(rawData, metrics, options.isClosestDataActive)
+    useClosestValueData(
+      rawData,
+      metrics,
+      options.isClosestDataActive,
+      MetricNode
+    )
   )
 
   // TODO: Solve the webpack circular dependency issue to share singular chart [@vanguard | Jul 1, 2020]

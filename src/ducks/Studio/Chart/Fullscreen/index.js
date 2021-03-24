@@ -28,6 +28,7 @@ const FullscreenChart = ({
   metrics,
   brushData,
   MetricColor,
+  MetricNode,
   ErrorMsg,
   shareLink,
   drawings,
@@ -48,7 +49,12 @@ const FullscreenChart = ({
     MetricTransformer
   )
   const data = useEdgeGaps(
-    useClosestValueData(rawData, metrics, options.isClosestDataActive)
+    useClosestValueData(
+      rawData,
+      metrics,
+      options.isClosestDataActive,
+      MetricNode
+    )
   )
   const domainGroups = useDomainGroups(metrics)
   const chartRef = useRef(null)
