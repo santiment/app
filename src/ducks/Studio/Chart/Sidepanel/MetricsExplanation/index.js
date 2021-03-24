@@ -113,7 +113,7 @@ MetricsExplanation.Title = () => 'Metric Explanations'
 
 MetricsExplanation.Button = ({ onClick, ...props }) => (
   <Button border {...props} onClick={() => onClick(METRICS_EXPLANATION_PANE)}>
-    <Icon type='info-round' className={styles.info} />
+    <Icon type='academy' className={styles.info} />
     Explain metrics
   </Button>
 )
