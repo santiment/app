@@ -15,18 +15,15 @@ export const PersonalTabType = {
   SHEETS: 'Sheets'
 }
 
-export const PersonalTabHashes = {
+const PersonalTabHashes = {
   [PersonalTabType.CABINET]: '#cabinet',
   [PersonalTabType.SHEETS]: '#san-sheets'
 }
 
-const HashTab = Object.entries(PersonalTabHashes).reduce(
-  (acc, [key, value]) => {
-    acc[value] = key
-    return acc
-  },
-  {}
-)
+const HashTab = {
+  '#cabinet': PersonalTabType.CABINET,
+  '#san-sheets': PersonalTabType.CABINET
+}
 
 export const TabTypeComponent = {
   [PersonalTabType.START_GUIDE]: StartGuide,
@@ -43,12 +40,7 @@ export const saveTab = tab => localStorage.setItem(LS_PERSONAL_TAB, tab || '')
 export function loadTab () {
   const hashTab = HashTab[window.location.hash]
   if (hashTab) {
-    switch (hashTab) {
-      case PersonalTabType.SHEETS:
-        return PersonalTabType.CABINET
-      default:
-        return hashTab
-    }
+    return hashTab
   }
 
   const tab = localStorage.getItem(LS_PERSONAL_TAB)
@@ -86,8 +78,10 @@ const Personal = () => {
     () => {
       saveTab(activeTab)
 
-      const hash = PersonalTabHashes[activeTab] || ''
-      history.replace(window.location.pathname + hash)
+      if (!window.location.hash) {
+        const hash = PersonalTabHashes[activeTab] || ''
+        history.replace(window.location.pathname + hash)
+      }
     },
     [activeTab]
   )

@@ -55,7 +55,14 @@ const TabTypeContent = {
   }
 }
 
-export const Tab = ({ tab, tabState, className, el: El = 'div', ...rest }) => (
+export const Tab = ({
+  tab,
+  tabState,
+  notActive,
+  className,
+  el: El = 'div',
+  ...rest
+}) => (
   <El
     className={cx(
       styles.tab,
