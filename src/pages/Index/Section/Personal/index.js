@@ -55,7 +55,7 @@ const Header = ({ tabState }) => (
       tabState={tabState}
       className={styles.cabinet}
       as={HashLink}
-      to='#san-sheets'
+      to='#cabinet'
     />
     <Toggle
       className={styles.toggle}

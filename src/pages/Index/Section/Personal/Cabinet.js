@@ -62,17 +62,15 @@ const CABINETS = [
   }
 ]
 
-function hashLinkScroll ({ location }, timeout = 0) {
+function hashLinkScroll ({ location }) {
   const { hash } = location
   if (hash !== '') {
-    setTimeout(() => {
-      const elements = document.querySelectorAll(`a[href='/${hash}']`)
-      if (elements && elements.length > 0) {
-        elements[0].scrollIntoView({
-          behavior: 'smooth'
-        })
-      }
-    }, timeout)
+    const elements = document.querySelectorAll(`a[href='/${hash}']`)
+    if (elements && elements.length > 0) {
+      elements[0].scrollIntoView({
+        behavior: 'smooth'
+      })
+    }
   }
 }
 

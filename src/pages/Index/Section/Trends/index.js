@@ -60,7 +60,7 @@ export const Tab = ({
   tabState,
   notActive,
   className,
-  el: El = 'div',
+  as: El = 'div',
   ...rest
 }) => (
   <El
