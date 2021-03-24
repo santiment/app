@@ -145,7 +145,6 @@ const Screener = ({
         projectsCount={projectsCount}
         loading={tableLoading}
         type={SCREENER}
-        listName={watchlist.name}
         watchlist={watchlist}
         fetchData={fetchData}
         refetchAssets={refetchAssets}

@@ -21,7 +21,6 @@ const TableTop = ({
   isLoading,
   type,
   items,
-  listName,
   refetchAssets,
   activeColumns,
   sorting,
@@ -83,7 +82,7 @@ const TableTop = ({
           )}
         >
           <DownloadCSV
-            name={listName}
+            name={watchlist.name}
             items={items}
             className={cx(styles.action, styles.action__withLine)}
             isLoading={isLoading}
