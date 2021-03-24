@@ -21,6 +21,13 @@ export const TopTransactionsTableMetric = {
   abbreviation: 'ttt'
 }
 
+export const TopHoldersTableMetric = {
+  key: 'HoldersDistributionTable',
+  type: CONNECTED_WIDGET,
+  label: 'Top Holders Table',
+  parentMetric: Metric.amount_in_top_holders
+}
+
 export const FeesDistributionMetric = {
   key: 'FeesDistribution',
   type: CONNECTED_WIDGET,
@@ -70,6 +77,8 @@ export const Submetrics = {
       checkIsActive: ({ sidepanel }) => sidepanel === SPENT_COIN_COST
     }
   ],
+
+  [Metric.amount_in_top_holders.key]: [TopHoldersTableMetric],
 
   [Metric.transaction_volume.key]: [
     TopTransactionsTableMetric,

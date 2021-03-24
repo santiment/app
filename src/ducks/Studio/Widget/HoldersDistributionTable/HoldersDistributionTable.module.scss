@@ -1,0 +1,22 @@
+@import '~@santiment-network/ui/mixins';
+
+.skeleton {
+  min-height: 378px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.calendar {
+  margin: 0 16px;
+}
+
+.count {
+  border: 1px solid var(--porcelain);
+  border-radius: $border-radius;
+  padding: 8px;
+  width: 60px !important;
+  color: var(--rhino);
+}

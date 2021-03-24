@@ -12,9 +12,7 @@ const TransactionTable = ({
   data,
   slug,
   className,
-  tableClassName,
-  isLoading,
-  ...props
+  tableClassName
 }) => {
   const El = useMemo(
     () => {
