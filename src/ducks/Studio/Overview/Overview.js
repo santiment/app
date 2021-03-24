@@ -29,9 +29,7 @@ const SortableItem = SortableElement(
 
 const SortableList = SortableContainer(
   ({ widgets, onNewChartClick, ...props }) => {
-    const isSelectionPhase =
-      props.selectedMetrics.length > 0 &&
-      props.currentPhase === Phase.MAPVIEW_SELECTION
+    const isSelectionPhase = props.currentPhase === Phase.MAPVIEW_SELECTION
 
     return (
       <div className={styles.grid}>

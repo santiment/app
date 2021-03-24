@@ -32,6 +32,8 @@ import {
   HolderDistributionCombinedBalanceAbsoluteMetric,
   HolderDistributionMetric
 } from './Chart/Sidepanel/HolderDistribution/metrics'
+import { FeesDistributionMetric } from '../dataHub/submetrics'
+import FeesDistribution from './FeesDistribution/FeesDistribution'
 import styles from './index.module.scss'
 
 export const Studio = ({
@@ -63,13 +65,13 @@ export const Studio = ({
 
   useEffect(
     () => {
-      if (selectedMetrics.length || selectedWidgets.length) {
+      if (selectedMetrics.length) {
         setPhase(Phase.MAPVIEW_SELECTION)
       } else if (previousPhase === Phase.MAPVIEW_SELECTION) {
         setPhase(Phase.MAPVIEW)
       }
     },
-    [selectedMetrics.length, selectedWidgets.length]
+    [selectedMetrics.length]
   )
 
   function toggleOverview () {
@@ -212,6 +214,8 @@ export const Studio = ({
           ...widgets,
           AdjustedPriceDAADivergenceWidget.new(scrollIntoView)
         ])
+      } else if (item === FeesDistributionMetric) {
+        setWidgets([...widgets, FeesDistribution.new(scrollIntoView)])
       }
     } else {
       appliedMetrics = toggleSelectionMetric(item, project)
