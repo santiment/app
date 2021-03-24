@@ -12,6 +12,7 @@ const PAGE_SIZE_OPTIONS = [10, 20, 50, 100]
 
 const AssetsTable = ({
   items,
+  allItems,
   loading,
   type,
   watchlist,
@@ -48,6 +49,7 @@ const AssetsTable = ({
         comparingAssets={comparingAssets}
         type={type}
         items={items}
+        allItems={allItems}
         watchlist={watchlist}
         isLoading={loading}
         columns={columns}

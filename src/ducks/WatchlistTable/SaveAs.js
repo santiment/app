@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
+import { PROJECT } from '../Watchlists/detector'
 import SaveAs from '../Watchlists/Actions/SaveAs'
 import ExplanationTooltip from '../../components/ExplanationTooltip/ExplanationTooltip'
 import styles from './index.module.scss'
@@ -22,7 +23,7 @@ const SaveAsPopupTrigger = ({ type, watchlist }) => (
 )
 
 SaveAsPopupTrigger.defaultProps = {
-  type: 'watchlist' // refactor type
+  type: PROJECT
 }
 
 export default SaveAsPopupTrigger

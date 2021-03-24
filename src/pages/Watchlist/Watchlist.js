@@ -78,6 +78,14 @@ const WatchlistPage = ({ location, history, watchlist }) => {
     ).then(() => setTableLoading(false))
   }
 
+  const allItems = useMemo(
+    () =>
+      watchlist.listItems
+        ? watchlist.listItems.map(item => item.project)
+        : assets,
+    [watchlist]
+  )
+
   return (
     <>
       <TopPanel
@@ -95,6 +103,7 @@ const WatchlistPage = ({ location, history, watchlist }) => {
 
       <AssetsTable
         items={assets}
+        allItems={allItems}
         type={PROJECT}
         loading={loading}
         sorting={orderBy}
@@ -111,7 +120,7 @@ const WatchlistPage = ({ location, history, watchlist }) => {
           setPagination({ ...pagination, page: +pageIndex + 1 })
         }
       />
-      <AssetsTemplates items={watchlist.listItems} watchlist={watchlist} />
+      <AssetsTemplates items={allItems} watchlist={watchlist} />
     </>
   )
 }

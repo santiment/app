@@ -23,7 +23,8 @@ const Toggler = ({
   watchlist,
   isAuthor,
   sorting,
-  setOrderBy
+  setOrderBy,
+  className
 }) => {
   const { isNightMode } = useTheme()
   const [open, setOpen] = useState(false)
@@ -207,7 +208,7 @@ const Toggler = ({
   }
 
   return (
-    <>
+    <div className={className}>
       <ContextMenu
         trigger={
           <Button
@@ -277,7 +278,7 @@ const Toggler = ({
         isLoading={isLoading}
         savedActiveColumnKeys={savedActiveColumnKeys}
       />
-    </>
+    </div>
   )
 }
 

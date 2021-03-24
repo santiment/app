@@ -16,6 +16,7 @@ const WatchlistEdit = ({
   assets,
   trigger,
   name,
+  onSave,
   watchlistUi: { editableWatchlists },
   data: { allProjects },
   id,
@@ -55,6 +56,7 @@ const WatchlistEdit = ({
     setEditWatchlistState(editableWatchlists)
     if (editableWatchlists.length === 0 && isShown) {
       setNotification(`"${name}" was modified`)
+      onSave && onSave()
       close()
     }
   }
