@@ -3,7 +3,8 @@ import { updateTooltipSettings } from './tooltipSettings'
 import {
   CONNECTED_WIDGET,
   SIDEPANEL,
-  ICO_PRICE
+  ICO_PRICE,
+  WIDGET
 } from '../Studio/Sidebar/Button/types'
 import {
   SPENT_COIN_COST,
@@ -30,7 +31,7 @@ export const TopHoldersTableMetric = {
 
 export const FeesDistributionMetric = {
   key: 'FeesDistribution',
-  type: CONNECTED_WIDGET,
+  type: WIDGET,
   checkIsVisible: ({ slug }) => slug === 'ethereum',
   label: 'Fees Distribution',
   parentMetric: Metric.transaction_volume

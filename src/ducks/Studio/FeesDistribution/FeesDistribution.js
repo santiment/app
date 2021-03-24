@@ -11,7 +11,7 @@ import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import MakeProSubscriptionCard from '../../../pages/feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
 import { getTimePeriod } from '../../../pages/TrendsExplore/utils'
 import DaysSelector from './DaySelector'
-import { newWidget } from '../Widget/utils'
+import ChartWidget from '../Widget/ChartWidget'
 import styles from './FeesDistribution.module.scss'
 
 export const FEE_RANGES = [
@@ -52,18 +52,12 @@ const useFeeDistributions = ({ from, to }) => {
   }
 }
 
-const FeesDistribution = ({
-  onDisable,
-  deleteConnectedWidget,
-  widget,
-  parentWidget,
-  ...rest
-}) => {
+const FeesDistribution = ({ onDisable, deleteWidget, widget }) => {
   const [interval, setInterval] = useState('1d')
   const [settings, setSettings] = useState(formIntervalSettings(interval))
 
   function onCloseClick () {
-    deleteConnectedWidget(widget, parentWidget)
+    deleteWidget(widget)
   }
 
   useEffect(
@@ -162,13 +156,14 @@ export const FeesDistributionChart = ({
   )
 }
 
-const DATE_RANGES = [new Date(), new Date()]
-
 FeesDistribution.new = props =>
-  newWidget(FeesDistribution, {
-    isBlocked: true,
-    datesRange: DATE_RANGES,
-    ...props
-  })
+  ChartWidget.new(
+    {
+      mergedMetrics: [],
+      metrics: [],
+      ...props
+    },
+    FeesDistribution
+  )
 
 export default FeesDistribution
