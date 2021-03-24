@@ -1,3 +1,4 @@
+import { tableQuery } from '../../gql'
 import { DEFAULT_SCREENER_FN } from '../../../Screener/utils'
 
 export function getNewFunction (filter, baseProjects = []) {
@@ -49,7 +50,7 @@ export function filterMetricsBySearch (value = '', metrics) {
   return passedMetrics
 }
 
-export function buildFunction ({ fn, pagination, orderBy }) {
+function buildFunction ({ fn, pagination, orderBy }) {
   if (fn.name === DEFAULT_SCREENER_FN.name) {
     return { args: { pagination, orderBy, filters: [] }, name: 'selector' }
   } else {
@@ -58,4 +59,8 @@ export function buildFunction ({ fn, pagination, orderBy }) {
       args: { pagination, orderBy, ...fn.args }
     }
   }
+}
+
+export function buildFunctionQuery ({ fn, pagination, orderBy, activeColumns }) {
+  return [buildFunction({ fn, pagination, orderBy }), tableQuery(activeColumns)]
 }

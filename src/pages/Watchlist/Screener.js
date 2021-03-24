@@ -4,19 +4,18 @@ import {
   getProjectsByFunction,
   getAssetsByFunction
 } from '../../ducks/Watchlists/gql/hooks'
-import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
-import AssetsTable from '../../ducks/Watchlists/Widgets/Table'
-import { buildFunction } from '../../ducks/Watchlists/Widgets/Filter/utils'
 import Infographics from './Infographics'
 import { SCREENER } from '../../ducks/Watchlists/detector'
-import { tableQuery } from '../../ducks/Watchlists/gql'
+import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
+import AssetsTable from '../../ducks/Watchlists/Widgets/Table'
 import { useRecent } from '../../ducks/Watchlists/gql/list/hooks'
+import { useColumns } from '../../ducks/Watchlists/Widgets/Table/hooks'
 import { useUpdateWatchlist } from '../../ducks/Watchlists/gql/list/mutations'
+import { buildFunctionQuery } from '../../ducks/Watchlists/Widgets/Filter/utils'
 import {
   DEFAULT_SCREENER_FN,
   DEFAULT_SCREENER_ID
 } from '../../ducks/Screener/utils'
-import { useColumns } from '../../ducks/Watchlists/Widgets/Table/hooks'
 import styles from './Screener.module.scss'
 
 const Screener = ({
@@ -46,7 +45,12 @@ const Screener = ({
     watchlist.function || DEFAULT_SCREENER_FN
   )
   const { assets, projectsCount, loading } = getProjectsByFunction(
-    ...buildFunctionQuery()
+    ...buildFunctionQuery({
+      fn: screenerFn,
+      pagination,
+      orderBy,
+      activeColumns
+    })
   )
   const [tableLoading, setTableLoading] = useState(true)
   const { widgets, setWidgets } = useScreenerUrl({ location, history })
@@ -98,18 +102,16 @@ const Screener = ({
     }
   }
 
-  function buildFunctionQuery () {
-    return [
-      buildFunction({ fn: screenerFn, pagination, orderBy }),
-      tableQuery(activeColumns)
-    ]
-  }
-
   const refetchAssets = () => {
     setTableLoading(true)
-    getAssetsByFunction(...buildFunctionQuery()).then(() =>
-      setTableLoading(false)
-    )
+    getAssetsByFunction(
+      ...buildFunctionQuery({
+        fn: screenerFn,
+        pagination,
+        orderBy,
+        activeColumns
+      })
+    ).then(() => setTableLoading(false))
   }
 
   return (
