@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { generalData, project } from '../ducks/Watchlists/gql/allProjectsGQL'
+import { generalData } from '../ducks/Watchlists/gql/allProjectsGQL'
 import {
   PROJECTS_LIST_ITEMS_FRAGMENT,
   WATCHLIST_GENERAL_FRAGMENT
@@ -35,12 +35,10 @@ export const WATCHLIST_WITH_TRENDS_QUERY = gql`
       listItems {
         project {
           ...generalData
-          ...project
         }
       }
     }
   }
   ${WATCHLIST_GENERAL_FRAGMENT}
   ${generalData}
-  ${project}
 `
