@@ -104,6 +104,7 @@ const EditableList = ({
       <AutoSizer>
         {({ height, width }) => (
           <List
+            className={styles.list}
             width={width}
             height={height}
             rowHeight={rowHeight}

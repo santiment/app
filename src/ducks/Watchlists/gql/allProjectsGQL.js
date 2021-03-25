@@ -13,22 +13,6 @@ export const generalData = gql`
   }
 `
 
-export const project = gql`
-  fragment project on Project {
-    rank
-    marketSegments
-    priceUsd
-    percentChange24h
-    percentChange7d
-    volumeUsd
-    volumeChange24h
-    ethSpent
-    averageDevActivity
-    averageDailyActiveAddresses
-    marketcapUsd
-  }
-`
-
 export const PROJECT_RECENT_DATA_FRAGMENT = gql`
   fragment recentProjectData on Project {
     priceUsd
@@ -121,6 +105,8 @@ export const buildInfographicQuery = ({ metric, interval }) => gql`
 
 const ethereumData = gql`
   fragment ethereumData on Project {
+    ethSpent
+    ethBalance
     fundsRaisedUsdIcoEndPrice
     ethAddresses {
       address
@@ -135,13 +121,10 @@ export const ERC20_PROJECTS_QUERY = gql`
       page: $page
       pageSize: $pageSize
     ) {
-      ethBalance
       ...generalData
-      ...project
       ...ethereumData
     }
   }
   ${ethereumData}
   ${generalData}
-  ${project}
 `

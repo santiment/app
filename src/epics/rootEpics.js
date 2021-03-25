@@ -20,10 +20,6 @@ import {
   editAssetsInWatchlistEpic
 } from '../ducks/Watchlists/Actions/Edit/editAssetsInWatchlistEpic'
 import {
-  changeColumnsSettingsEpic,
-  saveWatchlistsSettingsAfterLaunch
-} from './changeWatchlistSettings'
-import {
   fetchAssetsFromListEpic,
   fetchAssetsFromListWithEditEpic
 } from './fetchAssetsEpic'
@@ -70,9 +66,6 @@ export default combineEpics(
   // assets
   fetchAssetsFromListEpic,
   fetchAssetsFromListWithEditEpic,
-  // assets settings
-  changeColumnsSettingsEpic,
-  saveWatchlistsSettingsAfterLaunch,
   // Settings
   removeConnectedWallet,
   connectNewWallet,

@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { generalData, project } from '../ducks/Watchlists/gql/allProjectsGQL'
+import { generalData } from '../ducks/Watchlists/gql/allProjectsGQL'
 import {
   PROJECTS_LIST_ITEMS_FRAGMENT,
   WATCHLIST_GENERAL_FRAGMENT
@@ -21,19 +21,7 @@ export const PROJECTS_WATCHLIST_QUERY = gql`
   ${PROJECTS_LIST_ITEMS_FRAGMENT}
 `
 
-export const WATCHLISTS_SETTINGS_QUERY = gql`
-  query fetchWatchlists {
-    fetchWatchlists {
-      id
-      settings {
-        pageSize
-        tableColumns
-      }
-    }
-  }
-`
-
-export const WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY = gql`
+export const WATCHLIST_WITH_TRENDS_QUERY = gql`
   query watchlist($id: ID!) {
     watchlist(id: $id) {
       ...generalFragment
@@ -44,19 +32,13 @@ export const WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY = gql`
           ...project
         }
       }
-      settings {
-        pageSize
-        tableColumns
-      }
       listItems {
         project {
           ...generalData
-          ...project
         }
       }
     }
   }
   ${WATCHLIST_GENERAL_FRAGMENT}
   ${generalData}
-  ${project}
 `

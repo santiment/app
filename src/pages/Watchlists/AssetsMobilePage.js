@@ -3,9 +3,7 @@ import throttle from 'lodash.throttle'
 import List from 'react-virtualized/dist/commonjs/List'
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import Label from '@santiment-network/ui/Label'
-import GetAssets, {
-  SORT_TYPES
-} from '../../ducks/Watchlists/Widgets/Table/GetAssets'
+import GetAssets from '../../ducks/Watchlists/Widgets/Table/GetAssets'
 import { RANGES } from '../../ducks/Watchlists/Widgets/WatchlistOverview/constants'
 import { addRecentWatchlists, removeRecentWatchlists } from '../../utils/recent'
 import AssetCard from '../../ducks/Watchlists/Widgets/Table/AssetCard'
@@ -85,7 +83,6 @@ const AssetsMobilePage = props => {
     <div className={'page'}>
       <GetAssets
         {...props}
-        sortBy={SORT_TYPES.marketcap}
         type={props.type}
         render={({
           typeInfo: { listId },
@@ -93,7 +90,6 @@ const AssetsMobilePage = props => {
           isCurrentUserTheAuthor,
           isPublicWatchlist,
           items = [],
-          isMonitored,
           trendingAssets = []
         }) => {
           if (items !== currentItems) {
@@ -192,13 +188,7 @@ const AssetsMobilePage = props => {
                 </>
               )}
 
-              <AssetsTemplates
-                items={items}
-                isAuthor={isCurrentUserTheAuthor}
-                isPublic={isPublicWatchlist}
-                listId={listId}
-                title={title}
-              />
+              <AssetsTemplates items={items} watchlist={watchlist || {}} />
             </>
           )
         }}

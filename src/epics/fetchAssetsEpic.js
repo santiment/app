@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/react'
 import { Observable } from 'rxjs'
-import { WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY } from '../queries/WatchlistGQL.js'
+import { WATCHLIST_WITH_TRENDS_QUERY } from '../queries/WatchlistGQL.js'
 import * as actions from './../actions/types'
 import { ERC20_PROJECTS_QUERY } from '../ducks/Watchlists/gql/allProjectsGQL'
 import { PROJECT } from '../ducks/Watchlists/detector'
@@ -55,9 +55,7 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
     })
     .mergeMap(({ payload: { list, filters, type } }) => {
       const picked = pickProjectsType(type)
-      const query = picked
-        ? picked.gql
-        : WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY
+      const query = picked ? picked.gql : WATCHLIST_WITH_TRENDS_QUERY
 
       return Observable.from(
         client.watchQuery({
@@ -68,7 +66,6 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
         })
       )
         .concatMap(({ data }) => {
-          const watchlist = data.watchlist
           if (!(data.watchlist || data.projects)) {
             return Observable.of({
               type: actions.ASSETS_FETCH_SUCCESS,
@@ -76,26 +73,7 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
             })
           }
 
-          const { settings, id } = watchlist || {}
-          const { watchlistsSettings } = store.getState().watchlistUi
-
           const payload = extractTablePayload(store, data)
-
-          if (settings && !watchlistsSettings[id]) {
-            const { tableColumns = {}, pageSize } = settings
-            return Observable.from([
-              { type: actions.ASSETS_FETCH_SUCCESS, payload },
-              {
-                type: actions.WATCHLIST_SETTINGS_SAVE_SUCCESS,
-                payload: {
-                  key: id,
-                  hiddenColumns: tableColumns.hiddenColumns,
-                  sorting: tableColumns.sorting,
-                  pageSize
-                }
-              }
-            ])
-          }
           return Observable.of({ type: actions.ASSETS_FETCH_SUCCESS, payload })
         })
         .catch(handleError)

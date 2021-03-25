@@ -31,6 +31,12 @@
   fill: var(--waterloo);
 }
 
+.toggler {
+  margin-right: 16px;
+  display: flex;
+  align-items: center;
+}
+
 .action {
   fill: var(--waterloo);
   box-sizing: content-box;
@@ -72,4 +78,19 @@
   &:hover {
     fill: var(--jungle-green);
   }
+}
+
+.addassets {
+  color: var(--rhino) !important;
+}
+
+.icon {
+  margin-right: 8px;
+}
+
+.divider {
+  width: 1px;
+  height: 24px;
+  background: var(--porcelain);
+  margin: 0 16px;
 }

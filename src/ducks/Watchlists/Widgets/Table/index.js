@@ -11,16 +11,15 @@ const DEFAULT_ITEMS = []
 const PAGE_SIZE_OPTIONS = [10, 20, 50, 100]
 
 const AssetsTable = ({
-  items = [],
+  items,
+  allItems,
   loading,
   type,
-  listName,
   watchlist,
   refetchAssets,
   onChangePage,
   fetchData,
   projectsCount,
-  allItems,
   pageSize,
   pageIndex,
   sorting,
@@ -49,8 +48,8 @@ const AssetsTable = ({
         refetchAssets={refetchAssets}
         comparingAssets={comparingAssets}
         type={type}
-        listName={listName}
-        items={allItems}
+        items={items}
+        allItems={allItems}
         watchlist={watchlist}
         isLoading={loading}
         columns={columns}

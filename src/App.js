@@ -11,7 +11,7 @@ import withSizes from 'react-sizes'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import nprogress from 'nprogress'
-import { PATHS } from './paths'
+import { isListPath, PATHS } from './paths'
 import NotificationStack from './components/NotificationStack'
 import UrlModals from './components/Modal/UrlModals'
 import Roadmap from './pages/Roadmap'
@@ -228,10 +228,7 @@ export const App = ({
 
   useEffect(
     () => {
-      if (
-        pathname.includes(PATHS.ADDRESSES_WATCHLIST) ||
-        pathname.includes(PATHS.SCREENER)
-      ) {
+      if (isListPath(pathname)) {
         if (!isWatchlistPage) {
           setIsWatchlistPage(true)
         }
@@ -334,7 +331,7 @@ export const App = ({
             <Route
               exact
               path='/watchlists'
-              render={props => <LoadableWatchlistsPage isDesktop={isDesktop} />}
+              render={() => <LoadableWatchlistsPage isDesktop={isDesktop} />}
             />
             <Route
               exact

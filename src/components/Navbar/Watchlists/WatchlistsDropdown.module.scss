@@ -5,13 +5,9 @@
   flex: 1;
   overflow-x: hidden;
   position: relative;
-  overflow-y: hidden;
   margin-bottom: 16px;
 
-  &:hover {
-    overflow-y: auto;
-    overflow-y: overlay;
-  }
+  @include overlay-scroll;
 }
 
 .list {

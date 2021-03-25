@@ -6,13 +6,9 @@
   overflow-x: hidden;
   position: relative;
   margin-top: 14px;
-  overflow-y: hidden;
   padding-right: 4px;
 
-  &:hover {
-    overflow-y: auto;
-    overflow-y: overlay;
-  }
+  @include overlay-scroll;
 }
 
 .item {

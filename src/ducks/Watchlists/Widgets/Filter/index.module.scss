@@ -54,13 +54,9 @@
 }
 
 .content {
-  overflow: hidden;
   height: calc(100vh - var(--screener-top-panel-height) - var(--filter-panel-header-height)) !important;
 
-  &:hover {
-    overflow-y: auto;
-    overflow-y: overlay;
-  }
+  @include overlay-scroll;
 }
 
 .closeIcon {

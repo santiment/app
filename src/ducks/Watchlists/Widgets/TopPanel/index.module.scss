@@ -16,6 +16,10 @@
   width: 100%;
 }
 
+.light {
+  background-color: var(--white);
+}
+
 .open {
   z-index: 24;
   position: absolute;

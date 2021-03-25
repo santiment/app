@@ -1,38 +1,48 @@
-import { useState } from 'react'
-import {
-  COLUMNS_SETTINGS,
-  COMMON_SETTINGS,
-  CATEGORIES_SETTINGS
-} from './columns'
+import { useCallback, useMemo, useState } from 'react'
+import { getColumns } from './Columns/builder'
+import { DEFAULT_ORDER_BY, DIRECTIONS } from './Columns/defaults'
 
-export const useColumns = category => {
-  const { hiddenColumns } = CATEGORIES_SETTINGS[category] || COMMON_SETTINGS
-  const { pageSize } = COMMON_SETTINGS
+const pageSize = 20
+const EMPTY_ARRAY = []
 
-  const [columns, setColumns] = useState(
-    changeShowing(COLUMNS_SETTINGS, hiddenColumns)
+export function useColumns () {
+  const defaultPagination = { page: 1, pageSize: +pageSize }
+  const [pagination, setPagination] = useState(defaultPagination)
+  const [orderBy, setOrderBy] = useState(DEFAULT_ORDER_BY)
+  const [activeColumnsKeys, setActiveColumnsKeys] = useState(EMPTY_ARRAY)
+  const activeColumns = useMemo(() => getColumns(activeColumnsKeys), [
+    activeColumnsKeys
+  ])
+
+  const fetchData = useCallback(
+    ({ pageSize, sortBy }) => {
+      const { id, desc } = sortBy[0]
+      const activeColumn = activeColumns.find(column => column.key === id)
+      if (!activeColumn) {
+        setOrderBy(DEFAULT_ORDER_BY)
+      } else {
+        const { timeRange, aggregation } = activeColumn
+        const newDirection = desc ? DIRECTIONS.DESC : DIRECTIONS.ASC
+        setOrderBy({
+          metric: id,
+          aggregation,
+          dynamicTo: 'now',
+          dynamicFrom: timeRange,
+          direction: newDirection
+        })
+      }
+      setPagination({ ...pagination, pageSize: +pageSize })
+    },
+    [activeColumns]
   )
 
-  function changeShowing (columns, hiddenColumns) {
-    const modifiedColumns = JSON.parse(JSON.stringify(columns))
-    hiddenColumns.forEach(name => (modifiedColumns[name].show = false))
-
-    return modifiedColumns
-  }
-
-  const toggleColumn = ({ name, show, selectable }) => {
-    const toggledColumns = Object.assign({}, columns)
-    toggledColumns[name] = {
-      ...toggledColumns[name],
-      show: selectable ? !show : show
-    }
-
-    return setColumns(toggledColumns)
-  }
-
   return {
-    pageSize,
-    columns,
-    toggleColumn
+    pagination,
+    setPagination,
+    orderBy,
+    setOrderBy,
+    fetchData,
+    activeColumns,
+    setActiveColumnsKeys
   }
 }

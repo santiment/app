@@ -3,7 +3,7 @@ import Panel from '@santiment-network/ui/Panel/Panel'
 import Widget from '../../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistHistory/Widget'
 import WatchlistAnomalies from '../../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistAnomalies/WatchlistAnomalies'
 import { RANGES } from '../../../ducks/Watchlists/Widgets/WatchlistOverview/constants'
-import styles from '../Watchlist.module.scss'
+import styles from './index.module.scss'
 
 const WatchlistPriceWidget = ({
   type,

@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
-import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
-import Copy from '../../../Actions/Copy'
-import SaveAs from '../../../Actions/SaveAs'
-import DownloadCSV from '../../../Actions/DownloadCSV'
-import CompareInfo from '../CompareInfo/CompareInfo'
-import CompareAction from '../CompareInfo/CompareAction'
-import Refresh from '../../../../../components/Refresh/Refresh'
-import ProPopupWrapper from '../../../../../components/ProPopup/Wrapper'
-import ExplanationTooltip from '../../../../../components/ExplanationTooltip/ExplanationTooltip'
-import { useIsAuthor } from '../../../gql/list/hooks'
+import Button from '@santiment-network/ui/Button'
+import { PROJECT, SCREENER } from '../../../detector'
 import ColumnsToggler from '../Columns/Toggler'
-import { PROJECT } from '../../../detector'
+// import Copy from '../../../../WatchlistTable/Copy'
+import CompareInfo from '../CompareInfo/CompareInfo'
+import { useIsAuthor } from '../../../gql/list/hooks'
+import SaveAs from '../../../../WatchlistTable/SaveAs'
+import CompareAction from '../CompareInfo/CompareAction'
+import EditAssets from '../../../Actions/Edit/EditAssets'
+import Refresh from '../../../../../components/Refresh/Refresh'
+import DownloadCSV from '../../../../WatchlistTable/DownloadCSV'
+import ProPopupWrapper from '../../../../../components/ProPopup/Wrapper'
 import styles from './index.module.scss'
 
 const EMPTY_OBJ = {}
@@ -21,7 +21,7 @@ const TableTop = ({
   isLoading,
   type,
   items,
-  listName,
+  allItems,
   refetchAssets,
   activeColumns,
   sorting,
@@ -35,6 +35,21 @@ const TableTop = ({
 
   return (
     <div className={styles.wrapper}>
+      {type === PROJECT && (
+        <EditAssets
+          name={watchlist.name}
+          id={watchlist.id}
+          watchlist={watchlist}
+          assets={allItems}
+          onSave={refetchAssets}
+          trigger={
+            <Button border accent='positive' className={styles.addassets}>
+              <Icon type='assets' className={styles.icon} />
+              Add assets
+            </Button>
+          }
+        />
+      )}
       <Refresh
         timestamp={refreshTimestamp}
         isLoading={isLoading}
@@ -58,6 +73,7 @@ const TableTop = ({
       )}
       <div className={styles.actions}>
         <ColumnsToggler
+          className={styles.toggler}
           watchlist={watchlist}
           isAuthor={isAuthor}
           sorting={sorting}
@@ -65,67 +81,17 @@ const TableTop = ({
           activeColumns={activeColumns}
           updateActiveColumnsKeys={updateActiveColumnsKeys}
         />
-        <ProPopupWrapper
-          type={type}
-          trigger={props => (
-            <div
-              {...props}
-              className={cx(styles.action__wrapper, styles.action__withLine)}
-            >
-              <ExplanationTooltip
-                text='Download .csv'
-                offsetY={10}
-                className={styles.action__tooltip}
-              >
-                <Icon type='save' className={styles.action} />
-              </ExplanationTooltip>
-            </div>
-          )}
-        >
-          <DownloadCSV
-            name={listName}
-            items={items}
-            className={cx(styles.action, styles.action__withLine)}
-            isLoading={isLoading}
-          >
-            <ExplanationTooltip
-              text='Download .csv'
-              offsetY={10}
-              className={styles.action__tooltip}
-            >
-              <Icon type='save' />
-            </ExplanationTooltip>
-          </DownloadCSV>
+        <ProPopupWrapper type={type}>
+          <DownloadCSV watchlist={watchlist} data={items} />
         </ProPopupWrapper>
-        <Copy
-          id={watchlist.id}
-          trigger={
-            <div className={cx(styles.action, styles.action__withLine)}>
-              <ExplanationTooltip
-                text='Copy assets to watchlist'
-                offsetY={10}
-                className={styles.action__tooltip}
-              >
-                <Icon type='copy' />
-              </ExplanationTooltip>
-            </div>
-          }
-        />
-        <SaveAs
-          watchlist={watchlist}
-          type={PROJECT}
-          trigger={
-            <div className={cx(styles.action, styles.action__saveAs)}>
-              <ExplanationTooltip
-                text='Save as watchlist'
-                offsetY={10}
-                className={styles.action__tooltip}
-              >
-                <Icon type='add-watchlist' />
-              </ExplanationTooltip>
-            </div>
-          }
-        />
+        {/* <div className={styles.divider} /> */}
+        {/* <Copy watchlist={watchlist} /> */}
+        {type === SCREENER && (
+          <>
+            <div className={styles.divider} />
+            <SaveAs watchlist={watchlist} type={PROJECT} />
+          </>
+        )}
       </div>
     </div>
   )

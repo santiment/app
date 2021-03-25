@@ -18,5 +18,12 @@ export const PATHS = {
   DEXS: '/decentralized-exchanges',
   BTC_LOCKED: '/bitcoin-locked-on-ethereum',
   ADDRESSES_WATCHLIST: '/watchlist/addresses',
+  PROJECTS_WATCHLIST: '/watchlist/projects',
   SCREENER: '/screener'
 }
+
+export const isListPath = path =>
+  path.includes(PATHS.PROJECTS_WATCHLIST) ||
+  path.includes(PATHS.ADDRESSES_WATCHLIST) ||
+  path.includes(PATHS.SCREENER) ||
+  path.includes('/assets/list')

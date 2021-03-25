@@ -70,10 +70,11 @@
 .content {
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
   height: calc(100vh - 300px);
   max-height: 520px;
   padding-top: 12px;
+
+  @include overlay-scroll(null);
 }
 
 .search {
