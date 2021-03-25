@@ -10,7 +10,7 @@
 }
 
 .panel {
-  max-height: 480px;
+  max-height: 400px;
   width: 416px;
   min-height: 200px;
   padding: 20px 0 0 0;
@@ -92,9 +92,9 @@
 .content {
   margin-left: 24px;
   padding-right: 24px;
-  max-height: 407px;
-  overflow-y: auto;
-  overflow-y: overlay;
+  max-height: 370px;
+
+  @include overlay-scroll(null);
 }
 
 .scroller {
