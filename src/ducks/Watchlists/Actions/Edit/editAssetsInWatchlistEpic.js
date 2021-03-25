@@ -1,9 +1,9 @@
 import { Observable } from 'rxjs'
 import * as actions from '../../../../actions/types'
 import { handleErrorAndTriggerAction } from '../../../../epics/utils'
-import { updateWatchlistGQL } from './updateWatchlistQGL'
-import { PROJECTS_WATCHLIST_QUERY } from '../../../../queries/WatchlistGQL'
-import { getWatchlistsQuery } from '../../gql/lists/helpers'
+import { updateWatchlistOnEdit } from '../../gql/cache'
+import { UPDATE_WATCHLIST_MUTATION } from '../../gql/list/queries'
+import { PROJECT } from '../../detector'
 
 export const editAssetsInWatchlistEpic = (action$, store, { client }) =>
   action$
@@ -13,8 +13,9 @@ export const editAssetsInWatchlistEpic = (action$, store, { client }) =>
         project_id: +val.id
       }))
       const watchlistUpdate = client.mutate({
-        mutation: updateWatchlistGQL,
-        variables: { id: +assetsListId, listItems: normalizedListItems }
+        mutation: UPDATE_WATCHLIST_MUTATION(PROJECT),
+        variables: { id: +assetsListId, listItems: normalizedListItems },
+        update: updateWatchlistOnEdit
       })
       return Observable.from(watchlistUpdate)
         .mergeMap(() =>
@@ -36,18 +37,10 @@ export const addAssetToWatchlistEpic = (action$, store, { client }) =>
       const newListItems = projectId
         ? [...normalizedList, { project_id: +projectId }]
         : normalizedList
-
       const watchlistUpdate = client.mutate({
-        mutation: updateWatchlistGQL,
+        mutation: UPDATE_WATCHLIST_MUTATION(PROJECT),
         variables: { id: +assetsListId, listItems: newListItems },
-        update: (store, { data: { updateWatchlist } }) => {
-          const data = store.readQuery({ query: PROJECTS_WATCHLIST_QUERY })
-          const index = data.fetchWatchlists.findIndex(
-            ({ id }) => id === updateWatchlist.id
-          )
-          data.fetchWatchlists[index] = updateWatchlist
-          store.writeQuery({ query: PROJECTS_WATCHLIST_QUERY, data })
-        }
+        update: updateWatchlistOnEdit
       })
       return Observable.from(watchlistUpdate)
         .mergeMap(() =>
@@ -72,17 +65,9 @@ export const removeAssetFromWatchlistEpic = (action$, store, { client }) =>
           []
         )
       const mutationPromise = client.mutate({
-        mutation: updateWatchlistGQL,
+        mutation: UPDATE_WATCHLIST_MUTATION(PROJECT),
         variables: { listItems: newListItems, id: +assetsListId },
-        update: (store, { data: { updateWatchlist } }) => {
-          const query = getWatchlistsQuery()
-          const data = store.readQuery({ query: query })
-          const index = data.watchlists.findIndex(
-            ({ id }) => id === updateWatchlist.id
-          )
-          data.watchlists[index] = updateWatchlist
-          store.writeQuery({ query: query, data })
-        }
+        update: updateWatchlistOnEdit
       })
       return Observable.from(mutationPromise)
         .mergeMap(() =>

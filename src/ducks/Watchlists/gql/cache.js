@@ -1,7 +1,4 @@
 import { getWatchlistsShortQuery } from './lists/helpers'
-import { BLOCKCHAIN_ADDRESS } from '../detector'
-import { PROJECTS_WATCHLIST_QUERY } from '../../../queries/WatchlistGQL'
-import { ADDRESS_WATCHLIST_QUERY } from '../../WatchlistAddressesTable/gql/queries'
 
 function visitWatchlistsCache (visitor) {
   return (cache, { data }) => {
@@ -19,22 +16,15 @@ function visitWatchlistsCache (visitor) {
 export function updateWatchlistOnEdit (cache, { data }) {
   const updateWatchlist =
     data.updateWatchlist || data.addWatchlistItems || data.removeWatchlistItems
-  const { id, type } = updateWatchlist
-  const query =
-    type === BLOCKCHAIN_ADDRESS
-      ? ADDRESS_WATCHLIST_QUERY
-      : PROJECTS_WATCHLIST_QUERY
+  const { type } = updateWatchlist
+  const query = getWatchlistsShortQuery(type)
+  const store = cache.readQuery({ query: query })
+  const index = store.watchlists.findIndex(
+    ({ id }) => id === updateWatchlist.id
+  )
+  store.watchlists[index] = { ...store.watchlists[index], ...updateWatchlist }
 
-  const watchlist = cache.readQuery({
-    query: query,
-    variables: { id: +id }
-  })
-
-  cache.writeQuery({
-    query: query,
-    variables: { id: +id },
-    data: { watchlist: { ...updateWatchlist, ...watchlist } }
-  })
+  cache.writeQuery({ query: query, data: store })
 }
 
 export const updateWatchlistsOnCreation = visitWatchlistsCache(

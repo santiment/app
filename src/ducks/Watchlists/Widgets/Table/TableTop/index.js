@@ -3,7 +3,7 @@ import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import { PROJECT, SCREENER } from '../../../detector'
 import ColumnsToggler from '../Columns/Toggler'
-import Copy from '../../../../WatchlistTable/Copy'
+// import Copy from '../../../../WatchlistTable/Copy'
 import CompareInfo from '../CompareInfo/CompareInfo'
 import { useIsAuthor } from '../../../gql/list/hooks'
 import SaveAs from '../../../../WatchlistTable/SaveAs'
@@ -84,8 +84,8 @@ const TableTop = ({
         <ProPopupWrapper type={type}>
           <DownloadCSV watchlist={watchlist} data={items} />
         </ProPopupWrapper>
-        <div className={styles.divider} />
-        <Copy watchlist={watchlist} />
+        {/* <div className={styles.divider} /> */}
+        {/* <Copy watchlist={watchlist} /> */}
         {type === SCREENER && (
           <>
             <div className={styles.divider} />
