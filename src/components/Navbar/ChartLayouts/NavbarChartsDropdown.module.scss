@@ -34,14 +34,10 @@
   display: flex;
   flex-direction: column;
   height: calc(100% - 14px - 16px);
-  overflow-y: hidden;
   padding-right: 4px;
   position: relative;
 
-  &:hover {
-    overflow-y: auto;
-    overflow-y: overlay;
-  }
+  @include overlay-scroll;
 }
 
 .scroll {

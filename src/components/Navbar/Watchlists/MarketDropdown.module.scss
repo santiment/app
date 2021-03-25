@@ -35,12 +35,8 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 
-  &:hover {
-    overflow-y: auto;
-    overflow-y: overlay;
-  }
+  @include overlay-scroll;
 }
 
 .recentList {
