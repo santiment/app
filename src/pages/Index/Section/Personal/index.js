@@ -8,6 +8,10 @@ import StartGuide from './StartGuide'
 import Cabinet from './Cabinet'
 import styles from './index.module.scss'
 
+const SHEETS_ANCHOR = '#san-sheets'
+const QUICK_START_ANCHOR = '#quick-start'
+const CABINET_ANCHOR = '#cabinet'
+
 const LS_PERSONAL_TAB = 'LS_PERSONAL_TAB'
 export const PersonalTabType = {
   START_GUIDE: 'Quick Start Guide',
@@ -16,14 +20,14 @@ export const PersonalTabType = {
 }
 
 const PersonalTabHashes = {
-  [PersonalTabType.CABINET]: '#cabinet',
-  [PersonalTabType.SHEETS]: '#san-sheets'
+  [PersonalTabType.CABINET]: CABINET_ANCHOR,
+  [PersonalTabType.SHEETS]: SHEETS_ANCHOR
 }
 
 const HashTab = {
-  '#cabinet': PersonalTabType.CABINET,
-  '#san-sheets': PersonalTabType.CABINET,
-  '#quick-start': PersonalTabType.START_GUIDE
+  [CABINET_ANCHOR]: PersonalTabType.CABINET,
+  [SHEETS_ANCHOR]: PersonalTabType.CABINET,
+  [QUICK_START_ANCHOR]: PersonalTabType.START_GUIDE
 }
 
 export const TabTypeComponent = {
@@ -54,14 +58,14 @@ const Header = ({ tabState }) => (
       tab={PersonalTabType.START_GUIDE}
       tabState={tabState}
       as={HashLink}
-      to='#quick-start'
+      to={QUICK_START_ANCHOR}
     />
     <Tab
       tab={PersonalTabType.CABINET}
       tabState={tabState}
       className={styles.cabinet}
       as={HashLink}
-      to='#cabinet'
+      to={CABINET_ANCHOR}
     />
     <Toggle
       className={styles.toggle}
