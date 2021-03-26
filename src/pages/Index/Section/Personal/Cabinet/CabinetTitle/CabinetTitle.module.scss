@@ -13,6 +13,8 @@
 
     &__title {
       @include text('body-1', 'l');
+
+      color: var(--rhino);
     }
 
     &__description {

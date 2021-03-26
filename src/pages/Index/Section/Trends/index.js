@@ -55,17 +55,25 @@ const TabTypeContent = {
   }
 }
 
-export const Tab = ({ tab, tabState, className }) => (
-  <span
+export const Tab = ({
+  tab,
+  tabState,
+  notActive,
+  className,
+  as: El = 'div',
+  ...rest
+}) => (
+  <El
     className={cx(
       styles.tab,
       tab !== tabState[0] && styles.tab_inactive,
       className
     )}
     onClick={() => tabState[1](tab)}
+    {...rest}
   >
     {tab}
-  </span>
+  </El>
 )
 
 const Tabs = ({ tabState }) => (
