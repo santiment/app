@@ -4,6 +4,7 @@ export const useTableEffects = ({
   datesRange,
   rerenderWidgets,
   deleteConnectedWidget,
+  deleteWidget,
   widget,
   parentWidget
 }) => {
@@ -28,7 +29,9 @@ export const useTableEffects = ({
   }
 
   function onCloseClick () {
-    deleteConnectedWidget(widget, parentWidget)
+    deleteConnectedWidget && parentWidget
+      ? deleteConnectedWidget(widget, parentWidget)
+      : deleteWidget(widget)
   }
 
   return {

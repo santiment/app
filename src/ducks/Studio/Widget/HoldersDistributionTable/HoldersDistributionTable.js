@@ -4,7 +4,6 @@ import debounce from 'lodash.debounce'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import Icon from '@santiment-network/ui/Icon'
 import Input from '@santiment-network/ui/Input'
-import { newWidget } from '../utils'
 import { DAY, getTimeIntervalFromToday } from '../../../../utils/dates'
 import { COLUMNS } from './utils'
 import SmoothDropdown from '../../../../components/SmoothDropdown/SmoothDropdown'
@@ -13,6 +12,7 @@ import Calendar from '../../AdvancedView/Calendar'
 import { useTableEffects } from '../TopTransactionsTable/hooks'
 import { useTopHolders } from './hooks'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
+import ChartWidget from '../ChartWidget'
 import styles from './HoldersDistributionTable.module.scss'
 import tableStyles from './../../../../components/Tables/TopTokenTransactions/index.module.scss'
 import widgetStyles from '../Widget.module.scss'
@@ -95,9 +95,14 @@ const HoldersDistributionTable = ({ settings: { slug }, ...rest }) => {
 }
 
 HoldersDistributionTable.new = props =>
-  newWidget(HoldersDistributionTable, {
-    datesRange: DEFAULT_DATES,
-    ...props
-  })
+  ChartWidget.new(
+    {
+      datesRange: DEFAULT_DATES,
+      mergedMetrics: [],
+      metrics: [],
+      ...props
+    },
+    HoldersDistributionTable
+  )
 
 export default HoldersDistributionTable
