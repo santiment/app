@@ -7,7 +7,6 @@ import Toggle from '../../../../components/VisibilityIndicator/Toggle'
 import StartGuide from './StartGuide'
 import Cabinet from './Cabinet'
 import styles from './index.module.scss'
-import CabinetTitle from './Cabinet/CabinetTitle/CabinetTitle'
 
 const LS_PERSONAL_TAB = 'LS_PERSONAL_TAB'
 export const PersonalTabType = {
