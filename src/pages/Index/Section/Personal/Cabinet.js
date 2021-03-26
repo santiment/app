@@ -11,6 +11,8 @@ import SheetsTemplates from './Cabinet/SheetsTemplates/SheetsTemplates'
 import { useDebounceEffect } from '../../../../hooks'
 import styles from './Cabinet.module.scss'
 
+const SHEETS_ANCHOR = '#san-sheets'
+
 const CABINETS = [
   {
     title: (
@@ -33,7 +35,7 @@ const CABINETS = [
     title: (
       <CabinetTitle
         as={HashLink}
-        to='#san-sheets'
+        to={SHEETS_ANCHOR}
         onClick={e => {
           e.stopPropagation()
         }}
@@ -74,22 +76,26 @@ function hashLinkScroll ({ location }) {
   }
 }
 
-const useAnchorLoading = deps => {
+const useAnchorLoading = (deps, scrollAnchors) => {
   const history = useHistory()
 
   useDebounceEffect(
     () => {
-      hashLinkScroll(history)
+      if (scrollAnchors.indexOf(history.location.hash) !== -1) {
+        hashLinkScroll(history)
+      }
     },
     1000,
-    [history.location, ...deps]
+    [history.location, scrollAnchors, ...deps]
   )
 }
+
+const SCROLLABLE_ANCHORS = [SHEETS_ANCHOR]
 
 const Cabinet = () => {
   const { isPro, loading } = useUserSubscriptionStatus()
 
-  useAnchorLoading([loading])
+  useAnchorLoading([loading], SCROLLABLE_ANCHORS)
 
   if (loading) return null
 
