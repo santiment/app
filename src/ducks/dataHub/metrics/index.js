@@ -54,7 +54,8 @@ export const METRIC_GROUPS = {
   REDDIT_SENTIMENT: 'Reddit sentiment',
   TELEGRAM_SENTIMENT: 'Telegram sentiment',
   TWITTER_SENTIMENT: 'Twitter sentiment',
-  TOTAL_SENTIMENT: 'Total sentiment'
+  TOTAL_SENTIMENT: 'Total sentiment',
+  MAKERDAO_STATS: 'Makerdao Stats'
 }
 
 export const Metric = {
@@ -696,7 +697,80 @@ export const Metric = {
     .key]: HOLDER_DISTRIBUTION_NODE,
   [HolderDistributionCombinedBalanceAbsoluteMetric
     .holders_distribution_combined_balance_1_to_10
-    .key]: HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE
+    .key]: HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE,
+
+  mcd_locked_token: {
+    category: 'On-chain',
+    group: METRIC_GROUPS.MAKERDAO_STATS,
+    node: 'bar',
+    label: 'Token Locked in Multi-Collateral CDPs'
+  },
+  daily_sai_locked: {
+    category: 'On-chain',
+    group: METRIC_GROUPS.MAKERDAO_STATS,
+    node: 'bar',
+    label: 'WETH Locked in Single-Collateral CDPs'
+  },
+  mcd_debt: {
+    category: 'On-chain',
+    group: METRIC_GROUPS.MAKERDAO_STATS,
+    node: 'bar',
+    label: 'Multi-Collateral DAI Total Supply'
+  },
+  daily_dai_collat_ratio: {
+    category: 'On-chain',
+    group: METRIC_GROUPS.MAKERDAO_STATS,
+    node: 'bar',
+    label: 'Collateralization Ratio for BAT and USDC in Multi-Collateral CDPs'
+  },
+  daily_dai_collat_ratio_weth: {
+    category: 'On-chain',
+    group: METRIC_GROUPS.MAKERDAO_STATS,
+    node: 'bar',
+    label: 'Collateralization Ratio for WETH in Multi-Collateral CDPs'
+  },
+  daily_dai_collat_ratio_sai: {
+    category: 'On-chain',
+    group: METRIC_GROUPS.MAKERDAO_STATS,
+    node: 'bar',
+    label: 'Collateralization Ratio for SAI in Multi-Collateral CDPs'
+  },
+  daily_sai_collat_ratio: {
+    category: 'On-chain',
+    group: METRIC_GROUPS.MAKERDAO_STATS,
+    node: 'bar',
+    label: 'Collateralization Ratio for Single-Collateral CDPs'
+  },
+  mcd_dsr: {
+    category: 'On-chain',
+    group: METRIC_GROUPS.MAKERDAO_STATS,
+    node: 'bar',
+    label: 'Multi-Collateral DAI in DSR Saving Annual Rate'
+  },
+  mcd_stability_fee: {
+    category: 'On-chain',
+    group: METRIC_GROUPS.MAKERDAO_STATS,
+    node: 'bar',
+    label: 'Multi-Collateral Stability Fee'
+  },
+  mcd_debt_created_5m: {
+    category: 'On-chain',
+    group: METRIC_GROUPS.MAKERDAO_STATS,
+    node: 'bar',
+    label: 'Multi-Collateral DAI Created'
+  },
+  mcd_debt_repaid_5m: {
+    category: 'On-chain',
+    group: METRIC_GROUPS.MAKERDAO_STATS,
+    node: 'bar',
+    label: 'Multi-Collateral DAI Repaid'
+  },
+  mcd_art_liquidation_5m: {
+    category: 'On-chain',
+    group: METRIC_GROUPS.MAKERDAO_STATS,
+    node: 'bar',
+    label: 'Makerdao Collateral Liquidation Amounts'
+  }
 }
 
 Object.keys(Metric).forEach(key => {

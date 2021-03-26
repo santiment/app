@@ -32,6 +32,7 @@ const Header = ({ dates, onCalendarChange, onCloseClick, count, setCount }) => (
     />
     <Input
       type='number'
+      max={500}
       onChange={e => {
         setCount(+e.target.value)
       }}

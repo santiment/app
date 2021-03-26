@@ -106,7 +106,6 @@ export const METRICS = [
   'realized_value_usd_3y',
   'realized_value_usd_60d',
   'mcd_collat_ratio_weth',
-  'mcd_locked_token',
   'circulation_30d',
   'realized_value_usd_10y',
   'realized_value_usd_7d',
@@ -305,5 +304,18 @@ export const METRICS = [
   'stablecoin_trade_volume_by_token',
   'token_eth_price_by_dex_5m',
   'exchange_balance_per_exchange',
-  'mvrv_usd_z_score'
+  'mvrv_usd_z_score',
+
+  'mcd_locked_token',
+  'daily_sai_locked',
+  'mcd_debt',
+  'daily_dai_collat_ratio',
+  'daily_dai_collat_ratio_weth',
+  'daily_dai_collat_ratio_sai',
+  'daily_sai_collat_ratio',
+  'mcd_dsr',
+  'mcd_stability_fee',
+  'mcd_debt_created_5m',
+  'mcd_debt_repaid_5m',
+  'mcd_art_liquidation_5m'
 ]
