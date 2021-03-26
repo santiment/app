@@ -51,7 +51,9 @@ import {
   SIGNAL_METRIC_TYPES,
   METRIC_TYPES,
   AMOUNT_ABS_CHANGE_UP_MODEL,
-  AMOUNT_ABS_CHANGE_DOWN_MODEL
+  AMOUNT_ABS_CHANGE_DOWN_MODEL,
+  PRICE_ABS_CHANGE_BELOW_OR_EQUAL,
+  PRICE_ABS_CHANGE_ABOVE_OR_EQUAL
 } from './constants'
 import { capitalizeStr } from '../../../utils/utils'
 import { formatNumber } from '../../../utils/formatting'
@@ -198,8 +200,14 @@ const getFormTriggerType = ({ target, type, operation }) => {
     case PRICE_ABS_CHANGE_ABOVE.value: {
       return PRICE_ABS_CHANGE_ABOVE
     }
+    case PRICE_ABS_CHANGE_ABOVE_OR_EQUAL.value: {
+      return PRICE_ABS_CHANGE_ABOVE_OR_EQUAL
+    }
     case PRICE_ABS_CHANGE_BELOW.value: {
       return PRICE_ABS_CHANGE_BELOW
+    }
+    case PRICE_ABS_CHANGE_BELOW_OR_EQUAL.value: {
+      return PRICE_ABS_CHANGE_BELOW_OR_EQUAL
     }
     case PRICE_ABS_CHANGE_INSIDE.value: {
       return PRICE_ABS_CHANGE_INSIDE
@@ -263,6 +271,8 @@ const getTriggerOperation = ({
       break
     }
     case PRICE_CHANGE_TYPES.ABOVE:
+    case PRICE_CHANGE_TYPES.ABOVE_OR_EQUAL:
+    case PRICE_CHANGE_TYPES.BELOW_OR_EQUAL:
     case PRICE_CHANGE_TYPES.BELOW: {
       mapped[value] = absoluteThreshold
       break
@@ -1619,6 +1629,18 @@ export const titleMetricValuesHeader = (
           `moving up ${percentThresholdLeft ||
             0}% or moving down ${percentThresholdRight ||
             0}% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`
+        )
+      }
+      case PRICE_CHANGE_TYPES.ABOVE_OR_EQUAL: {
+        return buildFormBlock(
+          priceGoesTitle,
+          'above or equal ' + getUsd(absoluteThreshold, isPriceMetric)
+        )
+      }
+      case PRICE_CHANGE_TYPES.BELOW_OR_EQUAL: {
+        return buildFormBlock(
+          priceGoesTitle,
+          'below or equal ' + getUsd(absoluteThreshold, isPriceMetric)
         )
       }
       case PRICE_CHANGE_TYPES.ABOVE: {
