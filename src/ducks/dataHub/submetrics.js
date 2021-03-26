@@ -24,7 +24,7 @@ export const TopTransactionsTableMetric = {
 
 export const TopHoldersTableMetric = {
   key: 'HoldersDistributionTable',
-  type: CONNECTED_WIDGET,
+  type: WIDGET,
   label: 'Top Holders Table',
   parentMetric: Metric.amount_in_top_holders
 }

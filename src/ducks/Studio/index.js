@@ -32,8 +32,12 @@ import {
   HolderDistributionCombinedBalanceAbsoluteMetric,
   HolderDistributionMetric
 } from './Chart/Sidepanel/HolderDistribution/metrics'
-import { FeesDistributionMetric } from '../dataHub/submetrics'
+import {
+  FeesDistributionMetric,
+  TopHoldersTableMetric
+} from '../dataHub/submetrics'
 import FeesDistribution from './FeesDistribution/FeesDistribution'
+import HoldersDistributionTable from './Widget/HoldersDistributionTable/HoldersDistributionTable'
 import styles from './index.module.scss'
 
 export const Studio = ({
@@ -216,6 +220,8 @@ export const Studio = ({
         ])
       } else if (item === FeesDistributionMetric) {
         setWidgets([...widgets, FeesDistribution.new(scrollIntoView)])
+      } else if (item === TopHoldersTableMetric) {
+        setWidgets([...widgets, HoldersDistributionTable.new(scrollIntoView)])
       }
     } else {
       appliedMetrics = toggleSelectionMetric(item, project)
