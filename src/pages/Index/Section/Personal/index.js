@@ -7,6 +7,7 @@ import Toggle from '../../../../components/VisibilityIndicator/Toggle'
 import StartGuide from './StartGuide'
 import Cabinet from './Cabinet'
 import styles from './index.module.scss'
+import CabinetTitle from './Cabinet/CabinetTitle/CabinetTitle'
 
 const LS_PERSONAL_TAB = 'LS_PERSONAL_TAB'
 export const PersonalTabType = {
@@ -22,7 +23,8 @@ const PersonalTabHashes = {
 
 const HashTab = {
   '#cabinet': PersonalTabType.CABINET,
-  '#san-sheets': PersonalTabType.CABINET
+  '#san-sheets': PersonalTabType.CABINET,
+  '#quick-start': PersonalTabType.START_GUIDE
 }
 
 export const TabTypeComponent = {
@@ -49,7 +51,12 @@ export function loadTab () {
 
 const Header = ({ tabState }) => (
   <Row className={styles.header}>
-    <Tab tab={PersonalTabType.START_GUIDE} tabState={tabState} />
+    <Tab
+      tab={PersonalTabType.START_GUIDE}
+      tabState={tabState}
+      as={HashLink}
+      to='#quick-start'
+    />
     <Tab
       tab={PersonalTabType.CABINET}
       tabState={tabState}
