@@ -8,16 +8,17 @@ import SmoothDropdown from '../../../../components/SmoothDropdown/SmoothDropdown
 import Table from '../../../Table'
 import Calendar from '../../AdvancedView/Calendar'
 import { useTableEffects } from '../TopTransactionsTable/hooks'
-import { useTopHolders } from './hooks'
+import { useMaxCountTopHolders, useTopHolders } from './hooks'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
 import ChartWidget from '../ChartWidget'
 import styles from './HoldersDistributionTable.module.scss'
 import tableStyles from './../../../../components/Tables/TopTokenTransactions/index.module.scss'
 import widgetStyles from '../Widget.module.scss'
 
+const PAGE_SIZE_OPTIONS = [10, 25, 50]
+
 const { from, to } = getTimeIntervalFromToday(-30, DAY)
 const DEFAULT_DATES = [from, to]
-const DEFAULT_COUNT = 100
 
 const Header = ({ dates, onCalendarChange, onCloseClick }) => (
   <div className={styles.header}>
@@ -41,14 +42,20 @@ const Header = ({ dates, onCalendarChange, onCloseClick }) => (
 const HoldersDistributionTable = ({ settings: { slug }, ...rest }) => {
   const { dates, onCalendarChange, onCloseClick } = useTableEffects(rest)
   const [from, to] = dates
+  const [pageSize, setPageSize] = useState(10)
+  const [page, setPage] = useState(0)
+  const [maxAmount] = useMaxCountTopHolders({
+    from,
+    to,
+    slug
+  })
   const [holders, loading] = useTopHolders({
     from,
     to,
-    count: DEFAULT_COUNT,
+    page: page + 1,
+    pageSize,
     slug
   })
-
-  const [pageSize] = useState(10)
 
   return (
     <PanelWithHeader
@@ -73,8 +80,12 @@ const HoldersDistributionTable = ({ settings: { slug }, ...rest }) => {
           <Table
             data={holders}
             columns={COLUMNS}
+            fetchData={({ pageSize }) => {
+              setPageSize(pageSize)
+            }}
             options={{
               sortingSettings: {
+                defaultSorting: [],
                 allowSort: true
               },
               stickySettings: { isStickyHeader: true },
@@ -83,7 +94,13 @@ const HoldersDistributionTable = ({ settings: { slug }, ...rest }) => {
               },
               paginationSettings: {
                 pageSize: pageSize,
-                onChangePage: () => {}
+                pageIndex: page,
+                onChangePage: pageIndex => {
+                  setPage(pageIndex)
+                },
+                pageSizeOptions: PAGE_SIZE_OPTIONS,
+                controlledPageCount: Math.ceil(maxAmount / pageSize),
+                manualPagination: true
               }
             }}
             className={widgetStyles.widget_secondary}
@@ -100,6 +117,10 @@ const HoldersDistributionTable = ({ settings: { slug }, ...rest }) => {
   )
 }
 
+/*
+* pageSizeOptions: PAGE_SIZE_OPTIONS,
+
+* */
 HoldersDistributionTable.new = props =>
   ChartWidget.new(
     {
