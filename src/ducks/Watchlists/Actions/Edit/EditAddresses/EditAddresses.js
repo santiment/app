@@ -18,6 +18,7 @@ const updateWatchlist = ({ id, listItems }) =>
   updateWatchlistShort({ id: +id, listItems })
 
 export const NOT_VALID_ADDRESS = 'Not supported ETH address'
+export const ALREADY_ADDED_ADDRESS = 'This address was added'
 
 const extractAddress = ({ blockchainAddress }) => blockchainAddress
 
@@ -88,15 +89,38 @@ const EditAddresses = ({ trigger, watchlist }) => {
     })
   }
 
+  function isAdded (address) {
+    return watchlist.listItems.some(
+      item =>
+        item.blockchainAddress && item.blockchainAddress.address === address
+    )
+  }
+
   const onInputChangeDebounced = ({ target: { value } }) => {
     const infrastructure = getAddressInfrastructure(value)
-    const valid = infrastructure && infrastructure === Infrastructure.ETH
-    if (valid && !items.find(x => x === value)) {
-      setCurrentValue(value)
-    }
+
+    const valid =
+      infrastructure && infrastructure === Infrastructure.ETH && !isAdded(value)
+
+    setCurrentValue(value)
 
     setError(!value || !valid)
   }
+
+  const errorText = useMemo(
+    () => {
+      if (!error) {
+        return
+      }
+
+      if (isAdded(currentAddress)) {
+        return ALREADY_ADDED_ADDRESS
+      }
+
+      return NOT_VALID_ADDRESS
+    },
+    [error, currentAddress]
+  )
 
   if (!isAuthor) {
     return null
@@ -118,7 +142,7 @@ const EditAddresses = ({ trigger, watchlist }) => {
               className={styles.input}
               placeholder='Wallet address'
               onChange={onInputChangeDebounced}
-              errorText={error && NOT_VALID_ADDRESS}
+              errorText={errorText}
               isError={!!error}
             />
           </div>
