@@ -20,19 +20,17 @@ export const COLUMNS = [
   {
     Header: 'Value',
     accessor: 'value',
-    Cell: ({ value }) => formatNumber(value),
-    disableSortBy: true
+    Cell: ({ value }) => formatNumber(value)
   },
   {
     Header: 'Value USD',
     accessor: 'valueUsd',
-    Cell: ({ value }) => usdFormatter(value),
-    disableSortBy: true
+    Cell: ({ value }) => usdFormatter(value)
   },
   {
     Header: 'Part Of Total',
     accessor: 'partOfTotal',
-    disableSortBy: true,
-    Cell: ({ value }) => percentageFormatter(value)
+    Cell: ({ value }) =>
+      percentageFormatter(value, { fractionDigits: value > 0.01 ? 2 : 6 })
   }
 ]

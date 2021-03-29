@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import debounce from 'lodash.debounce'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import Icon from '@santiment-network/ui/Icon'
-import Input from '@santiment-network/ui/Input'
 import { DAY, getTimeIntervalFromToday } from '../../../../utils/dates'
 import { COLUMNS } from './utils'
 import SmoothDropdown from '../../../../components/SmoothDropdown/SmoothDropdown'
@@ -19,43 +17,38 @@ import widgetStyles from '../Widget.module.scss'
 
 const { from, to } = getTimeIntervalFromToday(-30, DAY)
 const DEFAULT_DATES = [from, to]
-const DEFAULT_COUNT = 10
+const DEFAULT_COUNT = 100
 
-const Header = ({ dates, onCalendarChange, onCloseClick, count, setCount }) => (
+const Header = ({ dates, onCalendarChange, onCloseClick }) => (
   <div className={styles.header}>
     Top Holders
-    <Calendar
-      className={styles.calendar}
-      selectRange
-      dates={dates}
-      onChange={onCalendarChange}
-    />
-    <Input
-      type='number'
-      max={500}
-      onChange={e => {
-        setCount(+e.target.value)
-      }}
-      defaultValue={count}
-      className={styles.count}
-    />
-    <Icon
-      type='close-medium'
-      className={widgetStyles.close}
-      onClick={onCloseClick}
-    />
+    <div className={styles.header__right}>
+      <Calendar
+        className={styles.calendar}
+        selectRange
+        dates={dates}
+        onChange={onCalendarChange}
+      />
+      <Icon
+        type='close-medium'
+        className={widgetStyles.close}
+        onClick={onCloseClick}
+      />
+    </div>
   </div>
 )
 
 const HoldersDistributionTable = ({ settings: { slug }, ...rest }) => {
-  const [count, setCount] = useState(DEFAULT_COUNT)
   const { dates, onCalendarChange, onCloseClick } = useTableEffects(rest)
   const [from, to] = dates
-  const [holders, loading] = useTopHolders({ from, to, count, slug })
+  const [holders, loading] = useTopHolders({
+    from,
+    to,
+    count: DEFAULT_COUNT,
+    slug
+  })
 
-  const setCountDebounced = debounce(value => {
-    setCount(value)
-  }, 500)
+  const [pageSize] = useState(10)
 
   return (
     <PanelWithHeader
@@ -64,8 +57,6 @@ const HoldersDistributionTable = ({ settings: { slug }, ...rest }) => {
           dates={dates}
           onCalendarChange={onCalendarChange}
           onCloseClick={onCloseClick}
-          count={count}
-          setCount={setCountDebounced}
         />
       }
       className={cx(
@@ -73,7 +64,8 @@ const HoldersDistributionTable = ({ settings: { slug }, ...rest }) => {
         widgetStyles.widget_secondary,
         styles.container
       )}
-      contentClassName={tableStyles.panel}
+      contentClassName={cx(tableStyles.panel)}
+      headerClassName={styles.panelHeader}
     >
       <Skeleton show={loading} repeat={1} className={styles.skeleton} />
       {!loading && (
@@ -83,11 +75,24 @@ const HoldersDistributionTable = ({ settings: { slug }, ...rest }) => {
             columns={COLUMNS}
             options={{
               sortingSettings: {
-                allowSort: false
+                allowSort: true
               },
-              stickySettings: { isStickyHeader: true }
+              stickySettings: { isStickyHeader: true },
+              noDataSettings: {
+                title: 'No data!'
+              },
+              paginationSettings: {
+                pageSize: pageSize,
+                onChangePage: () => {}
+              }
             }}
             className={widgetStyles.widget_secondary}
+            classes={{
+              pagination: styles.pagination,
+              table: styles.table,
+              header: styles.table__header,
+              headerColumn: styles.table__header__column
+            }}
           />
         </SmoothDropdown>
       )}
