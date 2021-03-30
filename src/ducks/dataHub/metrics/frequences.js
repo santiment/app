@@ -115,7 +115,9 @@ const Frequences = {
   [Metric.mcd_stability_fee.key]: Daily,
   [Metric.mcd_debt_created_5m.key]: FiveMinute,
   [Metric.mcd_debt_repaid_5m.key]: FiveMinute,
-  [Metric.mcd_art_liquidation_5m.key]: FiveMinute
+  [Metric.mcd_art_liquidation_5m.key]: FiveMinute,
+  [Metric.whale_transaction_count_100k_usd_to_inf.key]: Daily,
+  [Metric.whale_transaction_count_1m_usd_to_inf.key]: Daily
 }
 
 export default Frequences

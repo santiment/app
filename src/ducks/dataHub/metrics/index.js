@@ -259,10 +259,16 @@ export const Metric = {
     shortLabel: 'Net. Growth',
     video: 'https://www.youtube.com/watch?v=YaccxEEz8pg'
   },
-  whale_transaction_count: {
+  whale_transaction_count_100k_usd_to_inf: {
     category: 'On-chain',
     group: 'Whales',
-    label: 'Whale Transaction Count',
+    label: 'Whale Transaction Count (>100k USD)',
+    node: 'autoWidthBar'
+  },
+  whale_transaction_count_1m_usd_to_inf: {
+    category: 'On-chain',
+    group: 'Whales',
+    label: 'Whale Transaction Count (>1m USD)',
     node: 'autoWidthBar'
   },
   dev_activity: {
