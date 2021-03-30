@@ -24,7 +24,8 @@ export const DAILY_METRICS = [
   Metric.mean_dollar_invested_age,
   Metric.nvt,
   Metric.withdrawal_transactions,
-  Metric.whale_transaction_count,
+  Metric.whale_transaction_count_100k_usd_to_inf,
+  Metric.whale_transaction_count_1m_usd_to_inf,
 
   ...Object.values(HolderDistributionAbsoluteMetric).map(m => ({
     ...m,
