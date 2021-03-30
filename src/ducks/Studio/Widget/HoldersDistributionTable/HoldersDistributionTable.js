@@ -117,10 +117,6 @@ const HoldersDistributionTable = ({ settings: { slug }, ...rest }) => {
   )
 }
 
-/*
-* pageSizeOptions: PAGE_SIZE_OPTIONS,
-
-* */
 HoldersDistributionTable.new = props =>
   ChartWidget.new(
     {
