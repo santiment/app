@@ -11,6 +11,7 @@
 .title {
   @include text('h4', 'm');
 
+  display: flex;
   margin: 0 0 24px;
 }
 
