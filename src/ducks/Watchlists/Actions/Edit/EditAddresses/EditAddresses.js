@@ -18,7 +18,7 @@ const updateWatchlist = ({ id, listItems }) =>
   updateWatchlistShort({ id: +id, listItems })
 
 export const NOT_VALID_ADDRESS = 'Not supported ETH address'
-export const ALREADY_ADDED_ADDRESS = 'This address was added'
+export const ALREADY_ADDED_ADDRESS = 'This address is already in this watchlist'
 
 const extractAddress = ({ blockchainAddress }) => blockchainAddress
 
@@ -151,7 +151,7 @@ const EditAddresses = ({ trigger, watchlist }) => {
             variant='fill'
             className={styles.addBtn}
             accent='positive'
-            disabled={error}
+            disabled={error || errorText}
             onClick={onAdd}
           >
             Add
