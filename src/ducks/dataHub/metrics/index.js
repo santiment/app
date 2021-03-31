@@ -708,73 +708,73 @@ export const Metric = {
   mcd_locked_token: {
     category: 'On-chain',
     group: METRIC_GROUPS.MAKERDAO_STATS,
-    node: 'bar',
+    node: 'autoWidthBar',
     label: 'Token Locked in Multi-Collateral CDPs'
   },
   scd_locked_token: {
     category: 'On-chain',
     group: METRIC_GROUPS.MAKERDAO_STATS,
-    node: 'bar',
+    node: 'autoWidthBar',
     label: 'WETH Locked in Single-Collateral CDPs'
   },
   mcd_supply: {
     category: 'On-chain',
     group: METRIC_GROUPS.MAKERDAO_STATS,
-    node: 'bar',
+    node: 'autoWidthBar',
     label: 'Multi-Collateral DAI Total Supply'
   },
   mcd_collat_ratio: {
     category: 'On-chain',
     group: METRIC_GROUPS.MAKERDAO_STATS,
-    node: 'bar',
+    node: 'autoWidthBar',
     label: 'Collateralization Ratio for BAT and USDC in Multi-Collateral CDPs'
   },
   mcd_collat_ratio_weth: {
     category: 'On-chain',
     group: METRIC_GROUPS.MAKERDAO_STATS,
-    node: 'bar',
+    node: 'autoWidthBar',
     label: 'Collateralization Ratio for WETH in Multi-Collateral CDPs'
   },
   mcd_collat_ratio_sai: {
     category: 'On-chain',
     group: METRIC_GROUPS.MAKERDAO_STATS,
-    node: 'bar',
+    node: 'autoWidthBar',
     label: 'Collateralization Ratio for SAI in Multi-Collateral CDPs'
   },
   scd_collat_ratio: {
     category: 'On-chain',
     group: METRIC_GROUPS.MAKERDAO_STATS,
-    node: 'bar',
+    node: 'autoWidthBar',
     label: 'Collateralization Ratio for Single-Collateral CDPs'
   },
   mcd_dsr: {
     category: 'On-chain',
     group: METRIC_GROUPS.MAKERDAO_STATS,
-    node: 'bar',
+    node: 'autoWidthBar',
     label: 'Multi-Collateral DAI in DSR Saving Annual Rate'
   },
   mcd_stability_fee: {
     category: 'On-chain',
     group: METRIC_GROUPS.MAKERDAO_STATS,
-    node: 'bar',
+    node: 'autoWidthBar',
     label: 'Multi-Collateral Stability Fee'
   },
   dai_created: {
     category: 'On-chain',
     group: METRIC_GROUPS.MAKERDAO_STATS,
-    node: 'bar',
+    node: 'autoWidthBar',
     label: 'Multi-Collateral DAI Created'
   },
   dai_repaid: {
     category: 'On-chain',
     group: METRIC_GROUPS.MAKERDAO_STATS,
-    node: 'bar',
+    node: 'autoWidthBar',
     label: 'Multi-Collateral DAI Repaid'
   },
   mcd_liquidation: {
     category: 'On-chain',
     group: METRIC_GROUPS.MAKERDAO_STATS,
-    node: 'bar',
+    node: 'autoWidthBar',
     label: 'Makerdao Collateral Liquidation Amounts'
   }
 }
