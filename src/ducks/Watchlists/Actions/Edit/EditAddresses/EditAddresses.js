@@ -46,7 +46,6 @@ const EditAddresses = ({ trigger, watchlist }) => {
   const { isOpened, openDialog, closeDialog } = useDialogState()
 
   const [items, setItems] = useState(listItems)
-  const [error, setError] = useState(false)
   const [currentAddress, setCurrentValue] = useState('')
   const infrastructure = getAddressInfrastructure(currentAddress)
   const notes = useAddressNote({ address: currentAddress, infrastructure })
@@ -87,39 +86,31 @@ const EditAddresses = ({ trigger, watchlist }) => {
       isInList: hasAddress(items, newItem),
       listItems: items
     })
-  }
 
-  function isAdded (address) {
-    return watchlist.listItems.some(
-      item =>
-        item.blockchainAddress && item.blockchainAddress.address === address
-    )
-  }
-
-  const onInputChangeDebounced = ({ target: { value } }) => {
-    const infrastructure = getAddressInfrastructure(value)
-
-    const valid =
-      infrastructure && infrastructure === Infrastructure.ETH && !isAdded(value)
-
-    setCurrentValue(value)
-
-    setError(!value || !valid)
+    setCurrentValue('')
   }
 
   const errorText = useMemo(
     () => {
-      if (!error) {
+      if (!currentAddress) {
         return
       }
 
-      if (isAdded(currentAddress)) {
+      if (hasAddress(items, { address: currentAddress })) {
         return ALREADY_ADDED_ADDRESS
       }
 
-      return NOT_VALID_ADDRESS
+      const infrastructure = getAddressInfrastructure(currentAddress)
+      const valid =
+        infrastructure &&
+        infrastructure === Infrastructure.ETH &&
+        !hasAddress(items, { address: currentAddress })
+
+      if (!valid) {
+        return NOT_VALID_ADDRESS
+      }
     },
-    [error, currentAddress]
+    [items, currentAddress]
   )
 
   if (!isAuthor) {
@@ -141,9 +132,12 @@ const EditAddresses = ({ trigger, watchlist }) => {
               autoFocus
               className={styles.input}
               placeholder='Wallet address'
-              onChange={onInputChangeDebounced}
+              onChange={({ target: { value } }) => {
+                setCurrentValue(value)
+              }}
+              value={currentAddress}
               errorText={errorText}
-              isError={!!error}
+              isError={!!errorText}
             />
           </div>
 
@@ -151,7 +145,7 @@ const EditAddresses = ({ trigger, watchlist }) => {
             variant='fill'
             className={styles.addBtn}
             accent='positive'
-            disabled={error || errorText}
+            disabled={errorText || !currentAddress}
             onClick={onAdd}
           >
             Add
