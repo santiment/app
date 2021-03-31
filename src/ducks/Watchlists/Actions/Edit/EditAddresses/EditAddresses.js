@@ -54,6 +54,13 @@ const EditAddresses = ({ trigger, watchlist }) => {
     () => {
       setItems(listItems)
     },
+    [isOpened]
+  )
+
+  useEffect(
+    () => {
+      setItems(listItems)
+    },
     [listItems]
   )
 
