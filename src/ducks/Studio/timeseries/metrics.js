@@ -308,15 +308,15 @@ export const METRICS = [
   'mvrv_usd_z_score',
 
   'mcd_locked_token',
-  'daily_sai_locked',
+  'scd_locked_token',
   'mcd_debt',
-  'daily_dai_collat_ratio',
-  'daily_dai_collat_ratio_weth',
-  'daily_dai_collat_ratio_sai',
-  'daily_sai_collat_ratio',
+  'mcd_collat_ratio',
+  'mcd_collat_ratio_weth',
+  'mcd_collat_ratio_sai',
+  'scd_collat_ratio',
   'mcd_dsr',
   'mcd_stability_fee',
-  'mcd_debt_created_5m',
-  'mcd_debt_repaid_5m',
-  'mcd_art_liquidation_5m'
+  'dai_created',
+  'dai_repaid',
+  'mcd_liquidation'
 ]

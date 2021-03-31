@@ -711,37 +711,37 @@ export const Metric = {
     node: 'bar',
     label: 'Token Locked in Multi-Collateral CDPs'
   },
-  daily_sai_locked: {
+  scd_locked_token: {
     category: 'On-chain',
     group: METRIC_GROUPS.MAKERDAO_STATS,
     node: 'bar',
     label: 'WETH Locked in Single-Collateral CDPs'
   },
-  mcd_debt: {
+  mcd_supply: {
     category: 'On-chain',
     group: METRIC_GROUPS.MAKERDAO_STATS,
     node: 'bar',
     label: 'Multi-Collateral DAI Total Supply'
   },
-  daily_dai_collat_ratio: {
+  mcd_collat_ratio: {
     category: 'On-chain',
     group: METRIC_GROUPS.MAKERDAO_STATS,
     node: 'bar',
     label: 'Collateralization Ratio for BAT and USDC in Multi-Collateral CDPs'
   },
-  daily_dai_collat_ratio_weth: {
+  mcd_collat_ratio_weth: {
     category: 'On-chain',
     group: METRIC_GROUPS.MAKERDAO_STATS,
     node: 'bar',
     label: 'Collateralization Ratio for WETH in Multi-Collateral CDPs'
   },
-  daily_dai_collat_ratio_sai: {
+  mcd_collat_ratio_sai: {
     category: 'On-chain',
     group: METRIC_GROUPS.MAKERDAO_STATS,
     node: 'bar',
     label: 'Collateralization Ratio for SAI in Multi-Collateral CDPs'
   },
-  daily_sai_collat_ratio: {
+  scd_collat_ratio: {
     category: 'On-chain',
     group: METRIC_GROUPS.MAKERDAO_STATS,
     node: 'bar',
@@ -759,19 +759,19 @@ export const Metric = {
     node: 'bar',
     label: 'Multi-Collateral Stability Fee'
   },
-  mcd_debt_created_5m: {
+  dai_created: {
     category: 'On-chain',
     group: METRIC_GROUPS.MAKERDAO_STATS,
     node: 'bar',
     label: 'Multi-Collateral DAI Created'
   },
-  mcd_debt_repaid_5m: {
+  dai_repaid: {
     category: 'On-chain',
     group: METRIC_GROUPS.MAKERDAO_STATS,
     node: 'bar',
     label: 'Multi-Collateral DAI Repaid'
   },
-  mcd_art_liquidation_5m: {
+  mcd_liquidation: {
     category: 'On-chain',
     group: METRIC_GROUPS.MAKERDAO_STATS,
     node: 'bar',

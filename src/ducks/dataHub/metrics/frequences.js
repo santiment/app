@@ -106,16 +106,18 @@ const Frequences = {
   [Metric.active_addresses_24h.key]: Daily,
 
   [Metric.mcd_locked_token.key]: Daily,
-  [Metric.mcd_debt.key]: Daily,
-  [Metric.daily_dai_collat_ratio.key]: Daily,
-  [Metric.daily_dai_collat_ratio_weth.key]: Daily,
-  [Metric.daily_dai_collat_ratio_sai.key]: Daily,
-  [Metric.daily_sai_collat_ratio.key]: Daily,
+  [Metric.scd_locked_token.key]: Daily,
+  [Metric.mcd_supply.key]: Daily,
+  [Metric.mcd_collat_ratio.key]: Daily,
+  [Metric.mcd_collat_ratio_weth.key]: Daily,
+  [Metric.mcd_collat_ratio_sai.key]: Daily,
+  [Metric.scd_collat_ratio.key]: Daily,
   [Metric.mcd_dsr.key]: Daily,
   [Metric.mcd_stability_fee.key]: Daily,
-  [Metric.mcd_debt_created_5m.key]: FiveMinute,
-  [Metric.mcd_debt_repaid_5m.key]: FiveMinute,
-  [Metric.mcd_art_liquidation_5m.key]: FiveMinute,
+  [Metric.dai_created.key]: FiveMinute,
+  [Metric.dai_repaid.key]: FiveMinute,
+  [Metric.mcd_liquidation.key]: FiveMinute,
+
   [Metric.whale_transaction_count_100k_usd_to_inf.key]: Daily,
   [Metric.whale_transaction_count_1m_usd_to_inf.key]: Daily
 }
