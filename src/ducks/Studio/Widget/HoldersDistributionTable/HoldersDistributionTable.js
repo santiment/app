@@ -86,7 +86,7 @@ const HoldersDistributionTable = ({ settings: { slug }, ...rest }) => {
             options={{
               sortingSettings: {
                 defaultSorting: [],
-                allowSort: true
+                allowSort: false
               },
               stickySettings: { isStickyHeader: true },
               noDataSettings: {

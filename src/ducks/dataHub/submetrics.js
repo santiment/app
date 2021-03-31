@@ -34,7 +34,7 @@ export const FeesDistributionMetric = {
   type: WIDGET,
   checkIsVisible: ({ slug }) => slug === 'ethereum',
   label: 'Fees Distribution',
-  parentMetric: Metric.transaction_volume
+  parentMetric: Metric.median_fees_usd
 }
 
 export const SOCIAL_ACTIVE_USERS_TELEGRAM = {
@@ -81,10 +81,9 @@ export const Submetrics = {
 
   [Metric.amount_in_top_holders.key]: [TopHoldersTableMetric],
 
-  [Metric.transaction_volume.key]: [
-    TopTransactionsTableMetric,
-    FeesDistributionMetric
-  ],
+  [Metric.transaction_volume.key]: [TopTransactionsTableMetric],
+
+  [Metric.median_fees_usd.key]: [FeesDistributionMetric],
 
   [Metric.social_volume_total.key]: [
     {
