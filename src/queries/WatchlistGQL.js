@@ -29,11 +29,13 @@ export const WATCHLIST_WITH_TRENDS_QUERY = gql`
         projectsCount
         trendingProjects {
           ...generalData
-          ...project
         }
       }
       listItems {
         project {
+          priceUsd
+          percentChange24h
+          percentChange7d
           ...generalData
         }
       }
