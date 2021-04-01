@@ -46,7 +46,16 @@ export const DAILY_METRICS = [
     category: 'On-chain',
     node: 'line',
     label: `Supply Distribution by Balance of Addresses ${m.label}`
-  }))
+  })),
+
+  Metric.mcd_locked_token,
+  Metric.scd_locked_token,
+  Metric.mcd_collat_ratio,
+  Metric.mcd_collat_ratio_weth,
+  Metric.mcd_collat_ratio_sai,
+  Metric.scd_collat_ratio,
+  Metric.mcd_dsr,
+  Metric.mcd_stability_fee
 ]
 
 export const SIGNAL_SUPPORTED_METRICS = [
@@ -203,6 +212,11 @@ export const SIGNAL_SUPPORTED_METRICS = [
   Metric.bitmex_perpetual_funding_rate,
   Metric.bitmex_perpetual_open_interest,
   Metric.bitmex_perpetual_open_value,
+
+  Metric.mcd_supply,
+  Metric.dai_created,
+  Metric.dai_repaid,
+  Metric.mcd_liquidation,
 
   ...DAILY_METRICS
 ]
