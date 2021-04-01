@@ -107,7 +107,7 @@ const Frequences = {
 
   [Metric.mcd_locked_token.key]: Daily,
   [Metric.scd_locked_token.key]: Daily,
-  [Metric.mcd_supply.key]: Daily,
+  [Metric.mcd_supply.key]: FiveMinute,
   [Metric.mcd_collat_ratio.key]: Daily,
   [Metric.mcd_collat_ratio_weth.key]: Daily,
   [Metric.mcd_collat_ratio_sai.key]: Daily,
