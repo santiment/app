@@ -121,6 +121,10 @@ export const HOLDER_DISTRIBUTION_PERCENT_METRICS = Object.values(
   HolderDistributionPercentMetric
 )
 
+export const HOLDERS_DISTRIBUTION_LABELED_METRICS = Object.values(
+  HoldersLabeledDistributionMetric
+)
+
 export const HOLDER_DISTRIBUTION_COMBINED_BALANCE_ABSOLUTE_METRICS = Object.values(
   HolderDistributionCombinedBalanceAbsoluteMetric
 )

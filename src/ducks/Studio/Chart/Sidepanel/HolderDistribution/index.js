@@ -5,6 +5,7 @@ import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import Tabs, { Tab, TabMetrics } from './Tabs'
 import MetricIcon from '../../../../SANCharts/MetricIcon'
 import styles from './index.module.scss'
+import LabelsSelector from '../../../../../components/LabelsSelector/LabelsSelector'
 
 const Icon = props => (
   <svg
@@ -105,6 +106,7 @@ const HolderDistribution = ({
   toggleMetric,
   currentPhase,
   isWithTabs,
+  onChangeLabels,
   onMergeClick,
   onMergeConfirmClick,
   onUnmergeClick
@@ -112,6 +114,8 @@ const HolderDistribution = ({
   const [activeTab, setActiveTab] = useState(Tab.PERCENTS)
   const isIdlePhase = currentPhase === 'idle'
   const MetricButton = isIdlePhase ? ToggleButton : CheckboxButton
+
+  console.log(TabMetrics)
 
   return (
     <>
@@ -134,6 +138,8 @@ const HolderDistribution = ({
           setActiveTab={setActiveTab}
         />
       )}
+
+      {onChangeLabels && <LabelsSelector onChange={onChangeLabels} />}
 
       <div className={styles.metrics}>
         {isIdlePhase &&

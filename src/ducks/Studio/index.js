@@ -40,6 +40,7 @@ import {
 } from '../dataHub/submetrics'
 import FeesDistribution from './FeesDistribution/FeesDistribution'
 import HoldersDistributionTable from './Widget/HoldersDistributionTable/HoldersDistributionTable'
+import HolderDistributionLabeledWidget from './Widget/HolderDistributionWidget/HoldersDistributionLabeled'
 import styles from './index.module.scss'
 
 export const Studio = ({
@@ -209,7 +210,10 @@ export const Studio = ({
           HoldersLabeledDistributionMetric.holders_labeled_distribution_1_to_10
             .key
       ) {
-        setWidgets([...widgets, HolderDistributionWidget.new(scrollIntoView)])
+        setWidgets([
+          ...widgets,
+          HolderDistributionLabeledWidget.new(scrollIntoView)
+        ])
       } else if (
         key === HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE.key ||
         key ===

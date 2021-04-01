@@ -13,7 +13,8 @@ const NEW_METRICS = [
   Metric.mvrv_usd_intraday,
   Metric.whale_transaction_count_100k_usd_to_inf,
   Metric.whale_transaction_count_1m_usd_to_inf,
-  Metric.mvrv_usd_z_score
+  Metric.mvrv_usd_z_score,
+  Metric.holders_labeled_distribution_1_to_10
 ]
 export const NEW_METRIC_KEY_SET = new Set(NEW_METRICS.map(({ key }) => key))
 
