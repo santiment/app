@@ -558,6 +558,27 @@ export const Metric = {
         type: Filter.percent_up.key
       }
     ]
+  },
+  network_profit_loss: {
+    category: CATEGORIES.ON_CHAIN,
+    group: GROUPS.NETWORK_VALUE,
+    label: 'Network Realized Profit/Loss',
+    shortLabel: 'NR P. or L.',
+    isOnlyPercentFilters: true
+  },
+  whale_transaction_count_100k_usd_to_inf: {
+    category: CATEGORIES.ON_CHAIN,
+    group: GROUPS.WHALES,
+    label: 'Whale Transaction Count (>100k USD)',
+    shortLabel: 'Whale T.C>100k$',
+    isOnlyPercentFilters: true
+  },
+  whale_transaction_count_1m_usd_to_inf: {
+    category: CATEGORIES.ON_CHAIN,
+    group: GROUPS.WHALES,
+    label: 'Whale Transaction Count (>1m USD)',
+    shortLabel: 'Whale T.C>1m$',
+    isOnlyPercentFilters: true
   }
 }
 
@@ -632,7 +653,10 @@ export const metrics = [
   Metric.other_to_traders_flow,
   Metric.traders_to_whale_flow,
   Metric.traders_to_other_flow,
-  Metric.age_consumed
+  Metric.age_consumed,
+  Metric.network_profit_loss,
+  Metric.whale_transaction_count_100k_usd_to_inf,
+  Metric.whale_transaction_count_1m_usd_to_inf
 ]
 
 export const MetricAlias = {
