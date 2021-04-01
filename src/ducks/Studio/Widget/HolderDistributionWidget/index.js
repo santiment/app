@@ -100,6 +100,8 @@ const HolderDistributionWidget = ({
     props.rerenderWidgets()
   }
 
+  console.log(props, widget)
+
   return (
     <Widget className={cx(styles.holders, isOpened && styles.holders_opened)}>
       <Chart

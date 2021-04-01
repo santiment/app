@@ -16,7 +16,8 @@ import {
 } from '../../Studio/Chart/Sidepanel/HolderDistribution/metrics'
 import {
   HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE,
-  HOLDER_DISTRIBUTION_NODE
+  HOLDER_DISTRIBUTION_NODE,
+  HOLDER_LABELED_DISTRIBUTION_NODE
 } from '../../Studio/Sidebar/nodes'
 
 export function deriveMetric (baseMetric, newMetric) {
@@ -705,6 +706,8 @@ export const Metric = {
     .holders_distribution_combined_balance_1_to_10
     .key]: HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE,
 
+  [HolderDistributionMetric.holders_labeled_distribution_1_to_10
+    .key]: HOLDER_LABELED_DISTRIBUTION_NODE,
   mcd_locked_token: {
     category: 'On-chain',
     group: METRIC_GROUPS.MAKERDAO_STATS,

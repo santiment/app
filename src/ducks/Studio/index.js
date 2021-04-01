@@ -26,11 +26,13 @@ import { NEW_METRIC_KEY_SET, seeMetric } from '../dataHub/metrics/news'
 import { usePressedModifier } from '../../hooks/keyboard'
 import {
   HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE,
-  HOLDER_DISTRIBUTION_NODE
+  HOLDER_DISTRIBUTION_NODE,
+  HOLDER_LABELED_DISTRIBUTION_NODE
 } from './Sidebar/nodes'
 import {
   HolderDistributionCombinedBalanceAbsoluteMetric,
-  HolderDistributionMetric
+  HolderDistributionMetric,
+  HoldersLabeledDistributionMetric
 } from './Chart/Sidepanel/HolderDistribution/metrics'
 import {
   FeesDistributionMetric,
@@ -199,6 +201,13 @@ export const Studio = ({
       if (
         key === HOLDER_DISTRIBUTION_NODE.key ||
         key === HolderDistributionMetric.holders_distribution_1_to_10.key
+      ) {
+        setWidgets([...widgets, HolderDistributionWidget.new(scrollIntoView)])
+      } else if (
+        key === HOLDER_LABELED_DISTRIBUTION_NODE.key ||
+        key ===
+          HoldersLabeledDistributionMetric.holders_labeled_distribution_1_to_10
+            .key
       ) {
         setWidgets([...widgets, HolderDistributionWidget.new(scrollIntoView)])
       } else if (

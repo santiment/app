@@ -10,7 +10,8 @@ import InsightAlertSelector from './InsightAlertSelector'
 import Search from './Search'
 import {
   HOLDER_DISTRIBUTION_NODE,
-  HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE
+  HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE,
+  HOLDER_LABELED_DISTRIBUTION_NODE
 } from './nodes'
 import { useProjectMetrics } from '../withMetrics'
 import styles from './index.module.scss'
@@ -23,7 +24,8 @@ const TRANSITION_CLASSES = {
 
 const ON_CHAIN_DEFAULT = [
   HOLDER_DISTRIBUTION_NODE,
-  HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE
+  HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE,
+  HOLDER_LABELED_DISTRIBUTION_NODE
 ]
 
 const TABS = ['Metrics', 'Insights']
