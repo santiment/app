@@ -15,7 +15,8 @@ const LabelsSelector = ({ onChange }) => {
   useEffect(
     () => {
       if (onChange) {
-        onChange(state.map(({ type }) => type))
+        const labels = state.map(({ type }) => type)
+        onChange(labels.length > 0 ? labels : ['all'])
       }
     },
     [state]

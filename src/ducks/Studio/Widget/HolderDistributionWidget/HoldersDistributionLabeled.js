@@ -16,7 +16,8 @@ const HolderDistributionLabeledWidget = props => {
       const prevSettings = widget.MetricSettingMap.get(m)
       widget.MetricSettingMap.set(m, {
         ...prevSettings,
-        label: labels.length > 0 ? labels[0] : 'all'
+        labels: labels,
+        interval: '1d'
       })
     })
 
