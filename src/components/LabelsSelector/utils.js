@@ -12,7 +12,7 @@ export const HOLDERS_LABELS = [
     type: 'miner'
   },
   {
-    label: 'Non Whale',
+    label: 'Whale',
     type: 'whale'
   },
   {

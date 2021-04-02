@@ -115,8 +115,6 @@ const HolderDistribution = ({
   const isIdlePhase = currentPhase === 'idle'
   const MetricButton = isIdlePhase ? ToggleButton : CheckboxButton
 
-  console.log(TabMetrics)
-
   return (
     <>
       <div className={styles.top}>

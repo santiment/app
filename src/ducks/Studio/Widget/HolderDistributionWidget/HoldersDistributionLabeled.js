@@ -10,11 +10,14 @@ const HolderDistributionLabeledWidget = props => {
   function onChangeLabels (labels) {
     const { widget, rerenderWidgets } = props
 
+    widget.MetricSettingMap = new Map(widget.MetricSettingMap)
+
     widget.metrics.forEach(m => {
-      widget.MetricSettingMap.set(m, { labels })
-      m.reqMeta = {
-        labels
-      }
+      const prevSettings = widget.MetricSettingMap.get(m)
+      widget.MetricSettingMap.set(m, {
+        ...prevSettings,
+        label: labels.length > 0 ? labels[0] : 'all'
+      })
     })
 
     rerenderWidgets()
