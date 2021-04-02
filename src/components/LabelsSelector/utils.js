@@ -32,3 +32,14 @@ export const HOLDERS_LABELS = [
     type: 'nonWhale'
   }
 ]
+
+export const DISABLED_PAIRS = {
+  whale: 'nonWhale',
+  nonWhale: 'whale',
+  exchange: 'nonExchange',
+  nonExchange: 'exchange',
+  miner: 'nonMiner',
+  nonMiner: 'miner',
+  infrastructure: 'nonInfrastructure',
+  nonInfrastructure: 'infrastructure'
+}

@@ -3,7 +3,7 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import Panel from '@santiment-network/ui/Panel'
 import Item from '../../ducks/Watchlists/Widgets/Filter/EntryPoint/Item'
-import { HOLDERS_LABELS } from './utils'
+import { DISABLED_PAIRS, HOLDERS_LABELS } from './utils'
 import styles from './LabelSelector.module.scss'
 
 export const MAX_VISIBLE_SYMBOLS = 40
@@ -67,15 +67,22 @@ const LabelsSelector = ({ onChange }) => {
               <div className={styles.list}>
                 {HOLDERS_LABELS.map(item => {
                   const { label, type } = item
+                  const selected = state.find(
+                    ({ type: target }) => target === type
+                  )
+
+                  const isDisabled = state.find(
+                    ({ type: target }) => DISABLED_PAIRS[target] === type
+                  )
+
                   return (
                     <Item
                       key={type}
                       onClick={() => {
                         addItemInState(item)
                       }}
-                      isActive={state.find(
-                        ({ type: target }) => target === type
-                      )}
+                      isDisabled={isDisabled}
+                      isActive={selected}
                       name={label}
                       id={type}
                     />
