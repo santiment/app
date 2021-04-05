@@ -76,17 +76,16 @@ export const GroupNodes = ({
       className={cx(styles.group__list, hidden && styles.group__list_hidden)}
     >
       {nodes.map(({ item, subitems }, index) => {
+        if (!item || item.hidden) {
+          return null
+        }
+
         const {
-          hidden,
           showRoot = true,
           label,
           rootLabel = label,
           checkIsVisible
         } = item
-
-        if (hidden) {
-          return null
-        }
 
         if (
           checkIsVisible &&
