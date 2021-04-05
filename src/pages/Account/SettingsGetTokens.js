@@ -27,7 +27,7 @@ const SettingsGetTokens = () => (
         </a>
         <a
           className={styles.tokens__market}
-          href='https://uniswap.exchange/swap'
+          href='https://app.uniswap.org/#/swap?outputCurrency=0x7c5a0ce9267ed19b22f8cae653f198e3e8daf098'
           rel='noopener noreferrer'
           target='_blank'
         >
@@ -35,11 +35,19 @@ const SettingsGetTokens = () => (
         </a>
         <a
           className={styles.tokens__market}
-          href='https://www.bitfinex.com/'
+          href='https://www.bitfinex.com/t/SANUSD'
           rel='noopener noreferrer'
           target='_blank'
         >
           Bitfinex
+        </a>
+        <a
+          className={styles.tokens__market}
+          href='https://1inch.exchange/#/ETH/SAN'
+          rel='noopener noreferrer'
+          target='_blank'
+        >
+          1inch
         </a>
       </div>
     </Settings.Row>
