@@ -130,13 +130,12 @@ const Screener = ({
         setWidgets={setWidgets}
       />
 
-      {!loading && (
-        <Infographics
-          widgets={widgets}
-          setWidgets={setWidgets}
-          listId={isDefaultScreener ? DEFAULT_SCREENER_ID : id}
-        />
-      )}
+      <Infographics
+        widgets={widgets}
+        setWidgets={setWidgets}
+        listId={isDefaultScreener ? DEFAULT_SCREENER_ID : id}
+        assets={assets}
+      />
 
       <AssetsTable
         items={assets}

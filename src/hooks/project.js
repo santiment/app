@@ -47,14 +47,10 @@ const makeFn = ({ limit, listId, orderBy }) => {
   })
 }
 
-export function useProjectsSocialVolumeChanges ({
-  listId,
-  orderBy,
-  limit = 100
-}) {
+export function useProjectsSocialVolumeChanges ({ listId, orderBy, assets }) {
   const query = useQuery(ALL_PROJECTS_SOCIAL_VOLUME_CHANGES_QUERY, {
     variables: {
-      fn: makeFn({ listId, limit, orderBy })
+      fn: makeFn({ listId, limit: assets.length, orderBy })
     }
   })
 
@@ -74,12 +70,12 @@ export function useProjectPriceChanges ({
   interval,
   listId,
   orderBy,
-  limit = 100
+  assets
 }) {
   const gqlQuery = buildInfographicQuery({ metric, interval })
   const query = useQuery(gqlQuery, {
     variables: {
-      fn: makeFn({ listId, limit, orderBy })
+      fn: makeFn({ listId, limit: assets.length, orderBy })
     }
   })
 

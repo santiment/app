@@ -49,6 +49,7 @@ const Infographics = ({
             sortByMetric='marketcap_usd'
             type={INFOGRAPHICS.PRICE_TREE_MAP}
             onChangeSettings={onChangeSettings}
+            assets={assets}
           />
         </div>
       )}
@@ -64,6 +65,7 @@ const Infographics = ({
               sortByMetric='marketcap_usd'
               type={INFOGRAPHICS.SOCIAL_VOLUME_TREE_MAP}
               onChangeSettings={onChangeSettings}
+              assets={assets}
             />
           ) : (
             <MakeProSubscriptionCard />
@@ -76,6 +78,7 @@ const Infographics = ({
           listId={listId}
           settings={priceBarChart}
           onChangeSettings={onChangeSettings}
+          assets={assets}
         />
       )}
 

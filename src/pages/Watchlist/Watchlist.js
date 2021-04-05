@@ -99,6 +99,7 @@ const WatchlistPage = ({ location, history, watchlist }) => {
         listId={watchlist.id}
         widgets={widgets}
         setWidgets={setWidgets}
+        assets={assets}
       />
 
       <AssetsTable
