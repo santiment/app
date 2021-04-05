@@ -7,12 +7,21 @@ import { HOLDERS_DISTRIBUTION_LABELED_METRICS } from '../../Chart/Sidepanel/Hold
 import { TabLabeledHoldersMetrics } from '../../Chart/Sidepanel/HolderDistribution/Tabs'
 
 const HolderDistributionLabeledWidget = props => {
-  function onChangeLabels (labels) {
+  function onChangeLabels (labels, mergedMetrics) {
     const { widget, rerenderWidgets } = props
 
     widget.MetricSettingMap = new Map(widget.MetricSettingMap)
 
     widget.metrics.forEach(m => {
+      const prevSettings = widget.MetricSettingMap.get(m)
+      widget.MetricSettingMap.set(m, {
+        ...prevSettings,
+        labels: labels,
+        interval: '1d'
+      })
+    })
+
+    mergedMetrics.forEach(m => {
       const prevSettings = widget.MetricSettingMap.get(m)
       widget.MetricSettingMap.set(m, {
         ...prevSettings,

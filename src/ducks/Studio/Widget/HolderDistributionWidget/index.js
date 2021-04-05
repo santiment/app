@@ -129,7 +129,11 @@ const HolderDistributionWidget = ({
           MetricColor={MetricColor}
           TabMetrics={TabMetrics}
           isWithTabs={isWithTabs}
-          onChangeLabels={onChangeLabels}
+          onChangeLabels={
+            onChangeLabels
+              ? labels => onChangeLabels(labels, mergedMetrics)
+              : undefined
+          }
           toggleMetric={toggleWidgetMetric}
           toggleChartSidepane={toggleSidepane}
           onMergeClick={onMergeClick}
