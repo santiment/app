@@ -47,10 +47,15 @@ const makeFn = ({ limit, listId, orderBy }) => {
   })
 }
 
-export function useProjectsSocialVolumeChanges ({ listId, orderBy, assets }) {
+function getLimit (updatedAt) {
+  // GarageInc | 6.04.2021: updating list of items/infographics after updating of watchlist/screener
+  return new Date(updatedAt).getTime()
+}
+
+export function useProjectsSocialVolumeChanges ({ listId, orderBy, updatedAt }) {
   const query = useQuery(ALL_PROJECTS_SOCIAL_VOLUME_CHANGES_QUERY, {
     variables: {
-      fn: makeFn({ listId, limit: assets.length, orderBy })
+      fn: makeFn({ listId, limit: getLimit(updatedAt), orderBy })
     }
   })
 
@@ -70,12 +75,12 @@ export function useProjectPriceChanges ({
   interval,
   listId,
   orderBy,
-  assets
+  updatedAt
 }) {
   const gqlQuery = buildInfographicQuery({ metric, interval })
   const query = useQuery(gqlQuery, {
     variables: {
-      fn: makeFn({ listId, limit: assets.length, orderBy })
+      fn: makeFn({ listId, limit: getLimit(updatedAt), orderBy })
     }
   })
 

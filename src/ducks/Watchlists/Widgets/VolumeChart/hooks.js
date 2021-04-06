@@ -60,7 +60,7 @@ export const useProjectRanges = ({
   onChangeSettings,
   type,
   sortByMetric,
-  assets
+  updatedAt
 }) => {
   const {
     setIntervalIndex,
@@ -78,7 +78,7 @@ export const useProjectRanges = ({
     }),
     metric,
     interval: label,
-    assets
+    updatedAt
   }
 
   const [data, loading] = isSocialVolume

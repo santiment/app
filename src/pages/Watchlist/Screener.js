@@ -37,6 +37,9 @@ const Screener = ({
     setActiveColumnsKeys
   } = useColumns()
 
+  const { updatedAt } = watchlist
+  console.log(watchlist)
+
   const [updateWatchlist, { loading: isUpdating }] = useUpdateWatchlist(
     SCREENER
   )
@@ -135,6 +138,7 @@ const Screener = ({
         setWidgets={setWidgets}
         listId={isDefaultScreener ? DEFAULT_SCREENER_ID : id}
         assets={assets}
+        updatedAt={updatedAt}
       />
 
       <AssetsTable
