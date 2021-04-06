@@ -563,22 +563,19 @@ export const Metric = {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.NETWORK_VALUE,
     label: 'Network Realized Profit/Loss',
-    shortLabel: 'NR P. or L.',
-    isOnlyPercentFilters: true
+    shortLabel: 'NR P. or L.'
   },
   whale_transaction_count_100k_usd_to_inf: {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.WHALES,
     label: 'Whale Transaction Count (>100k USD)',
-    shortLabel: 'Whale T.C>100k$',
-    isOnlyPercentFilters: true
+    shortLabel: 'Whale T.C>100k$'
   },
   whale_transaction_count_1m_usd_to_inf: {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.WHALES,
     label: 'Whale Transaction Count (>1m USD)',
-    shortLabel: 'Whale T.C>1m$',
-    isOnlyPercentFilters: true
+    shortLabel: 'Whale T.C>1m$'
   }
 }
 
