@@ -9,6 +9,15 @@ export const HOLDER_DISTRIBUTION_NODE = {
   category: 'On-chain',
   node: 'line'
 }
+export const HOLDER_LABELED_DISTRIBUTION_NODE = {
+  key: 'holder_labeled_distribution',
+  type: WIDGET,
+  label: 'By number of addresses (labeled)',
+  abbreviation: 'hdl',
+  group: 'Supply distribution',
+  category: 'On-chain',
+  node: 'line'
+}
 
 export const HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE = {
   key: 'holder_distribution_combined_balance',

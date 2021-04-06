@@ -38,6 +38,7 @@ export const Chart = ({
   )
   const MetricTransformer = useMirroredTransformer(metrics)
   const MetricNode = useMetricNodeOverwrite(MetricSettingMap)
+
   const [rawData, loadings, ErrorMsg] = useTimeseries(
     metrics,
     settings,

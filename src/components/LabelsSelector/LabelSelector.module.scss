@@ -1,0 +1,83 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  display: flex;
+  align-items: baseline;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  margin-top: -4px;
+}
+
+.panel {
+  width: 307px;
+  min-height: 200px;
+  padding: 14px 0 0 0;
+}
+
+.trigger__btn {
+  margin-bottom: 14px;
+  width: 100%;
+
+  &:hover {
+    border-color: var(--mystic);
+    color: var(--rhino);
+  }
+}
+
+.trigger__arrow {
+  width: 8px;
+  fill: var(--waterloo) !important;
+  transition: transform 0.25s ease-in-out;
+}
+
+.trigger__input {
+  color: var(--waterloo);
+}
+
+.trigger__btn input[data-isactive=true] + .trigger__arrow {
+  fill: var(--rhino) !important;
+  transform: rotate(180deg);
+}
+
+.trigger__btn input::placeholder {
+  color: var(--waterloo) !important;
+}
+
+.dropdown {
+  z-index: 1000;
+}
+
+.list {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.list + .list {
+  margin-top: 10px;
+}
+
+.content {
+  max-height: 370px;
+
+  @include overlay-scroll(null);
+}
+
+.scroller {
+  display: flex;
+  flex-direction: column;
+}
+
+.reset {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 0;
+  margin-top: 2px;
+  border-top: 1px solid var(--porcelain);
+
+  &:hover {
+    color: var(--jungle-green);
+  }
+}

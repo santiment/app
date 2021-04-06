@@ -41,6 +41,7 @@ const HolderDistributionWidget = ({
   sidepanelHeader,
   TabMetrics,
   isWithTabs,
+  onChangeLabels,
   ...props
 }) => {
   const [isOpened, setIsOpened] = useState(true)
@@ -128,6 +129,11 @@ const HolderDistributionWidget = ({
           MetricColor={MetricColor}
           TabMetrics={TabMetrics}
           isWithTabs={isWithTabs}
+          onChangeLabels={
+            onChangeLabels
+              ? labels => onChangeLabels(labels, mergedMetrics)
+              : undefined
+          }
           toggleMetric={toggleWidgetMetric}
           toggleChartSidepane={toggleSidepane}
           onMergeClick={onMergeClick}

@@ -20,9 +20,10 @@ export const GET_METRIC = (
     $source: String
     $owner: String,
     $label: String,
+    $labels: [String],
   ) {
     getMetric(metric: "${customKey || queryKey}") {
-      timeseriesData(selector: { ${selector}: $slug, slugs: $slugs, holdersCount: $holdersCount, market_segments: $market_segments, ignored_slugs: $ignored_slugs, source: $source, owner: $owner, label: $label}, from: $from, to: $to, interval: $interval, transform: $transform) {
+      timeseriesData(selector: { ${selector}: $slug, slugs: $slugs, labels: $labels, holdersCount: $holdersCount, market_segments: $market_segments, ignored_slugs: $ignored_slugs, source: $source, owner: $owner, label: $label}, from: $from, to: $to, interval: $interval, transform: $transform) {
         datetime
         ${key}: value
       }
@@ -234,6 +235,60 @@ export const METRICS = [
   'percent_of_holders_distribution_combined_balance_100k_to_1M',
   'percent_of_holders_distribution_combined_balance_1M_to_10M',
   'percent_of_holders_distribution_combined_balance_10M_to_inf',
+
+  'holders_labeled_distribution_0.001_to_0.01',
+  'holders_labeled_distribution_0.01_to_0.1',
+  'holders_labeled_distribution_0.1_to_1',
+  'holders_labeled_distribution_0_to_0.001',
+  'holders_labeled_distribution_100_to_1k',
+  'holders_labeled_distribution_100k_to_1M',
+  'holders_labeled_distribution_10_to_100',
+  'holders_labeled_distribution_10k_to_100k',
+  'holders_labeled_distribution_1M_to_10M',
+  'holders_labeled_distribution_1_to_10',
+  'holders_labeled_distribution_1k_to_10k',
+
+  'holders_labeled_distribution_combined_balance_0.001_to_0.01',
+  'holders_labeled_distribution_combined_balance_0.01_to_0.1',
+  'holders_labeled_distribution_combined_balance_0.1_to_1',
+  'holders_labeled_distribution_combined_balance_0_to_0.001',
+  'holders_labeled_distribution_combined_balance_100_to_1k',
+  'holders_labeled_distribution_combined_balance_100k_to_1M',
+  'holders_labeled_distribution_combined_balance_10M_to_inf',
+  'holders_labeled_distribution_combined_balance_10_to_100',
+  'holders_labeled_distribution_combined_balance_10k_to_100k',
+  'holders_labeled_distribution_combined_balance_1M_to_10M',
+  'holders_labeled_distribution_combined_balance_1_to_10',
+  'holders_labeled_distribution_combined_balance_1k_to_10k',
+  'holders_labeled_distribution_combined_balance_total',
+  'holders_labeled_distribution_total',
+
+  'holders_labeled_negative_distribution_0.001_to_0.01',
+  'holders_labeled_negative_distribution_0.01_to_0.1',
+  'holders_labeled_negative_distribution_0.1_to_1',
+  'holders_labeled_negative_distribution_0_to_0.001',
+  'holders_labeled_negative_distribution_100_to_1k',
+  'holders_labeled_negative_distribution_100k_to_1M',
+  'holders_labeled_negative_distribution_10_to_100',
+  'holders_labeled_negative_distribution_10k_to_100k',
+  'holders_labeled_negative_distribution_1M_to_10M',
+  'holders_labeled_negative_distribution_1_to_10',
+  'holders_labeled_negative_distribution_1k_to_10k',
+
+  'holders_labeled_negative_distribution_combined_balance_0.001_to_0.01',
+  'holders_labeled_negative_distribution_combined_balance_0.01_to_0.1',
+  'holders_labeled_negative_distribution_combined_balance_0.1_to_1',
+  'holders_labeled_negative_distribution_combined_balance_0_to_0.001',
+  'holders_labeled_negative_distribution_combined_balance_100_to_1k',
+  'holders_labeled_negative_distribution_combined_balance_100k_to_1M',
+  'holders_labeled_negative_distribution_combined_balance_10M_to_inf',
+  'holders_labeled_negative_distribution_combined_balance_10_to_100',
+  'holders_labeled_negative_distribution_combined_balance_10k_to_100k',
+  'holders_labeled_negative_distribution_combined_balance_1M_to_10M',
+  'holders_labeled_negative_distribution_combined_balance_1_to_10',
+  'holders_labeled_negative_distribution_combined_balance_1k_to_10k',
+  'holders_labeled_negative_distribution_combined_balance_total',
+  'holders_labeled_negative_distribution_total',
 
   'social_active_users',
   'price_daa_divergence',

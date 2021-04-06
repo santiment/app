@@ -117,6 +117,8 @@ export const Description = {
 
   holders_distribution_1_to_10:
     'Breaks down the number of addresses based on the amount of [Project Ticker] they hold.',
+  holders_labeled_distribution_1_to_10:
+    'Breaks down the number of addresses based on the amount of [Project Ticker] they hold and labeled by owners. Labels are available only for Ethereum/ERC-20 assets',
   percent_of_holders_distribution_combined_balance_1_to_10:
     'Represents the sum of all the tokens of all the addresses which hold the amount of tokens from an interval.',
   holders_distribution_combined_balance_1_to_10:
