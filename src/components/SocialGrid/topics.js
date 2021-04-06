@@ -2,32 +2,19 @@ import { getIntervalByTimeRange } from '../../utils/dates'
 
 export const TOPICS = [
   { slug: 'hold OR love OR btc OR bitcoin OR buy', title: 'Buy Bitcoin' },
-  { slug: 'gox', title: 'Mt. Gox BTC dump fear' },
   { slug: 'vaccine', title: 'Vaccine' },
-  { slug: 'ledger AND phishing', title: 'Ledger Phishing' },
   {
     slug: 'gme OR wsb OR gamestop OR squeeze',
     title: 'Wall Street Bets pumps'
   },
-  { slug: 'lockdown', title: 'Lockdown' },
   {
-    slug: '1inch',
-    title: '1inch airdrop',
-    query: '1inch?asset=1inch&ticker=1INCH&slug=1inch'
+    slug: 'nft',
+    title: 'NFT madness',
+    query: 'nft?asset=nft&ticker=NFT&slug=nft'
   },
-  {
-    slug: 'correction',
-    title: 'BTC Correction'
-  },
-  {
-    slug: 'eth OR gas OR fees',
-    title: 'Fees ATH'
-  },
-  {
-    slug: 'delist',
-    title: 'Ripple delisting',
-    query: 'delist?asset=ripple&ticker=XRP&slug=ripple'
-  },
+  { slug: 'correction', title: 'BTC Correction' },
+  { slug: 'options', title: 'Options expiration' },
+  { slug: 'visa', title: 'Visa crypto adoption' },
   { slug: 'silver', title: 'Silver pumping' },
   {
     slug: 'xrp OR ripple',
@@ -35,7 +22,6 @@ export const TOPICS = [
     query: 'xrp OR ripple?asset=ripple&ticker=XRP&slug=ripple'
   },
   { slug: 'xlm', title: 'Stellar Pump', query: 'xlm?asset=stellar&ticker=XLM' },
-  { slug: 'alts', title: 'Alts' },
   { slug: 'elon AND musk AND doge', title: 'Musk and Dogecoin' },
   {
     slug: 'bnt',

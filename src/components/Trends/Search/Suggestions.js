@@ -10,11 +10,7 @@ const SUGGESTIONS = [
     options: ''
   },
   {
-    trend: 'blockchain',
-    options: ''
-  },
-  {
-    trend: 'IEO OR IEOs or launchpad',
+    trend: 'buy AND (dip OR dips)',
     options: ''
   },
   {
