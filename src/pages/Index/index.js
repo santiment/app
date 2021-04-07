@@ -7,6 +7,7 @@ import TrendsSection from './Section/Trends'
 import Footer from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import EventBanner from '../../components/EventBanner'
 import ResearchesBlock from '../../components/ResearchesBlock'
+import KeystackeholdersEvents from './Section/KeystackeholdersEvents/KeystackeholdersEvents'
 import styles from './index.module.scss'
 
 const Block = ({ className, contentClassName, children }) => (
@@ -28,6 +29,7 @@ const IndexPage = () => (
     <Block className={styles.block_main} contentClassName={styles.content_main}>
       <main className={styles.main}>
         <PersonalSection />
+        <KeystackeholdersEvents />
         <TrendsSection />
         <InsightsOnDemandSection />
       </main>

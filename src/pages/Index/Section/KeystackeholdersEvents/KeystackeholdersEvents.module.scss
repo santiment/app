@@ -1,0 +1,23 @@
+@import '~@santiment-network/ui/mixins';
+
+.title {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 24px;
+
+  @include text('h4', 'm'); }
+
+.right {
+  margin-left: auto;
+}
+
+.action {
+  @include text('caption');
+
+  color: var(--rhino);
+  padding: 4px 8px;
+  margin-left: 8px;
+  border-radius: $border-radius;
+  border: 1px solid var(--jungle-green);
+}
