@@ -1,5 +1,11 @@
 @import "~@santiment-network/ui/mixins";
 
+.container {
+  margin-right: 16px;
+  display: flex;
+  align-items: center;
+}
+
 .button {
   display: flex;
   align-items: center;

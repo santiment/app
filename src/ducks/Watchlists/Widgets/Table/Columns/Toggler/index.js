@@ -9,6 +9,7 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Category from './Category'
 import ConfigsMenu from './Configs'
 import { buildColumns, Column } from '../builder'
+import { useIsAuthor } from '../../../../gql/list/hooks'
 import { metrics } from '../../../Filter/dataHub/metrics'
 import { useTheme } from '../../../../../../stores/ui/theme'
 import { getShadowVars } from '../../../../../../utils/styles'
@@ -21,12 +22,11 @@ const Toggler = ({
   activeColumns,
   updateActiveColumnsKeys,
   watchlist,
-  isAuthor,
   sorting,
-  setOrderBy,
-  className
+  setOrderBy
 }) => {
   const { isNightMode } = useTheme()
+  const { isAuthor } = useIsAuthor(watchlist)
   const [open, setOpen] = useState(false)
   const [wasReorder, setWasReorder] = useState(false)
   const [selectedConfigId, setSelectedConfigId] = useState(
@@ -208,7 +208,7 @@ const Toggler = ({
   }
 
   return (
-    <div className={className}>
+    <div className={styles.container}>
       <ContextMenu
         trigger={
           <Button

@@ -6,6 +6,7 @@ import PagedTable from '../_Table/Paged'
 import { CHECKBOX_COLUMN, INDEX_COLUMN } from '../_Table/columns'
 import { useSelectedItemsSet } from '../_Table/hooks'
 import Refresh from '../../components/Refresh/Refresh'
+import ColumnsToggler from '../Watchlists/Widgets/Table/Columns/Toggler'
 import EditAddresses from '../Watchlists/Actions/Edit/EditAddresses/EditAddresses'
 import styles from './index.module.scss'
 
@@ -15,6 +16,8 @@ export const Divider = () => <div className={styles.divider} />
 const WatchlistTable = ({
   watchlist,
   className,
+  activeColumns,
+  updateActiveColumnsKeys,
   normalizeCSVData,
   onRefreshClick,
   ...props
@@ -43,6 +46,11 @@ const WatchlistTable = ({
         />
 
         <div className={styles.actions}>
+          <ColumnsToggler
+            watchlist={watchlist}
+            activeColumns={activeColumns}
+            updateActiveColumnsKeys={updateActiveColumnsKeys}
+          />
           <DownloadCSV watchlist={watchlist} data={csvData} />
         </div>
       </div>
