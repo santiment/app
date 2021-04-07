@@ -66,6 +66,15 @@ const WatchlistPage = ({ location, history, watchlist }) => {
     [orderBy]
   )
 
+  useEffect(
+    () => {
+      if (watchlist.listItems.length !== 0 && assets.length === 0) {
+        refetchAssets()
+      }
+    },
+    [watchlist.listItems]
+  )
+
   const refetchAssets = () => {
     setTableLoading(true)
     getAssetsByFunction(
@@ -101,25 +110,27 @@ const WatchlistPage = ({ location, history, watchlist }) => {
         setWidgets={setWidgets}
       />
 
-      <AssetsTable
-        items={assets}
-        allItems={allItems}
-        type={PROJECT}
-        loading={loading}
-        sorting={orderBy}
-        watchlist={watchlist}
-        fetchData={fetchData}
-        setOrderBy={setOrderBy}
-        refetchAssets={refetchAssets}
-        projectsCount={projectsCount}
-        activeColumns={activeColumns}
-        pageSize={pagination.pageSize}
-        pageIndex={pagination.page - 1}
-        updateActiveColumnsKeys={setActiveColumnsKeys}
-        onChangePage={pageIndex =>
-          setPagination({ ...pagination, page: +pageIndex + 1 })
-        }
-      />
+      {
+        <AssetsTable
+          items={assets}
+          allItems={allItems}
+          type={PROJECT}
+          loading={loading}
+          sorting={orderBy}
+          watchlist={watchlist}
+          fetchData={fetchData}
+          setOrderBy={setOrderBy}
+          refetchAssets={refetchAssets}
+          projectsCount={projectsCount}
+          activeColumns={activeColumns}
+          pageSize={pagination.pageSize}
+          pageIndex={pagination.page - 1}
+          updateActiveColumnsKeys={setActiveColumnsKeys}
+          onChangePage={pageIndex =>
+            setPagination({ ...pagination, page: +pageIndex + 1 })
+          }
+        />
+      }
       <AssetsTemplates items={allItems} watchlist={watchlist} />
     </>
   )
