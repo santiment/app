@@ -38,7 +38,6 @@ const Screener = ({
   } = useColumns()
 
   const { updatedAt } = watchlist
-  console.log(watchlist)
 
   const [updateWatchlist, { loading: isUpdating }] = useUpdateWatchlist(
     SCREENER

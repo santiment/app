@@ -112,28 +112,25 @@ const WatchlistPage = ({ location, history, watchlist }) => {
         assets={assets}
         updatedAt={updatedAt}
       />
-
-      {
-        <AssetsTable
-          items={assets}
-          allItems={allItems}
-          type={PROJECT}
-          loading={loading}
-          sorting={orderBy}
-          watchlist={watchlist}
-          fetchData={fetchData}
-          setOrderBy={setOrderBy}
-          refetchAssets={refetchAssets}
-          projectsCount={projectsCount}
-          activeColumns={activeColumns}
-          pageSize={pagination.pageSize}
-          pageIndex={pagination.page - 1}
-          updateActiveColumnsKeys={setActiveColumnsKeys}
-          onChangePage={pageIndex =>
-            setPagination({ ...pagination, page: +pageIndex + 1 })
-          }
-        />
-      }
+      <AssetsTable
+        items={assets}
+        allItems={allItems}
+        type={PROJECT}
+        loading={loading}
+        sorting={orderBy}
+        watchlist={watchlist}
+        fetchData={fetchData}
+        setOrderBy={setOrderBy}
+        refetchAssets={refetchAssets}
+        projectsCount={projectsCount}
+        activeColumns={activeColumns}
+        pageSize={pagination.pageSize}
+        pageIndex={pagination.page - 1}
+        updateActiveColumnsKeys={setActiveColumnsKeys}
+        onChangePage={pageIndex =>
+          setPagination({ ...pagination, page: +pageIndex + 1 })
+        }
+      />
       <AssetsTemplates items={allItems} watchlist={watchlist} />
     </>
   )
