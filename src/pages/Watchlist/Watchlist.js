@@ -67,6 +67,15 @@ const WatchlistPage = ({ location, history, watchlist }) => {
     [orderBy]
   )
 
+  useEffect(
+    () => {
+      if (watchlist.listItems.length !== 0 && assets.length === 0) {
+        refetchAssets()
+      }
+    },
+    [watchlist.listItems]
+  )
+
   const refetchAssets = () => {
     setTableLoading(true)
     getAssetsByFunction(
@@ -103,7 +112,6 @@ const WatchlistPage = ({ location, history, watchlist }) => {
         assets={assets}
         updatedAt={updatedAt}
       />
-
       <AssetsTable
         items={assets}
         allItems={allItems}
