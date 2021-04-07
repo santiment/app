@@ -40,7 +40,7 @@ const HolderDistributionLabeledWidget = props => {
       sidepanelHeader={
         <HoldersDistributionTitle
           ticker={props.settings.ticker}
-          description='labeled by balance of addresses'
+          description='labeled by number of addresses'
         />
       }
       {...props}
