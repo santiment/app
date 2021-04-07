@@ -28,6 +28,7 @@ const WatchlistPage = ({ location, history, watchlist }) => {
     history,
     defaultParams: { isMovement: true }
   })
+  const { updatedAt } = watchlist
 
   const {
     pagination,
@@ -99,6 +100,8 @@ const WatchlistPage = ({ location, history, watchlist }) => {
         listId={watchlist.id}
         widgets={widgets}
         setWidgets={setWidgets}
+        assets={assets}
+        updatedAt={updatedAt}
       />
 
       <AssetsTable

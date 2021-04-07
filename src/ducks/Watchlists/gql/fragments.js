@@ -23,6 +23,7 @@ export const WATCHLIST_GENERAL_FRAGMENT = gql`
     function
     isPublic
     insertedAt
+    updatedAt
     description
     isMonitored
     user {
