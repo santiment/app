@@ -128,7 +128,6 @@ const SignalPreviewChart = ({
       label={label}
       triggeredSignals={triggeredSignals}
       metrics={metrics}
-      signals={signals}
       referenceDots={referenceDots}
       showTitle={showTitle}
     />

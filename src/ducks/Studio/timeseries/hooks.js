@@ -117,7 +117,6 @@ export function useTimeseries (
         const { query: metricQuery, preTransform: metricPreTransform } =
           metricSettings || {}
         const query = metricQuery || getQuery(metric, metricSettings)
-
         if (!fetch) {
           if (!query) {
             return setErrorMsg(state => {
@@ -165,6 +164,8 @@ export function useTimeseries (
           request
             .then(data => {
               if (raceCondition) return
+
+              console.log(data)
 
               if (!data.length) {
                 throw new Error(NO_DATA_MSG)

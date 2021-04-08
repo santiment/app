@@ -34,7 +34,13 @@ export function GetReferenceDots (signals, yAxisId) {
   ))
 }
 
-const renderChart = (data, { key, dataKey = key }, markup, referenceDots) => {
+const renderChart = (
+  data,
+  { key, dataKey = key },
+  markup,
+  referenceDots,
+  classes
+) => {
   return (
     <ComposedChart data={data} margin={{ left: 0, right: 0, top: 16 }}>
       <defs>
@@ -62,7 +68,7 @@ const renderChart = (data, { key, dataKey = key }, markup, referenceDots) => {
       {referenceDots}
 
       <Tooltip
-        content={<CustomTooltip />}
+        content={<CustomTooltip classes={classes} />}
         cursor={false}
         position={{ x: 0, y: -22 }}
         isAnimationActive={false}
@@ -78,7 +84,8 @@ const VisualBacktestChart = ({
   data,
   dataKeys,
   referenceDots,
-  showTitle
+  showTitle,
+  classes = {}
 }) => {
   const colors = useChartColors(metrics)
   const markup = useMemo(
@@ -91,7 +98,8 @@ const VisualBacktestChart = ({
     [metrics, colors, ActiveDot]
   )
 
-  const titleEnabled = showTitle && triggeredSignals.length > 0
+  const titleEnabled =
+    showTitle && triggeredSignals && triggeredSignals.length > 0
 
   return (
     <div className={styles.preview}>
@@ -115,7 +123,7 @@ const VisualBacktestChart = ({
               )}
             >
               <ResponsiveContainer width='100%' height={120}>
-                {renderChart(data, dataKeys, markup, referenceDots)}
+                {renderChart(data, dataKeys, markup, referenceDots, classes)}
               </ResponsiveContainer>
             </div>
           </div>

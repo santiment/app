@@ -4,9 +4,10 @@ import { READABLE_NAMES } from '../hooks'
 import { getDateFormats, getTimeFormats } from '../../../../../utils/dates'
 import { millify } from '../../../../../utils/formatting'
 import { useProject } from '../../../../../hooks/project'
-import styles from './StakeholderSignal.module.scss'
 import { TxLinkTo } from '../../../../../components/Tables/TopTokenTransactions/columns'
 import WalletLink from '../../../../../components/WalletLink/WalletLink'
+import StakeholderChartPreview from '../StakeholderChartPreview/StakeholderChartPreview'
+import styles from './StakeholderSignal.module.scss'
 
 function formatDate (date) {
   const { DD, MM, YYYY } = getDateFormats(date)
@@ -25,7 +26,7 @@ const getShortTx = value => {
 }
 const LINK_SETTINGS = { linkSymbolsCount: 42 }
 
-const StakeholderSignal = ({ data }) => {
+const StakeholderSignal = ({ data, settings }) => {
   const {
     datetime,
     metadata: { from, to, txHash },
@@ -34,9 +35,8 @@ const StakeholderSignal = ({ data }) => {
     slug
   } = data
 
-  const [project] = useProject(slug)
-
-  const { ticker } = project || {}
+  const [project = {}] = useProject(slug)
+  const { ticker } = project
 
   return (
     <div className={styles.container}>
@@ -91,7 +91,13 @@ const StakeholderSignal = ({ data }) => {
             </div>
           )}
         </div>
-        <div className={styles.chart} />
+        <div className={styles.chart}>
+          <StakeholderChartPreview
+            data={data}
+            project={project}
+            settings={settings}
+          />
+        </div>
       </div>
     </div>
   )

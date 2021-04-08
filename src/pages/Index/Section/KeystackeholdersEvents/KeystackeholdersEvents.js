@@ -79,7 +79,11 @@ const KeystackeholdersEvents = () => {
               >
                 <div className={styles.list}>
                   {list.map(item => (
-                    <StakeholderSignal key={item.datetime} data={item} />
+                    <StakeholderSignal
+                      key={item.datetime}
+                      data={item}
+                      settings={settings}
+                    />
                   ))}
                 </div>
               </Accordion>
