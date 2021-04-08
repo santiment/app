@@ -1,8 +1,11 @@
 import React, { useState, useMemo } from 'react'
+import { HashLink } from 'react-router-hash-link'
 import { useRawSignals } from './hooks'
 import Accordion from '../../Accordion'
 import StackholderTitle from './StackholderTitle/StackholderTitle'
 import Range from '../../../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistAnomalies/Range'
+import Skeleton from '../../../../components/Skeleton/Skeleton'
+import { KEYSTACKHOLDERS_ANCHOR } from '../Personal'
 import styles from './KeystackeholdersEvents.module.scss'
 
 const DEFAULT_SETTINGS = {
@@ -16,7 +19,7 @@ const KeystackeholdersEvents = () => {
   const [settings, setSettings] = useState(DEFAULT_SETTINGS)
   const [intervalIndex, setIntervalIndex] = useState(0)
 
-  const { data: signals } = useRawSignals(settings)
+  const { data: signals, loading } = useRawSignals(settings)
 
   const groups = useMemo(
     () => {
@@ -42,11 +45,15 @@ const KeystackeholdersEvents = () => {
   return (
     <div>
       <div className={styles.title}>
-        Keystakeholders stream events
+        <HashLink to={KEYSTACKHOLDERS_ANCHOR} className={styles.anchor}>
+          Keystakeholders stream events
+        </HashLink>
+
         <div className={styles.right}>
           <div className={styles.action}>{signals.length} fired</div>
           <Range
             className={styles.action}
+            btnClassName={styles.action__range}
             range={RANGES[intervalIndex]}
             changeRange={() => {
               const newInterval = (intervalIndex + 1) % RANGES.length
@@ -62,23 +69,30 @@ const KeystackeholdersEvents = () => {
         </div>
       </div>
 
-      <div className={styles.accordions}>
-        {slugs.map((s, index) => {
-          const { types, list } = groups[s]
-          return (
-            <Accordion
-              key={s}
-              title={
-                <StackholderTitle slug={s} count={list.length} labels={types} />
-              }
-              isOpenedDefault={index === 0}
-              classes={styles}
-            >
-              Signals list
-            </Accordion>
-          )
-        })}
-      </div>
+      <Skeleton repeat={3} className={styles.skeleton} show={loading} />
+      {!loading && (
+        <div className={styles.accordions}>
+          {slugs.map((s, index) => {
+            const { types, list } = groups[s]
+            return (
+              <Accordion
+                key={s}
+                title={
+                  <StackholderTitle
+                    slug={s}
+                    count={list.length}
+                    labels={types}
+                  />
+                }
+                isOpenedDefault={index === 0}
+                classes={styles}
+              >
+                Signals list
+              </Accordion>
+            )
+          })}
+        </div>
+      )}
     </div>
   )
 }

@@ -1,11 +1,16 @@
 @import '~@santiment-network/ui/mixins';
 
+.container {
+  padding: 16px 24px;
+}
+
 .info {
   display: flex;
   align-items: center;
   position: relative;
 
-  @include text('body-2'); }
+  @include text('body-2');
+}
 
 .name {
   margin-left: 6px;

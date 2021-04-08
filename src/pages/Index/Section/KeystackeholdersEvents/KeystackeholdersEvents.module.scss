@@ -6,10 +6,12 @@
   width: 100%;
   margin-bottom: 24px;
 
-  @include text('h4', 'm'); }
+  @include text('h4', 'm');
+}
 
 .right {
   margin-left: auto;
+  display: flex;
 }
 
 .action {
@@ -20,4 +22,27 @@
   margin-left: 8px;
   border-radius: $border-radius;
   border: 1px solid var(--jungle-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__range {
+    background: none !important;
+    padding: 0;
+    color: var(--rhino) !important;
+    margin-left: 0;
+
+    &:hover {
+      color: var(--jungle-green) !important;
+    }
+  }
+}
+
+.skeleton {
+  height: 60px;
+  width: 100%;
+}
+
+.anchor {
+  color: var(--rhino);
 }

@@ -1,6 +1,5 @@
 import React from 'react'
 import { HashLink } from 'react-router-hash-link'
-import { useHistory } from 'react-router-dom'
 import Accordion from '../../Accordion'
 import { ProUpgradeBanner } from '../../../feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
@@ -8,7 +7,6 @@ import CabinetTitle from './Cabinet/CabinetTitle/CabinetTitle'
 import { ReportsImg, SheetsTemplatesImg } from './Cabinet/images'
 import Reports from './Cabinet/Reports'
 import SheetsTemplates from './Cabinet/SheetsTemplates/SheetsTemplates'
-import { useDebounceEffect } from '../../../../hooks'
 import styles from './Cabinet.module.scss'
 
 const SHEETS_ANCHOR = '#san-sheets'
@@ -64,38 +62,8 @@ const CABINETS = [
   }
 ]
 
-function hashLinkScroll ({ location }) {
-  const { hash } = location
-  if (hash !== '') {
-    const elements = document.querySelectorAll(`a[href='/${hash}']`)
-    if (elements && elements.length > 0) {
-      elements[0].scrollIntoView({
-        behavior: 'smooth'
-      })
-    }
-  }
-}
-
-const useAnchorLoading = (deps, scrollAnchors) => {
-  const history = useHistory()
-
-  useDebounceEffect(
-    () => {
-      if (scrollAnchors.indexOf(history.location.hash) !== -1) {
-        hashLinkScroll(history)
-      }
-    },
-    1000,
-    [history.location, scrollAnchors, ...deps]
-  )
-}
-
-const SCROLLABLE_ANCHORS = [SHEETS_ANCHOR]
-
 const Cabinet = () => {
   const { isPro, loading } = useUserSubscriptionStatus()
-
-  useAnchorLoading([loading], SCROLLABLE_ANCHORS)
 
   if (loading) return null
 
