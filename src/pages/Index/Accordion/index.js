@@ -15,7 +15,10 @@ const Accordion = ({
 
   return (
     <Row className={cx(styles.wrapper, isOpened && styles.wrapper_opened)}>
-      <Row className={styles.header} onClick={() => setIsOpened(!isOpened)}>
+      <Row
+        className={cx(styles.header, classes.accordionTitle)}
+        onClick={() => setIsOpened(!isOpened)}
+      >
         {title}
         {showArrow && <Icon type='arrow-down-big' className={styles.toggle} />}
       </Row>

@@ -61,6 +61,16 @@ const isEthStrictAddress = address => /^(0x)?[0-9a-fA-F]{40}$/.test(address)
 
 const isEthStrictHashTx = tx => /^0x([A-Fa-f0-9]{64})$/.test(tx)
 
+export const mapToTxLink = value =>
+  isEthStrictHashTx(value)
+    ? `https://etherscan.io/tx/${value}`
+    : `https://www.blockchain.com/btc/tx/${value}`
+
+export const mapToTxAddress = address =>
+  isEthStrictAddress(address)
+    ? `https://etherscan.io/address/${address}`
+    : `https://www.blockchain.com/btc/address/${address}`
+
 /**
  * Function to calculate the percentage change between two numbers.
  * @param {number} originalValue Original number

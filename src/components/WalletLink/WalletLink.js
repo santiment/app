@@ -40,7 +40,8 @@ const EthWalletLink = ({
   priceMetrics,
   labels,
   isTx,
-  address
+  address,
+  className
 }) => {
   const trigger = inputTrigger || (
     <ActionLabels
@@ -51,6 +52,7 @@ const EthWalletLink = ({
       labels={labels}
       settings={settings}
       isFull={isFull}
+      className={className}
     />
   )
 

@@ -1,15 +1,17 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState } from 'react'
 import { HashLink } from 'react-router-hash-link'
-import { useRawSignals } from './hooks'
+import cx from 'classnames'
+import { useGroupedBySlugs, useRawSignals } from './hooks'
 import Accordion from '../../Accordion'
 import StackholderTitle from './StackholderTitle/StackholderTitle'
 import Range from '../../../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistAnomalies/Range'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
 import { KEYSTACKHOLDERS_ANCHOR } from '../Personal'
+import StakeholderSignal from './StakeholderSignal/StakeholderSignal'
 import styles from './KeystackeholdersEvents.module.scss'
 
 const DEFAULT_SETTINGS = {
-  from: 'utc_now-24h',
+  from: 'utc_now-7d',
   to: 'utc_now'
 }
 
@@ -17,33 +19,14 @@ const RANGES = ['24h', '7d', '30d']
 
 const KeystackeholdersEvents = () => {
   const [settings, setSettings] = useState(DEFAULT_SETTINGS)
-  const [intervalIndex, setIntervalIndex] = useState(0)
+  const [intervalIndex, setIntervalIndex] = useState(1)
 
   const { data: signals, loading } = useRawSignals(settings)
 
-  const groups = useMemo(
-    () => {
-      return signals.reduce((acc, item) => {
-        const { slug } = item
-        if (!acc[slug]) {
-          acc[slug] = {
-            list: [],
-            types: []
-          }
-        }
-
-        acc[slug].list.push(item)
-        acc[slug].types.push(item.signal)
-        return acc
-      }, {})
-    },
-    [signals]
-  )
-
-  const slugs = useMemo(() => Object.keys(groups), [groups])
+  const { slugs, groups } = useGroupedBySlugs(signals)
 
   return (
-    <div>
+    <div className={styles.container}>
       <div className={styles.title}>
         <HashLink to={KEYSTACKHOLDERS_ANCHOR} className={styles.anchor}>
           Keystakeholders stream events
@@ -69,8 +52,15 @@ const KeystackeholdersEvents = () => {
         </div>
       </div>
 
-      <Skeleton repeat={3} className={styles.skeleton} show={loading} />
-      {!loading && (
+      {loading && (
+        <Skeleton
+          repeat={3}
+          show={loading}
+          className={styles.skeleton}
+          wrapperClassName={styles.skeletonWrapper}
+        />
+      )}
+      {!loading && slugs.length > 0 && (
         <div className={styles.accordions}>
           {slugs.map((s, index) => {
             const { types, list } = groups[s]
@@ -87,10 +77,20 @@ const KeystackeholdersEvents = () => {
                 isOpenedDefault={index === 0}
                 classes={styles}
               >
-                Signals list
+                <div className={styles.list}>
+                  {list.map(item => (
+                    <StakeholderSignal key={item.datetime} data={item} />
+                  ))}
+                </div>
               </Accordion>
             )
           })}
+        </div>
+      )}
+
+      {!loading && slugs.length === 0 && (
+        <div className={cx(styles.accordions, styles.noData)}>
+          No fired alerts for selected period
         </div>
       )}
     </div>

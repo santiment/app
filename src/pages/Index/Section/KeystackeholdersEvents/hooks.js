@@ -1,5 +1,12 @@
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import { useMemo } from 'react'
+
+export const READABLE_NAMES = {
+  large_transactions: 'Large transactions',
+  large_exchange_deposit: 'Large Exchange deposit',
+  dai_mint: 'DAI mint'
+}
 
 const RAW_SIGNALS_QUERY = gql`
   query getMetric($from: DateTime!, $to: DateTime!) {
@@ -22,4 +29,29 @@ export const useRawSignals = ({ from, to }) => {
   })
 
   return { data: data ? data.getRawSignals : [], loading }
+}
+
+export function useGroupedBySlugs (signals) {
+  const groups = useMemo(
+    () => {
+      return signals.reduce((acc, item) => {
+        const { slug } = item
+        if (!acc[slug]) {
+          acc[slug] = {
+            list: [],
+            types: []
+          }
+        }
+
+        acc[slug].list.push(item)
+        acc[slug].types.push(item.signal)
+        return acc
+      }, {})
+    },
+    [signals]
+  )
+
+  const slugs = useMemo(() => Object.keys(groups), [groups])
+
+  return { slugs, groups }
 }
