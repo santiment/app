@@ -6,6 +6,13 @@ import {
   PERCENT_CHANGES_CELL,
   PRO_CELL
 } from './columns'
+import {
+  CATEGORIES,
+  CURRENT_BALANCE_CELL,
+  LABELS_COLUMN,
+  NOTE_COLUMN
+} from '../../../../WatchlistAddressesTable/columns'
+import { BLOCKCHAIN_ADDRESS } from '../../../detector'
 
 const EMPTY_STR = ''
 const PERCENT_SUFFIX = '_change_'
@@ -13,7 +20,28 @@ const LAST_AGG = AGGREGATIONS_LOWER.LAST
 const TIMERANGES = new Set(['1d', '7d', '30d', '90d', '180d', '365d'])
 
 export const Column = {}
+export const AddressColumn = {
+  labels: LABELS_COLUMN,
+  notes: NOTE_COLUMN
+}
+
 const sortByTimeRanges = (a, b) => parseInt(a.timeRange) - parseInt(b.timeRange)
+
+export const buildAssetColumns = projects => {
+  return projects.map(({ ticker, name, slug }) => {
+    const column = {
+      title: `Current ${ticker} balance`,
+      key: slug,
+      label: `Current ${ticker} balance`,
+      shortLabel: `${name} ${slug}`, // for search
+      render: CURRENT_BALANCE_CELL(slug),
+      category: CATEGORIES.ASSET
+    }
+
+    AddressColumn[slug] = column
+    return column
+  })
+}
 
 export const buildColumns = (baseMetrics, allMetrics, restrictedMetrics) => {
   const allMetricsSet = new Set(allMetrics)
@@ -117,5 +145,9 @@ export const buildColumns = (baseMetrics, allMetrics, restrictedMetrics) => {
   })
 }
 
-export const getColumns = columnsKeys =>
-  columnsKeys.map(key => Column[key]).filter(Boolean)
+export const getColumns = (columnsKeys, type) =>
+  columnsKeys
+    .map(key =>
+      type === BLOCKCHAIN_ADDRESS ? AddressColumn[key] : Column[key]
+    )
+    .filter(Boolean)

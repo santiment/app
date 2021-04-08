@@ -8,14 +8,12 @@ import Search from '@santiment-network/ui/Search'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Category from './Category'
 import ConfigsMenu from './Configs'
-import { buildColumns, Column } from '../builder'
+import { useTableConfig } from '../gql/queries'
 import { useIsAuthor } from '../../../../gql/list/hooks'
-import { metrics } from '../../../Filter/dataHub/metrics'
 import { useTheme } from '../../../../../../stores/ui/theme'
+import { useCategories, useManipulateColumns } from '../hooks'
 import { getShadowVars } from '../../../../../../utils/styles'
 import { useUpdateWatchlistTableConfig } from '../gql/mutations'
-import { useRestrictedMetrics, useTableConfig } from '../gql/queries'
-import { getCategoryGraph } from '../../../../../Studio/Sidebar/utils'
 import styles from './index.module.scss'
 
 const Toggler = ({
@@ -23,24 +21,30 @@ const Toggler = ({
   updateActiveColumnsKeys,
   watchlist,
   sorting,
-  setOrderBy
+  setOrderBy,
+  type
 }) => {
   const { isNightMode } = useTheme()
   const { isAuthor } = useIsAuthor(watchlist)
   const [open, setOpen] = useState(false)
-  const [wasReorder, setWasReorder] = useState(false)
+
   const [selectedConfigId, setSelectedConfigId] = useState(
     watchlist && watchlist.tableConfiguration && watchlist.tableConfiguration.id
   )
+  const { categories, loading } = useCategories(type)
+  const [currentSearch, setCurrentSearch] = useState('')
   const [openConfigsMenu, setOpenConfigsMenu] = useState(false)
   const {
-    allMetrics,
-    restrictedMetrics,
-    loading: metricsLoading
-  } = useRestrictedMetrics()
-  const [currentSearch, setCurrentSearch] = useState('')
-  const [activeKeys, setActiveKeys] = useState(null)
-  const [currActiveKeys, setCurrActiveKeys] = useState(null)
+    toggleColumn,
+    reorderActiveKeys,
+    activeKeys,
+    setActiveKeys,
+    currActiveKeys,
+    setCurrActiveKeys,
+    wasReorder,
+    setWasReorder
+  } = useManipulateColumns()
+
   const {
     updateWatchlistTableConfig,
     updatedWatchlistTableConfigId
@@ -48,7 +52,7 @@ const Toggler = ({
   const { tableConfig, loading: configLoading } = useTableConfig(
     selectedConfigId
   )
-  const isLoading = configLoading || metricsLoading
+  const isLoading = configLoading || loading
 
   const savedActiveColumnKeys = useMemo(
     () => activeColumns.map(({ key }) => key),
@@ -73,7 +77,7 @@ const Toggler = ({
 
   useEffect(
     () => {
-      if (config && allMetrics.length !== 0) {
+      if (config && Object.keys(categories).length !== 0) {
         const { metrics, sorting } = config.columns
         if (sorting) {
           setOrderBy(sorting)
@@ -84,7 +88,7 @@ const Toggler = ({
         updateActiveColumnsKeys(metrics)
       }
     },
-    [config, allMetrics]
+    [config, categories]
   )
 
   useEffect(
@@ -147,63 +151,7 @@ const Toggler = ({
     [selectedConfigId]
   )
 
-  const categories = useMemo(
-    () => {
-      if (allMetrics.length !== 0) {
-        buildColumns(metrics, allMetrics, restrictedMetrics)
-        const allColumns = Object.values(Column)
-        return getCategoryGraph(allColumns)
-      }
-
-      return []
-    },
-    [allMetrics]
-  )
-
-  function addKey (key) {
-    const index = currActiveKeys.indexOf(key)
-    if (index === -1) {
-      return [...activeKeys, key]
-    } else {
-      let wasAdded = false
-      const newKeys = []
-      activeKeys.forEach(item => {
-        if (!wasAdded) {
-          const itemIndex = currActiveKeys.indexOf(item)
-          if (itemIndex === -1 || itemIndex > index) {
-            newKeys.push(key)
-            newKeys.push(item)
-            wasAdded = true
-          } else {
-            newKeys.push(item)
-          }
-        } else {
-          newKeys.push(item)
-        }
-      })
-      if (!wasAdded) {
-        newKeys.push(key)
-      }
-      return newKeys
-    }
-  }
-
-  function toggleColumn (columnKey, isActive) {
-    const newActiveKeys = isActive
-      ? addKey(columnKey)
-      : activeKeys.filter(key => key !== columnKey)
-    setActiveKeys(newActiveKeys)
-  }
-
-  function reorderActiveKeys (keys, wasChanges) {
-    setCurrActiveKeys(keys)
-    setWasReorder(wasChanges)
-    const newKeysOrder = Array.from(activeKeys)
-    newKeysOrder.sort((a, b) => keys.indexOf(a) - keys.indexOf(b))
-    setActiveKeys(newKeysOrder)
-  }
-
-  if (metricsLoading && activeKeys === null) {
+  if (loading && activeKeys === null) {
     return null
   }
 
@@ -270,6 +218,7 @@ const Toggler = ({
         </Panel>
       </ContextMenu>
       <ConfigsMenu
+        type={type}
         setOpen={setOpenConfigsMenu}
         open={openConfigsMenu}
         changeConfig={setSelectedConfigId}

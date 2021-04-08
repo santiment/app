@@ -1,7 +1,8 @@
 import React from 'react'
 import { COLUMNS } from './columns'
-import { getAddressWatchlist } from './gql/queries'
 import WatchlistTable from '../WatchlistTable'
+import { getAddressWatchlist } from './gql/queries'
+import { BLOCKCHAIN_ADDRESS } from '../Watchlists/detector'
 import { useColumns } from '../Watchlists/Widgets/Table/hooks'
 
 const OBJECT = {}
@@ -22,7 +23,7 @@ const refetchAddressWatchlist = id => getAddressWatchlist(id, 'network-only')
 const normalizeCSVData = items => items.map(normalizeCSVItem)
 
 const WatchlistAddressesTable = props => {
-  const { activeColumns, setActiveColumnsKeys } = useColumns()
+  const { activeColumns, setActiveColumnsKeys } = useColumns(BLOCKCHAIN_ADDRESS)
 
   return (
     <WatchlistTable

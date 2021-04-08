@@ -71,8 +71,9 @@ const TableTop = ({
       )}
       <div className={styles.actions}>
         <ColumnsToggler
-          watchlist={watchlist}
+          type={type}
           sorting={sorting}
+          watchlist={watchlist}
           setOrderBy={setOrderBy}
           activeColumns={activeColumns}
           updateActiveColumnsKeys={updateActiveColumnsKeys}

@@ -3,6 +3,7 @@ import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import { useUser } from '../../../../../../stores/user'
 import { sortBy } from '../../../../../../utils/sortMethods'
+import { BLOCKCHAIN_ADDRESS } from '../../../../detector'
 
 const EMPTY_ARRAY = []
 const EMPTY_OBJ = {}
@@ -45,8 +46,6 @@ const ACCESS_RESTRICTIONS_QUERY = gql`
       name
       type
       isRestricted
-      restrictedFrom
-      restrictedTo
     }
   }
 `
@@ -85,8 +84,10 @@ export function useTableConfig (id) {
   return { tableConfig: data && data.tableConfiguration, loading, error }
 }
 
-export function useRestrictedMetrics () {
-  const { data, loading } = useQuery(ACCESS_RESTRICTIONS_QUERY)
+export function useRestrictedMetrics (type) {
+  const { data, loading } = useQuery(ACCESS_RESTRICTIONS_QUERY, {
+    skip: type === BLOCKCHAIN_ADDRESS
+  })
 
   return useMemo(
     () => {
@@ -94,9 +95,9 @@ export function useRestrictedMetrics () {
         const allMetrics = []
         const restrictedMetrics = []
 
-        data.getAccessRestrictions.forEach(({ name, type, restrictedFrom }) => {
+        data.getAccessRestrictions.forEach(({ name, type, isRestricted }) => {
           allMetrics.push(name)
-          if (type === 'metric' && restrictedFrom !== null) {
+          if (type === 'metric' && isRestricted) {
             restrictedMetrics.push(name)
           }
         })

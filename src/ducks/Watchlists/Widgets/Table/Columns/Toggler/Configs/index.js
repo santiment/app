@@ -18,6 +18,7 @@ import { DEFAULT_ORDER_BY } from '../../defaults'
 const EMPTY_ARRAY = []
 
 const ConfigsMenu = ({
+  type,
   setOpen,
   open,
   changeConfig,
@@ -26,8 +27,8 @@ const ConfigsMenu = ({
   savedActiveColumnKeys = EMPTY_ARRAY,
   isLoading
 }) => {
-  const featuredTableConfigurations = useFeaturedTableConfigs()
-  const userTableConfigs = useUserTableConfigs()
+  const featuredTableConfigurations = useFeaturedTableConfigs(type)
+  const userTableConfigs = useUserTableConfigs(type)
 
   const { createTableConfig } = useCreateTableConfig()
   const { deleteTableConfig } = useDeleteTableConfig()
