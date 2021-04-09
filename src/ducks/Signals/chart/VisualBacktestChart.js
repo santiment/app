@@ -85,6 +85,7 @@ const VisualBacktestChart = ({
   dataKeys,
   referenceDots,
   showTitle,
+  height = 120,
   classes = {}
 }) => {
   const colors = useChartColors(metrics)
@@ -122,7 +123,7 @@ const VisualBacktestChart = ({
                 !titleEnabled && styles.noTitle
               )}
             >
-              <ResponsiveContainer width='100%' height={120}>
+              <ResponsiveContainer width='100%' height={height}>
                 {renderChart(data, dataKeys, markup, referenceDots, classes)}
               </ResponsiveContainer>
             </div>

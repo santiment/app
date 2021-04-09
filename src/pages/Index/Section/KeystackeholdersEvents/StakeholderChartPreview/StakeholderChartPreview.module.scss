@@ -2,9 +2,19 @@
 
 .container {
   width: 100%;
-  height: 100%;
+  height: 100px;
 }
 
 .tooltipLabel {
   background: none;
+}
+
+.skeleton {
+  height: 100px;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.skeletonWrapper {
+  width: 100%;
 }

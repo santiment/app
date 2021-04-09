@@ -17,8 +17,11 @@ export const mapWithTimeseriesAndYCoord = (
   timeseries,
   toDayConversion = true
 ) => {
-  const { key, dataKey, historicalTriggersDataKey } = triggersBy
-  const mappingKey = historicalTriggersDataKey || dataKey
+  const {
+    key,
+    dataKey = key,
+    historicalTriggersDataKey: mappingKey = dataKey
+  } = triggersBy
 
   const mapped = triggered.map(point => {
     const date = toDayConversion

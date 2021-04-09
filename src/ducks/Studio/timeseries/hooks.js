@@ -165,8 +165,6 @@ export function useTimeseries (
             .then(data => {
               if (raceCondition) return
 
-              console.log(data)
-
               if (!data.length) {
                 throw new Error(NO_DATA_MSG)
               }

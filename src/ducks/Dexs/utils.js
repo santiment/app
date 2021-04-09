@@ -21,8 +21,6 @@ export function mapDEXMetrics ({
     }
   })
 
-  console.log(priceSlug, ticker)
-
   if (priceSlug) {
     dexMetrics.push({
       ...Metric.price_usd,

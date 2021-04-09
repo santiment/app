@@ -215,8 +215,6 @@ function parseAxesMetrics (
 }
 
 export function parseSharedWidgets (sharedWidgets, project) {
-  console.log(sharedWidgets)
-
   return sharedWidgets.map(
     ({
       widget,

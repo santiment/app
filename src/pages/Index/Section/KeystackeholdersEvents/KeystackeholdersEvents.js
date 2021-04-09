@@ -11,7 +11,7 @@ import StakeholderSignal from './StakeholderSignal/StakeholderSignal'
 import styles from './KeystackeholdersEvents.module.scss'
 
 const DEFAULT_SETTINGS = {
-  from: 'utc_now-7d',
+  from: 'utc_now-24h',
   to: 'utc_now'
 }
 
@@ -19,7 +19,7 @@ const RANGES = ['24h', '7d', '30d']
 
 const KeystackeholdersEvents = () => {
   const [settings, setSettings] = useState(DEFAULT_SETTINGS)
-  const [intervalIndex, setIntervalIndex] = useState(1)
+  const [intervalIndex, setIntervalIndex] = useState(0)
 
   const { data: signals, loading } = useRawSignals(settings)
 

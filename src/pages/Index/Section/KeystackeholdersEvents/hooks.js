@@ -5,7 +5,8 @@ import { useMemo } from 'react'
 export const READABLE_NAMES = {
   large_transactions: 'Large transactions',
   large_exchange_deposit: 'Large Exchange deposit',
-  dai_mint: 'DAI mint'
+  dai_mint: 'DAI mint',
+  old_coins_moved: 'Old coins moved'
 }
 
 const RAW_SIGNALS_QUERY = gql`
