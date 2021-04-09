@@ -21,12 +21,14 @@
   justify-content: space-between;
   margin-bottom: 16px;
 
-  @include text('body-3', 'm'); }
+  @include text('body-3', 'm');
+}
 
 .date {
   color: var(--waterloo);
 
-  @include text('body-3'); }
+  @include text('body-3');
+}
 
 .content {
   display: flex;
@@ -38,11 +40,17 @@
   flex: 1;
   flex-direction: column;
 
-  @include text('body-3'); }
+  @include text('body-3');
+}
 
 .chart {
   display: flex;
   min-width: 250px;
+
+  @include responsive('laptop',  'tablet') {
+    width: 100%;
+    margin: 16px 0 8px 0;
+  }
 }
 
 .row {
@@ -59,7 +67,8 @@
 }
 
 .amount {
-  @include text('body-3', 'm'); }
+  @include text('body-3', 'm');
+}
 
 .address {
   padding: 2px 4px;
