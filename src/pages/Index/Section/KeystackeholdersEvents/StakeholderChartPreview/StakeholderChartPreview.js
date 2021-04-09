@@ -55,7 +55,7 @@ const StakeholderChartPreview = ({ data, project, settings }) => {
 
   const [timeseries, loadings] = useTimeseries(metrics, metricSettings)
 
-  const signals = useMemo(
+  const alertPoints = useMemo(
     () => {
       const nearestPoint = getNearestPricePoint(timeseries, datetime)
 
@@ -73,11 +73,11 @@ const StakeholderChartPreview = ({ data, project, settings }) => {
 
   const referenceDots = useMemo(
     () => {
-      return signals.length > 0
-        ? GetReferenceDots(signals, getMetricYAxisId(PRICE_METRIC))
+      return alertPoints.length > 0
+        ? GetReferenceDots(alertPoints, getMetricYAxisId(PRICE_METRIC))
         : []
     },
-    [signals, timeseries]
+    [alertPoints, timeseries]
   )
 
   const loading = loadings.length > 0

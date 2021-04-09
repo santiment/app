@@ -12,8 +12,8 @@ import EventBanner from '../../components/EventBanner'
 import ResearchesBlock from '../../components/ResearchesBlock'
 import KeystackeholdersEvents from './Section/KeystackeholdersEvents/KeystackeholdersEvents'
 import { useAnchorLoading } from './hooks'
-import styles from './index.module.scss'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
+import styles from './index.module.scss'
 
 const Block = ({ className, contentClassName, children }) => (
   <div className={cx(styles.block, className)}>
