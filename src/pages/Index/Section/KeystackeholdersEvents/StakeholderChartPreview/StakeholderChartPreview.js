@@ -5,12 +5,14 @@ import VisualBacktestChart, {
 import { Metric } from '../../../../../ducks/dataHub/metrics'
 import { useTimeseries } from '../../../../../ducks/Studio/timeseries/hooks'
 import { getMetricYAxisId } from '../../../../../ducks/SANCharts/utils'
-import styles from './StakeholderChartPreview.module.scss'
 import Skeleton from '../../../../../components/Skeleton/Skeleton'
 import { mapWithTimeseriesAndYCoord } from '../../../../../ducks/Signals/chart/preview/utils'
+import styles from './StakeholderChartPreview.module.scss'
 
 const PRICE_METRIC = {
   ...Metric.price_usd,
+  node: 'area',
+  gradientUrl: 'url(#totalUp)',
   historicalTriggersDataKey: undefined
 }
 
@@ -29,6 +31,10 @@ function getNearestPricePoint (timeseries, datetime) {
   }
 
   return target
+}
+
+const METRICS_COLOR = {
+  [PRICE_METRIC.key]: 'var(--mystic)'
 }
 
 const StakeholderChartPreview = ({ data, project, settings }) => {
@@ -92,6 +98,11 @@ const StakeholderChartPreview = ({ data, project, settings }) => {
           referenceDots={referenceDots}
           classes={styles}
           height={100}
+          metricsColor={METRICS_COLOR}
+          activeDotColor='var(--waterloo)'
+          gradientParams={{
+            upColor: 'var(--mystic)'
+          }}
         />
       )}
       {loading && (

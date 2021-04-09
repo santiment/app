@@ -39,12 +39,13 @@ const renderChart = (
   { key, dataKey = key },
   markup,
   referenceDots,
-  classes
+  classes,
+  gradientParams = {}
 ) => {
   return (
     <ComposedChart data={data} margin={{ left: 0, right: 0, top: 16 }}>
       <defs>
-        <Gradients />
+        <Gradients {...gradientParams} />
       </defs>
 
       <XAxis
@@ -86,15 +87,19 @@ const VisualBacktestChart = ({
   referenceDots,
   showTitle,
   height = 120,
-  classes = {}
+  classes = {},
+  metricsColor,
+  activeDotColor,
+  gradientParams = {}
 }) => {
-  const colors = useChartColors(metrics)
+  const colors = useChartColors(metrics, metricsColor)
   const markup = useMemo(
     () =>
       generateMetricsMarkup(metrics, {
         syncedColors: colors,
         activeDotEl: ActiveDot,
-        hideYAxis: true
+        hideYAxis: true,
+        activeDotColor
       }),
     [metrics, colors, ActiveDot]
   )
@@ -124,7 +129,14 @@ const VisualBacktestChart = ({
               )}
             >
               <ResponsiveContainer width='100%' height={height}>
-                {renderChart(data, dataKeys, markup, referenceDots, classes)}
+                {renderChart(
+                  data,
+                  dataKeys,
+                  markup,
+                  referenceDots,
+                  classes,
+                  gradientParams
+                )}
               </ResponsiveContainer>
             </div>
           </div>

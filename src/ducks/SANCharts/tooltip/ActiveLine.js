@@ -1,13 +1,17 @@
 import React from 'react'
 
-export const ActiveDot = ({ cy, cx }) => {
+export const ActiveDot = ({
+  cy,
+  cx,
+  activeDotColor = 'var(--jungle-green-hover)'
+}) => {
   return cy !== null ? (
     <circle
       cx={cx}
       cy={cy}
       r={4}
       strokeWidth='2px'
-      stroke='var(--jungle-green-hover)'
+      stroke={activeDotColor}
       fill='var(--white)'
     />
   ) : null
