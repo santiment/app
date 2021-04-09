@@ -90,18 +90,19 @@ const VisualBacktestChart = ({
   classes = {},
   metricsColor,
   activeDotColor,
-  gradientParams = {}
+  gradientParams = {},
+  activeEl = ActiveDot
 }) => {
   const colors = useChartColors(metrics, metricsColor)
   const markup = useMemo(
     () =>
       generateMetricsMarkup(metrics, {
         syncedColors: colors,
-        activeDotEl: ActiveDot,
+        activeDotEl: activeEl,
         hideYAxis: true,
         activeDotColor
       }),
-    [metrics, colors, ActiveDot]
+    [metrics, colors, activeEl]
   )
 
   const titleEnabled =

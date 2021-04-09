@@ -13,6 +13,12 @@
   @include text('h4', 'm');
 }
 
+.description {
+  margin-bottom: 32px;
+  color: var(--waterloo);
+
+  @include text('body-2'); }
+
 .right {
   margin-left: auto;
   display: flex;

@@ -29,9 +29,8 @@ const KeystackeholdersEvents = () => {
     <div className={styles.container}>
       <div className={styles.title}>
         <HashLink to={KEYSTACKHOLDERS_ANCHOR} className={styles.anchor}>
-          Keystakeholders stream events
+          Key Stakeholder Events
         </HashLink>
-
         <div className={styles.right}>
           <div className={styles.action}>{signals.length} fired</div>
           <Range
@@ -50,6 +49,11 @@ const KeystackeholdersEvents = () => {
           />
           <div className={styles.action}>assets: {slugs.length}</div>
         </div>
+      </div>
+
+      <div className={styles.description}>
+        Real-time signals for big changes in on-chain, social and development
+        activity
       </div>
 
       {loading && (
