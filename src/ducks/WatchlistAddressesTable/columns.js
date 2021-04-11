@@ -7,52 +7,12 @@ import ValueChange from '../../components/ValueChange/ValueChange'
 import styles from './index.module.scss'
 import { CHECKBOX_COLUMN, INDEX_COLUMN } from '../_Table/columns'
 
-export const DEFAULT_COLUMNS = [CHECKBOX_COLUMN, INDEX_COLUMN]
 export const CATEGORIES = {
   ASSET: 'Asset columns',
   GENERAL: 'General'
 }
 
-const balanceValue = new Intl.NumberFormat('en', {
-  maximumFractionDigits: 2
-})
-
-export const COLUMNS = DEFAULT_COLUMNS.concat(
-  prepareColumns([
-    // {
-    //   title: 'Current ETH balance',
-    //   render: ({ balanceChange }) =>
-    //     balanceChange && balanceValue.format(balanceChange.balanceEnd)
-    // },
-    // {
-    //   title: 'ETH balance, 7d, %',
-    //   render: ({ balanceChange }) =>
-    //     balanceChange && (
-    //       <ValueChange change={balanceChange.balanceChangePercent} />
-    //     )
-    // },
-    // {
-    //   title: 'ETH balance, 7d',
-    //   render: ({ address, balanceChange }) =>
-    //     balanceChange && (
-    //       <MiniChart
-    //         address={address}
-    //         change={balanceChange.balanceChangePercent}
-    //       />
-    //     )
-    // },
-    {
-      title: 'Labels',
-      render: Labels
-    },
-    {
-      title: 'Note, max 80 chars',
-      render: Note
-    }
-  ])
-)
-
-export const ADDRESS_COLUMN = {
+const ADDRESS_COLUMN = {
   title: 'Address',
   key: 'address',
   label: 'Address',
@@ -68,6 +28,15 @@ export const ADDRESS_COLUMN = {
     </a>
   )
 }
+
+export const DEFAULT_COLUMNS = [CHECKBOX_COLUMN, INDEX_COLUMN, ADDRESS_COLUMN]
+
+const balanceValue = new Intl.NumberFormat('en', {
+  maximumFractionDigits: 2
+})
+
+export const combineColumns = dynamicColumns =>
+  DEFAULT_COLUMNS.concat(prepareColumns(dynamicColumns))
 
 export const LABELS_COLUMN = {
   title: 'Labels',
@@ -87,3 +56,11 @@ export const NOTE_COLUMN = {
 
 export const CURRENT_BALANCE_CELL = slug => obj =>
   obj[slug] && balanceValue.format(obj[slug].balanceEnd)
+
+export const BALANCE_CHANGE_PERCENT_CELL = slug => obj =>
+  obj[slug] && <ValueChange change={obj[slug].balanceChangePercent} />
+
+export const BALANCE_CHANGE_CHART_CELL = slug => obj =>
+  obj[slug] && (
+    <MiniChart address={obj.address} change={obj[slug].balanceChangePercent} />
+  )

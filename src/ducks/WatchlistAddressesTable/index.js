@@ -1,5 +1,5 @@
-import React from 'react'
-import { COLUMNS } from './columns'
+import React, { useMemo } from 'react'
+import { combineColumns } from './columns'
 import WatchlistTable from '../WatchlistTable'
 import { getAddressWatchlist } from './gql/queries'
 import { BLOCKCHAIN_ADDRESS } from '../Watchlists/detector'
@@ -24,11 +24,12 @@ const normalizeCSVData = items => items.map(normalizeCSVItem)
 
 const WatchlistAddressesTable = props => {
   const { activeColumns, setActiveColumnsKeys } = useColumns(BLOCKCHAIN_ADDRESS)
+  const columns = useMemo(() => combineColumns(activeColumns), [activeColumns])
 
   return (
     <WatchlistTable
       {...props}
-      columns={COLUMNS}
+      columns={columns}
       activeColumns={activeColumns}
       updateActiveColumnsKeys={setActiveColumnsKeys}
       itemKeyProperty='address'
