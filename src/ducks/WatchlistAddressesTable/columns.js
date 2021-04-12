@@ -3,9 +3,10 @@ import MiniChart from './MiniChart'
 import Labels from './Labels'
 import { prepareColumns } from '../_Table'
 import Note from './Note'
+import AssetsDistributionColumn from './AssetsDistribution'
+import { CHECKBOX_COLUMN, INDEX_COLUMN } from '../_Table/columns'
 import ValueChange from '../../components/ValueChange/ValueChange'
 import styles from './index.module.scss'
-import { CHECKBOX_COLUMN, INDEX_COLUMN } from '../_Table/columns'
 
 export const CATEGORIES = {
   ASSET: 'Asset columns',
@@ -53,6 +54,15 @@ export const NOTE_COLUMN = {
   label: 'Address note',
   key: 'notes',
   render: Note
+}
+
+export const ASSETS_DISTRIBUTION_COLUMN = {
+  title: 'Assets USD distribution',
+  category: CATEGORIES.GENERAL,
+  label: 'Assets USD distribution',
+  key: 'distribution',
+  scheme: ' ',
+  render: AssetsDistributionColumn
 }
 
 export const CURRENT_BALANCE_CELL = key => obj =>

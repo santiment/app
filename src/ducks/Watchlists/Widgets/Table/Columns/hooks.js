@@ -6,6 +6,7 @@ import { BLOCKCHAIN_ADDRESS } from '../../../detector'
 import { useProjects } from '../../../../../stores/projects'
 import { getCategoryGraph } from '../../../../Studio/Sidebar/utils'
 import {
+  ASSETS_DISTRIBUTION_COLUMN,
   LABELS_COLUMN,
   NOTE_COLUMN
 } from '../../../../WatchlistAddressesTable/columns'
@@ -39,7 +40,9 @@ export function useCategories (type) {
 
         return {
           General: {
-            _: [LABELS_COLUMN, NOTE_COLUMN].map(item => ({ item }))
+            _: [LABELS_COLUMN, NOTE_COLUMN, ASSETS_DISTRIBUTION_COLUMN].map(
+              item => ({ item })
+            )
           },
           Assets: {
             _: allAssetColumns.map(item => ({ item }))

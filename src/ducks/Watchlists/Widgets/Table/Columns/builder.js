@@ -12,7 +12,8 @@ import {
   BALANCE_CHANGE_PERCENT_CELL,
   CATEGORIES,
   NOTE_COLUMN,
-  LABELS_COLUMN
+  LABELS_COLUMN,
+  ASSETS_DISTRIBUTION_COLUMN
 } from '../../../../WatchlistAddressesTable/columns'
 import { BLOCKCHAIN_ADDRESS } from '../../../detector'
 
@@ -24,7 +25,8 @@ const TIMERANGES = new Set(['1d', '7d', '30d', '90d', '180d', '365d'])
 export const Column = {}
 export const AddressColumn = {
   labels: LABELS_COLUMN,
-  notes: NOTE_COLUMN
+  notes: NOTE_COLUMN,
+  distribution: ASSETS_DISTRIBUTION_COLUMN
 }
 
 export const SUFFIX = {
