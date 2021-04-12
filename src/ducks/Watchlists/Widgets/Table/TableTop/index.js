@@ -43,7 +43,7 @@ const TableTop = ({
           trigger={
             <Button border accent='positive' className={styles.addassets}>
               <Icon type='assets' className={styles.icon} />
-              Add assets
+              Edit assets
             </Button>
           }
         />

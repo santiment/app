@@ -33,7 +33,7 @@ const WatchlistTable = ({
           trigger={
             <Button border accent='positive' className={styles.add}>
               <Icon type='assets' className={styles.icon} />
-              Add addresses
+              Edit addresses
             </Button>
           }
         />
