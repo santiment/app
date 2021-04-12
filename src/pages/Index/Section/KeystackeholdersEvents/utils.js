@@ -7,13 +7,13 @@ export function GetReferenceDots (signals, yAxisId) {
       ...acc,
       <Line
         dataKey={'price_usd_' + idx}
-        type='linear'
+        type='monotone'
         dot={false}
         isAnimationActive={false}
         connectNulls
         activeDot={false}
         stroke='url(#lineGradient)'
-        strokeWidth={1.5}
+        strokeWidth={1}
         fill='none'
         opacity={1}
       />,
