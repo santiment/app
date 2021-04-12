@@ -43,6 +43,7 @@ export const LABELS_COLUMN = {
   label: 'Address labels',
   category: CATEGORIES.GENERAL,
   key: 'labels',
+  scheme: `labels { name origin }`,
   render: Labels
 }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import withSizes from 'react-sizes'
-import { useAddressWatchlist, useAddressWatchlistItems } from './hooks'
+import { useAddressWatchlist } from './hooks'
 import Page from '../../ducks/Page'
 import { getIdFromSEOLink } from '../../utils/url'
 import WatchlistAddressesTable from '../../ducks/WatchlistAddressesTable'
@@ -15,7 +15,6 @@ const WatchlistAddress = ({ match, isPhone }) => {
   const { watchlist, isLoading } = useAddressWatchlist(
     getIdFromSEOLink(match.params.nameId)
   )
-  const items = useAddressWatchlistItems(watchlist)
 
   if (isLoading) return <PageLoader />
   if (!watchlist.id) return <Redirect to='/' />
@@ -36,11 +35,7 @@ const WatchlistAddress = ({ match, isPhone }) => {
           type={BLOCKCHAIN_ADDRESS}
         />
       )}
-      <WatchlistAddressesTable
-        items={items}
-        watchlist={watchlist}
-        isLoading={isLoading}
-      />
+      <WatchlistAddressesTable watchlist={watchlist} isLoading={isLoading} />
     </>
   )
 }
