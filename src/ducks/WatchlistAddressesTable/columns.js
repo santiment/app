@@ -55,13 +55,17 @@ export const NOTE_COLUMN = {
   render: Note
 }
 
-export const CURRENT_BALANCE_CELL = slug => obj =>
-  obj[slug] && balanceValue.format(obj[slug].balanceEnd)
+export const CURRENT_BALANCE_CELL = key => obj =>
+  obj[key] && balanceValue.format(obj[key].balanceEnd)
 
-export const BALANCE_CHANGE_PERCENT_CELL = slug => obj =>
-  obj[slug] && <ValueChange change={obj[slug].balanceChangePercent} />
+export const BALANCE_CHANGE_PERCENT_CELL = key => obj =>
+  obj[key] && <ValueChange change={obj[key].balanceChangePercent} />
 
-export const BALANCE_CHANGE_CHART_CELL = slug => obj =>
-  obj[slug] && (
-    <MiniChart address={obj.address} change={obj[slug].balanceChangePercent} />
+export const BALANCE_CHANGE_CHART_CELL = (key, slug) => obj =>
+  obj[key] && (
+    <MiniChart
+      address={obj.address}
+      slug={slug}
+      change={obj[key].balanceChangePercent}
+    />
   )

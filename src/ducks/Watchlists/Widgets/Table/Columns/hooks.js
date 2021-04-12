@@ -35,7 +35,8 @@ export function useCategories (type) {
     () => {
       if (type === BLOCKCHAIN_ADDRESS) {
         const assetColumns = buildAssetColumns(projects)
-        const allAssetColumns = Object.values(assetColumns)
+        const allAssetColumns = Object.values(assetColumns).flat()
+
         return {
           General: {
             _: [LABELS_COLUMN, NOTE_COLUMN].map(item => ({ item }))

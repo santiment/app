@@ -1,16 +1,18 @@
 import { AGGREGATIONS_LOWER } from '../../Filter/dataHub/aggregations'
 import { formatterWithBadge } from '../../Filter/formatters'
 import {
+  PRO_CELL,
   BASIC_CELL,
   CHART_LINE_CELL,
-  PERCENT_CHANGES_CELL,
-  PRO_CELL
+  PERCENT_CHANGES_CELL
 } from './columns'
 import {
-  CATEGORIES,
   CURRENT_BALANCE_CELL,
-  LABELS_COLUMN,
-  NOTE_COLUMN
+  BALANCE_CHANGE_CHART_CELL,
+  BALANCE_CHANGE_PERCENT_CELL,
+  CATEGORIES,
+  NOTE_COLUMN,
+  LABELS_COLUMN
 } from '../../../../WatchlistAddressesTable/columns'
 import { BLOCKCHAIN_ADDRESS } from '../../../detector'
 
@@ -25,32 +27,80 @@ export const AddressColumn = {
   notes: NOTE_COLUMN
 }
 
+export const SUFFIX = {
+  CURR_BALANCE: 'end',
+  BALANCE_PERCENT: 'percent',
+  BALANCE_CHART: 'chart'
+}
+
 const sortByTimeRanges = (a, b) => parseInt(a.timeRange) - parseInt(b.timeRange)
 
 export const buildAssetColumns = projects => {
   return projects.map(({ ticker, name, slug }) => {
     const transformedSlug = `_${slug.replace(/-/g, '_')}_`
-    console.log(transformedSlug)
 
-    const column = {
+    const balanceEndColumn = {
       title: `Current ${ticker} balance`,
-      key: slug,
+      key: slug + SUFFIX.CURR_BALANCE,
       label: `Current ${ticker} balance`,
       shortLabel: `${name} ${slug}`, // for search
-      render: CURRENT_BALANCE_CELL(transformedSlug),
+      render: CURRENT_BALANCE_CELL(transformedSlug + SUFFIX.CURR_BALANCE),
       category: CATEGORIES.ASSET,
-      scheme: `${transformedSlug}: balanceChange(
+      scheme: `${transformedSlug + SUFFIX.CURR_BALANCE}: balanceChange(
+          to: "utc_now"
+          from: "utc_now-1d"
+          selector: { slug: "${slug}" }
+        ) {
+          balanceEnd
+        }`
+    }
+
+    const balanceChangePercentColumn = {
+      title: `${ticker} balance, 7d %`,
+      key: slug + SUFFIX.BALANCE_PERCENT,
+      label: `${ticker} balance, 7d %`,
+      shortLabel: `${name} ${slug}`, // for search
+      render: BALANCE_CHANGE_PERCENT_CELL(
+        transformedSlug + SUFFIX.BALANCE_PERCENT
+      ),
+      category: CATEGORIES.ASSET,
+      scheme: `${transformedSlug + SUFFIX.BALANCE_PERCENT}: balanceChange(
           to: "utc_now"
           from: "utc_now-7d"
           selector: { slug: "${slug}" }
         ) {
           balanceChangePercent
-          balanceEnd
         }`
     }
 
-    AddressColumn[slug] = column
-    return column
+    const balanceChangeChartColumn = {
+      title: `${ticker} balance, 7d`,
+      key: slug + SUFFIX.BALANCE_CHART,
+      label: `${ticker} balance, 7d chart`,
+      shortLabel: `${name} ${slug}`, // for search
+      render: BALANCE_CHANGE_CHART_CELL(
+        transformedSlug + SUFFIX.BALANCE_CHART,
+        slug
+      ),
+      category: CATEGORIES.ASSET,
+      scheme: `${transformedSlug + SUFFIX.BALANCE_CHART}: balanceChange(
+          to: "utc_now"
+          from: "utc_now-7d"
+          selector: { slug: "${slug}" }
+        ) {
+          balanceChangePercent
+        }`
+    }
+
+    AddressColumn[slug + SUFFIX.CURR_BALANCE] = balanceEndColumn
+    AddressColumn[slug + SUFFIX.BALANCE_PERCENT] = balanceChangePercentColumn
+    AddressColumn[slug + SUFFIX.BALANCE_CHART] = balanceChangeChartColumn
+
+    return [
+      balanceEndColumn,
+      balanceChangePercentColumn,
+      balanceChangeChartColumn
+    ]
   })
 }
 
