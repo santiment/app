@@ -16,7 +16,8 @@ export const HOLDER_LABELED_DISTRIBUTION_NODE = {
   abbreviation: 'hdl',
   group: 'Supply distribution',
   category: 'On-chain',
-  node: 'line'
+  node: 'line',
+  isBeta: true
 }
 
 export const HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE = {
