@@ -94,3 +94,11 @@
     margin-top: 20px;
   }
 }
+
+.virtualizedContainer {
+  height: 300px;
+}
+
+.virtualizedList {
+  @include overlay-scroll();
+}
