@@ -27,7 +27,10 @@ const WATCHLIST_STATS_HISTORY_QUERY = gql`
 `
 
 export const useHistoryStats = ({ variables, skip }) => {
-  const { data } = useQuery(WATCHLIST_STATS_HISTORY_QUERY, { variables, skip })
+  const { data, loading } = useQuery(WATCHLIST_STATS_HISTORY_QUERY, {
+    variables,
+    skip
+  })
 
   return useMemo(
     () => {
@@ -48,6 +51,7 @@ export const useHistoryStats = ({ variables, skip }) => {
       } = historicalStats[length - 1]
 
       return {
+        loading: loading,
         data: historicalStats,
         marketcap: formatNumber(lastMarketcap, formatOptions),
         volume: formatNumber(lastVolume, formatOptions),
