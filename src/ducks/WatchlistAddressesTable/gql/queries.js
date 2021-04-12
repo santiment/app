@@ -1,6 +1,5 @@
 import gql from 'graphql-tag'
 import { client } from '../../../apollo'
-import { CATEGORIES } from '../columns'
 import { WATCHLIST_GENERAL_FRAGMENT } from '../../Watchlists/gql/fragments'
 
 const ARRAY = []
@@ -13,9 +12,7 @@ export const constructAddressWatchlistQuery = (columns = ARRAY) => gql`
         blockchainAddress {
           address
           infrastructure
-          ${columns.map(({ category, key, scheme }) =>
-    category === CATEGORIES.GENERAL ? `${scheme || key}` : ''
-  )}
+          ${columns.map(({ key, scheme }) => scheme || key)}
         }
       }
     }

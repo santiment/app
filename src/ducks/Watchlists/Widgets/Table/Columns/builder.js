@@ -29,13 +29,24 @@ const sortByTimeRanges = (a, b) => parseInt(a.timeRange) - parseInt(b.timeRange)
 
 export const buildAssetColumns = projects => {
   return projects.map(({ ticker, name, slug }) => {
+    const transformedSlug = `_${slug.replace(/-/g, '_')}_`
+    console.log(transformedSlug)
+
     const column = {
       title: `Current ${ticker} balance`,
       key: slug,
       label: `Current ${ticker} balance`,
       shortLabel: `${name} ${slug}`, // for search
-      render: CURRENT_BALANCE_CELL(slug),
-      category: CATEGORIES.ASSET
+      render: CURRENT_BALANCE_CELL(transformedSlug),
+      category: CATEGORIES.ASSET,
+      scheme: `${transformedSlug}: balanceChange(
+          to: "utc_now"
+          from: "utc_now-7d"
+          selector: { slug: "${slug}" }
+        ) {
+          balanceChangePercent
+          balanceEnd
+        }`
     }
 
     AddressColumn[slug] = column
