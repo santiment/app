@@ -1,6 +1,6 @@
+import { useMemo } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import { useMemo } from 'react'
 
 export const READABLE_NAMES = {
   large_transactions: 'Large transactions',

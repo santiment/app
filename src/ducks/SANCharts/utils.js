@@ -205,8 +205,6 @@ export const generateMetricsMarkup = (
     activeDotColor
   } = {}
 ) => {
-  console.log('ActiveEl', ActiveEl, ActiveLine)
-
   const metricWithYAxis = isMultiChartsActive
     ? metrics[0]
     : findYAxisMetric(metrics)
