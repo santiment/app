@@ -74,3 +74,11 @@
   padding: 2px 4px;
   background: var(--jungle-green-light);
 }
+
+.link {
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}

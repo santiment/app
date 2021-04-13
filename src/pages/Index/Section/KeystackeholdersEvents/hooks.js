@@ -8,7 +8,13 @@ export const READABLE_NAMES = {
   dai_mint: 'DAI mint',
   old_coins_moved: 'Old coins moved',
   mcd_art_liquidations: 'Large liquidation occurred',
-  anomalies: 'Anomalies'
+  anomalies: 'Anomalies',
+  ath: 'All Time High',
+  large_exchange_withdrawal: 'Large Exchange withdrawal'
+}
+
+export const READABLE_EXCHANGE_NAMES = {
+  ftx_exchange: 'FTX Exchange'
 }
 
 const RAW_SIGNALS_QUERY = gql`

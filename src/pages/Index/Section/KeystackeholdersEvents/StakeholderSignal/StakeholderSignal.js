@@ -1,12 +1,14 @@
 import React from 'react'
 import cx from 'classnames'
-import { READABLE_NAMES } from '../hooks'
+import { READABLE_EXCHANGE_NAMES, READABLE_NAMES } from '../hooks'
 import { getDateFormats, getTimeFormats } from '../../../../../utils/dates'
-import { millify } from '../../../../../utils/formatting'
+import { formatNumber, millify } from '../../../../../utils/formatting'
 import { useProject } from '../../../../../hooks/project'
 import { TxLinkTo } from '../../../../../components/Tables/TopTokenTransactions/columns'
 import WalletLink from '../../../../../components/WalletLink/WalletLink'
 import StakeholderChartPreview from '../StakeholderChartPreview/StakeholderChartPreview'
+import { HARDCODED_EXCHANGE_LINKS } from '../../../../../components/WalletLink/TransactionTableLabels'
+import { usdFormatter } from '../../../../../ducks/dataHub/metrics/formatters'
 import styles from './StakeholderSignal.module.scss'
 
 function formatDate (date) {
@@ -26,14 +28,51 @@ const getShortTx = value => {
 }
 const LINK_SETTINGS = { linkSymbolsCount: 42 }
 
+const ExchangeLink = ({ exchange_name }) => {
+  const link = HARDCODED_EXCHANGE_LINKS[exchange_name]
+  const label =
+    READABLE_EXCHANGE_NAMES[exchange_name] || exchange_name.toLowerCase()
+
+  if (link) {
+    return (
+      <a
+        className={styles.link}
+        target='_blank'
+        rel='noopener noreferrer'
+        href={link}
+      >
+        {label}
+      </a>
+    )
+  } else {
+    return label
+  }
+}
+
 const StakeholderSignal = ({ data, settings }) => {
   const {
     datetime,
-    metadata: { from, to, txHash },
+    metadata: {
+      exchange_name,
+      from,
+      to,
+      txHash,
+      tokenTransferred,
+      daysDestroyed,
+      prev_ath,
+      prev_ath_dt,
+      actual,
+      predicted,
+      predicted_lower,
+      predicted_upper,
+      value_usd
+    },
     value,
     signal,
     slug
   } = data
+
+  console.log(data)
 
   const [project = {}] = useProject(slug)
   const { ticker } = project
@@ -48,11 +87,80 @@ const StakeholderSignal = ({ data, settings }) => {
 
       <div className={styles.content}>
         <div className={styles.info}>
+          {exchange_name && (
+            <div className={styles.row}>
+              <div className={styles.label}>Exchange:</div>
+              <div className={styles.value}>
+                <ExchangeLink exchange_name={exchange_name} />
+              </div>
+            </div>
+          )}
+
+          {actual && (
+            <div className={styles.row}>
+              <div className={styles.label}>
+                Actual value of metric-asset pair:
+              </div>
+              <div className={styles.value}>{formatNumber(actual)}</div>
+            </div>
+          )}
+          {predicted && (
+            <div className={styles.row}>
+              <div className={styles.label}>
+                Predicted value of metric-asset pair:
+              </div>
+              <div className={styles.value}>{formatNumber(predicted)}</div>
+            </div>
+          )}
+          {predicted_lower && (
+            <div className={styles.row}>
+              <div className={styles.label}>
+                Predicted lower value of metric-asset pair:
+              </div>
+              <div className={styles.value}>
+                {formatNumber(predicted_lower)}
+              </div>
+            </div>
+          )}
+          {predicted_upper && (
+            <div className={styles.row}>
+              <div className={styles.label}>
+                Predicted upper value of metric-asset pair:
+              </div>
+              <div className={styles.value}>
+                {formatNumber(predicted_upper)}
+              </div>
+            </div>
+          )}
+
+          {prev_ath && (
+            <div className={styles.row}>
+              <div className={styles.label}>Previous ATH:</div>
+              <div className={styles.value}>
+                {formatNumber(prev_ath)}
+
+                {formatDate(new Date(prev_ath_dt))}
+              </div>
+            </div>
+          )}
+
+          {value_usd && (
+            <div className={styles.row}>
+              <div className={styles.label}>Value USD:</div>
+              <div className={styles.value}>{usdFormatter(value_usd)}</div>
+            </div>
+          )}
           {value && (
+            <div className={styles.row}>
+              <div className={styles.label}>Value:</div>
+              <div className={styles.value}>{millify(value)}</div>
+            </div>
+          )}
+          {tokenTransferred && (
             <div className={styles.row}>
               <div className={styles.label}>Token transfer:</div>
               <div className={cx(styles.value, styles.amount)}>
-                {millify(value)} {ticker}
+                {millify(tokenTransferred)} {ticker}
               </div>
             </div>
           )}
@@ -88,6 +196,12 @@ const StakeholderSignal = ({ data, settings }) => {
               <div className={styles.value}>
                 <TxLinkTo value={txHash} formatter={getShortTx} />
               </div>
+            </div>
+          )}
+          {daysDestroyed && (
+            <div className={styles.row}>
+              <div className={styles.label}>Amount of destroyed days:</div>
+              <div className={styles.value}>{daysDestroyed}</div>
             </div>
           )}
         </div>
