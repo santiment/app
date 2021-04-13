@@ -13,6 +13,7 @@ export const TABLE_CONFIGS_QUERY = gql`
   query tableConfigurations($userId: Int) {
     tableConfigurations(userId: $userId) {
       id
+      type
       title
       user {
         id
@@ -25,6 +26,7 @@ const FEATURED_TABLE_CONFIGS_QUERY = gql`
   query featuredTableConfigurations {
     featuredTableConfigurations {
       id
+      type
       title
     }
   }
@@ -34,6 +36,7 @@ const TABLE_CONFIG_QUERY = gql`
   query tableConfiguration($id: Int!) {
     tableConfiguration(id: $id) {
       id
+      type
       title
       columns
     }
@@ -50,18 +53,27 @@ const ACCESS_RESTRICTIONS_QUERY = gql`
   }
 `
 
-export function useFeaturedTableConfigs () {
+export function useFeaturedTableConfigs (type) {
   const { data } = useQuery(FEATURED_TABLE_CONFIGS_QUERY)
+
   return useMemo(
-    () =>
-      data
-        ? data.featuredTableConfigurations.slice().sort(SORTER)
-        : EMPTY_ARRAY,
+    () => {
+      if (data) {
+        return data.featuredTableConfigurations
+          .filter(config =>
+            type === BLOCKCHAIN_ADDRESS
+              ? config.type === type
+              : config.type !== BLOCKCHAIN_ADDRESS
+          )
+          .slice()
+          .sort(SORTER)
+      } else return EMPTY_ARRAY
+    },
     [data]
   )
 }
 
-export function useUserTableConfigs () {
+export function useUserTableConfigs (type) {
   const { user } = useUser()
   const { id } = user || EMPTY_OBJ
   const { data } = useQuery(TABLE_CONFIGS_QUERY, {
@@ -70,8 +82,20 @@ export function useUserTableConfigs () {
       userId: +id
     }
   })
+
   return useMemo(
-    () => (data ? data.tableConfigurations.slice().sort(SORTER) : EMPTY_ARRAY),
+    () => {
+      if (data) {
+        return data.tableConfigurations
+          .filter(config =>
+            type === BLOCKCHAIN_ADDRESS
+              ? config.type === type
+              : config.type !== BLOCKCHAIN_ADDRESS
+          )
+          .slice()
+          .sort(SORTER)
+      } else return EMPTY_ARRAY
+    },
     [data]
   )
 }
