@@ -8,6 +8,11 @@ export const PLANS = {
   ENTERPRISE: 'ENTERPRISE'
 }
 
+export const STATUSES = {
+  ACTIVE: 'ACTIVE',
+  TRIALING: 'TRIALING'
+}
+
 const NormalizedPlanName = {
   'PRO+': PLANS.PRO_PLUS
 }
@@ -24,7 +29,7 @@ export const calculateTrialDaysLeft = trialEnd =>
   Math.ceil((new Date(trialEnd) - Date.now()) / ONE_DAY_IN_MS)
 
 export const checkIsActiveSubscription = ({ status }) =>
-  status === 'ACTIVE' || status === 'TRIALING'
+  status === STATUSES.ACTIVE || status === STATUSES.TRIALING
 
 export const formatOnlyPrice = amount => `$${parseInt(amount / 100, 10)}`
 
@@ -81,7 +86,8 @@ export const getAlternativeBillingPlan = (plans, oldPlan) => {
     )
 }
 
-export const getTrialLabel = trialEnd => (trialEnd ? '(trial)' : '')
+export const getTrialLabel = (trialEnd, status) =>
+  trialEnd && status !== STATUSES.ACTIVE ? '(trial)' : ''
 
 export function getShowingPlans (plans, billing) {
   return plans
@@ -91,10 +97,14 @@ export function getShowingPlans (plans, billing) {
 }
 
 export function hasInactiveTrial (subscription) {
-  return subscription && subscription.trialEnd && subscription.cancelAtPeriodEnd
+  const { trialEnd, cancelAtPeriodEnd, status } = subscription
+  return (
+    subscription && trialEnd && cancelAtPeriodEnd && status !== STATUSES.ACTIVE
+  )
 }
 export function hasActiveTrial (subscription) {
+  const { trialEnd, cancelAtPeriodEnd, status } = subscription
   return (
-    subscription && subscription.trialEnd && !subscription.cancelAtPeriodEnd
+    subscription && trialEnd && !cancelAtPeriodEnd && status !== STATUSES.ACTIVE
   )
 }

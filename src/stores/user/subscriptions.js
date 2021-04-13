@@ -6,7 +6,8 @@ import { client } from '../../apollo'
 import {
   PLANS,
   getSanbaseSubscription,
-  calculateTrialDaysLeft
+  calculateTrialDaysLeft,
+  STATUSES
 } from '../../utils/plans'
 
 const { PRO, PRO_PLUS } = PLANS
@@ -98,11 +99,14 @@ export function useUserSubscriptionStatus () {
       let trialDaysLeft = null
 
       if (subscription) {
-        const { trialEnd, plan } = subscription
+        const { trialEnd, plan, status } = subscription
         isProPlus = plan.name === PRO_PLUS
         isPro = isProPlus || plan.name === PRO
-        trialDaysLeft = trialEnd && calculateTrialDaysLeft(trialEnd)
-        isTrial = trialDaysLeft > 0
+        trialDaysLeft =
+          status !== STATUSES.ACTIVE &&
+          trialEnd &&
+          calculateTrialDaysLeft(trialEnd)
+        isTrial = trialDaysLeft > 0 && status !== STATUSES.ACTIVE
       }
 
       return {

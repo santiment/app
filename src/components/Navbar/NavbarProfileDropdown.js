@@ -10,7 +10,8 @@ import * as actions from '../../actions/types'
 import {
   calculateTrialDaysLeft,
   checkIsActiveSubscription,
-  ProductNameById
+  ProductNameById,
+  STATUSES
 } from '../../utils/plans'
 import UpgradeBtn from '../UpgradeBtn/UpgradeBtn'
 import { useTheme } from '../../stores/ui/theme'
@@ -68,12 +69,14 @@ const LinkBuilder = (props, index) => {
 
 const ProductSubscription = ({
   trialEnd,
+  status,
   plan: {
     name,
     product: { id }
   }
 }) => {
-  const daysLeft = trialEnd && calculateTrialDaysLeft(trialEnd)
+  const daysLeft =
+    status !== STATUSES.ACTIVE && trialEnd && calculateTrialDaysLeft(trialEnd)
   const trial =
     daysLeft &&
     ` (trial - ${daysLeft === 1 ? 'last day' : `${daysLeft} days left`})`
