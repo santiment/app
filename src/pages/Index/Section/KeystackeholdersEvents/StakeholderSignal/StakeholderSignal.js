@@ -72,8 +72,6 @@ const StakeholderSignal = ({ data, settings }) => {
     slug
   } = data
 
-  console.log(data)
-
   const [project = {}] = useProject(slug)
   const { ticker } = project
 

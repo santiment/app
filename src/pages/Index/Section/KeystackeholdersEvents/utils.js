@@ -6,6 +6,7 @@ export function GetReferenceDots (signals, yAxisId) {
     return [
       ...acc,
       <Line
+        key={'price_usd_' + idx}
         dataKey={'price_usd_' + idx}
         type='monotone'
         dot={false}
