@@ -90,6 +90,11 @@
 
     th:nth-child(3) {
       z-index: 3;
+      background: var(--athens);
+    }
+
+    td:nth-child(3) {
+      z-index: 1;
     }
 
     th,
