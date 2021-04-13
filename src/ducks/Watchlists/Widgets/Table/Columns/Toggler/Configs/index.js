@@ -12,8 +12,9 @@ import {
   useUpdateTableConfig
 } from '../../gql/mutations'
 import UpdateConfig from './UpdateConfig'
-import styles from './index.module.scss'
 import { DEFAULT_ORDER_BY } from '../../defaults'
+import { BLOCKCHAIN_ADDRESS } from '../../../../../detector'
+import styles from './index.module.scss'
 
 const EMPTY_ARRAY = []
 
@@ -50,12 +51,15 @@ const ConfigsMenu = ({
         config && config.columns.sorting
           ? config.columns.sorting
           : DEFAULT_ORDER_BY
+      const isUnsavedSorting =
+        type !== BLOCKCHAIN_ADDRESS && !isEqual(sorting, comparedSorting)
+
       return (
         savedActiveColumnKeys &&
         config &&
         !isLoading &&
         (!isEqual(config.columns.metrics, savedActiveColumnKeys) ||
-          !isEqual(sorting, comparedSorting))
+          isUnsavedSorting)
       )
     },
     [savedActiveColumnKeys, sorting, config]
