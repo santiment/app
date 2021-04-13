@@ -4,20 +4,43 @@ import WatchlistTable from '../WatchlistTable'
 import { getAddressWatchlist } from './gql/queries'
 import { BLOCKCHAIN_ADDRESS } from '../Watchlists/detector'
 import { useColumns } from '../Watchlists/Widgets/Table/hooks'
+import { SUFFIX } from '../Watchlists/Widgets/Table/Columns/builder'
 import { useAddressWatchlistItems } from '../../pages/WatchlistAddresses/hooks'
 
-const OBJECT = {}
+const ARRAY = []
 const normalizeLabel = ({ name }) => name
-function normalizeCSVItem ({ address, balanceChange, labels, notes }) {
-  const { balanceEnd, balanceChangePercent } = balanceChange || OBJECT
+const normalizeBalance = value => value && value.balanceEnd
+const normalizeBalanceChange = value => value && value.balanceChangePercent
 
-  return {
-    address,
-    balance: balanceEnd,
-    percentChange7d: balanceChangePercent,
-    labels: labels && labels.map(normalizeLabel),
-    note: notes
+function normalizeCSVItem ({ address, labels, notes, __typename, ...columns }) {
+  const filteredColumnObj = {}
+  const columnKeys = typeof columns === 'object' ? Object.keys(columns) : ARRAY
+  const filteredColumnKeys = columnKeys.filter(
+    key => key.startsWith('_') && !key.includes(SUFFIX.BALANCE_CHART)
+  )
+  filteredColumnKeys.forEach(key => {
+    let item = columns[key]
+
+    if (key.includes(SUFFIX.CURR_BALANCE)) {
+      item = normalizeBalance(columns[key])
+    }
+
+    if (key.includes(SUFFIX.BALANCE_PERCENT)) {
+      item = normalizeBalanceChange(columns[key])
+    }
+
+    filteredColumnObj[key] = item
+  })
+
+  if (labels) {
+    filteredColumnObj.labels = labels && labels.map(normalizeLabel)
   }
+
+  if (notes) {
+    filteredColumnObj.notes = notes
+  }
+
+  return { address, ...filteredColumnObj }
 }
 
 const refetchAddressWatchlist = (id, dynamicColumns) =>

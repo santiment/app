@@ -30,9 +30,9 @@ export const AddressColumn = {
 }
 
 export const SUFFIX = {
-  CURR_BALANCE: 'end',
-  BALANCE_PERCENT: 'percent',
-  BALANCE_CHART: 'chart'
+  CURR_BALANCE: 'balance',
+  BALANCE_PERCENT: 'balanceChange7d',
+  BALANCE_CHART: 'balanceChart'
 }
 
 const sortByTimeRanges = (a, b) => parseInt(a.timeRange) - parseInt(b.timeRange)
