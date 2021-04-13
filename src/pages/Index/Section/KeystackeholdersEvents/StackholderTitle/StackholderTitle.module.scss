@@ -1,0 +1,61 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  padding: 16px 24px;
+  flex: 1;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  @include text('body-2');
+}
+
+.name {
+  margin-left: 6px;
+}
+
+.ticker {
+  color: var(--waterloo);
+  margin-left: 6px;
+  position: relative;
+}
+
+.count {
+  position: absolute;
+  top: -2px;
+  right: -22px;
+  background: var(--jungle-green-light);
+  color: var(--jungle-green);
+  padding: 1px 5px;
+  border-radius: 50%;
+
+  @include text('caption');
+
+  font-size: 10px;
+}
+
+.labels {
+  display: flex;
+  margin-top: 8px;
+}
+
+.skeleton {
+  min-height: 20px;
+}
+
+.skeletonWrapper {
+  width: 100%;
+}
+
+.label {
+  @include text('caption');
+
+  color: var(--rhino);
+  padding: 4px 8px;
+  margin-right: 8px;
+  border-radius: $border-radius;
+  border: 1px solid var(--porcelain);
+}
