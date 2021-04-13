@@ -59,7 +59,7 @@ const WatchlistAddressesTable = props => {
         setList(list)
       )
     },
-    [activeColumns]
+    [activeColumns, props.watchlist.id]
   )
 
   return (
