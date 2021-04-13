@@ -3,7 +3,7 @@ import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import styles from './TransactionTableLabels.module.scss'
 
-const HARDCODED_LINKS = {
+export const HARDCODED_EXCHANGE_LINKS = {
   defisaver: 'https://defisaver.com/',
   pooltogether: 'https://www.pooltogether.com/',
   dydx: 'https://dydx.exchange/',
@@ -27,7 +27,12 @@ const HARDCODED_LINKS = {
   oneinch: 'https://1inch.exchange/',
   bitfinex: 'https://www.bitfinex.com/',
   binance: 'https://www.binance.com/',
-  uniswap: 'https://uniswap.org/'
+  uniswap: 'https://uniswap.org/',
+  ftx_exchange: 'https://ftx.com/',
+  huobi: 'https://www.huobi.com/',
+  'crypto.com': 'https://crypto.com/',
+  coinbase: 'https://www.coinbase.com/',
+  kucoin: 'https://www.kucoin.com/'
 }
 
 const LabelWrapper = ({ metadata }) => {
@@ -45,7 +50,9 @@ const LabelWrapper = ({ metadata }) => {
 
   const { owner } = decoded
 
-  const linkRef = owner ? HARDCODED_LINKS[owner.toLowerCase()] : undefined
+  const linkRef = owner
+    ? HARDCODED_EXCHANGE_LINKS[owner.toLowerCase()]
+    : undefined
 
   if (linkRef) {
     return (
