@@ -34,47 +34,50 @@ export function GetReferenceDots (signals, yAxisId) {
   ))
 }
 
-const renderChart = (
+const RenderChart = ({
   data,
-  { key, dataKey = key },
+  dataKeys: { key, dataKey = key },
   markup,
   referenceDots,
   classes,
-  gradientParams = {}
-) => {
+  gradientParams = {},
+  height
+}) => {
   return (
-    <ComposedChart data={data} margin={{ left: 0, right: 0, top: 16 }}>
-      <defs>
-        <Gradients {...gradientParams} />
-      </defs>
+    <ResponsiveContainer width='100%' height={height}>
+      <ComposedChart data={data} margin={{ left: 0, right: 0, top: 16 }}>
+        <defs>
+          <Gradients {...gradientParams} />
+        </defs>
 
-      <XAxis
-        dataKey='datetime'
-        type='number'
-        scale='time'
-        tick={false}
-        allowDataOverflow
-        domain={['dataMin', 'dataMax']}
-        hide
-      />
-      <YAxis
-        hide
-        domain={['auto', 'dataMax']}
-        dataKey={dataKey}
-        interval='preserveStartEnd'
-      />
+        <XAxis
+          dataKey='datetime'
+          type='number'
+          scale='time'
+          tick={false}
+          allowDataOverflow
+          domain={['dataMin', 'dataMax']}
+          hide
+        />
+        <YAxis
+          hide
+          domain={['auto', 'dataMax']}
+          dataKey={dataKey}
+          interval='preserveStartEnd'
+        />
 
-      {markup}
+        {markup}
 
-      {referenceDots}
+        {referenceDots}
 
-      <Tooltip
-        content={<CustomTooltip classes={classes} />}
-        cursor={false}
-        position={{ x: 0, y: -22 }}
-        isAnimationActive={false}
-      />
-    </ComposedChart>
+        <Tooltip
+          content={<CustomTooltip classes={classes} />}
+          cursor={false}
+          position={{ x: 0, y: -22 }}
+          isAnimationActive={false}
+        />
+      </ComposedChart>
+    </ResponsiveContainer>
   )
 }
 
@@ -129,16 +132,15 @@ const VisualBacktestChart = ({
                 !titleEnabled && styles.noTitle
               )}
             >
-              <ResponsiveContainer width='100%' height={height}>
-                {renderChart(
-                  data,
-                  dataKeys,
-                  markup,
-                  referenceDots,
-                  classes,
-                  gradientParams
-                )}
-              </ResponsiveContainer>
+              <RenderChart
+                data={data}
+                dataKeys={dataKeys}
+                markup={markup}
+                referenceDots={referenceDots}
+                classes={classes}
+                gradientParams={gradientParams}
+                height={height}
+              />
             </div>
           </div>
         </div>
