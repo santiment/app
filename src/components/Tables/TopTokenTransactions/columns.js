@@ -1,25 +1,25 @@
 import React from 'react'
 import WalletLink from '../../WalletLink/WalletLink'
 import { formatNumber } from '../../../utils/formatting'
-import { isEthStrictHashTx } from '../../../utils/utils'
+import { mapToTxLink } from '../../../utils/utils'
 import styles from '../../WalletLink/WalletLink.module.scss'
 
 const AddressCell = ({ value }) => <WalletLink {...value} />
 
+export const TxLinkTo = ({ value, formatter }) => (
+  <a
+    className={styles.link}
+    href={mapToTxLink(value)}
+    target='_blank'
+    rel='noopener noreferrer'
+  >
+    {formatter ? formatter(value) : value}
+  </a>
+)
+
 const TrxCell = ({ value }) => (
   <div className={styles.trx}>
-    <a
-      className={styles.link}
-      href={
-        isEthStrictHashTx(value)
-          ? `https://etherscan.io/tx/${value}`
-          : `https://www.blockchain.com/btc/tx/${value}`
-      }
-      target='_blank'
-      rel='noopener noreferrer'
-    >
-      {value}
-    </a>
+    <TxLinkTo value={value} />
   </div>
 )
 

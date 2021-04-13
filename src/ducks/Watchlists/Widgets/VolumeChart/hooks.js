@@ -85,5 +85,12 @@ export const useProjectRanges = ({
     ? useProjectsSocialVolumeChanges(hookProps)
     : useProjectPriceChanges(hookProps)
 
-  return { data, loading, intervalIndex, setIntervalIndex, label, key: metric }
+  return {
+    data: data.slice(0, 100),
+    loading,
+    intervalIndex,
+    setIntervalIndex,
+    label,
+    key: metric
+  }
 }

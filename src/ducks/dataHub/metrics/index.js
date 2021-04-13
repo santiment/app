@@ -119,8 +119,6 @@ export const Metric = {
     node: 'bar',
     withoutRoot: true,
     showRoot: false,
-    isBeta: true,
-    checkIsVisible: ({ isBeta: isBetaApp }) => isBetaApp,
     domainGroup: 'social_active_users'
   },
   age_consumed: {
@@ -191,8 +189,7 @@ export const Metric = {
     node: 'line',
     group: 'Network Value',
     label: 'Stock to Flow ratio',
-    shortLabel: 'St. to Fl.',
-    isBeta: true
+    shortLabel: 'St. to Fl.'
   },
   mvrv_usd_z_score: {
     category: 'On-chain',
@@ -234,8 +231,7 @@ export const Metric = {
     fullTitle: 'Market Value To Realized Value Long-Short Difference',
     shortLabel: 'MVRV L/S Diff',
     formatter: v => (v ? `${(v * 100).toFixed(2)}%` : 'No data'),
-    axisFormatter: axisPercentFormatter,
-    isBeta: true
+    axisFormatter: axisPercentFormatter
   },
   transaction_volume: {
     category: 'On-chain',
@@ -350,7 +346,6 @@ export const Metric = {
     label: 'Mean Coin Age',
     shortLabel: 'Mean C.A.',
     abbreviation: 'mca',
-    isBeta: true,
     group: 'Network Value'
   },
   nvt: {
@@ -562,14 +557,12 @@ export const Metric = {
     node: 'bar',
     label: 'Defi Total Value Locked in USD',
     shortLabel: 'Defi Locked',
-    fill: true,
-    isBeta: true
+    fill: true
   },
   price_daa_divergence: {
     category: 'Indicators',
     label: 'Price DAA Divergence',
     node: Node.GREEN_RED_BAR,
-    isBeta: true,
     formatter: absoluteToPercentsFormatter,
     axisFormatter: axisPercentFormatter
   },
@@ -577,7 +570,6 @@ export const Metric = {
     category: 'Indicators',
     label: 'Adjusted Price DAA Divergence',
     node: Node.GREEN_RED_BAR,
-    isBeta: true,
     formatter: absoluteToPercentsFormatter,
     axisFormatter: axisPercentFormatter
   },

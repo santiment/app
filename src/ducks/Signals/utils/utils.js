@@ -1775,10 +1775,18 @@ export const getNewDescription = newValues => {
     ? `every ${frequencyTimeValue.label} ${frequencyTimeType.label}`
     : 'only once'
 
-  const channelsBlock =
-    channels && channels.length ? `via ${channels.join(', ')}` : ''
+  const channelsReadable = channels.reduce((acc, ch) => {
+    return typeof ch === 'object'
+      ? acc.concat(Object.keys(ch))
+      : acc.concat(ch.toLowerCase())
+  }, [])
 
-  return `Notify me when the ${metricsHeaderStr}. Send me notifications ${repeatingBlock.toLowerCase()} ${channelsBlock.toLowerCase()}.`
+  const channelsBlock =
+    channelsReadable && channelsReadable.length
+      ? `via ${channelsReadable.join(', ')}`
+      : ''
+
+  return `Notify me when the ${metricsHeaderStr}. Send me notifications ${repeatingBlock.toLowerCase()} ${channelsBlock}.`
 }
 
 export const buildSignal = (metric, type, slug, Values, selector = 'slug') => {

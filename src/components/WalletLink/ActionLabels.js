@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import TransactionTableLabels from './TransactionTableLabels'
+import { mapToTxAddress, mapToTxLink } from '../../utils/utils'
 import styles from './WalletLink.module.scss'
 
 export const makeShortAddresLink = ({
@@ -8,7 +9,7 @@ export const makeShortAddresLink = ({
   isExchange,
   settings: { linkSymbolsCount = 16 } = {}
 }) =>
-  link.length > 7
+  link.length > 7 && link.length < linkSymbolsCount
     ? link.slice(0, isExchange ? 7 : linkSymbolsCount) + '...'
     : link
 
@@ -34,7 +35,7 @@ export const EtherscanLink = ({
 
   const props = asLink
     ? {
-      href: `https://etherscan.io/${isTx ? 'tx' : 'address'}/${address}`,
+      href: isTx ? mapToTxLink(address) : mapToTxAddress(address),
       target: '_blank',
       rel: 'noopener noreferrer'
     }
@@ -47,9 +48,9 @@ export const EtherscanLink = ({
   )
 }
 
-const ActionLabels = ({ isExchange, labels, ...rest }) => {
+const ActionLabels = ({ isExchange, labels, className, ...rest }) => {
   return (
-    <div className={styles.withLabels}>
+    <div className={cx(styles.withLabels, className)}>
       <EtherscanLink {...rest} isExchange={isExchange} />
       {labels && <TransactionTableLabels labels={labels} />}
     </div>

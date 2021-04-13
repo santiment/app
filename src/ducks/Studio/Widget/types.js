@@ -6,6 +6,7 @@ import PriceDAADivergenceWidget from './PriceDAADivergenceWidget'
 import AdjustedPriceDAADivergenceWidget from './PriceDAADivergenceWidget/Adjusted'
 import FeesDistribution from '../FeesDistribution/FeesDistribution'
 import HoldersDistributionTable from './HoldersDistributionTable/HoldersDistributionTable'
+import HolderDistributionLabeledWidget from './HolderDistributionWidget/HoldersDistributionLabeled'
 
 const reverseKeyValue = ([key, value]) => [value, key]
 
@@ -16,6 +17,7 @@ export const TypeToWidget = {
   HoldersDistributionTable,
   FeesDistribution,
   HolderDistributionCombinedBalanceWidget,
+  HolderDistributionLabeledWidget,
   PriceDAADivergenceWidget,
   AdjustedPriceDAADivergenceWidget
 }

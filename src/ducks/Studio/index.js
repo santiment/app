@@ -128,6 +128,7 @@ export const Studio = ({
     if (
       widget.Widget !== HolderDistributionWidget &&
       widget.Widget !== HolderDistributionCombinedBalanceWidget &&
+      widget.Widget !== HolderDistributionLabeledWidget &&
       metrics.length === 0
     ) {
       deleteWidget(widget)

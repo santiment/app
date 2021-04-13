@@ -8,9 +8,10 @@ import StartGuide from './StartGuide'
 import Cabinet from './Cabinet'
 import styles from './index.module.scss'
 
-const SHEETS_ANCHOR = '#san-sheets'
+export const SHEETS_ANCHOR = '#san-sheets'
 const QUICK_START_ANCHOR = '#quick-start'
 const CABINET_ANCHOR = '#cabinet'
+export const KEYSTACKHOLDERS_ANCHOR = '#stakeholders'
 
 const LS_PERSONAL_TAB = 'LS_PERSONAL_TAB'
 export const PersonalTabType = {
@@ -27,7 +28,8 @@ const PersonalTabHashes = {
 const HashTab = {
   [CABINET_ANCHOR]: PersonalTabType.CABINET,
   [SHEETS_ANCHOR]: PersonalTabType.CABINET,
-  [QUICK_START_ANCHOR]: PersonalTabType.START_GUIDE
+  [QUICK_START_ANCHOR]: PersonalTabType.START_GUIDE,
+  [KEYSTACKHOLDERS_ANCHOR]: PersonalTabType.START_GUIDE
 }
 
 export const TabTypeComponent = {

@@ -117,7 +117,6 @@ export function useTimeseries (
         const { query: metricQuery, preTransform: metricPreTransform } =
           metricSettings || {}
         const query = metricQuery || getQuery(metric, metricSettings)
-
         if (!fetch) {
           if (!query) {
             return setErrorMsg(state => {

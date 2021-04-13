@@ -34,11 +34,18 @@ export function GetReferenceDots (signals, yAxisId) {
   ))
 }
 
-const renderChart = (data, { key, dataKey = key }, markup, referenceDots) => {
+const renderChart = (
+  data,
+  { key, dataKey = key },
+  markup,
+  referenceDots,
+  classes,
+  gradientParams = {}
+) => {
   return (
     <ComposedChart data={data} margin={{ left: 0, right: 0, top: 16 }}>
       <defs>
-        <Gradients />
+        <Gradients {...gradientParams} />
       </defs>
 
       <XAxis
@@ -62,7 +69,7 @@ const renderChart = (data, { key, dataKey = key }, markup, referenceDots) => {
       {referenceDots}
 
       <Tooltip
-        content={<CustomTooltip />}
+        content={<CustomTooltip classes={classes} />}
         cursor={false}
         position={{ x: 0, y: -22 }}
         isAnimationActive={false}
@@ -78,20 +85,28 @@ const VisualBacktestChart = ({
   data,
   dataKeys,
   referenceDots,
-  showTitle
+  showTitle,
+  height = 120,
+  classes = {},
+  metricsColor,
+  activeDotColor,
+  gradientParams = {},
+  activeEl = ActiveDot
 }) => {
-  const colors = useChartColors(metrics)
+  const colors = useChartColors(metrics, metricsColor)
   const markup = useMemo(
     () =>
       generateMetricsMarkup(metrics, {
         syncedColors: colors,
-        activeDotEl: ActiveDot,
-        hideYAxis: true
+        activeDotEl: activeEl,
+        hideYAxis: true,
+        activeDotColor
       }),
-    [metrics, colors, ActiveDot]
+    [metrics, colors, activeEl]
   )
 
-  const titleEnabled = showTitle && triggeredSignals.length > 0
+  const titleEnabled =
+    showTitle && triggeredSignals && triggeredSignals.length > 0
 
   return (
     <div className={styles.preview}>
@@ -114,8 +129,15 @@ const VisualBacktestChart = ({
                 !titleEnabled && styles.noTitle
               )}
             >
-              <ResponsiveContainer width='100%' height={120}>
-                {renderChart(data, dataKeys, markup, referenceDots)}
+              <ResponsiveContainer width='100%' height={height}>
+                {renderChart(
+                  data,
+                  dataKeys,
+                  markup,
+                  referenceDots,
+                  classes,
+                  gradientParams
+                )}
               </ResponsiveContainer>
             </div>
           </div>

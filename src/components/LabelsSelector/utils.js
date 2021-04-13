@@ -14,8 +14,11 @@ export const HOLDERS_LABELS = [
   {
     label: 'Whale',
     type: 'whale'
-  },
-  {
+  }
+]
+
+/* // GarageInc: 7.04.2021 Temporary hidden, because 'non' labels work only with negative holders query
+* {
     label: 'Non Exchange',
     type: 'nonExchange'
   },
@@ -31,7 +34,7 @@ export const HOLDERS_LABELS = [
     label: 'Non Whale',
     type: 'nonWhale'
   }
-]
+  * */
 
 export const DISABLED_PAIRS = {
   whale: 'nonWhale',
