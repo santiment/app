@@ -7,6 +7,20 @@ import styles from './StakeholderLabels.module.scss'
 
 const MAX_COUNT = 6
 
+export function toggleByKey (label, hidden, setHidden) {
+  if (hidden[label]) {
+    delete hidden[label]
+    setHidden({
+      ...hidden
+    })
+  } else {
+    setHidden({
+      ...hidden,
+      [label]: true
+    })
+  }
+}
+
 const Label = ({ label, hidden, toggle }) => {
   return (
     <div
