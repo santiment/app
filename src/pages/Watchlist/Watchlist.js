@@ -69,7 +69,11 @@ const WatchlistPage = ({ location, history, watchlist }) => {
 
   useEffect(
     () => {
-      if (watchlist.listItems.length !== 0 && assets.length === 0) {
+      if (
+        watchlist.listItems &&
+        watchlist.listItems.length !== 0 &&
+        assets.length === 0
+      ) {
         refetchAssets()
       }
     },
