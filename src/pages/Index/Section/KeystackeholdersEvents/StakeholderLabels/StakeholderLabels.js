@@ -1,12 +1,19 @@
-import React from 'react'
+import React, { useMemo, useState } from 'react'
 import cx from 'classnames'
 import { READABLE_NAMES } from '../hooks'
 import styles from './StakeholderLabels.module.scss'
 
+const MAX_COUNT = 6
+
 const StakeholderLabels = ({ labels, hidden, setHidden }) => {
-  if (labels.length === 0) {
-    return null
-  }
+  const [isOpen, setOpen] = useState(false)
+
+  const visibleLabels = useMemo(
+    () => {
+      return isOpen ? labels : labels.slice(0, MAX_COUNT)
+    },
+    [labels, isOpen]
+  )
 
   function toggle (label) {
     setHidden({
@@ -15,9 +22,13 @@ const StakeholderLabels = ({ labels, hidden, setHidden }) => {
     })
   }
 
+  if (labels.length === 0) {
+    return null
+  }
+
   return (
     <div className={styles.container}>
-      {labels.map(label => (
+      {visibleLabels.map(label => (
         <div
           key={label}
           className={cx(styles.label, hidden[label] && styles.label__hidden)}
@@ -26,6 +37,12 @@ const StakeholderLabels = ({ labels, hidden, setHidden }) => {
           {READABLE_NAMES[label] || label}
         </div>
       ))}
+
+      {labels.length > MAX_COUNT && (
+        <div className={styles.label} onClick={() => setOpen(!isOpen)}>
+          {!isOpen ? `+${labels.length}` : 'Collapse'}
+        </div>
+      )}
     </div>
   )
 }

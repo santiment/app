@@ -1,7 +1,11 @@
 import React, { useState, useMemo } from 'react'
 import { HashLink } from 'react-router-hash-link'
 import cx from 'classnames'
-import { useGroupedBySlugs, useRawSignals } from './hooks'
+import {
+  TEMPORARY_HIDDEN_LABELS,
+  useGroupedBySlugs,
+  useRawSignals
+} from './hooks'
 import Accordion from '../../Accordion'
 import StackholderTitle from './StackholderTitle/StackholderTitle'
 import Range from '../../../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistAnomalies/Range'
@@ -32,15 +36,18 @@ const KeystackeholdersEvents = () => {
   const [intervalIndex, setIntervalIndex] = useState(0)
 
   const { data: signals, loading } = useRawSignals(settings)
-  const [hiddenLabels, setHiddenLabels] = useState({})
+  const [hiddenLabels, setHiddenLabels] = useState(TEMPORARY_HIDDEN_LABELS)
 
   const { slugs, groups, labels } = useGroupedBySlugs(signals, hiddenLabels)
 
-  const slugsCount = useMemo(
+  const signalsCount = useMemo(
     () => {
-      return new Set(signals.map(({ slug }) => slug)).size
+      return Object.values(groups).reduce(
+        (acc, { list }) => acc + list.length,
+        0
+      )
     },
-    [signals]
+    [groups]
   )
 
   return (
@@ -64,7 +71,6 @@ const KeystackeholdersEvents = () => {
               })
             }}
           />
-          <div className={styles.action}>assets: {slugs.length}</div>
         </div>
       </div>
 
@@ -73,8 +79,8 @@ const KeystackeholdersEvents = () => {
         activity
         <div>
           Last {READABLE_DAYS[RANGES[intervalIndex]]}{' '}
-          {getCountSuffix('signal', signals.length)} fired for{' '}
-          {getCountSuffix('asset', slugsCount)}
+          {getCountSuffix('signal', signalsCount)} fired for{' '}
+          {getCountSuffix('asset', slugs.length)}
         </div>
       </div>
 
