@@ -14,10 +14,11 @@
 }
 
 .description {
-  margin-bottom: 32px;
+  margin-bottom: 16px;
   color: var(--waterloo);
 
-  @include text('body-2'); }
+  @include text('body-2');
+}
 
 .right {
   margin-left: auto;

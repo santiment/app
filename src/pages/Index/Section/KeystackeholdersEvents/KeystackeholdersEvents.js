@@ -8,6 +8,7 @@ import Range from '../../../../ducks/Watchlists/Widgets/WatchlistOverview/Watchl
 import Skeleton from '../../../../components/Skeleton/Skeleton'
 import { KEYSTACKHOLDERS_ANCHOR } from '../Personal'
 import StakeholderSignal from './StakeholderSignal/StakeholderSignal'
+import StakeholderLabels from './StakeholderLabels/StakeholderLabels'
 import styles from './KeystackeholdersEvents.module.scss'
 
 const DEFAULT_SETTINGS = {
@@ -17,13 +18,23 @@ const DEFAULT_SETTINGS = {
 
 const RANGES = ['24h', '7d', '30d']
 
+const READABLE_DAYS = {
+  '24h': '1 day',
+  '7d': '7 days',
+  '30d': '30 days'
+}
+
+const getCountSuffix = (source, items) =>
+  items.length + ' ' + (items.length === 1 ? `${source}` : `${source}s`)
+
 const KeystackeholdersEvents = () => {
   const [settings, setSettings] = useState(DEFAULT_SETTINGS)
   const [intervalIndex, setIntervalIndex] = useState(0)
 
   const { data: signals, loading } = useRawSignals(settings)
+  const [hiddenLabels, setHiddenLabels] = useState({})
 
-  const { slugs, groups } = useGroupedBySlugs(signals)
+  const { slugs, groups, labels } = useGroupedBySlugs(signals, hiddenLabels)
 
   return (
     <div className={styles.container}>
@@ -32,7 +43,6 @@ const KeystackeholdersEvents = () => {
           Key Stakeholder Events
         </HashLink>
         <div className={styles.right}>
-          <div className={styles.action}>{signals.length} fired</div>
           <Range
             className={styles.action}
             btnClassName={styles.action__range}
@@ -54,7 +64,18 @@ const KeystackeholdersEvents = () => {
       <div className={styles.description}>
         Real-time signals for big changes in on-chain, social and development
         activity
+        <div>
+          Last {READABLE_DAYS[RANGES[intervalIndex]]}{' '}
+          {getCountSuffix('signal', signals)} fired for{' '}
+          {getCountSuffix('asset', slugs)}
+        </div>
       </div>
+
+      <StakeholderLabels
+        labels={labels}
+        hidden={hiddenLabels}
+        setHidden={setHiddenLabels}
+      />
 
       {loading && (
         <Skeleton
@@ -98,7 +119,7 @@ const KeystackeholdersEvents = () => {
 
       {!loading && slugs.length === 0 && (
         <div className={cx(styles.accordions, styles.noData)}>
-          No fired alerts for selected period
+          No fired alerts
         </div>
       )}
     </div>

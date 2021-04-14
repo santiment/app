@@ -1,7 +1,7 @@
 @import '~@santiment-network/ui/mixins';
 
 .container {
-  padding: 16px 24px;
+  padding: 16px 24px 8px 24px;
   flex: 1;
 }
 
@@ -40,6 +40,7 @@
 .labels {
   display: flex;
   margin-top: 8px;
+  flex-wrap: wrap;
 }
 
 .skeleton {
@@ -56,6 +57,7 @@
   color: var(--rhino);
   padding: 4px 8px;
   margin-right: 8px;
+  margin-bottom: 8px;
   border-radius: $border-radius;
   border: 1px solid var(--porcelain);
 }
