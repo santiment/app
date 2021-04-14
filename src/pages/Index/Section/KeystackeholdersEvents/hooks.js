@@ -44,7 +44,7 @@ export const READABLE_EXCHANGE_NAMES = {
 }
 
 const RAW_SIGNALS_QUERY = gql`
-  query getMetric($from: DateTime!, $to: DateTime!) {
+  query getRawSignals($from: DateTime!, $to: DateTime!) {
     getRawSignals(from: $from, to: $to) {
       datetime
       signal
@@ -97,10 +97,24 @@ export const useRawSignals = ({ from, to }) => {
   }
 }
 
-export function useGroupedBySlugs (signals, hiddenLabels) {
+export function useGroupedBySlugs (signals, hiddenLabels, selectedAssets) {
+  const filteredByAssets = useMemo(
+    () => {
+      return signals.filter(({ slug }) => selectedAssets[slug])
+    },
+    [signals, selectedAssets]
+  )
+
+  const slugs = useMemo(
+    () => {
+      return [...new Set(signals.map(({ slug }) => slug))]
+    },
+    [signals]
+  )
+
   const labels = useMemo(
     () => {
-      const labels = signals.reduce((acc, item) => {
+      const labels = filteredByAssets.reduce((acc, item) => {
         const { signal } = item
         acc[signal] = true
         return acc
@@ -110,12 +124,12 @@ export function useGroupedBySlugs (signals, hiddenLabels) {
         .sort()
         .reverse()
     },
-    [signals]
+    [filteredByAssets]
   )
 
   const groups = useMemo(
     () => {
-      return signals.reduce((acc, item) => {
+      return filteredByAssets.reduce((acc, item) => {
         const { slug, signal } = item
 
         const hidden = hiddenLabels[signal]
@@ -134,10 +148,10 @@ export function useGroupedBySlugs (signals, hiddenLabels) {
         return acc
       }, {})
     },
-    [signals, hiddenLabels]
+    [filteredByAssets, hiddenLabels]
   )
 
-  const slugs = useMemo(() => Object.keys(groups), [groups])
+  const visibleSlugs = useMemo(() => Object.keys(groups), [groups])
 
-  return { slugs, labels, groups }
+  return { slugs, visibleSlugs, labels, groups }
 }

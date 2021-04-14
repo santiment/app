@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { HashLink } from 'react-router-hash-link'
 import cx from 'classnames'
 import {
@@ -14,6 +14,7 @@ import { KEYSTACKHOLDERS_ANCHOR } from '../Personal'
 import StakeholderSignal from './StakeholderSignal/StakeholderSignal'
 import StakeholderLabels from './StakeholderLabels/StakeholderLabels'
 import styles from './KeystackeholdersEvents.module.scss'
+import AssetsSelector from '../../../../components/AssetsSelector/AssetsSelector'
 
 const DEFAULT_SETTINGS = {
   from: 'utc_now-24h',
@@ -33,12 +34,17 @@ const getCountSuffix = (source, count) =>
 
 const KeystackeholdersEvents = () => {
   const [settings, setSettings] = useState(DEFAULT_SETTINGS)
+  const [selectedAssets, setSelectedAssets] = useState({})
   const [intervalIndex, setIntervalIndex] = useState(0)
 
   const { data: signals, loading } = useRawSignals(settings)
   const [hiddenLabels, setHiddenLabels] = useState(TEMPORARY_HIDDEN_LABELS)
 
-  const { slugs, groups, labels } = useGroupedBySlugs(signals, hiddenLabels)
+  const { slugs, visibleSlugs, groups, labels } = useGroupedBySlugs(
+    signals,
+    hiddenLabels,
+    selectedAssets
+  )
 
   const signalsCount = useMemo(
     () => {
@@ -48,6 +54,18 @@ const KeystackeholdersEvents = () => {
       )
     },
     [groups]
+  )
+
+  useEffect(
+    () => {
+      setSelectedAssets(
+        signals.reduce((acc, { slug }) => {
+          acc[slug] = true
+          return acc
+        }, {})
+      )
+    },
+    [signals]
   )
 
   return (
@@ -71,6 +89,13 @@ const KeystackeholdersEvents = () => {
               })
             }}
           />
+
+          <AssetsSelector
+            slugs={slugs}
+            className={styles.action}
+            selected={selectedAssets}
+            onChange={setSelectedAssets}
+          />
         </div>
       </div>
 
@@ -90,7 +115,7 @@ const KeystackeholdersEvents = () => {
       <div className={styles.count}>
         Last {READABLE_DAYS[RANGES[intervalIndex]]}{' '}
         {getCountSuffix('signal', signalsCount)} fired for{' '}
-        {getCountSuffix('asset', slugs.length)}
+        {getCountSuffix('asset', visibleSlugs.length)}
       </div>
 
       {loading && (
@@ -101,9 +126,9 @@ const KeystackeholdersEvents = () => {
           wrapperClassName={styles.skeletonWrapper}
         />
       )}
-      {!loading && slugs.length > 0 && (
+      {!loading && visibleSlugs.length > 0 && (
         <div className={styles.accordions}>
-          {slugs.map((s, index) => {
+          {visibleSlugs.map((s, index) => {
             const { types, list } = groups[s]
             return (
               <Accordion
@@ -133,10 +158,8 @@ const KeystackeholdersEvents = () => {
         </div>
       )}
 
-      {!loading && slugs.length === 0 && (
-        <div className={cx(styles.accordions, styles.noData)}>
-          No fired alerts
-        </div>
+      {!loading && visibleSlugs.length === 0 && (
+        <div className={cx(styles.accordions, styles.noData)}>No signals</div>
       )}
     </div>
   )

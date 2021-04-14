@@ -94,43 +94,6 @@ const StakeholderSignal = ({ data, settings }) => {
             </div>
           )}
 
-          {actual && (
-            <div className={styles.row}>
-              <div className={styles.label}>
-                Actual value of metric-asset pair:
-              </div>
-              <div className={styles.value}>{formatNumber(actual)}</div>
-            </div>
-          )}
-          {predicted && (
-            <div className={styles.row}>
-              <div className={styles.label}>
-                Predicted value of metric-asset pair:
-              </div>
-              <div className={styles.value}>{formatNumber(predicted)}</div>
-            </div>
-          )}
-          {predicted_lower && (
-            <div className={styles.row}>
-              <div className={styles.label}>
-                Predicted lower value of metric-asset pair:
-              </div>
-              <div className={styles.value}>
-                {formatNumber(predicted_lower)}
-              </div>
-            </div>
-          )}
-          {predicted_upper && (
-            <div className={styles.row}>
-              <div className={styles.label}>
-                Predicted upper value of metric-asset pair:
-              </div>
-              <div className={styles.value}>
-                {formatNumber(predicted_upper)}
-              </div>
-            </div>
-          )}
-
           {prev_ath && (
             <div className={styles.row}>
               <div className={styles.label}>Previous ATH:</div>
