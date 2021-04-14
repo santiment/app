@@ -78,6 +78,7 @@ const AssetsSelector = ({ onChange, selected, slugs, className }) => {
                     {selectedAssets.map(slug => {
                       return (
                         <ProjectItem
+                          key={slug}
                           slug={slug}
                           addItemInState={addItemInState}
                           selected={true}
@@ -95,6 +96,7 @@ const AssetsSelector = ({ onChange, selected, slugs, className }) => {
                     {selectableAssets.map(slug => {
                       return (
                         <ProjectItem
+                          key={slug}
                           slug={slug}
                           addItemInState={addItemInState}
                           selected={false}
