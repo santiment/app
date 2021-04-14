@@ -109,6 +109,7 @@ const ConfigsMenu = ({
           onChange={title =>
             createTableConfig({
               title,
+              type,
               columns: { metrics: savedActiveColumnKeys, sorting }
             }).then(({ id }) => {
               changeConfig(id)
