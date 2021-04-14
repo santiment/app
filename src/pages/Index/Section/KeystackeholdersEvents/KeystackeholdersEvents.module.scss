@@ -8,13 +8,20 @@
   display: flex;
   align-items: center;
   width: 100%;
-  margin-bottom: 24px;
+  margin-bottom: 8px;
 
   @include text('h4', 'm');
 }
 
 .description {
   margin-bottom: 16px;
+  color: var(--waterloo);
+
+  @include text('body-2');
+}
+
+.count {
+  margin-bottom: 32px;
   color: var(--waterloo);
 
   @include text('body-2');

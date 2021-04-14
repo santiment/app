@@ -54,7 +54,7 @@ const KeystackeholdersEvents = () => {
     <div className={styles.container}>
       <div className={styles.title}>
         <HashLink to={KEYSTACKHOLDERS_ANCHOR} className={styles.anchor}>
-          Key Stakeholder Events
+          Key Stakeholder Signals
         </HashLink>
         <div className={styles.right}>
           <Range
@@ -77,11 +77,6 @@ const KeystackeholdersEvents = () => {
       <div className={styles.description}>
         Real-time signals for big changes in on-chain, social and development
         activity
-        <div>
-          Last {READABLE_DAYS[RANGES[intervalIndex]]}{' '}
-          {getCountSuffix('signal', signalsCount)} fired for{' '}
-          {getCountSuffix('asset', slugs.length)}
-        </div>
       </div>
 
       <StakeholderLabels
@@ -89,6 +84,12 @@ const KeystackeholdersEvents = () => {
         hidden={hiddenLabels}
         setHidden={setHiddenLabels}
       />
+
+      <div className={styles.count}>
+        Last {READABLE_DAYS[RANGES[intervalIndex]]}{' '}
+        {getCountSuffix('signal', signalsCount)} fired for{' '}
+        {getCountSuffix('asset', slugs.length)}
+      </div>
 
       {loading && (
         <Skeleton
