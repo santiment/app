@@ -76,7 +76,7 @@ const ProductSubscription = ({
   }
 }) => {
   const daysLeft =
-    status !== STATUSES.ACTIVE && trialEnd && calculateTrialDaysLeft(trialEnd)
+    status === STATUSES.TRIALING && trialEnd && calculateTrialDaysLeft(trialEnd)
   const trial =
     daysLeft &&
     ` (trial - ${daysLeft === 1 ? 'last day' : `${daysLeft} days left`})`

@@ -103,10 +103,10 @@ export function useUserSubscriptionStatus () {
         isProPlus = plan.name === PRO_PLUS
         isPro = isProPlus || plan.name === PRO
         trialDaysLeft =
-          status !== STATUSES.ACTIVE &&
+          status === STATUSES.TRIALING &&
           trialEnd &&
           calculateTrialDaysLeft(trialEnd)
-        isTrial = trialDaysLeft > 0 && status !== STATUSES.ACTIVE
+        isTrial = trialDaysLeft > 0 && status === STATUSES.TRIALING
       }
 
       return {
