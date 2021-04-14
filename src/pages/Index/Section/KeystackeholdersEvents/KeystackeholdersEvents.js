@@ -79,11 +79,13 @@ const KeystackeholdersEvents = () => {
         activity
       </div>
 
-      <StakeholderLabels
-        labels={labels}
-        hidden={hiddenLabels}
-        setHidden={setHiddenLabels}
-      />
+      {!loading && (
+        <StakeholderLabels
+          labels={labels}
+          hidden={hiddenLabels}
+          setHidden={setHiddenLabels}
+        />
+      )}
 
       <div className={styles.count}>
         Last {READABLE_DAYS[RANGES[intervalIndex]]}{' '}
@@ -119,7 +121,7 @@ const KeystackeholdersEvents = () => {
                 <div className={styles.list}>
                   {list.map(item => (
                     <StakeholderSignal
-                      key={item.datetime}
+                      key={`${item.datetime}_${item.slug}_${item.signal}`}
                       data={item}
                       settings={settings}
                     />

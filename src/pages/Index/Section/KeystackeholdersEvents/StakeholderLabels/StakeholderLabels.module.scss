@@ -26,3 +26,14 @@
   max-width: 736px;
   padding: 8px 10px 0 10px;
 }
+
+.deselect {
+  color: var(--jungle-green);
+  background: white;
+  border: none;
+  margin-top: 2px;
+
+  &:hover {
+    color: var(--jungle-green);
+  }
+}

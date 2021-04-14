@@ -35,10 +35,17 @@ const StakeholderLabels = ({ labels, hidden, setHidden }) => {
   )
 
   function toggle (label) {
-    setHidden({
-      ...hidden,
-      [label]: !hidden[label]
-    })
+    if (hidden[label]) {
+      delete hidden[label]
+      setHidden({
+        ...hidden
+      })
+    } else {
+      setHidden({
+        ...hidden,
+        [label]: true
+      })
+    }
   }
 
   if (labels.length === 0) {
@@ -69,6 +76,22 @@ const StakeholderLabels = ({ labels, hidden, setHidden }) => {
                 {READABLE_NAMES[label] || label}
               </Label>
             ))}
+
+            {Object.keys(hidden).length !== labels.length && (
+              <div
+                className={cx(styles.label, styles.deselect)}
+                onClick={() =>
+                  setHidden(
+                    labels.reduce((acc, l) => {
+                      acc[l] = true
+                      return acc
+                    }, {})
+                  )
+                }
+              >
+                Deselect all
+              </div>
+            )}
           </Panel>
         </ContextMenu>
       )}
