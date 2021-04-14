@@ -26,6 +26,7 @@ const MODULE = {
     description:
       'Sanbase Pro includes advanced watchlist features and access to the full Santiment platform!',
     features: [
+      'Unlock all metrics in watchlist table',
       'Export the watchlist as .csv',
       'Full access to all Santiment metrics and market insights'
     ]

@@ -56,13 +56,21 @@ export const NOTE_COLUMN = {
   render: Note
 }
 
+const ASSETS_DISTRIBUTION_CELL = obj =>
+  obj.address && (
+    <AssetsDistributionColumn
+      address={obj.address}
+      infrastructure={obj.infrastructure}
+    />
+  )
+
 export const ASSETS_DISTRIBUTION_COLUMN = {
   title: 'Assets USD distribution',
   category: CATEGORIES.GENERAL,
   label: 'Assets USD distribution',
   key: 'distribution',
   scheme: ' ',
-  render: AssetsDistributionColumn
+  render: ASSETS_DISTRIBUTION_CELL
 }
 
 export const CURRENT_BALANCE_CELL = key => obj =>
