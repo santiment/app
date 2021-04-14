@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { HashLink } from 'react-router-hash-link'
 import cx from 'classnames'
 import { useGroupedBySlugs, useRawSignals } from './hooks'
@@ -24,8 +24,8 @@ const READABLE_DAYS = {
   '30d': '30 days'
 }
 
-const getCountSuffix = (source, items) =>
-  items.length + ' ' + (items.length === 1 ? `${source}` : `${source}s`)
+const getCountSuffix = (source, count) =>
+  count + ' ' + (count === 1 ? `${source}` : `${source}s`)
 
 const KeystackeholdersEvents = () => {
   const [settings, setSettings] = useState(DEFAULT_SETTINGS)
@@ -35,6 +35,13 @@ const KeystackeholdersEvents = () => {
   const [hiddenLabels, setHiddenLabels] = useState({})
 
   const { slugs, groups, labels } = useGroupedBySlugs(signals, hiddenLabels)
+
+  const slugsCount = useMemo(
+    () => {
+      return new Set(signals.map(({ slug }) => slug)).size
+    },
+    [signals]
+  )
 
   return (
     <div className={styles.container}>
@@ -66,8 +73,8 @@ const KeystackeholdersEvents = () => {
         activity
         <div>
           Last {READABLE_DAYS[RANGES[intervalIndex]]}{' '}
-          {getCountSuffix('signal', signals)} fired for{' '}
-          {getCountSuffix('asset', slugs)}
+          {getCountSuffix('signal', signals.length)} fired for{' '}
+          {getCountSuffix('asset', slugsCount)}
         </div>
       </div>
 

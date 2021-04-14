@@ -55,6 +55,34 @@ const RAW_SIGNALS_QUERY = gql`
   }
 `
 
+const TEMPORARY_REMOVED = {
+  anomaly_active_deposits: true,
+  anomaly_active_withdrawals: true,
+  anomaly_age_consumed: true,
+  anomaly_circulation_1d: true,
+  anomaly_cumulative_age_consumed: true,
+  anomaly_daily_active_addresses: true,
+  anomaly_mvrv_usd: true,
+  anomaly_mvrv_usd_10y: true,
+  anomaly_mvrv_usd_180d: true,
+  anomaly_mvrv_usd_1d: true,
+  anomaly_mvrv_usd_2y: true,
+  anomaly_mvrv_usd_30d: true,
+  anomaly_mvrv_usd_365d: true,
+  anomaly_mvrv_usd_3y: true,
+  anomaly_mvrv_usd_5y: true,
+  anomaly_mvrv_usd_60d: true,
+  anomaly_mvrv_usd_7d: true,
+  anomaly_mvrv_usd_90d: true,
+  anomaly_network_growth: true,
+  anomaly_payment_count: true,
+  anomaly_supply_on_exchanges: true,
+  anomaly_transaction_count: true,
+  anomaly_transaction_volume: true,
+  anomaly_velocity: true,
+  price_usd_all_time_high: true
+}
+
 export const useRawSignals = ({ from, to }) => {
   const { data, loading } = useQuery(RAW_SIGNALS_QUERY, {
     variables: {
@@ -63,7 +91,12 @@ export const useRawSignals = ({ from, to }) => {
     }
   })
 
-  return { data: data ? data.getRawSignals : [], loading }
+  return {
+    data: data
+      ? data.getRawSignals.filter(({ signal }) => !TEMPORARY_REMOVED[signal])
+      : [],
+    loading
+  }
 }
 
 export function useGroupedBySlugs (signals, hiddenLabels) {
@@ -72,7 +105,6 @@ export function useGroupedBySlugs (signals, hiddenLabels) {
       const labels = signals.reduce((acc, item) => {
         const { signal } = item
         acc[signal] = true
-
         return acc
       }, {})
 

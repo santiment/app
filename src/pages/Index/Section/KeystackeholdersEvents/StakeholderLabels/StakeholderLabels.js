@@ -20,7 +20,7 @@ const StakeholderLabels = ({ labels, hidden, setHidden }) => {
       {labels.map(label => (
         <div
           key={label}
-          className={cx(styles.label, hidden[label] && styles.label__hide)}
+          className={cx(styles.label, hidden[label] && styles.label__hidden)}
           onClick={() => toggle(label)}
         >
           {READABLE_NAMES[label] || label}
