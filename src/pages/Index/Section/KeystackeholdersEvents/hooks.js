@@ -92,7 +92,7 @@ export const useRawSignals = ({ from, to }) => {
   })
 
   return {
-    data: data ? data.getRawSignals : [],
+    data: (data ? data.getRawSignals : []) || [],
     loading
   }
 }
