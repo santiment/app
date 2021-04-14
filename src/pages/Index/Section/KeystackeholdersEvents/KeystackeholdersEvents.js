@@ -13,8 +13,8 @@ import Skeleton from '../../../../components/Skeleton/Skeleton'
 import { KEYSTACKHOLDERS_ANCHOR } from '../Personal'
 import StakeholderSignal from './StakeholderSignal/StakeholderSignal'
 import StakeholderLabels from './StakeholderLabels/StakeholderLabels'
-import styles from './KeystackeholdersEvents.module.scss'
 import AssetsSelector from '../../../../components/AssetsSelector/AssetsSelector'
+import styles from './KeystackeholdersEvents.module.scss'
 
 const DEFAULT_SETTINGS = {
   from: 'utc_now-24h',

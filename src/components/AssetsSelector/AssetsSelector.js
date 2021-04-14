@@ -1,11 +1,11 @@
-import React, { useState, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import cx from 'classnames'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Panel from '@santiment-network/ui/Panel'
 import Item from '../../ducks/Watchlists/Widgets/Filter/EntryPoint/Item'
 import { useProject } from '../../hooks/project'
-import styles from './AssetsSelector.module.scss'
 import { toggleByKey } from '../../pages/Index/Section/KeystackeholdersEvents/StakeholderLabels/StakeholderLabels'
+import styles from './AssetsSelector.module.scss'
 
 const ProjectItem = ({ slug, addItemInState, selected }) => {
   const [project = {}] = useProject(slug)

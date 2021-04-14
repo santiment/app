@@ -61,10 +61,6 @@ const StakeholderSignal = ({ data, settings }) => {
       daysDestroyed,
       prev_ath,
       prev_ath_dt,
-      actual,
-      predicted,
-      predicted_lower,
-      predicted_upper,
       value_usd
     },
     value,
