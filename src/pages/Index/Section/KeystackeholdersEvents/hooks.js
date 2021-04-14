@@ -55,17 +55,6 @@ const RAW_SIGNALS_QUERY = gql`
   }
 `
 
-export const useRawSignals = ({ from, to }) => {
-  const { data, loading } = useQuery(RAW_SIGNALS_QUERY, {
-    variables: {
-      from,
-      to
-    }
-  })
-
-  return { data: data ? data.getRawSignals : [], loading }
-}
-
 const TEMPORARY_REMOVED = {
   anomaly_active_deposits: true,
   anomaly_active_withdrawals: true,
@@ -94,16 +83,28 @@ const TEMPORARY_REMOVED = {
   price_usd_all_time_high: true
 }
 
+export const useRawSignals = ({ from, to }) => {
+  const { data, loading } = useQuery(RAW_SIGNALS_QUERY, {
+    variables: {
+      from,
+      to
+    }
+  })
+
+  return {
+    data: data
+      ? data.getRawSignals.filter(({ signal }) => !TEMPORARY_REMOVED[signal])
+      : [],
+    loading
+  }
+}
+
 export function useGroupedBySlugs (signals, hiddenLabels) {
   const labels = useMemo(
     () => {
       const labels = signals.reduce((acc, item) => {
         const { signal } = item
-
-        if (!TEMPORARY_REMOVED[signal]) {
-          acc[signal] = true
-        }
-
+        acc[signal] = true
         return acc
       }, {})
 
@@ -117,7 +118,7 @@ export function useGroupedBySlugs (signals, hiddenLabels) {
       return signals.reduce((acc, item) => {
         const { slug, signal } = item
 
-        const hidden = hiddenLabels[signal] || TEMPORARY_REMOVED[signal]
+        const hidden = hiddenLabels[signal]
 
         if (!hidden) {
           if (!acc[slug]) {
