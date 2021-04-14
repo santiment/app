@@ -12,12 +12,14 @@ import {
   useUpdateTableConfig
 } from '../../gql/mutations'
 import UpdateConfig from './UpdateConfig'
-import styles from './index.module.scss'
 import { DEFAULT_ORDER_BY } from '../../defaults'
+import { BLOCKCHAIN_ADDRESS } from '../../../../../detector'
+import styles from './index.module.scss'
 
 const EMPTY_ARRAY = []
 
 const ConfigsMenu = ({
+  type,
   setOpen,
   open,
   changeConfig,
@@ -26,8 +28,8 @@ const ConfigsMenu = ({
   savedActiveColumnKeys = EMPTY_ARRAY,
   isLoading
 }) => {
-  const featuredTableConfigurations = useFeaturedTableConfigs()
-  const userTableConfigs = useUserTableConfigs()
+  const featuredTableConfigurations = useFeaturedTableConfigs(type)
+  const userTableConfigs = useUserTableConfigs(type)
 
   const { createTableConfig } = useCreateTableConfig()
   const { deleteTableConfig } = useDeleteTableConfig()
@@ -49,12 +51,15 @@ const ConfigsMenu = ({
         config && config.columns.sorting
           ? config.columns.sorting
           : DEFAULT_ORDER_BY
+      const isUnsavedSorting =
+        type !== BLOCKCHAIN_ADDRESS && !isEqual(sorting, comparedSorting)
+
       return (
         savedActiveColumnKeys &&
         config &&
         !isLoading &&
         (!isEqual(config.columns.metrics, savedActiveColumnKeys) ||
-          !isEqual(sorting, comparedSorting))
+          isUnsavedSorting)
       )
     },
     [savedActiveColumnKeys, sorting, config]
@@ -104,6 +109,7 @@ const ConfigsMenu = ({
           onChange={title =>
             createTableConfig({
               title,
+              type,
               columns: { metrics: savedActiveColumnKeys, sorting }
             }).then(({ id }) => {
               changeConfig(id)

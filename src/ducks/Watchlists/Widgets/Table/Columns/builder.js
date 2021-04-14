@@ -1,11 +1,21 @@
 import { AGGREGATIONS_LOWER } from '../../Filter/dataHub/aggregations'
 import { formatterWithBadge } from '../../Filter/formatters'
 import {
+  PRO_CELL,
   BASIC_CELL,
   CHART_LINE_CELL,
-  PERCENT_CHANGES_CELL,
-  PRO_CELL
+  PERCENT_CHANGES_CELL
 } from './columns'
+import {
+  CURRENT_BALANCE_CELL,
+  BALANCE_CHANGE_CHART_CELL,
+  BALANCE_CHANGE_PERCENT_CELL,
+  CATEGORIES,
+  NOTE_COLUMN,
+  LABELS_COLUMN,
+  ASSETS_DISTRIBUTION_COLUMN
+} from '../../../../WatchlistAddressesTable/columns'
+import { BLOCKCHAIN_ADDRESS } from '../../../detector'
 
 const EMPTY_STR = ''
 const PERCENT_SUFFIX = '_change_'
@@ -13,7 +23,88 @@ const LAST_AGG = AGGREGATIONS_LOWER.LAST
 const TIMERANGES = new Set(['1d', '7d', '30d', '90d', '180d', '365d'])
 
 export const Column = {}
+export const AddressColumn = {
+  labels: LABELS_COLUMN,
+  notes: NOTE_COLUMN,
+  distribution: ASSETS_DISTRIBUTION_COLUMN
+}
+
+export const SUFFIX = {
+  CURR_BALANCE: 'balance',
+  BALANCE_PERCENT: 'balanceChange7d',
+  BALANCE_CHART: 'balanceChart'
+}
+
 const sortByTimeRanges = (a, b) => parseInt(a.timeRange) - parseInt(b.timeRange)
+
+export const buildAssetColumns = projects => {
+  return projects.map(({ ticker, name, slug }) => {
+    const transformedSlug = `_${slug.replace(/-/g, '_')}_`
+
+    const balanceEndColumn = {
+      title: `Current ${ticker} balance`,
+      key: slug + SUFFIX.CURR_BALANCE,
+      label: `Current ${ticker} balance`,
+      shortLabel: `${name} ${slug}`, // for search
+      render: CURRENT_BALANCE_CELL(transformedSlug + SUFFIX.CURR_BALANCE),
+      category: CATEGORIES.ASSET,
+      scheme: `${transformedSlug + SUFFIX.CURR_BALANCE}: balanceChange(
+          to: "utc_now"
+          from: "utc_now-1d"
+          selector: { slug: "${slug}" }
+        ) {
+          balanceEnd
+        }`
+    }
+
+    const balanceChangePercentColumn = {
+      title: `${ticker} balance, 7d %`,
+      key: slug + SUFFIX.BALANCE_PERCENT,
+      label: `${ticker} balance, 7d %`,
+      shortLabel: `${name} ${slug}`, // for search
+      render: BALANCE_CHANGE_PERCENT_CELL(
+        transformedSlug + SUFFIX.BALANCE_PERCENT
+      ),
+      category: CATEGORIES.ASSET,
+      scheme: `${transformedSlug + SUFFIX.BALANCE_PERCENT}: balanceChange(
+          to: "utc_now"
+          from: "utc_now-7d"
+          selector: { slug: "${slug}" }
+        ) {
+          balanceChangePercent
+        }`
+    }
+
+    const balanceChangeChartColumn = {
+      title: `${ticker} balance, 7d`,
+      key: slug + SUFFIX.BALANCE_CHART,
+      label: `${ticker} balance, 7d chart`,
+      shortLabel: `${name} ${slug}`, // for search
+      render: BALANCE_CHANGE_CHART_CELL(
+        transformedSlug + SUFFIX.BALANCE_CHART,
+        slug
+      ),
+      category: CATEGORIES.ASSET,
+      scheme: `${transformedSlug + SUFFIX.BALANCE_CHART}: balanceChange(
+          to: "utc_now"
+          from: "utc_now-7d"
+          selector: { slug: "${slug}" }
+        ) {
+          balanceChangePercent
+        }`
+    }
+
+    AddressColumn[slug + SUFFIX.CURR_BALANCE] = balanceEndColumn
+    AddressColumn[slug + SUFFIX.BALANCE_PERCENT] = balanceChangePercentColumn
+    AddressColumn[slug + SUFFIX.BALANCE_CHART] = balanceChangeChartColumn
+
+    return [
+      balanceEndColumn,
+      balanceChangePercentColumn,
+      balanceChangeChartColumn
+    ]
+  })
+}
 
 export const buildColumns = (baseMetrics, allMetrics, restrictedMetrics) => {
   const allMetricsSet = new Set(allMetrics)
@@ -117,5 +208,9 @@ export const buildColumns = (baseMetrics, allMetrics, restrictedMetrics) => {
   })
 }
 
-export const getColumns = columnsKeys =>
-  columnsKeys.map(key => Column[key]).filter(Boolean)
+export const getColumns = (columnsKeys, type) =>
+  columnsKeys
+    .map(key =>
+      type === BLOCKCHAIN_ADDRESS ? AddressColumn[key] : Column[key]
+    )
+    .filter(Boolean)

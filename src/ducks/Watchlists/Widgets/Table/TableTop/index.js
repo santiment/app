@@ -5,7 +5,6 @@ import { PROJECT, SCREENER } from '../../../detector'
 import ColumnsToggler from '../Columns/Toggler'
 // import Copy from '../../../../WatchlistTable/Copy'
 import CompareInfo from '../CompareInfo/CompareInfo'
-import { useIsAuthor } from '../../../gql/list/hooks'
 import SaveAs from '../../../../WatchlistTable/SaveAs'
 import CompareAction from '../CompareInfo/CompareAction'
 import EditAssets from '../../../Actions/Edit/EditAssets'
@@ -29,7 +28,6 @@ const TableTop = ({
   updateActiveColumnsKeys,
   watchlist = EMPTY_OBJ
 }) => {
-  const { isAuthor } = useIsAuthor(watchlist)
   const [refreshTimestamp, setRefreshTimestamp] = useState(Date.now)
   const disabledComparision = comparingAssets.length < 2
 
@@ -45,7 +43,7 @@ const TableTop = ({
           trigger={
             <Button border accent='positive' className={styles.addassets}>
               <Icon type='assets' className={styles.icon} />
-              Add assets
+              Edit assets
             </Button>
           }
         />
@@ -73,10 +71,9 @@ const TableTop = ({
       )}
       <div className={styles.actions}>
         <ColumnsToggler
-          className={styles.toggler}
-          watchlist={watchlist}
-          isAuthor={isAuthor}
+          type={type}
           sorting={sorting}
+          watchlist={watchlist}
           setOrderBy={setOrderBy}
           activeColumns={activeColumns}
           updateActiveColumnsKeys={updateActiveColumnsKeys}

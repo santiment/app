@@ -67,6 +67,7 @@ export const UPDATE_WATCHLIST_MUTATION = type => gql`
       ...listItemsFragment
       tableConfiguration {
         id
+        type
         title
         columns
       }

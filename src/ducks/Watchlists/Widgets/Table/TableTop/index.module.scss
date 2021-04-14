@@ -2,6 +2,7 @@
 
 .wrapper {
   padding: 8px 40px 10px 32px;
+  margin-top: 2px;
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -29,12 +30,6 @@
   display: flex;
   align-items: center;
   fill: var(--waterloo);
-}
-
-.toggler {
-  margin-right: 16px;
-  display: flex;
-  align-items: center;
 }
 
 .action {

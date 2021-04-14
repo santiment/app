@@ -96,7 +96,7 @@ export const CollapsedDistributions = ({
   </CollapsedTooltip>
 )
 
-const AssetsDistribution = ({ walletAssets, className }) => {
+const AssetsDistribution = ({ walletAssets, skipTitle, className }) => {
   const distributions = useDistributions(walletAssets)
   const biggestDistributions = useMemo(
     () => {
@@ -113,7 +113,9 @@ const AssetsDistribution = ({ walletAssets, className }) => {
 
   return (
     <div className={cx(styles.wrapper, className)}>
-      <div className={styles.title}>Assets USD distribution</div>
+      {!skipTitle && (
+        <div className={styles.title}>Assets USD distribution</div>
+      )}
       <div className={styles.historgram}>
         {historgramProjects.map(({ name, style }) => (
           <div key={name} style={style} className={styles.slice} />
