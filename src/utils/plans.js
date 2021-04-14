@@ -97,6 +97,10 @@ export function getShowingPlans (plans, billing) {
 }
 
 export function hasInactiveTrial (subscription) {
+  if (!subscription) {
+    return false
+  }
+
   const { trialEnd, cancelAtPeriodEnd, status } = subscription
   return (
     subscription &&
@@ -106,6 +110,10 @@ export function hasInactiveTrial (subscription) {
   )
 }
 export function hasActiveTrial (subscription) {
+  if (!subscription) {
+    return false
+  }
+
   const { trialEnd, cancelAtPeriodEnd, status } = subscription
   return (
     subscription &&
