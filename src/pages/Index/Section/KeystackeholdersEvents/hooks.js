@@ -7,10 +7,36 @@ export const READABLE_NAMES = {
   large_exchange_deposit: 'Large Exchange deposit',
   dai_mint: 'DAI mint',
   old_coins_moved: 'Old coins moved',
-  mcd_art_liquidations: 'Large liquidation occurred',
+  mcd_art_liquidation: 'Large liquidation occurred',
   anomalies: 'Anomalies',
   ath: 'All Time High',
-  large_exchange_withdrawal: 'Large Exchange withdrawal'
+  price_usd_all_time_high: 'Price all time high (USD)',
+
+  large_exchange_withdrawal: 'Large Exchange withdrawal',
+  anomaly_active_deposits: 'Anomaly (active deposits)',
+  anomaly_active_withdrawals: 'Anomaly (active withdrawals)',
+  anomaly_age_consumed: 'Anomaly (age consumed)',
+  anomaly_circulation_1d: 'Anomaly (circulation 1 day)',
+  anomaly_cumulative_age_consumed: 'Anomaly (cumulative age consumed)',
+  anomaly_daily_active_addresses: 'Anomaly (daily active addresses)',
+  anomaly_mvrv_usd: 'Anomaly (MVRV USD)',
+  anomaly_mvrv_usd_10y: 'Anomaly (MVRV USD 10 year)',
+  anomaly_mvrv_usd_180d: 'Anomaly (MVRV USD 180 days)',
+  anomaly_mvrv_usd_1d: 'Anomaly (MVRV USD 1 day)',
+  anomaly_mvrv_usd_2y: 'Anomaly (MVRV USD 2 years)',
+  anomaly_mvrv_usd_30d: 'Anomaly (MVRV USD 30 days)',
+  anomaly_mvrv_usd_365d: 'Anomaly (MVRV USD 365 days)',
+  anomaly_mvrv_usd_3y: 'Anomaly (MVRV USD 3 years)',
+  anomaly_mvrv_usd_5y: 'Anomaly (MVRV USD 5 years)',
+  anomaly_mvrv_usd_60d: 'Anomaly (MVRV USD 60 days)',
+  anomaly_mvrv_usd_7d: 'Anomaly (MVRV USD 7 days)',
+  anomaly_mvrv_usd_90d: 'Anomaly (MVRV USD 90 days)',
+  anomaly_network_growth: 'Anomaly (network growth)',
+  anomaly_payment_count: 'Anomaly (payment count)',
+  anomaly_supply_on_exchanges: 'Anomaly (supply on exchanges)',
+  anomaly_transaction_count: 'Anomaly (transaction count)',
+  anomaly_transaction_volume: 'Anomaly (transaction volume)',
+  anomaly_velocity: 'Anomaly (velocity)'
 }
 
 export const READABLE_EXCHANGE_NAMES = {
@@ -40,27 +66,46 @@ export const useRawSignals = ({ from, to }) => {
   return { data: data ? data.getRawSignals : [], loading }
 }
 
-export function useGroupedBySlugs (signals) {
-  const groups = useMemo(
+export function useGroupedBySlugs (signals, hiddenLabels) {
+  const labels = useMemo(
     () => {
-      return signals.reduce((acc, item) => {
-        const { slug } = item
-        if (!acc[slug]) {
-          acc[slug] = {
-            list: [],
-            types: []
-          }
-        }
+      const labels = signals.reduce((acc, item) => {
+        const { signal } = item
+        acc[signal] = true
 
-        acc[slug].list.push(item)
-        acc[slug].types.push(item.signal)
         return acc
       }, {})
+
+      return Object.keys(labels)
     },
     [signals]
   )
 
+  const groups = useMemo(
+    () => {
+      return signals.reduce((acc, item) => {
+        const { slug, signal } = item
+
+        const hidden = hiddenLabels[signal]
+
+        if (!hidden) {
+          if (!acc[slug]) {
+            acc[slug] = {
+              list: [],
+              types: []
+            }
+          }
+
+          acc[slug].list.push(item)
+          acc[slug].types.push(item.signal)
+        }
+        return acc
+      }, {})
+    },
+    [signals, hiddenLabels]
+  )
+
   const slugs = useMemo(() => Object.keys(groups), [groups])
 
-  return { slugs, groups }
+  return { slugs, labels, groups }
 }
