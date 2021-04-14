@@ -8,6 +8,12 @@ export const constructAddressWatchlistQuery = (columns = ARRAY) => gql`
   query watchlist($id: ID!) {
     watchlist(id: $id) {
       ...generalFragment
+      tableConfiguration {
+        id
+        type
+        title
+        columns
+      }
       listItems {
         blockchainAddress {
           address

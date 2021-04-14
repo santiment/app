@@ -12,6 +12,7 @@ export const PROJECTS_WATCHLIST_QUERY = gql`
       ...listItemsFragment
       tableConfiguration {
         id
+        type
         title
         columns
       }
