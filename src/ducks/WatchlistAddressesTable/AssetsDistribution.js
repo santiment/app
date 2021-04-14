@@ -1,6 +1,7 @@
 import React from 'react'
 import { useWalletAssets } from '../HistoricalBalance/hooks'
 import AssetsDistribution from '../HistoricalBalance/Address/AssetsDistribution'
+import styles from './index.module.scss'
 
 const AssetsDistributionColumn = ({ address, infrastructure }) => {
   const { walletAssets, isError } = useWalletAssets({ address, infrastructure })
@@ -10,6 +11,7 @@ const AssetsDistributionColumn = ({ address, infrastructure }) => {
       skipTitle
       walletAssets={walletAssets}
       isError={isError}
+      classes={{ histogramClassName: styles.histogram }}
     />
   )
 }

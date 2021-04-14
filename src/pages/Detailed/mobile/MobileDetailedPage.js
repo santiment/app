@@ -14,7 +14,10 @@ import MobilePopularMetrics from './MobilePopularMetrics'
 import { checkHasPremium } from '../../UserSelectors'
 import { useTimeseries } from '../../../ducks/Studio/timeseries/hooks'
 import ChartMetricsTool from '../../../ducks/SANCharts/ChartMetricsTool'
-import { getNewInterval } from '../../../ducks/SANCharts/IntervalSelector'
+import {
+  getNewInterval,
+  INTERVAL_ALIAS
+} from '../../../ducks/SANCharts/IntervalSelector'
 import { Metric } from '../../../ducks/dataHub/metrics'
 import {
   PriceMetric,
@@ -84,7 +87,7 @@ const MobileDetailedPage = ({
     setSettings({
       ...settings,
       timeRange,
-      interval,
+      interval: INTERVAL_ALIAS[interval] || interval,
       from: FROM.toISOString(),
       to: TO.toISOString()
     })
