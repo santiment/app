@@ -55,7 +55,7 @@ const RAW_SIGNALS_QUERY = gql`
   }
 `
 
-const TEMPORARY_REMOVED = {
+export const TEMPORARY_HIDDEN_LABELS = {
   anomaly_active_deposits: true,
   anomaly_active_withdrawals: true,
   anomaly_age_consumed: true,
@@ -92,9 +92,7 @@ export const useRawSignals = ({ from, to }) => {
   })
 
   return {
-    data: data
-      ? data.getRawSignals.filter(({ signal }) => !TEMPORARY_REMOVED[signal])
-      : [],
+    data: data ? data.getRawSignals : [],
     loading
   }
 }
@@ -109,6 +107,8 @@ export function useGroupedBySlugs (signals, hiddenLabels) {
       }, {})
 
       return Object.keys(labels)
+        .sort()
+        .reverse()
     },
     [signals]
   )
