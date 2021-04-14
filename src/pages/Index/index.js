@@ -5,7 +5,6 @@ import PersonalSection, {
   KEYSTACKHOLDERS_ANCHOR,
   SHEETS_ANCHOR
 } from './Section/Personal'
-import InsightsOnDemandSection from './Section/InsightsOnDemand'
 import TrendsSection from './Section/Trends'
 import Footer from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import EventBanner from '../../components/EventBanner'
@@ -46,7 +45,6 @@ const IndexPage = () => {
           <PersonalSection />
           <KeystackeholdersEvents />
           <TrendsSection />
-          <InsightsOnDemandSection />
         </main>
 
         <Aside className={styles.aside} />

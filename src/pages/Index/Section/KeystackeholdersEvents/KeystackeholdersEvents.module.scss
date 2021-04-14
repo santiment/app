@@ -26,16 +26,17 @@
 }
 
 .action {
-  @include text('caption');
+  @include text('body-3');
 
   color: var(--rhino);
-  padding: 4px 8px;
+  padding: 6px 16px;
   margin-left: 8px;
   border-radius: $border-radius;
-  border: 1px solid var(--jungle-green);
+  border: 1px solid var(--porcelain);
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 
   &__range {
     background: none !important;
