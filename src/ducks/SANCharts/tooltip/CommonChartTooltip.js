@@ -20,9 +20,11 @@ const ChartTooltip = ({
   events,
   classes = {}
 }) => {
-  const payload = hideItem
-    ? initialPayload.filter(({ dataKey }) => !hideItem(dataKey))
-    : initialPayload
+  const payload = initialPayload
+    ? hideItem
+      ? initialPayload.filter(({ dataKey }) => !hideItem(dataKey))
+      : initialPayload
+    : []
 
   if (events && events[label]) {
     payload.push(...events[label])

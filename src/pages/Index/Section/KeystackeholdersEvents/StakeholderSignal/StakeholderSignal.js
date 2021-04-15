@@ -130,6 +130,7 @@ const StakeholderSignal = ({ data, settings }) => {
                   assets={[slug]}
                   className={styles.address}
                   settings={LINK_SETTINGS}
+                  priceMetrics={[slug]}
                 />
               </div>
             </div>
@@ -143,6 +144,7 @@ const StakeholderSignal = ({ data, settings }) => {
                   assets={[slug]}
                   className={styles.address}
                   settings={LINK_SETTINGS}
+                  priceMetrics={[slug]}
                 />
               </div>
             </div>
