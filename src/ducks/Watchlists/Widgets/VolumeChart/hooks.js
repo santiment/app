@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   useProjectPriceChanges,
   useProjectsSocialVolumeChanges
@@ -85,8 +85,15 @@ export const useProjectRanges = ({
     ? useProjectsSocialVolumeChanges(hookProps)
     : useProjectPriceChanges(hookProps)
 
+  const limited = useMemo(
+    () => {
+      return data.slice(0, 100)
+    },
+    [data]
+  )
+
   return {
-    data: data.slice(0, 100),
+    data: limited,
     loading,
     intervalIndex,
     setIntervalIndex,
