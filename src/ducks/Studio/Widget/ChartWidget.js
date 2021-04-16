@@ -11,9 +11,9 @@ import StudioChart from '../Chart'
 import { dispatchWidgetMessage } from '../widgetMessage'
 import { DEFAULT_OPTIONS } from '../defaults'
 import { getMetricSetting, calculateMovingAverageFromInterval } from '../utils'
+import { useMetricSettingsAdjuster } from '../hooks'
 import { convertBaseProjectMetric } from '../metrics'
 import { useTimeseries } from '../timeseries/hooks'
-import { useMetricSettingsAdjuster } from '../timeseries/candles'
 import { useEdgeGaps, useClosestValueData } from '../../Chart/hooks'
 import { useSyncDateEffect } from '../../Chart/sync'
 import { Metric } from '../../dataHub/metrics'
@@ -34,7 +34,8 @@ export const Chart = ({
   const [options, setOptions] = useState(DEFAULT_OPTIONS)
   const MetricSettingMap = useMetricSettingsAdjuster(
     widget.MetricSettingMap,
-    settings
+    settings,
+    metrics
   )
   const MetricTransformer = useMirroredTransformer(metrics)
   const MetricNode = useMetricNodeOverwrite(MetricSettingMap)

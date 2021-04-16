@@ -1,4 +1,6 @@
-import { useEffect } from 'react'
+import { useMemo, useEffect } from 'react'
+import { useCandleMetricSettings } from './timeseries/candles'
+import { MetricIntervalGetter } from '../dataHub/metrics/intervals'
 
 export function useKeyDown (clb, key) {
   useEffect(() => {
@@ -32,4 +34,25 @@ export function useKeyboardCmdShortcut (key, clb, target = window) {
     },
     [clb, target]
   )
+}
+
+export function useMetricSettingsAdjuster (MetricSettingMap, settings, metrics) {
+  const { from, to } = settings
+  useMemo(
+    () => {
+      metrics.forEach(metric => {
+        const intervalGetter = MetricIntervalGetter[metric.key]
+        if (!intervalGetter) return
+
+        const metricSettings = MetricSettingMap.get(metric) || {}
+        metricSettings.interval = intervalGetter(from, to)
+        MetricSettingMap.set(metric, metricSettings)
+      })
+    },
+    [MetricSettingMap, metrics, from, to]
+  )
+
+  useCandleMetricSettings(MetricSettingMap, settings)
+
+  return MetricSettingMap
 }
