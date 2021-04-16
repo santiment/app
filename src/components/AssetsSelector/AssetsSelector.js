@@ -54,7 +54,7 @@ const AssetsSelector = ({ onChange, selected, slugs, className }) => {
       <ContextMenu
         passOpenStateAs='data-isactive'
         position='bottom'
-        align='start'
+        align='end'
         className={styles.dropdown}
         trigger={
           <div className={className}>

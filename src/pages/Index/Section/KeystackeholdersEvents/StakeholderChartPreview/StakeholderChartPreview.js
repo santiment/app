@@ -24,8 +24,20 @@ const METRICS_COLOR = {
 }
 
 const StakeholderChartPreview = ({ data, project, settings }) => {
-  const { datetime, slug } = data
-  const { ticker } = project
+  const { datetime, slug: targetSlug, signal } = data
+
+  const { slug, ticker } = useMemo(
+    () => {
+      if (signal === 'dai_mint') {
+        return {
+          slug: 'ethereum',
+          ticker: 'ETH'
+        }
+      }
+      return project
+    },
+    [project, targetSlug]
+  )
 
   const metricSettings = useMemo(() => ({ ...settings, slug }), [
     settings,
