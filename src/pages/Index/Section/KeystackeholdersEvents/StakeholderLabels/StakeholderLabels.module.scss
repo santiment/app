@@ -16,7 +16,13 @@
   cursor: pointer;
 
   &__hidden {
-    background: var(--athens);
+    background: var(--white);
+    border: 1px solid var(--mystic);
+  }
+
+  &:hover {
+    background: var(--mystic);
+    border: 1px solid var(--mystic);
   }
 }
 
@@ -25,6 +31,7 @@
   flex-wrap: wrap;
   max-width: 736px;
   padding: 8px 10px 0 10px;
+  box-shadow: 0 4px 8px rgba(24, 27, 43, 0.03);
 }
 
 .deselect {
