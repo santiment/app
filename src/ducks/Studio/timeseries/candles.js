@@ -7,7 +7,7 @@ import {
   getCandlesMinInterval
 } from '../Chart/MetricSettings/hooks'
 
-export function useMetricSettingsAdjuster (MetricSettingMap, { from, to }) {
+export function useCandleMetricSettings (MetricSettingMap, { from, to }) {
   return useMemo(
     () => {
       MetricSettingMap.forEach((MetricSettings, metric) => {
