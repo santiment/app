@@ -24,7 +24,7 @@
   margin-bottom: 32px;
   color: var(--waterloo);
 
-  @include text('body-2');
+  @include text('body-3');
 }
 
 .right {
@@ -54,6 +54,10 @@
     &:hover {
       color: var(--jungle-green) !important;
     }
+  }
+
+  &:hover {
+    color: var(--jungle-green) !important;
   }
 }
 

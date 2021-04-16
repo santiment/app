@@ -31,6 +31,11 @@
   color: var(--jungle-green);
   padding: 1px 5px;
   border-radius: 50%;
+  min-width: 16px;
+  min-height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   @include text('caption');
 

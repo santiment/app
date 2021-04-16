@@ -101,16 +101,24 @@ const StakeholderSignal = ({ data, settings }) => {
             </div>
           )}
 
+          {value && (
+            <div className={styles.row}>
+              <div className={styles.label}>Value:</div>
+              <div className={styles.value}>
+                {millify(value)} {ticker}
+              </div>
+            </div>
+          )}
           {value_usd && (
             <div className={styles.row}>
               <div className={styles.label}>Value USD:</div>
               <div className={styles.value}>{usdFormatter(value_usd)}</div>
             </div>
           )}
-          {value && (
+          {daysDestroyed && (
             <div className={styles.row}>
-              <div className={styles.label}>Value:</div>
-              <div className={styles.value}>{millify(value)}</div>
+              <div className={styles.label}>Amount of destroyed days:</div>
+              <div className={styles.value}>{daysDestroyed}</div>
             </div>
           )}
           {tokenTransferred && (
@@ -155,12 +163,6 @@ const StakeholderSignal = ({ data, settings }) => {
               <div className={styles.value}>
                 <TxLinkTo value={txHash} formatter={getShortTx} />
               </div>
-            </div>
-          )}
-          {daysDestroyed && (
-            <div className={styles.row}>
-              <div className={styles.label}>Amount of destroyed days:</div>
-              <div className={styles.value}>{daysDestroyed}</div>
             </div>
           )}
         </div>
