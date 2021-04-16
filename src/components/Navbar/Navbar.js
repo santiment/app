@@ -101,12 +101,13 @@ const rightLinks = [
     children: 'Academy',
     as: ExternalLink,
     Dropdown: NavbarHelpDropdown,
-    className: styles.btn
+    className: styles.academyBtn
   },
   {
     to: '/pricing',
     children: 'Pricing',
-    as: Link
+    as: Link,
+    className: styles.pricingBtn
   }
 ]
 
@@ -196,7 +197,7 @@ const Navbar = ({ activeLink = '/', isLaptop, isTablet }) => {
         <Search />
 
         {!showMore &&
-          rightLinks.map(({ Dropdown, ...rest }, index) => {
+          rightLinks.map(({ Dropdown, className, ...rest }, index) => {
             const isActive = activeLink.includes(rest.to)
 
             const button = (
@@ -204,7 +205,11 @@ const Navbar = ({ activeLink = '/', isLaptop, isTablet }) => {
                 key={index}
                 variant='flat'
                 isActive={isActive}
-                className={cx(Dropdown || styles.rightLink, styles.btn)}
+                className={cx(
+                  Dropdown || styles.rightLink,
+                  styles.btn,
+                  className
+                )}
                 {...rest}
               />
             )
