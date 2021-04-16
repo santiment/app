@@ -11,6 +11,7 @@ import {
   HolderDistributionMetric,
   HOLDER_DISTRIBUTION_ABSOLUTE_METRICS
 } from '../../Chart/Sidepanel/HolderDistribution/metrics'
+import { useRenderQueueItem } from '../../../renderQueue/sized'
 import { useChartColors } from '../../../Chart/colors'
 import { usePressedModifier } from '../../../../hooks/keyboard'
 import styles from './index.module.scss'
@@ -35,16 +36,17 @@ export const HoldersDistributionTitle = ({ ticker, description }) => {
   )
 }
 
-const HolderDistributionWidget = ({
+const HolderDistribution = ({
   widget,
   settings,
   sidepanelHeader,
   TabMetrics,
   isWithTabs,
+  isOpened,
   onChangeLabels,
+  setIsOpened,
   ...props
 }) => {
-  const [isOpened, setIsOpened] = useState(true)
   const MetricColor = useChartColors(widget.metrics, widget.MetricColor)
   const PressedModifier = usePressedModifier()
   const { currentPhase, setPhase } = usePhase()
@@ -102,7 +104,7 @@ const HolderDistributionWidget = ({
   }
 
   return (
-    <Widget className={cx(styles.holders, isOpened && styles.holders_opened)}>
+    <>
       <Chart
         {...props}
         widget={widget}
@@ -143,6 +145,24 @@ const HolderDistributionWidget = ({
       ) : (
         <CloseButton onClick={toggleSidepane} className={styles.toggle} />
       )}
+    </>
+  )
+}
+
+const HolderDistributionWidget = props => {
+  const [isOpened, setIsOpened] = useState(true)
+  const { isRendered, onLoad } = useRenderQueueItem()
+
+  return (
+    <Widget className={cx(styles.holders, isOpened && styles.holders_opened)}>
+      {isRendered ? (
+        <HolderDistribution
+          {...props}
+          isOpened={isOpened}
+          setIsOpened={setIsOpened}
+          onLoad={onLoad}
+        />
+      ) : null}
     </Widget>
   )
 }

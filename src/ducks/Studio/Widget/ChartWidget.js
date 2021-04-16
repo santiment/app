@@ -17,6 +17,7 @@ import { useTimeseries } from '../timeseries/hooks'
 import { useEdgeGaps, useClosestValueData } from '../../Chart/hooks'
 import { useSyncDateEffect } from '../../Chart/sync'
 import { Metric } from '../../dataHub/metrics'
+import { useRenderQueueItem } from '../../renderQueue/sized'
 
 const EMPTY_ARRAY = []
 
@@ -28,6 +29,7 @@ export const Chart = ({
   deleteWidget,
   rerenderWidgets,
   observeSyncDate,
+  onLoad,
   ...props
 }) => {
   const { metrics, chartRef } = widget
@@ -65,7 +67,9 @@ export const Chart = ({
 
   useEffect(
     () => {
-      const phase = loadings.length ? 'loading' : 'loaded'
+      const { length } = loadings
+      const phase = length ? 'loading' : 'loaded'
+      if (length === 0 && onLoad) onLoad()
       dispatchWidgetMessage(widget, phase)
     },
     [loadings]
@@ -196,11 +200,13 @@ export const Chart = ({
   )
 }
 
-const ChartWidget = props => (
-  <Widget>
-    <Chart {...props} />
-  </Widget>
-)
+const ChartWidget = props => {
+  const { isRendered, onLoad } = useRenderQueueItem()
+
+  return (
+    <Widget> {isRendered ? <Chart {...props} onLoad={onLoad} /> : null}</Widget>
+  )
+}
 
 const newChartWidget = (props, widget = ChartWidget) =>
   newWidget(widget, {
