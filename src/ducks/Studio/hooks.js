@@ -45,6 +45,11 @@ export function useMetricSettingsAdjuster (MetricSettingMap, settings, metrics) 
         if (!intervalGetter) return
 
         const metricSettings = MetricSettingMap.get(metric) || {}
+        const { interval } = metricSettings
+        if (interval && !intervalGetter.intervals.has(interval)) {
+          return // NOTE: Won't apply auto interval if user set his own [@vanguard | Apr 16, 2021]
+        }
+
         metricSettings.interval = intervalGetter(from, to)
         MetricSettingMap.set(metric, metricSettings)
       })

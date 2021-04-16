@@ -2,8 +2,8 @@ import { Metric } from './index'
 import { INTERVAL_ALIAS } from '../../SANCharts/IntervalSelector'
 import { dateDifference, DAY } from '../../../utils/dates'
 
-function newCustomInterval (clb) {
-  return (from, to) => {
+function newCustomInterval (intervals, clb) {
+  const getter = (from, to) => {
     const interval = clb(
       dateDifference({
         from: new Date(from),
@@ -13,9 +13,11 @@ function newCustomInterval (clb) {
     )
     return INTERVAL_ALIAS[interval] || interval
   }
+  getter.intervals = new Set(intervals)
+  return getter
 }
 
-const getWeightedSocialIntervals = newCustomInterval(diff =>
+const getWeightedSocialIntervals = newCustomInterval(['1h', '1d'], diff =>
   diff < 33 ? '1h' : '1d'
 )
 
