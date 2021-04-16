@@ -7,7 +7,7 @@ export const READABLE_NAMES = {
   large_exchange_deposit: 'Large Exchange deposit',
   dai_mint: 'DAI mint',
   old_coins_moved: 'Old coins moved',
-  mcd_art_liquidation: 'Large liquidation occurred',
+  mcd_art_liquidations: 'Large liquidation occurred',
   anomalies: 'Anomalies',
   ath: 'All Time High',
   price_usd_all_time_high: 'Price all time high (USD)',
