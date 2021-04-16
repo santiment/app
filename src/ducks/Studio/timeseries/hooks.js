@@ -177,9 +177,10 @@ export function useTimeseries (
                 return newState
               })
               setTimeseries(() => {
-                mergedData = mergeTimeseries([mergedData, data]).map(
-                  normalizeDatetimes
-                )
+                mergedData = mergeTimeseries([
+                  mergedData,
+                  data.map(normalizeDatetimes)
+                ])
                 return mergedData
               })
             })
