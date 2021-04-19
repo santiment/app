@@ -130,6 +130,7 @@ const TriggerFormMetricTypes = ({
               slug={slug}
               onSelectMetric={onSelectMetric}
               availableMetrics={availableMetrics}
+              trigger={trigger}
             />
           </div>
         </Dialog.ScrollContent>
