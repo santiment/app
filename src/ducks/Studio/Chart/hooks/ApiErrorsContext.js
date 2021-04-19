@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react'
 
 import { isStage } from '../../../../utils/utils'
-import { useInterval } from '../../../../components/Stories/Story'
 
 const API_TEST_URL = isStage
   ? 'https://apitestsweb-stage.santiment.net/gql_test_suite/latest.json'
   : 'https://apitestsweb-production.santiment.net/gql_test_suite/latest.json'
-
-const HOUR = 60 * 1000 * 60
 
 let API_ERRORS_DATA
 const ApiErrorsContext = React.createContext()
@@ -42,8 +39,6 @@ export const ApiErrorsProvider = ({ children }) => {
       }
     }
   }, [])
-
-  useInterval(load, HOUR)
 
   return (
     <ApiErrorsContext.Provider value={errorsForMetrics}>
