@@ -1,20 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { connect } from 'react-redux'
 import Dialog from '@santiment-network/ui/Dialog'
 import {
   getNearestTypeByMetric,
   getSlugFromSignalTarget
 } from '../../../../utils/utils'
-import {
-  METRICS_OPTIONS,
-  PRICE_METRIC,
-  TRENDING_WORDS
-} from '../../../../utils/constants'
+import { METRICS_OPTIONS, TRENDING_WORDS } from '../../../../utils/constants'
 import MetricTypeRenderer from '../metricTypeRenderer/MetricTypeRenderer'
 import SupportedMetricsList, {
   useAvailableMetrics
 } from './SupportedMetricsList'
-import { showNotification } from '../../../../../../actions/rootActions'
 import { capitalizeStr } from '../../../../../../utils/utils'
 import { useDialogState } from '../../../../../../hooks/dialog'
 import { Metric } from '../../../../../dataHub/metrics'
