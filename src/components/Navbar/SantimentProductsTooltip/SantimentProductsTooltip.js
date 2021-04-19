@@ -83,13 +83,8 @@ const SantimentProductsTooltip = ({
 
   return (
     <SmoothDropdownItem
-      className={styles.tooltip}
-      trigger={
-        <div className={className}>
-          {children}
-          {showArrows && <MenuItemArrow isOpen={isOpen} />}
-        </div>
-      }
+      className={cx(styles.tooltip, className)}
+      trigger={showArrows && <MenuItemArrow isOpen={isOpen} />}
       onOpen={() => setOpened()}
       onClose={() => setClosed()}
       ddParams={{
