@@ -1,0 +1,26 @@
+.arrow {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--waterloo);
+  margin-left: 4px;
+  fill: var(--waterloo);
+
+  & svg {
+    width: 8px;
+    height: 5px;
+    transition: transform 0.25s ease-in-out;
+  }
+
+  &.opened {
+    background: var(--green-light);
+    border-radius: 2px;
+    fill: var(--jungle-green);
+
+    & svg {
+      transform: rotate(180deg);
+    }
+  }
+}

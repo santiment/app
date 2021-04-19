@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import Icon from '@santiment-network/ui/Icon'
-import { MAIN_PRODUCTS } from './Products'
 import LinkWithArrow from '../Link'
+import { MAIN_PRODUCTS } from './Products'
+import { ProductsTrigger } from './Trigger'
 import SmoothDropdownItem from '../../SmoothDropdown/SmoothDropdownItem'
 import styles from './SantimentProductsTooltip.module.scss'
 
@@ -45,17 +45,6 @@ const ProductItem = ({
   )
 }
 
-const OpenTrigger = () => (
-  <Icon type='arrow-down' className={styles.arrowIcon} />
-)
-const CloseTrigger = () => <Icon type='arrow-up' className={styles.arrowIcon} />
-
-export const MenuItemArrow = ({ isOpen, className }) => (
-  <div className={cx(styles.arrow, className, isOpen && styles.opened)}>
-    {isOpen ? <CloseTrigger /> : <OpenTrigger />}
-  </div>
-)
-
 let timeoutId
 
 const SantimentProductsTooltip = ({
@@ -63,7 +52,6 @@ const SantimentProductsTooltip = ({
   position = 'start',
   showHeader = true,
   className,
-  children,
   products = MAIN_PRODUCTS,
   offsetY = 0,
   offsetX = 0,
@@ -84,19 +72,15 @@ const SantimentProductsTooltip = ({
   return (
     <SmoothDropdownItem
       className={cx(styles.tooltip, className)}
-      trigger={showArrows && <MenuItemArrow isOpen={isOpen} />}
-      onOpen={() => setOpened()}
-      onClose={() => setClosed()}
-      ddParams={{
-        position,
-        offsetX,
-        offsetY
-      }}
+      trigger={<ProductsTrigger isOpen={isOpen} />}
+      onOpen={setOpened}
+      onClose={setClosed}
+      ddParams={{ position, offsetX, offsetY }}
     >
       <div
         className={styles.container}
-        onMouseEnter={() => setOpened()}
-        onMouseLeave={() => setClosed()}
+        onMouseEnter={setOpened}
+        onMouseLeave={setClosed}
       >
         {showHeader && (
           <div className={styles.header}>

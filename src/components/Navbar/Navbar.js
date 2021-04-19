@@ -14,9 +14,7 @@ import ScreenerDropdown from './Screeners/ScreenerDropdown'
 import NavbarChartsDropdown from './ChartLayouts/NavbarChartsDropdown'
 import InsightsDropdown from './InsightsDropdown'
 import PlanEngage from './PlanEngage'
-import SantimentProductsTooltip, {
-  MenuItemArrow
-} from './SantimentProductsTooltip/SantimentProductsTooltip'
+import SantimentProductsTooltip from './SantimentProductsTooltip/SantimentProductsTooltip'
 import Logo from './SantimentProductsTooltip/Logo'
 import UserAvatar from '../../pages/Account/avatar/UserAvatar'
 import { mapSizesToProps } from '../../utils/withSizes'
@@ -24,6 +22,7 @@ import NavbarMore from './NavbarMore/NavbarMore'
 import { NavbarItem } from './NavbarItem'
 import { useDialogState } from '../../hooks/dialog'
 import { DEFAULT_SCREENER } from '../../ducks/Screener/utils'
+import { ArrowTrigger } from './SantimentProductsTooltip/Arrow'
 import styles from './Navbar.module.scss'
 
 const ExternalLink = ({ children, className, ...rest }) => (
@@ -120,15 +119,12 @@ const NavbarMoreItem = ({ links, activeLink }) => {
       item={{
         children: (
           <>
-            More
-            <MenuItemArrow isOpen={isOpened} className={styles.arrow} />
+            More <ArrowTrigger isOpen={isOpened} />
           </>
         ),
         as: 'div',
         Dropdown: () => <NavbarMore links={links} activeLink={activeLink} />,
-        ddParams: {
-          position: 'center'
-        },
+        ddParams: { position: 'center' },
         onClose: closeDialog,
         onOpen: openDialog
       }}
