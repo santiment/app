@@ -1,0 +1,42 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  padding-bottom: 20px;
+}
+
+.content {
+  @include text('body-2');
+
+  margin: 8px 0 12px 0;
+  color: var(--waterloo);
+}
+
+.header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.type {
+  @include text('caption');
+
+  padding: 4px 8px;
+  margin-left: auto;
+}
+
+.insight {
+  background: var(--texas-rose-light);
+}
+
+.balance {
+  background: var(--jungle-green-light);
+}
+
+.link {
+  cursor: pointer;
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
