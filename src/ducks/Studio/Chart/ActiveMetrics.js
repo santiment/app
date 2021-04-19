@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
@@ -7,14 +7,10 @@ import MetricFavorite from './MetricFavorite'
 import MetricErrorExplanation from './MetricErrorExplanation/MetricErrorExplanation'
 import MetricIcon from '../../SANCharts/MetricIcon'
 import { getMetricLabel } from '../../dataHub/metrics/labels'
-import { isStage } from '../../../utils/utils'
 import { useFavoriteMetrics } from '../../../stores/user/metrics'
 import ExplanationTooltip from '../../../components/ExplanationTooltip/ExplanationTooltip'
+import { ApiErrorsProvider, useApiErrors } from './hooks/ApiErrorsContext'
 import styles from './ActiveMetrics.module.scss'
-
-const API_TEST_URL = isStage
-  ? 'https://apitestsweb-stage.santiment.net/gql_test_suite/latest.json'
-  : 'https://apitestsweb-production.santiment.net/gql_test_suite/latest.json'
 
 const Actions = ({ children, childrenOffset, isActive }) => (
   <div
@@ -140,7 +136,7 @@ const MetricButton = ({
   )
 }
 
-export default ({
+const ActiveMetrics = ({
   className,
   MetricColor,
   activeMetrics,
@@ -159,28 +155,12 @@ export default ({
   settings
 }) => {
   const isMoreThanOneMetric = activeMetrics.length > 1 || !isSingleWidget
-  const [errorsForMetrics, setErrorsForMetrics] = useState()
   const { favoriteMetrics } = useFavoriteMetrics()
   const favoriteMetricSet = useMemo(() => new Set(favoriteMetrics), [
     favoriteMetrics
   ])
 
-  useEffect(() => {
-    let mounted = true
-
-    fetch(API_TEST_URL)
-      .then(response => {
-        if (!response.ok) {
-          return {}
-        }
-        return response.json()
-      })
-      .then(data => mounted && setErrorsForMetrics(data))
-
-    return () => {
-      mounted = false
-    }
-  }, [])
+  const errorsForMetrics = useApiErrors()
 
   const errors =
     settings && errorsForMetrics ? errorsForMetrics[settings.slug] : {}
@@ -209,4 +189,12 @@ export default ({
       favoriteMetricSet={favoriteMetricSet}
     />
   ))
+}
+
+export default props => {
+  return (
+    <ApiErrorsProvider>
+      <ActiveMetrics {...props} />
+    </ApiErrorsProvider>
+  )
 }
