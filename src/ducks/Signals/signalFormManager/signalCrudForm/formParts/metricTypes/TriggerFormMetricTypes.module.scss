@@ -159,3 +159,10 @@
     height: 40px;
   }
 }
+
+.error {
+  @include text('caption');
+
+  margin: 4px 0 8px 0;
+  color: var(--persimmon);
+}
