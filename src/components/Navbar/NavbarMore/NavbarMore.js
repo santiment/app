@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Button from '@santiment-network/ui/Button'
 import SantimentLogo from '../SantimentProductsTooltip/SantimentLogo'
@@ -6,9 +7,8 @@ import {
   BUSINESS_PRODUCTS,
   CHAIN_PRODUCTS
 } from '../SantimentProductsTooltip/Products'
-import styles from './NavbarMore.module.scss'
 import ContactUs from '../../ContactUs/ContactUs'
-import cx from 'classnames'
+import styles from './NavbarMore.module.scss'
 
 const Item = ({ to, img, message, title, isSelected, isIntercomButton }) => {
   const Wrapper = ({ children, className }) =>
@@ -43,6 +43,13 @@ const NavbarMore = ({ activeLink, links }) => {
   return (
     <Panel>
       <div className={styles.wrapper}>
+        <svg width='213' height='184' fill='none' className={styles.background}>
+          <path
+            fill='var(--athens)'
+            d='M90.11 164.99c-69.03-7.56-78.37 73.44-27.17 119.03 51.2 45.6 212.73 87.36 244.61-31.05 31.88-118.4-24-214.66-98.2-185.25-74.2 29.4-50.21 104.83-119.24 97.27z'
+            opacity='.6'
+          />
+        </svg>
         <div className={styles.leftBlock}>
           {links.map((item, index) => {
             const { ddParams, Dropdown, ...rest } = item

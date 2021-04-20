@@ -11,10 +11,13 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  background-image: url("./background.svg");
-  background-position: calc(100% - 1px) calc(100% - 1px);
-  background-repeat: no-repeat;
-  position: relative;
+}
+
+.background {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 0;
 }
 
 .mainLink {
@@ -27,6 +30,10 @@
     transition: fill 0.2s;
     fill: var(--waterloo);
   }
+}
+
+.block {
+  z-index: 1;
 }
 
 .block + .block {
