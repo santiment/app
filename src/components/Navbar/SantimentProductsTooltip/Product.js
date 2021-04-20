@@ -15,26 +15,14 @@ const ProductItem = ({
     description
   }
 }) => {
-  const Wrapper = ({ children }) =>
+  const Wrapper = ({ children, className }) =>
     isIntercomButton ? (
-      <ContactUs
-        as='a'
-        className={cx(
-          styles.wrapper,
-          isSelected && styles.wrapper__selected,
-          className
-        )}
-        message={message}
-      >
+      <ContactUs as='a' className={className} message={message}>
         {children}
       </ContactUs>
     ) : (
       <a
-        className={cx(
-          styles.wrapper,
-          isSelected && styles.wrapper__selected,
-          className
-        )}
+        className={className}
         href={!isSelected ? to : '/'}
         target={!isSelected ? '_blank' : ''}
         rel={!isSelected ? 'noopener noreferrer' : ''}
@@ -43,7 +31,13 @@ const ProductItem = ({
       </a>
     )
   return (
-    <Wrapper>
+    <Wrapper
+      className={cx(
+        styles.wrapper,
+        isSelected && styles.wrapper__selected,
+        className
+      )}
+    >
       <div className={styles.product}>
         <div className={styles.imgWrapper}>
           <img className={styles.img} src={img} alt={title} />

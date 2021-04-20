@@ -7,6 +7,37 @@ import {
   CHAIN_PRODUCTS
 } from '../SantimentProductsTooltip/Products'
 import styles from './NavbarMore.module.scss'
+import ContactUs from '../../ContactUs/ContactUs'
+import cx from 'classnames'
+
+const Item = ({ to, img, message, title, isSelected, isIntercomButton }) => {
+  const Wrapper = ({ children, className }) =>
+    isIntercomButton ? (
+      <ContactUs as='a' className={className} message={message}>
+        {children}
+      </ContactUs>
+    ) : (
+      <a
+        className={className}
+        href={!isSelected ? to : '/'}
+        target={!isSelected ? '_blank' : ''}
+        rel={!isSelected ? 'noopener noreferrer' : ''}
+      >
+        {children}
+      </a>
+    )
+
+  return (
+    <Wrapper
+      className={cx(styles.product, isSelected && styles.product__selected)}
+    >
+      <div className={styles.imgWrapper}>
+        <img src={img} alt={title} className={styles.productImg} />
+      </div>
+      <span>{title}</span>
+    </Wrapper>
+  )
+}
 
 const NavbarMore = ({ activeLink, links }) => {
   return (
@@ -30,39 +61,17 @@ const NavbarMore = ({ activeLink, links }) => {
         <div className={styles.productBlock}>
           <h3 className={styles.title}>SAN Business</h3>
           <div className={styles.products}>
-            {BUSINESS_PRODUCTS.map(({ img, title, to }, index) => {
-              return (
-                <a
-                  href={to}
-                  key={index}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className={styles.product}
-                >
-                  <img src={img} alt={title} className={styles.productImg} />
-                  {title}
-                </a>
-              )
-            })}
+            {BUSINESS_PRODUCTS.map((props, index) => (
+              <Item key={index} {...props} />
+            ))}
           </div>
         </div>
         <div className={styles.productBlock}>
           <h3 className={styles.title}>SAN chain</h3>
           <div className={styles.products}>
-            {CHAIN_PRODUCTS.map(({ img, title, to }, index) => {
-              return (
-                <a
-                  href={to}
-                  key={index}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className={styles.product}
-                >
-                  <img src={img} alt={title} className={styles.productImg} />
-                  {title}
-                </a>
-              )
-            })}
+            {CHAIN_PRODUCTS.map((props, index) => (
+              <Item key={index} {...props} />
+            ))}
           </div>
         </div>
         <SantimentLogo className={styles.mainLink} />

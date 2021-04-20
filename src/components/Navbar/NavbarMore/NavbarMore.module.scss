@@ -1,7 +1,7 @@
 @import '~@santiment-network/ui/mixins';
 
 .wrapper {
-  min-height: 300px;
+  height: 300px;
   overflow: hidden;
   display: flex;
   position: relative;
@@ -19,7 +19,7 @@
 
 .mainLink {
   position: absolute;
-  bottom: 22px;
+  bottom: 12px;
   right: 12px;
   padding: 20px;
   z-index: 1;
@@ -35,10 +35,26 @@
   }
 }
 
+.imgWrapper {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  margin-right: 12px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background-color: var(--athens);
+  transition: background 0.2s;
+}
+
 .product {
   display: flex;
   align-items: center;
   margin-bottom: 16px;
+  min-width: 167px;
+  height: auto;
+  padding: 0;
+  width: 167px;
   color: var(--rhino);
 
   @include text('body-2');
@@ -46,14 +62,31 @@
   &:hover {
     color: var(--jungle-green);
   }
+
+  & span {
+    width: 115px;
+    white-space: pre-wrap;
+  }
+
+  &__selected {
+    & .imgWrapper {
+      background-color: var(--jungle-green-light);
+    }
+  }
+
+  & .imgWrapper {
+    background-color: var(--athens);
+  }
 }
 
 .productImg {
-  margin-right: 12px;
+  width: auto;
+  height: auto;
 }
 
 .products {
   margin: 20px 0 40px 10px;
+  width: 190px;
 }
 
 .link {
