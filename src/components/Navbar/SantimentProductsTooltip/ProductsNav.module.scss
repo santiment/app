@@ -11,6 +11,17 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
+  background-image: url("./background.svg");
+  background-position: calc(100% - 1px) calc(100% - 1px);
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.mainLink {
+  position: absolute;
+  bottom: 23px;
+  right: 52px;
+  padding: 20px;
 }
 
 .block + .block {
