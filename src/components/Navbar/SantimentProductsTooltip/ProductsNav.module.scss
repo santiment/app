@@ -17,6 +17,10 @@
   margin-left: 24px;
 }
 
+.product + .product {
+  margin-top: 8px;
+}
+
 .title {
   color: var(--waterloo);
   display: flex;

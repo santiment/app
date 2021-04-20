@@ -32,7 +32,11 @@ const ProductsNav = () => {
           <h3 className={styles.title}>SAN Business</h3>
           <div className={styles.products}>
             {BUSINESS_PRODUCTS.map((item, index) => (
-              <ProductItem key={index} product={item} />
+              <ProductItem
+                key={index}
+                product={item}
+                className={styles.product}
+              />
             ))}
           </div>
         </div>
@@ -40,7 +44,11 @@ const ProductsNav = () => {
           <h3 className={styles.title}>SAN chain</h3>
           <div className={styles.products}>
             {CHAIN_PRODUCTS.map((item, index) => (
-              <ProductItem key={index} product={item} />
+              <ProductItem
+                key={index}
+                product={item}
+                className={styles.product}
+              />
             ))}
           </div>
         </div>

@@ -1,17 +1,49 @@
 import React from 'react'
 import cx from 'classnames'
+import ContactUs from '../../ContactUs/ContactUs'
 import styles from './Product.module.scss'
 
 const ProductItem = ({
-  product: { to, img, title, isSelected, description }
+  className,
+  product: {
+    to,
+    img,
+    isIntercomButton,
+    message,
+    title,
+    isSelected,
+    description
+  }
 }) => {
+  const Wrapper = ({ children }) =>
+    isIntercomButton ? (
+      <ContactUs
+        as='a'
+        className={cx(
+          styles.wrapper,
+          isSelected && styles.wrapper__selected,
+          className
+        )}
+        message={message}
+      >
+        {children}
+      </ContactUs>
+    ) : (
+      <a
+        className={cx(
+          styles.wrapper,
+          isSelected && styles.wrapper__selected,
+          className
+        )}
+        href={!isSelected ? to : '/'}
+        target={!isSelected ? '_blank' : ''}
+        rel={!isSelected ? 'noopener noreferrer' : ''}
+      >
+        {children}
+      </a>
+    )
   return (
-    <a
-      className={cx(styles.wrapper, isSelected && styles.wrapper__selected)}
-      href={isSelected ? '/' : to}
-      target={isSelected ? '' : '_blank'}
-      rel={isSelected ? '' : 'noopener noreferrer'}
-    >
+    <Wrapper>
       <div className={styles.product}>
         <div className={styles.imgWrapper}>
           <img className={styles.img} src={img} alt={title} />
@@ -21,7 +53,7 @@ const ProductItem = ({
           <p className={styles.description}>{description}</p>
         </div>
       </div>
-    </a>
+    </Wrapper>
   )
 }
 

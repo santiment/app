@@ -15,9 +15,11 @@
   width: 100%;
   max-width: 292px;
   max-height: 92px;
+  min-height: 92px;
   padding: 12px 16px;
   border-radius: 4px;
   cursor: pointer;
+  display: inline;
   transition: background 0.2s;
 
   &__selected {
