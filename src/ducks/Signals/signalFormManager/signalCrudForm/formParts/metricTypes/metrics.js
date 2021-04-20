@@ -54,7 +54,13 @@ export const DAILY_METRICS = [
   Metric.mcd_collat_ratio_sai,
   Metric.scd_collat_ratio,
   Metric.mcd_dsr,
-  Metric.mcd_stability_fee
+  Metric.mcd_stability_fee,
+
+  Metric.bitmex_perpetual_basis,
+  Metric.bitmex_perpetual_basis_ratio,
+  Metric.bitmex_perpetual_funding_rate,
+  Metric.bitmex_perpetual_open_interest,
+  Metric.bitmex_perpetual_open_value
 ]
 
 export const SIGNAL_SUPPORTED_METRICS = [
@@ -171,12 +177,6 @@ export const SIGNAL_SUPPORTED_METRICS = [
     'line',
     'Exchanges'
   ),
-
-  Metric.bitmex_perpetual_basis,
-  Metric.bitmex_perpetual_basis_ratio,
-  Metric.bitmex_perpetual_funding_rate,
-  Metric.bitmex_perpetual_open_interest,
-  Metric.bitmex_perpetual_open_value,
 
   Metric.mcd_supply,
   Metric.dai_created,
