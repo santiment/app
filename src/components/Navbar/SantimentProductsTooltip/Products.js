@@ -1,36 +1,55 @@
-import sanbaseLogoImg from '../../../assets/logos/logo-sanbase.svg'
-import sheetsLogoImg from '../../../assets/logos/logo-sheets.svg'
-import trendsLogoImg from '../../../assets/logos/logo-trends.svg'
-import neuroLogoImg from '../../../assets/logos/logo-neuro.svg'
+import sanr from './icons/sanr.svg'
+import sanapi from './icons/sanapi.svg'
+import sanbase from './icons/sanbase.svg'
+import insights from './icons/insights.svg'
+import sansheets from './icons/sansheets.svg'
+import sanhunters from './icons/sanhunters.svg'
+import datascience from './icons/datascience.svg'
 
-export const MAIN_PRODUCTS = [
+export const BUSINESS_PRODUCTS = [
   {
-    img: sanbaseLogoImg,
+    img: sanbase,
     title: 'Sanbase',
     description:
       'Behavior analysis & monitoring platform for 1000+ crypto assets',
-    to: 'https://app.santiment.net',
-    showLink: true
+    to: 'https://app.santiment.net'
   },
   {
-    img: sheetsLogoImg,
+    img: sansheets,
     title: 'Sansheets',
     description: 'Google Spreadsheets plugin for importing Santiment data',
-    to: 'https://sheets.santiment.net',
-    showLink: true
+    to: 'https://sheets.santiment.net'
   },
   {
-    img: neuroLogoImg,
+    img: sanapi,
     title: 'SanAPI',
     description: 'The most comprehensive crypto API on the market',
-    to: 'https://neuro.santiment.net',
-    showLink: true
+    to: 'https://neuro.santiment.net'
   },
   {
-    img: trendsLogoImg,
-    title: 'Santrends',
-    description: 'Explore the social volume of any word on crypto social media',
-    to: 'https://app.santiment.net/labs/trends/',
-    showLink: true
+    img: datascience,
+    title: 'Data Sciences as a Service',
+    description: 'Bespoke market intelligence for digital assets'
+  }
+]
+
+export const CHAIN_PRODUCTS = [
+  {
+    img: sanr,
+    title: 'SanR',
+    description: 'Decentralized marketplace for crypto price signals',
+    to: 'https://sanr.santiment.net'
+  },
+  {
+    img: sanhunters,
+    title: 'Sanhunters',
+    description: 'Get rewarded for market research and your crypto know-how',
+    to: 'https://hunters.santiment.net'
+  },
+  {
+    img: insights,
+    title: 'Insights',
+    description: 'Market analysis from the San team and community members',
+    to: 'https://insights.santiment.net'
   }
 ]

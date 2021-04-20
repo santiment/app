@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import styles from './SantimentProductsTooltip.module.scss'
+import styles from './Trigger.module.scss'
 
 export const ProductsTrigger = ({ isOpen, className }) => (
   <div className={cx(styles.trigger, isOpen && styles.opened, className)}>

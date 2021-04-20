@@ -14,15 +14,15 @@ import ScreenerDropdown from './Screeners/ScreenerDropdown'
 import NavbarChartsDropdown from './ChartLayouts/NavbarChartsDropdown'
 import InsightsDropdown from './InsightsDropdown'
 import PlanEngage from './PlanEngage'
-import SantimentProductsTooltip from './SantimentProductsTooltip/SantimentProductsTooltip'
 import Logo from './SantimentProductsTooltip/Logo'
+import { ArrowTrigger } from './SantimentProductsTooltip/Arrow'
+import ProductsNav from './SantimentProductsTooltip/ProductsNav'
 import UserAvatar from '../../pages/Account/avatar/UserAvatar'
 import { mapSizesToProps } from '../../utils/withSizes'
 import NavbarMore from './NavbarMore/NavbarMore'
 import { NavbarItem } from './NavbarItem'
 import { useDialogState } from '../../hooks/dialog'
 import { DEFAULT_SCREENER } from '../../ducks/Screener/utils'
-import { ArrowTrigger } from './SantimentProductsTooltip/Arrow'
 import styles from './Navbar.module.scss'
 
 const ExternalLink = ({ children, className, ...rest }) => (
@@ -145,13 +145,7 @@ const Navbar = ({ activeLink = '/', isLaptop, isTablet }) => {
         screenEdgeXOffset={5}
       >
         <Logo />
-        {!showMore && (
-          <SantimentProductsTooltip
-            className={styles.products}
-            position='start'
-          />
-        )}
-
+        {!showMore && <ProductsNav />}
         {leftLinks.map((item, index) => (
           <NavbarItem
             key={'left' + index}

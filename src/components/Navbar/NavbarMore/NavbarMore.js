@@ -2,7 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Button from '@santiment-network/ui/Button'
-import { MAIN_PRODUCTS } from '../SantimentProductsTooltip/Products'
+import { BUSINESS_PRODUCTS } from '../SantimentProductsTooltip/Products'
 import LinkWithArrow from '../Link'
 import externalStyles from '../Watchlists/MarketDropdown.module.scss'
 import styles from './NavbarMore.module.scss'
@@ -31,7 +31,7 @@ const NavbarMore = ({ activeLink, links }) => {
         <div className={externalStyles.block}>
           <h3 className={externalStyles.title}>Santiment Products</h3>
           <div className={styles.products}>
-            {MAIN_PRODUCTS.map(({ img, title, to }, index) => {
+            {BUSINESS_PRODUCTS.map(({ img, title, to }, index) => {
               return (
                 <a
                   href={to}

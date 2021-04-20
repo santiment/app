@@ -1,0 +1,32 @@
+@import '~@santiment-network/ui/mixins';
+
+.tooltip {
+  z-index: 20;
+  margin-right: 50px;
+}
+
+.container {
+  padding: 32px 32px 24px 32px;
+  width: 672px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.block + .block {
+  margin-left: 24px;
+}
+
+.title {
+  color: var(--waterloo);
+  display: flex;
+  align-items: center;
+  margin: 0 0 20px 16px;
+
+  @include text('body-3');
+}
+
+.products {
+  display: flex;
+  flex-direction: column;
+}

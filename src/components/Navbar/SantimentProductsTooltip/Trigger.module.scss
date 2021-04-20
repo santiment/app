@@ -1,16 +1,14 @@
-.arrow {
-  width: 16px;
-  height: 16px;
+.trigger {
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--waterloo);
-  margin-left: 4px;
-  fill: var(--waterloo);
+  border-radius: 4px;
+  transition: background-color 0.1s ease-in-out;
+  background-color: transparent;
 }
 
 .opened {
-  background: var(--green-light);
-  border-radius: 2px;
-  fill: var(--jungle-green);
+  background-color: var(--athens);
 }
