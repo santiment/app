@@ -50,8 +50,9 @@
     flex-direction: row;
     border-bottom: 1px solid var(--porcelain);
     margin-bottom: 32px;
-    justify-content: space-between;
+    justify-content: space-around;
     padding: 0 16px;
+    flex-wrap: wrap;
   }
 }
 

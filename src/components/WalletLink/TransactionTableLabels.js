@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import cx from 'classnames'
-import Label from '@santiment-network/ui/Label'
+import { CollapsedLabels } from '../../ducks/HistoricalBalance/Address/Labels'
 import styles from './TransactionTableLabels.module.scss'
 
 export const HARDCODED_EXCHANGE_LINKS = {
@@ -35,10 +35,12 @@ export const HARDCODED_EXCHANGE_LINKS = {
   kucoin: 'https://www.kucoin.com/'
 }
 
-const LabelWrapper = ({ metadata }) => {
+const LabelWrapper = ({ metadata, ref, ...rest }) => {
   if (!metadata) {
     return null
   }
+
+  const { className } = rest
 
   let decoded = {}
 
@@ -57,7 +59,7 @@ const LabelWrapper = ({ metadata }) => {
   if (linkRef) {
     return (
       <a
-        className={cx(styles.label, styles.link)}
+        className={cx(styles.label, styles.link, className)}
         target='_blank'
         rel='noopener noreferrer'
         href={linkRef}
@@ -69,50 +71,66 @@ const LabelWrapper = ({ metadata }) => {
       </a>
     )
   } else {
-    return <Label className={styles.label}>{owner}</Label>
+    return (
+      <div ref={ref} {...rest} className={cx(styles.label, className)}>
+        {owner}
+      </div>
+    )
   }
 }
 
-const LabelRenderer = ({ name, metadata }) => {
+const LabelRenderer = ({ name, metadata, forwardedRef, ...rest }) => {
   if (!name) {
     return null
   }
 
+  const { className } = rest
+
   switch (name.toLowerCase()) {
     case 'decentralized_exchange': {
-      return <LabelWrapper metadata={metadata} />
+      return <LabelWrapper metadata={metadata} ref={forwardedRef} {...rest} />
     }
     case 'centralized_exchange': {
-      return <LabelWrapper metadata={metadata} />
+      return <LabelWrapper metadata={metadata} ref={forwardedRef} {...rest} />
     }
     case 'defi': {
-      return <LabelWrapper metadata={metadata} />
+      return <LabelWrapper metadata={metadata} ref={forwardedRef} {...rest} />
     }
     case 'withdrawal': {
-      return <Label className={styles.label}>cex trader</Label>
+      return (
+        <div
+          ref={forwardedRef}
+          {...rest}
+          className={cx(styles.label, className)}
+        >
+          CEX trader
+        </div>
+      )
     }
     default: {
-      return <Label className={styles.label}>{name}</Label>
+      return (
+        <div
+          ref={forwardedRef}
+          {...rest}
+          className={cx(styles.label, className)}
+        >
+          {name}
+        </div>
+      )
     }
   }
 }
 
-const TransactionTableLabels = ({ labels }) => {
-  const distinct = useMemo(
-    () => {
-      return labels.reduce((acc, item) => {
-        acc[item.name] = item
-        return acc
-      }, {})
-    },
-    [labels]
-  )
+const TransactionTableLabels = ({ labels, className }) => {
+  const visibleLabels = labels.slice(0, 3)
+  const hiddenLabels = labels.slice(3)
 
   return (
-    <div className={styles.labels}>
-      {Object.values(distinct).map((item, index) => (
-        <LabelRenderer key={index} {...item} />
-      ))}
+    <div className={cx(styles.labels, className)}>
+      {visibleLabels.map(LabelRenderer)}
+      {!!hiddenLabels.length && (
+        <CollapsedLabels labels={hiddenLabels} el={LabelRenderer} />
+      )}
     </div>
   )
 }

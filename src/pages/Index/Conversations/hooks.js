@@ -24,7 +24,6 @@ const CONVERSATIONS_QUERY = gql`
       blockchainAddress {
         id
         address
-        notes
         labels {
           metadata
           name

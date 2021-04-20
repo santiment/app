@@ -2,12 +2,13 @@
 
 .container {
   padding-bottom: 20px;
+  padding-right: 8px;
 }
 
 .content {
   @include text('body-2');
 
-  margin: 8px 0 12px 0;
+  margin: 8px 0;
   color: var(--waterloo);
 }
 
@@ -21,7 +22,7 @@
   @include text('caption');
 
   padding: 4px 8px;
-  margin-left: auto;
+  margin: auto 0 auto auto;
 }
 
 .insight {
@@ -32,11 +33,50 @@
   background: var(--jungle-green-light);
 }
 
+.timeline {
+  background: var(--dodger-blue-light);
+}
+
 .link {
   cursor: pointer;
-  color: var(--jungle-green);
+  color: var(--rhino);
+  word-break: break-word;
+
+  @include text('body-2');
 
   &:hover {
     color: var(--jungle-green-hover);
   }
+
+  &__address {
+    margin-top: 4px;
+    margin-bottom: 2px;
+
+    div {
+      color: var(--rhino);
+
+      @include text('body-2'); }
+  }
+}
+
+.avatar {
+  height: 24px;
+  min-width: 24px;
+
+  svg {
+    width: 14px;
+    height: 12px;
+  }
+}
+
+.username {
+  color: var(--rhino) !important;
+
+  @include text('body-3'); }
+
+.labels {
+  span {
+    padding: 2px 8px;
+
+    @include text('body-3'); }
 }

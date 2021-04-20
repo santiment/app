@@ -9,7 +9,7 @@ export const makeShortAddresLink = ({
   isExchange,
   settings: { linkSymbolsCount = 16 } = {}
 }) =>
-  link.length > 7 && link.length < linkSymbolsCount
+  link.length > 7 && link.length > linkSymbolsCount
     ? link.slice(0, isExchange ? 7 : linkSymbolsCount) + '...'
     : link
 
