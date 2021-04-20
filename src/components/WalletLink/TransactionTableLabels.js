@@ -88,17 +88,39 @@ const LabelRenderer = ({ name, metadata, forwardedRef, ...rest }) => {
 
   switch (name.toLowerCase()) {
     case 'decentralized_exchange': {
-      return <LabelWrapper metadata={metadata} ref={forwardedRef} {...rest} />
+      return (
+        <LabelWrapper
+          key={name}
+          metadata={metadata}
+          ref={forwardedRef}
+          {...rest}
+        />
+      )
     }
     case 'centralized_exchange': {
-      return <LabelWrapper metadata={metadata} ref={forwardedRef} {...rest} />
+      return (
+        <LabelWrapper
+          key={name}
+          metadata={metadata}
+          ref={forwardedRef}
+          {...rest}
+        />
+      )
     }
     case 'defi': {
-      return <LabelWrapper metadata={metadata} ref={forwardedRef} {...rest} />
+      return (
+        <LabelWrapper
+          key={name}
+          metadata={metadata}
+          ref={forwardedRef}
+          {...rest}
+        />
+      )
     }
     case 'withdrawal': {
       return (
         <div
+          key={name}
           ref={forwardedRef}
           {...rest}
           className={cx(styles.label, className)}
@@ -110,6 +132,7 @@ const LabelRenderer = ({ name, metadata, forwardedRef, ...rest }) => {
     default: {
       return (
         <div
+          key={name}
           ref={forwardedRef}
           {...rest}
           className={cx(styles.label, className)}

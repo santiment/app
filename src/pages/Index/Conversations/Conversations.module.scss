@@ -1,13 +1,13 @@
 @import '~@santiment-network/ui/mixins';
 
 .container {
-  max-height: 860px;
+  height: 860px;
   overflow-y: auto;
   margin-top: 24px;
 }
 
 .skeleton {
-  min-height: 187px;
+  min-height: 120px;
   width: 100%;
 }
 

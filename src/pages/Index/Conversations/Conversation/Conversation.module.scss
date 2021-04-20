@@ -55,7 +55,8 @@
     div {
       color: var(--rhino);
 
-      @include text('body-2'); }
+      @include text('body-2');
+    }
   }
 }
 
@@ -71,12 +72,15 @@
 
 .username {
   color: var(--rhino) !important;
+  margin-right: 16px;
 
-  @include text('body-3'); }
+  @include text('body-3');
+}
 
 .labels {
   span {
     padding: 2px 8px;
 
-    @include text('body-3'); }
+    @include text('body-3');
+  }
 }

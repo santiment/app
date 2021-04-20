@@ -5,7 +5,7 @@ import { useQuery } from '@apollo/react-hooks'
 const CONVERSATIONS_QUERY = gql`
   query commentsFeed($to: DateTime!) {
     commentsFeed(
-      limit: 10
+      limit: 15
       cursor: { type: BEFORE, datetime: $to, order: DESC }
     ) {
       id
