@@ -1,0 +1,82 @@
+@import '~@santiment-network/ui/mixins';
+
+.imgWrapper {
+  min-width: 40px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background-color: var(--athens);
+  transition: background 0.2s;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 292px;
+  max-height: 120px;
+  min-height: 92px;
+  padding: 12px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline;
+  transition: background 0.2s;
+
+  &__selected {
+    & .imgWrapper {
+      background-color: var(--jungle-green-light);
+    }
+
+    &:hover .imgWrapper {
+      background-color: var(--jungle-green-light) !important;
+    }
+  }
+
+  &:hover {
+    background: var(--athens);
+
+    & .imgWrapper {
+      background-color: var(--white);
+    }
+  }
+}
+
+.product {
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  color: var(--waterloo);
+  text-decoration: none;
+}
+
+.img {
+  width: auto;
+  height: auto;
+}
+
+.title {
+  color: var(--rhino);
+  margin: 0 0 4px 0;
+
+  @include text('body-2', 'm');
+}
+
+.description {
+  color: var(--waterloo);
+  margin: 0;
+  white-space: normal;
+
+  @include text('body-3');
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 12px;
+  align-items: flex-start;
+}
+
+.label {
+  margin-top: 4px;
+  padding: 1px 8px;
+}

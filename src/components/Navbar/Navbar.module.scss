@@ -29,28 +29,10 @@
 }
 
 .products {
-  margin: 0 35px 0 0;
   cursor: pointer;
   display: flex;
   align-items: center;
-
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
-    margin-right: 12px;
-  }
-}
-
-.logo {
-  display: inline-flex;
-  align-items: center;
-
-  svg {
-    fill: var(--rhino);
-  }
-}
-
-.logoIcon {
-  width: 32px;
-  height: 32px;
+  margin-right: 30px;
 }
 
 .divider {
@@ -121,6 +103,15 @@
 
 .accountBtn {
   padding: 5px 0 0 12px;
+  margin-right: 0;
+}
+
+.pricingBtn {
+  margin-right: 10px;
+}
+
+.academyBtn {
+  margin-right: 12px;
 }
 
 .labCard {
@@ -152,8 +143,4 @@
 
 .search {
   margin-left: auto;
-}
-
-.arrow {
-  display: flex;
 }

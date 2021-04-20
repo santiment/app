@@ -1,0 +1,59 @@
+@import '~@santiment-network/ui/mixins';
+
+.tooltip {
+  z-index: 20;
+  margin-right: 50px;
+}
+
+.container {
+  padding: 32px 32px 24px 32px;
+  width: 672px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.background {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 0;
+}
+
+.mainLink {
+  position: absolute;
+  bottom: 23px;
+  right: 52px;
+  padding: 20px;
+
+  &:hover svg {
+    transition: fill 0.2s;
+    fill: var(--waterloo);
+  }
+}
+
+.block {
+  z-index: 1;
+}
+
+.block + .block {
+  margin-left: 24px;
+}
+
+.product + .product {
+  margin-top: 8px;
+}
+
+.title {
+  color: var(--waterloo);
+  display: flex;
+  align-items: center;
+  margin: 0 0 20px 16px;
+
+  @include text('body-3');
+}
+
+.products {
+  display: flex;
+  flex-direction: column;
+}
