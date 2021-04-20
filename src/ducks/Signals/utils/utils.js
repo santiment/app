@@ -287,6 +287,11 @@ const getTriggerOperation = ({
   return mapped
 }
 
+const makeSubmetric = metric => ({
+  key: metric,
+  label: capitalizeStr(metric.replace(/_/g, ' '))
+})
+
 const getFormMetric = ({ type, metric }) => {
   switch (type) {
     case METRIC_TYPES.DAILY_METRIC_SIGNAL:
@@ -300,7 +305,10 @@ const getFormMetric = ({ type, metric }) => {
           return PRICE_METRIC
         }
         default: {
-          return SIGNAL_SUPPORTED_METRICS.find(({ key }) => key === metric)
+          return (
+            SIGNAL_SUPPORTED_METRICS.find(({ key }) => key === metric) ||
+            makeSubmetric(metric)
+          )
         }
       }
     }

@@ -156,41 +156,6 @@ export const SIGNAL_SUPPORTED_METRICS = [
     'line',
     'Network Value'
   ),
-  makeSignalMetric(
-    'mvrv_usd_intraday_30d',
-    'MVRV intraday (30d)',
-    'On-chain',
-    'line',
-    'Network Value'
-  ),
-  makeSignalMetric(
-    'mvrv_usd_intraday_60d',
-    'MVRV intraday (60d)',
-    'On-chain',
-    'line',
-    'Network Value'
-  ),
-  makeSignalMetric(
-    'mvrv_usd_intraday_90d',
-    'MVRV intraday (90d)',
-    'On-chain',
-    'line',
-    'Network Value'
-  ),
-  makeSignalMetric(
-    'mvrv_usd_intraday_180d',
-    'MVRV intraday (180d)',
-    'On-chain',
-    'line',
-    'Network Value'
-  ),
-  makeSignalMetric(
-    'mvrv_usd_intraday_365d',
-    'MVRV intraday (365d)',
-    'On-chain',
-    'line',
-    'Network Value'
-  ),
   Metric.network_profit_loss,
   makeSignalMetric(
     'active_deposits_5m',
