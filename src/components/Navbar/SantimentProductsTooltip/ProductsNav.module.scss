@@ -22,6 +22,11 @@
   bottom: 23px;
   right: 52px;
   padding: 20px;
+
+  &:hover svg {
+    transition: fill 0.2s;
+    fill: var(--waterloo);
+  }
 }
 
 .block + .block {
