@@ -7,8 +7,16 @@
   border-radius: 4px;
   transition: background-color 0.1s ease-in-out;
   background-color: transparent;
+
+  & svg {
+    transition: transform 0.2s ease-in-out;
+  }
 }
 
 .opened {
   background-color: var(--athens);
+
+  & svg {
+    transform: rotate(90deg);
+  }
 }
