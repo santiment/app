@@ -53,6 +53,7 @@ export const CHAIN_PRODUCTS = [
     img: insights,
     title: 'Insights',
     description: 'Market analysis from the San team and community members',
+    label: 'SAN chain support soon',
     to: 'https://insights.santiment.net'
   }
 ]

@@ -14,7 +14,7 @@
 .wrapper {
   width: 100%;
   max-width: 292px;
-  max-height: 92px;
+  max-height: 120px;
   min-height: 92px;
   padding: 12px 16px;
   border-radius: 4px;
@@ -73,4 +73,10 @@
   display: flex;
   flex-direction: column;
   margin-left: 12px;
+  align-items: flex-start;
+}
+
+.label {
+  margin-top: 4px;
+  padding: 1px 8px;
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
+import Message from '@santiment-network/ui/Message'
 import ContactUs from '../../ContactUs/ContactUs'
 import styles from './Product.module.scss'
 
@@ -11,6 +12,7 @@ const ProductItem = ({
     isIntercomButton,
     message,
     title,
+    label,
     isSelected,
     description
   }
@@ -45,6 +47,11 @@ const ProductItem = ({
         <div className={styles.info}>
           <h4 className={styles.title}>{title}</h4>
           <p className={styles.description}>{description}</p>
+          {label && (
+            <Message className={styles.label} variant='warn'>
+              SAN chain support soon
+            </Message>
+          )}
         </div>
       </div>
     </Wrapper>
