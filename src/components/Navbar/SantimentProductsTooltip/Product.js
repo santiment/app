@@ -1,13 +1,16 @@
 import React from 'react'
+import cx from 'classnames'
 import styles from './Product.module.scss'
 
-const ProductItem = ({ product: { to, img, title, description } }) => {
+const ProductItem = ({
+  product: { to, img, title, isSelected, description }
+}) => {
   return (
     <a
-      className={styles.wrapper}
-      href={to}
-      target='_blank'
-      rel='noopener noreferrer'
+      className={cx(styles.wrapper, isSelected && styles.wrapper__selected)}
+      href={isSelected ? '/' : to}
+      target={isSelected ? '' : '_blank'}
+      rel={isSelected ? '' : 'noopener noreferrer'}
     >
       <div className={styles.product}>
         <div className={styles.imgWrapper}>

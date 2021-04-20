@@ -20,6 +20,16 @@
   cursor: pointer;
   transition: background 0.2s;
 
+  &__selected {
+    & .imgWrapper {
+      background-color: var(--jungle-green-light);
+    }
+
+    &:hover .imgWrapper {
+      background-color: var(--jungle-green-light);
+    }
+  }
+
   &:hover {
     background: var(--athens);
 
