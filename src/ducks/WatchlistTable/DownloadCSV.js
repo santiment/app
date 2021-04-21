@@ -3,8 +3,12 @@ import cx from 'classnames'
 import { CSVLink } from 'react-csv'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
+import ProPopupWrapper from '../../components/ProPopup/Wrapper'
+import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import ExplanationTooltip from '../../components/ExplanationTooltip/ExplanationTooltip'
 import styles from './index.module.scss'
+
+const cb = () => {}
 
 export const DownloadCSVButton = () => (
   <ExplanationTooltip
@@ -16,7 +20,7 @@ export const DownloadCSVButton = () => (
   </ExplanationTooltip>
 )
 
-const AsyncButton = ({ watchlist, downloadData, ...props }) => {
+const AsyncButton = ({ watchlist, downloadData, isPro, ...props }) => {
   const csvEl = useRef(null)
   const [data, setData] = useState([])
 
@@ -31,7 +35,7 @@ const AsyncButton = ({ watchlist, downloadData, ...props }) => {
     <>
       <Button
         className={cx(styles.action, styles.action_csv)}
-        onClick={fetchData}
+        onClick={isPro ? fetchData : cb}
         {...props}
       />
       <CSVLink filename={`${watchlist.name}.csv`} data={data} ref={csvEl} />
@@ -39,9 +43,16 @@ const AsyncButton = ({ watchlist, downloadData, ...props }) => {
   )
 }
 
-export const DownloadCSV = ({ watchlist, data, downloadData, ...props }) =>
-  downloadData ? (
-    <AsyncButton watchlist={watchlist} downloadData={downloadData} {...props} />
+export const DownloadCSV = ({ watchlist, data, downloadData, ...props }) => {
+  const { isPro } = useUserSubscriptionStatus()
+
+  return downloadData ? (
+    <AsyncButton
+      watchlist={watchlist}
+      isPro={isPro}
+      downloadData={downloadData}
+      {...props}
+    />
   ) : (
     <Button
       filename={`${watchlist.name}.csv`}
@@ -49,19 +60,22 @@ export const DownloadCSV = ({ watchlist, data, downloadData, ...props }) =>
       data={data}
       className={cx(styles.action, styles.action_csv)}
       {...props}
-      disabled={data.length === 0}
+      disabled={data.length === 0 || !isPro}
       as={CSVLink}
     />
   )
+}
 
 DownloadCSV.defaultProps = {
   data: []
 }
 
-const DownloadCSVTrigger = props => (
-  <DownloadCSV {...props}>
-    <DownloadCSVButton />
-  </DownloadCSV>
+const DownloadCSVTrigger = ({ type, ...props }) => (
+  <ProPopupWrapper type={type} className={styles.proWrapper}>
+    <DownloadCSV {...props}>
+      <DownloadCSVButton />
+    </DownloadCSV>
+  </ProPopupWrapper>
 )
 
 export default DownloadCSVTrigger

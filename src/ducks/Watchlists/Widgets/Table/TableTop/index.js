@@ -3,14 +3,12 @@ import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import { PROJECT, SCREENER } from '../../../detector'
 import ColumnsToggler from '../Columns/Toggler'
-// import Copy from '../../../../WatchlistTable/Copy'
 import CompareInfo from '../CompareInfo/CompareInfo'
 import SaveAs from '../../../../WatchlistTable/SaveAs'
 import CompareAction from '../CompareInfo/CompareAction'
 import EditAssets from '../../../Actions/Edit/EditAssets'
 import Refresh from '../../../../../components/Refresh/Refresh'
 import DownloadCSV from '../../../../WatchlistTable/DownloadCSV'
-import ProPopupWrapper from '../../../../../components/ProPopup/Wrapper'
 import styles from './index.module.scss'
 
 const EMPTY_OBJ = {}
@@ -78,11 +76,11 @@ const TableTop = ({
           activeColumns={activeColumns}
           updateActiveColumnsKeys={updateActiveColumnsKeys}
         />
-        <ProPopupWrapper type={type}>
-          <DownloadCSV watchlist={watchlist} downloadData={fetchAllColumns} />
-        </ProPopupWrapper>
-        {/* <div className={styles.divider} /> */}
-        {/* <Copy watchlist={watchlist} /> */}
+        <DownloadCSV
+          type={type}
+          watchlist={watchlist}
+          downloadData={fetchAllColumns}
+        />
         {type === SCREENER && (
           <>
             <div className={styles.divider} />
