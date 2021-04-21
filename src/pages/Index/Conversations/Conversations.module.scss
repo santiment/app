@@ -2,8 +2,12 @@
 
 .container {
   height: 860px;
-  overflow-y: auto;
   margin-top: 24px;
+  box-sizing: border-box;
+  flex: 1;
+  overflow-x: hidden;
+
+  @include overlay-scroll;
 }
 
 .skeleton {
