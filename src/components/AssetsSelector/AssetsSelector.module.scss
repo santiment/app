@@ -47,11 +47,14 @@
 }
 
 .list {
-  padding-left: 16px;
-  padding-right: 16px;
   margin-bottom: 22px;
-  max-height: 200px;
+  max-height: 160px;
   overflow-y: auto;
+  box-sizing: border-box;
+  flex: 1;
+  overflow-x: hidden;
+
+  @include overlay-scroll;
 }
 
 .noMargin {
@@ -64,6 +67,8 @@
 
 .content {
   @include overlay-scroll(null);
+
+  margin: 0 16px;
 }
 
 .scroller {
@@ -89,6 +94,14 @@
   @include text('caption');
 
   color: var(--waterloo);
-  margin-left: 16px;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
+}
+
+.search {
+  width: 100%;
+  margin-bottom: 16px;
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  box-sizing: border-box;
+  border-radius: $border-radius;
 }

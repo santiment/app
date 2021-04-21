@@ -1,7 +1,8 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import cx from 'classnames'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Panel from '@santiment-network/ui/Panel'
+import Input from '@santiment-network/ui/Input'
 import Item from '../../ducks/Watchlists/Widgets/Filter/EntryPoint/Item'
 import { useProject } from '../../hooks/project'
 import { toggleByKey } from '../../pages/Index/Section/KeystackeholdersEvents/StakeholderLabels/StakeholderLabels'
@@ -27,23 +28,38 @@ const ProjectItem = ({ slug, addItemInState, selected }) => {
 }
 
 const AssetsSelector = ({ onChange, selected, slugs, className }) => {
+  const [searchTerm, setSearchTerm] = useState('')
+
+  function onChangeSearch (e) {
+    setSearchTerm(e.target.value)
+  }
+
   function addItemInState (slug) {
     toggleByKey(slug, selected, onChange)
   }
 
+  function filterBySearch (list) {
+    if (!searchTerm) {
+      return list
+    }
+
+    const term = searchTerm.toLowerCase()
+    return list.filter(slug => slug.indexOf(term) !== -1)
+  }
+
   const selectedAssets = useMemo(
     () => {
-      return Object.keys(selected)
+      return filterBySearch(Object.keys(selected))
     },
-    [selected]
+    [selected, searchTerm]
   )
 
   const selectableAssets = useMemo(
     () => {
       const cache = new Set(selectedAssets)
-      return slugs.filter(s => !cache.has(s))
+      return filterBySearch(slugs.filter(s => !cache.has(s)))
     },
-    [selectedAssets, slugs]
+    [selectedAssets, slugs, searchTerm]
   )
 
   const countSelected = selectedAssets.length
@@ -65,6 +81,14 @@ const AssetsSelector = ({ onChange, selected, slugs, className }) => {
       >
         <Panel className={styles.panel}>
           <div className={styles.content}>
+            <Input
+              type='text'
+              onChange={onChangeSearch}
+              defaultValue={searchTerm}
+              className={styles.search}
+              placeholder='Search for asset'
+            />
+
             <div className={styles.scroller}>
               {countSelected > 0 && (
                 <>
@@ -106,25 +130,34 @@ const AssetsSelector = ({ onChange, selected, slugs, className }) => {
                   </div>
                 </>
               )}
-
-              {isResetVisible && (
-                <div
-                  className={styles.reset}
-                  onClick={() => {
-                    onChange(
-                      slugs.reduce((acc, s) => {
-                        acc[s] = true
-
-                        return acc
-                      }, {})
-                    )
-                  }}
-                >
-                  Select all
-                </div>
-              )}
             </div>
           </div>
+
+          {isResetVisible ? (
+            <div
+              className={styles.reset}
+              onClick={() => {
+                onChange(
+                  slugs.reduce((acc, s) => {
+                    acc[s] = true
+
+                    return acc
+                  }, {})
+                )
+              }}
+            >
+              Select all
+            </div>
+          ) : (
+            <div
+              className={styles.reset}
+              onClick={() => {
+                onChange({})
+              }}
+            >
+              Deselect all
+            </div>
+          )}
         </Panel>
       </ContextMenu>
     </div>
