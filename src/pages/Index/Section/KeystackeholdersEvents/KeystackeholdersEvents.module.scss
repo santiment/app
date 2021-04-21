@@ -84,6 +84,12 @@
 .accordions {
   border-radius: $border-radius;
   border: 1px solid var(--porcelain);
+  box-sizing: border-box;
+  flex: 1;
+  overflow-x: hidden;
+  max-height: 600px;
+
+  @include overlay-scroll;
 }
 
 .noData {
