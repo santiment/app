@@ -92,6 +92,15 @@ const WatchlistPage = ({ location, history, watchlist }) => {
     ).then(() => setTableLoading(false))
   }
 
+  const fetchAllColumns = () =>
+    getAssetsByFunction(
+      ...buildFunctionQuery({
+        fn,
+        orderBy,
+        activeColumns
+      })
+    )
+
   const allItems = useMemo(
     () =>
       watchlist.listItems
@@ -126,6 +135,7 @@ const WatchlistPage = ({ location, history, watchlist }) => {
         fetchData={fetchData}
         setOrderBy={setOrderBy}
         refetchAssets={refetchAssets}
+        fetchAllColumns={fetchAllColumns}
         projectsCount={projectsCount}
         activeColumns={activeColumns}
         pageSize={pagination.pageSize}

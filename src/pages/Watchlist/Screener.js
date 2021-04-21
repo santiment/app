@@ -115,6 +115,15 @@ const Screener = ({
     ).then(() => setTableLoading(false))
   }
 
+  const fetchAllColumns = () =>
+    getAssetsByFunction(
+      ...buildFunctionQuery({
+        fn: screenerFn,
+        orderBy,
+        activeColumns
+      })
+    )
+
   return (
     <>
       <TopPanel
@@ -148,6 +157,7 @@ const Screener = ({
         watchlist={watchlist}
         fetchData={fetchData}
         refetchAssets={refetchAssets}
+        fetchAllColumns={fetchAllColumns}
         sorting={orderBy}
         activeColumns={activeColumns}
         setOrderBy={setOrderBy}
