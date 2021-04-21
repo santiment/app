@@ -5,13 +5,6 @@
   padding-right: 8px;
 }
 
-.content {
-  @include text('body-2');
-
-  margin: 8px 0;
-  color: var(--fiord);
-}
-
 .header {
   display: flex;
   width: 100%;
@@ -44,20 +37,31 @@
 
   @include text('body-2');
 
-  &:hover {
-    color: var(--jungle-green-hover);
-  }
-
   &__address {
     margin-top: 4px;
     margin-bottom: 2px;
 
     div {
-      color: var(--rhino);
+      color: var(--rhino) !important;
 
       @include text('body-2');
     }
   }
+
+  &:hover {
+    color: var(--jungle-green) !important;
+
+    div {
+      color: var(--jungle-green) !important;
+    }
+  }
+}
+
+.content {
+  @include text('body-2');
+
+  margin: 8px 0;
+  color: var(--fiord);
 }
 
 .avatar {
