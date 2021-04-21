@@ -103,18 +103,26 @@ const StakeholderSignal = ({ data, settings }) => {
 
           {value && (
             <div className={styles.row}>
-              <div className={styles.label}>Value:</div>
-              <div className={styles.value}>
-                {millify(value)} {ticker}
+              <div className={styles.label}>
+                {value_usd ? 'Value:' : 'Value USD:'}
               </div>
+              {!value_usd ? (
+                <div className={styles.value}>{usdFormatter(value)}</div>
+              ) : (
+                <div className={styles.value}>
+                  {millify(value)} {ticker}
+                </div>
+              )}
             </div>
           )}
+
           {value_usd && (
             <div className={styles.row}>
               <div className={styles.label}>Value USD:</div>
               <div className={styles.value}>{usdFormatter(value_usd)}</div>
             </div>
           )}
+
           {daysDestroyed && (
             <div className={styles.row}>
               <div className={styles.label}>Amount of destroyed days:</div>
