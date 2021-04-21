@@ -16,17 +16,17 @@ import styles from './index.module.scss'
 const EMPTY_OBJ = {}
 
 const TableTop = ({
-  comparingAssets,
-  isLoading,
-  type,
-  items,
-  allItems,
   refetchAssets,
-  activeColumns,
+  fetchAllColumns,
+  comparingAssets,
+  type,
+  allItems,
+  watchlist = EMPTY_OBJ,
+  isLoading,
   sorting,
   setOrderBy,
-  updateActiveColumnsKeys,
-  watchlist = EMPTY_OBJ
+  activeColumns,
+  updateActiveColumnsKeys
 }) => {
   const [refreshTimestamp, setRefreshTimestamp] = useState(Date.now)
   const disabledComparision = comparingAssets.length < 2
@@ -79,7 +79,7 @@ const TableTop = ({
           updateActiveColumnsKeys={updateActiveColumnsKeys}
         />
         <ProPopupWrapper type={type}>
-          <DownloadCSV watchlist={watchlist} data={items} />
+          <DownloadCSV watchlist={watchlist} downloadData={fetchAllColumns} />
         </ProPopupWrapper>
         {/* <div className={styles.divider} /> */}
         {/* <Copy watchlist={watchlist} /> */}
