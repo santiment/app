@@ -13,6 +13,7 @@ import { useIsAuthor } from '../../../../gql/list/hooks'
 import { useTheme } from '../../../../../../stores/ui/theme'
 import { useCategories, useManipulateColumns } from '../hooks'
 import { getShadowVars } from '../../../../../../utils/styles'
+import { transformToServerType } from '../../../../gql/helpers'
 import { useUpdateWatchlistTableConfig } from '../gql/mutations'
 import styles from './index.module.scss'
 
@@ -231,4 +232,6 @@ const Toggler = ({
   )
 }
 
-export default Toggler
+export default ({ type, ...props }) => (
+  <Toggler {...props} type={transformToServerType(type)} />
+)
