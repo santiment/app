@@ -17,13 +17,14 @@ import AssetsSelector from '../../../../components/AssetsSelector/AssetsSelector
 import styles from './KeystackeholdersEvents.module.scss'
 
 const DEFAULT_SETTINGS = {
-  from: 'utc_now-24h',
+  from: 'utc_now-12h',
   to: 'utc_now'
 }
 
-const RANGES = ['24h', '7d', '30d']
+const RANGES = ['12h', '24h', '7d', '30d']
 
 const READABLE_DAYS = {
+  '12h': '12 hours',
   '24h': '1 day',
   '7d': '7 days',
   '30d': '30 days'
