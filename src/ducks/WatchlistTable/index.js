@@ -51,7 +51,11 @@ const WatchlistTable = ({
             activeColumns={activeColumns}
             updateActiveColumnsKeys={updateActiveColumnsKeys}
           />
-          <DownloadCSV watchlist={watchlist} data={csvData} />
+          <DownloadCSV
+            type={BLOCKCHAIN_ADDRESS}
+            watchlist={watchlist}
+            data={csvData}
+          />
         </div>
       </div>
 

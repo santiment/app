@@ -20,7 +20,7 @@ export const DownloadCSVButton = () => (
   </ExplanationTooltip>
 )
 
-const AsyncButton = ({ watchlist, downloadData, isPro, ...props }) => {
+const AsyncButton = ({ watchlist, downloadData, ...props }) => {
   const csvEl = useRef(null)
   const [data, setData] = useState([])
 
@@ -35,7 +35,7 @@ const AsyncButton = ({ watchlist, downloadData, isPro, ...props }) => {
     <>
       <Button
         className={cx(styles.action, styles.action_csv)}
-        onClick={isPro ? fetchData : cb}
+        onClick={fetchData}
         {...props}
       />
       <CSVLink filename={`${watchlist.name}.csv`} data={data} ref={csvEl} />
@@ -46,24 +46,33 @@ const AsyncButton = ({ watchlist, downloadData, isPro, ...props }) => {
 export const DownloadCSV = ({ watchlist, data, downloadData, ...props }) => {
   const { isPro } = useUserSubscriptionStatus()
 
-  return downloadData ? (
-    <AsyncButton
-      watchlist={watchlist}
-      isPro={isPro}
-      downloadData={downloadData}
-      {...props}
-    />
-  ) : (
-    <Button
-      filename={`${watchlist.name}.csv`}
-      target='_blank'
-      data={data}
-      className={cx(styles.action, styles.action_csv)}
-      {...props}
-      disabled={data.length === 0 || !isPro}
-      as={CSVLink}
-    />
-  )
+  if (!isPro) {
+    return (
+      <Button
+        className={cx(styles.action, styles.action_csv)}
+        {...props}
+        onClick={cb}
+      />
+    )
+  } else {
+    return downloadData ? (
+      <AsyncButton
+        watchlist={watchlist}
+        downloadData={downloadData}
+        {...props}
+      />
+    ) : (
+      <Button
+        filename={`${watchlist.name}.csv`}
+        target='_blank'
+        data={data}
+        className={cx(styles.action, styles.action_csv)}
+        {...props}
+        disabled={!isPro}
+        as={CSVLink}
+      />
+    )
+  }
 }
 
 DownloadCSV.defaultProps = {
