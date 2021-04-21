@@ -33,7 +33,9 @@ export const COLUMNS = [
     Header: 'Part Of Total',
     accessor: 'partOfTotal',
     Cell: ({ value }) =>
-      percentageFormatter(value, { fractionDigits: value > 0.01 ? 2 : 6 }),
+      percentageFormatter(100 * value, {
+        fractionDigits: 100 * value > 0.01 ? 2 : 6
+      }),
     disableSortBy: true
   }
 ]
