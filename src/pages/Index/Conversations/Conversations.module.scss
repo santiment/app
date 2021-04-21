@@ -1,0 +1,21 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  height: 860px;
+  overflow-y: auto;
+  margin-top: 24px;
+}
+
+.skeleton {
+  min-height: 120px;
+  width: 100%;
+}
+
+.item {
+  border-bottom: 1px solid var(--porcelain);
+  margin-bottom: 20px;
+
+  &:last-child {
+    border: none;
+  }
+}
