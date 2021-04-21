@@ -48,9 +48,10 @@ export const EtherscanLink = ({
   )
 }
 
-const ActionLabels = ({ isExchange, labels, className, ...rest }) => {
+const ActionLabels = ({ isExchange, labels, className, content, ...rest }) => {
   return (
     <div className={cx(styles.withLabels, className)}>
+      {content}
       <EtherscanLink {...rest} isExchange={isExchange} />
       {labels && <TransactionTableLabels labels={labels} />}
     </div>

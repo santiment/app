@@ -32,7 +32,7 @@ const Conversation = ({ data, classname }) => {
         </div>
       </div>
 
-      <div className={styles.content}>{makeReadable(content)}</div>
+      {timelineEvent && <Content content={content} />}
 
       {insight && (
         <a
@@ -41,6 +41,8 @@ const Conversation = ({ data, classname }) => {
           rel='noopener noreferrer'
           className={styles.link}
         >
+          <Content content={content} />
+
           {insight.title}
         </a>
       )}
@@ -51,7 +53,9 @@ const Conversation = ({ data, classname }) => {
             address={blockchainAddress.address}
             className={cx(styles.link, styles.link__address)}
             settings={LINK_SETTINGS}
-          />
+          >
+            <Content content={content} />
+          </WalletLink>
 
           {blockchainAddress.labels && (
             <TransactionTableLabels
@@ -64,5 +68,9 @@ const Conversation = ({ data, classname }) => {
     </div>
   )
 }
+
+const Content = ({ content }) => (
+  <div className={cx(styles.link, styles.content)}>{makeReadable(content)}</div>
+)
 
 export default Conversation
