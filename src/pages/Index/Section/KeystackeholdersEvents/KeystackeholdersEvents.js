@@ -90,12 +90,14 @@ const KeystackeholdersEvents = () => {
             }}
           />
 
-          <AssetsSelector
-            slugs={slugs}
-            className={styles.action}
-            selected={selectedAssets}
-            onChange={setSelectedAssets}
-          />
+          {slugs.length > 0 && (
+            <AssetsSelector
+              slugs={slugs}
+              className={styles.action}
+              selected={selectedAssets}
+              onChange={setSelectedAssets}
+            />
+          )}
         </div>
       </div>
 
