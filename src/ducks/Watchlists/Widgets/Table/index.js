@@ -26,7 +26,8 @@ const AssetsTable = ({
   sorting,
   activeColumns,
   setOrderBy,
-  updateActiveColumnsKeys
+  updateActiveColumnsKeys,
+  fetchAllColumns
 }) => {
   const defaultSorting = useMemo(
     () => [{ id: sorting.metric, desc: sorting.direction === 'desc' }],
@@ -47,13 +48,12 @@ const AssetsTable = ({
     <>
       <TableTop
         refetchAssets={refetchAssets}
+        fetchAllColumns={fetchAllColumns}
         comparingAssets={comparingAssets}
         type={type}
-        items={items}
         allItems={allItems}
         watchlist={watchlist}
         isLoading={loading}
-        columns={columns}
         sorting={sorting}
         setOrderBy={setOrderBy}
         activeColumns={activeColumns}
