@@ -34,6 +34,7 @@ const CONVERSATIONS_QUERY = gql`
         id
         username
         avatarUrl
+        email
       }
     }
   }

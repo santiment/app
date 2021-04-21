@@ -40,9 +40,11 @@
   &__address {
     margin-top: 4px;
     margin-bottom: 2px;
+    display: flex;
+    flex-direction: column;
 
     div {
-      color: var(--rhino) !important;
+      color: var(--rhino);
 
       @include text('body-2');
     }
@@ -61,7 +63,7 @@
   @include text('body-2');
 
   margin: 8px 0;
-  color: var(--fiord);
+  color: var(--fiord) !important;
 }
 
 .avatar {

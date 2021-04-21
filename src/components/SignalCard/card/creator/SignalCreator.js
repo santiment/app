@@ -11,13 +11,15 @@ export const showUserActions = () =>
 const SignalCreator = ({
   className,
   classes = {},
-  user: { id, username, avatarUrl } = {}
+  user: { id, username, email, avatarUrl } = {}
 }) => {
   const show = showUserActions()
 
   if (!show) {
     return null
   }
+
+  const nameOrEmail = username || email
 
   return (
     <Link to={'/profile/' + id} className={cx(styles.container, className)}>
@@ -28,7 +30,7 @@ const SignalCreator = ({
         externalAvatarUrl={avatarUrl}
         classes={{ ...styles, ...classes }}
       />
-      {username && (
+      {nameOrEmail && (
         <div
           className={cx(
             styles.right,
@@ -36,7 +38,7 @@ const SignalCreator = ({
             classes.username
           )}
         >
-          {username}
+          {nameOrEmail}
         </div>
       )}
     </Link>
