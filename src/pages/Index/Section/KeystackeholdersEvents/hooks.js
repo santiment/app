@@ -94,7 +94,8 @@ export const useRawSignals = ({ from, to }) => {
     variables: {
       from,
       to
-    }
+    },
+    errorPolicy: 'all'
   })
 
   return {
