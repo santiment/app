@@ -90,7 +90,7 @@ export const TEMPORARY_HIDDEN_LABELS = {
 }
 
 export const useRawSignals = ({ from, to }) => {
-  const { data, loading } = useQuery(RAW_SIGNALS_QUERY, {
+  const query = useQuery(RAW_SIGNALS_QUERY, {
     variables: {
       from,
       to
@@ -98,10 +98,16 @@ export const useRawSignals = ({ from, to }) => {
     errorPolicy: 'all'
   })
 
-  return {
-    data: (data ? data.getRawSignals : []) || [],
-    loading
-  }
+  return useMemo(
+    () => {
+      const { data, loading } = query
+      return {
+        data: (data ? data.getRawSignals.filter(Boolean) : []) || [],
+        loading
+      }
+    },
+    [query]
+  )
 }
 
 export function useGroupedBySlugs (signals, hiddenLabels, selectedAssets) {
