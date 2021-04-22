@@ -48,14 +48,6 @@
   flex-wrap: wrap;
 }
 
-.skeleton {
-  min-height: 20px;
-}
-
-.skeletonWrapper {
-  width: 100%;
-}
-
 .label {
   @include text('caption');
 

@@ -3,7 +3,6 @@ import cx from 'classnames'
 import { READABLE_EXCHANGE_NAMES, READABLE_NAMES } from '../hooks'
 import { getDateFormats, getTimeFormats } from '../../../../../utils/dates'
 import { formatNumber, millify } from '../../../../../utils/formatting'
-import { useProject } from '../../../../../hooks/project'
 import { TxLinkTo } from '../../../../../components/Tables/TopTokenTransactions/columns'
 import WalletLink from '../../../../../components/WalletLink/WalletLink'
 import StakeholderChartPreview from '../StakeholderChartPreview/StakeholderChartPreview'
@@ -65,10 +64,10 @@ const StakeholderSignal = ({ data, settings }) => {
     },
     value,
     signal,
-    slug
+    slug,
+    project
   } = data
 
-  const [project = {}] = useProject(slug)
   const { ticker } = project
 
   return (
