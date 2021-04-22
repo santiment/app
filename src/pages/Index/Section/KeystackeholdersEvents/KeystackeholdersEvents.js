@@ -139,6 +139,7 @@ const KeystackeholdersEvents = () => {
                 title={
                   <StackholderTitle
                     project={projects[s]}
+                    slug={s}
                     count={list.length}
                     labels={types}
                   />
