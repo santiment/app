@@ -70,7 +70,7 @@ const Conversation = ({ data, classname }) => {
 }
 
 const Content = ({ content }) => (
-  <div className={cx(styles.link, styles.content)}>{makeReadable(content)}</div>
+  <div className={styles.content}>{makeReadable(content)}</div>
 )
 
 export default Conversation
