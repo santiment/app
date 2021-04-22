@@ -93,6 +93,7 @@ const KeystackeholdersEvents = () => {
 
           {slugs.length > 0 && (
             <AssetsSelector
+              projects={projects}
               slugs={slugs}
               className={styles.action}
               selected={selectedAssets}

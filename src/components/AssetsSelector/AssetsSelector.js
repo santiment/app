@@ -8,26 +8,30 @@ import { useProject } from '../../hooks/project'
 import { toggleByKey } from '../../pages/Index/Section/KeystackeholdersEvents/StakeholderLabels/StakeholderLabels'
 import styles from './AssetsSelector.module.scss'
 
-const ProjectItem = ({ slug, addItemInState, selected }) => {
-  const [project = {}] = useProject(slug)
-
-  const { ticker, slug: target = slug, name = slug } = project
+const ProjectItem = ({
+  project: targetProject,
+  slug,
+  addItemInState,
+  selected
+}) => {
+  const [project = targetProject] = useProject(!targetProject && slug)
+  const { ticker, slug: targetSlug = slug, name = slug } = project || {}
 
   return (
     <Item
-      key={target}
+      key={targetSlug}
       onClick={() => {
-        addItemInState(target)
+        addItemInState(targetSlug)
       }}
       isActive={selected}
       name={name}
       ticker={ticker}
-      id={slug}
+      id={targetSlug}
     />
   )
 }
 
-const AssetsSelector = ({ onChange, selected, slugs, className }) => {
+const AssetsSelector = ({ onChange, selected, projects, slugs, className }) => {
   const [searchTerm, setSearchTerm] = useState('')
 
   function onChangeSearch (e) {
@@ -73,7 +77,7 @@ const AssetsSelector = ({ onChange, selected, slugs, className }) => {
         align='end'
         className={styles.dropdown}
         trigger={
-          <div className={cx(className, styles.trigger)}>
+          <div className={cx(styles.trigger, className)}>
             All assets
             {countSelected > 0 ? `: ${countSelected}` : ''}
           </div>
@@ -104,6 +108,7 @@ const AssetsSelector = ({ onChange, selected, slugs, className }) => {
                         <ProjectItem
                           key={slug}
                           slug={slug}
+                          project={projects[slug]}
                           addItemInState={addItemInState}
                           selected={true}
                         />
@@ -122,6 +127,7 @@ const AssetsSelector = ({ onChange, selected, slugs, className }) => {
                         <ProjectItem
                           key={slug}
                           slug={slug}
+                          project={projects[slug]}
                           addItemInState={addItemInState}
                           selected={false}
                         />
