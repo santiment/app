@@ -65,6 +65,10 @@ const Conversation = ({ data, classname }) => {
           )}
         </>
       )}
+
+      {!blockchainAddress && !insight && !timelineEvent && content && (
+        <Content content={content} />
+      )}
     </div>
   )
 }
