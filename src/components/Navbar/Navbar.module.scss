@@ -55,6 +55,11 @@
   color: var(--waterloo);
   margin-right: 20px;
   padding: 6px 10px;
+
+  :global(.dd__trigger.active) & {
+    color: var(--jungle-green);
+    fill: var(--jungle-green);
+  }
 }
 
 .leftLink {

@@ -11,12 +11,12 @@
   & svg {
     transition: transform 0.2s ease-in-out;
   }
-}
 
-.opened {
-  background-color: var(--athens);
+  :global(.dd__trigger.active) & {
+    background-color: var(--athens);
 
-  & svg {
-    transform: rotate(90deg);
+    & svg {
+      transform: rotate(90deg);
+    }
   }
 }

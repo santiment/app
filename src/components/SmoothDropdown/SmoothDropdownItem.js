@@ -7,8 +7,7 @@ class SmoothDropdownItem extends Component {
 
   static propTypes = {
     children: PropTypes.any.isRequired,
-    trigger: PropTypes.element.isRequired,
-    showIf: PropTypes.func
+    trigger: PropTypes.element.isRequired
   }
 
   componentDidMount () {
@@ -24,7 +23,6 @@ class SmoothDropdownItem extends Component {
     const {
       trigger,
       children,
-      showIf,
       className = '',
       onOpen: propsOnOpen,
       onClose,
@@ -40,11 +38,9 @@ class SmoothDropdownItem extends Component {
     return (
       <SmoothDropdownContext.Consumer>
         {({ handleMouseEnter, handleMouseLeave, setupDropdownContent }) => {
-          const onOpen = evt => {
-            if (showIf ? showIf(evt) : true) {
-              handleMouseEnter(this, ddTrigger)
-              propsOnOpen && propsOnOpen()
-            }
+          const onOpen = () => {
+            handleMouseEnter(this, ddTrigger)
+            propsOnOpen && propsOnOpen()
           }
           return (
             <>

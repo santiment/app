@@ -153,7 +153,6 @@ class SmoothDropdown extends Component {
 
   openDropdown = (ddItem, trigger) => {
     let dropdownItem = this.ddItemsRef ? this.ddItemsRef.get(ddItem) : undefined
-
     dropdownItem = dropdownItem ? dropdownItem.current : undefined
 
     if (!dropdownItem) return
@@ -205,6 +204,14 @@ class SmoothDropdown extends Component {
       height
     }
 
+    if (this.state.currentTrigger) {
+      this.state.currentTrigger.triggerRef.current.classList.remove('active')
+    }
+
+    if (ddItem.triggerRef) {
+      ddItem.triggerRef.current.classList.add('active')
+    }
+
     this.setState(prevState => ({
       ...prevState,
       currentTrigger: ddItem,
@@ -216,6 +223,10 @@ class SmoothDropdown extends Component {
   }
 
   closeDropdown = () => {
+    if (this.state.currentTrigger) {
+      this.state.currentTrigger.triggerRef.current.classList.remove('active')
+    }
+
     this.setState(prevState => ({
       ...prevState,
       currentTrigger: null,
