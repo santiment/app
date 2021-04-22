@@ -5,9 +5,9 @@ import { READABLE_NAMES } from '../hooks'
 import Skeleton from '../../../../../components/Skeleton/Skeleton'
 import styles from './StackholderTitle.module.scss'
 
-const StackholderTitle = ({ count, slug, labels }) => {
+const StackholderTitle = ({ project: targetProject, count, slug, labels }) => {
   const uniqueLabels = [...new Set(labels)]
-  const [project, loading] = useProject(slug)
+  const [project = targetProject, loading] = useProject(!targetProject && slug)
 
   const { logoUrl, name, ticker } = project || {}
 

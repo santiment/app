@@ -51,6 +51,12 @@ const RAW_SIGNALS_QUERY = gql`
       slug
       value
       metadata
+      project {
+        slug
+        ticker
+        name
+        logoUrl
+      }
     }
   }
 `
@@ -84,17 +90,24 @@ export const TEMPORARY_HIDDEN_LABELS = {
 }
 
 export const useRawSignals = ({ from, to }) => {
-  const { data, loading } = useQuery(RAW_SIGNALS_QUERY, {
+  const query = useQuery(RAW_SIGNALS_QUERY, {
     variables: {
       from,
       to
-    }
+    },
+    errorPolicy: 'all'
   })
 
-  return {
-    data: (data ? data.getRawSignals : []) || [],
-    loading
-  }
+  return useMemo(
+    () => {
+      const { data, loading } = query
+      return {
+        data: (data ? data.getRawSignals.filter(Boolean) : []) || [],
+        loading
+      }
+    },
+    [query]
+  )
 }
 
 export function useGroupedBySlugs (signals, hiddenLabels, selectedAssets) {
@@ -105,9 +118,15 @@ export function useGroupedBySlugs (signals, hiddenLabels, selectedAssets) {
     [signals, selectedAssets]
   )
 
-  const slugs = useMemo(
+  const { slugs, projects } = useMemo(
     () => {
-      return [...new Set(signals.map(({ slug }) => slug))]
+      return {
+        slugs: [...new Set(signals.map(({ slug }) => slug))],
+        projects: signals.reduce((acc, item) => {
+          acc[item.slug] = item.project
+          return acc
+        }, {})
+      }
     },
     [signals]
   )
@@ -153,5 +172,5 @@ export function useGroupedBySlugs (signals, hiddenLabels, selectedAssets) {
 
   const visibleSlugs = useMemo(() => Object.keys(groups), [groups])
 
-  return { slugs, visibleSlugs, labels, groups }
+  return { slugs, projects, visibleSlugs, labels, groups }
 }

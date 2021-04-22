@@ -65,11 +65,12 @@ const StakeholderSignal = ({ data, settings }) => {
     },
     value,
     signal,
-    slug
+    slug,
+    project: targetProject
   } = data
 
-  const [project = {}] = useProject(slug)
-  const { ticker } = project
+  const [project = targetProject] = useProject(!targetProject && slug)
+  const { ticker } = project || {}
 
   return (
     <div className={styles.container}>

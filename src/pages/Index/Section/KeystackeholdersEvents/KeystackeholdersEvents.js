@@ -41,7 +41,7 @@ const KeystackeholdersEvents = () => {
   const { data: signals, loading } = useRawSignals(settings)
   const [hiddenLabels, setHiddenLabels] = useState(TEMPORARY_HIDDEN_LABELS)
 
-  const { slugs, visibleSlugs, groups, labels } = useGroupedBySlugs(
+  const { slugs, projects, visibleSlugs, groups, labels } = useGroupedBySlugs(
     signals,
     hiddenLabels,
     selectedAssets
@@ -138,6 +138,7 @@ const KeystackeholdersEvents = () => {
                 key={s}
                 title={
                   <StackholderTitle
+                    project={projects[s]}
                     slug={s}
                     count={list.length}
                     labels={types}
