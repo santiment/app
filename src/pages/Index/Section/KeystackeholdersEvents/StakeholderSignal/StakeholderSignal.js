@@ -49,6 +49,21 @@ const ExchangeLink = ({ exchange_name }) => {
   }
 }
 
+function isValueUsd (value, value_usd, signal) {
+  if (!value_usd) {
+    switch (signal) {
+      case 'large_transactions':
+      case 'large_exchange_deposit':
+      case 'large_exchange_withdrawal':
+        return true
+      default:
+        return false
+    }
+  }
+
+  return false
+}
+
 const StakeholderSignal = ({ data, settings }) => {
   const {
     datetime,
@@ -105,9 +120,9 @@ const StakeholderSignal = ({ data, settings }) => {
           {value && (
             <div className={styles.row}>
               <div className={styles.label}>
-                {value_usd ? 'Value:' : 'Value USD:'}
+                {isValueUsd(value, value_usd, signal) ? 'Value USD:' : 'Value:'}
               </div>
-              {!value_usd ? (
+              {isValueUsd(value, value_usd, signal) ? (
                 <div className={styles.value}>{usdFormatter(value)}</div>
               ) : (
                 <div className={styles.value}>
