@@ -13,33 +13,10 @@
   padding: 12px 0 0 0;
 }
 
-.trigger__btn {
-  margin-bottom: 14px;
-  width: 100%;
-
-  &:hover {
-    border-color: var(--mystic);
-    color: var(--rhino);
-  }
-}
-
-.trigger__arrow {
-  width: 8px;
-  fill: var(--waterloo) !important;
-  transition: transform 0.25s ease-in-out;
-}
-
-.trigger__input {
-  color: var(--waterloo);
-}
-
-.trigger__btn input[data-isactive=true] + .trigger__arrow {
-  fill: var(--rhino) !important;
-  transform: rotate(180deg);
-}
-
-.trigger__btn input::placeholder {
-  color: var(--waterloo) !important;
+.trigger {
+  padding: 6px 16px;
+  border-radius: $border-radius;
+  border: 1px solid var(--porcelain);
 }
 
 .dropdown {

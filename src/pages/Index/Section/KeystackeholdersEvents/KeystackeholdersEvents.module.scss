@@ -36,10 +36,7 @@
   @include text('body-3');
 
   color: var(--rhino);
-  padding: 6px 16px;
   margin-left: 8px;
-  border-radius: $border-radius;
-  border: 1px solid var(--porcelain);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -47,9 +44,12 @@
 
   &__range {
     background: none !important;
-    padding: 0;
     color: var(--rhino) !important;
     margin-left: 0;
+    padding: 6px 16px;
+    border-radius: $border-radius;
+    height: initial;
+    border: 1px solid var(--porcelain);
 
     &:hover {
       color: var(--jungle-green) !important;

@@ -73,7 +73,7 @@ const AssetsSelector = ({ onChange, selected, slugs, className }) => {
         align='end'
         className={styles.dropdown}
         trigger={
-          <div className={className}>
+          <div className={cx(className, styles.trigger)}>
             All assets
             {countSelected > 0 ? `: ${countSelected}` : ''}
           </div>

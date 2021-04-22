@@ -14,15 +14,22 @@
   margin-bottom: 8px;
   padding: 4px 8px;
   cursor: pointer;
+  color: var(--rhino);
 
   &__hidden {
     background: var(--white);
-    border: 1px solid var(--mystic);
+    color: var(--rhino);
+
+    &:hover {
+      background: var(--white);
+      border: 1px solid var(--mystic);
+    }
   }
 
   &:hover {
-    background: var(--mystic);
+    background: var(--porcelain);
     border: 1px solid var(--mystic);
+    color: var(--mirage);
   }
 }
 
