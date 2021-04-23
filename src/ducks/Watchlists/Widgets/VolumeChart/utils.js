@@ -11,7 +11,7 @@ export const getTooltipLabels = memoize(({ key, label }) => {
     {
       key: key,
       label: label,
-      formatter: val => `${formatNumber(val)} %`
+      formatter: val => `${formatNumber(100 * val)} %`
     },
     {
       key: 'priceUsd',

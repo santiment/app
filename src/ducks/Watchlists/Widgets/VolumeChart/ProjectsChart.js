@@ -201,7 +201,7 @@ const ProjectsChart = ({
                     fontWeight={500}
                     stroke={'var(--casper)'}
                     tickCount={8}
-                    tickFormatter={val => `${val} %`}
+                    tickFormatter={val => `${100 * val} %`}
                   />
 
                   <Bar dataKey={key}>
