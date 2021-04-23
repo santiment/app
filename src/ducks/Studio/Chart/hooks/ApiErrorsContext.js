@@ -35,7 +35,9 @@ export const ApiErrorsProvider = ({ children }) => {
     if (!API_ERRORS_DATA) {
       const controller = load()
       return () => {
-        controller.abort()
+        if (!controller.signal.aborted) {
+          controller.abort()
+        }
       }
     }
   }, [])
