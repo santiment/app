@@ -29,6 +29,7 @@ function SizedRenderQueue (size) {
     } else {
       queue.push([ref, setIsRendered])
     }
+    return ref
   }
 
   return () => {
