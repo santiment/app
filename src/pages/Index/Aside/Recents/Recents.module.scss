@@ -1,0 +1,54 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 35px;
+}
+
+.list {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-column-gap: 24px;
+  grid-row-gap: 24px;
+
+  @include responsive('laptop', 'tablet') {
+    grid-template-columns: 1fr 1fr;
+    grid-row-gap: 16px;
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    grid-template-columns: 1fr;
+    grid-row-gap: 16px;
+  }
+}
+
+.tabs {
+  display: flex;
+  margin-top: 28px;
+  border-bottom: 1px solid var(--porcelain);
+  margin-bottom: 16px;
+  justify-content: space-between;
+}
+
+.tab {
+  padding-bottom: 4px;
+  color: var(--casper);
+  margin: 0 6px;
+
+  @include text('body-2');
+
+  &:hover {
+    color: var(--rhino);
+  }
+}
+
+.selectedTab {
+  color: var(--rhino);
+  position: relative;
+
+  &::after {
+    background: var(--waterloo);
+  }
+}

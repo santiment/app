@@ -68,7 +68,6 @@ const Asset = ({
 
 const Assets = ({ slugs }) => (
   <Recent
-    title='Assets'
     rightHeader='Price, 24h change'
     ids={[slugs]}
     getItem={getSlugs}

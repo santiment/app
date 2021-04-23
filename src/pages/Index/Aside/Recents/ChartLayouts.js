@@ -18,7 +18,6 @@ const ChartLayout = ({ title }) => (title ? <Column>{title}</Column> : null)
 
 const ChartLayouts = ({ ids }) => (
   <Recent
-    title='Chart Layouts'
     rightHeader=''
     ids={ids}
     getItem={getItem}
