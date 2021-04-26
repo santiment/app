@@ -10,12 +10,12 @@ import {
 } from '../../ducks/Screener/utils'
 import { getWatchlistId, getWatchlistName } from '../../ducks/Watchlists/utils'
 
-const Watchlist = ({ isLoggedIn, ...props }) => {
+const Watchlist = ({ isLoggedIn, isUserLoading, ...props }) => {
   const id = getWatchlistId(props.location.search)
   const [watchlist = {}, loading, error] = useWatchlist({ id })
   const isDefaultScreener = checkIsDefaultScreener(props.location.pathname)
 
-  if (isDefaultScreener && isLoggedIn) {
+  if (isDefaultScreener && isLoggedIn && !isUserLoading) {
     return <NewScreener {...props} />
   }
 
