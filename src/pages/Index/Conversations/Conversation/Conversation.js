@@ -1,12 +1,26 @@
 import React from 'react'
 import cx from 'classnames'
 import { makeLinkToInsight } from '../../../../components/Insight/InsightCardInternals'
-import WalletLink from '../../../../components/WalletLink/WalletLink'
 import SignalCreator from '../../../../components/SignalCard/card/creator/SignalCreator'
 import TransactionTableLabels from '../../../../components/WalletLink/TransactionTableLabels'
+import { EtherscanLink } from '../../../../components/WalletLink/ActionLabels'
 import styles from './Conversation.module.scss'
 
 const LINK_SETTINGS = { linkSymbolsCount: 32 }
+
+const getLink = data => {
+  const { insight, blockchainAddress } = data
+
+  if (insight) {
+    return `${makeLinkToInsight(insight.id, insight.title)}#comments\``
+  }
+
+  if (blockchainAddress && blockchainAddress.address) {
+    return `/labs/balance?address=${blockchainAddress.address}`
+  }
+
+  return undefined
+}
 
 const makeReadable = text =>
   text.length > 80 ? `${text.slice(0, 80)} ...` : text
@@ -14,8 +28,19 @@ const makeReadable = text =>
 const Conversation = ({ data, classname }) => {
   const { content, insight, timelineEvent, blockchainAddress, user } = data
 
+  const link = getLink(data)
+
+  function openConversation () {
+    if (link) {
+      window.open(link, '_blank')
+    }
+  }
+
   return (
-    <div className={cx(styles.container, classname)}>
+    <div
+      className={cx(styles.container, link && styles.clickable, classname)}
+      onClick={openConversation}
+    >
       <div className={styles.header}>
         <SignalCreator user={user} classes={styles} />
         <div
@@ -35,27 +60,21 @@ const Conversation = ({ data, classname }) => {
       {timelineEvent && <Content content={content} />}
 
       {insight && (
-        <a
-          href={`${makeLinkToInsight(insight.id, insight.title)}#comments`}
-          target='_blank'
-          rel='noopener noreferrer'
-          className={styles.link}
-        >
+        <>
           <Content content={content} />
 
-          {insight.title}
-        </a>
+          <div className={styles.insightTitle}>{insight.title}</div>
+        </>
       )}
 
       {blockchainAddress && (
         <>
-          <WalletLink
+          <Content content={content} />
+          <EtherscanLink
             address={blockchainAddress.address}
             className={cx(styles.link, styles.link__address)}
             settings={LINK_SETTINGS}
-          >
-            <Content content={content} />
-          </WalletLink>
+          />
 
           {blockchainAddress.labels && (
             <TransactionTableLabels

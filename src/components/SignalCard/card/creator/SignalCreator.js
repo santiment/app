@@ -22,7 +22,11 @@ const SignalCreator = ({
   const nameOrEmail = username || email
 
   return (
-    <Link to={'/profile/' + id} className={cx(styles.container, className)}>
+    <Link
+      to={'/profile/' + id}
+      className={cx(styles.container, className)}
+      onClick={e => e.stopPropagation()}
+    >
       <UserAvatar
         as='div'
         userId={id}
