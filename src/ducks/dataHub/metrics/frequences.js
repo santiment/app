@@ -103,7 +103,23 @@ const Frequences = {
   [Metric.stock_to_flow.key]: Daily,
   [Metric.defi_total_value_locked_usd.key]: Hourly,
   [Metric.active_addresses_1h.key]: Hourly,
-  [Metric.active_addresses_24h.key]: Daily
+  [Metric.active_addresses_24h.key]: Daily,
+
+  [Metric.mcd_locked_token.key]: Daily,
+  [Metric.scd_locked_token.key]: Daily,
+  [Metric.mcd_supply.key]: FiveMinute,
+  [Metric.mcd_collat_ratio.key]: Daily,
+  [Metric.mcd_collat_ratio_weth.key]: Daily,
+  [Metric.mcd_collat_ratio_sai.key]: Daily,
+  [Metric.scd_collat_ratio.key]: Daily,
+  [Metric.mcd_dsr.key]: Daily,
+  [Metric.mcd_stability_fee.key]: Daily,
+  [Metric.dai_created.key]: FiveMinute,
+  [Metric.dai_repaid.key]: FiveMinute,
+  [Metric.mcd_liquidation.key]: FiveMinute,
+
+  [Metric.whale_transaction_count_100k_usd_to_inf.key]: Daily,
+  [Metric.whale_transaction_count_1m_usd_to_inf.key]: Daily
 }
 
 export default Frequences

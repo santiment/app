@@ -1,7 +1,8 @@
 const LineNode = {
   LINE: 'line',
   FILLED_LINE: 'filledLine',
-  GRADIENT_LINE: 'gradientLine'
+  GRADIENT_LINE: 'gradientLine',
+  AREA: 'area'
 }
 
 const BarNode = {
@@ -10,10 +11,6 @@ const BarNode = {
   GREEN_RED_BAR: 'greenRedBar'
 }
 
-export const Node = Object.assign(
-  { CANDLES: 'candle', AREA: 'area' },
-  LineNode,
-  BarNode
-)
+export const Node = Object.assign({ CANDLES: 'candle' }, LineNode, BarNode)
 export const LINES = new Set(Object.values(LineNode))
 export const BARS = new Set(Object.values(BarNode))

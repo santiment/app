@@ -31,6 +31,7 @@
 
   cursor: pointer;
   color: var(--rhino);
+  border: none !important;
 
   &:hover {
     color: var(--rhino);
@@ -64,4 +65,8 @@
 .arrow {
   margin-left: auto;
   fill: var(--waterloo);
+}
+
+.accordionContent {
+  padding: 12px 0;
 }

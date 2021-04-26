@@ -19,6 +19,7 @@
   left: 0;
   height: var(--addresses-list-table-top-height);
   width: 100%;
+  margin-top: 18px;
 }
 
 .actions {
@@ -33,7 +34,7 @@
 }
 
 .explanation {
-  z-index: 2;
+  z-index: 10000;
 }
 
 .action {
@@ -90,6 +91,11 @@
 
     th:nth-child(3) {
       z-index: 3;
+      background: var(--athens);
+    }
+
+    td:nth-child(3) {
+      z-index: 1;
     }
 
     th,
@@ -109,4 +115,8 @@
 
 .icon {
   margin-right: 8px;
+}
+
+.proWrapper {
+  display: flex;
 }

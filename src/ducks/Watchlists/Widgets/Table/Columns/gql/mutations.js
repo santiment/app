@@ -18,11 +18,21 @@ export const DELETE_TABLE_CONFIG_MUTATION = gql`
 `
 
 export const CREATE_TABLE_CONFIG_MUTATION = gql`
-  mutation createTableConfiguration($title: String!, $columns: json) {
+  mutation createTableConfiguration(
+    $title: String!
+    $type: TableConfigurationTypeEnum
+    $columns: json
+  ) {
     config: createTableConfiguration(
-      settings: { title: $title, isPublic: false, columns: $columns }
+      settings: {
+        title: $title
+        isPublic: false
+        type: $type
+        columns: $columns
+      }
     ) {
       id
+      type
       title
       columns
       user {
@@ -39,6 +49,7 @@ export const UPDATE_TABLE_CONFIG_MUTATION = gql`
   ) {
     config: updateTableConfiguration(id: $id, settings: $settings) {
       id
+      type
       title
       columns
       user {
@@ -95,9 +106,10 @@ export function useCreateTableConfig () {
     update: updateConfigsOnCreation
   })
 
-  function createTableConfig ({ title, columns }) {
+  function createTableConfig ({ title, type, columns }) {
     return mutate({
       variables: {
+        type,
         title,
         columns: JSON.stringify(columns)
       }

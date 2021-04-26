@@ -12,7 +12,12 @@
   @include text('caption');
 
   display: flex;
+  flex-wrap: wrap;
   margin-top: -4px;
+}
+
+.histogram {
+  margin-bottom: 8px;
 }
 
 .note {

@@ -23,6 +23,7 @@ export const WATCHLIST_GENERAL_FRAGMENT = gql`
     function
     isPublic
     insertedAt
+    updatedAt
     description
     isMonitored
     user {
@@ -37,7 +38,6 @@ const ADDRESSES_SHORT_LIST_ITEMS_FRAGMENT = gql`
       blockchainAddress {
         address
         infrastructure
-        notes
       }
     }
   }
@@ -53,30 +53,6 @@ const PROJECTS_SHORT_LIST_ITEMS_FRAGMENT = gql`
         ticker
         logoUrl
         darkLogoUrl
-      }
-    }
-  }
-`
-
-export const ADDRESSES_LIST_ITEMS_FRAGMENT = gql`
-  fragment listItemsFragment on UserList {
-    listItems {
-      blockchainAddress {
-        address
-        infrastructure
-        notes
-        labels {
-          name
-          origin
-        }
-        balanceChange(
-          to: "utc_now"
-          from: "utc_now-7d"
-          selector: { slug: "ethereum" }
-        ) {
-          balanceChangePercent
-          balanceEnd
-        }
       }
     }
   }
@@ -116,5 +92,5 @@ export const getListItemsShortFragment = type =>
 
 export const getListItemsFragment = type =>
   type === BLOCKCHAIN_ADDRESS
-    ? ADDRESSES_LIST_ITEMS_FRAGMENT
+    ? ADDRESSES_SHORT_LIST_ITEMS_FRAGMENT
     : PROJECTS_LIST_ITEMS_FRAGMENT

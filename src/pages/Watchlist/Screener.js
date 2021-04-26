@@ -37,6 +37,8 @@ const Screener = ({
     setActiveColumnsKeys
   } = useColumns()
 
+  const { updatedAt } = watchlist
+
   const [updateWatchlist, { loading: isUpdating }] = useUpdateWatchlist(
     SCREENER
   )
@@ -113,6 +115,15 @@ const Screener = ({
     ).then(() => setTableLoading(false))
   }
 
+  const fetchAllColumns = () =>
+    getAssetsByFunction(
+      ...buildFunctionQuery({
+        fn: screenerFn,
+        orderBy,
+        activeColumns
+      })
+    )
+
   return (
     <>
       <TopPanel
@@ -130,13 +141,13 @@ const Screener = ({
         setWidgets={setWidgets}
       />
 
-      {!loading && (
-        <Infographics
-          widgets={widgets}
-          setWidgets={setWidgets}
-          listId={isDefaultScreener ? DEFAULT_SCREENER_ID : id}
-        />
-      )}
+      <Infographics
+        widgets={widgets}
+        setWidgets={setWidgets}
+        listId={isDefaultScreener ? DEFAULT_SCREENER_ID : id}
+        assets={assets}
+        updatedAt={updatedAt}
+      />
 
       <AssetsTable
         items={assets}
@@ -146,6 +157,7 @@ const Screener = ({
         watchlist={watchlist}
         fetchData={fetchData}
         refetchAssets={refetchAssets}
+        fetchAllColumns={fetchAllColumns}
         sorting={orderBy}
         activeColumns={activeColumns}
         setOrderBy={setOrderBy}

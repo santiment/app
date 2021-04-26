@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   useProjectPriceChanges,
   useProjectsSocialVolumeChanges
@@ -59,7 +59,8 @@ export const useProjectRanges = ({
   settings,
   onChangeSettings,
   type,
-  sortByMetric
+  sortByMetric,
+  updatedAt
 }) => {
   const {
     setIntervalIndex,
@@ -76,12 +77,27 @@ export const useProjectRanges = ({
       desc
     }),
     metric,
-    interval: label
+    interval: label,
+    updatedAt
   }
 
   const [data, loading] = isSocialVolume
     ? useProjectsSocialVolumeChanges(hookProps)
     : useProjectPriceChanges(hookProps)
 
-  return { data, loading, intervalIndex, setIntervalIndex, label, key: metric }
+  const limited = useMemo(
+    () => {
+      return data.slice(0, 100)
+    },
+    [data]
+  )
+
+  return {
+    data: limited,
+    loading,
+    intervalIndex,
+    setIntervalIndex,
+    label,
+    key: metric
+  }
 }

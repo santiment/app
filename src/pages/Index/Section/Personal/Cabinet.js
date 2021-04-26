@@ -1,19 +1,22 @@
 import React from 'react'
+import { HashLink } from 'react-router-hash-link'
 import Accordion from '../../Accordion'
 import { ProUpgradeBanner } from '../../../feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
-import Reports from './Cabinet/Reports'
 import CabinetTitle from './Cabinet/CabinetTitle/CabinetTitle'
 import { ReportsImg, SheetsTemplatesImg } from './Cabinet/images'
+import Reports from './Cabinet/Reports'
 import SheetsTemplates from './Cabinet/SheetsTemplates/SheetsTemplates'
 import styles from './Cabinet.module.scss'
 
-const cabinets = [
+const SHEETS_ANCHOR = '#san-sheets'
+
+const CABINETS = [
   {
     title: (
       <CabinetTitle
         img={ReportsImg}
-        title={'Weekly Reports'}
+        title='Weekly Reports'
         description={
           'Check out our latest premium reports about crypto activity in the market'
         }
@@ -29,8 +32,13 @@ const cabinets = [
   {
     title: (
       <CabinetTitle
+        as={HashLink}
+        to={SHEETS_ANCHOR}
+        onClick={e => {
+          e.stopPropagation()
+        }}
         img={<div className={styles.img}>{SheetsTemplatesImg}</div>}
-        title={'Sansheets Pro Templates'}
+        title='Sansheets Pro Templates'
         description={
           <>
             A collection of trading and research models built with{' '}
@@ -63,7 +71,7 @@ const Cabinet = () => {
     return <ProUpgradeBanner classes={styles} />
   }
 
-  return cabinets.map(({ title, content, isOpened }, index) => (
+  return CABINETS.map(({ title, content, isOpened }, index) => (
     <Accordion
       key={index}
       title={title}

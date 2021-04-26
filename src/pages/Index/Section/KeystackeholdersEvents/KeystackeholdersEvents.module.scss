@@ -1,0 +1,110 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  margin-bottom: 64px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 8px;
+
+  @include text('h4', 'm');
+}
+
+.description {
+  margin-bottom: 16px;
+  color: var(--waterloo);
+
+  @include text('body-2');
+}
+
+.count {
+  margin-bottom: 32px;
+  color: var(--waterloo);
+
+  @include text('body-3');
+}
+
+.right {
+  margin-left: auto;
+  display: flex;
+}
+
+.action {
+  @include text('body-3');
+
+  color: var(--rhino);
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &__range {
+    background: none !important;
+    color: var(--rhino) !important;
+    margin-left: 0;
+    padding: 6px 16px;
+    border-radius: $border-radius;
+    height: initial;
+    border: 1px solid var(--porcelain);
+
+    &:hover {
+      color: var(--jungle-green) !important;
+    }
+  }
+
+  &:hover {
+    color: var(--jungle-green) !important;
+  }
+}
+
+.skeleton {
+  height: 90px;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.skeletonWrapper {
+  width: 100%;
+}
+
+.anchor {
+  color: var(--rhino);
+}
+
+.list {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-row-gap: 8px;
+}
+
+.accordions {
+  border-radius: $border-radius;
+  border: 1px solid var(--porcelain);
+  box-sizing: border-box;
+  flex: 1;
+  overflow-x: hidden;
+  max-height: 600px;
+
+  @include overlay-scroll;
+}
+
+.noData {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.accordionContent {
+  padding: 4px 24px 16px 24px;
+  border-top: none;
+}
+
+.accordionTitle {
+  padding-left: 0;
+  align-items: baseline;
+}

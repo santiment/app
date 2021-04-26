@@ -297,6 +297,11 @@ const getTriggerOperation = ({
   return mapped
 }
 
+const makeSubmetric = metric => ({
+  key: metric,
+  label: capitalizeStr(metric.replace(/_/g, ' '))
+})
+
 const getFormMetric = ({ type, metric }) => {
   switch (type) {
     case METRIC_TYPES.DAILY_METRIC_SIGNAL:
@@ -310,7 +315,10 @@ const getFormMetric = ({ type, metric }) => {
           return PRICE_METRIC
         }
         default: {
-          return SIGNAL_SUPPORTED_METRICS.find(({ key }) => key === metric)
+          return (
+            SIGNAL_SUPPORTED_METRICS.find(({ key }) => key === metric) ||
+            makeSubmetric(metric)
+          )
         }
       }
     }
@@ -1797,10 +1805,18 @@ export const getNewDescription = newValues => {
     ? `every ${frequencyTimeValue.label} ${frequencyTimeType.label}`
     : 'only once'
 
-  const channelsBlock =
-    channels && channels.length ? `via ${channels.join(', ')}` : ''
+  const channelsReadable = channels.reduce((acc, ch) => {
+    return typeof ch === 'object'
+      ? acc.concat(Object.keys(ch))
+      : acc.concat(ch.toLowerCase())
+  }, [])
 
-  return `Notify me when the ${metricsHeaderStr}. Send me notifications ${repeatingBlock.toLowerCase()} ${channelsBlock.toLowerCase()}.`
+  const channelsBlock =
+    channelsReadable && channelsReadable.length
+      ? `via ${channelsReadable.join(', ')}`
+      : ''
+
+  return `Notify me when the ${metricsHeaderStr}. Send me notifications ${repeatingBlock.toLowerCase()} ${channelsBlock}.`
 }
 
 export const buildSignal = (metric, type, slug, Values, selector = 'slug') => {

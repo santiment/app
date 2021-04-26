@@ -64,19 +64,19 @@ export const CollapsedTooltip = props => (
   <Tooltip {...props} on='click' className={styles.collapsed__tooltip} />
 )
 
-export const CollapsedLabels = ({ labels }) => (
+export const CollapsedLabels = ({ labels, el: El = Label }) => (
   <CollapsedTooltip
     on='click'
     className={styles.collapsed__tooltip}
     trigger={
-      <Label
+      <El
         className={styles.collapsed}
         name={`+${labels.length}`}
         origin='santiment'
       />
     }
   >
-    {labels.map(Label)}
+    {labels.map(El)}
   </CollapsedTooltip>
 )
 

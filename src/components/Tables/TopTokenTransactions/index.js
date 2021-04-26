@@ -12,7 +12,8 @@ const TransactionTable = ({
   data,
   slug,
   className,
-  tableClassName
+  tableClassName,
+  loading
 }) => {
   const El = useMemo(
     () => {
@@ -47,7 +48,8 @@ const TransactionTable = ({
               defaultSorting: DEFAULT_SORTING,
               allowSort: true
             },
-            stickySettings: { isStickyHeader: true }
+            stickySettings: { isStickyHeader: true },
+            loadingSettings: { isLoading: loading, repeatLoading: 6 }
           }}
           className={cx(className, tableClassName)}
         />

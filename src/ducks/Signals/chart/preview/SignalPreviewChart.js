@@ -93,7 +93,7 @@ const SignalPreviewChart = ({
     [points, merged]
   )
 
-  const signals = useMemo(
+  const alertPoints = useMemo(
     () => {
       return mapWithTimeseriesAndYCoord(
         triggeredSignals,
@@ -108,9 +108,9 @@ const SignalPreviewChart = ({
   const referenceDots = useMemo(
     () =>
       triggeredSignals.length > 0 && triggersBy
-        ? GetReferenceDots(signals, getMetricYAxisId(triggersBy))
+        ? GetReferenceDots(alertPoints, getMetricYAxisId(triggersBy))
         : null,
-    [signals, triggersBy, triggeredSignals]
+    [alertPoints, triggersBy, triggeredSignals]
   )
 
   if (!slug) {
@@ -128,7 +128,6 @@ const SignalPreviewChart = ({
       label={label}
       triggeredSignals={triggeredSignals}
       metrics={metrics}
-      signals={signals}
       referenceDots={referenceDots}
       showTitle={showTitle}
     />

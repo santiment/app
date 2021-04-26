@@ -43,29 +43,32 @@ const TabTypeContent = {
     ),
     description: (
       <>
-        We removed the noise even more. Get top 10 emerging trends for recent
-        time intervals. Use this “hot list” to see what the “hottest” topics are
-        in a ranked format.{' '}
-        <i>
-          Hint: if any of the coins (except BTC and ETH) make to the top 3 - the
-          top might be near. Crowd is <b>“all in”</b>
-        </i>
+        Track the top emerging topics on crypto social media, including Telegram
+        groups, crypto subreddits, Twitter and more
       </>
     )
   }
 }
 
-export const Tab = ({ tab, tabState, className }) => (
-  <span
+export const Tab = ({
+  tab,
+  tabState,
+  notActive,
+  className,
+  as: El = 'div',
+  ...rest
+}) => (
+  <El
     className={cx(
       styles.tab,
       tab !== tabState[0] && styles.tab_inactive,
       className
     )}
     onClick={() => tabState[1](tab)}
+    {...rest}
   >
     {tab}
-  </span>
+  </El>
 )
 
 const Tabs = ({ tabState }) => (

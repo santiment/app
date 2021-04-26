@@ -3,18 +3,20 @@ import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import DownloadCSV from './DownloadCSV'
 import PagedTable from '../_Table/Paged'
-import { CHECKBOX_COLUMN, INDEX_COLUMN } from '../_Table/columns'
 import { useSelectedItemsSet } from '../_Table/hooks'
 import Refresh from '../../components/Refresh/Refresh'
+import { BLOCKCHAIN_ADDRESS } from '../Watchlists/detector'
+import ColumnsToggler from '../Watchlists/Widgets/Table/Columns/Toggler'
 import EditAddresses from '../Watchlists/Actions/Edit/EditAddresses/EditAddresses'
 import styles from './index.module.scss'
 
-export const DEFAULT_COLUMNS = [CHECKBOX_COLUMN, INDEX_COLUMN]
 export const Divider = () => <div className={styles.divider} />
 
 const WatchlistTable = ({
   watchlist,
   className,
+  activeColumns,
+  updateActiveColumnsKeys,
   normalizeCSVData,
   onRefreshClick,
   ...props
@@ -31,7 +33,7 @@ const WatchlistTable = ({
           trigger={
             <Button border accent='positive' className={styles.add}>
               <Icon type='assets' className={styles.icon} />
-              Add addresses
+              Edit addresses
             </Button>
           }
         />
@@ -43,7 +45,17 @@ const WatchlistTable = ({
         />
 
         <div className={styles.actions}>
-          <DownloadCSV watchlist={watchlist} data={csvData} />
+          <ColumnsToggler
+            type={BLOCKCHAIN_ADDRESS}
+            watchlist={watchlist}
+            activeColumns={activeColumns}
+            updateActiveColumnsKeys={updateActiveColumnsKeys}
+          />
+          <DownloadCSV
+            type={BLOCKCHAIN_ADDRESS}
+            watchlist={watchlist}
+            data={csvData}
+          />
         </div>
       </div>
 

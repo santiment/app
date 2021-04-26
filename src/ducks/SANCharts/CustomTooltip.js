@@ -14,10 +14,15 @@ export const tooltipLabelFormatter = time => {
   return `${HH}:${mm}, ${MMM} ${DD}, ${YYYY}`
 }
 
+const isPrice = name => name && name.contains && name.contains('price_usd')
+
 const getShortMetricName = name => {
   if (name === 'Daily Active Addresses') return 'DAA'
   if (name === 'Development Activity') return 'Dev.act'
   if (name === 'Social Volume') return 'Soc.vol'
+  if (isPrice(name)) {
+    return 'Price'
+  }
   return name
 }
 
@@ -28,12 +33,12 @@ export const formatTooltipValue = (isPrice, value) =>
       ? millify(value)
       : formatNumber(value)
 
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip = ({ active, payload, label, classes = {} }) => {
   if (active && payload) {
     return (
       <div className={cx('custom-tooltip', styles.tooltip)}>
         {payload[0] && (
-          <span className={styles.tooltipLabel}>
+          <span className={cx(styles.tooltipLabel, classes.tooltipLabel)}>
             {tooltipLabelFormatter(label)}
           </span>
         )}
@@ -42,11 +47,15 @@ const CustomTooltip = ({ active, payload, label }) => {
             return (
               <span
                 key={name}
-                className={cx('label', styles.tooltipLabel)}
+                className={cx(
+                  'label',
+                  styles.tooltipLabel,
+                  classes.tooltipLabel
+                )}
                 style={{ color: stroke || fill }}
               >
                 {`${getShortMetricName(name)} ${formatTooltipValue(
-                  name === 'Price',
+                  name === 'Price' || isPrice(name),
                   value
                 )}`}
               </span>

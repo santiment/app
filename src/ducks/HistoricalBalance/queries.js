@@ -13,7 +13,10 @@ export const WALLET_ASSETS_QUERY = gql`
 `
 
 export const ADDRESS_QUERY = gql`
-  query blockchainAddress($address: String!, $infrastructure: String!) {
+  query blockchainAddress(
+    $address: binary_blockchain_address!
+    $infrastructure: String!
+  ) {
     blockchainAddress(
       selector: { address: $address, infrastructure: $infrastructure }
     ) {

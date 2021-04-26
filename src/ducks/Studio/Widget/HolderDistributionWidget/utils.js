@@ -46,7 +46,7 @@ export function buildMergedMetric (baseMetrics) {
   return metric
 }
 
-export function fetch (metric, { slug, interval, from, to }) {
+function fetch (metric, { slug, interval, from, to, labels }) {
   const { key, baseMetrics, type } = metric
   const isPercentMerge = type === 'percent'
 
@@ -63,7 +63,8 @@ export function fetch (metric, { slug, interval, from, to }) {
             slug,
             interval,
             from,
-            to
+            to,
+            labels
           }
         })
         .then(preTransform)

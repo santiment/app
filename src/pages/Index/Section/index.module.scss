@@ -1,7 +1,7 @@
 @import '~@santiment-network/ui/mixins';
 
 .wrapper {
-  margin: 0 0 48px;
+  margin: 0 0 64px;
 
   &:last-child {
     margin: 0;
@@ -11,6 +11,7 @@
 .title {
   @include text('h4', 'm');
 
+  display: flex;
   margin: 0 0 24px;
 }
 

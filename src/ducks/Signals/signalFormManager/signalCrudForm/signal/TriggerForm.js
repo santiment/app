@@ -97,14 +97,6 @@ export const TriggerForm = ({
     [initialValues.isPublic]
   )
 
-  const toggleSignalPublic = useCallback(
-    values => {
-      const newValues = { ...values, isPublic: !values.isPublic }
-      setInitialValues(newValues)
-    },
-    [setInitialValues]
-  )
-
   const validateAndSetStep = useCallback(
     newStep => {
       if (isNew) {
@@ -175,6 +167,12 @@ export const TriggerForm = ({
           isValid || (!errors || Object.keys(errors).length === 0)
 
         const showDivider = showTypes || metricValueBlocks
+
+        function toggleSignalPublic (isPublicTarget) {
+          if (isPublicTarget !== isPublic) {
+            setFieldValue('isPublic', isPublicTarget)
+          }
+        }
 
         return (
           <Form>
@@ -316,7 +314,10 @@ export const TriggerForm = ({
                             defaultSelectedIndex={
                               isPublic ? 'Public' : 'Private'
                             }
-                            onSelect={() => toggleSignalPublic(values)}
+                            passSelectionIndexToItem
+                            onSelect={value => {
+                              toggleSignalPublic(value === 'Public')
+                            }}
                             labelClassName={styles.checkboxLabel}
                           />
                         </div>

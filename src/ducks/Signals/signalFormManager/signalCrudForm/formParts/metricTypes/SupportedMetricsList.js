@@ -23,10 +23,17 @@ export function filterOnlyMetrics (submetrics) {
   return result
 }
 
-const getByAvailable = (availableMetrics = DEFAULT_METRICS) =>
-  SIGNAL_SUPPORTED_METRICS.filter(({ key }) => {
-    return availableMetrics.indexOf(key) !== -1
-  })
+const getByAvailable = (availableMetrics = DEFAULT_METRICS, trigger) => {
+  const { target: { watchlist_id } = {} } = trigger.settings
+
+  if (watchlist_id) {
+    return SIGNAL_SUPPORTED_METRICS
+  } else {
+    return SIGNAL_SUPPORTED_METRICS.filter(({ key }) => {
+      return availableMetrics.indexOf(key) !== -1
+    })
+  }
+}
 
 export function useAvailableMetrics (slug) {
   const { data, loading, error } = useQuery(PROJECT_METRICS_BY_SLUG_QUERY, {
@@ -47,16 +54,20 @@ export function useAvailableMetrics (slug) {
   ]
 }
 
-const SupportedMetricsList = ({ onSelectMetric, availableMetrics, slug }) => {
+const SupportedMetricsList = ({
+  onSelectMetric,
+  availableMetrics,
+  trigger,
+  slug
+}) => {
   const [categories, setCategories] = useState({})
-
   const isBeta = useIsBetaMode()
 
   const metrics = useMemo(
     () => {
-      return getByAvailable(availableMetrics)
+      return getByAvailable(availableMetrics, trigger)
     },
-    [availableMetrics]
+    [availableMetrics, trigger]
   )
   const AllSubmetrics = useMergedTimeboundSubmetrics(availableMetrics)
 
@@ -66,7 +77,7 @@ const SupportedMetricsList = ({ onSelectMetric, availableMetrics, slug }) => {
       const newCategories = getCategoryGraph(metrics, [], submetrics, isBeta)
       setCategories(newCategories)
     },
-    [availableMetrics]
+    [availableMetrics, metrics, isBeta]
   )
 
   const [project] = useProject(slug)

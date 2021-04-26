@@ -10,6 +10,7 @@ const VOLUME_KEY = 'volumeUsd'
 const Widget = ({ type, range, id, changeRange }) => {
   const { from, interval, value } = range
   const {
+    loading,
     data,
     marketcap,
     volume,
@@ -20,6 +21,7 @@ const Widget = ({ type, range, id, changeRange }) => {
   return (
     <div className={styles.wrapper}>
       <Template
+        loading={loading}
         data={data}
         change={changeMarketcap}
         label={`${type} marketcap`}
@@ -29,6 +31,7 @@ const Widget = ({ type, range, id, changeRange }) => {
         changeRange={changeRange}
       />
       <Template
+        loading={loading}
         data={data}
         change={changeVolume}
         label={VOLUME_LABEL}

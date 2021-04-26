@@ -117,6 +117,8 @@ export const Description = {
 
   holders_distribution_1_to_10:
     'Breaks down the number of addresses based on the amount of [Project Ticker] they hold.',
+  holders_labeled_distribution_1_to_10:
+    'Breaks down the number of addresses based on the amount of [Project Ticker] they hold and labeled by owners. Labels are available only for Ethereum/ERC-20 assets',
   percent_of_holders_distribution_combined_balance_1_to_10:
     'Represents the sum of all the tokens of all the addresses which hold the amount of tokens from an interval.',
   holders_distribution_combined_balance_1_to_10:
@@ -248,8 +250,10 @@ export const Description = {
       addresses again, NPL assumes the coin was sold.
     </>
   ),
-  [Metric.whale_transaction_count.key]:
-    'Number of Transactions Transferring More Than 100k USD',
+  [Metric.whale_transaction_count_100k_usd_to_inf.key]:
+    'Number of Transactions Transferring More Than 100k USD"',
+  [Metric.whale_transaction_count_1m_usd_to_inf.key]:
+    'Number of Transactions Transferring More Than 1M USD"',
   [Metric.mvrv_usd_z_score.key]:
     'Shows the ratio between the difference of market cap and realized cap, and the standard deviation of market cap'
 }

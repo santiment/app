@@ -25,7 +25,8 @@ const PlanText = ({ subscription }) => {
       currentPeriodEnd,
       cancelAtPeriodEnd,
       plan: { amount, name, interval, isDeprecated },
-      trialEnd
+      trialEnd,
+      status
     } = subscription
 
     const { MMMM, DD, YYYY } = getDateFormats(new Date(currentPeriodEnd))
@@ -35,7 +36,7 @@ const PlanText = ({ subscription }) => {
     return (
       <>
         <div className={styles.title}>
-          {PLANS[name].title} Plan {getTrialLabel(trialEnd)}
+          {PLANS[name].title} Plan {getTrialLabel(trialEnd, status)}
           {isDeprecated && (
             <span className={styles.deprecated}>Deprecated</span>
           )}

@@ -117,7 +117,6 @@ export function useTimeseries (
         const { query: metricQuery, preTransform: metricPreTransform } =
           metricSettings || {}
         const query = metricQuery || getQuery(metric, metricSettings)
-
         if (!fetch) {
           if (!query) {
             return setErrorMsg(state => {
@@ -178,9 +177,11 @@ export function useTimeseries (
                 return newState
               })
               setTimeseries(() => {
-                mergedData = mergeTimeseries([mergedData, data])
-
-                return mergedData.map(normalizeDatetimes)
+                mergedData = mergeTimeseries([
+                  mergedData,
+                  data.map(normalizeDatetimes)
+                ])
+                return mergedData
               })
             })
             .catch(({ message }) => {

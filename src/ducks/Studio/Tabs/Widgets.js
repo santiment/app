@@ -2,6 +2,10 @@ import React, { useState, useMemo } from 'react'
 import StudioHeader from '../Header'
 import Sidepanel from '../Chart/Sidepanel'
 import { useSyncDateObserver } from '../../Chart/sync'
+import {
+  newRenderQueue,
+  withRenderQueueProvider
+} from '../../renderQueue/sized'
 import { ONE_HOUR_IN_MS } from '../../../utils/dates'
 import { usePressedModifier } from '../../../hooks/keyboard'
 import styles from './Widgets.module.scss'
@@ -26,7 +30,7 @@ const Widget = ({ widget, index, datesRange, ...props }) => {
   )
 }
 
-const Chart = ({
+const Widgets = ({
   settings,
   widgets,
   sidepanel,
@@ -144,4 +148,4 @@ const Chart = ({
   )
 }
 
-export default Chart
+export default withRenderQueueProvider(Widgets, newRenderQueue(2))

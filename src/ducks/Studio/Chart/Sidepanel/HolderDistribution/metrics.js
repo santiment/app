@@ -52,6 +52,7 @@ const ABSOLUTE_HOLDER_DISTRIBUTION_COMBINED_BALANCE_KEY =
   'holders_distribution_combined_balance'
 const PERCENT_HOLDER_DISTRIBUTION_KEY =
   'percent_of_holders_distribution_combined_balance'
+const HOLDERS_LABELED_DISTRIBUTION_KEY = 'holders_labeled_distribution'
 
 const KEYS = Object.keys(HOLDER_DISTRIBUTION_TEMPLATE)
 
@@ -85,6 +86,10 @@ function buildMetrics (
   return Metric
 }
 
+export const HoldersLabeledDistributionMetric = buildMetrics(
+  HOLDERS_LABELED_DISTRIBUTION_KEY
+)
+
 export const HolderDistributionAbsoluteMetric = buildMetrics(
   ABSOLUTE_HOLDER_DISTRIBUTION_KEY
 )
@@ -102,6 +107,7 @@ export const HolderDistributionCombinedBalanceAbsoluteMetric = buildMetrics(
 )
 
 export const HolderDistributionMetric = {
+  ...HoldersLabeledDistributionMetric,
   ...HolderDistributionAbsoluteMetric,
   ...HolderDistributionPercentMetric,
   ...HolderDistributionCombinedBalanceAbsoluteMetric
@@ -113,6 +119,10 @@ export const HOLDER_DISTRIBUTION_ABSOLUTE_METRICS = Object.values(
 
 export const HOLDER_DISTRIBUTION_PERCENT_METRICS = Object.values(
   HolderDistributionPercentMetric
+)
+
+export const HOLDERS_DISTRIBUTION_LABELED_METRICS = Object.values(
+  HoldersLabeledDistributionMetric
 )
 
 export const HOLDER_DISTRIBUTION_COMBINED_BALANCE_ABSOLUTE_METRICS = Object.values(

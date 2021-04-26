@@ -201,7 +201,8 @@ export const generateMetricsMarkup = (
     activeLineDataKey,
     useShortName,
     hideYAxis,
-    activeDotEl: ActiveEl = ActiveLine
+    activeDotEl: ActiveEl = ActiveLine,
+    activeDotColor
   } = {}
 ) => {
   const metricWithYAxis = isMultiChartsActive
@@ -272,7 +273,11 @@ export const generateMetricsMarkup = (
         dataKey={dataKey}
         dot={false}
         opacity={opacity}
-        activeDot={activeDataKey === dataKey && <ActiveEl />}
+        activeDot={
+          activeDataKey === dataKey && (
+            <ActiveEl activeDotColor={activeDotColor} />
+          )
+        }
         isAnimationActive={false}
         connectNulls
         formatter={formatter}

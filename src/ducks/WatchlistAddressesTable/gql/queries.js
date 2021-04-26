@@ -1,23 +1,37 @@
 import gql from 'graphql-tag'
 import { client } from '../../../apollo'
-import {
-  ADDRESSES_LIST_ITEMS_FRAGMENT,
-  WATCHLIST_GENERAL_FRAGMENT
-} from '../../Watchlists/gql/fragments'
+import { WATCHLIST_GENERAL_FRAGMENT } from '../../Watchlists/gql/fragments'
 
-export const ADDRESS_WATCHLIST_QUERY = gql`
+const ARRAY = []
+
+export const constructAddressWatchlistQuery = (columns = ARRAY) => gql`
   query watchlist($id: ID!) {
     watchlist(id: $id) {
       ...generalFragment
-      ...listItemsFragment
+      tableConfiguration {
+        id
+        type
+        title
+        columns
+      }
+      listItems {
+        blockchainAddress {
+          address
+          infrastructure
+          ${columns.map(({ key, scheme }) => scheme || key)}
+        }
+      }
     }
   }
   ${WATCHLIST_GENERAL_FRAGMENT}
-  ${ADDRESSES_LIST_ITEMS_FRAGMENT}
 `
 
 const watchlistAccessor = ({ data }) => data.watchlist
-export const getAddressWatchlist = (id, fetchPolicy) =>
+export const getAddressWatchlist = (id, columns, fetchPolicy) =>
   client
-    .query({ fetchPolicy, query: ADDRESS_WATCHLIST_QUERY, variables: { id } })
+    .query({
+      fetchPolicy,
+      query: constructAddressWatchlistQuery(columns),
+      variables: { id }
+    })
     .then(watchlistAccessor)

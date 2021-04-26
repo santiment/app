@@ -8,6 +8,7 @@ import {
 } from 'react-sortable-hoc'
 import { NO_GROUP } from '../../../../../Studio/Sidebar/utils'
 import Column from './Columns/Column'
+import AssetsList from './AssetsList'
 import styles from './Category.module.scss'
 
 const DragHandle = sortableHandle(() => (
@@ -144,25 +145,35 @@ const Category = ({
                 <div
                   className={cx(styles.columns, currentSearch && styles.flat)}
                 >
-                  {groups[group].map(({ item }) => {
-                    const { key } = item
-                    const isActive = activeKeys && activeKeys.includes(key)
-                    const isHide =
-                      isActive ||
-                      (currentSearch && !filteredColumns.includes(key))
-                    return isHide ? null : (
-                      <Column
-                        key={key}
-                        column={item}
-                        onColumnToggle={onColumnToggle}
-                        isActive={false}
-                        className={cx(
-                          styles.column,
-                          currentSearch && styles.searchedColumn
-                        )}
-                      />
-                    )
-                  })}
+                  {title === 'Assets' ? (
+                    <AssetsList
+                      items={groups[group]}
+                      activeKeys={activeKeys}
+                      currentSearch={currentSearch}
+                      filteredColumns={filteredColumns}
+                      onColumnToggle={onColumnToggle}
+                    />
+                  ) : (
+                    groups[group].map(({ item }) => {
+                      const { key } = item
+                      const isActive = activeKeys && activeKeys.includes(key)
+                      const isHide =
+                        isActive ||
+                        (currentSearch && !filteredColumns.includes(key))
+                      return isHide ? null : (
+                        <Column
+                          key={key}
+                          column={item}
+                          onColumnToggle={onColumnToggle}
+                          isActive={false}
+                          className={cx(
+                            styles.column,
+                            currentSearch && styles.searchedColumn
+                          )}
+                        />
+                      )
+                    })
+                  )}
                 </div>
               )}
             </div>

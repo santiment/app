@@ -12,11 +12,13 @@ import { Node } from '../../Chart/nodes'
 import { millify } from '../../../utils/formatting'
 import {
   HolderDistributionCombinedBalanceAbsoluteMetric,
-  HolderDistributionMetric
+  HolderDistributionMetric,
+  HoldersLabeledDistributionMetric
 } from '../../Studio/Chart/Sidepanel/HolderDistribution/metrics'
 import {
   HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE,
-  HOLDER_DISTRIBUTION_NODE
+  HOLDER_DISTRIBUTION_NODE,
+  HOLDER_LABELED_DISTRIBUTION_NODE
 } from '../../Studio/Sidebar/nodes'
 
 export function deriveMetric (baseMetric, newMetric) {
@@ -54,7 +56,8 @@ export const METRIC_GROUPS = {
   REDDIT_SENTIMENT: 'Reddit sentiment',
   TELEGRAM_SENTIMENT: 'Telegram sentiment',
   TWITTER_SENTIMENT: 'Twitter sentiment',
-  TOTAL_SENTIMENT: 'Total sentiment'
+  TOTAL_SENTIMENT: 'Total sentiment',
+  MAKERDAO_STATS: 'Makerdao Stats'
 }
 
 export const Metric = {
@@ -116,8 +119,6 @@ export const Metric = {
     node: 'bar',
     withoutRoot: true,
     showRoot: false,
-    isBeta: true,
-    checkIsVisible: ({ isBeta: isBetaApp }) => isBetaApp,
     domainGroup: 'social_active_users'
   },
   age_consumed: {
@@ -188,8 +189,7 @@ export const Metric = {
     node: 'line',
     group: 'Network Value',
     label: 'Stock to Flow ratio',
-    shortLabel: 'St. to Fl.',
-    isBeta: true
+    shortLabel: 'St. to Fl.'
   },
   mvrv_usd_z_score: {
     category: 'On-chain',
@@ -231,8 +231,7 @@ export const Metric = {
     fullTitle: 'Market Value To Realized Value Long-Short Difference',
     shortLabel: 'MVRV L/S Diff',
     formatter: v => (v ? `${(v * 100).toFixed(2)}%` : 'No data'),
-    axisFormatter: axisPercentFormatter,
-    isBeta: true
+    axisFormatter: axisPercentFormatter
   },
   transaction_volume: {
     category: 'On-chain',
@@ -258,10 +257,16 @@ export const Metric = {
     shortLabel: 'Net. Growth',
     video: 'https://www.youtube.com/watch?v=YaccxEEz8pg'
   },
-  whale_transaction_count: {
+  whale_transaction_count_100k_usd_to_inf: {
     category: 'On-chain',
     group: 'Whales',
-    label: 'Whale Transaction Count',
+    label: 'Whale Transaction Count (>100k USD)',
+    node: 'autoWidthBar'
+  },
+  whale_transaction_count_1m_usd_to_inf: {
+    category: 'On-chain',
+    group: 'Whales',
+    label: 'Whale Transaction Count (>1m USD)',
     node: 'autoWidthBar'
   },
   dev_activity: {
@@ -341,7 +346,6 @@ export const Metric = {
     label: 'Mean Coin Age',
     shortLabel: 'Mean C.A.',
     abbreviation: 'mca',
-    isBeta: true,
     group: 'Network Value'
   },
   nvt: {
@@ -553,14 +557,12 @@ export const Metric = {
     node: 'bar',
     label: 'Defi Total Value Locked in USD',
     shortLabel: 'Defi Locked',
-    fill: true,
-    isBeta: true
+    fill: true
   },
   price_daa_divergence: {
     category: 'Indicators',
     label: 'Price DAA Divergence',
     node: Node.GREEN_RED_BAR,
-    isBeta: true,
     formatter: absoluteToPercentsFormatter,
     axisFormatter: axisPercentFormatter
   },
@@ -568,7 +570,6 @@ export const Metric = {
     category: 'Indicators',
     label: 'Adjusted Price DAA Divergence',
     node: Node.GREEN_RED_BAR,
-    isBeta: true,
     formatter: absoluteToPercentsFormatter,
     axisFormatter: axisPercentFormatter
   },
@@ -696,7 +697,82 @@ export const Metric = {
     .key]: HOLDER_DISTRIBUTION_NODE,
   [HolderDistributionCombinedBalanceAbsoluteMetric
     .holders_distribution_combined_balance_1_to_10
-    .key]: HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE
+    .key]: HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE,
+
+  [HoldersLabeledDistributionMetric.holders_labeled_distribution_1_to_10
+    .key]: HOLDER_LABELED_DISTRIBUTION_NODE,
+  mcd_locked_token: {
+    category: 'On-chain',
+    group: METRIC_GROUPS.MAKERDAO_STATS,
+    node: 'autoWidthBar',
+    label: 'Token Locked in Multi-Collateral CDPs'
+  },
+  scd_locked_token: {
+    category: 'On-chain',
+    group: METRIC_GROUPS.MAKERDAO_STATS,
+    node: 'autoWidthBar',
+    label: 'WETH Locked in Single-Collateral CDPs'
+  },
+  mcd_supply: {
+    category: 'On-chain',
+    group: METRIC_GROUPS.MAKERDAO_STATS,
+    node: 'autoWidthBar',
+    label: 'Multi-Collateral DAI Total Supply'
+  },
+  mcd_collat_ratio: {
+    category: 'On-chain',
+    group: METRIC_GROUPS.MAKERDAO_STATS,
+    node: 'autoWidthBar',
+    label: 'Collateralization Ratio for BAT and USDC in Multi-Collateral CDPs'
+  },
+  mcd_collat_ratio_weth: {
+    category: 'On-chain',
+    group: METRIC_GROUPS.MAKERDAO_STATS,
+    node: 'autoWidthBar',
+    label: 'Collateralization Ratio for WETH in Multi-Collateral CDPs'
+  },
+  mcd_collat_ratio_sai: {
+    category: 'On-chain',
+    group: METRIC_GROUPS.MAKERDAO_STATS,
+    node: 'autoWidthBar',
+    label: 'Collateralization Ratio for SAI in Multi-Collateral CDPs'
+  },
+  scd_collat_ratio: {
+    category: 'On-chain',
+    group: METRIC_GROUPS.MAKERDAO_STATS,
+    node: 'autoWidthBar',
+    label: 'Collateralization Ratio for Single-Collateral CDPs'
+  },
+  mcd_dsr: {
+    category: 'On-chain',
+    group: METRIC_GROUPS.MAKERDAO_STATS,
+    node: 'autoWidthBar',
+    label: 'Multi-Collateral DAI in DSR Saving Annual Rate'
+  },
+  mcd_stability_fee: {
+    category: 'On-chain',
+    group: METRIC_GROUPS.MAKERDAO_STATS,
+    node: 'autoWidthBar',
+    label: 'Multi-Collateral Stability Fee'
+  },
+  dai_created: {
+    category: 'On-chain',
+    group: METRIC_GROUPS.MAKERDAO_STATS,
+    node: 'autoWidthBar',
+    label: 'Multi-Collateral DAI Created'
+  },
+  dai_repaid: {
+    category: 'On-chain',
+    group: METRIC_GROUPS.MAKERDAO_STATS,
+    node: 'autoWidthBar',
+    label: 'Multi-Collateral DAI Repaid'
+  },
+  mcd_liquidation: {
+    category: 'On-chain',
+    group: METRIC_GROUPS.MAKERDAO_STATS,
+    node: 'autoWidthBar',
+    label: 'Makerdao Collateral Liquidation Amounts'
+  }
 }
 
 Object.keys(Metric).forEach(key => {

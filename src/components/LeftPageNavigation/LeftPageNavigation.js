@@ -1,17 +1,36 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
 import { HashLink as Link } from 'react-router-hash-link'
-import { withRouter } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { useEventListener } from '../../hooks/eventListeners'
 import styles from './LeftPageNavigation.module.scss'
 
-const extractFirst = (list, hash) => {
+const extractFirstAnchor = (list, hash) => {
   const matchAnchor = hash ? hash.slice(1) : hash
   return list.find(({ key }) => key === matchAnchor) || list[0]
 }
 
-const LeftPageNavigation = ({ anchors, location: { hash }, history }) => {
-  const list = useMemo(
+const useNavigationAnchor = list => {
+  const history = useHistory()
+  const [active, setActive] = useState(() =>
+    extractFirstAnchor(list, history.location.hash)
+  )
+
+  useEffect(
+    () => {
+      history.replace(`${window.location.pathname}#${active.key}`)
+    },
+    [active]
+  )
+
+  return {
+    setActive,
+    active
+  }
+}
+
+const LeftPageNavigation = ({ anchors }) => {
+  const preparedAnchors = useMemo(
     () => {
       if (Array.isArray(anchors)) {
         return anchors.reduce((acc, val) => {
@@ -24,17 +43,10 @@ const LeftPageNavigation = ({ anchors, location: { hash }, history }) => {
     [anchors]
   )
 
-  const [active, setActive] = useState(extractFirst(list, hash))
-
-  useEffect(
-    () => {
-      history.replace(`${window.location.pathname}#${active.key}`)
-    },
-    [active]
-  )
+  const { setActive, active } = useNavigationAnchor(preparedAnchors)
 
   useEventListener('scroll', () => {
-    const offsets = list.map(({ key }) => {
+    const offsets = preparedAnchors.map(({ key }) => {
       const el = document.getElementById(key)
       const rect = el.getBoundingClientRect()
       return {
@@ -46,7 +58,7 @@ const LeftPageNavigation = ({ anchors, location: { hash }, history }) => {
 
     const border = window.scrollY
     const findCurrentTab = offsets.findIndex(({ top }) => top > border)
-    const tab = list[findCurrentTab]
+    const tab = preparedAnchors[findCurrentTab]
 
     if (tab) {
       setActive(tab)
@@ -68,7 +80,11 @@ const LeftPageNavigation = ({ anchors, location: { hash }, history }) => {
           })}
         </>
       ) : (
-        <RenderList list={list} setActive={setActive} active={active} />
+        <RenderList
+          list={preparedAnchors}
+          setActive={setActive}
+          active={active}
+        />
       )}
     </div>
   )
@@ -99,4 +115,4 @@ const NavigationItem = ({ item, setActive, active }) => {
   )
 }
 
-export default withRouter(LeftPageNavigation)
+export default LeftPageNavigation

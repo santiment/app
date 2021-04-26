@@ -3,7 +3,7 @@ import cx from 'classnames'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import styles from './index.module.scss'
 
-const Item = ({ name, id, slug, isActive, onClick, isDisabled, ...rest }) => {
+const Item = ({ name, ticker, isActive, onClick, isDisabled }) => {
   return (
     <div
       className={cx(styles.item, isDisabled && styles.disabled)}
@@ -11,6 +11,7 @@ const Item = ({ name, id, slug, isActive, onClick, isDisabled, ...rest }) => {
     >
       <Checkbox isActive={isActive} disabled={isDisabled} />
       <span className={styles.name}>{name}</span>
+      {ticker && <span className={styles.ticker}>{ticker}</span>}
     </div>
   )
 }

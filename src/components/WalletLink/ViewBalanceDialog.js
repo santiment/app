@@ -26,7 +26,7 @@ const ViewBalanceDialog = ({ address, assets, trigger, priceMetrics }) => {
     >
       <Dialog.ScrollContent className={dialogStyles.content}>
         <HistoricalBalance
-          defaultPriceMetrics={priceMetrics}
+          defaultPriceAssets={priceMetrics}
           defaultChartAssets={assets.map(assetConvertor)}
           defaultSettings={{
             ...SETTINGS,

@@ -42,9 +42,6 @@ const ProPopup = ({ title, description, features, ...props }) => {
         >
           Go Pro
         </Button>
-        <Button onClick={onCloseClick} className={styles.btn} border>
-          No thanks
-        </Button>
       </div>
     </Dialog>
   )

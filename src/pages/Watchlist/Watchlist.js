@@ -28,6 +28,7 @@ const WatchlistPage = ({ location, history, watchlist }) => {
     history,
     defaultParams: { isMovement: true }
   })
+  const { updatedAt } = watchlist
 
   const {
     pagination,
@@ -66,6 +67,19 @@ const WatchlistPage = ({ location, history, watchlist }) => {
     [orderBy]
   )
 
+  useEffect(
+    () => {
+      if (
+        watchlist.listItems &&
+        watchlist.listItems.length !== 0 &&
+        assets.length === 0
+      ) {
+        refetchAssets()
+      }
+    },
+    [watchlist.listItems]
+  )
+
   const refetchAssets = () => {
     setTableLoading(true)
     getAssetsByFunction(
@@ -77,6 +91,15 @@ const WatchlistPage = ({ location, history, watchlist }) => {
       })
     ).then(() => setTableLoading(false))
   }
+
+  const fetchAllColumns = () =>
+    getAssetsByFunction(
+      ...buildFunctionQuery({
+        fn,
+        orderBy,
+        activeColumns
+      })
+    )
 
   const allItems = useMemo(
     () =>
@@ -99,8 +122,9 @@ const WatchlistPage = ({ location, history, watchlist }) => {
         listId={watchlist.id}
         widgets={widgets}
         setWidgets={setWidgets}
+        assets={assets}
+        updatedAt={updatedAt}
       />
-
       <AssetsTable
         items={assets}
         allItems={allItems}
@@ -111,6 +135,7 @@ const WatchlistPage = ({ location, history, watchlist }) => {
         fetchData={fetchData}
         setOrderBy={setOrderBy}
         refetchAssets={refetchAssets}
+        fetchAllColumns={fetchAllColumns}
         projectsCount={projectsCount}
         activeColumns={activeColumns}
         pageSize={pagination.pageSize}

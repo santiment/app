@@ -3,13 +3,14 @@
 .label {
   color: var(--waterloo);
   background-color: var(--porcelain);
-  border-radius: 2px;
+  border-radius: $border-radius;
   padding: 3px 6px;
   margin-right: 6px;
   font-weight: normal;
   font-size: 12px;
   line-height: 16px;
   white-space: nowrap;
+  margin-bottom: 4px;
 
   @include text('caption');
 
@@ -31,6 +32,7 @@
   align-items: center;
   width: 100%;
   overflow-x: auto;
+  flex-wrap: wrap;
 
   @include responsive('phone', 'phone-xs') {
     max-width: 130px;

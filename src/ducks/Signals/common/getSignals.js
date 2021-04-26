@@ -14,7 +14,7 @@ export function useSignals ({ skip = false, filters, mapper } = {}) {
     skip: skip
   })
 
-  const signals = useMemo(
+  const alerts = useMemo(
     () => {
       if (!data || !data.currentUser) return DEFAULT_STATE
       const { triggers = DEFAULT_STATE } = data.currentUser
@@ -27,7 +27,7 @@ export function useSignals ({ skip = false, filters, mapper } = {}) {
   )
 
   return {
-    data: signals,
+    data: alerts,
     loading,
     error
   }

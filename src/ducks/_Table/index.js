@@ -6,7 +6,7 @@ import styles from './index.module.scss'
 
 export function prepareColumns (columns) {
   columns.forEach(column => {
-    column.id = column.id || column.title
+    column.id = column.id || column.key || column.title
   })
 
   return columns

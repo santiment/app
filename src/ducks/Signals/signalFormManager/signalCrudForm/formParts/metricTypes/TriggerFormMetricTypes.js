@@ -1,22 +1,17 @@
-import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
+import React, { useEffect, useState } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import {
   getNearestTypeByMetric,
   getSlugFromSignalTarget
 } from '../../../../utils/utils'
-import {
-  METRICS_OPTIONS,
-  PRICE_METRIC,
-  TRENDING_WORDS
-} from '../../../../utils/constants'
+import { METRICS_OPTIONS, TRENDING_WORDS } from '../../../../utils/constants'
 import MetricTypeRenderer from '../metricTypeRenderer/MetricTypeRenderer'
 import SupportedMetricsList, {
   useAvailableMetrics
 } from './SupportedMetricsList'
-import { showNotification } from '../../../../../../actions/rootActions'
 import { capitalizeStr } from '../../../../../../utils/utils'
 import { useDialogState } from '../../../../../../hooks/dialog'
+import { Metric } from '../../../../../dataHub/metrics'
 import styles from '../../signal/TriggerForm.module.scss'
 import metricStyles from './TriggerFormMetricTypes.module.scss'
 
@@ -31,11 +26,11 @@ const TriggerFormMetricTypes = ({
   target,
   setFieldValue,
   metaFormSettings,
-  trigger,
-  showErrorAlert
+  trigger
 }) => {
   const defaultMetric = metaFormSettings.metric
 
+  const [error, showErrorAlert] = useState('')
   const { isOpened, openDialog, closeDialog } = useDialogState(false)
 
   const onSelectMetric = newMetric => {
@@ -78,13 +73,15 @@ const TriggerFormMetricTypes = ({
         )
 
         if (notAvailable && notDefined) {
-          onSelectMetric(PRICE_METRIC)
+          const nameOfMetric =
+            (Metric[checking] && Metric[checking].label) || checking
           showErrorAlert(
             `${capitalizeStr(
               slug
-            )} does't support alerts with metric '${checking}'`,
-            `Selected default metric ${PRICE_METRIC.metric}`
+            )} does't support alerts with metric '${nameOfMetric}'`
           )
+        } else {
+          showErrorAlert('')
         }
       }
     },
@@ -109,6 +106,8 @@ const TriggerFormMetricTypes = ({
               </div>
             </div>
 
+            {error && <div className={metricStyles.error}>{error}</div>}
+
             <div className={metricStyles.baseTypes}>
               {METRICS_OPTIONS.map(item => (
                 <div className={metricStyles.listItem} key={item.value}>
@@ -125,6 +124,7 @@ const TriggerFormMetricTypes = ({
               slug={slug}
               onSelectMetric={onSelectMetric}
               availableMetrics={availableMetrics}
+              trigger={trigger}
             />
           </div>
         </Dialog.ScrollContent>
@@ -133,21 +133,4 @@ const TriggerFormMetricTypes = ({
   )
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    showErrorAlert: (title, description) => {
-      dispatch(
-        showNotification({
-          variant: 'error',
-          title,
-          description
-        })
-      )
-    }
-  }
-}
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(TriggerFormMetricTypes)
+export default TriggerFormMetricTypes

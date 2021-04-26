@@ -24,7 +24,6 @@ export const DAILY_METRICS = [
   Metric.mean_dollar_invested_age,
   Metric.nvt,
   Metric.withdrawal_transactions,
-  Metric.whale_transaction_count,
 
   ...Object.values(HolderDistributionAbsoluteMetric).map(m => ({
     ...m,
@@ -45,11 +44,28 @@ export const DAILY_METRICS = [
     category: 'On-chain',
     node: 'line',
     label: `Supply Distribution by Balance of Addresses ${m.label}`
-  }))
+  })),
+
+  Metric.mcd_locked_token,
+  Metric.scd_locked_token,
+  Metric.mcd_collat_ratio,
+  Metric.mcd_collat_ratio_weth,
+  Metric.mcd_collat_ratio_sai,
+  Metric.scd_collat_ratio,
+  Metric.mcd_dsr,
+  Metric.mcd_stability_fee,
+
+  Metric.bitmex_perpetual_basis,
+  Metric.bitmex_perpetual_basis_ratio,
+  Metric.bitmex_perpetual_funding_rate,
+  Metric.bitmex_perpetual_open_interest,
+  Metric.bitmex_perpetual_open_value
 ]
 
 export const SIGNAL_SUPPORTED_METRICS = [
   Metric.social_volume_total,
+  Metric.whale_transaction_count_1m_usd_to_inf,
+  Metric.whale_transaction_count_100k_usd_to_inf,
   makeSignalMetric(
     'social_volume_discord',
     'Social volume (discord)',
@@ -146,41 +162,6 @@ export const SIGNAL_SUPPORTED_METRICS = [
     'line',
     'Network Value'
   ),
-  makeSignalMetric(
-    'mvrv_usd_intraday_30d',
-    'MVRV intraday (30d)',
-    'On-chain',
-    'line',
-    'Network Value'
-  ),
-  makeSignalMetric(
-    'mvrv_usd_intraday_60d',
-    'MVRV intraday (60d)',
-    'On-chain',
-    'line',
-    'Network Value'
-  ),
-  makeSignalMetric(
-    'mvrv_usd_intraday_90d',
-    'MVRV intraday (90d)',
-    'On-chain',
-    'line',
-    'Network Value'
-  ),
-  makeSignalMetric(
-    'mvrv_usd_intraday_180d',
-    'MVRV intraday (180d)',
-    'On-chain',
-    'line',
-    'Network Value'
-  ),
-  makeSignalMetric(
-    'mvrv_usd_intraday_365d',
-    'MVRV intraday (365d)',
-    'On-chain',
-    'line',
-    'Network Value'
-  ),
   Metric.network_profit_loss,
   makeSignalMetric(
     'active_deposits_5m',
@@ -197,11 +178,10 @@ export const SIGNAL_SUPPORTED_METRICS = [
     'Exchanges'
   ),
 
-  Metric.bitmex_perpetual_basis,
-  Metric.bitmex_perpetual_basis_ratio,
-  Metric.bitmex_perpetual_funding_rate,
-  Metric.bitmex_perpetual_open_interest,
-  Metric.bitmex_perpetual_open_value,
+  Metric.mcd_supply,
+  Metric.dai_created,
+  Metric.dai_repaid,
+  Metric.mcd_liquidation,
 
   ...DAILY_METRICS
 ]

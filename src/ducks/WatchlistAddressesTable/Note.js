@@ -22,6 +22,10 @@ const Note = ({ notes, address, infrastructure, watchlistId, isAuthor }) => {
     }
   }
 
+  if (notes === undefined) {
+    return null
+  }
+
   return (
     <div className={styles.note}>
       <AutoresizeTextarea

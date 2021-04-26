@@ -20,9 +20,11 @@ const ChartTooltip = ({
   events,
   classes = {}
 }) => {
-  const payload = hideItem
-    ? initialPayload.filter(({ dataKey }) => !hideItem(dataKey))
-    : initialPayload
+  const payload = initialPayload
+    ? hideItem
+      ? initialPayload.filter(({ dataKey }) => !hideItem(dataKey))
+      : initialPayload
+    : []
 
   if (events && events[label]) {
     payload.push(...events[label])
@@ -116,9 +118,7 @@ export const ProjectsChartTooltip = ({
                   return (
                     <div key={labelKey} className={styles.row}>
                       <span className={styles.key}>{label}</span>
-                      <span className={styles.value}>
-                        {formatter(100 * value)}
-                      </span>
+                      <span className={styles.value}>{formatter(value)}</span>
                     </div>
                   )
                 })}

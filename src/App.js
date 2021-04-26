@@ -258,7 +258,7 @@ export const App = ({
         <ErrorBoundary history={history}>
           <Switch>
             <Route path={SHARE_PATH} component={PageLoader} />
-            {['erc20', 'all', 'list', 'screener'].map(name => (
+            {['list', 'screener'].map(name => (
               <Route
                 exact
                 key={name}
@@ -301,6 +301,20 @@ export const App = ({
               exact
               path='/assets'
               render={() => <LoadableAssetsPage isDesktop={isDesktop} />}
+            />
+            <Route
+              exact
+              path='/assets/erc20'
+              render={() => (
+                <Redirect to='/watchlist/projects/erc20-projects-5497' />
+              )}
+            />
+            <Route
+              exact
+              path='/assets/all'
+              render={() => (
+                <Redirect to='/watchlist/projects/all-projects-5496' />
+              )}
             />
             <Route
               exact

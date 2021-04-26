@@ -5,6 +5,7 @@ import { usePriceGraph } from './PriceGraph/hooks'
 import { normalizeGraphData as normalizeData } from './PriceGraph/utils'
 import { useComparingAssets } from './CompareDialog/hooks'
 import { DEFAULT_COLUMNS } from './Columns/defaults'
+import { PROJECT } from '../../detector'
 import styles from './index.module.scss'
 
 const DEFAULT_ITEMS = []
@@ -25,7 +26,8 @@ const AssetsTable = ({
   sorting,
   activeColumns,
   setOrderBy,
-  updateActiveColumnsKeys
+  updateActiveColumnsKeys,
+  fetchAllColumns
 }) => {
   const defaultSorting = useMemo(
     () => [{ id: sorting.metric, desc: sorting.direction === 'desc' }],
@@ -46,13 +48,12 @@ const AssetsTable = ({
     <>
       <TableTop
         refetchAssets={refetchAssets}
+        fetchAllColumns={fetchAllColumns}
         comparingAssets={comparingAssets}
         type={type}
-        items={items}
         allItems={allItems}
         watchlist={watchlist}
         isLoading={loading}
-        columns={columns}
         sorting={sorting}
         setOrderBy={setOrderBy}
         activeColumns={activeColumns}
@@ -64,12 +65,13 @@ const AssetsTable = ({
         fetchData={fetchData}
         options={{
           noDataSettings: {
+            skipNoData: type === PROJECT,
             title: 'No matches!',
             description:
               "The assets for the filter which you applying weren't found. Check if it's correct or try another filter settings."
           },
           loadingSettings: {
-            repeatLoading: 30,
+            repeatLoading: allItems && allItems.length === 0 ? 0 : 30,
             isLoading: loading && items.length === 0
           },
           sortingSettings: {

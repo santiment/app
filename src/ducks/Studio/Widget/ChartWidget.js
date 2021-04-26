@@ -11,12 +11,13 @@ import StudioChart from '../Chart'
 import { dispatchWidgetMessage } from '../widgetMessage'
 import { DEFAULT_OPTIONS } from '../defaults'
 import { getMetricSetting, calculateMovingAverageFromInterval } from '../utils'
+import { useMetricSettingsAdjuster } from '../hooks'
 import { convertBaseProjectMetric } from '../metrics'
 import { useTimeseries } from '../timeseries/hooks'
-import { useMetricSettingsAdjuster } from '../timeseries/candles'
 import { useEdgeGaps, useClosestValueData } from '../../Chart/hooks'
 import { useSyncDateEffect } from '../../Chart/sync'
 import { Metric } from '../../dataHub/metrics'
+import { useRenderQueueItem } from '../../renderQueue/sized'
 
 const EMPTY_ARRAY = []
 
@@ -28,16 +29,19 @@ export const Chart = ({
   deleteWidget,
   rerenderWidgets,
   observeSyncDate,
+  onLoad,
   ...props
 }) => {
   const { metrics, chartRef } = widget
   const [options, setOptions] = useState(DEFAULT_OPTIONS)
   const MetricSettingMap = useMetricSettingsAdjuster(
     widget.MetricSettingMap,
-    settings
+    settings,
+    metrics
   )
   const MetricTransformer = useMirroredTransformer(metrics)
   const MetricNode = useMetricNodeOverwrite(MetricSettingMap)
+
   const [rawData, loadings, ErrorMsg] = useTimeseries(
     metrics,
     settings,
@@ -63,7 +67,9 @@ export const Chart = ({
 
   useEffect(
     () => {
-      const phase = loadings.length ? 'loading' : 'loaded'
+      const { length } = loadings
+      const phase = length ? 'loading' : 'loaded'
+      if (length === 0 && onLoad) onLoad()
       dispatchWidgetMessage(widget, phase)
     },
     [loadings]
@@ -194,11 +200,13 @@ export const Chart = ({
   )
 }
 
-const ChartWidget = props => (
-  <Widget>
-    <Chart {...props} />
-  </Widget>
-)
+const ChartWidget = props => {
+  const { isRendered, onLoad } = useRenderQueueItem()
+
+  return (
+    <Widget> {isRendered ? <Chart {...props} onLoad={onLoad} /> : null}</Widget>
+  )
+}
 
 const newChartWidget = (props, widget = ChartWidget) =>
   newWidget(widget, {

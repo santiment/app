@@ -5,10 +5,12 @@
 
   color: var(--waterloo);
   width: 336px;
+  z-index: 1000;
 }
 
 .title {
   font-weight: 500;
+  margin-bottom: 16px;
 }
 
 .historgram {
@@ -16,7 +18,7 @@
   height: 8px;
   border-radius: 4px;
   overflow: hidden;
-  margin: 16px 0;
+  margin: 0 0 16px 0;
   width: 100%;
 }
 

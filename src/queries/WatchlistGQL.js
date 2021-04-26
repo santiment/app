@@ -12,6 +12,7 @@ export const PROJECTS_WATCHLIST_QUERY = gql`
       ...listItemsFragment
       tableConfiguration {
         id
+        type
         title
         columns
       }
@@ -29,11 +30,14 @@ export const WATCHLIST_WITH_TRENDS_QUERY = gql`
         projectsCount
         trendingProjects {
           ...generalData
-          ...project
         }
       }
       listItems {
         project {
+          priceUsd
+          percentChange24h
+          percentChange7d
+          marketcapUsd
           ...generalData
         }
       }

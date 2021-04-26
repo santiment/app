@@ -10,9 +10,11 @@ export const btcFormatter = val => currencyFormatter(val, 'BTC')
 
 export const ethFormatter = val => currencyFormatter(val, 'ETH')
 
-export const percentageFormatter = val => {
+export const percentageFormatter = (val, { fractionDigits = 2 } = {}) => {
   const number = +val
-  return number || number === 0 ? `${+number.toFixed(2)}%` : 'No data'
+  return number || number === 0
+    ? `${+number.toFixed(fractionDigits)}%`
+    : 'No data'
 }
 
 export const absoluteToPercentsFormatter = val => percentageFormatter(100 * val)

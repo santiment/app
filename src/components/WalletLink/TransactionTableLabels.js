@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import cx from 'classnames'
-import Label from '@santiment-network/ui/Label'
+import { CollapsedLabels } from '../../ducks/HistoricalBalance/Address/Labels'
 import styles from './TransactionTableLabels.module.scss'
 
-const HARDCODED_LINKS = {
+export const HARDCODED_EXCHANGE_LINKS = {
   defisaver: 'https://defisaver.com/',
   pooltogether: 'https://www.pooltogether.com/',
   dydx: 'https://dydx.exchange/',
@@ -27,13 +27,20 @@ const HARDCODED_LINKS = {
   oneinch: 'https://1inch.exchange/',
   bitfinex: 'https://www.bitfinex.com/',
   binance: 'https://www.binance.com/',
-  uniswap: 'https://uniswap.org/'
+  uniswap: 'https://uniswap.org/',
+  ftx_exchange: 'https://ftx.com/',
+  huobi: 'https://www.huobi.com/',
+  'crypto.com': 'https://crypto.com/',
+  coinbase: 'https://www.coinbase.com/',
+  kucoin: 'https://www.kucoin.com/'
 }
 
-const LabelWrapper = ({ metadata }) => {
+const LabelWrapper = ({ metadata, ref, ...rest }) => {
   if (!metadata) {
     return null
   }
+
+  const { className } = rest
 
   let decoded = {}
 
@@ -45,12 +52,14 @@ const LabelWrapper = ({ metadata }) => {
 
   const { owner } = decoded
 
-  const linkRef = owner ? HARDCODED_LINKS[owner.toLowerCase()] : undefined
+  const linkRef = owner
+    ? HARDCODED_EXCHANGE_LINKS[owner.toLowerCase()]
+    : undefined
 
   if (linkRef) {
     return (
       <a
-        className={cx(styles.label, styles.link)}
+        className={cx(styles.label, styles.link, className)}
         target='_blank'
         rel='noopener noreferrer'
         href={linkRef}
@@ -62,50 +71,89 @@ const LabelWrapper = ({ metadata }) => {
       </a>
     )
   } else {
-    return <Label className={styles.label}>{owner}</Label>
+    return (
+      <div ref={ref} {...rest} className={cx(styles.label, className)}>
+        {owner}
+      </div>
+    )
   }
 }
 
-const LabelRenderer = ({ name, metadata }) => {
+const LabelRenderer = ({ name, metadata, forwardedRef, ...rest }) => {
   if (!name) {
     return null
   }
 
+  const { className } = rest
+
   switch (name.toLowerCase()) {
     case 'decentralized_exchange': {
-      return <LabelWrapper metadata={metadata} />
+      return (
+        <LabelWrapper
+          key={name}
+          metadata={metadata}
+          ref={forwardedRef}
+          {...rest}
+        />
+      )
     }
     case 'centralized_exchange': {
-      return <LabelWrapper metadata={metadata} />
+      return (
+        <LabelWrapper
+          key={name}
+          metadata={metadata}
+          ref={forwardedRef}
+          {...rest}
+        />
+      )
     }
     case 'defi': {
-      return <LabelWrapper metadata={metadata} />
+      return (
+        <LabelWrapper
+          key={name}
+          metadata={metadata}
+          ref={forwardedRef}
+          {...rest}
+        />
+      )
     }
     case 'withdrawal': {
-      return <Label className={styles.label}>cex trader</Label>
+      return (
+        <div
+          key={name}
+          ref={forwardedRef}
+          {...rest}
+          className={cx(styles.label, className)}
+        >
+          CEX trader
+        </div>
+      )
     }
     default: {
-      return <Label className={styles.label}>{name}</Label>
+      return (
+        <div
+          key={name}
+          ref={forwardedRef}
+          {...rest}
+          className={cx(styles.label, className)}
+        >
+          {name}
+        </div>
+      )
     }
   }
 }
 
-const TransactionTableLabels = ({ labels }) => {
-  const distinct = useMemo(
-    () => {
-      return labels.reduce((acc, item) => {
-        acc[item.name] = item
-        return acc
-      }, {})
-    },
-    [labels]
-  )
+const TransactionTableLabels = ({ labels, className }) => {
+  const visibleLabels = labels.slice(0, 3)
+  const hiddenLabels = labels.slice(3)
 
   return (
-    <div className={styles.labels}>
-      {Object.values(distinct).map((item, index) => (
-        <LabelRenderer key={index} {...item} />
-      ))}
+    <div className={cx(styles.labels, className)}>
+      {visibleLabels.map(LabelRenderer)}
+      {!!hiddenLabels.length && (
+        <CollapsedLabels labels={hiddenLabels} el={LabelRenderer} />
+      )}
     </div>
   )
 }
