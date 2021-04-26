@@ -96,6 +96,8 @@ export const PRICE_CHANGE_TYPES = {
   INSIDE_CHANNEL: 'inside_channel',
   OUTSIDE_CHANNEL: 'outside_channel',
   ABOVE: 'above',
+  ABOVE_OR_EQUAL: 'above_or_equal',
+  BELOW_OR_EQUAL: 'below_or_equal',
   BELOW: 'below',
   PERCENT_SOME_OF: 'some_of'
 }
@@ -131,12 +133,27 @@ export const PRICE_ABS_CHANGE_ABOVE = {
   value: PRICE_CHANGE_TYPES.ABOVE,
   dependencies: ['absoluteThreshold', 'timeWindow']
 }
+export const PRICE_ABS_CHANGE_ABOVE_OR_EQUAL = {
+  metric: PRICE_ABSOLUTE_CHANGE,
+  subMetric: PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
+  label: 'More than or equal',
+  value: PRICE_CHANGE_TYPES.ABOVE_OR_EQUAL,
+  dependencies: ['absoluteThreshold', 'timeWindow']
+}
 
 export const PRICE_ABS_CHANGE_BELOW = {
   metric: PRICE_ABSOLUTE_CHANGE,
   subMetric: PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
   label: 'Less than',
   value: PRICE_CHANGE_TYPES.BELOW,
+  dependencies: ['absoluteThreshold', 'timeWindow']
+}
+
+export const PRICE_ABS_CHANGE_BELOW_OR_EQUAL = {
+  metric: PRICE_ABSOLUTE_CHANGE,
+  subMetric: PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
+  label: 'Less than or equal',
+  value: PRICE_CHANGE_TYPES.BELOW_OR_EQUAL,
   dependencies: ['absoluteThreshold', 'timeWindow']
 }
 
@@ -226,7 +243,9 @@ const PRICE_OPTIONS = [
     type: 'header'
   },
   PRICE_ABS_CHANGE_ABOVE,
+  PRICE_ABS_CHANGE_ABOVE_OR_EQUAL,
   PRICE_ABS_CHANGE_BELOW,
+  PRICE_ABS_CHANGE_BELOW_OR_EQUAL,
   PRICE_ABS_CHANGE_INSIDE,
   PRICE_ABS_CHANGE_OUTSIDE,
   {

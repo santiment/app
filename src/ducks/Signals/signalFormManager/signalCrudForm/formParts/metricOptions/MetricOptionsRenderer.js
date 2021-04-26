@@ -16,6 +16,8 @@ import { formatTokensCount } from '../../../../../../utils/formatting'
 const METRIC_TO_SVG = {
   [PRICE_CHANGE_TYPES.ABOVE]: aboveSvg,
   [PRICE_CHANGE_TYPES.BELOW]: belowSvg,
+  [PRICE_CHANGE_TYPES.ABOVE_OR_EQUAL]: aboveSvg,
+  [PRICE_CHANGE_TYPES.BELOW_OR_EQUAL]: belowSvg,
   [PRICE_CHANGE_TYPES.INSIDE_CHANNEL]: insideSvg,
   [PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL]: outsideSvg,
   [PRICE_CHANGE_TYPES.MOVING_UP]: movingUpSvg,
