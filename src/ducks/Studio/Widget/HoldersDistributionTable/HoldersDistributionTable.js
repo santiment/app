@@ -44,6 +44,7 @@ const HoldersDistributionTable = ({ settings: { slug }, ...rest }) => {
   const [from, to] = dates
   const [pageSize, setPageSize] = useState(10)
   const [page, setPage] = useState(0)
+
   const [maxAmount] = useMaxCountTopHolders({
     from,
     to,
