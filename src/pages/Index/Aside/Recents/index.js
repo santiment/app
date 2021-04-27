@@ -26,8 +26,6 @@ const CHART_LAYOUTS = 'Chart Layouts'
 const WATCHLISTS = 'Watchlists'
 const SCREENERS = 'Screeners'
 
-const TABS = [ASSETS, CHART_LAYOUTS, WATCHLISTS, SCREENERS]
-
 const TAB_COMPONENT = {
   [ASSETS]: ({ assets }) => <Assets slugs={assets} />,
   [CHART_LAYOUTS]: ({ chartLayouts }) => <ChartLayouts ids={chartLayouts} />,
@@ -38,14 +36,15 @@ const TAB_COMPONENT = {
 const Recents = () => {
   const [assets, chartLayouts, watchlists, screeners] = useMemo(getRecents, [])
 
-  const [tab, setTab] = useState(TABS[0])
+  const availableTabs = useMemo(() => {
+    return [assets.length > 0 && ASSETS, chartLayouts.length > 0 && CHART_LAYOUTS, watchlists.length > 0 && WATCHLISTS, screeners.length > 0 && SCREENERS].filter(Boolean)
+
+  }, [assets, chartLayouts, watchlists, screeners])
+
+  const [tab, setTab] = useState(availableTabs[0])
 
   if (
-    assets.length +
-      chartLayouts.length +
-      watchlists.length +
-      screeners.length ===
-    0
+    availableTabs.length === 0
   ) {
     return null
   }
@@ -56,7 +55,7 @@ const Recents = () => {
     <Section title='Recently viewed'>
       <Tabs
         className={styles.tabs}
-        options={TABS}
+        options={availableTabs}
         defaultSelectedIndex={tab}
         onSelect={tab => setTab(tab)}
         classes={styles}

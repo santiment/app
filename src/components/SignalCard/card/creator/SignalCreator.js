@@ -8,6 +8,8 @@ import styles from './SignalCreator.module.scss'
 export const showUserActions = () =>
   window && window.location && window.location.pathname !== personalLocation
 
+const onClick = e => e.stopPropagation()
+
 const SignalCreator = ({
   className,
   classes = {},
@@ -25,7 +27,7 @@ const SignalCreator = ({
     <Link
       to={'/profile/' + id}
       className={cx(styles.container, className)}
-      onClick={e => e.stopPropagation()}
+      onClick={onClick}
     >
       <UserAvatar
         as='div'
