@@ -37,7 +37,7 @@ const Recent = ({ title, rightHeader, ids, getItem, getLink, Item }) => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.title}>{title}</div>
+      {title && <div className={styles.title}>{title}</div>}
       <div className={styles.headers}>
         <div>Name</div>
         <div>{rightHeader}</div>

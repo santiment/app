@@ -16,10 +16,9 @@
 }
 
 .item {
-  border-bottom: 1px solid var(--porcelain);
-  margin-bottom: 20px;
+  margin-bottom: 8px;
 
   &:last-child {
-    border: none;
+    margin: 0;
   }
 }

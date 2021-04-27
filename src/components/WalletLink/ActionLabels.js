@@ -21,6 +21,7 @@ export const EtherscanLink = ({
   isFull,
   asLink = true,
   settings,
+  className,
   children
 }) => {
   const link = children || address
@@ -42,7 +43,7 @@ export const EtherscanLink = ({
     : {}
 
   return (
-    <El {...props} className={cx(styles.etherscanLink, styles.link)}>
+    <El {...props} className={cx(styles.etherscanLink, styles.link, className)}>
       {showLabel}
     </El>
   )
