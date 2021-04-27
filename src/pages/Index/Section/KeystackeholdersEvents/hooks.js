@@ -10,6 +10,7 @@ export const READABLE_NAMES = {
   mcd_art_liquidations: 'Large liquidation occurred',
   anomalies: 'Anomalies',
   ath: 'All Time High',
+  ath_price_usd: 'All Time High',
   price_usd_all_time_high: 'Price all time high (USD)',
 
   large_exchange_withdrawal: 'Large Exchange withdrawal',
