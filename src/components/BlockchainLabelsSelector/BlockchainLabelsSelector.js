@@ -5,12 +5,14 @@ import Panel from '@santiment-network/ui/Panel'
 import Input from '@santiment-network/ui/Input'
 import Item from '../../ducks/Watchlists/Widgets/Filter/EntryPoint/Item'
 import { getBlockchainLabelReadable, useBlockchainLabels } from './hooks'
+import Skeleton from '../Skeleton/Skeleton'
 import styles from './BlockchainLabelsSelector.module.scss'
 
 const LabelItem = ({ label, addItemInState, selected }) => {
   return (
     <Item
       key={label}
+      className={styles.item}
       onClick={() => {
         addItemInState(label)
       }}
@@ -32,7 +34,7 @@ const BlockchainLabelsSelector = ({
   value,
   trigger: Trigger = DefaultTrigger
 }) => {
-  const { data: labels } = useBlockchainLabels()
+  const { data: labels, loading } = useBlockchainLabels()
 
   const [searchTerm, setSearchTerm] = useState('')
 
@@ -103,6 +105,8 @@ const BlockchainLabelsSelector = ({
               placeholder='Type to search'
             />
 
+            <Skeleton repeat={1} className={styles.skeleton} show={loading} />
+
             <div className={styles.scroller}>
               {countSelected > 0 && (
                 <>
@@ -146,26 +150,6 @@ const BlockchainLabelsSelector = ({
               )}
             </div>
           </div>
-
-          {isResetVisible ? (
-            <div
-              className={styles.reset}
-              onClick={() => {
-                onChange(labels)
-              }}
-            >
-              Select all
-            </div>
-          ) : (
-            <div
-              className={styles.reset}
-              onClick={() => {
-                onChange([])
-              }}
-            >
-              Deselect all
-            </div>
-          )}
         </Panel>
       </ContextMenu>
     </div>

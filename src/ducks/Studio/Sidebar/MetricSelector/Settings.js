@@ -10,7 +10,6 @@ const getDefaultValue = (metric, settings, metricSettingsMap) => {
 
     if (savedSettings) {
       const { [key]: value } = savedSettings
-      console.log(savedSettings, value, key)
       if (value) {
         return value
       }
