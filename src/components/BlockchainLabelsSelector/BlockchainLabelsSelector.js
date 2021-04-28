@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react'
 import cx from 'classnames'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Panel from '@santiment-network/ui/Panel'
-import Input from '@santiment-network/ui/Input'
+import { InputWithIcon } from '@santiment-network/ui/Input'
 import Item from '../../ducks/Watchlists/Widgets/Filter/EntryPoint/Item'
 import { getBlockchainLabelReadable, useBlockchainLabels } from './hooks'
 import Skeleton from '../Skeleton/Skeleton'
@@ -96,8 +96,10 @@ const BlockchainLabelsSelector = ({
       >
         <Panel className={styles.panel}>
           <div className={styles.content}>
-            <Input
+            <InputWithIcon
               type='text'
+              icon='search-small'
+              iconPosition='left'
               onChange={onChangeSearch}
               defaultValue={searchTerm}
               className={styles.search}
