@@ -57,6 +57,7 @@ const RAW_SIGNALS_QUERY = gql`
         ticker
         name
         logoUrl
+        marketcapUsd
       }
     }
   }
@@ -111,6 +112,8 @@ export const useRawSignals = ({ from, to }) => {
   )
 }
 
+const marketcapSorter = (a, b) => b.marketcapUsd - a.marketcapUsd
+
 export function useGroupedBySlugs (signals, hiddenLabels, selectedAssets) {
   const filteredByAssets = useMemo(
     () => {
@@ -147,9 +150,9 @@ export function useGroupedBySlugs (signals, hiddenLabels, selectedAssets) {
     [filteredByAssets]
   )
 
-  const groups = useMemo(
+  const { groups, visibleSlugs } = useMemo(
     () => {
-      return filteredByAssets.reduce((acc, item) => {
+      const groups = filteredByAssets.reduce((acc, item) => {
         const { slug, signal } = item
 
         const hidden = hiddenLabels[signal]
@@ -158,7 +161,8 @@ export function useGroupedBySlugs (signals, hiddenLabels, selectedAssets) {
           if (!acc[slug]) {
             acc[slug] = {
               list: [],
-              types: []
+              types: [],
+              project: item.project
             }
           }
 
@@ -167,11 +171,19 @@ export function useGroupedBySlugs (signals, hiddenLabels, selectedAssets) {
         }
         return acc
       }, {})
+
+      const visibleSlugs = Object.values(groups)
+        .map(({ project }) => project)
+        .sort(marketcapSorter)
+        .map(({ slug }) => slug)
+
+      return {
+        groups,
+        visibleSlugs
+      }
     },
     [filteredByAssets, hiddenLabels]
   )
-
-  const visibleSlugs = useMemo(() => Object.keys(groups), [groups])
 
   return { slugs, projects, visibleSlugs, labels, groups }
 }
