@@ -22,6 +22,7 @@ const DEFAULT_SETTINGS = {
 }
 
 const RANGES = ['12h', '24h', '7d', '30d']
+const INTERVALS = ['5m', '15m', '1h', '3h']
 
 const READABLE_DAYS = {
   '12h': '12 hours',
@@ -84,9 +85,13 @@ const KeystackeholdersEvents = () => {
               const newInterval = (intervalIndex + 1) % RANGES.length
               setIntervalIndex(newInterval)
 
+              const from = `utc_now-${RANGES[newInterval]}`
+              const interval = INTERVALS[newInterval]
+
               setSettings({
                 ...settings,
-                from: `utc_now-${RANGES[newInterval]}`
+                from: from,
+                interval
               })
             }}
           />
