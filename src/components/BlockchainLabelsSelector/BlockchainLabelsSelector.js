@@ -80,7 +80,6 @@ const BlockchainLabelsSelector = ({
   )
 
   const countSelected = selectedLabels.length
-  const isResetVisible = selectableLabels.length > 0
 
   return (
     <div className={styles.wrapper}>
@@ -111,12 +110,7 @@ const BlockchainLabelsSelector = ({
               {countSelected > 0 && (
                 <>
                   <div className={styles.title}>Active labels</div>
-                  <div
-                    className={cx(
-                      styles.list,
-                      !isResetVisible && styles.noMargin
-                    )}
-                  >
+                  <div className={cx(styles.list, styles.noMargin)}>
                     {selectedLabels.map(l => {
                       return (
                         <LabelItem

@@ -31,7 +31,7 @@ const BlockchainLabelsSetting = ({ metric, widget, rerenderWidgets }) => {
       const newMap = new Map()
 
       newMap.set(metric, {
-        labels
+        labels: !labels || labels.length === 0 ? undefined : labels
       })
 
       widget.MetricSettingMap = mergeMetricSettingMap(

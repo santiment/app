@@ -1,5 +1,5 @@
 import { Metric } from './index'
-import TransactionLabelsSelector from '../../../components/BlockchainLabelsSelector/BlockchainLabelsSelector'
+import BlockchainLabelsSelector from '../../../components/BlockchainLabelsSelector/BlockchainLabelsSelector'
 
 // NOTE: It's safe to pass it as reference, because it will not be modified [@vanguard | May12, 2020]
 const TOP_HOLDERS = {
@@ -15,7 +15,9 @@ const TOP_HOLDERS = {
 const TOP_HOLDERS_LABELS = {
   key: 'labels',
   defaultValue: [],
-  component: TransactionLabelsSelector
+  component: BlockchainLabelsSelector,
+  preTransformer: labels =>
+    !labels || labels.length === 0 ? undefined : labels
 }
 
 export const MetricSettings = {

@@ -26,13 +26,19 @@ const Setting = ({
   setMetricSettingMap,
   metricSettingsMap
 }) => {
-  const { key, label, constraints, component: Component } = settings
-  const [value, setValue] = useState(() =>
+  const {
+    key,
+    label,
+    constraints,
+    component: Component,
+    preTransformer
+  } = settings
+
+  const stateUpdater = () =>
     getDefaultValue(metric, settings, metricSettingsMap)
-  )
-  const [lastValidValue, setLastValidValue] = useState(() =>
-    getDefaultValue(metric, settings, metricSettingsMap)
-  )
+
+  const [value, setValue] = useState(stateUpdater)
+  const [lastValidValue, setLastValidValue] = useState(stateUpdater)
   const [error, setError] = useState()
 
   useEffect(
@@ -68,7 +74,7 @@ const Setting = ({
       setError(isInvalid)
       setValue(newValue)
     } else {
-      setValue(data)
+      setValue(preTransformer(data))
     }
   }
 
