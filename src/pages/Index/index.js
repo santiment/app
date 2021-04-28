@@ -1,5 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
+import { Helmet } from 'react-helmet'
 import Aside from './Aside'
 import PersonalSection, {
   KEYSTACKHOLDERS_ANCHOR,
@@ -29,6 +30,19 @@ const IndexPage = () => {
 
   return (
     <div className={styles.wrapper}>
+      <Helmet
+        title='Sanbase'
+        meta={[
+          {
+            property: 'og:title',
+            content: 'Sanbase'
+          },
+          {
+            property: 'og:description',
+            content: `Exclusive on-chain, social and development metrics, low-latency market signals & daily insights on the cryptocurrency market`
+          }
+        ]}
+      />
       <EventBanner />
       {/* // TODO: Reenable this block after design changes in figma [@vanguard | Dec 11, 2020] */}
       {/* <Block>
