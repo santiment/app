@@ -162,7 +162,7 @@ export function useGroupedBySlugs (signals, hiddenLabels, selectedAssets) {
             acc[slug] = {
               list: [],
               types: [],
-              project: item.project
+              project: item.project || { slug: slug }
             }
           }
 
@@ -174,6 +174,7 @@ export function useGroupedBySlugs (signals, hiddenLabels, selectedAssets) {
 
       const visibleSlugs = Object.values(groups)
         .map(({ project }) => project)
+        .filter(Boolean)
         .sort(marketcapSorter)
         .map(({ slug }) => slug)
 

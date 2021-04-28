@@ -34,7 +34,7 @@ const StakeholderChartPreview = ({ data, project, settings }) => {
           ticker: 'ETH'
         }
       }
-      return project
+      return project || { slug: targetSlug }
     },
     [project, targetSlug]
   )
