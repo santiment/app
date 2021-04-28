@@ -4,10 +4,8 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Panel from '@santiment-network/ui/Panel'
 import Input from '@santiment-network/ui/Input'
 import Item from '../../ducks/Watchlists/Widgets/Filter/EntryPoint/Item'
-import { useProject } from '../../hooks/project'
-import { toggleByKey } from '../../pages/Index/Section/KeystackeholdersEvents/StakeholderLabels/StakeholderLabels'
-import styles from './TransactionLabelsSelector.module.scss'
 import { getBlockchainLabelReadable, useBlockchainLabels } from './hooks'
+import styles from './TransactionLabelsSelector.module.scss'
 
 const LabelItem = ({ label, addItemInState, selected }) => {
   return (
@@ -23,7 +21,17 @@ const LabelItem = ({ label, addItemInState, selected }) => {
   )
 }
 
-const TransactionLabelsSelector = ({ onChange, selected, className }) => {
+const DefaultTrigger = ({ labels, ...rest }) => (
+  <div className={styles.trigger} {...rest}>
+    Select labels {labels.length > 0 ? `(${labels.length})` : ''}
+  </div>
+)
+
+const BlockchainLabelsSelector = ({
+  onChange,
+  value,
+  trigger: Trigger = DefaultTrigger
+}) => {
   const { data: labels } = useBlockchainLabels()
 
   const [searchTerm, setSearchTerm] = useState('')
@@ -32,8 +40,13 @@ const TransactionLabelsSelector = ({ onChange, selected, className }) => {
     setSearchTerm(e.target.value)
   }
 
-  function addItemInState (slug) {
-    toggleByKey(slug, selected, onChange)
+  function addItemInState (label) {
+    const found = value.find(l => l === label)
+    if (found) {
+      onChange(value.filter(l => l !== label))
+    } else {
+      onChange([...value, label])
+    }
   }
 
   function filterBySearch (list) {
@@ -51,9 +64,9 @@ const TransactionLabelsSelector = ({ onChange, selected, className }) => {
 
   const selectedLabels = useMemo(
     () => {
-      return filterBySearch(Object.keys(selected))
+      return filterBySearch(value)
     },
-    [selected, searchTerm]
+    [value, searchTerm]
   )
 
   const selectableLabels = useMemo(
@@ -75,7 +88,9 @@ const TransactionLabelsSelector = ({ onChange, selected, className }) => {
         align='start'
         className={styles.dropdown}
         trigger={
-          <div className={cx(styles.trigger, className)}>Select labels</div>
+          <div>
+            <Trigger labels={value} />
+          </div>
         }
       >
         <Panel className={styles.panel}>
@@ -136,13 +151,7 @@ const TransactionLabelsSelector = ({ onChange, selected, className }) => {
             <div
               className={styles.reset}
               onClick={() => {
-                onChange(
-                  labels.reduce((acc, s) => {
-                    acc[s] = true
-
-                    return acc
-                  }, {})
-                )
+                onChange(labels)
               }}
             >
               Select all
@@ -151,7 +160,7 @@ const TransactionLabelsSelector = ({ onChange, selected, className }) => {
             <div
               className={styles.reset}
               onClick={() => {
-                onChange({})
+                onChange([])
               }}
             >
               Deselect all
@@ -163,4 +172,4 @@ const TransactionLabelsSelector = ({ onChange, selected, className }) => {
   )
 }
 
-export default TransactionLabelsSelector
+export default BlockchainLabelsSelector

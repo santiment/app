@@ -19,6 +19,7 @@ const MetricButton = ({
   project,
   showBetaLabel = true,
   onClick,
+  metricSettingsMap,
   setMetricSettingMap,
   btnProps = {}
 }) => {
@@ -75,6 +76,7 @@ const MetricButton = ({
         <Settings
           metric={metric}
           settings={settings}
+          metricSettingsMap={metricSettingsMap}
           setMetricSettingMap={setMetricSettingMap}
         />
       )}

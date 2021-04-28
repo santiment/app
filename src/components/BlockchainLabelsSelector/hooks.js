@@ -39,5 +39,5 @@ const BLOCKCHAIN_LABELS_QUERY = gql`
 export const useBlockchainLabels = () => {
   const { data, loading, error } = useQuery(BLOCKCHAIN_LABELS_QUERY)
 
-  return [data ? data.blockchainAddressLabels : [], loading, error]
+  return { data: data ? data.blockchainAddressLabels : [], loading, error }
 }

@@ -2,35 +2,75 @@ import React, { useState, useEffect } from 'react'
 import Input from '@santiment-network/ui/Input'
 import styles from './Settings.module.scss'
 
+const getDefaultValue = (metric, settings, metricSettingsMap) => {
+  const { defaultValue, key } = settings
+
+  if (metricSettingsMap) {
+    const savedSettings = metricSettingsMap.get(metric)
+
+    if (savedSettings) {
+      const { [key]: value } = savedSettings
+      console.log(savedSettings, value, key)
+      if (value) {
+        return value
+      }
+    }
+  }
+
+  return defaultValue
+}
+
 // TODO: If query throws an error, metric will be disabled and settings will be collapsed [@vanguard | May 6, 2020]
-const Setting = ({ settings, metric, setMetricSettingMap }) => {
-  const { key, label, defaultValue, constraints } = settings
-  const [value, setValue] = useState(defaultValue)
-  const [lastValidValue, setLastValidValue] = useState(defaultValue)
+const Setting = ({
+  settings,
+  metric,
+  setMetricSettingMap,
+  metricSettingsMap
+}) => {
+  const { key, label, constraints, component: Component } = settings
+  const [value, setValue] = useState(() =>
+    getDefaultValue(metric, settings, metricSettingsMap)
+  )
+  const [lastValidValue, setLastValidValue] = useState(() =>
+    getDefaultValue(metric, settings, metricSettingsMap)
+  )
   const [error, setError] = useState()
 
   useEffect(
     () => {
-      if (!error && +value) {
-        updateMetricSettings(+value)
+      if (!error) {
+        if (Component) {
+          if (value) {
+            updateMetricSettings(value)
+          }
+        } else {
+          if (+value) {
+            updateMetricSettings(+value)
+          }
+        }
       }
     },
     [value]
   )
 
-  function onChange ({ currentTarget }) {
-    const { min, max } = constraints
-    const newValue = currentTarget.value
+  function onChange (data) {
+    if (!Component) {
+      const { currentTarget } = data
+      const { min, max } = constraints
+      const newValue = currentTarget.value
 
-    const isInvalid = newValue < min || newValue > max
+      const isInvalid = newValue < min || newValue > max
 
-    currentTarget.setCustomValidity(
-      isInvalid ? `${label} value should be between ${min} and ${max}` : ''
-    )
-    currentTarget.reportValidity()
+      currentTarget.setCustomValidity(
+        isInvalid ? `${label} value should be between ${min} and ${max}` : ''
+      )
+      currentTarget.reportValidity()
 
-    setError(isInvalid)
-    setValue(newValue)
+      setError(isInvalid)
+      setValue(newValue)
+    } else {
+      setValue(data)
+    }
   }
 
   function onBlur ({ currentTarget }) {
@@ -42,11 +82,9 @@ const Setting = ({ settings, metric, setMetricSettingMap }) => {
 
   function updateMetricSettings (value) {
     setLastValidValue(value)
-
     setMetricSettingMap(state => {
       const prevSettings = state.get(metric) || {}
       const newState = new Map(state)
-
       newState.set(
         metric,
         Object.assign(prevSettings, {
@@ -56,6 +94,15 @@ const Setting = ({ settings, metric, setMetricSettingMap }) => {
 
       return newState
     })
+  }
+
+  if (Component) {
+    return (
+      <label className={styles.setting}>
+        <Component className={styles.input} onChange={onChange} value={value} />
+        {label}
+      </label>
+    )
   }
 
   return (
@@ -72,11 +119,11 @@ const Setting = ({ settings, metric, setMetricSettingMap }) => {
   )
 }
 
-const Settings = ({ settings, ...props }) => {
-  function onAdjustmentClick (e) {
-    e.stopPropagation()
-  }
+function onAdjustmentClick (e) {
+  e.stopPropagation()
+}
 
+const Settings = ({ settings, ...props }) => {
   return (
     <div className={styles.settings} onClick={onAdjustmentClick}>
       {settings.map(settings => (
