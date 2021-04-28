@@ -36,16 +36,21 @@ const TAB_COMPONENT = {
 const Recents = () => {
   const [assets, chartLayouts, watchlists, screeners] = useMemo(getRecents, [])
 
-  const availableTabs = useMemo(() => {
-    return [assets.length > 0 && ASSETS, chartLayouts.length > 0 && CHART_LAYOUTS, watchlists.length > 0 && WATCHLISTS, screeners.length > 0 && SCREENERS].filter(Boolean)
-
-  }, [assets, chartLayouts, watchlists, screeners])
+  const availableTabs = useMemo(
+    () => {
+      return [
+        assets.length > 0 && ASSETS,
+        chartLayouts.length > 0 && CHART_LAYOUTS,
+        watchlists.length > 0 && WATCHLISTS,
+        screeners.length > 0 && SCREENERS
+      ].filter(Boolean)
+    },
+    [assets, chartLayouts, watchlists, screeners]
+  )
 
   const [tab, setTab] = useState(availableTabs[0])
 
-  if (
-    availableTabs.length === 0
-  ) {
+  if (availableTabs.length === 0) {
     return null
   }
 

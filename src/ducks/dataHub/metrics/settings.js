@@ -1,5 +1,5 @@
 import { Metric } from './index'
-import TransactionLabelsSelector from '../../../components/TransactionLabelsSelector/TransactionLabelsSelector'
+import TransactionLabelsSelector from '../../../components/BlockchainLabelsSelector/BlockchainLabelsSelector'
 
 // NOTE: It's safe to pass it as reference, because it will not be modified [@vanguard | May12, 2020]
 const TOP_HOLDERS = {

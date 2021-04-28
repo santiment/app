@@ -5,7 +5,7 @@ import Panel from '@santiment-network/ui/Panel'
 import Input from '@santiment-network/ui/Input'
 import Item from '../../ducks/Watchlists/Widgets/Filter/EntryPoint/Item'
 import { getBlockchainLabelReadable, useBlockchainLabels } from './hooks'
-import styles from './TransactionLabelsSelector.module.scss'
+import styles from './BlockchainLabelsSelector.module.scss'
 
 const LabelItem = ({ label, addItemInState, selected }) => {
   return (
