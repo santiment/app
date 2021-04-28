@@ -25,17 +25,20 @@
 }
 
 .tabs {
-  display: flex;
+  display: grid;
   margin-top: 28px;
   border-bottom: 1px solid var(--porcelain);
   margin-bottom: 16px;
-  justify-content: space-evenly;
+  grid-template-columns: auto auto auto auto;
 }
 
 .tab {
   padding-bottom: 4px;
   color: var(--casper);
   margin: 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   @include text('body-2');
 
