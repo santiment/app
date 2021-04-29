@@ -46,7 +46,7 @@ const CtaJoinPopup = () => {
         <div className={styles.join}>Join our community!</div>
         <div className={styles.description}>
           Santiment is a behavior analytics platform for cryptocurrencies,
-          sourcing on-chain, social and development information on 900+ coins.
+          sourcing on-chain, social and development information on 1500+ coins.
           Sign up now to get 14 days free for Sanbase PRO!
         </div>
         <Button

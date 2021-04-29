@@ -33,7 +33,7 @@ const PopupBanner = ({
         <h3 className={styles.heading}>Log in to use this feature!</h3>
         <p className={styles.desc}>
           Log in to access more Sanbase features including real-time metrics,
-          market alerts, personalized watchlists and other information on 1000+
+          market alerts, personalized watchlists and other information on 1500+
           cryptocurrencies
         </p>
         <div className={styles.buttons}>
