@@ -104,7 +104,12 @@ export const useRawSignals = ({ from, to }) => {
     () => {
       const { data, loading } = query
       return {
-        data: (data ? data.getRawSignals.filter(Boolean) : []) || [],
+        data:
+          (data
+            ? data.getRawSignals
+              .filter(Boolean)
+              .filter(({ project }) => !!project)
+            : []) || [],
         loading
       }
     },
@@ -162,7 +167,7 @@ export function useGroupedBySlugs (signals, hiddenLabels, selectedAssets) {
             acc[slug] = {
               list: [],
               types: [],
-              project: item.project || { slug: slug }
+              project: item.project
             }
           }
 
