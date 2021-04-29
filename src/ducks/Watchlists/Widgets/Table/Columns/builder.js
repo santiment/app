@@ -106,6 +106,23 @@ export const buildAssetColumns = projects => {
   })
 }
 
+const addByChart = ({ interval, key, group, category, shortLabel, label }) => {
+  const chartKey = `${key}_chart_${interval}`
+
+  Column[chartKey] = {
+    key: chartKey,
+    group,
+    category,
+    shortLabel,
+    isChart: true,
+    accessor: chartKey,
+    disableSortBy: true,
+    Cell: CHART_LINE_CELL,
+    label: `${label} chart, ${interval}`,
+    Header: `${shortLabel} chart, ${interval}`
+  }
+}
+
 export const buildColumns = (baseMetrics, allMetrics, restrictedMetrics) => {
   const allMetricsSet = new Set(allMetrics)
   const restrictedMetricsSet = new Set(restrictedMetrics)
@@ -159,20 +176,9 @@ export const buildColumns = (baseMetrics, allMetrics, restrictedMetrics) => {
       }
 
       if (withChart) {
-        const chartKey = `${key}_chart_7d`
-
-        Column[chartKey] = {
-          key: chartKey,
-          group,
-          category,
-          shortLabel,
-          isChart: true,
-          accessor: chartKey,
-          disableSortBy: true,
-          Cell: CHART_LINE_CELL,
-          label: `${label} chart, 7d`,
-          Header: `${shortLabel} chart, 7d`
-        }
+        addByChart({ interval: '7d', key, group, category, shortLabel, label })
+        addByChart({ interval: '1d', key, group, category, shortLabel, label })
+        addByChart({ interval: '30d', key, group, category, shortLabel, label })
       }
     }
 

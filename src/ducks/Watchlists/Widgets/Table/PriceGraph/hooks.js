@@ -26,12 +26,13 @@ const PRICE_GRAPH_QUERY = gql`
 
 const PRICE_RANGES = {
   '1d': '40m',
-  '7d': '5h'
+  '7d': '5h',
+  '30d': '24h'
 }
 
-export function usePriceGraph ({ slugs, range = '7d' }) {
+export function usePriceGraph ({ slugs, range = '7d', skip = false }) {
   const { data = {}, loading } = useQuery(PRICE_GRAPH_QUERY, {
-    skip: slugs.length === 0,
+    skip: slugs.length === 0 || skip,
     variables: {
       selector: { slugs },
       from: `utc_now-${range}`,
