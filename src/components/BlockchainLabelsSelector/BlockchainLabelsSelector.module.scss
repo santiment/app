@@ -10,7 +10,7 @@
 
 .panel {
   width: 280px;
-  padding: 12px 0 0 0;
+  padding: 20px 0 16px 0;
 }
 
 .trigger {
@@ -25,7 +25,7 @@
 }
 
 .list {
-  margin-bottom: 22px;
+  margin-bottom: 32px;
   max-height: 160px;
   overflow-y: auto;
   box-sizing: border-box;
@@ -54,32 +54,24 @@
   flex-direction: column;
 }
 
-.reset {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 0;
-  margin-top: 2px;
-  border-top: 1px solid var(--porcelain);
-
-  &:hover {
-    color: var(--jungle-green);
-  }
-}
-
 .title {
-  @include text('caption');
+  @include text('caption', 'l');
 
   color: var(--waterloo);
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .search {
   width: 100%;
   margin-bottom: 16px;
-  background: var(--white);
-  border: 1px solid var(--porcelain);
-  box-sizing: border-box;
-  border-radius: $border-radius;
+}
+
+.skeleton {
+  height: 100px;
+}
+
+.item {
+  &:last-child {
+    margin: 0;
+  }
 }

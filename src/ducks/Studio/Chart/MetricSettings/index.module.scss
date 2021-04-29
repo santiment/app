@@ -4,6 +4,7 @@
   @include text('caption', 'm');
 
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   color: var(--waterloo);
   fill: var(--waterloo);
@@ -15,12 +16,16 @@
   fill: var(--rhino);
 }
 
+.label {
+  margin-right: 16px;
+}
+
 .setting {
   display: flex;
   align-items: center;
   height: 22px;
   border-bottom: 1px dashed var(--mystic);
-  margin-left: 16px;
+  margin-right: 16px;
   cursor: pointer;
   user-select: none;
 

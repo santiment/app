@@ -10,10 +10,12 @@ import ShowAxisSetting from './ShowAxisSetting'
 import { Metric } from '../../../dataHub/metrics'
 import { MetricSettings } from '../../../dataHub/metrics/settings'
 import { Node } from '../../../Chart/nodes'
+import BlockchainLabelsSetting from './BlockchainLabelsSetting/BlockchainLabelsSetting'
 import styles from './index.module.scss'
 
 const SettingToComponent = {
-  holdersCount: TopHoldersSetting
+  holdersCount: TopHoldersSetting,
+  labels: BlockchainLabelsSetting
 }
 
 function isExchangeModifiable (metric) {
@@ -36,7 +38,7 @@ const Settings = ({ className, metric, ...props }) => {
 
   return (
     <div className={cx(styles.wrapper, className)}>
-      {metric.label}:
+      <div className={styles.label}>{metric.label}:</div>
       {metric.node !== Node.GREEN_RED_BAR && !metric.indicator && (
         <NodeSetting metric={metric} {...props} />
       )}

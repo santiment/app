@@ -38,9 +38,9 @@ const TOP_HOLDERS_COUNT_QUERY = gql`
   }
 `
 
-export const useTopHolders = ({ from, to, page, pageSize, slug }) => {
+export const useTopHolders = ({ from, to, page, pageSize, slug, labels }) => {
   const query = useQuery(TOP_HOLDERS_QUERY, {
-    variables: { from, to, page, pageSize, slug }
+    variables: { from, to, page, pageSize, slug, labels }
   })
 
   return useMemo(
@@ -53,9 +53,9 @@ export const useTopHolders = ({ from, to, page, pageSize, slug }) => {
   )
 }
 
-export const useMaxCountTopHolders = ({ from, to, slug }) => {
+export const useMaxCountTopHolders = ({ from, to, slug, labels }) => {
   const query = useQuery(TOP_HOLDERS_COUNT_QUERY, {
-    variables: { from, to, slug }
+    variables: { from, to, slug, labels }
   })
 
   return useMemo(

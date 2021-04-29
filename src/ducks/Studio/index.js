@@ -337,6 +337,7 @@ export const Studio = ({
         isICOPriceDisabled={isICOPriceDisabled}
         isICOPriceActive={isICOPriceActive}
         toggleMetric={onSidebarItemClick}
+        metricSettingsMap={selectedMetricSettingsMap}
         setMetricSettingMap={setSelectedMetricSettingsMap}
         setIsPeeked={setIsSidebarPeeked}
         setIsLocked={setIsSidebarLocked}
