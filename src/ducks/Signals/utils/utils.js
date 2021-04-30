@@ -1222,11 +1222,15 @@ export const metricTypesBlockErrors = values => {
   return errors
 }
 
-const checkByKey = (errors, key, source, dependencies) => {
+const checkByKey = (errors, key, source, dependencies, allowZero = false) => {
   const val = source[key]
   if (dependencies && dependencies.indexOf(key) !== -1) {
-    if (!val) {
-      errors[key] = REQUIRED_MESSAGE
+    if (isNil(val) || val === 0) {
+      if (allowZero && val === 0) {
+        // pass
+      } else {
+        errors[key] = REQUIRED_MESSAGE
+      }
     } else if (val <= 0) {
       errors[key] = MUST_BE_MORE_ZERO_MESSAGE
     }
@@ -1234,6 +1238,9 @@ const checkByKey = (errors, key, source, dependencies) => {
 
   return errors
 }
+
+const isNil = value => value === null || value === undefined
+export const isPriceMetric = ({ value }) => value === PRICE
 
 export const metricValuesBlockErrors = values => {
   let errors = {}
@@ -1249,6 +1256,8 @@ export const metricValuesBlockErrors = values => {
   if (!type) {
     return errors
   }
+
+  const isPrice = isPriceMetric(metric)
 
   if (type.metric === PRICE_PERCENT_CHANGE) {
     if (type.dependencies) {
@@ -1269,22 +1278,27 @@ export const metricValuesBlockErrors = values => {
   }
 
   if (type.subMetric === PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER) {
-    if (!absoluteThreshold) {
+    if (isNil(absoluteThreshold)) {
       errors.absoluteThreshold = REQUIRED_MESSAGE
+    } else if (isPrice && absoluteThreshold <= 0) {
+      errors.absoluteThreshold = MUST_BE_MORE_ZERO_MESSAGE
     }
   }
 
   if (type.subMetric === PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER) {
-    if (!absoluteBorderLeft) {
+    if (isNil(absoluteBorderLeft)) {
       errors.absoluteBorderLeft = REQUIRED_MESSAGE
+    } else if (isPrice && absoluteBorderLeft <= 0) {
+      errors.absoluteBorderLeft = MUST_BE_MORE_ZERO_MESSAGE
     }
-    if (!absoluteBorderRight) {
+
+    if (isNil(absoluteBorderRight)) {
       errors.absoluteBorderRight = REQUIRED_MESSAGE
     }
   }
 
   if (type.metric === PRICE_VOLUME_DIFFERENCE) {
-    errors = checkByKey(errors, 'threshold', values, type.dependencies)
+    errors = checkByKey(errors, 'threshold', values, type.dependencies, true)
   }
 
   if (!isDailyMetric(metric.key)) {

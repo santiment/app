@@ -3,10 +3,14 @@ import cx from 'classnames'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
-import { PRICE, TIME_WINDOW_UNITS } from '../../../utils/constants'
+import { TIME_WINDOW_UNITS } from '../../../utils/constants'
 import { LastPriceComponent } from './TriggerLastPrice'
 import MetricOptionsRenderer from './metricOptions/MetricOptionsRenderer'
-import { mapTargetObject, targetMapper } from '../../../utils/utils'
+import {
+  isPriceMetric,
+  mapTargetObject,
+  targetMapper
+} from '../../../utils/utils'
 import { isDailyMetric } from './metricTypes/metrics'
 import styles from '../signal/TriggerForm.module.scss'
 
@@ -23,8 +27,8 @@ export const TriggerFormMetricValues = ({
   metaFormSettings,
   typeSelectors
 }) => {
-  const { key, value } = metric
-  const isPriceMetric = value === PRICE
+  const { key } = metric
+  const isPrice = isPriceMetric(metric)
 
   const mappedTargets = mapTargetObject(target, targetMapper)
   const slugName = !Array.isArray(mappedTargets) ? mappedTargets : undefined
@@ -54,14 +58,14 @@ export const TriggerFormMetricValues = ({
 
           {type && blocks.includes('absoluteThreshold') && (
             <div className={styles.Field}>
-              <FormikLabel text={isPriceMetric ? 'Price limit' : 'Limit'} />
+              <FormikLabel text={isPrice ? 'Price limit' : 'Limit'} />
               <FormikInput
                 name='absoluteThreshold'
                 type='number'
                 placeholder='Absolute value'
-                prefix={isPriceMetric ? '$' : ''}
+                prefix={isPrice ? '$' : ''}
               />
-              {isPriceMetric && <LastPriceComponent slugTitle={slugName} />}
+              {isPrice && <LastPriceComponent slugTitle={slugName} />}
             </div>
           )}
         </>
@@ -70,7 +74,7 @@ export const TriggerFormMetricValues = ({
       {type && blocks.includes('absoluteBorders') && (
         <div className={styles.flexRow}>
           <AbsoluteBorders
-            isPriceMetric={isPriceMetric}
+            isPriceMetric={isPrice}
             absoluteBorderRight={absoluteBorderRight}
             absoluteBorderLeft={absoluteBorderLeft}
             slugName={slugName}
@@ -79,7 +83,7 @@ export const TriggerFormMetricValues = ({
       )}
 
       {type && blocks.includes('percentThreshold') && (
-        <PercentThreshold isPriceMetric={isPriceMetric} slugName={slugName} />
+        <PercentThreshold isPriceMetric={isPrice} slugName={slugName} />
       )}
 
       {type &&
@@ -87,7 +91,7 @@ export const TriggerFormMetricValues = ({
         blocks.includes('percentThresholdRight') && (
         <div className={styles.flexRow}>
           <PercentThresholdByBorders
-            isPriceMetric={isPriceMetric}
+            isPriceMetric={isPrice}
             slugName={slugName}
           />
         </div>
