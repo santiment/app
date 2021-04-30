@@ -11,6 +11,13 @@ import styles from './index.module.scss'
 const DEFAULT_ITEMS = []
 const PAGE_SIZE_OPTIONS = [10, 20, 50, 100]
 
+const price_usd_chart_1d = 'price_usd_chart_1d'
+const price_usd_chart_7d = 'price_usd_chart_7d'
+const price_usd_chart_30d = 'price_usd_chart_30d'
+
+const hasColumn = (columns, key) =>
+  columns.find(({ accessor }) => accessor === key)
+
 const AssetsTable = ({
   items,
   allItems,
@@ -38,11 +45,33 @@ const AssetsTable = ({
   ])
   const { comparingAssets = [], updateAssets } = useComparingAssets()
   const slugs = useMemo(() => items.map(({ slug }) => slug), [items])
-  const [graphData] = usePriceGraph({ slugs })
-  const data = useMemo(() => normalizeData(graphData, items), [
-    graphData,
-    items
-  ])
+
+  const [graphData1d] = usePriceGraph({
+    slugs,
+    range: '1d',
+    skip: !hasColumn(activeColumns, price_usd_chart_1d)
+  })
+  const [graphData7d] = usePriceGraph({
+    slugs,
+    range: '7d',
+    skip: !hasColumn(activeColumns, price_usd_chart_7d)
+  })
+  const [graphData30d] = usePriceGraph({
+    slugs,
+    range: '30d',
+    skip: !hasColumn(activeColumns, price_usd_chart_30d)
+  })
+
+  const data = useMemo(
+    () => {
+      let result = normalizeData(graphData1d, items, price_usd_chart_1d)
+      result = normalizeData(graphData7d, result, price_usd_chart_7d)
+      result = normalizeData(graphData30d, result, price_usd_chart_30d)
+
+      return result
+    },
+    [graphData7d, graphData1d, graphData30d, items]
+  )
 
   return (
     <>
