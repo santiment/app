@@ -494,8 +494,11 @@ export const mapTriggerToFormProps = currentTrigger => {
     ...frequencyModels,
     ...absolutePriceValues,
     ...trendingWordsParams,
-    title: Array.isArray(title) ? title.join(' ') : title,
-    description: description || ''
+    title: clipText(
+      Array.isArray(title) ? title.join(' ') : title,
+      MAX_TITLE_LENGTH
+    ),
+    description: clipText(description || '', MAX_DESCR_LENGTH)
   }
 }
 
@@ -1760,7 +1763,18 @@ export const getNewTitle = newValues => {
     }
   }
 
-  return capitalizeStr(title.trim())
+  return clipText(capitalizeStr(title.trim()), MAX_TITLE_LENGTH)
+}
+
+const clipText = (text, maxLength) => {
+  if (text && maxLength) {
+    const lengthBorder = maxLength - 3
+    if (text.length > lengthBorder) {
+      return text.slice(0, lengthBorder) + '...'
+    }
+  }
+
+  return text
 }
 
 export const getNewDescription = newValues => {
@@ -1830,7 +1844,10 @@ export const getNewDescription = newValues => {
       ? `via ${channelsReadable.join(', ')}`
       : ''
 
-  return `Notify me when the ${metricsHeaderStr}. Send me notifications ${repeatingBlock.toLowerCase()} ${channelsBlock}.`
+  return clipText(
+    `Notify me when the ${metricsHeaderStr}. Send me notifications ${repeatingBlock.toLowerCase()} ${channelsBlock}.`,
+    MAX_DESCR_LENGTH
+  )
 }
 
 export const buildSignal = (metric, type, slug, Values, selector = 'slug') => {
