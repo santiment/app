@@ -195,9 +195,7 @@ export const Metric = {
     category: 'On-chain',
     node: 'filledLine',
     group: 'Network Value',
-    label: 'MVRV Ratio (Z score)',
-    formatter: mvrvFormatter,
-    axisFormatter: mvrvFormatter
+    label: 'MVRV Ratio (Z score)'
   },
   mvrv_usd: {
     category: 'On-chain',
