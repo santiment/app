@@ -90,7 +90,14 @@ const StakeholderSignal = ({ data, settings }) => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <div>{READABLE_NAMES[signal] || signal}</div>
+        <div>
+          {READABLE_NAMES[signal] || signal}{' '}
+          {signal === 'old_coins_moved' && to === 'burn' && (
+            <span aria-label='fire' role='img'>
+              🔥
+            </span>
+          )}
+        </div>
 
         <div className={styles.date}>{formatDate(new Date(datetime))}</div>
       </div>
