@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import cx from 'classnames'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import Icon from '@santiment-network/ui/Icon'
@@ -80,10 +80,20 @@ export const CollapsedLabels = ({ labels, el: El = Label }) => (
   </CollapsedTooltip>
 )
 
+const labelsSorter = (a, b) => a.name.localeCompare(b.name)
+
 const Labels = ({ settings, showCount = 5 }) => {
   const labels = useAddressLabels(settings)
-  const visibleLabels = labels.slice(0, showCount)
-  const hiddenLabels = labels.slice(showCount)
+
+  const sorted = useMemo(
+    () => {
+      return labels.sort(labelsSorter)
+    },
+    [labels]
+  )
+
+  const visibleLabels = sorted.slice(0, showCount)
+  const hiddenLabels = sorted.slice(showCount)
   return (
     <div className={styles.wrapper}>
       {visibleLabels.map(Label)}
