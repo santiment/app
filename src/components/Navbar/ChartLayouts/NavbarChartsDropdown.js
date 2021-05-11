@@ -9,9 +9,14 @@ import { getRecentTemplates } from '../../../utils/recent'
 import { useRecentTemplates } from '../../../hooks/recents'
 import NavbarChartsLayouts, { getLayoutsStyles } from './NavbarChartsLayouts'
 import NewLabel from '../../NewLabel/NewLabel'
+import { PATHS } from '../../../paths'
 import styles from './NavbarChartsDropdown.module.scss'
 
 const DASHBOARDS = [
+  {
+    name: 'Social Santrends',
+    to: PATHS.SOCIAL_TOOl
+  },
   {
     name: 'ETH Token Trading Analysis',
     to: '/eth-analysis',
