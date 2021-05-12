@@ -37,7 +37,7 @@ const ProductsNav = () => {
         </svg>
         <SantimentLogo className={styles.mainLink} />
         <div className={styles.block}>
-          <h3 className={styles.title}>SAN Business</h3>
+          <h3 className={styles.title}>SAN business</h3>
           <div className={styles.products}>
             {BUSINESS_PRODUCTS.map((item, index) => (
               <ProductItem

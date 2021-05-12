@@ -32,7 +32,6 @@ const LEFT_LINKS = [
     label: 'SanAPI',
     link: 'https://neuro.santiment.net/'
   },
-
   {
     label: 'Team',
     link: 'https://santiment.net/team/'
@@ -61,11 +60,21 @@ const LEFT_LINKS = [
 
   {
     label: 'Contact us',
-    link: 'mailto:support@santiment.net'
+    link: 'mailto:support@santiment.net',
+    onClick: evt => {
+      if (window.Intercom) {
+        evt.preventDefault()
+        window.Intercom('showNewMessage', 'Hello! I have a question')
+      }
+    }
   },
   {
     label: 'Buy SAN',
     link: 'https://academy.santiment.net/san-tokens/how-to-buy-san/'
+  },
+  {
+    label: 'Sanhunters',
+    link: 'https://hunters.santiment.net/'
   }
 ]
 
@@ -82,6 +91,10 @@ const BOTTOM_LINKS = [
     label: 'Media Kit',
     link:
       'https://www.notion.so/santiment/Santiment-Media-ff72838a16164db4b7e90478e18c3776'
+  },
+  {
+    label: 'Status',
+    link: 'https://status.santiment.net/'
   }
 ]
 
@@ -160,11 +173,12 @@ const CommonFooter = ({ className }) => {
 
           <div className={styles.centerLinks}>
             <div className={styles.links}>
-              {LEFT_LINKS.map(({ label, link }, index) => {
+              {LEFT_LINKS.map(({ label, link, onClick }, index) => {
                 return (
                   <a
                     key={index}
                     href={link}
+                    onClick={evt => (onClick ? onClick(evt) : null)}
                     className={styles.link}
                     target='_blank'
                     rel='noopener noreferrer'
