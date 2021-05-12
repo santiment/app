@@ -30,6 +30,8 @@ const PRICE_RANGES = {
   '30d': '24h'
 }
 
+const ARR = []
+
 export function usePriceGraph ({ slugs, range = '7d', skip = false }) {
   const { data = {}, loading } = useQuery(PRICE_GRAPH_QUERY, {
     skip: slugs.length === 0 || skip,
@@ -45,8 +47,8 @@ export function usePriceGraph ({ slugs, range = '7d', skip = false }) {
     data.getMetric.timeseriesDataPerSlug &&
     data.getMetric.timeseriesDataPerSlug.length > 0
   ) {
-    return [data.getMetric.timeseriesDataPerSlug || [], loading]
+    return [data.getMetric.timeseriesDataPerSlug || ARR, loading]
   }
 
-  return [[], loading]
+  return [ARR, loading]
 }
