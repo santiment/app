@@ -9,7 +9,7 @@
 
 .wrapper {
   margin: auto;
-  padding: 64px 0;
+  padding: 64px 0 50px;
   max-width: 1170px;
   width: 100%;
 
@@ -151,7 +151,8 @@
   }
 
   @include responsive('laptop', 'tablet') {
-    flex-direction: row-reverse;
+    flex-direction: column-reverse;
+    position: relative;
     padding-top: 32px;
     margin-top: 48px;
   }
@@ -220,7 +221,6 @@
 
 .bottomRight {
   color: var(--casper);
-  margin-left: 275px;
 
   @include responsive('phone', 'phone-xs') {
     width: 100%;
@@ -231,6 +231,9 @@
 
   @include responsive('laptop', 'tablet') {
     margin: 0;
+    position: absolute;
+    top: 32px;
+    left: 0;
   }
 }
 

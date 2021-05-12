@@ -218,30 +218,28 @@ const CommonFooter = ({ className }) => {
         </div>
 
         <div className={styles.bottom}>
-          <div className={styles.bottomLinks}>
-            <div className={styles.bottomLeft}>
-              © 2016—{new Date().getFullYear()} Santiment{' '}
-              <Version classes={styles} />
-            </div>
-
-            <div className={styles.bottomCenter}>
-              {BOTTOM_LINKS.map(({ label, link }, index) => {
-                return (
-                  <a
-                    key={index}
-                    href={link}
-                    className={cx(styles.link, styles.bottomLink)}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                  >
-                    {label}
-                  </a>
-                )
-              })}
-            </div>
+          <div className={styles.bottomLeft}>
+            © 2016—{new Date().getFullYear()} Santiment{' '}
+            <Version classes={styles} />
           </div>
 
-          <div className={cx(styles.bottomRight)}>
+          <div className={styles.bottomCenter}>
+            {BOTTOM_LINKS.map(({ label, link }, index) => {
+              return (
+                <a
+                  key={index}
+                  href={link}
+                  className={cx(styles.link, styles.bottomLink)}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  {label}
+                </a>
+              )
+            })}
+          </div>
+
+          <div className={styles.bottomRight}>
             <div className={styles.socialTitle}>Santiment on social media</div>
 
             <div className={styles.mediaLinks}>
