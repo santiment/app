@@ -29,7 +29,7 @@ export function useProject (slug) {
   return [data ? data.projectBySlug : undefined, loading, error]
 }
 
-const makeFn = ({ limit, listId, orderBy }) => {
+const makeFn = ({ limit, slugs, orderBy }) => {
   return JSON.stringify({
     args: {
       pagination: {
@@ -38,7 +38,7 @@ const makeFn = ({ limit, listId, orderBy }) => {
       },
       baseProjects: [
         {
-          watchlistId: listId
+          slugs
         }
       ],
       orderBy: orderBy
@@ -47,15 +47,14 @@ const makeFn = ({ limit, listId, orderBy }) => {
   })
 }
 
-function getLimit (updatedAt) {
-  // GarageInc | 6.04.2021: updating list of items/infographics after updating of watchlist/screener
-  return new Date(updatedAt).getTime()
+function getLimit () {
+  return 100
 }
 
-export function useProjectsSocialVolumeChanges ({ listId, orderBy, updatedAt }) {
+export function useProjectsSocialVolumeChanges ({ orderBy, slugs }) {
   const query = useQuery(ALL_PROJECTS_SOCIAL_VOLUME_CHANGES_QUERY, {
     variables: {
-      fn: makeFn({ listId, limit: getLimit(updatedAt), orderBy })
+      fn: makeFn({ slugs, limit: getLimit(), orderBy })
     }
   })
 
@@ -70,17 +69,11 @@ export function useProjectsSocialVolumeChanges ({ listId, orderBy, updatedAt }) 
   )
 }
 
-export function useProjectPriceChanges ({
-  metric,
-  interval,
-  listId,
-  orderBy,
-  updatedAt
-}) {
+export function useProjectPriceChanges ({ metric, interval, orderBy, slugs }) {
   const gqlQuery = buildInfographicQuery({ metric, interval })
   const query = useQuery(gqlQuery, {
     variables: {
-      fn: makeFn({ listId, limit: getLimit(updatedAt), orderBy })
+      fn: makeFn({ slugs, limit: getLimit(), orderBy })
     }
   })
 

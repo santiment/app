@@ -60,8 +60,7 @@ const ProjectsChart = ({
   redirect,
   settings,
   onChangeSettings,
-  type,
-  updatedAt
+  type
 }) => {
   const {
     sorter: { sortBy = 'marketcapUsd', desc: sortDesc } = {},
@@ -112,8 +111,7 @@ const ProjectsChart = ({
     desc,
     settings,
     onChangeSettings,
-    type: type,
-    updatedAt
+    type: type
   })
 
   const colored = useMemo(

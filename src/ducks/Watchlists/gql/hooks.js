@@ -1,8 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { client } from '../../../apollo'
 import { getRecentWatchlist } from './index'
-import { PROJECTS_WATCHLIST_QUERY } from '../../../queries/WatchlistGQL'
+import {
+  PROJECTS_WATCHLIST_QUERY,
+  WATHLIST_ITEMS_QUERY
+} from '../../../queries/WatchlistGQL'
 import { stringifyFn } from '../../Screener/utils'
 
 const EMPTY_ARRAY = []
@@ -17,6 +20,28 @@ export function useWatchlist ({ id, skip }) {
   })
 
   return [data ? data.watchlist : undefined, loading, error]
+}
+
+export function useWatchlistItems (id) {
+  const { data, loading, error } = useQuery(WATHLIST_ITEMS_QUERY, {
+    skip: !id,
+    variables: {
+      id: +id
+    }
+  })
+
+  return useMemo(
+    () => {
+      return [
+        data
+          ? data.watchlist.listItems.map(({ project: { slug } }) => slug)
+          : undefined,
+        loading,
+        error
+      ]
+    },
+    [data, loading, error]
+  )
 }
 
 export function useRecentWatchlists (watchlistsIDs) {

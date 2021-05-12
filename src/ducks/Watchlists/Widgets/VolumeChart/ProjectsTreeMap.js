@@ -22,8 +22,7 @@ export const ProjectsTreeMap = ({
   settings,
   onChangeSettings,
   sortByMetric,
-  type,
-  updatedAt
+  type
 }) => {
   const { currency: defaultCurrency } = settings
   const { currentRanges, currency, setCurrency } = useInfographicRanges({
@@ -49,8 +48,7 @@ export const ProjectsTreeMap = ({
     settings,
     onChangeSettings,
     sortByMetric,
-    type,
-    updatedAt
+    type
   })
   const noData = !loading && data.length === 0
   const colored = useWithColors(data, key)
