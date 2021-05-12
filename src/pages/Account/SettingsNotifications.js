@@ -56,7 +56,7 @@ const SignalsDescription = (
 const SettingsNotifications = ({ changeDigestType, mutateDigestType }) => {
   const { settings } = useUserSettings()
 
-  const { newsletterSubscription: digestType, signalsPerDayLimit } = settings
+  const { newsletterSubscription: digestType, alertsPerDayLimit } = settings
 
   const { data: signals } = useSignals()
 
@@ -104,10 +104,7 @@ const SettingsNotifications = ({ changeDigestType, mutateDigestType }) => {
       </ShowIf>
 
       <Settings.Row>
-        <SignalLimits
-          signalsPerDayLimit={signalsPerDayLimit}
-          classes={styles}
-        />
+        <SignalLimits alertsPerDayLimit={alertsPerDayLimit} classes={styles} />
       </Settings.Row>
 
       <Settings.Row>

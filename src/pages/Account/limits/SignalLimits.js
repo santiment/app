@@ -12,22 +12,22 @@ const VALIDATION_PROPS = {
   type: 'number'
 }
 
-const SignalLimits = ({ signalsPerDayLimit }) => {
-  const { email = 0, telegram = 0 } = signalsPerDayLimit
+const SignalLimits = ({ alertsPerDayLimit }) => {
+  const { email = 0, telegram = 0 } = alertsPerDayLimit
   const [updateUserSettings] = useUpdateUserSettings()
 
   const onChange = useCallback(
     (key, value) => {
       if (value) {
         const updates = {
-          signalsPerDayLimit: { ...signalsPerDayLimit, [key]: value }
+          alertsPerDayLimit: { ...alertsPerDayLimit, [key]: value }
         }
 
         updateUserSettings(updates)
         updateUserSettingsCache(updates)
       }
     },
-    [signalsPerDayLimit]
+    [alertsPerDayLimit]
   )
 
   return (

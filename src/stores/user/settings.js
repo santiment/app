@@ -9,12 +9,12 @@ export const DEFAULT_SETTINGS = {
   isPromoter: false,
   hasTelegramConnected: false,
   hidePrivacyData: true,
-  signalNotifyEmail: false,
-  signalNotifyTelegram: false,
+  alertNotifyEmail: false,
+  alertNotifyTelegram: false,
   pageSize: 20,
   theme: 'default',
   newsletterSubscription: 'OFF',
-  signalsPerDayLimit: {}
+  alertsPerDayLimit: {}
 }
 
 export const USER_SETTINGS_FRAGMENT = gql`
@@ -23,25 +23,25 @@ export const USER_SETTINGS_FRAGMENT = gql`
     isBetaMode
     newsletterSubscription
     pageSize
-    signalNotifyEmail
-    signalNotifyTelegram
+    alertNotifyEmail
+    alertNotifyTelegram
     hasTelegramConnected
-    signalsPerDayLimit
+    alertsPerDayLimit
     theme
   }
 `
 
 const TOGGLE_CHANNEL_MUTATION = gql`
   mutation settingsToggleChannel(
-    $signalNotifyEmail: Boolean
-    $signalNotifyTelegram: Boolean
+    $alertNotifyEmail: Boolean
+    $alertNotifyTelegram: Boolean
   ) {
     settingsToggleChannel(
-      signalNotifyEmail: $signalNotifyEmail
-      signalNotifyTelegram: $signalNotifyTelegram
+      alertNotifyEmail: $alertNotifyEmail
+      alertNotifyTelegram: $alertNotifyTelegram
     ) {
-      signalNotifyEmail
-      signalNotifyTelegram
+      alertNotifyEmail
+      alertNotifyTelegram
     }
   }
 `
@@ -113,12 +113,12 @@ export function useUserSettings () {
             ? {
               ...data.currentUser.settings,
               isTelegramAllowAlerts:
-                  data.currentUser.settings.signalNotifyTelegram &&
+                  data.currentUser.settings.alertNotifyTelegram &&
                   data.currentUser.settings.hasTelegramConnected,
               isEmailConnected: !!data.currentUser.email,
 
               isEmailAllowAlerts:
-                  data.currentUser.settings.signalNotifyEmail &&
+                  data.currentUser.settings.alertNotifyEmail &&
                   data.currentUser.email
             }
             : DEFAULT_SETTINGS
@@ -140,8 +140,8 @@ export function useUpdateUserSettings () {
 
     const merged = { ...currentUser.settings, ...newSettings }
 
-    if (typeof merged.signalsPerDayLimit === 'object') {
-      merged.signalsPerDayLimit = JSON.stringify(merged.signalsPerDayLimit)
+    if (typeof merged.alertsPerDayLimit === 'object') {
+      merged.alertsPerDayLimit = JSON.stringify(merged.alertsPerDayLimit)
     }
 
     delete merged.isPromoter

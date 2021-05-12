@@ -17,7 +17,7 @@ const Unsubscribe = () => {
   const { user = {}, isLoggedIn, loading } = useUser()
   const {
     loading: settingsLoading,
-    settings: { signalNotifyEmail }
+    settings: { alertNotifyEmail }
   } = useUserSettings()
 
   const [updateUserSettings] = useUpdateUserSettings()
@@ -28,12 +28,12 @@ const Unsubscribe = () => {
     !isLoading &&
     isLoggedIn &&
     user.email &&
-    signalNotifyEmail &&
+    alertNotifyEmail &&
     target === 'signals' &&
     !startUpdate
   ) {
     setStartUpdate(true)
-    setTimeout(() => updateUserSettings({ signalNotifyEmail: false }), 1000)
+    setTimeout(() => updateUserSettings({ alertNotifyEmail: false }), 1000)
   }
 
   if (target === 'signals' && isLoading) {
