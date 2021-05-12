@@ -10,7 +10,7 @@ import styles from './AccountPage.module.scss'
 
 const SettingsTelegramNotifications = ({ classes = {}, description }) => {
   const {
-    settings: { signalNotifyTelegram, hasTelegramConnected }
+    settings: { alertNotifyTelegram, hasTelegramConnected }
   } = useUserSettings()
 
   const [update] = useUpdateUserNotifications()
@@ -23,10 +23,10 @@ const SettingsTelegramNotifications = ({ classes = {}, description }) => {
         {description}
         {hasTelegramConnected ? (
           <Toggle
-            isActive={signalNotifyTelegram}
+            isActive={alertNotifyTelegram}
             onClick={() =>
               update({
-                signalNotifyTelegram: !signalNotifyTelegram
+                alertNotifyTelegram: !alertNotifyTelegram
               })
             }
           />

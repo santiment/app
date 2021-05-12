@@ -12,7 +12,7 @@ import styles from './AccountPage.module.scss'
 const SettingsEmailNotifications = ({ classes = {}, description }) => {
   const { user } = useUser()
   const {
-    settings: { signalNotifyEmail }
+    settings: { alertNotifyEmail }
   } = useUserSettings()
 
   const [update] = useUpdateUserNotifications()
@@ -24,8 +24,8 @@ const SettingsEmailNotifications = ({ classes = {}, description }) => {
         {description}
         {user && user.email ? (
           <Toggle
-            isActive={signalNotifyEmail}
-            onClick={() => update({ signalNotifyEmail: !signalNotifyEmail })}
+            isActive={alertNotifyEmail}
+            onClick={() => update({ alertNotifyEmail: !alertNotifyEmail })}
           />
         ) : (
           'Please add email to enable alert notifications'
