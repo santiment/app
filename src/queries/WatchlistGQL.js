@@ -22,6 +22,18 @@ export const PROJECTS_WATCHLIST_QUERY = gql`
   ${PROJECTS_LIST_ITEMS_FRAGMENT}
 `
 
+export const WATHLIST_ITEMS_QUERY = gql`
+  query watchlist($id: ID!) {
+    watchlist(id: $id) {
+      listItems {
+        project {
+          slug
+        }
+      }
+    }
+  }
+`
+
 export const WATCHLIST_WITH_TRENDS_QUERY = gql`
   query watchlist($id: ID!) {
     watchlist(id: $id) {

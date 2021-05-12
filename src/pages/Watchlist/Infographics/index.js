@@ -22,8 +22,7 @@ const Infographics = ({
   toggleAssetsFiltering,
   listId,
   type = 'Screener',
-  className,
-  updatedAt
+  className
 }) => {
   const {
     isPriceChartActive,
@@ -50,8 +49,6 @@ const Infographics = ({
             sortByMetric='marketcap_usd'
             type={INFOGRAPHICS.PRICE_TREE_MAP}
             onChangeSettings={onChangeSettings}
-            assets={assets}
-            updatedAt={updatedAt}
           />
         </div>
       )}
@@ -67,8 +64,6 @@ const Infographics = ({
               sortByMetric='marketcap_usd'
               type={INFOGRAPHICS.SOCIAL_VOLUME_TREE_MAP}
               onChangeSettings={onChangeSettings}
-              assets={assets}
-              updatedAt={updatedAt}
             />
           ) : (
             <MakeProSubscriptionCard />
@@ -81,8 +76,6 @@ const Infographics = ({
           listId={listId}
           settings={priceBarChart}
           onChangeSettings={onChangeSettings}
-          assets={assets}
-          updatedAt={updatedAt}
         />
       )}
 

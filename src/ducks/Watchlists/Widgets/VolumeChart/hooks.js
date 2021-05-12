@@ -3,6 +3,7 @@ import {
   useProjectPriceChanges,
   useProjectsSocialVolumeChanges
 } from '../../../../hooks/project'
+import { useWatchlistItems } from '../../gql/hooks'
 import { mapToColors } from './utils'
 
 export const useWithColors = (data, key, sorter) => {
@@ -59,8 +60,7 @@ export const useProjectRanges = ({
   settings,
   onChangeSettings,
   type,
-  sortByMetric,
-  updatedAt
+  sortByMetric
 }) => {
   const {
     setIntervalIndex,
@@ -68,8 +68,9 @@ export const useProjectRanges = ({
     rangeItem: { label, key, metric = key }
   } = useChartInterval({ settings, type, ranges, onChangeSettings })
 
+  const [slugs] = useWatchlistItems(listId)
+
   const hookProps = {
-    listId,
     key,
     orderBy: buildOrder({
       interval: label,
@@ -78,7 +79,7 @@ export const useProjectRanges = ({
     }),
     metric,
     interval: label,
-    updatedAt
+    slugs
   }
 
   const [data, loading] = isSocialVolume
