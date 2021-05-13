@@ -87,8 +87,7 @@ export const TEMPORARY_HIDDEN_LABELS = {
   anomaly_supply_on_exchanges: true,
   anomaly_transaction_count: true,
   anomaly_transaction_volume: true,
-  anomaly_velocity: true,
-  price_usd_all_time_high: true
+  anomaly_velocity: true
 }
 
 export const useRawSignals = ({ from, to }) => {

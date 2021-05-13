@@ -117,8 +117,8 @@ const StakeholderSignal = ({ data, settings }) => {
             <div className={styles.row}>
               <div className={styles.label}>Previous ATH:</div>
               <div className={styles.value}>
-                {formatNumber(prev_ath)}
-
+                {formatNumber(prev_ath, { minimumFractionDigits: 6 })}
+                {` at `}
                 {formatDate(new Date(prev_ath_dt))}
               </div>
             </div>
