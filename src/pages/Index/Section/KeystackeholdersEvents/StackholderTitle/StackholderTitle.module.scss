@@ -9,6 +9,7 @@
   display: flex;
   align-items: center;
   position: relative;
+  color: var(--rhino);
 
   @include text('body-2');
 }
