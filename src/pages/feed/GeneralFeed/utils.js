@@ -26,8 +26,8 @@ export const makeFeedVariables = ({
       type,
       datetime: date
     },
-    orderBy: orderBy,
-    filterBy: filterBy,
+    orderBy,
+    filterBy,
     isPulse
   }
 }

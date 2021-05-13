@@ -1,0 +1,94 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  display: flex;
+  align-items: baseline;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.panel {
+  width: 480px;
+  padding: 12px 0 0 0;
+}
+
+.dropdown {
+  z-index: 1000;
+}
+
+.list {
+  margin-bottom: 22px;
+  max-height: 480px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  flex: 1;
+  overflow-x: hidden;
+
+  @include overlay-scroll;
+}
+
+.list + .list {
+  margin-top: 10px;
+}
+
+.content {
+  @include overlay-scroll(null);
+
+  padding: 16px 24px;
+}
+
+.scroller {
+  display: flex;
+  flex-direction: column;
+}
+
+.icon {
+  display: flex;
+  fill: var(--waterloo);
+  width: 16px;
+  height: 16px;
+  margin-right: 24px;
+
+  &:hover {
+    color: var(--jungle-green);
+  }
+}
+
+.skeleton {
+  min-height: 120px;
+  width: 100%;
+}
+
+.item {
+  margin-bottom: 8px;
+
+  &:last-child {
+    margin: 0;
+  }
+}
+
+.tabs {
+  margin: 0;
+}
+
+.tab {
+  border-bottom: 0;
+  padding-bottom: 7px;
+
+  &:hover {
+    color: var(--fiord);
+  }
+}
+
+.selectedTab {
+  color: var(--rhino);
+
+  &::after {
+    background: var(--waterloo);
+  }
+}
+
+.header {
+  padding-bottom: 0;
+}
