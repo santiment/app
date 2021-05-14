@@ -9,6 +9,7 @@ import { Skeleton } from '../../../components/Skeleton'
 import { useTimelineEvents } from './hooks'
 import NotificationItem from '../NotificationItem/NotificationItem'
 import NotificationTypes from '../NotificationTypes/NotificationTypes'
+import NoNotitications from '../NoNotitications/NoNotitications'
 import styles from './NotificationsFeed.module.scss'
 
 const NOW = 'utc_now'
@@ -143,6 +144,8 @@ const NotificationsFeed = () => {
                       className={styles.skeleton}
                     />
                   )}
+
+                  {!loading && events.length === 0 && <NoNotitications />}
                 </InfiniteScroll>
               </div>
             </div>
