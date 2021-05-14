@@ -10,19 +10,32 @@ import { Skeleton } from '../../../components/Skeleton'
 import { useTimelineEvents } from './hooks'
 import styles from './NotificationsFeed.module.scss'
 import NotificationItem from '../NotificationItem/NotificationItem'
+import NotificationTypes from '../NotificationTypes/NotificationTypes'
 
 const NOW = 'utc_now'
 
+const DEFAULT_SETTINGS = {
+  date: NOW,
+  type: 'ALL',
+  author: 'ALL'
+}
+
 const TABS = ['All notifications', 'Following']
+const TABS_TO_FILTER_AUTHORS = {
+  'All notifications': 'ALL',
+  Following: 'FOLLOWED'
+}
 
 const NotificationsFeed = ({}) => {
-  const [upTo, setToDate] = useState(NOW)
-  const [activeTab, setTab] = useState(TABS.ALL)
+  const [settings, setSettings] = useState(DEFAULT_SETTINGS)
+  const [activeTab, setTab] = useState(TABS[0])
   const [events, setEvents] = useState([])
   const [canLoad, setCanLoad] = useState(true)
 
   const { data: { events: chunk, cursor } = {}, loading } = useTimelineEvents({
-    to: upTo
+    to: settings.date,
+    type: settings.type,
+    author: settings.author
   })
 
   useEffect(
@@ -44,14 +57,35 @@ const NotificationsFeed = ({}) => {
     if (!loading && canLoad) {
       const last = events[events.length - 1]
 
-      if (last && upTo !== last.insertedAt) {
+      if (last && settings.date !== last.insertedAt) {
         // [GarageInc | 13.05.2021]: less by 1 second, because API returns old event for that date
         const toDate = new Date(new Date(last.insertedAt).getTime() - 1000)
-        setToDate(toDate)
+        setSettings({
+          ...settings,
+          date: toDate
+        })
       } else {
-        setToDate(NOW)
+        setSettings({
+          ...settings,
+          date: NOW
+        })
       }
     }
+  }
+
+  function updateSettings (props) {
+    setEvents([])
+    setSettings({
+      ...settings,
+      date: NOW,
+      ...props
+    })
+  }
+
+  function onChangeType (type) {
+    updateSettings({
+      type: type
+    })
   }
 
   return (
@@ -61,24 +95,33 @@ const NotificationsFeed = ({}) => {
         passOpenStateAs='data-isactive'
         position='bottom'
         align='end'
+        offsetY={32}
         className={styles.dropdown}
         trigger={<Icon type='bell' className={styles.icon} />}
       >
         <PanelWithHeader
           className={styles.panel}
           headerClassName={styles.header}
+          contentClassName={styles.panelContent}
           header={
             <div>
               <Tabs
                 className={styles.tabs}
                 options={TABS}
                 defaultSelectedIndex={activeTab}
-                onSelect={tab => setTab(tab)}
+                onSelect={tab => {
+                  setTab(tab)
+                  updateSettings({
+                    author: TABS_TO_FILTER_AUTHORS[tab]
+                  })
+                }}
                 classes={styles}
               />
             </div>
           }
         >
+          <NotificationTypes onChange={onChangeType} selected={settings.type} />
+
           <div className={styles.content}>
             <div className={styles.scroller}>
               <div className={cx(styles.list)}>
@@ -100,7 +143,7 @@ const NotificationsFeed = ({}) => {
                     <NotificationItem
                       data={item}
                       key={item.id}
-                      classname={styles.item}
+                      className={styles.item}
                     />
                   ))}
                 </InfiniteScroll>

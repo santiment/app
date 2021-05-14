@@ -1,0 +1,25 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 16px 24px 12px 24px;
+}
+
+.label {
+  @include text('caption');
+
+  padding: 4px 10px;
+  border: 1px solid var(--porcelain);
+  border-radius: $border-radius;
+  margin: 0 4px 4px 0;
+  cursor: pointer;
+
+  &:hover {
+    border: 1px solid var(--jungle-green);
+  }
+
+  &__selected {
+    background: var(--athens);
+  }
+}

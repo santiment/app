@@ -3,9 +3,13 @@ import { useQuery } from '@apollo/react-hooks'
 import { TIMELINE_EVENTS_QUERY } from '../../../queries/FeedGQL'
 import { makeFeedVariables } from '../../../pages/feed/GeneralFeed/utils'
 
-export const useTimelineEvents = ({ to = 'utc_now' }) => {
+export const useTimelineEvents = ({ to = 'utc_now', type, author }) => {
   const variables = makeFeedVariables({
-    date: to
+    date: to,
+    filterBy: {
+      type,
+      author
+    }
   })
 
   const { data, loading, error } = useQuery(TIMELINE_EVENTS_QUERY, {
