@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import cx from 'classnames'
 import FeedCardDate from '../../../pages/feed/GeneralFeed/CardDate/FeedCardDate'
 import SignalCreator from '../../../components/SignalCard/card/creator/SignalCreator'
@@ -21,12 +21,13 @@ const getTitle = data => {
     case 'publish_insight': {
       return `${username || email} has created insight '${post.title}'`
     }
+    default: {
+      return null
+    }
   }
-
-  return 'Title'
 }
 const getType = (data, isAuthor) => {
-  const { eventType, trigger } = data
+  const { eventType } = data
 
   switch (eventType) {
     case 'trigger_fired': {
@@ -35,9 +36,10 @@ const getType = (data, isAuthor) => {
     case 'publish_insight': {
       return 'insights'
     }
+    default: {
+      return 'alert'
+    }
   }
-
-  return 'alert'
 }
 
 const NotificationItem = ({ data, className }) => {
@@ -47,8 +49,12 @@ const NotificationItem = ({ data, className }) => {
 
   const { user: currentUser } = useUser()
 
-  const title = getTitle(data)
-  const type = getType(data, currentUser.id === user.id)
+  const title = useMemo(() => getTitle(data), [data])
+  const type = useMemo(() => getType(data, currentUser.id === user.id), [
+    data,
+    currentUser,
+    user
+  ])
 
   return (
     <div className={cx(styles.container, className)}>

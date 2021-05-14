@@ -4,14 +4,12 @@ import InfiniteScroll from 'react-infinite-scroller'
 import Icon from '@santiment-network/ui/Icon'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Tabs from '@santiment-network/ui/Tabs'
-import Panel from '@santiment-network/ui/Panel'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import { Skeleton } from '../../../components/Skeleton'
 import { useTimelineEvents } from './hooks'
-import styles from './NotificationsFeed.module.scss'
 import NotificationItem from '../NotificationItem/NotificationItem'
 import NotificationTypes from '../NotificationTypes/NotificationTypes'
-import { useUser } from '../../../stores/user'
+import styles from './NotificationsFeed.module.scss'
 
 const NOW = 'utc_now'
 
@@ -27,13 +25,13 @@ const TABS_TO_FILTER_AUTHORS = {
   Following: 'FOLLOWED'
 }
 
-const NotificationsFeed = ({}) => {
+const NotificationsFeed = () => {
   const [settings, setSettings] = useState(DEFAULT_SETTINGS)
   const [activeTab, setTab] = useState(TABS[0])
   const [events, setEvents] = useState([])
   const [canLoad, setCanLoad] = useState(true)
 
-  const { data: { events: chunk, cursor } = {}, loading } = useTimelineEvents({
+  const { data: { events: chunk } = {}, loading } = useTimelineEvents({
     to: settings.date,
     type: settings.type,
     author: settings.author
