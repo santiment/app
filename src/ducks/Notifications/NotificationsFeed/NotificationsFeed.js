@@ -11,6 +11,7 @@ import { useTimelineEvents } from './hooks'
 import styles from './NotificationsFeed.module.scss'
 import NotificationItem from '../NotificationItem/NotificationItem'
 import NotificationTypes from '../NotificationTypes/NotificationTypes'
+import { useUser } from '../../../stores/user'
 
 const NOW = 'utc_now'
 
@@ -51,8 +52,6 @@ const NotificationsFeed = ({}) => {
     [chunk]
   )
 
-  console.log(chunk)
-
   function loadMore () {
     if (!loading && canLoad) {
       const last = events[events.length - 1]
@@ -91,11 +90,11 @@ const NotificationsFeed = ({}) => {
   return (
     <div className={styles.wrapper}>
       <ContextMenu
-        open={true}
         passOpenStateAs='data-isactive'
         position='bottom'
         align='end'
         offsetY={32}
+        offsetX={24}
         className={styles.dropdown}
         trigger={<Icon type='bell' className={styles.icon} />}
       >
@@ -129,13 +128,6 @@ const NotificationsFeed = ({}) => {
                   pageStart={0}
                   loadMore={loadMore}
                   hasMore={!loading && canLoad}
-                  loader={
-                    <Skeleton
-                      show={loading}
-                      key='loader'
-                      className={styles.skeleton}
-                    />
-                  }
                   threshold={200}
                   useWindow={false}
                 >
@@ -146,6 +138,13 @@ const NotificationsFeed = ({}) => {
                       className={styles.item}
                     />
                   ))}
+                  {loading && (
+                    <Skeleton
+                      show={loading}
+                      key='loader'
+                      className={styles.skeleton}
+                    />
+                  )}
                 </InfiniteScroll>
               </div>
             </div>

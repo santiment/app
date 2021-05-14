@@ -35,7 +35,7 @@
 .content {
   @include overlay-scroll(null);
 
-  padding: 16px 24px;
+  padding: 0 24px;
 }
 
 .scroller {
@@ -49,15 +49,17 @@
   width: 16px;
   height: 16px;
   margin-right: 24px;
+  cursor: pointer;
 
   &:hover {
-    color: var(--jungle-green);
+    fill: var(--jungle-green);
   }
 }
 
 .skeleton {
   min-height: 120px;
   width: 100%;
+  margin-bottom: 8px;
 }
 
 .item {

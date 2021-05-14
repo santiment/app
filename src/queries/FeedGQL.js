@@ -39,6 +39,11 @@ export const TIMELINE_EVENTS_QUERY = gql`
         votes {
           userId
         }
+        userList {
+          id
+          name
+          isScreener
+        }
         payload
         data
         __typename

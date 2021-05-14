@@ -13,7 +13,8 @@ const onClick = e => e.stopPropagation()
 const SignalCreator = ({
   className,
   classes = {},
-  user: { id, username, email, avatarUrl } = {}
+  user: { id, username, email, avatarUrl } = {},
+  children
 }) => {
   const show = showUserActions()
 
@@ -45,6 +46,7 @@ const SignalCreator = ({
           )}
         >
           {nameOrEmail}
+          {children}
         </div>
       )}
     </Link>

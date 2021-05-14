@@ -7,10 +7,16 @@
   background: var(--white);
   border-radius: $border-radius;
   padding: 16px;
+  cursor: pointer;
+  box-sizing: border-box;
 
   &__unread {
     border: 1px solid var(--mystic);
     background: var(--athens);
+  }
+
+  &:hover {
+    border-color: var(--mystic);
   }
 }
 
@@ -30,4 +36,18 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  margin-top: 14px;
+}
+
+.username {
+  flex-direction: column;
+  color: var(--rhino) !important;
+  align-items: flex-start !important;
+}
+
+.date {
+  min-width: initial !important;
+  margin: 0;
+  color: var(--waterloo);
+  margin-top: 2px;
 }
