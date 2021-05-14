@@ -117,7 +117,7 @@ const StakeholderSignal = ({ data, settings }) => {
             <div className={styles.row}>
               <div className={styles.label}>Previous ATH:</div>
               <div className={styles.value}>
-                {formatNumber(prev_ath, { minimumFractionDigits: 6 })}
+                {prev_ath}
                 {` at `}
                 {formatDate(new Date(prev_ath_dt))}
               </div>
@@ -133,7 +133,7 @@ const StakeholderSignal = ({ data, settings }) => {
                 <div className={styles.value}>{usdFormatter(value)}</div>
               ) : (
                 <div className={styles.value}>
-                  {millify(value)} {ticker}
+                  {formatNumber(value)} {ticker}
                 </div>
               )}
             </div>
