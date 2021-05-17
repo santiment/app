@@ -5,28 +5,41 @@ import Studio from 'san-studio'
 import { Metric } from 'san-studio/metrics'
 import { newWidget } from 'san-studio/stores/widgets'
 import { globals } from 'san-studio/stores/globals'
-import { mapview } from 'san-studio/stores/mapview'
+import { mapview as mapviewStore } from 'san-studio/stores/mapview'
 import { studio as settingsStore } from 'san-studio/stores/studio'
 import ChartWidget from 'san-studio/ChartWidget'
 import HolderDistributionWidget from 'san-studio/HolderDistributionWidget'
-import 'webkit/styles/main.css'
+import 'webkit/styles/color.css'
+import 'webkit/styles/text.css'
+import 'webkit/styles/layout.css'
+import 'webkit/styles/elements.css'
 
 import { useTheme } from '../../stores/ui/theme'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import { Header } from '../../ducks/Studio/Header'
 import ProjectSelector from '../../ducks/Studio/Sidebar/ProjectSelector'
 import SpentCoinCost from '../../ducks/Studio/AdvancedView/PriceHistogram'
+import TopTransactionsTable from '../../ducks/Studio/Widget/TopTransactionsTable'
+import StudioInfo from '../../ducks/SANCharts/Header'
+import styles from './index.module.scss'
 
 const getContextStore = (cmp, ctx) => cmp && cmp.$$.context.get(ctx)
-function useStore(store) {
+function useStore (store, immute = _ => _) {
   const [state, setState] = useState(() => store && get(store))
-  useEffect(() => store && store.subscribe(setState), [store])
+  useEffect(
+    () =>
+      store &&
+      store.subscribe(value => {
+        setState(immute(value))
+      }),
+    [store]
+  )
   return state
 }
 
 const KeyToSidewidget = {
   /* [SelectorNode.spent_coin_cost]: SpentCoinCost, */
-  spent_coin_cost: SpentCoinCost,
+  spent_coin_cost: SpentCoinCost
 }
 const Sidewidget = ({ studio, project }) => {
   const sidewidget = useStore(getContextStore(studio, 'sidewidget')) || null
@@ -36,10 +49,10 @@ const Sidewidget = ({ studio, project }) => {
     () => {
       const widget = sidewidget && KeyToSidewidget[sidewidget.key]
       setState(
-        widget ? [widget, document.querySelector('.studio-sidewidget')] : [],
+        widget ? [widget, document.querySelector('.studio-sidewidget')] : []
       )
     },
-    [sidewidget],
+    [sidewidget]
   )
 
   return Widget
@@ -47,14 +60,33 @@ const Sidewidget = ({ studio, project }) => {
     : null
 }
 
+const ProjectInfo = ({ node, settings, onProjectSelect }) => {
+  if (node) {
+    node.classList.add(styles.project)
+  }
+  return (
+    <>
+      {node &&
+        ReactDOM.createPortal(
+          <StudioInfo slug={settings.slug} onSlugSelect={onProjectSelect} />,
+          node
+        )}
+    </>
+  )
+}
+
+const settingsImmute = store => Object.assign({}, store)
 const Test = ({ ...props }) => {
   const ref = useRef()
   const [studio, setStudio] = useState()
   const [projectSelectorNode, setProjectSelectorNode] = useState()
   const [headerNode, setHeaderNode] = useState()
+  const [topNode, setTopNode] = useState()
+  const [subwidgets, setSubwidgets] = useState([])
   const theme = useTheme()
   const userInfo = useUserSubscriptionStatus()
-  const settings = useStore(settingsStore)
+  const settings = useStore(settingsStore, settingsImmute)
+  const mapview = useStore(mapviewStore)
   const widgets = useStore(getContextStore(studio, 'widgets')) || []
 
   useEffect(() => {
@@ -62,18 +94,41 @@ const Test = ({ ...props }) => {
     const studio = new Studio({
       target: page,
       props: {
+        onSubwidget,
         widgets: [
           newWidget(ChartWidget, {
-            metrics: [Metric.price_usd],
+            metrics: [Metric.price_usd]
           }),
-          newWidget(HolderDistributionWidget, {}),
-        ],
-      },
+          newWidget(HolderDistributionWidget, {})
+        ]
+      }
     })
 
     setStudio(studio)
     setProjectSelectorNode(page.querySelector('.sidebar-project'))
     setHeaderNode(page.querySelector('.header'))
+    setTopNode(page.querySelector('.studio-top'))
+
+    function onSubwidget (target, subwidget, parentWidget) {
+      const widget = TopTransactionsTable.new({ parentWidget })
+      const Render = props =>
+        ReactDOM.createPortal(
+          <widget.Widget
+            {...props}
+            widget={widget}
+            deleteWidget={deleteWidget}
+            rerenderWidgets={() => {}}
+          />,
+          target
+        )
+      setSubwidgets([Render])
+
+      const filter = subwidget => subwidget !== Render
+      function deleteWidget () {
+        setSubwidgets(subwidgets => subwidgets.filter(filter))
+      }
+      return deleteWidget
+    }
 
     return () => studio.$destroy()
   }, [])
@@ -81,18 +136,35 @@ const Test = ({ ...props }) => {
   useEffect(
     () => {
       globals.toggle('isNightMode', theme.isNightMode)
+      globals.toggle('isLoggedIn', userInfo.isLoggedIn)
       globals.toggle('isPro', userInfo.isPro)
       globals.toggle('isProPlus', userInfo.isProPlus)
     },
-    [userInfo, theme],
+    [userInfo, theme]
   )
 
+  function onProjectSelect (project) {
+    if (project) {
+      const { slug, ticker, name } = project
+      settingsStore.setProject({ slug, ticker, name })
+    }
+  }
+
   return (
-    <div ref={ref}>
+    <div ref={ref} className={styles.wrapper}>
+      <ProjectInfo
+        settings={settings}
+        node={topNode}
+        onProjectSelect={onProjectSelect}
+      />
+
       {projectSelectorNode &&
         ReactDOM.createPortal(
-          <ProjectSelector project={settings} />,
-          projectSelectorNode,
+          <ProjectSelector
+            project={settings}
+            onProjectSelect={onProjectSelect}
+          />,
+          projectSelectorNode
         )}
 
       {headerNode &&
@@ -102,11 +174,17 @@ const Test = ({ ...props }) => {
             widgets={widgets}
             metrics={[]}
             headerRef={{ current: headerNode }}
-            toggleOverview={mapview.toggle}
+            isOverviewOpened={mapview > 0}
+            changeTimePeriod={settingsStore.setPeriod}
+            toggleOverview={mapviewStore.toggle}
           />,
-          headerNode,
+          headerNode
         )}
+
       <Sidewidget studio={studio} project={settings} />
+      {subwidgets.map((Subwidget, i) => (
+        <Subwidget key={i} settings={settings} />
+      ))}
     </div>
   )
 }

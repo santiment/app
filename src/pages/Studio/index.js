@@ -10,7 +10,7 @@ import { getChartWidgetsFromTemplate } from '../../ducks/Studio/Template/utils'
 import { getTemplate } from '../../ducks/Studio/Template/gql/hooks'
 import TestStudio from './Test'
 
-const Extensions = (props) => (
+const Extensions = props => (
   <>
     <URLExtension {...props} />
     <RecentAssetExtension settings={props.settings} />
@@ -29,10 +29,10 @@ export default ({ location }) => {
 
     if (Number.isFinite(templateId)) {
       getTemplate(templateId)
-        .then((template) => {
+        .then(template => {
           setParsedUrl({
             settings: template.project,
-            widgets: getChartWidgetsFromTemplate(template),
+            widgets: getChartWidgetsFromTemplate(template)
           })
         })
         .catch(console.error)

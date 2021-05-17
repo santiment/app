@@ -48,8 +48,8 @@
   &__name {
     margin: 0 0 4px;
     color: var(--rhino);
-
-    @include text('h4');
+    font-size: 24px !important;
+    line-height: 32px !important;
   }
 
   &__ticker {

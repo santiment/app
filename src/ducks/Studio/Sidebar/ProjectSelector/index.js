@@ -8,13 +8,13 @@ import { useDialogState } from '../../../../hooks/dialog'
 import styles from './index.module.scss'
 
 const CUSTOM_CATEGORY = {
-  Fiat: () => Promise.resolve(FIAT_MARKET_ASSETS),
+  Fiat: () => Promise.resolve(FIAT_MARKET_ASSETS)
 }
 
 const CUSTOM_TABS = DEFAULT_TABS.concat(Object.keys(CUSTOM_CATEGORY))
 
 const CategoryModifier = {
-  All: (assets) => assets.concat(FIAT_MARKET_ASSETS),
+  All: assets => assets.concat(FIAT_MARKET_ASSETS)
 }
 
 const Selector = ({ slug, name, logoUrl, onClick }) => (
@@ -32,11 +32,11 @@ const Selector = ({ slug, name, logoUrl, onClick }) => (
 
 const ProjectSelector = ({
   project: { slug, name, logoUrl },
-  onProjectSelect,
+  onProjectSelect
 }) => {
   const { isOpened, closeDialog, openDialog } = useDialogState()
 
-  function onSelect(project) {
+  function onSelect (project) {
     onProjectSelect(project)
     closeDialog()
   }

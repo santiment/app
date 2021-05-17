@@ -1,0 +1,27 @@
+.wrapper {
+  color: var(--black);
+  fill: var(--black);
+  background-color: var(--white);
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  list-style: none;
+  font-family: inherit;
+  line-height: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+
+  :global {
+    svg {
+      box-sizing: initial;
+      vertical-align: middle;
+    }
+  }
+}
+
+.project {
+  background: var(--white);
+  margin: -20px -25px 25px;
+  padding: 32px 25px;
+}
