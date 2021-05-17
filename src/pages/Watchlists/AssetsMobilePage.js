@@ -122,6 +122,7 @@ const AssetsMobilePage = props => {
             )
           }
 
+          // TODO: rewrite this check (@haritonasty 17.05.21)
           const isWatchlist = window.location.search.includes('@')
 
           const backRoute = isWatchlist ? '/watchlists' : '/assets'

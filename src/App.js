@@ -240,7 +240,9 @@ export const App = ({
   )
 
   return (
-    <div className={cx('App', isWatchlistPage && 'list-container')}>
+    <div
+      className={cx('App', isWatchlistPage && isDesktop && 'list-container')}
+    >
       <ErrorBoundary history={history}>
         {isOffline && (
           <div className={styles.offline}>
