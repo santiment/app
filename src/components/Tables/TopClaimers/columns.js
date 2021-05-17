@@ -6,12 +6,7 @@ import styles from './index.module.scss'
 
 const settings = {
   assets: ['uniswap'],
-  priceMetrics: [
-    {
-      asset: 'uniswap',
-      enabled: true
-    }
-  ]
+  priceMetrics: ['uniswap']
 }
 
 const TrxAddressCell = ({
