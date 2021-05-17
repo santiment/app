@@ -1,9 +1,30 @@
 @import '~@santiment-network/ui/mixins';
 
 .wrapper {
-  margin: 16px 0;
+  margin: 0 16px;
+  bottom: 68px;
+  left: 0;
+  right: 0;
+  max-width: calc(100% - 32px);
+  position: fixed;
+  z-index: 1;
   padding: 0 18px;
   background-color: $bright-sun !important;
+}
+
+.appearAnimation {
+  animation-name: shiftUp;
+  animation-timing-function: cubic-bezier(0, 0.96, 1, 1);
+  animation-duration: 0.4s;
+  animation-delay: 0.5s;
+  animation-fill-mode: both;
+}
+
+.closeAnimation {
+  animation-name: shiftDown;
+  animation-timing-function: cubic-bezier(0, 0.96, 1, 1);
+  animation-duration: 0.4s;
+  animation-fill-mode: both;
 }
 
 .link {
@@ -17,4 +38,24 @@
 
 .close {
   margin-left: auto;
+}
+
+@keyframes shiftUp {
+  0% {
+    transform: translateY(60px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes shiftDown {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(60px);
+  }
 }
