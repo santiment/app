@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
-/* import ProjectSelector from '../../ducks/Studio/ProjectInfo/ProjectSelector' */
 import StudioInfo from '../../ducks/SANCharts/Header'
 import styles from './index.module.scss'
 
