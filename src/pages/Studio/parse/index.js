@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
 import { parse } from 'query-string'
-import { parseUrlV2, parseSharedSidepanel } from '../../ducks/Studio/url/parse'
 import { studio } from 'studio/stores/studio'
 import { Metric } from 'studio/metrics'
 import { newProjectMetric } from 'studio/metrics/utils'
@@ -8,11 +7,16 @@ import {
   cacheIndicator,
   Indicator
 } from 'studio/ChartWidget/MetricSettings/IndicatorSetting/utils'
+import { parseMetricGraphValue } from './settings'
+import {
+  parseUrlV2,
+  parseSharedSidepanel
+} from '../../../ducks/Studio/url/parse'
 import {
   getProjectMetricByKey,
   checkIsProjectMetricKey
-} from '../../ducks/Studio/metrics'
-import { getWidgetByKey, parseSubwidgets } from './parse/widgets'
+} from '../../../ducks/Studio/metrics'
+import { getWidgetByKey, parseSubwidgets } from '../parse/widgets'
 
 const CONTROLLER = {
   newProjectMetric,
@@ -26,13 +30,26 @@ function getMetric (metricKey) {
 }
 
 function parseMetric (metricKey, KnownMetric) {
-  if (KnownMetric[metricKey]) return KnownMetric[metricKey]
-  return getMetric(metricKey)
+  const metric = KnownMetric[metricKey] || getMetric(metricKey)
+  KnownMetric[metricKey] = metric
+  return metric
 }
 
-function parseIndicators (indicators) {
+function parseAxesMetrics (metrics, KnownMetric) {
+  const disabledAxesMetrics = new Set(Object.values(KnownMetric))
+  const axesMetrics = new Set()
+  ;(metrics || []).forEach(metricKey => {
+    const metric = KnownMetric[metricKey]
+    if (metric) {
+      axesMetrics.add(metric)
+      disabledAxesMetrics.delete(metric)
+    }
+  })
+  return { axesMetrics, disabledAxesMetrics }
+}
+
+function parseIndicators (indicators, KnownMetric) {
   const MetricIndicators = {}
-  const IndicatorMetric = {}
 
   Object.keys(indicators || {}).forEach(metricKey => {
     const metric = getMetric(metricKey)
@@ -42,29 +59,29 @@ function parseIndicators (indicators) {
       const indicator = Indicator[indicatorKey]
       if (metric) {
         const indicatorMetric = cacheIndicator(metric, indicator)
-        IndicatorMetric[`${indicatorKey}_${metricKey}`] = indicatorMetric
+        KnownMetric[`${indicatorKey}_${metricKey}`] = indicatorMetric
       }
       indicatorMetrics[i] = indicator
       MetricIndicators[metric.key] = new Set(indicatorMetrics)
     })
   })
 
-  return { MetricIndicators, IndicatorMetric }
+  return MetricIndicators
 }
 
 function parseWidgets (widgets) {
   return widgets.map(widget => {
     const Widget = getWidgetByKey(widget.widget)
-    const ParsedIndicators = parseIndicators(widget.indicators)
-    const { MetricIndicators, IndicatorMetric } = ParsedIndicators
-    const metrics = widget.metrics.map(key => parseMetric(key, IndicatorMetric))
-    const ParsedSubwidgets = parseSubwidgets(widget.connectedWidgets)
+    const KnownMetric = {}
 
-    Widget.metrics = metrics
-    Widget.indicators = MetricIndicators
-    Object.assign(Widget, ParsedSubwidgets)
+    Widget.metricIndicators = parseIndicators(widget.indicators, KnownMetric)
+    Widget.metrics = widget.metrics.map(key => parseMetric(key, KnownMetric))
+    Widget.metricSettings = parseMetricGraphValue(widget.settings, KnownMetric)
+    Widget.colors = parseMetricGraphValue(widget.colors, KnownMetric)
+    Object.assign(Widget, parseAxesMetrics(widget.axesMetrics, KnownMetric))
+    Object.assign(Widget, parseSubwidgets(widget.connectedWidgets))
+    Widget.drawings = widget.drawings
 
-    console.log(widget, Widget, ParsedIndicators)
     return Widget
   })
 }
