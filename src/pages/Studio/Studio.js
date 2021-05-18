@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import SvelteStudio from 'studio'
+import SanStudio from 'studio'
 import { Metric } from 'studio/metrics'
 import { newWidget } from 'studio/stores/widgets'
 import { studio as settingsStore } from 'studio/stores/studio'
@@ -22,7 +22,7 @@ import 'webkit/styles/layout.css'
 import 'webkit/styles/elements.css'
 import styles from './index.module.scss'
 
-const Studio = () => {
+const Studio = ({ defaultWidgets, defaultSidewidget }) => {
   const ref = useRef()
   const [studio, setStudio] = useState()
   const settings = useSettings()
@@ -34,12 +34,13 @@ const Studio = () => {
   useGlobalsUpdater()
   useEffect(() => {
     const page = ref.current
-    const studio = new SvelteStudio({
+    const studio = new SanStudio({
       target: page,
       props: {
         onSubwidget: subwidgetsController.onSubwidget,
         onWidget: widgetsController.onWidget,
-        widgets: [
+        sidewidget: defaultSidewidget,
+        widgets: defaultWidgets || [
           newWidget(ChartWidget, {
             metrics: [Metric.price_usd]
           })

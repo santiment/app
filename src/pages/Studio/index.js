@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import Studio from './Studio'
+import Studio from '../Chart'
 import URLExtension from './URLExtension'
 import RecentAssetExtension from './RecentAssetExtension'
 import { getIdFromSEOLink } from '../../utils/url'
