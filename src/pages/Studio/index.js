@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react'
+import Studio from './Studio'
 import URLExtension from './URLExtension'
 import RecentAssetExtension from './RecentAssetExtension'
-import ChartPage from '../Chart'
 import { getIdFromSEOLink } from '../../utils/url'
 import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
 import PageLoader from '../../components/Loader/PageLoader'
 import { parseUrlV2 } from '../../ducks/Studio/url/parse'
 import { getChartWidgetsFromTemplate } from '../../ducks/Studio/Template/utils'
 import { getTemplate } from '../../ducks/Studio/Template/gql/hooks'
-import TestStudio from './Test'
 
 const Extensions = props => (
   <>
@@ -44,10 +43,8 @@ export default ({ location }) => {
 
   if (!parsedUrl) return <PageLoader />
 
-  return <TestStudio />
-
   return (
-    <ChartPage
+    <Studio
       parsedUrl={parsedUrl}
       Extensions={Extensions}
       shortUrlHashState={shortUrlHashState}

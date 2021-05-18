@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import Studio from 'studio'
+import SvelteStudio from 'studio'
 import { Metric } from 'studio/metrics'
 import { newWidget } from 'studio/stores/widgets'
 import { studio as settingsStore } from 'studio/stores/studio'
@@ -22,7 +22,7 @@ import 'webkit/styles/layout.css'
 import 'webkit/styles/elements.css'
 import styles from './index.module.scss'
 
-const NewStudio = ({ ...props }) => {
+const Studio = () => {
   const ref = useRef()
   const [studio, setStudio] = useState()
   const settings = useSettings()
@@ -34,7 +34,7 @@ const NewStudio = ({ ...props }) => {
   useGlobalsUpdater()
   useEffect(() => {
     const page = ref.current
-    const studio = new Studio({
+    const studio = new SvelteStudio({
       target: page,
       props: {
         onSubwidget: subwidgetsController.onSubwidget,
@@ -93,4 +93,4 @@ const NewStudio = ({ ...props }) => {
   )
 }
 
-export default NewStudio
+export default Studio
