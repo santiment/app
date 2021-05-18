@@ -14,52 +14,16 @@ import 'webkit/styles/text.css'
 import 'webkit/styles/layout.css'
 import 'webkit/styles/elements.css'
 
+import { useStore, getSvelteContext } from './stores'
 import { useTheme } from '../../stores/ui/theme'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import { Header } from '../../ducks/Studio/Header'
 import ProjectSelector from '../../ducks/Studio/Sidebar/ProjectSelector'
-import SpentCoinCost from '../../ducks/Studio/AdvancedView/PriceHistogram'
 import TopTransactionsTable from '../../ducks/Studio/Widget/TopTransactionsTable'
 import StudioInfo from '../../ducks/SANCharts/Header'
 import styles from './index.module.scss'
 import Widget, { useWidgets } from './ChartWidget'
-
-const getContextStore = (cmp, ctx) => cmp && cmp.$$.context.get(ctx)
-function useStore (store, immute = _ => _) {
-  const [state, setState] = useState(() => store && get(store))
-  useEffect(
-    () =>
-      store &&
-      store.subscribe(value => {
-        setState(immute(value))
-      }),
-    [store]
-  )
-  return state
-}
-
-const KeyToSidewidget = {
-  /* [SelectorNode.spent_coin_cost]: SpentCoinCost, */
-  spent_coin_cost: SpentCoinCost
-}
-const Sidewidget = ({ studio, project }) => {
-  const sidewidget = useStore(getContextStore(studio, 'sidewidget')) || null
-  const [[Widget, node], setState] = useState([])
-
-  useEffect(
-    () => {
-      const widget = sidewidget && KeyToSidewidget[sidewidget.key]
-      setState(
-        widget ? [widget, document.querySelector('.studio-sidewidget')] : []
-      )
-    },
-    [sidewidget]
-  )
-
-  return Widget
-    ? ReactDOM.createPortal(<Widget project={project} />, node)
-    : null
-}
+import Sidewidget from './Sidewidget'
 
 const ProjectInfo = ({ node, settings, onProjectSelect }) => {
   if (node) {
@@ -88,8 +52,9 @@ const Test = ({ ...props }) => {
   const userInfo = useUserSubscriptionStatus()
   const settings = useStore(settingsStore, settingsImmute)
   const mapview = useStore(mapviewStore)
-  const widgets = useStore(getContextStore(studio, 'widgets')) || []
+  const widgets = useStore(getSvelteContext(studio, 'widgets')) || []
   const widgetsController = useWidgets()
+  const [svelteStudio, setSvelteStudio] = useState()
 
   useEffect(() => {
     const page = ref.current

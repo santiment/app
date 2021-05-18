@@ -1,20 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
-import { get } from 'svelte/store'
+import { useStore } from './stores'
 import PaywallInfo from '../../ducks/Studio/Chart/PaywallInfo'
-
-function useStore (store, immute = _ => _) {
-  const [state, setState] = useState(() => store && get(store))
-  useEffect(
-    () =>
-      store &&
-      store.subscribe(value => {
-        setState(immute(value))
-      }),
-    [store]
-  )
-  return state
-}
 
 export function useWidgets () {
   const [widgets, setWidgets] = useState([])
@@ -39,7 +26,6 @@ function useWidgetMetrics (widget) {
 
 const ChartWidget = ({ widget, target }) => {
   const metrics = useWidgetMetrics(widget)
-  console.log(metrics)
   return ReactDOM.createPortal(
     <PaywallInfo metrics={metrics} className='mrg-s mrg--r' />,
     target.querySelector('.studio-why-gaps')
