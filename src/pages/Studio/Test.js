@@ -22,6 +22,7 @@ import SpentCoinCost from '../../ducks/Studio/AdvancedView/PriceHistogram'
 import TopTransactionsTable from '../../ducks/Studio/Widget/TopTransactionsTable'
 import StudioInfo from '../../ducks/SANCharts/Header'
 import styles from './index.module.scss'
+import Widget, { useWidgets } from './ChartWidget'
 
 const getContextStore = (cmp, ctx) => cmp && cmp.$$.context.get(ctx)
 function useStore (store, immute = _ => _) {
@@ -88,6 +89,7 @@ const Test = ({ ...props }) => {
   const settings = useStore(settingsStore, settingsImmute)
   const mapview = useStore(mapviewStore)
   const widgets = useStore(getContextStore(studio, 'widgets')) || []
+  const widgetsController = useWidgets()
 
   useEffect(() => {
     const page = ref.current
@@ -95,6 +97,7 @@ const Test = ({ ...props }) => {
       target: page,
       props: {
         onSubwidget,
+        onWidget: widgetsController.onWidget,
         widgets: [
           newWidget(ChartWidget, {
             metrics: [Metric.price_usd]
@@ -181,7 +184,12 @@ const Test = ({ ...props }) => {
           headerNode
         )}
 
+      {widgetsController.widgets.map(item => (
+        <Widget key={item.widget.id} {...item} />
+      ))}
+
       <Sidewidget studio={studio} project={settings} />
+
       {subwidgets.map((Subwidget, i) => (
         <Subwidget key={i} settings={settings} />
       ))}
