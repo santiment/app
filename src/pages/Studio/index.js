@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
+import Studio from './Studio'
 import URLExtension from './URLExtension'
 import RecentAssetExtension from './RecentAssetExtension'
-import ChartPage from '../Chart'
 import { getIdFromSEOLink } from '../../utils/url'
 import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
 import PageLoader from '../../components/Loader/PageLoader'
@@ -44,7 +44,7 @@ export default ({ location }) => {
   if (!parsedUrl) return <PageLoader />
 
   return (
-    <ChartPage
+    <Studio
       parsedUrl={parsedUrl}
       Extensions={Extensions}
       shortUrlHashState={shortUrlHashState}
