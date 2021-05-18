@@ -24,29 +24,14 @@ import StudioInfo from '../../ducks/SANCharts/Header'
 import styles from './index.module.scss'
 import Widget, { useWidgets } from './ChartWidget'
 import Sidewidget from './Sidewidget'
-
-const ProjectInfo = ({ node, settings, onProjectSelect }) => {
-  if (node) {
-    node.classList.add(styles.project)
-  }
-  return (
-    <>
-      {node &&
-        ReactDOM.createPortal(
-          <StudioInfo slug={settings.slug} onSlugSelect={onProjectSelect} />,
-          node
-        )}
-    </>
-  )
-}
+import ProjectInfo from './ProjectInfo'
+import Sidebar from './Sidebar'
 
 const settingsImmute = store => Object.assign({}, store)
 const Test = ({ ...props }) => {
   const ref = useRef()
   const [studio, setStudio] = useState()
-  const [projectSelectorNode, setProjectSelectorNode] = useState()
   const [headerNode, setHeaderNode] = useState()
-  const [topNode, setTopNode] = useState()
   const [subwidgets, setSubwidgets] = useState([])
   const theme = useTheme()
   const userInfo = useUserSubscriptionStatus()
@@ -73,9 +58,7 @@ const Test = ({ ...props }) => {
     })
 
     setStudio(studio)
-    setProjectSelectorNode(page.querySelector('.sidebar-project'))
     setHeaderNode(page.querySelector('.header'))
-    setTopNode(page.querySelector('.studio-top'))
 
     function onSubwidget (target, subwidget, parentWidget) {
       const widget = TopTransactionsTable.new({ parentWidget })
@@ -121,19 +104,16 @@ const Test = ({ ...props }) => {
   return (
     <div ref={ref} className={styles.wrapper}>
       <ProjectInfo
+        studio={studio}
         settings={settings}
-        node={topNode}
         onProjectSelect={onProjectSelect}
       />
 
-      {projectSelectorNode &&
-        ReactDOM.createPortal(
-          <ProjectSelector
-            project={settings}
-            onProjectSelect={onProjectSelect}
-          />,
-          projectSelectorNode
-        )}
+      <Sidebar
+        studio={studio}
+        settings={settings}
+        onProjectSelect={onProjectSelect}
+      />
 
       {headerNode &&
         ReactDOM.createPortal(
