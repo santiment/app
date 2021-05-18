@@ -2,37 +2,36 @@ import React, { useState, useRef, useEffect } from 'react'
 import Studio from 'studio'
 import { Metric } from 'studio/metrics'
 import { newWidget } from 'studio/stores/widgets'
-import { globals } from 'studio/stores/globals'
 import { studio as settingsStore } from 'studio/stores/studio'
 import ChartWidget from 'studio/ChartWidget'
-import HolderDistributionWidget from 'studio/HolderDistributionWidget'
-import 'webkit/styles/color.css'
-import 'webkit/styles/text.css'
-import 'webkit/styles/layout.css'
-import 'webkit/styles/elements.css'
-
-import { useStore, getSvelteContext } from './stores'
-import { useTheme } from '../../stores/ui/theme'
-import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
-import styles from './index.module.scss'
-import Widget, { useWidgets } from './ChartWidget'
+import {
+  useGlobalsUpdater,
+  useSettings,
+  useWidgets,
+  useStudioMetrics
+} from './stores'
+import Widget, { useWidgetsController } from './ChartWidget'
 import Sidewidget from './Sidewidget'
 import ProjectInfo from './ProjectInfo'
 import Header from './Header'
 import Sidebar from './Sidebar'
 import Subwidgets, { useSubwidgetsController } from './Subwidgets'
+import 'webkit/styles/color.css'
+import 'webkit/styles/text.css'
+import 'webkit/styles/layout.css'
+import 'webkit/styles/elements.css'
+import styles from './index.module.scss'
 
-const settingsImmute = store => Object.assign({}, store)
-const Test = ({ ...props }) => {
+const NewStudio = ({ ...props }) => {
   const ref = useRef()
   const [studio, setStudio] = useState()
-  const theme = useTheme()
-  const userInfo = useUserSubscriptionStatus()
-  const settings = useStore(settingsStore, settingsImmute)
-  const widgets = useStore(getSvelteContext(studio, 'widgets')) || []
-  const widgetsController = useWidgets()
+  const settings = useSettings()
+  const widgets = useWidgets()
+  const widgetsController = useWidgetsController()
   const subwidgetsController = useSubwidgetsController()
+  const metrics = useStudioMetrics(studio)
 
+  useGlobalsUpdater()
   useEffect(() => {
     const page = ref.current
     const studio = new Studio({
@@ -43,26 +42,14 @@ const Test = ({ ...props }) => {
         widgets: [
           newWidget(ChartWidget, {
             metrics: [Metric.price_usd]
-          }),
-          newWidget(HolderDistributionWidget, {})
+          })
         ]
       }
     })
 
     setStudio(studio)
-
     return () => studio.$destroy()
   }, [])
-
-  useEffect(
-    () => {
-      globals.toggle('isNightMode', theme.isNightMode)
-      globals.toggle('isLoggedIn', userInfo.isLoggedIn)
-      globals.toggle('isPro', userInfo.isPro)
-      globals.toggle('isProPlus', userInfo.isProPlus)
-    },
-    [userInfo, theme]
-  )
 
   function onProjectSelect (project) {
     if (project) {
@@ -79,7 +66,12 @@ const Test = ({ ...props }) => {
         onProjectSelect={onProjectSelect}
       />
 
-      <Header studio={studio} settings={settings} widgets={widgets} />
+      <Header
+        studio={studio}
+        settings={settings}
+        widgets={widgets}
+        metrics={metrics}
+      />
 
       <Sidebar
         studio={studio}
@@ -91,7 +83,7 @@ const Test = ({ ...props }) => {
         <Widget key={item.widget.id} {...item} />
       ))}
 
-      <Sidewidget studio={studio} project={settings} />
+      <Sidewidget studio={studio} project={settings} metrics={metrics} />
 
       <Subwidgets
         subwidgets={subwidgetsController.subwidgets}
@@ -101,4 +93,4 @@ const Test = ({ ...props }) => {
   )
 }
 
-export default Test
+export default NewStudio

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { useStore } from './stores'
 import PaywallInfo from '../../ducks/Studio/Chart/PaywallInfo'
 
-export function useWidgets () {
+export function useWidgetsController () {
   const [widgets, setWidgets] = useState([])
 
   function onWidget (target, widget) {
