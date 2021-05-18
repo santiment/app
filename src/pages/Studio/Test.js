@@ -1,6 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react'
-import ReactDOM from 'react-dom'
-import { get } from 'svelte/store'
+import React, { useState, useRef, useEffect } from 'react'
 import Studio from 'studio'
 import { Metric } from 'studio/metrics'
 import { newWidget } from 'studio/stores/widgets'
@@ -16,35 +14,31 @@ import 'webkit/styles/elements.css'
 import { useStore, getSvelteContext } from './stores'
 import { useTheme } from '../../stores/ui/theme'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
-import ProjectSelector from '../../ducks/Studio/Sidebar/ProjectSelector'
-import TopTransactionsTable from '../../ducks/Studio/Widget/TopTransactionsTable'
-import StudioInfo from '../../ducks/SANCharts/Header'
 import styles from './index.module.scss'
 import Widget, { useWidgets } from './ChartWidget'
 import Sidewidget from './Sidewidget'
 import ProjectInfo from './ProjectInfo'
 import Header from './Header'
 import Sidebar from './Sidebar'
+import Subwidgets, { useSubwidgetsController } from './Subwidgets'
 
 const settingsImmute = store => Object.assign({}, store)
 const Test = ({ ...props }) => {
   const ref = useRef()
   const [studio, setStudio] = useState()
-  const [headerNode, setHeaderNode] = useState()
-  const [subwidgets, setSubwidgets] = useState([])
   const theme = useTheme()
   const userInfo = useUserSubscriptionStatus()
   const settings = useStore(settingsStore, settingsImmute)
   const widgets = useStore(getSvelteContext(studio, 'widgets')) || []
   const widgetsController = useWidgets()
-  const [svelteStudio, setSvelteStudio] = useState()
+  const subwidgetsController = useSubwidgetsController()
 
   useEffect(() => {
     const page = ref.current
     const studio = new Studio({
       target: page,
       props: {
-        onSubwidget,
+        onSubwidget: subwidgetsController.onSubwidget,
         onWidget: widgetsController.onWidget,
         widgets: [
           newWidget(ChartWidget, {
@@ -56,28 +50,6 @@ const Test = ({ ...props }) => {
     })
 
     setStudio(studio)
-    setHeaderNode(page.querySelector('.header'))
-
-    function onSubwidget (target, subwidget, parentWidget) {
-      const widget = TopTransactionsTable.new({ parentWidget })
-      const Render = props =>
-        ReactDOM.createPortal(
-          <widget.Widget
-            {...props}
-            widget={widget}
-            deleteWidget={deleteWidget}
-            rerenderWidgets={() => {}}
-          />,
-          target
-        )
-      setSubwidgets([Render])
-
-      const filter = subwidget => subwidget !== Render
-      function deleteWidget () {
-        setSubwidgets(subwidgets => subwidgets.filter(filter))
-      }
-      return deleteWidget
-    }
 
     return () => studio.$destroy()
   }, [])
@@ -121,9 +93,10 @@ const Test = ({ ...props }) => {
 
       <Sidewidget studio={studio} project={settings} />
 
-      {subwidgets.map((Subwidget, i) => (
-        <Subwidget key={i} settings={settings} />
-      ))}
+      <Subwidgets
+        subwidgets={subwidgetsController.subwidgets}
+        settings={settings}
+      />
     </div>
   )
 }
