@@ -1,0 +1,18 @@
+.tab {
+  margin-right: 32px;
+  cursor: pointer;
+  user-select: none;
+  color: var(--rhino);
+
+  &_inactive {
+    color: var(--casper);
+
+    &:hover {
+      color: var(--waterloo);
+    }
+  }
+
+  &:last-child {
+    margin: 0;
+  }
+}

@@ -4,10 +4,12 @@ import { walletMetricBuilder, priceMetricBuilder } from './utils'
 import {
   WALLET_ASSETS_QUERY,
   ADDRESS_QUERY,
-  RECENT_TRANSACTIONS_QUERY
+  RECENT_TRANSACTIONS_QUERY,
+  TOP_TRANSACTIONS_QUERY
 } from './queries'
 import { getAddressInfrastructure } from '../../utils/address'
 import { getValidInterval } from '../SANCharts/IntervalSelector'
+import { TabType } from './defaults'
 
 const DEFAULT_STATE = []
 
@@ -48,14 +50,22 @@ export function useWalletAssets (wallet) {
   }
 }
 
-export function useRecentTransactions (wallet, page, skip) {
-  const { data, loading } = useWalletQuery(
-    RECENT_TRANSACTIONS_QUERY,
-    Object.assign({ page }, wallet),
-    skip
-  )
+export function useAddressTransactions (wallet, type, page, skip) {
+  const query =
+    type === TabType.LATEST_TRANSACTIONS
+      ? RECENT_TRANSACTIONS_QUERY
+      : TOP_TRANSACTIONS_QUERY
+  const variables = {
+    page,
+    ...wallet,
+    addressSelector: { address: wallet.address, transactionType: 'ALL' },
+    from: 'utc_now-1d',
+    to: 'utc_now',
+    slug: 'uniswap'
+  }
+  const { data, loading } = useWalletQuery(query, variables, skip)
   return {
-    recentTransactions: data ? data.recentTransactions : DEFAULT_STATE,
+    transactions: data ? data.transactions : DEFAULT_STATE,
     isLoading: loading
   }
 }

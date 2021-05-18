@@ -33,12 +33,47 @@ export const ADDRESS_QUERY = gql`
 
 export const RECENT_TRANSACTIONS_QUERY = gql`
   query recentTransactions($address: String!, $page: Int, $pageSize: Int = 20) {
-    recentTransactions(
+    transactions: recentTransactions(
       address: $address
       page: $page
       pageSize: $pageSize
       type: ERC20
       onlySender: false
+    ) {
+      datetime
+      fromAddress {
+        address
+      }
+      toAddress {
+        address
+      }
+      trxValue
+      trxHash
+      project {
+        id
+        ticker
+        logoUrl
+      }
+    }
+  }
+`
+
+export const TOP_TRANSACTIONS_QUERY = gql`
+  query topTransactions(
+    $addressSelector: AddressSelector
+    $from: DateTime
+    $to: DateTime
+    $slug: String
+    $page: Int
+    $pageSize: Int = 20
+  ) {
+    topTransactions(
+      addressSelector: $addressSelector
+      page: $page
+      pageSize: $pageSize
+      from: $from
+      to: $to
+      slug: $slug
     ) {
       datetime
       fromAddress {
