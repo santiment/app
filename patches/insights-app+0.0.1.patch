@@ -1,0 +1,13 @@
+diff --git a/node_modules/insights-app/src/components/ProfileInfo.svelte b/node_modules/insights-app/src/components/ProfileInfo.svelte
+index d6dc399..0cae0c6 100644
+--- a/node_modules/insights-app/src/components/ProfileInfo.svelte
++++ b/node_modules/insights-app/src/components/ProfileInfo.svelte
+@@ -11,7 +11,7 @@
+ .wrapper(class="{classes.wrapper || ''}")
+   +if('withPic')
+     .icon(class="{classes.icon || ''}")
+-      img(src="{avatarUrl || 'profile-fallback.svg'}", alt="Profile picture")
++      img(src="{avatarUrl || 'profile-fallback.svg'}", alt="Profile")
+ 
+   .info(class="{classes.info || ''}")
+     a.name(class="{classes.name || ''}", href="https://app.santiment.net/profile/{id}") {name}
