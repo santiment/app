@@ -122,6 +122,11 @@ hr {
   z-index: 10000 !important;
   font-size: 14px;
   line-height: 20px;
+
+  * {
+    font-size: inherit;
+    line-height: inherit;
+  }
 }
 
 [class*='svelte'] {
