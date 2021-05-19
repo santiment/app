@@ -36,8 +36,6 @@ import { withSavedCommentLookup } from './withSavedCommentLookup'
 import Intercom from './components/Intercom/index.js'
 import styles from './App.module.scss'
 import './App.scss'
-import ChartPage from './pages/Studio'
-console.log(ChartPage)
 
 const FOOTER_DISABLED_FOR = [
   PATHS.STUDIO,
@@ -124,7 +122,7 @@ const LoadableSearchMobilePage = LoadablePage(() =>
   import('./pages/SearchMobilePage/SearchMobilePage')
 )
 
-// const LoadableChartPage = LoadablePage(() => import('./pages/Studio'))
+const LoadableChartPage = LoadablePage(() => import('./pages/Studio'))
 
 const LoadableStablecoinsPage = LoadablePage(() =>
   import('./pages/StablecoinsPage/StablecoinsPage')
@@ -493,7 +491,7 @@ export const App = ({
             <Route
               path={PATHS.STUDIO}
               render={props => (
-                <ChartPage
+                <LoadableChartPage
                   classes={{ wrapper: styles.chart }}
                   isLoggedIn={isLoggedIn}
                   {...props}
@@ -551,7 +549,7 @@ export const App = ({
             <Route
               path={PATHS.CHARTS}
               render={props => (
-                <ChartPage
+                <LoadableChartPage
                   classes={{ wrapper: styles.chart }}
                   isLoggedIn={isLoggedIn}
                   {...props}
