@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Tooltip from '@santiment-network/ui/Tooltip'
@@ -59,7 +58,7 @@ function useRestrictedInfo (metrics) {
   return infos
 }
 
-const PaywallInfo = ({ metrics, className }) => {
+const PaywallInfo = ({ metrics }) => {
   const infos = useRestrictedInfo(metrics)
   const { isPro, isTrial } = useUserSubscriptionStatus()
 
@@ -73,7 +72,7 @@ const PaywallInfo = ({ metrics, className }) => {
     <Tooltip
       position='bottom'
       trigger={
-        <Button className={cx(styles.btn, className)}>
+        <Button className={styles.btn}>
           <Icon className={styles.icon} type='question-round-small' />
           Why the gaps?
         </Button>
