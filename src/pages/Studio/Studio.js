@@ -21,6 +21,7 @@ import 'webkit/styles/text.css'
 import 'webkit/styles/layout.css'
 import 'webkit/styles/elements.css'
 import styles from './index.module.scss'
+console.log(SvelteStudio)
 
 const Studio = () => {
   const ref = useRef()
@@ -47,6 +48,7 @@ const Studio = () => {
       }
     })
 
+    console.log(studio)
     setStudio(studio)
     return () => studio.$destroy()
   }, [])

@@ -8,6 +8,7 @@ import PageLoader from '../../components/Loader/PageLoader'
 import { parseUrlV2 } from '../../ducks/Studio/url/parse'
 import { getChartWidgetsFromTemplate } from '../../ducks/Studio/Template/utils'
 import { getTemplate } from '../../ducks/Studio/Template/gql/hooks'
+console.log(Studio)
 
 const Extensions = props => (
   <>
