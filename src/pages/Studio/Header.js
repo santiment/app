@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
+import { studio as settingsStore } from 'studio/stores/studio'
 import { mapview } from 'studio/stores/mapview'
 import { useStore } from './stores'
 import { useSidewidgetStore } from './Sidewidget'
@@ -26,7 +27,7 @@ const Header = ({ studio, settings, widgets, metrics }) => {
         metrics={metrics}
         headerRef={{ current: target }}
         isOverviewOpened={$mapview > 0}
-        changeTimePeriod={mapview.setPeriod}
+        changeTimePeriod={settingsStore.setPeriod}
         toggleOverview={mapview.toggle}
         toggleSidepanel={sidewidget.set}
       />,

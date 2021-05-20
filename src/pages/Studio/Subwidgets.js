@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { SelectorNode } from 'studio/metrics/selector'
 import TopTransactionsTable from '../../ducks/Studio/Widget/TopTransactionsTable'
 
-const KeyToSubwidget = {
+export const KeyToSubwidget = {
   [SelectorNode.TopTransactionsTable.key]: TopTransactionsTable
 }
 
