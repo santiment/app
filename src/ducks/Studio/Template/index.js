@@ -65,7 +65,8 @@ const Template = ({
       onProjectSelect(project)
     }
 
-    setWidgets(getChartWidgetsFromTemplate(template))
+    const parseTemplate = props.parseTemplate || getChartWidgetsFromTemplate
+    setWidgets(parseTemplate(template))
   }
 
   const [selectedTemplate, setSelectedTemplate, loading] = useSelectedTemplate(

@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import Studio from '../Studio/Studio'
-import { useUrlParse } from '../Studio/parse'
+import { parseUrl } from '../Studio/parse'
 
-export default ({ parsedUrl, ...props }) => {
-  const defaults = useUrlParse(parsedUrl)
-
-  return <Studio {...defaults} />
+export default ({ parsedUrl, search }) => {
+  const { widgets, settings, sidewidget } = useMemo(
+    () => parsedUrl || parseUrl(search),
+    [parsedUrl, search]
+  )
+  return (
+    <Studio
+      defaultWidgets={widgets}
+      defaultSettings={settings}
+      defaultSidewidget={sidewidget}
+    />
+  )
 }

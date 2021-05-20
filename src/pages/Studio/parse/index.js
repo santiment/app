@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
 import { parse } from 'query-string'
-import { studio } from 'studio/stores/studio'
 import { Metric } from 'studio/metrics'
 import { HolderDistributionMetric } from 'studio/metrics/_onchain/holderDistributions'
 import { newProjectMetric } from 'studio/metrics/utils'
@@ -13,12 +12,12 @@ import {
   Indicator
 } from 'studio/ChartWidget/MetricSettings/IndicatorSetting/utils'
 import { parseMetricGraphValue } from './settings'
+import { getWidgetByKey, parseSubwidgets } from './widgets'
 import { parseSharedSidepanel } from '../../../ducks/Studio/url/parse'
 import {
   getProjectMetricByKey,
   checkIsProjectMetricKey
 } from '../../../ducks/Studio/metrics'
-import { getWidgetByKey, parseSubwidgets } from '../parse/widgets'
 
 const CONTROLLER = {
   newProjectMetric,
@@ -86,24 +85,26 @@ function parseMergedMetrics (metrics, KnownMetric) {
   return mergedMetrics
 }
 
-function parseWidgets (widgets) {
-  return widgets.map(widget => {
-    const Widget = getWidgetByKey(widget.widget)
-    const KnownMetric = {}
+export function parseWidget (widget) {
+  const Widget = getWidgetByKey(widget.widget)
+  const KnownMetric = {}
 
-    Widget.mergedMetrics = parseMergedMetrics(widget.metrics, KnownMetric)
-    Widget.metricIndicators = parseIndicators(widget.indicators, KnownMetric)
-    Widget.metrics = widget.metrics
-      .map(key => parseMetric(key, KnownMetric))
-      .filter(Boolean)
-    Widget.metricSettings = parseMetricGraphValue(widget.settings, KnownMetric)
-    Widget.colors = parseMetricGraphValue(widget.colors, KnownMetric)
-    Object.assign(Widget, parseAxesMetrics(widget.axesMetrics, KnownMetric))
-    Object.assign(Widget, parseSubwidgets(widget.connectedWidgets))
-    Widget.drawings = widget.drawings
+  Widget.mergedMetrics = parseMergedMetrics(widget.metrics, KnownMetric)
+  Widget.metricIndicators = parseIndicators(widget.indicators, KnownMetric)
+  Widget.metrics = widget.metrics
+    .map(key => parseMetric(key, KnownMetric))
+    .filter(Boolean)
+  Widget.metricSettings = parseMetricGraphValue(widget.settings, KnownMetric)
+  Widget.colors = parseMetricGraphValue(widget.colors, KnownMetric)
+  Object.assign(Widget, parseAxesMetrics(widget.axesMetrics, KnownMetric))
+  Object.assign(Widget, parseSubwidgets(widget.connectedWidgets))
+  Widget.drawings = widget.drawings
 
-    return Widget
-  })
+  return Widget
+}
+
+export function parseWidgets (widgets) {
+  return widgets.map(parseWidget)
 }
 
 function tryParseWidgets (widgets) {
@@ -114,7 +115,7 @@ function tryParseWidgets (widgets) {
   }
 }
 
-function parseUrl (url) {
+export function parseUrl (url) {
   const { settings, widgets, sidepanel } = parse(url)
 
   return {
@@ -126,14 +127,13 @@ function parseUrl (url) {
 
 export function useUrlParse (parsedUrl) {
   return useMemo(() => {
+    if (parsedUrl) return parsedUrl
     const { widgets, settings, sidewidget } = parseUrl(window.location.search)
-    studio.setProject(settings)
-    /* studio.setPeriod(settings) */
 
     return {
-      defaultSettings: settings,
-      defaultWidgets: widgets,
-      defaultSidewidget: sidewidget
+      settings,
+      widgets,
+      sidewidget
     }
   }, [])
 }

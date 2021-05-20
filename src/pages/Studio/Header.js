@@ -2,14 +2,17 @@ import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { studio as settingsStore } from 'studio/stores/studio'
 import { mapview } from 'studio/stores/mapview'
-import { useStore } from './stores'
+import { useWidgetsStore, useStore } from './stores'
 import { useSidewidgetStore } from './Sidewidget'
+import { parseTemplate } from './parse/template'
 import { Header as StudioHeader } from '../../ducks/Studio/Header'
 
 const Header = ({ studio, settings, widgets, metrics }) => {
   const [target, setTarget] = useState()
   const $mapview = useStore(mapview)
-  const sidewidget = useSidewidgetStore(studio)
+  const widgetsStore = useWidgetsStore(studio)
+  const sidewidgetStore = useSidewidgetStore(studio)
+  const sidewidget = useStore(sidewidgetStore)
 
   useEffect(
     () => {
@@ -19,17 +22,25 @@ const Header = ({ studio, settings, widgets, metrics }) => {
     [studio]
   )
 
+  function toggleSidepanel (value) {
+    sidewidgetStore.set(value === sidewidget ? null : value)
+  }
+
   return target
     ? ReactDOM.createPortal(
       <StudioHeader
+        {...settings}
         settings={settings}
         widgets={widgets}
         metrics={metrics}
+        sidepanel={sidewidget}
         headerRef={{ current: target }}
         isOverviewOpened={$mapview > 0}
         changeTimePeriod={settingsStore.setPeriod}
         toggleOverview={mapview.toggle}
-        toggleSidepanel={sidewidget.set}
+        toggleSidepanel={toggleSidepanel}
+        parseTemplate={parseTemplate}
+        setWidgets={widgetsStore.set}
       />,
       target
     )
