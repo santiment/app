@@ -2,10 +2,15 @@ import { getIntervalByTimeRange } from '../../utils/dates'
 
 export const TOPICS = [
   { slug: 'hold OR love OR btc OR bitcoin OR buy', title: 'Buy Bitcoin' },
-  { slug: 'vaccine', title: 'Vaccine' },
   {
-    slug: 'gme OR wsb OR gamestop OR squeeze',
-    title: 'Wall Street Bets pumps'
+    slug: 'doge',
+    title: 'Dogecoin Pumps',
+    query: 'doge?asset=dogecoin&ticker=DOGE'
+  },
+  {
+    slug: 'shib',
+    title: 'Shiba Inu All Time High',
+    query: 'shib?asset=shiba-inu&ticker=SHIB'
   },
   {
     slug: 'nft',
@@ -15,19 +20,17 @@ export const TOPICS = [
   { slug: 'correction', title: 'BTC Correction' },
   { slug: 'options', title: 'Options expiration' },
   { slug: 'visa', title: 'Visa crypto adoption' },
-  { slug: 'silver', title: 'Silver pumping' },
+  {
+    slug: 'icp',
+    title: 'Internet Computer Launch',
+    query: 'icp?asset=internet-computer&ticker=ICP'
+  },
   {
     slug: 'xrp OR ripple',
     title: 'Ripple pumps',
     query: 'xrp OR ripple?asset=ripple&ticker=XRP&slug=ripple'
   },
-  { slug: 'xlm', title: 'Stellar Pump', query: 'xlm?asset=stellar&ticker=XLM' },
   { slug: 'elon AND musk AND doge', title: 'Musk and Dogecoin' },
-  {
-    slug: 'bnt',
-    title: 'Bancor Coinbase Listing Pump',
-    query: 'bnt?asset=bancor&ticker=BNT'
-  },
   { slug: 'stimulus', title: 'Stimulus' },
   {
     slug: 'eth AND ath',
@@ -43,14 +46,14 @@ export const INDEX_PAGE_GROUPS = [
       'The most popular topics in crypto social media. Ranges from worldwide economic and health topics to the prices discussions',
     topics: [
       {
-        title: 'Wall Street Bets pumps',
-        slug: 'gme OR wsb OR gamestop OR squeeze',
-        createdAt: '2021-01-03T08:07:20.922Z'
+        title: 'Coinbase Stocks Listing',
+        slug: 'coinbase',
+        createdAt: '2021-05-20T08:07:20.922Z'
       },
       {
-        title: 'Pornhub Accepts Only Crypto',
-        slug: 'porn OR pornhub',
-        createdAt: '2020-12-17T07:18:20.922Z'
+        title: 'Biden and Taxes',
+        slug: 'biden AND tax',
+        createdAt: '2021-05-20T07:18:20.922Z'
       },
       {
         title: 'BTC All Time High',
@@ -58,19 +61,18 @@ export const INDEX_PAGE_GROUPS = [
         createdAt: '2020-12-17T15:18:20.922Z'
       },
       {
-        title: 'Tesla buying BTC',
+        title: 'Tesla and BTC',
         slug: 'tesla',
         createdAt: '2021-03-16T10:07:20.922Z'
       },
       {
-        title: 'BSC overtaking Ethereum',
-        slug: 'bsc',
-        query: 'bsc?asset=binance-coin&ticker=BNB',
-        createdAt: '2021-03-16T10:07:21.922Z'
+        title: 'Inflation',
+        slug: 'inflation',
+        createdAt: '2021-05-20T10:07:21.922Z'
       },
       {
-        title: 'SEC against Ripple',
-        slug: 'ripple AND sec',
+        title: 'Shitcoins',
+        slug: 'shitcoin',
         query: 'ripple%20AND%20sec?asset=ripple&ticker=XRP',
         createdAt: '2021-03-16T10:07:22.922Z'
       }
