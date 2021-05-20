@@ -7,6 +7,7 @@ import ChartWidget from 'studio/ChartWidget'
 import {
   useGlobalsUpdater,
   useSettings,
+  useWidgetsStore,
   useWidgets,
   useStudioMetrics
 } from './stores'
@@ -23,10 +24,11 @@ import 'webkit/styles/layout.css'
 import 'webkit/styles/elements.css'
 import styles from './index.module.scss'
 
-const Studio = ({ defaultWidgets, defaultSidewidget }) => {
+const Studio = ({ defaultSettings, defaultWidgets, defaultSidewidget }) => {
   const ref = useRef()
   const [studio, setStudio] = useState()
   const settings = useSettings()
+  const widgetsStore = useWidgetsStore(studio)
   const widgets = useWidgets()
   const widgetsController = useWidgetsController()
   const subwidgetsController = useSubwidgetsController()
@@ -55,10 +57,23 @@ const Studio = ({ defaultWidgets, defaultSidewidget }) => {
     return () => studio.$destroy()
   }, [])
 
+  useEffect(
+    () => {
+      if (defaultSettings) settingsStore.setProject(defaultSettings)
+      if (studio && defaultWidgets) widgetsStore.set(defaultWidgets)
+    },
+    [studio, defaultSettings, defaultWidgets]
+  )
+
   function onProjectSelect (project) {
     if (project) {
-      const { slug, ticker, name } = project
-      settingsStore.setProject({ slug, ticker, name })
+      const { slug, ticker, name, id } = project
+      settingsStore.setProject({
+        slug,
+        ticker,
+        name,
+        projectId: id
+      })
     }
   }
 

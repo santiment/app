@@ -5,9 +5,9 @@ import RecentAssetExtension from './RecentAssetExtension'
 import { getIdFromSEOLink } from '../../utils/url'
 import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
 import PageLoader from '../../components/Loader/PageLoader'
-import { parseUrlV2 } from '../../ducks/Studio/url/parse'
-import { getChartWidgetsFromTemplate } from '../../ducks/Studio/Template/utils'
 import { getTemplate } from '../../ducks/Studio/Template/gql/hooks'
+import { parseTemplate } from './parse/template'
+import { parseUrl } from './parse'
 
 const Extensions = props => (
   <>
@@ -21,25 +21,28 @@ export default ({ location }) => {
   const [parsedUrl, setParsedUrl] = useState()
   const shortUrlHashState = useState()
   const prevFullUrlRef = useRef()
+  const { pathname, search } = location
 
-  useEffect(() => {
-    const { pathname, search } = location
-    const templateId = getIdFromSEOLink(pathname)
+  useEffect(
+    () => {
+      const templateId = getIdFromSEOLink(pathname)
 
-    if (Number.isFinite(templateId)) {
-      getTemplate(templateId)
-        .then(template => {
-          setParsedUrl({
-            settings: template.project,
-            widgets: getChartWidgetsFromTemplate(template)
+      if (Number.isFinite(templateId)) {
+        getTemplate(templateId)
+          .then(template => {
+            setParsedUrl({
+              settings: template.project,
+              widgets: parseTemplate(template)
+            })
           })
-        })
-        .catch(console.error)
-      return
-    }
+          .catch(console.error)
+        return
+      }
 
-    setParsedUrl(parseUrlV2(search)) // TODO: Delete after enabling short urls [@vanguard | Mar  3, 2021]
-  }, [])
+      setParsedUrl(parseUrl(search)) // TODO: Delete after enabling short urls [@vanguard | Mar  3, 2021]
+    },
+    [pathname]
+  )
 
   if (!parsedUrl) return <PageLoader />
 

@@ -40,8 +40,9 @@ const settingsImmute = store => Object.assign({}, store)
 export const useSettings = () => useStore(studio, settingsImmute)
 
 const widgetsImmute = store => store.slice()
+export const useWidgetsStore = studio => getSvelteContext(studio, 'widgets')
 export const useWidgets = studio =>
-  useStore(getSvelteContext(studio, 'widgets'), widgetsImmute) || []
+  useStore(useWidgetsStore(studio), widgetsImmute) || []
 
 const noop = () => {}
 export function useStudioMetrics (studio) {
