@@ -109,6 +109,13 @@ const MetricsExplanation = ({
   )
 }
 
+export const MetricsExplanationContainer = props => (
+  <div className={styles.container}>
+    <div className='txt-m mrg-l mrg--b'>Metric Explanations</div>
+    <MetricsExplanation {...props} />
+  </div>
+)
+
 MetricsExplanation.Title = () => 'Metric Explanations'
 
 MetricsExplanation.Button = ({ onClick, ...props }) => (

@@ -291,7 +291,7 @@ export function parseWidgets (urlWidgets, project) {
   }
 }
 
-function parseSharedSidepanel (sidepanel) {
+export function parseSharedSidepanel (sidepanel) {
   const parsed = JSON.parse(sidepanel)
   return parsed.type
 }

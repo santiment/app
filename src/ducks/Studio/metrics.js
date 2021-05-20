@@ -63,7 +63,18 @@ export function newProjectMetric (project, baseMetric, projectMetricKey) {
   return metric
 }
 
-export function getProjectMetricByKey (key, connector = METRIC_CONNECTOR) {
+const DEFAULT_CONTROLLER = {
+  getMetricByKey,
+  newProjectMetric
+}
+const getController = controller =>
+  Object.assign({}, DEFAULT_CONTROLLER, controller)
+export function getProjectMetricByKey (
+  key,
+  connector = METRIC_CONNECTOR,
+  controller
+) {
+  const { getMetricByKey, newProjectMetric } = getController(controller)
   let [slug, ticker, metricKey] = key.split(connector)
   const metric = getMetricByKey(metricKey)
   if (!metric) return
