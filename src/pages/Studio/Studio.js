@@ -89,6 +89,7 @@ const Studio = ({ defaultWidgets, defaultSidewidget }) => {
             <Widget
               key={item.widget.id}
               {...item}
+              settings={settings}
               InsightsStore={InsightsStore}
             />
           ))}

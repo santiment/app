@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { SelectorNode } from 'studio/metrics/selector'
 import { useStore, getSvelteContext } from './stores'
 import SpentCoinCost from '../../ducks/Studio/AdvancedView/PriceHistogram'
+import SocialContext from '../../ducks/Studio/AdvancedView/SocialContext'
 import { MetricsExplanationContainer as MetricsExplanation } from '../../ducks/Studio/Chart/Sidepanel/MetricsExplanation'
 import { METRICS_EXPLANATION_PANE } from '../../ducks/Studio/Chart/Sidepanel/panes'
 import styles from './index.module.scss'
@@ -14,7 +15,8 @@ const useSidewidget = studio => useStore(useSidewidgetStore(studio))
 
 const KeyToSidewidget = {
   [SelectorNode.spent_coin_cost.key]: SpentCoinCost,
-  [METRICS_EXPLANATION_PANE]: MetricsExplanation
+  [METRICS_EXPLANATION_PANE]: MetricsExplanation,
+  [SelectorNode.SOCIAL_CONTEXT.key]: SocialContext
 }
 
 const Sidewidget = ({ studio, project, metrics }) => {

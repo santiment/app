@@ -87,6 +87,7 @@ export function drawHoveredSignal (chart, y, texts) {
   const {
     left,
     right,
+    rightAxisMargin = 0,
     tooltip: { ctx }
   } = chart
 
@@ -98,7 +99,7 @@ export function drawHoveredSignal (chart, y, texts) {
 
   const alignedY = alignY(y)
 
-  drawLine(ctx, left, right, y)
+  drawLine(ctx, left, right + rightAxisMargin, y)
   drawTextBubble(chart, alignedY, getTextWidth(ctx, texts.join('')))
   drawTexts(ctx, texts, left, alignedY)
 

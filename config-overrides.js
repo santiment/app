@@ -46,7 +46,7 @@ module.exports = function override(config, env) {
       'process.browser': true,
       'process.env.GQL_SERVER_URL': dev
         ? JSON.stringify(process.env.REACT_APP_BACKEND_URL + '/graphql')
-        : '(window.env || {}).BACKEND_URL + "/graphql"',
+        : '`https://api${window.location.hostname.includes("stage") ? "-stage" : ""}.santiment.net/graphql`',
       'process.env.SPRITES_PATH': JSON.stringify('/static/sprites'),
       'process.env.ICONS_PATH': JSON.stringify('/static/icons'),
     }),

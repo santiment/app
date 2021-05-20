@@ -171,7 +171,7 @@ const Signals = ({
       onMouseLeave={onMouseLeave}
       className={styles.wrapper}
       style={{
-        width: width || chart.padding.right,
+        width: width || chart.padding.right - (chart.rightAxisMargin || 0),
         height: chart.height + chart.top
       }}
     >
@@ -207,7 +207,7 @@ export default connect(
   null,
   mapDispatchToProps
 )(({ metrics, ...props }) => {
-  const chart = useChart()
+  const chart = props.chart || useChart()
   const alertMetrics = useAlertMetrics(metrics)
 
   if (alertMetrics.length === 0) {

@@ -72,6 +72,7 @@ function parseIndicators (indicators, KnownMetric) {
 }
 
 function parseMergedMetrics (metrics, KnownMetric) {
+  const mergedMetrics = []
   metrics.forEach(metricKey => {
     const mergedMetricKeys = metricKey.split(MERGED_DIVIDER)
     if (mergedMetricKeys.length < 2) return
@@ -79,8 +80,10 @@ function parseMergedMetrics (metrics, KnownMetric) {
     const mergedMetric = buildMergedMetric(
       mergedMetricKeys.map(key => HolderDistributionMetric[key])
     )
+    mergedMetrics.push(mergedMetric)
     KnownMetric[metricKey] = mergedMetric
   })
+  return mergedMetrics
 }
 
 function parseWidgets (widgets) {
@@ -88,7 +91,7 @@ function parseWidgets (widgets) {
     const Widget = getWidgetByKey(widget.widget)
     const KnownMetric = {}
 
-    parseMergedMetrics(widget.metrics, KnownMetric)
+    Widget.mergedMetrics = parseMergedMetrics(widget.metrics, KnownMetric)
     Widget.metricIndicators = parseIndicators(widget.indicators, KnownMetric)
     Widget.metrics = widget.metrics
       .map(key => parseMetric(key, KnownMetric))
