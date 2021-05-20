@@ -16,6 +16,7 @@ import ProjectInfo from './ProjectInfo'
 import Header from './Header'
 import Sidebar from './Sidebar'
 import Subwidgets, { useSubwidgetsController } from './Subwidgets'
+import { useInsightsStoreCreator } from './Insights'
 import 'webkit/styles/color.css'
 import 'webkit/styles/text.css'
 import 'webkit/styles/layout.css'
@@ -30,6 +31,7 @@ const Studio = ({ defaultWidgets, defaultSidewidget }) => {
   const widgetsController = useWidgetsController()
   const subwidgetsController = useSubwidgetsController()
   const metrics = useStudioMetrics(studio)
+  const InsightsStore = useInsightsStoreCreator()
 
   useGlobalsUpdater()
   useEffect(() => {
@@ -37,6 +39,7 @@ const Studio = ({ defaultWidgets, defaultSidewidget }) => {
     const studio = new SanStudio({
       target: page,
       props: {
+        InsightsContextStore: InsightsStore,
         onSubwidget: subwidgetsController.onSubwidget,
         onWidget: widgetsController.onWidget,
         sidewidget: defaultSidewidget,
@@ -81,7 +84,7 @@ const Studio = ({ defaultWidgets, defaultSidewidget }) => {
       />
 
       {widgetsController.widgets.map(item => (
-        <Widget key={item.widget.id} {...item} />
+        <Widget key={item.widget.id} {...item} InsightsStore={InsightsStore} />
       ))}
 
       <Sidewidget studio={studio} project={settings} metrics={metrics} />

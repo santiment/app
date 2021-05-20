@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import { useStore } from './stores'
+import Insights from './Insights'
 import PaywallInfo from '../../ducks/Studio/Chart/PaywallInfo'
 
 export function useWidgetsController () {
@@ -24,11 +25,17 @@ function useWidgetMetrics (widget) {
   return useStore(widget.Metrics, metricsImmute)
 }
 
-const ChartWidget = ({ widget, target }) => {
+const ChartWidget = ({ widget, target, InsightsStore }) => {
   const metrics = useWidgetMetrics(widget)
-  return ReactDOM.createPortal(
-    <PaywallInfo metrics={metrics} className='mrg-s mrg--r' />,
-    target.querySelector('.studio-why-gaps')
+  return (
+    <>
+      {ReactDOM.createPortal(
+        <PaywallInfo metrics={metrics} className='mrg-s mrg--r' />,
+        target.querySelector('.studio-why-gaps')
+      )}
+
+      <Insights widget={widget} InsightsStore={InsightsStore} />
+    </>
   )
 }
 
