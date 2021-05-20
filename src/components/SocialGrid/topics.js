@@ -73,8 +73,7 @@ export const INDEX_PAGE_GROUPS = [
       {
         title: 'Shitcoins',
         slug: 'shitcoin',
-        query: 'ripple%20AND%20sec?asset=ripple&ticker=XRP',
-        createdAt: '2021-03-16T10:07:22.922Z'
+        createdAt: '2021-05-20T10:07:22.922Z'
       }
     ]
   }
