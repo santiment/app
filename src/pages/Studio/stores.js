@@ -3,6 +3,7 @@ import { get } from 'svelte/store'
 import { globals } from 'studio/stores/globals'
 import { studio } from 'studio/stores/studio'
 import { useTheme } from '../../stores/ui/theme'
+import { useUser } from '../../stores/user'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 
 export const getSvelteContext = (cmp, ctx) => cmp && cmp.$$.context.get(ctx)
@@ -21,16 +22,17 @@ export function useStore (store, immute = _ => _) {
 
 export function useGlobalsUpdater () {
   const theme = useTheme()
+  const { isLoggedIn } = useUser()
   const userInfo = useUserSubscriptionStatus()
 
   useEffect(
     () => {
       globals.toggle('isNightMode', theme.isNightMode)
-      globals.toggle('isLoggedIn', userInfo.isLoggedIn)
+      globals.toggle('isLoggedIn', isLoggedIn)
       globals.toggle('isPro', userInfo.isPro)
       globals.toggle('isProPlus', userInfo.isProPlus)
     },
-    [userInfo, theme]
+    [userInfo, isLoggedIn, theme]
   )
 }
 
