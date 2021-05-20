@@ -18,7 +18,7 @@ const useInsightsContext = store => useStore(store, immute)
 const Insights = ({ InsightsStore, widget }) => {
   const store = useInsightsContext(InsightsStore)
   const [insights, setInsights] = useState([])
-  const [ErrorMsg, setErrorMsg] = useState({})
+  const [, setErrorMsg] = useState({})
   const [wasUserInfoFetcher, setWasUserInfoFetcher] = useState(false)
 
   useEffect(
@@ -59,10 +59,13 @@ const Insights = ({ InsightsStore, widget }) => {
   )
 
   const { chart } = widget
-  return ReactDOM.createPortal(
-    <ChartInsights chart={widget.chart} insights={insights} />,
-    chart && chart.canvas.parentNode
-  )
+  const target = chart && chart.canvas.parentNode
+  return target
+    ? ReactDOM.createPortal(
+      <ChartInsights chart={widget.chart} insights={insights} />,
+      target
+    )
+    : null
 }
 
 export default Insights

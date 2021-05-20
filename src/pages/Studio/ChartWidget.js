@@ -27,12 +27,15 @@ function useWidgetMetrics (widget) {
 
 const ChartWidget = ({ widget, target, InsightsStore }) => {
   const metrics = useWidgetMetrics(widget)
+  const whyTheGapsNode = target.querySelector('.studio-why-gaps')
+
   return (
     <>
-      {ReactDOM.createPortal(
-        <PaywallInfo metrics={metrics} className='mrg-s mrg--r' />,
-        target.querySelector('.studio-why-gaps')
-      )}
+      {whyTheGapsNode &&
+        ReactDOM.createPortal(
+          <PaywallInfo metrics={metrics} className='mrg-s mrg--r' />,
+          whyTheGapsNode
+        )}
 
       <Insights widget={widget} InsightsStore={InsightsStore} />
     </>

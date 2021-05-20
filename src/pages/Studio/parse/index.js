@@ -2,16 +2,18 @@ import { useMemo } from 'react'
 import { parse } from 'query-string'
 import { studio } from 'studio/stores/studio'
 import { Metric } from 'studio/metrics'
+import { HolderDistributionMetric } from 'studio/metrics/_onchain/holderDistributions'
 import { newProjectMetric } from 'studio/metrics/utils'
+import {
+  MERGED_DIVIDER,
+  buildMergedMetric
+} from 'studio/HolderDistributionWidget/utils'
 import {
   cacheIndicator,
   Indicator
 } from 'studio/ChartWidget/MetricSettings/IndicatorSetting/utils'
 import { parseMetricGraphValue } from './settings'
-import {
-  parseUrlV2,
-  parseSharedSidepanel
-} from '../../../ducks/Studio/url/parse'
+import { parseSharedSidepanel } from '../../../ducks/Studio/url/parse'
 import {
   getProjectMetricByKey,
   checkIsProjectMetricKey
@@ -69,13 +71,28 @@ function parseIndicators (indicators, KnownMetric) {
   return MetricIndicators
 }
 
+function parseMergedMetrics (metrics, KnownMetric) {
+  metrics.forEach(metricKey => {
+    const mergedMetricKeys = metricKey.split(MERGED_DIVIDER)
+    if (mergedMetricKeys.length < 2) return
+
+    const mergedMetric = buildMergedMetric(
+      mergedMetricKeys.map(key => HolderDistributionMetric[key])
+    )
+    KnownMetric[metricKey] = mergedMetric
+  })
+}
+
 function parseWidgets (widgets) {
   return widgets.map(widget => {
     const Widget = getWidgetByKey(widget.widget)
     const KnownMetric = {}
 
+    parseMergedMetrics(widget.metrics, KnownMetric)
     Widget.metricIndicators = parseIndicators(widget.indicators, KnownMetric)
-    Widget.metrics = widget.metrics.map(key => parseMetric(key, KnownMetric))
+    Widget.metrics = widget.metrics
+      .map(key => parseMetric(key, KnownMetric))
+      .filter(Boolean)
     Widget.metricSettings = parseMetricGraphValue(widget.settings, KnownMetric)
     Widget.colors = parseMetricGraphValue(widget.colors, KnownMetric)
     Object.assign(Widget, parseAxesMetrics(widget.axesMetrics, KnownMetric))

@@ -1,9 +1,13 @@
 import ChartWidget from 'studio/ChartWidget'
+import HolderDistributionWidget from 'studio/HolderDistributionWidget'
+import HolderDistributionCombinedBalanceWidget from 'studio/HolderDistributionWidget/Balance'
 import { newWidget } from 'studio/stores/widgets'
 import { SelectorNode } from 'studio/metrics/selector'
 
 const KeyToWidget = {
-  ChartWidget
+  ChartWidget,
+  HolderDistributionWidget,
+  HolderDistributionCombinedBalanceWidget
 }
 
 export function getWidgetByKey (key) {

@@ -64,35 +64,43 @@ const Studio = ({ defaultWidgets, defaultSidewidget }) => {
 
   return (
     <div ref={ref} className={styles.wrapper}>
-      <ProjectInfo
-        studio={studio}
-        settings={settings}
-        onProjectSelect={onProjectSelect}
-      />
+      {studio && (
+        <>
+          <ProjectInfo
+            studio={studio}
+            settings={settings}
+            onProjectSelect={onProjectSelect}
+          />
 
-      <Header
-        studio={studio}
-        settings={settings}
-        widgets={widgets}
-        metrics={metrics}
-      />
+          <Header
+            studio={studio}
+            settings={settings}
+            widgets={widgets}
+            metrics={metrics}
+          />
 
-      <Sidebar
-        studio={studio}
-        settings={settings}
-        onProjectSelect={onProjectSelect}
-      />
+          <Sidebar
+            studio={studio}
+            settings={settings}
+            onProjectSelect={onProjectSelect}
+          />
 
-      {widgetsController.widgets.map(item => (
-        <Widget key={item.widget.id} {...item} InsightsStore={InsightsStore} />
-      ))}
+          {widgetsController.widgets.map(item => (
+            <Widget
+              key={item.widget.id}
+              {...item}
+              InsightsStore={InsightsStore}
+            />
+          ))}
 
-      <Sidewidget studio={studio} project={settings} metrics={metrics} />
+          <Sidewidget studio={studio} project={settings} metrics={metrics} />
 
-      <Subwidgets
-        subwidgets={subwidgetsController.subwidgets}
-        settings={settings}
-      />
+          <Subwidgets
+            subwidgets={subwidgetsController.subwidgets}
+            settings={settings}
+          />
+        </>
+      )}
     </div>
   )
 }
