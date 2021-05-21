@@ -1,13 +1,9 @@
 import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
-import { newWidget } from 'studio/stores/widgets'
 import { SelectorNode } from 'studio/metrics/selector'
+import { newExternalWidget } from './utils'
 import ChartWidget from './Chart'
 import FeesDistributionWidget from './FeesDistribution'
-import HoldersDistributionTableWidget, {
-  checkIsHDTableWidget
-} from './HoldersDistributionTable'
-import { useStore } from '../stores'
+import HoldersDistributionTableWidget from './HoldersDistributionTable'
 
 export function useWidgetsController () {
   const [widgets, setWidgets] = useState([])
@@ -27,15 +23,11 @@ export function useWidgetsController () {
 
 export function getExternalWidget (node) {
   if (node === SelectorNode.FeesDistribution) {
-    return newWidget(FeesDistributionWidget, {
-      isExternal: true,
-      scrollAlign: 'start',
+    return newExternalWidget(FeesDistributionWidget, {
       previewTitle: 'Fees Distribution'
     })
   } else if (node === SelectorNode.HoldersDistributionTable) {
-    return newWidget(HoldersDistributionTableWidget, {
-      isExternal: true,
-      scrollAlign: 'start',
+    return newExternalWidget(HoldersDistributionTableWidget, {
       previewTitle: 'Top Holders Table'
     })
   }

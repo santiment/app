@@ -1,19 +1,10 @@
-import React, { useMemo } from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react'
+import { withExternal } from './utils'
 import FeesDistribution from '../../../ducks/Studio/FeesDistribution/FeesDistribution'
 
-const FeesDistributionWidget = ({ widget, target, settings }) => {
-  if (target) {
-    target.classList.remove('widget')
-    target.classList.remove('border')
-  }
-
-  return target
-    ? ReactDOM.createPortal(
-      <FeesDistribution settings={settings} deleteWidget={widget.delete} />,
-      target
-    )
-    : null
-}
+const Widget = withExternal(FeesDistribution)
+const FeesDistributionWidget = ({ widget, target, settings }) => (
+  <Widget target={target} settings={settings} deleteWidget={widget.delete} />
+)
 
 export default FeesDistributionWidget

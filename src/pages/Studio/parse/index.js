@@ -37,9 +37,11 @@ function parseMetric (metricKey, KnownMetric) {
 }
 
 function parseAxesMetrics (metrics, KnownMetric) {
+  if (!metrics) return
+
   const disabledAxesMetrics = new Set(Object.values(KnownMetric))
   const axesMetrics = new Set()
-  ;(metrics || []).forEach(metricKey => {
+  metrics.forEach(metricKey => {
     const metric = KnownMetric[metricKey]
     if (metric) {
       axesMetrics.add(metric)

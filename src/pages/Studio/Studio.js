@@ -42,6 +42,7 @@ const Studio = ({ defaultSettings, defaultWidgets, defaultSidewidget }) => {
       target: page,
       props: {
         getExternalWidget,
+        defaultSettings,
         InsightsContextStore: InsightsStore,
         onSubwidget: subwidgetsController.onSubwidget,
         onWidget: widgetsController.onWidget,
