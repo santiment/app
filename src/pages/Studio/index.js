@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react'
-import Studio from '../Chart'
+import { parse } from 'query-string'
+import Studio from './Studio'
 import URLExtension from './URLExtension'
 import RecentAssetExtension from './RecentAssetExtension'
+import { parseUrl } from './sharing/parse'
+import { parseTemplate } from './sharing/template'
 import { getIdFromSEOLink } from '../../utils/url'
 import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
 import PageLoader from '../../components/Loader/PageLoader'
 import { getTemplate } from '../../ducks/Studio/Template/gql/hooks'
-import { parseTemplate } from './parse/template'
-import { parseUrl } from './parse'
 
 const Extensions = props => (
   <>
@@ -19,9 +20,18 @@ const Extensions = props => (
 
 export default ({ location }) => {
   const [parsedUrl, setParsedUrl] = useState()
+  const [slug, setSlug] = useState('')
   const shortUrlHashState = useState()
   const prevFullUrlRef = useRef()
   const { pathname, search } = location
+
+  useEffect(
+    () => {
+      const newSlug = parse(search).slug
+      if (newSlug && newSlug !== slug) setSlug(newSlug)
+    },
+    [search]
+  )
 
   useEffect(
     () => {
@@ -46,12 +56,17 @@ export default ({ location }) => {
 
   if (!parsedUrl) return <PageLoader />
 
+  const { widgets, settings, sidewidget } = parsedUrl || {}
   return (
     <Studio
+      slug={slug}
       parsedUrl={parsedUrl}
       Extensions={Extensions}
       shortUrlHashState={shortUrlHashState}
       prevFullUrlRef={prevFullUrlRef}
+      defaultWidgets={widgets}
+      defaultSettings={settings}
+      defaultSidewidget={sidewidget}
     />
   )
 }

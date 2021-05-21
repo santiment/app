@@ -13,6 +13,7 @@ import {
 } from 'studio/ChartWidget/MetricSettings/IndicatorSetting/utils'
 import { parseMetricGraphValue } from './settings'
 import { getWidgetByKey, parseSubwidgets } from './widgets'
+import { ExternalWidgetCreator } from '../Widget'
 import { parseSharedSidepanel } from '../../../ducks/Studio/url/parse'
 import {
   getProjectMetricByKey,
@@ -88,6 +89,9 @@ function parseMergedMetrics (metrics, KnownMetric) {
 }
 
 export function parseWidget (widget) {
+  const newExternalWidget = ExternalWidgetCreator[widget.widget]
+  if (newExternalWidget) return newExternalWidget()
+
   const Widget = getWidgetByKey(widget.widget)
   const KnownMetric = {}
 
@@ -106,6 +110,7 @@ export function parseWidget (widget) {
 }
 
 export function parseWidgets (widgets) {
+  console.log({ widgets })
   return widgets.map(parseWidget)
 }
 
@@ -119,6 +124,12 @@ function tryParseWidgets (widgets) {
 
 export function parseUrl (url) {
   const { settings, widgets, sidepanel } = parse(url)
+
+  console.log({
+    settings: settings && JSON.parse(settings),
+    widgets: widgets && tryParseWidgets(widgets),
+    sidewidget: sidepanel && parseSharedSidepanel(sidepanel)
+  })
 
   return {
     settings: settings && JSON.parse(settings),

@@ -2,21 +2,25 @@ import ChartWidget from 'studio/ChartWidget'
 import HolderDistributionWidget from 'studio/HolderDistributionWidget'
 import HolderDistributionCombinedBalanceWidget from 'studio/HolderDistributionWidget/Balance'
 import PriceDAADivergenceWidget from 'studio/PriceDAAWidget'
-import AdjustedPriceDAADivergenceWidget from 'studio/PriceDAAWidget/Adjusted'
 import { newWidget } from 'studio/stores/widgets'
 import { SelectorNode } from 'studio/metrics/selector'
+import AdjustedPriceDAADivergenceWidget from 'studio/PriceDAAWidget/Adjusted'
+import FeesDistribution from '../Widget/FeesDistribution'
+import HoldersDistributionTable from '../Widget/HoldersDistributionTable'
 
 const KeyToWidget = {
   ChartWidget,
   HolderDistributionWidget,
   HolderDistributionCombinedBalanceWidget,
   PriceDAADivergenceWidget,
-  AdjustedPriceDAADivergenceWidget
-
-  // TODO: Map react widgets [@vanguard | May 20, 2021]
-  //  FeesDistribution,
-  //  HoldersDistributionTable,
+  AdjustedPriceDAADivergenceWidget,
+  FeesDistribution,
+  HoldersDistributionTable
 }
+export const WidgetToKeyMap = new Map()
+Object.keys(KeyToWidget).forEach(key => {
+  WidgetToKeyMap.set(KeyToWidget[key], key)
+})
 
 export function getWidgetByKey (key) {
   const Widget = KeyToWidget[key]

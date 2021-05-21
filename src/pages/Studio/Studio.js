@@ -24,16 +24,22 @@ import 'webkit/styles/layout.css'
 import 'webkit/styles/elements.css'
 import styles from './index.module.scss'
 
-const Studio = ({ defaultSettings, defaultWidgets, defaultSidewidget }) => {
+const Studio = ({
+  slug,
+  defaultSettings,
+  defaultWidgets,
+  defaultSidewidget,
+  Extensions
+}) => {
   const ref = useRef()
   const [studio, setStudio] = useState()
   const settings = useSettings()
   const widgetsStore = useWidgetsStore(studio)
-  const widgets = useWidgets()
   const widgetsController = useWidgetsController()
   const subwidgetsController = useSubwidgetsController()
   const metrics = useStudioMetrics(studio)
   const InsightsStore = useInsightsStoreCreator()
+  const { widgets } = widgetsController
 
   useGlobalsUpdater()
   useEffect(() => {
@@ -58,6 +64,13 @@ const Studio = ({ defaultSettings, defaultWidgets, defaultSidewidget }) => {
     setStudio(studio)
     return () => studio.$destroy()
   }, [])
+
+  useEffect(
+    () => {
+      if (slug) settingsStore.setProject({ slug })
+    },
+    [slug]
+  )
 
   useEffect(
     () => {
@@ -102,7 +115,7 @@ const Studio = ({ defaultSettings, defaultWidgets, defaultSidewidget }) => {
             onProjectSelect={onProjectSelect}
           />
 
-          {widgetsController.widgets.map(item => (
+          {widgets.map(item => (
             <Widget
               key={item.widget.id}
               {...item}
@@ -119,6 +132,12 @@ const Studio = ({ defaultSettings, defaultWidgets, defaultSidewidget }) => {
           />
         </>
       )}
+
+      <Extensions
+        widgets={widgets}
+        subwidgets={subwidgetsController.subwidgets}
+        settings={settings}
+      />
     </div>
   )
 }

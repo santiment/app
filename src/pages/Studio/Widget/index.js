@@ -21,16 +21,20 @@ export function useWidgetsController () {
   }
 }
 
-export function getExternalWidget (node) {
-  if (node === SelectorNode.FeesDistribution) {
-    return newExternalWidget(FeesDistributionWidget, {
+export const ExternalWidgetCreator = {
+  [SelectorNode.FeesDistribution.key]: () =>
+    newExternalWidget(FeesDistributionWidget, {
       previewTitle: 'Fees Distribution'
-    })
-  } else if (node === SelectorNode.HoldersDistributionTable) {
-    return newExternalWidget(HoldersDistributionTableWidget, {
+    }),
+  [SelectorNode.HoldersDistributionTable.key]: () =>
+    newExternalWidget(HoldersDistributionTableWidget, {
       previewTitle: 'Top Holders Table'
     })
-  }
+}
+
+export function getExternalWidget (node) {
+  const newWidget = ExternalWidgetCreator[node.key]
+  if (newWidget) return newWidget()
 }
 
 const Widget = props => {

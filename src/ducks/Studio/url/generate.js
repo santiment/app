@@ -32,7 +32,7 @@ const normalizeConnectedWidget = ({ Widget, datesRange }) => ({
   to: datesRange[1].toISOString()
 })
 
-const normalizeDrawing = ({ color, relCoor }) => ({
+export const normalizeDrawing = ({ color, relCoor }) => ({
   color,
   relCoor
 })

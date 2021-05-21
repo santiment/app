@@ -1,75 +1,62 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 import { withRouter } from 'react-router-dom'
-import { parse } from 'query-string'
+import { parse, stringify } from 'query-string'
 import { getIdFromSEOLink } from '../../utils/url'
 import { generateUrlV2 } from '../../ducks/Studio/url/generate'
 import { getChartWidgetsFromTemplate } from '../../ducks/Studio/Template/utils'
 import { getTemplate } from '../../ducks/Studio/Template/gql/hooks'
+import { shareWidgets, shareSettings } from './sharing/share'
 
 const getFullUrl = config => '/charts?' + generateUrlV2(config)
 
-const URLExtension = ({
-  history,
-  settings,
-  widgets,
-  sidepanel,
-  shortUrlHashState,
-  prevFullUrlRef,
-  setSettings,
-  setWidgets
-}) => {
-  const { slug, name, ticker } = settings
-  const slugRef = useRef(slug)
-  slugRef.current = slug
+const run = () => {}
+const URLExtension = ({ history, settings, widgets, sidewidget }) => {
+  const { ticker, name } = settings
+  const [sharedWidgets, setSharedWidgets] = useState([])
 
-  // NOTE: This version of withRouter does not trigger rerender on location change (it depends on the root component rerender [@vanguard | Oct 8, 2020]
   useEffect(
     () => {
-      let prevPathname = ''
-      history.listen(({ search, pathname }) => {
-        if (prevPathname !== pathname) {
-          prevPathname = pathname
-          const templateId = getIdFromSEOLink(pathname)
+      const update = () => setSharedWidgets(shareWidgets(widgets))
+      let updateTimer
+      function scheduleUpdate () {
+        window.clearTimeout(updateTimer)
+        updateTimer = window.setTimeout(update, 300)
+      }
 
-          if (templateId) {
-            return getTemplate(templateId)
-              .then(template => {
-                const newSettings = { ...settings, ...template.project }
-                const newWidgets = getChartWidgetsFromTemplate(template)
-                setSettings(newSettings)
-                setWidgets(newWidgets)
-              })
-              .catch(console.error)
-          }
-        }
+      const subscriptions = []
+      widgets.forEach(({ widget }) => {
+        if (widget.isExternal) return
 
-        const searchSlug = parse(search).slug
-        if (searchSlug && searchSlug !== slugRef.current) {
-          setSettings(settings => ({ ...settings, slug: searchSlug }))
-        }
+        subscriptions.push([
+          widget.ChartAxes.subscribe(scheduleUpdate),
+          widget.ChartColors.subscribe(scheduleUpdate),
+          widget.ChartDrawer.subscribe(scheduleUpdate),
+          widget.MetricIndicators.subscribe(scheduleUpdate),
+          widget.MetricSettings.subscribe(scheduleUpdate)
+        ])
       })
-    },
 
-    []
+      return () => {
+        window.clearTimeout(updateTimer)
+        subscriptions.flat().forEach(run)
+      }
+    },
+    [widgets]
   )
 
   useEffect(
     () => {
-      const fullUrl = getFullUrl({
-        settings,
-        widgets,
-        sidepanel
+      const res = stringify({
+        settings: JSON.stringify(shareSettings(settings)),
+        widgets: JSON.stringify(sharedWidgets)
       })
 
-      if (fullUrl !== prevFullUrlRef.current) {
-        const replaceHistory = () => history.replace(fullUrl)
-        prevFullUrlRef.current = fullUrl
+      history.replace('/charts?' + res)
 
-        return replaceHistory() // TODO: Delete after enabling short urls [@vanguard | Mar  3, 2021]
-      }
+      console.log(parse(res))
     },
-    [settings, widgets, sidepanel]
+    [settings, sharedWidgets]
   )
 
   return (

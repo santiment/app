@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import Studio from '../Studio/Studio'
-import { parseUrl } from '../Studio/parse'
+import { parseUrl } from '../Studio/sharing/parse'
 
 export default ({ parsedUrl, search }) => {
   const { widgets, settings, sidewidget } = useMemo(
