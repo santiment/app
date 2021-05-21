@@ -11,7 +11,7 @@ import {
   useWidgets,
   useStudioMetrics
 } from './stores'
-import Widget, { useWidgetsController } from './ChartWidget'
+import Widget, { useWidgetsController, getExternalWidget } from './Widget'
 import Sidewidget from './Sidewidget'
 import ProjectInfo from './ProjectInfo'
 import Header from './Header'
@@ -41,6 +41,7 @@ const Studio = ({ defaultSettings, defaultWidgets, defaultSidewidget }) => {
     const studio = new SanStudio({
       target: page,
       props: {
+        getExternalWidget,
         InsightsContextStore: InsightsStore,
         onSubwidget: subwidgetsController.onSubwidget,
         onWidget: widgetsController.onWidget,
