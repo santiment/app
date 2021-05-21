@@ -1,25 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
-import { useStore } from './stores'
-import Insights from './Insights'
-import Signals from '../../ducks/Chart/Signals'
-import PaywallInfo from '../../ducks/Studio/Chart/PaywallInfo'
-
-export function useWidgetsController () {
-  const [widgets, setWidgets] = useState([])
-
-  function onWidget (target, widget) {
-    const Widget = { widget, target }
-    setWidgets(widgets => [...widgets, Widget])
-    const filter = widget => widget !== Widget
-    return () => setWidgets(widgets => widgets.filter(filter))
-  }
-
-  return {
-    widgets,
-    onWidget
-  }
-}
+import { useStore } from '../stores'
+import Insights from '../Insights'
+import Signals from '../../../ducks/Chart/Signals'
+import PaywallInfo from '../../../ducks/Studio/Chart/PaywallInfo'
 
 const metricsImmute = metrics => metrics.slice()
 function useWidgetMetrics (widget) {
