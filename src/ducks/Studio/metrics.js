@@ -65,7 +65,8 @@ export function newProjectMetric (project, baseMetric, projectMetricKey) {
 
 const DEFAULT_CONTROLLER = {
   getMetricByKey,
-  newProjectMetric
+  newProjectMetric,
+  parseSlug: true
 }
 const getController = controller =>
   Object.assign({}, DEFAULT_CONTROLLER, controller)
@@ -74,14 +75,16 @@ export function getProjectMetricByKey (
   connector = METRIC_CONNECTOR,
   controller
 ) {
-  const { getMetricByKey, newProjectMetric } = getController(controller)
+  const { getMetricByKey, newProjectMetric, parseSlug } = getController(
+    controller
+  )
   let [slug, ticker, metricKey] = key.split(connector)
   const metric = getMetricByKey(metricKey)
   if (!metric) return
 
   const isProjectMetricConnector = connector === METRIC_CONNECTOR
 
-  if (isProjectMetricConnector) {
+  if (isProjectMetricConnector && parseSlug) {
     slug = parseNormalizedSlug(slug)
   }
 

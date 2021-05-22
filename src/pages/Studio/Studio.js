@@ -8,16 +8,17 @@ import {
   useGlobalsUpdater,
   useSettings,
   useWidgetsStore,
-  useWidgets,
-  useStudioMetrics
+  useStudioMetrics,
+  useWidgets
 } from './stores'
-import Widget, { useWidgetsController, getExternalWidget } from './Widget'
+import Widget, { getExternalWidget } from './Widget'
 import Sidewidget from './Sidewidget'
 import ProjectInfo from './ProjectInfo'
 import Header from './Header'
 import Sidebar from './Sidebar'
 import Subwidgets, { useSubwidgetsController } from './Subwidgets'
 import { useInsightsStoreCreator } from './Insights'
+import { useRedrawer } from '../../hooks'
 import 'webkit/styles/color.css'
 import 'webkit/styles/text.css'
 import 'webkit/styles/layout.css'
@@ -29,17 +30,18 @@ const Studio = ({
   defaultSettings,
   defaultWidgets,
   defaultSidewidget,
-  Extensions
+  Extensions,
+  ...props
 }) => {
   const ref = useRef()
   const [studio, setStudio] = useState()
   const settings = useSettings()
   const widgetsStore = useWidgetsStore(studio)
-  const widgetsController = useWidgetsController()
+  const widgets = useWidgets(studio)
   const subwidgetsController = useSubwidgetsController()
   const metrics = useStudioMetrics(studio)
   const InsightsStore = useInsightsStoreCreator()
-  const { widgets } = widgetsController
+  const redraw = useRedrawer()[1]
 
   useGlobalsUpdater()
   useEffect(() => {
@@ -49,9 +51,9 @@ const Studio = ({
       props: {
         getExternalWidget,
         defaultSettings,
-        InsightsContextStore: InsightsStore,
+        onWidget: () => redraw(),
         onSubwidget: subwidgetsController.onSubwidget,
-        onWidget: widgetsController.onWidget,
+        InsightsContextStore: InsightsStore,
         sidewidget: defaultSidewidget,
         widgets: defaultWidgets || [
           newWidget(ChartWidget, {
@@ -115,14 +117,18 @@ const Studio = ({
             onProjectSelect={onProjectSelect}
           />
 
-          {widgets.map(item => (
-            <Widget
-              key={item.widget.id}
-              {...item}
-              settings={settings}
-              InsightsStore={InsightsStore}
-            />
-          ))}
+          {widgets.map(
+            widget =>
+              widget.container && (
+                <Widget
+                  key={widget.id}
+                  widget={widget}
+                  target={widget.container}
+                  settings={settings}
+                  InsightsStore={InsightsStore}
+                />
+              )
+          )}
 
           <Sidewidget studio={studio} project={settings} metrics={metrics} />
 
@@ -134,6 +140,7 @@ const Studio = ({
       )}
 
       <Extensions
+        {...props}
         widgets={widgets}
         subwidgets={subwidgetsController.subwidgets}
         settings={settings}

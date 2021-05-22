@@ -1,42 +1,40 @@
-import { get } from 'svelte/store'
 import { WidgetToKeyMap } from './widgets'
 import FeesDistribution from '../Widget/FeesDistribution'
 import HoldersDistributionTable from '../Widget/HoldersDistributionTable'
 
-const shareStore = clb => store => clb(get(store))
 const isEmptyObject = obj => Object.keys(obj).length === 0
 const keyAccessor = ({ key }) => key
 
-const shareMetricSettings = shareStore(MetricSettings => {
+function shareMetricSettings (MetricSettings) {
   let result
-  Object.entries(MetricSettings).forEach(([key, value]) => {
+  Object.entries(MetricSettings || {}).forEach(([key, value]) => {
+    delete value.getPreTransformValue
+    delete value.preTransform
     if (isEmptyObject(value)) return
     if (!result) result = {}
     result[key] = value
   })
   return result
-})
+}
 
-const shareMetrics = shareStore(metrics => metrics.map(keyAccessor))
+const shareMetrics = metrics => metrics.map(keyAccessor)
 
-const shareIndicators = shareStore(MetricIndicators => {
+function shareIndicators (MetricIndicators) {
   let result
-  Object.entries(MetricIndicators).forEach(([key, value]) => {
+  Object.entries(MetricIndicators || {}).forEach(([key, value]) => {
     if (value.size === 0) return
     if (!result) result = {}
     result[key] = Array.from(value).map(keyAccessor)
   })
   return result
-})
+}
 
-const shareAxesMetrics = shareStore(axesMetrics =>
-  Array.from(axesMetrics).map(keyAccessor)
-)
+const shareAxesMetrics = axesMetrics => Array.from(axesMetrics).map(keyAccessor)
 
-const shareDrawings = shareStore(({ drawings }) => {
+function shareDrawings (drawings = []) {
   if (drawings.length === 0) return
   return drawings.map(({ color, relCoor }) => ({ color, relCoor }))
-})
+}
 
 function shareSubwidgets (subwidgets) {
   if (subwidgets.length === 0) return
@@ -59,23 +57,19 @@ function shareChartWidget (widget) {
     return shared
   }
 
-  shared.metrics = shareMetrics(widget.Metrics)
-  shared.axesMetrics = shareAxesMetrics(widget.ChartAxes)
-  shared.colors = get(widget.ChartColors)
-  shared.settings = shareMetricSettings(widget.MetricSettings)
-  shared.indicators = shareIndicators(widget.MetricIndicators)
-  shared.drawings = shareDrawings(widget.ChartDrawer)
+  shared.metrics = shareMetrics(widget.metrics)
+  shared.axesMetrics = shareAxesMetrics(widget.axesMetrics)
+  shared.colors = widget.colors
+  shared.settings = shareMetricSettings(widget.metricSettings)
+  shared.indicators = shareIndicators(widget.metricIndicators)
+  shared.drawings = shareDrawings(widget.drawings)
   shared.connectedWidgets = shareSubwidgets(widget.subwidgets)
 
   return shared
 }
-export function shareWidgets (widgets) {
-  return widgets.map(({ widget }) => {
-    return shareChartWidget(widget)
-  })
 
-  /* console.log(config) */
-  // return queryString
+export function shareWidgets (widgets) {
+  return widgets.map(shareChartWidget)
 }
 
 export function shareSettings ({ slug, ticker, from, to }) {

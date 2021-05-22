@@ -36,19 +36,24 @@ export default ({ location }) => {
   useEffect(
     () => {
       const templateId = getIdFromSEOLink(pathname)
+      console.log(
+        'Page: pathname parse',
+        prevFullUrlRef.current === pathname + search
+      )
+      if (prevFullUrlRef.current === pathname + search) return
 
       if (Number.isFinite(templateId)) {
         getTemplate(templateId)
           .then(template => {
-            setParsedUrl({
+            const parsedUrl = {
               settings: template.project,
               widgets: parseTemplate(template)
-            })
+            }
+            setParsedUrl(parsedUrl)
           })
           .catch(console.error)
         return
       }
-
       setParsedUrl(parseUrl(search)) // TODO: Delete after enabling short urls [@vanguard | Mar  3, 2021]
     },
     [pathname]

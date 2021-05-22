@@ -26,7 +26,12 @@ const CONTROLLER = {
 }
 function getMetric (metricKey) {
   if (checkIsProjectMetricKey(metricKey)) {
-    return getProjectMetricByKey(metricKey, undefined, CONTROLLER)
+    const controller = Object.assign(
+      { parseSlug: metricKey[0] === '_' },
+      CONTROLLER
+    )
+
+    return getProjectMetricByKey(metricKey, undefined, controller)
   }
   return Metric[metricKey]
 }
@@ -110,7 +115,6 @@ export function parseWidget (widget) {
 }
 
 export function parseWidgets (widgets) {
-  console.log({ widgets })
   return widgets.map(parseWidget)
 }
 
@@ -124,12 +128,6 @@ function tryParseWidgets (widgets) {
 
 export function parseUrl (url) {
   const { settings, widgets, sidepanel } = parse(url)
-
-  console.log({
-    settings: settings && JSON.parse(settings),
-    widgets: widgets && tryParseWidgets(widgets),
-    sidewidget: sidepanel && parseSharedSidepanel(sidepanel)
-  })
 
   return {
     settings: settings && JSON.parse(settings),

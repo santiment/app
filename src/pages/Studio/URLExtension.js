@@ -1,45 +1,49 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 import { withRouter } from 'react-router-dom'
 import { parse, stringify } from 'query-string'
-import { getIdFromSEOLink } from '../../utils/url'
-import { generateUrlV2 } from '../../ducks/Studio/url/generate'
-import { getChartWidgetsFromTemplate } from '../../ducks/Studio/Template/utils'
-import { getTemplate } from '../../ducks/Studio/Template/gql/hooks'
 import { shareWidgets, shareSettings } from './sharing/share'
+import { parseUrl } from './sharing/parse'
 
-const getFullUrl = config => '/charts?' + generateUrlV2(config)
+const getSharedUrl = (settings, widgets) =>
+  '/charts?' +
+  stringify({
+    settings,
+    widgets
+  })
+const getSharedSettings = settings => JSON.stringify(shareSettings(settings))
+const getSharedWidgets = widgets => JSON.stringify(shareWidgets(widgets))
 
-const run = () => {}
-const URLExtension = ({ history, settings, widgets, sidewidget }) => {
+const unsub = unsubscribe => unsubscribe()
+const URLExtension = ({
+  history,
+  settings,
+  widgets,
+  sidewidget,
+  prevFullUrlRef
+}) => {
   const { ticker, name } = settings
-  const [sharedWidgets, setSharedWidgets] = useState([])
+  const [sharedWidgets, setSharedWidgets] = useState('')
+  const sharedSettings = useMemo(() => getSharedSettings(settings), [settings])
 
   useEffect(
     () => {
-      const update = () => setSharedWidgets(shareWidgets(widgets))
+      const update = () => setSharedWidgets(getSharedWidgets(widgets))
       let updateTimer
       function scheduleUpdate () {
         window.clearTimeout(updateTimer)
-        updateTimer = window.setTimeout(update, 300)
+        updateTimer = window.setTimeout(update, 250)
       }
 
-      const subscriptions = []
-      widgets.forEach(({ widget }) => {
-        if (widget.isExternal) return
-
-        subscriptions.push([
-          widget.ChartAxes.subscribe(scheduleUpdate),
-          widget.ChartColors.subscribe(scheduleUpdate),
-          widget.ChartDrawer.subscribe(scheduleUpdate),
-          widget.MetricIndicators.subscribe(scheduleUpdate),
-          widget.MetricSettings.subscribe(scheduleUpdate)
-        ])
+      const unsubs = []
+      widgets.forEach(widget => {
+        if (!widget.OnUpdate) return
+        unsubs.push(widget.OnUpdate.subscribe(scheduleUpdate))
       })
 
       return () => {
         window.clearTimeout(updateTimer)
-        subscriptions.flat().forEach(run)
+        unsubs.forEach(unsub)
       }
     },
     [widgets]
@@ -47,16 +51,16 @@ const URLExtension = ({ history, settings, widgets, sidewidget }) => {
 
   useEffect(
     () => {
-      const res = stringify({
-        settings: JSON.stringify(shareSettings(settings)),
-        widgets: JSON.stringify(sharedWidgets)
-      })
+      if (!sharedSettings || !sharedWidgets) return
 
-      history.replace('/charts?' + res)
+      const url = getSharedUrl(sharedSettings, sharedWidgets)
+      if (url === prevFullUrlRef.current) return
 
-      console.log(parse(res))
+      prevFullUrlRef.current = url
+      history.replace(url)
+      console.log('URLExtension replace', parseUrl(url))
     },
-    [settings, sharedWidgets]
+    [sharedSettings, sharedWidgets]
   )
 
   return (

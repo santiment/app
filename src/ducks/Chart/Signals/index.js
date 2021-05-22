@@ -79,7 +79,8 @@ const Signals = ({
     () => {
       buildSignals()
       // TODO: remove observer gaurd check when all charts are migrated [@vanguard | Oct 20, 2020]
-      return chart.observer && chart.observer.subscribe(buildSignals)
+      const observer = chart.plotManager || chart.observer
+      return observer && observer.subscribe(buildSignals)
     },
     [userSignals, slug]
   )
