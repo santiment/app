@@ -36,10 +36,6 @@ export default ({ location }) => {
   useEffect(
     () => {
       const templateId = getIdFromSEOLink(pathname)
-      console.log(
-        'Page: pathname parse',
-        prevFullUrlRef.current === pathname + search
-      )
       if (prevFullUrlRef.current === pathname + search) return
 
       if (Number.isFinite(templateId)) {

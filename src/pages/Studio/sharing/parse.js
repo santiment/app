@@ -97,6 +97,13 @@ function parseMergedMetrics (metrics, KnownMetric) {
   return mergedMetrics
 }
 
+function parseMetrics (metrics, comparables = [], KnownMetric) {
+  return metrics
+    .concat(comparables)
+    .map(key => parseMetric(key, KnownMetric))
+    .filter(Boolean)
+}
+
 export function parseWidget (widget) {
   const newExternalWidget = ExternalWidgetCreator[widget.widget]
   if (newExternalWidget) return newExternalWidget()
@@ -106,9 +113,7 @@ export function parseWidget (widget) {
 
   Widget.mergedMetrics = parseMergedMetrics(widget.metrics, KnownMetric)
   Widget.metricIndicators = parseIndicators(widget.indicators, KnownMetric)
-  Widget.metrics = widget.metrics
-    .map(key => parseMetric(key, KnownMetric))
-    .filter(Boolean)
+  Widget.metrics = parseMetrics(widget.metrics, widget.comparables, KnownMetric)
   Widget.metricSettings = parseMetricGraphValue(widget.settings, KnownMetric)
   Widget.colors = parseMetricGraphValue(widget.colors, KnownMetric)
   Object.assign(Widget, parseAxesMetrics(widget.axesMetrics, KnownMetric))

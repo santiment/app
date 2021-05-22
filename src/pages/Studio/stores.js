@@ -7,8 +7,10 @@ import { useUser } from '../../stores/user'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 
 export const getSvelteContext = (cmp, ctx) => cmp && cmp.$$.context.get(ctx)
-export function useStore (store, immute = _ => _) {
-  const [state, setState] = useState(() => store && get(store))
+export function useStore (store, immute = _ => _, setStoreRef) {
+  const [state, setState] = useState(() => (store ? get(store) : []))
+  if (setStoreRef) setStoreRef.current = setState
+
   useEffect(
     () =>
       store &&
@@ -41,8 +43,8 @@ export const useSettings = () => useStore(studio, settingsImmute)
 
 const widgetsImmute = store => store.slice()
 export const useWidgetsStore = studio => getSvelteContext(studio, 'widgets')
-export const useWidgets = studio =>
-  useStore(useWidgetsStore(studio), widgetsImmute) || []
+export const useWidgets = (studio, setWidgetsRef) =>
+  useStore(useWidgetsStore(studio), widgetsImmute, setWidgetsRef) || []
 
 const noop = () => {}
 export function useStudioMetrics (studio) {

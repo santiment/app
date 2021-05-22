@@ -1,9 +1,8 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 import { withRouter } from 'react-router-dom'
-import { parse, stringify } from 'query-string'
+import { stringify } from 'query-string'
 import { shareWidgets, shareSettings } from './sharing/share'
-import { parseUrl } from './sharing/parse'
 
 const getSharedUrl = (settings, widgets) =>
   '/charts?' +
@@ -25,7 +24,6 @@ const URLExtension = ({
 }) => {
   const { ticker, name } = settings
   const [sharedWidgets, setSharedWidgets] = useState('')
-
   const sharedSettings = useMemo(() => getSharedSettings(settings), [settings])
 
   useEffect(() => setSlug(settings.slug), [settings.slug])
@@ -42,6 +40,7 @@ const URLExtension = ({
       const unsubs = []
       widgets.forEach(widget => {
         if (!widget.OnUpdate) return
+
         unsubs.push(widget.OnUpdate.subscribe(scheduleUpdate))
       })
 
@@ -62,7 +61,6 @@ const URLExtension = ({
 
       prevFullUrlRef.current = url
       history.replace(url)
-      console.log('URLExtension replace', parseUrl(url))
     },
     [sharedSettings, sharedWidgets]
   )

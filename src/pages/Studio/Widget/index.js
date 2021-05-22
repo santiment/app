@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { SelectorNode } from 'studio/metrics/selector'
 import { newExternalWidget } from './utils'
 import ChartWidget from './Chart'

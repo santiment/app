@@ -34,10 +34,11 @@ const Studio = ({
   ...props
 }) => {
   const ref = useRef()
+  const setWidgetsRef = useRef()
   const [studio, setStudio] = useState()
   const settings = useSettings()
   const widgetsStore = useWidgetsStore(studio)
-  const widgets = useWidgets(studio)
+  const widgets = useWidgets(studio, setWidgetsRef)
   const subwidgetsController = useSubwidgetsController()
   const metrics = useStudioMetrics(studio)
   const InsightsStore = useInsightsStoreCreator()
@@ -52,6 +53,7 @@ const Studio = ({
         getExternalWidget,
         defaultSettings,
         onWidget: () => redraw(),
+        onWidgetInit: () => setWidgetsRef.current(widgets => widgets.slice()),
         onSubwidget: subwidgetsController.onSubwidget,
         InsightsContextStore: InsightsStore,
         sidewidget: defaultSidewidget,
