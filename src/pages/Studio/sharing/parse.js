@@ -19,20 +19,24 @@ import {
   getProjectMetricByKey,
   checkIsProjectMetricKey
 } from '../../../ducks/Studio/metrics'
+import { COMPARE_CONNECTOR } from '../../../ducks/Studio/url/utils'
 
 const CONTROLLER = {
   newProjectMetric,
   getMetricByKey: key => Metric[key]
 }
 function getMetric (metricKey) {
-  if (checkIsProjectMetricKey(metricKey)) {
+  const isLegacyCompareMetric = metricKey.includes(COMPARE_CONNECTOR)
+  if (checkIsProjectMetricKey(metricKey) || isLegacyCompareMetric) {
     const controller = Object.assign(
       { parseSlug: metricKey[0] === '_' },
       CONTROLLER
     )
 
-    return getProjectMetricByKey(metricKey, undefined, controller)
+    const connector = isLegacyCompareMetric ? COMPARE_CONNECTOR : undefined
+    return getProjectMetricByKey(metricKey, connector, controller)
   }
+
   return Metric[metricKey]
 }
 

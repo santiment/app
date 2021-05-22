@@ -20,11 +20,15 @@ const URLExtension = ({
   settings,
   widgets,
   sidewidget,
-  prevFullUrlRef
+  prevFullUrlRef,
+  setSlug
 }) => {
   const { ticker, name } = settings
   const [sharedWidgets, setSharedWidgets] = useState('')
+
   const sharedSettings = useMemo(() => getSharedSettings(settings), [settings])
+
+  useEffect(() => setSlug(settings.slug), [settings.slug])
 
   useEffect(
     () => {

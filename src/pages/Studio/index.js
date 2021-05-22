@@ -72,6 +72,7 @@ export default ({ location }) => {
       defaultWidgets={widgets}
       defaultSettings={settings}
       defaultSidewidget={sidewidget}
+      setSlug={setSlug}
     />
   )
 }
