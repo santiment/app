@@ -7,7 +7,8 @@ const keyAccessor = ({ key }) => key
 
 function shareMetricSettings (MetricSettings) {
   let result
-  Object.entries(MetricSettings || {}).forEach(([key, value]) => {
+  Object.entries(MetricSettings || {}).forEach(([key, _value]) => {
+    const value = Object.assign({}, _value)
     delete value.getPreTransformValue
     delete value.preTransform
     if (isEmptyObject(value)) return
