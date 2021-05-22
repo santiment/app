@@ -13,20 +13,30 @@ import {
 } from 'studio/ChartWidget/MetricSettings/IndicatorSetting/utils'
 import { parseMetricGraphValue } from './settings'
 import { getWidgetByKey, parseSubwidgets } from './widgets'
+import { ExternalWidgetCreator } from '../Widget'
 import { parseSharedSidepanel } from '../../../ducks/Studio/url/parse'
 import {
   getProjectMetricByKey,
   checkIsProjectMetricKey
 } from '../../../ducks/Studio/metrics'
+import { COMPARE_CONNECTOR } from '../../../ducks/Studio/url/utils'
 
 const CONTROLLER = {
   newProjectMetric,
   getMetricByKey: key => Metric[key]
 }
 function getMetric (metricKey) {
-  if (checkIsProjectMetricKey(metricKey)) {
-    return getProjectMetricByKey(metricKey, undefined, CONTROLLER)
+  const isLegacyCompareMetric = metricKey.includes(COMPARE_CONNECTOR)
+  if (checkIsProjectMetricKey(metricKey) || isLegacyCompareMetric) {
+    const controller = Object.assign(
+      { parseSlug: metricKey[0] === '_' },
+      CONTROLLER
+    )
+
+    const connector = isLegacyCompareMetric ? COMPARE_CONNECTOR : undefined
+    return getProjectMetricByKey(metricKey, connector, controller)
   }
+
   return Metric[metricKey]
 }
 
@@ -87,15 +97,23 @@ function parseMergedMetrics (metrics, KnownMetric) {
   return mergedMetrics
 }
 
+function parseMetrics (metrics, comparables = [], KnownMetric) {
+  return metrics
+    .concat(comparables)
+    .map(key => parseMetric(key, KnownMetric))
+    .filter(Boolean)
+}
+
 export function parseWidget (widget) {
+  const newExternalWidget = ExternalWidgetCreator[widget.widget]
+  if (newExternalWidget) return newExternalWidget()
+
   const Widget = getWidgetByKey(widget.widget)
   const KnownMetric = {}
 
   Widget.mergedMetrics = parseMergedMetrics(widget.metrics, KnownMetric)
   Widget.metricIndicators = parseIndicators(widget.indicators, KnownMetric)
-  Widget.metrics = widget.metrics
-    .map(key => parseMetric(key, KnownMetric))
-    .filter(Boolean)
+  Widget.metrics = parseMetrics(widget.metrics, widget.comparables, KnownMetric)
   Widget.metricSettings = parseMetricGraphValue(widget.settings, KnownMetric)
   Widget.colors = parseMetricGraphValue(widget.colors, KnownMetric)
   Object.assign(Widget, parseAxesMetrics(widget.axesMetrics, KnownMetric))

@@ -4,7 +4,7 @@ import { studio as settingsStore } from 'studio/stores/studio'
 import { mapview } from 'studio/stores/mapview'
 import { useWidgetsStore, useStore } from './stores'
 import { useSidewidgetStore } from './Sidewidget'
-import { parseTemplate } from './parse/template'
+import { parseTemplate } from './sharing/template'
 import { Header as StudioHeader } from '../../ducks/Studio/Header'
 
 const Header = ({ studio, settings, widgets, metrics }) => {

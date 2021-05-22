@@ -1,4 +1,4 @@
-import { parseWidget, parseWidgets } from './index'
+import { parseWidget, parseWidgets } from './parse'
 
 export function parseTemplate (template) {
   const { options, metrics } = template

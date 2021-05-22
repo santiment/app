@@ -64,7 +64,13 @@ const PaywallInfo = ({ metrics, className }) => {
   const { isPro, isTrial } = useUserSubscriptionStatus()
 
   if (isTrial) {
-    return <UpgradeBtn variant='fill' fluid className={styles.upgrade_trial} />
+    return (
+      <UpgradeBtn
+        variant='fill'
+        fluid
+        className={cx(styles.upgrade_trial, className)}
+      />
+    )
   }
 
   if (isPro) return null
