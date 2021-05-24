@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import StudioInfo from '../../ducks/SANCharts/Header'
+import Tabs from '../../ducks/Studio/Tabs'
 import styles from './index.module.scss'
 
 const ProjectInfo = ({ studio, settings, onProjectSelect }) => {
@@ -19,8 +20,11 @@ const ProjectInfo = ({ studio, settings, onProjectSelect }) => {
 
   return target
     ? ReactDOM.createPortal(
-      <StudioInfo slug={settings.slug} onSlugSelect={onProjectSelect} />,
-      target
+        <>
+          <StudioInfo slug={settings.slug} onSlugSelect={onProjectSelect} />
+          <Tabs className={styles.tabs} settings={settings} />
+        </>,
+        target
     )
     : null
 }

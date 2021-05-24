@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
+import { Switch, Route } from 'react-router-dom'
 import SanStudio from 'studio'
 import { Metric } from 'studio/metrics'
 import { newWidget } from 'studio/stores/widgets'
@@ -11,14 +12,16 @@ import {
   useStudioMetrics,
   useWidgets
 } from './stores'
-import Widget, { getExternalWidget } from './Widget'
-import Sidewidget from './Sidewidget'
+import { getExternalWidget } from './Widget'
 import ProjectInfo from './ProjectInfo'
-import Header from './Header'
 import Sidebar from './Sidebar'
-import Subwidgets, { useSubwidgetsController } from './Subwidgets'
+import { useSubwidgetsController } from './Subwidgets'
 import { useInsightsStoreCreator } from './Insights'
+import StudioTab from './Tabs/Studio'
+import KeyStatsTab from './Tabs/KeyStats'
+import InsightsTab from './Tabs/Insights'
 import { useRedrawer } from '../../hooks'
+import { Tab } from '../../ducks/Studio/Tabs'
 import 'webkit/styles/color.css'
 import 'webkit/styles/text.css'
 import 'webkit/styles/layout.css'
@@ -30,6 +33,7 @@ const Studio = ({
   defaultSettings,
   defaultWidgets,
   defaultSidewidget,
+  pathname,
   Extensions,
   ...props
 }) => {
@@ -43,6 +47,20 @@ const Studio = ({
   const metrics = useStudioMetrics(studio)
   const InsightsStore = useInsightsStoreCreator()
   const redraw = useRedrawer()[1]
+  const [mountedScreen, setMountedScreen] = useState()
+
+  useEffect(
+    () => {
+      if (!studio) return
+
+      let screen
+      if (pathname.includes(Tab.stats.path)) screen = Tab.stats.path
+      if (pathname.includes(Tab.insights.path)) screen = Tab.insights.path
+
+      studio.$$set({ screen })
+    },
+    [studio, pathname]
+  )
 
   useGlobalsUpdater()
   useEffect(() => {
@@ -55,6 +73,7 @@ const Studio = ({
         onWidget: () => redraw(),
         onWidgetInit: () => setWidgetsRef.current(widgets => widgets.slice()),
         onSubwidget: subwidgetsController.onSubwidget,
+        onScreenMount: setMountedScreen,
         InsightsContextStore: InsightsStore,
         sidewidget: defaultSidewidget,
         widgets: defaultWidgets || [
@@ -105,40 +124,39 @@ const Studio = ({
             settings={settings}
             onProjectSelect={onProjectSelect}
           />
-
-          <Header
-            studio={studio}
-            settings={settings}
-            widgets={widgets}
-            metrics={metrics}
-          />
-
           <Sidebar
             studio={studio}
             settings={settings}
             onProjectSelect={onProjectSelect}
           />
-
-          {widgets.map(
-            widget =>
-              widget.container && (
-                <Widget
-                  key={widget.id}
-                  widget={widget}
-                  target={widget.container}
-                  settings={settings}
-                  InsightsStore={InsightsStore}
-                />
-              )
-          )}
-
-          <Sidewidget studio={studio} project={settings} metrics={metrics} />
-
-          <Subwidgets
-            subwidgets={subwidgetsController.subwidgets}
-            settings={settings}
-          />
         </>
+      )}
+
+      {studio && (
+        <Switch>
+          <Route path='/:base/related-insights'>
+            {mountedScreen === Tab.insights.path && (
+              <InsightsTab settings={settings} />
+            )}
+          </Route>
+          <Route path='/:base/stats'>
+            {mountedScreen === Tab.stats.path && (
+              <KeyStatsTab settings={settings} />
+            )}
+          </Route>
+          <Route>
+            {!mountedScreen && (
+              <StudioTab
+                studio={studio}
+                settings={settings}
+                widgets={widgets}
+                metrics={metrics}
+                InsightsStore={InsightsStore}
+                subwidgetsController={subwidgetsController}
+              />
+            )}
+          </Route>
+        </Switch>
       )}
 
       <Extensions

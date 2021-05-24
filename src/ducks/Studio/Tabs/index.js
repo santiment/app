@@ -1,21 +1,23 @@
 import React from 'react'
+import cx from 'classnames'
 import { NavLink, withRouter } from 'react-router-dom'
 import styles from './index.module.scss'
 
-const TABS = [
-  {
+export const Tab = {
+  index: {
     path: '',
     label: 'Studio'
   },
-  {
+  stats: {
     path: '/stats',
     label: 'Key Stats'
   },
-  {
+  insights: {
     path: '/related-insights',
     labelFormatter: name => (name ? `${name} Insights` : 'Insights')
   }
-]
+}
+const TABS = Object.values(Tab)
 
 const SUBPATHS = new Set(TABS.map(({ path }) => path))
 
@@ -26,6 +28,7 @@ function getSubpath (path) {
 }
 
 const Tabs = ({
+  className,
   location: { pathname },
   match: { path: base },
   settings: { name, slug }
@@ -34,7 +37,7 @@ const Tabs = ({
   const search = window.location.search
 
   return (
-    <div className={styles.tabs}>
+    <div className={cx(styles.tabs, className)}>
       {TABS.map(({ path, label, labelFormatter, checkVisibility }) => {
         if (checkVisibility && !checkVisibility({ slug })) {
           return null
