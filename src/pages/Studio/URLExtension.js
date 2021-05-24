@@ -4,12 +4,19 @@ import { withRouter } from 'react-router-dom'
 import { stringify } from 'query-string'
 import { shareWidgets, shareSettings } from './sharing/share'
 
-const getSharedUrl = (settings, widgets) =>
-  '/charts?' +
-  stringify({
-    settings,
-    widgets
-  })
+function getSharedUrl (settings, widgets, sidewidget) {
+  return (
+    '/charts?' +
+    stringify({
+      settings,
+      widgets,
+      sidepanel: sidewidget
+        ? JSON.stringify({ type: sidewidget.key || sidewidget })
+        : undefined
+    })
+  )
+}
+
 const getSharedSettings = settings => JSON.stringify(shareSettings(settings))
 const getSharedWidgets = widgets => JSON.stringify(shareWidgets(widgets))
 
@@ -56,13 +63,13 @@ const URLExtension = ({
     () => {
       if (!sharedSettings || !sharedWidgets) return
 
-      const url = getSharedUrl(sharedSettings, sharedWidgets)
+      const url = getSharedUrl(sharedSettings, sharedWidgets, sidewidget)
       if (url === prevFullUrlRef.current) return
 
       prevFullUrlRef.current = url
       history.replace(url)
     },
-    [sharedSettings, sharedWidgets]
+    [sharedSettings, sharedWidgets, sidewidget]
   )
 
   return (

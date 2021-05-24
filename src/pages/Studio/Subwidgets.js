@@ -35,13 +35,14 @@ export function useSubwidgetsController () {
   }
 }
 
-const Subwidgets = ({ subwidgets, settings }) =>
+const Subwidgets = ({ subwidgets, settings, modRange }) =>
   subwidgets.map(({ subwidget, target, deleteWidget }) =>
     ReactDOM.createPortal(
       <subwidget.Widget
         key={subwidget.id}
         widget={subwidget}
         settings={settings}
+        datesRange={modRange}
         deleteWidget={deleteWidget}
         rerenderWidgets={() => {}}
       />,

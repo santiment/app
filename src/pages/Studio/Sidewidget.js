@@ -11,16 +11,15 @@ import styles from './index.module.scss'
 export const useSidewidgetStore = studio =>
   useMemo(() => getSvelteContext(studio, 'sidewidget'), [studio])
 
-const useSidewidget = studio => useStore(useSidewidgetStore(studio))
+export const useSidewidget = studio => useStore(useSidewidgetStore(studio))
 
 const KeyToSidewidget = {
-  [SelectorNode.spent_coin_cost.key]: SpentCoinCost,
+  [SelectorNode.SPENT_COIN_COST.key]: SpentCoinCost,
   [METRICS_EXPLANATION_PANE]: MetricsExplanation,
   [SelectorNode.SOCIAL_CONTEXT.key]: SocialContext
 }
 
-const Sidewidget = ({ studio, project, metrics }) => {
-  const sidewidget = useSidewidget(studio)
+const Sidewidget = ({ studio, project, metrics, sidewidget, modRange }) => {
   const [state, setState] = useState()
 
   useEffect(
@@ -29,6 +28,8 @@ const Sidewidget = ({ studio, project, metrics }) => {
       if (!Widget) return setState()
 
       const target = document.querySelector('.studio-sidewidget')
+      if (!target) return
+
       target.classList.add(styles.sidepanel)
       setState({
         Widget,
@@ -40,7 +41,12 @@ const Sidewidget = ({ studio, project, metrics }) => {
 
   return state
     ? ReactDOM.createPortal(
-      <state.Widget project={project} metrics={metrics} />,
+      <state.Widget
+        project={project}
+        metrics={metrics}
+        date={modRange && modRange[1]}
+        datesRange={modRange}
+      />,
       state.target
     )
     : null
