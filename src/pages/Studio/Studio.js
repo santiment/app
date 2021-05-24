@@ -17,6 +17,7 @@ import ProjectInfo from './ProjectInfo'
 import Sidebar from './Sidebar'
 import { useSubwidgetsController } from './Subwidgets'
 import { useInsightsStoreCreator } from './Insights'
+import { useSidewidget } from './Sidewidget'
 import StudioTab from './Tabs/Studio'
 import KeyStatsTab from './Tabs/KeyStats'
 import InsightsTab from './Tabs/Insights'
@@ -43,11 +44,13 @@ const Studio = ({
   const settings = useSettings()
   const widgetsStore = useWidgetsStore(studio)
   const widgets = useWidgets(studio, setWidgetsRef)
+  const sidewidget = useSidewidget(studio)
   const subwidgetsController = useSubwidgetsController()
   const metrics = useStudioMetrics(studio)
   const InsightsStore = useInsightsStoreCreator()
   const redraw = useRedrawer()[1]
   const [mountedScreen, setMountedScreen] = useState()
+  const [modRange, setModRange] = useState()
 
   useEffect(
     () => {
@@ -70,6 +73,7 @@ const Studio = ({
       props: {
         getExternalWidget,
         defaultSettings,
+        onModRangeSelect,
         onWidget: () => redraw(),
         onWidgetInit: () => setWidgetsRef.current(widgets => widgets.slice()),
         onSubwidget: subwidgetsController.onSubwidget,
@@ -102,6 +106,10 @@ const Studio = ({
     },
     [studio, defaultSettings, defaultWidgets]
   )
+
+  function onModRangeSelect (start, end, e) {
+    setModRange([new Date(start.value), new Date(end.value)])
+  }
 
   function onProjectSelect (project) {
     if (project) {
@@ -151,6 +159,8 @@ const Studio = ({
                 settings={settings}
                 widgets={widgets}
                 metrics={metrics}
+                sidewidget={sidewidget}
+                modRange={modRange}
                 InsightsStore={InsightsStore}
                 subwidgetsController={subwidgetsController}
               />
@@ -162,6 +172,7 @@ const Studio = ({
       <Extensions
         {...props}
         widgets={widgets}
+        sidewidget={sidewidget}
         subwidgets={subwidgetsController.subwidgets}
         settings={settings}
       />

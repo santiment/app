@@ -9,6 +9,8 @@ const StudioTab = ({
   settings,
   widgets,
   metrics,
+  sidewidget,
+  modRange,
   InsightsStore,
   subwidgetsController
 }) => (
@@ -33,11 +35,20 @@ const StudioTab = ({
         )
     )}
 
-    <Sidewidget studio={studio} project={settings} metrics={metrics} />
+    {sidewidget && (
+      <Sidewidget
+        studio={studio}
+        project={settings}
+        metrics={metrics}
+        sidewidget={sidewidget}
+        modRange={modRange}
+      />
+    )}
 
     <Subwidgets
       subwidgets={subwidgetsController.subwidgets}
       settings={settings}
+      modRange={modRange}
     />
   </>
 )
