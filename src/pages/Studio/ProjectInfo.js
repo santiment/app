@@ -18,19 +18,11 @@ const ProjectInfo = ({ studio, settings, onProjectSelect }) => {
     [studio]
   )
 
-  function onTabClick (screen) {
-    studio.$$set({ screen })
-  }
-
   return target
     ? ReactDOM.createPortal(
         <>
           <StudioInfo slug={settings.slug} onSlugSelect={onProjectSelect} />
-          <Tabs
-            className={styles.tabs}
-            settings={settings}
-            onClick={onTabClick}
-          />
+          <Tabs className={styles.tabs} settings={settings} />
         </>,
         target
     )

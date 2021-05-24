@@ -65,6 +65,7 @@ export default ({ location }) => {
       Extensions={Extensions}
       shortUrlHashState={shortUrlHashState}
       prevFullUrlRef={prevFullUrlRef}
+      pathname={pathname}
       defaultWidgets={widgets}
       defaultSettings={settings}
       defaultSidewidget={sidewidget}

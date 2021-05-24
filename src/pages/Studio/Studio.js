@@ -33,6 +33,7 @@ const Studio = ({
   defaultSettings,
   defaultWidgets,
   defaultSidewidget,
+  pathname,
   Extensions,
   ...props
 }) => {
@@ -47,6 +48,19 @@ const Studio = ({
   const InsightsStore = useInsightsStoreCreator()
   const redraw = useRedrawer()[1]
   const [mountedScreen, setMountedScreen] = useState()
+
+  useEffect(
+    () => {
+      if (!studio) return
+
+      let screen
+      if (pathname.includes(Tab.stats.path)) screen = Tab.stats.path
+      if (pathname.includes(Tab.insights.path)) screen = Tab.insights.path
+
+      studio.$$set({ screen })
+    },
+    [studio, pathname]
+  )
 
   useGlobalsUpdater()
   useEffect(() => {

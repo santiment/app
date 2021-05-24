@@ -29,7 +29,6 @@ function getSubpath (path) {
 
 const Tabs = ({
   className,
-  onClick,
   location: { pathname },
   match: { path: base },
   settings: { name, slug }
@@ -51,7 +50,6 @@ const Tabs = ({
             to={{ pathname: base + path + subpath, search }}
             className={styles.tab}
             activeClassName={styles.active}
-            onClick={onClick ? () => onClick(path) : undefined}
           >
             {label || labelFormatter(name)}
           </NavLink>
