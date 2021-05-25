@@ -162,7 +162,6 @@ const Template = ({
       const options = {
         widgets: saveWidgets(widgets)
       }
-      console.log(saveWidgets(widgets))
 
       const future = isCurrentUser
         ? updateTemplate(template, {
