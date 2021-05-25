@@ -24,6 +24,9 @@ export function useSubwidgetsController () {
     const filter = widget => widget !== Subwidget
     function deleteWidget () {
       setSubwidgets(subwidgets => subwidgets.filter(filter))
+      parentWidget.subwidgets = parentWidget.subwidgets.filter(
+        w => w !== subwidgetNode
+      )
     }
 
     return deleteWidget

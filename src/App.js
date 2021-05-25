@@ -592,6 +592,7 @@ const mapStateToProps = ({ user, rootUi }, { location: { pathname } }) => ({
   showFooter:
     !isPathnameInPages(pathname, FOOTER_DISABLED_FOR) &&
     !pathname.includes(PATHS.STUDIO) &&
+    !pathname.includes(PATHS.CHARTS) &&
     !pathname.includes(PATHS.LIST)
 })
 

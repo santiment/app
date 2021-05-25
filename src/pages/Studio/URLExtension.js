@@ -6,7 +6,7 @@ import { shareWidgets, shareSettings } from './sharing/share'
 
 function getSharedUrl (settings, widgets, sidewidget) {
   return (
-    '/charts?' +
+    `${window.location.pathname}?` +
     stringify({
       settings,
       widgets,
@@ -26,6 +26,7 @@ const URLExtension = ({
   settings,
   widgets,
   sidewidget,
+  subwidgets,
   prevFullUrlRef,
   setSlug
 }) => {
@@ -56,7 +57,7 @@ const URLExtension = ({
         unsubs.forEach(unsub)
       }
     },
-    [widgets]
+    [widgets, subwidgets]
   )
 
   useEffect(
