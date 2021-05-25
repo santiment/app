@@ -4,6 +4,7 @@ import { studio as settingsStore } from 'studio/stores/studio'
 import { mapview } from 'studio/stores/mapview'
 import { useWidgetsStore, useStore } from './stores'
 import { useSidewidgetStore } from './Sidewidget'
+import { shareWidgets } from './sharing/share'
 import { parseTemplate } from './sharing/template'
 import { Header as StudioHeader } from '../../ducks/Studio/Header'
 
@@ -34,6 +35,8 @@ const Header = ({ studio, settings, widgets, metrics }) => {
         widgets={widgets}
         metrics={metrics}
         sidepanel={sidewidget}
+        saveWidgets={shareWidgets}
+        souldReloadOnSave={false}
         headerRef={{ current: target }}
         isOverviewOpened={$mapview > 0}
         changeTimePeriod={settingsStore.setPeriod}
