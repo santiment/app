@@ -6,6 +6,9 @@ import Icon from '@santiment-network/ui/Icon'
 import { ACTIVE_WIDGETS_QUERY } from './gql'
 import { DarkVideoPlayBtn } from '../VideoPlayBtn/VideoPlayBtn'
 import styles from './index.module.scss'
+import MeetupWidget from './MeetupWidget'
+
+const FINISH_MEETUP_DATE = new Date('May 27, 2021 16:00:00')
 
 const extractYoutubeId = link => {
   if (!link) {
@@ -63,6 +66,7 @@ export const WebinarWidget = ({ webinar }) => {
 
 const EventBanner = ({ className }) => {
   const { activeWidgets } = useActiveWebinars()
+  const [isShowMeetupBanner, setIsShowMeetupDate] = useState(false)
   const activeWidget = activeWidgets.length > 0 ? activeWidgets[0] : null
 
   const [show, setShow] = useState(false)
@@ -75,6 +79,11 @@ const EventBanner = ({ className }) => {
     [activeWidget]
   )
 
+  useEffect(() => {
+    const currDate = new Date()
+    setIsShowMeetupDate(currDate < FINISH_MEETUP_DATE)
+  }, [])
+
   const hideTooltip = () => {
     localStorage.setItem(HIDDEN_WIDGET_KEY, JSON.stringify(activeWidget))
     setShowCloseAnimation(true)
@@ -83,6 +92,8 @@ const EventBanner = ({ className }) => {
       setShowCloseAnimation(false)
     }, 1000)
   }
+
+  if (isShowMeetupBanner) return <MeetupWidget />
 
   if (!show || !activeWidget) {
     return null
