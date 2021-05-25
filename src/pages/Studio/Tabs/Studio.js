@@ -10,6 +10,7 @@ const StudioTab = ({
   widgets,
   metrics,
   sidewidget,
+  modDate,
   modRange,
   InsightsStore,
   subwidgetsController
@@ -41,6 +42,7 @@ const StudioTab = ({
         project={settings}
         metrics={metrics}
         sidewidget={sidewidget}
+        modDate={modDate}
         modRange={modRange}
       />
     )}

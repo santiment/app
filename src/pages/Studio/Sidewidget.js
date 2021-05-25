@@ -19,7 +19,14 @@ const KeyToSidewidget = {
   [SelectorNode.SOCIAL_CONTEXT.key]: SocialContext
 }
 
-const Sidewidget = ({ studio, project, metrics, sidewidget, modRange }) => {
+const Sidewidget = ({
+  studio,
+  project,
+  metrics,
+  sidewidget,
+  modDate,
+  modRange
+}) => {
   const [state, setState] = useState()
 
   useEffect(
@@ -44,7 +51,7 @@ const Sidewidget = ({ studio, project, metrics, sidewidget, modRange }) => {
       <state.Widget
         project={project}
         metrics={metrics}
-        date={modRange && modRange[1]}
+        date={modDate || (modRange && modRange[1])}
         datesRange={modRange}
       />,
       state.target
