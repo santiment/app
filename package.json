@@ -86,7 +86,7 @@
     "redux-persist": "^5.4.0",
     "rxjs": "5.x.x",
     "san-webkit": "https://github.com/santiment/san-webkit.git#2bd4199",
-    "san-studio": "https://github.com/santiment/san-studio.git#ffcf2d6",
+    "san-studio": "https://github.com/santiment/san-studio.git#e1c4518",
     "sanitize-html": "^1.18.2",
     "svg-sprite": "1.5.0",
     "validate.js": "^0.12.0",
