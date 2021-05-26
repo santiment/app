@@ -164,7 +164,7 @@ const PriceWithChanges = ({
 }
 
 const Header = ({
-  data: { project = {}, minmax = {} },
+  data: { project = {}, minmax = {} } = {},
   slug,
   isLoggedIn,
   isLoading,
