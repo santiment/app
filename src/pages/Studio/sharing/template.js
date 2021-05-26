@@ -1,18 +1,39 @@
+import { Metric } from 'studio/metrics'
 import { parseWidget, parseWidgets } from './parse'
 
+export const newChartWidget = metrics =>
+  parseWidget({
+    widget: 'ChartWidget',
+    metrics
+  })
+
 export function parseTemplate (template) {
-  const { options, metrics } = template
+  const { options, metrics, comparables } = template
 
   if (options) {
-    const { widgets } = options
+    const { widgets, multi_chart } = options
     if (widgets) return parseWidgets(widgets)
-    // if (multi_chart) return getWidgetByKey('ChartWidget')
+    if (multi_chart) return translateMultiChartToWidgets(metrics, comparables)
   }
 
-  return [
-    parseWidget({
-      widget: 'ChartWidget',
-      metrics
-    })
-  ]
+  return [newChartWidget(metrics)]
+}
+
+export function translateMultiChartToWidgets (metrics, comparables = []) {
+  const allMetrics = metrics.concat(comparables)
+  if (metrics.length + comparables.length < 2) {
+    return [newChartWidget(allMetrics)]
+  }
+
+  let priceMetric
+  const noPriceMetrics = allMetrics.filter(metric => {
+    if (metric !== Metric.price_usd.key) return true
+
+    priceMetric = metric
+    return false
+  })
+
+  return noPriceMetrics.map(metric =>
+    newChartWidget(priceMetric ? [priceMetric, metric] : [metric])
+  )
 }
