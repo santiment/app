@@ -45,6 +45,10 @@ export default ({ location }) => {
               settings: template.project,
               widgets: parseTemplate(template)
             }
+            if (!parsedUrl.settings.slug) {
+              parsedUrl.settings.slug = 'bitcoin'
+              parsedUrl.settings.ticker = 'BTC'
+            }
             setParsedUrl(parsedUrl)
           })
           .catch(console.error)
