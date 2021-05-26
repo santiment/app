@@ -30,7 +30,8 @@ function shareIndicators (MetricIndicators) {
   return result
 }
 
-const shareAxesMetrics = axesMetrics => Array.from(axesMetrics).map(keyAccessor)
+const shareAxesMetrics = axesMetrics =>
+  Array.from(axesMetrics || []).map(keyAccessor)
 
 function shareDrawings (drawings = []) {
   if (drawings.length === 0) return
