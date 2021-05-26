@@ -12,6 +12,7 @@ import {
   useStudioMetrics,
   useWidgets
 } from './stores'
+import LoginCTA from './LoginCTA'
 import { getExternalWidget } from './Widget'
 import ProjectInfo from './ProjectInfo'
 import Sidebar from './Sidebar'
@@ -52,6 +53,7 @@ const Studio = ({
   const [mountedScreen, setMountedScreen] = useState()
   const [modRange, setModRange] = useState()
   const [modDate, setModDate] = useState()
+  const [isLoginCTAOpened, setIsLoginCTAOpened] = useState(false)
 
   const onChartPointClick = (point, e) => setModDate(new Date(point.value))
 
@@ -65,6 +67,7 @@ const Studio = ({
         defaultSettings,
         onModRangeSelect,
         onChartPointClick,
+        onAnonFavoriteClick: () => setIsLoginCTAOpened(true),
         onWidget: () => redraw(),
         onWidgetInit: () => setWidgetsRef.current(widgets => widgets.slice()),
         onSubwidget: subwidgetsController.onSubwidget,
@@ -180,6 +183,11 @@ const Studio = ({
         sidewidget={sidewidget}
         subwidgets={subwidgetsController.subwidgets}
         settings={settings}
+      />
+
+      <LoginCTA
+        isLoginCTAOpened={isLoginCTAOpened}
+        setIsLoginCTAOpened={setIsLoginCTAOpened}
       />
     </div>
   )
