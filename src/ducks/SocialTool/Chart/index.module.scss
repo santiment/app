@@ -64,3 +64,9 @@
 .dominance {
   margin-top: 8px;
 }
+
+.sharedAxisToggle {
+  margin: 0 10px 0 auto;
+
+  @include text('body-3', 'm');
+}
