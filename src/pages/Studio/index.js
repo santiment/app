@@ -49,12 +49,17 @@ export default ({ location }) => {
               parsedUrl.settings.slug = 'bitcoin'
               parsedUrl.settings.ticker = 'BTC'
             }
+            setSlug(parsedUrl.settings.slug || '')
             setParsedUrl(parsedUrl)
           })
           .catch(console.error)
         return
       }
-      setParsedUrl(parseUrl(search)) // TODO: Delete after enabling short urls [@vanguard | Mar  3, 2021]
+      const parsedUrl = parseUrl(search)
+      if (parsedUrl.settings) {
+        setSlug(parsedUrl.settings.slug || '')
+      }
+      setParsedUrl(parsedUrl) // TODO: Delete after enabling short urls [@vanguard | Mar  3, 2021]
     },
     [pathname]
   )
