@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { Switch, Route } from 'react-router-dom'
 import SanStudio from 'studio'
 import { Metric } from 'studio/metrics'
@@ -54,6 +54,7 @@ const Studio = ({
   const [modRange, setModRange] = useState()
   const [modDate, setModDate] = useState()
   const [isLoginCTAOpened, setIsLoginCTAOpened] = useState(false)
+  useMemo(() => slug && settingsStore.setProject({ slug }), [slug])
 
   const onChartPointClick = (point, e) => setModDate(new Date(point.value))
 
@@ -97,13 +98,6 @@ const Studio = ({
       studio.$$set({ screen })
     },
     [studio, pathname]
-  )
-
-  useEffect(
-    () => {
-      if (slug) settingsStore.setProject({ slug })
-    },
-    [slug]
   )
 
   useEffect(
