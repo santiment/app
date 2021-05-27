@@ -79,7 +79,6 @@ export const Metric = {
   rank: {
     category: CATEGORIES.FINANCIAL,
     label: 'Rank',
-    isStatic: true,
     accessor: 'rank',
     Cell: RANK_CELL
   },
