@@ -110,6 +110,9 @@ const Chart = ({
         brushData={brushData}
         options={options}
         settings={settings}
+        domainGroups={
+          isDomainGroupingActive ? domainGroups : mirrorDomainGroups
+        }
         categories={categories}
         metrics={metrics}
         colors={MetricColor}
