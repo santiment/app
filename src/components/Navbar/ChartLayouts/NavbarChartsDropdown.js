@@ -14,8 +14,12 @@ import styles from './NavbarChartsDropdown.module.scss'
 
 const DASHBOARDS = [
   {
-    name: 'Social Santrends',
+    name: 'Social Tool',
     to: PATHS.SOCIAL_TOOl
+  },
+  {
+    name: 'Social Trends',
+    to: PATHS.SOCIAL_TRENDS
   },
   {
     name: 'ETH Token Trading Analysis',

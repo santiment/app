@@ -146,7 +146,7 @@ export default {
         { name: 'Social sentiment (telegram)' },
         { name: 'Topic Search' },
         {
-          name: 'Santrends (Top 10 hyped trends right now)',
+          name: 'Social Trends (Top 10 hyped trends right now)',
           checks: [false, true, true]
         }
       ]

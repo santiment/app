@@ -18,7 +18,7 @@ const cards = [
     bgClassName: styles.historicalBalanceBg
   },
   {
-    title: 'Santrends',
+    title: 'Social trends',
     description: (
       <div>
         Explore the social volume of any word/phrase on crypto social media over
