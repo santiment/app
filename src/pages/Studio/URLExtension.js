@@ -6,7 +6,7 @@ import { shareWidgets, shareSettings } from './sharing/share'
 
 function getSharedUrl (settings, widgets, sidewidget) {
   return (
-    `${window.location.pathname}?` +
+    '/charts?' +
     stringify({
       settings,
       widgets,
