@@ -191,7 +191,7 @@ export const AMOUNT_ABS_CHANGE_DOWN_MODEL = {
 }
 
 export const TRENDING_WORDS_METRIC = {
-  label: 'Santrends',
+  label: 'Social Trends',
   value: TRENDING_WORDS,
   metric: TRENDING_WORDS,
   description: 'Notify me when an asset starts trending on crypto social media'
