@@ -1,6 +1,7 @@
 export const PATHS = {
   FEED: '/feed',
   SOCIAL_TOOl: '/labs/trends/explore/',
+  SOCIAL_TRENDS: '/labs/trends/',
   LOGIN: '/login',
   LOGIN_VIA_EMAIL: '/login/email',
   CREATE_ACCOUNT: '/sign-up',

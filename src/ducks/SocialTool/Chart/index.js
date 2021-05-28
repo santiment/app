@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import cx from 'classnames'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import ChartHeader from './Header'
@@ -8,8 +8,11 @@ import SocialDominanceToggle from './SocialDominanceToggle'
 import { useChartColors } from './colors'
 import { useMetricCategories } from '../../Chart/Synchronizer'
 import PaywallInfo from '../../Studio/Chart/PaywallInfo'
+import { useDomainGroups } from '../../Chart/hooks'
+import { extractMirrorMetricsDomainGroups } from '../../Chart/utils'
 import ChartActiveMetrics from '../../Studio/Chart/ActiveMetrics'
 import styles from './index.module.scss'
+import SharedAxisToggle from '../../Studio/Chart/SharedAxisToggle'
 
 const Chart = ({
   className,
@@ -30,6 +33,14 @@ const Chart = ({
   const [FocusedMetric, setFocusedMetric] = useState()
   const MetricColor = useChartColors(metrics, FocusedMetric)
   const categories = useMetricCategories(metrics)
+  const domainGroups = useDomainGroups(metrics)
+  const mirrorDomainGroups = useMemo(
+    () => extractMirrorMetricsDomainGroups(domainGroups),
+    [domainGroups]
+  )
+  const [isDomainGroupingActive, setIsDomainGroupingActive] = useState(
+    domainGroups && domainGroups.length > mirrorDomainGroups.length
+  )
   const scale = options.isLogScale ? logScale : linearScale
   const detectedAsset = allDetectedAssets.get(settings.slug) || {}
 
@@ -65,6 +76,13 @@ const Chart = ({
         className={styles.top}
       >
         <h3 className={styles.title}>Social Volume</h3>
+        {domainGroups && domainGroups.length > mirrorDomainGroups.length && (
+          <SharedAxisToggle
+            isDomainGroupingActive={isDomainGroupingActive}
+            setIsDomainGroupingActive={setIsDomainGroupingActive}
+            className={styles.sharedAxisToggle}
+          />
+        )}
       </ChartHeader>
       <div className={styles.bottom}>
         <div className={styles.metrics}>
@@ -92,6 +110,9 @@ const Chart = ({
         brushData={brushData}
         options={options}
         settings={settings}
+        domainGroups={
+          isDomainGroupingActive ? domainGroups : mirrorDomainGroups
+        }
         categories={categories}
         metrics={metrics}
         colors={MetricColor}

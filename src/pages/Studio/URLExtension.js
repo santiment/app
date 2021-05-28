@@ -1,75 +1,76 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 import { withRouter } from 'react-router-dom'
-import { parse } from 'query-string'
-import { getIdFromSEOLink } from '../../utils/url'
-import { generateUrlV2 } from '../../ducks/Studio/url/generate'
-import { getChartWidgetsFromTemplate } from '../../ducks/Studio/Template/utils'
-import { getTemplate } from '../../ducks/Studio/Template/gql/hooks'
+import { stringify } from 'query-string'
+import { shareWidgets, shareSettings } from './sharing/share'
 
-const getFullUrl = config => '/charts?' + generateUrlV2(config)
+function getSharedUrl (settings, widgets, sidewidget) {
+  return (
+    '/charts?' +
+    stringify({
+      settings,
+      widgets,
+      sidepanel: sidewidget
+        ? JSON.stringify({ type: sidewidget.key || sidewidget })
+        : undefined
+    })
+  )
+}
 
+const getSharedSettings = settings => JSON.stringify(shareSettings(settings))
+const getSharedWidgets = widgets => JSON.stringify(shareWidgets(widgets))
+
+const unsub = unsubscribe => unsubscribe()
 const URLExtension = ({
   history,
   settings,
   widgets,
-  sidepanel,
-  shortUrlHashState,
+  sidewidget,
+  subwidgets,
   prevFullUrlRef,
-  setSettings,
-  setWidgets
+  setSlug
 }) => {
-  const { slug, name, ticker } = settings
-  const slugRef = useRef(slug)
-  slugRef.current = slug
+  const { ticker, name } = settings
+  const [sharedWidgets, setSharedWidgets] = useState('')
+  const sharedSettings = useMemo(() => getSharedSettings(settings), [settings])
 
-  // NOTE: This version of withRouter does not trigger rerender on location change (it depends on the root component rerender [@vanguard | Oct 8, 2020]
+  useEffect(() => setSlug(settings.slug), [settings.slug])
+
   useEffect(
     () => {
-      let prevPathname = ''
-      history.listen(({ search, pathname }) => {
-        if (prevPathname !== pathname) {
-          prevPathname = pathname
-          const templateId = getIdFromSEOLink(pathname)
+      const update = () => setSharedWidgets(getSharedWidgets(widgets))
+      let updateTimer
+      function scheduleUpdate () {
+        window.clearTimeout(updateTimer)
+        updateTimer = window.setTimeout(update, 250)
+      }
 
-          if (templateId) {
-            return getTemplate(templateId)
-              .then(template => {
-                const newSettings = { ...settings, ...template.project }
-                const newWidgets = getChartWidgetsFromTemplate(template)
-                setSettings(newSettings)
-                setWidgets(newWidgets)
-              })
-              .catch(console.error)
-          }
-        }
+      const unsubs = []
+      widgets.forEach(widget => {
+        if (!widget.OnUpdate) return
 
-        const searchSlug = parse(search).slug
-        if (searchSlug && searchSlug !== slugRef.current) {
-          setSettings(settings => ({ ...settings, slug: searchSlug }))
-        }
+        unsubs.push(widget.OnUpdate.subscribe(scheduleUpdate))
       })
-    },
 
-    []
+      return () => {
+        window.clearTimeout(updateTimer)
+        unsubs.forEach(unsub)
+      }
+    },
+    [widgets, subwidgets]
   )
 
   useEffect(
     () => {
-      const fullUrl = getFullUrl({
-        settings,
-        widgets,
-        sidepanel
-      })
+      if (!sharedSettings || !sharedWidgets) return
 
-      if (fullUrl !== prevFullUrlRef.current) {
-        const replaceHistory = () => history.replace(fullUrl)
-        prevFullUrlRef.current = fullUrl
+      const url = getSharedUrl(sharedSettings, sharedWidgets, sidewidget)
+      if (url === prevFullUrlRef.current) return
 
-        return replaceHistory() // TODO: Delete after enabling short urls [@vanguard | Mar  3, 2021]
-      }
+      prevFullUrlRef.current = url
+      history.replace(url)
     },
-    [settings, widgets, sidepanel]
+    [sharedSettings, sharedWidgets, sidewidget]
   )
 
   return (

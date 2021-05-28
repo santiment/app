@@ -56,7 +56,7 @@ export function useWatchlistsLoader (query, options, cb = CB, isUserLoading) {
   const { data, loading } = useQuery(query, options)
   return useMemo(
     () => [cb(data ? data.watchlists : ARRAY), loading || isUserLoading],
-    [data]
+    [data, isUserLoading]
   )
 }
 

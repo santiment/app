@@ -90,7 +90,7 @@ const TrendsExplore = ({ topic, addedTopics, history, isDesktop }) => {
           {isDesktop ? (
             <div className={styles.breadcrumbs}>
               <Link to='/labs/trends/' className={styles.link}>
-                Santrends
+                Social Trends
               </Link>
               <Icon type='arrow-right' className={styles.arrow} />
               Social context

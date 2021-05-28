@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import { connect } from 'react-redux'
 import Dialog from '@santiment-network/ui/Dialog'
 import Icon from '@santiment-network/ui/Icon'
 import StoryPreview from './StoryPreview'
 import GA from './../../utils/tracking'
+import { useTheme } from '../../stores/ui/theme'
 import Story from './Story'
 import { stories } from './content'
 import { DesktopOnly } from '../Responsive'
@@ -30,16 +30,11 @@ const ScrollBtn = ({ isRight, show = true, onClick }) => {
 
 const SCROLL_OFFSET = 300
 
-const StoriesList = ({
-  classes = {},
-  showScrollBtns,
-  isNightModeEnabled,
-  showShadows = false
-}) => {
+const StoriesList = ({ classes = {}, showScrollBtns, showShadows = false }) => {
   const [selected, setSelected] = useState()
-
   const [canScrollLeft, setLeft] = useState(false)
   const [canScrollRight, setRight] = useState(true)
+  const { isNightMode } = useTheme()
   const scrollRef = React.createRef()
 
   const scroll = isRight => {
@@ -65,10 +60,10 @@ const StoriesList = ({
       )}
       style={{
         '--offset': '24px',
-        '--shadowFrom': isNightModeEnabled
+        '--shadowFrom': isNightMode
           ? 'rgba(24, 27, 43, 0)'
           : 'rgba(255, 255, 255, 0)',
-        '--shadowTo': isNightModeEnabled
+        '--shadowTo': isNightMode
           ? 'rgba(24, 27, 43, 0.9)'
           : 'rgba(255, 255, 255, 0.9)'
       }}
@@ -120,15 +115,11 @@ const StoriesList = ({
         classes={styles}
       >
         <Dialog.ScrollContent className={styles.content}>
-          <Story story={selected} onEnd={setSelected} />
+          {selected && <Story story={selected} onEnd={setSelected} />}
         </Dialog.ScrollContent>
       </Dialog>
     </section>
   )
 }
 
-const mapStateToProps = ({ rootUi: { isNightModeEnabled } }) => ({
-  isNightModeEnabled: isNightModeEnabled
-})
-
-export default connect(mapStateToProps)(StoriesList)
+export default StoriesList

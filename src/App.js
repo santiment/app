@@ -240,7 +240,9 @@ export const App = ({
   )
 
   return (
-    <div className={cx('App', isWatchlistPage && 'list-container')}>
+    <div
+      className={cx('App', isWatchlistPage && isDesktop && 'list-container')}
+    >
       <ErrorBoundary history={history}>
         {isOffline && (
           <div className={styles.offline}>
@@ -590,6 +592,7 @@ const mapStateToProps = ({ user, rootUi }, { location: { pathname } }) => ({
   showFooter:
     !isPathnameInPages(pathname, FOOTER_DISABLED_FOR) &&
     !pathname.includes(PATHS.STUDIO) &&
+    !pathname.includes(PATHS.CHARTS) &&
     !pathname.includes(PATHS.LIST)
 })
 

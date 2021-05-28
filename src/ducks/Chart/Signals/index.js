@@ -79,7 +79,8 @@ const Signals = ({
     () => {
       buildSignals()
       // TODO: remove observer gaurd check when all charts are migrated [@vanguard | Oct 20, 2020]
-      return chart.observer && chart.observer.subscribe(buildSignals)
+      const observer = chart.plotManager || chart.observer
+      return observer && observer.subscribe(buildSignals)
     },
     [userSignals, slug]
   )
@@ -171,7 +172,7 @@ const Signals = ({
       onMouseLeave={onMouseLeave}
       className={styles.wrapper}
       style={{
-        width: width || chart.padding.right,
+        width: width || chart.padding.right - (chart.rightAxisMargin || 0),
         height: chart.height + chart.top
       }}
     >
@@ -207,7 +208,7 @@ export default connect(
   null,
   mapDispatchToProps
 )(({ metrics, ...props }) => {
-  const chart = useChart()
+  const chart = props.chart || useChart()
   const alertMetrics = useAlertMetrics(metrics)
 
   if (alertMetrics.length === 0) {

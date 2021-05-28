@@ -5,6 +5,10 @@ import { READABLE_NAMES } from '../hooks'
 import Skeleton from '../../../../../components/Skeleton/Skeleton'
 import styles from './StackholderTitle.module.scss'
 
+function onLinkClick (e) {
+  e.stopPropagation()
+}
+
 const StackholderTitle = ({ project: targetProject, count, slug, labels }) => {
   const uniqueLabels = [...new Set(labels)]
   const [project = targetProject, loading] = useProject(!targetProject && slug)
@@ -13,7 +17,13 @@ const StackholderTitle = ({ project: targetProject, count, slug, labels }) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.info}>
+      <a
+        className={styles.info}
+        href={`/charts?slug=${slug}`}
+        onClick={onLinkClick}
+        rel='noopener noreferrer'
+        target='_blank'
+      >
         {!loading && (
           <>
             <ProjectIcon slug={slug} size={20} logoUrl={logoUrl} />
@@ -35,7 +45,7 @@ const StackholderTitle = ({ project: targetProject, count, slug, labels }) => {
             wrapperClassName={styles.skeletonWrapper}
           />
         )}
-      </div>
+      </a>
 
       <div className={styles.labels}>
         {uniqueLabels.map(l => (

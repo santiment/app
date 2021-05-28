@@ -26,6 +26,11 @@ const InsightsToggleContext = React.createContext()
 const InsightsActiveToggleContext = React.createContext()
 const InsightsErrorContext = React.createContext()
 
+export function loadInsights (key, from, to) {
+  const loader = LoadInsights[key] || getTagInsights
+  return loader(from, to, key)
+}
+
 export const InsightsProvider = ({ children }) => {
   const [state, setState] = useState(DEFAULT_STATE)
   const [[toggle, from, to], setToggle] = useState(DEFAULT_STATE)

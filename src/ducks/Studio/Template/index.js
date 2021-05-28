@@ -39,13 +39,14 @@ const Template = ({
   className,
   currentUser,
   widgets,
+  souldReloadOnSave = true,
   setWidgets,
   onProjectSelect,
   location: { pathname },
   ...props
 }) => {
   const { user } = useUser()
-  const { projectId } = props
+  const { projectId, saveWidgets = normalizeWidgets } = props
   const [templates] = useUserTemplates(user && user.id)
   const [updateTemplate] = useUpdateTemplate()
   const [createTemplate] = useCreateTemplate()
@@ -65,7 +66,8 @@ const Template = ({
       onProjectSelect(project)
     }
 
-    setWidgets(getChartWidgetsFromTemplate(template))
+    const parseTemplate = props.parseTemplate || getChartWidgetsFromTemplate
+    setWidgets(parseTemplate(template))
   }
 
   const [selectedTemplate, setSelectedTemplate, loading] = useSelectedTemplate(
@@ -148,11 +150,17 @@ const Template = ({
       const { user: { id } = {}, title, description } = template
 
       const isCurrentUser = +id === +user.id
-      const metrics = widgets.map(({ metrics }) => metrics).flat()
-      const comparables = widgets.map(({ comparables }) => comparables).flat()
+      const metrics = widgets
+        .map(({ metrics }) => metrics)
+        .flat()
+        .filter(Boolean)
+      const comparables = widgets
+        .map(({ comparables }) => comparables)
+        .flat()
+        .filter(Boolean)
 
       const options = {
-        widgets: normalizeWidgets(widgets)
+        widgets: saveWidgets(widgets)
       }
 
       const future = isCurrentUser
@@ -171,7 +179,7 @@ const Template = ({
         })
 
       future
-        .then(selectTemplate)
+        .then(souldReloadOnSave ? selectTemplate : setSelectedTemplate)
         .then(closeMenu)
         .then(notifySave)
     },

@@ -17,7 +17,7 @@ const PopupBanner = ({
   const { isLoggedIn } = useUser()
 
   if (isLoggedIn) {
-    return children
+    return children || null
   }
 
   return (

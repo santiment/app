@@ -13,7 +13,7 @@ import externalStyles from '../StablecoinsPage/StablecoinsPage.module.scss'
 const TrendsHeader = () => {
   return (
     <div className={styles.titleWrapper}>
-      <div className={styles.title}>Santrends</div>
+      <div className={styles.title}>Social Trends</div>
     </div>
   )
 }

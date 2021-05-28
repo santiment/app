@@ -70,7 +70,7 @@ const Item = ({
               >
                 Create an alert if the phrase
                 <br />
-                appears in Santrends
+                appears in Social Trends
               </DarkTooltip>
             </div>
           </LoginPopup>

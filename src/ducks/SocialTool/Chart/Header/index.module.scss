@@ -17,7 +17,6 @@
 .settings {
   display: flex;
   align-items: center;
-  margin-left: auto;
 
   @include responsive('phone-xs', 'phone') {
     margin-left: 0;
