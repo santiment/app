@@ -10,17 +10,13 @@
 .title {
   @include text('body-2', 'l');
 
-  margin-top: 24px;
-}
-
-.rect {
-  background: #c4c4c4;
-  width: 360px;
-  height: 140px;
+  margin-top: 32px;
 }
 
 .description {
   margin-top: 4px;
+  max-width: 254px;
+  text-align: center;
 
   @include text('body-3');
 }

@@ -26,6 +26,16 @@
   overflow-x: hidden;
 
   @include overlay-scroll;
+
+  padding-right: 10px;
+
+  &:hover {
+    padding-right: 4px;
+  }
+
+  &__loading {
+    padding-right: 10px !important;
+  }
 }
 
 .list + .list {
@@ -35,7 +45,7 @@
 .content {
   @include overlay-scroll(null);
 
-  padding: 0 24px;
+  padding: 0 14px 0 24px;
 }
 
 .scroller {
@@ -50,9 +60,28 @@
   height: 16px;
   margin-right: 24px;
   cursor: pointer;
+}
+
+.trigger {
+  cursor: pointer;
+
+  &__active {
+    &::after {
+      content: ' ';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--persimmon);
+      position: absolute;
+      left: 9px;
+      top: -1px;
+    }
+  }
 
   &:hover {
-    fill: var(--jungle-green);
+    .icon {
+      fill: var(--jungle-green);
+    }
   }
 }
 
@@ -72,6 +101,7 @@
 
 .tabs {
   margin: 0;
+  border: none;
 }
 
 .tab {

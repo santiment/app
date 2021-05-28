@@ -47,7 +47,11 @@
 
 .date {
   min-width: initial !important;
-  margin: 0;
+  margin: 2px 0 0 0;
   color: var(--waterloo);
-  margin-top: 2px;
+}
+
+.avatarIcon {
+  position: relative;
+  top: -2px;
 }

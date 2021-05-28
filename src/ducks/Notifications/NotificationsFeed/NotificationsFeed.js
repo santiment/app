@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
 import InfiniteScroll from 'react-infinite-scroller'
 import Icon from '@santiment-network/ui/Icon'
@@ -11,8 +11,18 @@ import NotificationItem from '../NotificationItem/NotificationItem'
 import NotificationTypes from '../NotificationTypes/NotificationTypes'
 import NoNotitications from '../NoNotitications/NoNotitications'
 import styles from './NotificationsFeed.module.scss'
+import NoNotiticationsForTag from '../NoNotitications/NoNotiticationsForTag'
 
+const LAST_UPDATES_KEY = 'NOTIFICATIONS__LAST_UPDATES_KEY'
 const NOW = 'utc_now'
+let LAST_UPDATES_DATE = localStorage.getItem(LAST_UPDATES_KEY)
+  ? new Date(localStorage.getItem(LAST_UPDATES_KEY))
+  : undefined
+
+const saveLastLoadedToLS = e => {
+  localStorage.setItem(LAST_UPDATES_DATE, e.insertedAt)
+  LAST_UPDATES_DATE = e.insertedAt
+}
 
 const DEFAULT_SETTINGS = {
   date: NOW,
@@ -26,6 +36,13 @@ const TABS_TO_FILTER_AUTHORS = {
   Following: 'FOLLOWED'
 }
 
+const isNew = event => {
+  return (
+    LAST_UPDATES_DATE &&
+    new Date(event.insertedAt).getTime() > LAST_UPDATES_DATE.getTime()
+  )
+}
+
 const NotificationsFeed = () => {
   const [settings, setSettings] = useState(DEFAULT_SETTINGS)
   const [activeTab, setTab] = useState(TABS[0])
@@ -37,6 +54,8 @@ const NotificationsFeed = () => {
     type: settings.type,
     author: settings.author
   })
+
+  console.log(settings, settings.type === 'ALL')
 
   useEffect(
     () => {
@@ -86,16 +105,37 @@ const NotificationsFeed = () => {
     })
   }
 
+  function onClose () {
+    const first = events[0]
+
+    if (first) {
+      saveLastLoadedToLS(first)
+    }
+  }
+
+  const hasNew = useMemo(
+    () => {
+      return !LAST_UPDATES_DATE || events.some(isNew)
+    },
+    [events, LAST_UPDATES_DATE]
+  )
+
   return (
     <div className={styles.wrapper}>
       <ContextMenu
         passOpenStateAs='data-isactive'
         position='bottom'
+        onClose={onClose}
         align='end'
+        open={true}
         offsetY={32}
         offsetX={24}
         className={styles.dropdown}
-        trigger={<Icon type='bell' className={styles.icon} />}
+        trigger={
+          <div className={cx(styles.trigger, hasNew && styles.trigger__active)}>
+            <Icon type='bell' className={styles.icon} />
+          </div>
+        }
       >
         <PanelWithHeader
           className={styles.panel}
@@ -122,7 +162,7 @@ const NotificationsFeed = () => {
 
           <div className={styles.content}>
             <div className={styles.scroller}>
-              <div className={cx(styles.list)}>
+              <div className={cx(styles.list, loading && styles.list__loading)}>
                 <InfiniteScroll
                   pageStart={0}
                   loadMore={loadMore}
@@ -135,6 +175,7 @@ const NotificationsFeed = () => {
                       data={item}
                       key={item.id}
                       className={styles.item}
+                      isNew={hasNew && isNew(item)}
                     />
                   ))}
                   {loading && (
@@ -144,10 +185,16 @@ const NotificationsFeed = () => {
                       className={styles.skeleton}
                     />
                   )}
-
-                  {!loading && events.length === 0 && <NoNotitications />}
                 </InfiniteScroll>
               </div>
+
+              {!loading &&
+                events.length === 0 &&
+                (settings.type === 'ALL' ? (
+                  <NoNotitications />
+                ) : (
+                  <NoNotiticationsForTag />
+                ))}
             </div>
           </div>
         </PanelWithHeader>

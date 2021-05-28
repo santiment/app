@@ -42,9 +42,7 @@ const getType = (data, isAuthor) => {
   }
 }
 
-const NotificationItem = ({ data, className }) => {
-  console.log(data)
-
+const NotificationItem = ({ data, className, isNew }) => {
   const { insertedAt, user } = data
 
   const { user: currentUser } = useUser()
