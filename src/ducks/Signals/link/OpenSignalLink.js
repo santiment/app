@@ -73,15 +73,13 @@ const prepareTitle = title => {
   return checkingTitle
 }
 
-const OpenSignalLink = ({
-  signal: {
+const OpenSignalLink = ({ signal, children }) => {
+  const {
     id,
     title,
     settings: { type }
-  },
-  signal,
-  children
-}) => {
+  } = signal
+
   const trigger = (
     <div>
       <div className={styles.link}>{prepareTitle(title)}</div>

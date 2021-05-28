@@ -15,13 +15,12 @@ import NoNotiticationsForTag from '../NoNotitications/NoNotiticationsForTag'
 
 const LAST_UPDATES_KEY = 'NOTIFICATIONS__LAST_UPDATES_KEY'
 const NOW = 'utc_now'
-let LAST_UPDATES_DATE = localStorage.getItem(LAST_UPDATES_KEY)
+const LAST_UPDATES_DATE = localStorage.getItem(LAST_UPDATES_KEY)
   ? new Date(localStorage.getItem(LAST_UPDATES_KEY))
   : undefined
 
-const saveLastLoadedToLS = e => {
-  localStorage.setItem(LAST_UPDATES_DATE, e.insertedAt)
-  LAST_UPDATES_DATE = e.insertedAt
+const saveLastLoadedToLS = date => {
+  localStorage.setItem(LAST_UPDATES_KEY, date)
 }
 
 const DEFAULT_SETTINGS = {
@@ -36,11 +35,8 @@ const TABS_TO_FILTER_AUTHORS = {
   Following: 'FOLLOWED'
 }
 
-const isNew = event => {
-  return (
-    LAST_UPDATES_DATE &&
-    new Date(event.insertedAt).getTime() > LAST_UPDATES_DATE.getTime()
-  )
+function isNew (event, date) {
+  return date && new Date(event.insertedAt).getTime() > date.getTime()
 }
 
 const NotificationsFeed = () => {
@@ -48,14 +44,13 @@ const NotificationsFeed = () => {
   const [activeTab, setTab] = useState(TABS[0])
   const [events, setEvents] = useState([])
   const [canLoad, setCanLoad] = useState(true)
+  const [lastLoadedDate, setLastViewedDate] = useState(LAST_UPDATES_DATE)
 
   const { data: { events: chunk } = {}, loading } = useTimelineEvents({
     to: settings.date,
     type: settings.type,
     author: settings.author
   })
-
-  console.log(settings, settings.type === 'ALL')
 
   useEffect(
     () => {
@@ -109,15 +104,16 @@ const NotificationsFeed = () => {
     const first = events[0]
 
     if (first) {
-      saveLastLoadedToLS(first)
+      saveLastLoadedToLS(first.insertedAt)
+      setLastViewedDate(new Date(first.insertedAt))
     }
   }
 
   const hasNew = useMemo(
     () => {
-      return !LAST_UPDATES_DATE || events.some(isNew)
+      return !lastLoadedDate || events.some(item => isNew(item, lastLoadedDate))
     },
-    [events, LAST_UPDATES_DATE]
+    [events, lastLoadedDate]
   )
 
   return (
@@ -127,7 +123,6 @@ const NotificationsFeed = () => {
         position='bottom'
         onClose={onClose}
         align='end'
-        open={true}
         offsetY={32}
         offsetX={24}
         className={styles.dropdown}
@@ -142,20 +137,18 @@ const NotificationsFeed = () => {
           headerClassName={styles.header}
           contentClassName={styles.panelContent}
           header={
-            <div>
-              <Tabs
-                className={styles.tabs}
-                options={TABS}
-                defaultSelectedIndex={activeTab}
-                onSelect={tab => {
-                  setTab(tab)
-                  updateSettings({
-                    author: TABS_TO_FILTER_AUTHORS[tab]
-                  })
-                }}
-                classes={styles}
-              />
-            </div>
+            <Tabs
+              className={styles.tabs}
+              options={TABS}
+              defaultSelectedIndex={activeTab}
+              onSelect={tab => {
+                setTab(tab)
+                updateSettings({
+                  author: TABS_TO_FILTER_AUTHORS[tab]
+                })
+              }}
+              classes={styles}
+            />
           }
         >
           <NotificationTypes onChange={onChangeType} selected={settings.type} />
@@ -175,7 +168,7 @@ const NotificationsFeed = () => {
                       data={item}
                       key={item.id}
                       className={styles.item}
-                      isNew={hasNew && isNew(item)}
+                      isNew={hasNew && isNew(item, lastLoadedDate)}
                     />
                   ))}
                   {loading && (

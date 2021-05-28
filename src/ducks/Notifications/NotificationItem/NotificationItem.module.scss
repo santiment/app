@@ -11,13 +11,18 @@
   box-sizing: border-box;
 
   &__unread {
-    border: 1px solid var(--mystic);
     background: var(--athens);
   }
 
   &:hover {
     border-color: var(--mystic);
   }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 .title {
@@ -35,7 +40,7 @@
 .footer {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
   margin-top: 14px;
 }
 
@@ -54,4 +59,13 @@
 .avatarIcon {
   position: relative;
   top: -2px;
+}
+
+.new {
+  font-size: 10px;
+  min-width: initial;
+}
+
+.more {
+  margin: 0;
 }

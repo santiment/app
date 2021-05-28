@@ -12,13 +12,13 @@ import OpenSignalLink from '../../../ducks/Signals/link/OpenSignalLink'
 import { isEthStrictAddress } from '../../../utils/utils'
 import FeedHistoricalBalance from '../../feed/GeneralFeed/FeedItemRenderer/feedHistoricalBalance/FeedHistoricalBalance'
 import FeedSignalCardWithMarkdown, {
-  MoreInfo
+  MoreInfoAlert
 } from '../../feed/GeneralFeed/FeedItemRenderer/feedSignalCardWithMarkdown/FeedSignalCardWithMarkdown'
 import SidecarExplanationTooltip from '../../../ducks/SANCharts/SidecarExplanationTooltip'
 import TimelineEventComments from '../../../components/TimelineEventComments/TimelineEventComments'
 import styles from './ActivityRenderer.module.scss'
 
-const getUserTriggerData = activityData => {
+export const getUserTriggerData = activityData => {
   if (activityData) {
     const { user_trigger_data } = activityData
     const firstKey = Object.keys(user_trigger_data)[0]
@@ -58,7 +58,7 @@ export const getDefaultActivityContent = (
         className={classes.activityMarkdown}
       />
       {data && data.project_slug && (
-        <MoreInfo slug={data.project_slug} type={data.type} />
+        <MoreInfoAlert slug={data.project_slug} type={data.type} />
       )}
     </>
   )
@@ -71,7 +71,7 @@ const ActivityWithBacktesting = ({
   user,
   classes,
   activity,
-  activity: { id, commentsCount, index, triggeredAt, trigger = {}, votes = [] },
+  activity: { index, triggeredAt, trigger = ({} = []) },
   onLike,
   showProfileExplanation
 }) => {
