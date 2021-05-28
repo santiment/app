@@ -46,7 +46,7 @@ const NotificationsFeed = () => {
   const [canLoad, setCanLoad] = useState(true)
   const [lastLoadedDate, setLastViewedDate] = useState(LAST_UPDATES_DATE)
 
-  const { data: { events: chunk } = {}, loading } = useTimelineEvents({
+  const { data: { events: chunk } = {}, loading, error } = useTimelineEvents({
     to: settings.date,
     type: settings.type,
     author: settings.author
@@ -66,7 +66,7 @@ const NotificationsFeed = () => {
   )
 
   function loadMore () {
-    if (!loading && canLoad) {
+    if (!loading && canLoad && !error) {
       const last = events[events.length - 1]
 
       if (last && settings.date !== last.insertedAt) {
@@ -111,7 +111,10 @@ const NotificationsFeed = () => {
 
   const hasNew = useMemo(
     () => {
-      return !lastLoadedDate || events.some(item => isNew(item, lastLoadedDate))
+      return (
+        (!lastLoadedDate && events.length !== 0) ||
+        events.some(item => isNew(item, lastLoadedDate))
+      )
     },
     [events, lastLoadedDate]
   )
@@ -168,7 +171,10 @@ const NotificationsFeed = () => {
                       data={item}
                       key={item.id}
                       className={styles.item}
-                      isNew={hasNew && isNew(item, lastLoadedDate)}
+                      isNew={
+                        hasNew &&
+                        (!lastLoadedDate || isNew(item, lastLoadedDate))
+                      }
                     />
                   ))}
                   {loading && (

@@ -9,8 +9,8 @@ export const getLink = ({ type, slug }) => {
   return type === TRENDING_WORDS ? '/labs/trends' : '/projects/' + slug
 }
 
-export const MoreInfoAlert = ({ slug, type, className }) => {
-  const link = getLink({ type, slug })
+export const MoreInfoAlert = ({ slug, type, link: targetLink, className }) => {
+  const link = targetLink || getLink({ type, slug })
 
   return (
     <Link to={link} className={cx(styles.more, className)} target='_blank'>

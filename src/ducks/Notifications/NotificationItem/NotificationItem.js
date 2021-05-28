@@ -5,56 +5,11 @@ import SignalCreator from '../../../components/SignalCard/card/creator/SignalCre
 import { useUser } from '../../../stores/user'
 import { NewLabelTemplate } from '../../../components/NewLabel/NewLabel'
 import { MoreInfoAlert } from '../../../pages/feed/GeneralFeed/FeedItemRenderer/feedSignalCardWithMarkdown/FeedSignalCardWithMarkdown'
-import { getUserTriggerData } from '../../../pages/SonarFeed/ActivityRenderer/ActivityWithBacktesting'
-import OpenSignalLink from '../../Signals/link/OpenSignalLink'
+import { getTitle, getType, getUserTriggerData, TRIGGER_FIRED } from './utils'
 import styles from './NotificationItem.module.scss'
-
-const TRIGGER_FIRED = 'trigger_fired'
-
-const getTitle = data => {
-  const {
-    payload,
-    eventType,
-    trigger,
-    post,
-    user: { username, email }
-  } = data
-
-  switch (eventType) {
-    case TRIGGER_FIRED: {
-      return (
-        payload[Object.keys(payload)[0]] || <OpenSignalLink signal={trigger} />
-      )
-    }
-    case 'publish_insight': {
-      return `${username || email} has created insight '${post.title}'`
-    }
-    default: {
-      return null
-    }
-  }
-}
-
-const getType = (data, isAuthor) => {
-  const { eventType } = data
-
-  switch (eventType) {
-    case 'trigger_fired': {
-      return isAuthor ? 'my alerts' : 'alert'
-    }
-    case 'publish_insight': {
-      return 'insights'
-    }
-    default: {
-      return 'alert'
-    }
-  }
-}
 
 const AlertPlaceholder = ({ data }) => {
   const { user_trigger_data: { default: { type } = {} } = {} } = data.data
-
-  console.log(data.data, type)
 
   if (type) {
     return <MoreInfoAlert type={type} />
@@ -68,6 +23,7 @@ const AlertPlaceholder = ({ data }) => {
         className={styles.more}
         slug={triggerData.project_slug}
         type={triggerData.type}
+        link={data.trigger && `/alert/${data.trigger.id}`}
       />
     )
   }

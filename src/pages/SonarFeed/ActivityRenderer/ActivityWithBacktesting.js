@@ -71,7 +71,7 @@ const ActivityWithBacktesting = ({
   user,
   classes,
   activity,
-  activity: { index, triggeredAt, trigger = ({} = []) },
+  activity: { index, triggeredAt, trigger = {} },
   onLike,
   showProfileExplanation
 }) => {
