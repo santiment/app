@@ -23,9 +23,9 @@ import NavbarMore from './NavbarMore/NavbarMore'
 import { NavbarItem } from './NavbarItem'
 import { useDialogState } from '../../hooks/dialog'
 import { DEFAULT_SCREENER } from '../../ducks/Screener/utils'
-import styles from './Navbar.module.scss'
 import NotificationsFeed from '../../ducks/Notifications/NotificationsFeed/NotificationsFeed'
 import { useUser } from '../../stores/user'
+import styles from './Navbar.module.scss'
 
 const ExternalLink = ({ children, className, ...rest }) => (
   <a className={cx(className, styles.externalLink)} {...rest}>

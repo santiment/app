@@ -5,7 +5,8 @@ import SignalCreator from '../../../components/SignalCard/card/creator/SignalCre
 import { useUser } from '../../../stores/user'
 import { NewLabelTemplate } from '../../../components/NewLabel/NewLabel'
 import { MoreInfoAlert } from '../../../pages/feed/GeneralFeed/FeedItemRenderer/feedSignalCardWithMarkdown/FeedSignalCardWithMarkdown'
-import { getTitle, getType, getUserTriggerData, TRIGGER_FIRED } from './utils'
+import { getTitle, getType, TRIGGER_FIRED } from './utils'
+import { getUserTriggerData } from '../../../pages/SonarFeed/ActivityRenderer/ActivityWithBacktesting'
 import styles from './NotificationItem.module.scss'
 
 const AlertPlaceholder = ({ data }) => {

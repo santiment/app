@@ -1,17 +1,6 @@
 import React from 'react'
 import OpenSignalLink from '../../Signals/link/OpenSignalLink'
 
-export const getUserTriggerData = activityData => {
-  if (activityData) {
-    const { user_trigger_data } = activityData
-    const firstKey = Object.keys(user_trigger_data)[0]
-
-    return user_trigger_data[firstKey]
-  } else {
-    return null
-  }
-}
-
 export const TRIGGER_FIRED = 'trigger_fired'
 
 export const getTitle = data => {
