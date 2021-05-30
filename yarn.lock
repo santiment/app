@@ -17225,9 +17225,9 @@ safe-regex@^1.1.0:
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
-"san-studio@https://github.com/santiment/san-studio.git#32fb5ce":
+"san-studio@https://github.com/santiment/san-studio.git#7336e0d":
   version "0.0.1"
-  resolved "https://github.com/santiment/san-studio.git#32fb5ce32f96aa39c2c7fbdfd2247d3be6a82aa5"
+  resolved "https://github.com/santiment/san-studio.git#7336e0df5ad74d8fda466f22a7cef09a31135cd6"
   dependencies:
     san-webkit "https://github.com/santiment/san-webkit.git#4d19467"
     svelte-check "^1.5.2"
