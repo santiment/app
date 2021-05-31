@@ -6,7 +6,7 @@ import styles from './InsightTags.module.scss'
 
 const VISIBLE_TAGS_BY_DEFAULT = 3
 
-const InsightTags = ({ tags = [], isDesktop }) => {
+const InsightTags = ({ tags = [], isDesktop, className }) => {
   const filteredTags = tags.filter(noTrendTagsFilter)
   const tagsOverflow =
     filteredTags.length > VISIBLE_TAGS_BY_DEFAULT
@@ -18,7 +18,7 @@ const InsightTags = ({ tags = [], isDesktop }) => {
         <a
           href={`https://insights.santiment.net/tags/${name}`}
           key={name}
-          className={styles.tag}
+          className={cx(styles.tag, className)}
         >
           {name}
         </a>
@@ -42,7 +42,7 @@ const InsightTags = ({ tags = [], isDesktop }) => {
               <a
                 href={`https://insights.santiment.net/tags/${name}`}
                 key={name}
-                className={styles.tag}
+                className={cx(styles.tag, className)}
               >
                 {name}
               </a>

@@ -11,7 +11,7 @@ import {
   isBaseLocation
 } from './utils'
 import EmptyFeed from './EmptyFeed'
-import { FEED_QUERY } from '../../../queries/FeedGQL'
+import { TIMELINE_EVENTS_QUERY } from '../../../queries/FeedGQL'
 import PageLoader from '../../../components/Loader/PageLoader'
 import FeedListLoading from './FeedList/FeedListLoading'
 import { checkIsLoggedIn, checkIsLoggedInPending } from '../../UserSelectors'
@@ -150,7 +150,7 @@ const GeneralFeed = ({ isLoggedIn, isUserLoading, location }) => {
           <PulseInsights />
         ) : (
           <Query
-            query={FEED_QUERY}
+            query={TIMELINE_EVENTS_QUERY}
             variables={makeFeedVariables({
               date: START_DATE,
               orderBy: sortType.type,
