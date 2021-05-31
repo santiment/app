@@ -2,14 +2,16 @@ import React from 'react'
 import { NoNotificationsSvg } from './utils'
 import styles from './NoNotitications.module.scss'
 
-const NoNotitications = () => {
+const NoNotitications = ({ description, showSvg }) => {
   return (
     <div className={styles.container}>
-      <div className={styles.rect}>{NoNotificationsSvg}</div>
-      <div className={styles.title}>No unread notifications</div>
-      <div className={styles.description}>
-        Your new messages will appear here
-      </div>
+      {showSvg && (
+        <>
+          <div className={styles.rect}>{NoNotificationsSvg}</div>
+          <div className={styles.title}>No unread notifications</div>
+        </>
+      )}
+      <div className={styles.description}>{description}</div>
     </div>
   )
 }

@@ -35,12 +35,14 @@
   background: var(--porcelain);
   border-radius: $border-radius;
   padding: 3px 6px;
+  color: var(--rhino);
+  line-height: initial;
 }
 
 .footer {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   margin-top: 14px;
 }
 
@@ -68,4 +70,19 @@
 
 .more {
   margin: 0;
+}
+
+.link {
+  color: var(--rhino);
+
+  &:hover {
+    color: var(--rhino);
+  }
+}
+
+.crown {
+  width: 11px;
+  height: 9px;
+  fill: var(--texas-rose);
+  margin-right: 9px;
 }

@@ -5,7 +5,7 @@ import SignalCreator from '../../../components/SignalCard/card/creator/SignalCre
 import { useUser } from '../../../stores/user'
 import { NewLabelTemplate } from '../../../components/NewLabel/NewLabel'
 import { MoreInfoAlert } from '../../../pages/feed/GeneralFeed/FeedItemRenderer/feedSignalCardWithMarkdown/FeedSignalCardWithMarkdown'
-import { getTitle, getType, TRIGGER_FIRED } from './utils'
+import { getLink, getTitle, getTypes, TRIGGER_FIRED } from './utils'
 import { getUserTriggerData } from '../../../pages/SonarFeed/ActivityRenderer/ActivityWithBacktesting'
 import styles from './NotificationItem.module.scss'
 
@@ -37,17 +37,24 @@ const NotificationItem = ({ data, className, isNew }) => {
   const { user: currentUser } = useUser()
 
   const title = useMemo(() => getTitle(data), [data])
-  const type = useMemo(() => getType(data, currentUser.id === user.id), [
+  const linkTo = useMemo(() => getLink(data), [data])
+  const types = useMemo(() => getTypes(data, currentUser.id === user.id), [
     data,
     currentUser,
     user
   ])
-
   const isAlertAuthor =
     data.eventType === TRIGGER_FIRED && currentUser.id === user.id
 
+  function onClick () {
+    if (linkTo) {
+      window.open(linkTo, '_blank')
+    }
+  }
+
   return (
     <div
+      onClick={onClick}
       className={cx(
         styles.container,
         className,
@@ -62,20 +69,16 @@ const NotificationItem = ({ data, className, isNew }) => {
 
       <div className={styles.footer}>
         <div className={styles.left}>
-          {!isAlertAuthor ? (
+          {isAlertAuthor ? (
+            <AlertPlaceholder data={data} />
+          ) : (
             <SignalCreator user={user} classes={styles}>
               <FeedCardDate date={insertedAt} className={styles.date} />
             </SignalCreator>
-          ) : (
-            <AlertPlaceholder data={data} />
           )}
         </div>
 
-        {type && (
-          <div className={styles.right}>
-            <div className={styles.type}>{type}</div>
-          </div>
-        )}
+        {types && <div className={styles.right}>{types}</div>}
       </div>
     </div>
   )

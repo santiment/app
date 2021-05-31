@@ -10,7 +10,6 @@ import { useTimelineEvents } from './hooks'
 import NotificationItem from '../NotificationItem/NotificationItem'
 import NotificationTypes from '../NotificationTypes/NotificationTypes'
 import NoNotitications from '../NoNotitications/NoNotitications'
-import NoNotiticationsForTag from '../NoNotitications/NoNotiticationsForTag'
 import styles from './NotificationsFeed.module.scss'
 
 const LAST_UPDATES_KEY = 'NOTIFICATIONS__LAST_UPDATES_KEY'
@@ -68,20 +67,13 @@ const NotificationsFeed = () => {
   function loadMore () {
     if (!loading && canLoad && !error) {
       const last = events[events.length - 1]
-
-      if (last && settings.date !== last.insertedAt) {
-        // [GarageInc | 13.05.2021]: less by 1 second, because API returns old event for that date
-        const toDate = new Date(new Date(last.insertedAt).getTime() - 1000)
-        setSettings({
-          ...settings,
-          date: toDate
-        })
-      } else {
-        setSettings({
-          ...settings,
-          date: NOW
-        })
-      }
+      setSettings({
+        ...settings,
+        date:
+          last && settings.date !== last.insertedAt
+            ? new Date(new Date(last.insertedAt).getTime() - 1000)
+            : NOW
+      })
     }
   }
 
@@ -96,7 +88,7 @@ const NotificationsFeed = () => {
 
   function onChangeType (type) {
     updateSettings({
-      type: type
+      type
     })
   }
 
@@ -190,9 +182,12 @@ const NotificationsFeed = () => {
               {!loading &&
                 events.length === 0 &&
                 (settings.type === 'ALL' ? (
-                  <NoNotitications />
+                  <NoNotitications
+                    description='Your new messages will appear here'
+                    showSvg
+                  />
                 ) : (
-                  <NoNotiticationsForTag />
+                  <NoNotitications description='There’s no activity for this tag, please select another one' />
                 ))}
             </div>
           </div>
