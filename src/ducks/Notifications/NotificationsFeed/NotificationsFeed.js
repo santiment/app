@@ -4,6 +4,7 @@ import InfiniteScroll from 'react-infinite-scroller'
 import Icon from '@santiment-network/ui/Icon'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Tabs from '@santiment-network/ui/Tabs'
+import isEqual from 'lodash.isequal'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import { Skeleton } from '../../../components/Skeleton'
 import { useTimelineEvents } from './hooks'
@@ -53,15 +54,17 @@ const NotificationsFeed = () => {
 
   useEffect(
     () => {
-      if (chunk && chunk.length > 0) {
-        setEvents([...events, ...chunk])
-      }
+      if (!loading) {
+        if (chunk && chunk.length > 0) {
+          setEvents([...events, ...chunk])
+        }
 
-      if (!loading && chunk && chunk.length === 0) {
+        setCanLoad(chunk && chunk.length > 0)
+      } else {
         setCanLoad(false)
       }
     },
-    [chunk]
+    [chunk, loading]
   )
 
   function loadMore () {
@@ -72,11 +75,12 @@ const NotificationsFeed = () => {
           ? new Date(new Date(last.insertedAt).getTime() - 1000)
           : NOW
 
-      if (targetDate !== settings.date) {
-        setSettings({
-          ...settings,
-          date: targetDate
-        })
+      const newSettings = {
+        ...settings,
+        date: targetDate
+      }
+      if (!isEqual(settings, newSettings)) {
+        setSettings(newSettings)
       }
     }
   }
@@ -154,7 +158,12 @@ const NotificationsFeed = () => {
 
           <div className={styles.content}>
             <div className={styles.scroller}>
-              <div className={cx(styles.list, loading && styles.list__loading)}>
+              <div
+                className={cx(
+                  styles.list,
+                  (events.length < 5 || loading) && styles.list__strict
+                )}
+              >
                 <InfiniteScroll
                   pageStart={0}
                   loadMore={loadMore}
