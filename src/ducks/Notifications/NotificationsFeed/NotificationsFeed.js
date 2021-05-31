@@ -67,13 +67,17 @@ const NotificationsFeed = () => {
   function loadMore () {
     if (!loading && canLoad && !error) {
       const last = events[events.length - 1]
-      setSettings({
-        ...settings,
-        date:
-          last && settings.date !== last.insertedAt
-            ? new Date(new Date(last.insertedAt).getTime() - 1000)
-            : NOW
-      })
+      const targetDate =
+        last && settings.date !== last.insertedAt
+          ? new Date(new Date(last.insertedAt).getTime() - 1000)
+          : NOW
+
+      if (targetDate !== settings.date) {
+        setSettings({
+          ...settings,
+          date: targetDate
+        })
+      }
     }
   }
 
