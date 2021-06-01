@@ -13,7 +13,8 @@ export const useTimelineEvents = ({ to = 'utc_now', type, author }) => {
   })
 
   const { data, loading, error } = useQuery(TIMELINE_EVENTS_QUERY, {
-    variables: variables
+    variables: variables,
+    fetchPolicy: 'network-only'
   })
 
   return useMemo(
