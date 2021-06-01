@@ -20,8 +20,13 @@
 
 .revoke {
   margin-left: auto;
+  padding-right: 0;
 }
 
 .wrapper + .wrapper {
   border-top: 1px solid var(--porcelain);
+}
+
+.loader {
+  min-height: 60px;
 }

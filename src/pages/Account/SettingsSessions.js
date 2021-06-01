@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react'
-import { useQuery } from '@apollo/react-hooks'
+import * as Sentry from '@sentry/react'
+import { store } from '../../redux'
+import { useMutation, useQuery } from '@apollo/react-hooks'
 import Button from '@santiment-network/ui/Button'
 import gql from 'graphql-tag'
 import Settings from './Settings'
@@ -7,6 +9,8 @@ import Mobile from './devices/Mobile'
 import Tablet from './devices/Tablet'
 import Desktop from './devices/Desktop'
 import { sortBy } from '../../utils/sortMethods'
+import Skeleton from '../../components/Skeleton/Skeleton'
+import { showNotification } from '../../actions/rootActions'
 import { addDays, getDateFormats, getTimeFormats } from '../../utils/dates'
 import styles from './SettingsSessions.module.scss'
 
@@ -16,6 +20,7 @@ const SESSIONS_QUERY = gql`
       client
       createdAt
       expiresAt
+      hasExpired
       isCurrent
       jti
       lastActiveAt
@@ -25,11 +30,24 @@ const SESSIONS_QUERY = gql`
   }
 `
 
+const DESTROY_SESSION_QUERY = gql`
+  mutation destroySession($refreshTokenJti: String!) {
+    destroySession(refreshTokenJti: $refreshTokenJti)
+  }
+`
+
+const DESTROY_CURRENT_SESSION_QUERY = gql`
+  mutation {
+    destroyCurrentSession
+  }
+`
+
 const ARRAY = []
 export const TODAY = new Date().toLocaleDateString()
 export const YESTERDAY = addDays(new Date(), -1).toLocaleDateString()
 
-const sortSessions = sessions => sessions.sort(sortBy('lastActiveAt'))
+const normalizedSessions = sessions =>
+  sessions.sort(sortBy('lastActiveAt')).filter(({ hasExpired }) => !hasExpired)
 
 const getPlatformIcon = platform => {
   if (platform.match(/Tablet|iPad/i)) return <Tablet />
@@ -62,36 +80,95 @@ const formatDate = date => {
 }
 
 export function useUserSessions () {
-  const { data, loading } = useQuery(SESSIONS_QUERY)
+  const { data, loading, refetch } = useQuery(SESSIONS_QUERY)
 
   return useMemo(
     () => [
-      data && data.getAuthSessions ? sortSessions(data.getAuthSessions) : ARRAY,
-      loading
+      data && data.getAuthSessions
+        ? normalizedSessions(data.getAuthSessions)
+        : ARRAY,
+      loading,
+      refetch
     ],
     [data]
   )
 }
 
+export function useRemoveSession (jti, isCurrent, refreshWidget) {
+  const [mutate, data] = useMutation(
+    isCurrent ? DESTROY_CURRENT_SESSION_QUERY : DESTROY_SESSION_QUERY
+  )
+
+  function onRemove () {
+    return mutate({ variables: { refreshTokenJti: jti } })
+      .then(() => {
+        store.dispatch(
+          showNotification('Session has been revoked successfully')
+        )
+        setTimeout(() => isCurrent && window.location.reload(true), 500)
+        refreshWidget(jti)
+      })
+      .catch(err => {
+        Sentry.captureException(err)
+        store.dispatch(
+          showNotification({ title: err.message, variant: 'error' })
+        )
+      })
+  }
+
+  return { onRemove, data }
+}
+
+const Session = ({
+  client,
+  platform,
+  isCurrent,
+  jti,
+  refreshWidget,
+  lastActiveAt
+}) => {
+  const {
+    onRemove,
+    data: { loading }
+  } = useRemoveSession(jti, isCurrent, refreshWidget)
+
+  return (
+    <Settings.Row className={styles.wrapper}>
+      {getPlatformIcon(platform)}
+      <div className={styles.info}>
+        <span className={styles.platform}>
+          {platform}, {client}
+        </span>
+        <span className={styles.time}>
+          {isCurrent
+            ? 'Current session'
+            : `Last active ${formatDate(lastActiveAt)}`}
+        </span>
+      </div>
+      <Button
+        accent='negative'
+        isLoading={loading}
+        className={styles.revoke}
+        onClick={onRemove}
+      >
+        Revoke
+      </Button>
+    </Settings.Row>
+  )
+}
+
 const SettingsSessions = () => {
-  const [sessions] = useUserSessions()
+  const [sessions, loading, refetch] = useUserSessions()
+
   return (
     <Settings id='sessions' header='Current authorized sessions'>
-      {sessions.map(({ client, platform, isCurrent, lastActiveAt }) => (
-        <Settings.Row className={styles.wrapper}>
-          <div className={styles.image}>{getPlatformIcon(platform)}</div>
-          <div className={styles.info}>
-            <span className={styles.platform}>
-              {platform}, {client}
-            </span>
-            <span className={styles.time}>
-              {isCurrent
-                ? 'Current session'
-                : `Last active ${formatDate(lastActiveAt)}`}
-            </span>
-          </div>
-          {/* <Button accent='negative' className={styles.revoke}>Revoke</Button> */}
-        </Settings.Row>
+      <Skeleton
+        className={styles.loader}
+        show={loading && sessions.length === 0}
+        repeat={1}
+      />
+      {sessions.map((session, idx) => (
+        <Session {...session} key={idx} refreshWidget={refetch} />
       ))}
     </Settings>
   )
