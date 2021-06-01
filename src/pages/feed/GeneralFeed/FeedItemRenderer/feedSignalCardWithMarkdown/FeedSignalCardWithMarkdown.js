@@ -13,7 +13,12 @@ export const MoreInfoAlert = ({ slug, type, link: targetLink, className }) => {
   const link = targetLink || getLink({ type, slug })
 
   return (
-    <Link to={link} className={cx(styles.more, className)} target='_blank'>
+    <Link
+      to={link}
+      className={cx(styles.more, className)}
+      target='_blank'
+      onClick={e => e.stopPropagation()}
+    >
       More info
     </Link>
   )

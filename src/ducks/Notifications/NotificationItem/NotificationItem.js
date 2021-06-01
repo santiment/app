@@ -64,7 +64,7 @@ const NotificationItem = ({ data, className, isNew }) => {
       <div className={styles.header}>
         <div className={styles.title}>{title}</div>
 
-        {isNew && <NewLabelTemplate className={styles.new} />}
+        {isNew && <NewLabelTemplate className={styles.nefw} />}
       </div>
 
       <div className={styles.footer}>
