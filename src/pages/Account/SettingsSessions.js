@@ -160,7 +160,7 @@ const Session = ({
 const SettingsSessions = () => {
   const [sessions, loading, refetch] = useUserSessions()
 
-  return (
+  return sessions.length > 0 && !loading ? (
     <Settings id='sessions' header='Current authorized sessions'>
       <Skeleton
         className={styles.loader}
@@ -171,7 +171,7 @@ const SettingsSessions = () => {
         <Session {...session} key={idx} refreshWidget={refetch} />
       ))}
     </Settings>
-  )
+  ) : null
 }
 
 export default SettingsSessions
