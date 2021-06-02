@@ -34,3 +34,23 @@
   display: flex;
   max-height: 100%;
 }
+
+.exchanges__title {
+  margin-top: 32px;
+
+  & > h3 {
+    font-size: 18px !important;
+    line-height: 26px !important;
+    font-weight: 500 !important;
+  }
+}
+
+.close {
+  margin-left: auto;
+  fill: var(--casper);
+  cursor: pointer;
+
+  &:hover {
+    fill: var(--green);
+  }
+}

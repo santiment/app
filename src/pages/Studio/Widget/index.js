@@ -4,6 +4,7 @@ import { newExternalWidget } from './utils'
 import ChartWidget from './Chart'
 import FeesDistributionWidget from './FeesDistribution'
 import HoldersDistributionTableWidget from './HoldersDistributionTable'
+import TopExchangesTableWidget from './TopExchangesTable'
 
 export const ExternalWidgetCreator = {
   [SelectorNode.FeesDistribution.key]: () =>
@@ -13,6 +14,10 @@ export const ExternalWidgetCreator = {
   [SelectorNode.HoldersDistributionTable.key]: () =>
     newExternalWidget(HoldersDistributionTableWidget, {
       previewTitle: 'Top Holders Table'
+    }),
+  [SelectorNode.TopExchangesTable.key]: () =>
+    newExternalWidget(TopExchangesTableWidget, {
+      previewTitle: 'Holdings on the top exchanges'
     })
 }
 
@@ -28,6 +33,8 @@ const Widget = props => {
     return <FeesDistributionWidget {...props} />
   } else if (widget.Widget === HoldersDistributionTableWidget) {
     return <HoldersDistributionTableWidget {...props} />
+  } else if (widget.Widget === TopExchangesTableWidget) {
+    return <TopExchangesTableWidget {...props} />
   }
 
   return <ChartWidget {...props} />
