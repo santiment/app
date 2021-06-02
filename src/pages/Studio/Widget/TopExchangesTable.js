@@ -1,17 +1,14 @@
 import React from 'react'
 import Icon from '@santiment-network/ui/Icon'
 import { withExternal } from './utils'
-import { isStage } from '../../../utils/utils'
 import TopExchangesTable from '../../../components/Tables/TopExchanges'
 import styles from '../index.module.scss'
 
-const selector = { watchlistId: isStage ? 1115 : 3985 }
-
 const Widget = withExternal(TopExchangesTable)
-const TopExchangesTableWidget = ({ target, widget }) => (
+const TopExchangesTableWidget = ({ target, widget, settings }) => (
   <Widget
     target={target}
-    selector={selector}
+    slug={settings.slug}
     titleClassName={styles.exchanges__title}
     titleChildren={
       <Icon
