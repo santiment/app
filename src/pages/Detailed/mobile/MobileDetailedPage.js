@@ -29,8 +29,9 @@ import MobileHeader from '../../../components/MobileHeader/MobileHeader'
 import MobileMetricCard from '../../../components/MobileMetricCard/MobileMetricCard'
 import MobileProPopup from '../../../components/MobileProPopup/MobileProPopup'
 import { useChartColors } from '../../../ducks/Chart/colors'
-import { addRecentAssets } from '../../../utils/recent'
+import RecentlyUsedMetrics from './RecentlyUsedMetrics'
 import { getIntervalByTimeRange } from '../../../utils/dates'
+import { addRecentAssets, addRecentMetric } from '../../../utils/recent'
 import styles from './MobileDetailedPage.module.scss'
 
 const MobileDetailedPage = ({
@@ -59,6 +60,7 @@ const MobileDetailedPage = ({
 
     if (!newMetrics.delete(metric)) {
       newMetrics.add(metric)
+      Metric[metric.key] && addRecentMetric(metric.key)
 
       trackEvent({
         category: 'Chart',
@@ -67,7 +69,7 @@ const MobileDetailedPage = ({
     } else {
       trackEvent({
         category: 'Chart',
-        action: `Removing "${metric.label} on movile"`
+        action: `Removing "${metric.label} on mobile"`
       })
     }
     // NOTE: +1 because we don't count price metric
@@ -207,6 +209,16 @@ const MobileDetailedPage = ({
             To add a new metric, please de-select another one
           </div>
         )}
+        <RecentlyUsedMetrics
+          slug={slug}
+          metrics={metrics}
+          width={width}
+          hasPremium={hasPremium}
+          errorsMetricsKeys={ErrorMsg}
+          isOuterEvent={isOuterEvent}
+          project={project}
+          onToggleMetric={toggleMetric}
+        />
         <MobilePopularMetrics
           slug={slug}
           metrics={metrics}
