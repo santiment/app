@@ -9,6 +9,7 @@ import WalletLink from '../../../../../components/WalletLink/WalletLink'
 import StakeholderChartPreview from '../StakeholderChartPreview/StakeholderChartPreview'
 import { HARDCODED_EXCHANGE_LINKS } from '../../../../../components/WalletLink/TransactionTableLabels'
 import { usdFormatter } from '../../../../../ducks/dataHub/metrics/formatters'
+import UsefulSuggestion from '../UsefulSuggestion'
 import styles from './StakeholderSignal.module.scss'
 
 function formatDate (date) {
@@ -203,6 +204,7 @@ const StakeholderSignal = ({ data, settings }) => {
             project={project}
             settings={settings}
           />
+          <UsefulSuggestion />
         </div>
       </div>
     </div>

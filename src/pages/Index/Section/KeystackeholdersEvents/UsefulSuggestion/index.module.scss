@@ -1,0 +1,33 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  width: 256px;
+  background-color: var(--white);
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+}
+
+.text {
+  margin-right: 2px;
+
+  @include text('body-2', 'm');
+}
+
+.reaction {
+  width: 28px;
+  height: 30px;
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+  margin-left: 10px;
+  padding: 2px;
+
+  &:hover {
+    transform: scale(1.3);
+  }
+}
