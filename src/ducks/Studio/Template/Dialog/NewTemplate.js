@@ -1,4 +1,6 @@
 import React from 'react'
+import { track } from 'webkit/analytics'
+import { Event } from 'studio/analytics'
 import DialogForm from './DialogForm'
 import { notifyCreation } from '../notifications'
 import { buildTemplateMetrics } from '../utils'
@@ -35,7 +37,10 @@ const NewTemplate = ({
       metrics: buildTemplateMetrics({ metrics, comparables }),
       projectId: +projectId
     })
-      .then(onNew)
+      .then(template => {
+        track.event(Event.NewLayout, { id: template.id })
+        return onNew(template)
+      })
       .then(notifyCreation)
   }
 

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
+import { track } from 'webkit/analytics'
+import { Event } from 'studio/analytics'
 import ProjectSelector from '../../ducks/Studio/Sidebar/ProjectSelector'
 
 const Sidebar = ({ studio, settings, onProjectSelect }) => {
@@ -13,11 +15,19 @@ const Sidebar = ({ studio, settings, onProjectSelect }) => {
     [studio]
   )
 
+  function onLockProjectSelect (project) {
+    if (settings.slug !== project.slug) {
+      track.event(Event.ChangeLockAsset, { asset: project.slug })
+    }
+
+    onProjectSelect(project)
+  }
+
   return target
     ? ReactDOM.createPortal(
       <ProjectSelector
         project={settings}
-        onProjectSelect={onProjectSelect}
+        onProjectSelect={onLockProjectSelect}
       />,
       target
     )

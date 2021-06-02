@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
+import { track } from 'webkit/analytics'
+import { Event } from 'studio/analytics'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import { withRouter } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
@@ -68,6 +70,8 @@ const Template = ({
 
     const parseTemplate = props.parseTemplate || getChartWidgetsFromTemplate
     setWidgets(parseTemplate(template))
+
+    track.event(Event.LoadLayout, { id: template.id })
   }
 
   const [selectedTemplate, setSelectedTemplate, loading] = useSelectedTemplate(
@@ -179,7 +183,12 @@ const Template = ({
         })
 
       future
-        .then(souldReloadOnSave ? selectTemplate : setSelectedTemplate)
+        .then(template => {
+          track.event(Event.SaveLayout, { id: template.id })
+          return (souldReloadOnSave ? selectTemplate : setSelectedTemplate)(
+            template
+          )
+        })
         .then(closeMenu)
         .then(notifySave)
     },

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { parse } from 'query-string'
+import { track } from 'webkit/analytics'
 import Studio from './Studio'
 import URLExtension from './URLExtension'
 import RecentAssetExtension from './RecentAssetExtension'
@@ -37,6 +38,7 @@ export default ({ location }) => {
     () => {
       const templateId = getIdFromSEOLink(pathname)
       if (prevFullUrlRef.current === pathname + search) return
+      track.pageview('sanbase')
 
       if (Number.isFinite(templateId)) {
         getTemplate(templateId)
