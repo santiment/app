@@ -68,6 +68,7 @@ function shareChartWidget (widget) {
   shared.indicators = shareIndicators(widget.metricIndicators)
   shared.drawings = shareDrawings(widget.drawings)
   shared.connectedWidgets = shareSubwidgets(widget.subwidgets)
+  shared.signalMetrics = shareMetrics(widget.signalMetrics || [])
 
   return shared
 }

@@ -119,6 +119,8 @@ export function parseWidget (widget) {
   Object.assign(Widget, parseAxesMetrics(widget.axesMetrics, KnownMetric))
   Object.assign(Widget, parseSubwidgets(widget.connectedWidgets))
   Widget.drawings = widget.drawings
+  const { signalMetrics = [] } = widget
+  Widget.signalMetrics = parseMetrics(signalMetrics, undefined, KnownMetric)
 
   return Widget
 }
