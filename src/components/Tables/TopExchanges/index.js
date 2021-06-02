@@ -15,17 +15,26 @@ const DEFAULT_STABLECOIN = {
 
 export const TopExchangesTableTitle = ({
   loading,
-  title = 'Holdings on the top exchanges'
+  title = 'Holdings on the top exchanges',
+  children,
+  className
 }) => {
   return (
-    <div className={styles.title}>
+    <div className={cx(styles.title, className)}>
       <h3 className={styles.text}>{title}</h3>
       {loading && <Loader className={styles.headerLoader} />}
+      {children}
     </div>
   )
 }
 
-const TopExchanges = ({ className, isStablecoinPage, ...props }) => {
+const TopExchanges = ({
+  className,
+  isStablecoinPage,
+  titleChildren,
+  titleClassName,
+  ...props
+}) => {
   const [asset, setAsset] = useState(DEFAULT_STABLECOIN)
   const additionalProps =
     isStablecoinPage && asset.slug !== 'stablecoins'
@@ -38,7 +47,13 @@ const TopExchanges = ({ className, isStablecoinPage, ...props }) => {
 
   return (
     <>
-      <TopExchangesTableTitle loading={loading} items={items} />
+      <TopExchangesTableTitle
+        loading={loading}
+        items={items}
+        className={titleClassName}
+      >
+        {titleChildren}
+      </TopExchangesTableTitle>
       {isStablecoinPage && (
         <div className={styles.header}>
           <StablecoinsSelector asset={asset} setAsset={setAsset} />

@@ -7,6 +7,7 @@ import { SelectorNode } from 'studio/metrics/selector'
 import AdjustedPriceDAADivergenceWidget from 'studio/PriceDAAWidget/Adjusted'
 import FeesDistribution from '../Widget/FeesDistribution'
 import HoldersDistributionTable from '../Widget/HoldersDistributionTable'
+import TopExchangesTable from '../Widget/TopExchangesTable'
 
 const KeyToWidget = {
   ChartWidget,
@@ -15,7 +16,8 @@ const KeyToWidget = {
   PriceDAADivergenceWidget,
   AdjustedPriceDAADivergenceWidget,
   FeesDistribution,
-  HoldersDistributionTable
+  HoldersDistributionTable,
+  TopExchangesTable
 }
 export const WidgetToKeyMap = new Map()
 Object.keys(KeyToWidget).forEach(key => {

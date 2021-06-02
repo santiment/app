@@ -1,6 +1,7 @@
 import { WidgetToKeyMap } from './widgets'
 import FeesDistribution from '../Widget/FeesDistribution'
 import HoldersDistributionTable from '../Widget/HoldersDistributionTable'
+import TopExchangesTable from '../Widget/TopExchangesTable'
 
 const isEmptyObject = obj => Object.keys(obj).length === 0
 const keyAccessor = ({ key }) => key
@@ -54,7 +55,8 @@ function shareChartWidget (widget) {
 
   if (
     widget.Widget === FeesDistribution ||
-    widget.Widget === HoldersDistributionTable
+    widget.Widget === HoldersDistributionTable ||
+    widget.Widget === TopExchangesTable
   ) {
     return shared
   }
