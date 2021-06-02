@@ -5,6 +5,8 @@ import { Metric } from 'studio/metrics'
 import { newWidget } from 'studio/stores/widgets'
 import { studio as settingsStore } from 'studio/stores/studio'
 import ChartWidget from 'studio/ChartWidget'
+import { track } from 'webkit/analytics'
+import { Event } from 'studio/analytics'
 import {
   useGlobalsUpdater,
   useSettings,
@@ -115,6 +117,11 @@ const Studio = ({
   function onProjectSelect (project) {
     if (project) {
       const { slug, ticker, name, id } = project
+
+      if (settings.slug !== slug) {
+        track.event(Event.ChangeAsset, { asset: slug })
+      }
+
       settingsStore.setProject({
         slug,
         ticker,
