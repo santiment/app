@@ -6,6 +6,8 @@ import styles from './InsightTags.module.scss'
 
 const VISIBLE_TAGS_BY_DEFAULT = 3
 
+const stopPropagation = e => e.stopPropagation()
+
 const InsightTags = ({ tags = [], isDesktop, className }) => {
   const filteredTags = tags.filter(noTrendTagsFilter)
   const tagsOverflow =
@@ -13,11 +15,13 @@ const InsightTags = ({ tags = [], isDesktop, className }) => {
       ? filteredTags.length - VISIBLE_TAGS_BY_DEFAULT
       : 0
   return (
-    <>
+    <div onClick={stopPropagation}>
       {filteredTags.slice(0, VISIBLE_TAGS_BY_DEFAULT).map(({ name }) => (
         <a
           href={`https://insights.santiment.net/tags/${name}`}
           key={name}
+          rel='noopener noreferrer'
+          target='_blank'
           className={cx(styles.tag, className)}
         >
           {name}
@@ -42,6 +46,8 @@ const InsightTags = ({ tags = [], isDesktop, className }) => {
               <a
                 href={`https://insights.santiment.net/tags/${name}`}
                 key={name}
+                rel='noopener noreferrer'
+                target='_blank'
                 className={cx(styles.tag, className)}
               >
                 {name}
@@ -50,7 +56,7 @@ const InsightTags = ({ tags = [], isDesktop, className }) => {
           </Panel>
         </ContextMenu>
       )}
-    </>
+    </div>
   )
 }
 
