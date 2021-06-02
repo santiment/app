@@ -1,6 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import { HashLink } from 'react-router-hash-link'
-import cx from 'classnames'
 import {
   TEMPORARY_HIDDEN_LABELS,
   useGroupedBySlugs,
@@ -13,6 +12,7 @@ import Skeleton from '../../../../components/Skeleton/Skeleton'
 import { KEYSTACKHOLDERS_ANCHOR } from '../Personal'
 import StakeholderSignal from './StakeholderSignal/StakeholderSignal'
 import StakeholderLabels from './StakeholderLabels/StakeholderLabels'
+import NoSignals from '../../../../components/Illustrations/NoSignals'
 import AssetsSelector from '../../../../components/AssetsSelector/AssetsSelector'
 import styles from './KeystackeholdersEvents.module.scss'
 
@@ -169,7 +169,19 @@ const KeystackeholdersEvents = () => {
       )}
 
       {!loading && visibleSlugs.length === 0 && (
-        <div className={cx(styles.accordions, styles.noData)}>No signals</div>
+        <div className={styles.noData}>
+          <div>
+            <NoSignals className={styles.noDataImage} />
+          </div>
+          <div className={styles.noDataInfo}>
+            <span className={styles.noDataTitle}>
+              There are currently no signals matching your filters.
+            </span>
+            <span>
+              Try a different filter to activate Key Stakeholder signals
+            </span>
+          </div>
+        </div>
       )}
     </div>
   )
