@@ -120,6 +120,9 @@ const Studio = ({
 
       if (settings.slug !== slug) {
         track.event(Event.ChangeAsset, { asset: slug })
+        widgets.forEach(widget => {
+          if (widget.MetricsSignals) widget.MetricsSignals.clear()
+        })
       }
 
       settingsStore.setProject({
