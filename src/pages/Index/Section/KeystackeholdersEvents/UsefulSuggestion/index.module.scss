@@ -9,8 +9,25 @@
   border: 1px solid var(--porcelain);
   border-radius: 4px;
   position: absolute;
-  bottom: 4px;
+  bottom: -26px;
   left: 0;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -7px;
+    left: 16px;
+    z-index: 1;
+    display: block;
+    width: 12px;
+    height: 12px;
+    background-color: var(--white);
+    border: 1px solid var(--porcelain);
+    transform: rotate(45deg);
+    border-right: none;
+    border-bottom: none;
+    border-top-left-radius: 2px;
+  }
 }
 
 .text {
