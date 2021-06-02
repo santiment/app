@@ -8,21 +8,19 @@ import styles from '../index.module.scss'
 const selector = { watchlistId: isStage ? 1115 : 3985 }
 
 const Widget = withExternal(TopExchangesTable)
-const TopExchangesTableWidget = ({ target, widget }) => {
-  return (
-    <Widget
-      target={target}
-      selector={selector}
-      titleClassName={styles.exchanges__title}
-      titleChildren={
-        <Icon
-          type='close-medium'
-          className={styles.close}
-          onClick={widget.delete}
-        />
-      }
-    />
-  )
-}
+const TopExchangesTableWidget = ({ target, widget }) => (
+  <Widget
+    target={target}
+    selector={selector}
+    titleClassName={styles.exchanges__title}
+    titleChildren={
+      <Icon
+        type='close-medium'
+        className={styles.close}
+        onClick={widget.delete}
+      />
+    }
+  />
+)
 
 export default TopExchangesTableWidget
