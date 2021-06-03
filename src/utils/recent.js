@@ -44,7 +44,7 @@ export const addRecentWatchlists = id => addRecent(RECENT_WATCHLISTS, id)
 export const addRecentScreeners = id => addRecent(RECENT_SCREENERS, id)
 export const addRecentTemplate = id =>
   addRecent(RECENT_TEMPLATES, id.toString())
-export const addRecentMetric = key => addRecent(RECENT_MOBILE_METRICS, key, 3)
+export const addRecentMetric = key => addRecent(RECENT_MOBILE_METRICS, key, 6)
 
 export const removeRecentWatchlists = id =>
   saveRecent(RECENT_WATCHLISTS, removeRecent(RECENT_WATCHLISTS, id))
@@ -57,7 +57,7 @@ export const removeRecentAssets = asset =>
 export const removeRecentTemplate = id =>
   saveRecent(RECENT_TEMPLATES, removeRecent(RECENT_TEMPLATES, id.toString()))
 export const removeRecentMetric = key =>
-  saveRecent(RECENT_MOBILE_METRICS, removeRecent(RECENT_MOBILE_METRICS, key), 3)
+  saveRecent(RECENT_MOBILE_METRICS, removeRecent(RECENT_MOBILE_METRICS, key), 6)
 
 export const clearRecentTrends = () => saveRecent(RECENT_TRENDS, [])
 export const clearRecentAssets = () => saveRecent(RECENT_ASSETS, [])
