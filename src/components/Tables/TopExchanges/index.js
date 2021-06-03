@@ -36,6 +36,7 @@ const TopExchanges = ({
   className,
   skip,
   ticker,
+  isForcedLoading,
   isStablecoinPage,
   titleChildren,
   titleClassName,
@@ -51,6 +52,7 @@ const TopExchanges = ({
     skip
   )
 
+  const isLoadingForced = isForcedLoading && loading
   const data = useMemo(() => items, [items])
   const columns = useMemo(() => COLUMNS, [])
 
@@ -70,12 +72,12 @@ const TopExchanges = ({
         </div>
       )}
       <Table
-        data={data}
+        data={isLoadingForced ? [] : data}
         columns={columns}
         options={{
           loadingSettings: {
             repeatLoading: 10,
-            isLoading: loading && data.length === 0
+            isLoading: isLoadingForced || (loading && data.length === 0)
           },
           sortingSettings: { defaultSorting: DEFAULT_SORTING, allowSort: true },
           stickySettings: {

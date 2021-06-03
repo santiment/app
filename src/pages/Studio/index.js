@@ -22,8 +22,10 @@ const Extensions = props => (
 export default ({ location }) => {
   const [parsedUrl, setParsedUrl] = useState()
   const [slug, setSlug] = useState('')
+  const [prevTemplateId, setPrevTemplateId] = useState()
   const shortUrlHashState = useState()
   const prevFullUrlRef = useRef()
+
   const { pathname, search } = location
 
   useEffect(
@@ -41,6 +43,9 @@ export default ({ location }) => {
       track.pageview('sanbase')
 
       if (Number.isFinite(templateId)) {
+        if (templateId === prevTemplateId) return
+
+        setPrevTemplateId(templateId)
         getTemplate(templateId)
           .then(template => {
             const parsedUrl = {

@@ -7,6 +7,7 @@ import styles from '../index.module.scss'
 const Widget = withExternal(TopExchangesTable)
 const TopExchangesTableWidget = ({ target, widget, settings }) => (
   <Widget
+    isForcedLoading
     target={target}
     slug={settings.slug}
     skip={settings.slug === 'bitcoin'}
