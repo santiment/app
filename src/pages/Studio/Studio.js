@@ -32,6 +32,7 @@ import 'webkit/styles/layout.css'
 import 'webkit/styles/elements.css'
 import styles from './index.module.scss'
 
+const getToday = () => new Date()
 const Studio = ({
   slug,
   defaultSettings,
@@ -54,7 +55,7 @@ const Studio = ({
   const redraw = useRedrawer()[1]
   const [mountedScreen, setMountedScreen] = useState()
   const [modRange, setModRange] = useState()
-  const [modDate, setModDate] = useState()
+  const [modDate, setModDate] = useState(getToday)
   const [isLoginCTAOpened, setIsLoginCTAOpened] = useState(false)
   useMemo(() => slug && settingsStore.setProject({ slug }), [slug])
 
