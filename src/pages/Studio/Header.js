@@ -14,6 +14,7 @@ const Header = ({ studio, settings, widgets, metrics }) => {
   const widgetsStore = useWidgetsStore(studio)
   const sidewidgetStore = useSidewidgetStore(studio)
   const sidewidget = useStore(sidewidgetStore)
+  const sharePath = '/charts' + window.location.search
 
   useEffect(
     () => {
@@ -35,6 +36,7 @@ const Header = ({ studio, settings, widgets, metrics }) => {
         widgets={widgets}
         metrics={metrics}
         sidepanel={sidewidget}
+        sharePath={sharePath}
         saveWidgets={shareWidgets}
         souldReloadOnSave={false}
         headerRef={{ current: target }}
