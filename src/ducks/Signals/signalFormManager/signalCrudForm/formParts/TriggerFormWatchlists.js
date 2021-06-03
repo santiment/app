@@ -1,12 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useProjectWatchlists } from '../../../../Watchlists/gql/lists/hooks'
+import { useUserProjectWatchlists } from '../../../../Watchlists/gql/lists/hooks'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import styles from '../signal/TriggerForm.module.scss'
 
 const TriggerFormWatchlists = ({ values, setFieldValue }) => {
   const { targetWatchlist } = values
-  const [watchlists, loading] = useProjectWatchlists()
+  const [watchlists, loading] = useUserProjectWatchlists()
 
   if (
     !loading &&
