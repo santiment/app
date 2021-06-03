@@ -16,7 +16,7 @@ const Sidebar = ({ studio, settings, onProjectSelect }) => {
   )
 
   function onLockProjectSelect (project) {
-    if (settings.slug !== project.slug) {
+    if (project && settings.slug !== project.slug) {
       track.event(Event.ChangeLockAsset, { asset: project.slug })
     }
 

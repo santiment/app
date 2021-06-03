@@ -9,6 +9,8 @@ const TopExchangesTableWidget = ({ target, widget, settings }) => (
   <Widget
     target={target}
     slug={settings.slug}
+    skip={settings.slug === 'bitcoin'}
+    ticker={settings.ticker}
     titleClassName={styles.exchanges__title}
     titleChildren={
       <Icon
