@@ -38,13 +38,14 @@ const NotificationItem = ({ data, className, isNew }) => {
 
   const title = useMemo(() => getTitle(data), [data])
   const linkTo = useMemo(() => getLink(data), [data])
-  const types = useMemo(() => getTypes(data, currentUser.id === user.id), [
-    data,
-    currentUser,
-    user
-  ])
+  const types = useMemo(
+    () => getTypes(data, currentUser && currentUser.id === user.id),
+    [data, currentUser, user]
+  )
   const isAlertAuthor =
-    data.eventType === TRIGGER_FIRED && currentUser.id === user.id
+    data.eventType === TRIGGER_FIRED &&
+    currentUser &&
+    currentUser.id === user.id
 
   function onClick () {
     if (linkTo) {

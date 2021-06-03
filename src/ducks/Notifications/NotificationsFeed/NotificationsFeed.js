@@ -6,11 +6,12 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Tabs from '@santiment-network/ui/Tabs'
 import isEqual from 'lodash.isequal'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
-import { Skeleton } from '../../../components/Skeleton'
+import Skeleton from '../../../components/Skeleton/Skeleton'
 import { useTimelineEvents } from './hooks'
 import NotificationItem from '../NotificationItem/NotificationItem'
 import NotificationTypes from '../NotificationTypes/NotificationTypes'
 import NoNotitications from '../NoNotitications/NoNotitications'
+import { useUser } from '../../../stores/user'
 import styles from './NotificationsFeed.module.scss'
 
 const LAST_UPDATES_KEY = 'NOTIFICATIONS__LAST_UPDATES_KEY'
@@ -29,7 +30,8 @@ const DEFAULT_SETTINGS = {
   author: 'ALL'
 }
 
-const TABS = ['All notifications', 'Following']
+const LOGGED_IN_TABS = ['All notifications', 'Following']
+const ANON_TABS = ['All notifications']
 const TABS_TO_FILTER_AUTHORS = {
   'All notifications': 'ALL',
   Following: 'FOLLOWED'
@@ -41,7 +43,17 @@ function isNew (event, date) {
 
 const NotificationsFeed = () => {
   const [settings, setSettings] = useState(DEFAULT_SETTINGS)
-  const [activeTab, setTab] = useState(TABS[0])
+
+  const { isLoggedIn } = useUser()
+
+  const tabs = useMemo(
+    () => {
+      return isLoggedIn ? LOGGED_IN_TABS : ANON_TABS
+    },
+    [isLoggedIn]
+  )
+
+  const [activeTab, setTab] = useState(tabs[0])
   const [events, setEvents] = useState([])
   const [canLoad, setCanLoad] = useState(true)
   const [lastLoadedDate, setLastViewedDate] = useState(LAST_UPDATES_DATE)
@@ -142,7 +154,7 @@ const NotificationsFeed = () => {
           header={
             <Tabs
               className={styles.tabs}
-              options={TABS}
+              options={tabs}
               defaultSelectedIndex={activeTab}
               onSelect={tab => {
                 setTab(tab)
@@ -158,55 +170,58 @@ const NotificationsFeed = () => {
 
           <div className={styles.content}>
             <div className={styles.scroller}>
-              <div
-                className={cx(
-                  styles.list,
-                  (events.length < 5 || loading) && styles.list__strict
-                )}
-              >
-                <InfiniteScroll
-                  pageStart={0}
-                  loadMore={loadMore}
-                  hasMore={!loading && canLoad}
-                  threshold={200}
-                  useWindow={false}
+              {events.length > 0 && (
+                <div
+                  className={cx(
+                    styles.list,
+                    (events.length < 5 || loading) && styles.list__strict
+                  )}
                 >
-                  {events.map(item => (
-                    <NotificationItem
-                      data={item}
-                      key={item.id}
-                      className={styles.item}
-                      isNew={
-                        hasNew &&
-                        (!lastLoadedDate || isNew(item, lastLoadedDate))
-                      }
-                    />
-                  ))}
-                  {loading && (
+                  <InfiniteScroll
+                    pageStart={0}
+                    loadMore={loadMore}
+                    hasMore={!loading && canLoad}
+                    threshold={200}
+                    useWindow={false}
+                  >
+                    {events.map(item => (
+                      <NotificationItem
+                        data={item}
+                        key={item.id}
+                        className={styles.item}
+                        isNew={
+                          hasNew &&
+                          (!lastLoadedDate || isNew(item, lastLoadedDate))
+                        }
+                      />
+                    ))}
                     <Skeleton
-                      show={loading}
+                      repeat={5}
+                      show={loading && canLoad}
                       key='loader'
                       className={styles.skeleton}
+                      wrapperClassName={styles.skeletonWrapper}
                     />
-                  )}
-                </InfiniteScroll>
-              </div>
+                  </InfiniteScroll>
+                </div>
+              )}
 
-              {!loading &&
-                events.length === 0 &&
-                (settings.type === 'ALL' ? (
-                  <NoNotitications
-                    description='Your new messages will appear here'
-                    showSvg
-                  />
-                ) : (
-                  <NoNotitications description='There’s no activity for this tag, please select another one' />
-                ))}
+              {!loading && events.length === 0 && (
+                <Warning settings={settings} />
+              )}
             </div>
           </div>
         </PanelWithHeader>
       </ContextMenu>
     </div>
+  )
+}
+
+const Warning = ({ settings }) => {
+  return settings.type === 'ALL' ? (
+    <NoNotitications description='Your new messages will appear here' showSvg />
+  ) : (
+    <NoNotitications description='There’s no activity for this tag, please select another one' />
   )
 }
 
