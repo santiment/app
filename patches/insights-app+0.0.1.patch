@@ -11,3 +11,16 @@ index d6dc399..0cae0c6 100644
  
    .info(class="{classes.info || ''}")
      a.name(class="{classes.name || ''}", href="https://app.santiment.net/profile/{id}") {name}
+diff --git a/node_modules/insights-app/src/utils/search.js b/node_modules/insights-app/src/utils/search.js
+index 4a06b5a..fa604a4 100644
+--- a/node_modules/insights-app/src/utils/search.js
++++ b/node_modules/insights-app/src/utils/search.js
+@@ -28,7 +28,7 @@ export const binarySearch = ({
+   }
+ 
+   return {
+-    value: checkClb(target, value) ? value : undefined,
++    value: value && checkClb(target, value) ? value : undefined,
+     index: middle,
+   }
+ }
