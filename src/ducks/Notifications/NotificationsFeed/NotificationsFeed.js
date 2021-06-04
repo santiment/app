@@ -18,9 +18,10 @@ import { useDialogState } from '../../../hooks/dialog'
 
 const LAST_UPDATES_KEY = 'NOTIFICATIONS__LAST_UPDATES_KEY'
 const NOW = 'utc_now'
-const LAST_UPDATES_DATE = localStorage.getItem(LAST_UPDATES_KEY)
-  ? new Date(localStorage.getItem(LAST_UPDATES_KEY))
-  : undefined
+const getLastUpdated = () =>
+  localStorage.getItem(LAST_UPDATES_KEY)
+    ? new Date(localStorage.getItem(LAST_UPDATES_KEY))
+    : undefined
 
 const saveLastLoadedToLS = date => {
   localStorage.setItem(LAST_UPDATES_KEY, date)
@@ -43,6 +44,23 @@ function isNew (event, date) {
   return date && new Date(event.insertedAt).getTime() > date.getTime()
 }
 
+function setToLsFirst (events) {
+  const first = events[0]
+
+  if (first) {
+    const currentValue = getLastUpdated()
+
+    if (
+      !currentValue ||
+      currentValue.getTime() < new Date(first.insertedAt).getTime()
+    ) {
+      saveLastLoadedToLS(first.insertedAt)
+    }
+  }
+
+  return first
+}
+
 const NotificationsFeed = () => {
   const [settings, setSettings] = useState(DEFAULT_SETTINGS)
   const { openDialog, closeDialog, isOpened } = useDialogState()
@@ -58,7 +76,7 @@ const NotificationsFeed = () => {
   const [activeTab, setTab] = useState(tabs[0])
   const [events, setEvents] = useState([])
   const [canLoad, setCanLoad] = useState(true)
-  const [lastLoadedDate, setLastViewedDate] = useState(LAST_UPDATES_DATE)
+  const [lastLoadedDate, setLastViewedDate] = useState(getLastUpdated)
 
   const { data: { events: chunk } = {}, loading, error } = useTimelineEvents({
     to: settings.date,
@@ -79,6 +97,13 @@ const NotificationsFeed = () => {
       }
     },
     [chunk, loading]
+  )
+
+  useEffect(
+    () => {
+      setToLsFirst(events)
+    },
+    [events]
   )
 
   function loadMore () {
@@ -115,11 +140,10 @@ const NotificationsFeed = () => {
   }
 
   function onClose () {
-    const first = events[0]
+    const event = setToLsFirst(events)
 
-    if (first) {
-      saveLastLoadedToLS(first.insertedAt)
-      setLastViewedDate(new Date(first.insertedAt))
+    if (event) {
+      setLastViewedDate(new Date(event.insertedAt))
     }
 
     closeDialog()
