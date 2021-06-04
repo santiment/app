@@ -96,7 +96,7 @@ const NotificationItem = ({
       <div className={styles.header}>
         <div className={styles.title}>{title}</div>
 
-        <NewLabelTemplate className={styles.new} />
+        {isNewInput && <NewLabelTemplate className={styles.new} />}
       </div>
 
       <div className={styles.footer}>
