@@ -13,6 +13,8 @@ import NotificationTypes from '../NotificationTypes/NotificationTypes'
 import NoNotitications from '../NoNotitications/NoNotitications'
 import { useUser } from '../../../stores/user'
 import styles from './NotificationsFeed.module.scss'
+import { MAX_TIMELINE_EVENTS_LIMIT } from '../../../pages/feed/GeneralFeed/utils'
+import { useDialogState } from '../../../hooks/dialog'
 
 const LAST_UPDATES_KEY = 'NOTIFICATIONS__LAST_UPDATES_KEY'
 const NOW = 'utc_now'
@@ -43,7 +45,7 @@ function isNew (event, date) {
 
 const NotificationsFeed = () => {
   const [settings, setSettings] = useState(DEFAULT_SETTINGS)
-
+  const { openDialog, closeDialog, isOpened } = useDialogState()
   const { isLoggedIn } = useUser()
 
   const tabs = useMemo(
@@ -119,6 +121,8 @@ const NotificationsFeed = () => {
       saveLastLoadedToLS(first.insertedAt)
       setLastViewedDate(new Date(first.insertedAt))
     }
+
+    closeDialog()
   }
 
   const hasNew = useMemo(
@@ -137,6 +141,8 @@ const NotificationsFeed = () => {
         passOpenStateAs='data-isactive'
         position='bottom'
         onClose={onClose}
+        onOpen={openDialog}
+        isOpen={isOpened}
         align='end'
         offsetY={32}
         offsetX={24}
@@ -184,11 +190,13 @@ const NotificationsFeed = () => {
                     threshold={200}
                     useWindow={false}
                   >
-                    {events.map(item => (
+                    {events.map((item, index) => (
                       <NotificationItem
                         data={item}
+                        isOpened={isOpened}
                         key={item.id}
                         className={styles.item}
+                        timeoutIndex={index % MAX_TIMELINE_EVENTS_LIMIT}
                         isNew={
                           hasNew &&
                           (!lastLoadedDate || isNew(item, lastLoadedDate))
