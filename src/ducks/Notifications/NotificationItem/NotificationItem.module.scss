@@ -38,6 +38,9 @@
   transition: background-color 1000ms linear;
 
   .new {
+    font-size: 10px;
+    min-width: initial !important;
+    margin-left: 8px;
     animation-duration: 1000ms;
     animation-fill-mode: both;
     animation-name: fadeOutDown;
