@@ -6,18 +6,22 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Tabs from '@santiment-network/ui/Tabs'
 import isEqual from 'lodash.isequal'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
-import { Skeleton } from '../../../components/Skeleton'
+import Skeleton from '../../../components/Skeleton/Skeleton'
 import { useTimelineEvents } from './hooks'
 import NotificationItem from '../NotificationItem/NotificationItem'
 import NotificationTypes from '../NotificationTypes/NotificationTypes'
 import NoNotitications from '../NoNotitications/NoNotitications'
+import { useUser } from '../../../stores/user'
+import { MAX_TIMELINE_EVENTS_LIMIT } from '../../../pages/feed/GeneralFeed/utils'
+import { useDialogState } from '../../../hooks/dialog'
 import styles from './NotificationsFeed.module.scss'
 
 const LAST_UPDATES_KEY = 'NOTIFICATIONS__LAST_UPDATES_KEY'
 const NOW = 'utc_now'
-const LAST_UPDATES_DATE = localStorage.getItem(LAST_UPDATES_KEY)
-  ? new Date(localStorage.getItem(LAST_UPDATES_KEY))
-  : undefined
+const getLastUpdated = () =>
+  localStorage.getItem(LAST_UPDATES_KEY)
+    ? new Date(localStorage.getItem(LAST_UPDATES_KEY))
+    : undefined
 
 const saveLastLoadedToLS = date => {
   localStorage.setItem(LAST_UPDATES_KEY, date)
@@ -29,7 +33,8 @@ const DEFAULT_SETTINGS = {
   author: 'ALL'
 }
 
-const TABS = ['All notifications', 'Following']
+const LOGGED_IN_TABS = ['All notifications', 'Following']
+const ANON_TABS = ['All notifications']
 const TABS_TO_FILTER_AUTHORS = {
   'All notifications': 'ALL',
   Following: 'FOLLOWED'
@@ -39,12 +44,39 @@ function isNew (event, date) {
   return date && new Date(event.insertedAt).getTime() > date.getTime()
 }
 
+function setToLsFirst (events) {
+  const first = events[0]
+
+  if (first) {
+    const currentValue = getLastUpdated()
+
+    if (
+      !currentValue ||
+      currentValue.getTime() < new Date(first.insertedAt).getTime()
+    ) {
+      saveLastLoadedToLS(first.insertedAt)
+    }
+  }
+
+  return first
+}
+
 const NotificationsFeed = () => {
   const [settings, setSettings] = useState(DEFAULT_SETTINGS)
-  const [activeTab, setTab] = useState(TABS[0])
+  const { openDialog, closeDialog, isOpened } = useDialogState()
+  const { isLoggedIn } = useUser()
+
+  const tabs = useMemo(
+    () => {
+      return isLoggedIn ? LOGGED_IN_TABS : ANON_TABS
+    },
+    [isLoggedIn]
+  )
+
+  const [activeTab, setTab] = useState(tabs[0])
   const [events, setEvents] = useState([])
   const [canLoad, setCanLoad] = useState(true)
-  const [lastLoadedDate, setLastViewedDate] = useState(LAST_UPDATES_DATE)
+  const [lastLoadedDate, setLastViewedDate] = useState(getLastUpdated)
 
   const { data: { events: chunk } = {}, loading, error } = useTimelineEvents({
     to: settings.date,
@@ -65,6 +97,13 @@ const NotificationsFeed = () => {
       }
     },
     [chunk, loading]
+  )
+
+  useEffect(
+    () => {
+      setToLsFirst(events)
+    },
+    [events]
   )
 
   function loadMore () {
@@ -101,12 +140,13 @@ const NotificationsFeed = () => {
   }
 
   function onClose () {
-    const first = events[0]
+    const event = setToLsFirst(events)
 
-    if (first) {
-      saveLastLoadedToLS(first.insertedAt)
-      setLastViewedDate(new Date(first.insertedAt))
+    if (event) {
+      setLastViewedDate(new Date(event.insertedAt))
     }
+
+    closeDialog()
   }
 
   const hasNew = useMemo(
@@ -125,6 +165,8 @@ const NotificationsFeed = () => {
         passOpenStateAs='data-isactive'
         position='bottom'
         onClose={onClose}
+        onOpen={openDialog}
+        isOpen={isOpened}
         align='end'
         offsetY={32}
         offsetX={24}
@@ -142,7 +184,7 @@ const NotificationsFeed = () => {
           header={
             <Tabs
               className={styles.tabs}
-              options={TABS}
+              options={tabs}
               defaultSelectedIndex={activeTab}
               onSelect={tab => {
                 setTab(tab)
@@ -158,55 +200,60 @@ const NotificationsFeed = () => {
 
           <div className={styles.content}>
             <div className={styles.scroller}>
-              <div
-                className={cx(
-                  styles.list,
-                  (events.length < 5 || loading) && styles.list__strict
-                )}
-              >
-                <InfiniteScroll
-                  pageStart={0}
-                  loadMore={loadMore}
-                  hasMore={!loading && canLoad}
-                  threshold={200}
-                  useWindow={false}
+              {events.length > 0 && (
+                <div
+                  className={cx(
+                    styles.list,
+                    (events.length < 5 || loading) && styles.list__strict
+                  )}
                 >
-                  {events.map(item => (
-                    <NotificationItem
-                      data={item}
-                      key={item.id}
-                      className={styles.item}
-                      isNew={
-                        hasNew &&
-                        (!lastLoadedDate || isNew(item, lastLoadedDate))
-                      }
-                    />
-                  ))}
-                  {loading && (
+                  <InfiniteScroll
+                    pageStart={0}
+                    loadMore={loadMore}
+                    hasMore={!loading && canLoad}
+                    threshold={200}
+                    useWindow={false}
+                  >
+                    {events.map((item, index) => (
+                      <NotificationItem
+                        data={item}
+                        isOpened={isOpened}
+                        key={item.id}
+                        className={styles.item}
+                        timeoutIndex={index % MAX_TIMELINE_EVENTS_LIMIT}
+                        isNew={
+                          hasNew &&
+                          (!lastLoadedDate || isNew(item, lastLoadedDate))
+                        }
+                      />
+                    ))}
                     <Skeleton
-                      show={loading}
+                      repeat={5}
+                      show={loading && canLoad}
                       key='loader'
                       className={styles.skeleton}
+                      wrapperClassName={styles.skeletonWrapper}
                     />
-                  )}
-                </InfiniteScroll>
-              </div>
+                  </InfiniteScroll>
+                </div>
+              )}
 
-              {!loading &&
-                events.length === 0 &&
-                (settings.type === 'ALL' ? (
-                  <NoNotitications
-                    description='Your new messages will appear here'
-                    showSvg
-                  />
-                ) : (
-                  <NoNotitications description='There’s no activity for this tag, please select another one' />
-                ))}
+              {!loading && events.length === 0 && (
+                <Warning settings={settings} />
+              )}
             </div>
           </div>
         </PanelWithHeader>
       </ContextMenu>
     </div>
+  )
+}
+
+const Warning = ({ settings }) => {
+  return settings.type === 'ALL' ? (
+    <NoNotitications description='Your new messages will appear here' showSvg />
+  ) : (
+    <NoNotitications description='There’s no activity for this tag, please select another one' />
   )
 }
 

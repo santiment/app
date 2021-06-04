@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
 import FeedCardDate from '../../../pages/feed/GeneralFeed/CardDate/FeedCardDate'
 import SignalCreator from '../../../components/SignalCard/card/creator/SignalCreator'
@@ -32,19 +32,48 @@ const AlertPlaceholder = ({ data }) => {
   return null
 }
 
-const NotificationItem = ({ data, className, isNew }) => {
+const NotificationItem = ({
+  data,
+  isOpened,
+  className,
+  timeoutIndex,
+  isNew: isNewInput
+}) => {
   const { insertedAt, user } = data
   const { user: currentUser } = useUser()
 
+  const [isNew, setIsNew] = useState(isNewInput)
+
+  useEffect(
+    () => {
+      setIsNew(isNewInput)
+    },
+    [isNewInput]
+  )
+
+  useEffect(
+    () => {
+      if (isOpened) {
+        const timeoutId = setTimeout(() => {
+          setIsNew(false)
+        }, (timeoutIndex + 2) * 1000)
+
+        return () => clearTimeout(timeoutId)
+      }
+    },
+    [isOpened]
+  )
+
   const title = useMemo(() => getTitle(data), [data])
   const linkTo = useMemo(() => getLink(data), [data])
-  const types = useMemo(() => getTypes(data, currentUser.id === user.id), [
-    data,
-    currentUser,
-    user
-  ])
+  const types = useMemo(
+    () => getTypes(data, currentUser && currentUser.id === user.id),
+    [data, currentUser, user]
+  )
   const isAlertAuthor =
-    data.eventType === TRIGGER_FIRED && currentUser.id === user.id
+    data.eventType === TRIGGER_FIRED &&
+    currentUser &&
+    currentUser.id === user.id
 
   function onClick () {
     if (linkTo) {
@@ -55,6 +84,9 @@ const NotificationItem = ({ data, className, isNew }) => {
   return (
     <div
       onClick={onClick}
+      onMouseEnter={() => {
+        isNew && setIsNew(false)
+      }}
       className={cx(
         styles.container,
         className,
@@ -64,7 +96,7 @@ const NotificationItem = ({ data, className, isNew }) => {
       <div className={styles.header}>
         <div className={styles.title}>{title}</div>
 
-        {isNew && <NewLabelTemplate className={styles.nefw} />}
+        {isNewInput && <NewLabelTemplate className={styles.new} />}
       </div>
 
       <div className={styles.footer}>
