@@ -1,11 +1,19 @@
-export function getTimePeriod (date) {
+import { parseIntervalString } from '../../utils/dates'
+
+export function getTimePeriod (date, interval = '1d') {
+  const { amount, format } = parseIntervalString(interval)
   const from = new Date(date)
   const to = new Date(date)
 
-  from.setDate(to.getDate() - 1)
+  if (format === 'd') {
+    from.setDate(to.getDate() - amount)
+  } else {
+    from.setHours(to.getHours() - amount)
+  }
 
   return {
     from: from.toISOString(),
-    to: to.toISOString()
+    to: to.toISOString(),
+    interval
   }
 }

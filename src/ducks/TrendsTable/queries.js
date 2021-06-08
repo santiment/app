@@ -7,6 +7,7 @@ export const TRENDING_WORDS_QUERY = gql`
     $interval: interval = "1h"
   ) {
     getTrendingWords(size: 10, from: $from, to: $to, interval: $interval) {
+      datetime
       topWords {
         word
       }

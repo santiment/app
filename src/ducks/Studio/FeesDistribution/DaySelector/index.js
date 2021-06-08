@@ -7,7 +7,7 @@ import styles from './index.module.scss'
 const MAX_DATE = new Date()
 MAX_DATE.setHours(23, 59, 59, 59)
 
-const DaysSelector = ({ onDayChange, className }) => {
+const DaysSelector = ({ onDayChange, className, daysClassName }) => {
   const [selectedDate, setSelectedDate] = useState([MAX_DATE])
   const [previousDays] = useState(getPreviousDays(7, MAX_DATE))
 
@@ -20,7 +20,7 @@ const DaysSelector = ({ onDayChange, className }) => {
 
   return (
     <div className={cx(styles.wrapper, className)}>
-      <div className={styles.days}>
+      <div className={cx(styles.days, daysClassName)}>
         {previousDays.map(({ label, date }, idx) => {
           const isSelected = date.getDate() === selectedDate[0].getDate()
           return (
