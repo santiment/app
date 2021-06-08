@@ -96,7 +96,6 @@ function parseMergedMetric (metricKey) {
 function parseMergedMetrics (metrics, KnownMetric) {
   const mergedMetrics = []
   metrics.forEach(metricKey => {
-    /* const metric = KnownMetric[metricKey] || parseMergedMetric(metricKey) */
     let metric
     try {
       metric = parseMergedMetric(metricKey)
