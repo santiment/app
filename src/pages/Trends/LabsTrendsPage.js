@@ -16,6 +16,8 @@ import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import { updateHistory } from '../../utils/utils'
 import styles from './LabsTrendsPage.module.scss'
 
+const OBJ = {}
+
 const TrendsHeader = () => {
   return (
     <div className={styles.titleWrapper}>
@@ -28,7 +30,7 @@ function formatDate (dateStr) {
   const date = new Date(dateStr)
   const { DD, MMM, YY } = getDateFormats(date)
   const { HH, mm } = getTimeFormats(date)
-  return `${DD} ${MMM}, ${YY} at ${HH}:${mm}`
+  return `${DD} ${MMM}, ${YY}, ${HH}:${mm}`
 }
 
 const LabsTrendsPage = ({ history, datetime, defaultSelectedPeriod }) => {
@@ -121,7 +123,7 @@ const LabsTrendsPage = ({ history, datetime, defaultSelectedPeriod }) => {
           >
             {selectedPeriod && (
               <>
-                <span>{`You are observing Top 10 word at ${formatDate(
+                <span>{`You are observing Top 10 word for ${formatDate(
                   selectedPeriod.to
                 )}`}</span>
                 <Button
@@ -134,7 +136,7 @@ const LabsTrendsPage = ({ history, datetime, defaultSelectedPeriod }) => {
               </>
             )}
           </div>
-          <Trends {...selectedPeriod} period={selectedPeriod} />
+          <Trends {...selectedPeriod || OBJ} period={selectedPeriod || OBJ} />
         </div>
       </div>
     </DashboardLayout>
