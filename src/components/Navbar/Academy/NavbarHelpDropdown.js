@@ -29,6 +29,11 @@ const Links = [
   },
   {
     as: 'a',
+    href: 'https://academy.santiment.net/sanbase/keyboard-shortcuts',
+    children: 'Keyboard Shortcuts'
+  },
+  {
+    as: 'a',
     href: 'https://academy.santiment.net/changelog/',
     children: 'Changelog'
   }
