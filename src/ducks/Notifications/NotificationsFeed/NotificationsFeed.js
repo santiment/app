@@ -101,9 +101,9 @@ const NotificationsFeed = () => {
 
   useEffect(
     () => {
-      setToLsFirst(events)
+      isOpened && setToLsFirst(events)
     },
-    [events]
+    [events, isOpened]
   )
 
   function loadMore () {
