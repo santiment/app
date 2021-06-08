@@ -47,13 +47,16 @@ export const TODAY = new Date().toLocaleDateString()
 export const YESTERDAY = addDays(new Date(), -1).toLocaleDateString()
 
 const normalizedSessions = sessions =>
-  sessions.sort(sortBy('lastActiveAt')).filter(({ hasExpired }) => !hasExpired)
+  sessions
+    .sort(sortBy('lastActiveAt'))
+    .filter(({ hasExpired }) => !hasExpired)
+    .slice(0, 5)
 
 const getPlatformIcon = platform => {
   if (platform.match(/Tablet|iPad/i)) return <Tablet />
   if (
     platform.match(
-      /Mobile|Windows Phone|Lumia|Android|webOS|iPhone|iPod|Blackberry|PlayBook|BB10|Opera Mini|\bCrMo\/|Opera Mobi/i
+      /Mobile|Windows Phone|Lumia|Android|webOS|iPhone|iPod|iOS|Blackberry|PlayBook|BB10|Opera Mini|\bCrMo\/|Opera Mobi/i
     )
   ) {
     return <Mobile />

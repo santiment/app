@@ -70,14 +70,6 @@
   align-items: center;
 }
 
-.trends {
-  margin-top: 40px;
-
-  @include responsive('phone', 'phone-xs') {
-    margin: 0;
-  }
-}
-
 .headerContent {
   @include responsive('phone', 'phone-xs') {
     padding: 0 !important;
@@ -95,4 +87,33 @@
   @include responsive('phone', 'phone-xs') {
     background: var(--white);
   }
+}
+
+.daysSelector {
+  margin-top: 40px;
+  background-color: var(--white);
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  padding: 0 24px;
+  border-bottom: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  display: flex;
+  align-items: center;
+  transition: max-height 0.3s ease-in-out;
+  height: 57px;
+}
+
+.daysSelectorHide {
+  height: 0;
+  border: none;
+}
+
+.daysSelectorDays {
+  border: none;
+  padding: 0;
+}
+
+.switch {
+  margin-left: auto;
 }
