@@ -32,6 +32,15 @@ import 'webkit/styles/layout.css'
 import 'webkit/styles/elements.css'
 import styles from './index.module.scss'
 
+function getScreen () {
+  const { pathname } = window.location
+
+  let screen
+  if (pathname.includes(Tab.stats.path)) screen = Tab.stats.path
+  if (pathname.includes(Tab.insights.path)) screen = Tab.insights.path
+  return screen
+}
+
 const getToday = () => new Date()
 const Studio = ({
   slug,
@@ -44,6 +53,8 @@ const Studio = ({
 }) => {
   const ref = useRef()
   const setWidgetsRef = useRef()
+  const isMapviewDisabledRef = useRef()
+  const selectMetricRef = useRef()
   const [studio, setStudio] = useState()
   const settings = useSettings()
   const widgetsStore = useWidgetsStore(studio)
@@ -76,7 +87,10 @@ const Studio = ({
         onWidgetInit: () => setWidgetsRef.current(widgets => widgets.slice()),
         onSubwidget: subwidgetsController.onSubwidget,
         onScreenMount: setMountedScreen,
+        checkIsMapviewDisabled: () => isMapviewDisabledRef.current,
+        adjustSelectedMetric: onMetricSelect,
         InsightsContextStore: InsightsStore,
+        screen: getScreen(),
         sidewidget: defaultSidewidget,
         widgets: defaultWidgets || [
           newWidget(ChartWidget, {
@@ -94,10 +108,9 @@ const Studio = ({
     () => {
       if (!studio) return
 
-      let screen
-      if (pathname.includes(Tab.stats.path)) screen = Tab.stats.path
-      if (pathname.includes(Tab.insights.path)) screen = Tab.insights.path
+      const screen = getScreen()
 
+      isMapviewDisabledRef.current = !!screen
       studio.$$set({ screen })
     },
     [studio, pathname]
@@ -135,6 +148,11 @@ const Studio = ({
     }
   }
 
+  function onMetricSelect (node) {
+    if (selectMetricRef.current) return selectMetricRef.current(node)
+    return node
+  }
+
   return (
     <div ref={ref} className={styles.wrapper}>
       {studio && (
@@ -147,7 +165,7 @@ const Studio = ({
           <Sidebar
             studio={studio}
             settings={settings}
-            onProjectSelect={onProjectSelect}
+            selectMetricRef={selectMetricRef}
           />
         </>
       )}

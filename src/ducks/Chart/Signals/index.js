@@ -211,7 +211,7 @@ export default connect(
   const chart = props.chart || useChart()
   const alertMetrics = useAlertMetrics(metrics)
 
-  if (alertMetrics.length === 0) {
+  if (alertMetrics.length === 0 || chart.isSelecting) {
     return null
   }
 
