@@ -22,14 +22,7 @@ const Sidebar = ({ studio, settings, selectMetricRef }) => {
   selectMetricRef.current = node => {
     if (lockedAsset.slug === settings.slug) return node
 
-    const metric = newProjectMetric(lockedAsset, node)
-    if (lockedAsset.slug === 'stablecoins') {
-      metric.selector = 'watchlistSlug'
-      delete metric.reqMeta.slug
-      metric.reqMeta.watchlistSlug = 'stablecoins'
-    }
-
-    return metric
+    return newProjectMetric(lockedAsset, node)
   }
 
   function onLockProjectSelect (project) {
