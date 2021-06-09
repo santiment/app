@@ -11,6 +11,7 @@ import FollowList from '../follow/list/FollowList'
 import SidecarExplanationTooltip from '../../../ducks/SANCharts/SidecarExplanationTooltip'
 import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
 import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
+import NotificationBellBtn from '../../../components/NotificationBellBtn/NotificationBellBtn'
 import styles from './ProfileInfo.module.scss'
 
 const ShareTrigger = props => {
@@ -48,12 +49,15 @@ const InfoBlock = ({
       </div>
       {isLoggedIn &&
         (!isCurrentUser ? (
-          <FollowBtn
-            className={styles.followBtn}
-            users={followers.users}
-            userId={id}
-            updateCache={updateCache}
-          />
+          <>
+            <FollowBtn
+              className={styles.followBtn}
+              users={followers.users}
+              userId={id}
+              updateCache={updateCache}
+            />
+            <NotificationBellBtn targetUserId={id} className={styles.bell} />
+          </>
         ) : (
           <Button
             className={styles.followBtn}
