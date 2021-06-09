@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import { useEnableNotifications, useFollowers } from './hooks'
+import DarkTooltip from '../Tooltip/DarkTooltip'
 import styles from './NotificationBellBtn.module.scss'
 
 const NotificationBellBtn = ({ targetUserId, className }) => {
@@ -25,15 +26,29 @@ const NotificationBellBtn = ({ targetUserId, className }) => {
   const disabled = loading || toggleRequestSending
 
   return (
-    <Icon
-      type='bell'
-      onClick={() => !disabled && toggle(targetUserId, !isNotificationDisabled)}
-      className={cx(
-        styles.icon,
-        className,
-        !isNotificationDisabled && !disabled && styles.icon__active
-      )}
-    />
+    <DarkTooltip
+      position='top'
+      align='start'
+      on='hover'
+      className={styles.tooltip}
+      trigger={
+        <Icon
+          type='bell'
+          onClick={() =>
+            !disabled && toggle(targetUserId, !isNotificationDisabled)
+          }
+          className={cx(
+            styles.icon,
+            className,
+            !isNotificationDisabled && !disabled && styles.icon__active
+          )}
+        />
+      }
+    >
+      {isNotificationDisabled
+        ? 'Disable notifications'
+        : 'Enable notifications'}
+    </DarkTooltip>
   )
 }
 
