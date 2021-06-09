@@ -3,6 +3,7 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import { Row } from '../Section/index'
 import styles from './index.module.scss'
+import AccordionContent from '../../../components/AccordionContent'
 
 const Accordion = ({
   title,
@@ -22,11 +23,12 @@ const Accordion = ({
         {title}
         {showArrow && <Icon type='arrow-down-big' className={styles.toggle} />}
       </Row>
-      {isOpened && (
-        <div className={cx(styles.content, classes.accordionContent)}>
-          {children}
-        </div>
-      )}
+      <AccordionContent
+        show={isOpened}
+        className={cx(styles.content, classes.accordionContent)}
+      >
+        {children}
+      </AccordionContent>
     </Row>
   )
 }

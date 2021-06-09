@@ -6,7 +6,6 @@
 }
 
 .label {
-  background: var(--porcelain);
   border: 1px solid var(--porcelain);
   box-sizing: border-box;
   border-radius: $border-radius;
@@ -15,21 +14,21 @@
   padding: 4px 8px;
   cursor: pointer;
   color: var(--rhino);
+  background: var(--athens);
+  transition: background 0.2s ease-in-out;
+
+  &:hover {
+    border: 1px solid var(--mystic);
+    color: var(--mirage);
+  }
 
   &__hidden {
     background: var(--white);
     color: var(--rhino);
 
     &:hover {
-      background: var(--white);
       border: 1px solid var(--mystic);
     }
-  }
-
-  &:hover {
-    background: var(--porcelain);
-    border: 1px solid var(--mystic);
-    color: var(--mirage);
   }
 }
 

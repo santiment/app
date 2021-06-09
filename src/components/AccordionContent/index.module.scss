@@ -1,0 +1,27 @@
+.roll {
+  max-height: 0;
+  overflow: hidden;
+  width: 100%;
+  transition: max-height 0.3s ease-in;
+}
+
+.rollOut {
+  will-change: max-height;
+  transition: max-height 0.3s ease-out;
+}
+
+.contentEnter {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.contentEnterActive {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.2s ease-in-out 0.1s, transform 0.2s ease-in-out 0.1s;
+}
+
+.contentExit {
+  opacity: 1;
+  transform: translateY(0);
+}
