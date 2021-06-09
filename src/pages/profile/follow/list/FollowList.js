@@ -7,12 +7,16 @@ import { compose } from 'recompose'
 import { Link } from 'react-router-dom'
 import { mapSizesToProps } from '../../../../utils/withSizes'
 import Dialog from '@santiment-network/ui/Dialog'
-import FollowBtn, { updateCurrentUserQueryCache } from '../FollowBtn'
+import FollowBtn, {
+  isInFollowers,
+  updateCurrentUserQueryCache
+} from '../FollowBtn'
 import UserAvatar from '../../../Account/avatar/UserAvatar'
 import { PUBLIC_USER_DATA_QUERY } from '../../../../queries/ProfileGQL'
 import PageLoader from '../../../../components/Loader/PageLoader'
 import Search from '@santiment-network/ui/Search'
 import styles from './FollowList.module.scss'
+import NotificationBellBtn from '../../../../components/NotificationBellBtn/NotificationBellBtn'
 
 const makeQueryVars = currentUserId => ({
   userId: +currentUserId
@@ -147,6 +151,8 @@ const FollowItem = ({
 
   const newUserName = username ? getShortName(username, isDesktop) : ''
 
+  const isInFollowersList = isInFollowers(following.users, id, currentUserId)
+
   return (
     <div className={styles.row}>
       <div className={styles.user} onClick={onClickItem}>
@@ -165,14 +171,19 @@ const FollowItem = ({
         </Link>
       </div>
       {!!currentUserId && +id !== +currentUserId && (
-        <FollowBtn
-          className={styles.followBtn}
-          userId={id}
-          targetUserId={id}
-          users={following.users}
-          updateCache={updateCache}
-          variant={isDesktop ? 'fill' : 'ghost'}
-        />
+        <>
+          {isInFollowersList && (
+            <NotificationBellBtn targetUserId={id} className={styles.bell} />
+          )}
+          <FollowBtn
+            className={styles.followBtn}
+            userId={id}
+            targetUserId={id}
+            users={following.users}
+            updateCache={updateCache}
+            variant={isDesktop ? 'fill' : 'ghost'}
+          />
+        </>
       )}
     </div>
   )

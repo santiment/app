@@ -120,18 +120,22 @@ const FollowBtn = ({
   )
 }
 
-const mapStateToProps = ({ user: { data } }, { targetUserId, users = [] }) => {
+export const isInFollowers = (users, targetUserId, currentUserId) => {
   let isInFollowers = false
-  if (data && users) {
+  if (currentUserId && users) {
     if (targetUserId) {
       isInFollowers = users.some(({ id }) => +id === +targetUserId)
     } else {
-      isInFollowers = users.some(({ id }) => +id === +data.id)
+      isInFollowers = users.some(({ id }) => +id === +currentUserId)
     }
   }
 
+  return isInFollowers
+}
+
+const mapStateToProps = ({ user: { data } }, { targetUserId, users = [] }) => {
   return {
-    isInFollowers
+    isInFollowers: isInFollowers(users, targetUserId, data.id)
   }
 }
 

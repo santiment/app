@@ -22,9 +22,8 @@ const NotificationBellBtn = ({ targetUserId, className }) => {
   const { toggle, loading: toggleRequestSending } = useEnableNotifications()
 
   const { isNotificationDisabled } = followingInfo || {}
-  console.log('isFollowing', isNotificationDisabled, data)
-
   const disabled = loading || toggleRequestSending
+
   return (
     <Icon
       type='bell'
