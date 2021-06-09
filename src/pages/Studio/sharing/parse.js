@@ -159,11 +159,19 @@ function tryParseSharedSidewidget (sidewidget) {
   }
 }
 
+function tryParseSettings (settings) {
+  try {
+    return JSON.parse(settings)
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 export function parseUrl (url) {
   const { settings, widgets, sidepanel } = parse(url)
 
   return {
-    settings: settings && JSON.parse(settings),
+    settings: settings && tryParseSettings(settings),
     widgets: widgets && tryParseWidgets(widgets),
     sidewidget: sidepanel && tryParseSharedSidewidget(sidepanel)
   }
