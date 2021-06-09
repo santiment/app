@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { get } from 'svelte/store'
 import { globals } from 'studio/stores/globals'
-import { studio } from 'studio/stores/studio'
+import { studio, LOCKED_ASSET_CONTEXT } from 'studio/stores/studio'
 import { useUser } from '../../stores/user'
 import { useIsBetaMode } from '../../stores/ui'
 import { useTheme } from '../../stores/ui/theme'
@@ -43,6 +43,10 @@ export function useGlobalsUpdater () {
 
 const settingsImmute = store => Object.assign({}, store)
 export const useSettings = () => useStore(studio, settingsImmute)
+export const useLockedAssetStore = studio =>
+  getSvelteContext(studio, LOCKED_ASSET_CONTEXT)
+export const useLockedAsset = LockedAssetStore =>
+  useStore(LockedAssetStore, settingsImmute)
 
 const widgetsImmute = store => store.slice()
 export const useWidgetsStore = studio => getSvelteContext(studio, 'widgets')
