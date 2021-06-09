@@ -24,7 +24,6 @@ import { NavbarItem } from './NavbarItem'
 import { useDialogState } from '../../hooks/dialog'
 import { DEFAULT_SCREENER } from '../../ducks/Screener/utils'
 import NotificationsFeed from '../../ducks/Notifications/NotificationsFeed/NotificationsFeed'
-import { useUser } from '../../stores/user'
 import styles from './Navbar.module.scss'
 
 const ExternalLink = ({ children, className, ...rest }) => (
@@ -138,8 +137,6 @@ const NavbarMoreItem = ({ links, activeLink }) => {
 const Navbar = ({ activeLink = '/', isLaptop, isTablet }) => {
   const showMore = isLaptop || isTablet
 
-  const { isLoggedIn } = useUser()
-
   return (
     <header className={styles.header}>
       <SmoothDropdown
@@ -205,7 +202,7 @@ const Navbar = ({ activeLink = '/', isLaptop, isTablet }) => {
             return button
           })}
 
-        {isLoggedIn && <NotificationsFeed />}
+        <NotificationsFeed />
 
         <div className={cx(styles.divider, styles.center)}>
           <PlanEngage />

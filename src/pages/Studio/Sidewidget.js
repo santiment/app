@@ -19,6 +19,14 @@ const KeyToSidewidget = {
   [SelectorNode.SOCIAL_CONTEXT.key]: SocialContext
 }
 
+function mountSidewidget (Widget, target, setState) {
+  target.classList.add(styles.sidepanel)
+  setState({
+    Widget,
+    target
+  })
+}
+
 const Sidewidget = ({
   studio,
   project,
@@ -35,13 +43,15 @@ const Sidewidget = ({
       if (!Widget) return setState()
 
       const target = document.querySelector('.studio-sidewidget')
-      if (!target) return
+      if (target) {
+        return mountSidewidget(Widget, target, setState)
+      }
 
-      target.classList.add(styles.sidepanel)
-      setState({
-        Widget,
-        target
-      })
+      const timer = setTimeout(() => {
+        const target = document.querySelector('.studio-sidewidget')
+        if (target) mountSidewidget(Widget, target, setState)
+      }, 200)
+      return () => clearTimeout(timer)
     },
     [sidewidget]
   )

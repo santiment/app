@@ -23,7 +23,7 @@ import { COMPARE_CONNECTOR } from '../../../ducks/Studio/url/utils'
 
 const CONTROLLER = {
   newProjectMetric,
-  getMetricByKey: key => Metric[key]
+  getMetricByKey: key => Metric[key] || parseMergedMetric(key)
 }
 function getMetric (metricKey) {
   const isLegacyCompareMetric = metricKey.includes(COMPARE_CONNECTOR)
@@ -37,7 +37,7 @@ function getMetric (metricKey) {
     return getProjectMetricByKey(metricKey, connector, controller)
   }
 
-  return Metric[metricKey]
+  return Metric[metricKey] || parseMergedMetric(metricKey)
 }
 
 function parseMetric (metricKey, KnownMetric) {
@@ -67,6 +67,8 @@ function parseIndicators (indicators, KnownMetric) {
   Object.keys(indicators || {}).forEach(metricKey => {
     const metric = getMetric(metricKey)
 
+    if (!metric) return
+
     const indicatorMetrics = indicators[metricKey].slice()
     indicators[metricKey].forEach((indicatorKey, i) => {
       const indicator = Indicator[indicatorKey]
@@ -82,17 +84,29 @@ function parseIndicators (indicators, KnownMetric) {
   return MetricIndicators
 }
 
+function parseMergedMetric (metricKey) {
+  const mergedMetricKeys = metricKey.split(MERGED_DIVIDER)
+  if (mergedMetricKeys.length < 2) return
+
+  return buildMergedMetric(
+    mergedMetricKeys.map(key => HolderDistributionMetric[key])
+  )
+}
+
 function parseMergedMetrics (metrics, KnownMetric) {
   const mergedMetrics = []
   metrics.forEach(metricKey => {
-    const mergedMetricKeys = metricKey.split(MERGED_DIVIDER)
-    if (mergedMetricKeys.length < 2) return
+    let metric
+    try {
+      metric = parseMergedMetric(metricKey)
+    } catch (e) {
+      return
+    }
 
-    const mergedMetric = buildMergedMetric(
-      mergedMetricKeys.map(key => HolderDistributionMetric[key])
-    )
-    mergedMetrics.push(mergedMetric)
-    KnownMetric[metricKey] = mergedMetric
+    if (metric) {
+      mergedMetrics.push(metric)
+      KnownMetric[metricKey] = metric
+    }
   })
   return mergedMetrics
 }
@@ -111,14 +125,16 @@ export function parseWidget (widget) {
   const Widget = getWidgetByKey(widget.widget)
   const KnownMetric = {}
 
-  Widget.mergedMetrics = parseMergedMetrics(widget.metrics, KnownMetric)
   Widget.metricIndicators = parseIndicators(widget.indicators, KnownMetric)
+  Widget.mergedMetrics = parseMergedMetrics(widget.metrics, KnownMetric)
   Widget.metrics = parseMetrics(widget.metrics, widget.comparables, KnownMetric)
   Widget.metricSettings = parseMetricGraphValue(widget.settings, KnownMetric)
   Widget.colors = parseMetricGraphValue(widget.colors, KnownMetric)
   Object.assign(Widget, parseAxesMetrics(widget.axesMetrics, KnownMetric))
   Object.assign(Widget, parseSubwidgets(widget.connectedWidgets))
   Widget.drawings = widget.drawings
+  const { signalMetrics = [] } = widget
+  Widget.signalMetrics = parseMetrics(signalMetrics, undefined, KnownMetric)
 
   return Widget
 }

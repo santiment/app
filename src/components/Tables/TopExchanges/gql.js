@@ -20,10 +20,11 @@ const TOP_EXCHANGES_QUERY = gql`
   }
 `
 
-export function useTopExchanges (props) {
+export function useTopExchanges (props, skip) {
   const { data: { topExchangesByBalance = [] } = {}, loading } = useQuery(
     TOP_EXCHANGES_QUERY,
     {
+      skip,
       variables: { ...props }
     }
   )

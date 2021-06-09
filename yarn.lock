@@ -17225,19 +17225,19 @@ safe-regex@^1.1.0:
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
-"san-studio@https://github.com/santiment/san-studio.git#e4f9e78":
+"san-studio@https://github.com/santiment/san-studio.git#5bd7925":
   version "0.0.1"
-  resolved "https://github.com/santiment/san-studio.git#e4f9e7807e3306ae8c5b9137c0b2b58823456b92"
+  resolved "https://github.com/santiment/san-studio.git#5bd79253f61f66301d26c8b2154ae192b7cfeff9"
   dependencies:
-    san-webkit "https://github.com/santiment/san-webkit.git#2d7cfe6"
+    san-webkit "https://github.com/santiment/san-webkit.git#946b3d9"
     svelte-check "^1.5.2"
     svelte-preprocess "^4.6.9"
     svelte-preprocess-cssmodules "^1.3.2"
     typescript "^4.2.4"
 
-"san-webkit@https://github.com/santiment/san-webkit.git#2d7cfe6":
+"san-webkit@https://github.com/santiment/san-webkit.git#946b3d9":
   version "0.0.1"
-  resolved "https://github.com/santiment/san-webkit.git#2d7cfe67f1cf8438cf8ce3e33e64953ab068cfc0"
+  resolved "https://github.com/santiment/san-webkit.git#946b3d9e4381b5fceebba4839c54dbedf8dc0663"
   dependencies:
     "@types/gtag.js" "0.0.4"
     "@types/jest" "^26.0.23"

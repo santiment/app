@@ -78,6 +78,7 @@ export default ({
   metrics,
   settings,
   sidepanel,
+  sharePath,
   shortUrlHash,
   isOverviewOpened,
   changeTimePeriod,
@@ -122,7 +123,7 @@ export default ({
         />
       )}
 
-      <ShareButton shortUrlHash={shortUrlHash} />
+      <ShareButton shortUrlHash={shortUrlHash} sharePath={sharePath} />
 
       <Button
         border

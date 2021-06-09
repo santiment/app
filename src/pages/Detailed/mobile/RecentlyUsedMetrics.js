@@ -13,7 +13,9 @@ const RecentlyUsedMetrics = ({
 }) => {
   const recents = getRecentMetrics() || ARRAY
   const [savedMetrics] = useState(activeMetrics)
-  const metrics = recents.filter(key => !activeMetrics.includes(Metric[key]))
+  const metrics = recents
+    .filter(key => !activeMetrics.includes(Metric[key]))
+    .slice(0, 3)
 
   return metrics.length > 0 ? (
     <>

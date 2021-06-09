@@ -16,12 +16,16 @@ const DEFAULT_STABLECOIN = {
 export const TopExchangesTableTitle = ({
   loading,
   title = 'Holdings on the top exchanges',
+  ticker,
   children,
   className
 }) => {
   return (
     <div className={cx(styles.title, className)}>
-      <h3 className={styles.text}>{title}</h3>
+      <h3 className={styles.text}>
+        {ticker ? `${ticker} - ` : ''}
+        {title}
+      </h3>
       {loading && <Loader className={styles.headerLoader} />}
       {children}
     </div>
@@ -30,6 +34,9 @@ export const TopExchangesTableTitle = ({
 
 const TopExchanges = ({
   className,
+  skip,
+  ticker,
+  isForcedLoading,
   isStablecoinPage,
   titleChildren,
   titleClassName,
@@ -40,8 +47,12 @@ const TopExchanges = ({
     isStablecoinPage && asset.slug !== 'stablecoins'
       ? { slug: asset.slug, selector: null }
       : {}
-  const [items, loading] = useTopExchanges({ ...props, ...additionalProps })
+  const [items, loading] = useTopExchanges(
+    { ...props, ...additionalProps },
+    skip
+  )
 
+  const isLoadingForced = isForcedLoading && loading
   const data = useMemo(() => items, [items])
   const columns = useMemo(() => COLUMNS, [])
 
@@ -50,6 +61,7 @@ const TopExchanges = ({
       <TopExchangesTableTitle
         loading={loading}
         items={items}
+        ticker={ticker}
         className={titleClassName}
       >
         {titleChildren}
@@ -60,12 +72,12 @@ const TopExchanges = ({
         </div>
       )}
       <Table
-        data={data}
+        data={isLoadingForced ? [] : data}
         columns={columns}
         options={{
           loadingSettings: {
             repeatLoading: 10,
-            isLoading: loading && data.length === 0
+            isLoading: isLoadingForced || (loading && data.length === 0)
           },
           sortingSettings: { defaultSorting: DEFAULT_SORTING, allowSort: true },
           stickySettings: {

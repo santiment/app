@@ -1,5 +1,31 @@
 @import '~@santiment-network/ui/mixins';
 
+.new {
+  font-size: 10px;
+  min-width: initial !important;
+  margin-left: 8px;
+}
+
+@keyframes fadeOutDown {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -9,9 +35,23 @@
   padding: 16px;
   cursor: pointer;
   box-sizing: border-box;
+  transition: background-color 1000ms linear;
+
+  .new {
+    font-size: 10px;
+    min-width: initial !important;
+    margin-left: 8px;
+    animation-duration: 1000ms;
+    animation-fill-mode: both;
+    animation-name: fadeOutDown;
+  }
 
   &__unread {
     background: var(--athens);
+
+    .new {
+      animation-name: fadeInUp;
+    }
   }
 
   &:hover {
@@ -61,12 +101,6 @@
 .avatarIcon {
   position: relative;
   top: -2px;
-}
-
-.new {
-  font-size: 10px;
-  min-width: initial !important;
-  margin-left: 8px;
 }
 
 .more {
