@@ -54,6 +54,7 @@ const Studio = ({
   const ref = useRef()
   const setWidgetsRef = useRef()
   const isMapviewDisabledRef = useRef()
+  const selectMetricRef = useRef()
   const [studio, setStudio] = useState()
   const settings = useSettings()
   const widgetsStore = useWidgetsStore(studio)
@@ -84,9 +85,10 @@ const Studio = ({
         onAnonFavoriteClick: () => setIsLoginCTAOpened(true),
         onWidget: () => redraw(),
         onWidgetInit: () => setWidgetsRef.current(widgets => widgets.slice()),
-        checkIsMapviewDisabled: () => isMapviewDisabledRef.current,
         onSubwidget: subwidgetsController.onSubwidget,
         onScreenMount: setMountedScreen,
+        checkIsMapviewDisabled: () => isMapviewDisabledRef.current,
+        adjustSelectedMetric: onMetricSelect,
         InsightsContextStore: InsightsStore,
         screen: getScreen(),
         sidewidget: defaultSidewidget,
@@ -146,6 +148,11 @@ const Studio = ({
     }
   }
 
+  function onMetricSelect (node) {
+    if (selectMetricRef.current) return selectMetricRef.current(node)
+    return node
+  }
+
   return (
     <div ref={ref} className={styles.wrapper}>
       {studio && (
@@ -158,7 +165,7 @@ const Studio = ({
           <Sidebar
             studio={studio}
             settings={settings}
-            onProjectSelect={onProjectSelect}
+            selectMetricRef={selectMetricRef}
           />
         </>
       )}
