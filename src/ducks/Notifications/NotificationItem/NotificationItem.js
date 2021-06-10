@@ -7,8 +7,8 @@ import { NewLabelTemplate } from '../../../components/NewLabel/NewLabel'
 import { MoreInfoAlert } from '../../../pages/feed/GeneralFeed/FeedItemRenderer/feedSignalCardWithMarkdown/FeedSignalCardWithMarkdown'
 import { getLink, getTitle, getTypes, TRIGGER_FIRED } from './utils'
 import { getUserTriggerData } from '../../../pages/SonarFeed/ActivityRenderer/ActivityWithBacktesting'
-import styles from './NotificationItem.module.scss'
 import NotificationActions from '../../../components/NotificationBellBtn/NotificationActions'
+import styles from './NotificationItem.module.scss'
 
 const AlertPlaceholder = ({ data }) => {
   const { user_trigger_data: { default: { type } = {} } = {} } = data.data

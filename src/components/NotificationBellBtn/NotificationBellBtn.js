@@ -31,8 +31,8 @@ const NotificationBellBtn = ({ targetUserId, className }) => {
       }
     >
       {isNotificationDisabled
-        ? 'Disable notifications'
-        : 'Enable notifications'}
+        ? 'Enable notifications'
+        : 'Disable notifications'}
     </DarkTooltip>
   )
 }

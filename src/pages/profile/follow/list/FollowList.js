@@ -15,8 +15,8 @@ import UserAvatar from '../../../Account/avatar/UserAvatar'
 import { PUBLIC_USER_DATA_QUERY } from '../../../../queries/ProfileGQL'
 import PageLoader from '../../../../components/Loader/PageLoader'
 import Search from '@santiment-network/ui/Search'
-import styles from './FollowList.module.scss'
 import NotificationBellBtn from '../../../../components/NotificationBellBtn/NotificationBellBtn'
+import styles from './FollowList.module.scss'
 
 const makeQueryVars = currentUserId => ({
   userId: +currentUserId

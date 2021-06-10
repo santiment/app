@@ -6,9 +6,9 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import { useDialogState } from '../../hooks/dialog'
 import { useFollowers, useNotificationToggle } from './hooks'
-import styles from './NotificationActions.module.scss'
 import { isInFollowers } from '../../pages/profile/follow/FollowBtn'
 import { useUser } from '../../stores/user'
+import styles from './NotificationActions.module.scss'
 
 const NotificationActions = ({ data, className }) => {
   const { user } = data
