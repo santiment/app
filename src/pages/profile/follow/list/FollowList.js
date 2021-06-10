@@ -7,10 +7,7 @@ import { compose } from 'recompose'
 import { Link } from 'react-router-dom'
 import { mapSizesToProps } from '../../../../utils/withSizes'
 import Dialog from '@santiment-network/ui/Dialog'
-import FollowBtn, {
-  isInFollowers,
-  updateCurrentUserQueryCache
-} from '../FollowBtn'
+import FollowBtn, { updateCurrentUserQueryCache } from '../FollowBtn'
 import UserAvatar from '../../../Account/avatar/UserAvatar'
 import { PUBLIC_USER_DATA_QUERY } from '../../../../queries/ProfileGQL'
 import PageLoader from '../../../../components/Loader/PageLoader'
@@ -151,8 +148,6 @@ const FollowItem = ({
 
   const newUserName = username ? getShortName(username, isDesktop) : ''
 
-  const isInFollowersList = isInFollowers(following.users, id, currentUserId)
-
   return (
     <div className={styles.row}>
       <div className={styles.user} onClick={onClickItem}>
@@ -172,9 +167,7 @@ const FollowItem = ({
       </div>
       {!!currentUserId && +id !== +currentUserId && (
         <>
-          {isInFollowersList && (
-            <NotificationBellBtn targetUserId={id} className={styles.bell} />
-          )}
+          <NotificationBellBtn targetUserId={id} className={styles.bell} />
           <FollowBtn
             className={styles.followBtn}
             userId={id}

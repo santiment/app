@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
-import { useNotificationToggle } from './hooks'
+import { useIsInFollowers, useNotificationToggle } from './hooks'
 import DarkTooltip from '../Tooltip/DarkTooltip'
 import styles from './NotificationBellBtn.module.scss'
 
@@ -9,6 +9,12 @@ const NotificationBellBtn = ({ targetUserId, className }) => {
   const { isNotificationDisabled, toggle, disabledBtn } = useNotificationToggle(
     targetUserId
   )
+
+  const isInFollowersList = useIsInFollowers(targetUserId)
+
+  if (!isInFollowersList) {
+    return null
+  }
 
   return (
     <DarkTooltip
