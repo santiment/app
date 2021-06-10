@@ -8,14 +8,14 @@ const Reports = () => {
   const [reports, loading] = useAlphaReports()
 
   return (
-    <>
+    <div className={styles.wrapper}>
       {loading && (
         <Skeleton show={loading} repeat={2} className={styles.skeleton} />
       )}
       {reports.map(item => (
         <ReportCard key={item.name} report={item} />
       ))}
-    </>
+    </div>
   )
 }
 

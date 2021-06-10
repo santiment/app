@@ -1,5 +1,11 @@
 @import '~@santiment-network/ui/mixins';
 
+.wrapper {
+  margin: 8px 24px 20px 24px;
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+}
+
 .block {
   margin-top: 24px;
 }
@@ -29,6 +35,9 @@
 
 .expansion {
   margin: 0;
+}
+
+.expansion + .expansion {
   border-top: 1px solid var(--porcelain);
 }
 
@@ -50,7 +59,7 @@
 }
 
 .skeleton {
-  min-height: 777px;
+  min-height: 300px;
 }
 
 .pro {

@@ -22,11 +22,7 @@ const CABINETS = [
         }
       />
     ),
-    content: (
-      <div className={styles.reports}>
-        <Reports />
-      </div>
-    ),
+    content: <Reports />,
     isOpened: true
   },
   {
