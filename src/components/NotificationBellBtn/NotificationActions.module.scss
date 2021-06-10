@@ -1,0 +1,28 @@
+@import '~@santiment-network/ui/mixins';
+
+.expand {
+  width: 32px;
+  height: 32px;
+  margin-left: 8px;
+  padding: 14px 7px;
+
+  &__icon {
+    width: 18px;
+  }
+}
+
+.modal {
+  padding: 8px;
+}
+
+.toggle {
+  svg {
+    fill: var(--waterloo);
+  }
+
+  &:hover {
+    svg {
+      fill: var(--jungle-green) !important;
+    }
+  }
+}

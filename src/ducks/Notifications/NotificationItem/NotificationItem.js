@@ -7,6 +7,7 @@ import { NewLabelTemplate } from '../../../components/NewLabel/NewLabel'
 import { MoreInfoAlert } from '../../../pages/feed/GeneralFeed/FeedItemRenderer/feedSignalCardWithMarkdown/FeedSignalCardWithMarkdown'
 import { getLink, getTitle, getTypes, TRIGGER_FIRED } from './utils'
 import { getUserTriggerData } from '../../../pages/SonarFeed/ActivityRenderer/ActivityWithBacktesting'
+import NotificationActions from '../../../components/NotificationBellBtn/NotificationActions'
 import styles from './NotificationItem.module.scss'
 
 const AlertPlaceholder = ({ data }) => {
@@ -96,7 +97,11 @@ const NotificationItem = ({
       <div className={styles.header}>
         <div className={styles.title}>{title}</div>
 
-        {isNewInput && <NewLabelTemplate className={styles.new} />}
+        <div className={styles.actions}>
+          {isNewInput && <NewLabelTemplate className={styles.new} />}
+
+          <NotificationActions data={data} className={styles.action} />
+        </div>
       </div>
 
       <div className={styles.footer}>
