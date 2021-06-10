@@ -10,24 +10,81 @@ const transitionStyles = {
   exitActive: styles.contentExitActive
 }
 
-const AccordionContent = ({ children, className, show }) => {
+// px / ms
+const VELOCITY = 1
+const MIN_TIME = 200
+const MAX_TIME = 400
+const MIN_EXIT_TIME = 200
+const MAX_EXIT_TIME = 300
+
+const calculateTime = distance => {
+  const time = distance / VELOCITY
+  if (time < MIN_TIME) {
+    return MIN_TIME
+  }
+
+  if (time > MAX_TIME) {
+    return MAX_TIME
+  }
+
+  return time
+}
+
+const calculateExitTime = distance => {
+  const time = distance / VELOCITY - 100
+  if (time < MIN_EXIT_TIME) {
+    return MIN_EXIT_TIME
+  }
+
+  if (time > MAX_EXIT_TIME) {
+    return MAX_EXIT_TIME
+  }
+
+  return time
+}
+
+const AccordionContent = ({ children, show }) => {
   const containerRef = useRef(null)
   const [height, setHeight] = useState(0)
 
+  function clearMaxHeight () {
+    containerRef.current.style.maxHeight = ''
+  }
+
   useEffect(
     () => {
+      const elem = containerRef.current
       if (show && height === 0) {
-        containerRef.current.style.maxHeight =
-          containerRef.current.scrollHeight + 'px'
-        setHeight(containerRef.current.scrollHeight)
+        elem.style.maxHeight = 0
+        const elemHeight = elem.scrollHeight
+        setHeight(elemHeight)
       }
 
       if (!show && height !== 0) {
-        containerRef.current.style.maxHeight = 0
+        elem.style.maxHeight = height + 'px'
         setHeight(0)
       }
     },
     [show]
+  )
+
+  useEffect(
+    () => {
+      const elem = containerRef.current
+
+      if (height) {
+        elem.style.transition = `max-height ${calculateTime(
+          height
+        )}ms ease-in-out`
+        elem.style.maxHeight = height + 'px'
+      } else {
+        elem.style.transition = `max-height ${calculateExitTime(
+          elem.scrollHeight
+        )}ms ease`
+        elem.style.maxHeight = 0
+      }
+    },
+    [height]
   )
 
   return (
@@ -35,10 +92,12 @@ const AccordionContent = ({ children, className, show }) => {
       <CSSTransition
         unmountOnExit
         in={show}
-        timeout={300}
+        timeout={400}
         classNames={transitionStyles}
+        onEntered={clearMaxHeight}
+        onExited={clearMaxHeight}
       >
-        <div className={className}>{children}</div>
+        {children}
       </CSSTransition>
     </div>
   )

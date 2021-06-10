@@ -1,27 +1,33 @@
 .roll {
-  max-height: 0;
   overflow: hidden;
   width: 100%;
-  transition: max-height 0.3s ease-in;
+  transition: max-height calc(var(--time, 300ms) - 100ms) ease;
 }
 
 .rollOut {
   will-change: max-height;
-  transition: max-height 0.3s ease-out;
+  transition: max-height calc(var(--time, 300ms)) ease-in-out;
 }
 
 .contentEnter {
   opacity: 0;
   transform: translateY(-20px);
+  will-change: opacity, transform;
 }
 
 .contentEnterActive {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 0.2s ease-in-out 0.1s, transform 0.2s ease-in-out 0.1s;
+  transition: opacity 0.2s ease-in-out 100ms, transform 0.2s ease-in-out 100ms;
 }
 
 .contentExit {
   opacity: 1;
   transform: translateY(0);
+}
+
+.contentExitActive {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.2s ease-in-out 100ms, transform 0.2s ease-in-out 100ms;
 }
