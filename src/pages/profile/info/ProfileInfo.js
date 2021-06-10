@@ -88,7 +88,7 @@ const FollowTitle = ({ title, count }) => {
 }
 
 const ProfileInfo = ({
-  profile = {},
+  profile,
   updateCache,
   isCurrentUser,
   isLoggedIn,

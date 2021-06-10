@@ -133,7 +133,7 @@ export const updateFollowingList = (usersList, userData) => {
     users.push({
       username: '',
       avatarUrl: '',
-      __typename: 'PublicUser',
+      __typename: 'User',
       ...userData
     })
     usersList.users = [...users]
@@ -154,12 +154,10 @@ export const updateCurrentUserFollowQueryCache = (
   update({ queryVariables, follow, unfollow, cache, followingUser, userId })
 
   if (currentUserId) {
-    const currentUserQueryVars = {
-      userId: +currentUserId
-    }
-
     update({
-      queryVariables: currentUserQueryVars,
+      queryVariables: {
+        userId: +currentUserId
+      },
       cache,
       followingUser: {
         id: queryVariables.userId
@@ -192,6 +190,8 @@ const update = ({
   } else {
     updateFollowersList(followers, follow, unfollow, userId)
   }
+
+  console.log('data', data)
 
   cache.writeQuery({
     query: PUBLIC_USER_FOLLOWERS_DATA_QUERY,

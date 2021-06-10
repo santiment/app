@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Redirect } from 'react-router-dom'
 import cx from 'classnames'
 import { useQuery } from '@apollo/react-hooks'
@@ -17,11 +17,17 @@ import { useUser } from '../../stores/user'
 import styles from './ProfilePage.module.scss'
 
 export const usePublicUserData = variables => {
-  const { data, loading, error } = useQuery(PUBLIC_USER_DATA_QUERY, {
-    variables: variables
+  const query = useQuery(PUBLIC_USER_DATA_QUERY, {
+    variables: { ...variables }
   })
 
-  return { data: data ? data.getUser : undefined, loading, error }
+  return useMemo(
+    () => {
+      const { data, loading, error } = query
+      return { data: data ? data.getUser : undefined, loading, error }
+    },
+    [query]
+  )
 }
 
 const getQueryVariables = ({
@@ -51,12 +57,18 @@ const ProfilePage = props => {
   const { history } = props
 
   const currentUserId = user ? user.id : undefined
-  const newProps = {
-    ...props,
-    currentUserId
-  }
 
-  const queryVars = getQueryVariables(newProps)
+  const queryVars = useMemo(
+    () => {
+      const newProps = {
+        ...props,
+        currentUserId
+      }
+
+      return getQueryVariables(newProps)
+    },
+    [props, currentUserId]
+  )
 
   const { loading: isLoading, data: profile } = usePublicUserData(queryVars)
 
