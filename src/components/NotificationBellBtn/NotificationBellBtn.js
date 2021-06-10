@@ -1,29 +1,14 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
-import { useEnableNotifications, useFollowers } from './hooks'
+import { useNotificationToggle } from './hooks'
 import DarkTooltip from '../Tooltip/DarkTooltip'
 import styles from './NotificationBellBtn.module.scss'
 
 const NotificationBellBtn = ({ targetUserId, className }) => {
-  const { data, loading } = useFollowers()
-
-  const followingInfo = useMemo(
-    () => {
-      return (
-        data &&
-        data.following2.users.find(
-          ({ userId, isNotificationDisabled }) => +userId === +targetUserId
-        )
-      )
-    },
-    [data]
+  const { isNotificationDisabled, toggle, disabledBtn } = useNotificationToggle(
+    targetUserId
   )
-
-  const { toggle, loading: toggleRequestSending } = useEnableNotifications()
-
-  const { isNotificationDisabled } = followingInfo || {}
-  const disabled = loading || toggleRequestSending
 
   return (
     <DarkTooltip
@@ -35,12 +20,12 @@ const NotificationBellBtn = ({ targetUserId, className }) => {
         <Icon
           type='bell'
           onClick={() =>
-            !disabled && toggle(targetUserId, !isNotificationDisabled)
+            !disabledBtn && toggle(targetUserId, !isNotificationDisabled)
           }
           className={cx(
             styles.icon,
             className,
-            !isNotificationDisabled && !disabled && styles.icon__active
+            !isNotificationDisabled && !disabledBtn && styles.icon__active
           )}
         />
       }

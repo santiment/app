@@ -93,3 +93,26 @@ export function useEnableNotifications () {
 
   return { toggle, loading }
 }
+
+export const useNotificationToggle = targetUserId => {
+  const { data, loading } = useFollowers()
+
+  const followingInfo = useMemo(
+    () => {
+      return (
+        data &&
+        data.following2.users.find(
+          ({ userId, isNotificationDisabled }) => +userId === +targetUserId
+        )
+      )
+    },
+    [data]
+  )
+
+  const { toggle, loading: toggleRequestSending } = useEnableNotifications()
+
+  const { isNotificationDisabled } = followingInfo || {}
+  const disabledBtn = loading || toggleRequestSending
+
+  return { toggle, isNotificationDisabled, disabledBtn }
+}

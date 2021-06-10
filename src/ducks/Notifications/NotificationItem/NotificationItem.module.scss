@@ -27,6 +27,10 @@
   }
 }
 
+.action {
+  display: flex;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -64,6 +68,10 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+}
+
+.actions {
+  display: flex;
 }
 
 .title {
