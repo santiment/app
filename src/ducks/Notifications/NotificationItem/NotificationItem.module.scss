@@ -135,3 +135,25 @@
   display: flex;
   align-items: center;
 }
+
+.activityMarkdown {
+  word-break: break-all;
+
+  p {
+    margin-bottom: 0 !important;
+  }
+
+  a:nth-of-type(2) {
+    display: none;
+  }
+
+  p:nth-of-type(2) {
+    display: none;
+    margin: 0;
+  }
+
+  p:nth-of-type(3) {
+    display: none;
+    margin: 0;
+  }
+}
