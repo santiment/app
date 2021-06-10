@@ -1,18 +1,17 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import { Query } from 'react-apollo'
 import withSizes from 'react-sizes'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { Link } from 'react-router-dom'
 import { mapSizesToProps } from '../../../../utils/withSizes'
 import Dialog from '@santiment-network/ui/Dialog'
-import FollowBtn, {
-  isInFollowers,
-  updateCurrentUserQueryCache
-} from '../FollowBtn'
+import FollowBtn from '../FollowBtn'
 import UserAvatar from '../../../Account/avatar/UserAvatar'
-import { PUBLIC_USER_DATA_QUERY } from '../../../../queries/ProfileGQL'
+import {
+  updateCurrentUserFollowQueryCache,
+  useOldUserFollowersFollowing
+} from '../../../../queries/ProfileGQL'
 import PageLoader from '../../../../components/Loader/PageLoader'
 import Search from '@santiment-network/ui/Search'
 import NotificationBellBtn from '../../../../components/NotificationBellBtn/NotificationBellBtn'
@@ -31,6 +30,11 @@ const FollowList = ({
 }) => {
   const [isOpen, setOpen] = useState(false)
 
+  const {
+    data: { following },
+    loading
+  } = useOldUserFollowersFollowing(makeQueryVars(currentUserId))
+
   return (
     <Dialog
       open={isOpen}
@@ -41,29 +45,16 @@ const FollowList = ({
       trigger={trigger}
     >
       <Dialog.ScrollContent>
-        <Query
-          query={PUBLIC_USER_DATA_QUERY}
-          variables={makeQueryVars(currentUserId)}
-          skip={!currentUserId}
-        >
-          {({ data: { getUser = {}, loading } = {} }) => {
-            if (loading) {
-              return <PageLoader className={styles.loader} />
-            }
-
-            const { following = {} } = getUser
-
-            return (
-              <List
-                users={users}
-                following={following}
-                currentUserId={currentUserId}
-                isDesktop={isDesktop}
-                onClickItem={() => setOpen(false)}
-              />
-            )
-          }}
-        </Query>
+        {loading && <PageLoader className={styles.loader} />}
+        {!loading && (
+          <List
+            users={users}
+            following={following}
+            currentUserId={currentUserId}
+            isDesktop={isDesktop}
+            onClickItem={() => setOpen(false)}
+          />
+        )}
       </Dialog.ScrollContent>
     </Dialog>
   )
@@ -141,17 +132,22 @@ const FollowItem = ({
 }) => {
   const updateCache = (cache, queryData) => {
     const queryVariables = makeQueryVars(currentUserId)
-    updateCurrentUserQueryCache(cache, queryData, queryVariables, id, {
+    updateCurrentUserFollowQueryCache(
+      cache,
+      queryData,
+      queryVariables,
       id,
-      avatarUrl,
-      username,
-      __typename: 'PublicUser'
-    })
+      {
+        id,
+        avatarUrl,
+        username,
+        __typename: 'PublicUser'
+      },
+      currentUserId
+    )
   }
 
   const newUserName = username ? getShortName(username, isDesktop) : ''
-
-  const isInFollowersList = isInFollowers(following.users, id, currentUserId)
 
   return (
     <div className={styles.row}>
@@ -172,9 +168,7 @@ const FollowItem = ({
       </div>
       {!!currentUserId && +id !== +currentUserId && (
         <>
-          {isInFollowersList && (
-            <NotificationBellBtn targetUserId={id} className={styles.bell} />
-          )}
+          <NotificationBellBtn targetUserId={id} className={styles.bell} />
           <FollowBtn
             className={styles.followBtn}
             userId={id}

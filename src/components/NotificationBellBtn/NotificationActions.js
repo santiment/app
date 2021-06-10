@@ -1,44 +1,19 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import cx from 'classnames'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Panel from '@santiment-network/ui/Panel'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import { useDialogState } from '../../hooks/dialog'
-import { useFollowers, useNotificationToggle } from './hooks'
-import { isInFollowers } from '../../pages/profile/follow/FollowBtn'
-import { useUser } from '../../stores/user'
+import { useIsInFollowers, useNotificationToggle } from './hooks'
 import styles from './NotificationActions.module.scss'
 
 const NotificationActions = ({ data, className }) => {
   const { user } = data
 
-  const { data: followData = {} } = useFollowers()
   const { isOpened, openDialog, closeDialog } = useDialogState()
-  const { user: currenUser = {} } = useUser()
 
-  const usersList = useMemo(
-    () => {
-      const { following2 } = followData
-      if (!following2 || !following2.users) {
-        return []
-      } else {
-        return following2.users.map(({ userId }) => ({ id: userId }))
-      }
-    },
-    [followData]
-  )
-
-  const isInFollowersList = useMemo(
-    () => {
-      if (!currenUser) {
-        return false
-      }
-
-      return isInFollowers(usersList, user.id, currenUser.id)
-    },
-    [usersList, user, currenUser]
-  )
+  const isInFollowersList = useIsInFollowers(user.id)
 
   if (!isInFollowersList) {
     return null

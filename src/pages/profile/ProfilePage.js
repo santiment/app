@@ -1,24 +1,33 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Redirect } from 'react-router-dom'
 import cx from 'classnames'
 import { useQuery } from '@apollo/react-hooks'
 import ProfileInfo, { ShareProfile } from './info/ProfileInfo'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import PageLoader from '../../components/Loader/PageLoader'
-import { PUBLIC_USER_DATA_QUERY } from '../../queries/ProfileGQL'
+import {
+  PUBLIC_USER_DATA_QUERY,
+  updateCurrentUserFollowQueryCache,
+  useOldUserFollowersFollowing
+} from '../../queries/ProfileGQL'
 import { MobileOnly } from '../../components/Responsive'
 import { mapQSToState } from '../../utils/utils'
 import ProfileActivities from './activities/ProfileActivities'
-import { updateCurrentUserQueryCache } from './follow/FollowBtn'
 import { useUser } from '../../stores/user'
 import styles from './ProfilePage.module.scss'
 
 export const usePublicUserData = variables => {
-  const { data, loading, error } = useQuery(PUBLIC_USER_DATA_QUERY, {
-    variables: variables
+  const query = useQuery(PUBLIC_USER_DATA_QUERY, {
+    variables: { ...variables }
   })
 
-  return { data: data ? data.getUser : undefined, loading, error }
+  return useMemo(
+    () => {
+      const { data, loading, error } = query
+      return { data: data ? data.getUser : undefined, loading, error }
+    },
+    [query]
+  )
 }
 
 const getQueryVariables = ({
@@ -47,16 +56,25 @@ const ProfilePage = props => {
   const { user = {}, loading: isUserLoading, isLoggedIn } = useUser()
   const { history } = props
 
-  const newProps = {
-    ...props,
-    currentUserId: user ? user.id : undefined
-  }
+  const currentUserId = user ? user.id : undefined
 
-  const { loading: isLoading, data: profile } = usePublicUserData(
-    getQueryVariables(newProps)
+  const queryVars = useMemo(
+    () => {
+      const newProps = {
+        ...props,
+        currentUserId
+      }
+
+      return getQueryVariables(newProps)
+    },
+    [props, currentUserId]
   )
 
-  if (isUserLoading || isLoading) {
+  const { loading: isLoading, data: profile } = usePublicUserData(queryVars)
+
+  const { data: followData, loading } = useOldUserFollowersFollowing(queryVars)
+
+  if (isUserLoading || isLoading || loading) {
     return <PageLoader />
   }
 
@@ -73,12 +91,13 @@ const ProfilePage = props => {
   }
 
   function updateCache (cache, queryData) {
-    const queryVariables = getQueryVariables(newProps)
-    updateCurrentUserQueryCache(
+    updateCurrentUserFollowQueryCache(
       cache,
       queryData,
-      queryVariables,
-      user && +user.id
+      queryVars,
+      user && +user.id,
+      undefined,
+      currentUserId
     )
   }
 
@@ -95,7 +114,11 @@ const ProfilePage = props => {
         </div>
       </MobileOnly>
 
-      <ProfileInfo profile={profile} updateCache={updateCache} />
+      <ProfileInfo
+        profile={profile}
+        updateCache={updateCache}
+        followData={followData}
+      />
 
       <ProfileActivities profile={profile} />
     </div>
