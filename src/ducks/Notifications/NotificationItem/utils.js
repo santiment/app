@@ -1,4 +1,5 @@
 import React from 'react'
+import Markdown from 'react-markdown'
 import Icon from '@santiment-network/ui/Icon'
 import { prepareAlertTitle } from '../../Signals/link/OpenSignalLink'
 import { makeLinkToInsight } from '../../../components/Insight/InsightCardInternals'
@@ -20,7 +21,16 @@ export const getTitle = data => {
   switch (eventType) {
     case TRIGGER_FIRED: {
       return (
-        payload[Object.keys(payload)[0]] || prepareAlertTitle(trigger.title)
+        <>
+          {payload[Object.keys(payload)[0]] ? (
+            <Markdown
+              source={payload[Object.keys(payload)[0]]}
+              className={styles.activityMarkdown}
+            />
+          ) : (
+            prepareAlertTitle(trigger.title)
+          )}
+        </>
       )
     }
     case PUBLISH_INSIGHT: {

@@ -13,8 +13,15 @@ const CUSTOM_CATEGORY = {
 
 const CUSTOM_TABS = DEFAULT_TABS.concat(Object.keys(CUSTOM_CATEGORY))
 
+const ALL_STABLECOINS = {
+  slug: 'stablecoins',
+  name: 'Stablecoins',
+  ticker: 'Stablecoins'
+}
+const STABLECOINS_ASSETS = [ALL_STABLECOINS]
 const CategoryModifier = {
-  All: assets => assets.concat(FIAT_MARKET_ASSETS)
+  All: assets => assets.concat(STABLECOINS_ASSETS).concat(FIAT_MARKET_ASSETS),
+  Stablecoins: assets => STABLECOINS_ASSETS.concat(assets)
 }
 
 const Selector = ({ slug, name, logoUrl, onClick }) => (
