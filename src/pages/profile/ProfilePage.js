@@ -5,11 +5,14 @@ import { useQuery } from '@apollo/react-hooks'
 import ProfileInfo, { ShareProfile } from './info/ProfileInfo'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import PageLoader from '../../components/Loader/PageLoader'
-import { PUBLIC_USER_DATA_QUERY } from '../../queries/ProfileGQL'
+import {
+  PUBLIC_USER_DATA_QUERY,
+  updateCurrentUserFollowQueryCache,
+  useOldUserFollowersFollowing
+} from '../../queries/ProfileGQL'
 import { MobileOnly } from '../../components/Responsive'
 import { mapQSToState } from '../../utils/utils'
 import ProfileActivities from './activities/ProfileActivities'
-import { updateCurrentUserQueryCache } from './follow/FollowBtn'
 import { useUser } from '../../stores/user'
 import styles from './ProfilePage.module.scss'
 
@@ -47,16 +50,19 @@ const ProfilePage = props => {
   const { user = {}, loading: isUserLoading, isLoggedIn } = useUser()
   const { history } = props
 
+  const currentUserId = user ? user.id : undefined
   const newProps = {
     ...props,
-    currentUserId: user ? user.id : undefined
+    currentUserId
   }
 
-  const { loading: isLoading, data: profile } = usePublicUserData(
-    getQueryVariables(newProps)
-  )
+  const queryVars = getQueryVariables(newProps)
 
-  if (isUserLoading || isLoading) {
+  const { loading: isLoading, data: profile } = usePublicUserData(queryVars)
+
+  const { data: followData, loading } = useOldUserFollowersFollowing(queryVars)
+
+  if (isUserLoading || isLoading || loading) {
     return <PageLoader />
   }
 
@@ -73,12 +79,13 @@ const ProfilePage = props => {
   }
 
   function updateCache (cache, queryData) {
-    const queryVariables = getQueryVariables(newProps)
-    updateCurrentUserQueryCache(
+    updateCurrentUserFollowQueryCache(
       cache,
       queryData,
-      queryVariables,
-      user && +user.id
+      queryVars,
+      user && +user.id,
+      undefined,
+      currentUserId
     )
   }
 
@@ -95,7 +102,11 @@ const ProfilePage = props => {
         </div>
       </MobileOnly>
 
-      <ProfileInfo profile={profile} updateCache={updateCache} />
+      <ProfileInfo
+        profile={profile}
+        updateCache={updateCache}
+        followData={followData}
+      />
 
       <ProfileActivities profile={profile} />
     </div>

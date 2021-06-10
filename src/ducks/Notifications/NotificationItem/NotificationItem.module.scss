@@ -139,6 +139,14 @@
 .activityMarkdown {
   word-break: break-all;
 
+  a {
+    color: var(--jungle-green);
+
+    &:hover {
+      color: var(--jungle-green-hover);
+    }
+  }
+
   p {
     margin-bottom: 0 !important;
   }

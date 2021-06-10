@@ -3,6 +3,7 @@ import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { useUser } from '../../stores/user'
 import { isInFollowers } from '../../pages/profile/follow/FollowBtn'
+import { useOldUserFollowersFollowing } from '../../queries/ProfileGQL'
 
 const NOTIFICATIONS_FOLLOWERS_QUERY = gql`
   {
@@ -121,21 +122,24 @@ export const useNotificationToggle = targetUserId => {
 
 export const useIsInFollowers = targetUserId => {
   const { user: currentUser } = useUser()
-  const { data: followData = {} } = useFollowers()
+  const {
+    data: { following }
+  } = useOldUserFollowersFollowing({
+    userId: currentUser && currentUser.id
+  })
 
   const usersList = useMemo(
     () => {
-      const { following2 } = followData
-      if (!following2 || !following2.users) {
+      if (!following || !following.users) {
         return []
       } else {
-        return following2.users.map(({ userId }) => ({ id: userId }))
+        return following.users
       }
     },
-    [followData]
+    [following]
   )
 
-  const isInFollowersList = useMemo(
+  return useMemo(
     () => {
       if (!currentUser) {
         return false
@@ -145,6 +149,4 @@ export const useIsInFollowers = targetUserId => {
     },
     [usersList, targetUserId, currentUser]
   )
-
-  return isInFollowersList
 }
