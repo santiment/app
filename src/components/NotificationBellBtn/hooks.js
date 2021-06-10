@@ -135,8 +135,6 @@ export const useIsInFollowers = targetUserId => {
     [followData]
   )
 
-  console.log('usersList', usersList)
-
   const isInFollowersList = useMemo(
     () => {
       if (!currentUser) {
