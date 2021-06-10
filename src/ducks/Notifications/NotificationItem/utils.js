@@ -21,12 +21,16 @@ export const getTitle = data => {
   switch (eventType) {
     case TRIGGER_FIRED: {
       return (
-        (
-          <Markdown
-            source={payload[Object.keys(payload)[0]]}
-            className={styles.activityMarkdown}
-          />
-        ) || prepareAlertTitle(trigger.title)
+        <>
+          {payload[Object.keys(payload)[0]] ? (
+            <Markdown
+              source={payload[Object.keys(payload)[0]]}
+              className={styles.activityMarkdown}
+            />
+          ) : (
+            prepareAlertTitle(trigger.title)
+          )}
+        </>
       )
     }
     case PUBLISH_INSIGHT: {
