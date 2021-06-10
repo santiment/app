@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import cx from 'classnames'
 import { CSSTransition } from 'react-transition-group'
+import { calculateExitTime, calculateTime, MAX_TIME } from './utils'
 import styles from './index.module.scss'
 
 const transitionStyles = {
@@ -10,42 +11,9 @@ const transitionStyles = {
   exitActive: styles.contentExitActive
 }
 
-// px / ms
-const VELOCITY = 1
-const MIN_TIME = 200
-const MAX_TIME = 400
-const MIN_EXIT_TIME = 200
-const MAX_EXIT_TIME = 300
-
-const calculateTime = distance => {
-  const time = distance / VELOCITY
-  if (time < MIN_TIME) {
-    return MIN_TIME
-  }
-
-  if (time > MAX_TIME) {
-    return MAX_TIME
-  }
-
-  return time
-}
-
-const calculateExitTime = distance => {
-  const time = distance / VELOCITY - 100
-  if (time < MIN_EXIT_TIME) {
-    return MIN_EXIT_TIME
-  }
-
-  if (time > MAX_EXIT_TIME) {
-    return MAX_EXIT_TIME
-  }
-
-  return time
-}
-
-const AccordionContent = ({ children, show }) => {
+const AccordionContent = ({ children, show, animateOnMount = false }) => {
   const containerRef = useRef(null)
-  const [height, setHeight] = useState(0)
+  const [height, setHeight] = useState(null)
 
   function clearMaxHeight () {
     containerRef.current.style.maxHeight = ''
@@ -54,6 +22,17 @@ const AccordionContent = ({ children, show }) => {
   useEffect(
     () => {
       const elem = containerRef.current
+
+      if (show && height === null) {
+        if (animateOnMount) {
+          elem.style.maxHeight = 0
+          const elemHeight = elem.scrollHeight
+          setHeight(elemHeight)
+
+          setTimeout(() => clearMaxHeight(), MAX_TIME + 200)
+        }
+      }
+
       if (show && height === 0) {
         elem.style.maxHeight = 0
         const elemHeight = elem.scrollHeight
@@ -61,23 +40,31 @@ const AccordionContent = ({ children, show }) => {
       }
 
       if (!show && height !== 0) {
-        elem.style.maxHeight = height + 'px'
+        elem.style.maxHeight = elem.scrollHeight + 'px'
         setHeight(0)
       }
+
+      return () => clearMaxHeight()
     },
     [show]
   )
 
   useEffect(
     () => {
+      if (height === null) {
+        return
+      }
+
       const elem = containerRef.current
 
-      if (height) {
+      if (height > 0) {
         elem.style.transition = `max-height ${calculateTime(
           height
         )}ms ease-in-out`
         elem.style.maxHeight = height + 'px'
-      } else {
+      }
+
+      if (height === 0) {
         elem.style.transition = `max-height ${calculateExitTime(
           elem.scrollHeight
         )}ms ease`
@@ -92,7 +79,7 @@ const AccordionContent = ({ children, show }) => {
       <CSSTransition
         unmountOnExit
         in={show}
-        timeout={400}
+        timeout={MAX_TIME}
         classNames={transitionStyles}
         onEntered={clearMaxHeight}
         onExited={clearMaxHeight}

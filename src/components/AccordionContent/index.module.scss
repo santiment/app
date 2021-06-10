@@ -1,12 +1,10 @@
 .roll {
   overflow: hidden;
   width: 100%;
-  transition: max-height calc(var(--time, 300ms) - 100ms) ease;
 }
 
 .rollOut {
   will-change: max-height;
-  transition: max-height calc(var(--time, 300ms)) ease-in-out;
 }
 
 .contentEnter {

@@ -76,6 +76,7 @@ const Cabinet = () => {
       key={index}
       title={title}
       isOpenedDefault={isOpened}
+      animateOnMount={true}
       showArrow={false}
       classes={styles}
     >

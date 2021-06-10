@@ -6,7 +6,7 @@
 }
 
 .label {
-  border: 1px solid var(--porcelain);
+  border: 1px solid var(--jungle-green-light-3);
   box-sizing: border-box;
   border-radius: $border-radius;
   margin-right: 8px;
@@ -14,21 +14,16 @@
   padding: 4px 8px;
   cursor: pointer;
   color: var(--rhino);
-  background: var(--athens);
-  transition: background 0.2s ease-in-out;
+  background: var(--jungle-green-light);
+  transition: background 0.2s ease-in-out, border-color 0.2s ease-in-out;
 
   &:hover {
-    border: 1px solid var(--mystic);
-    color: var(--mirage);
+    border: 1px solid var(--jungle-green);
   }
 
   &__hidden {
     background: var(--white);
-    color: var(--rhino);
-
-    &:hover {
-      border: 1px solid var(--mystic);
-    }
+    border: 1px solid var(--porcelain);
   }
 }
 

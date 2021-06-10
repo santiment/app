@@ -12,6 +12,7 @@ const Accordion = ({
   children,
   isOpenedDefault = false,
   classes = OBJ,
+  animateOnMount,
   showArrow = true
 }) => {
   const [isOpened, setIsOpened] = useState(isOpenedDefault)
@@ -29,7 +30,7 @@ const Accordion = ({
         {title}
         {showArrow && <Icon type='arrow-down-big' className={styles.toggle} />}
       </Row>
-      <AccordionContent show={isOpened}>
+      <AccordionContent show={isOpened} animateOnMount={animateOnMount}>
         <div className={cx(styles.content, classes.accordionContent)}>
           {children}
         </div>

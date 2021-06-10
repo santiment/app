@@ -7,7 +7,8 @@
 }
 
 .title {
-  @include text('body-1', 'l'); }
+  @include text('body-1', 'l');
+}
 
 .description {
   @include text('body-3');
@@ -29,7 +30,8 @@
   margin-right: 4px;
   text-align: right;
 
-  @include text('body-2'); }
+  @include text('body-2');
+}
 
 .highline {
   color: var(--jungle-green);
@@ -41,10 +43,14 @@
   background: var(--porcelain);
   border-radius: 100px;
   margin-top: 16px;
+  overflow: hidden;
 }
 
 .filled {
   height: 100%;
   background: var(--jungle-green);
   border-radius: 100px;
+  width: 100%;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
 }

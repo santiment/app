@@ -81,7 +81,9 @@ const StakeholderLabels = ({ labels, hidden, setHidden }) => {
           align='start'
           className={styles.dropdown}
           trigger={
-            <div className={styles.label}>+{unvisibleLabels.length}</div>
+            <div className={cx(styles.label, styles.label__hidden)}>
+              +{unvisibleLabels.length}
+            </div>
           }
         >
           <Panel className={styles.panel}>
