@@ -88,11 +88,7 @@ const KeystackeholdersEvents = () => {
               const from = `utc_now-${RANGES[newInterval]}`
               const interval = INTERVALS[newInterval]
 
-              setSettings({
-                ...settings,
-                from: from,
-                interval
-              })
+              setSettings({ ...settings, from, interval })
             }}
           />
 

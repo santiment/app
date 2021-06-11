@@ -19,9 +19,26 @@ export const getItemBuilder = query => id =>
 const Row = props => <Link {...props} className={styles.row} />
 export const Column = props => <div {...props} className={styles.column} />
 
-const Recent = ({ title, rightHeader, ids, getItem, getLink, Item }) => {
+const Recent = ({
+  title,
+  rightHeader,
+  ids,
+  getItem,
+  getLink,
+  Item,
+  setHeight
+}) => {
   const [items, setItems] = useState(ids)
   const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(
+    () => {
+      if (items && items.length && !isLoading) {
+        setHeight(items.length)
+      }
+    },
+    [items, isLoading]
+  )
 
   useEffect(
     () => {

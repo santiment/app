@@ -2,11 +2,10 @@
 
 .container {
   padding: 16px 24px 8px 24px;
-  flex: 1;
 }
 
 .info {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   position: relative;
   color: var(--rhino);

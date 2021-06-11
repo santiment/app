@@ -1,12 +1,19 @@
 @import '~@santiment-network/ui/mixins';
 
 .container {
-  border-radius: $border-radius;
-  border: 1px solid var(--porcelain);
-  padding: 16px 24px;
-  margin: 8px 24px 0 24px;
+  padding: 24px 0;
+  margin: 0 24px;
   display: flex;
   align-items: center;
+  border-bottom: 1px solid var(--porcelain);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:first-child {
+    padding-top: 20px;
+  }
 }
 
 .content {
@@ -26,6 +33,7 @@
 
 .btn {
   margin-left: auto;
+  margin-bottom: auto;
 
   &:focus {
     fill: var(--jungle-green);

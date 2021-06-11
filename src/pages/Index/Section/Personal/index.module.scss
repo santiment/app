@@ -26,16 +26,32 @@
   }
 }
 
+.arrow {
+  margin-left: auto;
+  fill: var(--waterloo);
+  opacity: 0;
+  transition: opacity 0.1s ease;
+}
+
 .row {
   @include text('body-2');
 
   cursor: pointer;
   color: var(--rhino);
   border: none !important;
+  transition: background-color 0.1s ease, color 0.1s ease;
+
+  &__active {
+    color: var(--waterloo);
+  }
 
   &:hover {
-    color: var(--rhino);
+    color: var(--jungle-green);
     background: var(--athens);
+
+    & .arrow {
+      opacity: 1;
+    }
   }
 }
 
@@ -44,27 +60,23 @@
   height: 32px;
   width: 32px;
   margin-right: 16px;
-  border: 1px solid var(--porcelain);
-  fill: var(--white);
+  border: 1px solid var(--mystic);
+  fill: var(--mystic);
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: var(--white);
 
   &_active {
-    background: var(--jungle-green);
+    background-color: var(--jungle-green);
     border-color: var(--jungle-green);
-    box-shadow: 0 2px 8px 0 rgba($jungle-green, 0.3);
+    fill: var(--white);
   }
 }
 
 .checkmark {
   width: 10px;
   height: 8px;
-}
-
-.arrow {
-  margin-left: auto;
-  fill: var(--waterloo);
 }
 
 .accordionContent {

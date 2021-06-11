@@ -1,4 +1,13 @@
+@import '~@santiment-network/ui/mixins';
+
 .skeleton {
-  height: 600px;
+  height: 120px;
   margin: 0 24px 8px 24px;
+}
+
+.wrapper {
+  margin: 2px 0 0 0;
+  max-height: 600px;
+
+  @include overlay-scroll();
 }

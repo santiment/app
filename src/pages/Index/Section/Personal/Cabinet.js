@@ -22,11 +22,7 @@ const CABINETS = [
         }
       />
     ),
-    content: (
-      <div className={styles.reports}>
-        <Reports />
-      </div>
-    ),
+    content: <Reports />,
     isOpened: true
   },
   {
@@ -76,6 +72,7 @@ const Cabinet = () => {
       key={index}
       title={title}
       isOpenedDefault={isOpened}
+      animateOnMount={true}
       showArrow={false}
       classes={styles}
     >

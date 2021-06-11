@@ -73,6 +73,11 @@
 
 .anchor {
   color: var(--rhino);
+
+  &:hover,
+ &:focus {
+    color: var(--rhino);
+  }
 }
 
 .list {

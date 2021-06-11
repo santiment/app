@@ -55,3 +55,8 @@
     background: var(--waterloo);
   }
 }
+
+.wrapper {
+  overflow: hidden;
+  transition: height 0.3s ease-in-out;
+}

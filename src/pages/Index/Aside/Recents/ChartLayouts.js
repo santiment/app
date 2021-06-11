@@ -16,13 +16,14 @@ const getItem = getItemBuilder(gql`
 
 const ChartLayout = ({ title }) => (title ? <Column>{title}</Column> : null)
 
-const ChartLayouts = ({ ids }) => (
+const ChartLayouts = ({ ids, setHeight }) => (
   <Recent
     rightHeader=''
     ids={ids}
     getItem={getItem}
     getLink={getLink}
     Item={ChartLayout}
+    setHeight={setHeight}
   />
 )
 
