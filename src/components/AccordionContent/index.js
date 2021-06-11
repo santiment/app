@@ -16,7 +16,9 @@ const AccordionContent = ({ children, show, animateOnMount = false }) => {
   const [height, setHeight] = useState(null)
 
   function clearMaxHeight () {
-    containerRef.current.style.maxHeight = ''
+    if (containerRef && containerRef.current) {
+      containerRef.current.style.maxHeight = ''
+    }
   }
 
   useEffect(

@@ -40,13 +40,14 @@ const SheetsTemplates = () => {
 
   return (
     <div className={styles.wrapper}>
-      <Skeleton repeat={1} className={styles.skeleton} show={loading} />
+      <Skeleton repeat={5} className={styles.skeleton} show={loading} />
       {!loading &&
-        list.map(({ name, description, url, isPro: isProTemplate }) => {
+        list.map(({ name, description, url, isPro: isProTemplate }, idx) => {
           const requirePro = !isPro && isProTemplate
 
           return (
             <ExpansionItem
+              isOpen={idx === 0}
               title={
                 <>
                   {name}

@@ -66,13 +66,14 @@ const Asset = ({
   )
 }
 
-const Assets = ({ slugs }) => (
+const Assets = ({ slugs, setHeight }) => (
   <Recent
     rightHeader='Price, 24h change'
     ids={[slugs]}
     getItem={getSlugs}
     getLink={getLink}
     Item={Asset}
+    setHeight={setHeight}
   />
 )
 
