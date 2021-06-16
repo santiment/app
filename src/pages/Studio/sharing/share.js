@@ -49,6 +49,11 @@ function shareSubwidgets (subwidgets) {
   }))
 }
 
+function shareSignalMetrics (signalMetrics) {
+  const metrics = signalMetrics || []
+  return metrics.length ? shareMetrics(metrics) : undefined
+}
+
 function shareChartWidget (widget) {
   const shared = {}
   shared.widget = WidgetToKeyMap.get(widget.Widget)
@@ -68,7 +73,7 @@ function shareChartWidget (widget) {
   shared.indicators = shareIndicators(widget.metricIndicators)
   shared.drawings = shareDrawings(widget.drawings)
   shared.connectedWidgets = shareSubwidgets(widget.subwidgets)
-  shared.signalMetrics = shareMetrics(widget.signalMetrics || [])
+  shared.signalMetrics = shareSignalMetrics(widget.signalMetrics)
 
   return shared
 }
