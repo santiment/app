@@ -2,6 +2,8 @@ import { useMemo } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
+const ARRAY = []
+
 export const READABLE_NAMES = {
   large_transactions: 'Large transactions',
   large_exchange_deposit: 'Large Exchange deposit',
@@ -47,15 +49,16 @@ export const READABLE_EXCHANGE_NAMES = {
 const RAW_SIGNALS_QUERY = gql`
   query getRawSignals($from: DateTime!, $to: DateTime!) {
     getRawSignals(from: $from, to: $to) {
-      datetime
-      signal
       slug
       value
+      signal
+      datetime
       metadata
+      isHidden
       project {
         slug
-        ticker
         name
+        ticker
         logoUrl
         marketcapUsd
       }
@@ -91,67 +94,59 @@ export const TEMPORARY_HIDDEN_LABELS = {
 }
 
 export const useRawSignals = ({ from, to }) => {
-  const query = useQuery(RAW_SIGNALS_QUERY, {
-    variables: {
-      from,
-      to
-    },
+  const { data, loading } = useQuery(RAW_SIGNALS_QUERY, {
+    variables: { from, to },
     errorPolicy: 'all'
   })
 
   return useMemo(
-    () => {
-      const { data, loading } = query
-      return {
-        data:
-          (data
-            ? data.getRawSignals
-              .filter(Boolean)
-              .filter(({ project }) => !!project)
-            : []) || [],
-        loading
-      }
-    },
-    [query]
+    () => ({
+      data: data
+        ? data.getRawSignals.filter(
+          signal => signal && (!!signal.project || signal.isHidden)
+        )
+        : ARRAY,
+      loading
+    }),
+    [data, loading]
   )
 }
 
-const marketcapSorter = (a, b) => b.marketcapUsd - a.marketcapUsd
+const marketcapSorter = groups => (a, b) =>
+  groups[b].project.marketcapUsd - groups[a].project.marketcapUsd
 
 export function useGroupedBySlugs (signals, hiddenLabels, selectedAssets) {
   const filteredByAssets = useMemo(
-    () => {
-      return signals.filter(({ slug }) => selectedAssets[slug])
-    },
+    () => signals.filter(({ slug }) => selectedAssets[slug]),
     [signals, selectedAssets]
   )
 
   const { slugs, projects } = useMemo(
-    () => {
-      return {
-        slugs: [...new Set(signals.map(({ slug }) => slug))],
-        projects: signals.reduce((acc, item) => {
-          acc[item.slug] = item.project
-          return acc
-        }, {})
-      }
-    },
+    () => ({
+      slugs: [...new Set(signals.map(({ slug }) => slug))],
+      projects: signals.reduce((acc, item) => {
+        acc[item.slug] = item.project
+        return acc
+      }, {})
+    }),
+    [signals]
+  )
+
+  const restrictedSignals = useMemo(
+    () =>
+      signals.filter(({ isHidden }) => isHidden).map(({ signal }) => signal),
     [signals]
   )
 
   const labels = useMemo(
     () => {
-      const labels = filteredByAssets.reduce((acc, item) => {
-        const { signal } = item
-        acc[signal] = true
-        return acc
-      }, {})
-
-      return Object.keys(labels)
-        .sort()
-        .reverse()
+      const signalNames = [
+        ...filteredByAssets.map(({ signal }) => signal),
+        ...restrictedSignals
+      ]
+      return [...new Set(signalNames)].sort().reverse()
     },
-    [filteredByAssets]
+    [filteredByAssets, restrictedSignals]
   )
 
   const { groups, visibleSlugs } = useMemo(
@@ -163,11 +158,7 @@ export function useGroupedBySlugs (signals, hiddenLabels, selectedAssets) {
 
         if (!hidden) {
           if (!acc[slug]) {
-            acc[slug] = {
-              list: [],
-              types: [],
-              project: item.project
-            }
+            acc[slug] = { list: [], types: [], project: item.project }
           }
 
           acc[slug].list.push(item)
@@ -176,19 +167,14 @@ export function useGroupedBySlugs (signals, hiddenLabels, selectedAssets) {
         return acc
       }, {})
 
-      const visibleSlugs = Object.values(groups)
-        .map(({ project }) => project)
-        .filter(Boolean)
-        .sort(marketcapSorter)
-        .map(({ slug }) => slug)
+      const visibleSlugs = Object.keys(groups)
+        .filter(slug => !!groups[slug].project)
+        .sort(marketcapSorter(groups))
 
-      return {
-        groups,
-        visibleSlugs
-      }
+      return { groups, visibleSlugs }
     },
     [filteredByAssets, hiddenLabels]
   )
 
-  return { slugs, projects, visibleSlugs, labels, groups }
+  return { slugs, projects, visibleSlugs, labels, groups, restrictedSignals }
 }

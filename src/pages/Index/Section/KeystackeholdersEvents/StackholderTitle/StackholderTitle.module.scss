@@ -2,6 +2,54 @@
 
 .container {
   padding: 16px 24px 8px 24px;
+  position: relative;
+}
+
+.imgPro {
+  width: 20px;
+  height: 20px;
+
+  & rect,
+  & path {
+    transition: fill 0.2s ease-in-out;
+  }
+}
+
+.containerPro {
+  padding: 16px 24px 8px 24px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--texas-rose);
+  border-top: none;
+  transition: background-color 0.25s ease-in-out;
+  cursor: pointer;
+
+  &::before {
+    position: absolute;
+    content: '';
+    display: block;
+    top: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--texas-rose);
+    z-index: 1;
+  }
+
+  &:hover {
+    background-color: var(--texas-rose-light);
+
+    & .imgPro {
+      & rect {
+        fill: var(--texas-rose);
+      }
+
+      & path {
+        fill: var(--white);
+      }
+    }
+  }
 }
 
 .info {
@@ -15,12 +63,23 @@
 
 .name {
   margin-left: 6px;
+  white-space: nowrap;
+  position: relative;
 }
 
 .ticker {
   color: var(--waterloo);
   margin-left: 6px;
   position: relative;
+  white-space: nowrap;
+}
+
+.upgrade {
+  position: absolute;
+  top: 12px;
+  right: 24px;
+  width: 94px;
+  justify-content: center;
 }
 
 .count {
@@ -42,10 +101,9 @@
   font-size: 10px;
 }
 
-.labels {
-  display: flex;
-  margin-top: 8px;
-  flex-wrap: wrap;
+.countPro {
+  background: var(--texas-rose);
+  color: #fff;
 }
 
 .skeleton {
@@ -54,15 +112,4 @@
 
 .skeletonWrapper {
   width: 100%;
-}
-
-.label {
-  @include text('caption');
-
-  color: var(--rhino);
-  padding: 4px 8px;
-  margin-right: 8px;
-  margin-bottom: 8px;
-  border-radius: $border-radius;
-  border: 1px solid var(--porcelain);
 }
