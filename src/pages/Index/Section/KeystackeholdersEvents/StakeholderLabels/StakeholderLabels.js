@@ -30,7 +30,7 @@ const Label = ({ label, hidden, toggle, proLabels }) => {
       onClick={() => toggle(label)}
     >
       {READABLE_NAMES[label] || label}
-      {proLabels.has(label) && <ProLabel className={styles.proLabel} />}
+      {proLabels.includes(label) && <ProLabel className={styles.proLabel} />}
     </div>
   )
 }
@@ -44,11 +44,6 @@ const StakeholderLabels = ({
   const visibleLabels = useMemo(() => labels.slice(0, MAX_COUNT), [labels])
 
   const unvisibleLabels = useMemo(() => labels.slice(MAX_COUNT), [labels])
-
-  const proLabels = useMemo(
-    () => new Set(restrictedSignals.map(({ signal }) => signal)),
-    [restrictedSignals]
-  )
 
   function toggle (label) {
     if (hidden[label]) {
@@ -71,7 +66,7 @@ const StakeholderLabels = ({
           hidden={hidden}
           label={label}
           toggle={toggle}
-          proLabels={proLabels}
+          proLabels={restrictedSignals}
         />
       ))}
 
@@ -94,7 +89,7 @@ const StakeholderLabels = ({
                 hidden={hidden}
                 label={label}
                 toggle={toggle}
-                proLabels={proLabels}
+                proLabels={restrictedSignals}
               />
             ))}
 

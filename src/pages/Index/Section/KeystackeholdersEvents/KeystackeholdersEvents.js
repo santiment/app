@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useMemo, useEffect, Fragment } from 'react'
 import { HashLink } from 'react-router-hash-link'
 import {
   TEMPORARY_HIDDEN_LABELS,
@@ -6,7 +6,9 @@ import {
   useRawSignals
 } from './hooks'
 import Accordion from '../../Accordion'
-import StackholderTitle from './StackholderTitle/StackholderTitle'
+import StackholderTitle, {
+  StakeholderProBanner
+} from './StackholderTitle/StackholderTitle'
 import Range from '../../../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistAnomalies/Range'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
 import { KEYSTACKHOLDERS_ANCHOR } from '../Personal'
@@ -132,32 +134,37 @@ const KeystackeholdersEvents = () => {
       )}
       {!loading && visibleSlugs.length > 0 && (
         <div className={styles.accordions}>
-          {visibleSlugs.map((s, index) => {
-            const { types, list } = groups[s]
+          {visibleSlugs.map((slug, index) => {
+            const { types, list } = groups[slug]
+
             return (
-              <Accordion
-                key={s}
-                title={
-                  <StackholderTitle
-                    project={projects[s]}
-                    slug={s}
-                    count={list.length}
-                    labels={types}
-                  />
-                }
-                isOpenedDefault={index === 0}
-                classes={styles}
-              >
-                <div className={styles.list}>
-                  {list.map(item => (
-                    <StakeholderSignal
-                      key={`${item.datetime}_${item.slug}_${item.signal}`}
-                      data={item}
-                      settings={settings}
+              <Fragment key={slug}>
+                {index === 2 && restrictedSignals.length > 0 && (
+                  <StakeholderProBanner signals={restrictedSignals} />
+                )}
+                <Accordion
+                  title={
+                    <StackholderTitle
+                      slug={slug}
+                      labels={types}
+                      count={list.length}
+                      project={projects[slug]}
                     />
-                  ))}
-                </div>
-              </Accordion>
+                  }
+                  isOpenedDefault={index === 0}
+                  classes={styles}
+                >
+                  <div className={styles.list}>
+                    {list.map(item => (
+                      <StakeholderSignal
+                        key={`${item.datetime}_${item.slug}_${item.signal}`}
+                        data={item}
+                        settings={settings}
+                      />
+                    ))}
+                  </div>
+                </Accordion>
+              </Fragment>
             )
           })}
         </div>

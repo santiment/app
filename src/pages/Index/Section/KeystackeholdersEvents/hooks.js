@@ -133,15 +133,17 @@ export function useGroupedBySlugs (signals, hiddenLabels, selectedAssets) {
   )
 
   const restrictedSignals = useMemo(
-    () => signals.filter(({ isHidden }) => isHidden),
+    () =>
+      signals.filter(({ isHidden }) => isHidden).map(({ signal }) => signal),
     [signals]
   )
 
   const labels = useMemo(
     () => {
-      const signalNames = [...filteredByAssets, ...restrictedSignals].map(
-        ({ signal }) => signal
-      )
+      const signalNames = [
+        ...filteredByAssets.map(({ signal }) => signal),
+        ...restrictedSignals
+      ]
       return [...new Set(signalNames)].sort().reverse()
     },
     [filteredByAssets, restrictedSignals]
