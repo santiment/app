@@ -121,7 +121,7 @@ const KeystackeholdersEvents = () => {
           labels={labels}
           hidden={hiddenLabels}
           setHidden={setHiddenLabels}
-          restrictedSignals={visibleRestrictedSignals}
+          restrictedSignals={restrictedSignals}
         />
       )}
 
