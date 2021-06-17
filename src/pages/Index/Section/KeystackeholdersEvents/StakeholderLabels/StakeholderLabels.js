@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react'
 import cx from 'classnames'
-import { READABLE_NAMES } from '../hooks'
 import Panel from '@santiment-network/ui/Panel'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
+import { READABLE_NAMES } from '../hooks'
+import { ProLabel } from '../../../../../components/ProLabel'
 import styles from './StakeholderLabels.module.scss'
 
 const MAX_COUNT = 6
@@ -21,7 +22,7 @@ export function toggleByKey (label, hidden, onChange) {
   }
 }
 
-const Label = ({ label, hidden, toggle }) => {
+const Label = ({ label, hidden, toggle, proLabels }) => {
   return (
     <div
       key={label}
@@ -29,36 +30,32 @@ const Label = ({ label, hidden, toggle }) => {
       onClick={() => toggle(label)}
     >
       {READABLE_NAMES[label] || label}
+      {proLabels.has(label) && <ProLabel className={styles.proLabel} />}
     </div>
   )
 }
 
-const StakeholderLabels = ({ labels, hidden, setHidden }) => {
-  const visibleLabels = useMemo(
-    () => {
-      return labels.slice(0, MAX_COUNT)
-    },
-    [labels]
-  )
+const StakeholderLabels = ({
+  labels,
+  restrictedSignals,
+  hidden,
+  setHidden
+}) => {
+  const visibleLabels = useMemo(() => labels.slice(0, MAX_COUNT), [labels])
 
-  const unvisibleLabels = useMemo(
-    () => {
-      return labels.slice(MAX_COUNT)
-    },
-    [labels]
+  const unvisibleLabels = useMemo(() => labels.slice(MAX_COUNT), [labels])
+
+  const proLabels = useMemo(
+    () => new Set(restrictedSignals.map(({ signal }) => signal)),
+    [restrictedSignals]
   )
 
   function toggle (label) {
     if (hidden[label]) {
       delete hidden[label]
-      setHidden({
-        ...hidden
-      })
+      setHidden({ ...hidden })
     } else {
-      setHidden({
-        ...hidden,
-        [label]: true
-      })
+      setHidden({ ...hidden, [label]: true })
     }
   }
 
@@ -69,9 +66,13 @@ const StakeholderLabels = ({ labels, hidden, setHidden }) => {
   return (
     <div className={styles.container}>
       {visibleLabels.map(label => (
-        <Label key={label} hidden={hidden} label={label} toggle={toggle}>
-          {READABLE_NAMES[label] || label}
-        </Label>
+        <Label
+          key={label}
+          hidden={hidden}
+          label={label}
+          toggle={toggle}
+          proLabels={proLabels}
+        />
       ))}
 
       {labels.length > MAX_COUNT && (
@@ -88,9 +89,13 @@ const StakeholderLabels = ({ labels, hidden, setHidden }) => {
         >
           <Panel className={styles.panel}>
             {unvisibleLabels.map(label => (
-              <Label key={label} hidden={hidden} label={label} toggle={toggle}>
-                {READABLE_NAMES[label] || label}
-              </Label>
+              <Label
+                key={label}
+                hidden={hidden}
+                label={label}
+                toggle={toggle}
+                proLabels={proLabels}
+              />
             ))}
 
             {Object.keys(hidden).length !== labels.length && (

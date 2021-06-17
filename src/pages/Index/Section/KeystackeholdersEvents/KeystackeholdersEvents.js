@@ -42,19 +42,17 @@ const KeystackeholdersEvents = () => {
   const { data: signals, loading } = useRawSignals(settings)
   const [hiddenLabels, setHiddenLabels] = useState(TEMPORARY_HIDDEN_LABELS)
 
-  const { slugs, projects, visibleSlugs, groups, labels } = useGroupedBySlugs(
-    signals,
-    hiddenLabels,
-    selectedAssets
-  )
+  const {
+    slugs,
+    projects,
+    visibleSlugs,
+    groups,
+    labels,
+    restrictedSignals
+  } = useGroupedBySlugs(signals, hiddenLabels, selectedAssets)
 
   const signalsCount = useMemo(
-    () => {
-      return Object.values(groups).reduce(
-        (acc, { list }) => acc + list.length,
-        0
-      )
-    },
+    () => Object.values(groups).reduce((acc, { list }) => acc + list.length, 0),
     [groups]
   )
 
@@ -114,6 +112,7 @@ const KeystackeholdersEvents = () => {
           labels={labels}
           hidden={hiddenLabels}
           setHidden={setHiddenLabels}
+          restrictedSignals={restrictedSignals}
         />
       )}
 

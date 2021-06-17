@@ -2,6 +2,8 @@ import { useMemo } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
+const ARRAY = []
+
 export const READABLE_NAMES = {
   large_transactions: 'Large transactions',
   large_exchange_deposit: 'Large Exchange deposit',
@@ -47,15 +49,16 @@ export const READABLE_EXCHANGE_NAMES = {
 const RAW_SIGNALS_QUERY = gql`
   query getRawSignals($from: DateTime!, $to: DateTime!) {
     getRawSignals(from: $from, to: $to) {
-      datetime
-      signal
       slug
       value
+      signal
+      datetime
       metadata
+      isHidden
       project {
         slug
-        ticker
         name
+        ticker
         logoUrl
         marketcapUsd
       }
@@ -92,10 +95,7 @@ export const TEMPORARY_HIDDEN_LABELS = {
 
 export const useRawSignals = ({ from, to }) => {
   const query = useQuery(RAW_SIGNALS_QUERY, {
-    variables: {
-      from,
-      to
-    },
+    variables: { from, to },
     errorPolicy: 'all'
   })
 
@@ -103,12 +103,11 @@ export const useRawSignals = ({ from, to }) => {
     () => {
       const { data, loading } = query
       return {
-        data:
-          (data
-            ? data.getRawSignals
-              .filter(Boolean)
-              .filter(({ project }) => !!project)
-            : []) || [],
+        data: data
+          ? data.getRawSignals
+            .filter(Boolean)
+            .filter(({ project, isHidden }) => !!project || isHidden)
+          : ARRAY,
         loading
       }
     },
@@ -120,38 +119,42 @@ const marketcapSorter = (a, b) => b.marketcapUsd - a.marketcapUsd
 
 export function useGroupedBySlugs (signals, hiddenLabels, selectedAssets) {
   const filteredByAssets = useMemo(
-    () => {
-      return signals.filter(({ slug }) => selectedAssets[slug])
-    },
+    () => signals.filter(({ slug }) => selectedAssets[slug]),
     [signals, selectedAssets]
   )
 
+  const restrictedSignals = useMemo(
+    () => signals.filter(({ isHidden }) => isHidden),
+    [signals]
+  )
+
   const { slugs, projects } = useMemo(
-    () => {
-      return {
-        slugs: [...new Set(signals.map(({ slug }) => slug))],
-        projects: signals.reduce((acc, item) => {
-          acc[item.slug] = item.project
-          return acc
-        }, {})
-      }
-    },
+    () => ({
+      slugs: [...new Set(signals.map(({ slug }) => slug))],
+      projects: signals.reduce((acc, item) => {
+        acc[item.slug] = item.project
+        return acc
+      }, {})
+    }),
     [signals]
   )
 
   const labels = useMemo(
     () => {
-      const labels = filteredByAssets.reduce((acc, item) => {
-        const { signal } = item
-        acc[signal] = true
-        return acc
-      }, {})
+      const labels = [...filteredByAssets, ...restrictedSignals].reduce(
+        (acc, item) => {
+          const { signal } = item
+          acc[signal] = true
+          return acc
+        },
+        {}
+      )
 
       return Object.keys(labels)
         .sort()
         .reverse()
     },
-    [filteredByAssets]
+    [filteredByAssets, restrictedSignals]
   )
 
   const { groups, visibleSlugs } = useMemo(
@@ -190,5 +193,5 @@ export function useGroupedBySlugs (signals, hiddenLabels, selectedAssets) {
     [filteredByAssets, hiddenLabels]
   )
 
-  return { slugs, projects, visibleSlugs, labels, groups }
+  return { slugs, projects, visibleSlugs, labels, groups, restrictedSignals }
 }
