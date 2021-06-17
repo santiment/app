@@ -58,6 +58,11 @@ const KeystackeholdersEvents = () => {
     [groups]
   )
 
+  const visibleRestrictedSignals = useMemo(
+    () => restrictedSignals.filter(signal => !hiddenLabels[signal]),
+    [restrictedSignals, hiddenLabels]
+  )
+
   useEffect(
     () => {
       setSelectedAssets(
@@ -116,7 +121,7 @@ const KeystackeholdersEvents = () => {
           labels={labels}
           hidden={hiddenLabels}
           setHidden={setHiddenLabels}
-          restrictedSignals={restrictedSignals}
+          restrictedSignals={visibleRestrictedSignals}
         />
       )}
 
@@ -136,16 +141,17 @@ const KeystackeholdersEvents = () => {
       )}
       {!loading && visibleSlugs.length > 0 && (
         <div className={styles.accordions}>
-          {visibleSlugs.length === 0 && restrictedSignals.length > 0 && (
-            <StakeholderProBanner signals={restrictedSignals} />
+          {visibleSlugs.length === 0 && visibleRestrictedSignals.length > 0 && (
+            <StakeholderProBanner signals={visibleRestrictedSignals} />
           )}
           {visibleSlugs.map((slug, index) => {
             const { types, list } = groups[slug]
 
             return (
               <Fragment key={slug}>
-                {index === proBannerIdx && restrictedSignals.length > 0 && (
-                  <StakeholderProBanner signals={restrictedSignals} />
+                {index === proBannerIdx &&
+                  visibleRestrictedSignals.length > 0 && (
+                  <StakeholderProBanner signals={visibleRestrictedSignals} />
                 )}
                 <Accordion
                   title={
