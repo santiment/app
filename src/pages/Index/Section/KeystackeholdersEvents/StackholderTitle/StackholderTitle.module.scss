@@ -10,12 +10,16 @@
   height: 20px;
 
   & rect,
- & path {
+  & path {
     transition: fill 0.2s ease-in-out;
   }
 }
 
 .containerPro {
+  padding: 16px 24px 8px 24px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
   border: 1px solid var(--texas-rose);
   border-top: none;
   transition: background-color 0.25s ease-in-out;
@@ -59,12 +63,15 @@
 
 .name {
   margin-left: 6px;
+  white-space: nowrap;
+  position: relative;
 }
 
 .ticker {
   color: var(--waterloo);
   margin-left: 6px;
   position: relative;
+  white-space: nowrap;
 }
 
 .upgrade {

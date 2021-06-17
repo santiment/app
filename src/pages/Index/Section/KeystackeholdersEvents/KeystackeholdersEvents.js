@@ -70,6 +70,8 @@ const KeystackeholdersEvents = () => {
     [signals]
   )
 
+  const proBannerIdx = visibleSlugs.length > 3 ? 2 : visibleSlugs.length - 1
+
   return (
     <div className={styles.container}>
       <div className={styles.title}>
@@ -134,12 +136,15 @@ const KeystackeholdersEvents = () => {
       )}
       {!loading && visibleSlugs.length > 0 && (
         <div className={styles.accordions}>
+          {visibleSlugs.length === 0 && restrictedSignals.length > 0 && (
+            <StakeholderProBanner signals={restrictedSignals} />
+          )}
           {visibleSlugs.map((slug, index) => {
             const { types, list } = groups[slug]
 
             return (
               <Fragment key={slug}>
-                {index === 2 && restrictedSignals.length > 0 && (
+                {index === proBannerIdx && restrictedSignals.length > 0 && (
                   <StakeholderProBanner signals={restrictedSignals} />
                 )}
                 <Accordion

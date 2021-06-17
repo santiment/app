@@ -1,11 +1,12 @@
 import React from 'react'
 import cx from 'classnames'
+import { Link } from 'react-router-dom'
+import Button from '@santiment-network/ui/Button'
 import Labels from './Labels'
 import { useProject } from '../../../../../hooks/project'
 import Skeleton from '../../../../../components/Skeleton/Skeleton'
 import { ProjectIcon } from '../../../../../components/ProjectIcon/ProjectIcon'
 import Crown from '../../../../../components/Illustrations/Crown'
-import UpgradeBtn from '../../../../../components/UpgradeBtn/UpgradeBtn'
 import styles from './StackholderTitle.module.scss'
 
 const OBJ = {}
@@ -20,14 +21,8 @@ export const StakeholderProBanner = ({ signals }) => {
   const uniqueLabels = getUniqueLabels(signals)
 
   return (
-    <div className={cx(styles.container, styles.containerPro)}>
-      <a
-        className={styles.info}
-        href={`/pricing`}
-        onClick={onLinkClick}
-        rel='noopener noreferrer'
-        target='_blank'
-      >
+    <Link to='/pricing' className={styles.containerPro} target='_blank'>
+      <span className={styles.info}>
         <Crown className={styles.imgPro} />
         <div className={styles.name}>
           PRO signals
@@ -35,14 +30,12 @@ export const StakeholderProBanner = ({ signals }) => {
             {signals.length}
           </div>
         </div>
-      </a>
-      <UpgradeBtn
-        className={styles.upgrade}
-        showCrown={false}
-        showCrownIcon={false}
-      />
+      </span>
+      <Button className={styles.upgrade} accent='orange' variant='fill'>
+        Upgrade
+      </Button>
       <Labels labels={uniqueLabels} />
-    </div>
+    </Link>
   )
 }
 
