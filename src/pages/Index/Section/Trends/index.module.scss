@@ -18,32 +18,6 @@
   }
 }
 
-.tab {
-  margin-right: 32px;
-  cursor: pointer;
-  user-select: none;
-  color: var(--rhino);
-  transition: color 0.1s ease;
-
-  &:hover,
-  &:focus {
-    color: var(--rhino);
-  }
-
-  &_inactive {
-    color: var(--casper);
-
-    &:hover,
-    &:focus {
-      color: var(--waterloo);
-    }
-  }
-
-  &:last-child {
-    margin: 0;
-  }
-}
-
 .title {
   @include text('body-1', 'm');
 
