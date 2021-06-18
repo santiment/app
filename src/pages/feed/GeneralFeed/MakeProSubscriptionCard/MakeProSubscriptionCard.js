@@ -12,10 +12,10 @@ export const ProUpgradeBanner = ({ classes }) => (
       <img src={proIcon} alt='pro-icon' className={styles.icon} />
 
       <div className={styles.content}>
-        <div className={cx(styles.title, classes.title)}>
+        <div className={cx(styles.title, classes.ProBannerTitle)}>
           Go PRO and get more data
         </div>
-        <div className={cx(styles.description, classes.description)}>
+        <div className={cx(styles.description, classes.ProBannerDescription)}>
           Unlimited metrics, all types of alerts, handcrafted report and much
           more
         </div>
@@ -24,7 +24,7 @@ export const ProUpgradeBanner = ({ classes }) => (
 
     <div className={styles.right}>
       <UpgradeBtn
-        className={cx(styles.upgrade, classes.proBtn)}
+        className={cx(styles.upgrade, classes.ProBannerBtn)}
         variant='fill'
       />
     </div>
