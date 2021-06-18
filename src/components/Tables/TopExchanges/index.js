@@ -15,42 +15,69 @@ const DEFAULT_STABLECOIN = {
 
 export const TopExchangesTableTitle = ({
   loading,
-  title = 'Holdings on the top exchanges'
+  title = 'Holdings on the top exchanges',
+  ticker,
+  children,
+  className
 }) => {
   return (
-    <div className={styles.title}>
-      <h3 className={styles.text}>{title}</h3>
+    <div className={cx(styles.title, className)}>
+      <h3 className={styles.text}>
+        {ticker ? `${ticker} - ` : ''}
+        {title}
+      </h3>
       {loading && <Loader className={styles.headerLoader} />}
+      {children}
     </div>
   )
 }
 
-const TopExchanges = ({ className, isStablecoinPage, ...props }) => {
+const TopExchanges = ({
+  className,
+  skip,
+  ticker,
+  isForcedLoading,
+  isStablecoinPage,
+  titleChildren,
+  titleClassName,
+  ...props
+}) => {
   const [asset, setAsset] = useState(DEFAULT_STABLECOIN)
   const additionalProps =
     isStablecoinPage && asset.slug !== 'stablecoins'
       ? { slug: asset.slug, selector: null }
       : {}
-  const [items, loading] = useTopExchanges({ ...props, ...additionalProps })
+  const [items, loading] = useTopExchanges(
+    { ...props, ...additionalProps },
+    skip
+  )
 
+  const isLoadingForced = isForcedLoading && loading
   const data = useMemo(() => items, [items])
   const columns = useMemo(() => COLUMNS, [])
 
   return (
     <>
-      <TopExchangesTableTitle loading={loading} items={items} />
+      <TopExchangesTableTitle
+        loading={loading}
+        items={items}
+        ticker={ticker}
+        className={titleClassName}
+      >
+        {titleChildren}
+      </TopExchangesTableTitle>
       {isStablecoinPage && (
         <div className={styles.header}>
           <StablecoinsSelector asset={asset} setAsset={setAsset} />
         </div>
       )}
       <Table
-        data={data}
+        data={isLoadingForced ? [] : data}
         columns={columns}
         options={{
           loadingSettings: {
             repeatLoading: 10,
-            isLoading: loading && data.length === 0
+            isLoading: isLoadingForced || (loading && data.length === 0)
           },
           sortingSettings: { defaultSorting: DEFAULT_SORTING, allowSort: true },
           stickySettings: {

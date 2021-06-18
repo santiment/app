@@ -1,0 +1,167 @@
+@import '~@santiment-network/ui/mixins';
+
+.new {
+  font-size: 10px;
+  min-width: initial !important;
+  margin-left: 8px;
+  display: flex;
+}
+
+@keyframes fadeOutDown {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.action {
+  display: flex;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--porcelain);
+  background: var(--white);
+  border-radius: $border-radius;
+  padding: 16px;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: background-color 1000ms linear;
+
+  .new {
+    font-size: 10px;
+    min-width: initial !important;
+    margin-left: 8px;
+    animation-duration: 1000ms;
+    animation-fill-mode: both;
+    animation-name: fadeOutDown;
+  }
+
+  &__unread {
+    background: var(--athens);
+
+    .new {
+      animation-name: fadeInUp;
+    }
+  }
+
+  &:hover {
+    border-color: var(--mystic);
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.actions {
+  display: flex;
+}
+
+.title {
+  @include text('body-3');
+
+  color: var(--rhino);
+}
+
+.type {
+  background: var(--porcelain);
+  border-radius: $border-radius;
+  padding: 3px 6px;
+  color: var(--rhino);
+  line-height: initial;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 14px;
+}
+
+.username {
+  flex-direction: column;
+  color: var(--rhino) !important;
+  align-items: flex-start !important;
+}
+
+.date {
+  min-width: initial !important;
+  margin: 2px 0 0 0;
+  color: var(--waterloo);
+}
+
+.avatarIcon {
+  position: relative;
+  top: -2px;
+}
+
+.more {
+  margin: 0;
+}
+
+.link {
+  color: var(--rhino);
+
+  &:hover {
+    color: var(--rhino);
+  }
+}
+
+.crown {
+  width: 11px;
+  height: 9px;
+  fill: var(--texas-rose);
+  margin-right: 9px;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+}
+
+.activityMarkdown {
+  word-break: break-all;
+
+  a {
+    color: var(--jungle-green);
+
+    &:hover {
+      color: var(--jungle-green-hover);
+    }
+  }
+
+  p {
+    margin-bottom: 0 !important;
+  }
+
+  a:nth-of-type(2) {
+    display: none;
+  }
+
+  p:nth-of-type(2) {
+    display: none;
+    margin: 0;
+  }
+
+  p:nth-of-type(3) {
+    display: none;
+    margin: 0;
+  }
+}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import Icon from '@santiment-network/ui/Icon'
@@ -31,20 +31,23 @@ function useSheetsTemplates () {
 
 const SheetsTemplates = () => {
   const { loading, templates } = useSheetsTemplates()
-
   const { isPro } = useUserSubscriptionStatus()
 
-  const list = templates.length > 0 ? templates : DEFAULT_SHEETS_TEMPLATES
+  const list = useMemo(
+    () => (templates.length > 0 ? templates : DEFAULT_SHEETS_TEMPLATES),
+    [templates]
+  )
 
   return (
-    <>
-      <Skeleton repeat={1} className={styles.skeleton} show={loading} />
+    <div className={styles.wrapper}>
+      <Skeleton repeat={5} className={styles.skeleton} show={loading} />
       {!loading &&
-        list.map(({ name, description, url, isPro: isProTemplate }) => {
+        list.map(({ name, description, url, isPro: isProTemplate }, idx) => {
           const requirePro = !isPro && isProTemplate
 
           return (
             <ExpansionItem
+              isOpen={idx === 0}
               title={
                 <>
                   {name}
@@ -74,7 +77,7 @@ const SheetsTemplates = () => {
             </ExpansionItem>
           )
         })}
-    </>
+    </div>
   )
 }
 

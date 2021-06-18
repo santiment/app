@@ -1,18 +1,20 @@
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useMemo, useEffect, Fragment } from 'react'
 import { HashLink } from 'react-router-hash-link'
-import cx from 'classnames'
 import {
   TEMPORARY_HIDDEN_LABELS,
   useGroupedBySlugs,
   useRawSignals
 } from './hooks'
 import Accordion from '../../Accordion'
-import StackholderTitle from './StackholderTitle/StackholderTitle'
+import StackholderTitle, {
+  StakeholderProBanner
+} from './StackholderTitle/StackholderTitle'
 import Range from '../../../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistAnomalies/Range'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
 import { KEYSTACKHOLDERS_ANCHOR } from '../Personal'
 import StakeholderSignal from './StakeholderSignal/StakeholderSignal'
 import StakeholderLabels from './StakeholderLabels/StakeholderLabels'
+import NoSignals from '../../../../components/Illustrations/NoSignals'
 import AssetsSelector from '../../../../components/AssetsSelector/AssetsSelector'
 import styles from './KeystackeholdersEvents.module.scss'
 
@@ -42,20 +44,23 @@ const KeystackeholdersEvents = () => {
   const { data: signals, loading } = useRawSignals(settings)
   const [hiddenLabels, setHiddenLabels] = useState(TEMPORARY_HIDDEN_LABELS)
 
-  const { slugs, projects, visibleSlugs, groups, labels } = useGroupedBySlugs(
-    signals,
-    hiddenLabels,
-    selectedAssets
-  )
+  const {
+    slugs,
+    projects,
+    visibleSlugs,
+    groups,
+    labels,
+    restrictedSignals
+  } = useGroupedBySlugs(signals, hiddenLabels, selectedAssets)
 
   const signalsCount = useMemo(
-    () => {
-      return Object.values(groups).reduce(
-        (acc, { list }) => acc + list.length,
-        0
-      )
-    },
+    () => Object.values(groups).reduce((acc, { list }) => acc + list.length, 0),
     [groups]
+  )
+
+  const visibleRestrictedSignals = useMemo(
+    () => restrictedSignals.filter(signal => !hiddenLabels[signal]),
+    [restrictedSignals, hiddenLabels]
   )
 
   useEffect(
@@ -69,6 +74,8 @@ const KeystackeholdersEvents = () => {
     },
     [signals]
   )
+
+  const proBannerIdx = visibleSlugs.length > 3 ? 2 : visibleSlugs.length - 1
 
   return (
     <div className={styles.container}>
@@ -88,11 +95,7 @@ const KeystackeholdersEvents = () => {
               const from = `utc_now-${RANGES[newInterval]}`
               const interval = INTERVALS[newInterval]
 
-              setSettings({
-                ...settings,
-                from: from,
-                interval
-              })
+              setSettings({ ...settings, from, interval })
             }}
           />
 
@@ -118,6 +121,7 @@ const KeystackeholdersEvents = () => {
           labels={labels}
           hidden={hiddenLabels}
           setHidden={setHiddenLabels}
+          restrictedSignals={restrictedSignals}
         />
       )}
 
@@ -137,39 +141,60 @@ const KeystackeholdersEvents = () => {
       )}
       {!loading && visibleSlugs.length > 0 && (
         <div className={styles.accordions}>
-          {visibleSlugs.map((s, index) => {
-            const { types, list } = groups[s]
+          {visibleSlugs.length === 0 && visibleRestrictedSignals.length > 0 && (
+            <StakeholderProBanner signals={visibleRestrictedSignals} />
+          )}
+          {visibleSlugs.map((slug, index) => {
+            const { types, list } = groups[slug]
+
             return (
-              <Accordion
-                key={s}
-                title={
-                  <StackholderTitle
-                    project={projects[s]}
-                    slug={s}
-                    count={list.length}
-                    labels={types}
-                  />
-                }
-                isOpenedDefault={index === 0}
-                classes={styles}
-              >
-                <div className={styles.list}>
-                  {list.map(item => (
-                    <StakeholderSignal
-                      key={`${item.datetime}_${item.slug}_${item.signal}`}
-                      data={item}
-                      settings={settings}
+              <Fragment key={slug}>
+                {index === proBannerIdx &&
+                  visibleRestrictedSignals.length > 0 && (
+                  <StakeholderProBanner signals={visibleRestrictedSignals} />
+                )}
+                <Accordion
+                  title={
+                    <StackholderTitle
+                      slug={slug}
+                      labels={types}
+                      count={list.length}
+                      project={projects[slug]}
                     />
-                  ))}
-                </div>
-              </Accordion>
+                  }
+                  isOpenedDefault={index === 0}
+                  classes={styles}
+                >
+                  <div className={styles.list}>
+                    {list.map(item => (
+                      <StakeholderSignal
+                        key={`${item.datetime}_${item.slug}_${item.signal}`}
+                        data={item}
+                        settings={settings}
+                      />
+                    ))}
+                  </div>
+                </Accordion>
+              </Fragment>
             )
           })}
         </div>
       )}
 
       {!loading && visibleSlugs.length === 0 && (
-        <div className={cx(styles.accordions, styles.noData)}>No signals</div>
+        <div className={styles.noData}>
+          <div>
+            <NoSignals className={styles.noDataImage} />
+          </div>
+          <div className={styles.noDataInfo}>
+            <span className={styles.noDataTitle}>
+              There are currently no signals matching your filters.
+            </span>
+            <span>
+              Try a different filter to activate Key Stakeholder signals
+            </span>
+          </div>
+        </div>
       )}
     </div>
   )

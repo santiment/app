@@ -9,7 +9,7 @@
   animation-name: shiftDown;
   animation-timing-function: cubic-bezier(0, 0.96, 1, 1);
   animation-duration: 1s;
-  z-index: 22;
+  z-index: 25;
 
   a {
     text-decoration: none;
@@ -94,7 +94,7 @@
   margin-top: -5px;
 
   &:hover {
-    box-shadow: 0 0 0 0 var(--white), 0 0 0 1.6px var(--jungle-green);
+    box-shadow: 0 0 0 0 var(--white), 0 0 0 1px var(--jungle-green);
   }
 }
 

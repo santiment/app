@@ -3,13 +3,14 @@ import { Redirect } from 'react-router-dom'
 import { HashLink as Link } from 'react-router-hash-link'
 import Tabs from '@santiment-network/ui/Tabs'
 import Button from '@santiment-network/ui/Button'
-import { DesktopOnly, MobileOnly } from './../../components/Responsive'
+import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import SettingsGeneral from './SettingsGeneral'
 import SettingsConnections from './SettingsConnections'
 import SettingsNotifications from './SettingsNotifications'
 import SettingsGetTokens from './SettingsGetTokens'
 import SettingsAPIKeys from './SettingsAPIKeys'
+import SettingsSessions from './SettingsSessions'
 import SettingsSubscription from './SettingsSubscription'
 import SettingsPlans from './SettingsPlans'
 import SettingsAffiliate from './AffiliateSettings/SettingsAffiliate'
@@ -72,7 +73,14 @@ const tabs = [
   },
   {
     index: 7,
-    hash: ACCOUNT_PAGE_HASHES.subscription,
+    content: (
+      <Link className={styles.tab} to='#sessions'>
+        Sessions
+      </Link>
+    )
+  },
+  {
+    index: 8,
     content: (
       <Link className={styles.tab} to={ACCOUNT_PAGE_HASHES.subscription}>
         Subscription
@@ -80,7 +88,7 @@ const tabs = [
     )
   },
   {
-    index: 8,
+    index: 9,
     content: (
       <Link className={styles.tab} to='#plans'>
         Plans
@@ -125,6 +133,7 @@ const AccountPage = ({ history, location }) => {
         <SettingsNotifications />
         <SettingsGetTokens />
         <SettingsAPIKeys />
+        <SettingsSessions />
         <SettingsSubscription />
         <SettingsPlans />
       </div>

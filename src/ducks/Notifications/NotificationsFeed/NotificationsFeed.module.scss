@@ -1,0 +1,123 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  display: flex;
+  align-items: baseline;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.panel {
+  width: 480px;
+  padding: 0;
+}
+
+.dropdown {
+  z-index: 1000;
+}
+
+.list {
+  height: 100%;
+  box-sizing: border-box;
+  flex: 1;
+  overflow-x: hidden;
+  padding-right: 10px;
+
+  @include overlay-scroll;
+}
+
+.list + .list {
+  margin-top: 10px;
+}
+
+.content {
+  padding: 0 14px 0 24px;
+}
+
+.scroller {
+  display: flex;
+  flex-direction: column;
+  min-height: 480px;
+  max-height: 480px;
+}
+
+.icon {
+  display: flex;
+  fill: var(--waterloo);
+  width: 16px;
+  height: 16px;
+  margin-right: 24px;
+  cursor: pointer;
+}
+
+.trigger {
+  cursor: pointer;
+
+  &__active {
+    &::after {
+      content: ' ';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--persimmon);
+      position: absolute;
+      left: 9px;
+      top: -1px;
+    }
+  }
+
+  &:hover {
+    .icon {
+      fill: var(--jungle-green);
+    }
+  }
+}
+
+.skeleton {
+  min-height: 80px;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.skeletonWrapper {
+  width: 100%;
+}
+
+.item {
+  margin-bottom: 8px;
+}
+
+.tabs {
+  margin: 0;
+  border: none;
+}
+
+.tab {
+  border-bottom: 0;
+  padding-bottom: 7px;
+
+  &:hover {
+    color: var(--fiord);
+  }
+}
+
+.selectedTab {
+  color: var(--rhino);
+
+  &:hover {
+    color: var(--rhino);
+  }
+
+  &::after {
+    background: var(--waterloo);
+  }
+}
+
+.header {
+  padding: 18px 24px 0 24px;
+}
+
+.panelContent {
+  padding: 0;
+}

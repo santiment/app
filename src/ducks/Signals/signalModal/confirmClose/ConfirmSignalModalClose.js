@@ -7,7 +7,7 @@ const ConfirmSignalModalClose = ({ isOpen, onCancel, onApprove }) => (
     isOpen={isOpen}
     title='Unsaved changes'
     confirmLabel='Confirm'
-    description='Are you sure you want to out without saving?'
+    description='Are you sure you want to quit without saving?'
     onApprove={onApprove}
     onCancel={onCancel}
     classes={styles}

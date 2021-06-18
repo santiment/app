@@ -1,0 +1,32 @@
+.wrapper {
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 8px;
+}
+
+.platform {
+  margin-bottom: 4px;
+}
+
+.time {
+  color: var(--waterloo);
+}
+
+.revoke {
+  margin-left: auto;
+  padding-right: 0;
+}
+
+.wrapper + .wrapper {
+  border-top: 1px solid var(--porcelain);
+}
+
+.loader {
+  min-height: 60px;
+}

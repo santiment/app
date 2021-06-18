@@ -79,11 +79,11 @@ function useUserStats () {
 const Row = ({ title, isActive, onClick, ...props }) => (
   <BaseRow
     {...props}
-    className={styles.row}
+    className={cx(styles.row, isActive && styles.row__active)}
     onClick={isActive ? undefined : onClick}
   >
     <div className={cx(styles.status, isActive && styles.status_active)}>
-      {isActive && <Icon type='checkmark' className={styles.checkmark} />}
+      <Icon type='checkmark' className={styles.checkmark} />
     </div>
     {title}
     <Icon type='arrow-right-big' className={styles.arrow} />

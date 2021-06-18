@@ -3,6 +3,8 @@ import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import copy from 'copy-to-clipboard'
+import { track } from 'webkit/analytics'
+import { Event } from 'studio/analytics'
 import Calendar from './Calendar'
 import MetricsExplanation, {
   filterExplainableMetrics
@@ -26,6 +28,7 @@ export const CopyLink = ({ shareLink, getShareLink, className }) => {
   function onClick () {
     getShareLink().then(copy)
     setTimer(setTimeout(() => setTimer(), 2000))
+    track.event(Event.CopyLink)
   }
 
   return (
@@ -42,6 +45,11 @@ export const ShareButton = ({ sharePath, shortUrlHash }) => {
   const shareLink = shortUrlHash ? window.location.href : shortShareLink
   const getShareLink = shortUrlHash ? getBrowserUrl : getShortShareLink
 
+  function onMouseDown () {
+    getShareLink()
+    track.event(Event.Share)
+  }
+
   return (
     <>
       <ShareModalTrigger
@@ -49,7 +57,7 @@ export const ShareButton = ({ sharePath, shortUrlHash }) => {
           <Button
             {...props}
             border
-            onMouseDown={getShareLink}
+            onMouseDown={onMouseDown}
             className={styles.share}
           >
             <Icon type='share' className={styles.share__icon} />
@@ -70,6 +78,7 @@ export default ({
   metrics,
   settings,
   sidepanel,
+  sharePath,
   shortUrlHash,
   isOverviewOpened,
   changeTimePeriod,
@@ -114,7 +123,7 @@ export default ({
         />
       )}
 
-      <ShareButton shortUrlHash={shortUrlHash} />
+      <ShareButton shortUrlHash={shortUrlHash} sharePath={sharePath} />
 
       <Button
         border

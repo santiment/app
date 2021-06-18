@@ -1,0 +1,19 @@
+@import '~@santiment-network/ui/mixins';
+
+.labels {
+  display: flex;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.label {
+  @include text('caption');
+
+  color: var(--rhino);
+  padding: 4px 8px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  border-radius: $border-radius;
+  border: 1px solid var(--porcelain);
+  background-color: var(--white);
+}

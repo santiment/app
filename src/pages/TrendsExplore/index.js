@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
-import { compose, withProps } from 'recompose'
 import Icon from '@santiment-network/ui/Icon'
 import SocialTool from '../SocialTool'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
@@ -90,7 +89,7 @@ const TrendsExplore = ({ topic, addedTopics, history, isDesktop }) => {
           {isDesktop ? (
             <div className={styles.breadcrumbs}>
               <Link to='/labs/trends/' className={styles.link}>
-                Santrends
+                Social Trends
               </Link>
               <Icon type='arrow-right' className={styles.arrow} />
               Social context
@@ -141,10 +140,10 @@ const TrendsExplore = ({ topic, addedTopics, history, isDesktop }) => {
   )
 }
 
-export default compose(
-  withProps(({ match: { params = {} } = {}, ...rest }) => ({
-    topic: safeDecode(params.word),
-    addedTopics: getTopicsFromUrl(),
-    ...rest
-  }))
-)(TrendsExplore)
+export default ({ match: { params = {} } = {}, ...rest }) => (
+  <TrendsExplore
+    topic={safeDecode(params.word)}
+    addedTopics={getTopicsFromUrl()}
+    {...rest}
+  />
+)

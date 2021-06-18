@@ -48,13 +48,14 @@ const Watchlist = ({ name, isPublic, historicalStats }) => {
   )
 }
 
-const Watchlists = ({ ids }) => (
+const Watchlists = ({ ids, setHeight }) => (
   <Recent
     rightHeader='Market Cap, 24h change'
     ids={ids}
     getItem={getItem}
     getLink={getWatchlistLink}
     Item={Watchlist}
+    setHeight={setHeight}
   />
 )
 

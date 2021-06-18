@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { TRENDING_WORDS } from '../../../../../ducks/Signals/utils/constants'
 import ScreenerTriggerDescription from '../../../../../components/ScreenerTriggerDescription/ScreenerTriggerDescription'
@@ -8,15 +9,16 @@ export const getLink = ({ type, slug }) => {
   return type === TRENDING_WORDS ? '/labs/trends' : '/projects/' + slug
 }
 
-export const MoreInfo = ({ slug, type }) => {
-  if (!slug) {
-    return null
-  }
-
-  const link = getLink({ type, slug })
+export const MoreInfoAlert = ({ slug, type, link: targetLink, className }) => {
+  const link = targetLink || getLink({ type, slug })
 
   return (
-    <Link to={link} className={styles.more}>
+    <Link
+      to={link}
+      className={cx(styles.more, className)}
+      target='_blank'
+      onClick={e => e.stopPropagation()}
+    >
       More info
     </Link>
   )
@@ -32,7 +34,7 @@ const FeedSignalCardWithMarkdown = ({ trigger, user_trigger_data }) => {
 
       <ScreenerTriggerDescription trigger={trigger} data={user_trigger_data} />
 
-      <MoreInfo slug={project_slug} type={trending_words} />
+      <MoreInfoAlert slug={project_slug} type={trending_words} />
     </div>
   )
 }

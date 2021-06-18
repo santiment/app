@@ -57,7 +57,7 @@ const QuickStartTitle = ({ max, currentCount }) => {
           <div
             className={styles.filled}
             style={{
-              width: `${percent}%`
+              transform: `translateX(-${100 - percent}%)`
             }}
           />
         </div>

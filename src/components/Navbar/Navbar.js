@@ -23,6 +23,7 @@ import NavbarMore from './NavbarMore/NavbarMore'
 import { NavbarItem } from './NavbarItem'
 import { useDialogState } from '../../hooks/dialog'
 import { DEFAULT_SCREENER } from '../../ducks/Screener/utils'
+import NotificationsFeed from '../../ducks/Notifications/NotificationsFeed/NotificationsFeed'
 import styles from './Navbar.module.scss'
 
 const ExternalLink = ({ children, className, ...rest }) => (
@@ -200,6 +201,8 @@ const Navbar = ({ activeLink = '/', isLaptop, isTablet }) => {
 
             return button
           })}
+
+        <NotificationsFeed />
 
         <div className={cx(styles.divider, styles.center)}>
           <PlanEngage />

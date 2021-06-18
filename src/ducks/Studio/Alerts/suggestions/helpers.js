@@ -1,4 +1,5 @@
 import React from 'react'
+import { FORMATTER } from 'studio/metrics/formatters'
 import { PRICE_CHANGE_TYPES } from '../../../Signals/utils/constants'
 import {
   buildPercentUpDownSignal,
@@ -14,7 +15,7 @@ export const VALUE_IFS = ['drops below', 'rises above']
 export const createSuggestion = (alert, render) => ({ alert, render })
 
 export const buildValueChangeSuggester = metric => {
-  const { formatter, label } = metric
+  const { formatter = FORMATTER, label } = metric
 
   return ({ slug, value, lastValue, selector }) => {
     const isAbove = value > lastValue

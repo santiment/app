@@ -12,6 +12,7 @@ const Signal = ({ signal, setHovered, removeSignal }) => {
 
   function onClick () {
     removeSignal(signal.id)
+    setHovered()
   }
 
   return (

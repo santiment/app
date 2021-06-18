@@ -1,0 +1,26 @@
+@import '~@santiment-network/ui/mixins';
+
+.icon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  fill: var(--waterloo);
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
+
+  &__active {
+    fill: var(--jungle-green);
+
+    &:hover {
+      fill: var(--jungle-green-hover);
+    }
+  }
+}
+
+.tooltip {
+  padding: 6px 13px;
+
+  @include text('caption', 'm');
+}

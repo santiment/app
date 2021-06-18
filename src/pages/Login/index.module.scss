@@ -118,7 +118,7 @@
 
 .metamask {
   margin: auto;
-  color: var(--white);
+  color: $white;
 
   @include text('body-3');
 }

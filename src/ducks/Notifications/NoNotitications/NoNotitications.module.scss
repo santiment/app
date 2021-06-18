@@ -1,0 +1,24 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  flex: 1;
+  padding: 64px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.title {
+  @include text('body-2', 'l');
+
+  margin-top: 32px;
+  margin-bottom: 4px;
+}
+
+.description {
+  max-width: 254px;
+  text-align: center;
+
+  @include text('body-3');
+}

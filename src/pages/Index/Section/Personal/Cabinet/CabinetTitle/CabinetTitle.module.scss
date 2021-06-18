@@ -1,7 +1,7 @@
 @import '~@santiment-network/ui/mixins';
 
 .headerContainer {
-  padding: 24px 0;
+  padding: 20px 0;
 }
 
 .header {
@@ -15,11 +15,18 @@
       @include text('body-1', 'l');
 
       color: var(--rhino);
+
+      &:hover,
+      &:focus {
+        color: var(--rhino);
+      }
     }
 
     &__description {
       margin-top: 2px;
       color: var(--waterloo);
+
+      @include text('body-2');
     }
   }
 }

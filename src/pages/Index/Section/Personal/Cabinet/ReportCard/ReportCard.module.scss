@@ -1,16 +1,24 @@
 @import '~@santiment-network/ui/mixins';
 
 .container {
-  border-radius: $border-radius;
-  border: 1px solid var(--porcelain);
-  padding: 16px 24px;
-  margin: 8px 24px 0 24px;
+  padding: 24px 0;
+  margin: 0 44px;
   display: flex;
   align-items: center;
+  border-bottom: 1px solid var(--porcelain);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:first-child {
+    padding-top: 20px;
+  }
 }
 
 .content {
-  max-width: 480px;
+  margin-right: 24px;
+  max-width: 100%;
 }
 
 .title {
@@ -26,9 +34,12 @@
 
 .btn {
   margin-left: auto;
+  margin-bottom: auto;
 
-  &:focus {
+  &:focus,
+  &:hover {
     fill: var(--jungle-green);
+    color: var(--jungle-green);
   }
 }
 

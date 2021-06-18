@@ -46,6 +46,7 @@
 .chart {
   display: flex;
   min-width: 250px;
+  position: relative;
 
   @include responsive('laptop',  'tablet') {
     width: 100%;

@@ -41,7 +41,7 @@ const LoginGoogleBtn = ({ signUp, className }) => (
     href={AUTH_LINK}
     className={cx(styles.btn, styles.btn_email, styles.btn_google, className)}
   >
-    {GOOGLE_ICON} Sign {signUp ? 'up' : 'in'} with Google
+    {GOOGLE_ICON} Sign {signUp ? ' up ' : ' in '} with Google
   </a>
 )
 

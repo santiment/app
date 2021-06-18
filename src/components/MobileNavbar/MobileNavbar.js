@@ -40,7 +40,7 @@ const NAVBAR_LINKS = [
 
 const MENU_LINKS = [
   { linkTo: '/alerts', label: 'Alerts' },
-  { linkTo: '/labs/trends', label: 'Santrends' },
+  { linkTo: '/labs/trends', label: 'Social trends' },
   { linkTo: '/account', label: 'Account settings' }
 ]
 

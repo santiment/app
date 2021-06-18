@@ -148,6 +148,7 @@ export const buildColumns = (baseMetrics, allMetrics, restrictedMetrics) => {
     if (!isOnlyPercentFilters) {
       const {
         badge,
+        Cell,
         withChart,
         defaultTimeRange,
         valueFormatter,
@@ -168,7 +169,7 @@ export const buildColumns = (baseMetrics, allMetrics, restrictedMetrics) => {
         isRestricted,
         accessor: key,
         sortDescFirst: true,
-        Cell: isRestricted ? PRO_CELL : BASIC_CELL(formatter),
+        Cell: isRestricted ? PRO_CELL : Cell || BASIC_CELL(formatter),
         disableSortBy: isRestricted,
         timeRange: defaultTimeRange || '1d',
         label: `${label}${visualTimeRange}`,

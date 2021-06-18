@@ -8,24 +8,24 @@ import { Column } from '../../../../ducks/TrendsTable/columns'
 import Tab from '../../../../components/Tab'
 import styles from './index.module.scss'
 
-const RECENT_SOCIAL_TRENDS = INDEX_PAGE_GROUPS[0]
+const RECENT_SOCIAL_TOOL = INDEX_PAGE_GROUPS[0]
 const TRENDS_HIDDEN_COLUMNS = [Column.SOCIAL_VOLUME]
 
 const TabType = {
-  SOCIAL_TRENDS: 'Social Trends',
-  SANTRENDS: 'Santrends'
+  SOCIAL_TOOL: 'Social Tool',
+  SOCIAL_TRENDS: 'Social Trends'
 }
 
 const TabTypeContent = {
-  [TabType.SOCIAL_TRENDS]: {
+  [TabType.SOCIAL_TOOL]: {
     href: '/labs/trends/explore/',
     widget: (
       <>
-        <h4 className={styles.title}>{RECENT_SOCIAL_TRENDS.title}</h4>
-        <p className={styles.text}>{RECENT_SOCIAL_TRENDS.description}</p>
+        <h4 className={styles.title}>{RECENT_SOCIAL_TOOL.title}</h4>
+        <p className={styles.text}>{RECENT_SOCIAL_TOOL.description}</p>
         <SocialGrid
           className={styles.socialgrid}
-          topics={RECENT_SOCIAL_TRENDS.topics}
+          topics={RECENT_SOCIAL_TOOL.topics}
         />
       </>
     ),
@@ -33,7 +33,7 @@ const TabTypeContent = {
       '‘Google Trends’ for crypto. Monitor the interest in any topic on dedicated cryptocurrency social channels, including 1000+ Telegram groups, Discord servers, crypto subreddits, Twitter accounts and more.'
   },
 
-  [TabType.SANTRENDS]: {
+  [TabType.SOCIAL_TRENDS]: {
     href: '/labs/trends/',
     widget: (
       <Santrends
@@ -52,13 +52,13 @@ const TabTypeContent = {
 
 const Tabs = ({ tabState }) => (
   <>
-    <Tab tab={TabType.SANTRENDS} tabState={tabState} />
     <Tab tab={TabType.SOCIAL_TRENDS} tabState={tabState} />
+    <Tab tab={TabType.SOCIAL_TOOL} tabState={tabState} />
   </>
 )
 
 const Trends = () => {
-  const tabState = useState(TabType.SANTRENDS)
+  const tabState = useState(TabType.SOCIAL_TRENDS)
   const activeTab = tabState[0]
   const { href, description, widget } = TabTypeContent[activeTab]
 

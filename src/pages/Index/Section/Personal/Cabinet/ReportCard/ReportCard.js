@@ -1,8 +1,9 @@
 import React from 'react'
-import styles from './ReportCard.module.scss'
-import { useUserSubscriptionStatus } from '../../../../../../stores/user/subscriptions'
-import { ProLabel } from '../../../../../../components/ProLabel'
 import Button from '@santiment-network/ui/Button'
+import { ProLabel } from '../../../../../../components/ProLabel'
+import { useUserSubscriptionStatus } from '../../../../../../stores/user/subscriptions'
+import MultilineText from '../../../../../../components/MultilineText/MultilineText'
+import styles from './ReportCard.module.scss'
 
 const ReportCard = ({ report: { name, description, url } }) => {
   const { isPro } = useUserSubscriptionStatus()
@@ -11,8 +12,9 @@ const ReportCard = ({ report: { name, description, url } }) => {
     <div className={styles.container}>
       <div className={styles.content}>
         <div className={styles.title}>{name}</div>
-
-        <div className={styles.description}>{description}</div>
+        <div className={styles.description}>
+          <MultilineText id={url} maxLines={3} text={description} />
+        </div>
       </div>
 
       <Button

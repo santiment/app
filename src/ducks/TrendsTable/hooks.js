@@ -17,14 +17,16 @@ const LOADING = {
 const wordAccessor = ({ word }) => word
 
 export function useTrendingWords (variables) {
-  const { data } = useQuery(TRENDING_WORDS_QUERY, { variables })
+  const { data, loading } = useQuery(TRENDING_WORDS_QUERY, { variables })
 
   return useMemo(
     () => {
-      if (!data) return { trendingWords: ARRAY, words: ARRAY, isLoading: true }
+      if (!data) {
+        return { trendingWords: ARRAY, words: ARRAY, isLoading: loading }
+      }
 
       let trendingWords = ARRAY
-      const item = data.getTrendingWords[0]
+      const item = data.getTrendingWords[data.getTrendingWords.length - 1]
       if (item) {
         trendingWords = item.topWords
       }
@@ -32,7 +34,7 @@ export function useTrendingWords (variables) {
       return {
         trendingWords,
         words: trendingWords.map(wordAccessor),
-        isLoading: false
+        isLoading: loading
       }
     },
     [data]

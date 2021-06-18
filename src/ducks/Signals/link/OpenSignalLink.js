@@ -11,7 +11,7 @@ const PERCENT_REGEXP = new RegExp(
 
 const NEGATIVE_WORDS = ['down', 'below', 'decreases']
 
-const prepareTitle = title => {
+export const prepareAlertTitle = title => {
   let checkingTitle = title
   if (Array.isArray(title)) {
     checkingTitle = title.join('')
@@ -73,18 +73,16 @@ const prepareTitle = title => {
   return checkingTitle
 }
 
-const OpenSignalLink = ({
-  signal: {
+const OpenSignalLink = ({ signal, children }) => {
+  const {
     id,
     title,
     settings: { type }
-  },
-  signal,
-  children
-}) => {
+  } = signal
+
   const trigger = (
     <div>
-      <div className={styles.link}>{prepareTitle(title)}</div>
+      <div className={styles.link}>{prepareAlertTitle(title)}</div>
       {children}
     </div>
   )

@@ -15,7 +15,7 @@ const LogitTwitterBtn = ({ signUp, className }) => (
     className={cx(styles.btn, styles.btn_email, styles.btn_google, className)}
   >
     {<Icon type='twitter' className={cx(styles.btn__icon, styles.twitter)} />}{' '}
-    Sign {signUp ? 'up' : 'in'} with Twitter
+    Sign {signUp ? ' up ' : ' in '} with Twitter
   </a>
 )
 

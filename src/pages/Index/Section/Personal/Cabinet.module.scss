@@ -1,14 +1,27 @@
+@import '~@santiment-network/ui/mixins';
+
 .card {
   border: none;
+  background-image: none;
+  padding: 20px 24px !important;
+}
+
+.ProBannerTitle {
+  @include text('body-1', 'm');
+}
+
+.ProBannerDescription {
+  @include text('body-2');
+}
+
+.ProBannerBtn {
+  min-width: 126px;
+  height: 32px;
 }
 
 .img {
   width: 48px;
   height: 48px;
-}
-
-.reports {
-  margin: 2px 0 24px 0;
 }
 
 .accordionContent {

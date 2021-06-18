@@ -6,15 +6,15 @@ import styles from './Suggestions.module.scss'
 
 const SUGGESTIONS = [
   {
-    trend: 'bitcoin',
-    options: ''
-  },
-  {
     trend: 'buy AND (dip OR dips)',
     options: ''
   },
   {
-    trend: 'corona OR coronavirus OR "covid-19"',
+    trend: 'short',
+    options: ''
+  },
+  {
+    trend: 'fees',
     options: ''
   }
 ]

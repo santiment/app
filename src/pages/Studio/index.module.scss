@@ -1,0 +1,56 @@
+.wrapper {
+  color: var(--black);
+  fill: var(--black);
+  background-color: var(--white);
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  list-style: none;
+  font-family: inherit;
+  line-height: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+
+  :global {
+    svg {
+      box-sizing: initial;
+      vertical-align: middle;
+    }
+  }
+}
+
+.project {
+  background: var(--white);
+  margin: -20px -40px 25px;
+  padding: 32px 40px 0;
+}
+
+.tabs {
+  margin: 32px 0 0 !important;
+}
+
+.sidepanel {
+  display: flex;
+  max-height: 100%;
+}
+
+.exchanges__title {
+  margin-top: 32px;
+
+  & > h3 {
+    font-size: 18px !important;
+    line-height: 26px !important;
+    font-weight: 500 !important;
+  }
+}
+
+.close {
+  margin-left: auto;
+  fill: var(--casper);
+  cursor: pointer;
+
+  &:hover {
+    fill: var(--green);
+  }
+}

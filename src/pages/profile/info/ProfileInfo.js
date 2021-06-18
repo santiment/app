@@ -11,6 +11,7 @@ import FollowList from '../follow/list/FollowList'
 import SidecarExplanationTooltip from '../../../ducks/SANCharts/SidecarExplanationTooltip'
 import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
 import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
+import NotificationBellBtn from '../../../components/NotificationBellBtn/NotificationBellBtn'
 import styles from './ProfileInfo.module.scss'
 
 const ShareTrigger = props => {
@@ -36,8 +37,11 @@ const InfoBlock = ({
   isLoggedIn,
   isCurrentUser,
   updateCache,
-  profile: { username, followers, id }
+  profile,
+  followData: { followers } = {}
 }) => {
+  const { username, id } = profile
+
   return (
     <div className={styles.leftText}>
       <div className={styles.info}>
@@ -48,12 +52,17 @@ const InfoBlock = ({
       </div>
       {isLoggedIn &&
         (!isCurrentUser ? (
-          <FollowBtn
-            className={styles.followBtn}
-            users={followers.users}
-            userId={id}
-            updateCache={updateCache}
-          />
+          <>
+            {followers && (
+              <FollowBtn
+                className={styles.followBtn}
+                users={followers.users}
+                userId={id}
+                updateCache={updateCache}
+              />
+            )}
+            <NotificationBellBtn targetUserId={id} className={styles.bell} />
+          </>
         ) : (
           <Button
             className={styles.followBtn}
@@ -79,19 +88,20 @@ const FollowTitle = ({ title, count }) => {
 }
 
 const ProfileInfo = ({
-  profile = {},
+  profile,
   updateCache,
   isCurrentUser,
-  isLoggedIn
+  isLoggedIn,
+  followData = {}
 }) => {
   const {
-    id,
     followers,
-    avatarUrl,
     following,
     followers: { count: followersCount = 0 } = {},
     following: { count: followingCount } = {}
-  } = profile
+  } = followData
+
+  const { id, avatarUrl } = profile
 
   return (
     <div className={styles.container}>
@@ -109,6 +119,7 @@ const ProfileInfo = ({
             profile={profile}
             isLoggedIn={isLoggedIn}
             isCurrentUser={isCurrentUser}
+            followData={followData}
           />
         </MobileOnly>
       </div>
@@ -120,6 +131,7 @@ const ProfileInfo = ({
             profile={profile}
             isLoggedIn={isLoggedIn}
             isCurrentUser={isCurrentUser}
+            followData={followData}
           />
         </DesktopOnly>
 
@@ -134,38 +146,53 @@ const ProfileInfo = ({
             classes={styles}
           >
             <div className={styles.followersBlocks}>
-              <FollowList
-                list={followers}
-                title={<FollowTitle title='Followers' count={followersCount} />}
-                trigger={
-                  <div className={styles.followBlock}>
-                    <Icon type='followers' className={styles.follow} />
-                    <div className={styles.followCounters}>
-                      <div className={styles.followCounter}>
-                        {followersCount}
+              {followers && (
+                <FollowList
+                  list={followers}
+                  title={
+                    <FollowTitle title='Followers' count={followersCount} />
+                  }
+                  trigger={
+                    <div className={styles.followBlock}>
+                      <Icon type='followers' className={styles.follow} />
+                      <div className={styles.followCounters}>
+                        <div className={styles.followCounter}>
+                          {followersCount}
+                        </div>
+                        <div className={styles.followDescription}>
+                          followers
+                        </div>
                       </div>
-                      <div className={styles.followDescription}>followers</div>
                     </div>
-                  </div>
-                }
-              />
-              <FollowList
-                list={following}
-                title={<FollowTitle title='Following' count={followingCount} />}
-                trigger={
-                  <div
-                    className={cx(styles.followBlock, styles.followBlockSecond)}
-                  >
-                    <Icon type='following' className={styles.follow} />
-                    <div className={styles.followCounters}>
-                      <div className={styles.followCounter}>
-                        {followingCount}
+                  }
+                />
+              )}
+              {following && (
+                <FollowList
+                  list={following}
+                  title={
+                    <FollowTitle title='Following' count={followingCount} />
+                  }
+                  trigger={
+                    <div
+                      className={cx(
+                        styles.followBlock,
+                        styles.followBlockSecond
+                      )}
+                    >
+                      <Icon type='following' className={styles.follow} />
+                      <div className={styles.followCounters}>
+                        <div className={styles.followCounter}>
+                          {followingCount}
+                        </div>
+                        <div className={styles.followDescription}>
+                          following
+                        </div>
                       </div>
-                      <div className={styles.followDescription}>following</div>
                     </div>
-                  </div>
-                }
-              />
+                  }
+                />
+              )}
             </div>
           </SidecarExplanationTooltip>
         </div>
