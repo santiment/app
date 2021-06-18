@@ -2,7 +2,7 @@
 
 .container {
   padding: 24px 0;
-  margin: 0 24px;
+  margin: 0 44px;
   display: flex;
   align-items: center;
   border-bottom: 1px solid var(--porcelain);
@@ -17,7 +17,8 @@
 }
 
 .content {
-  max-width: 480px;
+  margin-right: 24px;
+  max-width: 100%;
 }
 
 .title {
@@ -35,8 +36,10 @@
   margin-left: auto;
   margin-bottom: auto;
 
-  &:focus {
+  &:focus,
+ &:hover {
     fill: var(--jungle-green);
+    color: var(--jungle-green);
   }
 }
 

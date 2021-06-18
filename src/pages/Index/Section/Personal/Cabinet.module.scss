@@ -1,7 +1,22 @@
+@import '~@santiment-network/ui/mixins';
+
 .card {
   border: none;
   background-image: none;
-  padding: 21px 24px !important;
+  padding: 20px 24px !important;
+}
+
+.title {
+  @include text('body-1', 'm');
+}
+
+.description {
+  @include text('body-2');
+}
+
+.proBtn {
+  min-width: 126px;
+  height: 32px;
 }
 
 .img {

@@ -15,11 +15,18 @@
       @include text('body-1', 'l');
 
       color: var(--rhino);
+
+      &:hover,
+ &:focus {
+        color: var(--rhino);
+      }
     }
 
     &__description {
       margin-top: 2px;
       color: var(--waterloo);
+
+      @include text('body-2');
     }
   }
 }

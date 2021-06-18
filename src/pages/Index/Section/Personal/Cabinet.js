@@ -17,9 +17,7 @@ const CABINETS = [
       <CabinetTitle
         img={ReportsImg}
         title='Weekly Reports'
-        description={
-          'Check out our latest premium reports about crypto activity in the market'
-        }
+        description='Check out our latest premium reports about crypto activity in the market'
       />
     ),
     content: <Reports />,
@@ -30,9 +28,6 @@ const CABINETS = [
       <CabinetTitle
         as={HashLink}
         to={SHEETS_ANCHOR}
-        onClick={e => {
-          e.stopPropagation()
-        }}
         img={<div className={styles.img}>{SheetsTemplatesImg}</div>}
         title='Sansheets Pro Templates'
         description={
