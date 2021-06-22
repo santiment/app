@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useState } from 'react'
+import React, { useRef, useMemo, useEffect, useState } from 'react'
 import { COLUMNS } from './columns'
 import Section from '../Section'
 import { TabType } from '../defaults'
@@ -29,12 +29,8 @@ const AddressTransactions = ({ settings }) => {
     activeTab,
     page + 1
   )
-  const nextTransactions = useAddressTransactions(
-    settings,
-    activeTab,
-    page + 2,
-    isLoading
-  ).transactions
+  const nextTransactions = useAddressTransactions(settings, activeTab, page + 2)
+    .transactions
 
   const items = useMemo(
     () => {
@@ -45,19 +41,35 @@ const AddressTransactions = ({ settings }) => {
     [transactions, nextTransactions]
   )
 
+  useEffect(() => setPage(0), [activeTab])
+
   return (
     <Section title={<Tabs tabState={tabState} />}>
-      <PagedTable
-        className={styles.table}
-        columns={COLUMNS}
-        pageSizes={PAGE_SIZES}
-        minRows={10}
-        items={items}
-        itemProps={settings}
-        isLoading={isLoading}
-        onPageChange={setPage}
-        getItemKey={getItemKey}
-      />
+      {activeTab === TabType.LATEST_TRANSACTIONS ? (
+        <PagedTable
+          className={styles.table}
+          columns={COLUMNS}
+          pageSizes={PAGE_SIZES}
+          minRows={10}
+          items={items}
+          itemProps={settings}
+          isLoading={isLoading}
+          onPageChange={setPage}
+          getItemKey={getItemKey}
+        />
+      ) : (
+        <PagedTable
+          className={styles.table}
+          columns={COLUMNS}
+          pageSizes={PAGE_SIZES}
+          minRows={10}
+          items={items}
+          itemProps={settings}
+          isLoading={isLoading}
+          onPageChange={setPage}
+          getItemKey={getItemKey}
+        />
+      )}
     </Section>
   )
 }

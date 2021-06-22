@@ -59,15 +59,15 @@ export const RECENT_TRANSACTIONS_QUERY = gql`
 `
 
 export const TOP_TRANSACTIONS_QUERY = gql`
-  query topTransactions(
+  query topTransfers(
     $addressSelector: AddressSelector
-    $from: DateTime
-    $to: DateTime
+    $from: DateTime = "utc_now-7d"
+    $to: DateTime = "utc_now"
     $slug: String
     $page: Int
     $pageSize: Int = 20
   ) {
-    topTransactions(
+    transactions: topTransfers(
       addressSelector: $addressSelector
       page: $page
       pageSize: $pageSize
@@ -84,11 +84,6 @@ export const TOP_TRANSACTIONS_QUERY = gql`
       }
       trxValue
       trxHash
-      project {
-        id
-        ticker
-        logoUrl
-      }
     }
   }
 `

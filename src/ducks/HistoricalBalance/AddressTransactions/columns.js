@@ -68,9 +68,9 @@ export const COLUMNS = prepareColumns([
   {
     title: 'Tx hash',
     className: styles.hash,
-    render: ({ trxHash }, { address }) => (
+    render: ({ trxHash }) => (
       <a
-        href={`https://etherscan.io/tx/${address}`}
+        href={`https://etherscan.io/tx/${trxHash}`}
         rel='noopener noreferrer'
         target='_blank'
         className={styles.link}

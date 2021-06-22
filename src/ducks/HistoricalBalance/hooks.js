@@ -50,20 +50,33 @@ export function useWalletAssets (wallet) {
   }
 }
 
+function getVars (query, wallet, page) {
+  if (query === RECENT_TRANSACTIONS_QUERY) {
+    return {
+      page,
+      address: wallet.address,
+      infrastructure: wallet.infrastructure
+    }
+  } else {
+    return {
+      page,
+      to: 'utc_now',
+      slug: 'binance-usd',
+      from: 'utc_now-1d',
+      infrastructure: wallet.infrastructure,
+      addressSelector: { address: wallet.address, transactionType: 'ALL' }
+    }
+  }
+}
+
 export function useAddressTransactions (wallet, type, page, skip) {
   const query =
     type === TabType.LATEST_TRANSACTIONS
       ? RECENT_TRANSACTIONS_QUERY
       : TOP_TRANSACTIONS_QUERY
-  const variables = {
-    page,
-    ...wallet,
-    addressSelector: { address: wallet.address, transactionType: 'ALL' },
-    from: 'utc_now-1d',
-    to: 'utc_now',
-    slug: 'uniswap'
-  }
+  const variables = getVars(query, wallet, page)
   const { data, loading } = useWalletQuery(query, variables, skip)
+
   return {
     transactions: data ? data.transactions : DEFAULT_STATE,
     isLoading: loading
