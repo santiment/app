@@ -4,6 +4,8 @@ import { getDateFormats, getTimeFormats } from '../../../utils/dates'
 import { ProjectIcon } from '../../../components/ProjectIcon/ProjectIcon'
 import styles from './index.module.scss'
 
+export const getItemKey = ({ trxHash }) => trxHash
+
 const trxValueFormatter = new Intl.NumberFormat('en')
 
 function formatValue (value, ticker, isSending) {
