@@ -64,13 +64,13 @@ export function useRecentTransactions (wallet, page, skip) {
   }
 }
 
-export function useTopTransactions (wallet, page, skip, project) {
+export function useTopTransactions (wallet, page, skip, project, dates) {
   const query = TOP_TRANSACTIONS_QUERY
   const variables = {
     page,
     slug: project ? project.slug : 'ethereum',
-    to: 'utc_now',
-    from: 'utc_now-30d',
+    to: dates.to,
+    from: dates.from,
     infrastructure: wallet.infrastructure,
     addressSelector: { address: wallet.address, transactionType: 'ALL' }
   }

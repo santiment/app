@@ -1,7 +1,8 @@
 import React, { useRef, useMemo, useState } from 'react'
-import { COLUMNS, getItemKey } from './columns'
+import { COLUMNS } from './columns'
 import { useRecentTransactions } from '../hooks'
 import PagedTable, { buildPageSizes } from '../../_Table/Paged'
+import { getItemKey } from './defaults'
 import styles from './index.module.scss'
 
 const PAGE_SIZES = buildPageSizes([20, 50])

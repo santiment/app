@@ -1,10 +1,12 @@
 import React, { useRef, useMemo, useEffect, useState, useCallback } from 'react'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
-import { COLUMNS, getItemKey } from './columns'
+import { COLUMNS } from './columns'
 import { useTopTransactions } from '../hooks'
-import { useDistributions } from '../Address/AssetsDistribution'
+import Calendar from '../../Studio/Header/Calendar'
+import { DEFAULT_SETTINGS, getItemKey } from './defaults'
 import PagedTable, { buildPageSizes } from '../../_Table/Paged'
+import { useDistributions } from '../Address/AssetsDistribution'
 import ProjectIcon from '../../../components/ProjectIcon/ProjectIcon'
 import { getProjectInfo, useProjects } from '../../../stores/projects'
 import { DashboardProjectSelector } from '../../Stablecoins/StablecoinSelector/ProjectsSelectors'
@@ -18,18 +20,21 @@ const TopTransactions = ({ settings, walletAssets }) => {
   const projects = useProjects()
   const distributions = useDistributions(walletAssets)
   const [project, setProject] = useState(null)
+  const [calendarSettings, setCalendarSettings] = useState(DEFAULT_SETTINGS)
   const [page, setPage] = useState(0)
   const { transactions, isLoading } = useTopTransactions(
     settings,
     page + 1,
     false,
-    project
+    project,
+    calendarSettings
   )
   const nextTransactions = useTopTransactions(
     settings,
     page + 2,
     isLoading,
-    project
+    project,
+    calendarSettings
   ).transactions
 
   const items = useMemo(
@@ -49,7 +54,13 @@ const TopTransactions = ({ settings, walletAssets }) => {
     [distributions, projects]
   )
 
-  const onChangeProject = useCallback(project => setProject(project), [])
+  const onChangeProject = useCallback(project => setProject(project), [
+    setProject
+  ])
+  const changeTimePeriod = useCallback(
+    (from, to) => setCalendarSettings({ from, to }),
+    []
+  )
   const itemProps = useMemo(() => ({ ...settings, asset: project }), [
     settings,
     project
@@ -58,6 +69,10 @@ const TopTransactions = ({ settings, walletAssets }) => {
   return (
     <>
       <div className={styles.header}>
+        <Calendar
+          settings={calendarSettings}
+          changeTimePeriod={changeTimePeriod}
+        />
         {project && (
           <DashboardProjectSelector
             setAsset={onChangeProject}
