@@ -33,7 +33,7 @@ export const ADDRESS_QUERY = gql`
 
 export const RECENT_TRANSACTIONS_QUERY = gql`
   query recentTransactions($address: String!, $page: Int, $pageSize: Int = 20) {
-    recentTransactions(
+    transactions: recentTransactions(
       address: $address
       page: $page
       pageSize: $pageSize
@@ -54,6 +54,36 @@ export const RECENT_TRANSACTIONS_QUERY = gql`
         ticker
         logoUrl
       }
+    }
+  }
+`
+
+export const TOP_TRANSACTIONS_QUERY = gql`
+  query topTransfers(
+    $addressSelector: AddressSelector
+    $from: DateTime
+    $to: DateTime = "utc_now"
+    $slug: String
+    $page: Int
+    $pageSize: Int = 20
+  ) {
+    transactions: topTransfers(
+      addressSelector: $addressSelector
+      page: $page
+      pageSize: $pageSize
+      from: $from
+      to: $to
+      slug: $slug
+    ) {
+      datetime
+      fromAddress {
+        address
+      }
+      toAddress {
+        address
+      }
+      trxValue
+      trxHash
     }
   }
 `
