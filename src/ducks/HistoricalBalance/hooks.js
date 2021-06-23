@@ -74,10 +74,10 @@ export function useTopTransactions (wallet, page, skip, project, dates) {
     infrastructure: wallet.infrastructure,
     addressSelector: { address: wallet.address, transactionType: 'ALL' }
   }
-  const { data, loading } = useWalletQuery(query, variables, skip)
+  const { data, loading, error } = useWalletQuery(query, variables, skip)
 
   return {
-    transactions: data ? data.transactions : DEFAULT_STATE,
+    transactions: data && !error ? data.transactions : DEFAULT_STATE,
     isLoading: loading
   }
 }

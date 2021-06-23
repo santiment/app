@@ -32,7 +32,7 @@ const TopTransactions = ({ settings, walletAssets }) => {
   const nextTransactions = useTopTransactions(
     settings,
     page + 2,
-    isLoading,
+    isLoading || !project,
     project,
     calendarSettings
   ).transactions
@@ -100,7 +100,7 @@ const TopTransactions = ({ settings, walletAssets }) => {
         minRows={10}
         items={items}
         itemProps={itemProps}
-        isLoading={isLoading}
+        isLoading={isLoading || projects.length === 0}
         onPageChange={setPage}
         getItemKey={getItemKey}
       />
