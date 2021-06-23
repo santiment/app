@@ -9,7 +9,6 @@ import {
 } from './queries'
 import { getAddressInfrastructure } from '../../utils/address'
 import { getValidInterval } from '../SANCharts/IntervalSelector'
-import { TabType } from './defaults'
 
 const DEFAULT_STATE = []
 
@@ -50,31 +49,31 @@ export function useWalletAssets (wallet) {
   }
 }
 
-function getVars (query, wallet, page, project) {
-  if (query === RECENT_TRANSACTIONS_QUERY) {
-    return {
-      page,
-      address: wallet.address,
-      infrastructure: wallet.infrastructure
-    }
-  } else {
-    return {
-      page,
-      slug: project ? project.slug : 'ethereum',
-      to: 'utc_now',
-      from: 'utc_now-30d',
-      infrastructure: wallet.infrastructure,
-      addressSelector: { address: wallet.address, transactionType: 'ALL' }
-    }
+export function useRecentTransactions (wallet, page, skip) {
+  const query = RECENT_TRANSACTIONS_QUERY
+  const variables = {
+    page,
+    address: wallet.address,
+    infrastructure: wallet.infrastructure
+  }
+  const { data, loading } = useWalletQuery(query, variables, skip)
+
+  return {
+    transactions: data ? data.transactions : DEFAULT_STATE,
+    isLoading: loading
   }
 }
 
-export function useAddressTransactions (wallet, type, page, skip, project) {
-  const query =
-    type === TabType.LATEST_TRANSACTIONS
-      ? RECENT_TRANSACTIONS_QUERY
-      : TOP_TRANSACTIONS_QUERY
-  const variables = getVars(query, wallet, page, project)
+export function useTopTransactions (wallet, page, skip, project) {
+  const query = TOP_TRANSACTIONS_QUERY
+  const variables = {
+    page,
+    slug: project ? project.slug : 'ethereum',
+    to: 'utc_now',
+    from: 'utc_now-30d',
+    infrastructure: wallet.infrastructure,
+    addressSelector: { address: wallet.address, transactionType: 'ALL' }
+  }
   const { data, loading } = useWalletQuery(query, variables, skip)
 
   return {

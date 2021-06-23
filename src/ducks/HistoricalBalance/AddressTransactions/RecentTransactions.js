@@ -1,27 +1,17 @@
 import React, { useRef, useMemo, useState } from 'react'
 import { COLUMNS, getItemKey } from './columns'
-import { TabType } from '../defaults'
-import { useAddressTransactions } from '../hooks'
+import { useRecentTransactions } from '../hooks'
 import PagedTable, { buildPageSizes } from '../../_Table/Paged'
 import styles from './index.module.scss'
 
 const PAGE_SIZES = buildPageSizes([20, 50])
-const ACTIVE_TAB = TabType.LATEST_TRANSACTIONS
 
 const RecentTransactions = ({ settings }) => {
   const pagesItems = useRef([]).current
   const [page, setPage] = useState(0)
-  const { transactions, isLoading } = useAddressTransactions(
-    settings,
-    ACTIVE_TAB,
-    page + 1
-  )
-  const nextTransactions = useAddressTransactions(
-    settings,
-    ACTIVE_TAB,
-    page + 2,
-    isLoading
-  ).transactions
+  const { transactions, isLoading } = useRecentTransactions(settings, page + 1)
+  const nextTransactions = useRecentTransactions(settings, page + 2, isLoading)
+    .transactions
 
   const items = useMemo(
     () => {

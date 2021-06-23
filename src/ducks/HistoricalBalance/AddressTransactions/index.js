@@ -4,6 +4,7 @@ import { TabType } from '../defaults'
 import Tab from '../../../components/Tab'
 import TopTransactions from './TopTransactions'
 import RecentTransactions from './RecentTransactions'
+import styles from './index.module.scss'
 
 const Tabs = ({ tabState }) => (
   <>
@@ -17,7 +18,7 @@ const AddressTransactions = ({ settings, walletAssets }) => {
   const activeTab = tabState[0]
 
   return (
-    <Section title={<Tabs tabState={tabState} />}>
+    <Section title={<Tabs tabState={tabState} />} className={styles.container}>
       {activeTab === TabType.LATEST_TRANSACTIONS && (
         <RecentTransactions settings={settings} />
       )}
