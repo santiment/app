@@ -11,6 +11,8 @@ export const projectBaseData = gql`
     name
     slug
     ticker
+    logoUrl
+    darkLogoUrl
     marketcapUsd
   }
 `

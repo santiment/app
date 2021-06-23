@@ -50,7 +50,7 @@ export function useWalletAssets (wallet) {
   }
 }
 
-function getVars (query, wallet, page) {
+function getVars (query, wallet, page, project) {
   if (query === RECENT_TRANSACTIONS_QUERY) {
     return {
       page,
@@ -60,21 +60,21 @@ function getVars (query, wallet, page) {
   } else {
     return {
       page,
+      slug: project ? project.slug : 'ethereum',
       to: 'utc_now',
-      slug: 'binance-usd',
-      from: 'utc_now-1d',
+      from: 'utc_now-30d',
       infrastructure: wallet.infrastructure,
       addressSelector: { address: wallet.address, transactionType: 'ALL' }
     }
   }
 }
 
-export function useAddressTransactions (wallet, type, page, skip) {
+export function useAddressTransactions (wallet, type, page, skip, project) {
   const query =
     type === TabType.LATEST_TRANSACTIONS
       ? RECENT_TRANSACTIONS_QUERY
       : TOP_TRANSACTIONS_QUERY
-  const variables = getVars(query, wallet, page)
+  const variables = getVars(query, wallet, page, project)
   const { data, loading } = useWalletQuery(query, variables, skip)
 
   return {

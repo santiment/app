@@ -103,7 +103,10 @@ const HistoricalBalance = ({
 
       <div className={cx(styles.bottom, isPhone && styles.bottom_phone)}>
         <div className={styles.left}>
-          <AddressTransactions settings={settings} />
+          <AddressTransactions
+            settings={settings}
+            walletAssets={walletAssets}
+          />
         </div>
         <div className={styles.right}>
           <Comments settings={settings} />

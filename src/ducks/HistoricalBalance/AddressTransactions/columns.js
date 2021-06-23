@@ -1,6 +1,7 @@
 import React from 'react'
 import { prepareColumns } from '../../_Table'
 import { getDateFormats, getTimeFormats } from '../../../utils/dates'
+import { ProjectIcon } from '../../../components/ProjectIcon/ProjectIcon'
 import styles from './index.module.scss'
 
 const trxValueFormatter = new Intl.NumberFormat('en')
@@ -9,7 +10,8 @@ function formatValue (value, ticker, isSending) {
   const formattedValue = trxValueFormatter.format(
     +(value < 1 ? value.toFixed(6) : value.toFixed(2))
   )
-  return `${isSending ? '-' : '+'} ${formattedValue} ${ticker}`
+  return `${isSending ? '-' : '+'} ${formattedValue} ${ticker ||
+    'unknown asset'}`
 }
 
 function getDatetime (datetime) {
@@ -22,15 +24,26 @@ function getDatetime (datetime) {
 
 const checkIsSending = (address, fromAddress) => address === fromAddress.address
 
-const Values = ({ address, project, toAddress, fromAddress, trxValue }) => {
-  const { logoUrl, ticker } = project || {}
+const Values = ({
+  address,
+  project,
+  toAddress,
+  fromAddress,
+  trxValue,
+  asset
+}) => {
+  const { logoUrl, darkLogoUrl, ticker } = asset || project || {}
   const isSending = checkIsSending(address, fromAddress)
   const anotherAddress = isSending ? toAddress.address : fromAddress.address
 
   return (
     <>
       <div className={styles.asset}>
-        <img alt='' src={logoUrl} className={styles.logo} />{' '}
+        <ProjectIcon
+          darkLogoUrl={darkLogoUrl}
+          logoUrl={logoUrl}
+          className={styles.logo}
+        />{' '}
         {formatValue(trxValue, ticker, isSending)}
       </div>
       <div className={styles.actor}>
@@ -61,8 +74,8 @@ export const COLUMNS = prepareColumns([
   {
     title: 'Values',
     className: styles.values,
-    render: (transaction, { address }) => (
-      <Values {...transaction} address={address} />
+    render: (transaction, { address, asset }) => (
+      <Values {...transaction} address={address} asset={asset} />
     )
   },
   {
