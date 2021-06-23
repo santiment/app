@@ -4,7 +4,8 @@ import { walletMetricBuilder, priceMetricBuilder } from './utils'
 import {
   WALLET_ASSETS_QUERY,
   ADDRESS_QUERY,
-  RECENT_TRANSACTIONS_QUERY
+  RECENT_TRANSACTIONS_QUERY,
+  TOP_TRANSACTIONS_QUERY
 } from './queries'
 import { getAddressInfrastructure } from '../../utils/address'
 import { getValidInterval } from '../SANCharts/IntervalSelector'
@@ -49,13 +50,34 @@ export function useWalletAssets (wallet) {
 }
 
 export function useRecentTransactions (wallet, page, skip) {
-  const { data, loading } = useWalletQuery(
-    RECENT_TRANSACTIONS_QUERY,
-    Object.assign({ page }, wallet),
-    skip
-  )
+  const query = RECENT_TRANSACTIONS_QUERY
+  const variables = {
+    page,
+    address: wallet.address,
+    infrastructure: wallet.infrastructure
+  }
+  const { data, loading } = useWalletQuery(query, variables, skip)
+
   return {
-    recentTransactions: data ? data.recentTransactions : DEFAULT_STATE,
+    transactions: data ? data.transactions : DEFAULT_STATE,
+    isLoading: loading
+  }
+}
+
+export function useTopTransactions (wallet, page, skip, project, dates) {
+  const query = TOP_TRANSACTIONS_QUERY
+  const variables = {
+    page,
+    slug: project ? project.slug : 'ethereum',
+    to: dates.to,
+    from: dates.from,
+    infrastructure: wallet.infrastructure,
+    addressSelector: { address: wallet.address, transactionType: 'ALL' }
+  }
+  const { data, loading, error } = useWalletQuery(query, variables, skip)
+
+  return {
+    transactions: data && !error ? data.transactions : DEFAULT_STATE,
     isLoading: loading
   }
 }

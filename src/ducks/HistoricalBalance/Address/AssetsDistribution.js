@@ -26,7 +26,7 @@ const checkIsSmallDistribution = percent => percent < 0.5
 const smallDistributionFinder = ({ percent }) =>
   checkIsSmallDistribution(percent)
 
-function useDistributions (walletAssets) {
+export function useDistributions (walletAssets) {
   const { projects } = useProjects()
 
   return useMemo(
@@ -53,6 +53,7 @@ function useDistributions (walletAssets) {
 
         distributions[i] = {
           percent,
+          slug,
           name: ticker || capitalizeStr(slug),
           percentText: percent > 0.1 ? percent.toFixed(1) + '%' : '0.0%',
           style: {

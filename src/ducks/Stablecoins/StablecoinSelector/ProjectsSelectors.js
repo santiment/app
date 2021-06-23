@@ -61,6 +61,7 @@ export const DashboardProjectSelector = ({
   type,
   setAsset,
   asset,
+  trigger,
   triggerProps,
   classes
 }) => {
@@ -79,12 +80,14 @@ export const DashboardProjectSelector = ({
       customTabs={type && [type]}
       showTabs={false}
       trigger={
-        <DashboardProjectInfo
-          {...asset}
-          {...triggerProps}
-          onClick={openDialog}
-          classes={classes}
-        />
+        trigger || (
+          <DashboardProjectInfo
+            {...asset}
+            {...triggerProps}
+            onClick={openDialog}
+            classes={classes}
+          />
+        )
       }
     />
   )

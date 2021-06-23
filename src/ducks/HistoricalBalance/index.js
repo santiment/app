@@ -5,7 +5,7 @@ import { useSettings, useWalletAssets } from './hooks'
 import Chart from './Chart'
 import AddressSetting from './Address'
 import Comments from './Comments'
-import LatestTransactions from './LatestTransactions'
+import AddressTransactions from './AddressTransactions'
 import Sankey from './Sankey'
 import { withSizes, DesktopOnly } from '../../components/Responsive'
 import { Infrastructure } from '../../utils/address'
@@ -103,7 +103,10 @@ const HistoricalBalance = ({
 
       <div className={cx(styles.bottom, isPhone && styles.bottom_phone)}>
         <div className={styles.left}>
-          <LatestTransactions settings={settings} />
+          <AddressTransactions
+            settings={settings}
+            walletAssets={walletAssets}
+          />
         </div>
         <div className={styles.right}>
           <Comments settings={settings} />
