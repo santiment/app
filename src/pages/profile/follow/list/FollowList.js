@@ -1,34 +1,26 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import withSizes from 'react-sizes'
-import { connect } from 'react-redux'
-import { compose } from 'recompose'
 import { Link } from 'react-router-dom'
-import { mapSizesToProps } from '../../../../utils/withSizes'
+import Search from '@santiment-network/ui/Search'
 import Dialog from '@santiment-network/ui/Dialog'
+import { mapSizesToProps } from '../../../../utils/withSizes'
 import FollowBtn from '../FollowBtn'
 import UserAvatar from '../../../Account/avatar/UserAvatar'
 import {
   updateCurrentUserFollowQueryCache,
   useOldUserFollowersFollowing
 } from '../../../../queries/ProfileGQL'
+import { useUser } from '../../../../stores/user'
 import PageLoader from '../../../../components/Loader/PageLoader'
-import Search from '@santiment-network/ui/Search'
 import NotificationBellBtn from '../../../../components/NotificationBellBtn/NotificationBellBtn'
 import styles from './FollowList.module.scss'
 
-const makeQueryVars = currentUserId => ({
-  userId: +currentUserId
-})
+const makeQueryVars = id => ({ userId: +id })
 
-const FollowList = ({
-  title,
-  list: { users = [] },
-  trigger,
-  currentUserId,
-  isDesktop
-}) => {
+const FollowList = ({ title, list: { users = [] }, trigger, isDesktop }) => {
   const [isOpen, setOpen] = useState(false)
+  const { user: { id: currentUserId } = {} } = useUser()
 
   const {
     data: { following },
@@ -183,13 +175,4 @@ const FollowItem = ({
   )
 }
 
-const mapStateToProps = state => {
-  return {
-    currentUserId: state.user.data ? +state.user.data.id : null
-  }
-}
-
-export default compose(
-  connect(mapStateToProps),
-  withSizes(mapSizesToProps)
-)(FollowList)
+export default withSizes(mapSizesToProps)(FollowList)

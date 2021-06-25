@@ -42,7 +42,7 @@ const FollowBtn = ({
             ) : (
               <Icon type='following' className={styles.followImg} />
             )}
-            {isInFollowers ? 'Followed' : 'Follow'}
+            {isInFollowers ? 'Following' : 'Follow'}
           </Button>
         )
       }}

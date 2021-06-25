@@ -94,21 +94,23 @@ export const TEMPORARY_HIDDEN_LABELS = {
 }
 
 export const useRawSignals = ({ from, to }) => {
-  const { data, loading } = useQuery(RAW_SIGNALS_QUERY, {
-    variables: { from, to },
-    errorPolicy: 'all'
+  const query = useQuery(RAW_SIGNALS_QUERY, {
+    variables: { from, to }
   })
 
   return useMemo(
-    () => ({
-      data: data
-        ? data.getRawSignals.filter(
-          signal => signal && (!!signal.project || signal.isHidden)
-        )
-        : ARRAY,
-      loading
-    }),
-    [data, loading]
+    () => {
+      const { data, loading } = query
+      return {
+        data: data
+          ? data.getRawSignals.filter(
+            signal => signal && (!!signal.project || signal.isHidden)
+          )
+          : ARRAY,
+        loading
+      }
+    },
+    [query]
   )
 }
 
