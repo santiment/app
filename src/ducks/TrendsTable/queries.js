@@ -17,7 +17,7 @@ export const TRENDING_WORDS_QUERY = gql`
 export const TRENDING_WORDS_CONTEXT_QUERY = gql`
   query wordsContext(
     $words: [String]
-    $from: DateTime = "utc_now-1h"
+    $from: DateTime = "utc_now-1d"
     $to: DateTime = "utc_now"
   ) {
     wordsData: wordsContext(
