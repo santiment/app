@@ -112,6 +112,10 @@
   &::after {
     background: var(--waterloo);
   }
+
+  .tabs__one &::after {
+    background: transparent;
+  }
 }
 
 .header {
