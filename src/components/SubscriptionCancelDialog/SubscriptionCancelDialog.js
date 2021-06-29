@@ -3,8 +3,9 @@ import { connect } from 'react-redux'
 import Button from '@santiment-network/ui/Button'
 import Dialog from '@santiment-network/ui/Dialog'
 import { Mutation } from 'react-apollo'
-import CancellationScreen from './CancellationScreen'
 import MissYouScreen from './MissYouScreen'
+import SolutionsScreen from './SolutionsScreen'
+import CancellationScreen from './CancellationScreen'
 import { showNotification } from '../../actions/rootActions'
 import { formatPrice } from '../../utils/plans'
 import { getDateFormats } from '../../utils/dates'
@@ -32,7 +33,7 @@ const createCacheUpdate = subsId =>
     })
   }
 
-const SCREENS = [MissYouScreen, CancellationScreen]
+const SCREENS = [SolutionsScreen, MissYouScreen, CancellationScreen]
 
 const CancelPlanDialog = ({
   addNot,
