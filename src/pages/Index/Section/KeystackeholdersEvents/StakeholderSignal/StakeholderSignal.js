@@ -53,6 +53,9 @@ const ExchangeLink = ({ exchange_name }) => {
 function isValueUsd (value, value_usd, signal) {
   if (!value_usd) {
     switch (signal) {
+      case 'ath':
+      case 'ath_price_usd':
+      case 'price_usd_all_time_high':
       case 'large_transactions':
       case 'large_exchange_deposit':
       case 'large_exchange_withdrawal':
