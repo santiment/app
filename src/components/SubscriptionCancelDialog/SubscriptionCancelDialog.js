@@ -53,10 +53,10 @@ const CancelPlanDialog = ({
 
   function closeDialog () {
     setOpened(false)
-    setScreen(0)
   }
 
   function openDialog () {
+    setScreen(0)
     setOpened(true)
   }
 
