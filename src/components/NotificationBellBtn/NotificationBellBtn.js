@@ -19,19 +19,19 @@ const NotificationBellBtn = ({ targetUserId, className }) => {
   return (
     <DarkTooltip
       position='top'
-      align='start'
+      align='center'
       on='hover'
       className={styles.tooltip}
       trigger={
         <Icon
-          type='bell'
+          type={isNotificationDisabled ? 'bell-off' : 'bell'}
           onClick={() =>
             !disabledBtn && toggle(targetUserId, !isNotificationDisabled)
           }
           className={cx(
             styles.icon,
             className,
-            !isNotificationDisabled && !disabledBtn && styles.icon__active
+            disabledBtn && styles.icon__disabled
           )}
         />
       }

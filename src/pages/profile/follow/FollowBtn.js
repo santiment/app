@@ -1,56 +1,16 @@
 import React from 'react'
+import cx from 'classnames'
 import { Mutation } from 'react-apollo'
-import { connect } from 'react-redux'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
+import { useUser } from '../../../stores/user'
 import { FOLLOW_MUTATION, UNFOLLOW_MUTATION } from '../../../queries/ProfileGQL'
 import styles from './FollowBtn.module.scss'
 
-const FollowBtn = ({
-  userId,
-  isInFollowers,
-  updateCache,
-  className,
-  variant = 'fill'
-}) => {
-  return (
-    <Mutation
-      mutation={isInFollowers ? UNFOLLOW_MUTATION : FOLLOW_MUTATION}
-      update={updateCache}
-    >
-      {(followAction, { loading }) => {
-        return (
-          <Button
-            accent={isInFollowers ? 'grey' : 'positive'}
-            variant={variant}
-            className={className}
-            onClick={() => {
-              !loading &&
-                followAction({
-                  variables: {
-                    id: +userId
-                  }
-                })
-            }}
-          >
-            {!loading ? (
-              isInFollowers ? (
-                <Icon type='followers' className={styles.followImg} />
-              ) : (
-                <Icon type='follow' className={styles.followImg} />
-              )
-            ) : (
-              <Icon type='following' className={styles.followImg} />
-            )}
-            {isInFollowers ? 'Followed' : 'Follow'}
-          </Button>
-        )
-      }}
-    </Mutation>
-  )
-}
+const ARR = []
+const OBJ = {}
 
-export const isInFollowers = (users, targetUserId, currentUserId) => {
+export function isInFollowers (users, targetUserId, currentUserId) {
   if (currentUserId && users) {
     if (targetUserId) {
       return users.some(({ id }) => +id === +targetUserId)
@@ -62,10 +22,45 @@ export const isInFollowers = (users, targetUserId, currentUserId) => {
   return false
 }
 
-const mapStateToProps = ({ user: { data } }, { targetUserId, users = [] }) => {
-  return {
-    isInFollowers: isInFollowers(users, targetUserId, data.id)
-  }
+const FollowBtn = ({
+  userId,
+  targetUserId,
+  users = ARR,
+  updateCache,
+  className,
+  variant = 'fill'
+}) => {
+  const { user = OBJ } = useUser()
+  const isFollowing = isInFollowers(users, targetUserId, user.id)
+
+  return (
+    <Mutation
+      mutation={isFollowing ? UNFOLLOW_MUTATION : FOLLOW_MUTATION}
+      update={updateCache}
+    >
+      {(followAction, { loading }) => (
+        <Button
+          accent={isFollowing ? 'grey' : 'positive'}
+          variant={variant}
+          className={cx(isFollowing && styles.grey, className)}
+          onClick={() =>
+            !loading && followAction({ variables: { id: +userId } })
+          }
+        >
+          {!loading ? (
+            isFollowing ? (
+              <Icon type='followers' className={styles.followImg} />
+            ) : (
+              <Icon type='follow' className={styles.followImg} />
+            )
+          ) : (
+            <Icon type='following' className={styles.followImg} />
+          )}
+          {isFollowing ? 'Following' : 'Follow'}
+        </Button>
+      )}
+    </Mutation>
+  )
 }
 
-export default connect(mapStateToProps)(FollowBtn)
+export default FollowBtn

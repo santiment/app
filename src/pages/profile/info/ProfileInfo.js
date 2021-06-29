@@ -1,37 +1,32 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-import FollowBtn from '../follow/FollowBtn'
-import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
-import UserAvatar from '../../Account/avatar/UserAvatar'
-import { checkIsLoggedIn } from '../../UserSelectors'
+import Button from '@santiment-network/ui/Button'
+import FollowBtn from '../follow/FollowBtn'
+import { useUser } from '../../../stores/user'
 import FollowList from '../follow/list/FollowList'
-import SidecarExplanationTooltip from '../../../ducks/SANCharts/SidecarExplanationTooltip'
+import UserAvatar from '../../Account/avatar/UserAvatar'
 import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
 import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
+import SidecarExplanationTooltip from '../../../ducks/SANCharts/SidecarExplanationTooltip'
 import NotificationBellBtn from '../../../components/NotificationBellBtn/NotificationBellBtn'
 import styles from './ProfileInfo.module.scss'
 
-const ShareTrigger = props => {
-  return (
-    <Button className={styles.shareTrigger} {...props}>
-      <Icon type='share' className={styles.shareIcon} />
-      Share profile
-    </Button>
-  )
-}
+const ShareTrigger = props => (
+  <Button className={styles.shareTrigger} {...props}>
+    <Icon type='share' className={styles.shareIcon} />
+    Share profile
+  </Button>
+)
 
-export const ShareProfile = () => {
-  return (
-    <ShareModalTrigger
-      dialogTitle='Share profile'
-      shareLink={window.location.href}
-      trigger={ShareTrigger}
-    />
-  )
-}
+export const ShareProfile = () => (
+  <ShareModalTrigger
+    dialogTitle='Share profile'
+    shareLink={window.location.href}
+    trigger={ShareTrigger}
+  />
+)
 
 const InfoBlock = ({
   isLoggedIn,
@@ -65,43 +60,36 @@ const InfoBlock = ({
           </>
         ) : (
           <Button
-            className={styles.followBtn}
+            className={styles.accountBtn}
             as={Link}
             to='/account'
             variant='fill'
             accent='positive'
           >
-            <Icon type='edit-small' className={styles.editIcon} />
-            Edit
+            Account settings
           </Button>
         ))}
     </div>
   )
 }
 
-const FollowTitle = ({ title, count }) => {
-  return (
-    <div className={styles.title}>
-      {title} <span className={styles.counter}>({count})</span>
-    </div>
-  )
-}
+const FollowTitle = ({ title, count }) => (
+  <div>
+    {title} <span className={styles.counter}>({count})</span>
+  </div>
+)
 
-const ProfileInfo = ({
-  profile,
-  updateCache,
-  isCurrentUser,
-  isLoggedIn,
-  followData = {}
-}) => {
+const ProfileInfo = ({ profile, updateCache, followData = {} }) => {
   const {
     followers,
     following,
     followers: { count: followersCount = 0 } = {},
     following: { count: followingCount } = {}
   } = followData
-
+  const { isLoggedIn, user } = useUser()
   const { id, avatarUrl } = profile
+  const currentUserId = useMemo(() => (user ? user.id : null), [user])
+  const isCurrentUser = useMemo(() => +currentUserId === +id, [user, profile])
 
   return (
     <div className={styles.container}>
@@ -115,11 +103,11 @@ const ProfileInfo = ({
         />
         <MobileOnly>
           <InfoBlock
-            updateCache={updateCache}
             profile={profile}
             isLoggedIn={isLoggedIn}
-            isCurrentUser={isCurrentUser}
             followData={followData}
+            updateCache={updateCache}
+            isCurrentUser={isCurrentUser}
           />
         </MobileOnly>
       </div>
@@ -127,11 +115,11 @@ const ProfileInfo = ({
       <div className={styles.right}>
         <DesktopOnly>
           <InfoBlock
-            updateCache={updateCache}
             profile={profile}
             isLoggedIn={isLoggedIn}
-            isCurrentUser={isCurrentUser}
             followData={followData}
+            updateCache={updateCache}
+            isCurrentUser={isCurrentUser}
           />
         </DesktopOnly>
 
@@ -148,6 +136,8 @@ const ProfileInfo = ({
             <div className={styles.followersBlocks}>
               {followers && (
                 <FollowList
+                  currentUserId={currentUserId}
+                  isCurrentUser={isCurrentUser}
                   list={followers}
                   title={
                     <FollowTitle title='Followers' count={followersCount} />
@@ -169,6 +159,8 @@ const ProfileInfo = ({
               )}
               {following && (
                 <FollowList
+                  currentUserId={currentUserId}
+                  isCurrentUser={isCurrentUser}
                   list={following}
                   title={
                     <FollowTitle title='Following' count={followingCount} />
@@ -201,15 +193,4 @@ const ProfileInfo = ({
   )
 }
 
-const mapStateToProps = (state, { profile }) => {
-  const {
-    user: { data }
-  } = state
-  const isCurrentUser = data && data.id === profile.id
-  return {
-    isCurrentUser,
-    isLoggedIn: checkIsLoggedIn(state)
-  }
-}
-
-export default connect(mapStateToProps)(ProfileInfo)
+export default ProfileInfo

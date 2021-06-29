@@ -191,13 +191,9 @@ const update = ({
     updateFollowersList(followers, follow, unfollow, userId)
   }
 
-  console.log('data', data)
-
   cache.writeQuery({
     query: PUBLIC_USER_FOLLOWERS_DATA_QUERY,
     variables: queryVariables,
-    data: {
-      ...data
-    }
+    data: { ...data }
   })
 }
