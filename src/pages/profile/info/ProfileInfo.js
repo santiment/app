@@ -130,12 +130,14 @@ const ProfileInfo = ({ profile, updateCache, followData = {} }) => {
             position='bottom'
             title={<div>Click to open list of users</div>}
             description=''
+            withArrow
             classes={styles}
           >
             <div className={styles.followersBlocks}>
               {followers && (
                 <FollowList
                   currentUserId={currentUserId}
+                  isCurrentUser={isCurrentUser}
                   list={followers}
                   title={
                     <FollowTitle title='Followers' count={followersCount} />
@@ -158,6 +160,7 @@ const ProfileInfo = ({ profile, updateCache, followData = {} }) => {
               {following && (
                 <FollowList
                   currentUserId={currentUserId}
+                  isCurrentUser={isCurrentUser}
                   list={following}
                   title={
                     <FollowTitle title='Following' count={followingCount} />

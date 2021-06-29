@@ -24,6 +24,7 @@ const FollowList = ({
   title,
   list: { users = ARR },
   currentUserId,
+  isCurrentUser,
   trigger,
   isDesktop
 }) => {
@@ -50,6 +51,7 @@ const FollowList = ({
             users={users}
             following={following}
             currentUserId={currentUserId}
+            isCurrentUser={isCurrentUser}
             isDesktop={isDesktop}
             onClickItem={closeDialog}
           />
@@ -63,6 +65,7 @@ const List = ({
   users = ARR,
   following,
   currentUserId,
+  isCurrentUser,
   isDesktop,
   onClickItem
 }) => {
@@ -95,16 +98,18 @@ const List = ({
         />
       )}
       <div className={styles.list}>
-        {filteredUsers.map(user => (
-          <FollowItem
-            user={user}
-            following={following}
-            currentUserId={currentUserId}
-            key={user.id}
-            isDesktop={isDesktop}
-            onClickItem={onClickItem}
-          />
-        ))}
+        {filteredUsers.map(user =>
+          isCurrentUser && +user.id === +currentUserId ? null : (
+            <FollowItem
+              user={user}
+              following={following}
+              currentUserId={currentUserId}
+              key={user.id}
+              isDesktop={isDesktop}
+              onClickItem={onClickItem}
+            />
+          )
+        )}
       </div>
     </div>
   )

@@ -10,11 +10,12 @@
     fill: var(--jungle-green);
   }
 
-  &__active {
-    fill: var(--jungle-green);
+  &__disabled {
+    fill: var(--porcelain);
+    cursor: default;
 
     &:hover {
-      fill: var(--jungle-green-hover);
+      fill: var(--porcelain);
     }
   }
 }
