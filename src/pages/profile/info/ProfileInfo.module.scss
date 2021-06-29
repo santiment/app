@@ -129,6 +129,16 @@
   }
 }
 
+.accountBtn {
+  min-width: 143px;
+  justify-content: center;
+  margin-top: 16px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 12px 0 0 auto;
+  }
+}
+
 .info {
   display: flex;
 }

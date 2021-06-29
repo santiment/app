@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import cx from 'classnames'
 import withSizes from 'react-sizes'
 import { Link } from 'react-router-dom'
@@ -11,16 +11,23 @@ import {
   updateCurrentUserFollowQueryCache,
   useOldUserFollowersFollowing
 } from '../../../../queries/ProfileGQL'
-import { useUser } from '../../../../stores/user'
+import { useDialogState } from '../../../../hooks/dialog'
 import PageLoader from '../../../../components/Loader/PageLoader'
 import NotificationBellBtn from '../../../../components/NotificationBellBtn/NotificationBellBtn'
 import styles from './FollowList.module.scss'
 
+const ARR = []
+
 const makeQueryVars = id => ({ userId: +id })
 
-const FollowList = ({ title, list: { users = [] }, trigger, isDesktop }) => {
-  const [isOpen, setOpen] = useState(false)
-  const { user: { id: currentUserId } = {} } = useUser()
+const FollowList = ({
+  title,
+  list: { users = ARR },
+  currentUserId,
+  trigger,
+  isDesktop
+}) => {
+  const { isOpened, openDialog, closeDialog } = useDialogState()
 
   const {
     data: { following },
@@ -29,22 +36,22 @@ const FollowList = ({ title, list: { users = [] }, trigger, isDesktop }) => {
 
   return (
     <Dialog
-      open={isOpen}
-      onClose={() => setOpen(false)}
-      onOpen={() => setOpen(true)}
+      open={isOpened}
+      onClose={closeDialog}
+      onOpen={openDialog}
       title={title}
       classes={styles}
       trigger={trigger}
     >
       <Dialog.ScrollContent>
         {loading && <PageLoader className={styles.loader} />}
-        {!loading && (
+        {!loading && isOpened && (
           <List
             users={users}
             following={following}
             currentUserId={currentUserId}
             isDesktop={isDesktop}
-            onClickItem={() => setOpen(false)}
+            onClickItem={closeDialog}
           />
         )}
       </Dialog.ScrollContent>
@@ -53,53 +60,51 @@ const FollowList = ({ title, list: { users = [] }, trigger, isDesktop }) => {
 }
 
 const List = ({
-  users = [],
+  users = ARR,
   following,
   currentUserId,
   isDesktop,
   onClickItem
 }) => {
   const [searchToken, setSearchToken] = useState()
+  const [defaultUsers] = useState(users)
+
+  const filteredUsers = useMemo(
+    () => {
+      return searchToken
+        ? defaultUsers.filter(
+          ({ username }) => username && username.indexOf(searchToken) !== -1
+        )
+        : defaultUsers
+    },
+    [searchToken, defaultUsers]
+  )
 
   return (
     <div className={styles.listWrapper}>
-      {users.length > 5 && (
+      {defaultUsers.length > 5 && (
         <Search
           className={styles.search}
           iconPosition='left'
           placeholder='Search a user'
-          options={users.map(({ username, ...rest }) => {
-            return {
-              label: username,
-              ...rest
-            }
-          })}
+          options={users.map(({ username, ...rest }) => ({
+            label: username,
+            ...rest
+          }))}
           onChange={val => setSearchToken(val)}
         />
       )}
       <div className={styles.list}>
-        {users
-          .filter(({ username = '' }) => {
-            if (searchToken) {
-              if (username) {
-                return username.indexOf(searchToken) !== -1
-              } else {
-                return false
-              }
-            } else {
-              return true
-            }
-          })
-          .map(user => (
-            <FollowItem
-              user={user}
-              following={following}
-              currentUserId={currentUserId}
-              key={user.id}
-              isDesktop={isDesktop}
-              onClickItem={onClickItem}
-            />
-          ))}
+        {filteredUsers.map(user => (
+          <FollowItem
+            user={user}
+            following={following}
+            currentUserId={currentUserId}
+            key={user.id}
+            isDesktop={isDesktop}
+            onClickItem={onClickItem}
+          />
+        ))}
       </div>
     </div>
   )
@@ -117,7 +122,7 @@ const getShortName = (username, isDesktop) => {
 
 const FollowItem = ({
   user: { id, username, avatarUrl },
-  following = { users: [] },
+  following = { users: ARR },
   currentUserId,
   isDesktop,
   onClickItem
