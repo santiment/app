@@ -38,6 +38,7 @@ const NotificationItem = ({
   isOpened,
   className,
   timeoutIndex,
+  closeDropdown,
   isNew: isNewInput
 }) => {
   const { insertedAt, user } = data
@@ -79,15 +80,14 @@ const NotificationItem = ({
   function onClick () {
     if (linkTo) {
       window.open(linkTo, '_blank')
+      closeDropdown && closeDropdown()
     }
   }
 
   return (
     <div
       onClick={onClick}
-      onMouseEnter={() => {
-        isNew && setIsNew(false)
-      }}
+      onMouseEnter={() => isNew && setIsNew(false)}
       className={cx(
         styles.container,
         className,
@@ -109,7 +109,7 @@ const NotificationItem = ({
           {isAlertAuthor ? (
             <AlertPlaceholder data={data} />
           ) : (
-            <SignalCreator user={user} classes={styles}>
+            <SignalCreator user={user} classes={styles} onClick={closeDropdown}>
               <FeedCardDate date={insertedAt} className={styles.date} />
             </SignalCreator>
           )}

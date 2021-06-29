@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
+import isEqual from 'lodash.isequal'
 import InfiniteScroll from 'react-infinite-scroller'
 import Icon from '@santiment-network/ui/Icon'
-import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Tabs from '@santiment-network/ui/Tabs'
-import isEqual from 'lodash.isequal'
+import ContextMenu from '@santiment-network/ui/ContextMenu'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import Skeleton from '../../../components/Skeleton/Skeleton'
 import { useTimelineEvents } from './hooks'
@@ -66,12 +66,9 @@ const NotificationsFeed = () => {
   const { openDialog, closeDialog, isOpened } = useDialogState()
   const { isLoggedIn } = useUser()
 
-  const tabs = useMemo(
-    () => {
-      return isLoggedIn ? LOGGED_IN_TABS : ANON_TABS
-    },
-    [isLoggedIn]
-  )
+  const tabs = useMemo(() => (isLoggedIn ? LOGGED_IN_TABS : ANON_TABS), [
+    isLoggedIn
+  ])
 
   const [activeTab, setTab] = useState(tabs[0])
   const [events, setEvents] = useState([])
@@ -166,7 +163,7 @@ const NotificationsFeed = () => {
         position='bottom'
         onClose={onClose}
         onOpen={openDialog}
-        isOpen={isOpened}
+        open={isOpened}
         align='end'
         offsetY={32}
         offsetX={24}
@@ -217,9 +214,10 @@ const NotificationsFeed = () => {
                     {events.map((item, index) => (
                       <NotificationItem
                         data={item}
-                        isOpened={isOpened}
                         key={item.id}
+                        isOpened={isOpened}
                         className={styles.item}
+                        closeDropdown={onClose}
                         timeoutIndex={index % MAX_TIMELINE_EVENTS_LIMIT}
                         isNew={
                           hasNew &&
