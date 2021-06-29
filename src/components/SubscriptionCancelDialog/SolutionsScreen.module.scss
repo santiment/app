@@ -3,6 +3,10 @@
 .wrapper {
   text-align: center;
   padding: 32px;
+
+  @include responsive('phone-xs') {
+    padding: 32px 0;
+  }
 }
 
 .title {
@@ -34,14 +38,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 14px 0;
+  padding: 14px 20px;
   cursor: pointer;
   height: auto;
+  width: 292px;
   color: var(--rhino);
 
   &:hover,
- &:focus {
+  &:focus {
     color: var(--jungle-green);
+  }
+
+  @include responsive('phone-xs') {
+    width: auto;
   }
 }
 

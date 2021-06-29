@@ -6,6 +6,7 @@ import { Mutation } from 'react-apollo'
 import MissYouScreen from './MissYouScreen'
 import SolutionsScreen from './SolutionsScreen'
 import CancellationScreen from './CancellationScreen'
+import DialogTitle from './DialogTitle'
 import { showNotification } from '../../actions/rootActions'
 import { formatPrice } from '../../utils/plans'
 import { getDateFormats } from '../../utils/dates'
@@ -63,6 +64,10 @@ const CancelPlanDialog = ({
     setScreen(screen + 1)
   }
 
+  function previousScreen () {
+    setScreen(screen - 1)
+  }
+
   const Screen = SCREENS[screen]
 
   return (
@@ -73,7 +78,7 @@ const CancelPlanDialog = ({
       {(cancelSubscription, { loading }) => (
         <Dialog
           open={opened}
-          title='Subscription cancelling'
+          title={<DialogTitle screen={screen} onClick={previousScreen} />}
           onClose={closeDialog}
           trigger={
             <Button onClick={openDialog} accent='positive'>
