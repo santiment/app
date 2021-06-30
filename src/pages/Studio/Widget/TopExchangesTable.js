@@ -17,7 +17,7 @@ const TopExchangesTableWidget = ({ target, widget, settings }) => (
       <Icon
         type='close-medium'
         className={styles.close}
-        onClick={widget.delete}
+        onClick={widget.deleteWithHistory || widget.delete}
       />
     }
   />

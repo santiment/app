@@ -4,7 +4,11 @@ import FeesDistribution from '../../../ducks/Studio/FeesDistribution/FeesDistrib
 
 const Widget = withExternal(FeesDistribution)
 const FeesDistributionWidget = ({ widget, target, settings }) => (
-  <Widget target={target} settings={settings} deleteWidget={widget.delete} />
+  <Widget
+    target={target}
+    settings={settings}
+    deleteWidget={widget.deleteWithHistory || widget.delete}
+  />
 )
 
 export default FeesDistributionWidget

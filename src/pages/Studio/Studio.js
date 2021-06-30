@@ -12,7 +12,8 @@ import {
   useSettings,
   useWidgetsStore,
   useStudioMetrics,
-  useWidgets
+  useWidgets,
+  useHistory
 } from './stores'
 import LoginCTA from './LoginCTA'
 import { getExternalWidget } from './Widget'
@@ -63,6 +64,7 @@ const Studio = ({
   const subwidgetsController = useSubwidgetsController()
   const metrics = useStudioMetrics(studio)
   const InsightsStore = useInsightsStoreCreator()
+  const History = useHistory(studio)
   const redraw = useRedrawer()[1]
   const [mountedScreen, setMountedScreen] = useState()
   const [modRange, setModRange] = useState()
@@ -130,22 +132,35 @@ const Studio = ({
 
   function onProjectSelect (project) {
     if (project) {
-      const { slug, ticker, name, id } = project
+      const { slug } = project
 
       if (settings.slug !== slug) {
         track.event(Event.ChangeAsset, { asset: slug })
         widgets.forEach(widget => {
           if (widget.MetricsSignals) widget.MetricsSignals.clear()
         })
+
+        if (settings.name) {
+          const oldProject = Object.assign({}, settings)
+          History.add(
+            'Asset change',
+            () => setProject(oldProject),
+            () => setProject(project)
+          )
+        }
       }
 
-      settingsStore.setProject({
-        slug,
-        ticker,
-        name,
-        projectId: id
-      })
+      setProject(project)
     }
+  }
+
+  function setProject ({ slug, ticker, name, id }) {
+    settingsStore.setProject({
+      slug,
+      ticker,
+      name,
+      projectId: id
+    })
   }
 
   function onMetricSelect (node) {

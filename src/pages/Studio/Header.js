@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { studio as settingsStore } from 'studio/stores/studio'
 import { mapview } from 'studio/stores/mapview'
-import { useWidgetsStore, useStore } from './stores'
+import { useWidgetsStore, useStore, useHistory } from './stores'
 import { useSidewidgetStore } from './Sidewidget'
 import { shareWidgets } from './sharing/share'
 import { parseTemplate } from './sharing/template'
@@ -14,6 +14,7 @@ const Header = ({ studio, settings, widgets, metrics }) => {
   const widgetsStore = useWidgetsStore(studio)
   const sidewidgetStore = useSidewidgetStore(studio)
   const sidewidget = useStore(sidewidgetStore)
+  const History = useHistory(studio)
   const sharePath = '/charts' + window.location.search
 
   useEffect(
@@ -26,6 +27,15 @@ const Header = ({ studio, settings, widgets, metrics }) => {
 
   function toggleSidepanel (value) {
     sidewidgetStore.set(value === sidewidget ? null : value)
+  }
+
+  function changeTimePeriod (start, end) {
+    const { from, to } = settings
+    const undo = () => settingsStore.setPeriod(new Date(from), new Date(to))
+    const redo = () => settingsStore.setPeriod(start, end)
+
+    History.add('Period change', undo, redo)
+    redo()
   }
 
   return target
@@ -41,7 +51,7 @@ const Header = ({ studio, settings, widgets, metrics }) => {
         souldReloadOnSave={false}
         headerRef={{ current: target }}
         isOverviewOpened={$mapview > 0}
-        changeTimePeriod={settingsStore.setPeriod}
+        changeTimePeriod={changeTimePeriod}
         toggleOverview={mapview.toggle}
         toggleSidepanel={toggleSidepanel}
         parseTemplate={parseTemplate}
