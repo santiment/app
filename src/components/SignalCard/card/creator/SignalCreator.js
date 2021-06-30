@@ -33,9 +33,7 @@ const SignalCreator = ({
       }}
     >
       <UserAvatar
-        as='div'
         userId={id}
-        isExternal
         externalAvatarUrl={avatarUrl}
         classes={{ ...styles, ...classes }}
       />

@@ -156,9 +156,8 @@ const FollowItem = ({
       <div className={styles.user} onClick={onClickItem}>
         <UserAvatar
           userId={id}
-          isExternal
-          externalAvatarUrl={avatarUrl}
           classes={styles}
+          externalAvatarUrl={avatarUrl}
         />
 
         <Link

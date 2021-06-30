@@ -21,6 +21,7 @@ import UserAvatar from '../../pages/Account/avatar/UserAvatar'
 import { mapSizesToProps } from '../../utils/withSizes'
 import NavbarMore from './NavbarMore/NavbarMore'
 import { NavbarItem } from './NavbarItem'
+import { useUser } from '../../stores/user'
 import { useDialogState } from '../../hooks/dialog'
 import { DEFAULT_SCREENER } from '../../ducks/Screener/utils'
 import NotificationsFeed from '../../ducks/Notifications/NotificationsFeed/NotificationsFeed'
@@ -134,8 +135,12 @@ const NavbarMoreItem = ({ links, activeLink }) => {
   )
 }
 
+const OBJ = {}
+
 const Navbar = ({ activeLink = '/', isLaptop, isTablet }) => {
+  const { user } = useUser()
   const showMore = isLaptop || isTablet
+  const { id, avatarUrl } = user || OBJ
 
   return (
     <header className={styles.header}>
@@ -212,7 +217,11 @@ const Navbar = ({ activeLink = '/', isLaptop, isTablet }) => {
                 variant='flat'
                 className={cx(styles.btn, styles.rightBtns, styles.accountBtn)}
               >
-                <UserAvatar to='/account' classes={styles} />
+                <UserAvatar
+                  userId={id}
+                  avatarUrl={avatarUrl}
+                  classes={styles}
+                />
               </Button>
             }
           >

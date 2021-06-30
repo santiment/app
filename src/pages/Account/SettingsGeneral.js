@@ -12,6 +12,7 @@ import styles from './AccountPage.module.scss'
 const SettingsGeneral = ({
   email,
   username,
+  avatarUrl,
   dispatchNewUsername,
   toggleNightMode,
   toggleBetaMode,
@@ -27,7 +28,7 @@ const SettingsGeneral = ({
     )}
     <Settings id='general' header='General'>
       <Settings.Row>
-        <AvatarSettings />
+        <AvatarSettings avatarUrl={avatarUrl} />
       </Settings.Row>
 
       <UsernameSetting
