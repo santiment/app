@@ -1,21 +1,23 @@
 import React, { useState } from 'react'
+import cx from 'classnames'
+import { track } from 'webkit/analytics'
 import Button from '@santiment-network/ui/Button'
 import Dialog from '@santiment-network/ui/Dialog'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import Sorry from './sorry.png'
+import { POINTS, Event } from './utils'
 import ContactUs from '../ContactUs/ContactUs'
+import AccordionContent from '../AccordionContent'
 import AutoresizeTextarea from '../AutoresizeTextarea'
 import styles from './MissYouScreen.module.scss'
 
-const POINTS = [
-  'Found other tool that fits my needs better',
-  'I don’t need all the features',
-  'Too difficult to use',
-  'Too expensive',
-  'Other'
-]
-
 const ARR = []
+
+function writeFeedback (feedback) {
+  if (feedback) {
+    track.event(Event.GiveFeedback, { feedback })
+  }
+}
 
 const MissYouScreen = ({ closeDialog, nextScreen }) => {
   const [selectedPoints, setSelectedPoints] = useState(ARR)
@@ -25,6 +27,7 @@ const MissYouScreen = ({ closeDialog, nextScreen }) => {
 
     if (!points.delete(point)) {
       points.add(point)
+      track.event(Event.SelectReason, { reason: point })
     }
 
     setSelectedPoints([...points])
@@ -48,37 +51,37 @@ const MissYouScreen = ({ closeDialog, nextScreen }) => {
             <span className={styles.point__text}>{point}</span>
           </div>
         ))}
-        {selectedPoints.length > 0 && (
+        <AccordionContent show={selectedPoints.length > 0}>
           <>
-            <p className={styles.text__last}>Just one last thing</p>
+            <p className={cx(styles.text, styles.text__last)}>
+              Just one last thing
+            </p>
             <AutoresizeTextarea
               blurOnEnter
               rowsCount={3}
               name='feedback'
               placeholder='Your feedback'
               className={styles.textarea}
-              onBlur={text => console.log(text)}
+              onBlur={writeFeedback}
             />
           </>
-        )}
+        </AccordionContent>
       </section>
-      <div className={styles.actions}>
-        {selectedPoints.length > 0 && (
-          <>
-            <ContactUs
-              variant='fill'
-              accent='positive'
-              onClick={closeDialog}
-              className={styles.btn}
-            >
-              Maybe we can help with that?
-            </ContactUs>
-            <Button accent='positive' onClick={nextScreen}>
-              Cancel subscription
-            </Button>
-          </>
-        )}
-      </div>
+      <AccordionContent show={selectedPoints.length > 0}>
+        <div className={styles.actions}>
+          <ContactUs
+            variant='fill'
+            accent='positive'
+            onClick={closeDialog}
+            className={styles.btn}
+          >
+            Maybe we can help with that?
+          </ContactUs>
+          <Button accent='positive' onClick={nextScreen}>
+            Cancel subscription
+          </Button>
+        </div>
+      </AccordionContent>
     </Dialog.ScrollContent>
   )
 }
