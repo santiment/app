@@ -47,7 +47,7 @@ const AvatarSettings = ({
 
   return (
     <div className={styles.container}>
-      <UserAvatar as='div' />
+      <UserAvatar as='div' avatarUrl={avatarUrl} />
       <ImageEditor
         imageUrl={avatarUrl}
         setOpen={setOpen}
@@ -92,15 +92,9 @@ const mapDispatchToProps = dispatch => ({
     })
 })
 
-const mapStateToProps = ({ user: { data } }) => {
-  return {
-    avatarUrl: data && !!data.id ? data.avatarUrl : ''
-  }
-}
-
 const enhance = compose(
   connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
   ),
   graphql(CHANGE_AVATAR_MUTATION, { name: 'mutateChangeAvatar' }),

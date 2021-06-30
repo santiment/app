@@ -97,7 +97,6 @@ const ProfileInfo = ({ profile, updateCache, followData = {} }) => {
         <UserAvatar
           as='div'
           userId={id}
-          isExternal
           externalAvatarUrl={avatarUrl}
           classes={styles}
         />
