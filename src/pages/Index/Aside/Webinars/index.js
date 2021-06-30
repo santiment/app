@@ -24,7 +24,7 @@ const Webinars = () => {
       <div className={styles.content}>
         <div className={styles.widget}>
           <h4 className={styles.title}>
-            {activeWidgets[activeIdx].description}
+            {activeWidgets[activeIdx].title}
           </h4>
           <iframe
             className={styles.iframe}
