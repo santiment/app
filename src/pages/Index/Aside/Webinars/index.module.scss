@@ -17,7 +17,7 @@
   color: var(--rhino);
 
   &:hover,
- &:focus {
+  &:focus {
     color: var(--mirage);
 
     & .youtube {
@@ -60,4 +60,16 @@
   margin: 0 0 10px;
 
   @include text('body-3', 'm');
+}
+
+.widget {
+  width: 100%;
+}
+
+.iframe {
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  height: 188px;
+  width: 100%;
 }

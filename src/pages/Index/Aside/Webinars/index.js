@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import { useActiveWebinars } from './gql'
 import Section from '../Section'
+import { useActiveWebinars } from './gql'
+import { extractYoutubeId } from './utils'
 import styles from './index.module.scss'
 
 const Webinars = () => {
@@ -22,9 +23,20 @@ const Webinars = () => {
       </a>
       <div className={styles.content}>
         <div className={styles.widget}>
-          <h4 className={styles.title}>{activeWidgets[activeIdx].title}</h4>
+          <h4 className={styles.title}>
+            {activeWidgets[activeIdx].description}
+          </h4>
+          <iframe
+            className={styles.iframe}
+            title='Webinar'
+            allowFullScreen={true}
+            allow='autoplay'
+            src={`https://www.youtube-nocookie.com/embed/${extractYoutubeId(
+              activeWidgets[activeIdx].videoLink
+            )}?rel=0&modestbranding&showinfo=0&autoplay=1`}
+          />
         </div>
-        {activeIdx > 0 && (
+        {false && activeIdx > 0 && (
           <div
             className={cx(styles.arrow, styles.arrow__left)}
             onClick={() => setActiveIdx(activeIdx - 1)}
@@ -32,7 +44,7 @@ const Webinars = () => {
             left
           </div>
         )}
-        {activeIdx < activeWidgets.length - 1 && (
+        {false && activeIdx < activeWidgets.length - 1 && (
           <div
             className={cx(styles.arrow, styles.arrow__right)}
             onClick={() => setActiveIdx(activeIdx + 1)}
