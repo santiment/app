@@ -54,6 +54,10 @@ function shareSignalMetrics (signalMetrics) {
   return metrics.length ? shareMetrics(metrics) : undefined
 }
 
+function shareHolderLabels (holderLabels) {
+  if (holderLabels && holderLabels.length) return holderLabels
+}
+
 function shareChartWidget (widget) {
   const shared = {}
   shared.widget = WidgetToKeyMap.get(widget.Widget)
@@ -74,6 +78,7 @@ function shareChartWidget (widget) {
   shared.drawings = shareDrawings(widget.drawings)
   shared.connectedWidgets = shareSubwidgets(widget.subwidgets)
   shared.signalMetrics = shareSignalMetrics(widget.signalMetrics)
+  shared.holderLabels = shareHolderLabels(widget.holderLabels)
 
   return shared
 }

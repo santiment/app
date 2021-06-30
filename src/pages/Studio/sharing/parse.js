@@ -135,6 +135,7 @@ export function parseWidget (widget) {
   Widget.drawings = widget.drawings
   const { signalMetrics = [] } = widget
   Widget.signalMetrics = parseMetrics(signalMetrics, undefined, KnownMetric)
+  Widget.holderLabels = widget.holderLabels
 
   return Widget
 }

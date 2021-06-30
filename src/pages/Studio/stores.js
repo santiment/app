@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { get } from 'svelte/store'
 import { globals } from 'studio/stores/globals'
 import { studio, LOCKED_ASSET_CONTEXT } from 'studio/stores/studio'
+import { CONTEXT as HISTORY_CONTEXT } from 'studio/history'
 import { useUser } from '../../stores/user'
 import { useIsBetaMode } from '../../stores/ui'
 import { useTheme } from '../../stores/ui/theme'
@@ -84,3 +85,5 @@ export function useStudioMetrics (studio) {
 
   return metrics
 }
+
+export const useHistory = studio => getSvelteContext(studio, HISTORY_CONTEXT)
