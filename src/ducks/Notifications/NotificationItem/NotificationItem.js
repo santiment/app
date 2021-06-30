@@ -45,6 +45,7 @@ const NotificationItem = ({
   const { user: currentUser } = useUser()
 
   const [isNew, setIsNew] = useState(isNewInput)
+  const [isHover, setIsHover] = useState(false)
 
   useEffect(
     () => {
@@ -84,10 +85,23 @@ const NotificationItem = ({
     }
   }
 
+  function mouseEnter () {
+    if (isNew) {
+      setIsNew(false)
+    }
+
+    setIsHover(true)
+  }
+
+  function mouseLeave () {
+    setIsHover(false)
+  }
+
   return (
     <div
       onClick={onClick}
-      onMouseEnter={() => isNew && setIsNew(false)}
+      onMouseEnter={mouseEnter}
+      onMouseLeave={mouseLeave}
       className={cx(
         styles.container,
         className,
@@ -96,16 +110,16 @@ const NotificationItem = ({
     >
       <div className={styles.header}>
         <div className={styles.title}>{title}</div>
-
         <div className={styles.actions}>
           {isNewInput && <NewLabelTemplate className={styles.new} />}
-
-          <NotificationActions data={data} className={styles.action} />
+          {isHover && (
+            <NotificationActions data={data} className={styles.action} />
+          )}
         </div>
       </div>
 
       <div className={styles.footer}>
-        <div className={styles.left}>
+        <div>
           {isAlertAuthor ? (
             <AlertPlaceholder data={data} />
           ) : (

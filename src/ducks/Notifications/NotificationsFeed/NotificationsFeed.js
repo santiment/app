@@ -165,8 +165,7 @@ const NotificationsFeed = () => {
         onOpen={openDialog}
         open={isOpened}
         align='end'
-        offsetY={32}
-        offsetX={24}
+        offsetY={18}
         className={styles.dropdown}
         trigger={
           <div className={cx(styles.trigger, hasNew && styles.trigger__active)}>
@@ -180,7 +179,7 @@ const NotificationsFeed = () => {
           contentClassName={styles.panelContent}
           header={
             <Tabs
-              className={styles.tabs}
+              className={cx(styles.tabs, tabs.length === 1 && styles.tabs__one)}
               options={tabs}
               defaultSelectedIndex={activeTab}
               onSelect={tab => {

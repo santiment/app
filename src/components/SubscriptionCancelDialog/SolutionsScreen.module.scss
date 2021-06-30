@@ -14,13 +14,6 @@
 
   margin: 0 0 24px 0;
   color: var(--mirage);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  & img {
-    margin-left: 8px;
-  }
 }
 
 .section {
@@ -33,25 +26,35 @@
   @include text('body-3', 'm');
 
   color: (--fiord);
-  margin: 0 0 16px;
-
-  &__last {
-    margin: 16px 0 8px;
-  }
+  margin-bottom: 16px;
 }
 
-.point {
+.link {
+  @include text('body-3');
+
+  background-color: var(--white);
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
   display: flex;
   align-items: center;
+  justify-content: center;
+  padding: 14px 20px;
   cursor: pointer;
+  height: auto;
+  width: 292px;
+  color: var(--rhino);
 
-  &__text {
-    margin-left: 11px;
-    color: var(--fiord);
+  &:hover,
+  &:focus {
+    color: var(--jungle-green);
+  }
+
+  @include responsive('phone-xs') {
+    width: auto;
   }
 }
 
-.point + .point {
+.link + .link {
   margin-top: 12px;
 }
 
@@ -66,26 +69,4 @@
   height: 40px;
   width: 292px;
   justify-content: center;
-}
-
-.textarea {
-  border-radius: $border-radius;
-  width: 100%;
-  padding: 10px 12px;
-  color: var(--rhino);
-  background: var(--white);
-  border: 1px solid var(--porcelain);
-  resize: vertical;
-  outline: none;
-
-  @include text('body-3');
-
-  &::placeholder {
-    color: var(--casper);
-  }
-
-  &:hover,
-  &:focus {
-    border: 1px solid var(--jungle-green);
-  }
 }

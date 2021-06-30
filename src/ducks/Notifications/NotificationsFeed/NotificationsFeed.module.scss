@@ -24,7 +24,7 @@
   overflow-x: hidden;
   padding-right: 10px;
 
-  @include overlay-scroll;
+  @include thin-scroll;
 }
 
 .list + .list {
@@ -111,6 +111,10 @@
 
   &::after {
     background: var(--waterloo);
+  }
+
+  .tabs__one &::after {
+    background: transparent;
   }
 }
 

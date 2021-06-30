@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
@@ -94,23 +94,27 @@ export const TEMPORARY_HIDDEN_LABELS = {
 }
 
 export const useRawSignals = ({ from, to }) => {
-  const query = useQuery(RAW_SIGNALS_QUERY, {
+  const [isLoading, setIsLoading] = useState(true)
+  const { data, loading } = useQuery(RAW_SIGNALS_QUERY, {
     variables: { from, to }
   })
 
   return useMemo(
     () => {
-      const { data, loading } = query
+      if (isLoading && !loading) {
+        setTimeout(() => setIsLoading(false), 300)
+      }
+
       return {
         data: data
           ? data.getRawSignals.filter(
             signal => signal && (!!signal.project || signal.isHidden)
           )
           : ARRAY,
-        loading
+        loading: loading || isLoading
       }
     },
-    [query]
+    [data, loading, isLoading]
   )
 }
 
