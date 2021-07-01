@@ -29,11 +29,6 @@ export const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case actions.USER_LOGIN_PENDING:
-      return {
-        ...state,
-        isLoading: true
-      }
     case actions.USER_LOGIN_SUCCESS:
       loginUser()
       session.update(ses => {

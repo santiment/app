@@ -8,7 +8,6 @@ const isNightMode = loadKeyState('isNightMode')
 const isNightModeDeprecated = loadKeyState('isNightModeEnabled')
 const isBetaMode = loadKeyState('isBetaMode')
 const isBetaModeDeprecated = loadKeyState('isBetaModeEnabled')
-const isWideChartEnabled = loadKeyState('isWideChart')
 
 const isNightModeEnabled =
   isShowHalloween() ||
@@ -23,14 +22,10 @@ if (isNightModeEnabled) {
 
 export const initialState = {
   isOnline: true,
-  loginPending: false,
   loginSuccess: false,
   loginError: false,
-  loginErrorMessage: '',
   isNightModeEnabled: isNightModeEnabled,
-  isBetaModeEnabled: isBetaModeEnabled,
-  isSearchInputFocused: false,
-  isWideChartEnabled
+  isBetaModeEnabled: isBetaModeEnabled
 }
 
 export default (state = initialState, action) => {
@@ -40,24 +35,16 @@ export default (state = initialState, action) => {
         ...state,
         isOnline: action.payload.isOnline
       }
-    case actions.USER_LOGIN_PENDING:
-      return {
-        ...state,
-        loginPending: true
-      }
     case actions.USER_LOGIN_SUCCESS:
       return {
         ...state,
-        loginPending: false,
         loginSuccess: true
       }
     case actions.USER_LOGIN_FAILED:
       return {
         ...state,
-        loginPending: false,
         loginSuccess: false,
-        loginError: true,
-        loginErrorMessage: action.payload
+        loginError: true
       }
     case actions.APP_USER_HAS_INACTIVE_TOKEN:
       return { ...state }
@@ -67,21 +54,11 @@ export default (state = initialState, action) => {
         ...state,
         isNightModeEnabled: action.payload
       }
-    case actions.APP_USER_WIDE_CHART_MODE_SAVE:
-      return {
-        ...state,
-        isWideChartEnabled: action.payload
-      }
     case actions.APP_USER_BETA_MODE_SAVE:
       updateIsBetaMode(action.payload)
       return {
         ...state,
         isBetaModeEnabled: action.payload
-      }
-    case actions.APP_TOGGLE_SEARCH_FOCUS:
-      return {
-        ...state,
-        isSearchInputFocused: !state.isSearchInputFocused
       }
     default:
       return state

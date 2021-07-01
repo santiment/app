@@ -23,9 +23,7 @@ const Webinars = () => {
       </a>
       <div className={styles.content}>
         <div className={styles.widget}>
-          <h4 className={styles.title}>
-            {activeWidgets[activeIdx].title}
-          </h4>
+          <h4 className={styles.title}>{activeWidgets[activeIdx].title}</h4>
           <iframe
             className={styles.iframe}
             title='Webinar'
@@ -33,7 +31,7 @@ const Webinars = () => {
             allow='autoplay'
             src={`https://www.youtube-nocookie.com/embed/${extractYoutubeId(
               activeWidgets[activeIdx].videoLink
-            )}?rel=0&modestbranding&showinfo=0&autoplay=1`}
+            )}?rel=0&modestbranding&showinfo=0`}
           />
         </div>
         {false && activeIdx > 0 && (
