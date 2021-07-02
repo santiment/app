@@ -34,6 +34,7 @@ import { mapSizesToProps } from './utils/withSizes'
 import CreateAccountFreeTrial from './pages/Login/CreateAccountFreeTrial'
 import { withSavedCommentLookup } from './withSavedCommentLookup'
 import Intercom from './components/Intercom/index.js'
+import LiveWidget from './components/LiveWidget'
 import styles from './App.module.scss'
 import './App.scss'
 
@@ -565,6 +566,7 @@ export const App = ({
 
         <NotificationStack />
         <CookiePopup />
+        <LiveWidget />
 
         {isDesktop && showFooter && (
           <Footer
