@@ -1,28 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
+import { checkIsHidden, CHANNEL_LINK, checkIsActive, hideWidget } from './utils'
 import styles from './index.module.scss'
 
-const CHANNEL_LINK = 'https://www.youtube.com/channel/UCSzP_Z3MrygWlbLMyrNmMkg'
+const LONG_DELAY = 500000 // 5 min
+const SHORT_DELAY = 5000 // 5 sec
 
 const LiveWidget = () => {
-  const [isShow, setIsShow] = useState(false)
-  const [isStarted, setIsStarted] = useState(false)
   const [player, setPlayer] = useState(null)
   const [videoUrl, setVideoUrl] = useState(null)
+  const [videoId, setVideoId] = useState(null) // videoUrl is always changing, videoId is permanent
+  const [isShow, setIsShow] = useState(false)
+  const [isStarted, setIsStarted] = useState(false)
+  const [isHidden, setIsHidden] = useState(false)
 
-  function initPlayer () {
-    if (
-      typeof window.YT === 'undefined' ||
-      typeof window.YT.Player === 'undefined'
-    ) {
-      setTimeout(initPlayer, 1000)
-    } else {
-      const stream = new window.YT.Player('live_stream', {
-        events: { onReady: () => setPlayer(stream) }
-      })
-    }
-  }
+  useEffect(initPlayer, [])
 
   useEffect(
     () => {
@@ -33,52 +26,101 @@ const LiveWidget = () => {
     [player]
   )
 
-  console.log(player)
+  useEffect(
+    () => {
+      let interval
+      let timer
+
+      if (isHidden || !player) return
+
+      if ((isShow && isStarted) || !isShow) {
+        interval = setInterval(isLiveStreamExist, LONG_DELAY)
+      }
+
+      if (isShow && !isStarted) {
+        timer = setTimeout(isLiveStreamExist, SHORT_DELAY)
+      }
+
+      return () => {
+        clearTimeout(timer)
+        clearInterval(interval)
+      }
+    },
+    [isShow, isStarted, isHidden, player]
+  )
+
+  useEffect(
+    () => {
+      if (player !== null && isHidden) {
+        player.destroy()
+        setPlayer(null)
+      }
+    },
+    [isHidden]
+  )
 
   useEffect(
     () => {
       if (isShow) {
-        const stream = document.getElementById('live_stream')
-        // const youtubeCounter = stream.contentDocument.querySelector('.ytp-offline-slate-bar')
-        // youtubeCounter.setAttribute('style', 'left: 0 !important;')
-
         player.mute()
         player.playVideo()
+        const { video_id } = player.getVideoData()
         setVideoUrl(player.getVideoUrl())
-        // stream.src = 'https://www.youtube.com/embed/live_stream?channel=UCSzP_Z3MrygWlbLMyrNmMkg&enablejsapi=1'
-      } else {
-        // stream.src = 'https://www.youtube.com/embed/live_stream?channel=UC6K7yzj2kV3v3sASdaYCY0Q&enablejsapi=1'
+        setVideoId(video_id)
+        setIsHidden(checkIsHidden(video_id))
       }
     },
     [isShow]
   )
 
-  function isLiveStreamExist () {
-    console.log(player.getPlayerState())
-    const { video_id, title } = player.getVideoData()
-    const isAvailableStream = !!title && video_id !== 'live_stream'
-    if (!isAvailableStream) {
-      setIsShow(false)
-      setIsStarted(false)
-      setTimeout(isLiveStreamExist, 3000)
+  function initPlayer () {
+    if (
+      typeof window.YT === 'undefined' ||
+      typeof window.YT.Player === 'undefined'
+    ) {
+      setTimeout(initPlayer, SHORT_DELAY)
     } else {
-      setIsShow(true)
-      const isStarted = player.getPlayerState() === 1
-      if (isStarted) {
-        setIsStarted(true)
-      }
-      setTimeout(isLiveStreamExist, 5000)
+      new window.YT.Player('live_stream', {
+        events: {
+          onReady: evt => {
+            setPlayer(evt.target)
+          }
+        }
+      })
     }
   }
 
-  useEffect(initPlayer, [])
+  const isLiveStreamExist = () => {
+    if (!player) return
+
+    const { video_id, title } = player.getVideoData()
+    const isAvailableStream = !!title && video_id !== 'live_stream'
+
+    if (!isAvailableStream) {
+      setIsShow(false)
+      setIsStarted(false)
+    } else {
+      setIsShow(true)
+      const isStarted = checkIsActive(player.getPlayerState())
+
+      if (isStarted) {
+        setIsStarted(true)
+      }
+    }
+  }
+
+  function onWidgetClick () {
+    setIsHidden(true)
+    hideWidget(videoId)
+  }
 
   return (
     <div
       className={cx(
         styles.wrapper,
-        isShow && isStarted && styles.wrapper__visible
+        isShow && isStarted && !isHidden && styles.wrapper__visible
       )}
+      onClick={onWidgetClick}
     >
       <div className={styles.close}>
         <Icon type='close-medium' />
@@ -89,8 +131,8 @@ const LiveWidget = () => {
         title='live_stream'
         width='280'
         height='157'
-        // src="https://www.youtube.com/embed/live_stream?channel=UC6K7yzj2kV3v3sASdaYCY0Q&enablejsapi=1&rel=0&showinfo=0&allowfullscreen"
-        src='https://www.youtube.com/embed/live_stream?channel=UCSzP_Z3MrygWlbLMyrNmMkg&enablejsapi=1&rel=0&showinfo=0&allowfullscreen'
+        src='https://www.youtube.com/embed/live_stream?channel=UCOxqgCwgOqC2lMqC5PYz_Dg&enablejsapi=1&rel=0&showinfo=0&allowfullscreen&mute=1'
+        // src='https://www.youtube.com/embed/live_stream?channel=UCSzP_Z3MrygWlbLMyrNmMkg&enablejsapi=1&rel=0&showinfo=0&allowfullscreen&mute=1'
         frameBorder='0'
         allowFullScreen
       />
@@ -99,7 +141,9 @@ const LiveWidget = () => {
         className={styles.link}
         target='_blank'
         rel='noopener noreferrer'
-      />
+      >
+        {' '}
+      </a>
     </div>
   )
 }

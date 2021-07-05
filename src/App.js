@@ -566,7 +566,7 @@ export const App = ({
 
         <NotificationStack />
         <CookiePopup />
-        <LiveWidget />
+        {isDesktop && <LiveWidget />}
 
         {isDesktop && showFooter && (
           <Footer
