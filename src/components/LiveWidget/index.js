@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import * as Sentry from '@sentry/react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import { checkIsHidden, CHANNEL_LINK, checkIsActive, hideWidget } from './utils'
@@ -6,6 +7,8 @@ import styles from './index.module.scss'
 
 const LONG_DELAY = 500000 // 5 min
 const SHORT_DELAY = 5000 // 5 sec
+const MAX_INIT_ATTEMPTS = 5
+let initCounter = 0
 
 const LiveWidget = () => {
   const [player, setPlayer] = useState(null)
@@ -74,17 +77,22 @@ const LiveWidget = () => {
   )
 
   function initPlayer () {
+    if (initCounter >= MAX_INIT_ATTEMPTS) {
+      Sentry.captureException("can't initialize youtube iframe api")
+      return
+    }
+
     if (
-      typeof window.YT === 'undefined' ||
-      typeof window.YT.Player === 'undefined'
+      (typeof window.YT === 'undefined' ||
+        typeof window.YT.Player === 'undefined') &&
+      initCounter < MAX_INIT_ATTEMPTS
     ) {
+      initCounter++
       setTimeout(initPlayer, SHORT_DELAY)
     } else {
       new window.YT.Player('live_stream', {
         events: {
-          onReady: evt => {
-            setPlayer(evt.target)
-          }
+          onReady: evt => setPlayer(evt.target)
         }
       })
     }
