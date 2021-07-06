@@ -2,10 +2,19 @@
 
 .wrapper {
   text-align: center;
-  padding: 32px;
+  padding: 32px 32px 40px;
+  position: relative;
 
   @include responsive('phone-xs') {
     padding: 32px 0;
+  }
+
+  @include responsive('desktop') {
+    width: 960px;
+    padding: 32px 54px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 }
 
@@ -87,5 +96,28 @@
   &:hover,
   &:focus {
     border: 1px solid var(--jungle-green);
+  }
+}
+
+.divider {
+  display: none;
+  width: 1px;
+  background-color: var(--porcelain);
+  position: absolute;
+  left: 50%;
+  top: 32px;
+  bottom: 40px;
+
+  @include responsive('desktop') {
+    display: block;
+  }
+}
+
+.image {
+  display: none;
+  margin-right: 38px;
+
+  @include responsive('desktop') {
+    display: block;
   }
 }
