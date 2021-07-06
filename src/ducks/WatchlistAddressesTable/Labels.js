@@ -4,7 +4,7 @@ import styles from './index.module.scss'
 
 const Labels = ({ labels }) => {
   if (!labels) {
-    return
+    return <div />
   }
 
   const visibleLabels = labels.slice(0, 2)

@@ -139,8 +139,7 @@ const LiveWidget = () => {
         title='live_stream'
         width='280'
         height='157'
-        src='https://www.youtube.com/embed/live_stream?channel=UCOxqgCwgOqC2lMqC5PYz_Dg&enablejsapi=1&rel=0&showinfo=0&allowfullscreen&mute=1'
-        // src='https://www.youtube.com/embed/live_stream?channel=UCSzP_Z3MrygWlbLMyrNmMkg&enablejsapi=1&rel=0&showinfo=0&allowfullscreen&mute=1'
+        src='https://www.youtube.com/embed/live_stream?channel=UCSzP_Z3MrygWlbLMyrNmMkg&enablejsapi=1&rel=0&showinfo=0&allowfullscreen&mute=1'
         frameBorder='0'
         allowFullScreen
       />

@@ -43,9 +43,17 @@ export const RECENT_TRANSACTIONS_QUERY = gql`
       datetime
       fromAddress {
         address
+        labels {
+          name
+          origin
+        }
       }
       toAddress {
         address
+        labels {
+          name
+          origin
+        }
       }
       trxValue
       trxHash
@@ -78,9 +86,17 @@ export const TOP_TRANSACTIONS_QUERY = gql`
       datetime
       fromAddress {
         address
+        labels {
+          name
+          origin
+        }
       }
       toAddress {
         address
+        labels {
+          name
+          origin
+        }
       }
       trxValue
       trxHash
