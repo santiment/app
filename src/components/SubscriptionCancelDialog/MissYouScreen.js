@@ -14,14 +14,9 @@ import styles from './MissYouScreen.module.scss'
 
 const ARR = []
 
-function writeFeedback (feedback) {
-  if (feedback) {
-    track.event(Event.GiveFeedback, { feedback })
-  }
-}
-
 const MissYouScreen = ({ closeDialog, nextScreen }) => {
   const [selectedPoints, setSelectedPoints] = useState(ARR)
+  const [feedback, setFeedback] = useState('')
 
   function togglePoint (point) {
     const points = new Set(selectedPoints)
@@ -32,6 +27,16 @@ const MissYouScreen = ({ closeDialog, nextScreen }) => {
     }
 
     setSelectedPoints([...points])
+  }
+
+  function saveFeedback (text) {
+    setFeedback(text)
+  }
+
+  function writeFeedback () {
+    if (feedback) {
+      track.event(Event.GiveFeedback, { feedback })
+    }
   }
 
   return (
@@ -64,22 +69,23 @@ const MissYouScreen = ({ closeDialog, nextScreen }) => {
                 name='feedback'
                 placeholder='Your feedback'
                 className={styles.textarea}
-                onBlur={writeFeedback}
+                onChange={saveFeedback}
               />
             </>
           </AccordionContent>
         </section>
         <AccordionContent show={selectedPoints.length > 0}>
-          <div className={styles.actions}>
+          <div className={styles.actions} onClick={writeFeedback}>
             <ContactUs
               variant='fill'
               accent='positive'
               onClick={closeDialog}
               className={styles.btn}
+              disabled={!feedback}
             >
               Maybe we can help with that?
             </ContactUs>
-            <Button accent='positive' onClick={nextScreen}>
+            <Button accent='positive' disabled={!feedback} onClick={nextScreen}>
               Cancel subscription
             </Button>
           </div>
