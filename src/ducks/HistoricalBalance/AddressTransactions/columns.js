@@ -2,6 +2,7 @@ import React from 'react'
 import { prepareColumns } from '../../_Table'
 import { getDateFormats, getTimeFormats } from '../../../utils/dates'
 import { ProjectIcon } from '../../../components/ProjectIcon/ProjectIcon'
+import Labels from '../../WatchlistAddressesTable/Labels'
 import styles from './index.module.scss'
 
 const trxValueFormatter = new Intl.NumberFormat('en')
@@ -61,6 +62,13 @@ const Values = ({
   )
 }
 
+const AddressLabels = ({ address, toAddress, fromAddress }) => {
+  const isSending = checkIsSending(address, fromAddress)
+  const anotherAddressLabels = isSending ? toAddress.labels : fromAddress.labels
+
+  return <Labels labels={anotherAddressLabels} />
+}
+
 export const COLUMNS = prepareColumns([
   {
     title: 'Time',
@@ -76,6 +84,13 @@ export const COLUMNS = prepareColumns([
     className: styles.values,
     render: (transaction, { address, asset }) => (
       <Values {...transaction} address={address} asset={asset} />
+    )
+  },
+  {
+    title: 'Labels',
+    className: styles.values,
+    render: (transaction, { address }) => (
+      <AddressLabels {...transaction} address={address} />
     )
   },
   {
