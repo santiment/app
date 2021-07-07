@@ -8,7 +8,7 @@ import { shareWidgets } from './sharing/share'
 import { parseTemplate } from './sharing/template'
 import { Header as StudioHeader } from '../../ducks/Studio/Header'
 
-const Header = ({ studio, settings, widgets, metrics }) => {
+const Header = ({ studio, settings, widgets, metrics, prevFullUrlRef }) => {
   const [target, setTarget] = useState()
   const $mapview = useStore(mapview)
   const widgetsStore = useWidgetsStore(studio)
@@ -38,6 +38,10 @@ const Header = ({ studio, settings, widgets, metrics }) => {
     redo()
   }
 
+  function buildShareLink () {
+    return prevFullUrlRef.current
+  }
+
   return target
     ? ReactDOM.createPortal(
       <StudioHeader
@@ -56,6 +60,7 @@ const Header = ({ studio, settings, widgets, metrics }) => {
         toggleSidepanel={toggleSidepanel}
         parseTemplate={parseTemplate}
         setWidgets={widgetsStore.set}
+        controller={buildShareLink}
       />,
       target
     )

@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import { client } from '../../apollo'
 
 export const SHORT_URL_OFFSET = '/charts/'.length
-export const SHORT_URL_POSTFIX = '_sCl'
+export const SHORT_URL_POSTFIX = '__sCl'
 export const SHORT_URL_RIGHT_INDEX = -SHORT_URL_POSTFIX.length
 export const buildChartShortPath = shortUrl =>
   `/charts/${shortUrl}${SHORT_URL_POSTFIX}`

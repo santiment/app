@@ -39,11 +39,15 @@ export const CopyLink = ({ shareLink, getShareLink, className }) => {
   )
 }
 
-export const ShareButton = ({ sharePath, shortUrlHash }) => {
+export const ShareButton = ({ sharePath, shortUrlHash, controller }) => {
   const { shortShareLink, getShortShareLink } = useShortShareLink(sharePath)
 
   const shareLink = shortUrlHash ? window.location.href : shortShareLink
-  const getShareLink = shortUrlHash ? getBrowserUrl : getShortShareLink
+  const getShareLink = shortUrlHash
+    ? getBrowserUrl
+    : controller
+      ? () => getShortShareLink(controller())
+      : getShortShareLink
 
   function onMouseDown () {
     getShareLink()
@@ -80,6 +84,7 @@ export default ({
   sidepanel,
   sharePath,
   shortUrlHash,
+  controller,
   isOverviewOpened,
   changeTimePeriod,
   toggleSidepanel,
@@ -123,7 +128,11 @@ export default ({
         />
       )}
 
-      <ShareButton shortUrlHash={shortUrlHash} sharePath={sharePath} />
+      <ShareButton
+        shortUrlHash={shortUrlHash}
+        sharePath={sharePath}
+        controller={controller}
+      />
 
       <Button
         border

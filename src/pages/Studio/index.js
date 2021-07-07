@@ -4,9 +4,15 @@ import { track } from 'webkit/analytics'
 import Studio from './Studio'
 import URLExtension from './URLExtension'
 import RecentAssetExtension from './RecentAssetExtension'
+import {
+  SHORT_URL_OFFSET,
+  SHORT_URL_RIGHT_INDEX,
+  SHORT_URL_POSTFIX
+} from './utils'
 import { parseUrl } from './sharing/parse'
 import { parseTemplate } from './sharing/template'
 import { getIdFromSEOLink } from '../../utils/url'
+import { getFullUrl } from '../../components/Share/utils'
 import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
 import PageLoader from '../../components/Loader/PageLoader'
 import { getTemplate } from '../../ducks/Studio/Template/gql/hooks'
@@ -38,6 +44,7 @@ export default ({ location }) => {
 
   useEffect(
     () => {
+      let isRacing = false
       const templateId = getIdFromSEOLink(pathname)
       if (prevFullUrlRef.current === pathname + search) return
       track.pageview('sanbase')
@@ -48,6 +55,7 @@ export default ({ location }) => {
         setPrevTemplateId(templateId)
         getTemplate(templateId)
           .then(template => {
+            if (isRacing) return
             const parsedUrl = {
               settings: template.project,
               widgets: parseTemplate(template)
@@ -62,11 +70,33 @@ export default ({ location }) => {
           .catch(console.error)
         return
       }
-      const parsedUrl = parseUrl(search)
-      if (parsedUrl.settings) {
-        setSlug(parsedUrl.settings.slug || '')
+
+      if (!pathname.endsWith(SHORT_URL_POSTFIX)) {
+        const parsedUrl = parseUrl(search)
+        if (parsedUrl.settings) {
+          setSlug(parsedUrl.settings.slug || '')
+        }
+
+        return setParsedUrl(parsedUrl)
       }
-      setParsedUrl(parsedUrl) // TODO: Delete after enabling short urls [@vanguard | Mar  3, 2021]
+
+      const setShortUrlHash = shortUrlHashState[1]
+      const shortUrlHash = pathname.slice(
+        SHORT_URL_OFFSET,
+        SHORT_URL_RIGHT_INDEX
+      )
+
+      getFullUrl(shortUrlHash)
+        .then(fullUrl => {
+          if (isRacing) return
+
+          prevFullUrlRef.current = fullUrl
+          setShortUrlHash(shortUrlHash)
+          setParsedUrl(parseUrl(fullUrl))
+        })
+        .catch(console.error)
+
+      return () => (isRacing = true)
     },
     [pathname]
   )
