@@ -48,9 +48,7 @@ const FirstQuestion = ({ isOpen, onClick }) => (
         <ul>
           <li>300+ Telegram groups</li>
           <li>300+ crypto subreddits</li>
-          <li>100s of Discord groups</li>
           <li>BitcoinTalk</li>
-          <li>Private trader chats (hidden from Google search)</li>
           <li>More social channels constantly being added</li>
         </ul>
 

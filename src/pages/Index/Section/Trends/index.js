@@ -30,7 +30,7 @@ const TabTypeContent = {
       </>
     ),
     description:
-      '‘Google Trends’ for crypto. Monitor the interest in any topic on dedicated cryptocurrency social channels, including 1000+ Telegram groups, Discord servers, crypto subreddits, Twitter accounts and more.'
+      '‘Google Trends’ for crypto. Monitor the interest in any topic on dedicated cryptocurrency social channels, including 1000+ Telegram groups, crypto subreddits, Twitter accounts and more.'
   },
 
   [TabType.SOCIAL_TRENDS]: {
