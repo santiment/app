@@ -17,6 +17,7 @@ const StudioTab = ({
   modDate,
   modRange,
   InsightsStore,
+  prevFullUrlRef,
   subwidgetsController
 }) => {
   const History = useHistory(studio)
@@ -53,6 +54,7 @@ const StudioTab = ({
         settings={settings}
         widgets={widgets}
         metrics={metrics}
+        prevFullUrlRef={prevFullUrlRef}
       />
 
       {widgets.map(

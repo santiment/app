@@ -2,11 +2,18 @@ import React, { useMemo, useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 import { withRouter } from 'react-router-dom'
 import { stringify } from 'query-string'
+import { updateShortUrl, buildChartShortPath } from './utils'
 import { shareWidgets, shareSettings } from './sharing/share'
+import { useUser } from '../../stores/user'
+import { getShortUrl } from '../../components/Share/utils'
 
-function getSharedUrl (settings, widgets, sidewidget) {
+const checkIsNotAuthorError = ({ message }) => message.includes('another user')
+
+function getSharedUrl (shortUrlHash, settings, widgets, sidewidget) {
+  const path = shortUrlHash ? '/charts' : window.location.pathname
   return (
-    `${window.location.pathname}?` +
+    path +
+    '?' +
     stringify({
       settings,
       widgets,
@@ -28,10 +35,12 @@ const URLExtension = ({
   sidewidget,
   subwidgets,
   prevFullUrlRef,
+  shortUrlHashState,
   setSlug
 }) => {
   const { ticker, name } = settings
   const [sharedWidgets, setSharedWidgets] = useState('')
+  const { isLoggedIn } = useUser()
   const sharedSettings = useMemo(() => getSharedSettings(settings), [settings])
 
   useEffect(() => setSlug(settings.slug), [settings.slug])
@@ -64,11 +73,39 @@ const URLExtension = ({
     () => {
       if (!sharedSettings || !sharedWidgets) return
 
-      const url = getSharedUrl(sharedSettings, sharedWidgets, sidewidget)
+      let [shortUrlHash, setShortUrlHash] = shortUrlHashState
+      const url = getSharedUrl(
+        shortUrlHash,
+        sharedSettings,
+        sharedWidgets,
+        sidewidget
+      )
       if (url === prevFullUrlRef.current) return
 
       prevFullUrlRef.current = url
-      history.replace(url)
+      if (!isLoggedIn) return history.replace(url)
+
+      mutateShortUrl()
+      function mutateShortUrl () {
+        const shortUrlPromise = shortUrlHash
+          ? updateShortUrl(shortUrlHash, url)
+          : getShortUrl(url).then(newShortUrlHash => {
+            shortUrlHash = newShortUrlHash
+            setShortUrlHash(newShortUrlHash)
+          })
+
+        shortUrlPromise
+          .then(() => history.replace(buildChartShortPath(shortUrlHash)))
+          .catch(error => {
+            if (checkIsNotAuthorError(error)) {
+              shortUrlHash = undefined
+              return mutateShortUrl()
+            }
+
+            history.replace(url)
+            // onShortUrlUpdateError()
+          })
+      }
     },
     [sharedSettings, sharedWidgets, sidewidget]
   )

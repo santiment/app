@@ -20,7 +20,7 @@ const Sidebar = ({ studio, settings, selectMetricRef }) => {
   )
 
   selectMetricRef.current = node => {
-    if (lockedAsset.slug === settings.slug) return node
+    if (lockedAsset.slug === settings.slug || node.noProject) return node
 
     return newProjectMetric(lockedAsset, node)
   }

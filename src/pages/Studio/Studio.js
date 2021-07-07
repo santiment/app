@@ -207,6 +207,7 @@ const Studio = ({
                 sidewidget={sidewidget}
                 modDate={modDate}
                 modRange={modRange}
+                prevFullUrlRef={props.prevFullUrlRef}
                 InsightsStore={InsightsStore}
                 subwidgetsController={subwidgetsController}
               />
