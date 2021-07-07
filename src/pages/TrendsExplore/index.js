@@ -19,7 +19,7 @@ import styles from './index.module.scss'
 const EMPTY_MAP = new Map()
 
 const pageDescription =
-  'Explore the social volume of ANY word (or phrase) on crypto social media, including 100s of Telegram groups, crypto subreddits, discord channels, trader chats and more.'
+  'Explore the social volume of ANY word (or phrase) on crypto social media, including 100s of Telegram groups, crypto subreddits, trader chats and more.'
 
 const TrendsExplore = ({ topic, addedTopics, history, isDesktop }) => {
   const { projects } = useProjects()

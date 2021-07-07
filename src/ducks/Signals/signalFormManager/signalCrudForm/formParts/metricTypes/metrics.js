@@ -66,16 +66,6 @@ export const SIGNAL_SUPPORTED_METRICS = [
   Metric.social_volume_total,
   Metric.whale_transaction_count_1m_usd_to_inf,
   Metric.whale_transaction_count_100k_usd_to_inf,
-  makeSignalMetric(
-    'social_volume_discord',
-    'Social volume (discord)',
-    'Social'
-  ),
-  makeSignalMetric(
-    'social_volume_professional_traders_chat',
-    'Social volume (pro traders chat)',
-    'Social'
-  ),
   makeSignalMetric('social_volume_reddit', 'Social volume (reddit)', 'Social'),
   makeSignalMetric(
     'social_volume_telegram',
@@ -110,16 +100,6 @@ export const SIGNAL_SUPPORTED_METRICS = [
   makeSignalMetric(
     'social_dominance_total',
     'Social dominance (total)',
-    'Social'
-  ),
-  makeSignalMetric(
-    'social_dominance_discord',
-    'Social dominance (discord)',
-    'Social'
-  ),
-  makeSignalMetric(
-    'social_dominance_professional_traders_chat',
-    'Social dominance (pro traders chat)',
     'Social'
   ),
   makeSignalMetric(

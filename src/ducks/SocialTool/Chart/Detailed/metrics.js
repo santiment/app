@@ -12,16 +12,6 @@ export const DetailedMetric = {
     name: 'Reddit',
     label: 'Reddit Social Volume'
   },
-  social_volume_professional_traders_chat: {
-    color: '#F0BB35',
-    name: 'Professional traders chat',
-    label: 'Traders Chat Social Volume'
-  },
-  social_volume_discord: {
-    color: '#8358FF',
-    name: 'Discord',
-    label: 'Discord Social Volume'
-  },
   social_volume_twitter: {
     color: '#1DA1F2',
     name: 'Twitter',
