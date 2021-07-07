@@ -85,18 +85,30 @@ const URLExtension = ({
       prevFullUrlRef.current = url
       if (!isLoggedIn) return history.replace(url)
 
+      let isRacing = false
+
       mutateShortUrl()
       function mutateShortUrl () {
         const shortUrlPromise = shortUrlHash
           ? updateShortUrl(shortUrlHash, url)
           : getShortUrl(url).then(newShortUrlHash => {
+            if (isRacing) return
+
             shortUrlHash = newShortUrlHash
             setShortUrlHash(newShortUrlHash)
+
+            history.push(buildChartShortPath(shortUrlHash))
           })
 
         shortUrlPromise
-          .then(() => history.replace(buildChartShortPath(shortUrlHash)))
+          .then(() => {
+            if (isRacing) return
+
+            history.replace(buildChartShortPath(shortUrlHash))
+          })
           .catch(error => {
+            if (isRacing) return
+
             if (checkIsNotAuthorError(error)) {
               shortUrlHash = undefined
               return mutateShortUrl()
@@ -106,6 +118,7 @@ const URLExtension = ({
             // onShortUrlUpdateError()
           })
       }
+      return () => (isRacing = true)
     },
     [sharedSettings, sharedWidgets, sidewidget]
   )

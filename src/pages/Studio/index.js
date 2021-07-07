@@ -48,6 +48,7 @@ export default ({ location }) => {
       const templateId = getIdFromSEOLink(pathname)
       if (prevFullUrlRef.current === pathname + search) return
       track.pageview('sanbase')
+      const [prevShortUrlHash, setShortUrlHash] = shortUrlHashState
 
       if (Number.isFinite(templateId)) {
         if (templateId === prevTemplateId) return
@@ -64,6 +65,7 @@ export default ({ location }) => {
               parsedUrl.settings.slug = 'bitcoin'
               parsedUrl.settings.ticker = 'BTC'
             }
+            setShortUrlHash()
             setSlug(parsedUrl.settings.slug || '')
             setParsedUrl(parsedUrl)
           })
@@ -77,22 +79,25 @@ export default ({ location }) => {
           setSlug(parsedUrl.settings.slug || '')
         }
 
+        setShortUrlHash()
         return setParsedUrl(parsedUrl)
       }
 
-      const setShortUrlHash = shortUrlHashState[1]
       const shortUrlHash = pathname.slice(
         SHORT_URL_OFFSET,
         SHORT_URL_RIGHT_INDEX
       )
+      if (shortUrlHash === prevShortUrlHash) return
 
       getFullUrl(shortUrlHash)
         .then(fullUrl => {
           if (isRacing) return
 
-          prevFullUrlRef.current = fullUrl
           setShortUrlHash(shortUrlHash)
-          setParsedUrl(parseUrl(fullUrl))
+          if (prevFullUrlRef.current !== fullUrl) {
+            prevFullUrlRef.current = fullUrl
+            setParsedUrl(parseUrl(fullUrl))
+          }
         })
         .catch(console.error)
 
