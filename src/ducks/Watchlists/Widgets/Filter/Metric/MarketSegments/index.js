@@ -1,18 +1,17 @@
-import React, { useState, useEffect, useMemo, Fragment } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import cx from 'classnames'
-import Icon from '@santiment-network/ui/Icon'
-import Panel from '@santiment-network/ui/Panel'
-import Button from '@santiment-network/ui/Button'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
+import Button from '@santiment-network/ui/Button'
 import { InputWithIcon as Input } from '@santiment-network/ui/Input'
-import MetricState from '../MetricState'
-import Suggestions from '../Suggestions'
-import { useMetricSettings } from '../hooks'
-import { useAvailableSegments } from './hooks'
-import { filterValuesBySearch } from '../utils'
-import { extractFilterByMetricType } from '../../detector'
+import Panel from '@santiment-network/ui/Panel'
+import Icon from '@santiment-network/ui/Icon'
 import Skeleton from '../../../../../../components/Skeleton/Skeleton'
 import ExplanationTooltip from '../../../../../../components/ExplanationTooltip/ExplanationTooltip'
+import MetricState from '../MetricState'
+import { useAvailableSegments } from './hooks'
+import { extractFilterByMetricType } from '../../detector'
+import Suggestions from '../Suggestions'
+import { filterSegmentsBySearch } from './utils'
 import styles from './index.module.scss'
 
 const DEFAULT_SETTINGS = {
@@ -29,21 +28,14 @@ const MarketSegments = ({
   updMetricInFilter,
   toggleMetricInFilter
 }) => {
-  const [segments, loading] = useAvailableSegments()
-  const {
-    settings,
-    setSettings,
-    selectSuggest,
-    clickCheckbox
-  } = useMetricSettings(defaultSettings)
-  const [search, setSearch] = useState('')
+  const [segments = [], loading] = useAvailableSegments()
+  const [settings, setSettings] = useState(defaultSettings)
+  const [currentSearch, setCurrentSearch] = useState('')
 
   const hasActiveSegments = settings.market_segments.length > 0
   const isANDCombinator = settings.market_segments_combinator === 'and'
-  const filteredSegments = useMemo(
-    () => filterValuesBySearch(search, segments, 'name'),
-    [search, segments]
-  )
+
+  const filteredSegments = filterSegmentsBySearch(currentSearch, segments)
 
   useEffect(
     () => {
@@ -85,6 +77,10 @@ const MarketSegments = ({
     [settings]
   )
 
+  function onCheckboxClicked () {
+    setSettings(state => ({ ...state, isActive: !settings.isActive }))
+  }
+
   function onToggleMode () {
     setSettings(state => ({
       ...state,
@@ -105,6 +101,10 @@ const MarketSegments = ({
     }))
   }
 
+  function onSuggestionClick (props) {
+    setSettings(state => ({ ...state, ...props }))
+  }
+
   return (
     <>
       <MetricState
@@ -112,7 +112,7 @@ const MarketSegments = ({
         metric={baseMetric}
         settings={settings}
         isActive={settings.isActive}
-        onCheckboxClicked={clickCheckbox}
+        onCheckboxClicked={onCheckboxClicked}
         customStateText={
           settings.isActive && hasActiveSegments
             ? `shows ${
@@ -147,7 +147,7 @@ const MarketSegments = ({
         </div>
       )}
       {settings.isActive && !isViewMode && (
-        <div className={styles.wrapper}>
+        <>
           <div className={styles.settings}>
             <ContextMenu
               passOpenStateAs='data-isactive'
@@ -163,7 +163,7 @@ const MarketSegments = ({
                   placeholder='Choose market segments'
                   onChange={evt => {
                     const { value } = evt.currentTarget
-                    setSearch(value)
+                    setCurrentSearch(value)
                   }}
                 />
               }
@@ -207,7 +207,9 @@ const MarketSegments = ({
                         fluid
                         variant='ghost'
                         key={idx}
-                        onClick={() => !isSelected && onToggleSegment(name)}
+                        onClick={() =>
+                          isSelected ? {} : onToggleSegment(name)
+                        }
                       >
                         <div>
                           <span className={styles.name}>{name}</span>
@@ -250,9 +252,9 @@ const MarketSegments = ({
           </div>
           <Suggestions
             hints={baseMetric.hints}
-            onSuggestionClick={selectSuggest}
+            onSuggestionClick={onSuggestionClick}
           />
-        </div>
+        </>
       )}
     </>
   )

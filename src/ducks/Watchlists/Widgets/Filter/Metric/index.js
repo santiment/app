@@ -4,12 +4,11 @@ import {
   extractParams,
   extractFilterByMetricType
 } from '../detector'
-import MetricState from './MetricState'
+import { getTimeRangesByMetric } from '../dataHub/metrics'
 import { Filter } from '../dataHub/types'
-import { useMetricSettings } from './hooks'
+import MetricState from './MetricState'
 import MetricSettings from './MetricSettings'
 import { DEFAULT_SETTINGS } from '../defaults'
-import { getTimeRangesByMetric } from '../dataHub/metrics'
 
 function fakeFormatter (value) {
   return value
@@ -29,12 +28,7 @@ const FilterMetric = ({
     return null
   }
 
-  const {
-    settings,
-    setSettings,
-    selectSuggest,
-    clickCheckbox
-  } = useMetricSettings(defaultSettings)
+  const [settings, setSettings] = useState(defaultSettings)
   const [percentTimeRanges, setPercentTimeRanges] = useState(
     getTimeRangesByMetric(baseMetric, availableMetrics)
   )
@@ -153,6 +147,10 @@ const FilterMetric = ({
     [settings]
   )
 
+  function onCheckboxClicked () {
+    setSettings(state => ({ ...state, isActive: !settings.isActive }))
+  }
+
   function onFilterTypeChange (type) {
     if (
       Filter[type].showTimeRange &&
@@ -183,6 +181,10 @@ const FilterMetric = ({
     setSettings(state => ({ ...state, timeRange }))
   }
 
+  function onSuggestionClick (props) {
+    setSettings(state => ({ ...state, ...props }))
+  }
+
   return (
     <>
       <MetricState
@@ -191,7 +193,7 @@ const FilterMetric = ({
         metric={baseMetric}
         settings={settings}
         isActive={settings.isActive}
-        onCheckboxClicked={clickCheckbox}
+        onCheckboxClicked={onCheckboxClicked}
         isFinishedState={isFinishedState}
       />
       {settings.isActive && !isViewMode && (
@@ -205,7 +207,7 @@ const FilterMetric = ({
           onTimeRangeChange={onTimeRangeChange}
           onFirstThresholdChange={onFirstThresholdChange}
           onSecondThresholdChange={onSecondThresholdChange}
-          onSuggestionClick={selectSuggest}
+          onSuggestionClick={onSuggestionClick}
         />
       )}
     </>
