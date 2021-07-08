@@ -33,7 +33,8 @@ const FilterMetricState = ({
   const isPaywalled = isOnlyPercentFilters && !isPro
   const isDisabled = isViewMode && !isActive
 
-  const onClick = () => !isViewMode && !isPaywalled && onCheckboxClicked()
+  const onClick = () =>
+    !isViewMode && !isPaywalled ? onCheckboxClicked() : null
 
   return (
     <div className={styles.wrapper}>

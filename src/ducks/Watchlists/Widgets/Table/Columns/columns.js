@@ -57,24 +57,6 @@ export const MARKET_SEGMENTS_CELL = ({ value: values = [] }) => (
   </div>
 )
 
-export const EXCHANGES_CELL = ({ value = 0 }) => (
-  <div className={styles.exchanges}>
-    {value > 0 && (
-      <>
-        Traded on{' '}
-        <Label
-          variant='round'
-          accent='casper'
-          className={styles.exchanges__count}
-        >
-          {value}
-        </Label>
-        {` exchange${value !== 1 && 's'}`}
-      </>
-    )}
-  </div>
-)
-
 export const RANK_CELL = ({ value }) =>
   value === undefined ? (
     <Loader />
