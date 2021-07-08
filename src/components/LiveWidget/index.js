@@ -90,11 +90,15 @@ const LiveWidget = () => {
       initCounter++
       setTimeout(initPlayer, SHORT_DELAY)
     } else {
-      new window.YT.Player('live_stream', {
-        events: {
-          onReady: evt => setPlayer(evt.target)
-        }
-      })
+      try {
+        new window.YT.Player('live_stream', {
+          events: {
+            onReady: evt => setPlayer(evt.target)
+          }
+        })
+      } catch (e) {
+        console.error(e)
+      }
     }
   }
 
