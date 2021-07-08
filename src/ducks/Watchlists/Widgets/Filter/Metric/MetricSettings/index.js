@@ -16,7 +16,6 @@ const FilterMetricSettings = ({
   onFirstThresholdChange,
   onSecondThresholdChange,
   onSuggestionClick,
-  autoFocus,
   settings: { firstThreshold, secondThreshold, timeRange, type }
 }) => {
   const inputRef = useRef(null)

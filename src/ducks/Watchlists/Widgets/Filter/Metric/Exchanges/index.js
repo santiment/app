@@ -8,7 +8,7 @@ import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import MetricState from '../MetricState'
 import Suggestions from '../Suggestions'
 import { useMetricSettings } from '../hooks'
-import { useAvailableSegments } from './hooks'
+import { useMarketExchanges } from './hooks'
 import { filterValuesBySearch } from '../utils'
 import { extractFilterByMetricType } from '../../detector'
 import Skeleton from '../../../../../../components/Skeleton/Skeleton'
@@ -16,12 +16,12 @@ import ExplanationTooltip from '../../../../../../components/ExplanationTooltip/
 import styles from './index.module.scss'
 
 const DEFAULT_SETTINGS = {
-  market_segments: [],
-  market_segments_combinator: 'and',
+  exchanges: [],
+  exchanges_combinator: 'and',
   isActive: false
 }
 
-const MarketSegments = ({
+const Exchanges = ({
   isViewMode,
   baseMetric,
   defaultSettings,
@@ -29,7 +29,7 @@ const MarketSegments = ({
   updMetricInFilter,
   toggleMetricInFilter
 }) => {
-  const [segments, loading] = useAvailableSegments()
+  const [exchanges, loading] = useMarketExchanges()
   const {
     settings,
     setSettings,
@@ -38,11 +38,11 @@ const MarketSegments = ({
   } = useMetricSettings(defaultSettings)
   const [search, setSearch] = useState('')
 
-  const hasActiveSegments = settings.market_segments.length > 0
-  const isANDCombinator = settings.market_segments_combinator === 'and'
-  const filteredSegments = useMemo(
-    () => filterValuesBySearch(search, segments, 'name'),
-    [search, segments]
+  const hasActiveExchanges = settings.exchanges.length > 0
+  const isANDCombinator = settings.exchanges_combinator === 'and'
+  const filteredExchanges = useMemo(
+    () => filterValuesBySearch(search, exchanges, 'exchange'),
+    [search, exchanges]
   )
 
   useEffect(
@@ -57,19 +57,15 @@ const MarketSegments = ({
   useEffect(
     () => {
       if (settings !== defaultSettings) {
-        const {
-          market_segments,
-          market_segments_combinator,
-          isActive
-        } = settings
+        const { exchanges, exchanges_combinator, isActive } = settings
         const { isActive: previousIsActive } = defaultSettings
 
         const newFilter = {
-          args: { market_segments_combinator, market_segments },
-          name: 'market_segments'
+          args: { exchanges_combinator, exchanges },
+          name: 'traded_on_exchanges'
         }
 
-        if (hasActiveSegments) {
+        if (hasActiveExchanges) {
           if (previousIsActive !== isActive) {
             toggleMetricInFilter(newFilter, baseMetric.key)
           } else {
@@ -77,7 +73,7 @@ const MarketSegments = ({
           }
         }
 
-        if (!hasActiveSegments && isActive && defaultSettings.isActive) {
+        if (!hasActiveExchanges && isActive && defaultSettings.isActive) {
           toggleMetricInFilter(newFilter, baseMetric.key)
         }
       }
@@ -88,20 +84,20 @@ const MarketSegments = ({
   function onToggleMode () {
     setSettings(state => ({
       ...state,
-      market_segments_combinator: isANDCombinator ? 'or' : 'and'
+      exchanges_combinator: isANDCombinator ? 'or' : 'and'
     }))
   }
 
-  function onToggleSegment (segment) {
-    const selectedSegmentsSet = new Set(settings.market_segments)
+  function onToggleExchange (exchange) {
+    const selectedExchangesSet = new Set(settings.exchanges)
 
-    if (!selectedSegmentsSet.delete(segment)) {
-      selectedSegmentsSet.add(segment)
+    if (!selectedExchangesSet.delete(exchange)) {
+      selectedExchangesSet.add(exchange)
     }
 
     setSettings(state => ({
       ...state,
-      market_segments: [...selectedSegmentsSet]
+      exchanges: [...selectedExchangesSet]
     }))
   }
 
@@ -114,30 +110,30 @@ const MarketSegments = ({
         isActive={settings.isActive}
         onCheckboxClicked={clickCheckbox}
         customStateText={
-          settings.isActive && hasActiveSegments
+          settings.isActive && hasActiveExchanges
             ? `shows ${
               isANDCombinator ? 'all' : 'at least one'
-            } of selected groups`
+            } of selected exchanges`
             : ''
         }
       />
-      {settings.isActive && hasActiveSegments > 0 && (
+      {settings.isActive && hasActiveExchanges > 0 && (
         <div className={styles.labels}>
-          {settings.market_segments.map((name, idx) => (
+          {settings.exchanges.map((name, idx) => (
             <Fragment key={idx}>
               <div
                 className={cx(
                   styles.label,
                   isViewMode && styles.label__viewMode
                 )}
-                onClick={() => onToggleSegment(name)}
+                onClick={() => onToggleExchange(name)}
               >
                 {name}
                 {!isViewMode && (
                   <Icon type='close-small' className={styles.label__close} />
                 )}
               </div>
-              {settings.market_segments.length !== idx + 1 && (
+              {settings.exchanges.length !== idx + 1 && (
                 <span className={styles.operator}>
                   {isANDCombinator ? 'and' : 'or'}
                 </span>
@@ -160,7 +156,7 @@ const MarketSegments = ({
                   iconClassName={styles.trigger__arrow}
                   icon='arrow-down'
                   iconPosition='right'
-                  placeholder='Choose market segments'
+                  placeholder='Choose exchanges'
                   onChange={evt => {
                     const { value } = evt.currentTarget
                     setSearch(value)
@@ -169,15 +165,15 @@ const MarketSegments = ({
               }
             >
               <Panel className={styles.panel}>
-                {hasActiveSegments > 0 && (
+                {hasActiveExchanges > 0 && (
                   <div className={styles.list}>
-                    {settings.market_segments.map((name, idx) => (
+                    {settings.exchanges.map((name, idx) => (
                       <Button
                         className={styles.item}
                         fluid
                         variant='ghost'
                         key={idx}
-                        onClick={() => onToggleSegment(name)}
+                        onClick={() => onToggleExchange(name)}
                       >
                         <div>
                           <span className={styles.name}>{name}</span>
@@ -195,43 +191,49 @@ const MarketSegments = ({
                     show={loading}
                     className={styles.loader}
                   />
-                  {filteredSegments.map(({ name, count }, idx) => {
-                    const isSelected = settings.market_segments.includes(name)
+                  {filteredExchanges.map(
+                    ({ exchange, assetsCount, pairsCount }, idx) => {
+                      const isSelected = settings.exchanges.includes(exchange)
 
-                    return (
-                      <Button
-                        className={cx(
-                          styles.item,
-                          isSelected && styles.item__selected
-                        )}
-                        fluid
-                        variant='ghost'
-                        key={idx}
-                        onClick={() => !isSelected && onToggleSegment(name)}
-                      >
-                        <div>
-                          <span className={styles.name}>{name}</span>
-                          <span className={styles.count}>({count})</span>
-                        </div>
-                        <div
+                      return (
+                        <Button
                           className={cx(
-                            styles.action,
-                            isSelected && styles.selected
+                            styles.item,
+                            isSelected && styles.item__selected
                           )}
+                          fluid
+                          variant='ghost'
+                          key={idx}
+                          onClick={() =>
+                            !isSelected && onToggleExchange(exchange)
+                          }
                         >
-                          Add
-                        </div>
-                      </Button>
-                    )
-                  })}
+                          <div>
+                            <span className={styles.name}>{exchange}</span>
+                            <span className={styles.count}>
+                              ({assetsCount} assets, {pairsCount} pairs)
+                            </span>
+                          </div>
+                          <div
+                            className={cx(
+                              styles.action,
+                              isSelected && styles.selected
+                            )}
+                          >
+                            Add
+                          </div>
+                        </Button>
+                      )
+                    }
+                  )}
                 </div>
               </Panel>
             </ContextMenu>
             <ExplanationTooltip
               text={
                 isANDCombinator
-                  ? 'Show assets that matches all of selected segments'
-                  : 'Show assets that matches at least one of selected segments'
+                  ? 'Show assets that matches all of selected exchanges'
+                  : 'Show assets that matches at least one of selected exchanges'
               }
               className={styles.explanation}
               align='end'
@@ -263,7 +265,7 @@ export default ({ filters, baseMetric, ...props }) => {
   const settings = filter.length === 0 ? {} : { ...filter[0], isActive: true }
 
   return (
-    <MarketSegments
+    <Exchanges
       {...props}
       baseMetric={baseMetric}
       defaultSettings={{
