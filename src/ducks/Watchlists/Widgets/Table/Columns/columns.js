@@ -62,7 +62,11 @@ export const EXCHANGES_CELL = ({ value = 0 }) => (
     {value > 0 && (
       <>
         Traded on{' '}
-        <Label variant='fill' className={styles.count}>
+        <Label
+          variant='round'
+          accent='casper'
+          className={styles.exchanges__count}
+        >
           {value}
         </Label>
         {` exchange${value !== 1 && 's'}`}

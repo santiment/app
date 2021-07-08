@@ -33,12 +33,7 @@ const TOP_EXCHANGES = new Set([
 const sortExchanges = (a, b) => {
   const isTopA = TOP_EXCHANGES.has(a.exchange.toLowerCase())
   const isTopB = TOP_EXCHANGES.has(b.exchange.toLowerCase())
-  console.log(
-    a.exchange.toLowerCase(),
-    b.exchange.toLowerCase(),
-    isTopA,
-    isTopB
-  )
+
   if (isTopA) {
     return isTopB ? 0 : -1
   } else return isTopB ? 1 : 0
