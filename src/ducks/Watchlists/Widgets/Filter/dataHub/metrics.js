@@ -1,6 +1,7 @@
 import React from 'react'
 import { Filter } from './types'
 import MarketSegments from '../Metric/MarketSegments'
+import Exchanges from '../Metric/Exchanges'
 import {
   percentValueFormatter,
   percentServerValueFormatter,
@@ -13,7 +14,8 @@ import { formatNumber } from '../../../../../utils/formatting'
 import {
   ETH_SPENT_CELL,
   MARKET_SEGMENTS_CELL,
-  RANK_CELL
+  RANK_CELL,
+  EXCHANGES_CELL
 } from '../../Table/Columns/columns'
 
 export const METRIC_PERCENT_SUFFIX = '_change_'
@@ -581,6 +583,14 @@ export const Metric = {
     shortLabel: 'Whale T.C>1m$',
     aggregation: AGGREGATIONS_LOWER.SUM,
     showTimeRange: true
+  },
+  traded_on_exchanges: {
+    category: CATEGORIES.FINANCIAL,
+    label: 'Traded on Exchanges',
+    accessor: 'tradedOnExchangesCount',
+    isStatic: true,
+    Cell: EXCHANGES_CELL,
+    Widget: props => <Exchanges {...props} />
   }
 }
 
@@ -658,7 +668,8 @@ export const metrics = [
   Metric.age_consumed,
   Metric.network_profit_loss,
   Metric.whale_transaction_count_100k_usd_to_inf,
-  Metric.whale_transaction_count_1m_usd_to_inf
+  Metric.whale_transaction_count_1m_usd_to_inf,
+  Metric.traded_on_exchanges
 ]
 
 export const MetricAlias = {
