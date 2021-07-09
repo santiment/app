@@ -5,6 +5,15 @@
   color: var(--rhino);
 }
 
+.exchanges {
+  display: inline-flex;
+  width: fit-content;
+
+  &__count {
+    margin: 0 6px;
+  }
+}
+
 .segments {
   display: inline-flex;
   width: fit-content;
