@@ -22,3 +22,6 @@ export const updateShortUrl = (shortUrl, fullUrl) =>
       fullUrl
     }
   })
+
+export const getShortUrlHash = url =>
+  url.slice(url.lastIndexOf('/') + 1, SHORT_URL_RIGHT_INDEX)

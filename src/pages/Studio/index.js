@@ -4,11 +4,7 @@ import { track } from 'webkit/analytics'
 import Studio from './Studio'
 import URLExtension from './URLExtension'
 import RecentAssetExtension from './RecentAssetExtension'
-import {
-  SHORT_URL_OFFSET,
-  SHORT_URL_RIGHT_INDEX,
-  SHORT_URL_POSTFIX
-} from './utils'
+import { SHORT_URL_POSTFIX, getShortUrlHash } from './utils'
 import { parseUrl } from './sharing/parse'
 import { parseTemplate } from './sharing/template'
 import { getIdFromSEOLink } from '../../utils/url'
@@ -83,10 +79,7 @@ export default ({ location }) => {
         return setParsedUrl(parsedUrl)
       }
 
-      const shortUrlHash = pathname.slice(
-        SHORT_URL_OFFSET,
-        SHORT_URL_RIGHT_INDEX
-      )
+      const shortUrlHash = getShortUrlHash(pathname)
       if (shortUrlHash === prevShortUrlHash) return
 
       getFullUrl(shortUrlHash)
