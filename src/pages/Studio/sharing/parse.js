@@ -169,7 +169,7 @@ function tryParseSettings (settings) {
 }
 
 export function parseUrl (url) {
-  const { settings, widgets, sidepanel } = parse(url)
+  const { settings, widgets, sidepanel } = parse(url.slice(url.indexOf('?')))
 
   return {
     settings: settings && tryParseSettings(settings),
