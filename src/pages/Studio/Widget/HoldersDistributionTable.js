@@ -13,6 +13,7 @@ const HoldersDistributionTableWidget = ({ widget, target, settings }) => {
       widget={widget}
       settings={settings}
       deleteWidget={widget.deleteWithHistory || widget.delete}
+      rerenderWidgets={() => {}}
     />
   )
 }

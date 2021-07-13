@@ -31,6 +31,7 @@ import { useUser } from '../../../stores/user'
 import { useProjectById } from '../../../hooks/project'
 import { PATHS } from '../../../paths'
 import { useCtrlSPress } from '../../../hooks/eventListeners'
+import { addRecentTemplate } from '../../../utils/recent'
 import styles from './index.module.scss'
 
 const Action = props => <Button {...props} fluid variant='ghost' />
@@ -71,6 +72,7 @@ const Template = ({
     const parseTemplate = props.parseTemplate || getChartWidgetsFromTemplate
     setWidgets(parseTemplate(template))
 
+    addRecentTemplate(template.id)
     track.event(Event.LoadLayout, { id: template.id })
   }
 

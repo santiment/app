@@ -96,7 +96,13 @@ export default ({ location }) => {
           setShortUrlHash(shortUrlHash)
           if (prevFullUrlRef.current !== fullUrl) {
             prevFullUrlRef.current = fullUrl
-            setParsedUrl(parseUrl(fullUrl))
+            const parsedUrl = parseUrl(fullUrl)
+
+            if (parsedUrl.settings) {
+              setSlug(parsedUrl.settings.slug || '')
+            }
+
+            setParsedUrl(parsedUrl)
           }
         })
         .catch(console.error)
