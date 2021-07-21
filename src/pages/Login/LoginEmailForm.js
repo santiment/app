@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Mutation } from 'react-apollo'
 import cx from 'classnames'
@@ -8,6 +8,8 @@ import { useTrackEvents } from '../../hooks/tracking'
 import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import Button from '@santiment-network/ui/Button'
 import { PATHS } from '../../paths'
+import { store } from '../../redux'
+import { showNotification } from '../../actions/rootActions'
 import MobileWrapper from './Mobile/MobileWrapper'
 import FormikInput from '../../components/formik-santiment-ui/FormikInput'
 import FormikEffect from '../../components/formik-santiment-ui/FormikEffect'
@@ -162,8 +164,23 @@ const LoginEmailForm = ({
     <Mutation mutation={EMAIL_LOGIN_MUTATION}>
       {(
         loginEmail,
-        { loading, data: { emailLogin: { success } = {} } = {} }
+        { loading, data: { emailLogin: { success } = {} } = {}, error }
       ) => {
+        useEffect(
+          () => {
+            if (!error) return
+
+            store.dispatch(
+              showNotification({
+                variant: 'error',
+                title: 'Too many login attempts',
+                description: 'Please try again after a few minutes'
+              })
+            )
+          },
+          [error]
+        )
+
         return success ? (
           <SuccessState
             email={email}
