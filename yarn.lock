@@ -1692,10 +1692,10 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@santiment-network/chart@^0.10.8":
-  version "0.10.8"
-  resolved "https://registry.yarnpkg.com/@santiment-network/chart/-/chart-0.10.8.tgz#c0362ec1ddb6cfee01b7ca2adfd1d50283098de4"
-  integrity sha512-igQdIteSIrIeFcZxzgq7T1oIgtIJYxaPDj43s4enmoX6yKnCtO45uFhYbsC7pzuXzji6h7hJalbu9XgkyFHhjQ==
+"@santiment-network/chart@^0.10.9":
+  version "0.10.9"
+  resolved "https://registry.yarnpkg.com/@santiment-network/chart/-/chart-0.10.9.tgz#3b2920bb0a5fc078742868e00959e1a2344e8306"
+  integrity sha512-kINeiUEpXRhfpVit4jRU43dWnXGn8v6m1lTBvB6oCykuXvhsvE8n+IBEFduKAqyXveT/0/PNkNkBkqIDbcP/Bw==
 
 "@santiment-network/ui@^0.5.177":
   version "0.5.189"
@@ -17225,9 +17225,9 @@ safe-regex@^1.1.0:
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
-"san-studio@https://github.com/santiment/san-studio.git#3163641":
+"san-studio@https://github.com/santiment/san-studio.git#102b6e7":
   version "0.0.1"
-  resolved "https://github.com/santiment/san-studio.git#316364141db95f449ef3ef7e76ff096f68d165e9"
+  resolved "https://github.com/santiment/san-studio.git#102b6e7095cbbd172cdc94025c4b40a487090a75"
   dependencies:
     san-webkit "https://github.com/santiment/san-webkit.git#6ff9cf5"
     svelte-check "^1.5.2"
