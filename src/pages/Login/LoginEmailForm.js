@@ -8,6 +8,8 @@ import { useTrackEvents } from '../../hooks/tracking'
 import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import Button from '@santiment-network/ui/Button'
 import { PATHS } from '../../paths'
+import { store } from '../../redux'
+import { showNotification } from '../../actions/rootActions'
 import MobileWrapper from './Mobile/MobileWrapper'
 import FormikInput from '../../components/formik-santiment-ui/FormikInput'
 import FormikEffect from '../../components/formik-santiment-ui/FormikEffect'
@@ -164,6 +166,18 @@ const LoginEmailForm = ({
         loginEmail,
         { loading, data: { emailLogin: { success } = {} } = {} }
       ) => {
+        function login (data) {
+          loginEmail(data).catch(() => {
+            store.dispatch(
+              showNotification({
+                variant: 'error',
+                title: 'Too many login attempts',
+                description: 'Please try again after a few minutes'
+              })
+            )
+          })
+        }
+
         return success ? (
           <SuccessState
             email={email}
@@ -174,7 +188,7 @@ const LoginEmailForm = ({
         ) : (
           <PrepareStateEl
             loading={loading}
-            loginEmail={loginEmail}
+            loginEmail={login}
             setEmail={setEmail}
             isDesktop={isDesktop}
             history={history}
