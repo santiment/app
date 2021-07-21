@@ -102,6 +102,7 @@ const CheckoutForm = ({
   billing,
   price,
   changeSelectedPlan,
+  hasCompletedTrial,
   subscription
 }) => (
   <div className={styles.wrapper}>
@@ -116,6 +117,7 @@ const CheckoutForm = ({
       loading={loading}
       price={price}
       changeSelectedPlan={changeSelectedPlan}
+      hasCompletedTrial={hasCompletedTrial}
       subscription={subscription}
     />
   </div>
