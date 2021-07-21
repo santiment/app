@@ -256,6 +256,7 @@ const PlanPaymentDialog = ({
                   billing={billing}
                   loading={loading}
                   subscription={subscription}
+                  hasCompletedTrial={hasCompletedTrial}
                   changeSelectedPlan={changeSelectedPlan}
                 />
               </Dialog.ScrollContent>

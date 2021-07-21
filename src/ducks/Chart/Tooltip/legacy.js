@@ -151,7 +151,7 @@ export function plotTooltip (chart, marker, point, options) {
     drawAlertPlus(chart, y)
 
     if (drawnMetrics.length) {
-      drawTooltip(ctx, point, TooltipSetting, marker, tooltipPaintConfig)
+      drawTooltip(ctx, point, TooltipSetting, marker, tooltipPaintConfig, 52, 1)
       drawValueBubbleY(
         chart,
         ctx,
