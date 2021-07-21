@@ -164,12 +164,10 @@ const LoginEmailForm = ({
     <Mutation mutation={EMAIL_LOGIN_MUTATION}>
       {(
         loginEmail,
-        { loading, data: { emailLogin: { success } = {} } = {}, error }
+        { loading, data: { emailLogin: { success } = {} } = {} }
       ) => {
-        useEffect(
-          () => {
-            if (!error) return
-
+        function login (data) {
+          loginEmail(data).catch(() => {
             store.dispatch(
               showNotification({
                 variant: 'error',
@@ -177,9 +175,8 @@ const LoginEmailForm = ({
                 description: 'Please try again after a few minutes'
               })
             )
-          },
-          [error]
-        )
+          })
+        }
 
         return success ? (
           <SuccessState
@@ -191,7 +188,7 @@ const LoginEmailForm = ({
         ) : (
           <PrepareStateEl
             loading={loading}
-            loginEmail={loginEmail}
+            loginEmail={login}
             setEmail={setEmail}
             isDesktop={isDesktop}
             history={history}
