@@ -8,6 +8,7 @@ import { SHORT_URL_POSTFIX, getShortUrlHash } from './utils'
 import { parseUrl } from './sharing/parse'
 import { parseTemplate } from './sharing/template'
 import { getIdFromSEOLink } from '../../utils/url'
+import { addRecentTemplate } from '../../utils/recent'
 import { getFullUrl } from '../../components/Share/utils'
 import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
 import PageLoader from '../../components/Loader/PageLoader'
@@ -61,6 +62,8 @@ export default ({ location }) => {
               parsedUrl.settings.slug = 'bitcoin'
               parsedUrl.settings.ticker = 'BTC'
             }
+
+            addRecentTemplate(templateId)
             setShortUrlHash()
             setSlug(parsedUrl.settings.slug || '')
             setParsedUrl(parsedUrl)
