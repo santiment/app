@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import { StripeProvider } from 'react-stripe-elements'
 import throttle from 'lodash.throttle'
 import { ApolloProvider } from 'react-apollo'
+import Loadable from 'react-loadable'
 import App from './App'
 import { client } from './apollo'
 import { store, history } from './redux'
@@ -12,13 +13,16 @@ import { saveState } from './utils/localStorage'
 import { isNotSafari } from './utils/utils'
 import detectNetwork from './utils/detectNetwork'
 import { changeNetworkStatus, launchApp } from './actions/rootActions'
-import ChartPage from './pages/Chart'
 import { register, unregister } from './serviceWorker'
 import { markAsLatestApp, newAppAvailable } from './ducks/Updates/actions'
 import { ThemeProvider } from './stores/ui/theme'
 import initSentry from './utils/initSentry'
 import { redirectSharedLink } from './components/Share/utils'
-import './index.scss'
+
+const EmbeddedChartPage = Loadable({
+  loader: () => import('./pages/Embedded'),
+  loading: () => 'Loading'
+})
 
 redirectSharedLink()
 
@@ -106,7 +110,7 @@ const main = () => {
           <Provider store={store}>
             <Router history={history}>
               <Switch>
-                <Route exact path='/chart' component={ChartPage} />
+                <Route exact path='/__embedded' component={EmbeddedChartPage} />
                 <Route path='/' component={App} history={history} />
               </Switch>
             </Router>

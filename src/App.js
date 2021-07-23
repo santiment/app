@@ -36,6 +36,7 @@ import { withSavedCommentLookup } from './withSavedCommentLookup'
 import Intercom from './components/Intercom/index.js'
 import LiveWidget from './components/LiveWidget'
 import styles from './App.module.scss'
+import './index.scss'
 import './App.scss'
 
 const FOOTER_DISABLED_FOR = [
