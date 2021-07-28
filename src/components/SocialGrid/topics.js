@@ -12,24 +12,21 @@ export const TOPICS = [
     title: 'Shiba Inu All Time High',
     query: 'shib?asset=shiba-inu&ticker=SHIB'
   },
-  {
-    slug: 'nft',
-    title: 'NFT madness',
-    query: 'nft?asset=nft&ticker=NFT&slug=nft'
-  },
+  { slug: 'china', title: 'Chinese FUD' },
   { slug: 'correction', title: 'BTC Correction' },
-  { slug: 'options', title: 'Options expiration' },
-  { slug: 'visa', title: 'Visa crypto adoption' },
+  { slug: 'mcafee', title: 'McAfee dies' },
+  {
+    slug: 'matic OR polygon',
+    title: 'MATIC All Time High',
+    query:
+      'matic OR polygon?asset=matic-network&ticker=MATIC&slug=matic%20OR%20polygon'
+  },
   {
     slug: 'icp',
     title: 'Internet Computer Launch',
     query: 'icp?asset=internet-computer&ticker=ICP'
   },
-  {
-    slug: 'xrp OR ripple',
-    title: 'Ripple pumps',
-    query: 'xrp OR ripple?asset=ripple&ticker=XRP&slug=ripple'
-  },
+  { slug: 'pizza', title: 'Bitcoin Pizza Day' },
   { slug: 'elon AND musk AND doge', title: 'Musk and Dogecoin' },
   { slug: 'stimulus', title: 'Stimulus' },
   {
@@ -46,9 +43,9 @@ export const INDEX_PAGE_GROUPS = [
       'The most popular topics in crypto social media. Ranges from worldwide economic and health topics to the prices discussions',
     topics: [
       {
-        title: 'Coinbase Stocks Listing',
-        slug: 'coinbase',
-        createdAt: '2021-05-20T08:07:20.922Z'
+        title: 'El Salvador & El Bitcoin',
+        slug: 'salvador',
+        createdAt: '2021-07-28T08:07:20.922Z'
       },
       {
         title: 'Biden and Taxes',
