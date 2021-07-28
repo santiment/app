@@ -17,7 +17,7 @@ import styles from './index.module.scss'
 
 const DEFAULT_SETTINGS = {
   exchanges: [],
-  exchanges_combinator: 'and',
+  exchanges_combinator: 'or',
   isActive: false
 }
 
