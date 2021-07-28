@@ -7,6 +7,7 @@ import {
   SHORT_WATCHLIST_FRAGMENT,
   getListItemsShortFragment
 } from '../fragments'
+import { PROJECT } from '../../detector'
 
 export const USER_SHORT_WATCHLISTS_QUERY = type => gql`
   query fetchWatchlists {
@@ -30,9 +31,9 @@ export const USER_WATCHLISTS_QUERY = type => gql`
     ${getListItemsShortFragment(type)}
   `
 
-export const FEATURED_WATCHLISTS_QUERY = gql`
+export const FEATURED_WATCHLISTS_QUERY = (type = PROJECT) => gql`
   query featuredWatchlists {
-    watchlists: featuredWatchlists {
+    watchlists: featuredWatchlists(type: ${type}) {
       id
       name
       slug

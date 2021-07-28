@@ -1,7 +1,6 @@
 import { BLOCKCHAIN_ADDRESS, PROJECT, SCREENER } from '../../detector'
 import {
   FEATURED_SCREENERS_QUERY,
-  FEATURED_WATCHLISTS_QUERY,
   useUserWatchlistsLoader,
   useWatchlistsLoader
 } from './queries'
@@ -11,7 +10,8 @@ import {
   filterIfNotScreener,
   getWatchlistsQuery,
   getWatchlistsShortQuery,
-  sortFeaturedWatchlists
+  sortFeaturedWatchlists,
+  getFeaturedWatchlistsQuery
 } from './helpers'
 
 const OBJ = {}
@@ -32,8 +32,12 @@ export const useProjectWatchlists = () =>
 export const useAddressWatchlists = () =>
   useUserWatchlistsLoader(getWatchlistsQuery(BLOCKCHAIN_ADDRESS))
 
-export const useFeaturedWatchlists = () =>
-  useWatchlistsLoader(FEATURED_WATCHLISTS_QUERY, OBJ, sortFeaturedWatchlists)
+export const useFeaturedWatchlists = type =>
+  useWatchlistsLoader(
+    getFeaturedWatchlistsQuery(type),
+    OBJ,
+    sortFeaturedWatchlists
+  )
 export const useFeaturedScreeners = () =>
   useWatchlistsLoader(FEATURED_SCREENERS_QUERY)
 
