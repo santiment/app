@@ -41,7 +41,7 @@ const CancelPlanDialog = ({
   subscription: {
     id,
     currentPeriodEnd,
-    plan: { amount, name, interval }
+    plan: { amount, name }
   }
 }) => {
   const [opened, setOpened] = useState(false)

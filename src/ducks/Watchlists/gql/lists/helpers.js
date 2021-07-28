@@ -4,7 +4,11 @@ import {
   DEFAULT_SCREENER
 } from '../../../Screener/utils'
 import { transformToServerType } from '../helpers'
-import { USER_SHORT_WATCHLISTS_QUERY, USER_WATCHLISTS_QUERY } from './queries'
+import {
+  FEATURED_WATCHLISTS_QUERY,
+  USER_SHORT_WATCHLISTS_QUERY,
+  USER_WATCHLISTS_QUERY
+} from './queries'
 
 const DEFAULT_SCREENERS = [DEFAULT_SCREENER]
 
@@ -25,3 +29,6 @@ export const getWatchlistsShortQuery = type =>
 
 export const getWatchlistsQuery = type =>
   USER_WATCHLISTS_QUERY(transformToServerType(type))
+
+export const getFeaturedWatchlistsQuery = type =>
+  FEATURED_WATCHLISTS_QUERY(transformToServerType(type))
