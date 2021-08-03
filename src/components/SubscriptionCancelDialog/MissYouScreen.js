@@ -10,11 +10,18 @@ import ContactUs from '../ContactUs/ContactUs'
 import AccordionContent from '../AccordionContent'
 import AutoresizeTextarea from '../AutoresizeTextarea'
 import CryingCat from '../Illustrations/CryingCat'
+import { contactAction, formatError } from '../../utils/notifications'
 import styles from './MissYouScreen.module.scss'
 
 const ARR = []
 
-const MissYouScreen = ({ closeDialog, nextScreen }) => {
+const MissYouScreen = ({
+  closeDialog,
+  cancelSubscription,
+  addNot,
+  loading,
+  id
+}) => {
   const [selectedPoints, setSelectedPoints] = useState(ARR)
   const [feedback, setFeedback] = useState('')
 
@@ -85,7 +92,34 @@ const MissYouScreen = ({ closeDialog, nextScreen }) => {
             >
               Maybe we can help with that?
             </ContactUs>
-            <Button accent='positive' disabled={!feedback} onClick={nextScreen}>
+            <Button
+              accent='positive'
+              isLoading={loading}
+              disabled={!feedback}
+              onClick={() =>
+                cancelSubscription({
+                  variables: { subscriptionId: +id }
+                })
+                  .then(() => {
+                    closeDialog()
+                    addNot({
+                      variant: 'success',
+                      title: `You have successfully canceled your subscription.`,
+                      description: 'We will miss you!',
+                      dismissAfter: 5000
+                    })
+                  })
+                  .catch(e =>
+                    addNot({
+                      variant: 'error',
+                      title: `Error during the cancellation`,
+                      description: formatError(e.message),
+                      dismissAfter: 5000,
+                      actions: contactAction
+                    })
+                  )
+              }
+            >
               Cancel subscription
             </Button>
           </div>

@@ -5,7 +5,6 @@ import Dialog from '@santiment-network/ui/Dialog'
 import { Mutation } from 'react-apollo'
 import MissYouScreen from './MissYouScreen'
 import SolutionsScreen from './SolutionsScreen'
-import CancellationScreen from './CancellationScreen'
 import DialogTitle from './DialogTitle'
 import { showNotification } from '../../actions/rootActions'
 import { formatPrice } from '../../utils/plans'
@@ -34,7 +33,7 @@ const createCacheUpdate = subsId =>
     })
   }
 
-const SCREENS = [SolutionsScreen, MissYouScreen, CancellationScreen]
+const SCREENS = [SolutionsScreen, MissYouScreen]
 
 const CancelPlanDialog = ({
   addNot,
