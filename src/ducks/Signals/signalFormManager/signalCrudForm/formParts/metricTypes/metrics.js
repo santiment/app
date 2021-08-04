@@ -22,7 +22,7 @@ export const isDailyMetric = key => {
 export const DAILY_METRICS = [
   Metric.mean_age,
   Metric.mean_dollar_invested_age,
-  Metric.nvt,
+  { ...Metric.nvt, key: 'nvt_5min' },
   Metric.withdrawal_transactions,
 
   ...Object.values(HolderDistributionAbsoluteMetric).map(m => ({
