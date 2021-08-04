@@ -7,12 +7,12 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import MetricState from '../MetricState'
 import Suggestions from '../Suggestions'
+import Combinators from '../Combinators'
 import { useMetricSettings } from '../hooks'
 import { useMarketExchanges } from './hooks'
 import { filterValuesBySearch } from '../utils'
 import { extractFilterByMetricType } from '../../detector'
 import Skeleton from '../../../../../../components/Skeleton/Skeleton'
-import ExplanationTooltip from '../../../../../../components/ExplanationTooltip/ExplanationTooltip'
 import styles from './index.module.scss'
 
 const DEFAULT_SETTINGS = {
@@ -81,10 +81,10 @@ const Exchanges = ({
     [settings]
   )
 
-  function onToggleMode () {
+  function onToggleMode (combinator) {
     setSettings(state => ({
       ...state,
-      exchanges_combinator: isANDCombinator ? 'or' : 'and'
+      exchanges_combinator: combinator
     }))
   }
 
@@ -229,26 +229,10 @@ const Exchanges = ({
                 </div>
               </Panel>
             </ContextMenu>
-            <ExplanationTooltip
-              text={
-                isANDCombinator
-                  ? 'Show assets that matches all of selected exchanges'
-                  : 'Show assets that matches at least one of selected exchanges'
-              }
-              className={styles.explanation}
-              align='end'
-              offsetY={10}
-            >
-              <Button
-                className={styles.toggleModeBtn}
-                fluid
-                variant='flat'
-                isActive
-                onClick={onToggleMode}
-              >
-                {isANDCombinator ? 'All' : 'Any'}
-              </Button>
-            </ExplanationTooltip>
+            <Combinators
+              onSelect={onToggleMode}
+              isANDCombinator={isANDCombinator}
+            />
           </div>
           <Suggestions
             hints={baseMetric.hints}
