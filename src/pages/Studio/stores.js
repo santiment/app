@@ -54,6 +54,9 @@ export const useWidgetsStore = studio => getSvelteContext(studio, 'widgets')
 export const useWidgets = (studio, setWidgetsRef) =>
   useStore(useWidgetsStore(studio), widgetsImmute, setWidgetsRef) || []
 
+const flat = array =>
+  array.flat ? array.flat() : array.reduce((acc, val) => acc.concat(val), [])
+
 const noop = () => {}
 export function useStudioMetrics (studio) {
   const widgets = useWidgets(studio)
@@ -74,7 +77,8 @@ export function useStudioMetrics (studio) {
       })
 
       function updateMetrics () {
-        setMetrics(Array.from(new Set(Object.values(WidgetMetric).flat())))
+        const metrics = flat(Object.values(WidgetMetric))
+        setMetrics(Array.from(new Set(metrics)))
       }
 
       const unsubscribe = unsub => unsub()

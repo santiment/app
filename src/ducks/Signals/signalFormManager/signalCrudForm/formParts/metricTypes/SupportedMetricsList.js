@@ -65,7 +65,12 @@ const SupportedMetricsList = ({
 
   const metrics = useMemo(
     () => {
-      return getByAvailable(availableMetrics, trigger)
+      return getByAvailable(
+        availableMetrics.some(m => m.includes('nvt'))
+          ? availableMetrics.concat('nvt_5min')
+          : availableMetrics,
+        trigger
+      )
     },
     [availableMetrics, trigger]
   )

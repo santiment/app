@@ -19,8 +19,13 @@ import { ThemeProvider } from './stores/ui/theme'
 import initSentry from './utils/initSentry'
 import { redirectSharedLink } from './components/Share/utils'
 
-const EmbeddedChartPage = Loadable({
+const EmbeddedWidgetPage = Loadable({
   loader: () => import('./pages/Embedded'),
+  loading: () => 'Loading'
+})
+
+const EmbeddedChartPage = Loadable({
+  loader: () => import('./pages/Embedded/Chart'),
   loading: () => 'Loading'
 })
 
@@ -110,7 +115,12 @@ const main = () => {
           <Provider store={store}>
             <Router history={history}>
               <Switch>
-                <Route exact path='/__embedded' component={EmbeddedChartPage} />
+                <Route
+                  exact
+                  path='/__embedded'
+                  component={EmbeddedWidgetPage}
+                />
+                <Route exact path='/__chart' component={EmbeddedChartPage} />
                 <Route path='/' component={App} history={history} />
               </Switch>
             </Router>

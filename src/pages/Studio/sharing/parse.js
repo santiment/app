@@ -1,3 +1,4 @@
+import 'studio/metrics/selector/subitems'
 import { useMemo } from 'react'
 import { parse } from 'query-string'
 import { Metric } from 'studio/metrics'
