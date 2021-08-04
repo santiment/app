@@ -7,12 +7,12 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import MetricState from '../MetricState'
 import Suggestions from '../Suggestions'
+import Combinators from '../Combinators'
 import { useMetricSettings } from '../hooks'
 import { useAvailableSegments } from './hooks'
 import { filterValuesBySearch } from '../utils'
 import { extractFilterByMetricType } from '../../detector'
 import Skeleton from '../../../../../../components/Skeleton/Skeleton'
-import ExplanationTooltip from '../../../../../../components/ExplanationTooltip/ExplanationTooltip'
 import styles from './index.module.scss'
 
 const DEFAULT_SETTINGS = {
@@ -85,11 +85,8 @@ const MarketSegments = ({
     [settings]
   )
 
-  function onToggleMode () {
-    setSettings(state => ({
-      ...state,
-      market_segments_combinator: isANDCombinator ? 'or' : 'and'
-    }))
+  function onToggleMode (combinator) {
+    setSettings(state => ({ ...state, market_segments_combinator: combinator }))
   }
 
   function onToggleSegment (segment) {
@@ -227,26 +224,10 @@ const MarketSegments = ({
                 </div>
               </Panel>
             </ContextMenu>
-            <ExplanationTooltip
-              text={
-                isANDCombinator
-                  ? 'Show assets that matches all of selected segments'
-                  : 'Show assets that matches at least one of selected segments'
-              }
-              className={styles.explanation}
-              align='end'
-              offsetY={10}
-            >
-              <Button
-                className={styles.toggleModeBtn}
-                fluid
-                variant='flat'
-                isActive
-                onClick={onToggleMode}
-              >
-                {isANDCombinator ? 'All' : 'Any'}
-              </Button>
-            </ExplanationTooltip>
+            <Combinators
+              onSelect={onToggleMode}
+              isANDCombinator={isANDCombinator}
+            />
           </div>
           <Suggestions
             hints={baseMetric.hints}
