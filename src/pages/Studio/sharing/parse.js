@@ -121,7 +121,7 @@ function parseMetrics (metrics, comparables = [], KnownMetric) {
 }
 
 function parseCombinedMetrics (metrics, KnownMetric) {
-  return metrics.map(({ k, exp, l, bm }) => {
+  return (metrics || []).map(({ k, exp, l, bm }) => {
     const metric = newExpessionMetric(bm.map(getMetric), exp, l)
     metric.key = k
 
