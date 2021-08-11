@@ -54,6 +54,17 @@ function shareSignalMetrics (signalMetrics) {
   return metrics.length ? shareMetrics(metrics) : undefined
 }
 
+function shareCombinedMetrics (metrics) {
+  return metrics
+    .filter(({ expression }) => expression)
+    .map(({ key, expression, label, baseMetrics }) => ({
+      k: key,
+      exp: expression,
+      l: label,
+      bm: shareMetrics(baseMetrics)
+    }))
+}
+
 function shareHolderLabels (holderLabels) {
   if (holderLabels && holderLabels.length) return holderLabels
 }
@@ -78,6 +89,7 @@ function shareChartWidget (widget) {
   shared.drawings = shareDrawings(widget.drawings)
   shared.connectedWidgets = shareSubwidgets(widget.subwidgets)
   shared.signalMetrics = shareSignalMetrics(widget.signalMetrics)
+  shared.combinedMetrics = shareCombinedMetrics(widget.metrics)
   shared.holderLabels = shareHolderLabels(widget.holderLabels)
 
   return shared

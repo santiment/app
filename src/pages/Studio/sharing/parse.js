@@ -12,6 +12,7 @@ import {
   cacheIndicator,
   Indicator
 } from 'studio/ChartWidget/MetricSettings/IndicatorSetting/utils'
+import { newExpessionMetric } from 'studio/CombineDialog/utils'
 import { parseMetricGraphValue } from './settings'
 import { getWidgetByKey, parseSubwidgets } from './widgets'
 import { ExternalWidgetCreator } from '../Widget'
@@ -119,6 +120,16 @@ function parseMetrics (metrics, comparables = [], KnownMetric) {
     .filter(Boolean)
 }
 
+function parseCombinedMetrics (metrics, KnownMetric) {
+  return metrics.map(({ k, exp, l, bm }) => {
+    const metric = newExpessionMetric(bm.map(getMetric), exp, l)
+    metric.key = k
+
+    KnownMetric[k] = metric
+    return metric
+  })
+}
+
 export function parseWidget (widget) {
   const newExternalWidget = ExternalWidgetCreator[widget.widget]
   if (newExternalWidget) return newExternalWidget()
@@ -126,6 +137,7 @@ export function parseWidget (widget) {
   const Widget = getWidgetByKey(widget.widget)
   const KnownMetric = {}
 
+  parseCombinedMetrics(widget.combinedMetrics, KnownMetric)
   Widget.metricIndicators = parseIndicators(widget.indicators, KnownMetric)
   Widget.mergedMetrics = parseMergedMetrics(widget.metrics, KnownMetric)
   Widget.metrics = parseMetrics(widget.metrics, widget.comparables, KnownMetric)
