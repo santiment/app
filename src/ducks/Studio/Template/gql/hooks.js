@@ -55,6 +55,12 @@ const updateTemplatesOnCreation = buildTemplatesCacheUpdater(
   ({ template }, templates) => [template].concat(templates)
 )
 
+export const templateSorter = (a, b) =>
+  new Date(b.updatedAt) - new Date(a.updatedAt)
+function sortTemplates (templates) {
+  return templates ? templates.sort(templateSorter) : []
+}
+
 export function useUserTemplates (id) {
   const { data, loading, error } = useQuery(TEMPLATES_QUERY, {
     skip: !id,
@@ -63,7 +69,11 @@ export function useUserTemplates (id) {
     }
   })
 
-  return [data ? data.templates : DEFAULT_TEMPLATES, loading, error]
+  return [
+    data ? sortTemplates(data.templates) : DEFAULT_TEMPLATES,
+    loading,
+    error
+  ]
 }
 
 export function usePublicProjectTemplates (projectId) {

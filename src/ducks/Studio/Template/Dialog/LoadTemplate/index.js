@@ -8,11 +8,11 @@ import Tabs from '@santiment-network/ui/Tabs'
 import Icon from '@santiment-network/ui/Icon'
 import Template, { openTemplate } from './Template'
 import {
+  templateSorter,
   useFeaturedTemplates,
   usePublicProjectTemplates
 } from '../../gql/hooks'
 import TemplateDetailsDialog from '../../TemplateDetailsDialog/TemplateDetailsDialog'
-import { sortById } from '../../../../../utils/sortMethods'
 import NoChartLayouts from '../../NoChartLayouts/NoChartLayouts'
 import { prepareTemplateLink } from '../../utils'
 import styles from './index.module.scss'
@@ -156,7 +156,7 @@ const LoadTemplate = ({
             {filteredTemplates.length === 0 ? (
               <NoChartLayouts />
             ) : (
-              filteredTemplates.sort(sortById).map(template => (
+              filteredTemplates.sort(templateSorter).map(template => (
                 <Template
                   key={template.id}
                   template={template}
