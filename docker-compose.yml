@@ -10,7 +10,9 @@ services:
       - REACT_APP_BACKEND_URL=https://api-stage.santiment.net
     command: yarn test --ci
   frontend:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
     environment:
       - REACT_APP_BACKEND_URL=https://api-stage.santiment.net
     expose:
