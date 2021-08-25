@@ -24,7 +24,7 @@ export const BUSINESS_PRODUCTS = [
     img: sanapi,
     title: 'SanAPI',
     description: 'The most comprehensive crypto API on the market',
-    to: 'https://neuro.santiment.net'
+    to: 'https://api.santiment.net'
   }
 ]
 
