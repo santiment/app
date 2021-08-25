@@ -4,10 +4,23 @@ import 'webkit/styles/layout.css'
 import 'webkit/styles/elements.css'
 import EmbeddableChartWidget from 'studio/EmbeddableChartWidget/WithApi'
 import { studio } from 'studio/stores/studio'
-import { parseUrl } from '../Studio/sharing/parse.js'
+import { globals } from 'studio/stores/globals'
+import { newWidget } from 'studio/stores/widgets'
+import { parseQueryString } from 'studio/ChartWidget/Controls/Embed/utils'
 
-const { settings, widgets } = parseUrl(window.location.search)
-studio.setProject(settings)
+const {
+  from,
+  to,
+  slug,
+  ticker,
+  isNightMode,
+  isWithMetricSettings,
+  ...widgetProps
+} = parseQueryString(window.location.search)
+
+studio.setProject({ from, to, slug, ticker })
+globals.toggle('isNightMode', isNightMode)
+document.body.classList.toggle('night-mode', isNightMode)
 
 window.onload = () => {
   document.body.innerHTML = ''
@@ -15,7 +28,8 @@ window.onload = () => {
   new EmbeddableChartWidget({
     target: document.body,
     props: {
-      widget: widgets[0] || {}
+      isWithMetricSettings,
+      widget: newWidget(null, widgetProps)
     }
   })
 }
