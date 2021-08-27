@@ -1,7 +1,7 @@
 import COLOR from '@santiment-network/ui/variables.scss'
 
 export const dayAxesColor = COLOR.porcelain
-export const nightAxesColor = COLOR['cloud-burst']
+export const nightAxesColor = '#222639'
 
 export const dayHoverLineColor = COLOR.casper
 export const nightHoverLineColor = COLOR.rhino
@@ -23,7 +23,7 @@ export const dayBubblesPaintConfig = {
 export const nightBubblesPaintConfig = {
   font: '10px sans-serif',
   bgColor: COLOR.rhino,
-  textColor: COLOR['bali-hai']
+  textColor: '#8b93b6'
 }
 
 export const dayTooltipPaintConfig = {
@@ -37,11 +37,11 @@ export const dayTooltipPaintConfig = {
 }
 export const nightTooltipPaintConfig = {
   font: '12px sans-serif',
-  headerFill: COLOR['cloud-burst'],
+  headerFill: '#222639',
   borderColor: COLOR.rhino,
   contentFill: COLOR.mirage,
-  headerColor: COLOR['bali-hai'],
-  valueColor: COLOR['bali-hai'],
+  headerColor: '#8b93b6',
+  valueColor: '#8b93b6',
   labelColor: '#fff'
 }
 
@@ -51,7 +51,7 @@ export const dayBrushPaintConfig = {
   handleColor: COLOR.waterloo
 }
 export const nightBrushPaintConfig = {
-  bgColor: COLOR['cloud-burst'],
+  bgColor: '#222639',
   fadeColor: COLOR.rhino,
   handleColor: COLOR['bali-hai']
 }
