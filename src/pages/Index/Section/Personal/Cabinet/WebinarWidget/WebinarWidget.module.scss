@@ -1,0 +1,40 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  display: flex;
+  padding: 20px 0;
+  width: 100%;
+  position: relative;
+}
+
+.youtube {
+  fill: var(--waterloo);
+}
+
+.more {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 3px 8px;
+  color: var(--rhino);
+
+  & .word {
+    padding: 0 8px 0 4px;
+  }
+
+  &:hover,
+  &:focus {
+    color: var(--mirage);
+
+    & .word {
+      color: var(--persimmon);
+    }
+
+    & .youtube {
+      fill: var(--persimmon);
+    }
+  }
+}
