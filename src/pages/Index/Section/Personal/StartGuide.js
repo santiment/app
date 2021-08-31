@@ -9,6 +9,7 @@ import { PROJECT } from '../../../../ducks/Watchlists/detector'
 import NewWatchlist from '../../../../ducks/Watchlists/Actions/New'
 import Accordion from '../../Accordion'
 import QuickStartTitle from './QuickStartTitle/QuickStartTitle'
+import WebinarWidgetTitle from './Cabinet/WebinarWidget/WebinarWidgetTitle'
 import styles from './index.module.scss'
 
 const LS_ARTICLE_IS_READ = 'LS_ARTICLE_IS_READ'
@@ -151,6 +152,11 @@ const StartGuide = () => {
           }
         />
       </Accordion>
+      <Accordion
+        title={<WebinarWidgetTitle />}
+        showArrow={false}
+        classes={styles}
+      />
     </>
   )
 }
