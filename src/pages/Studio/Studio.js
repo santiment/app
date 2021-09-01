@@ -187,6 +187,7 @@ const Studio = ({
       <Sidebar
         studio={studio}
         settings={settings}
+        widgets={widgets}
         selectMetricRef={selectMetricRef}
         onSidebarProjectMountRef={onSidebarProjectMountRef}
       />
