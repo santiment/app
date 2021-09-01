@@ -27,7 +27,7 @@ const ResearchesBlock = ({ className }) => (
             target='_blank'
             rel='noopener noreferrer'
             className={styles.link}
-            href='https://neuro.santiment.net/'
+            href='https://api.santiment.net/'
           >
             unified API
           </a>{' '}

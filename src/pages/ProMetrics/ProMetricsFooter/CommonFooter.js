@@ -30,7 +30,7 @@ const LEFT_LINKS = [
   },
   {
     label: 'SanAPI',
-    link: 'https://neuro.santiment.net/'
+    link: 'https://api.santiment.net/'
   },
   {
     label: 'Team',

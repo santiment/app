@@ -59,17 +59,22 @@
 }
 
 .list {
-  display: grid;
-  grid-column-gap: 76px;
-  grid-row-gap: 58px;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  align-items: center;
-  max-width: 780px;
+  display: flex;
+  flex-direction: column;
 
   img {
     align-self: center;
     justify-self: center;
+
+    :global(.night-mode) & {
+      filter: invert(1) grayscale(1);
+    }
+  }
+
+  @include responsive('phone-xs', 'phone') {
+    img {
+      max-width: 140px;
+    }
   }
 
   @include responsive('laptop', 'tablet') {
@@ -77,15 +82,56 @@
       max-width: 170px;
     }
   }
+}
 
-  @include responsive('phone', 'phone-xs') {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    grid-column-gap: 48px;
-    grid-row-gap: 48px;
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    img {
-      max-width: 140px;
+  @include responsive('phone-xs', 'phone') {
+    flex-wrap: wrap;
+  }
+
+  &:first-child {
+    & img {
+      margin-right: 104px;
+
+      @include responsive('phone') {
+        margin: 30px;
+      }
+
+      @include responsive('phone-xs') {
+        margin: 20px;
+      }
     }
   }
+
+  &:last-child {
+    margin-top: 56px;
+
+    @include responsive('phone-xs', 'phone') {
+      margin-top: 0;
+    }
+
+    & img {
+      margin-right: 80px;
+
+      @include responsive('tablet') {
+        margin-right: 50px;
+      }
+
+      @include responsive('phone') {
+        margin: 30px;
+      }
+
+      @include responsive('phone-xs') {
+        margin: 20px;
+      }
+    }
+  }
+}
+
+.row img:last-child {
+  margin-right: 0;
 }
