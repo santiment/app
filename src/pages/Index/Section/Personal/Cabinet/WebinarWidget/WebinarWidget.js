@@ -4,28 +4,17 @@ import { useQuery } from '@apollo/react-hooks'
 import Video from './Video'
 import styles from './WebinarWidget.module.scss'
 
-// const VIDEOS_QUERY = gql`
-//   {
-//     getWebinars {
-//       title
-//       description
-//       url
-//       imageUrl
-//       startTime
-//       endTime
-//       insertedAt
-//       isPro
-//     }
-//   }
-// `
 const VIDEOS_QUERY = gql`
   {
-    getWebinars: activeWidgets {
+    getWebinars {
       title
       description
-      videoLink
-      imageLink
-      createdAt
+      url
+      imageUrl
+      startTime
+      endTime
+      insertedAt
+      isPro
     }
   }
 `

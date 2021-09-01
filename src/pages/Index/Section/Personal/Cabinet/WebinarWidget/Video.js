@@ -4,11 +4,11 @@ import { extractYoutubeId } from './utils'
 import YoutubeButton from './YoutubeButton'
 import styles from './WebinarWidget.module.scss'
 
-const Video = ({ videoLink, title, imageLink }) => {
+const Video = ({ url, imageUrl, title }) => {
   const videoRef = useRef(null)
   const [isActivated, setIsActivated] = useState(false)
 
-  const videoId = extractYoutubeId(videoLink)
+  const videoId = extractYoutubeId(url)
 
   const onVideoClicked = () => {
     let iframe = document.createElement('iframe')
@@ -33,7 +33,7 @@ const Video = ({ videoLink, title, imageLink }) => {
         <img
           className={styles.preview__img}
           src={
-            imageLink || `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`
+            imageUrl || `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`
           }
           alt={title}
         />
