@@ -25,6 +25,7 @@ import { useSidewidget } from './Sidewidget'
 import StudioTab from './Tabs/Studio'
 import KeyStatsTab from './Tabs/KeyStats'
 import InsightsTab from './Tabs/Insights'
+import { parseTemplate } from './sharing/template'
 import { useRedrawer } from '../../hooks'
 import { Tab } from '../../ducks/Studio/Tabs'
 import 'webkit/styles/color.css'
@@ -56,6 +57,7 @@ const Studio = ({
   const setWidgetsRef = useRef()
   const isMapviewDisabledRef = useRef()
   const selectMetricRef = useRef()
+  const onSidebarProjectMountRef = useRef()
   const [studio, setStudio] = useState()
   const settings = useSettings()
   const widgetsStore = useWidgetsStore(studio)
@@ -84,11 +86,13 @@ const Studio = ({
         defaultSettings,
         onModRangeSelect,
         onChartPointClick,
+        parseLayoutWidgets: parseTemplate,
         onAnonFavoriteClick: () => setIsLoginCTAOpened(true),
         onWidget: () => redraw(),
         onWidgetInit: () => setWidgetsRef.current(widgets => widgets.slice()),
         onSubwidget: subwidgetsController.onSubwidget,
         onScreenMount: setMountedScreen,
+        onSidebarProjectMount: node => onSidebarProjectMountRef.current(node),
         checkIsMapviewDisabled: () => isMapviewDisabledRef.current,
         adjustSelectedMetric: onMetricSelect,
         InsightsContextStore: InsightsStore,
@@ -177,13 +181,15 @@ const Studio = ({
             settings={settings}
             onProjectSelect={onProjectSelect}
           />
-          <Sidebar
-            studio={studio}
-            settings={settings}
-            selectMetricRef={selectMetricRef}
-          />
         </>
       )}
+
+      <Sidebar
+        studio={studio}
+        settings={settings}
+        selectMetricRef={selectMetricRef}
+        onSidebarProjectMountRef={onSidebarProjectMountRef}
+      />
 
       {studio && (
         <Switch>

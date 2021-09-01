@@ -135,7 +135,7 @@ export function getTagInsights (from, to, tag) {
   return buildInsightsGetter(INSIGHTS_QUERY, {
     from,
     to,
-    tags: [tag.toUpperCase()]
+    tags: [(tag || '').toUpperCase()]
   }).then(allInsightsExtractor)
 }
 
