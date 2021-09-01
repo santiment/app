@@ -2,7 +2,8 @@
 
 .container {
   display: flex;
-  padding: 20px 0;
+  flex-direction: column;
+  padding: 16px 0;
   width: 100%;
   position: relative;
 }
@@ -12,13 +13,12 @@
 }
 
 .more {
-  position: absolute;
-  top: 0;
-  right: 0;
   display: flex;
   align-items: center;
   cursor: pointer;
   padding: 3px 8px;
+  margin-top: 8px;
+  margin-left: auto;
   color: var(--rhino);
 
   & .word {
@@ -37,4 +37,38 @@
       fill: var(--persimmon);
     }
   }
+}
+
+.videos {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  position: relative;
+  height: 200px;
+  padding: 0;
+}
+
+.scroller {
+  position: absolute;
+  display: flex;
+  top: 0;
+  left: 24px;
+}
+
+.widget {
+  width: 100%;
+  margin-right: 8px;
+
+  &:last-child {
+    margin-right: 24px;
+  }
+}
+
+.iframe {
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  height: 176px;
+  width: 316px;
 }
