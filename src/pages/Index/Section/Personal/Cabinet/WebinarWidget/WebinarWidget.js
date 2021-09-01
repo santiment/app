@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react'
-import cx from 'classnames'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
-import { extractYoutubeId } from './utils'
+import Video from './Video'
 import styles from './WebinarWidget.module.scss'
 
 // const VIDEOS_QUERY = gql`
@@ -55,35 +54,9 @@ const WebinarWidget = () => {
     <div className={styles.container}>
       <div className={styles.videos}>
         <div className={styles.scroller}>
-          {videos.map(({ title, videoLink, imageLink }, idx) => (
-            <div className={styles.widget} key={idx}>
-              <iframe
-                className={styles.iframe}
-                title={title}
-                allowFullScreen={true}
-                allow='autoplay'
-                src={`https://www.youtube-nocookie.com/embed/${extractYoutubeId(
-                  videoLink
-                )}?rel=0&modestbranding&showinfo=0`}
-              />
-            </div>
+          {videos.map((videoData, idx) => (
+            <Video key={idx} {...videoData} />
           ))}
-          {/*      {false && activeIdx > 0 && (
-        <div
-          className={cx(styles.arrow, styles.arrow__left)}
-          onClick={() => console.log('left')}
-        >
-          left
-        </div>
-      )}
-      {false && activeIdx < activeWidgets.length - 1 && (
-        <div
-          className={cx(styles.arrow, styles.arrow__right)}
-          onClick={() => console.log('right')}
-        >
-          right
-        </div>
-      )} */}
         </div>
       </div>
       <a
