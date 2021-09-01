@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import ReactDOM from 'react-dom'
-import { newInsightsContextStore } from 'studio/Sidebar/Insights/context'
+import { newInsightsContextStore } from 'studio/Sidebar/Metrics/Insights/context'
 import { useStore } from './stores'
 import { loadInsights } from '../../ducks/Studio/insights/context'
 import {

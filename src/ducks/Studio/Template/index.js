@@ -58,6 +58,11 @@ const Template = ({
   const projectFromUrl = extractTemplateProject()
   const [urlProject] = useProjectById(projectFromUrl)
 
+  window.selectLayout = layout => {
+    setSelectedTemplate(layout)
+    addRecentTemplate(layout.id)
+  }
+
   const selectTemplate = template => {
     setSelectedTemplate(template)
 
