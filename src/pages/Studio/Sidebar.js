@@ -42,9 +42,11 @@ const Sidebar = ({
   function onNew (layout) {
     window.selectLayout(layout)
     const data = Cache.get(USER_LAYOUTS_QUERY)
-    data.currentUser.layouts.unshift(layout)
-    Cache.set(USER_LAYOUTS_QUERY, data)
-    window.refetchMyLayout()
+    if (data) {
+      data.currentUser.layouts.unshift(layout)
+      Cache.set(USER_LAYOUTS_QUERY, data)
+      window.refetchMyLayout()
+    }
     closeNewLayoutDialog()
   }
 
