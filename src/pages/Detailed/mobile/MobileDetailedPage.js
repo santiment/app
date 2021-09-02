@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
-import { connect } from 'react-redux'
 import { useTrackEvents } from '../../../hooks/tracking'
 import { PROJECT_BY_SLUG_MOBILE_QUERY } from '../../../ducks/SANCharts/gql'
 import Title from './MobileAssetTitle'
@@ -11,7 +9,6 @@ import PriceBlock from './MobileAssetPriceInfo'
 import FullscreenChart from './MobileFullscreenChart'
 import ChartSelector from './MobileAssetChartSelector'
 import MobilePopularMetrics from './MobilePopularMetrics'
-import { checkHasPremium } from '../../UserSelectors'
 import { useTimeseries } from '../../../ducks/Studio/timeseries/hooks'
 import ChartMetricsTool from '../../../ducks/SANCharts/ChartMetricsTool'
 import {
@@ -31,14 +28,12 @@ import MobileProPopup from '../../../components/MobileProPopup/MobileProPopup'
 import { useChartColors } from '../../../ducks/Chart/colors'
 import RecentlyUsedMetrics from './RecentlyUsedMetrics'
 import { getIntervalByTimeRange } from '../../../utils/dates'
+import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import { addRecentAssets, addRecentMetric } from '../../../utils/recent'
 import styles from './MobileDetailedPage.module.scss'
 
-const MobileDetailedPage = ({
-  hasPremium,
-  data: { project = {}, loading },
-  ...props
-}) => {
+const MobileDetailedPage = ({ data: { project = {}, loading }, ...props }) => {
+  const { isPro: hasPremium } = useUserSubscriptionStatus()
   const [trackEvent] = useTrackEvents()
   const slug = props.match.params.slug
 
@@ -234,12 +229,7 @@ const MobileDetailedPage = ({
   )
 }
 
-const mapStateToProps = state => ({ hasPremium: checkHasPremium(state) })
-
-export default compose(
-  connect(mapStateToProps),
-  graphql(PROJECT_BY_SLUG_MOBILE_QUERY, {
-    skip: ({ match }) => !match.params.slug,
-    options: ({ match }) => ({ variables: { slug: match.params.slug } })
-  })
-)(MobileDetailedPage)
+export default graphql(PROJECT_BY_SLUG_MOBILE_QUERY, {
+  skip: ({ match }) => !match.params.slug,
+  options: ({ match }) => ({ variables: { slug: match.params.slug } })
+})(MobileDetailedPage)
