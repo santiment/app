@@ -16,7 +16,7 @@ export const USER_SUBSCRIPTIONS_QUERY = gql`
   {
     currentUser {
       id
-      eligibleForSanbaseTrial
+      isEligibleForSanbaseTrial
       subscriptions {
         id
         status
@@ -65,7 +65,9 @@ export function useUserSubscriptions () {
       return {
         loading,
         isEligibleForSanbaseTrial:
-          data && data.currentUser && data.currentUser.eligibleForSanbaseTrial,
+          data &&
+          data.currentUser &&
+          data.currentUser.isEligibleForSanbaseTrial,
         subscriptions:
           data && data.currentUser && data.currentUser.subscriptions
       }
