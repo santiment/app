@@ -180,11 +180,7 @@ const Confirmation = ({
           className={styles.btn}
           fluid
         >
-          {hasCompletedTrial
-            ? 'Pay'
-            : isTrialActive
-              ? `Upgrade to ${name.toUpperCase()}`
-              : 'Start 14-day free trial'}
+          Pay
         </Dialog.Approve>
       </div>
     </div>

@@ -44,7 +44,6 @@ import {
 } from '../pages/Account/epics'
 import { insightslikesEpic } from '../components/Like/insightslikesEpic'
 import { feedEventlikesEpic } from '../components/Like/feedEventlikesEpic'
-import { trialSubscriptionEpic } from './trialSubscriptionEpic'
 
 export default combineEpics(
   handleLauched,
@@ -84,7 +83,5 @@ export default combineEpics(
   removeSignalEpic,
   // likes
   insightslikesEpic,
-  feedEventlikesEpic,
-  // trial subscription
-  trialSubscriptionEpic
+  feedEventlikesEpic
 )
