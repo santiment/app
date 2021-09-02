@@ -16,6 +16,7 @@ export const USER_SUBSCRIPTIONS_QUERY = gql`
   {
     currentUser {
       id
+      eligibleForSanbaseTrial
       subscriptions {
         id
         status
@@ -63,6 +64,8 @@ export function useUserSubscriptions () {
       const { loading, data } = query
       return {
         loading,
+        isEligibleForSanbaseTrial:
+          data && data.currentUser && data.currentUser.eligibleForSanbaseTrial,
         subscriptions:
           data && data.currentUser && data.currentUser.subscriptions
       }
@@ -76,9 +79,10 @@ export function useUserSubscription () {
 
   return useMemo(
     () => {
-      const { loading, subscriptions } = data
+      const { loading, subscriptions, isEligibleForSanbaseTrial } = data
       return {
         loading,
+        isEligibleForSanbaseTrial,
         subscription: subscriptions && getSanbaseSubscription(subscriptions)
       }
     },
@@ -91,7 +95,7 @@ export function useUserSubscriptionStatus () {
 
   return useMemo(
     () => {
-      const { loading, subscription } = data
+      const { loading, subscription, isEligibleForSanbaseTrial } = data
 
       let isPro = false
       let isProPlus = false
@@ -115,7 +119,7 @@ export function useUserSubscriptionStatus () {
         isProPlus,
         isTrial,
         trialDaysLeft,
-        isEligibleForSanbaseTrial: false
+        isEligibleForSanbaseTrial
       }
     },
     [data]
