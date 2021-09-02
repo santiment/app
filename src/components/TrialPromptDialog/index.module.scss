@@ -1,0 +1,88 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  border: none;
+  box-shadow: none;
+  padding: 10px 24px 24px 24px !important;
+
+  @include responsive('phone', 'phone-xs') {
+    width: 100%;
+  }
+}
+
+.content {
+  display: flex;
+
+  @include responsive('tablet') {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.left {
+  width: 400px;
+
+  @include responsive('tablet') {
+    width: 300px;
+    margin-bottom: 24px;
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    display: none;
+  }
+}
+
+.right {
+  text-align: left;
+  margin-left: 70px;
+  flex: 1;
+
+  @include responsive('tablet', 'phone', 'phone-xs') {
+    margin: 0;
+    text-align: center;
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.title {
+  border: 0;
+  display: flex;
+  justify-content: flex-end;
+  background-color: var(--white);
+  padding: 24px 24px 0 24px !important;
+}
+
+.feature {
+  @include text('body-2');
+
+  margin-bottom: 16px;
+  display: flex;
+}
+
+.check {
+  margin-right: 12px;
+}
+
+.btn {
+  height: 40px;
+  width: 352px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.header {
+  @include text('h3');
+
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.description {
+  margin-top: 12px;
+  color: var(--waterloo);
+}
