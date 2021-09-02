@@ -10,7 +10,7 @@ const Blocks = [
   {
     title: 'Let’s the platform speak for itself',
     description:
-      'Sign up for a free trial to see what Sanbase PRO can do for you',
+      'Enter a credit card for a free trial to see what Sanbase PRO can do for you',
     btn: (
       <Button
         variant='ghost'

@@ -114,7 +114,8 @@ export function useUserSubscriptionStatus () {
         isPro,
         isProPlus,
         isTrial,
-        trialDaysLeft
+        trialDaysLeft,
+        isEligibleForSanbaseTrial: false
       }
     },
     [data]

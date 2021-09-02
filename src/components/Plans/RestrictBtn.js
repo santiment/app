@@ -48,21 +48,13 @@ const RestrictBtn = ({
   })
 
   return (
-    <>
-      <Button
-        fluid
-        accent='orange'
-        border
-        {...props}
-        className={cx(sharedStyles.link, styles.restrictBtn)}
-      />
-      {!isLoggedIn && (
-        <div className={styles.noCredit}>
-          {!sameAsUserPlan && showCreditMsg ? 'No credit card required' : ' '}
-          &nbsp;
-        </div>
-      )}
-    </>
+    <Button
+      fluid
+      accent='orange'
+      border
+      {...props}
+      className={cx(sharedStyles.link, styles.restrictBtn)}
+    />
   )
 }
 

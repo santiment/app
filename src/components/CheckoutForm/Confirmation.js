@@ -7,11 +7,7 @@ import Icon from '@santiment-network/ui/Icon'
 import Input from '@santiment-network/ui/Input'
 import Dialog from '@santiment-network/ui/Dialog'
 import { useDebounce } from '../../hooks'
-import {
-  formatOnlyPrice,
-  getAlternativeBillingPlan,
-  hasActiveTrial
-} from '../../utils/plans'
+import { formatOnlyPrice, getAlternativeBillingPlan } from '../../utils/plans'
 import { usePlans } from '../../ducks/Plans/hooks'
 import PlansDropdown from './PlansDropdown'
 import sharedStyles from './CheckoutForm.module.scss'
@@ -111,8 +107,6 @@ const Confirmation = ({
   const planWithBilling = `${name} ${billing}ly`
   const plan = { name: name.toUpperCase(), interval: billing, amount: price }
   const altPlan = getAlternativeBillingPlan(plans, plan) || {}
-
-  const isTrialActive = hasActiveTrial(subscription)
 
   return (
     <div className={sharedStyles.confirmation}>
