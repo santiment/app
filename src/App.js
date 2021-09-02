@@ -35,6 +35,7 @@ import CreateAccountFreeTrial from './pages/Login/CreateAccountFreeTrial'
 import { withSavedCommentLookup } from './withSavedCommentLookup'
 import Intercom from './components/Intercom/index.js'
 import LiveWidget from './components/LiveWidget'
+import TrialPromptDialog from './components/TrialPromptDialog'
 import styles from './App.module.scss'
 import './index.scss'
 import './App.scss'
@@ -260,6 +261,7 @@ export const App = ({
         {isDesktop && <UrlModals />}
 
         <ErrorBoundary history={history}>
+          <TrialPromptDialog />
           <Switch>
             <Route path={SHARE_PATH} component={PageLoader} />
             {['list', 'screener'].map(name => (
