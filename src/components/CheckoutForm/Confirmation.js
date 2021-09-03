@@ -9,6 +9,7 @@ import Dialog from '@santiment-network/ui/Dialog'
 import { useDebounce } from '../../hooks'
 import { formatOnlyPrice, getAlternativeBillingPlan } from '../../utils/plans'
 import { usePlans } from '../../ducks/Plans/hooks'
+import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import PlansDropdown from './PlansDropdown'
 import sharedStyles from './CheckoutForm.module.scss'
 import styles from './Confirmation.module.scss'
@@ -99,7 +100,6 @@ const Confirmation = ({
   price,
   loading,
   changeSelectedPlan,
-  hasCompletedTrial,
   subscription
 }) => {
   const [plans] = usePlans()
@@ -107,6 +107,7 @@ const Confirmation = ({
   const planWithBilling = `${name} ${billing}ly`
   const plan = { name: name.toUpperCase(), interval: billing, amount: price }
   const altPlan = getAlternativeBillingPlan(plans, plan) || {}
+  const { isEligibleForSanbaseTrial } = useUserSubscriptionStatus()
 
   return (
     <div className={sharedStyles.confirmation}>
@@ -174,7 +175,7 @@ const Confirmation = ({
           className={styles.btn}
           fluid
         >
-          Pay
+          {isEligibleForSanbaseTrial ? 'Start 14-Day Free Trial' : 'Pay'}
         </Dialog.Approve>
       </div>
     </div>
