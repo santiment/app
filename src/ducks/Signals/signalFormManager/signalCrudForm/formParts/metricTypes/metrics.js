@@ -22,7 +22,6 @@ export const isDailyMetric = key => {
 export const DAILY_METRICS = [
   Metric.mean_age,
   Metric.mean_dollar_invested_age,
-  { ...Metric.nvt, key: 'nvt_5min' },
   Metric.withdrawal_transactions,
 
   ...Object.values(HolderDistributionAbsoluteMetric).map(m => ({
@@ -84,6 +83,8 @@ export const SIGNAL_SUPPORTED_METRICS = [
   makeSignalMetric('price_btc', 'Price BTC', 'Financial'),
   makeSignalMetric('price_eth', 'Price ETH', 'Financial'),
   Metric.marketcap_usd,
+
+  { ...Metric.nvt, key: 'nvt_5min' },
 
   makeSignalMetric(
     'community_messages_count_total',
