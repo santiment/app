@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { parse } from 'query-string'
 import { track } from 'webkit/analytics'
+import { queryLayout } from 'studio/api/layouts'
+import { selectedLayout } from 'studio/stores/layout'
 import Studio from './Studio'
 import URLExtension from './URLExtension'
 import RecentAssetExtension from './RecentAssetExtension'
@@ -8,11 +10,9 @@ import { SHORT_URL_POSTFIX, getShortUrlHash } from './utils'
 import { parseUrl } from './sharing/parse'
 import { parseTemplate } from './sharing/template'
 import { getIdFromSEOLink } from '../../utils/url'
-import { addRecentTemplate } from '../../utils/recent'
 import { getFullUrl } from '../../components/Share/utils'
 import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
 import PageLoader from '../../components/Loader/PageLoader'
-import { getTemplate } from '../../ducks/Studio/Template/gql/hooks'
 
 const Extensions = props => (
   <>
@@ -51,19 +51,19 @@ export default ({ location }) => {
         if (templateId === prevTemplateId) return
 
         setPrevTemplateId(templateId)
-        getTemplate(templateId)
-          .then(template => {
+        queryLayout(+templateId)
+          .then(layout => {
             if (isRacing) return
             const parsedUrl = {
-              settings: template.project,
-              widgets: parseTemplate(template)
+              settings: layout.project,
+              widgets: parseTemplate(layout)
             }
             if (!parsedUrl.settings.slug) {
               parsedUrl.settings.slug = 'bitcoin'
               parsedUrl.settings.ticker = 'BTC'
             }
 
-            addRecentTemplate(templateId)
+            selectedLayout.set(layout)
             setShortUrlHash()
             setSlug(parsedUrl.settings.slug || '')
             setParsedUrl(parsedUrl)
