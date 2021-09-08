@@ -17277,9 +17277,9 @@ safe-regex@^1.1.0:
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
-"san-studio@https://github.com/santiment/san-studio.git#2c4623a":
+"san-studio@https://github.com/santiment/san-studio.git#4936383":
   version "0.0.1"
-  resolved "https://github.com/santiment/san-studio.git#2c4623a0d3147ac7c26b5b59fdaee33601089c57"
+  resolved "https://github.com/santiment/san-studio.git#4936383a3af6f3f2e8fd29bcd42666c1cfb2059c"
   dependencies:
     mathjs "^9.4.4"
     san-webkit "https://github.com/santiment/san-webkit.git#d0a6413"
