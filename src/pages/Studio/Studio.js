@@ -25,6 +25,7 @@ import { useSidewidget } from './Sidewidget'
 import StudioTab from './Tabs/Studio'
 import KeyStatsTab from './Tabs/KeyStats'
 import InsightsTab from './Tabs/Insights'
+import { shareWidgets } from './sharing/share'
 import { parseTemplate } from './sharing/template'
 import { useRedrawer } from '../../hooks'
 import { Tab } from '../../ducks/Studio/Tabs'
@@ -87,6 +88,7 @@ const Studio = ({
         onModRangeSelect,
         onChartPointClick,
         parseLayoutWidgets: parseTemplate,
+        shareLayoutWidgets: shareWidgets,
         onAnonFavoriteClick: () => setIsLoginCTAOpened(true),
         onWidget: () => redraw(),
         onWidgetInit: () => setWidgetsRef.current(widgets => widgets.slice()),
