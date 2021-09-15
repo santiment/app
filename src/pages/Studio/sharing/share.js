@@ -81,6 +81,7 @@ function shareChartWidget (widget) {
     return shared
   }
 
+  if (widget.isSharedAxisEnabled) shared.wcsa = widget.isSharedAxisEnabled
   shared.metrics = shareMetrics(widget.metrics)
   shared.axesMetrics = shareAxesMetrics(widget.axesMetrics)
   shared.colors = widget.colors

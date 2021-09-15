@@ -149,6 +149,7 @@ export function parseWidget (widget) {
   const { signalMetrics = [] } = widget
   Widget.signalMetrics = parseMetrics(signalMetrics, undefined, KnownMetric)
   Widget.holderLabels = widget.holderLabels
+  Widget.isSharedAxisEnabled = widget.wcsa
 
   return Widget
 }
