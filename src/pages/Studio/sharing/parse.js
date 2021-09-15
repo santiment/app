@@ -15,6 +15,7 @@ import {
 import { newExpessionMetric } from 'studio/CombineDialog/utils'
 import { parseMetricGraphValue } from './settings'
 import { getWidgetByKey, parseSubwidgets } from './widgets'
+import { parseChartAddons } from './addons'
 import { ExternalWidgetCreator } from '../Widget'
 import { parseSharedSidepanel } from '../../../ducks/Studio/url/parse'
 import {
@@ -150,6 +151,7 @@ export function parseWidget (widget) {
   Widget.signalMetrics = parseMetrics(signalMetrics, undefined, KnownMetric)
   Widget.holderLabels = widget.holderLabels
   Widget.isSharedAxisEnabled = widget.wcsa
+  Widget.chartAddons = parseChartAddons(widget.wcadon)
 
   return Widget
 }

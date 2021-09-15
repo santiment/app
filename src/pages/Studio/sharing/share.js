@@ -1,4 +1,6 @@
+import { get } from 'svelte/store'
 import { WidgetToKeyMap } from './widgets'
+import { shareChartAddons } from './addons'
 import FeesDistribution from '../Widget/FeesDistribution'
 import HoldersDistributionTable from '../Widget/HoldersDistributionTable'
 import TopExchangesTable from '../Widget/TopExchangesTable'
@@ -92,6 +94,10 @@ function shareChartWidget (widget) {
   shared.signalMetrics = shareSignalMetrics(widget.signalMetrics)
   shared.combinedMetrics = shareCombinedMetrics(widget.metrics)
   shared.holderLabels = shareHolderLabels(widget.holderLabels)
+
+  if (widget.ChartAddons) {
+    shared.wcadon = shareChartAddons(get(widget.ChartAddons))
+  }
 
   return shared
 }
