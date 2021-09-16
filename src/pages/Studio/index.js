@@ -31,6 +31,8 @@ export default ({ location }) => {
 
   const { pathname, search } = location
 
+  useEffect(() => () => selectedLayout.set(), [])
+
   useEffect(
     () => {
       const newSlug = parse(search).slug
