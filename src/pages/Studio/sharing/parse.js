@@ -185,12 +185,15 @@ function tryParseSettings (settings) {
 }
 
 export function parseUrl (url) {
-  const { settings, widgets, sidepanel } = parse(url.slice(url.indexOf('?')))
+  const { settings, widgets, sidepanel, layout } = parse(
+    url.slice(url.indexOf('?'))
+  )
 
   return {
     settings: settings && tryParseSettings(settings),
     widgets: widgets && tryParseWidgets(widgets),
-    sidewidget: sidepanel && tryParseSharedSidewidget(sidepanel)
+    sidewidget: sidepanel && tryParseSharedSidewidget(sidepanel),
+    layout
   }
 }
 
