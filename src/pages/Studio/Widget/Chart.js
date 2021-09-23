@@ -4,19 +4,18 @@ import { useStore } from '../stores'
 import Insights from '../Insights'
 import Signals from '../../../ducks/Chart/Signals'
 import PaywallInfo from '../../../ducks/Studio/Chart/PaywallInfo'
-// import Calendar from '../../../ducks/Studio/AdvancedView/Calendar'
 import Calendar from '../../../components/Calendar/Calendar'
-
-const MAX_DATE = new Date()
 
 const Settings = () => {
   const [target, setTarget] = useState()
-  const [date, setDate] = useState()
+  const [dates, setDates] = useState()
+  const [maxDate, setMaxDate] = useState()
 
   useEffect(() => {
-    window.mountSettingsCalendar = (target, date) => {
+    window.mountSettingsCalendar = (target, dates, maxDate) => {
       setTarget(target)
-      setDate(date)
+      setDates(dates)
+      setMaxDate(maxDate)
     }
     return () => delete window.mountSettingsCalendar
   }, [])
@@ -24,9 +23,10 @@ const Settings = () => {
   return target
     ? ReactDOM.createPortal(
       <Calendar
-        value={date}
-        maxDate={MAX_DATE}
-        onChange={date => window.setSettingsCalendarDate(date)}
+        selectRange
+        value={dates}
+        maxDate={maxDate}
+        onChange={dates => window.setSettingsCalendarDate(dates)}
       />,
       target
     )
