@@ -1,6 +1,7 @@
 import { get } from 'svelte/store'
 import { WidgetToKeyMap } from './widgets'
 import { shareChartAddons } from './addons'
+import { shareDrawings } from './drawings'
 import FeesDistribution from '../Widget/FeesDistribution'
 import HoldersDistributionTable from '../Widget/HoldersDistributionTable'
 import TopExchangesTable from '../Widget/TopExchangesTable'
@@ -35,11 +36,6 @@ function shareIndicators (MetricIndicators) {
 
 const shareAxesMetrics = axesMetrics =>
   Array.from(axesMetrics || []).map(keyAccessor)
-
-function shareDrawings (drawings = []) {
-  if (drawings.length === 0) return
-  return drawings.map(({ color, relCoor }) => ({ color, relCoor }))
-}
 
 function shareSubwidgets (subwidgets) {
   if (subwidgets.length === 0) return
