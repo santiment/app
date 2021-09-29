@@ -15,6 +15,7 @@ import {
 import { newExpessionMetric } from 'studio/CombineDialog/utils'
 import { parseMetricGraphValue } from './settings'
 import { getWidgetByKey, parseSubwidgets } from './widgets'
+import { parseDrawings } from './drawings'
 import { parseChartAddons } from './addons'
 import { ExternalWidgetCreator } from '../Widget'
 import { parseSharedSidepanel } from '../../../ducks/Studio/url/parse'
@@ -146,7 +147,7 @@ export function parseWidget (widget) {
   Widget.colors = parseMetricGraphValue(widget.colors, KnownMetric)
   Object.assign(Widget, parseAxesMetrics(widget.axesMetrics, KnownMetric))
   Object.assign(Widget, parseSubwidgets(widget.connectedWidgets))
-  Widget.drawings = widget.drawings
+  Widget.drawings = parseDrawings(widget.drawings)
   const { signalMetrics = [] } = widget
   Widget.signalMetrics = parseMetrics(signalMetrics, undefined, KnownMetric)
   Widget.holderLabels = widget.holderLabels
