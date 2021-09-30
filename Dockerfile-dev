@@ -16,7 +16,8 @@ RUN apk --no-cache add git
 #RUN if [ "$NODE_ENV" = "production" ] ; then npm ci --only=prod; else npm i; fi
 RUN npm install
 RUN npm install --dev
-RUN npm run build
+RUN npx patch-package
+#RUN npm run build
 RUN npm cache clean --force
 
 # Stage: Execution
@@ -24,4 +25,5 @@ FROM base
 WORKDIR /opt/app
 COPY . /opt/app
 COPY --from=builder /opt/node_modules /opt/app/node_modules
-COPY --from=builder /opt/build /opt/app/build
+#COPY --from=builder /opt/build /opt/app/build
+RUN npm run start
