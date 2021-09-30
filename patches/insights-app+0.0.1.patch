@@ -1,3 +1,38 @@
+diff --git a/node_modules/insights-app/scripts/files.js b/node_modules/insights-app/scripts/files.js
+index ba57ca4..ce47950 100644
+--- a/node_modules/insights-app/scripts/files.js
++++ b/node_modules/insights-app/scripts/files.js
+@@ -2,7 +2,7 @@ const fs = require('fs')
+ const mkdirp = require('mkdirp')
+ const { recursiveList, joinPaths, getPath } = require('./utils')
+
+-const noSvgFilter = (files) => files.filter((file) => !file.includes('.svg'))
++const noSvgFilter = (files) => files.filter((file) => !(file || '').includes('.svg'))
+
+ const ROOT = getPath('..')
+ const LIB = joinPaths(ROOT, 'lib')
+@@ -80,7 +80,7 @@ function moveUi() {
+ function moveStaticIcons() {
+   copyFolderFromRoot(
+     ['static'],
+-    (files) => files.filter((file) => file.includes('.svg')),
++    (files) => files.filter((file) => (file || '').includes('.svg')),
+     0,
+   )
+   console.log('Static files were moved to lib folder!')
+diff --git a/node_modules/insights-app/scripts/preprocess.js b/node_modules/insights-app/scripts/preprocess.js
+index a649c72..00b6836 100644
+--- a/node_modules/insights-app/scripts/preprocess.js
++++ b/node_modules/insights-app/scripts/preprocess.js
+@@ -83,7 +83,7 @@ function moveScss() {
+   fs.copyFileSync(joinPaths(pathFrom, variables), joinPaths(LIB, variables))
+ }
+
+-const onlySvelteExt = (file) => file.includes('.svelte')
++const onlySvelteExt = (file) => (file || '').includes('.svelte')
+
+ function preprocessSvelte() {
+   moveScss()
 diff --git a/node_modules/insights-app/src/components/ProfileInfo.svelte b/node_modules/insights-app/src/components/ProfileInfo.svelte
 index d6dc399..0cae0c6 100644
 --- a/node_modules/insights-app/src/components/ProfileInfo.svelte
@@ -8,7 +43,7 @@ index d6dc399..0cae0c6 100644
      .icon(class="{classes.icon || ''}")
 -      img(src="{avatarUrl || 'profile-fallback.svg'}", alt="Profile picture")
 +      img(src="{avatarUrl || 'profile-fallback.svg'}", alt="Profile")
- 
+
    .info(class="{classes.info || ''}")
      a.name(class="{classes.name || ''}", href="https://app.santiment.net/profile/{id}") {name}
 diff --git a/node_modules/insights-app/src/utils/search.js b/node_modules/insights-app/src/utils/search.js
@@ -17,7 +52,7 @@ index 4a06b5a..fa604a4 100644
 +++ b/node_modules/insights-app/src/utils/search.js
 @@ -28,7 +28,7 @@ export const binarySearch = ({
    }
- 
+
    return {
 -    value: checkClb(target, value) ? value : undefined,
 +    value: value && checkClb(target, value) ? value : undefined,

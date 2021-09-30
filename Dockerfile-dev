@@ -1,13 +1,27 @@
-FROM node:13
-
+# ---- Base Node ----
+FROM node:13.12-alpine AS base
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
 ARG GIT_HEAD
 RUN GIT_HEAD=$GIT_HEAD
+WORKDIR /opt
+COPY package.json package-lock.json* ./
+#COPY scripts/ /opt
+COPY . /opt
 
-WORKDIR /app
+# Stage: Building
+FROM base AS builder
+RUN apk --no-cache add git
+# Install library dependencies
+#RUN if [ "$NODE_ENV" = "production" ] ; then npm ci --only=prod; else npm i; fi
+RUN npm install
+RUN npm install --dev
+RUN npm run build
+RUN npm cache clean --force
 
-COPY ./package.json /app/package.json
-COPY ./yarn.lock /app/yarn.lock
-COPY ./patches /app/patches
-RUN yarn
-
-COPY ./ /app
+# Stage: Execution
+FROM base
+WORKDIR /opt/app
+COPY . /opt/app
+COPY --from=builder /opt/node_modules /opt/app/node_modules
+COPY --from=builder /opt/build /opt/app/build
