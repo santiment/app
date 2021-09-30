@@ -1,12 +1,17 @@
 import React from 'react'
 import cx from 'classnames'
+import { HashLink } from 'react-router-hash-link'
 import Aside from './Aside'
 import Navigation from './Navigation'
-import PersonalSection, {
+import {
   KEYSTACKHOLDERS_ANCHOR,
-  SHEETS_ANCHOR
-} from './Section/Personal'
+  SHEETS_ANCHOR,
+  CABINET_ANCHOR,
+  VIDEOS_ANCHOR
+} from './Navigation/anchors'
 import TrendsSection from './Section/Trends'
+import Cabinet from './Section/Personal/Cabinet'
+import WebinarWidget from './Section/Personal/Cabinet/WebinarWidget/WebinarWidget'
 import Footer from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import EventBanner from '../../components/EventBanner'
 import ResearchesBlock from '../../components/ResearchesBlock'
@@ -21,7 +26,21 @@ const Block = ({ className, contentClassName, children }) => (
   </div>
 )
 
-const SCROLLABLE_ANCHORS = [SHEETS_ANCHOR, KEYSTACKHOLDERS_ANCHOR]
+const Section = ({ title, link, children }) => (
+  <>
+    <HashLink to={link} className={styles.anchor}>
+      {title}
+    </HashLink>
+    <div className={styles.sectionContent}>{children}</div>
+  </>
+)
+
+const SCROLLABLE_ANCHORS = [
+  SHEETS_ANCHOR,
+  KEYSTACKHOLDERS_ANCHOR,
+  VIDEOS_ANCHOR,
+  CABINET_ANCHOR
+]
 
 const IndexPage = () => {
   const { loading } = useUserSubscriptionStatus()
@@ -37,9 +56,14 @@ const IndexPage = () => {
       >
         <Navigation className={styles.navigation} />
         <main className={styles.main}>
-          <PersonalSection />
           <KeystackeholdersEvents />
           <TrendsSection />
+          <Section title='Video insights' link={VIDEOS_ANCHOR}>
+            <WebinarWidget />
+          </Section>
+          <Section title='Cabinet' link={CABINET_ANCHOR}>
+            <Cabinet />
+          </Section>
         </main>
 
         <Aside className={styles.aside} />

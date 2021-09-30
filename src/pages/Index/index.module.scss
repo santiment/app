@@ -56,3 +56,18 @@
   min-width: 304px;
   margin-left: auto;
 }
+
+.anchor {
+  @include text('h4', 'm');
+
+  margin: 56px 0 24px 0;
+  display: block;
+  color: var(--rhino) !important;
+  cursor: pointer;
+}
+
+.sectionContent {
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  background-color: var(--white);
+}

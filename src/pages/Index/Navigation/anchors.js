@@ -1,0 +1,6 @@
+export const SHEETS_ANCHOR = '#san-sheets'
+export const QUICK_START_ANCHOR = '#quick-start'
+export const CABINET_ANCHOR = '#cabinet'
+export const KEYSTACKHOLDERS_ANCHOR = '#stakeholders'
+export const SOCIAL_ANCHOR = '#social'
+export const VIDEOS_ANCHOR = '#webinars'

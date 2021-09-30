@@ -11,7 +11,7 @@ import StackholderTitle, {
 } from './StackholderTitle/StackholderTitle'
 import Range from '../../../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistAnomalies/Range'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
-import { KEYSTACKHOLDERS_ANCHOR } from '../Personal'
+import { KEYSTACKHOLDERS_ANCHOR } from '../../Navigation/anchors'
 import StakeholderSignal from './StakeholderSignal/StakeholderSignal'
 import StakeholderLabels from './StakeholderLabels/StakeholderLabels'
 import NoSignals from '../../../../components/Illustrations/NoSignals'
