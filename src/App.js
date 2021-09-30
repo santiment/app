@@ -564,7 +564,7 @@ export const App = ({
             <Route path={PATHS.INDEX} component={LoadableIndexPage} />
           </Switch>
 
-          {!pathname.includes(PATHS.CHARTS) && (
+          {!pathname.includes(PATHS.CHARTS) && pathname !== PATHS.INDEX && (
             <Intercom isDesktop={isDesktop} />
           )}
         </ErrorBoundary>

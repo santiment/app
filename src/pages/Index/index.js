@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import Aside from './Aside'
+import Navigation from './Navigation'
 import PersonalSection, {
   KEYSTACKHOLDERS_ANCHOR,
   SHEETS_ANCHOR
@@ -34,6 +35,7 @@ const IndexPage = () => {
         className={styles.block_main}
         contentClassName={styles.content_main}
       >
+        <Navigation className={styles.navigation} />
         <main className={styles.main}>
           <PersonalSection />
           <KeystackeholdersEvents />

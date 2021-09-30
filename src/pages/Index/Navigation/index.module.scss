@@ -1,0 +1,27 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  width: 232px;
+  min-width: 232px;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid var(--porcelain);
+}
+
+.top {
+  position: sticky;
+  top: 32px;
+  width: 232px;
+  height: 360px;
+  border: 1px solid var(--red);
+}
+
+.bottom {
+  position: sticky;
+  bottom: 32px;
+  width: 232px;
+  height: 80px;
+  border: 1px solid var(--red);
+}
