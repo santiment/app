@@ -4,6 +4,10 @@
   flex: 1;
   width: 100%;
   background: #fbfcfe;
+
+  :global(.night-mode) & {
+    background: #1a1d2f;
+  }
 }
 
 .block {

@@ -1,6 +1,7 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import Section from './Section'
 import ChartLayouts from './Recents/ChartLayouts'
+import { useFeaturedTemplates } from '../../../ducks/Studio/Template/gql/hooks'
 import Conversations from '../Conversations/Conversations'
 import { getRecentTemplates } from '../../../utils/recent'
 import styles from './index.module.scss'
@@ -24,15 +25,17 @@ const ConversationsIcon = () => (
 )
 
 const Aside = ({ className }) => {
-  const layouts = getRecentTemplates().map(id => +id)
+  const layouts = getRecentTemplates()
+  const [featuredLayouts = []] = useFeaturedTemplates()
 
   return (
     <aside className={className}>
-      {layouts.length > 0 && (
-        <Section title='Recent Chart Layouts' Icon={LayoutsIcon}>
-          <ChartLayouts ids={layouts} />
-        </Section>
-      )}
+      <Section
+        title={`${layouts.length > 0 ? 'Recent' : 'Featured'} Chart Layouts`}
+        Icon={LayoutsIcon}
+      >
+        <ChartLayouts ids={layouts.length > 0 ? layouts : featuredLayouts} />
+      </Section>
       <Section title='Conversations' Icon={ConversationsIcon}>
         <Conversations />
       </Section>
