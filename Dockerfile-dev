@@ -1,29 +1,22 @@
 # ---- Base Node ----
 FROM node:13.12-alpine AS base
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
+ARG REACT_APP_BACKEND_URL
+ENV REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL}
 ARG GIT_HEAD
 RUN GIT_HEAD=$GIT_HEAD
 WORKDIR /opt
 COPY package.json package-lock.json* ./
-#COPY scripts/ /opt
 COPY . /opt
 
 # Stage: Building
 FROM base AS builder
 RUN apk --no-cache add git
 # Install library dependencies
-#RUN if [ "$NODE_ENV" = "production" ] ; then npm ci --only=prod; else npm i; fi
-RUN npm install
-RUN npm install --dev
+RUN if [ "$CI" = "true" ] ; then npm ci --only=prod; else npm i; fi
 RUN npx patch-package
-#RUN npm run build
-RUN npm cache clean --force
 
 # Stage: Execution
 FROM base
-WORKDIR /opt/app
-COPY . /opt/app
-COPY --from=builder /opt/node_modules /opt/app/node_modules
-#COPY --from=builder /opt/build /opt/app/build
-RUN npm run start
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
+COPY --from=builder /opt/node_modules /opt/node_modules
