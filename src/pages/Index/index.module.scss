@@ -3,11 +3,12 @@
 .wrapper {
   flex: 1;
   width: 100%;
+  background: #fbfcfe;
 }
 
 .block {
   width: 100%;
-  padding: 56px 0 36px;
+  padding: 32px 0 36px;
 
   &_main {
     padding-bottom: 72px;
@@ -15,15 +16,11 @@
 }
 
 .content {
-  max-width: 1170px;
-  margin: 0 auto;
+  max-width: 100%;
+  margin: 0 32px;
 
   &_main {
     display: flex;
-
-    @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
-      padding: 0 16px;
-    }
   }
 }
 
@@ -43,10 +40,15 @@
 
 .main {
   flex: 1;
+  padding: 0 48px;
+  margin: 0 auto;
+  max-width: 744px;
+  box-sizing: content-box;
+  width: auto;
 }
 
 .aside {
-  width: 367px;
-  min-width: 367px;
-  margin-left: 40px;
+  width: 304px;
+  min-width: 304px;
+  margin-left: auto;
 }

@@ -13,7 +13,9 @@
   @include text('body-1', 'm');
 
   color: var(--rhino);
-  margin: 0 0 16px;
+  margin: 0 0 19px;
+  display: flex;
+  align-items: center;
 }
 
 .watchlist {
@@ -24,8 +26,9 @@
   }
 }
 
-.icon {
-  margin-right: 8px;
+.sectionIcon {
+  margin-right: 16px;
+  fill: var(--waterloo);
 }
 
 .change {
