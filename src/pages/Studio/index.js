@@ -14,6 +14,9 @@ import { getFullUrl } from '../../components/Share/utils'
 import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
 import PageLoader from '../../components/Loader/PageLoader'
 
+const parseLayout = layout =>
+  layout && queryLayout(+layout).then(selectedLayout.set)
+
 const Extensions = props => (
   <>
     <URLExtension {...props} />
@@ -43,6 +46,8 @@ export default ({ location }) => {
 
   useEffect(
     () => {
+      if (pathname === '/charts') selectedLayout.set()
+
       let isRacing = false
       const templateId = getIdFromSEOLink(pathname)
       if (prevFullUrlRef.current === pathname + search) return
@@ -80,6 +85,7 @@ export default ({ location }) => {
           setSlug(parsedUrl.settings.slug || '')
         }
 
+        parseLayout(parsedUrl.layout)
         setShortUrlHash()
         return setParsedUrl(parsedUrl)
       }
@@ -99,7 +105,7 @@ export default ({ location }) => {
             if (parsedUrl.settings) {
               setSlug(parsedUrl.settings.slug || '')
             }
-
+            parseLayout(parsedUrl.layout)
             setParsedUrl(parsedUrl)
           }
         })

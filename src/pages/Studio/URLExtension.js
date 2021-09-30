@@ -2,14 +2,16 @@ import React, { useMemo, useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 import { withRouter } from 'react-router-dom'
 import { stringify } from 'query-string'
+import { selectedLayout } from 'studio/stores/layout'
 import { updateShortUrl, buildChartShortPath } from './utils'
+import { useStore } from './stores'
 import { shareWidgets, shareSettings } from './sharing/share'
 import { useUser } from '../../stores/user'
 import { getShortUrl } from '../../components/Share/utils'
 
 const checkIsNotAuthorError = ({ message }) => message.includes('another user')
 
-function getSharedUrl (shortUrlHash, settings, widgets, sidewidget) {
+function getSharedUrl (shortUrlHash, settings, widgets, sidewidget, layout) {
   const path = shortUrlHash ? '/charts' : window.location.pathname
   return (
     path +
@@ -19,7 +21,8 @@ function getSharedUrl (shortUrlHash, settings, widgets, sidewidget) {
       widgets,
       sidepanel: sidewidget
         ? JSON.stringify({ type: sidewidget.key || sidewidget })
-        : undefined
+        : undefined,
+      layout: layout ? layout.id : undefined
     })
   )
 }
@@ -41,6 +44,7 @@ const URLExtension = ({
   const { ticker, name } = settings
   const [sharedWidgets, setSharedWidgets] = useState('')
   const { isLoggedIn } = useUser()
+  const layout = useStore(selectedLayout)
   const sharedSettings = useMemo(() => getSharedSettings(settings), [settings])
 
   useEffect(() => setSlug(settings.slug), [settings.slug])
@@ -78,7 +82,8 @@ const URLExtension = ({
         shortUrlHash,
         sharedSettings,
         sharedWidgets,
-        sidewidget
+        sidewidget,
+        layout
       )
       if (url === prevFullUrlRef.current) return
 
@@ -120,7 +125,7 @@ const URLExtension = ({
       }
       return () => (isRacing = true)
     },
-    [sharedSettings, sharedWidgets, sidewidget]
+    [sharedSettings, sharedWidgets, sidewidget, layout]
   )
 
   return (
