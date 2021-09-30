@@ -3,6 +3,8 @@
 
 .wrapper {
   @include text('body-2');
+
+  position: relative;
 }
 
 .description {
@@ -12,6 +14,9 @@
 
 .link {
   color: var(--jungle-green);
+  position: absolute;
+  top: 4px;
+  right: 2px;
 
   &:hover {
     color: var(--jungle-green-hover);
@@ -21,7 +26,7 @@
 .title {
   @include text('body-1', 'm');
 
-  margin: 40px 0 16px;
+  margin: 32px 0 16px;
 }
 
 .text {
@@ -33,7 +38,7 @@
 }
 
 .santrends {
-  margin-top: 40px;
+  margin-top: 32px;
 }
 
 .socialgrid,
