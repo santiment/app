@@ -41,9 +41,10 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  background-color: var(--white);
 
   &__range {
-    background: none !important;
+    background: var(--white) !important;
     color: var(--rhino) !important;
     margin-left: 0;
     padding: 6px 16px;
@@ -89,6 +90,7 @@
 .accordions {
   border-radius: $border-radius;
   border: 1px solid var(--porcelain);
+  background: var(--white);
   box-sizing: border-box;
   flex: 1;
   overflow-x: hidden;
