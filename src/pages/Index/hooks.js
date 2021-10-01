@@ -7,10 +7,7 @@ function hashLinkScroll ({ location }) {
     const elements = document.querySelectorAll(`a[href='/${hash}']`)
     if (elements && elements.length > 0) {
       elements[0].scrollIntoView({
-        behavior: 'smooth',
-        callback: () => {
-          console.log('The browser has finished scrolling')
-        }
+        behavior: 'smooth'
       })
     }
   }

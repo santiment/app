@@ -1,11 +1,9 @@
-import React, { useState, useLayoutEffect } from 'react'
+import React from 'react'
 import cx from 'classnames'
-import { useHistory } from 'react-router-dom'
 import { HashLink as Link } from 'react-router-hash-link'
+import { useEventListener } from '../../../hooks/eventListeners'
 import { TOP_LINKS } from './anchors'
 import { useNavigationAnchor } from '../../../components/LeftPageNavigation/LeftPageNavigation'
-// import { hashLinkScroll } from '../hooks'
-import { useEventListener } from '../../../hooks/eventListeners'
 import styles from './index.module.scss'
 
 const BottomButton = ({ onClick, children, text }) => (
@@ -15,9 +13,10 @@ const BottomButton = ({ onClick, children, text }) => (
   </div>
 )
 
-const NavLink = ({ item, active, setActive, history }) => (
+const NavLink = ({ item, active, setActive }) => (
   <Link
     to={`#${item.link}`}
+    onClick={() => setActive(item)}
     className={cx(
       styles.anchor,
       item.link === active.link && styles.activeAnchor
@@ -42,63 +41,28 @@ const onQuickstartClick = () => {
 
 const Navigation = () => {
   const { setActive, active } = useNavigationAnchor(TOP_LINKS, 'link')
-  const [elems, setElems] = useState([])
-  const history = useHistory()
 
-  useEventListener('scroll', onScroll)
-
-  useLayoutEffect(() => {
-    const anchors = TOP_LINKS.map(item => `#${item.link}`)
-
-    if (anchors.indexOf(history.location.hash) !== -1) {
-      window.removeEventListener('scroll', onScroll)
-      hashLinkScroll()
-    }
-
-    const elems = TOP_LINKS.map(({ link }) => document.getElementById(link))
-    setElems(elems)
-  }, [])
-
-  function hashLinkScroll () {
-    const { hash } = history.location
-    if (hash !== '') {
-      const elements = document.querySelectorAll(`a[href='/${hash}']`)
-      if (elements && elements.length > 0) {
-        elements[0].scrollIntoView({
-          behavior: 'smooth',
-          callback: () => {
-            console.log('finished')
-          }
-        })
-      }
-    }
-  }
-
-  function onScroll () {
-    console.log('scroll')
-    const offsets = elems.map(el => {
-      const { top, height } = el.getBoundingClientRect()
-      return top + height / 2
+  useEventListener('scroll', () => {
+    const currEl = TOP_LINKS.find(elem => {
+      const el = document.getElementById(elem.link)
+      const rect = el.getBoundingClientRect()
+      return rect.top + rect.height / 3 > 0
     })
 
-    const findCurrentTab = offsets.findIndex(pos => pos > 0)
-    const tab = TOP_LINKS[findCurrentTab]
-
-    if (tab && tab !== active) {
-      setActive(tab)
+    if (currEl && currEl.link !== active.link) {
+      setActive(currEl)
     }
-  }
+  })
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.top}>
         {TOP_LINKS.map((item, idx) => (
           <NavLink
-            history={history}
             item={item}
-            setActive={setActive}
             active={active}
             key={idx}
+            setActive={setActive}
           />
         ))}
       </div>
@@ -118,3 +82,21 @@ const Navigation = () => {
   )
 }
 export default Navigation
+
+// const searchElem = TOP_LINKS.find(item => ('#' + item.link) === history.location.hash)
+
+// if (searchElem) {
+//   hashLinkScroll(searchElem)
+// }
+
+// function hashLinkScroll (item) {
+//   const searchedEl = elems.find(elem => elem.link === item.link)
+//   if (searchedEl) {
+//     setScrollIgnore(true)
+//     searchedEl.el.scrollIntoView()
+//   } else {
+//     const el = document.getElementById(item.link)
+//     el.scrollIntoView()
+//   }
+
+// }

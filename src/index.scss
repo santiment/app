@@ -18,6 +18,7 @@
 html {
   scrollbar-width: thin;
   scrollbar-color: var(--casper) var(--porcelain);
+  scroll-behavior: smooth;
 }
 
 body {
