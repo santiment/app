@@ -15,7 +15,7 @@
     "build": "node scripts && npm run build:sw && REACT_APP_VERSION=$(node -pe 'require(\"./package.json\").version')-$(echo $GIT_HEAD) react-app-rewired build",
     "test:js": "react-scripts test --testPathIgnorePatterns='e2e.*'",
     "test:e2e": "react-scripts test --testPathPattern='e2e.*'",
-    "test": "npm run test:lint:css && CI=true npm run test:js",
+    "test": "npm run lint && CI=true npm run test:js",
     "eject": "react-scripts eject",
     "build:sw": "rm -f ./public/san-sonar-service-worker.js && NODE_ENV=production webpack --config webpack.sw.config.js",
     "postinstall": "patch-package"
