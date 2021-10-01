@@ -7,15 +7,13 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border: 1px solid var(--porcelain);
 }
 
 .top {
   position: sticky;
   top: 32px;
   width: 232px;
-  height: 360px;
-  margin-bottom: 104px;
+  margin-bottom: 144px;
 }
 
 .bottom {
@@ -36,4 +34,48 @@
 .icon {
   fill: var(--waterloo);
   margin-right: 16px;
+}
+
+.topIcon {
+  fill: var(--waterloo);
+}
+
+.iconBack {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: transparent;
+  margin-right: 8px;
+  border-radius: 50%;
+}
+
+.anchor {
+  display: flex;
+  align-items: center;
+  border-radius: 100px;
+  padding: 8px 10px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  color: var(--rhino) !important;
+
+  @include text('body-1', 'm');
+
+  &:hover {
+    border-color: var(--mystic);
+  }
+}
+
+.activeAnchor {
+  background: var(--white);
+  border-color: var(--porcelain);
+
+  & .iconBack {
+    background-color: var(--athens);
+  }
+}
+
+.anchor + .anchor {
+  margin-top: 12px;
 }

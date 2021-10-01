@@ -78,9 +78,9 @@ const KeystackeholdersEvents = () => {
   const proBannerIdx = visibleSlugs.length > 3 ? 2 : visibleSlugs.length - 1
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} id={KEYSTACKHOLDERS_ANCHOR}>
       <div className={styles.title}>
-        <HashLink to={KEYSTACKHOLDERS_ANCHOR} className={styles.anchor}>
+        <HashLink to={`#${KEYSTACKHOLDERS_ANCHOR}`} className={styles.anchor}>
           Key Stakeholder Signals
         </HashLink>
         <div className={styles.right}>

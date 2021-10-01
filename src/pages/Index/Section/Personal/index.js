@@ -55,14 +55,14 @@ const Header = ({ tabState }) => (
       tab={PersonalTabType.START_GUIDE}
       tabState={tabState}
       as={HashLink}
-      to={QUICK_START_ANCHOR}
+      to={`#${QUICK_START_ANCHOR}`}
     />
     <Tab
       tab={PersonalTabType.CABINET}
       tabState={tabState}
       className={styles.cabinet}
       as={HashLink}
-      to={CABINET_ANCHOR}
+      to={`#${CABINET_ANCHOR}`}
     />
     <Toggle
       className={styles.toggle}
@@ -87,7 +87,7 @@ const Personal = () => {
 
       if (!window.location.hash) {
         const hash = PersonalTabHashes[activeTab] || ''
-        history.replace(window.location.pathname + hash)
+        history.replace(window.location.pathname + '#' + hash)
       }
     },
     [activeTab]

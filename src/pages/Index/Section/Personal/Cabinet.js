@@ -27,7 +27,7 @@ const CABINETS = [
     title: (
       <CabinetTitle
         as={HashLink}
-        to={SHEETS_ANCHOR}
+        to={`#${SHEETS_ANCHOR}`}
         img={<div className={styles.img}>{SheetsTemplatesImg}</div>}
         title='Sansheets Pro Templates'
         description={
