@@ -14,7 +14,7 @@ WORKDIR /opt/san/app
 COPY . /opt/san/app
 # This still speeds things in general, because npm install
 # from scratch is slow.
-COPY .node_modules.tar.gz* /opt/san/app/
+COPY .node_modules.tar.gz* /opt/san/app/.node_modules.tar.gz
 # Only extract if file not empty
 RUN test -s .node_modules.tar.gz \
   && tar xzf .node_modules.tar.gz -C /opt/san/app \
@@ -27,7 +27,8 @@ RUN test -s .node_modules.tar.gz \
 FROM base AS builder
 RUN apk --no-cache add git
 # Install library dependencies
-RUN npm set progress=false && npm config set depth 0
+RUN npm config set depth 0
+RUN npm config set package-lock true
 RUN if [ "$CI" = "true" ] ; then npm ci --no-audit --progress=false; else npm i --no-progress --no-audit --prefer-offline; fi
 RUN npx patch-package
 RUN npm cache clean --force
@@ -38,7 +39,7 @@ WORKDIR /opt/san/app
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 COPY --from=builder /opt/san/app/node_modules /opt/san/app/node_modules
-COPY --from=builder /opt/san/app/package-lock.json /opt/san/app/
+COPY --from=builder /opt/san/app/package-lock.json /opt/san/app/package-lock.json
 RUN npm run build
 
 # ---- Execution Dev ----
@@ -46,4 +47,4 @@ FROM base AS dev
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 COPY --from=builder /opt/san/app/node_modules /opt/san/app/node_modules
-COPY --from=builder /opt/san/app/package-lock.json /opt/san/app/
+COPY --from=builder /opt/san/app/package-lock.json /opt/san/app/package-lock.json
