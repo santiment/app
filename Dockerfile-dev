@@ -12,8 +12,9 @@ COPY . /opt
 FROM base AS builder
 RUN apk --no-cache add git
 # Install library dependencies
-RUN if [ "$CI" = "true" ] ; then npm ci --only=prod; else npm i; fi
+RUN if [ "$CI" = "true" ] ; then npm ci; else npm i; fi
 RUN npx patch-package
+RUN npm cache clean --force
 
 # Stage: Execution
 FROM base
