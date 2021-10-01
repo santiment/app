@@ -49,13 +49,15 @@ export const TOP_LINKS = [
   //       <path fillRule="evenodd" d="M5.9 1H1v4.9h4.9V1ZM1 0a1 1 0 0 0-1 1v4.9c0 .5.4 1 1 1h4.9c.5 0 1-.5 1-1V1c0-.6-.5-1-1-1H1Zm14 1h-4.9v4.9H15V1Zm-4.9-1a1 1 0 0 0-1 1v4.9c0 .5.5 1 1 1H15c.6 0 1-.5 1-1V1c0-.6-.4-1-1-1h-4.9ZM0 12.5c0-.3.2-.5.5-.5h15a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5ZM.5 9a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1H.5ZM0 15.5c0-.3.2-.5.5-.5h15a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5Z" />
   //     </svg>
   //   },
-  //   {
-  //     title: 'Charts Gallery',
-  //     link: CHARTS_ANCHOR,
-  //     Icon: () => <svg className={styles.topIcon} width="16" height="17">
-  //   <path d="M1 1.5a.5.5 0 1 0-1 0v14.7c0 .4.3.8.8.8h14.7a.5.5 0 1 0 0-1H1V1.5Zm14.5.7a.5.5 0 0 0-1-.4l-2.8 7-5.4-2.3a.5.5 0 0 0-.6.2l-3 6.3a.5.5 0 0 0 .9.4l2.8-5.8 5.4 2.3a.5.5 0 0 0 .7-.3l3-7.4Z" />
-  // </svg>
-  //   },
+  {
+    title: 'Charts Gallery',
+    link: CHARTS_ANCHOR,
+    Icon: () => (
+      <svg className={styles.topIcon} width='16' height='17'>
+        <path d='M1 1.5a.5.5 0 1 0-1 0v14.7c0 .4.3.8.8.8h14.7a.5.5 0 1 0 0-1H1V1.5Zm14.5.7a.5.5 0 0 0-1-.4l-2.8 7-5.4-2.3a.5.5 0 0 0-.6.2l-3 6.3a.5.5 0 0 0 .9.4l2.8-5.8 5.4 2.3a.5.5 0 0 0 .7-.3l3-7.4Z' />
+      </svg>
+    )
+  },
   {
     title: 'Video insights',
     link: VIDEOS_ANCHOR,

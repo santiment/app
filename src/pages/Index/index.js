@@ -6,6 +6,7 @@ import Navigation from './Navigation'
 import { CABINET_ANCHOR, VIDEOS_ANCHOR } from './Navigation/anchors'
 import TrendsSection from './Section/Trends'
 import Cabinet from './Section/Personal/Cabinet'
+import InsightsOnDemand from './Section/InsightsOnDemand'
 import WebinarWidget from './Section/Personal/Cabinet/WebinarWidget/WebinarWidget'
 import Footer from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import EventBanner from '../../components/EventBanner'
@@ -36,6 +37,7 @@ const IndexPage = () => (
       <main className={styles.main}>
         <KeystackeholdersEvents />
         <TrendsSection />
+        <InsightsOnDemand />
         <Section title='Video insights' link={VIDEOS_ANCHOR}>
           <WebinarWidget />
         </Section>
