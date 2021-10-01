@@ -4,16 +4,25 @@ services:
   test:
     build:
       context: .
-      dockerfile: Dockerfile-dev
+      target: dev
     environment:
       - CI=true
       - REACT_APP_BACKEND_URL=https://api-stage.santiment.net
       - NODE_ENV=development
-    command: npm run test
+    command: sh -c "npm run test"
+  prod:
+    build:
+      context: .
+      target: prod
+    environment:
+      - CI=true
+      - REACT_APP_BACKEND_URL=https://api-stage.santiment.net
+      - NODE_ENV=development
+    command: npx serve -s build
   frontend:
     build:
       context: .
-      dockerfile: Dockerfile-dev
+      target: dev
     environment:
       - CI=true
       - NODE_ENV=development
