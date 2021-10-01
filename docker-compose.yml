@@ -18,6 +18,7 @@ services:
       - CI=true
       - NODE_ENV=development
       - REACT_APP_BACKEND_URL=https://api-stage.santiment.net
+    hostname: app-dev.santiment.net
     expose:
       - 8000
     ports:
