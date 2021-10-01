@@ -49,6 +49,7 @@
   background-color: transparent;
   margin-right: 8px;
   border-radius: 50%;
+  transition: background-color 1s ease;
 }
 
 .anchor {
@@ -64,6 +65,7 @@
 
   &:hover {
     border-color: var(--mystic);
+    transition: border-color 0.1s ease-out;
   }
 }
 

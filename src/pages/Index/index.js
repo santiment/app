@@ -35,7 +35,7 @@ const IndexPage = () => (
       <Navigation className={styles.navigation} />
       <main className={styles.main}>
         <KeystackeholdersEvents />
-        {/* <TrendsSection /> */}
+        <TrendsSection />
         <Section title='Video insights' link={VIDEOS_ANCHOR}>
           <WebinarWidget />
         </Section>

@@ -33,13 +33,15 @@ export const TOP_LINKS = [
       </svg>
     )
   },
-  //   {
-  //     title: 'Social Trends',
-  //     link: SOCIAL_ANCHOR,
-  //     Icon: () => <svg className={styles.topIcon} width="16" height="16">
-  //       <path d="M13 12.7c0-.2 0-.3.2-.4A6.6 6.6 0 0 0 15 7.7C15 4 11.9 1 8 1S1 4 1 7.7c0 3.8 3.2 7 7 6.8l.8-.2.5-.2h.5l.6.1a55.8 55.8 0 0 1 2 .7l.5-2.2Zm1 .2-.6 2.3c-.2.6-.7 1-1.3.8l-2.5-1-1.6.5c-4.4.3-8-3.5-8-7.8C0 3.5 3.6 0 8 0s8 3.5 8 7.7c0 2-.8 3.9-2 5.2ZM4 6c0-.3.2-.5.5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 6Zm.5 3.5a.5.5 0 1 0 0 1h7a.5.5 0 0 0 0-1h-7Z" />
-  //     </svg>
-  //   },
+  {
+    title: 'Social Trends',
+    link: SOCIAL_ANCHOR,
+    Icon: () => (
+      <svg className={styles.topIcon} width='16' height='16'>
+        <path d='M13 12.7c0-.2 0-.3.2-.4A6.6 6.6 0 0 0 15 7.7C15 4 11.9 1 8 1S1 4 1 7.7c0 3.8 3.2 7 7 6.8l.8-.2.5-.2h.5l.6.1a55.8 55.8 0 0 1 2 .7l.5-2.2Zm1 .2-.6 2.3c-.2.6-.7 1-1.3.8l-2.5-1-1.6.5c-4.4.3-8-3.5-8-7.8C0 3.5 3.6 0 8 0s8 3.5 8 7.7c0 2-.8 3.9-2 5.2ZM4 6c0-.3.2-.5.5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 6Zm.5 3.5a.5.5 0 1 0 0 1h7a.5.5 0 0 0 0-1h-7Z' />
+      </svg>
+    )
+  },
   //   {
   //     title: 'Explore Screeners',
   //     link: SCREENERS_ANCHOR,

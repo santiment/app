@@ -82,21 +82,3 @@ const Navigation = () => {
   )
 }
 export default Navigation
-
-// const searchElem = TOP_LINKS.find(item => ('#' + item.link) === history.location.hash)
-
-// if (searchElem) {
-//   hashLinkScroll(searchElem)
-// }
-
-// function hashLinkScroll (item) {
-//   const searchedEl = elems.find(elem => elem.link === item.link)
-//   if (searchedEl) {
-//     setScrollIgnore(true)
-//     searchedEl.el.scrollIntoView()
-//   } else {
-//     const el = document.getElementById(item.link)
-//     el.scrollIntoView()
-//   }
-
-// }

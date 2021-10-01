@@ -6,6 +6,7 @@ import { INDEX_PAGE_GROUPS } from '../../../../components/SocialGrid/topics'
 import Santrends from '../../../../components/Trends/Trends'
 import { Column } from '../../../../ducks/TrendsTable/columns'
 import Tab from '../../../../components/Tab'
+import { SOCIAL_ANCHOR } from '../../Navigation/anchors'
 import styles from './index.module.scss'
 
 const RECENT_SOCIAL_TOOL = INDEX_PAGE_GROUPS[0]
@@ -63,7 +64,11 @@ const Trends = () => {
   const { href, description, widget } = TabTypeContent[activeTab]
 
   return (
-    <Section title={<Tabs tabState={tabState} />} className={styles.wrapper}>
+    <Section
+      title={<Tabs tabState={tabState} />}
+      className={styles.wrapper}
+      id={SOCIAL_ANCHOR}
+    >
       <div className={styles.description}>{description}</div>
       <Link to={href} className={styles.link}>
         Start researching {activeTab}
