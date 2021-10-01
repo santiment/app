@@ -13,7 +13,7 @@ dev:
 	docker compose up frontend
 
 test:
-	docker compose up test
+	docker compose up --build test
 
 sh:
 	docker compose run frontend sh

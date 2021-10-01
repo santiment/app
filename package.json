@@ -15,7 +15,7 @@
     "build": "node scripts && npm run build:sw && REACT_APP_VERSION=$(node -pe 'require(\"./package.json\").version')-$(echo $GIT_HEAD) react-app-rewired build",
     "test:js": "react-scripts test --testPathIgnorePatterns='e2e.*'",
     "test:e2e": "react-scripts test --testPathPattern='e2e.*'",
-    "test": "npm run lint && CI=true npm run test:js",
+    "test": "CI=true npm run test:js",
     "eject": "react-scripts eject",
     "build:sw": "rm -f ./public/san-sonar-service-worker.js && NODE_ENV=production webpack --config webpack.sw.config.js",
     "postinstall": "patch-package"
@@ -124,7 +124,7 @@
     "postcss-import-11": "npm:postcss-import@11",
     "postcss-loader-2": "npm:postcss-loader@2",
     "postcss-modules": "1.4.1",
-    "prettier-standard": "^8.0.1",
+    "prettier-standard": "^16.4.1",
     "pug": "^3.0.1",
     "puppeteer": "^1.13.0",
     "react-app-rewired": "^2.1.5",

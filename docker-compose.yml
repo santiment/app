@@ -24,6 +24,6 @@ services:
     ports:
       - 8000:3000
     volumes:
-      - ./:/opt
-      - '/opt/node_modules'
+      - ./:/opt/san/app
+      - '/opt/san/app/node_modules'
     command: sh -c "npm start"
