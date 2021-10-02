@@ -14,8 +14,7 @@ WORKDIR /opt/san/app
 COPY . /opt/san/app
 # This still speeds things in general, because npm install
 # from scratch is slow.
-COPY .node_modules.tar.gz* /opt/san/app/.node_modules.tar.gz
-# Only extract if file not empty
+# Only extract if archive file with node_modules not empty
 RUN test -s .node_modules.tar.gz \
   && tar xzf .node_modules.tar.gz -C /opt/san/app \
   && echo "Extracted .node_modules.tar.gz to /opt/san/app/node_modules" \
@@ -33,13 +32,12 @@ RUN if [ "$CI" = "true" ] ; then npm ci --no-audit --progress=false; else npm i 
 RUN npx patch-package
 RUN npm cache clean --force
 
-# ---- Execution Prod ----
+# ---- Execution Prod ---
 FROM builder AS prod
 WORKDIR /opt/san/app
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 COPY --from=builder /opt/san/app/node_modules /opt/san/app/node_modules
-COPY --from=builder /opt/san/app/package-lock.json /opt/san/app/package-lock.json
 RUN npm run build
 
 # ---- Execution Dev ----

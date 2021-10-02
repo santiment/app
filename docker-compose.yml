@@ -8,7 +8,7 @@ services:
     environment:
       - CI=true
       - REACT_APP_BACKEND_URL=https://api-stage.santiment.net
-      - NODE_ENV=development
+      - NODE_ENV=production
     command: sh -c "npm run test"
   prod:
     build:
@@ -17,14 +17,14 @@ services:
     environment:
       - CI=true
       - REACT_APP_BACKEND_URL=https://api-stage.santiment.net
-      - NODE_ENV=development
+      - NODE_ENV=production
     command: npx serve -s build
   frontend:
     build:
       context: .
       target: dev
     environment:
-      - CI=true
+      - CI=false
       - NODE_ENV=development
       - REACT_APP_BACKEND_URL=https://api-stage.santiment.net
     hostname: app-dev.santiment.net
