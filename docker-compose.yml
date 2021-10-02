@@ -15,10 +15,14 @@ services:
       context: .
       target: prod
     environment:
-      - CI=true
+      - CI=false
       - REACT_APP_BACKEND_URL=https://api-stage.santiment.net
       - NODE_ENV=production
-    command: npx serve -s build
+    expose:
+      - 8000
+    ports:
+      - 8000:8000
+    command: npx serve -s build -l 8000
   frontend:
     build:
       context: .
