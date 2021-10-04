@@ -28,3 +28,4 @@ app.sublime-project
 app.sublime-workspace
 
 public/san-sonar-service-worker.js
+.node_modules.tar.gz

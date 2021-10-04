@@ -4,21 +4,39 @@ services:
   test:
     build:
       context: .
-      dockerfile: Dockerfile-test
+      target: dev
     environment:
       - CI=true
       - REACT_APP_BACKEND_URL=https://api-stage.santiment.net
-    command: yarn test --ci
+      - NODE_ENV=production
+    command: sh -c "npm run test"
+  prod:
+    build:
+      context: .
+      target: prod
+    environment:
+      - CI=false
+      - REACT_APP_BACKEND_URL=https://api-stage.santiment.net
+      - NODE_ENV=production
+    expose:
+      - 8000
+    ports:
+      - 8000:8000
+    command: npx serve -s build -l 8000
   frontend:
     build:
       context: .
-      dockerfile: Dockerfile-dev
+      target: dev
     environment:
+      - CI=false
+      - NODE_ENV=development
       - REACT_APP_BACKEND_URL=https://api-stage.santiment.net
+    hostname: app-dev.santiment.net
     expose:
       - 8000
     ports:
       - 8000:3000
     volumes:
-      - ./:/app
-    command: /bin/bash -c "yarn start"
+      - ./:/opt/san/app
+      - '/opt/san/app/node_modules'
+    command: sh -c "npm start"

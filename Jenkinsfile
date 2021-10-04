@@ -9,9 +9,9 @@ podTemplate(label: 'app-builder', containers: [
         def scmVars = checkout scm
         def gitHead = scmVars.GIT_COMMIT.substring(0,7)
 
-        sh "docker build -t app-frontend-test:${scmVars.GIT_COMMIT}-${env.BUILD_ID}-${env.CHANGE_ID} -f Dockerfile-test ."
+        sh "docker build --target dev -t app-frontend-test:${scmVars.GIT_COMMIT}-${env.BUILD_ID}-${env.CHANGE_ID} ."
         try {
-          sh "docker run --rm -t app-frontend-test:${scmVars.GIT_COMMIT}-${env.BUILD_ID}-${env.CHANGE_ID} yarn test --ci"
+          sh "docker run --rm -t app-frontend-test:${scmVars.GIT_COMMIT}-${env.BUILD_ID}-${env.CHANGE_ID} npm run test"
         } finally {
         }
 
@@ -28,7 +28,7 @@ podTemplate(label: 'app-builder', containers: [
           ]) {
             def awsRegistry = "${env.aws_account_id}.dkr.ecr.eu-central-1.amazonaws.com"
             docker.withRegistry("https://${awsRegistry}", "ecr:eu-central-1:ecr-credentials") {
-              sh "docker build -t ${awsRegistry}/app:${env.BRANCH_NAME} -t ${awsRegistry}/app:${scmVars.GIT_COMMIT} --build-arg SECRET_KEY_BASE=${env.SECRET_KEY_BASE} --build-arg GIT_HEAD=${gitHead} ."
+              sh "docker build --target prod -t ${awsRegistry}/app:${env.BRANCH_NAME} -t ${awsRegistry}/app:${scmVars.GIT_COMMIT} --build-arg SECRET_KEY_BASE=${env.SECRET_KEY_BASE} --build-arg GIT_HEAD=${gitHead} ."
               sh "docker push ${awsRegistry}/app:${env.BRANCH_NAME}"
               sh "docker push ${awsRegistry}/app:${scmVars.GIT_COMMIT}"
             }
@@ -48,7 +48,7 @@ podTemplate(label: 'app-builder', containers: [
           ]) {
             def awsRegistry = "${env.aws_account_id}.dkr.ecr.eu-central-1.amazonaws.com"
             docker.withRegistry("https://${awsRegistry}", "ecr:eu-central-1:ecr-credentials") {
-              sh "docker build -t ${awsRegistry}/app:${env.BRANCH_NAME}-build --build-arg SECRET_KEY_BASE=${env.SECRET_KEY_BASE} --build-arg GIT_HEAD=${gitHead} ."
+              sh "docker build --target prod -t ${awsRegistry}/app:${env.BRANCH_NAME}-build --build-arg SECRET_KEY_BASE=${env.SECRET_KEY_BASE} --build-arg GIT_HEAD=${gitHead} ."
               sh "docker push ${awsRegistry}/app:${env.BRANCH_NAME}-build"
             }
           }
