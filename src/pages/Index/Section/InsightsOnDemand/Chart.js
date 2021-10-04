@@ -27,7 +27,7 @@ const Chart = ({ metrics, settings, MetricColor }) => {
     <Canvas
       className={styles.chart}
       padding={PADDING}
-      height={405}
+      height={176}
       data={data}
       colors={colors}
       categories={categories}

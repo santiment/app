@@ -36,7 +36,7 @@ const READABLE_DAYS = {
 const getCountSuffix = (source, count) =>
   count + ' ' + (count === 1 ? `${source}` : `${source}s`)
 
-const KeystackeholdersEvents = () => {
+const KeystackeholdersEvents = React.memo(() => {
   const [settings, setSettings] = useState(DEFAULT_SETTINGS)
   const [selectedAssets, setSelectedAssets] = useState({})
   const [intervalIndex, setIntervalIndex] = useState(0)
@@ -198,6 +198,6 @@ const KeystackeholdersEvents = () => {
       )}
     </div>
   )
-}
+})
 
 export default KeystackeholdersEvents
