@@ -36,34 +36,41 @@ const getWordStyles = (index, bigLimit, mediumLimit) => {
   return WORD_SMALL
 }
 
-const WordCloudContent = ({
-  cloud,
-  showBadge = true,
-  bigLimit = BIG_LIMIT,
-  mediumLimit = MEDIUM_LIMIT,
-  padding = 15
-}) => {
-  return (
-    <TagCloud
-      style={{ width: '100%', height: '100%', padding: padding, marginTop: 0 }}
-    >
-      {cloud.map(({ word, score }, index) => (
-        <Link
-          key={word}
-          to={`/labs/trends/explore/${word}`}
-          style={getWordStyles(index, bigLimit, mediumLimit)}
-          className={styles.text}
-        >
-          {word}
-          {showBadge && index < bigLimit && (
-            <div className={styles.score}>
-              {formatNumber(score, { maximumFractionDigits: 2 })}
-            </div>
-          )}
-        </Link>
-      ))}
-    </TagCloud>
-  )
-}
+const WordCloudContent = React.memo(
+  ({
+    cloud,
+    showBadge = true,
+    bigLimit = BIG_LIMIT,
+    mediumLimit = MEDIUM_LIMIT,
+    padding = 15
+  }) => {
+    return (
+      <TagCloud
+        style={{
+          width: '100%',
+          height: '100%',
+          padding: padding,
+          marginTop: 0
+        }}
+      >
+        {cloud.map(({ word, score }, index) => (
+          <Link
+            key={word}
+            to={`/labs/trends/explore/${word}`}
+            style={getWordStyles(index, bigLimit, mediumLimit)}
+            className={styles.text}
+          >
+            {word}
+            {showBadge && index < bigLimit && (
+              <div className={styles.score}>
+                {formatNumber(score, { maximumFractionDigits: 2 })}
+              </div>
+            )}
+          </Link>
+        ))}
+      </TagCloud>
+    )
+  }
+)
 
 export default WordCloudContent

@@ -8,11 +8,6 @@ import StartGuide from './StartGuide'
 import Cabinet from './Cabinet'
 import styles from './index.module.scss'
 
-export const SHEETS_ANCHOR = '#san-sheets'
-const QUICK_START_ANCHOR = '#quick-start'
-const CABINET_ANCHOR = '#cabinet'
-export const KEYSTACKHOLDERS_ANCHOR = '#stakeholders'
-
 const LS_PERSONAL_TAB = 'LS_PERSONAL_TAB'
 export const PersonalTabType = {
   START_GUIDE: 'Quick Start Guide',
@@ -60,14 +55,14 @@ const Header = ({ tabState }) => (
       tab={PersonalTabType.START_GUIDE}
       tabState={tabState}
       as={HashLink}
-      to={QUICK_START_ANCHOR}
+      to={`#${QUICK_START_ANCHOR}`}
     />
     <Tab
       tab={PersonalTabType.CABINET}
       tabState={tabState}
       className={styles.cabinet}
       as={HashLink}
-      to={CABINET_ANCHOR}
+      to={`#${CABINET_ANCHOR}`}
     />
     <Toggle
       className={styles.toggle}
@@ -92,7 +87,7 @@ const Personal = () => {
 
       if (!window.location.hash) {
         const hash = PersonalTabHashes[activeTab] || ''
-        history.replace(window.location.pathname + hash)
+        history.replace(window.location.pathname + '#' + hash)
       }
     },
     [activeTab]

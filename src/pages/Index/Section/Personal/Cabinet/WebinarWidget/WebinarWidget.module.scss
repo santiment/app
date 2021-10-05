@@ -3,7 +3,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  padding: 6px 0;
+  padding: 24px 0 0 0;
   width: 100%;
   position: relative;
 }
@@ -20,6 +20,9 @@
   margin-top: 8px;
   margin-left: auto;
   color: var(--rhino);
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
 
   & .word {
     padding: 0 8px 0 4px;
@@ -45,7 +48,7 @@
   overflow-x: auto;
   overflow-y: hidden;
   position: relative;
-  height: 200px;
+  height: 244px;
   padding: 0;
 }
 

@@ -34,7 +34,7 @@ const Recent = ({
   useEffect(
     () => {
       if (items && items.length && !isLoading) {
-        setHeight(items.length)
+        setHeight && setHeight(items.length)
       }
     },
     [items, isLoading]

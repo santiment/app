@@ -11,7 +11,7 @@ import StackholderTitle, {
 } from './StackholderTitle/StackholderTitle'
 import Range from '../../../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistAnomalies/Range'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
-import { KEYSTACKHOLDERS_ANCHOR } from '../Personal'
+import { KEYSTACKHOLDERS_ANCHOR } from '../../Navigation/anchors'
 import StakeholderSignal from './StakeholderSignal/StakeholderSignal'
 import StakeholderLabels from './StakeholderLabels/StakeholderLabels'
 import NoSignals from '../../../../components/Illustrations/NoSignals'
@@ -36,7 +36,7 @@ const READABLE_DAYS = {
 const getCountSuffix = (source, count) =>
   count + ' ' + (count === 1 ? `${source}` : `${source}s`)
 
-const KeystackeholdersEvents = () => {
+const KeystackeholdersEvents = React.memo(() => {
   const [settings, setSettings] = useState(DEFAULT_SETTINGS)
   const [selectedAssets, setSelectedAssets] = useState({})
   const [intervalIndex, setIntervalIndex] = useState(0)
@@ -78,9 +78,9 @@ const KeystackeholdersEvents = () => {
   const proBannerIdx = visibleSlugs.length > 3 ? 2 : visibleSlugs.length - 1
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} id={KEYSTACKHOLDERS_ANCHOR}>
       <div className={styles.title}>
-        <HashLink to={KEYSTACKHOLDERS_ANCHOR} className={styles.anchor}>
+        <HashLink to={`#${KEYSTACKHOLDERS_ANCHOR}`} className={styles.anchor}>
           Key Stakeholder Signals
         </HashLink>
         <div className={styles.right}>
@@ -198,6 +198,6 @@ const KeystackeholdersEvents = () => {
       )}
     </div>
   )
-}
+})
 
 export default KeystackeholdersEvents
