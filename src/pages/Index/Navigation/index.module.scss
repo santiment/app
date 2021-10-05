@@ -24,15 +24,18 @@
 
 .buttonBottom {
   padding: 12px 20px;
+  height: auto;
+  background: none !important;
   display: flex;
   align-items: center;
   cursor: pointer;
+  width: 100%;
+  fill: var(--waterloo);
 
   @include text('body-2', 'm');
 }
 
 .icon {
-  fill: var(--waterloo);
   margin-right: 16px;
 }
 

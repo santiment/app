@@ -7,10 +7,6 @@ import Icon from '@santiment-network/ui/Icon'
 import { Row as BaseRow } from '../index'
 import { PROJECT } from '../../../../ducks/Watchlists/detector'
 import NewWatchlist from '../../../../ducks/Watchlists/Actions/New'
-import Accordion from '../../Accordion'
-import QuickStartTitle from './QuickStartTitle/QuickStartTitle'
-import WebinarWidget from './Cabinet/WebinarWidget/WebinarWidget'
-import WebinarWidgetTitle from './Cabinet/WebinarWidget/WebinarWidgetTitle'
 import styles from './index.module.scss'
 
 const LS_ARTICLE_IS_READ = 'LS_ARTICLE_IS_READ'
@@ -108,59 +104,47 @@ const StartGuide = () => {
     c(isArticleRead) + c(personalInfo) + c(telegram) + c(charts) + c(watchlists)
 
   return (
-    <>
-      <Accordion
-        title={<QuickStartTitle max={5} currentCount={currentCount} />}
-        showArrow={false}
-        classes={styles}
-      >
-        <Row
-          title='Getting started for traders'
-          href='https://academy.santiment.net/for-traders/'
-          target='_blank'
-          As='a'
-          isActive={isArticleRead}
-          onClick={readArticle}
-        />
+    <div className={styles.wrapper}>
+      <h4 className={styles.title}>Starting with Sanbase</h4>
+      <Row
+        title='Getting started for traders'
+        href='https://academy.santiment.net/for-traders/'
+        target='_blank'
+        As='a'
+        isActive={isArticleRead}
+        onClick={readArticle}
+      />
 
-        <Row
-          title='Fill out your profile with personal information'
-          to='/account'
-          As={Link}
-          isActive={personalInfo}
-        />
-        <Row
-          title='Connect with Telegram'
-          to='/account'
-          As={Link}
-          isActive={telegram}
-        />
-        <Row
-          title='Create your first Chart Layout'
-          to={loginHref || '/studio'}
-          As={loginHref && Link}
-          isActive={charts}
-        />
-        <NewWatchlist
-          type={PROJECT}
-          trigger={
-            <Row
-              title='Create your first Watchlist'
-              to={loginHref}
-              As={loginHref && Link}
-              isActive={watchlists}
-            />
-          }
-        />
-      </Accordion>
-      <Accordion
-        title={<WebinarWidgetTitle />}
-        showArrow={false}
-        classes={{ accordionContent: styles.webinarsAccordionContent }}
-      >
-        <WebinarWidget />
-      </Accordion>
-    </>
+      <Row
+        title='Add name and profile photo'
+        to='/account'
+        As={Link}
+        isActive={personalInfo}
+      />
+      <Row
+        title='Connect with Telegram'
+        to='/account'
+        As={Link}
+        isActive={telegram}
+      />
+      <Row
+        title='Create your first Chart Layout'
+        to={loginHref || '/studio'}
+        As={loginHref && Link}
+        isActive={charts}
+      />
+      <NewWatchlist
+        type={PROJECT}
+        trigger={
+          <Row
+            title='Create your first Watchlist'
+            to={loginHref}
+            As={loginHref && Link}
+            isActive={watchlists}
+          />
+        }
+      />
+    </div>
   )
 }
 
