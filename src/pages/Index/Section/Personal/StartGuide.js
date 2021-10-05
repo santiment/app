@@ -88,8 +88,6 @@ const Row = ({ title, isActive, onClick, ...props }) => (
   </BaseRow>
 )
 
-const c = v => (v ? 1 : 0)
-
 const StartGuide = () => {
   const {
     personalInfo,
@@ -99,9 +97,6 @@ const StartGuide = () => {
     loginHref
   } = useUserStats()
   const { isArticleRead, readArticle } = useIsArticleRead()
-
-  const currentCount =
-    c(isArticleRead) + c(personalInfo) + c(telegram) + c(charts) + c(watchlists)
 
   return (
     <div className={styles.wrapper}>
