@@ -14,16 +14,18 @@ const Range = ({
 }) => (
   <div className={cx(styles.wrapper, className)}>
     {label ? <h3 className={styles.label}>{label}</h3> : children}
-    <Button
-      fluid
-      variant='flat'
-      isActive
-      className={cx(styles.button, btnClassName)}
-      onClick={changeRange}
-      {...rest}
-    >
-      {range}
-    </Button>
+    {range && (
+      <Button
+        fluid
+        variant='flat'
+        isActive
+        className={cx(styles.button, btnClassName)}
+        onClick={changeRange}
+        {...rest}
+      >
+        {range}
+      </Button>
+    )}
   </div>
 )
 
