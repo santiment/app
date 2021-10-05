@@ -22,7 +22,7 @@ const Template = ({
   return (
     <div className={styles.wrapper}>
       <div>
-        <Range label={label} range={period} changeRange={changeRange} />
+        <Range label={`${label}, ${period}`} />
         <div className={styles.bottom}>
           <span className={styles.value}>$ {value}</span>
           <PercentChanges changes={change} className={styles.change} />
