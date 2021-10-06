@@ -1,0 +1,33 @@
+@import '~@santiment-network/ui/mixins';
+
+.tabs {
+  display: grid;
+  margin-top: 28px;
+  border-bottom: 1px solid var(--porcelain);
+  margin-bottom: 16px;
+  grid-template-columns: auto auto auto auto;
+}
+
+.tab {
+  padding-bottom: 4px;
+  color: var(--casper);
+  margin: 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include text('body-2', 'm');
+
+  &:hover {
+    color: var(--rhino);
+  }
+}
+
+.selectedTab {
+  color: var(--rhino);
+  position: relative;
+
+  &::after {
+    background: var(--waterloo);
+  }
+}
