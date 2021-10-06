@@ -25,11 +25,17 @@ We use prettier-standard. eslint rules from standard and format by prettier.
 Setup your editor with prettier-standard lint rules - https://github.com/sheerun/prettier-standard
 
 ## Learn More
+* [Sanbase](https://app.santiment.net)
+* [Insights](https://insights.santiment.net)
+* [Sheets](https://sheets.santiment.net)
+* [SanR](https://sanr.santiment.net)
 * [API](https://api.santiment.net)
 * [Knowledge Base](https://academy.santiment.net)
 
 ## Become a SanDev
-We're hiring developers, support people, and product managers all the time. Please check our [mailto](mailto:jobs@santiment.net).
+We're hiring developers, support people, and product managers all the time. Please check our [open positions](https://santiment.notion.site/Open-positions-f1880de7557b468a80b1465013f311cd)
+
+[Contact us](mailto:jobs@santiment.net)
 
 ## Community
 Join thousands of members worldwide in our [community server](https://santiment.net/discord).
