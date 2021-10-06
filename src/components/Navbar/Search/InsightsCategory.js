@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import gql from 'graphql-tag'
 import Category from './Category'
 import { client } from '../../../apollo'
@@ -24,63 +24,73 @@ const INSIGHTS_BY_SEARCH_TERM_QUERY = gql`
   }
 `
 
-const insightsAccessor = ({ data: { insights } }) => insights.slice(0, 5)
+const insightsAccessor = ({ data: { insights } }) => insights
 
-function getInsights () {
+function getInsights() {
   return client
     .query({
-      query: INSIGHTS_QUERY
+      query: INSIGHTS_QUERY,
     })
     .then(insightsAccessor)
 }
 
-function getInsightsBySearchTerm (searchTerm) {
+function getInsightsBySearchTerm(searchTerm) {
   return client
     .query({
       query: INSIGHTS_BY_SEARCH_TERM_QUERY,
-      variables: { searchTerm }
+      variables: { searchTerm },
     })
     .then(insightsAccessor)
 }
 
-const propsAccessor = ({ id }) => ({
+const propsAccessor = ({ id, href }) => ({
   key: id,
-  href: 'https://insights.santiment.net/read/' + id,
-  As: 'a'
+  href: href || 'https://insights.santiment.net/read/' + id,
+  As: 'a',
 })
 
 const Insight = ({ title }) => title
 
 const InsightsCategory = ({ searchTerm, ...props }) => {
   const [isLoading, setIsLoading] = useState(false)
-  const [suggestions, setSuggestions] = useState(DEFAULT_SUGGESTIONS)
+  const [insights, setInsights] = useState(DEFAULT_SUGGESTIONS)
+  const hasMoreSuggestions = searchTerm && insights.length > 5
+  const suggestions = useMemo(() => {
+    if (hasMoreSuggestions) {
+      return insights.slice(0, 4).concat({
+        id: 'show more',
+        title: 'Show more results',
+        href:
+          'https://insights.santiment.net/search?t=' +
+          encodeURIComponent(searchTerm),
+      })
+    }
+    return insights.slice(0, 5)
+  }, [insights, hasMoreSuggestions])
 
   useEffect(() => {
     const query = searchTerm ? getInsightsBySearchTerm : getInsights
-    query(searchTerm).then(setSuggestions)
+    query(searchTerm).then(setInsights)
   }, [])
 
-  useEffect(
-    () => {
-      if (!searchTerm) {
-        getInsights().then(setSuggestions)
-        return setIsLoading(false)
-      }
+  useEffect(() => {
+    if (!searchTerm) {
+      getInsights().then(setInsights)
+      return setIsLoading(false)
+    }
 
-      setIsLoading(true)
-      const timer = setTimeout(
-        () =>
-          getInsightsBySearchTerm(searchTerm).then(insights => {
-            setSuggestions(insights)
-            setIsLoading(false)
-          }),
-        250
-      )
+    setIsLoading(true)
+    const timer = setTimeout(
+      () =>
+        getInsightsBySearchTerm(searchTerm).then((insights) => {
+          setInsights(insights)
+          setIsLoading(false)
+        }),
+      250,
+    )
 
-      return () => clearTimeout(timer)
-    },
-    [searchTerm]
-  )
+    return () => clearTimeout(timer)
+  }, [searchTerm])
 
   return suggestions.length ? (
     <Category
