@@ -12,6 +12,7 @@ import Footer from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import EventBanner from '../../components/EventBanner'
 import ResearchesBlock from '../../components/ResearchesBlock'
 import KeystackeholdersEvents from './Section/KeystackeholdersEvents/KeystackeholdersEvents'
+import FeaturedScreeners from './Section/FeaturedScreeners'
 import styles from './index.module.scss'
 
 const Block = ({ className, contentClassName, children }) => (
@@ -37,6 +38,7 @@ const IndexPage = () => (
       <main className={styles.main}>
         <KeystackeholdersEvents />
         <TrendsSection />
+        <FeaturedScreeners />
         <InsightsOnDemand />
         <Section title='Video insights' link={VIDEOS_ANCHOR}>
           <WebinarWidget />

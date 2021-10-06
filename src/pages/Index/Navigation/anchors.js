@@ -42,13 +42,18 @@ export const TOP_LINKS = [
       </svg>
     )
   },
-  //   {
-  //     title: 'Explore Screeners',
-  //     link: SCREENERS_ANCHOR,
-  //     Icon: () => <svg className={styles.topIcon} width="16" height="16">
-  //       <path fillRule="evenodd" d="M5.9 1H1v4.9h4.9V1ZM1 0a1 1 0 0 0-1 1v4.9c0 .5.4 1 1 1h4.9c.5 0 1-.5 1-1V1c0-.6-.5-1-1-1H1Zm14 1h-4.9v4.9H15V1Zm-4.9-1a1 1 0 0 0-1 1v4.9c0 .5.5 1 1 1H15c.6 0 1-.5 1-1V1c0-.6-.4-1-1-1h-4.9ZM0 12.5c0-.3.2-.5.5-.5h15a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5ZM.5 9a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1H.5ZM0 15.5c0-.3.2-.5.5-.5h15a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5Z" />
-  //     </svg>
-  //   },
+  {
+    title: 'Explore Screeners',
+    link: SCREENERS_ANCHOR,
+    Icon: () => (
+      <svg className={styles.topIcon} width='16' height='16'>
+        <path
+          fillRule='evenodd'
+          d='M5.9 1H1v4.9h4.9V1ZM1 0a1 1 0 0 0-1 1v4.9c0 .5.4 1 1 1h4.9c.5 0 1-.5 1-1V1c0-.6-.5-1-1-1H1Zm14 1h-4.9v4.9H15V1Zm-4.9-1a1 1 0 0 0-1 1v4.9c0 .5.5 1 1 1H15c.6 0 1-.5 1-1V1c0-.6-.4-1-1-1h-4.9ZM0 12.5c0-.3.2-.5.5-.5h15a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5ZM.5 9a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1H.5ZM0 15.5c0-.3.2-.5.5-.5h15a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5Z'
+        />
+      </svg>
+    )
+  },
   {
     title: 'Charts Gallery',
     link: CHARTS_ANCHOR,

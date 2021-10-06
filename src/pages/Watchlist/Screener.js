@@ -53,6 +53,7 @@ const Screener = ({
       activeColumns
     })
   )
+
   const [tableLoading, setTableLoading] = useState(true)
   const { widgets, setWidgets } = useScreenerUrl({ location, history })
 

@@ -15,8 +15,10 @@
 .link {
   color: var(--jungle-green);
   position: absolute;
-  top: 4px;
+  top: 28px;
   right: 2px;
+
+  @include text('body-2');
 
   &:hover {
     color: var(--jungle-green-hover);

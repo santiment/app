@@ -12,7 +12,7 @@
 
 .block {
   width: 100%;
-  padding: 32px 0 36px;
+  padding: 0 0 36px;
 
   &_main {
     padding-bottom: 72px;
@@ -52,15 +52,22 @@
 }
 
 .aside {
+  margin-top: 32px;
   width: 304px;
   min-width: 304px;
   margin-left: auto;
+
+  @media only screen and (min-width: 1400px) {
+    width: 344px;
+    min-width: 344px;
+  }
 }
 
 .anchor {
   @include text('h4', 'm');
 
-  margin: 56px 0 24px 0;
+  margin: 32px 0 24px 0;
+  padding-top: 24px;
   display: block;
   color: var(--rhino) !important;
   cursor: pointer;
@@ -70,4 +77,8 @@
   border: 1px solid var(--porcelain);
   border-radius: 4px;
   background-color: var(--white);
+}
+
+.navigation {
+  margin-top: 32px;
 }

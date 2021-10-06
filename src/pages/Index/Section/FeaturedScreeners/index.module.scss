@@ -1,0 +1,54 @@
+@import '~@santiment-network/ui/mixins';
+
+.section {
+  position: relative;
+}
+
+.tabs {
+  display: grid;
+  margin-top: 28px;
+  border-bottom: 1px solid var(--porcelain);
+  margin-bottom: 16px;
+  grid-template-columns: auto auto auto auto;
+}
+
+.tab {
+  padding-bottom: 4px;
+  color: var(--casper);
+  margin: 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include text('body-2', 'm');
+
+  &:hover {
+    color: var(--rhino);
+  }
+}
+
+.selectedTab {
+  color: var(--rhino);
+  position: relative;
+
+  &::after {
+    background: var(--waterloo);
+  }
+}
+
+.link {
+  color: var(--jungle-green);
+  position: absolute;
+  top: 28px;
+  right: 2px;
+
+  @include text('body-2');
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
+
+.table {
+  min-height: auto;
+}

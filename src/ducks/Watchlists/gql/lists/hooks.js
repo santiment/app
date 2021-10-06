@@ -38,8 +38,8 @@ export const useFeaturedWatchlists = type =>
     OBJ,
     sortFeaturedWatchlists
   )
-export const useFeaturedScreeners = () =>
-  useWatchlistsLoader(FEATURED_SCREENERS_QUERY)
+export const useFeaturedScreeners = (query = FEATURED_SCREENERS_QUERY) =>
+  useWatchlistsLoader(query)
 
 export const useUserWatchlists = type => {
   switch (type) {
