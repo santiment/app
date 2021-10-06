@@ -56,6 +56,11 @@
   width: 304px;
   min-width: 304px;
   margin-left: auto;
+
+  @media only screen and (min-width: 1400px) {
+    width: 344px;
+    min-width: 344px;
+  }
 }
 
 .anchor {
