@@ -1,7 +1,7 @@
 @import '~@santiment-network/ui/mixins';
 
 .container {
-  height: 2000px;
+  height: calc(100vh - 70px);
   box-sizing: border-box;
   flex: 1;
   overflow-x: hidden;
