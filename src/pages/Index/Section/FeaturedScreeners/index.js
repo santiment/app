@@ -5,7 +5,11 @@ import Tabs from '@santiment-network/ui/Tabs'
 import { useFeaturedScreeners } from '../../../../ducks/Watchlists/gql/lists/hooks'
 import { SCREENERS_ANCHOR } from '../../Navigation/anchors'
 import { getScreenerLink } from '../../../../ducks/Watchlists/url'
+import { metrics } from '../../../../ducks/Watchlists/Widgets/Filter/dataHub/metrics'
+import { buildColumns } from '../../../../ducks/Watchlists/Widgets/Table/Columns/builder'
+import { DYNAMIC_COLUMNS } from './utils'
 import { Section, Container } from '../index'
+import Table from './Table'
 import styles from './index.module.scss'
 
 const FEATURED_SCREENERS_QUERY = gql`
@@ -14,6 +18,9 @@ const FEATURED_SCREENERS_QUERY = gql`
       id
       name
       function
+      tableConfiguration {
+        id
+      }
     }
   }
 `
@@ -22,6 +29,8 @@ const FeaturedScreeners = () => {
   const [tab, setTab] = useState(null)
   const [activeScreener, setActiveScreener] = useState(null)
   const [featuredScreeners] = useFeaturedScreeners(FEATURED_SCREENERS_QUERY)
+
+  buildColumns(metrics, DYNAMIC_COLUMNS)
 
   const tabs = useMemo(
     () => featuredScreeners.map(({ name }) => name).slice(0, 4),
@@ -70,7 +79,7 @@ const FeaturedScreeners = () => {
         </Link>
       )}
       <Container>
-        {activeScreener && JSON.stringify(activeScreener.function)}
+        {activeScreener && <Table screener={activeScreener} />}
       </Container>
     </Section>
   )
