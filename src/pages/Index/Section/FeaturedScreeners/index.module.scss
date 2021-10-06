@@ -1,5 +1,9 @@
 @import '~@santiment-network/ui/mixins';
 
+.section {
+  position: relative;
+}
+
 .tabs {
   display: grid;
   margin-top: 28px;
@@ -29,5 +33,18 @@
 
   &::after {
     background: var(--waterloo);
+  }
+}
+
+.link {
+  color: var(--jungle-green);
+  position: absolute;
+  top: 4px;
+  right: 2px;
+
+  @include text('body-2');
+
+  &:hover {
+    color: var(--jungle-green-hover);
   }
 }

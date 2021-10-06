@@ -18,6 +18,8 @@
   top: 4px;
   right: 2px;
 
+  @include text('body-2');
+
   &:hover {
     color: var(--jungle-green-hover);
   }
