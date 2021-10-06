@@ -9,7 +9,7 @@ import StartGuide from '../Section/Personal/StartGuide'
 import { useNavigationAnchor } from '../../../components/LeftPageNavigation/LeftPageNavigation'
 import styles from './index.module.scss'
 
-const NavLink = ({ item, active, setActive }) => (
+const NavLink = ({ item, active, setActive, className }) => (
   <Link
     to={`#${item.link}`}
     onClick={() => setActive(item)}
@@ -31,7 +31,7 @@ const onIntercomClick = () => {
   }
 }
 
-const Navigation = () => {
+const Navigation = ({ className }) => {
   const { setActive, active } = useNavigationAnchor(TOP_LINKS, 'link')
 
   useEventListener('scroll', () => {
@@ -47,7 +47,7 @@ const Navigation = () => {
   })
 
   return (
-    <div className={styles.wrapper}>
+    <div className={cx(styles.wrapper, className)}>
       <div className={styles.top}>
         {TOP_LINKS.map((item, idx) => (
           <NavLink

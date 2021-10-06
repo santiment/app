@@ -45,11 +45,12 @@
 .videos {
   display: block;
   width: 100%;
-  overflow-x: auto;
   overflow-y: hidden;
   position: relative;
   height: 244px;
   padding: 0;
+
+  @include overlay-scroll('hover', 'x');
 }
 
 .scroller {
