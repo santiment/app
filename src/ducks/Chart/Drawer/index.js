@@ -69,47 +69,41 @@ const Drawer = ({
     }
   }, [])
 
-  useEffect(
-    () => {
-      const { minMaxes, drawer } = chart
-      if (!minMaxes) return
+  useEffect(() => {
+    const { minMaxes, drawer } = chart
+    if (!minMaxes) return
 
-      drawer.drawings.forEach(drawing => {
-        if (drawing.absCoor) {
-          drawing.relCoor = absoluteToRelativeCoordinates(chart, drawing)
-        }
-      })
-
-      drawer.redraw()
-    },
-    [metricKey]
-  )
-
-  useEffect(
-    () => {
-      const parent = chart.canvas.parentNode
-
-      if (isNewDrawing) {
-        return handleLineCreation(
-          chart,
-          setSelectedLine,
-          setIsDrawing,
-          setIsNewDrawing
-        )
+    drawer.drawings.forEach(drawing => {
+      if (drawing.absCoor) {
+        drawing.relCoor = absoluteToRelativeCoordinates(chart, drawing)
       }
+    })
 
-      const { onLineHover, onLineMouseDown } = chart.drawer
+    drawer.redraw()
+  }, [metricKey])
 
-      parent.addEventListener('mousemove', onLineHover)
-      parent.addEventListener('mousedown', onLineMouseDown)
+  useEffect(() => {
+    const parent = chart.canvas.parentNode
 
-      return () => {
-        parent.removeEventListener('mousemove', onLineHover)
-        parent.removeEventListener('mousedown', onLineMouseDown)
-      }
-    },
-    [isNewDrawing]
-  )
+    if (isNewDrawing) {
+      return handleLineCreation(
+        chart,
+        setSelectedLine,
+        setIsDrawing,
+        setIsNewDrawing
+      )
+    }
+
+    const { onLineHover, onLineMouseDown } = chart.drawer
+
+    parent.addEventListener('mousemove', onLineHover)
+    parent.addEventListener('mousedown', onLineMouseDown)
+
+    return () => {
+      parent.removeEventListener('mousemove', onLineHover)
+      parent.removeEventListener('mousedown', onLineMouseDown)
+    }
+  }, [isNewDrawing])
 
   return null
 }

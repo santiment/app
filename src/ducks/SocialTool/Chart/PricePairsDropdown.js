@@ -10,7 +10,10 @@ const dropdownClasses = {
 
 const SEPARATOR = ' / '
 
-export const TICKER_SLUG_PAIRS = [['BTC', 'bitcoin'], ['ETH', 'ethereum']]
+export const TICKER_SLUG_PAIRS = [
+  ['BTC', 'bitcoin'],
+  ['ETH', 'ethereum']
+]
 
 const getPriceOptions = assets => {
   const options = new Map(TICKER_SLUG_PAIRS)
@@ -41,22 +44,19 @@ const PricePairsDropdown = ({
     setPriceAsset({ slug, label: `${ticker}${SEPARATOR}USD` })
   }
 
-  useEffect(
-    () => {
-      if (allDetectedAssets.size > 0) {
-        const pairs = []
-        allDetectedAssets.forEach(pair => {
-          if (pair) {
-            pairs.push([pair.ticker, pair.slug])
-          }
-        })
-        const newPriceOptions = getPriceOptions([[ticker, slug], ...pairs])
+  useEffect(() => {
+    if (allDetectedAssets.size > 0) {
+      const pairs = []
+      allDetectedAssets.forEach(pair => {
+        if (pair) {
+          pairs.push([pair.ticker, pair.slug])
+        }
+      })
+      const newPriceOptions = getPriceOptions([[ticker, slug], ...pairs])
 
-        setPriceOptions(newPriceOptions)
-      }
-    },
-    [allDetectedAssets]
-  )
+      setPriceOptions(newPriceOptions)
+    }
+  }, [allDetectedAssets])
 
   function onChangePriceOption (selectedPair) {
     const ticker = selectedPair.split(SEPARATOR)[0]

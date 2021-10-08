@@ -116,12 +116,9 @@ const INITIAL_STATE = {}
 export function useChartColors (metrics, initialState = INITIAL_STATE) {
   const [ChartColor, setChartColors] = useState(initialState)
 
-  useEffect(
-    () => {
-      setChartColors(getChartColors(metrics, ChartColor))
-    },
-    [metrics]
-  )
+  useEffect(() => {
+    setChartColors(getChartColors(metrics, ChartColor))
+  }, [metrics])
 
   return ChartColor
 }

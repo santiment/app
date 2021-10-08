@@ -59,12 +59,9 @@ export const TriggerProjectsSelector = ({
   const { isOpened, openDialog, closeDialog } = useDialogState()
   const [listItems, setListItems] = useState([])
 
-  const checkedAssetsAsSet = useMemo(
-    () => {
-      return new Set(listItems)
-    },
-    [listItems]
-  )
+  const checkedAssetsAsSet = useMemo(() => {
+    return new Set(listItems)
+  }, [listItems])
 
   useEffect(() => {
     function listenHotkey ({ target, ctrlKey, code }) {
@@ -118,12 +115,9 @@ export const TriggerProjectsSelector = ({
     [listItems, projects, setSelectedAssets, target]
   )
 
-  useEffect(
-    () => {
-      validate()
-    },
-    [target, projects]
-  )
+  useEffect(() => {
+    validate()
+  }, [target, projects])
 
   const toggleAsset = useCallback(
     ({ project, listItems: items, isAssetInList }) => {
@@ -136,13 +130,10 @@ export const TriggerProjectsSelector = ({
     [setSelectedAssets]
   )
 
-  const cancel = useCallback(
-    () => {
-      validate(true)
-      closeDialog()
-    },
-    [validate, closeDialog]
-  )
+  const cancel = useCallback(() => {
+    validate(true)
+    closeDialog()
+  }, [validate, closeDialog])
 
   const onSuggestionSelect = useCallback(
     project => {
@@ -165,14 +156,11 @@ export const TriggerProjectsSelector = ({
     [toggleAsset, listItems]
   )
 
-  const sortedProjects = useMemo(
-    () => {
-      return projects
-        .slice()
-        .sort(({ rank: a }, { rank: b }) => (a || Infinity) - (b || Infinity))
-    },
-    [projects]
-  )
+  const sortedProjects = useMemo(() => {
+    return projects
+      .slice()
+      .sort(({ rank: a }, { rank: b }) => (a || Infinity) - (b || Infinity))
+  }, [projects])
 
   return (
     <Dialog

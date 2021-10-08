@@ -47,25 +47,19 @@ const NotificationItem = ({
   const [isNew, setIsNew] = useState(isNewInput)
   const [isHover, setIsHover] = useState(false)
 
-  useEffect(
-    () => {
-      setIsNew(isNewInput)
-    },
-    [isNewInput]
-  )
+  useEffect(() => {
+    setIsNew(isNewInput)
+  }, [isNewInput])
 
-  useEffect(
-    () => {
-      if (isOpened) {
-        const timeoutId = setTimeout(() => {
-          setIsNew(false)
-        }, (timeoutIndex + 2) * 1000)
+  useEffect(() => {
+    if (isOpened) {
+      const timeoutId = setTimeout(() => {
+        setIsNew(false)
+      }, (timeoutIndex + 2) * 1000)
 
-        return () => clearTimeout(timeoutId)
-      }
-    },
-    [isOpened]
-  )
+      return () => clearTimeout(timeoutId)
+    }
+  }, [isOpened])
 
   const title = useMemo(() => getTitle(data), [data])
   const linkTo = useMemo(() => getLink(data), [data])

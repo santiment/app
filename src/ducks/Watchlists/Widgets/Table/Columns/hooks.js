@@ -19,41 +19,35 @@ export function useCategories (type) {
     loading: metricsLoading
   } = useRestrictedMetrics(type)
 
-  const projectCategories = useMemo(
-    () => {
-      if (allMetrics.length !== 0 && type !== BLOCKCHAIN_ADDRESS) {
-        buildColumns(metrics, allMetrics, restrictedMetrics)
-        const allColumns = Object.values(Column)
-        return getCategoryGraph(allColumns)
-      }
+  const projectCategories = useMemo(() => {
+    if (allMetrics.length !== 0 && type !== BLOCKCHAIN_ADDRESS) {
+      buildColumns(metrics, allMetrics, restrictedMetrics)
+      const allColumns = Object.values(Column)
+      return getCategoryGraph(allColumns)
+    }
 
-      return []
-    },
-    [allMetrics]
-  )
+    return []
+  }, [allMetrics])
 
-  const addressesCategories = useMemo(
-    () => {
-      if (type === BLOCKCHAIN_ADDRESS) {
-        const assetColumns = buildAssetColumns(projects)
-        const allAssetColumns = Object.values(assetColumns).flat()
+  const addressesCategories = useMemo(() => {
+    if (type === BLOCKCHAIN_ADDRESS) {
+      const assetColumns = buildAssetColumns(projects)
+      const allAssetColumns = Object.values(assetColumns).flat()
 
-        return {
-          General: {
-            _: [LABELS_COLUMN, NOTE_COLUMN, ASSETS_DISTRIBUTION_COLUMN].map(
-              item => ({ item })
-            )
-          },
-          Assets: {
-            _: allAssetColumns.map(item => ({ item }))
-          }
+      return {
+        General: {
+          _: [LABELS_COLUMN, NOTE_COLUMN, ASSETS_DISTRIBUTION_COLUMN].map(
+            item => ({ item })
+          )
+        },
+        Assets: {
+          _: allAssetColumns.map(item => ({ item }))
         }
       }
+    }
 
-      return []
-    },
-    [projects]
-  )
+    return []
+  }, [projects])
 
   return {
     categories:

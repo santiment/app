@@ -51,29 +51,23 @@ const PriceHistogram = ({
   const [from, to] = dates
   const [data, loading, error] = usePriceHistogramData({ slug, from, to })
 
-  useEffect(
-    () => {
-      const to = new Date(date)
+  useEffect(() => {
+    const to = new Date(date)
 
-      date.setHours(0, 0, 0, 0)
-      to.setHours(23, 59, 59, 999)
+    date.setHours(0, 0, 0, 0)
+    to.setHours(23, 59, 59, 999)
 
-      setDates([date, to])
-    },
-    [date]
-  )
+    setDates([date, to])
+  }, [date])
 
-  useEffect(
-    () => {
-      if (datesRange) {
-        const newRange = [new Date(datesRange[0]), new Date(datesRange[1])]
-        newRange[0].setHours(0, 0, 0, 0)
-        newRange[1].setHours(23, 59, 59, 999)
-        setDates(newRange)
-      }
-    },
-    [datesRange]
-  )
+  useEffect(() => {
+    if (datesRange) {
+      const newRange = [new Date(datesRange[0]), new Date(datesRange[1])]
+      newRange[0].setHours(0, 0, 0, 0)
+      newRange[1].setHours(23, 59, 59, 999)
+      setDates(newRange)
+    }
+  }, [datesRange])
 
   function onCalendarChange (newDates) {
     setDates(newDates)

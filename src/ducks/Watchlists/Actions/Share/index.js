@@ -14,14 +14,11 @@ const Share = ({ watchlist, isAuthor, className, customLink }) => {
 
   const type = checkIsScreener(watchlist) ? 'screener' : 'watchlist'
 
-  useEffect(
-    () => {
-      if (isPublic !== watchlist.isPublic) {
-        setIsPublic(watchlist.isPublic)
-      }
-    },
-    [watchlist.isPublic]
-  )
+  useEffect(() => {
+    if (isPublic !== watchlist.isPublic) {
+      setIsPublic(watchlist.isPublic)
+    }
+  }, [watchlist.isPublic])
 
   return isAuthor ? (
     <ShareModalTrigger

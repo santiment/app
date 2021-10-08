@@ -69,7 +69,4 @@ const mapStateToProps = ({ user }) => ({
   userId: user && user.data ? user.data.id : undefined
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SignalCardsGrid)
+export default connect(mapStateToProps, mapDispatchToProps)(SignalCardsGrid)

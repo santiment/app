@@ -81,17 +81,14 @@ const Personal = () => {
   const [activeTab] = tabState
   const Content = TabTypeComponent[activeTab]
 
-  useEffect(
-    () => {
-      saveTab(activeTab)
+  useEffect(() => {
+    saveTab(activeTab)
 
-      if (!window.location.hash) {
-        const hash = PersonalTabHashes[activeTab] || ''
-        history.replace(window.location.pathname + '#' + hash)
-      }
-    },
-    [activeTab]
-  )
+    if (!window.location.hash) {
+      const hash = PersonalTabHashes[activeTab] || ''
+      history.replace(window.location.pathname + '#' + hash)
+    }
+  }, [activeTab])
 
   return (
     <Section>

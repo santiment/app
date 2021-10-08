@@ -72,16 +72,13 @@ const List = ({
   const [searchToken, setSearchToken] = useState()
   const [defaultUsers] = useState(users)
 
-  const filteredUsers = useMemo(
-    () => {
-      return searchToken
-        ? defaultUsers.filter(
+  const filteredUsers = useMemo(() => {
+    return searchToken
+      ? defaultUsers.filter(
           ({ username }) => username && username.indexOf(searchToken) !== -1
         )
-        : defaultUsers
-    },
-    [searchToken, defaultUsers]
-  )
+      : defaultUsers
+  }, [searchToken, defaultUsers])
 
   return (
     <div className={styles.listWrapper}>

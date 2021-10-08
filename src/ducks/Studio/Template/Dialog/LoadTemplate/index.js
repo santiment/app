@@ -49,54 +49,42 @@ const LoadTemplate = ({
     ? useFeaturedTemplates()
     : usePublicProjectTemplates(projectId)
 
-  const getUsageTemplates = useCallback(
-    () => {
-      if (tab === TABS.PROJECT) {
-        return projectTemplates.filter(
-          ({ user: { id } }) => +id !== +currentUserId
-        )
-      } else {
-        return templates
-      }
-    },
-    [TABS, tab, projectTemplates, currentUserId, templates]
-  )
+  const getUsageTemplates = useCallback(() => {
+    if (tab === TABS.PROJECT) {
+      return projectTemplates.filter(
+        ({ user: { id } }) => +id !== +currentUserId
+      )
+    } else {
+      return templates
+    }
+  }, [TABS, tab, projectTemplates, currentUserId, templates])
 
-  const search = useCallback(
-    () => {
-      const lowerCaseValue = searchTerm.toLowerCase()
+  const search = useCallback(() => {
+    const lowerCaseValue = searchTerm.toLowerCase()
 
-      const templates = getUsageTemplates()
+    const templates = getUsageTemplates()
 
-      const filtered = lowerCaseValue
-        ? templates.filter(({ title }) =>
+    const filtered = lowerCaseValue
+      ? templates.filter(({ title }) =>
           title.toLowerCase().includes(lowerCaseValue)
         )
-        : templates
-      setFilteredTemplates(filtered)
-    },
-    [searchTerm, getUsageTemplates, setFilteredTemplates]
-  )
+      : templates
+    setFilteredTemplates(filtered)
+  }, [searchTerm, getUsageTemplates, setFilteredTemplates])
 
-  useEffect(
-    () => {
-      if (templates.length === 0 && projectTemplates.length > 0) {
-        setTab(TABS.PROJECT)
-      } else {
-        setTab(TABS.OWN)
-      }
-    },
-    [templates, loadingProjectTemplates]
-  )
+  useEffect(() => {
+    if (templates.length === 0 && projectTemplates.length > 0) {
+      setTab(TABS.PROJECT)
+    } else {
+      setTab(TABS.OWN)
+    }
+  }, [templates, loadingProjectTemplates])
 
   useEffect(search, [tab, searchTerm, templates.length])
 
-  const rerenderTemplates = useCallback(
-    () => {
-      setFilteredTemplates(state => state.slice())
-    },
-    [setFilteredTemplates]
-  )
+  const rerenderTemplates = useCallback(() => {
+    setFilteredTemplates(state => state.slice())
+  }, [setFilteredTemplates])
 
   const onRename = useCallback(
     template => {
@@ -106,12 +94,9 @@ const LoadTemplate = ({
     [rerenderTemplate, rerenderTemplates]
   )
 
-  const onDelete = useCallback(
-    () => {
-      setOpenedTemplate()
-    },
-    [setOpenedTemplate]
-  )
+  const onDelete = useCallback(() => {
+    setOpenedTemplate()
+  }, [setOpenedTemplate])
 
   return (
     <Dialog
@@ -204,9 +189,6 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 
-export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)(LoadTemplate)
+export default compose(connect(mapStateToProps, mapDispatchToProps))(
+  LoadTemplate
+)

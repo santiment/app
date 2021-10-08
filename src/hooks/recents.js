@@ -13,37 +13,34 @@ export function useRecentAssets (slugs) {
     setCurrSlugs(slugs)
   }
 
-  useEffect(
-    () => {
-      setIsLoading(true)
-      let assets = []
-      let race = false
+  useEffect(() => {
+    setIsLoading(true)
+    let assets = []
+    let race = false
 
-      Promise.all(
-        slugs.map((id, i) =>
-          getRecentAsset(id).then(asset => (assets[i] = asset))
-        )
+    Promise.all(
+      slugs.map((id, i) =>
+        getRecentAsset(id).then(asset => (assets[i] = asset))
       )
-        .then(data => {
-          if (race) return
+    )
+      .then(data => {
+        if (race) return
 
-          assets = assets.filter(Boolean)
+        assets = assets.filter(Boolean)
 
-          setRecentAssets(assets)
-          setIsLoading(false)
-          setIsError(false)
-        })
-        .catch(e => {
-          if (race) return
+        setRecentAssets(assets)
+        setIsLoading(false)
+        setIsError(false)
+      })
+      .catch(e => {
+        if (race) return
 
-          setIsLoading(false)
-          setIsError(e)
-        })
+        setIsLoading(false)
+        setIsError(e)
+      })
 
-      return () => (race = true)
-    },
-    [currSlugs]
-  )
+    return () => (race = true)
+  }, [currSlugs])
 
   return [recentAssets, isLoading, isError]
 }
@@ -58,37 +55,34 @@ export function useRecentTemplates (templatesIDs) {
     setCurrIDs(templatesIDs)
   }
 
-  useEffect(
-    () => {
-      setIsLoading(true)
-      let templates = []
-      let race = false
+  useEffect(() => {
+    setIsLoading(true)
+    let templates = []
+    let race = false
 
-      Promise.all(
-        templatesIDs.map((id, i) =>
-          getRecentTemplate(id).then(template => (templates[i] = template))
-        )
+    Promise.all(
+      templatesIDs.map((id, i) =>
+        getRecentTemplate(id).then(template => (templates[i] = template))
       )
-        .then(data => {
-          if (race) return
+    )
+      .then(data => {
+        if (race) return
 
-          templates = templates.filter(Boolean)
+        templates = templates.filter(Boolean)
 
-          setRecentTemplates(templates)
-          setIsLoading(false)
-          setIsError(false)
-        })
-        .catch(e => {
-          if (race) return
+        setRecentTemplates(templates)
+        setIsLoading(false)
+        setIsError(false)
+      })
+      .catch(e => {
+        if (race) return
 
-          setIsLoading(false)
-          setIsError(e)
-        })
+        setIsLoading(false)
+        setIsError(e)
+      })
 
-      return () => (race = true)
-    },
-    [currIDs]
-  )
+    return () => (race = true)
+  }, [currIDs])
 
   return [recentTemplates, isLoading, isError]
 }

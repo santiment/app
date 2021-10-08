@@ -27,15 +27,12 @@ const IntervalSetting = ({
     to
   )
   const intervals = useMetricIntervals(metric, candlesMinIntervalGetter)
-  const interval = useMemo(
-    () => {
-      const settings = widget.MetricSettingMap.get(metric)
-      const metricInterval = settings && settings.interval
-      const interval = metricInterval || chartInterval
-      return getValidInterval(interval, intervals)
-    },
-    [widget.MetricSettingMap, intervals, metric]
-  )
+  const interval = useMemo(() => {
+    const settings = widget.MetricSettingMap.get(metric)
+    const metricInterval = settings && settings.interval
+    const interval = metricInterval || chartInterval
+    return getValidInterval(interval, intervals)
+  }, [widget.MetricSettingMap, intervals, metric])
 
   function onChange (newInterval) {
     if (newInterval === chartInterval) {

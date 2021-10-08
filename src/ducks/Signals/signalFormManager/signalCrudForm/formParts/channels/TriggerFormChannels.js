@@ -77,57 +77,47 @@ const TriggerFormChannels = ({ channels, errors, setFieldValue, isNew }) => {
     requiredChannels
   })
 
-  useEffect(
-    () => {
-      let newChannels = channels
-      if (isNew) {
-        newChannels = checkIn(
-          newChannels,
-          isTelegramConnected,
-          CHANNEL_NAMES.Telegram
-        )
-        newChannels = checkIn(
-          newChannels,
-          isEmailConnected,
-          CHANNEL_NAMES.Email
-        )
-      }
-
-      const active = newChannels.filter(channel => !isDisabled(channel))
-
-      setFieldValue('channels', active)
-    },
-    [isTelegramConnected, isEmailConnected]
-  )
-
-  useEffect(
-    () => {
-      calculateDisabledChannels()
-      let required = []
-
-      required = checkAndAdd(
-        required,
-        channels,
+  useEffect(() => {
+    let newChannels = channels
+    if (isNew) {
+      newChannels = checkIn(
+        newChannels,
         isTelegramConnected,
         CHANNEL_NAMES.Telegram
       )
-      required = checkAndAdd(
-        required,
-        channels,
-        isEmailConnected,
-        CHANNEL_NAMES.Email
-      )
-      required = checkAndAdd(
-        required,
-        channels,
-        isWebPushEnabled,
-        CHANNEL_NAMES.Browser
-      )
+      newChannels = checkIn(newChannels, isEmailConnected, CHANNEL_NAMES.Email)
+    }
 
-      setRequiredChannels(required)
-    },
-    [isTelegramConnected, isEmailConnected, isWebPushEnabled]
-  )
+    const active = newChannels.filter(channel => !isDisabled(channel))
+
+    setFieldValue('channels', active)
+  }, [isTelegramConnected, isEmailConnected])
+
+  useEffect(() => {
+    calculateDisabledChannels()
+    let required = []
+
+    required = checkAndAdd(
+      required,
+      channels,
+      isTelegramConnected,
+      CHANNEL_NAMES.Telegram
+    )
+    required = checkAndAdd(
+      required,
+      channels,
+      isEmailConnected,
+      CHANNEL_NAMES.Email
+    )
+    required = checkAndAdd(
+      required,
+      channels,
+      isWebPushEnabled,
+      CHANNEL_NAMES.Browser
+    )
+
+    setRequiredChannels(required)
+  }, [isTelegramConnected, isEmailConnected, isWebPushEnabled])
 
   const onWebhookChange = useCallback(
     e => {
@@ -205,41 +195,32 @@ const TriggerFormChannels = ({ channels, errors, setFieldValue, isNew }) => {
     [channels, setFieldValue, addOrRemove]
   )
 
-  useEffect(
-    () => {
-      if (!channels.length) {
-        return
+  useEffect(() => {
+    if (!channels.length) {
+      return
+    }
+
+    if (!webhook) {
+      const whChannel = findWebHook(channels)
+      if (whChannel) {
+        setWebhook(whChannel.webhook)
       }
+    }
 
-      if (!webhook) {
-        const whChannel = findWebHook(channels)
-        if (whChannel) {
-          setWebhook(whChannel.webhook)
-        }
-      }
+    const active = channels.filter(channel => !isDisabled(channel))
 
-      const active = channels.filter(channel => !isDisabled(channel))
+    if (!channels.some(channel => active.indexOf(channel) !== -1)) {
+      setFieldValue('channels', active)
+    }
+  }, [channels])
 
-      if (!channels.some(channel => active.indexOf(channel) !== -1)) {
-        setFieldValue('channels', active)
-      }
-    },
-    [channels]
-  )
+  useEffect(() => {
+    isNew && addOrRemove(CHANNEL_NAMES.Telegram, isTelegramConnected)
+  }, [isTelegramConnected])
 
-  useEffect(
-    () => {
-      isNew && addOrRemove(CHANNEL_NAMES.Telegram, isTelegramConnected)
-    },
-    [isTelegramConnected]
-  )
-
-  useEffect(
-    () => {
-      isNew && addOrRemove(CHANNEL_NAMES.Email, isEmailConnected)
-    },
-    [isEmailConnected]
-  )
+  useEffect(() => {
+    isNew && addOrRemove(CHANNEL_NAMES.Email, isEmailConnected)
+  }, [isEmailConnected])
 
   useEffect(() => {
     let interval

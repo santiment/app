@@ -86,32 +86,23 @@ const Template = ({
     selectTemplate
   )
 
-  const toggleLoadDialog = useCallback(
-    () => {
-      setIsLoadDialogOpened(!isLoadDialogOpened)
-    },
-    [setIsLoadDialogOpened, isLoadDialogOpened]
-  )
+  const toggleLoadDialog = useCallback(() => {
+    setIsLoadDialogOpened(!isLoadDialogOpened)
+  }, [setIsLoadDialogOpened, isLoadDialogOpened])
 
   useKeyboardCmdShortcut('l', toggleLoadDialog)
 
-  useEffect(
-    () => {
-      if (onProjectSelect && urlProject) {
-        onProjectSelect(urlProject)
-      }
-    },
-    [urlProject]
-  )
+  useEffect(() => {
+    if (onProjectSelect && urlProject) {
+      onProjectSelect(urlProject)
+    }
+  }, [urlProject])
 
-  useEffect(
-    () => {
-      if (pathname === PATHS.CHARTS) {
-        selectTemplate()
-      }
-    },
-    [pathname]
-  )
+  useEffect(() => {
+    if (pathname === PATHS.CHARTS) {
+      selectTemplate()
+    }
+  }, [pathname])
 
   useCtrlSPress(() => {
     if (selectedTemplate) {
@@ -123,27 +114,18 @@ const Template = ({
 
   const hasTemplates = templates.length > 0
 
-  const openMenu = useCallback(
-    () => {
-      setIsMenuOpened(true)
-    },
-    [setIsMenuOpened]
-  )
+  const openMenu = useCallback(() => {
+    setIsMenuOpened(true)
+  }, [setIsMenuOpened])
 
-  const closeLoadDialog = useCallback(
-    () => {
-      setIsLoadDialogOpened(false)
-    },
-    [setIsLoadDialogOpened]
-  )
+  const closeLoadDialog = useCallback(() => {
+    setIsLoadDialogOpened(false)
+  }, [setIsLoadDialogOpened])
 
-  const closeMenu = useCallback(
-    () => {
-      setIsMenuOpened(false)
-      closeLoadDialog()
-    },
-    [setIsMenuOpened, closeLoadDialog]
-  )
+  const closeMenu = useCallback(() => {
+    setIsMenuOpened(false)
+    closeLoadDialog()
+  }, [setIsMenuOpened, closeLoadDialog])
 
   const rerenderTemplate = useCallback(
     template => {
@@ -154,34 +136,33 @@ const Template = ({
     [selectedTemplate, setSelectedTemplate]
   )
 
-  const saveTemplate = useCallback(
-    () => {
-      const template = selectedTemplate || {}
+  const saveTemplate = useCallback(() => {
+    const template = selectedTemplate || {}
 
-      const { user: { id } = {}, title, description } = template
+    const { user: { id } = {}, title, description } = template
 
-      const isCurrentUser = +id === +user.id
-      const metrics = widgets
-        .map(({ metrics }) => metrics)
-        .flat()
-        .filter(Boolean)
-      const comparables = widgets
-        .map(({ comparables }) => comparables)
-        .flat()
-        .filter(Boolean)
+    const isCurrentUser = +id === +user.id
+    const metrics = widgets
+      .map(({ metrics }) => metrics)
+      .flat()
+      .filter(Boolean)
+    const comparables = widgets
+      .map(({ comparables }) => comparables)
+      .flat()
+      .filter(Boolean)
 
-      const options = {
-        widgets: saveWidgets(widgets)
-      }
+    const options = {
+      widgets: saveWidgets(widgets)
+    }
 
-      const future = isCurrentUser
-        ? updateTemplate(template, {
+    const future = isCurrentUser
+      ? updateTemplate(template, {
           metrics,
           comparables,
           projectId,
           options
         })
-        : createTemplate({
+      : createTemplate({
           title,
           description,
           metrics: buildTemplateMetrics({ metrics, comparables }),
@@ -189,28 +170,26 @@ const Template = ({
           options
         })
 
-      future
-        .then(template => {
-          track.event(Event.SaveLayout, { id: template.id })
-          return (souldReloadOnSave ? selectTemplate : setSelectedTemplate)(
-            template
-          )
-        })
-        .then(closeMenu)
-        .then(notifySave)
-    },
-    [
-      projectId,
-      selectedTemplate,
-      user,
-      widgets,
-      updateTemplate,
-      createTemplate,
-      selectTemplate,
-      closeMenu,
-      notifySave
-    ]
-  )
+    future
+      .then(template => {
+        track.event(Event.SaveLayout, { id: template.id })
+        return (souldReloadOnSave ? selectTemplate : setSelectedTemplate)(
+          template
+        )
+      })
+      .then(closeMenu)
+      .then(notifySave)
+  }, [
+    projectId,
+    selectedTemplate,
+    user,
+    widgets,
+    updateTemplate,
+    createTemplate,
+    selectTemplate,
+    closeMenu,
+    notifySave
+  ])
 
   const onTemplateSelect = useCallback(
     template => {
@@ -220,21 +199,15 @@ const Template = ({
     [selectTemplate, closeMenu]
   )
 
-  const onDelete = useCallback(
-    () => {
-      closeMenu()
-    },
-    [closeMenu]
-  )
+  const onDelete = useCallback(() => {
+    closeMenu()
+  }, [closeMenu])
 
   const isAuthor = isUserAuthorOfTemplate(user, selectedTemplate)
 
-  const openLoadDialog = useCallback(
-    () => {
-      setIsLoadDialogOpened(true)
-    },
-    [setIsLoadDialogOpened]
-  )
+  const openLoadDialog = useCallback(() => {
+    setIsLoadDialogOpened(true)
+  }, [setIsLoadDialogOpened])
 
   return (
     <>

@@ -30,18 +30,15 @@ export function useWatchlistItems (id) {
     }
   })
 
-  return useMemo(
-    () => {
-      return [
-        data
-          ? data.watchlist.listItems.map(({ project: { slug } }) => slug)
-          : undefined,
-        loading,
-        error
-      ]
-    },
-    [data, loading, error]
-  )
+  return useMemo(() => {
+    return [
+      data
+        ? data.watchlist.listItems.map(({ project: { slug } }) => slug)
+        : undefined,
+      loading,
+      error
+    ]
+  }, [data, loading, error])
 }
 
 export function useRecentWatchlists (watchlistsIDs) {
@@ -54,37 +51,34 @@ export function useRecentWatchlists (watchlistsIDs) {
     setCurrIDs(watchlistsIDs)
   }
 
-  useEffect(
-    () => {
-      setIsLoading(true)
-      let watchlists = []
-      let race = false
+  useEffect(() => {
+    setIsLoading(true)
+    let watchlists = []
+    let race = false
 
-      Promise.all(
-        watchlistsIDs.map((id, i) =>
-          getRecentWatchlist(id).then(watchlist => (watchlists[i] = watchlist))
-        )
+    Promise.all(
+      watchlistsIDs.map((id, i) =>
+        getRecentWatchlist(id).then(watchlist => (watchlists[i] = watchlist))
       )
-        .then(data => {
-          if (race) return
+    )
+      .then(data => {
+        if (race) return
 
-          watchlists = watchlists.filter(Boolean)
+        watchlists = watchlists.filter(Boolean)
 
-          setRecentWatchlists(watchlists)
-          setIsLoading(false)
-          setIsError(false)
-        })
-        .catch(e => {
-          if (race) return
+        setRecentWatchlists(watchlists)
+        setIsLoading(false)
+        setIsError(false)
+      })
+      .catch(e => {
+        if (race) return
 
-          setIsLoading(false)
-          setIsError(e)
-        })
+        setIsLoading(false)
+        setIsError(e)
+      })
 
-      return () => (race = true)
-    },
-    [currIDs]
-  )
+    return () => (race = true)
+  }, [currIDs])
 
   return [recentWatchlists, isLoading, isError]
 }

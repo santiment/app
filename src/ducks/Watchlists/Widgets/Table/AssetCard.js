@@ -51,10 +51,10 @@ const AssetCard = ({
       <div className={styles.right}>
         {priceUsd
           ? formatNumber(priceUsd, {
-            currency: 'USD',
-            minimumFractionDigits,
-            maximumFractionDigits
-          })
+              currency: 'USD',
+              minimumFractionDigits,
+              maximumFractionDigits
+            })
           : 'No data'}
         <PercentChanges
           className={styles.percentChanges}

@@ -35,49 +35,43 @@ const CompareContent = ({
     new Map()
   )
 
-  useEffect(
-    () => {
-      const submetrics = filterOnlyMetrics(AllSubmetrics)
-      const newCategories = getCategoryGraph(
-        availableMetrics,
-        [],
-        submetrics,
-        isBeta
-      )
+  useEffect(() => {
+    const submetrics = filterOnlyMetrics(AllSubmetrics)
+    const newCategories = getCategoryGraph(
+      availableMetrics,
+      [],
+      submetrics,
+      isBeta
+    )
 
-      setCategories(newCategories)
-    },
-    [availableMetrics]
-  )
+    setCategories(newCategories)
+  }, [availableMetrics])
 
-  const onCompare = useCallback(
-    () => {
-      const MetricSettingMap = new Map()
-      const widgets = assets.map(asset =>
-        ChartWidget.new({
-          metrics: metrics.map(metric => {
-            const projectMetric = newProjectMetric(asset, metric)
-            const metricSettings = selectedMetricSettingsMap.get(metric)
+  const onCompare = useCallback(() => {
+    const MetricSettingMap = new Map()
+    const widgets = assets.map(asset =>
+      ChartWidget.new({
+        metrics: metrics.map(metric => {
+          const projectMetric = newProjectMetric(asset, metric)
+          const metricSettings = selectedMetricSettingsMap.get(metric)
 
-            if (metricSettings) {
-              MetricSettingMap.set(projectMetric, metricSettings)
-            }
+          if (metricSettings) {
+            MetricSettingMap.set(projectMetric, metricSettings)
+          }
 
-            return projectMetric
-          }),
-          MetricSettingMap
-        })
-      )
+          return projectMetric
+        }),
+        MetricSettingMap
+      })
+    )
 
-      const url = `${PATHS.STUDIO}?${generateUrlV2({
-        widgets,
-        settings: {}
-      })}`
+    const url = `${PATHS.STUDIO}?${generateUrlV2({
+      widgets,
+      settings: {}
+    })}`
 
-      window.open(url, '_blank')
-    },
-    [metrics, assets, selectedMetricSettingsMap]
-  )
+    window.open(url, '_blank')
+  }, [metrics, assets, selectedMetricSettingsMap])
 
   const project = assets[0]
   const loading = loadings.length > 0

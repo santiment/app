@@ -98,22 +98,17 @@ const UniswapPieChart = () => {
 
   const [isMissedData, setIsMissedData] = useState(false)
 
-  useEffect(
-    () => {
-      if (!loading) {
-        const noData = chartData.filter(
-          ({ rawValue }) => rawValue === undefined
-        )
-        const isTotallyEpmty = chartData.filter(
-          ({ rawValue }) => rawValue === null
-        )
-        if (noData.length > 0 || isTotallyEpmty.length === chartData.length) {
-          setIsMissedData(true)
-        }
+  useEffect(() => {
+    if (!loading) {
+      const noData = chartData.filter(({ rawValue }) => rawValue === undefined)
+      const isTotallyEpmty = chartData.filter(
+        ({ rawValue }) => rawValue === null
+      )
+      if (noData.length > 0 || isTotallyEpmty.length === chartData.length) {
+        setIsMissedData(true)
       }
-    },
-    [loading]
-  )
+    }
+  }, [loading])
 
   if (!loading && isMissedData) return null
 
@@ -141,8 +136,8 @@ const UniswapPieChart = () => {
             <p
               className={styles.time}
             >{`Last update: ${D} ${MMM}, ${make12Hours(H)}:${mm}${getAmPm(
-                H
-              )}`}</p>
+              H
+            )}`}</p>
           </div>
           <div className={styles.text}>
             <div className={styles.row}>

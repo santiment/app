@@ -32,20 +32,17 @@ const StudioTab = ({
     }
   }, [])
 
-  useEffect(
-    () => {
-      if (!History) return
+  useEffect(() => {
+    if (!History) return
 
-      const unsubCmdZ = newGlobalShortcut('CMD+Z', History.undo)
-      const unsubCmdShiftZ = newGlobalShortcut('CMD+SHIFT+Z', History.redo)
+    const unsubCmdZ = newGlobalShortcut('CMD+Z', History.undo)
+    const unsubCmdShiftZ = newGlobalShortcut('CMD+SHIFT+Z', History.redo)
 
-      return () => {
-        unsubCmdZ()
-        unsubCmdShiftZ()
-      }
-    },
-    [History]
-  )
+    return () => {
+      unsubCmdZ()
+      unsubCmdShiftZ()
+    }
+  }, [History])
 
   return (
     <>

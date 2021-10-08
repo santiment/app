@@ -5,12 +5,9 @@ import { getValidInterval } from '../../../ducks/SANCharts/IntervalSelector'
 import styles from './DashboardChartHeaderWrapper.module.scss'
 
 export const DashboardIntervals = ({ interval, setInterval, intervals }) => {
-  const tabs = useMemo(
-    () => {
-      return intervals.map(({ label }) => label)
-    },
-    [intervals]
-  )
+  const tabs = useMemo(() => {
+    return intervals.map(({ label }) => label)
+  }, [intervals])
 
   return (
     <Tabs

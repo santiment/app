@@ -47,28 +47,19 @@ const SignalDialog = ({
 
   useEffect(() => toggleAnon(!isLoggedIn), [isLoggedIn])
 
-  useEffect(
-    () => {
-      if (isLoading) {
-        toggleAnon(false)
-      }
-    },
-    [isLoading]
-  )
+  useEffect(() => {
+    if (isLoading) {
+      toggleAnon(false)
+    }
+  }, [isLoading])
 
-  useEffect(
-    () => {
-      setSharedPreview(isShared)
-    },
-    [isShared]
-  )
+  useEffect(() => {
+    setSharedPreview(isShared)
+  }, [isShared])
 
-  useEffect(
-    () => {
-      isSharedPreview && onSetDialogTitle('Alert details')
-    },
-    [isSharedPreview]
-  )
+  useEffect(() => {
+    isSharedPreview && onSetDialogTitle('Alert details')
+  }, [isSharedPreview])
 
   const canOpen = (isLoggedIn || isShared) && !isAnonWarning
 

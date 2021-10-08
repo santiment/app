@@ -30,16 +30,13 @@ export function useGlobalsUpdater () {
   const userInfo = useUserSubscriptionStatus()
   const isBeta = useIsBetaMode()
 
-  useEffect(
-    () => {
-      globals.toggle('isNightMode', theme.isNightMode)
-      globals.toggle('isLoggedIn', isLoggedIn)
-      globals.toggle('isPro', userInfo.isPro)
-      globals.toggle('isProPlus', userInfo.isProPlus)
-      globals.toggle('isBeta', isBeta)
-    },
-    [userInfo, isLoggedIn, theme, isBeta]
-  )
+  useEffect(() => {
+    globals.toggle('isNightMode', theme.isNightMode)
+    globals.toggle('isLoggedIn', isLoggedIn)
+    globals.toggle('isPro', userInfo.isPro)
+    globals.toggle('isProPlus', userInfo.isProPlus)
+    globals.toggle('isBeta', isBeta)
+  }, [userInfo, isLoggedIn, theme, isBeta])
 }
 
 const settingsImmute = store => Object.assign({}, store)
@@ -62,30 +59,27 @@ export function useStudioMetrics (studio) {
   const widgets = useWidgets(studio)
   const [metrics, setMetrics] = useState([])
 
-  useEffect(
-    () => {
-      const unsubs = new Array(widgets.length)
-      const WidgetMetric = {}
+  useEffect(() => {
+    const unsubs = new Array(widgets.length)
+    const WidgetMetric = {}
 
-      widgets.forEach((widget, i) => {
-        if (!widget.Metrics) return (unsubs[i] = noop)
+    widgets.forEach((widget, i) => {
+      if (!widget.Metrics) return (unsubs[i] = noop)
 
-        unsubs[i] = widget.Metrics.subscribe(metrics => {
-          WidgetMetric[widget.id] = metrics
-          updateMetrics()
-        })
+      unsubs[i] = widget.Metrics.subscribe(metrics => {
+        WidgetMetric[widget.id] = metrics
+        updateMetrics()
       })
+    })
 
-      function updateMetrics () {
-        const metrics = flat(Object.values(WidgetMetric))
-        setMetrics(Array.from(new Set(metrics)))
-      }
+    function updateMetrics () {
+      const metrics = flat(Object.values(WidgetMetric))
+      setMetrics(Array.from(new Set(metrics)))
+    }
 
-      const unsubscribe = unsub => unsub()
-      return () => unsubs.forEach(unsubscribe)
-    },
-    [widgets]
-  )
+    const unsubscribe = unsub => unsub()
+    return () => unsubs.forEach(unsubscribe)
+  }, [widgets])
 
   return metrics
 }

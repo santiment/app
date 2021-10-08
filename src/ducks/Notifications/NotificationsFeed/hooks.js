@@ -17,14 +17,11 @@ export const useTimelineEvents = ({ to = 'utc_now', type, author }) => {
     fetchPolicy: 'network-only'
   })
 
-  return useMemo(
-    () => {
-      return {
-        data: data ? data.timelineEvents[0] : undefined,
-        loading,
-        error
-      }
-    },
-    [data, loading, error]
-  )
+  return useMemo(() => {
+    return {
+      data: data ? data.timelineEvents[0] : undefined,
+      loading,
+      error
+    }
+  }, [data, loading, error])
 }

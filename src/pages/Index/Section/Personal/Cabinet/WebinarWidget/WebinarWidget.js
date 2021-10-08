@@ -24,16 +24,13 @@ let VIDEOS = []
 export const useVideos = () => {
   const { data, loading, error } = useQuery(VIDEOS_QUERY)
 
-  return useMemo(
-    () => {
-      if (data && data.getWebinars && VIDEOS.length === 0) {
-        VIDEOS = data.getWebinars
-      }
+  return useMemo(() => {
+    if (data && data.getWebinars && VIDEOS.length === 0) {
+      VIDEOS = data.getWebinars
+    }
 
-      return [VIDEOS, loading, error]
-    },
-    [data, loading, error]
-  )
+    return [VIDEOS, loading, error]
+  }, [data, loading, error])
 }
 
 const WebinarWidget = () => {

@@ -49,54 +49,50 @@ const URLExtension = ({
 
   useEffect(() => setSlug(settings.slug), [settings.slug])
 
-  useEffect(
-    () => {
-      const update = () => setSharedWidgets(getSharedWidgets(widgets))
-      let updateTimer
-      function scheduleUpdate () {
-        window.clearTimeout(updateTimer)
-        updateTimer = window.setTimeout(update, 250)
-      }
+  useEffect(() => {
+    const update = () => setSharedWidgets(getSharedWidgets(widgets))
+    let updateTimer
+    function scheduleUpdate () {
+      window.clearTimeout(updateTimer)
+      updateTimer = window.setTimeout(update, 250)
+    }
 
-      const unsubs = []
-      widgets.forEach(widget => {
-        if (!widget.OnUpdate) return
+    const unsubs = []
+    widgets.forEach(widget => {
+      if (!widget.OnUpdate) return
 
-        unsubs.push(widget.OnUpdate.subscribe(scheduleUpdate))
-      })
+      unsubs.push(widget.OnUpdate.subscribe(scheduleUpdate))
+    })
 
-      return () => {
-        window.clearTimeout(updateTimer)
-        unsubs.forEach(unsub)
-      }
-    },
-    [widgets, subwidgets]
-  )
+    return () => {
+      window.clearTimeout(updateTimer)
+      unsubs.forEach(unsub)
+    }
+  }, [widgets, subwidgets])
 
-  useEffect(
-    () => {
-      if (!sharedSettings || !sharedWidgets) return
+  useEffect(() => {
+    if (!sharedSettings || !sharedWidgets) return
 
-      let [shortUrlHash, setShortUrlHash] = shortUrlHashState
-      const url = getSharedUrl(
-        shortUrlHash,
-        sharedSettings,
-        sharedWidgets,
-        sidewidget,
-        layout
-      )
-      if (url === prevFullUrlRef.current) return
+    let [shortUrlHash, setShortUrlHash] = shortUrlHashState
+    const url = getSharedUrl(
+      shortUrlHash,
+      sharedSettings,
+      sharedWidgets,
+      sidewidget,
+      layout
+    )
+    if (url === prevFullUrlRef.current) return
 
-      prevFullUrlRef.current = url
-      if (!isLoggedIn) return history.replace(url)
+    prevFullUrlRef.current = url
+    if (!isLoggedIn) return history.replace(url)
 
-      let isRacing = false
+    let isRacing = false
 
-      mutateShortUrl()
-      function mutateShortUrl () {
-        const shortUrlPromise = shortUrlHash
-          ? updateShortUrl(shortUrlHash, url)
-          : getShortUrl(url).then(newShortUrlHash => {
+    mutateShortUrl()
+    function mutateShortUrl () {
+      const shortUrlPromise = shortUrlHash
+        ? updateShortUrl(shortUrlHash, url)
+        : getShortUrl(url).then(newShortUrlHash => {
             if (isRacing) return
 
             shortUrlHash = newShortUrlHash
@@ -105,28 +101,26 @@ const URLExtension = ({
             history.push(buildChartShortPath(shortUrlHash))
           })
 
-        shortUrlPromise
-          .then(() => {
-            if (isRacing) return
+      shortUrlPromise
+        .then(() => {
+          if (isRacing) return
 
-            history.replace(buildChartShortPath(shortUrlHash))
-          })
-          .catch(error => {
-            if (isRacing) return
+          history.replace(buildChartShortPath(shortUrlHash))
+        })
+        .catch(error => {
+          if (isRacing) return
 
-            if (checkIsNotAuthorError(error)) {
-              shortUrlHash = undefined
-              return mutateShortUrl()
-            }
+          if (checkIsNotAuthorError(error)) {
+            shortUrlHash = undefined
+            return mutateShortUrl()
+          }
 
-            history.replace(url)
-            // onShortUrlUpdateError()
-          })
-      }
-      return () => (isRacing = true)
-    },
-    [sharedSettings, sharedWidgets, sidewidget, layout]
-  )
+          history.replace(url)
+          // onShortUrlUpdateError()
+        })
+    }
+    return () => (isRacing = true)
+  }, [sharedSettings, sharedWidgets, sidewidget, layout])
 
   return (
     <Helmet

@@ -26,10 +26,10 @@ export const useAddressWatchlistItems = watchlist => {
     () =>
       listItems
         ? listItems.map(item => ({
-          isAuthor,
-          watchlistId: id,
-          ...itemAccessor(item)
-        }))
+            isAuthor,
+            watchlistId: id,
+            ...itemAccessor(item)
+          }))
         : ARRAY,
     [listItems, isAuthor]
   )

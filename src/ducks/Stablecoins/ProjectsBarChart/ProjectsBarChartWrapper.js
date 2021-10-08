@@ -21,14 +21,11 @@ const ProjectsBarChartWrapper = ({ data, layout = 'horizontal', ...rest }) => {
     [data]
   )
 
-  const metrics = useMemo(
-    () => {
-      return data.map(item => ({
-        key: item.slug || item.address
-      }))
-    },
-    [data]
-  )
+  const metrics = useMemo(() => {
+    return data.map(item => ({
+      key: item.slug || item.address
+    }))
+  }, [data])
   const MetricColor = useChartColors(metrics, PREDEFINED_COLORS)
 
   return layout === 'horizontal' ? (

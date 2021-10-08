@@ -83,22 +83,22 @@ export function initializeTracking (trackerIDs = TRACKER_IDs) {
 export const update =
   isBrowser && isProdApp && !hasDoNotTrack()
     ? user => {
-      window.gtag('set', {
-        user_id: user.id
-      })
-      window.gtag('event', 'screen_view', {
-        app_name: APP_NAME,
-        app_version: process.env.REACT_APP_VERSION
-      })
-      window.Intercom('update', {
-        name: user.username,
-        user_id: user.id,
-        email: user.email,
-        ethAccounts: user.ethAccounts,
-        nightmode: (user.settings || {}).theme,
-        app_version: process.env.REACT_APP_VERSION
-      })
-    }
+        window.gtag('set', {
+          user_id: user.id
+        })
+        window.gtag('event', 'screen_view', {
+          app_name: APP_NAME,
+          app_version: process.env.REACT_APP_VERSION
+        })
+        window.Intercom('update', {
+          name: user.username,
+          user_id: user.id,
+          email: user.email,
+          ethAccounts: user.ethAccounts,
+          nightmode: (user.settings || {}).theme,
+          app_version: process.env.REACT_APP_VERSION
+        })
+      }
     : () => {}
 
 /**
@@ -118,28 +118,28 @@ export const update =
 export const event =
   isBrowser && isProdApp && !hasDoNotTrack()
     ? ({ action, category, label, ...values }, type = ['ga']) => {
-      if (type.includes('ga')) {
-        window.gtag('event', action, {
-          event_category: category,
-          event_label: label,
-          ...values
-        })
+        if (type.includes('ga')) {
+          window.gtag('event', action, {
+            event_category: category,
+            event_label: label,
+            ...values
+          })
+        }
+        if (type.includes('intercom')) {
+          window.Intercom('trackEvent', action, {
+            event_category: category,
+            event_label: label,
+            ...values
+          })
+        }
+        if (type.includes('twitter')) {
+          window.twq('track', action, {
+            content_type: category,
+            content_name: label,
+            ...values
+          })
+        }
       }
-      if (type.includes('intercom')) {
-        window.Intercom('trackEvent', action, {
-          event_category: category,
-          event_label: label,
-          ...values
-        })
-      }
-      if (type.includes('twitter')) {
-        window.twq('track', action, {
-          content_type: category,
-          content_name: label,
-          ...values
-        })
-      }
-    }
     : () => {}
 
 /**

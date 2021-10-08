@@ -40,32 +40,29 @@ export const IcoPrice = ({
   } = chart
   const priceMinMax = minMaxes && minMaxes.price_usd
 
-  useEffect(
-    () => {
-      if (!data || !priceMinMax) return
+  useEffect(() => {
+    if (!data || !priceMinMax) return
 
-      const { icoPrice } = data.project
+    const { icoPrice } = data.project
 
-      if (!icoPrice) {
-        setValue(DEFAULT_VALUE)
-        onResult()
+    if (!icoPrice) {
+      setValue(DEFAULT_VALUE)
+      onResult()
 
-        return
-      }
+      return
+    }
 
-      const { min, max } = priceMinMax
+    const { min, max } = priceMinMax
 
-      const isOnChart = icoPrice > min && icoPrice < max
+    const isOnChart = icoPrice > min && icoPrice < max
 
-      setValue({
-        isOnChart,
-        top: isOnChart ? chart.scale(chart, min, max)(icoPrice) : 0,
-        price: formatter(icoPrice)
-      })
-      onResult(icoPrice)
-    },
-    [data, priceMinMax, height]
-  )
+    setValue({
+      isOnChart,
+      top: isOnChart ? chart.scale(chart, min, max)(icoPrice) : 0,
+      price: formatter(icoPrice)
+    })
+    onResult(icoPrice)
+  }, [data, priceMinMax, height])
 
   return isICOPriceActive && !loading && price ? (
     <div

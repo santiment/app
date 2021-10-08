@@ -37,22 +37,16 @@ const TopTransactions = ({ settings, walletAssets }) => {
     calendarSettings
   ).transactions
 
-  const items = useMemo(
-    () => {
-      pagesItems[page] = transactions
-      pagesItems[page + 1] = nextTransactions
-      return pagesItems.flat()
-    },
-    [transactions, nextTransactions]
-  )
+  const items = useMemo(() => {
+    pagesItems[page] = transactions
+    pagesItems[page + 1] = nextTransactions
+    return pagesItems.flat()
+  }, [transactions, nextTransactions])
 
-  useEffect(
-    () => {
-      const slug = distributions[0] ? distributions[0].slug : DEFAULT_SLUG
-      setProject(getProjectInfo(projects, slug))
-    },
-    [distributions, projects]
-  )
+  useEffect(() => {
+    const slug = distributions[0] ? distributions[0].slug : DEFAULT_SLUG
+    setProject(getProjectInfo(projects, slug))
+  }, [distributions, projects])
 
   const onChangeProject = useCallback(project => setProject(project), [
     setProject

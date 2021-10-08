@@ -36,12 +36,9 @@ const EditAddresses = ({ trigger, watchlist }) => {
   const { id, name } = watchlist
   const { isAuthor } = useIsAuthor(watchlist)
 
-  const listItems = useMemo(
-    () => {
-      return watchlist.listItems.map(extractAddress)
-    },
-    [watchlist]
-  )
+  const listItems = useMemo(() => {
+    return watchlist.listItems.map(extractAddress)
+  }, [watchlist])
 
   const { isOpened, openDialog, closeDialog } = useDialogState()
 
@@ -50,19 +47,13 @@ const EditAddresses = ({ trigger, watchlist }) => {
   const infrastructure = getAddressInfrastructure(currentAddress)
   const notes = useAddressNote({ address: currentAddress, infrastructure })
 
-  useEffect(
-    () => {
-      setItems(listItems)
-    },
-    [isOpened]
-  )
+  useEffect(() => {
+    setItems(listItems)
+  }, [isOpened])
 
-  useEffect(
-    () => {
-      setItems(listItems)
-    },
-    [listItems]
-  )
+  useEffect(() => {
+    setItems(listItems)
+  }, [listItems])
 
   function apply () {
     updateWatchlist({
@@ -97,28 +88,25 @@ const EditAddresses = ({ trigger, watchlist }) => {
     setCurrentValue('')
   }
 
-  const errorText = useMemo(
-    () => {
-      if (!currentAddress) {
-        return
-      }
+  const errorText = useMemo(() => {
+    if (!currentAddress) {
+      return
+    }
 
-      if (hasAddress(items, { address: currentAddress })) {
-        return ALREADY_ADDED_ADDRESS
-      }
+    if (hasAddress(items, { address: currentAddress })) {
+      return ALREADY_ADDED_ADDRESS
+    }
 
-      const infrastructure = getAddressInfrastructure(currentAddress)
-      const valid =
-        infrastructure &&
-        infrastructure === Infrastructure.ETH &&
-        !hasAddress(items, { address: currentAddress })
+    const infrastructure = getAddressInfrastructure(currentAddress)
+    const valid =
+      infrastructure &&
+      infrastructure === Infrastructure.ETH &&
+      !hasAddress(items, { address: currentAddress })
 
-      if (!valid) {
-        return NOT_VALID_ADDRESS
-      }
-    },
-    [items, currentAddress]
-  )
+    if (!valid) {
+      return NOT_VALID_ADDRESS
+    }
+  }, [items, currentAddress])
 
   if (!isAuthor) {
     return null

@@ -15,8 +15,8 @@ const UserAvatar = ({
   const linkTo = userId
     ? '/profile/' + userId
     : externalAvatarUrl
-      ? ''
-      : '/account'
+    ? ''
+    : '/account'
 
   return (
     <El

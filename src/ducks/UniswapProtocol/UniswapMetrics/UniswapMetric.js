@@ -12,23 +12,17 @@ const UniswapMetric = ({ metric }) => {
     slug: 'uniswap',
     ...formIntervalSettings(INTERVAL)
   })
-  const metrics = useMemo(
-    () => {
-      return [metric]
-    },
-    [metric]
-  )
+  const metrics = useMemo(() => {
+    return [metric]
+  }, [metric])
 
   const [data, loadings] = useTimeseries(metrics, settings)
 
-  const sum = useMemo(
-    () => {
-      const last = data && data.length > 0 ? data[data.length - 1] : {}
+  const sum = useMemo(() => {
+    const last = data && data.length > 0 ? data[data.length - 1] : {}
 
-      return last[key] || 0
-    },
-    [data, key]
-  )
+    return last[key] || 0
+  }, [data, key])
 
   const isLoading = loadings.length > 0
 

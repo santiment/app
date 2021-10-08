@@ -46,21 +46,18 @@ const NetworkActivity = ({ settings }) => {
 }
 
 export const ProjectsPreparedChart = ({ data, logScale = false }) => {
-  const prepared = useMemo(
-    () => {
-      return data
-        .sort(sortByValue)
-        .filter(({ value }) => +value !== 0)
-        .map(item => {
-          return {
-            ...item,
-            key: item.slug,
-            logValue: logScale ? Math.log(+item.value) : item.value
-          }
-        })
-    },
-    [data]
-  )
+  const prepared = useMemo(() => {
+    return data
+      .sort(sortByValue)
+      .filter(({ value }) => +value !== 0)
+      .map(item => {
+        return {
+          ...item,
+          key: item.slug,
+          logValue: logScale ? Math.log(+item.value) : item.value
+        }
+      })
+  }, [data])
 
   return (
     <ProjectsBarChartWrapper

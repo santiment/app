@@ -139,7 +139,4 @@ const mapDispatchToProps = dispatch => ({
   setNotification: message => dispatch(showNotification(message))
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WatchlistPopup)
+export default connect(mapStateToProps, mapDispatchToProps)(WatchlistPopup)

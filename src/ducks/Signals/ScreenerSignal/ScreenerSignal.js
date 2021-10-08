@@ -14,12 +14,9 @@ export const SreenerSignal = ({ signal, watchlist, onCancel, onSubmit }) => {
     mapTriggerToFormProps(signal)
   )
 
-  useEffect(
-    () => {
-      setInitialValues(mapTriggerToFormProps(signal))
-    },
-    [signal]
-  )
+  useEffect(() => {
+    setInitialValues(mapTriggerToFormProps(signal))
+  }, [signal])
 
   const toggleSignalActive = useCallback(
     values => {

@@ -51,27 +51,24 @@ function useIsArticleRead () {
 function useUserStats () {
   const { data } = useQuery(USER_QUERY, FETCH_POLICY)
 
-  return useMemo(
-    () => {
-      if (!data || !data.currentUser) return DEFAULT_STATS
+  return useMemo(() => {
+    if (!data || !data.currentUser) return DEFAULT_STATS
 
-      const {
-        email,
-        username,
-        settings,
-        watchlists,
-        chartConfigurations
-      } = data.currentUser
+    const {
+      email,
+      username,
+      settings,
+      watchlists,
+      chartConfigurations
+    } = data.currentUser
 
-      return {
-        personalInfo: !!(email && username),
-        telegram: settings.hasTelegramConnected,
-        watchlists: !!watchlists.length,
-        charts: !!chartConfigurations.length
-      }
-    },
-    [data]
-  )
+    return {
+      personalInfo: !!(email && username),
+      telegram: settings.hasTelegramConnected,
+      watchlists: !!watchlists.length,
+      charts: !!chartConfigurations.length
+    }
+  }, [data])
 }
 
 const Row = ({ title, isActive, onClick, ...props }) => (

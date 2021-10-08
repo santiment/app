@@ -95,16 +95,13 @@ const GeneralFeed = ({ isLoggedIn, isUserLoading, location }) => {
     setTab(value)
   }
 
-  useEffect(
-    () => {
-      setFilters({
-        ...filters,
-        author: getFeedAuthorType(tab)
-      })
-      setPulse(tab === pulseLocation)
-    },
-    [tab]
-  )
+  useEffect(() => {
+    setFilters({
+      ...filters,
+      author: getFeedAuthorType(tab)
+    })
+    setPulse(tab === pulseLocation)
+  }, [tab])
 
   const onChangeSort = value => {
     if (value) {

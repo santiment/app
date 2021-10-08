@@ -93,10 +93,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  connect(
-    null,
-    mapDispatchToProps
-  ),
+  connect(null, mapDispatchToProps),
   graphql(CHANGE_AVATAR_MUTATION, { name: 'mutateChangeAvatar' }),
   graphql(UPLOAD_IMG_QUERY, { name: 'mutateUploadImage' })
 )

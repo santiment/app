@@ -14,17 +14,14 @@ export function useSignals ({ skip = false, filters, mapper } = {}) {
     skip: skip
   })
 
-  const alerts = useMemo(
-    () => {
-      if (!data || !data.currentUser) return DEFAULT_STATE
-      const { triggers = DEFAULT_STATE } = data.currentUser
+  const alerts = useMemo(() => {
+    if (!data || !data.currentUser) return DEFAULT_STATE
+    const { triggers = DEFAULT_STATE } = data.currentUser
 
-      return filters && filters.channel
-        ? filterByChannels(triggers, filters.channel)
-        : triggers
-    },
-    [data, filters]
-  )
+    return filters && filters.channel
+      ? filterByChannels(triggers, filters.channel)
+      : triggers
+  }, [data, filters])
 
   return {
     data: alerts,

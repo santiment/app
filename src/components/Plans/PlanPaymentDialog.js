@@ -124,17 +124,14 @@ const PlanPaymentDialog = ({
     amount: price
   } = selectedPlan
 
-  useEffect(
-    () => {
-      setSelectedPlan({
-        id,
-        name,
-        interval,
-        amount
-      })
-    },
-    [id, name, amount, interval]
-  )
+  useEffect(() => {
+    setSelectedPlan({
+      id,
+      name,
+      interval,
+      amount
+    })
+  }, [id, name, amount, interval])
 
   function changeSelectedPlan (interval) {
     if (selectedPlan.interval !== interval) {

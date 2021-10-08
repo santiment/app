@@ -64,7 +64,4 @@ const mapDispatchToProps = dispatch => ({
     )
   }
 })
-export default connect(
-  null,
-  mapDispatchToProps
-)(FormikSelect)
+export default connect(null, mapDispatchToProps)(FormikSelect)

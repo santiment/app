@@ -35,35 +35,29 @@ const ConfigsMenu = ({
   const { deleteTableConfig } = useDeleteTableConfig()
   const { updateTableConfig } = useUpdateTableConfig()
 
-  useEffect(
-    () => {
-      if (!config && featuredTableConfigurations.length !== 0) {
-        const idx = featuredTableConfigurations.length - 1
-        changeConfig(featuredTableConfigurations[idx].id)
-      }
-    },
-    [featuredTableConfigurations]
-  )
+  useEffect(() => {
+    if (!config && featuredTableConfigurations.length !== 0) {
+      const idx = featuredTableConfigurations.length - 1
+      changeConfig(featuredTableConfigurations[idx].id)
+    }
+  }, [featuredTableConfigurations])
 
-  const hasUnsavedChanges = useMemo(
-    () => {
-      const comparedSorting =
-        config && config.columns.sorting
-          ? config.columns.sorting
-          : DEFAULT_ORDER_BY
-      const isUnsavedSorting =
-        type !== BLOCKCHAIN_ADDRESS && !isEqual(sorting, comparedSorting)
+  const hasUnsavedChanges = useMemo(() => {
+    const comparedSorting =
+      config && config.columns.sorting
+        ? config.columns.sorting
+        : DEFAULT_ORDER_BY
+    const isUnsavedSorting =
+      type !== BLOCKCHAIN_ADDRESS && !isEqual(sorting, comparedSorting)
 
-      return (
-        savedActiveColumnKeys &&
-        config &&
-        !isLoading &&
-        (!isEqual(config.columns.metrics, savedActiveColumnKeys) ||
-          isUnsavedSorting)
-      )
-    },
-    [savedActiveColumnKeys, sorting, config]
-  )
+    return (
+      savedActiveColumnKeys &&
+      config &&
+      !isLoading &&
+      (!isEqual(config.columns.metrics, savedActiveColumnKeys) ||
+        isUnsavedSorting)
+    )
+  }, [savedActiveColumnKeys, sorting, config])
 
   const transformedTrigger = useMemo(
     () =>

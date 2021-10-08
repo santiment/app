@@ -105,12 +105,9 @@ const DashboardMetricChart = ({
     [domainGroups]
   )
 
-  useEffect(
-    () => {
-      updateTooltipSettings(metrics)
-    },
-    [metrics]
-  )
+  useEffect(() => {
+    updateTooltipSettings(metrics)
+  }, [metrics])
 
   const {
     intervalSelector,
@@ -154,14 +151,11 @@ const DashboardMetricChart = ({
 
   const MetricColor = useChartColors(activeMetrics, metricsColor)
 
-  useEffect(
-    () => {
-      if (onLoad && allTimeDataLoadings.length === 0 && loadings.length === 0) {
-        onLoad()
-      }
-    },
-    [loadings, allTimeDataLoadings]
-  )
+  useEffect(() => {
+    if (onLoad && allTimeDataLoadings.length === 0 && loadings.length === 0) {
+      onLoad()
+    }
+  }, [loadings, allTimeDataLoadings])
 
   return (
     <>

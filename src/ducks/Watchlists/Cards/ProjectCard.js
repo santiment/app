@@ -27,33 +27,30 @@ const DEFAULT = {
   marketcap: NULL_MARKETCAP
 }
 export function useMarketcap (data, watchlist, onLoad, accessor) {
-  return useMemo(
-    () => {
-      if (!data) return LOADING
-      if (onLoad) onLoad()
+  return useMemo(() => {
+    if (!data) return LOADING
+    if (onLoad) onLoad()
 
-      const source = accessor ? accessor(data, watchlist) : data.watchlist
+    const source = accessor ? accessor(data, watchlist) : data.watchlist
 
-      if (!source) {
-        return LOADING
-      }
+    if (!source) {
+      return LOADING
+    }
 
-      const { historicalStats } = source
-      const { length } = historicalStats
+    const { historicalStats } = source
+    const { length } = historicalStats
 
-      if (length === 0) return DEFAULT
+    if (length === 0) return DEFAULT
 
-      const lastMarketcap = historicalStats[length - 1].marketcap
-      const firstMarketcap = historicalStats[0].marketcap
+    const lastMarketcap = historicalStats[length - 1].marketcap
+    const firstMarketcap = historicalStats[0].marketcap
 
-      return {
-        data: historicalStats,
-        marketcap: `$ ${millify(lastMarketcap)}`,
-        change: calcPercentageChange(firstMarketcap, lastMarketcap)
-      }
-    },
-    [data]
-  )
+    return {
+      data: historicalStats,
+      marketcap: `$ ${millify(lastMarketcap)}`,
+      change: calcPercentageChange(firstMarketcap, lastMarketcap)
+    }
+  }, [data])
 }
 
 function useWatchlistMarketcap (variables, skip, onLoad) {

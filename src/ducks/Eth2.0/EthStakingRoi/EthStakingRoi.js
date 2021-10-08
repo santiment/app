@@ -31,16 +31,13 @@ export const useEthROI = () => {
     }
   })
 
-  return useMemo(
-    () => {
-      return {
-        data: data ? data.getMetric.timeseriesData : [],
-        loading,
-        error
-      }
-    },
-    [data, loading, error]
-  )
+  return useMemo(() => {
+    return {
+      data: data ? data.getMetric.timeseriesData : [],
+      loading,
+      error
+    }
+  }, [data, loading, error])
 }
 
 const toPercents = value => (value * 100).toFixed(2)
@@ -58,14 +55,11 @@ const valueFormatter = ({ payload }) => {
 const EthStakingRoi = () => {
   const { data, loading } = useEthROI()
 
-  const value = useMemo(
-    () => {
-      const last = data[data.length - 1]
+  const value = useMemo(() => {
+    const last = data[data.length - 1]
 
-      return last ? last.ROI : 0
-    },
-    [data]
-  )
+    return last ? last.ROI : 0
+  }, [data])
 
   return (
     <>

@@ -66,8 +66,8 @@ export function setupTooltip (chart, marker) {
       const relativeX = isOutOfLeft
         ? left
         : isOutOfRight
-          ? right
-          : pageX - canvasPageLeft
+        ? right
+        : pageX - canvasPageLeft
 
       moved = true
 

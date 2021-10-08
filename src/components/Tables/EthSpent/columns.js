@@ -51,16 +51,16 @@ export const COLUMNS = [
       <>
         {value.length > 0
           ? value.map((wallet, index) => (
-            <TrxAddressCell
-              key={index}
-              wallet={wallet}
-              assets={
-                original.slug === ETHEREUM
-                  ? [original.slug]
-                  : [original.slug, ETHEREUM]
-              }
-            />
-          ))
+              <TrxAddressCell
+                key={index}
+                wallet={wallet}
+                assets={
+                  original.slug === ETHEREUM
+                    ? [original.slug]
+                    : [original.slug, ETHEREUM]
+                }
+              />
+            ))
           : 'No data'}
       </>
     )

@@ -84,7 +84,4 @@ export class TrendsSearchForm extends Component {
   }
 }
 
-export default connect(
-  null,
-  gotoExplore
-)(TrendsSearchForm)
+export default connect(null, gotoExplore)(TrendsSearchForm)

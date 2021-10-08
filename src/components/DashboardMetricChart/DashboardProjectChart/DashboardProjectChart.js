@@ -26,12 +26,9 @@ const DashboardProjectChart = ({
 
   const [project = {}] = useProject(targetProject.slug)
 
-  const metrics = useMemo(
-    () => {
-      return metricsBuilder(targetProject)
-    },
-    [metricsBuilder, targetProject]
-  )
+  const metrics = useMemo(() => {
+    return metricsBuilder(targetProject)
+  }, [metricsBuilder, targetProject])
 
   return (
     <DashboardMetricChart

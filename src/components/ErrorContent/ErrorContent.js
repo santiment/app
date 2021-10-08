@@ -55,7 +55,4 @@ const mapDispatchToProps = dispatch => ({
   addNot: message => dispatch(showNotification(message))
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(ErrorContent)
+export default connect(null, mapDispatchToProps)(ErrorContent)

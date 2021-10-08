@@ -36,45 +36,39 @@ export const InsightsProvider = ({ children }) => {
   const [[toggle, from, to], setToggle] = useState(DEFAULT_STATE)
   const [ErrorMsg, setErrorMsg] = useState(DEFAULT_ERROR_MSG)
 
-  useEffect(
-    () => {
-      const { my, followings } = ErrorMsg
-      setErrorMsg({ my, followings })
-    },
-    [from, to]
-  )
+  useEffect(() => {
+    const { my, followings } = ErrorMsg
+    setErrorMsg({ my, followings })
+  }, [from, to])
 
-  useEffect(
-    () => {
-      if (!toggle) {
-        return setState(DEFAULT_STATE)
-      }
+  useEffect(() => {
+    if (!toggle) {
+      return setState(DEFAULT_STATE)
+    }
 
-      let race = false
-      const { key } = toggle
-      const loadInsights = LoadInsights[key] || getTagInsights
+    let race = false
+    const { key } = toggle
+    const loadInsights = LoadInsights[key] || getTagInsights
 
-      loadInsights(from, to, key)
-        .then(insights => {
-          if (race) return
+    loadInsights(from, to, key)
+      .then(insights => {
+        if (race) return
 
-          if (!insights.length) {
-            throw new Error('No data')
-          }
+        if (!insights.length) {
+          throw new Error('No data')
+        }
 
-          setState(insights)
-        })
-        .catch(({ message }) => {
-          if (race) return
+        setState(insights)
+      })
+      .catch(({ message }) => {
+        if (race) return
 
-          setErrorMsg(state => ({ ...state, [key]: message }))
-          setState(DEFAULT_STATE)
-        })
+        setErrorMsg(state => ({ ...state, [key]: message }))
+        setState(DEFAULT_STATE)
+      })
 
-      return () => (race = true)
-    },
-    [toggle, from, to]
-  )
+    return () => (race = true)
+  }, [toggle, from, to])
 
   function toggleInsight (newToggle, newFrom, newTo) {
     if (newFrom !== from || newTo !== to) {

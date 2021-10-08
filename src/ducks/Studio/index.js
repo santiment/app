@@ -70,16 +70,13 @@ export const Studio = ({
   useKeyboardCmdShortcut('m', toggleOverview)
   useKeyboardCmdShortcut('\\', () => setIsSidebarLocked(!isSidebarLocked))
 
-  useEffect(
-    () => {
-      if (selectedMetrics.length) {
-        setPhase(Phase.MAPVIEW_SELECTION)
-      } else if (previousPhase === Phase.MAPVIEW_SELECTION) {
-        setPhase(Phase.MAPVIEW)
-      }
-    },
-    [selectedMetrics.length]
-  )
+  useEffect(() => {
+    if (selectedMetrics.length) {
+      setPhase(Phase.MAPVIEW_SELECTION)
+    } else if (previousPhase === Phase.MAPVIEW_SELECTION) {
+      setPhase(Phase.MAPVIEW)
+    }
+  }, [selectedMetrics.length])
 
   function toggleOverview () {
     if (isOverviewOpened) {
@@ -144,8 +141,8 @@ export const Studio = ({
       !project || metric.base
         ? metric
         : project.slug === settings.slug
-          ? metric
-          : newProjectMetric(project, metric)
+        ? metric
+        : newProjectMetric(project, metric)
     )
     setSelectedMetrics(deducedMetric)
     return deducedMetric

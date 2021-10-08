@@ -90,14 +90,11 @@ const SonarFeed = ({
   showTelegramAlert
 }) => {
   const { loading: isUserLoading } = useUser()
-  const pathParams = useMemo(
-    () => {
-      const parsed = matchPath(pathname, ALERT_ROUTES.ALERT)
+  const pathParams = useMemo(() => {
+    const parsed = matchPath(pathname, ALERT_ROUTES.ALERT)
 
-      return parsed ? parsed.params : undefined
-    },
-    [pathname]
-  )
+    return parsed ? parsed.params : undefined
+  }, [pathname])
 
   const [triggerId, setTriggerId] = useState(
     pathParams ? pathParams.id : undefined
@@ -108,29 +105,23 @@ const SonarFeed = ({
     loading: loadingSettings
   } = useUserSettings()
 
-  useEffect(
-    () => {
-      if (!loadingSettings && !isTelegramAllowAlerts && isLoggedIn) {
-        showTelegramAlert()
-      }
-    },
-    [isTelegramAllowAlerts, loadingSettings, isLoggedIn]
-  )
+  useEffect(() => {
+    if (!loadingSettings && !isTelegramAllowAlerts && isLoggedIn) {
+      showTelegramAlert()
+    }
+  }, [isTelegramAllowAlerts, loadingSettings, isLoggedIn])
 
   useEffect(() => {
     sendParams()
   }, [])
 
-  useEffect(
-    () => {
-      if (triggerId && !pathParams) {
-        setTriggerId(undefined)
-      } else if (pathParams) {
-        setTriggerId(pathParams.id)
-      }
-    },
-    [pathParams]
-  )
+  useEffect(() => {
+    if (triggerId && !pathParams) {
+      setTriggerId(undefined)
+    } else if (pathParams) {
+      setTriggerId(pathParams.id)
+    }
+  }, [pathParams])
 
   if (pathname === baseLocation) {
     return <Redirect to={tabs[0].index} />
@@ -189,10 +180,7 @@ const mapDispatchToProps = dispatch => ({
     )
   }
 })
-export default connect(
-  null,
-  mapDispatchToProps
-)(SonarFeed)
+export default connect(null, mapDispatchToProps)(SonarFeed)
 
 const AnonymouseInSonar = () => (
   <>

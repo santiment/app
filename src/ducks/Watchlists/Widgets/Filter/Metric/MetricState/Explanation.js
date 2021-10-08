@@ -28,8 +28,8 @@ const Explanation = ({
   const timeText = Filter[type].showTimeRange
     ? ` compared to ${timeRange} earlier`
     : metric.showTimeRange
-      ? ` in last ${timeRange}`
-      : ''
+    ? ` in last ${timeRange}`
+    : ''
 
   const secondInput = Filter[type].showSecondInput
     ? ` and ${millify(secondThreshold, 10)}${badge}`

@@ -94,33 +94,30 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
   const [hasPriceMetric, setHasPriceMetric] = useState()
   const [isValidMulti, setIsValidMulti] = useState()
 
-  useEffect(
-    () => {
-      const noPriceMetrics = metrics.filter(metric => metric !== price_usd)
-      const hasPriceMetric = metrics.length !== noPriceMetrics.length
-      const isValidMulti = isMultiChartsActive && noPriceMetrics.length > 1
+  useEffect(() => {
+    const noPriceMetrics = metrics.filter(metric => metric !== price_usd)
+    const hasPriceMetric = metrics.length !== noPriceMetrics.length
+    const isValidMulti = isMultiChartsActive && noPriceMetrics.length > 1
 
-      const categories = []
-      if (isValidMulti) {
-        noPriceMetrics.forEach(metric =>
-          categories.push(
-            metricsToPlotCategories(
-              hasPriceMetric ? [metric, price_usd] : [metric]
-            )
+    const categories = []
+    if (isValidMulti) {
+      noPriceMetrics.forEach(metric =>
+        categories.push(
+          metricsToPlotCategories(
+            hasPriceMetric ? [metric, price_usd] : [metric]
           )
         )
-      } else {
-        categories.push(metricsToPlotCategories(metrics))
-      }
+      )
+    } else {
+      categories.push(metricsToPlotCategories(metrics))
+    }
 
-      syncCategories(categories)
-      syncEvents(events)
-      setNoPriceMetrics(noPriceMetrics)
-      setHasPriceMetric(hasPriceMetric)
-      setIsValidMulti(isValidMulti)
-    },
-    [metrics, events, isMultiChartsActive]
-  )
+    syncCategories(categories)
+    syncEvents(events)
+    setNoPriceMetrics(noPriceMetrics)
+    setHasPriceMetric(hasPriceMetric)
+    setIsValidMulti(isValidMulti)
+  }, [metrics, events, isMultiChartsActive])
 
   useEffect(() => clearCache, [])
 
@@ -130,35 +127,35 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
 
   return isValidMulti
     ? syncedCategories.map((categories, i) => {
-      const metric = noPriceMetrics[i]
-      if (!metric) {
-        return null
-      }
+        const metric = noPriceMetrics[i]
+        if (!metric) {
+          return null
+        }
 
-      const tooltipKey = getMetricKey(hasPriceMetric ? price_usd : metric)
+        const tooltipKey = getMetricKey(hasPriceMetric ? price_usd : metric)
 
-      return React.cloneElement(children, {
-        key: metric.key,
-        index: i,
-        isMultiChartsActive,
-        syncedTooltipDate,
-        syncTooltips,
-        hasPriceMetric,
-        tooltipKey,
-        ...categories,
-        events: syncedEvents
+        return React.cloneElement(children, {
+          key: metric.key,
+          index: i,
+          isMultiChartsActive,
+          syncedTooltipDate,
+          syncTooltips,
+          hasPriceMetric,
+          tooltipKey,
+          ...categories,
+          events: syncedEvents
+        })
       })
-    })
     : React.cloneElement(children, {
-      ...syncedCategories[0],
-      isMultiChartsActive: false,
-      hasPriceMetric,
-      events: syncedEvents,
-      tooltipKey: getValidTooltipKey(
-        getMetricKey(findTooltipMetric(metrics)),
-        syncedCategories[0].joinedCategories
-      )
-    })
+        ...syncedCategories[0],
+        isMultiChartsActive: false,
+        hasPriceMetric,
+        events: syncedEvents,
+        tooltipKey: getValidTooltipKey(
+          getMetricKey(findTooltipMetric(metrics)),
+          syncedCategories[0].joinedCategories
+        )
+      })
 }
 
 function getMetricKey ({ key, dataKey = key }) {

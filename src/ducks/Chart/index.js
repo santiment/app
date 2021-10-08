@@ -127,18 +127,15 @@ const Chart = ({
     brush.onChangeEnd = onBrushChangeEnd
   }
 
-  useEffect(
-    () => {
-      const { brushPaintConfig, ...rest } = paintConfigs[+isNightMode]
+  useEffect(() => {
+    const { brushPaintConfig, ...rest } = paintConfigs[+isNightMode]
 
-      Object.assign(chart, rest)
+    Object.assign(chart, rest)
 
-      if (brush) {
-        brush.paintConfig = brushPaintConfig
-      }
-    },
-    [isNightMode]
-  )
+    if (brush) {
+      brush.paintConfig = brushPaintConfig
+    }
+  }, [isNightMode])
 
   if (chart) {
     chart.onRangeSelect = onRangeSelect
@@ -160,99 +157,89 @@ const Chart = ({
     chart.yAxesTicks = yAxesTicks
   }
 
-  useEffect(
-    () => {
-      const { length } = brushData
-      if (brush && length) {
-        let { startIndex = 0, endIndex = length - 1 } = brush
-        const [{ datetime: startTimestamp }] = brushData
-        const { datetime: endTimestamp } = brushData[length - 1]
-        const fromTimestamp = +new Date(from)
-        const toTimestamp = +new Date(to)
+  useEffect(() => {
+    const { length } = brushData
+    if (brush && length) {
+      let { startIndex = 0, endIndex = length - 1 } = brush
+      const [{ datetime: startTimestamp }] = brushData
+      const { datetime: endTimestamp } = brushData[length - 1]
+      const fromTimestamp = +new Date(from)
+      const toTimestamp = +new Date(to)
 
-        const scale = length / (endTimestamp - startTimestamp)
+      const scale = length / (endTimestamp - startTimestamp)
 
-        if (
-          !brushData[startIndex] ||
-          fromTimestamp !== brushData[startIndex].datetime
-        ) {
-          startIndex = Math.trunc(scale * (fromTimestamp - startTimestamp))
-        }
-
-        if (
-          !brushData[endIndex] ||
-          toTimestamp !== brushData[endIndex].datetime
-        ) {
-          endIndex = Math.trunc(scale * (toTimestamp - startTimestamp))
-        }
-
-        startIndex =
-          startIndex > 0 ? (startIndex < length ? startIndex : length - 1) : 0
-        endIndex =
-          endIndex > 0 ? (endIndex < length ? endIndex : length - 1) : 0
-
-        if (endIndex - startIndex < 2) {
-          if (startIndex > 2) {
-            startIndex -= 2
-          } else {
-            endIndex += 2
-          }
-        }
-
-        brush.startIndex = startIndex
-        brush.endIndex = endIndex
-
-        clearCtx(brush)
-        updateBrushState(brush, brushData, joinedCategories)
+      if (
+        !brushData[startIndex] ||
+        fromTimestamp !== brushData[startIndex].datetime
+      ) {
+        startIndex = Math.trunc(scale * (fromTimestamp - startTimestamp))
       }
-    },
-    [brushData, from, to]
-  )
 
-  useEffect(
-    () => {
-      if (joinedCategories.length === 0) {
-        clearCtx(chart)
-        return
+      if (
+        !brushData[endIndex] ||
+        toTimestamp !== brushData[endIndex].datetime
+      ) {
+        endIndex = Math.trunc(scale * (toTimestamp - startTimestamp))
       }
-      if (data.length === 0) return
 
+      startIndex =
+        startIndex > 0 ? (startIndex < length ? startIndex : length - 1) : 0
+      endIndex = endIndex > 0 ? (endIndex < length ? endIndex : length - 1) : 0
+
+      if (endIndex - startIndex < 2) {
+        if (startIndex > 2) {
+          startIndex -= 2
+        } else {
+          endIndex += 2
+        }
+      }
+
+      brush.startIndex = startIndex
+      brush.endIndex = endIndex
+
+      clearCtx(brush)
+      updateBrushState(brush, brushData, joinedCategories)
+    }
+  }, [brushData, from, to])
+
+  useEffect(() => {
+    if (joinedCategories.length === 0) {
       clearCtx(chart)
-      updateChartState(
-        chart,
-        data,
-        joinedCategories,
-        domainModifier,
-        domainGroups
-      )
-      plotChart(data)
+      return
+    }
+    if (data.length === 0) return
 
-      if (!hideAxes) {
-        plotAxes(chart, scale)
-      }
-    },
-    [
+    clearCtx(chart)
+    updateChartState(
+      chart,
       data,
-      scale,
-      events,
-      domainGroups,
-      MetricColor,
-      isNightMode,
-      isCartesianGridActive,
-      isWatermarkLighter,
-      hideWatermark
-    ]
-  )
+      joinedCategories,
+      domainModifier,
+      domainGroups
+    )
+    plotChart(data)
 
-  useEffect(
-    () => {
-      if (brush && brushData.length) {
-        clearCtx(brush)
-        updateBrushState(brush, brushData, joinedCategories)
-      }
-    },
-    [brushData, scale, domainGroups, isNightMode]
-  )
+    if (!hideAxes) {
+      plotAxes(chart, scale)
+    }
+  }, [
+    data,
+    scale,
+    events,
+    domainGroups,
+    MetricColor,
+    isNightMode,
+    isCartesianGridActive,
+    isWatermarkLighter,
+    hideWatermark
+  ])
+
+  useEffect(() => {
+    if (brush && brushData.length) {
+      clearCtx(brush)
+      updateBrushState(brush, brushData, joinedCategories)
+    }
+  }, [brushData, scale, domainGroups, isNightMode])
 
   useEffect(handleResize, [...resizeDependencies, data])
 

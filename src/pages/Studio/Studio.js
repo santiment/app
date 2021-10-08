@@ -120,25 +120,19 @@ const Studio = ({
     return () => studio.$destroy()
   }, [])
 
-  useEffect(
-    () => {
-      if (!studio) return
+  useEffect(() => {
+    if (!studio) return
 
-      const screen = getScreen()
+    const screen = getScreen()
 
-      isMapviewDisabledRef.current = !!screen
-      studio.$$set({ screen })
-    },
-    [studio, pathname]
-  )
+    isMapviewDisabledRef.current = !!screen
+    studio.$$set({ screen })
+  }, [studio, pathname])
 
-  useEffect(
-    () => {
-      if (defaultSettings) settingsStore.setProject(defaultSettings)
-      if (studio && defaultWidgets) widgetsStore.set(defaultWidgets)
-    },
-    [studio, defaultSettings, defaultWidgets]
-  )
+  useEffect(() => {
+    if (defaultSettings) settingsStore.setProject(defaultSettings)
+    if (studio && defaultWidgets) widgetsStore.set(defaultWidgets)
+  }, [studio, defaultSettings, defaultWidgets])
 
   function onModRangeSelect (start, end, e) {
     setModRange([new Date(start.value), new Date(end.value)])

@@ -63,6 +63,11 @@ function buildFunction ({ fn, pagination, orderBy }) {
   }
 }
 
-export function buildFunctionQuery ({ fn, pagination, orderBy, activeColumns }) {
+export function buildFunctionQuery ({
+  fn,
+  pagination,
+  orderBy,
+  activeColumns
+}) {
   return [buildFunction({ fn, pagination, orderBy }), tableQuery(activeColumns)]
 }

@@ -49,36 +49,27 @@ const WatchlistPage = ({ location, history, watchlist }) => {
     })
   )
 
-  useEffect(
-    () => {
-      if (loading !== tableLoading) {
-        setTableLoading(loading)
-      }
-    },
-    [loading]
-  )
+  useEffect(() => {
+    if (loading !== tableLoading) {
+      setTableLoading(loading)
+    }
+  }, [loading])
 
-  useEffect(
-    () => {
-      if (!tableLoading) {
-        refetchAssets()
-      }
-    },
-    [orderBy]
-  )
+  useEffect(() => {
+    if (!tableLoading) {
+      refetchAssets()
+    }
+  }, [orderBy])
 
-  useEffect(
-    () => {
-      if (
-        watchlist.listItems &&
-        watchlist.listItems.length !== 0 &&
-        assets.length === 0
-      ) {
-        refetchAssets()
-      }
-    },
-    [watchlist.listItems]
-  )
+  useEffect(() => {
+    if (
+      watchlist.listItems &&
+      watchlist.listItems.length !== 0 &&
+      assets.length === 0
+    ) {
+      refetchAssets()
+    }
+  }, [watchlist.listItems])
 
   const refetchAssets = () => {
     setTableLoading(true)

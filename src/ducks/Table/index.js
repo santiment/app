@@ -131,39 +131,27 @@ const Table = ({
     pageSizeOptions
   }
 
-  useEffect(
-    () => {
-      if (onChangeSelectedRows) {
-        onChangeSelectedRows(selectedFlatRows)
-      }
-    },
-    [selectedFlatRows]
-  )
+  useEffect(() => {
+    if (onChangeSelectedRows) {
+      onChangeSelectedRows(selectedFlatRows)
+    }
+  }, [selectedFlatRows])
 
-  useEffect(
-    () => {
-      fetchData({ pageSize, sortBy })
-    },
-    [pageSize, sortBy]
-  )
+  useEffect(() => {
+    fetchData({ pageSize, sortBy })
+  }, [pageSize, sortBy])
 
-  useEffect(
-    () => {
-      if (manualPagination && !isEqual(defaultSorting, sortBy)) {
-        setSortBy(defaultSorting)
-      }
-    },
-    [defaultSorting]
-  )
+  useEffect(() => {
+    if (manualPagination && !isEqual(defaultSorting, sortBy)) {
+      setSortBy(defaultSorting)
+    }
+  }, [defaultSorting])
 
-  useEffect(
-    () => {
-      if (!manualPagination) {
-        setSortBy(sortBy)
-      }
-    },
-    [sortBy]
-  )
+  useEffect(() => {
+    if (!manualPagination) {
+      setSortBy(sortBy)
+    }
+  }, [sortBy])
 
   return (
     <div

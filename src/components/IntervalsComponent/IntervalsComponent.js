@@ -20,12 +20,9 @@ const IntervalsComponent = ({
   const [sortedByIndex, setSortedByIndex] = useState(defaultIndex)
   const { value, label } = ranges[sortedByIndex]
 
-  useEffect(
-    () => {
-      onChange(value)
-    },
-    [value]
-  )
+  useEffect(() => {
+    onChange(value)
+  }, [value])
 
   return (
     <Range

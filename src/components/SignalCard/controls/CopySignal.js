@@ -85,7 +85,4 @@ const mapStateToProps = (state, { creatorId, signal }) => {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CopySignal)
+export default connect(mapStateToProps, mapDispatchToProps)(CopySignal)

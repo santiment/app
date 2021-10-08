@@ -77,149 +77,136 @@ export function useTimeseries (
   const metricsHash = hashMetrics(metrics)
   const { slug, from, to, interval, address } = settings
 
-  useEffect(
-    () => {
-      if (!metricsHash) {
-        setTimeseries([])
-      }
+  useEffect(() => {
+    if (!metricsHash) {
+      setTimeseries([])
+    }
 
-      const metricsSet = new Set(metrics)
-      setLoadings(loadings =>
-        loadings.filter(loading => metricsSet.has(loading))
-      )
+    const metricsSet = new Set(metrics)
+    setLoadings(loadings => loadings.filter(loading => metricsSet.has(loading)))
 
-      setAbortables(abortRemovedMetrics(abortables, metrics, MetricSettingMap))
-    },
-    [metricsHash, MetricSettingMap]
-  )
+    setAbortables(abortRemovedMetrics(abortables, metrics, MetricSettingMap))
+  }, [metricsHash, MetricSettingMap])
 
-  useEffect(
-    () => {
-      abortAllMetrics(abortables)
-      setAbortables(new Map())
-      setLoadings([...metrics])
-      setErrorMsg({})
-    },
-    [slug, from, to, interval, address]
-  )
+  useEffect(() => {
+    abortAllMetrics(abortables)
+    setAbortables(new Map())
+    setLoadings([...metrics])
+    setErrorMsg({})
+  }, [slug, from, to, interval, address])
 
-  useEffect(
-    () => {
-      let raceCondition = false
-      let mergedData = []
+  useEffect(() => {
+    let raceCondition = false
+    let mergedData = []
 
-      metrics.forEach(metric => {
-        const { key, queryKey = key, reqMeta, fetch } = metric
-        const metricSettings = MetricSettingMap.get(metric)
-        const queryId = client.queryManager.idCounter
-        const abortController = new AbortController()
+    metrics.forEach(metric => {
+      const { key, queryKey = key, reqMeta, fetch } = metric
+      const metricSettings = MetricSettingMap.get(metric)
+      const queryId = client.queryManager.idCounter
+      const abortController = new AbortController()
 
-        const { query: metricQuery, preTransform: metricPreTransform } =
-          metricSettings || {}
-        const query = metricQuery || getQuery(metric, metricSettings)
-        if (!fetch) {
-          if (!query) {
-            return setErrorMsg(state => {
-              state[key] = NO_DATA_MSG
-              return { ...state }
-            })
-          }
-
-          setAbortables(state => {
-            const newState = new Map(state)
-            newState.set(metric, [abortController, queryId, metricSettings])
-            return newState
+      const { query: metricQuery, preTransform: metricPreTransform } =
+        metricSettings || {}
+      const query = metricQuery || getQuery(metric, metricSettings)
+      if (!fetch) {
+        if (!query) {
+          return setErrorMsg(state => {
+            state[key] = NO_DATA_MSG
+            return { ...state }
           })
         }
 
-        setLoadings(state => {
-          const loadingsSet = new Set(state)
-          loadingsSet.add(metric)
-          return [...loadingsSet]
+        setAbortables(state => {
+          const newState = new Map(state)
+          newState.set(metric, [abortController, queryId, metricSettings])
+          return newState
         })
+      }
 
-        const variables = {
-          metric: queryKey,
-          interval,
-          from,
-          to,
-          slug,
-          address,
-          ...reqMeta,
-          ...metricSettings
-        }
+      setLoadings(state => {
+        const loadingsSet = new Set(state)
+        loadingsSet.add(metric)
+        return [...loadingsSet]
+      })
 
-        let attempt = 1
-        getTimeseries()
+      const variables = {
+        metric: queryKey,
+        interval,
+        from,
+        to,
+        slug,
+        address,
+        ...reqMeta,
+        ...metricSettings
+      }
 
-        function getTimeseries () {
-          if (raceCondition) return
+      let attempt = 1
+      getTimeseries()
 
-          const request = fetch
-            ? fetch(metric, variables)
-            : getData(query, variables, abortController.signal)
+      function getTimeseries () {
+        if (raceCondition) return
+
+        const request = fetch
+          ? fetch(metric, variables)
+          : getData(query, variables, abortController.signal)
               .then(metricPreTransform || getPreTransform(metric))
               .then(MetricTransformer[metric.key] || noop)
 
-          request
-            .then(data => {
-              if (raceCondition) return
+        request
+          .then(data => {
+            if (raceCondition) return
 
-              if (!data.length) {
-                throw new Error(NO_DATA_MSG)
-              }
+            if (!data.length) {
+              throw new Error(NO_DATA_MSG)
+            }
 
-              setErrorMsg(state => {
-                if (!state[key]) return state
+            setErrorMsg(state => {
+              if (!state[key]) return state
 
-                const newState = Object.assign({}, state)
-                delete newState[key]
-                return newState
-              })
-              setTimeseries(() => {
-                mergedData = mergeTimeseries([
-                  mergedData,
-                  data.map(normalizeDatetimes)
-                ])
-                return mergedData
-              })
+              const newState = Object.assign({}, state)
+              delete newState[key]
+              return newState
             })
-            .catch(({ message }) => {
-              if (raceCondition) return
-
-              if (attempt < 5 && message.includes('JSON')) {
-                attempt += 1
-                return setTimeout(getTimeseries, 2000)
-              }
-
-              setTimeseries(() => mergedData)
-              setErrorMsg(state => {
-                state[key] = substituteErrorMsg(message)
-                return { ...state }
-              })
+            setTimeseries(() => {
+              mergedData = mergeTimeseries([
+                mergedData,
+                data.map(normalizeDatetimes)
+              ])
+              return mergedData
             })
-            .finally(() => {
-              if (raceCondition) return
+          })
+          .catch(({ message }) => {
+            if (raceCondition) return
 
-              setAbortables(state => {
-                const newState = new Map(state)
-                newState.delete(metric)
-                return newState
-              })
+            if (attempt < 5 && message.includes('JSON')) {
+              attempt += 1
+              return setTimeout(getTimeseries, 2000)
+            }
 
-              setLoadings(state =>
-                state.filter(loadable => loadable !== metric)
-              )
+            setTimeseries(() => mergedData)
+            setErrorMsg(state => {
+              state[key] = substituteErrorMsg(message)
+              return { ...state }
             })
-        }
-      })
+          })
+          .finally(() => {
+            if (raceCondition) return
 
-      return () => {
-        raceCondition = true
+            setAbortables(state => {
+              const newState = new Map(state)
+              newState.delete(metric)
+              return newState
+            })
+
+            setLoadings(state => state.filter(loadable => loadable !== metric))
+          })
       }
-    },
-    [metricsHash, settings, MetricSettingMap, MetricTransformer]
-  )
+    })
+
+    return () => {
+      raceCondition = true
+    }
+  }, [metricsHash, settings, MetricSettingMap, MetricTransformer])
 
   return [timeseries, loadings, ErrorMsg]
 }

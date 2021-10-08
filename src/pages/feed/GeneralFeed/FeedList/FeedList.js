@@ -48,7 +48,7 @@ const checkItemWithIndex = (group, item, index) => {
 export const groupByDates = events => {
   const groups = []
 
-  for (let i = 0; i < events.length;) {
+  for (let i = 0; i < events.length; ) {
     const item = events[i]
     const date = getEventDate(item)
 

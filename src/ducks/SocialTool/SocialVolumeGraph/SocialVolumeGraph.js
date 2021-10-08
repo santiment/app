@@ -30,40 +30,34 @@ const useTrendingWords = () => {
     }
   })
 
-  return useMemo(
-    () => {
-      const { data, loading, error } = query
+  return useMemo(() => {
+    const { data, loading, error } = query
 
-      return {
-        words: data ? data.getTrendingWords : [],
-        loading,
-        error
-      }
-    },
-    [query]
-  )
+    return {
+      words: data ? data.getTrendingWords : [],
+      loading,
+      error
+    }
+  }, [query])
 }
 
 const SocialVolumeGraph = ({ word }) => {
   const { words, loading } = useTrendingWords()
 
-  const timeseries = useMemo(
-    () => {
-      return words.reduce((acc, { topWords, datetime }) => {
-        const found = topWords.find(({ word: target }) => target === word)
+  const timeseries = useMemo(() => {
+    return words.reduce((acc, { topWords, datetime }) => {
+      const found = topWords.find(({ word: target }) => target === word)
 
-        if (found) {
-          acc.push({
-            datetime,
-            value: found.score
-          })
-        }
+      if (found) {
+        acc.push({
+          datetime,
+          value: found.score
+        })
+      }
 
-        return acc
-      }, [])
-    },
-    [word, words]
-  )
+      return acc
+    }, [])
+  }, [word, words])
 
   return (
     <>

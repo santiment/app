@@ -29,24 +29,18 @@ export const AddressSetting = ({
   const note = useAddressNote(settings)
   const infrastructure = useMemo(() => getAddressInfrastructure(value), [value])
 
-  useEffect(
-    () => {
-      if (address !== value) {
-        setValue(address)
-      }
-    },
-    [address]
-  )
+  useEffect(() => {
+    if (address !== value) {
+      setValue(address)
+    }
+  }, [address])
 
-  useEffect(
-    () => {
-      if (value === settings.address || !infrastructure) return
+  useEffect(() => {
+    if (value === settings.address || !infrastructure) return
 
-      const timer = setTimeout(() => onAddressChange(value), 250)
-      return () => clearTimeout(timer)
-    },
-    [value]
-  )
+    const timer = setTimeout(() => onAddressChange(value), 250)
+    return () => clearTimeout(timer)
+  }, [value])
 
   function onChange ({ target: { value } }) {
     setValue(value)

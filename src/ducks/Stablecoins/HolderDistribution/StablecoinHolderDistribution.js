@@ -69,15 +69,12 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
   })
   const MetricColor = useChartColors(metrics)
 
-  useEffect(
-    () => {
-      setSettings({
-        ...settings,
-        slug: asset.slug
-      })
-    },
-    [asset]
-  )
+  useEffect(() => {
+    setSettings({
+      ...settings,
+      slug: asset.slug
+    })
+  }, [asset])
 
   const [data] = useTimeseries(metrics, settings)
   const [allTimeData] = useAllTimeData(metrics, {

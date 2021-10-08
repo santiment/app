@@ -63,22 +63,16 @@ const Story = ({ story = {}, open, onEnd }) => {
 export function useInterval (callback, delay, resetFlag) {
   const savedCallback = useRef()
 
-  useEffect(
-    () => {
-      savedCallback.current = callback
-    },
-    [callback]
-  )
+  useEffect(() => {
+    savedCallback.current = callback
+  }, [callback])
 
-  useEffect(
-    () => {
-      if (delay !== null) {
-        let id = setInterval(() => savedCallback.current(), delay)
-        return () => clearInterval(id)
-      }
-    },
-    [delay, resetFlag]
-  )
+  useEffect(() => {
+    if (delay !== null) {
+      let id = setInterval(() => savedCallback.current(), delay)
+      return () => clearInterval(id)
+    }
+  }, [delay, resetFlag])
 }
 
 export default Story

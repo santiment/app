@@ -17,13 +17,10 @@ const Header = ({ studio, settings, widgets, metrics, prevFullUrlRef }) => {
   const History = useHistory(studio)
   const sharePath = '/charts' + window.location.search
 
-  useEffect(
-    () => {
-      if (!studio) return
-      setTarget(document.querySelector('.header'))
-    },
-    [studio]
-  )
+  useEffect(() => {
+    if (!studio) return
+    setTarget(document.querySelector('.header'))
+  }, [studio])
 
   function toggleSidepanel (value) {
     sidewidgetStore.set(value === sidewidget ? null : value)
@@ -44,26 +41,26 @@ const Header = ({ studio, settings, widgets, metrics, prevFullUrlRef }) => {
 
   return target
     ? ReactDOM.createPortal(
-      <StudioHeader
-        {...settings}
-        settings={settings}
-        widgets={widgets}
-        metrics={metrics}
-        sidepanel={sidewidget}
-        sharePath={sharePath}
-        saveWidgets={shareWidgets}
-        souldReloadOnSave={false}
-        headerRef={{ current: target }}
-        isOverviewOpened={$mapview > 0}
-        changeTimePeriod={changeTimePeriod}
-        toggleOverview={mapview.toggle}
-        toggleSidepanel={toggleSidepanel}
-        parseTemplate={parseTemplate}
-        setWidgets={widgetsStore.set}
-        controller={buildShareLink}
-      />,
-      target
-    )
+        <StudioHeader
+          {...settings}
+          settings={settings}
+          widgets={widgets}
+          metrics={metrics}
+          sidepanel={sidewidget}
+          sharePath={sharePath}
+          saveWidgets={shareWidgets}
+          souldReloadOnSave={false}
+          headerRef={{ current: target }}
+          isOverviewOpened={$mapview > 0}
+          changeTimePeriod={changeTimePeriod}
+          toggleOverview={mapview.toggle}
+          toggleSidepanel={toggleSidepanel}
+          parseTemplate={parseTemplate}
+          setWidgets={widgetsStore.set}
+          controller={buildShareLink}
+        />,
+        target
+      )
     : null
 }
 

@@ -60,97 +60,79 @@ const Toggler = ({
     [activeColumns]
   )
 
-  const config = useMemo(
-    () => {
-      if (
-        watchlist &&
-        watchlist.tableConfiguration &&
-        selectedConfigId === watchlist.tableConfiguration.id &&
-        !tableConfig
-      ) {
-        return watchlist.tableConfiguration
-      } else {
-        return tableConfig
-      }
-    },
-    [watchlist, updatedWatchlistTableConfigId, selectedConfigId, tableConfig]
-  )
+  const config = useMemo(() => {
+    if (
+      watchlist &&
+      watchlist.tableConfiguration &&
+      selectedConfigId === watchlist.tableConfiguration.id &&
+      !tableConfig
+    ) {
+      return watchlist.tableConfiguration
+    } else {
+      return tableConfig
+    }
+  }, [watchlist, updatedWatchlistTableConfigId, selectedConfigId, tableConfig])
 
-  useEffect(
-    () => {
-      if (config && Object.keys(categories).length !== 0) {
-        const { metrics, sorting } = config.columns
-        if (sorting) {
-          setOrderBy(sorting)
-        }
-
-        setActiveKeys(metrics)
-        setCurrActiveKeys(metrics)
-        updateActiveColumnsKeys(metrics)
+  useEffect(() => {
+    if (config && Object.keys(categories).length !== 0) {
+      const { metrics, sorting } = config.columns
+      if (sorting) {
+        setOrderBy(sorting)
       }
-    },
-    [config, categories]
-  )
 
-  useEffect(
-    () => {
-      if (
-        watchlist &&
-        watchlist.tableConfiguration &&
-        watchlist.tableConfiguration.id !== selectedConfigId
-      ) {
-        setSelectedConfigId(watchlist.tableConfiguration.id)
-      }
-    },
-    [watchlist]
-  )
+      setActiveKeys(metrics)
+      setCurrActiveKeys(metrics)
+      updateActiveColumnsKeys(metrics)
+    }
+  }, [config, categories])
 
-  useEffect(
-    () => {
-      if (!isEqual(savedActiveColumnKeys, activeKeys) && !open && !isLoading) {
-        setActiveKeys(savedActiveColumnKeys)
-      }
-    },
-    [savedActiveColumnKeys]
-  )
+  useEffect(() => {
+    if (
+      watchlist &&
+      watchlist.tableConfiguration &&
+      watchlist.tableConfiguration.id !== selectedConfigId
+    ) {
+      setSelectedConfigId(watchlist.tableConfiguration.id)
+    }
+  }, [watchlist])
 
-  useEffect(
-    () => {
-      setCurrActiveKeys(activeKeys)
-      if (!open && !isLoading) {
-        if (activeKeys && hasChanges) {
-          updateActiveColumnsKeys(activeKeys)
-        }
-        setWasReorder(false)
-        setCurrentSearch('')
+  useEffect(() => {
+    if (!isEqual(savedActiveColumnKeys, activeKeys) && !open && !isLoading) {
+      setActiveKeys(savedActiveColumnKeys)
+    }
+  }, [savedActiveColumnKeys])
+
+  useEffect(() => {
+    setCurrActiveKeys(activeKeys)
+    if (!open && !isLoading) {
+      if (activeKeys && hasChanges) {
+        updateActiveColumnsKeys(activeKeys)
       }
-    },
-    [open]
-  )
+      setWasReorder(false)
+      setCurrentSearch('')
+    }
+  }, [open])
 
   const hasChanges = useMemo(
     () => !isEqual(currActiveKeys, activeKeys) || wasReorder,
     [activeKeys, currActiveKeys, wasReorder]
   )
 
-  useEffect(
-    () => {
+  useEffect(() => {
+    if (
+      selectedConfigId &&
+      (!watchlist.tableConfiguration ||
+        watchlist.tableConfiguration.id !== selectedConfigId) &&
+      isAuthor
+    ) {
       if (
-        selectedConfigId &&
-        (!watchlist.tableConfiguration ||
-          watchlist.tableConfiguration.id !== selectedConfigId) &&
-        isAuthor
+        !updatedWatchlistTableConfigId ||
+        updatedWatchlistTableConfigId !== selectedConfigId
       ) {
-        if (
-          !updatedWatchlistTableConfigId ||
-          updatedWatchlistTableConfigId !== selectedConfigId
-        ) {
-          updateWatchlistTableConfig(watchlist.id, selectedConfigId)
-        }
+        updateWatchlistTableConfig(watchlist.id, selectedConfigId)
       }
-    },
-    [selectedConfigId]
-  )
+    }
+  }, [selectedConfigId])
 
   if (loading && activeKeys === null) {
     return null

@@ -53,12 +53,9 @@ const FeedContentWrapper = ({
     })
   }
 
-  useEffect(
-    () => {
-      onUpdateAuthor(!enableAlertsInsights ? AUTHOR_TYPES.OWN : filters.author)
-    },
-    [enableAlertsInsights]
-  )
+  useEffect(() => {
+    onUpdateAuthor(!enableAlertsInsights ? AUTHOR_TYPES.OWN : filters.author)
+  }, [enableAlertsInsights])
 
   return (
     <div className={styles.dialogContent}>

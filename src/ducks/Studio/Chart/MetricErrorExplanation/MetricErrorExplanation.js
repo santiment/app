@@ -6,23 +6,18 @@ import ContactUs from '../../../../components/ContactUs/ContactUs'
 import styles from './MetricErrorExplanation.module.scss'
 
 const MetricErrorExplanation = ({ errorsForMetrics, metric, settings }) => {
-  const metricError = useMemo(
-    () => {
-      const { errors_timeseries_metrics } = errorsForMetrics || {}
-      return errors_timeseries_metrics
-        ? errors_timeseries_metrics.find(({ name }) => name === metric.key)
-        : ''
-    },
-    [errorsForMetrics, metric]
-  )
+  const metricError = useMemo(() => {
+    const { errors_timeseries_metrics } = errorsForMetrics || {}
+    return errors_timeseries_metrics
+      ? errors_timeseries_metrics.find(({ name }) => name === metric.key)
+      : ''
+  }, [errorsForMetrics, metric])
 
   if (!metricError || !metricError.details) {
     return null
   }
 
-  const text = `There is a problem with metric '${metric.label}' for ${
-    settings.slug
-  }.`
+  const text = `There is a problem with metric '${metric.label}' for ${settings.slug}.`
 
   return (
     <Tooltip

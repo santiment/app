@@ -62,16 +62,13 @@ const AssetsTable = ({
     skip: !hasColumn(activeColumns, price_usd_chart_30d)
   })
 
-  const data = useMemo(
-    () => {
-      let result = normalizeData(graphData1d, items, price_usd_chart_1d)
-      result = normalizeData(graphData7d, result, price_usd_chart_7d)
-      result = normalizeData(graphData30d, result, price_usd_chart_30d)
+  const data = useMemo(() => {
+    let result = normalizeData(graphData1d, items, price_usd_chart_1d)
+    result = normalizeData(graphData7d, result, price_usd_chart_7d)
+    result = normalizeData(graphData30d, result, price_usd_chart_30d)
 
-      return result
-    },
-    [graphData7d, graphData1d, graphData30d, items]
-  )
+    return result
+  }, [graphData7d, graphData1d, graphData30d, items])
 
   return (
     <>

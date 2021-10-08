@@ -229,18 +229,15 @@ export const App = ({
 }) => {
   const [isWatchlistPage, setIsWatchlistPage] = useState(false)
 
-  useEffect(
-    () => {
-      if (isListPath(pathname)) {
-        if (!isWatchlistPage) {
-          setIsWatchlistPage(true)
-        }
-      } else if (isWatchlistPage) {
-        setIsWatchlistPage(false)
+  useEffect(() => {
+    if (isListPath(pathname)) {
+      if (!isWatchlistPage) {
+        setIsWatchlistPage(true)
       }
-    },
-    [pathname]
-  )
+    } else if (isWatchlistPage) {
+      setIsWatchlistPage(false)
+    }
+  }, [pathname])
 
   return (
     <div

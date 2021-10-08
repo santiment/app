@@ -41,11 +41,9 @@ export const normalizeCSV = items => {
     const { __typename, id, signals, ethAddresses, ...rest } = item
     const _ethAddresses = ethAddresses
       ? ethAddresses.map(
-        address =>
-          `https://app.santiment.net/balance?address=${
-            address.address
-          }&assets[]=ethereum`
-      )
+          address =>
+            `https://app.santiment.net/balance?address=${address.address}&assets[]=ethereum`
+        )
       : undefined
     if (_ethAddresses && _ethAddresses.length > 0) {
       return { _ethAddresses, ...rest }
@@ -83,15 +81,12 @@ const DEFAULT_SCREENER_URL_PARAMS = {
 }
 
 export const useScreenerUrl = ({ location, history, defaultParams }) => {
-  const predefined = useMemo(
-    () => {
-      return {
-        ...DEFAULT_SCREENER_URL_PARAMS,
-        ...defaultParams
-      }
-    },
-    [defaultParams]
-  )
+  const predefined = useMemo(() => {
+    return {
+      ...DEFAULT_SCREENER_URL_PARAMS,
+      ...defaultParams
+    }
+  }, [defaultParams])
 
   const [widgets, setWidgets] = useState(predefined)
 
@@ -126,12 +121,9 @@ export const useScreenerUrl = ({ location, history, defaultParams }) => {
     [parsedUrl]
   )
 
-  useEffect(
-    () => {
-      urlChange(widgets)
-    },
-    [widgets]
-  )
+  useEffect(() => {
+    urlChange(widgets)
+  }, [widgets])
 
   return { widgets, setWidgets }
 }

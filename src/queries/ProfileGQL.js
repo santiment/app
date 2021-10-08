@@ -92,18 +92,15 @@ export const useOldUserFollowersFollowing = ({ userId, username }) => {
     }
   })
 
-  return useMemo(
-    () => {
-      const { data, loading, error } = query
+  return useMemo(() => {
+    const { data, loading, error } = query
 
-      return {
-        data: data ? data.followData : {},
-        loading,
-        error
-      }
-    },
-    [query]
-  )
+    return {
+      data: data ? data.followData : {},
+      loading,
+      error
+    }
+  }, [query])
 }
 
 export const updateFollowersList = (followers, follow, unfollow, userId) => {

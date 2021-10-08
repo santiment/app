@@ -46,8 +46,8 @@ export const ShareButton = ({ sharePath, shortUrlHash, controller }) => {
   const getShareLink = shortUrlHash
     ? getBrowserUrl
     : controller
-      ? () => getShortShareLink(controller())
-      : getShortShareLink
+    ? () => getShortShareLink(controller())
+    : getShortShareLink
 
   function onMouseDown () {
     getShareLink()
@@ -95,25 +95,22 @@ export default ({
     [metrics]
   )
 
-  useEffect(
-    () => {
-      const { current: header } = headerRef
-      let transform
-      if (isOverviewOpened) {
-        let { top } = header.getBoundingClientRect()
+  useEffect(() => {
+    const { current: header } = headerRef
+    let transform
+    if (isOverviewOpened) {
+      let { top } = header.getBoundingClientRect()
 
-        if (window.scrollY < SAN_HEADER_HEIGHT) {
-          top -= SAN_HEADER_HEIGHT - window.scrollY - 1
-        }
-
-        transform = `translateY(-${top}px)`
-      } else {
-        transform = null
+      if (window.scrollY < SAN_HEADER_HEIGHT) {
+        top -= SAN_HEADER_HEIGHT - window.scrollY - 1
       }
-      header.style.transform = transform
-    },
-    [isOverviewOpened]
-  )
+
+      transform = `translateY(-${top}px)`
+    } else {
+      transform = null
+    }
+    header.style.transform = transform
+  }, [isOverviewOpened])
 
   return (
     <div className={cx(styles.wrapper, className)}>

@@ -57,7 +57,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CreatePromoter)
+export default connect(mapStateToProps, mapDispatchToProps)(CreatePromoter)

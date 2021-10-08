@@ -16,17 +16,14 @@ const ProjectInfo = ({ studio, settings, onProjectSelect }) => {
   const { slug } = settings
   const { isLoggedIn } = useUser()
 
-  useEffect(
-    () => {
-      if (!studio) return
+  useEffect(() => {
+    if (!studio) return
 
-      const target = document.querySelector('.studio-top .project')
-      target.onclick = openDialog
-      setTarget(target)
-      setActionsNode(document.querySelector('.project-actions'))
-    },
-    [studio]
-  )
+    const target = document.querySelector('.studio-top .project')
+    target.onclick = openDialog
+    setTarget(target)
+    setActionsNode(document.querySelector('.project-actions'))
+  }, [studio])
 
   function openDialog () {
     setIsOpened(true)

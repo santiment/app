@@ -43,14 +43,11 @@ export const useTopHolders = ({ from, to, page, pageSize, slug, labels }) => {
     variables: { from, to, page, pageSize, slug, labels }
   })
 
-  return useMemo(
-    () => {
-      const { data, loading, error } = query
+  return useMemo(() => {
+    const { data, loading, error } = query
 
-      return [data ? data.topHolders : [], loading, error]
-    },
-    [query]
-  )
+    return [data ? data.topHolders : [], loading, error]
+  }, [query])
 }
 
 export const useMaxCountTopHolders = ({ from, to, slug, labels }) => {
@@ -58,12 +55,9 @@ export const useMaxCountTopHolders = ({ from, to, slug, labels }) => {
     variables: { from, to, slug, labels }
   })
 
-  return useMemo(
-    () => {
-      const { data, loading, error } = query
+  return useMemo(() => {
+    const { data, loading, error } = query
 
-      return [data ? data.topHolders.length : 0, loading, error]
-    },
-    [query]
-  )
+    return [data ? data.topHolders.length : 0, loading, error]
+  }, [query])
 }

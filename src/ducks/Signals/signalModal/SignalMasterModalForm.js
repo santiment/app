@@ -44,61 +44,43 @@ const SignalMasterModalForm = ({
   const [isApproving, setIsAppoving] = useState(false)
   const [isChanged, setIsChanged] = useState(false)
 
-  useEffect(
-    () => {
-      defaultOpen && setDialogOpenState(hasTrigger)
-    },
-    [triggerId]
-  )
+  useEffect(() => {
+    defaultOpen && setDialogOpenState(hasTrigger)
+  }, [triggerId])
 
-  const onCancelClose = useCallback(
-    () => {
-      setIsAppoving(false)
-    },
-    [setIsAppoving]
-  )
+  const onCancelClose = useCallback(() => {
+    setIsAppoving(false)
+  }, [setIsAppoving])
 
-  const goBack = useCallback(
-    () => {
-      if (hasTrigger) {
-        canRedirect && redirect && redirect(previousPage)
-      }
-    },
-    [canRedirect, redirect, hasTrigger]
-  )
+  const goBack = useCallback(() => {
+    if (hasTrigger) {
+      canRedirect && redirect && redirect(previousPage)
+    }
+  }, [canRedirect, redirect, hasTrigger])
 
-  const closeDialog = useCallback(
-    () => {
-      setDialogOpenState(false)
+  const closeDialog = useCallback(() => {
+    setDialogOpenState(false)
 
-      if (onClose) {
-        onClose()
-      }
-    },
-    [setDialogOpenState, onClose]
-  )
+    if (onClose) {
+      onClose()
+    }
+  }, [setDialogOpenState, onClose])
 
-  const onApprove = useCallback(
-    () => {
-      setIsAppoving(false)
+  const onApprove = useCallback(() => {
+    setIsAppoving(false)
+    closeDialog()
+
+    goBack()
+  }, [goBack, setIsAppoving, closeDialog])
+
+  const onCloseMainModal = useCallback(() => {
+    if (isChanged && isLoggedIn) {
+      setIsAppoving(true)
+    } else {
       closeDialog()
-
       goBack()
-    },
-    [goBack, setIsAppoving, closeDialog]
-  )
-
-  const onCloseMainModal = useCallback(
-    () => {
-      if (isChanged && isLoggedIn) {
-        setIsAppoving(true)
-      } else {
-        closeDialog()
-        goBack()
-      }
-    },
-    [isChanged, setIsAppoving, closeDialog, goBack, isLoggedIn]
-  )
+    }
+  }, [isChanged, setIsAppoving, closeDialog, goBack, isLoggedIn])
 
   const formChangedCallback = useCallback(
     isChanged => {

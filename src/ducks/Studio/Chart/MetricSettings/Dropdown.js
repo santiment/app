@@ -19,18 +19,15 @@ export const useDropdown = () => {
     />
   )).current
 
-  useEffect(
-    () => {
-      const btn = activeRef.current
-      if (isOpened && btn) {
-        const { parentNode } = btn
+  useEffect(() => {
+    const btn = activeRef.current
+    if (isOpened && btn) {
+      const { parentNode } = btn
 
-        // NOTE: .scrollIntoView also scrolls the window viewport [@vanguard | Aug 12, 2020]
-        parentNode.scrollTop = btn.offsetTop - parentNode.clientHeight / 2
-      }
-    },
-    [isOpened]
-  )
+      // NOTE: .scrollIntoView also scrolls the window viewport [@vanguard | Aug 12, 2020]
+      parentNode.scrollTop = btn.offsetTop - parentNode.clientHeight / 2
+    }
+  }, [isOpened])
 
   function open () {
     setIsOpened(true)

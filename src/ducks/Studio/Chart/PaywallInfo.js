@@ -19,42 +19,39 @@ const DEFAULT_INFOS = []
 function useRestrictedInfo (metrics) {
   const [infos, setInfos] = useState(DEFAULT_INFOS)
 
-  useEffect(
-    () => {
-      setInfos(DEFAULT_INFOS)
+  useEffect(() => {
+    setInfos(DEFAULT_INFOS)
 
-      let race = false
-      const infos = []
+    let race = false
+    const infos = []
 
-      getMetricBoundaries().then(MetricsBoundaries => {
-        if (race) return
+    getMetricBoundaries().then(MetricsBoundaries => {
+      if (race) return
 
-        metrics.forEach(({ key, queryKey = key, label }, i) => {
-          const metricBoundaries = MetricsBoundaries[queryKey]
-          if (!metricBoundaries) return
+      metrics.forEach(({ key, queryKey = key, label }, i) => {
+        const metricBoundaries = MetricsBoundaries[queryKey]
+        if (!metricBoundaries) return
 
-          const { restrictedFrom: from, restrictedTo: to } = metricBoundaries
+        const { restrictedFrom: from, restrictedTo: to } = metricBoundaries
 
-          if (from || to) {
-            infos.push({
-              label,
-              boundaries:
-                from && to
-                  ? `${formatDate(from)} - ${formatDate(to)}`
-                  : formatDate(from || to)
-            })
-          }
-        })
-
-        setInfos(infos)
+        if (from || to) {
+          infos.push({
+            label,
+            boundaries:
+              from && to
+                ? `${formatDate(from)} - ${formatDate(to)}`
+                : formatDate(from || to)
+          })
+        }
       })
 
-      return () => {
-        race = true
-      }
-    },
-    [metrics]
-  )
+      setInfos(infos)
+    })
+
+    return () => {
+      race = true
+    }
+  }, [metrics])
 
   return infos
 }

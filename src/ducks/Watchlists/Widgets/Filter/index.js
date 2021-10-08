@@ -62,52 +62,37 @@ const Filter = ({
     [filters, screenerFunction]
   )
 
-  useEffect(
-    () => {
-      if (isOutdatedVersion && appVersionState !== APP_STATES.LATEST) {
-        notifyOutdatedVersion()
-      }
-    },
-    [isOutdatedVersion]
-  )
+  useEffect(() => {
+    if (isOutdatedVersion && appVersionState !== APP_STATES.LATEST) {
+      notifyOutdatedVersion()
+    }
+  }, [isOutdatedVersion])
 
-  useEffect(
-    () => {
-      if (isViewMode && !isActiveFiltersOnly) {
-        setIsActiveFiltersOnly(true)
-      }
-    },
-    [isViewMode]
-  )
+  useEffect(() => {
+    if (isViewMode && !isActiveFiltersOnly) {
+      setIsActiveFiltersOnly(true)
+    }
+  }, [isViewMode])
 
-  useEffect(
-    () => {
-      if (!isLoggedIn && !isViewMode && isWereChanges && isOpen) {
-        notifyLoginForSave()
-      }
-    },
-    [isWereChanges]
-  )
+  useEffect(() => {
+    if (!isLoggedIn && !isViewMode && isWereChanges && isOpen) {
+      notifyLoginForSave()
+    }
+  }, [isWereChanges])
 
-  useEffect(
-    () => {
-      if (!isOpen) {
-        setCurrentSearch('')
-      }
-    },
-    [isOpen]
-  )
+  useEffect(() => {
+    if (!isOpen) {
+      setCurrentSearch('')
+    }
+  }, [isOpen])
 
-  useEffect(
-    () => {
-      if (!isViewMode && baseProjects !== screenerFunction.args.baseProjects) {
-        const newFunction = getNewFunction(filter, baseProjects)
-        updateWatchlistFunction(newFunction)
-        setScreenerFunction(newFunction)
-      }
-    },
-    [baseProjects]
-  )
+  useEffect(() => {
+    if (!isViewMode && baseProjects !== screenerFunction.args.baseProjects) {
+      const newFunction = getNewFunction(filter, baseProjects)
+      updateWatchlistFunction(newFunction)
+      setScreenerFunction(newFunction)
+    }
+  }, [baseProjects])
 
   function resetAll () {
     const func = getNewFunction([], baseProjects)
@@ -129,10 +114,10 @@ const Filter = ({
     const filters = isNoFilters
       ? []
       : filter.filter(
-        item =>
-          !isContainMetric(item.args.metric || item.name, key) &&
+          item =>
+            !isContainMetric(item.args.metric || item.name, key) &&
             !isContainMetric(item.args.metric || item.name, alternativeKey)
-      )
+        )
     const newFilter = [...filters, metric]
 
     const newFunction = getNewFunction(newFilter, baseProjects)

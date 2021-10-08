@@ -13,15 +13,12 @@ const DashIntervalSettings = ({ metrics, updateInterval, settings }) => {
   const { activeRef, close, Dropdown } = useDropdown()
   const intervals = useMetricIntervals(metric)
 
-  const interval = useMemo(
-    () => {
-      const { interval } = settings || {}
-      return isAvailableInterval(interval, intervals)
-        ? interval
-        : intervals[0].key
-    },
-    [settings, intervals, metric]
-  )
+  const interval = useMemo(() => {
+    const { interval } = settings || {}
+    return isAvailableInterval(interval, intervals)
+      ? interval
+      : intervals[0].key
+  }, [settings, intervals, metric])
 
   function onChange (newInterval) {
     updateInterval({

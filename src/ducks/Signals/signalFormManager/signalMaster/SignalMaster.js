@@ -92,23 +92,17 @@ const SignalMaster = ({
     getFormData(stateTrigger, metaFormSettings)
   )
 
-  useEffect(
-    () => {
-      if (propsTrigger.id && !stateTrigger.id) {
-        setStateTrigger({
-          ...propsTrigger
-        })
-      }
-    },
-    [propsTrigger, stateTrigger.id]
-  )
+  useEffect(() => {
+    if (propsTrigger.id && !stateTrigger.id) {
+      setStateTrigger({
+        ...propsTrigger
+      })
+    }
+  }, [propsTrigger, stateTrigger.id])
 
-  useEffect(
-    () => {
-      setFormData(getFormData(stateTrigger, metaFormSettings))
-    },
-    [stateTrigger, metaFormSettings]
-  )
+  useEffect(() => {
+    setFormData(getFormData(stateTrigger, metaFormSettings))
+  }, [stateTrigger, metaFormSettings])
 
   const handleSettingsChange = useCallback(
     formProps => {
@@ -186,11 +180,6 @@ const mapStateToProps = state => ({
   isLoggedIn: checkIsLoggedIn(state)
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)
+const enhance = compose(connect(mapStateToProps, mapDispatchToProps))
 
 export default enhance(SignalMaster)
