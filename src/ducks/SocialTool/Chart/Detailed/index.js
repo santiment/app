@@ -55,21 +55,18 @@ const DetailedBlock = ({
       ? allDetectedAssets.get(settings.slug)
       : linkedAssets.get(settings.slug)
 
-  useEffect(
-    () => {
-      const newMetricSettingMap = new Map(MetricSettingMap)
-      const metricSetting = {
-        selector: detectedAsset ? 'slug' : 'text',
-        slug: detectedAsset ? detectedAsset.slug : settings.slug
-      }
+  useEffect(() => {
+    const newMetricSettingMap = new Map(MetricSettingMap)
+    const metricSetting = {
+      selector: detectedAsset ? 'slug' : 'text',
+      slug: detectedAsset ? detectedAsset.slug : settings.slug
+    }
 
-      if (charts.length > 0) {
-        charts.forEach(metric => newMetricSettingMap.set(metric, metricSetting))
-        setMetricSettingMap(newMetricSettingMap)
-      }
-    },
-    [charts, settings.slug]
-  )
+    if (charts.length > 0) {
+      charts.forEach(metric => newMetricSettingMap.set(metric, metricSetting))
+      setMetricSettingMap(newMetricSettingMap)
+    }
+  }, [charts, settings.slug])
 
   if (charts.length === 0) {
     return null
@@ -102,7 +99,7 @@ const DetailedBlock = ({
         ))}
       </div>
     </>
-    )
+  )
 }
 
 export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {

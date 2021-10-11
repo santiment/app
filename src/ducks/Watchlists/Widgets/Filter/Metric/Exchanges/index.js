@@ -45,41 +45,35 @@ const Exchanges = ({
     [search, exchanges]
   )
 
-  useEffect(
-    () => {
-      if (isNoFilters) {
-        setSettings(DEFAULT_SETTINGS)
+  useEffect(() => {
+    if (isNoFilters) {
+      setSettings(DEFAULT_SETTINGS)
+    }
+  }, [isNoFilters])
+
+  useEffect(() => {
+    if (settings !== defaultSettings) {
+      const { exchanges, exchanges_combinator, isActive } = settings
+      const { isActive: previousIsActive } = defaultSettings
+
+      const newFilter = {
+        args: { exchanges_combinator, exchanges },
+        name: 'traded_on_exchanges'
       }
-    },
-    [isNoFilters]
-  )
 
-  useEffect(
-    () => {
-      if (settings !== defaultSettings) {
-        const { exchanges, exchanges_combinator, isActive } = settings
-        const { isActive: previousIsActive } = defaultSettings
-
-        const newFilter = {
-          args: { exchanges_combinator, exchanges },
-          name: 'traded_on_exchanges'
-        }
-
-        if (hasActiveExchanges) {
-          if (previousIsActive !== isActive) {
-            toggleMetricInFilter(newFilter, baseMetric.key)
-          } else {
-            updMetricInFilter(newFilter, baseMetric.key)
-          }
-        }
-
-        if (!hasActiveExchanges && isActive && defaultSettings.isActive) {
+      if (hasActiveExchanges) {
+        if (previousIsActive !== isActive) {
           toggleMetricInFilter(newFilter, baseMetric.key)
+        } else {
+          updMetricInFilter(newFilter, baseMetric.key)
         }
       }
-    },
-    [settings]
-  )
+
+      if (!hasActiveExchanges && isActive && defaultSettings.isActive) {
+        toggleMetricInFilter(newFilter, baseMetric.key)
+      }
+    }
+  }, [settings])
 
   function onToggleMode (combinator) {
     setSettings(state => ({
@@ -112,8 +106,8 @@ const Exchanges = ({
         customStateText={
           settings.isActive && hasActiveExchanges
             ? `shows ${
-              isANDCombinator ? 'all' : 'at least one'
-            } of selected exchanges`
+                isANDCombinator ? 'all' : 'at least one'
+              } of selected exchanges`
             : ''
         }
       />

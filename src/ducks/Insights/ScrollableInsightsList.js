@@ -25,38 +25,29 @@ export const ScrollableInsightsList = ({
 
   const { data, loading: isLoading } = useInsightsBy(variables, query)
 
-  useEffect(
-    () => {
-      setPage(1)
-      setInsights([])
-    },
-    [settings]
-  )
+  useEffect(() => {
+    setPage(1)
+    setInsights([])
+  }, [settings])
 
-  useEffect(
-    () => {
-      if (data.length > 0) {
-        setInsights([...insights, ...data])
-      }
+  useEffect(() => {
+    if (data.length > 0) {
+      setInsights([...insights, ...data])
+    }
 
-      if (
-        !isLoading &&
-        (data.length === 0 || data.length < DEFAULT_INSIGHTS_PER_PAGE)
-      ) {
-        setCanLoad(false)
-      }
-    },
-    [data]
-  )
+    if (
+      !isLoading &&
+      (data.length === 0 || data.length < DEFAULT_INSIGHTS_PER_PAGE)
+    ) {
+      setCanLoad(false)
+    }
+  }, [data])
 
-  const loadMore = useCallback(
-    () => {
-      if (!isLoading && canLoad) {
-        setPage(page + 1)
-      }
-    },
-    [isLoading, canLoad, setPage, page]
-  )
+  const loadMore = useCallback(() => {
+    if (!isLoading && canLoad) {
+      setPage(page + 1)
+    }
+  }, [isLoading, canLoad, setPage, page])
 
   return (
     <>

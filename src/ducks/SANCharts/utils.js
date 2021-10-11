@@ -382,5 +382,5 @@ export const yAxisTickFormatter = value =>
   value > MIN_TICK_MILLIFY_VALUE
     ? millify(value)
     : formatNumber(value, {
-      minimumFractionDigits: 0
-    })
+        minimumFractionDigits: 0
+      })

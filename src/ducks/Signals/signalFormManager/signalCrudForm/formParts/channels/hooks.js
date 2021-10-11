@@ -55,41 +55,32 @@ export const useDisabledChannels = ({
   const [isWebPushEnabled, setWebPushEnabled] = useState(true)
   const [disabledChannels, setDisabledChannels] = useState([])
 
-  const calculateDisabledChannels = useCallback(
-    () => {
-      const disabled = getDisabled({
-        isTelegramConnected,
-        isWebPushEnabled,
-        isEmailConnected
+  const calculateDisabledChannels = useCallback(() => {
+    const disabled = getDisabled({
+      isTelegramConnected,
+      isWebPushEnabled,
+      isEmailConnected
+    })
+    setDisabledChannels(disabled)
+  }, [isEmailConnected, isWebPushEnabled, isTelegramConnected])
+
+  const recheckBrowserNotifications = useCallback(() => {
+    navigator.serviceWorker &&
+      navigator.serviceWorker.getRegistrations &&
+      navigator.serviceWorker.getRegistrations().then(registrations => {
+        const sw = getSanSonarSW(registrations)
+        const hasServiceWorker = !!sw
+
+        setWebPushEnabled(hasServiceWorker)
+        calculateDisabledChannels && calculateDisabledChannels()
       })
-      setDisabledChannels(disabled)
-    },
-    [isEmailConnected, isWebPushEnabled, isTelegramConnected]
-  )
+  }, [setWebPushEnabled, calculateDisabledChannels])
 
-  const recheckBrowserNotifications = useCallback(
-    () => {
-      navigator.serviceWorker &&
-        navigator.serviceWorker.getRegistrations &&
-        navigator.serviceWorker.getRegistrations().then(registrations => {
-          const sw = getSanSonarSW(registrations)
-          const hasServiceWorker = !!sw
-
-          setWebPushEnabled(hasServiceWorker)
-          calculateDisabledChannels && calculateDisabledChannels()
-        })
-    },
-    [setWebPushEnabled, calculateDisabledChannels]
-  )
-
-  useEffect(
-    () => {
-      if (isBeta) {
-        recheckBrowserNotifications()
-      }
-    },
-    [isWebPushEnabled, channels]
-  )
+  useEffect(() => {
+    if (isBeta) {
+      recheckBrowserNotifications()
+    }
+  }, [isWebPushEnabled, channels])
 
   return {
     recheckBrowserNotifications,

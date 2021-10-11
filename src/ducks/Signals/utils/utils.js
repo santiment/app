@@ -150,8 +150,8 @@ const getFormTriggerTarget = settings => {
       ethAddress: newEthAddress,
       target: selector
         ? {
-          slug: selector.slug || selector.currency
-        }
+            slug: selector.slug || selector.currency
+          }
         : asset,
       signalType: METRIC_TARGET_ASSETS
     }

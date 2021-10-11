@@ -27,27 +27,24 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects, isViewMode }) => {
   const { idNameMap, setIdNameMap } = useStateMetadata(state)
   const { message, updateMessage } = useMessage(state)
 
-  useEffect(
-    () => {
-      if (Array.isArray(state) && state.length === 0) {
-        setState(ALL_ASSETS_TEXT)
-      } else {
-        updateMessage(state)
+  useEffect(() => {
+    if (Array.isArray(state) && state.length === 0) {
+      setState(ALL_ASSETS_TEXT)
+    } else {
+      updateMessage(state)
 
-        if (state === ALL_ASSETS_TEXT && baseProjects.length !== 0) {
-          setBaseProjects([])
-        }
-
-        if (
-          state !== ALL_ASSETS_TEXT &&
-          JSON.stringify(state) !== JSON.stringify(baseProjects)
-        ) {
-          setBaseProjects(state)
-        }
+      if (state === ALL_ASSETS_TEXT && baseProjects.length !== 0) {
+        setBaseProjects([])
       }
-    },
-    [state]
-  )
+
+      if (
+        state !== ALL_ASSETS_TEXT &&
+        JSON.stringify(state) !== JSON.stringify(baseProjects)
+      ) {
+        setBaseProjects(state)
+      }
+    }
+  }, [state])
 
   const filteredCategories = useMemo(
     () =>
@@ -70,18 +67,15 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects, isViewMode }) => {
     [state, watchlists]
   )
 
-  const [inputState, shortInputState] = useMemo(
-    () => {
-      const text = makeHumanReadableState(state, idNameMap)
-      return [
-        text,
-        text.length > MAX_VISIBLE_SYMBOLS
-          ? text.slice(0, MAX_VISIBLE_SYMBOLS) + '...'
-          : text
-      ]
-    },
-    [state, idNameMap]
-  )
+  const [inputState, shortInputState] = useMemo(() => {
+    const text = makeHumanReadableState(state, idNameMap)
+    return [
+      text,
+      text.length > MAX_VISIBLE_SYMBOLS
+        ? text.slice(0, MAX_VISIBLE_SYMBOLS) + '...'
+        : text
+    ]
+  }, [state, idNameMap])
 
   function addItemInState (item) {
     setState(state === ALL_ASSETS_TEXT ? [item] : [...state, item])

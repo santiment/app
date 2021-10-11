@@ -28,13 +28,10 @@ const SanbaseBanner = () => {
   const key = `CHART_LAYOUT_KEY_${templateId}`
   const [show, setShow] = useState(localStorage.getItem(key) !== 'true')
 
-  const hideTooltip = useCallback(
-    () => {
-      setShow(false)
-      localStorage.setItem(key, true)
-    },
-    [key]
-  )
+  const hideTooltip = useCallback(() => {
+    setShow(false)
+    localStorage.setItem(key, true)
+  }, [key])
 
   if (loading || !templateId || !show) {
     return null

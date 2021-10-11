@@ -45,45 +45,35 @@ const MarketSegments = ({
     [search, segments]
   )
 
-  useEffect(
-    () => {
-      if (isNoFilters) {
-        setSettings(DEFAULT_SETTINGS)
+  useEffect(() => {
+    if (isNoFilters) {
+      setSettings(DEFAULT_SETTINGS)
+    }
+  }, [isNoFilters])
+
+  useEffect(() => {
+    if (settings !== defaultSettings) {
+      const { market_segments, market_segments_combinator, isActive } = settings
+      const { isActive: previousIsActive } = defaultSettings
+
+      const newFilter = {
+        args: { market_segments_combinator, market_segments },
+        name: 'market_segments'
       }
-    },
-    [isNoFilters]
-  )
 
-  useEffect(
-    () => {
-      if (settings !== defaultSettings) {
-        const {
-          market_segments,
-          market_segments_combinator,
-          isActive
-        } = settings
-        const { isActive: previousIsActive } = defaultSettings
-
-        const newFilter = {
-          args: { market_segments_combinator, market_segments },
-          name: 'market_segments'
-        }
-
-        if (hasActiveSegments) {
-          if (previousIsActive !== isActive) {
-            toggleMetricInFilter(newFilter, baseMetric.key)
-          } else {
-            updMetricInFilter(newFilter, baseMetric.key)
-          }
-        }
-
-        if (!hasActiveSegments && isActive && defaultSettings.isActive) {
+      if (hasActiveSegments) {
+        if (previousIsActive !== isActive) {
           toggleMetricInFilter(newFilter, baseMetric.key)
+        } else {
+          updMetricInFilter(newFilter, baseMetric.key)
         }
       }
-    },
-    [settings]
-  )
+
+      if (!hasActiveSegments && isActive && defaultSettings.isActive) {
+        toggleMetricInFilter(newFilter, baseMetric.key)
+      }
+    }
+  }, [settings])
 
   function onToggleMode (combinator) {
     setSettings(state => ({ ...state, market_segments_combinator: combinator }))
@@ -113,8 +103,8 @@ const MarketSegments = ({
         customStateText={
           settings.isActive && hasActiveSegments
             ? `shows ${
-              isANDCombinator ? 'all' : 'at least one'
-            } of selected groups`
+                isANDCombinator ? 'all' : 'at least one'
+              } of selected groups`
             : ''
         }
       />

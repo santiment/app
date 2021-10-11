@@ -64,20 +64,14 @@ const BlockchainLabelsSelector = ({
     )
   }
 
-  const selectedLabels = useMemo(
-    () => {
-      return filterBySearch(value)
-    },
-    [value, searchTerm]
-  )
+  const selectedLabels = useMemo(() => {
+    return filterBySearch(value)
+  }, [value, searchTerm])
 
-  const selectableLabels = useMemo(
-    () => {
-      const cache = new Set(selectedLabels)
-      return filterBySearch(labels.filter(s => !cache.has(s)))
-    },
-    [selectedLabels, labels, searchTerm]
-  )
+  const selectableLabels = useMemo(() => {
+    const cache = new Set(selectedLabels)
+    return filterBySearch(labels.filter(s => !cache.has(s)))
+  }, [selectedLabels, labels, searchTerm])
 
   const countSelected = selectedLabels.length
 

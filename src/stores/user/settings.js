@@ -102,30 +102,27 @@ export function updateUserSettingsCache (newUserSettings) {
 export function useUserSettings () {
   const query = useQuery(USER_SETTINGS_QUERY)
 
-  return useMemo(
-    () => {
-      const { loading, data } = query
+  return useMemo(() => {
+    const { loading, data } = query
 
-      return {
-        loading,
-        settings:
-          data && data.currentUser
-            ? {
+    return {
+      loading,
+      settings:
+        data && data.currentUser
+          ? {
               ...data.currentUser.settings,
               isTelegramAllowAlerts:
-                  data.currentUser.settings.alertNotifyTelegram &&
-                  data.currentUser.settings.hasTelegramConnected,
+                data.currentUser.settings.alertNotifyTelegram &&
+                data.currentUser.settings.hasTelegramConnected,
               isEmailConnected: !!data.currentUser.email,
 
               isEmailAllowAlerts:
-                  data.currentUser.settings.alertNotifyEmail &&
-                  data.currentUser.email
+                data.currentUser.settings.alertNotifyEmail &&
+                data.currentUser.email
             }
-            : DEFAULT_SETTINGS
-      }
-    },
-    [query]
-  )
+          : DEFAULT_SETTINGS
+    }
+  }, [query])
 }
 
 export function useUpdateUserSettings () {

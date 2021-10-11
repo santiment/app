@@ -22,18 +22,15 @@ const NOTIFICATIONS_FOLLOWERS_QUERY = gql`
 export const useFollowers = () => {
   const query = useQuery(NOTIFICATIONS_FOLLOWERS_QUERY)
 
-  return useMemo(
-    () => {
-      const { data, loading, error } = query
+  return useMemo(() => {
+    const { data, loading, error } = query
 
-      return {
-        data: data && data.currentUser ? data.currentUser : undefined,
-        loading,
-        error
-      }
-    },
-    [query]
-  )
+    return {
+      data: data && data.currentUser ? data.currentUser : undefined,
+      loading,
+      error
+    }
+  }, [query])
 }
 
 export const NOTIFICATIONS_ENABLE_MUTATION = gql`
@@ -100,17 +97,14 @@ export function useEnableNotifications () {
 export const useNotificationToggle = targetUserId => {
   const { data, loading } = useFollowers()
 
-  const followingInfo = useMemo(
-    () => {
-      return (
-        data &&
-        data.following2.users.find(
-          ({ userId, isNotificationDisabled }) => +userId === +targetUserId
-        )
+  const followingInfo = useMemo(() => {
+    return (
+      data &&
+      data.following2.users.find(
+        ({ userId, isNotificationDisabled }) => +userId === +targetUserId
       )
-    },
-    [data]
-  )
+    )
+  }, [data])
 
   const { toggle, loading: toggleRequestSending } = useEnableNotifications()
 
@@ -128,25 +122,19 @@ export const useIsInFollowers = targetUserId => {
     userId: currentUser && currentUser.id
   })
 
-  const usersList = useMemo(
-    () => {
-      if (!following || !following.users) {
-        return []
-      } else {
-        return following.users
-      }
-    },
-    [following]
-  )
+  const usersList = useMemo(() => {
+    if (!following || !following.users) {
+      return []
+    } else {
+      return following.users
+    }
+  }, [following])
 
-  return useMemo(
-    () => {
-      if (!currentUser) {
-        return false
-      }
+  return useMemo(() => {
+    if (!currentUser) {
+      return false
+    }
 
-      return isInFollowers(usersList, targetUserId, currentUser.id)
-    },
-    [usersList, targetUserId, currentUser]
-  )
+    return isInFollowers(usersList, targetUserId, currentUser.id)
+  }, [usersList, targetUserId, currentUser])
 }

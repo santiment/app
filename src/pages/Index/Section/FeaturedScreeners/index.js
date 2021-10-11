@@ -37,24 +37,18 @@ const FeaturedScreeners = () => {
     [featuredScreeners]
   )
 
-  useEffect(
-    () => {
-      if (featuredScreeners.length !== 0) {
-        setTab(featuredScreeners[0].name)
-      }
-    },
-    [featuredScreeners]
-  )
+  useEffect(() => {
+    if (featuredScreeners.length !== 0) {
+      setTab(featuredScreeners[0].name)
+    }
+  }, [featuredScreeners])
 
-  useEffect(
-    () => {
-      if (tab) {
-        const item = featuredScreeners.find(screener => screener.name === tab)
-        setActiveScreener(item)
-      }
-    },
-    [tab]
-  )
+  useEffect(() => {
+    if (tab) {
+      const item = featuredScreeners.find(screener => screener.name === tab)
+      setActiveScreener(item)
+    }
+  }, [tab])
 
   const link = activeScreener && getScreenerLink(activeScreener)
 

@@ -23,16 +23,13 @@ const useLastPrice = slugTitle => {
     skip: !slugTitle
   })
 
-  const value = useMemo(
-    () => {
-      if (data && data.getMetric.timeseriesData[0]) {
-        return data.getMetric.timeseriesData[0].value
-      }
+  const value = useMemo(() => {
+    if (data && data.getMetric.timeseriesData[0]) {
+      return data.getMetric.timeseriesData[0].value
+    }
 
-      return 0
-    },
-    [data]
-  )
+    return 0
+  }, [data])
 
   return {
     value,

@@ -40,23 +40,17 @@ const TriggerFormAssetWallet = ({
 
   const isTextSelectors = METRIC_KEYS_WITH_TEXT_SELECTOR.includes(metric.key)
 
-  const options = useMemo(
-    () => {
-      return isTextSelectors
-        ? METRIC_TARGET_OPTIONS
-        : METRIC_TARGET_OPTIONS.filter(option => option !== METRIC_TARGET_TEXT)
-    },
-    [metric, isTextSelectors]
-  )
+  const options = useMemo(() => {
+    return isTextSelectors
+      ? METRIC_TARGET_OPTIONS
+      : METRIC_TARGET_OPTIONS.filter(option => option !== METRIC_TARGET_TEXT)
+  }, [metric, isTextSelectors])
 
-  useEffect(
-    () => {
-      if (signalType && !findCurrentSelector(options, defaultSelected)) {
-        updateType(options[0])
-      }
-    },
-    [options, defaultSelected]
-  )
+  useEffect(() => {
+    if (signalType && !findCurrentSelector(options, defaultSelected)) {
+      updateType(options[0])
+    }
+  }, [options, defaultSelected])
 
   function updateType (type) {
     setFieldValue('signalType', type)

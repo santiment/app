@@ -41,22 +41,19 @@ const Setting = ({
   const [lastValidValue, setLastValidValue] = useState(stateUpdater)
   const [error, setError] = useState()
 
-  useEffect(
-    () => {
-      if (!error) {
-        if (Component) {
-          if (value) {
-            updateMetricSettings(value)
-          }
-        } else {
-          if (+value) {
-            updateMetricSettings(+value)
-          }
+  useEffect(() => {
+    if (!error) {
+      if (Component) {
+        if (value) {
+          updateMetricSettings(value)
+        }
+      } else {
+        if (+value) {
+          updateMetricSettings(+value)
         }
       }
-    },
-    [value]
-  )
+    }
+  }, [value])
 
   function onChange (data) {
     if (!Component) {

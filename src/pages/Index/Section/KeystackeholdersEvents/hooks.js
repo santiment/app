@@ -100,23 +100,20 @@ export const useRawSignals = ({ from, to }) => {
     variables: { from, to }
   })
 
-  return useMemo(
-    () => {
-      if (isLoading && !loading) {
-        setTimeout(() => setIsLoading(false), 300)
-      }
+  return useMemo(() => {
+    if (isLoading && !loading) {
+      setTimeout(() => setIsLoading(false), 300)
+    }
 
-      return {
-        data: data
-          ? data.getRawSignals.filter(
+    return {
+      data: data
+        ? data.getRawSignals.filter(
             signal => signal && (!!signal.project || signal.isHidden)
           )
-          : ARRAY,
-        loading: loading || isLoading
-      }
-    },
-    [data, loading, isLoading]
-  )
+        : ARRAY,
+      loading: loading || isLoading
+    }
+  }, [data, loading, isLoading])
 }
 
 const marketcapSorter = groups => (a, b) =>
@@ -145,43 +142,37 @@ export function useGroupedBySlugs (signals, hiddenLabels, selectedAssets) {
     [signals]
   )
 
-  const labels = useMemo(
-    () => {
-      const signalNames = [
-        ...filteredByAssets.map(({ signal }) => signal),
-        ...restrictedSignals
-      ]
-      return [...new Set(signalNames)].sort().reverse()
-    },
-    [filteredByAssets, restrictedSignals]
-  )
+  const labels = useMemo(() => {
+    const signalNames = [
+      ...filteredByAssets.map(({ signal }) => signal),
+      ...restrictedSignals
+    ]
+    return [...new Set(signalNames)].sort().reverse()
+  }, [filteredByAssets, restrictedSignals])
 
-  const { groups, visibleSlugs } = useMemo(
-    () => {
-      const groups = filteredByAssets.reduce((acc, item) => {
-        const { slug, signal } = item
+  const { groups, visibleSlugs } = useMemo(() => {
+    const groups = filteredByAssets.reduce((acc, item) => {
+      const { slug, signal } = item
 
-        const hidden = hiddenLabels[signal]
+      const hidden = hiddenLabels[signal]
 
-        if (!hidden) {
-          if (!acc[slug]) {
-            acc[slug] = { list: [], types: [], project: item.project }
-          }
-
-          acc[slug].list.push(item)
-          acc[slug].types.push(item.signal)
+      if (!hidden) {
+        if (!acc[slug]) {
+          acc[slug] = { list: [], types: [], project: item.project }
         }
-        return acc
-      }, {})
 
-      const visibleSlugs = Object.keys(groups)
-        .filter(slug => !!groups[slug].project)
-        .sort(marketcapSorter(groups))
+        acc[slug].list.push(item)
+        acc[slug].types.push(item.signal)
+      }
+      return acc
+    }, {})
 
-      return { groups, visibleSlugs }
-    },
-    [filteredByAssets, hiddenLabels]
-  )
+    const visibleSlugs = Object.keys(groups)
+      .filter(slug => !!groups[slug].project)
+      .sort(marketcapSorter(groups))
+
+    return { groups, visibleSlugs }
+  }, [filteredByAssets, hiddenLabels])
 
   return { slugs, projects, visibleSlugs, labels, groups, restrictedSignals }
 }

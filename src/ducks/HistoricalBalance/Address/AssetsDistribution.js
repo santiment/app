@@ -29,46 +29,43 @@ const smallDistributionFinder = ({ percent }) =>
 export function useDistributions (walletAssets) {
   const { projects } = useProjects()
 
-  return useMemo(
-    () => {
-      if (projects.length === 0) return []
+  return useMemo(() => {
+    if (projects.length === 0) return []
 
-      const sortedAssets = walletAssets
-        .filter(existingAssetsFilter)
-        .sort(distributionSorter)
-      const { length } = sortedAssets
-      const distributions = new Array(length)
-      let totalBalance = 0
+    const sortedAssets = walletAssets
+      .filter(existingAssetsFilter)
+      .sort(distributionSorter)
+    const { length } = sortedAssets
+    const distributions = new Array(length)
+    let totalBalance = 0
 
-      for (let i = 0; i < length; i++) {
-        totalBalance += sortedAssets[i].balanceUsd
-      }
+    for (let i = 0; i < length; i++) {
+      totalBalance += sortedAssets[i].balanceUsd
+    }
 
-      const scale = 100 / totalBalance
+    const scale = 100 / totalBalance
 
-      for (let i = 0; i < length; i++) {
-        const { slug, balanceUsd } = sortedAssets[i]
-        const { ticker } = getProjectInfo(projects, slug) || {}
-        const percent = balanceUsd * scale
+    for (let i = 0; i < length; i++) {
+      const { slug, balanceUsd } = sortedAssets[i]
+      const { ticker } = getProjectInfo(projects, slug) || {}
+      const percent = balanceUsd * scale
 
-        distributions[i] = {
-          percent,
-          slug,
-          name: ticker || capitalizeStr(slug),
-          percentText: percent > 0.1 ? percent.toFixed(1) + '%' : '0.0%',
-          style: {
-            '--width': percent + '%',
-            '--color': checkIsSmallDistribution(percent)
-              ? NO_COLOR
-              : COLORS[i] || NO_COLOR
-          }
+      distributions[i] = {
+        percent,
+        slug,
+        name: ticker || capitalizeStr(slug),
+        percentText: percent > 0.1 ? percent.toFixed(1) + '%' : '0.0%',
+        style: {
+          '--width': percent + '%',
+          '--color': checkIsSmallDistribution(percent)
+            ? NO_COLOR
+            : COLORS[i] || NO_COLOR
         }
       }
+    }
 
-      return distributions
-    },
-    [projects, walletAssets]
-  )
+    return distributions
+  }, [projects, walletAssets])
 }
 
 const Distribution = ({ name, style, percentText }) => (
@@ -88,9 +85,9 @@ export const CollapsedDistributions = ({
 }) => (
   <CollapsedTooltip
     trigger={
-      <div className={styles.collapsed}>{`+${
-        distributions.length
-      } assets`}</div>
+      <div
+        className={styles.collapsed}
+      >{`+${distributions.length} assets`}</div>
     }
   >
     <Items distributions={distributions} />
@@ -104,13 +101,10 @@ const AssetsDistribution = ({
   classes
 }) => {
   const distributions = useDistributions(walletAssets)
-  const biggestDistributions = useMemo(
-    () => {
-      const index = distributions.findIndex(smallDistributionFinder)
-      return index === -1 ? distributions : distributions.slice(0, index)
-    },
-    [distributions]
-  )
+  const biggestDistributions = useMemo(() => {
+    const index = distributions.findIndex(smallDistributionFinder)
+    return index === -1 ? distributions : distributions.slice(0, index)
+  }, [distributions])
 
   if (distributions.length === 0) return null
 

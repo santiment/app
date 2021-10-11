@@ -98,10 +98,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   graphql(CHANGE_EMAIL_MUTATION, { name: 'changeEmail' })
 )
 

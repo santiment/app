@@ -16,12 +16,9 @@ export const useNavigationAnchor = (list, accessor = 'key') => {
     extractFirstAnchor(list, history.location.hash, accessor)
   )
 
-  useEffect(
-    () => {
-      history.replace(`${window.location.pathname}#${active[accessor]}`)
-    },
-    [active]
-  )
+  useEffect(() => {
+    history.replace(`${window.location.pathname}#${active[accessor]}`)
+  }, [active])
 
   return {
     setActive,
@@ -30,18 +27,15 @@ export const useNavigationAnchor = (list, accessor = 'key') => {
 }
 
 const LeftPageNavigation = ({ anchors }) => {
-  const preparedAnchors = useMemo(
-    () => {
-      if (Array.isArray(anchors)) {
-        return anchors.reduce((acc, val) => {
-          return [...acc, ...val.list]
-        }, [])
-      }
+  const preparedAnchors = useMemo(() => {
+    if (Array.isArray(anchors)) {
+      return anchors.reduce((acc, val) => {
+        return [...acc, ...val.list]
+      }, [])
+    }
 
-      return Object.values(anchors)
-    },
-    [anchors]
-  )
+    return Object.values(anchors)
+  }, [anchors])
 
   const { setActive, active } = useNavigationAnchor(preparedAnchors)
 

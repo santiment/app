@@ -30,14 +30,11 @@ export function useMetricMinInterval (
 ) {
   const [minInterval, setMinInterval] = useState()
 
-  useEffect(
-    () => {
-      getCustomMetricMinInterval(queryKey)
-        .then(setMinInterval)
-        .catch(console.warn)
-    },
-    [queryKey, getCustomMetricMinInterval]
-  )
+  useEffect(() => {
+    getCustomMetricMinInterval(queryKey)
+      .then(setMinInterval)
+      .catch(console.warn)
+  }, [queryKey, getCustomMetricMinInterval])
 
   return minInterval
 }
@@ -85,12 +82,9 @@ export function getCandlesMinInterval (from, to) {
 }
 
 export function useCandlesMinIntervalGetter (metricNode, from, to) {
-  return useMemo(
-    () => {
-      if (metricNode !== Node.CANDLES) return
-      const minInterval = getCandlesMinInterval(from, to)
-      return () => Promise.resolve(minInterval)
-    },
-    [metricNode, from, to]
-  )
+  return useMemo(() => {
+    if (metricNode !== Node.CANDLES) return
+    const minInterval = getCandlesMinInterval(from, to)
+    return () => Promise.resolve(minInterval)
+  }, [metricNode, from, to])
 }

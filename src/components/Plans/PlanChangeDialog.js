@@ -119,7 +119,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch({ type: USER_SUBSCRIPTION_CHANGE, payload })
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(ChangePlanDialog)
+export default connect(null, mapDispatchToProps)(ChangePlanDialog)

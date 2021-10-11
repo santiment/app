@@ -267,9 +267,7 @@ export const rebuildDescriptions = Submetrics => {
         list.forEach(metric => {
           Description[
             metric.key
-          ] = `Shows the amount of daily active users on crypto-related ${
-            metric.channel
-          }. An active user has sent at least one message during the day.`
+          ] = `Shows the amount of daily active users on crypto-related ${metric.channel}. An active user has sent at least one message during the day.`
         })
         break
       }

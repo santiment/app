@@ -33,12 +33,12 @@ const Sidebar = ({
 
   return target
     ? ReactDOM.createPortal(
-      <ProjectSelector
-        project={lockedAsset}
-        onProjectSelect={onLockProjectSelect}
-      />,
-      target
-    )
+        <ProjectSelector
+          project={lockedAsset}
+          onProjectSelect={onLockProjectSelect}
+        />,
+        target
+      )
     : null
 }
 

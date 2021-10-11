@@ -12,26 +12,20 @@ const initialState = () => []
 const LabelsSelector = ({ onChange }) => {
   const [state, setState] = useState(initialState)
 
-  useEffect(
-    () => {
-      if (onChange) {
-        const labels = state.map(({ type }) => type)
-        onChange(labels.length > 0 ? labels : ['all'])
-      }
-    },
-    [state]
-  )
+  useEffect(() => {
+    if (onChange) {
+      const labels = state.map(({ type }) => type)
+      onChange(labels.length > 0 ? labels : ['all'])
+    }
+  }, [state])
 
-  const shortInputState = useMemo(
-    () => {
-      const text = state.map(({ label }) => label).join(', ')
+  const shortInputState = useMemo(() => {
+    const text = state.map(({ label }) => label).join(', ')
 
-      return text.length > MAX_VISIBLE_SYMBOLS
-        ? text.slice(0, MAX_VISIBLE_SYMBOLS) + '...'
-        : text
-    },
-    [state]
-  )
+    return text.length > MAX_VISIBLE_SYMBOLS
+      ? text.slice(0, MAX_VISIBLE_SYMBOLS) + '...'
+      : text
+  }, [state])
 
   function addItemInState (item) {
     setState([...state, item])

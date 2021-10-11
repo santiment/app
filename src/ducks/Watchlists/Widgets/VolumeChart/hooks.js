@@ -9,13 +9,10 @@ import { mapToColors } from './utils'
 export const useWithColors = (data, key, sorter) => {
   const [result, setResult] = useState([])
 
-  useEffect(
-    () => {
-      const sorted = data.sort(sorter)
-      setResult(mapToColors(sorted, key))
-    },
-    [data, key, sorter]
-  )
+  useEffect(() => {
+    const sorted = data.sort(sorter)
+    setResult(mapToColors(sorted, key))
+  }, [data, key, sorter])
 
   return result
 }
@@ -30,12 +27,9 @@ const useChartInterval = ({ type, settings, ranges, onChangeSettings }) => {
     Math.min(ranges.length - 1, defaultSelectedIndex)
   )
 
-  useEffect(
-    () => {
-      onChangeSettings(type, ranges[intervalIndex])
-    },
-    [intervalIndex]
-  )
+  useEffect(() => {
+    onChangeSettings(type, ranges[intervalIndex])
+  }, [intervalIndex])
 
   return {
     intervalIndex,
@@ -86,12 +80,9 @@ export const useProjectRanges = ({
     ? useProjectsSocialVolumeChanges(hookProps)
     : useProjectPriceChanges(hookProps)
 
-  const limited = useMemo(
-    () => {
-      return data.slice(0, 100)
-    },
-    [data]
-  )
+  const limited = useMemo(() => {
+    return data.slice(0, 100)
+  }, [data])
 
   return {
     data: limited,

@@ -18,22 +18,19 @@ function assetsMatchPredicate (value) {
 }
 
 const useSearchableAssets = assets =>
-  useMemo(
-    () => {
-      const { length } = assets
-      const searchableAssets = new Array(length)
-      for (let i = 0; i < length; i++) {
-        const { name, ticker, slug } = assets[i]
-        searchableAssets[i] = {
-          name: name.toLowerCase(),
-          ticker: ticker.toLowerCase(),
-          slug: slug.toLowerCase()
-        }
+  useMemo(() => {
+    const { length } = assets
+    const searchableAssets = new Array(length)
+    for (let i = 0; i < length; i++) {
+      const { name, ticker, slug } = assets[i]
+      searchableAssets[i] = {
+        name: name.toLowerCase(),
+        ticker: ticker.toLowerCase(),
+        slug: slug.toLowerCase()
       }
-      return searchableAssets
-    },
-    [assets]
-  )
+    }
+    return searchableAssets
+  }, [assets])
 
 export const propsAccessor = ({ slug }) => ({
   key: slug,
@@ -49,37 +46,34 @@ export const Asset = ({ name, ticker }) => (
 const AssetsCategory = ({ searchTerm, ...props }) => {
   const assets = useProjects().projects
   const searchableAssets = useSearchableAssets(assets)
-  const suggestions = useMemo(
-    () => {
-      if (!searchTerm) {
-        return assets.slice(0, 5)
-      }
+  const suggestions = useMemo(() => {
+    if (!searchTerm) {
+      return assets.slice(0, 5)
+    }
 
-      const { filteredItems, filteredSearchables } = filterSearchableItems(
-        assetsFilterPredicate(searchTerm),
-        searchableAssets,
-        assets
-      )
-      const displayedItems = filteredItems.slice(0, 5)
-      const matchedIndex = filteredSearchables.findIndex(
-        assetsMatchPredicate(searchTerm)
-      )
+    const { filteredItems, filteredSearchables } = filterSearchableItems(
+      assetsFilterPredicate(searchTerm),
+      searchableAssets,
+      assets
+    )
+    const displayedItems = filteredItems.slice(0, 5)
+    const matchedIndex = filteredSearchables.findIndex(
+      assetsMatchPredicate(searchTerm)
+    )
 
-      if (matchedIndex === -1) {
-        return displayedItems
-      }
+    if (matchedIndex === -1) {
+      return displayedItems
+    }
 
-      const matchedAsset = filteredItems[matchedIndex]
-      const displayedSet = new Set(displayedItems)
+    const matchedAsset = filteredItems[matchedIndex]
+    const displayedSet = new Set(displayedItems)
 
-      if (displayedSet.has(matchedAsset)) {
-        displayedSet.delete(matchedAsset)
-      }
+    if (displayedSet.has(matchedAsset)) {
+      displayedSet.delete(matchedAsset)
+    }
 
-      return [matchedAsset, ...displayedSet].slice(0, 5)
-    },
-    [searchTerm, searchableAssets]
-  )
+    return [matchedAsset, ...displayedSet].slice(0, 5)
+  }, [searchTerm, searchableAssets])
 
   return suggestions.length ? (
     <Category

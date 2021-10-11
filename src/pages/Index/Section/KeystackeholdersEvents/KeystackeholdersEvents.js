@@ -63,17 +63,14 @@ const KeystackeholdersEvents = React.memo(() => {
     [restrictedSignals, hiddenLabels]
   )
 
-  useEffect(
-    () => {
-      setSelectedAssets(
-        signals.reduce((acc, { slug }) => {
-          acc[slug] = true
-          return acc
-        }, {})
-      )
-    },
-    [signals]
-  )
+  useEffect(() => {
+    setSelectedAssets(
+      signals.reduce((acc, { slug }) => {
+        acc[slug] = true
+        return acc
+      }, {})
+    )
+  }, [signals])
 
   const proBannerIdx = visibleSlugs.length > 3 ? 2 : visibleSlugs.length - 1
 
@@ -151,8 +148,8 @@ const KeystackeholdersEvents = React.memo(() => {
               <Fragment key={slug}>
                 {index === proBannerIdx &&
                   visibleRestrictedSignals.length > 0 && (
-                  <StakeholderProBanner signals={visibleRestrictedSignals} />
-                )}
+                    <StakeholderProBanner signals={visibleRestrictedSignals} />
+                  )}
                 <Accordion
                   title={
                     <StackholderTitle

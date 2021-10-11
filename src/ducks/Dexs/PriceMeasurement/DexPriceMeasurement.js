@@ -24,12 +24,9 @@ const DexPriceMeasurement = ({
   defaultSelected,
   className
 }) => {
-  const defaultIndex = useMemo(
-    () => {
-      return ranges.findIndex(({ slug }) => slug === defaultSelected.slug)
-    },
-    [ranges, defaultSelected]
-  )
+  const defaultIndex = useMemo(() => {
+    return ranges.findIndex(({ slug }) => slug === defaultSelected.slug)
+  }, [ranges, defaultSelected])
 
   const [sortedByIndex, setSortedByIndex] = useState(defaultIndex)
 

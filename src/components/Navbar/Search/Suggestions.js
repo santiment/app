@@ -23,43 +23,36 @@ const Suggestions = ({
   const isNotSearched = !props.searchTerm
   const [recents, setRecents] = useState(DEFAULT_RECENTS)
 
-  useEffect(
-    () => {
-      if (isNotSearched) {
-        if (isOpened) {
-          setRecents(getRecents().slice(0, 5))
-        }
-      } else {
-        setRecents(DEFAULT_RECENTS)
+  useEffect(() => {
+    if (isNotSearched) {
+      if (isOpened) {
+        setRecents(getRecents().slice(0, 5))
       }
-    },
-    [isOpened, isNotSearched]
-  )
+    } else {
+      setRecents(DEFAULT_RECENTS)
+    }
+  }, [isOpened, isNotSearched])
 
-  useEffect(
-    () => {
-      const dropdown = suggestionsRef.current
-      if (isOpened && dropdown) {
-        const { parentNode } = dropdown
+  useEffect(() => {
+    const dropdown = suggestionsRef.current
+    if (isOpened && dropdown) {
+      const { parentNode } = dropdown
 
-        const dropdownWidth = dropdown.offsetWidth
-        const availableWidth =
-          parentNode.clientWidth +
-          parseFloat(getComputedStyle(parentNode).marginLeft)
+      const dropdownWidth = dropdown.offsetWidth
+      const availableWidth =
+        parentNode.clientWidth +
+        parseFloat(getComputedStyle(parentNode).marginLeft)
 
-        dropdown.style.minWidth =
-          (dropdownWidth > availableWidth ? dropdownWidth : availableWidth) +
-          'px'
+      dropdown.style.minWidth =
+        (dropdownWidth > availableWidth ? dropdownWidth : availableWidth) + 'px'
 
-        const isSmallScreen = isTablet || isLaptop
+      const isSmallScreen = isTablet || isLaptop
 
-        dropdown.style.right = isSmallScreen
-          ? availableWidth + 40 + 'px'
-          : availableWidth / 2 + 'px'
-      }
-    },
-    [isOpened]
-  )
+      dropdown.style.right = isSmallScreen
+        ? availableWidth + 40 + 'px'
+        : availableWidth / 2 + 'px'
+    }
+  }, [isOpened])
 
   function onRecentsClear () {
     clearRecents()

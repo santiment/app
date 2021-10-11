@@ -106,31 +106,31 @@ export const SearchContainer = ({
         isMobile || recentAssets.length === 0
           ? undefined
           : [
-            {
-              id: RECENT_ASSETS,
-              title: (
-                <div className={styles.recents}>
+              {
+                id: RECENT_ASSETS,
+                title: (
+                  <div className={styles.recents}>
                     Recently searched
-                  <Icon
-                    type='history-clear'
-                    className={styles.clear}
-                    onClick={clearRecents}
+                    <Icon
+                      type='history-clear'
+                      className={styles.clear}
+                      onClick={clearRecents}
+                    />
+                  </div>
+                ),
+                items: recentAssets,
+                classes: styles,
+                suggestionContent: suggestion => (
+                  <Recent
+                    text={suggestion}
+                    onRemove={e => {
+                      e.stopPropagation()
+                      removeRecentAssetSuggestion(suggestion)
+                    }}
                   />
-                </div>
-              ),
-              items: recentAssets,
-              classes: styles,
-              suggestionContent: suggestion => (
-                <Recent
-                  text={suggestion}
-                  onRemove={e => {
-                    e.stopPropagation()
-                    removeRecentAssetSuggestion(suggestion)
-                  }}
-                />
-              )
-            }
-          ]
+                )
+              }
+            ]
       }
     />
   ) : (

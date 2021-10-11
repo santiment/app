@@ -27,18 +27,15 @@ const HistoricalBalance = ({
   const [priceAssets, setPriceAssets] = useState(defaultPriceAssets)
   const [isLog, setIsLog] = useState(defaultIsLog)
 
-  useEffect(
-    () => {
-      const priceAssetsSet = new Set(priceAssets)
-      const priceAssetsToDelete = new Set(priceAssetsSet)
+  useEffect(() => {
+    const priceAssetsSet = new Set(priceAssets)
+    const priceAssetsToDelete = new Set(priceAssetsSet)
 
-      chartAssets.forEach(({ slug }) => priceAssetsToDelete.delete(slug))
-      priceAssetsToDelete.forEach(asset => priceAssetsSet.delete(asset))
+    chartAssets.forEach(({ slug }) => priceAssetsToDelete.delete(slug))
+    priceAssetsToDelete.forEach(asset => priceAssetsSet.delete(asset))
 
-      setPriceAssets([...priceAssetsSet])
-    },
-    [chartAssets]
-  )
+    setPriceAssets([...priceAssetsSet])
+  }, [chartAssets])
 
   function togglePriceAsset (asset) {
     const priceAssetsSet = new Set(priceAssets)

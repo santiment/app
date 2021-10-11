@@ -5,21 +5,18 @@ import { client } from '../../../../../apollo'
 export const useMessage = state => {
   const [message, setMessage] = useState('')
 
-  const updateMessage = useCallback(
-    () => {
-      if (Array.isArray(state)) {
-        const watchlistIDs = state.filter(item => item['watchlistId'])
-        if (watchlistIDs.length >= 3 && !message) {
-          setMessage('You can select up to 3 watchlists only')
-        } else if (message) {
-          setMessage('')
-        }
+  const updateMessage = useCallback(() => {
+    if (Array.isArray(state)) {
+      const watchlistIDs = state.filter(item => item['watchlistId'])
+      if (watchlistIDs.length >= 3 && !message) {
+        setMessage('You can select up to 3 watchlists only')
       } else if (message) {
         setMessage('')
       }
-    },
-    [state]
-  )
+    } else if (message) {
+      setMessage('')
+    }
+  }, [state])
 
   return {
     message,

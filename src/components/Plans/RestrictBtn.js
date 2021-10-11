@@ -25,12 +25,12 @@ const getProps = ({
   return sameAsUserPlan
     ? { children: 'Your current plan', disabled: true }
     : isSubscriptionCanceled
-      ? {
+    ? {
         children: 'Upgrade now',
         as: Link,
         to: '/account#subscription?renew'
       }
-      : { children: 'Upgrade now', as: Link, to: '/account', variant: 'fill' }
+    : { children: 'Upgrade now', as: Link, to: '/account', variant: 'fill' }
 }
 
 const RestrictBtn = ({

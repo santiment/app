@@ -8,18 +8,15 @@ const ignoredPages = ['/privacy-policy', '/roadmap']
 const GdprRedirector = ({ pathname }) => {
   const { user } = useUser()
 
-  useEffect(
-    () => {
-      if (
-        user &&
-        !user.privacyPolicyAccepted &&
-        !ignoredPages.includes(pathname)
-      ) {
-        store.dispatch(push('/gdpr'))
-      }
-    },
-    [user, pathname]
-  )
+  useEffect(() => {
+    if (
+      user &&
+      !user.privacyPolicyAccepted &&
+      !ignoredPages.includes(pathname)
+    ) {
+      store.dispatch(push('/gdpr'))
+    }
+  }, [user, pathname])
 
   return null
 }

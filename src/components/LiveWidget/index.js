@@ -20,61 +20,49 @@ const LiveWidget = () => {
 
   useEffect(initPlayer, [])
 
-  useEffect(
-    () => {
-      if (player !== null) {
-        isLiveStreamExist()
-      }
-    },
-    [player]
-  )
+  useEffect(() => {
+    if (player !== null) {
+      isLiveStreamExist()
+    }
+  }, [player])
 
-  useEffect(
-    () => {
-      let interval
-      let timer
+  useEffect(() => {
+    let interval
+    let timer
 
-      if (isHidden || !player) return
+    if (isHidden || !player) return
 
-      if ((isShow && isStarted) || !isShow) {
-        interval = setInterval(isLiveStreamExist, LONG_DELAY)
-      }
+    if ((isShow && isStarted) || !isShow) {
+      interval = setInterval(isLiveStreamExist, LONG_DELAY)
+    }
 
-      if (isShow && !isStarted) {
-        timer = setTimeout(isLiveStreamExist, SHORT_DELAY)
-      }
+    if (isShow && !isStarted) {
+      timer = setTimeout(isLiveStreamExist, SHORT_DELAY)
+    }
 
-      return () => {
-        clearTimeout(timer)
-        clearInterval(interval)
-      }
-    },
-    [isShow, isStarted, isHidden, player]
-  )
+    return () => {
+      clearTimeout(timer)
+      clearInterval(interval)
+    }
+  }, [isShow, isStarted, isHidden, player])
 
-  useEffect(
-    () => {
-      if (player !== null && isHidden) {
-        player.destroy()
-        setPlayer(null)
-      }
-    },
-    [isHidden]
-  )
+  useEffect(() => {
+    if (player !== null && isHidden) {
+      player.destroy()
+      setPlayer(null)
+    }
+  }, [isHidden])
 
-  useEffect(
-    () => {
-      if (isShow) {
-        player.mute()
-        player.playVideo()
-        const { video_id } = player.getVideoData()
-        setVideoUrl(player.getVideoUrl())
-        setVideoId(video_id)
-        setIsHidden(checkIsHidden(video_id))
-      }
-    },
-    [isShow]
-  )
+  useEffect(() => {
+    if (isShow) {
+      player.mute()
+      player.playVideo()
+      const { video_id } = player.getVideoData()
+      setVideoUrl(player.getVideoUrl())
+      setVideoId(video_id)
+      setIsHidden(checkIsHidden(video_id))
+    }
+  }, [isShow])
 
   function initPlayer () {
     if (initCounter >= MAX_INIT_ATTEMPTS) {

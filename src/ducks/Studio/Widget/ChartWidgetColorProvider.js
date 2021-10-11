@@ -17,14 +17,11 @@ function ColorProvider ({ widget, children, rerenderWidgets }) {
     rerenderWidgets()
   }
 
-  useEffect(
-    () => {
-      const NewMetricColor = getChartColors(metrics, state)
-      widget.MetricColor = NewMetricColor
-      setState(NewMetricColor)
-    },
-    [metrics]
-  )
+  useEffect(() => {
+    const NewMetricColor = getChartColors(metrics, state)
+    widget.MetricColor = NewMetricColor
+    setState(NewMetricColor)
+  }, [metrics])
 
   return (
     <ColorContext.Provider value={state}>

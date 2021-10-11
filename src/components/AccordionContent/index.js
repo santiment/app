@@ -21,60 +21,54 @@ const AccordionContent = ({ children, show, animateOnMount = false }) => {
     }
   }
 
-  useEffect(
-    () => {
-      const elem = containerRef.current
+  useEffect(() => {
+    const elem = containerRef.current
 
-      if (show && height === null) {
-        if (animateOnMount) {
-          elem.style.maxHeight = 0
-          const elemHeight = elem.scrollHeight
-          setHeight(elemHeight)
-
-          setTimeout(() => clearMaxHeight(), MAX_TIME + 200)
-        }
-      }
-
-      if (show && height === 0) {
+    if (show && height === null) {
+      if (animateOnMount) {
         elem.style.maxHeight = 0
         const elemHeight = elem.scrollHeight
         setHeight(elemHeight)
+
+        setTimeout(() => clearMaxHeight(), MAX_TIME + 200)
       }
+    }
 
-      if (!show && height !== 0) {
-        elem.style.maxHeight = elem.scrollHeight + 'px'
-        setHeight(0)
-      }
+    if (show && height === 0) {
+      elem.style.maxHeight = 0
+      const elemHeight = elem.scrollHeight
+      setHeight(elemHeight)
+    }
 
-      return () => clearMaxHeight()
-    },
-    [show]
-  )
+    if (!show && height !== 0) {
+      elem.style.maxHeight = elem.scrollHeight + 'px'
+      setHeight(0)
+    }
 
-  useEffect(
-    () => {
-      if (height === null) {
-        return
-      }
+    return () => clearMaxHeight()
+  }, [show])
 
-      const elem = containerRef.current
+  useEffect(() => {
+    if (height === null) {
+      return
+    }
 
-      if (height > 0) {
-        elem.style.transition = `max-height ${calculateTime(
-          height
-        )}ms ease-in-out`
-        elem.style.maxHeight = height + 'px'
-      }
+    const elem = containerRef.current
 
-      if (height === 0) {
-        elem.style.transition = `max-height ${calculateExitTime(
-          elem.scrollHeight
-        )}ms ease`
-        elem.style.maxHeight = 0
-      }
-    },
-    [height]
-  )
+    if (height > 0) {
+      elem.style.transition = `max-height ${calculateTime(
+        height
+      )}ms ease-in-out`
+      elem.style.maxHeight = height + 'px'
+    }
+
+    if (height === 0) {
+      elem.style.transition = `max-height ${calculateExitTime(
+        elem.scrollHeight
+      )}ms ease`
+      elem.style.maxHeight = 0
+    }
+  }, [height])
 
   return (
     <div className={cx(styles.roll, show && styles.rollOut)} ref={containerRef}>

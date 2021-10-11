@@ -69,14 +69,11 @@ export const TriggerForm = ({
   const [canCallFormChangCallback, setCanCallFormChanged] = useState(false)
   const [step, setStep] = useState(TRIGGER_FORM_STEPS.DESCRIPTION)
 
-  useEffect(
-    () => {
-      if (!isNew && !isEqual(settings, initialValues)) {
-        setInitialValues(settings)
-      }
-    },
-    [settings]
-  )
+  useEffect(() => {
+    if (!isNew && !isEqual(settings, initialValues)) {
+      setInitialValues(settings)
+    }
+  }, [settings])
 
   useEffect(() => {
     const timeOutId = setTimeout(() => {
@@ -90,12 +87,9 @@ export const TriggerForm = ({
     }
   }, [])
 
-  useEffect(
-    () => {
-      setTitle && setTitle(getTitle(initialValues, id, isShared))
-    },
-    [initialValues.isPublic]
-  )
+  useEffect(() => {
+    setTitle && setTitle(getTitle(initialValues, id, isShared))
+  }, [initialValues.isPublic])
 
   const validateAndSetStep = useCallback(
     newStep => {
@@ -164,7 +158,7 @@ export const TriggerForm = ({
         }
 
         const isValidForm =
-          isValid || (!errors || Object.keys(errors).length === 0)
+          isValid || !errors || Object.keys(errors).length === 0
 
         const showDivider = showTypes || metricValueBlocks
 

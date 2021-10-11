@@ -14,13 +14,10 @@ const ExchangeSetting = ({ metric, widget, slug, rerenderWidgets }) => {
   const { activeRef, close, Dropdown } = useDropdown()
   const [activeTab, setActiveTab] = useState(CEX)
   const { exchanges, loading } = useMetricExchanges(slug, activeTab === DEX)
-  const owner = useMemo(
-    () => {
-      const settings = widget.MetricSettingMap.get(metric)
-      return (settings && settings.owner) || DEFAULT_EXCHANGE
-    },
-    [widget.MetricSettingMap, metric]
-  )
+  const owner = useMemo(() => {
+    const settings = widget.MetricSettingMap.get(metric)
+    return (settings && settings.owner) || DEFAULT_EXCHANGE
+  }, [widget.MetricSettingMap, metric])
 
   function onChange (newOwner) {
     const newMap = new Map()

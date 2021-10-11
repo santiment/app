@@ -6,14 +6,11 @@ export const useEthPieChart = (QUERY, settings) => {
     variables: settings
   })
 
-  return useMemo(
-    () => {
-      return {
-        data: data ? data.getMetric.histogramData.values.data : [],
-        loading,
-        error
-      }
-    },
-    [data, loading, error]
-  )
+  return useMemo(() => {
+    return {
+      data: data ? data.getMetric.histogramData.values.data : [],
+      loading,
+      error
+    }
+  }, [data, loading, error])
 }

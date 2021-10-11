@@ -21,17 +21,14 @@ let REPORTS = []
 export const useAlphaReports = () => {
   const query = useQuery(REPORTS_QUERY)
 
-  return useMemo(
-    () => {
-      const { data, loading, error } = query
+  return useMemo(() => {
+    const { data, loading, error } = query
 
-      if (data && data.getReports && REPORTS.length === 0) {
-        REPORTS = data.getReports.reverse()
-      }
-      return [REPORTS, loading, error]
-    },
-    [query]
-  )
+    if (data && data.getReports && REPORTS.length === 0) {
+      REPORTS = data.getReports.reverse()
+    }
+    return [REPORTS, loading, error]
+  }, [query])
 }
 
 const IconDw = (
@@ -65,12 +62,9 @@ const STABLECOINS_PREDICATE = ({ name }) =>
 const CurrentPageReport = ({ searchPredicate = STABLECOINS_PREDICATE }) => {
   const [reports, loading] = useAlphaReports()
 
-  const stablecoinsReport = useMemo(
-    () => {
-      return reports.find(searchPredicate)
-    },
-    [reports]
-  )
+  const stablecoinsReport = useMemo(() => {
+    return reports.find(searchPredicate)
+  }, [reports])
 
   const { isPro } = useUserSubscriptionStatus()
 

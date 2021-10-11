@@ -41,18 +41,15 @@ const HalloweenPopup = ({ activeNumber, name }) => {
   const [isOpen, setOpen] = useState(false)
   const [isCopied, setIsCopied] = useState(false)
 
-  useEffect(
-    () => {
-      if (!activeNumber && isOpen) {
-        setOpen(false)
-      }
+  useEffect(() => {
+    if (!activeNumber && isOpen) {
+      setOpen(false)
+    }
 
-      if (activeNumber && !isOpen) {
-        setOpen(true)
-      }
-    },
-    [activeNumber]
-  )
+    if (activeNumber && !isOpen) {
+      setOpen(true)
+    }
+  }, [activeNumber])
 
   const Img = STEPS[activeNumber - 1].img
   const Description = STEPS[activeNumber - 1].description

@@ -36,19 +36,16 @@ const MetricsList = ({
 }) => {
   const keys = useMemo(() => Object.keys(list), [list])
 
-  const selectedCount = useMemo(
-    () => {
-      if (selected.length === 0) {
-        return 0
-      }
+  const selectedCount = useMemo(() => {
+    if (selected.length === 0) {
+      return 0
+    }
 
-      return keys.reduce((acc, key) => {
-        const groupItems = list[key]
-        return acc + getSelectedCount(groupItems, selected)
-      }, 0)
-    },
-    [keys, selected]
-  )
+    return keys.reduce((acc, key) => {
+      const groupItems = list[key]
+      return acc + getSelectedCount(groupItems, selected)
+    }, 0)
+  }, [keys, selected])
 
   const newMetricsProps = getAssetNewMetrics(availableMetrics, {
     slug: project ? project.slug : undefined,

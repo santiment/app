@@ -32,33 +32,30 @@ export const useHistoryStats = ({ variables, skip }) => {
     skip
   })
 
-  return useMemo(
-    () => {
-      if (!data) return EMPTY_OBJ
+  return useMemo(() => {
+    if (!data) return EMPTY_OBJ
 
-      const { historicalStats } = data.watchlist
-      const { length } = historicalStats
+    const { historicalStats } = data.watchlist
+    const { length } = historicalStats
 
-      if (length === 0) return EMPTY_OBJ
+    if (length === 0) return EMPTY_OBJ
 
-      const {
-        marketcapUsd: firstMarketcap,
-        volumeUsd: firstVolume
-      } = historicalStats[0]
-      const {
-        marketcapUsd: lastMarketcap,
-        volumeUsd: lastVolume
-      } = historicalStats[length - 1]
+    const {
+      marketcapUsd: firstMarketcap,
+      volumeUsd: firstVolume
+    } = historicalStats[0]
+    const {
+      marketcapUsd: lastMarketcap,
+      volumeUsd: lastVolume
+    } = historicalStats[length - 1]
 
-      return {
-        loading: loading,
-        data: historicalStats,
-        marketcap: formatNumber(lastMarketcap, formatOptions),
-        volume: formatNumber(lastVolume, formatOptions),
-        changeMarketcap: calcPercentageChange(firstMarketcap, lastMarketcap),
-        changeVolume: calcPercentageChange(firstVolume, lastVolume)
-      }
-    },
-    [data]
-  )
+    return {
+      loading: loading,
+      data: historicalStats,
+      marketcap: formatNumber(lastMarketcap, formatOptions),
+      volume: formatNumber(lastVolume, formatOptions),
+      changeMarketcap: calcPercentageChange(firstMarketcap, lastMarketcap),
+      changeVolume: calcPercentageChange(firstVolume, lastVolume)
+    }
+  }, [data])
 }

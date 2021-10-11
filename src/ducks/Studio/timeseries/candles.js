@@ -8,27 +8,24 @@ import {
 } from '../Chart/MetricSettings/hooks'
 
 export function useCandleMetricSettings (MetricSettingMap, { from, to }) {
-  return useMemo(
-    () => {
-      MetricSettingMap.forEach((MetricSettings, metric) => {
-        if (MetricSettings.node !== Node.CANDLES) {
-          delete MetricSettings.query
-          delete MetricSettings.preTransform
-          return
-        }
+  return useMemo(() => {
+    MetricSettingMap.forEach((MetricSettings, metric) => {
+      if (MetricSettings.node !== Node.CANDLES) {
+        delete MetricSettings.query
+        delete MetricSettings.preTransform
+        return
+      }
 
-        const validInterval = getValidInterval(
-          MetricSettings.interval,
-          getIntervals(getCandlesMinInterval(from, to))
-        )
+      const validInterval = getValidInterval(
+        MetricSettings.interval,
+        getIntervals(getCandlesMinInterval(from, to))
+      )
 
-        MetricSettings.query = PRICE_OHLC_QUERY
-        MetricSettings.interval = validInterval
-        MetricSettings.preTransform = newOhlcPreTransformer(metric)
-      })
+      MetricSettings.query = PRICE_OHLC_QUERY
+      MetricSettings.interval = validInterval
+      MetricSettings.preTransform = newOhlcPreTransformer(metric)
+    })
 
-      return MetricSettingMap
-    },
-    [MetricSettingMap, from, to]
-  )
+    return MetricSettingMap
+  }, [MetricSettingMap, from, to])
 }

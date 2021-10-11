@@ -158,12 +158,9 @@ export function useSelectedTemplate (templates, selectTemplate) {
 
   useEffect(loadTemplate, [urlId])
 
-  useEffect(
-    () => {
-      saveLastTemplate(selectedTemplate)
-    },
-    [selectedTemplate]
-  )
+  useEffect(() => {
+    saveLastTemplate(selectedTemplate)
+  }, [selectedTemplate])
 
   return [selectedTemplate, setSelectedTemplate, loading]
 }

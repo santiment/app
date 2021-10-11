@@ -16,20 +16,15 @@ export const DialogSignUp = ({ defaultRoute, trigger }) => {
     setParent(wrapperRef.current)
   }, [])
 
-  useEffect(
-    () => {
-      if (!parent) return
+  useEffect(() => {
+    if (!parent) return
 
-      const timer = setTimeout(() =>
-        parent
-          .querySelectorAll('a')
-          .forEach(link => (link.onclick = onLinkClick))
-      )
+    const timer = setTimeout(() =>
+      parent.querySelectorAll('a').forEach(link => (link.onclick = onLinkClick))
+    )
 
-      return () => clearTimeout(timer)
-    },
-    [parent, route]
-  )
+    return () => clearTimeout(timer)
+  }, [parent, route])
 
   function onLinkClick (e) {
     e.preventDefault()

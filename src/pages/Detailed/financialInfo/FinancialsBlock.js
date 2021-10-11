@@ -32,12 +32,12 @@ const FinancialsBlock = ({
         <div className='value'>
           {fundsRaisedIcos
             ? fundsRaisedIcos.map((amountIco, index) => {
-              return (
-                <div key={index}>
-                  {collectedField(amountIco.currencyCode, amountIco.amount)}
-                </div>
-              )
-            })
+                return (
+                  <div key={index}>
+                    {collectedField(amountIco.currencyCode, amountIco.amount)}
+                  </div>
+                )
+              })
             : '-'}
         </div>
       </div>

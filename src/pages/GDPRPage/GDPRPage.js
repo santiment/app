@@ -145,11 +145,6 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-const enhance = compose(
-  connect(
-    null,
-    mapDispatchToProps
-  )
-)
+const enhance = compose(connect(null, mapDispatchToProps))
 
 export default enhance(GDPRPage)

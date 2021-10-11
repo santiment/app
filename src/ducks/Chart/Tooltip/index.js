@@ -52,27 +52,21 @@ const Tooltip = ({
     })
   }, [])
 
-  useEffect(
-    () => {
-      chart.tooltip.cursor = CursorTypeStyle[cursorType]
-      chart.tooltip.canvas.style.cursor = CursorTypeStyle[cursorType]
-    },
-    [cursorType]
-  )
+  useEffect(() => {
+    chart.tooltip.cursor = CursorTypeStyle[cursorType]
+    chart.tooltip.canvas.style.cursor = CursorTypeStyle[cursorType]
+  }, [cursorType])
 
-  useEffect(
-    () => {
-      function marker (ctx, key, value, x, y) {
-        ctx.fillStyle = chart.colors[key]
-        ctx.fillRect(x, y, 8, 2)
-      }
+  useEffect(() => {
+    function marker (ctx, key, value, x, y) {
+      ctx.fillStyle = chart.colors[key]
+      ctx.fillRect(x, y, 8, 2)
+    }
 
-      chart.drawTooltip = point => plotTooltip(chart, marker, point)
+    chart.drawTooltip = point => plotTooltip(chart, marker, point)
 
-      setupTooltip(chart, marker)
-    },
-    [metric]
-  )
+    setupTooltip(chart, marker)
+  }, [metric])
 
   return null
 }

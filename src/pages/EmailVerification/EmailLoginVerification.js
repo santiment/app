@@ -52,10 +52,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   lifecycle({
     componentDidMount () {
       const payload = qs.parse(this.props.location.search)

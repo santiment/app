@@ -39,16 +39,13 @@ export function updateUser (newUser) {
 export function useUser () {
   const query = useQuery(USER_QUERY)
 
-  return useMemo(
-    () => {
-      const { loading, data } = query
-      const user = data && data.currentUser
-      return {
-        loading,
-        user,
-        isLoggedIn: !!user
-      }
-    },
-    [query]
-  )
+  return useMemo(() => {
+    const { loading, data } = query
+    const user = data && data.currentUser
+    return {
+      loading,
+      user,
+      isLoggedIn: !!user
+    }
+  }, [query])
 }

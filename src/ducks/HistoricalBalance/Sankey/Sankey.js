@@ -7,20 +7,17 @@ const SankeyGraph = ({ id, address, currency, inbound, outbound, detail }) => {
     mountSankey(id)
   }, [])
 
-  useEffect(
-    () => {
-      if (!currency) return
+  useEffect(() => {
+    if (!currency) return
 
-      querySankey({
-        address,
-        inbound,
-        outbound,
-        detail,
-        currency
-      })
-    },
-    [address, currency, inbound, outbound, detail]
-  )
+    querySankey({
+      address,
+      inbound,
+      outbound,
+      detail,
+      currency
+    })
+  }, [address, currency, inbound, outbound, detail])
 
   return (
     <>

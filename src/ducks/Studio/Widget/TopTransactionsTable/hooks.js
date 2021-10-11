@@ -10,17 +10,14 @@ export const useTableEffects = ({
 }) => {
   const [dates, setDates] = useState(widget.datesRange)
 
-  useEffect(
-    () => {
-      if (datesRange) {
-        const newRange = [new Date(datesRange[0]), new Date(datesRange[1])]
-        newRange[0].setHours(0, 0, 0, 0)
-        newRange[1].setHours(23, 59, 59, 999)
-        onCalendarChange(newRange)
-      }
-    },
-    [datesRange]
-  )
+  useEffect(() => {
+    if (datesRange) {
+      const newRange = [new Date(datesRange[0]), new Date(datesRange[1])]
+      newRange[0].setHours(0, 0, 0, 0)
+      newRange[1].setHours(23, 59, 59, 999)
+      onCalendarChange(newRange)
+    }
+  }, [datesRange])
 
   function onCalendarChange (newDates) {
     widget.datesRange = newDates

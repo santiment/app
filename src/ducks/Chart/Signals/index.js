@@ -75,15 +75,12 @@ const Signals = ({
     return () => (chart.isAlertsActive = false)
   }, [])
 
-  useEffect(
-    () => {
-      buildSignals()
-      // TODO: remove observer gaurd check when all charts are migrated [@vanguard | Oct 20, 2020]
-      const observer = chart.plotManager || chart.observer
-      return observer && observer.subscribe(buildSignals)
-    },
-    [userSignals, slug]
-  )
+  useEffect(() => {
+    buildSignals()
+    // TODO: remove observer gaurd check when all charts are migrated [@vanguard | Oct 20, 2020]
+    const observer = chart.plotManager || chart.observer
+    return observer && observer.subscribe(buildSignals)
+  }, [userSignals, slug])
 
   function buildSignals () {
     setSignals(
@@ -93,7 +90,11 @@ const Signals = ({
     )
   }
 
-  function onMouseMove ({ target, currentTarget, nativeEvent: { offsetY: y } }) {
+  function onMouseMove ({
+    target,
+    currentTarget,
+    nativeEvent: { offsetY: y }
+  }) {
     if (isHovered || data.length === 0 || target !== currentTarget) {
       return
     }

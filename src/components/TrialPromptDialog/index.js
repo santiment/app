@@ -35,19 +35,16 @@ const TrialPromptDialog = () => {
   const open = () => setOpen(true)
   const close = () => setOpen(false)
 
-  useEffect(
-    () => {
-      const isShown = localStorage.getItem(TRIAL_PROMPT_SHOWN)
-      if (!isEligibleForSanbaseTrial || isShown) return
+  useEffect(() => {
+    const isShown = localStorage.getItem(TRIAL_PROMPT_SHOWN)
+    if (!isEligibleForSanbaseTrial || isShown) return
 
-      const timeoutId = setTimeout(() => {
-        open()
-        localStorage.setItem(TRIAL_PROMPT_SHOWN, '+')
-      }, TIMEOUT)
-      return () => clearTimeout(timeoutId)
-    },
-    [isEligibleForSanbaseTrial]
-  )
+    const timeoutId = setTimeout(() => {
+      open()
+      localStorage.setItem(TRIAL_PROMPT_SHOWN, '+')
+    }, TIMEOUT)
+    return () => clearTimeout(timeoutId)
+  }, [isEligibleForSanbaseTrial])
 
   if (loading || !isEligibleForSanbaseTrial) return null
 

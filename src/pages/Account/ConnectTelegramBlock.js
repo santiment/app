@@ -43,12 +43,9 @@ const ConnectTelegramBlock = ({
     settings: { hasTelegramConnected }
   } = useUserSettings()
 
-  useEffect(
-    () => {
-      !telegramDeepLink && generateTelegramDeepLink()
-    },
-    [telegramDeepLink]
-  )
+  useEffect(() => {
+    !telegramDeepLink && generateTelegramDeepLink()
+  }, [telegramDeepLink])
 
   return (
     <div className={cx(styles.telegram, classes.container)}>
@@ -74,8 +71,8 @@ const ConnectTelegramBlock = ({
             {isTelegramConnecting
               ? 'Connecting'
               : hasTelegramConnected
-                ? 'Connected'
-                : 'Connect'}
+              ? 'Connected'
+              : 'Connect'}
           </TgButton>
 
           {hasTelegramConnected && (

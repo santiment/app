@@ -14,14 +14,11 @@ const RecentTransactions = ({ settings }) => {
   const nextTransactions = useRecentTransactions(settings, page + 2, isLoading)
     .transactions
 
-  const items = useMemo(
-    () => {
-      pagesItems[page] = transactions
-      pagesItems[page + 1] = nextTransactions
-      return pagesItems.flat()
-    },
-    [transactions, nextTransactions]
-  )
+  const items = useMemo(() => {
+    pagesItems[page] = transactions
+    pagesItems[page + 1] = nextTransactions
+    return pagesItems.flat()
+  }, [transactions, nextTransactions])
 
   return (
     <PagedTable

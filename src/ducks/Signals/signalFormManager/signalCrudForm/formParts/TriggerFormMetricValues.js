@@ -89,13 +89,13 @@ export const TriggerFormMetricValues = ({
       {type &&
         blocks.includes('percentThresholdLeft') &&
         blocks.includes('percentThresholdRight') && (
-        <div className={styles.flexRow}>
-          <PercentThresholdByBorders
-            isPriceMetric={isPrice}
-            slugName={slugName}
-          />
-        </div>
-      )}
+          <div className={styles.flexRow}>
+            <PercentThresholdByBorders
+              isPriceMetric={isPrice}
+              slugName={slugName}
+            />
+          </div>
+        )}
 
       {type && blocks.includes('threshold') && (
         <div className={styles.Field}>

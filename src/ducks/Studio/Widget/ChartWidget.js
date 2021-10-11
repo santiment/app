@@ -65,54 +65,43 @@ export const Chart = ({
 
   useSyncDateEffect(chartRef, observeSyncDate)
 
-  useEffect(
-    () => {
-      const { length } = loadings
-      const phase = length ? 'loading' : 'loaded'
-      if (length === 0 && onLoad) onLoad()
-      dispatchWidgetMessage(widget, phase)
-    },
-    [loadings]
-  )
+  useEffect(() => {
+    const { length } = loadings
+    const phase = length ? 'loading' : 'loaded'
+    if (length === 0 && onLoad) onLoad()
+    dispatchWidgetMessage(widget, phase)
+  }, [loadings])
 
-  useEffect(
-    () => {
-      if (!chartRef.current) return
+  useEffect(() => {
+    if (!chartRef.current) return
 
-      if (widget.scrollIntoViewOnMount) {
-        chartRef.current.canvas.scrollIntoView()
-        widget.scrollIntoViewOnMount = false
-      }
-    },
-    [chartRef.current]
-  )
+    if (widget.scrollIntoViewOnMount) {
+      chartRef.current.canvas.scrollIntoView()
+      widget.scrollIntoViewOnMount = false
+    }
+  }, [chartRef.current])
 
   useWidgetMetricLabeling(chartRef, metrics, settings)
 
-  useEffect(
-    () => {
-      let modified = false
-      metrics.forEach(metric => {
-        if ((metric.base || metric) !== Metric.dev_activity) return
+  useEffect(() => {
+    let modified = false
+    metrics.forEach(metric => {
+      if ((metric.base || metric) !== Metric.dev_activity) return
 
-        const newMap = new Map(widget.MetricSettingMap)
-        const metricSetting = getMetricSetting(newMap, metric)
+      const newMap = new Map(widget.MetricSettingMap)
+      const metricSetting = getMetricSetting(newMap, metric)
 
-        metricSetting.transform = {
-          type: 'moving_average',
-          movingAverageBase: calculateMovingAverageFromInterval(
-            settings.interval
-          )
-        }
+      metricSetting.transform = {
+        type: 'moving_average',
+        movingAverageBase: calculateMovingAverageFromInterval(settings.interval)
+      }
 
-        widget.MetricSettingMap = newMap
-        modified = true
-      })
+      widget.MetricSettingMap = newMap
+      modified = true
+    })
 
-      if (modified) rerenderWidgets()
-    },
-    [metrics, settings.interval]
-  )
+    if (modified) rerenderWidgets()
+  }, [metrics, settings.interval])
 
   function toggleIndicatorMetric ({ indicator, base }) {
     const { MetricIndicators } = widget

@@ -68,27 +68,24 @@ const FullscreenChart = ({
     []
   )
 
-  useEffect(
-    () => {
-      const metricTransformer = Object.assign({}, MetricTransformer)
+  useEffect(() => {
+    const metricTransformer = Object.assign({}, MetricTransformer)
 
-      metrics.forEach(metric => {
-        const mirrorOf = MirroredMetric[metric.key]
-        if (mirrorOf) {
-          const { key, preTransformer } = metric
+    metrics.forEach(metric => {
+      const mirrorOf = MirroredMetric[metric.key]
+      if (mirrorOf) {
+        const { key, preTransformer } = metric
 
-          if (metrics.includes(mirrorOf)) {
-            metricTransformer[key] = preTransformer
-          } else {
-            metricTransformer[key] = undefined
-          }
+        if (metrics.includes(mirrorOf)) {
+          metricTransformer[key] = preTransformer
+        } else {
+          metricTransformer[key] = undefined
         }
-      })
+      }
+    })
 
-      setMetricTransformer(metricTransformer)
-    },
-    [metrics]
-  )
+    setMetricTransformer(metricTransformer)
+  }, [metrics])
 
   function changeTimePeriod (fromDate, toDate) {
     const interval = getNewInterval(fromDate, toDate)

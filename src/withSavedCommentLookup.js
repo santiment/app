@@ -4,11 +4,8 @@ import { lookupSavedComment } from './ducks/Studio/Chart/Insights/utils'
 
 export const withSavedCommentLookup = Component => props => {
   const { isLoggedIn } = useUser()
-  useEffect(
-    () => {
-      if (isLoggedIn) lookupSavedComment()
-    },
-    [isLoggedIn]
-  )
+  useEffect(() => {
+    if (isLoggedIn) lookupSavedComment()
+  }, [isLoggedIn])
   return <Component {...props} />
 }

@@ -9,12 +9,9 @@ const Chart = ({ metrics, settingMap, settings, onLoad, ...props }) => {
   const [currentPoint, setCurrentPoint] = useState()
   const [data, loadings] = useTimeseries(metrics, settings, settingMap)
 
-  useEffect(
-    () => {
-      if (loadings.length === 0) onLoad()
-    },
-    [loadings]
-  )
+  useEffect(() => {
+    if (loadings.length === 0) onLoad()
+  }, [loadings])
 
   return loadings.length > 0 ? (
     <Loader className={styles.loader} />

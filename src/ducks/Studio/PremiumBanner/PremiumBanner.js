@@ -17,14 +17,11 @@ const PremiumBanner = () => {
 
   const availableForUser = (isPro && isTrial) || (!isPro && isLoggedIn)
 
-  useEffect(
-    () => {
-      if (availableForUser && !loading) {
-        setShow(!localStorage.getItem(WIDGET_KEY))
-      }
-    },
-    [availableForUser, loading]
-  )
+  useEffect(() => {
+    if (availableForUser && !loading) {
+      setShow(!localStorage.getItem(WIDGET_KEY))
+    }
+  }, [availableForUser, loading])
 
   if (!show) {
     return null

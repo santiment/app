@@ -36,85 +36,79 @@ export default ({ location }) => {
 
   useEffect(() => () => selectedLayout.set(), [])
 
-  useEffect(
-    () => {
-      const newSlug = parse(search).slug
-      if (newSlug && newSlug !== slug) setSlug(newSlug)
-    },
-    [search]
-  )
+  useEffect(() => {
+    const newSlug = parse(search).slug
+    if (newSlug && newSlug !== slug) setSlug(newSlug)
+  }, [search])
 
-  useEffect(
-    () => {
-      if (pathname === '/charts') selectedLayout.set()
+  useEffect(() => {
+    if (pathname === '/charts') selectedLayout.set()
 
-      let isRacing = false
-      const templateId = getIdFromSEOLink(pathname)
-      if (prevFullUrlRef.current === pathname + search) return
-      track.pageview('sanbase')
-      const [prevShortUrlHash, setShortUrlHash] = shortUrlHashState
+    let isRacing = false
+    const templateId = getIdFromSEOLink(pathname)
+    if (prevFullUrlRef.current === pathname + search) return
+    track.pageview('sanbase')
+    const [prevShortUrlHash, setShortUrlHash] = shortUrlHashState
 
-      if (Number.isFinite(templateId)) {
-        if (templateId === prevTemplateId) return
+    if (Number.isFinite(templateId)) {
+      if (templateId === prevTemplateId) return
 
-        setPrevTemplateId(templateId)
-        queryLayout(+templateId)
-          .then(layout => {
-            if (isRacing) return
-            const parsedUrl = {
-              settings: layout.project,
-              widgets: parseTemplate(layout)
-            }
-            if (!parsedUrl.settings.slug) {
-              parsedUrl.settings.slug = 'bitcoin'
-              parsedUrl.settings.ticker = 'BTC'
-            }
-
-            selectedLayout.set(layout)
-            setShortUrlHash()
-            setSlug(parsedUrl.settings.slug || '')
-            setParsedUrl(parsedUrl)
-          })
-          .catch(console.error)
-        return
-      }
-
-      if (!pathname.endsWith(SHORT_URL_POSTFIX)) {
-        const parsedUrl = parseUrl(search)
-        if (parsedUrl.settings) {
-          setSlug(parsedUrl.settings.slug || '')
-        }
-
-        parseLayout(parsedUrl.layout)
-        setShortUrlHash()
-        return setParsedUrl(parsedUrl)
-      }
-
-      const shortUrlHash = getShortUrlHash(pathname)
-      if (shortUrlHash === prevShortUrlHash) return
-
-      getFullUrl(shortUrlHash)
-        .then(fullUrl => {
+      setPrevTemplateId(templateId)
+      queryLayout(+templateId)
+        .then(layout => {
           if (isRacing) return
-
-          setShortUrlHash(shortUrlHash)
-          if (prevFullUrlRef.current !== fullUrl) {
-            prevFullUrlRef.current = fullUrl
-            const parsedUrl = parseUrl(fullUrl)
-
-            if (parsedUrl.settings) {
-              setSlug(parsedUrl.settings.slug || '')
-            }
-            parseLayout(parsedUrl.layout)
-            setParsedUrl(parsedUrl)
+          const parsedUrl = {
+            settings: layout.project,
+            widgets: parseTemplate(layout)
           }
+          if (!parsedUrl.settings.slug) {
+            parsedUrl.settings.slug = 'bitcoin'
+            parsedUrl.settings.ticker = 'BTC'
+          }
+
+          selectedLayout.set(layout)
+          setShortUrlHash()
+          setSlug(parsedUrl.settings.slug || '')
+          setParsedUrl(parsedUrl)
         })
         .catch(console.error)
+      return
+    }
 
-      return () => (isRacing = true)
-    },
-    [pathname]
-  )
+    if (!pathname.endsWith(SHORT_URL_POSTFIX)) {
+      const parsedUrl = parseUrl(search)
+      if (parsedUrl.settings) {
+        setSlug(parsedUrl.settings.slug || '')
+      }
+
+      parseLayout(parsedUrl.layout)
+      setShortUrlHash()
+      return setParsedUrl(parsedUrl)
+    }
+
+    const shortUrlHash = getShortUrlHash(pathname)
+    if (shortUrlHash === prevShortUrlHash) return
+
+    getFullUrl(shortUrlHash)
+      .then(fullUrl => {
+        if (isRacing) return
+
+        setShortUrlHash(shortUrlHash)
+        if (prevFullUrlRef.current !== fullUrl) {
+          prevFullUrlRef.current = fullUrl
+          const parsedUrl = parseUrl(fullUrl)
+
+          if (parsedUrl.settings) {
+            setSlug(parsedUrl.settings.slug || '')
+          }
+          parseLayout(parsedUrl.layout)
+          setParsedUrl(parsedUrl)
+        }
+      })
+      .catch(console.error)
+
+    return () => (isRacing = true)
+  }, [pathname])
 
   if (!parsedUrl) return <PageLoader />
 

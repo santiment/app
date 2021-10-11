@@ -32,39 +32,36 @@ export const ChartProvider = ({
     _setChart(chart)
   }, [])
 
-  useEffect(
-    () => {
-      if (!chart) return
+  useEffect(() => {
+    if (!chart) return
 
-      clearCtx(chart)
+    clearCtx(chart)
 
-      chart.data = data
-      chart.scale = scale
-      chart.colors = colors
-      chart.domainGroups = domainGroups
-      chart.categories = categories
+    chart.data = data
+    chart.scale = scale
+    chart.colors = colors
+    chart.domainGroups = domainGroups
+    chart.categories = categories
 
-      if (data.length === 0) {
-        chart.points = []
-        return
-      }
+    if (data.length === 0) {
+      chart.points = []
+      return
+    }
 
-      updateChartState(
-        chart,
-        data,
-        categories.joinedCategories,
-        domainModifier,
-        domainGroups,
-        new Set(categories.candles)
-      )
+    updateChartState(
+      chart,
+      data,
+      categories.joinedCategories,
+      domainModifier,
+      domainGroups,
+      new Set(categories.candles)
+    )
 
-      chart.plotter.items.forEach(plot => {
-        plot(chart, scale, data, colors, categories)
-      })
-      chart.observer.emit()
-    },
-    [data, scale, colors, domainGroups, isAwaitingRedraw]
-  )
+    chart.plotter.items.forEach(plot => {
+      plot(chart, scale, data, colors, categories)
+    })
+    chart.observer.emit()
+  }, [data, scale, colors, domainGroups, isAwaitingRedraw])
 
   return (
     <ChartSetterContext.Provider value={setChart}>

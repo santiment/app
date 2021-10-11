@@ -81,27 +81,21 @@ const NotificationsFeed = () => {
     author: settings.author
   })
 
-  useEffect(
-    () => {
-      if (!loading) {
-        if (chunk && chunk.length > 0) {
-          setEvents([...events, ...chunk])
-        }
-
-        setCanLoad(chunk && chunk.length > 0)
-      } else {
-        setCanLoad(false)
+  useEffect(() => {
+    if (!loading) {
+      if (chunk && chunk.length > 0) {
+        setEvents([...events, ...chunk])
       }
-    },
-    [chunk, loading]
-  )
 
-  useEffect(
-    () => {
-      isOpened && setToLsFirst(events)
-    },
-    [events, isOpened]
-  )
+      setCanLoad(chunk && chunk.length > 0)
+    } else {
+      setCanLoad(false)
+    }
+  }, [chunk, loading])
+
+  useEffect(() => {
+    isOpened && setToLsFirst(events)
+  }, [events, isOpened])
 
   function loadMore () {
     if (!loading && canLoad && !error) {
@@ -146,15 +140,12 @@ const NotificationsFeed = () => {
     closeDialog()
   }
 
-  const hasNew = useMemo(
-    () => {
-      return (
-        (!lastLoadedDate && events.length !== 0) ||
-        events.some(item => isNew(item, lastLoadedDate))
-      )
-    },
-    [events, lastLoadedDate]
-  )
+  const hasNew = useMemo(() => {
+    return (
+      (!lastLoadedDate && events.length !== 0) ||
+      events.some(item => isNew(item, lastLoadedDate))
+    )
+  }, [events, lastLoadedDate])
 
   return (
     <div className={styles.wrapper}>

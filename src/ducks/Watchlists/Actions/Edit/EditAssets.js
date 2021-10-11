@@ -144,8 +144,5 @@ export default compose(
       variables: { minVolume: 0 }
     })
   }),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(WatchlistEdit)

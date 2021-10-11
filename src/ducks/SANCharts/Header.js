@@ -186,18 +186,15 @@ const Header = ({
     percentChange7d = 0
   } = dataProject
 
-  useEffect(
-    () => {
-      if (onSlugSelect && project && project.ticker) {
-        if (knockNumber > 0) {
-          setKnockNumber(0)
-        }
-
-        onSlugSelect({ slug, ...project })
+  useEffect(() => {
+    if (onSlugSelect && project && project.ticker) {
+      if (knockNumber > 0) {
+        setKnockNumber(0)
       }
-    },
-    [project]
-  )
+
+      onSlugSelect({ slug, ...project })
+    }
+  }, [project])
 
   function closeDialog () {
     setIsOpened(false)

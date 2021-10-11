@@ -1,17 +1,17 @@
 import { newDrawing } from 'studio/Chart/Drawer/utils'
 
-export function shareDrawings(drawings = []) {
+export function shareDrawings (drawings = []) {
   if (drawings.length === 0) return
   return drawings.map(({ type, relCoor, id, size, text }) => ({
     t: type,
     id,
     rc: relCoor,
     s: size,
-    txt: text,
+    txt: text
   }))
 }
 
-export function parseDrawings(drawings = []) {
+export function parseDrawings (drawings = []) {
   return drawings.map(
     ({
       t: type = 'line',
@@ -19,7 +19,7 @@ export function parseDrawings(drawings = []) {
       relCoor: oldCoor,
       rc: relCoor = oldCoor,
       s: size,
-      txt: text,
+      txt: text
     }) => {
       const drawing = { type, relCoor }
 
@@ -31,6 +31,6 @@ export function parseDrawings(drawings = []) {
       }
 
       return newDrawing(drawing)
-    },
+    }
   )
 }

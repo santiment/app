@@ -50,7 +50,4 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(RemoveSignalButton)
+export default connect(null, mapDispatchToProps)(RemoveSignalButton)

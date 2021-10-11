@@ -31,24 +31,18 @@ const Recent = ({
   const [items, setItems] = useState(ids)
   const [isLoading, setIsLoading] = useState(true)
 
-  useEffect(
-    () => {
-      if (items && items.length && !isLoading) {
-        setHeight && setHeight(items.length)
-      }
-    },
-    [items, isLoading]
-  )
+  useEffect(() => {
+    if (items && items.length && !isLoading) {
+      setHeight && setHeight(items.length)
+    }
+  }, [items, isLoading])
 
-  useEffect(
-    () => {
-      Promise.all(ids.map(getItem)).then(items => {
-        setItems(items.flat().filter(Boolean))
-        setIsLoading(false)
-      })
-    },
-    [ids]
-  )
+  useEffect(() => {
+    Promise.all(ids.map(getItem)).then(items => {
+      setItems(items.flat().filter(Boolean))
+      setIsLoading(false)
+    })
+  }, [ids])
 
   if (!isLoading && items.length === 0) return null
 

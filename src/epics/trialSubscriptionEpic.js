@@ -71,10 +71,10 @@ export const trialSubscriptionEpic = (action$, store, { client }) =>
       return privacyPolicyAccepted
         ? getTrial$(client)
         : action$
-          .ofType(actions.USER_SETTING_GDPR)
-          .filter(
-            ({ payload: { privacyPolicyAccepted } }) => privacyPolicyAccepted
-          )
-          .switchMap(() => getTrial$(client))
+            .ofType(actions.USER_SETTING_GDPR)
+            .filter(
+              ({ payload: { privacyPolicyAccepted } }) => privacyPolicyAccepted
+            )
+            .switchMap(() => getTrial$(client))
     })
     .take(1)

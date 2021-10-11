@@ -20,14 +20,11 @@ function useSocialTimeseries (activeMetrics, settings, MetricSettingMap) {
     [activeMetrics]
   )
 
-  useEffect(
-    () => {
-      if (shouldUpdate) {
-        setMetrics(activeMetrics)
-      }
-    },
-    [activeMetrics]
-  )
+  useEffect(() => {
+    if (shouldUpdate) {
+      setMetrics(activeMetrics)
+    }
+  }, [activeMetrics])
 
   return useTimeseries(
     shouldUpdate ? activeMetrics : metrics,
@@ -73,92 +70,74 @@ const SocialTool = ({
   const [shareLink, setShareLink] = useState('')
   const chartRef = useRef(null)
 
-  useEffect(
-    () => {
-      const { slug, addedTopics } = defaultSettings
+  useEffect(() => {
+    const { slug, addedTopics } = defaultSettings
 
-      if (
-        slug === settings.slug &&
-        addedTopics.length === settings.addedTopics.length
-      ) {
-        return
+    if (
+      slug === settings.slug &&
+      addedTopics.length === settings.addedTopics.length
+    ) {
+      return
+    }
+
+    setSettings(state => ({ ...state, slug, addedTopics }))
+
+    const topics = [slug, ...addedTopics]
+    const newMetrics =
+      topics.length > 1 ? buildMetrics(metrics, topics) : metrics
+
+    setActiveMetrics(newMetrics)
+    rebuildMetricSettingMap(newMetrics)
+  }, [defaultSettings.slug, defaultSettings.addedTopics])
+
+  useEffect(() => {
+    rebuildMetricSettingMap(activeMetrics)
+  }, [linkedAssets])
+
+  useEffect(() => {
+    const { slug, addedTopics } = settings
+    const topics = [slug, ...addedTopics]
+    const newMetrics =
+      topics.length > 1 ? buildMetrics(metrics, topics) : metrics
+
+    setActiveMetrics(newMetrics)
+    rebuildMetricSettingMap(newMetrics)
+  }, [metrics])
+
+  useEffect(() => {
+    if (priceAsset) {
+      const newPriceMetric = {
+        ...Metric.price_usd,
+        label: priceAsset.label,
+        reqMeta: { slug: priceAsset.slug }
       }
+      metrics[1] = newPriceMetric
+      setMetrics([...metrics])
+    }
+  }, [priceAsset])
 
-      setSettings(state => ({ ...state, slug, addedTopics }))
+  useEffect(() => {
+    const metricSet = new Set(metrics)
+    const metric = Metric.social_dominance_total
 
-      const topics = [slug, ...addedTopics]
-      const newMetrics =
-        topics.length > 1 ? buildMetrics(metrics, topics) : metrics
+    if (options.isSocialDominanceActive) {
+      metricSet.add(metric)
+    } else {
+      metricSet.delete(metric)
+    }
 
-      setActiveMetrics(newMetrics)
-      rebuildMetricSettingMap(newMetrics)
-    },
-    [defaultSettings.slug, defaultSettings.addedTopics]
-  )
+    if (metricSet.size !== metrics.length) {
+      setMetrics([...metricSet])
+    }
+  }, [options.isSocialDominanceActive])
 
-  useEffect(
-    () => {
-      rebuildMetricSettingMap(activeMetrics)
-    },
-    [linkedAssets]
-  )
+  useEffect(() => {
+    const queryString = '?' + generateShareLink(settings, options)
 
-  useEffect(
-    () => {
-      const { slug, addedTopics } = settings
-      const topics = [slug, ...addedTopics]
-      const newMetrics =
-        topics.length > 1 ? buildMetrics(metrics, topics) : metrics
-
-      setActiveMetrics(newMetrics)
-      rebuildMetricSettingMap(newMetrics)
-    },
-    [metrics]
-  )
-
-  useEffect(
-    () => {
-      if (priceAsset) {
-        const newPriceMetric = {
-          ...Metric.price_usd,
-          label: priceAsset.label,
-          reqMeta: { slug: priceAsset.slug }
-        }
-        metrics[1] = newPriceMetric
-        setMetrics([...metrics])
-      }
-    },
-    [priceAsset]
-  )
-
-  useEffect(
-    () => {
-      const metricSet = new Set(metrics)
-      const metric = Metric.social_dominance_total
-
-      if (options.isSocialDominanceActive) {
-        metricSet.add(metric)
-      } else {
-        metricSet.delete(metric)
-      }
-
-      if (metricSet.size !== metrics.length) {
-        setMetrics([...metricSet])
-      }
-    },
-    [options.isSocialDominanceActive]
-  )
-
-  useEffect(
-    () => {
-      const queryString = '?' + generateShareLink(settings, options)
-
-      const { origin, pathname } = window.location
-      setShareLink(origin + pathname + queryString)
-      updateHistory(queryString)
-    },
-    [settings, options]
-  )
+    const { origin, pathname } = window.location
+    setShareLink(origin + pathname + queryString)
+    updateHistory(queryString)
+  }, [settings, options])
 
   function rebuildMetricSettingMap (metrics) {
     const newMetricSettingMap = new Map(MetricSettingMap)

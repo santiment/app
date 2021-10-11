@@ -21,13 +21,10 @@ export const usePublicUserData = variables => {
     variables: { ...variables }
   })
 
-  return useMemo(
-    () => {
-      const { data, loading, error } = query
-      return { data: data ? data.getUser : undefined, loading, error }
-    },
-    [query]
-  )
+  return useMemo(() => {
+    const { data, loading, error } = query
+    return { data: data ? data.getUser : undefined, loading, error }
+  }, [query])
 }
 
 const getQueryVariables = ({
@@ -58,17 +55,14 @@ const ProfilePage = props => {
 
   const currentUserId = user ? user.id : undefined
 
-  const queryVars = useMemo(
-    () => {
-      const newProps = {
-        ...props,
-        currentUserId
-      }
+  const queryVars = useMemo(() => {
+    const newProps = {
+      ...props,
+      currentUserId
+    }
 
-      return getQueryVariables(newProps)
-    },
-    [props, currentUserId]
-  )
+    return getQueryVariables(newProps)
+  }, [props, currentUserId])
 
   const { loading: isLoading, data: profile } = usePublicUserData(queryVars)
 

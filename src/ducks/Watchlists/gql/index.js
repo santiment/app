@@ -44,14 +44,14 @@ export function tableQuery (columns) {
         darkLogoUrl
         ${staticColumns}
         ${dynamicColumns.map(
-    ({ accessor, timeRange, aggregation }) =>
-      `${accessor}: aggregatedTimeseriesData(
+          ({ accessor, timeRange, aggregation }) =>
+            `${accessor}: aggregatedTimeseriesData(
             metric: "${accessor}"
             from: "utc_now-${timeRange}"
             to: "utc_now"
             aggregation: ${AGGREGATIONS_UPPER[aggregation.toUpperCase()]}
           )`
-  )}
+        )}
       }
       stats {
         projectsCount

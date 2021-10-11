@@ -62,14 +62,11 @@ export const ForceClosableExplanationTooltip = props => {
     return () => clearTimeout(timer)
   }, [])
 
-  useEffect(
-    () => {
-      if (forceClose) {
-        hideTooltip()
-      }
-    },
-    [props.forceClose]
-  )
+  useEffect(() => {
+    if (forceClose) {
+      hideTooltip()
+    }
+  }, [props.forceClose])
 
   useEffect(() => {
     if (dismissOnTouch) {

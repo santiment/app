@@ -17,26 +17,20 @@ const FlowToExchangesList = () => {
   const [tab, setTab] = useState(TABS[0])
   const { data, loading } = useFlowToExchanges(EXCHANGES_DEFAULT_SETTINGS)
 
-  const key = useMemo(
-    () => {
-      const { key } = GROUPS[tab]
-      return key
-    },
-    [data, tab]
-  )
+  const key = useMemo(() => {
+    const { key } = GROUPS[tab]
+    return key
+  }, [data, tab])
 
-  const prepared = useMemo(
-    () => {
-      return data
-        .filter(item => item[key] !== null)
-        .map(item => ({
-          ...item,
-          value: item[key]
-        }))
-        .sort(sortByValue)
-    },
-    [data, key]
-  )
+  const prepared = useMemo(() => {
+    return data
+      .filter(item => item[key] !== null)
+      .map(item => ({
+        ...item,
+        value: item[key]
+      }))
+      .sort(sortByValue)
+  }, [data, key])
 
   return (
     <div className={styles.container}>

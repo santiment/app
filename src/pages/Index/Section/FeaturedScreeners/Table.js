@@ -9,9 +9,7 @@ import { DYNAMIC_COLUMNS, pagination } from './utils'
 import styles from './index.module.scss'
 
 const Table = ({ screener }) => {
-  const { tableConfig } = useTableConfig(
-    screener.tableConfiguration.id
-  )
+  const { tableConfig } = useTableConfig(screener.tableConfiguration.id)
   const {
     orderBy,
     setOrderBy,
@@ -19,16 +17,13 @@ const Table = ({ screener }) => {
     setActiveColumnsKeys
   } = useColumns()
 
-  useEffect(
-    () => {
-      if (tableConfig) {
-        const { sorting } = tableConfig.columns
-        sorting && setOrderBy(sorting)
-      }
-      setActiveColumnsKeys(DYNAMIC_COLUMNS)
-    },
-    [tableConfig]
-  )
+  useEffect(() => {
+    if (tableConfig) {
+      const { sorting } = tableConfig.columns
+      sorting && setOrderBy(sorting)
+    }
+    setActiveColumnsKeys(DYNAMIC_COLUMNS)
+  }, [tableConfig])
 
   const { assets } = getProjectsByFunction(
     ...buildFunctionQuery({

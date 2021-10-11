@@ -53,14 +53,11 @@ const WatchlistAddressesTable = props => {
   const columns = useMemo(() => combineColumns(activeColumns), [activeColumns])
   const items = useAddressWatchlistItems(list)
 
-  useEffect(
-    () => {
-      refetchAddressWatchlist(props.watchlist.id, activeColumns).then(list =>
-        setList(list)
-      )
-    },
-    [activeColumns, props.watchlist.id]
-  )
+  useEffect(() => {
+    refetchAddressWatchlist(props.watchlist.id, activeColumns).then(list =>
+      setList(list)
+    )
+  }, [activeColumns, props.watchlist.id])
 
   return (
     <WatchlistTable

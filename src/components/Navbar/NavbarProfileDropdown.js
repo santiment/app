@@ -108,8 +108,8 @@ const SubscriptionsList = () => {
       {loading
         ? 'Loading...'
         : activeSubscriptions.map(subscription => (
-          <ProductSubscription key={subscription.id} {...subscription} />
-        ))}
+            <ProductSubscription key={subscription.id} {...subscription} />
+          ))}
     </div>
   )
 }

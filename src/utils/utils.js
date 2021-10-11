@@ -40,8 +40,8 @@ const capitalizeStr = (string = '') =>
 const mapQSToState = ({ location }) =>
   location
     ? qs.parse(location.search.replace(/\?/g, '&'), {
-      arrayFormat: 'bracket'
-    })
+        arrayFormat: 'bracket'
+      })
     : {}
 
 const mapStateToQS = state =>

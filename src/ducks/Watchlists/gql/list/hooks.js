@@ -16,22 +16,19 @@ export function useIsAuthor (watchlist) {
 }
 
 export function useRecent (watchlist, type) {
-  useEffect(
-    () => {
-      if (watchlist.id) {
-        switch (type) {
-          case PROJECT:
-            addRecentWatchlists(watchlist.id)
-            break
-          case SCREENER:
-            addRecentScreeners(watchlist.id)
-            break
-          case BLOCKCHAIN_ADDRESS:
-          default:
-            break
-        }
+  useEffect(() => {
+    if (watchlist.id) {
+      switch (type) {
+        case PROJECT:
+          addRecentWatchlists(watchlist.id)
+          break
+        case SCREENER:
+          addRecentScreeners(watchlist.id)
+          break
+        case BLOCKCHAIN_ADDRESS:
+        default:
+          break
       }
-    },
-    [watchlist.id]
-  )
+    }
+  }, [watchlist.id])
 }

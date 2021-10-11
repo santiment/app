@@ -17,18 +17,15 @@ const CtaJoinPopup = () => {
 
   const isShown = localStorage.getItem(CTA_JOIN_POPUP)
 
-  useEffect(
-    () => {
-      if (isLoggedIn || isShown) return
+  useEffect(() => {
+    if (isLoggedIn || isShown) return
 
-      const timeoutId = setTimeout(() => {
-        setOpen(true)
-        localStorage.setItem(CTA_JOIN_POPUP, '+')
-      }, TIMEOUT)
-      return () => clearTimeout(timeoutId)
-    },
-    [isLoggedIn]
-  )
+    const timeoutId = setTimeout(() => {
+      setOpen(true)
+      localStorage.setItem(CTA_JOIN_POPUP, '+')
+    }, TIMEOUT)
+    return () => clearTimeout(timeoutId)
+  }, [isLoggedIn])
 
   if (loading || isLoggedIn) return null
 

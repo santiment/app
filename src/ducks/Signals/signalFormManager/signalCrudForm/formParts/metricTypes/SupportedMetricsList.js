@@ -47,8 +47,8 @@ export function useAvailableMetrics (slug) {
     data
       ? data.project
       : {
-        availableMetrics: DEFAULT_METRICS
-      },
+          availableMetrics: DEFAULT_METRICS
+        },
     loading,
     error
   ]
@@ -63,27 +63,21 @@ const SupportedMetricsList = ({
   const [categories, setCategories] = useState({})
   const isBeta = useIsBetaMode()
 
-  const metrics = useMemo(
-    () => {
-      return getByAvailable(
-        availableMetrics.some(m => m.includes('nvt'))
-          ? availableMetrics.concat('nvt_5min')
-          : availableMetrics,
-        trigger
-      )
-    },
-    [availableMetrics, trigger]
-  )
+  const metrics = useMemo(() => {
+    return getByAvailable(
+      availableMetrics.some(m => m.includes('nvt'))
+        ? availableMetrics.concat('nvt_5min')
+        : availableMetrics,
+      trigger
+    )
+  }, [availableMetrics, trigger])
   const AllSubmetrics = useMergedTimeboundSubmetrics(availableMetrics)
 
-  useEffect(
-    () => {
-      const submetrics = filterOnlyMetrics(AllSubmetrics)
-      const newCategories = getCategoryGraph(metrics, [], submetrics, isBeta)
-      setCategories(newCategories)
-    },
-    [availableMetrics, metrics, isBeta]
-  )
+  useEffect(() => {
+    const submetrics = filterOnlyMetrics(AllSubmetrics)
+    const newCategories = getCategoryGraph(metrics, [], submetrics, isBeta)
+    setCategories(newCategories)
+  }, [availableMetrics, metrics, isBeta])
 
   const [project] = useProject(slug)
   const categoriesKeys = Object.keys(categories)

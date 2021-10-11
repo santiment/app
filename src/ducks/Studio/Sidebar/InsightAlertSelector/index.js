@@ -112,14 +112,11 @@ const InsightAlertSelector = ({
   const [hasFollowings, setHasFollowings] = useState(false)
   const { toggle, groups } = useMemo(() => buildGroups(ticker), [ticker])
 
-  useEffect(
-    () => {
-      if (activeToggle && activeToggle.type === 'project') {
-        toggleInsight(toggle, from, to)
-      }
-    },
-    [ticker]
-  )
+  useEffect(() => {
+    if (activeToggle && activeToggle.type === 'project') {
+      toggleInsight(toggle, from, to)
+    }
+  }, [ticker])
 
   useEffect(
     () => (activeToggle ? toggleInsight(activeToggle, from, to) : undefined),

@@ -9,16 +9,13 @@ import styles from './RelatedInsights.module.scss'
 const useInsightsByTagSettings = ({ ticker }) => {
   const { page, setPage } = useScrollabelPages()
 
-  const variables = useMemo(
-    () => {
-      return {
-        tags: [ticker],
-        page: page,
-        pageSize: DEFAULT_INSIGHTS_PER_PAGE
-      }
-    },
-    [ticker, page]
-  )
+  const variables = useMemo(() => {
+    return {
+      tags: [ticker],
+      page: page,
+      pageSize: DEFAULT_INSIGHTS_PER_PAGE
+    }
+  }, [ticker, page])
 
   return { variables, page, setPage }
 }

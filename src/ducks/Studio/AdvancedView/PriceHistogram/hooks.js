@@ -61,9 +61,9 @@ export function usePriceHistogramData ({ slug, from, to }) {
     () =>
       data
         ? formatHistogramData(
-          data.histogramQuery.histogramData.values.data,
-          data.priceQuery.price
-        )
+            data.histogramQuery.histogramData.values.data,
+            data.priceQuery.price
+          )
         : DEFAULT_STATE,
     [data]
   )

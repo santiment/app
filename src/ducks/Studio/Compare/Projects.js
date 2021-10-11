@@ -18,40 +18,37 @@ const ProjectsList = ({ projects, onSelect, className }) => {
   const [cursor, setCursor] = useState(0)
   const rowCount = projects.length
 
-  useEffect(
-    () => {
-      function onKeyDown (e) {
-        const { key } = e
-        setCursor(cursor => {
-          let newCursor = cursor
+  useEffect(() => {
+    function onKeyDown (e) {
+      const { key } = e
+      setCursor(cursor => {
+        let newCursor = cursor
 
-          switch (key) {
-            case Key.ArrowUp:
-            case Key.ArrowDown:
-              e.preventDefault()
-              newCursor += key === Key.ArrowDown ? 1 : -1
-              break
-            case Key.ENTER:
-              e.preventDefault()
-              onSelect(projects[cursor]) // eslint-disable-next-line
-            default:
-              return cursor
-          }
+        switch (key) {
+          case Key.ArrowUp:
+          case Key.ArrowDown:
+            e.preventDefault()
+            newCursor += key === Key.ArrowDown ? 1 : -1
+            break
+          case Key.ENTER:
+            e.preventDefault()
+            onSelect(projects[cursor]) // eslint-disable-next-line
+          default:
+            return cursor
+        }
 
-          newCursor %= rowCount
-          return newCursor < 0 ? rowCount - 1 : newCursor
-        })
-      }
+        newCursor %= rowCount
+        return newCursor < 0 ? rowCount - 1 : newCursor
+      })
+    }
 
-      window.addEventListener('keydown', onKeyDown)
+    window.addEventListener('keydown', onKeyDown)
 
-      return () => {
-        setCursor(0)
-        window.removeEventListener('keydown', onKeyDown)
-      }
-    },
-    [projects]
-  )
+    return () => {
+      setCursor(0)
+      window.removeEventListener('keydown', onKeyDown)
+    }
+  }, [projects])
 
   function rowRenderer ({ key, index, style }) {
     const project = projects[index]

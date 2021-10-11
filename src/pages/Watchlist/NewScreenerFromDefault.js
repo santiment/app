@@ -9,24 +9,21 @@ const NewScreener = ({ history }) => {
   const [screeners, isScreenersLoading] = useUserScreeners()
   const [createScreener, { loading }] = useCreateScreener(isScreenersLoading)
 
-  useEffect(
-    () => {
-      if (isScreenersLoading) {
-        return
-      }
+  useEffect(() => {
+    if (isScreenersLoading) {
+      return
+    }
 
-      if (!isScreenersLoading && checkIsDefaultScreener(screeners[0].href)) {
-        if (!loading) {
-          createScreener({ name: 'My Screener', isPublic: false }).then(
-            screener => history.push(getScreenerLink(screener))
-          )
-        }
-      } else {
-        history.push(getScreenerLink(screeners[0]))
+    if (!isScreenersLoading && checkIsDefaultScreener(screeners[0].href)) {
+      if (!loading) {
+        createScreener({ name: 'My Screener', isPublic: false }).then(
+          screener => history.push(getScreenerLink(screener))
+        )
       }
-    },
-    [screeners, isScreenersLoading]
-  )
+    } else {
+      history.push(getScreenerLink(screeners[0]))
+    }
+  }, [screeners, isScreenersLoading])
 
   return <PageLoader />
 }

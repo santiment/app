@@ -20,15 +20,12 @@ const dataAccessor = ({ data }) => data.comments
 function useComments (id) {
   const [comments, setComments] = useState(EMPTY)
 
-  useEffect(
-    () => {
-      getComments(id)
-        .then(dataAccessor)
-        .then(setComments)
-        .catch(console.warn)
-    },
-    [id]
-  )
+  useEffect(() => {
+    getComments(id)
+      .then(dataAccessor)
+      .then(setComments)
+      .catch(console.warn)
+  }, [id])
 
   return comments
 }

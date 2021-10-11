@@ -106,7 +106,4 @@ const mapDispatchToProps = dispatch => ({
   addNot: message => dispatch(showNotification(message))
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(CancelPlanDialog)
+export default connect(null, mapDispatchToProps)(CancelPlanDialog)

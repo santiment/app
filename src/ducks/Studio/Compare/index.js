@@ -24,16 +24,13 @@ const Compare = ({
   const canSelectMoreMetrics = activeMetrics.length < MAX_METRICS_AMOUNT
   const hiddenMetricsMap = buildHiddenMetrics(comparables)
 
-  useEffect(
-    () => {
-      setProjects(
-        allProjects
-          .concat(FIAT_MARKET_ASSETS)
-          .filter(project => project.slug !== slug)
-      )
-    },
-    [allProjects, slug]
-  )
+  useEffect(() => {
+    setProjects(
+      allProjects
+        .concat(FIAT_MARKET_ASSETS)
+        .filter(project => project.slug !== slug)
+    )
+  }, [allProjects, slug])
 
   return (
     <ContextMenu

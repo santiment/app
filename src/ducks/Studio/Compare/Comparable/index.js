@@ -40,28 +40,25 @@ export default ({
 
   const { slug, ticker, logoUrl } = selectedProject || {}
 
-  useEffect(
-    () => {
-      if (comparable) {
-        comparable.key = buildCompareKey(selectedMetric, selectedProject)
-        comparable.metric = selectedMetric
-        comparable.project = selectedProject
+  useEffect(() => {
+    if (comparable) {
+      comparable.key = buildCompareKey(selectedMetric, selectedProject)
+      comparable.metric = selectedMetric
+      comparable.project = selectedProject
 
-        return setComparables(state => state.slice())
-      }
-      return (
-        selectedMetric &&
-        setComparables(state => [
-          ...state,
-          makeComparableObject({
-            metric: selectedMetric,
-            project: selectedProject
-          })
-        ])
-      )
-    },
-    [selectedProject, selectedMetric]
-  )
+      return setComparables(state => state.slice())
+    }
+    return (
+      selectedMetric &&
+      setComparables(state => [
+        ...state,
+        makeComparableObject({
+          metric: selectedMetric,
+          project: selectedProject
+        })
+      ])
+    )
+  }, [selectedProject, selectedMetric])
 
   function selectProject (project) {
     setSelectedProject(project)

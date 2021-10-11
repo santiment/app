@@ -56,21 +56,18 @@ const ACCESS_RESTRICTIONS_QUERY = gql`
 export function useFeaturedTableConfigs (type) {
   const { data } = useQuery(FEATURED_TABLE_CONFIGS_QUERY)
 
-  return useMemo(
-    () => {
-      if (data) {
-        return data.featuredTableConfigurations
-          .filter(config =>
-            type === BLOCKCHAIN_ADDRESS
-              ? config.type === type
-              : config.type !== BLOCKCHAIN_ADDRESS
-          )
-          .slice()
-          .sort(SORTER)
-      } else return EMPTY_ARRAY
-    },
-    [data]
-  )
+  return useMemo(() => {
+    if (data) {
+      return data.featuredTableConfigurations
+        .filter(config =>
+          type === BLOCKCHAIN_ADDRESS
+            ? config.type === type
+            : config.type !== BLOCKCHAIN_ADDRESS
+        )
+        .slice()
+        .sort(SORTER)
+    } else return EMPTY_ARRAY
+  }, [data])
 }
 
 export function useUserTableConfigs (type) {
@@ -83,21 +80,18 @@ export function useUserTableConfigs (type) {
     }
   })
 
-  return useMemo(
-    () => {
-      if (data) {
-        return data.tableConfigurations
-          .filter(config =>
-            type === BLOCKCHAIN_ADDRESS
-              ? config.type === type
-              : config.type !== BLOCKCHAIN_ADDRESS
-          )
-          .slice()
-          .sort(SORTER)
-      } else return EMPTY_ARRAY
-    },
-    [data]
-  )
+  return useMemo(() => {
+    if (data) {
+      return data.tableConfigurations
+        .filter(config =>
+          type === BLOCKCHAIN_ADDRESS
+            ? config.type === type
+            : config.type !== BLOCKCHAIN_ADDRESS
+        )
+        .slice()
+        .sort(SORTER)
+    } else return EMPTY_ARRAY
+  }, [data])
 }
 
 export function useTableConfig (id) {
@@ -113,27 +107,24 @@ export function useRestrictedMetrics (type) {
     skip: type === BLOCKCHAIN_ADDRESS
   })
 
-  return useMemo(
-    () => {
-      if (data && data.getAccessRestrictions) {
-        const allMetrics = []
-        const restrictedMetrics = []
+  return useMemo(() => {
+    if (data && data.getAccessRestrictions) {
+      const allMetrics = []
+      const restrictedMetrics = []
 
-        data.getAccessRestrictions.forEach(({ name, type, isRestricted }) => {
-          allMetrics.push(name)
-          if (type === 'metric' && isRestricted) {
-            restrictedMetrics.push(name)
-          }
-        })
-        return { restrictedMetrics, allMetrics, loading }
-      } else {
-        return {
-          restrictedMetrics: EMPTY_ARRAY,
-          allMetrics: EMPTY_ARRAY,
-          loading
+      data.getAccessRestrictions.forEach(({ name, type, isRestricted }) => {
+        allMetrics.push(name)
+        if (type === 'metric' && isRestricted) {
+          restrictedMetrics.push(name)
         }
+      })
+      return { restrictedMetrics, allMetrics, loading }
+    } else {
+      return {
+        restrictedMetrics: EMPTY_ARRAY,
+        allMetrics: EMPTY_ARRAY,
+        loading
       }
-    },
-    [data]
-  )
+    }
+  }, [data])
 }

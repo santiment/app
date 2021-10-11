@@ -32,12 +32,9 @@ const CompareDialog = ({ trigger, assets }) => {
     [metrics, setMetrics]
   )
 
-  const onClear = useCallback(
-    () => {
-      setMetrics([])
-    },
-    [metrics, setMetrics]
-  )
+  const onClear = useCallback(() => {
+    setMetrics([])
+  }, [metrics, setMetrics])
 
   const removeMetric = useCallback(
     metric => {

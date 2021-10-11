@@ -72,7 +72,4 @@ const mapDispatchToProps = dispatch =>
     dispatch
   )
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NotificationStack)
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationStack)

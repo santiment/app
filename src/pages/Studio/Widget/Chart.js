@@ -22,14 +22,14 @@ const Settings = () => {
 
   return target
     ? ReactDOM.createPortal(
-      <Calendar
-        selectRange
-        value={dates}
-        maxDate={maxDate}
-        onChange={dates => window.setSettingsCalendarDate(dates)}
-      />,
-      target
-    )
+        <Calendar
+          selectRange
+          value={dates}
+          maxDate={maxDate}
+          onChange={dates => window.setSettingsCalendarDate(dates)}
+        />,
+        target
+      )
     : null
 }
 

@@ -44,9 +44,7 @@ const StoryPreview = ({
         <img
           src={
             info.slides[0].videoId
-              ? `https://i.ytimg.com/vi/${
-                info.slides[0].videoId
-              }/maxresdefault.jpg`
+              ? `https://i.ytimg.com/vi/${info.slides[0].videoId}/maxresdefault.jpg`
               : info.slides[0].image
           }
           alt=''

@@ -59,71 +59,59 @@ export function updateUserSubscriptions (newUserSubscriptions) {
 export function useUserSubscriptions () {
   const query = useQuery(USER_SUBSCRIPTIONS_QUERY)
 
-  return useMemo(
-    () => {
-      const { loading, data } = query
-      return {
-        loading,
-        isEligibleForSanbaseTrial:
-          data &&
-          data.currentUser &&
-          data.currentUser.isEligibleForSanbaseTrial,
-        subscriptions:
-          data && data.currentUser && data.currentUser.subscriptions
-      }
-    },
-    [query]
-  )
+  return useMemo(() => {
+    const { loading, data } = query
+    return {
+      loading,
+      isEligibleForSanbaseTrial:
+        data && data.currentUser && data.currentUser.isEligibleForSanbaseTrial,
+      subscriptions: data && data.currentUser && data.currentUser.subscriptions
+    }
+  }, [query])
 }
 
 export function useUserSubscription () {
   const data = useUserSubscriptions()
 
-  return useMemo(
-    () => {
-      const { loading, subscriptions, isEligibleForSanbaseTrial } = data
-      return {
-        loading,
-        isEligibleForSanbaseTrial,
-        subscription: subscriptions && getSanbaseSubscription(subscriptions)
-      }
-    },
-    [data]
-  )
+  return useMemo(() => {
+    const { loading, subscriptions, isEligibleForSanbaseTrial } = data
+    return {
+      loading,
+      isEligibleForSanbaseTrial,
+      subscription: subscriptions && getSanbaseSubscription(subscriptions)
+    }
+  }, [data])
 }
 
 export function useUserSubscriptionStatus () {
   const data = useUserSubscription()
 
-  return useMemo(
-    () => {
-      const { loading, subscription, isEligibleForSanbaseTrial } = data
+  return useMemo(() => {
+    const { loading, subscription, isEligibleForSanbaseTrial } = data
 
-      let isPro = false
-      let isProPlus = false
-      let isTrial = false
-      let trialDaysLeft = null
+    let isPro = false
+    let isProPlus = false
+    let isTrial = false
+    let trialDaysLeft = null
 
-      if (subscription) {
-        const { trialEnd, plan, status } = subscription
-        isProPlus = plan.name === PRO_PLUS
-        isPro = isProPlus || plan.name === PRO
-        trialDaysLeft =
-          status === STATUSES.TRIALING &&
-          trialEnd &&
-          calculateTrialDaysLeft(trialEnd)
-        isTrial = trialDaysLeft > 0 && status === STATUSES.TRIALING
-      }
+    if (subscription) {
+      const { trialEnd, plan, status } = subscription
+      isProPlus = plan.name === PRO_PLUS
+      isPro = isProPlus || plan.name === PRO
+      trialDaysLeft =
+        status === STATUSES.TRIALING &&
+        trialEnd &&
+        calculateTrialDaysLeft(trialEnd)
+      isTrial = trialDaysLeft > 0 && status === STATUSES.TRIALING
+    }
 
-      return {
-        loading,
-        isPro,
-        isProPlus,
-        isTrial,
-        trialDaysLeft,
-        isEligibleForSanbaseTrial
-      }
-    },
-    [data]
-  )
+    return {
+      loading,
+      isPro,
+      isProPlus,
+      isTrial,
+      trialDaysLeft,
+      isEligibleForSanbaseTrial
+    }
+  }, [data])
 }

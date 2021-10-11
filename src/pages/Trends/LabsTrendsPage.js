@@ -36,22 +36,19 @@ function formatDate (dateStr) {
 const LabsTrendsPage = ({ history, datetime, defaultSelectedPeriod }) => {
   const [selectedPeriod, setSelectedPeriod] = useState(defaultSelectedPeriod)
 
-  useEffect(
-    () => {
-      if (selectedPeriod && datetime !== selectedPeriod.to) {
-        const { origin } = window.location
-        const pathname = `/labs/trends?datetime=${selectedPeriod.to}`
-        updateHistory(origin + pathname)
-      }
+  useEffect(() => {
+    if (selectedPeriod && datetime !== selectedPeriod.to) {
+      const { origin } = window.location
+      const pathname = `/labs/trends?datetime=${selectedPeriod.to}`
+      updateHistory(origin + pathname)
+    }
 
-      if (!selectedPeriod && datetime) {
-        const { origin } = window.location
-        const pathname = `/labs/trends`
-        updateHistory(origin + pathname)
-      }
-    },
-    [selectedPeriod]
-  )
+    if (!selectedPeriod && datetime) {
+      const { origin } = window.location
+      const pathname = `/labs/trends`
+      updateHistory(origin + pathname)
+    }
+  }, [selectedPeriod])
 
   // function changeDay (date) {
   //   setSelectedPeriod({...getTimePeriod(date, '4h'), interval: '1h' })
@@ -136,7 +133,7 @@ const LabsTrendsPage = ({ history, datetime, defaultSelectedPeriod }) => {
               </>
             )}
           </div>
-          <Trends {...selectedPeriod || OBJ} period={selectedPeriod || OBJ} />
+          <Trends {...(selectedPeriod || OBJ)} period={selectedPeriod || OBJ} />
         </div>
       </div>
     </DashboardLayout>

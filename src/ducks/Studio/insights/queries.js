@@ -165,8 +165,8 @@ export function getFollowingsInsights () {
     ({ data: { currentUser } }) =>
       currentUser
         ? currentUser.following.users
-          .flatMap(({ insights }) => insights)
-          .sort(publishDateSorter)
+            .flatMap(({ insights }) => insights)
+            .sort(publishDateSorter)
         : []
   )
 }

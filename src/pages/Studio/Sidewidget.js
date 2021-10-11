@@ -35,35 +35,32 @@ const Sidewidget = ({
 }) => {
   const [state, setState] = useState()
 
-  useEffect(
-    () => {
-      const Widget = sidewidget && KeyToSidewidget[sidewidget.key || sidewidget]
-      if (!Widget) return setState()
+  useEffect(() => {
+    const Widget = sidewidget && KeyToSidewidget[sidewidget.key || sidewidget]
+    if (!Widget) return setState()
 
+    const target = document.querySelector('.studio-sidewidget')
+    if (target) {
+      return mountSidewidget(Widget, target, setState)
+    }
+
+    const timer = setTimeout(() => {
       const target = document.querySelector('.studio-sidewidget')
-      if (target) {
-        return mountSidewidget(Widget, target, setState)
-      }
-
-      const timer = setTimeout(() => {
-        const target = document.querySelector('.studio-sidewidget')
-        if (target) mountSidewidget(Widget, target, setState)
-      }, 200)
-      return () => clearTimeout(timer)
-    },
-    [sidewidget]
-  )
+      if (target) mountSidewidget(Widget, target, setState)
+    }, 200)
+    return () => clearTimeout(timer)
+  }, [sidewidget])
 
   return state
     ? ReactDOM.createPortal(
-      <state.Widget
-        project={project}
-        metrics={metrics}
-        date={modDate || (modRange && modRange[1])}
-        datesRange={modRange}
-      />,
-      state.target
-    )
+        <state.Widget
+          project={project}
+          metrics={metrics}
+          date={modDate || (modRange && modRange[1])}
+          datesRange={modRange}
+        />,
+        state.target
+      )
     : null
 }
 

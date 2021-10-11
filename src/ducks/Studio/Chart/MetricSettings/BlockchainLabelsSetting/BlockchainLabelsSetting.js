@@ -24,25 +24,22 @@ const BlockchainLabelsSetting = ({ metric, widget, rerenderWidgets }) => {
 
   const debouncedRerender = useDebounce(rerenderWidgets, 700)
 
-  useEffect(
-    () => {
-      if (!labels) return
+  useEffect(() => {
+    if (!labels) return
 
-      const newMap = new Map()
+    const newMap = new Map()
 
-      newMap.set(metric, {
-        labels: !labels || labels.length === 0 ? undefined : labels
-      })
+    newMap.set(metric, {
+      labels: !labels || labels.length === 0 ? undefined : labels
+    })
 
-      widget.MetricSettingMap = mergeMetricSettingMap(
-        widget.MetricSettingMap,
-        newMap
-      )
+    widget.MetricSettingMap = mergeMetricSettingMap(
+      widget.MetricSettingMap,
+      newMap
+    )
 
-      debouncedRerender()
-    },
-    [labels]
-  )
+    debouncedRerender()
+  }, [labels])
 
   return (
     <Setting isDropdown={false}>
