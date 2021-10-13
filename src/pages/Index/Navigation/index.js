@@ -30,7 +30,7 @@ const NavLink = ({ item, active, setActive, className }) => (
 )
 
 const onIntercomClick = () => {
-  track.event('help_feedback', { page: 'home' })
+  track.event('help_feedback', { page: '/' })
   if (window.Intercom) {
     window.Intercom('show')
   }
@@ -73,7 +73,7 @@ const Navigation = ({ className }) => {
               className={styles.buttonBottom}
               variant='flat'
               onMouseDown={() => {
-                track.event('quickstart_click', { page: 'home' })
+                track.event('quickstart_click', { page: '/' })
               }}
             >
               <svg className={styles.icon} width='12' height='16'>
