@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import cx from 'classnames'
 import { push } from 'react-router-redux'
 import UISearch from '@santiment-network/ui/Search'
+import { track } from 'webkit/analytics'
 import Suggestions from './Suggestions'
 import { useCursorNavigation } from './navigation'
 import { addRecent } from './RecentsCategory'
@@ -16,16 +17,31 @@ const Search = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const { onKeyDown, ...props } = useCursorNavigation(
     isOpened,
-    onSuggestionSelect
+    onSuggestionSelect,
   )
+
+  useEffect(() => {
+    if (!searchTerm) return
+
+    const timer = setTimeout(
+      () => track.event('navbar_search', { value: searchTerm }),
+      500,
+    )
+    return () => clearTimeout(timer)
+  }, [searchTerm])
 
   useEffect(() => {
     const input = inputRef.current
     if (!input) return
 
-    function onKeyPress (e) {
+    function onKeyPress(e) {
       const { code, target } = e
-      if (code === 'Slash' && !EDITABLE_TAGS.has(target.tagName)) {
+
+      if (
+        code === 'Slash' &&
+        !EDITABLE_TAGS.has(target.tagName) &&
+        !target.isContentEditable
+      ) {
         e.preventDefault()
         openSuggestions()
         input.focus()
@@ -36,15 +52,15 @@ const Search = () => {
     return () => window.removeEventListener('keypress', onKeyPress)
   }, [])
 
-  function openSuggestions () {
+  function openSuggestions() {
     setIsOpened(true)
   }
 
-  function closeSuggestions () {
+  function closeSuggestions() {
     setIsOpened(false)
   }
 
-  function onSuggestionSelect (node, item, category) {
+  function onSuggestionSelect(node, item, category) {
     const href = node.getAttribute('href')
 
     addRecent(category, item)
@@ -64,7 +80,7 @@ const Search = () => {
       forwardedRef={inputRef}
       placeholder='Search for assets, trends, etc...'
       autoComplete='off'
-      onChange={v => setSearchTerm(v)}
+      onChange={(v) => setSearchTerm(v)}
       onClick={openSuggestions}
       onBlur={closeSuggestions}
       onKeyDown={onKeyDown}
