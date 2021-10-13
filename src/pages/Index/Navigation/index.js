@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { HashLink as Link } from 'react-router-hash-link'
+import { track } from 'webkit/analytics'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Button from '@santiment-network/ui/Button'
 import { useEventListener } from '../../../hooks/eventListeners'
@@ -12,10 +13,13 @@ import styles from './index.module.scss'
 const NavLink = ({ item, active, setActive, className }) => (
   <Link
     to={`#${item.link}`}
-    onClick={() => setActive(item)}
+    onClick={() => {
+      setActive(item)
+      track.event('home_navigation', { link: item.link })
+    }}
     className={cx(
       styles.anchor,
-      item.link === active.link && styles.activeAnchor
+      item.link === active.link && styles.activeAnchor,
     )}
   >
     <div className={styles.iconBack}>
@@ -26,6 +30,7 @@ const NavLink = ({ item, active, setActive, className }) => (
 )
 
 const onIntercomClick = () => {
+  track.event('help_feedback', { page: 'home' })
   if (window.Intercom) {
     window.Intercom('show')
   }
@@ -35,7 +40,7 @@ const Navigation = ({ className }) => {
   const { setActive, active } = useNavigationAnchor(TOP_LINKS, 'link')
 
   useEventListener('scroll', () => {
-    const currEl = TOP_LINKS.find(elem => {
+    const currEl = TOP_LINKS.find((elem) => {
       const el = document.getElementById(elem.link)
       const rect = el.getBoundingClientRect()
       return rect.top + rect.height / 3 > 0
@@ -64,7 +69,13 @@ const Navigation = ({ className }) => {
           position='top'
           align='start'
           trigger={
-            <Button className={styles.buttonBottom} variant='flat'>
+            <Button
+              className={styles.buttonBottom}
+              variant='flat'
+              onMouseDown={() => {
+                track.event('quickstart_click', { page: 'home' })
+              }}
+            >
               <svg className={styles.icon} width='12' height='16'>
                 <path d='m12 16-6-4.4L0 16V1.8C0 1.3.2.8.5.5.8.2 1.3 0 1.7 0h8.6c.4 0 .9.2 1.2.5.3.4.5.8.5 1.3V16Z' />
               </svg>
