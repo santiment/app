@@ -3,8 +3,8 @@ import cx from 'classnames'
 import { SignalModal } from '../../pages/SonarFeed/SonarFeedPage'
 import styles from './IndexTab.module.scss'
 
-const IndexTab = ({ tabs }) => {
-  const [activeTab, setTab] = useState(0)
+const IndexTab = ({ tabs, initialTab = 0 }) => {
+  const [activeTab, setTab] = useState(initialTab)
 
   const tab = tabs[activeTab]
   const { content } = tab

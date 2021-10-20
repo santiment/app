@@ -91,7 +91,7 @@ const leftLinksV2 = [
     }
   },
   {
-    to: '/feed',
+    to: '/alerts',
     children: 'Alerts',
     as: Link
   }

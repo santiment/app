@@ -5,13 +5,11 @@ import PageLoader from '../../components/Loader/PageLoader'
 import SignalCardsGrid from '../../components/SignalCard/SignalCardsGrid'
 import SonarFeedRecommendations from './SonarFeedRecommendations'
 
-const SignalsList = ({
-  filters,
-  userId,
-  showRecommendations = true,
-  showNew
-}) => {
-  const { data: signals = [], loading } = useSignals({ filters, skip: !userId })
+const SignalsList = ({ filters, userId, showRecommendations = true }) => {
+  const { data: signals = [], loading } = useSignals({
+    filters,
+    skip: !userId
+  })
   const hasSignals = signals && signals.length > 0
 
   if (loading) {
@@ -21,7 +19,7 @@ const SignalsList = ({
   return (
     <>
       {hasSignals ? (
-        <SignalCardsGrid signals={signals} ownerId={userId} showNew={showNew} />
+        <SignalCardsGrid signals={signals} ownerId={userId} />
       ) : (
         showRecommendations && <SonarFeedRecommendations showButton />
       )}

@@ -9,7 +9,7 @@ import SignalDialog from './SignalDialog'
 import SignalMaster from '../signalFormManager/signalMaster/SignalMaster'
 
 const SignalMasterModalForm = ({
-  label = 'New alert',
+  label = 'Create alert',
   metaFormSettings,
   canRedirect = true,
   enabled = true,

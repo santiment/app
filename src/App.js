@@ -42,7 +42,7 @@ import './App.scss'
 
 const FOOTER_DISABLED_FOR = [
   PATHS.STUDIO,
-  PATHS.FEED,
+  PATHS.ALERTS,
   PATHS.PRO_METRICS,
   PATHS.SOCIAL_TOOl,
   PATHS.INDEX,
@@ -111,10 +111,6 @@ const LoadableTrendsLabsPage = LoadablePage(() =>
 
 const LoadableTrendsExplorePage = LoadablePage(() =>
   import('./pages/TrendsExplore')
-)
-
-const LoadableSonarFeedPage = LoadablePage(() =>
-  import('./pages/SonarFeed/SonarFeedPage')
 )
 
 const LoadableAssetsMobilePage = LoadablePage(() =>
@@ -357,7 +353,7 @@ export const App = ({
               component={LoadableUnsubscribePage}
             />
             <Route
-              path={PATHS.FEED}
+              path={PATHS.ALERTS}
               render={props => <LoadableFeedPage {...props} />}
             />
             <Route
@@ -404,16 +400,6 @@ export const App = ({
               path={['/labs/trends/explore/:word', '/labs/trends/explore/']}
               render={props => (
                 <LoadableTrendsExplorePage isDesktop={isDesktop} {...props} />
-              )}
-            />
-            <Route
-              path={'/alerts'}
-              render={props => (
-                <LoadableSonarFeedPage
-                  isDesktop={isDesktop}
-                  isLoggedIn={isLoggedIn}
-                  {...props}
-                />
               )}
             />
             <Redirect
