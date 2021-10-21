@@ -1,4 +1,4 @@
-@import '~@santiment-network/ui/mixins';
+@import "~@santiment-network/ui/mixins";
 
 .title {
   cursor: pointer;
@@ -25,18 +25,29 @@
   color: var(--rhino);
   justify-content: space-between;
 
-  @include text('h4', 'm');
+  @include text("h4", "m");
 
-  @include responsive('phone', 'phone-xs') {
+  @include responsive("phone", "phone-xs", "tablet") {
     flex-wrap: wrap;
   }
 }
 
 .tabs {
   display: flex;
-  flex: 1;
+  flex: 1 1 100%;
 
-  @include responsive('phone', 'phone-xs') {
-    margin-bottom: 16px;
+  @include responsive("phone", "phone-xs", "tablet") {
+    flex: 1;
+    margin-bottom: 24px;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  flex: 1 1 100%;
+
+  & > * + * {
+    margin-left: 16px;
   }
 }

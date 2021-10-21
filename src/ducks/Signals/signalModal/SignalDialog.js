@@ -36,7 +36,7 @@ const SignalDialog = ({
   const [isSharedPreview, setSharedPreview] = useState(isShared)
   const [trackEvent] = useTrackEvents()
 
-  const { variant, border } = buttonParams
+  const { variant, border, classes } = buttonParams
 
   const toggleAnon = useCallback(
     (warn = true) => {
@@ -90,7 +90,8 @@ const SignalDialog = ({
       }}
       onClose={onCloseMainModal}
       trigger={
-        dialogTrigger || signalModalTrigger(enabled, label, variant, border)
+        dialogTrigger ||
+        signalModalTrigger(enabled, label, variant, border, classes)
       }
       title={
         <TriggerModalTitle

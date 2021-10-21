@@ -1,17 +1,22 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import { SignalModal } from '../../pages/SonarFeed/SonarFeedPage'
 import styles from './IndexTab.module.scss'
 
-const IndexTab = ({ tabs, initialTab = 0 }) => {
+const IndexTab = ({
+  tabs,
+  initialTab = 0,
+  renderTopActions = [],
+  bottomActions = []
+}) => {
   const [activeTab, setTab] = useState(initialTab)
 
   const tab = tabs[activeTab]
-  const { content } = tab
+  const { content, title } = tab
 
   return (
     <>
       <div className={styles.header}>
+        {renderTopActions(activeTab)}
         <div className={styles.tabs}>
           {tabs.map((item, index) => {
             if (!item) {
@@ -34,8 +39,26 @@ const IndexTab = ({ tabs, initialTab = 0 }) => {
             )
           })}
         </div>
+        <div className={styles.actions}>
+          {bottomActions
+            .filter(({ showOnTabs, hide }) => {
+              if (hide) {
+                return 0
+              }
+              if (showOnTabs) {
+                return showOnTabs.includes(title)
+              }
 
-        <SignalModal canRedirect={false} />
+              return 1
+            })
+            .map(({ component: Action, props }, index) => {
+              if (!Action) {
+                return null
+              }
+
+              return <Action key={index} {...props} />
+            })}
+        </div>
       </div>
       {content}
     </>

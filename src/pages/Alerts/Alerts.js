@@ -1,24 +1,31 @@
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import Loadable from 'react-loadable'
-import { connect } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { parse } from 'query-string'
+import cx from 'classnames'
+import withSizes from 'react-sizes'
+import AlertsFilter, { filters } from './AlertsFilter/AlertsFilter'
 import IndexTab from '../../components/IndexTabs/IndexTab'
 import PageLoader from '../../components/Loader/PageLoader'
+import { MobileOnly } from '../../components/Responsive'
 import { RecommendedSignals } from '../SonarFeed/SonarFeedRecommendations'
+import { SignalModal } from '../SonarFeed/SonarFeedPage'
 import { useSignals } from '../../ducks/Signals/common/getSignals'
+import { useUser } from '../../stores/user'
+import { mapSizesToProps } from '../../utils/withSizes'
 import styles from './Alerts.module.scss'
-import cx from 'classnames'
 
 const LoadableAlertsList = Loadable({
   loader: () => import('../SonarFeed/SignalsList'),
   loading: () => <PageLoader />
 })
 
-const Alerts = ({ userId }) => {
+const Alerts = ({ isDesktop }) => {
+  const [filter, setFilter] = useState(filters.ALL)
+  const { user, loading: isUserLoading } = useUser()
   const { tab } = parse(useLocation().search, { parseNumbers: true })
   const { data: signals = [], loading } = useSignals({
-    skip: !userId
+    skip: user && !user.id
   })
   const initialTab = useMemo(() => {
     if (tab) {
@@ -28,9 +35,53 @@ const Alerts = ({ userId }) => {
     return signals && signals.length > 0 ? 1 : 0
   }, [signals, tab])
 
+  const handleChangeFilter = res => {
+    setFilter(res)
+  }
+
+  const bottomActions = [
+    {
+      component: AlertsFilter,
+      showOnTabs: ['My Alerts'],
+      hide: !isDesktop,
+      props: {
+        onSelect: handleChangeFilter,
+        selectedFilter: filter
+      }
+    },
+    {
+      component: SignalModal,
+      props: {
+        canRedirect: false,
+        buttonParams: {
+          classes: styles.createButton
+        }
+      }
+    }
+  ]
+
+  const renderTopActions = useCallback(
+    currentTab => {
+      return (
+        <MobileOnly>
+          <div className={styles.header}>
+            <div className={styles.title}>Alerts</div>
+            {currentTab === 1 && (
+              <AlertsFilter
+                onSelect={handleChangeFilter}
+                selectedFilter={filter}
+              />
+            )}
+          </div>
+        </MobileOnly>
+      )
+    },
+    [filter]
+  )
+
   return (
     <div className={cx('page')}>
-      {loading || !userId ? (
+      {loading || isUserLoading ? (
         <PageLoader />
       ) : (
         <div className={styles.container}>
@@ -44,9 +95,18 @@ const Alerts = ({ userId }) => {
               },
               {
                 title: 'My Alerts',
-                content: <LoadableAlertsList showNew />
+                content: (
+                  <LoadableAlertsList
+                    showNew
+                    filters={{
+                      statusFilter: filter
+                    }}
+                  />
+                )
               }
             ]}
+            bottomActions={bottomActions}
+            renderTopActions={renderTopActions}
           />
         </div>
       )}
@@ -54,8 +114,4 @@ const Alerts = ({ userId }) => {
   )
 }
 
-const mapStateToProps = ({ user }) => ({
-  userId: user && user.data ? user.data.id : undefined
-})
-
-export default connect(mapStateToProps)(Alerts)
+export default withSizes(mapSizesToProps)(Alerts)

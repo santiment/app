@@ -1,31 +1,19 @@
-import React, { useState, useEffect } from 'react'
-import cx from 'classnames'
-import Dialog from '@santiment-network/ui/Dialog'
+import React, { useEffect } from 'react'
 import Icon from '@santiment-network/ui/Icon'
+import Filter from '../../../components/Filter/Filter'
 import AlertsAndInsightsFilter, {
   AUTHOR_TYPES
 } from './AlertsAndInsightsFilter'
 import FeedWatchlistsFilter from './FeedWatchlistsFilter'
 import FeedAssetsFilter from './FeedAssetsFilter'
 import { getDefaultFilters } from '../GeneralFeed/utils'
-import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
-import Tooltip from '@santiment-network/ui/Tooltip'
 import styles from './FeedFilters.module.scss'
 
 const FeedFilters = props => {
   return (
-    <>
-      <DesktopOnly>
-        <FiltersDesktopWrapper>
-          <FeedContentWrapper {...props} />
-        </FiltersDesktopWrapper>
-      </DesktopOnly>
-      <MobileOnly>
-        <FiltersMobileWrapper>
-          <FeedContentWrapper {...props} />
-        </FiltersMobileWrapper>
-      </MobileOnly>
-    </>
+    <Filter dialogTitle='Feed filters'>
+      <FeedContentWrapper {...props} />
+    </Filter>
   )
 }
 
@@ -87,42 +75,4 @@ const FeedContentWrapper = ({
   )
 }
 
-const FiltersDesktopWrapper = ({ children }) => {
-  return (
-    <Tooltip
-      closeTimeout={200}
-      position='bottom'
-      align='end'
-      className={styles.tooltip}
-      trigger={
-        <div className={styles.trigger}>
-          <Icon type='filter' className={styles.iconFilter} />
-        </div>
-      }
-    >
-      {children}
-    </Tooltip>
-  )
-}
-
-const FiltersMobileWrapper = ({ children }) => {
-  const [isOpen, setOpen] = useState(false)
-
-  return (
-    <Dialog
-      open={isOpen}
-      title={'Feed filters'}
-      onOpen={() => setOpen(true)}
-      onClose={() => setOpen(false)}
-      trigger={
-        <div className={cx(styles.trigger, isOpen && styles.openState)}>
-          <Icon type='filter' className={styles.iconFilter} />
-        </div>
-      }
-      classes={styles}
-    >
-      {children}
-    </Dialog>
-  )
-}
 export default FeedFilters

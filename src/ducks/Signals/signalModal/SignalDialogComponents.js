@@ -30,14 +30,15 @@ export const signalModalTrigger = (
   enabled,
   label,
   variant = 'fill',
-  border = false
+  border = false,
+  classes
 ) => (
   <Button
     variant={variant}
     border={border}
     disabled={!enabled}
     accent='positive'
-    className={cx(styles.newSignal)}
+    className={cx(styles.newSignal, classes)}
   >
     {label}
   </Button>
