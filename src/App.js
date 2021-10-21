@@ -43,6 +43,7 @@ import './App.scss'
 const FOOTER_DISABLED_FOR = [
   PATHS.STUDIO,
   PATHS.ALERTS,
+  PATHS.FEED,
   PATHS.PRO_METRICS,
   PATHS.SOCIAL_TOOl,
   PATHS.INDEX,
@@ -157,6 +158,8 @@ const LoadableUnsubscribePage = LoadablePage(() =>
 )
 
 const LoadableFeedPage = LoadablePage(() => import('./pages/feed/Feed'))
+
+const LoadableAlertsPage = LoadablePage(() => import('./pages/Alerts/Alerts'))
 
 class Route extends React.Component {
   componentWillMount () {
@@ -353,8 +356,17 @@ export const App = ({
               component={LoadableUnsubscribePage}
             />
             <Route
+              path={PATHS.FEED}
+              render={props => {
+                if (isDesktop) {
+                  return <Redirect to='/' />
+                }
+                return <LoadableFeedPage {...props} />
+              }}
+            />
+            <Route
               path={PATHS.ALERTS}
-              render={props => <LoadableFeedPage {...props} />}
+              render={props => <LoadableAlertsPage {...props} />}
             />
             <Route
               exact

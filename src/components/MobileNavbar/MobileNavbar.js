@@ -16,8 +16,8 @@ import styles from './MobileNavbar.module.scss'
 
 const NAVBAR_LINKS = [
   {
-    label: 'Alerts',
-    linkTo: '/alerts',
+    label: 'Feed',
+    linkTo: '/feed',
     Icon: FeedIcon
   },
   {
