@@ -40,6 +40,11 @@ const ShareSignal = ({
   )
 }
 
+const btnParams = { variant: 'flat' }
+const classes = {
+  copyBtn: styles.buttonWrapper__button
+}
+
 const MoreSignalActions = ({
   signalId,
   signalTitle,
@@ -68,10 +73,8 @@ const MoreSignalActions = ({
             signal={signal}
             label='Copy to my alerts'
             as='div'
-            classes={{
-              copyBtn: styles.buttonWrapper__button
-            }}
-            btnParams={{ variant: 'flat' }}
+            classes={classes}
+            btnParams={btnParams}
           />
         </DesktopOnly>
       </div>

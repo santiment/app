@@ -18,6 +18,7 @@ import { markAsLatestApp, newAppAvailable } from './ducks/Updates/actions'
 import { ThemeProvider } from './stores/ui/theme'
 import initSentry from './utils/initSentry'
 import { redirectSharedLink } from './components/Share/utils'
+import 'webkit/responsive'
 
 const EmbeddedWidgetPage = Loadable({
   loader: () => import('./pages/Embedded'),

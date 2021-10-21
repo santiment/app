@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import Loadable from 'react-loadable'
 import { useLocation } from 'react-router-dom'
 import { parse } from 'query-string'
@@ -27,13 +27,7 @@ const Alerts = ({ isDesktop }) => {
   const { data: signals = [], loading } = useSignals({
     skip: user && !user.id
   })
-  const initialTab = useMemo(() => {
-    if (tab) {
-      return tab
-    }
-
-    return signals && signals.length > 0 ? 1 : 0
-  }, [signals, tab])
+  const initialTab = tab || (signals && signals.length > 0 ? 1 : 0)
 
   const handleChangeFilter = res => {
     setFilter(res)
@@ -41,6 +35,7 @@ const Alerts = ({ isDesktop }) => {
 
   const bottomActions = [
     {
+      id: 0,
       component: AlertsFilter,
       showOnTabs: ['My Alerts'],
       hide: !isDesktop,
@@ -50,6 +45,7 @@ const Alerts = ({ isDesktop }) => {
       }
     },
     {
+      id: 1,
       component: SignalModal,
       props: {
         canRedirect: false,
@@ -90,10 +86,12 @@ const Alerts = ({ isDesktop }) => {
             initialTab={initialTab}
             tabs={[
               {
+                id: 0,
                 title: 'Explore Alerts',
                 content: <RecommendedSignals showTitle={false} showNew />
               },
               {
+                id: 1,
                 title: 'My Alerts',
                 content: (
                   <LoadableAlertsList

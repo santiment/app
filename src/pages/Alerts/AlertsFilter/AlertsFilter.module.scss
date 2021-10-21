@@ -13,9 +13,6 @@
 
   @include responsive("phone", "phone-xs") {
     padding: 24px 12px;
-
-    & > * + * {
-      margin-top: 12px;
-    }
+    gap: 12px;
   }
 }

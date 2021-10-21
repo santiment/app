@@ -15,7 +15,7 @@ export const filterByIsActiveFlag = (signals, statusFilter) =>
       case 'disabled':
         return !isActive
       default:
-        return 1
+        return true
     }
   })
 

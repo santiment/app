@@ -18,21 +18,18 @@ const IndexTab = ({
       <div className={styles.header}>
         {renderTopActions(activeTab)}
         <div className={styles.tabs}>
-          {tabs.map((item, index) => {
+          {tabs.map(item => {
             if (!item) {
               return null
             }
 
-            const { title } = item
+            const { title, id } = item
 
             return (
               <div
-                key={index}
-                className={cx(
-                  styles.title,
-                  index === activeTab && styles.active
-                )}
-                onClick={() => setTab(index)}
+                key={id}
+                className={cx(styles.title, id === activeTab && styles.active)}
+                onClick={() => setTab(id)}
               >
                 {title}
               </div>
@@ -41,23 +38,22 @@ const IndexTab = ({
         </div>
         <div className={styles.actions}>
           {bottomActions
-            .filter(({ showOnTabs, hide }) => {
+            .filter(({ showOnTabs, hide, component }) => {
+              if (!component) {
+                return false
+              }
               if (hide) {
-                return 0
+                return false
               }
               if (showOnTabs) {
                 return showOnTabs.includes(title)
               }
 
-              return 1
+              return true
             })
-            .map(({ component: Action, props }, index) => {
-              if (!Action) {
-                return null
-              }
-
-              return <Action key={index} {...props} />
-            })}
+            .map(({ component: Action, props, id }) => (
+              <Action key={id} {...props} />
+            ))}
         </div>
       </div>
       {content}

@@ -26,28 +26,30 @@
   justify-content: space-between;
 
   @include text("h4", "m");
+}
 
-  @include responsive("phone", "phone-xs", "tablet") {
-    flex-wrap: wrap;
-  }
+:global(.phone-xs) .header,
+:global(.phone) .header,
+:global(.tablet) .header {
+  flex-wrap: wrap;
 }
 
 .tabs {
   display: flex;
   flex: 1 1 100%;
+}
 
-  @include responsive("phone", "phone-xs", "tablet") {
-    flex: 1;
-    margin-bottom: 24px;
-  }
+:global(.phone-xs) .tabs,
+:global(.phone) .tabs,
+:global(.tablet) .tabs {
+  flex: 1;
+  margin-bottom: 24px;
 }
 
 .actions {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   flex: 1 1 100%;
-
-  & > * + * {
-    margin-left: 16px;
-  }
+  gap: 16px;
 }
