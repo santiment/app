@@ -1,3 +1,5 @@
+@import "~@santiment-network/ui/mixins";
+
 .filterContent {
   display: flex;
   flex-direction: column;
@@ -7,5 +9,13 @@
   &__filterItem {
     padding: 6px 8px;
     cursor: pointer;
+  }
+
+  @include responsive("phone", "phone-xs") {
+    padding: 24px 12px;
+
+    & > * + * {
+      margin-top: 12px;
+    }
   }
 }
