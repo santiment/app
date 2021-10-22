@@ -19,7 +19,7 @@ const NavLink = ({ item, active, setActive, className }) => (
     }}
     className={cx(
       styles.anchor,
-      item.link === active.link && styles.activeAnchor,
+      item.link === active.link && styles.activeAnchor
     )}
   >
     <div className={styles.iconBack}>
@@ -40,7 +40,7 @@ const Navigation = ({ className }) => {
   const { setActive, active } = useNavigationAnchor(TOP_LINKS, 'link')
 
   useEventListener('scroll', () => {
-    const currEl = TOP_LINKS.find((elem) => {
+    const currEl = TOP_LINKS.find(elem => {
       const el = document.getElementById(elem.link)
       const rect = el.getBoundingClientRect()
       return rect.top + rect.height / 3 > 0
