@@ -2,13 +2,19 @@ import React from 'react'
 import { connect } from 'react-redux'
 import copy from 'copy-to-clipboard'
 import * as Sentry from '@sentry/react'
+import cx from 'classnames'
+import { useHistory } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
 import ErrorSvg from '../Illustrations/Error'
+import IncorrectRoute from '../Illustrations/IncorrectRoute'
+import NoUser from '../Illustrations/NoUser'
 import { showNotification } from '../../actions/rootActions'
 import styles from './ErrorContent.module.scss'
 
-const ErrorContent = ({ addNot }) => {
-  function onClick (e) {
+const ErrorContent = ({ addNot, type = 'error' }) => {
+  const history = useHistory()
+
+  function onErrorClick (e) {
     copy(e.target.innerText)
     addNot({
       variant: 'success',
@@ -16,37 +22,78 @@ const ErrorContent = ({ addNot }) => {
     })
   }
 
+  const errorsTypes = {
+    error: {
+      title: 'Something went wrong',
+      description:
+        'Our team has been notified, but you can send us more details.',
+      addAction: onErrorClick,
+      btnParams: {
+        title: 'Send report',
+        action: () => {
+          Sentry.showReportDialog()
+        }
+      },
+      img: <ErrorSvg className={styles.img} />
+    },
+    incorrectRoute: {
+      title: 'Looks like you get lost',
+      description:
+        'This page is missing or you assembled the link incorrectly.',
+      btnParams: {
+        title: 'Back to home page',
+        action: () => {
+          history.push('/')
+        }
+      },
+      img: <IncorrectRoute className={styles.img} />,
+      containerStyles: styles.bigImgContainer
+    },
+    noUser: {
+      title: 'No such user here',
+      description:
+        "This page seems to be missing or the link you've entered is incorrect",
+      btnParams: {
+        title: 'Back to home page',
+        action: () => {
+          history.push('/')
+        }
+      },
+      img: <NoUser className={styles.img} />
+    }
+  }
+
+  const error = errorsTypes[type]
+
   return (
-    <div className={styles.container}>
+    <div className={cx(styles.container, error.containerStyles)}>
       <div className={styles.info}>
-        <div className={styles.title}>Something went wrong</div>
+        <div className={styles.title}>{error.title}</div>
 
-        <div className={styles.error}>
-          Error ID:{' '}
-          <span className={styles.eventId} onClick={onClick}>
-            {Sentry.lastEventId()}
-          </span>
-        </div>
+        {type === 'error' && (
+          <div className={styles.error}>
+            Error ID:{' '}
+            <span className={styles.eventId} onClick={error.addAction}>
+              {Sentry.lastEventId()}
+            </span>
+          </div>
+        )}
 
-        <div className={styles.description}>
-          Our team has been notified, but you can send us more details.
-        </div>
+        <div className={styles.description}>{error.description}</div>
 
-        {Sentry.lastEventId() && (
+        {(Sentry.lastEventId() || type !== 'error') && (
           <Button
-            onClick={() => {
-              Sentry.showReportDialog()
-            }}
+            onClick={error.btnParams.action}
             variant='fill'
             accent='positive'
             className={styles.btn}
           >
-            Send report
+            {error.btnParams.title}
           </Button>
         )}
       </div>
 
-      <ErrorSvg className={styles.img} />
+      {error.img}
     </div>
   )
 }

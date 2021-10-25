@@ -1,33 +1,54 @@
-@import '../../../node_modules/@santiment-network/ui/mixins';
+@import "../../../node_modules/@santiment-network/ui/mixins";
 
 .container {
   display: flex;
-  max-width: 1152px;
-  margin: auto;
   align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 40px;
+}
 
-  @include responsive('phone', 'phone-xs', 'tablet', 'laptop') {
-    flex-direction: column-reverse;
-    padding: 16px;
-  }
+:global(.laptop) .container,
+:global(.phone) .container,
+:global(.tablet) .container,
+:global(.phone-xs) .container {
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: 0;
+  padding: 16px 16px 80px;
+}
+
+:global(.desktop) .bigImgContainer {
+  justify-content: space-between;
+  padding-left: 10%;
+}
+
+:global(.desktop) .info {
+  min-width: 400px;
 }
 
 .title {
-  @include text('h2', 'l');
+  @include text("h2", "l");
+}
 
-  @include responsive('phone', 'phone-xs', 'tablet', 'laptop') {
-    @include text('h4', 'l');
-  }
+:global(.laptop) .title,
+:global(.phone) .title,
+:global(.tablet) .title,
+:global(.phone-xs) .title {
+  @include text("h4", "l");
 }
 
 .error {
   margin-top: 32px;
 
-  @include text('body-1', 'm');
+  @include text("body-1", "m");
+}
 
-  @include responsive('phone', 'phone-xs', 'tablet', 'laptop') {
-    @include text('body-2', 'm');
-  }
+:global(.laptop) .error,
+:global(.phone) .error,
+:global(.tablet) .error,
+:global(.phone-xs) .error {
+  @include text("body-2", "m");
 }
 
 .eventId {
@@ -38,35 +59,42 @@
 }
 
 .description {
-  @include text('body-1');
+  @include text("body-1");
 
   margin-top: 16px;
+}
 
-  @include responsive('phone', 'phone-xs', 'tablet', 'laptop') {
-    @include text('body-2', 'm');
-  }
+:global(.laptop) .description,
+:global(.phone) .description,
+:global(.tablet) .description,
+:global(.phone-xs) .description {
+  @include text("body-2", "m");
 }
 
 .btn {
   margin-top: 32px;
   min-width: 146px;
   justify-content: center;
+}
 
-  @include responsive('phone', 'phone-xs') {
-    width: 100%;
-  }
+:global(.phone) .btn,
+:global(.tablet) .btn,
+:global(.phone-xs) .btn {
+  width: 100%;
 }
 
 .img {
   min-width: 600px;
   min-height: 440px;
-  margin-left: 135px;
+}
 
-  @include responsive('phone', 'phone-xs', 'tablet', 'laptop') {
-    margin-left: 0;
-    margin-bottom: 51px;
-    width: 100%;
-    min-width: 100%;
-    min-height: 100%;
-  }
+:global(.phone) .img,
+:global(.phone-xs) .img,
+:global(.tablet) .img {
+  margin-left: 0;
+  width: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  height: 300px;
+  padding-bottom: 30px;
 }
