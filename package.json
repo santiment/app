@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "prestart": "rm ./node_modules/webpack-dev-server/ssl/server.pem && cp -f .cert/server.pem ./node_modules/webpack-dev-server/ssl",
     "start": "node scripts && REACT_APP_VERSION=$(node -pe 'require(\"./package.json\").version')-$(echo $GIT_HEAD) react-app-rewired start",
     "format:js": "prettier-standard 'src/**/*.js'",
     "format:css": "stylelint src/*{sass,scss} --syntax scss --fix",
