@@ -109,7 +109,7 @@ const EditForm = ({
     >
       <form className={styles.wrapper} onSubmit={onSubmit}>
         <Label accent='waterloo' className={styles.name__label}>
-          {`Name (${formState.name.length}/25)`}
+          {`Name (${formState.name && formState.name.length}/25)`}
         </Label>
         {isOpen && (
           <Input
