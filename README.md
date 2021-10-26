@@ -31,18 +31,6 @@ To start your local development you need to:
    `HTTPS=true`<br />
    `HOST='dev.mylocalsite.com'`
 3. Install [mkcert](https://github.com/FiloSottile/mkcert)
-   * MacOS
-      * `brew install mkcert`
-      * `brew install nss` if you use Firefox
-   * Windows
-      * `choco install mkcert` <br /> _или_ <br /> `scoop install mkcert`
-   * Linux
-      * `sudo apt install libnss3-tools` <br />
-        _или_ <br />
-        `sudo yum install nss-tools` <br />
-        _или_ <br />
-        `sudo pacman -S nss`
-      * `brew install mkcert`
 4. Create your own certificate authority on your system <br />
    `mkcert -install`
 5. Create a certificate for your custom domain and concatenate the two files <br />
