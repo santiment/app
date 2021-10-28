@@ -1,5 +1,5 @@
 # ---- Base Node ----
-FROM node:13.12-alpine AS base
+FROM node:14.18.1-alpine AS base
 MAINTAINER Yura Zatsepin <yura.z@santiment.net>
 
 # ENV vars

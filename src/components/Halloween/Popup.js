@@ -8,8 +8,8 @@ import Gift from '../Illustrations/Gift'
 import Rocket from '../Illustrations/Rocket'
 import styles from './index.module.scss'
 
-const DISCOUND_CODE = 'pumpkin40'
-const PERCENT_DISCOUNT = '40'
+const DISCOUND_CODE = 'pumpkin35'
+const PERCENT_DISCOUNT = '35'
 
 const STEPS = [
   {
@@ -29,8 +29,8 @@ The night is getting darker...👻`,
   },
   {
     title: 'Congratulations!',
-    description: () => `To celebrate Halloween, we’re gifting you a one-time discount code for Sanbase Pro - "${DISCOUND_CODE}".
-Use the code during checkout and get ${PERCENT_DISCOUNT}% off Sanbase Pro!🎁
+    description: () => `To celebrate Halloween, we’re gifting you a one-time discount code - "${DISCOUND_CODE}".
+Use the code during checkout and get ${PERCENT_DISCOUNT}%!🎁
 `,
     button: 'Copy code to clipboard',
     img: Gift

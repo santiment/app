@@ -6,6 +6,7 @@ import Icon from '@santiment-network/ui/Icon'
 import AddToWatchlist from '../../ducks/Watchlists/Actions/Add'
 import ChartSignalCreationDialog from '../../ducks/SANCharts/ChartSignalCreationDialog'
 import ProjectSelectDialog from '../../ducks/Studio/Compare/ProjectSelectDialog'
+import Grave from '../../components/Halloween/Grave'
 import { useUser } from '../../stores/user'
 import styles from './index.module.scss'
 
@@ -15,9 +16,14 @@ const ProjectInfo = ({ studio, settings, onProjectSelect }) => {
   const [isOpened, setIsOpened] = useState(false)
   const { slug } = settings
   const { isLoggedIn } = useUser()
+  const [knockNumber, setKnockNumber] = useState(0)
 
   useEffect(() => {
     if (!studio) return
+
+    if (knockNumber > 0) {
+      setKnockNumber(0)
+    }
 
     const target = document.querySelector('.studio-top .project')
     target.onclick = openDialog
@@ -49,6 +55,11 @@ const ProjectInfo = ({ studio, settings, onProjectSelect }) => {
       />
       {ReactDOM.createPortal(
         <>
+          <Grave
+            slug={slug}
+            setKnockNumber={setKnockNumber}
+            knockNumber={knockNumber}
+          />
           <AddToWatchlist
             trigger={
               <Button border className={cx('btn btn--green', styles.watchlist)}>

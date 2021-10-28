@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
 import { HashLink as Link } from 'react-router-hash-link'
 import { track } from 'webkit/analytics'
@@ -7,6 +7,7 @@ import Button from '@santiment-network/ui/Button'
 import { useEventListener } from '../../../hooks/eventListeners'
 import { TOP_LINKS } from './anchors'
 import StartGuide from '../Section/Personal/StartGuide'
+import Grave from '../../../components/Halloween/Grave'
 import { useNavigationAnchor } from '../../../components/LeftPageNavigation/LeftPageNavigation'
 import styles from './index.module.scss'
 
@@ -37,7 +38,14 @@ const onIntercomClick = () => {
 }
 
 const Navigation = ({ className }) => {
+  const [knockNumber, setKnockNumber] = useState(0)
   const { setActive, active } = useNavigationAnchor(TOP_LINKS, 'link')
+
+  useEffect(() => {
+    if (knockNumber > 0) {
+      setKnockNumber(0)
+    }
+  }, [])
 
   useEventListener('scroll', () => {
     const currEl = TOP_LINKS.find(elem => {
@@ -64,6 +72,11 @@ const Navigation = ({ className }) => {
         ))}
       </div>
       <div className={styles.bottom}>
+        <Grave
+          knockNumber={knockNumber}
+          setKnockNumber={setKnockNumber}
+          slug='nav'
+        />
         <ContextMenu
           passOpenStateAs='isActive'
           position='top'
@@ -85,7 +98,6 @@ const Navigation = ({ className }) => {
         >
           <StartGuide />
         </ContextMenu>
-
         <Button
           className={styles.buttonBottom}
           onClick={onIntercomClick}
