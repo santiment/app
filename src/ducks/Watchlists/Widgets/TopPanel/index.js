@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
 import Title from './Title'
 import Filter from '../Filter'
@@ -9,6 +9,7 @@ import { useIsAuthor } from '../../gql/list/hooks'
 import { PROJECT, SCREENER } from '../../detector'
 import WeeklyReport from '../../Actions/WeeklyReport'
 import ScreenerSignalDialog from '../../../Signals/ScreenerSignal/ScreenerSignalDialog'
+import Grave from '../../../../components/Halloween/Grave'
 import styles from './index.module.scss'
 
 const TopPanel = ({
@@ -27,6 +28,13 @@ const TopPanel = ({
 }) => {
   const { isAuthor, isAuthorLoading } = useIsAuthor(watchlist)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
+  const [knockNumber, setKnockNumber] = useState(0)
+
+  useEffect(() => {
+    if (knockNumber > 0) {
+      setKnockNumber(0)
+    }
+  }, [])
 
   function closeFilter () {
     if (isFilterOpen) {
@@ -59,6 +67,11 @@ const TopPanel = ({
         {isUpdatingWatchlist && (
           <span className={styles.saving}>Saving...</span>
         )}
+        <Grave
+          knockNumber={knockNumber}
+          setKnockNumber={setKnockNumber}
+          slug={type}
+        />
       </div>
       {type === SCREENER ? (
         <div className={styles.row}>

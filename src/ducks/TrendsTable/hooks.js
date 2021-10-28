@@ -4,19 +4,19 @@ import {
   TRENDING_WORDS_QUERY,
   TRENDING_WORDS_CONTEXT_QUERY,
   SOCIAL_VOLUME_QUERY,
-  LAST_DAY_SOCIAL_VOLUME_QUERY,
+  LAST_DAY_SOCIAL_VOLUME_QUERY
 } from './queries'
 import { calcPercentageChange } from '../../utils/utils'
 
 const ARRAY = []
 const LOADING = {
   data: ARRAY,
-  isLoading: true,
+  isLoading: true
 }
 
 const wordAccessor = ({ word }) => word
 
-export function useTrendingWords(variables) {
+export function useTrendingWords (variables) {
   const { data, loading } = useQuery(TRENDING_WORDS_QUERY, { variables })
 
   return useMemo(() => {
@@ -33,16 +33,16 @@ export function useTrendingWords(variables) {
     return {
       trendingWords,
       words: trendingWords.map(wordAccessor),
-      isLoading: loading,
+      isLoading: loading
     }
   }, [data])
 }
 
-function useTrendWordsData(query, words) {
+function useTrendWordsData (query, words) {
   const { data } = useQuery(query, {
     variables: {
-      words,
-    },
+      words
+    }
   })
 
   return useMemo(() => {
@@ -59,7 +59,7 @@ function useTrendWordsData(query, words) {
   }, [data])
 }
 
-export function useTrendSocialVolumeChange(words, trend) {
+export function useTrendSocialVolumeChange (words, trend) {
   const data = useTrendWordsData(LAST_DAY_SOCIAL_VOLUME_QUERY, words)
 
   return useMemo(() => {
@@ -69,12 +69,12 @@ export function useTrendSocialVolumeChange(words, trend) {
 
     return {
       value: Math.round(newValue),
-      change: calcPercentageChange(oldValue, newValue),
+      change: calcPercentageChange(oldValue, newValue)
     }
   }, [data])
 }
 
-export function useTrendSocialVolume(words, trend) {
+export function useTrendSocialVolume (words, trend) {
   const data = useTrendWordsData(SOCIAL_VOLUME_QUERY, words)
 
   return useMemo(() => {
@@ -82,12 +82,12 @@ export function useTrendSocialVolume(words, trend) {
 
     return {
       data: data[trend.word].slice(0, -1),
-      isLoading: false,
+      isLoading: false
     }
   }, [data])
 }
 
-export function useTrendWordContext(words, trend) {
+export function useTrendWordContext (words, trend) {
   const data = useTrendWordsData(TRENDING_WORDS_CONTEXT_QUERY, words)
 
   return useMemo(() => {
@@ -95,7 +95,7 @@ export function useTrendWordContext(words, trend) {
 
     return {
       data: data[trend.word],
-      isLoading: false,
+      isLoading: false
     }
   }, [data])
 }
