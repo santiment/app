@@ -70,7 +70,8 @@ const TopPanel = ({
         <Grave
           knockNumber={knockNumber}
           setKnockNumber={setKnockNumber}
-          slug={type}
+          slug='screener'
+          name='SAN'
         />
       </div>
       {type === SCREENER ? (

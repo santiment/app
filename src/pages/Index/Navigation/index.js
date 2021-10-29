@@ -76,6 +76,7 @@ const Navigation = ({ className }) => {
           knockNumber={knockNumber}
           setKnockNumber={setKnockNumber}
           slug='nav'
+          name='SAN'
         />
         <ContextMenu
           passOpenStateAs='isActive'
