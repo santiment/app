@@ -56,9 +56,10 @@ const ProjectInfo = ({ studio, settings, onProjectSelect }) => {
       {ReactDOM.createPortal(
         <>
           <Grave
-            slug={slug}
+            slug='charts'
             setKnockNumber={setKnockNumber}
             knockNumber={knockNumber}
+            name={slug}
           />
           <AddToWatchlist
             trigger={
