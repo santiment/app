@@ -71,6 +71,8 @@ const URLExtension = ({
   }, [widgets, subwidgets])
 
   useEffect(() => {
+    const isNew = window.location.pathname.split('/')[2] === 'new'
+
     if (!sharedSettings || !sharedWidgets) return
 
     let [shortUrlHash, setShortUrlHash] = shortUrlHashState
@@ -84,7 +86,9 @@ const URLExtension = ({
     if (url === prevFullUrlRef.current) return
 
     prevFullUrlRef.current = url
-    if (!isLoggedIn) return history.replace(url)
+    if (!isLoggedIn) {
+      return history.replace(url)
+    }
 
     let isRacing = false
 
@@ -98,14 +102,22 @@ const URLExtension = ({
             shortUrlHash = newShortUrlHash
             setShortUrlHash(newShortUrlHash)
 
-            history.push(buildChartShortPath(shortUrlHash))
+            history.push(
+              isNew
+                ? buildChartShortPath(shortUrlHash) + '/new'
+                : buildChartShortPath(shortUrlHash)
+            )
           })
 
       shortUrlPromise
         .then(() => {
           if (isRacing) return
 
-          history.replace(buildChartShortPath(shortUrlHash))
+          history.replace(
+            isNew
+              ? buildChartShortPath(shortUrlHash) + '/new'
+              : buildChartShortPath(shortUrlHash)
+          )
         })
         .catch(error => {
           if (isRacing) return
