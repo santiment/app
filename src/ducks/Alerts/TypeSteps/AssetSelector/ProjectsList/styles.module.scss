@@ -1,0 +1,91 @@
+@import "~@santiment-network/ui/variables.scss";
+@import "~@santiment-network/ui/mixins.scss";
+
+.wrapperList {
+  user-select: none;
+  position: relative;
+  height: var(--height);
+  padding-right: var(--padding-right);
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--porcelain);
+  }
+}
+
+.projectWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 14px 0;
+}
+
+.selectedItem {
+  padding-bottom: 0;
+}
+
+.sectionTitle {
+  margin-bottom: 14px;
+  color: var(--waterloo);
+
+  @include text("caption");
+}
+
+.project {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  color: var(--mirage);
+  cursor: pointer;
+
+  @include text("body-3");
+}
+
+.projectPadding {
+  padding-bottom: 14px;
+}
+
+.name {
+  margin-right: 5px;
+}
+
+.balance {
+  color: var(--jungle-green);
+  margin-right: 5px;
+}
+
+.checkbox {
+  margin-right: 10px;
+}
+
+.list {
+  outline: none;
+}
+
+.asset {
+  margin-left: 10px;
+  display: flex;
+
+  &:hover {
+    color: var(--jungle-green-hover) !important;
+  }
+}
+
+.disabled {
+  color: var(--waterloo) !important;
+
+  &:hover {
+    color: var(--waterloo) !important;
+  }
+}
+
+.icon {
+  margin-right: 5px;
+  position: relative;
+  top: 2px;
+}

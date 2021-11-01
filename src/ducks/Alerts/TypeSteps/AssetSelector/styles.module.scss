@@ -1,0 +1,15 @@
+.title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  font-size: 16px;
+  color: var(--rhino);
+
+  .icon {
+    margin-right: 10px;
+  }
+}
+
+.search {
+  z-index: 5;
+}

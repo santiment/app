@@ -1,0 +1,51 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  box-sizing: border-box;
+  background-color: var(--athens);
+  border-radius: 0 0 0 4px;
+}
+
+.type {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  padding: 0 12px;
+  color: var(--waterloo);
+  cursor: pointer;
+}
+
+.activeType {
+  background-color: var(--white);
+  color: var(--rhino);
+}
+
+.backButton {
+  background-color: var(--athens);
+  padding: 0;
+  margin-bottom: 16px;
+  color: var(--waterloo);
+  font-size: 13px;
+
+  & > svg {
+    margin-bottom: 2px;
+    transform: rotate(180deg);
+    margin-right: 8px;
+    fill: var(--waterloo);
+  }
+
+  &:hover {
+    color: var(--jungle-green);
+
+    & > svg {
+      fill: var(--jungle-green);
+    }
+  }
+}
+
+.smallStepSelector {
+  padding: 0 0 0 8px;
+}

@@ -9,7 +9,8 @@ import IndexTab from '../../components/IndexTabs/IndexTab'
 import PageLoader from '../../components/Loader/PageLoader'
 import { MobileOnly } from '../../components/Responsive'
 import { RecommendedSignals } from '../SonarFeed/SonarFeedRecommendations'
-import { SignalModal } from '../SonarFeed/SonarFeedPage'
+import AlertModalMaster from '../../ducks/Alerts/AlertModalMaster'
+// import { SignalModal } from '../SonarFeed/SonarFeedPage'
 import { useSignals } from '../../ducks/Signals/common/getSignals'
 import { useUser } from '../../stores/user'
 import { mapSizesToProps } from '../../utils/withSizes'
@@ -46,7 +47,7 @@ const Alerts = ({ isDesktop }) => {
     },
     {
       id: 1,
-      component: SignalModal,
+      component: AlertModalMaster,
       props: {
         canRedirect: false,
         buttonParams: {
