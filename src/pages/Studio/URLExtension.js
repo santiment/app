@@ -108,11 +108,11 @@ const URLExtension = ({
         .then(() => {
           if (isRacing) return
 
-          history.replace(buildChartShortPath(shortUrlHash))
-
           if (isNew && window.onLayoutCreationOpen) {
             window.onLayoutCreationOpen()
           }
+
+          history.replace(buildChartShortPath(shortUrlHash))
         })
         .catch(error => {
           if (isRacing) return
