@@ -5,7 +5,7 @@ import { checkIsDefaultScreener } from '../../ducks/Screener/utils'
 import { useUserScreeners } from '../../ducks/Watchlists/gql/lists/hooks'
 import { useCreateScreener } from '../../ducks/Watchlists/gql/list/mutations'
 
-const NewScreener = ({ history }) => {
+const NewScreener = ({ history, location }) => {
   const [screeners, isScreenersLoading] = useUserScreeners()
   const [createScreener, { loading }] = useCreateScreener(isScreenersLoading)
 
@@ -14,7 +14,7 @@ const NewScreener = ({ history }) => {
       return
     }
 
-    if (!isScreenersLoading && checkIsDefaultScreener(screeners[0].href)) {
+    if (!isScreenersLoading && checkIsDefaultScreener(location.pathname)) {
       if (!loading) {
         createScreener({ name: 'My Screener', isPublic: false }).then(
           screener => history.push(getScreenerLink(screener))

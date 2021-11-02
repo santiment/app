@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import AssetIcon from "../../../../components/Illustrations/AssetIcon";
 import SearchProjects from "../../../../components/Search/SearchProjects";
@@ -9,7 +9,7 @@ import { hasAssetById } from "./utils";
 
 import styles from "./styles.module.scss";
 
-const AssetSelector = () => {
+const AssetSelector = ({ handleFormValueChange }) => {
   const [projects, loading, error] = useAssets({
     shouldSkipLoggedInState: false
   });
@@ -26,6 +26,10 @@ const AssetSelector = () => {
         selected.length > 0 ? [selected[selected.length - 1]] : selected;
 
       if (listItems.length !== newItems.length) {
+        handleFormValueChange({
+          field: "asset",
+          value: newItems[0]
+        });
         setListItems(newItems);
       }
     },
@@ -36,6 +40,10 @@ const AssetSelector = () => {
     ({ project, listItems: items, isAssetInList }) => {
       if (isAssetInList) {
         setSelectedAssets(items.filter(({ id }) => id !== project.id));
+        handleFormValueChange({
+          field: "asset",
+          value: {}
+        });
       } else {
         setSelectedAssets([...items, project]);
       }

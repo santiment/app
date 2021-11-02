@@ -1,27 +1,49 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from "react";
+import { useFormik } from "formik";
 
-import AlertModal from './AlertModal/AlertModal'
+import AlertModal from "./AlertModal/AlertModal";
 
 const AlertModalMaster = ({ triggerButtonParams }) => {
-  const [isAlertModalOpen, setIsAlertModalOpen] = useState(false)
+  const [isAlertModalOpen, setIsAlertModalOpen] = useState(false);
+
+  const formik = useFormik({
+    initialValues: {
+      asset: {}
+    },
+    onSubmit(val) {
+      console.log(val);
+    },
+    validateOnChange: false
+  });
+
+  useEffect(() => {
+    console.log(formik.values);
+  }, [formik.values]);
+
+  const handleFormValueChange = ({ field, value }) => {
+    console.log(field)
+    formik.setFieldValue(field, value, false);
+  };
 
   const handleCloseAlertModal = () => {
-    setIsAlertModalOpen(false)
-  }
+    setIsAlertModalOpen(false);
+  };
 
   const handleOpenAlertModal = () => {
-    setIsAlertModalOpen(true)
-  }
+    setIsAlertModalOpen(true);
+  };
 
   return (
     <AlertModal
+      handleFormValueChange={handleFormValueChange}
+      formValues={formik.values}
       defaultIsOpen={true}
       isOpen={isAlertModalOpen}
       handleClose={handleCloseAlertModal}
       handleOpen={handleOpenAlertModal}
       triggerButtonParams={triggerButtonParams}
     />
-  )
-}
+  );
+};
 
-export default AlertModalMaster
+export default AlertModalMaster;

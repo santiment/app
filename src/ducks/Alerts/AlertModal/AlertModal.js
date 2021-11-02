@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
-import { useFormik } from 'formik'
 
 import AlertModalSidebar from './AlertModalSidebar/AlertModalSidebar'
 import AlertModalContent from './AlertModalContent/AlertModalContent'
@@ -18,23 +17,12 @@ const AlertModal = ({
   triggerLabel,
   modalLabel,
   enabled,
-  triggerButtonParams
+  triggerButtonParams,
+                      handleFormValueChange,
+  formValues
 }) => {
   const [currentAlertType, setCurrentAlertType] = useState(ALERT_TYPES[0])
   const [selectedStep, setSelectedStep] = useState()
-
-  const formik = useFormik({
-    initialValues: {
-      settings: {
-        target: {
-          slug: ''
-        }
-      }
-    },
-    onSubmit: values => {
-      alert(JSON.stringify(values, null, 2))
-    }
-  })
 
   const handleSetCurrentAlertType = type => {
     setCurrentAlertType(type)
@@ -66,8 +54,10 @@ const AlertModal = ({
             onChange={handleSetCurrentAlertType}
             setSelectedStep={setSelectedStep}
             selectedStep={selectedStep}
+            formValues={formValues}
           />
           <AlertModalContent
+            handleFormValueChange={handleFormValueChange}
             currentAlertType={currentAlertType}
             selectedStep={selectedStep}
             setSelectedStep={setSelectedStep}
