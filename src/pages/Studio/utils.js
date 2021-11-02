@@ -1,7 +1,5 @@
-import { push } from 'react-router-redux'
 import gql from 'graphql-tag'
 import { client } from '../../apollo'
-import { store } from '../../redux'
 
 export const SHORT_URL_OFFSET = '/charts/'.length
 export const SHORT_URL_POSTFIX = '__sCl'
@@ -27,7 +25,3 @@ export const updateShortUrl = (shortUrl, fullUrl) =>
 
 export const getShortUrlHash = url =>
   url.slice(url.lastIndexOf('/') + 1, SHORT_URL_RIGHT_INDEX)
-
-export function closeCreationDialog () {
-  store.dispatch(push(window.location.pathname.replace('/new', '')))
-}

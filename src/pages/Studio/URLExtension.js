@@ -71,10 +71,9 @@ const URLExtension = ({
   }, [widgets, subwidgets])
 
   useEffect(() => {
-    const isNew = window.location.pathname.split('/')[2] === 'new'
-
     if (!sharedSettings || !sharedWidgets) return
 
+    const isNew = window.location.pathname.split('/')[2] === 'new'
     let [shortUrlHash, setShortUrlHash] = shortUrlHashState
     const url = getSharedUrl(
       shortUrlHash,
@@ -102,22 +101,18 @@ const URLExtension = ({
             shortUrlHash = newShortUrlHash
             setShortUrlHash(newShortUrlHash)
 
-            history.push(
-              isNew
-                ? buildChartShortPath(shortUrlHash) + '/new'
-                : buildChartShortPath(shortUrlHash)
-            )
+            history.push(buildChartShortPath(shortUrlHash))
           })
 
       shortUrlPromise
         .then(() => {
           if (isRacing) return
 
-          history.replace(
-            isNew
-              ? buildChartShortPath(shortUrlHash) + '/new'
-              : buildChartShortPath(shortUrlHash)
-          )
+          history.replace(buildChartShortPath(shortUrlHash))
+
+          if (isNew && window.onLayoutCreationOpen) {
+            window.onLayoutCreationOpen()
+          }
         })
         .catch(error => {
           if (isRacing) return

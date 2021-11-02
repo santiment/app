@@ -33,7 +33,6 @@ import {
   notifyCreation,
   notifySave
 } from '../../ducks/Studio/Template/notifications'
-import { closeCreationDialog } from './utils'
 import 'webkit/styles/color.css'
 import 'webkit/styles/text.css'
 import 'webkit/styles/layout.css'
@@ -43,7 +42,6 @@ import styles from './index.module.scss'
 window.notifyLayoutSave = notifySave
 window.notifyLayoutEdit = notifySave
 window.notifyLayoutCreation = notifyCreation
-window.closeCreationDialog = closeCreationDialog
 
 function getScreen () {
   const { pathname } = window.location
