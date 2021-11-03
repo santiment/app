@@ -2,25 +2,21 @@
 
 .container {
   display: flex;
+  max-width: 1152px;
   align-items: center;
-  justify-content: center;
-  flex: 1;
-  gap: 40px;
-}
+  margin: auto;
+  gap: 135px;
 
-:global(.laptop) .container,
-:global(.phone) .container,
-:global(.tablet) .container,
-:global(.phone-xs) .container {
-  flex-direction: column-reverse;
-  justify-content: flex-end;
-  gap: 0;
-  padding: 16px 16px 80px;
-}
-
-:global(.desktop) .bigImgContainer {
-  justify-content: space-between;
-  padding-left: 10%;
+  :global(.phone-xs) &,
+  :global(.phone) &,
+  :global(.tablet) &,
+  :global(.laptop) & {
+    margin: 0;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: 0;
+    padding: 16px 16px 80px;
+  }
 }
 
 :global(.desktop) .info {
@@ -28,27 +24,21 @@
 }
 
 .title {
-  @include text("h2", "l");
-}
-
-:global(.laptop) .title,
-:global(.phone) .title,
-:global(.tablet) .title,
-:global(.phone-xs) .title {
   @include text("h4", "l");
+
+  :global(.desktop) & {
+    @include text("h2", "l");
+  }
 }
 
 .error {
   margin-top: 32px;
 
-  @include text("body-1", "m");
-}
-
-:global(.laptop) .error,
-:global(.phone) .error,
-:global(.tablet) .error,
-:global(.phone-xs) .error {
   @include text("body-2", "m");
+
+  :global(.desktop) & {
+    @include text("body-1", "m");
+  }
 }
 
 .eventId {
@@ -59,42 +49,39 @@
 }
 
 .description {
-  @include text("body-1");
-
   margin-top: 16px;
-}
 
-:global(.laptop) .description,
-:global(.phone) .description,
-:global(.tablet) .description,
-:global(.phone-xs) .description {
   @include text("body-2", "m");
+
+  :global(.desktop) & {
+    @include text("body-1");
+  }
 }
 
 .btn {
   margin-top: 32px;
   min-width: 146px;
   justify-content: center;
-}
 
-:global(.phone) .btn,
-:global(.tablet) .btn,
-:global(.phone-xs) .btn {
-  width: 100%;
+  :global(.phone) &,
+  :global(.tablet) &,
+  :global(.phone-xs) & {
+    width: 100%;
+  }
 }
 
 .img {
   min-width: 600px;
   min-height: 440px;
-}
 
-:global(.phone) .img,
-:global(.phone-xs) .img,
-:global(.tablet) .img {
-  margin-left: 0;
-  width: 100%;
-  min-width: 100%;
-  min-height: 100%;
-  height: 300px;
-  padding-bottom: 30px;
+  :global(.phone) &,
+  :global(.phone-xs) &,
+  :global(.tablet) & {
+    margin-left: 0;
+    width: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    height: 300px;
+    padding-bottom: 30px;
+  }
 }
