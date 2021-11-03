@@ -54,11 +54,6 @@ const LEFT_LINKS = [
     link: 'https://app.santiment.net/labs/balance'
   },
   {
-    label: 'Sangraphs',
-    link: 'https://graphs.santiment.net'
-  },
-
-  {
     label: 'Contact us',
     link: 'mailto:support@santiment.net',
     onClick: evt => {
@@ -71,10 +66,6 @@ const LEFT_LINKS = [
   {
     label: 'Buy SAN',
     link: 'https://academy.santiment.net/san-tokens/how-to-buy-san/'
-  },
-  {
-    label: 'Sanhunters',
-    link: 'https://hunters.santiment.net/'
   }
 ]
 
