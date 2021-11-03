@@ -89,7 +89,7 @@
     "redux-observable": "^0.18.0",
     "redux-persist": "^5.4.0",
     "rxjs": "5.x.x",
-    "san-studio": "https://github.com/santiment/san-studio#3687f82",
+    "san-studio": "https://github.com/santiment/san-studio#24d706a",
     "san-webkit": "https://github.com/santiment/san-webkit#45b0180",
     "sanitize-html": "^1.18.2",
     "svg-sprite": "1.5.0",
