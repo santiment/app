@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, { useCallback, useState } from 'react'
 import Loadable from 'react-loadable'
 import { useLocation } from 'react-router-dom'
 import { parse } from 'query-string'
@@ -32,10 +32,6 @@ const Alerts = ({ isDesktop }) => {
   const handleChangeFilter = res => {
     setFilter(res)
   }
-
-  useEffect(() => {
-    throw Error
-  }, [])
 
   const bottomActions = [
     {
