@@ -44,7 +44,9 @@ const Filter = ({
 
   const isViewMode =
     !isAuthor && !isAuthorLoading && (isLoggedIn || !isDefaultScreener)
-  const filters = extractFilters(screenerFunction.args)
+  const filters = useMemo(() => extractFilters(screenerFunction.args), [
+    screenerFunction
+  ])
   const [currentSearch, setCurrentSearch] = useState('')
   const [filter, updateFilter] = useState(filters)
   const [baseProjects, setBaseProjects] = useState(
