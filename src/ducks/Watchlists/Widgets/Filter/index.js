@@ -57,6 +57,10 @@ const Filter = ({
   const [isReset, setIsReset] = useState(false)
   const { isPro } = useUserSubscriptionStatus()
 
+  useEffect(() => {
+    updateFilter(filters)
+  }, [filters])
+
   const isNoFilters = useMemo(
     () => filters.length === 0 || screenerFunction.name === 'top_all_projects',
     [filters, screenerFunction]
