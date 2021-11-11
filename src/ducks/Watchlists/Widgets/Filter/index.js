@@ -44,7 +44,9 @@ const Filter = ({
 
   const isViewMode =
     !isAuthor && !isAuthorLoading && (isLoggedIn || !isDefaultScreener)
-  const filters = extractFilters(screenerFunction.args)
+  const filters = useMemo(() => extractFilters(screenerFunction.args), [
+    screenerFunction
+  ])
   const [currentSearch, setCurrentSearch] = useState('')
   const [filter, updateFilter] = useState(filters)
   const [baseProjects, setBaseProjects] = useState(
@@ -56,6 +58,10 @@ const Filter = ({
   const { availableMetrics } = useAvailableMetrics()
   const [isReset, setIsReset] = useState(false)
   const { isPro } = useUserSubscriptionStatus()
+
+  useEffect(() => {
+    updateFilter(filters)
+  }, [filters])
 
   const isNoFilters = useMemo(
     () => filters.length === 0 || screenerFunction.name === 'top_all_projects',

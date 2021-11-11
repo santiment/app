@@ -27,6 +27,9 @@ export const EmailForm = ({
   const [trackEvent] = useTrackEvents()
   return (
     <Formik
+      initialValues={{
+        email: ''
+      }}
       onSubmit={({ email }) => {
         setEmail && setEmail(email)
 

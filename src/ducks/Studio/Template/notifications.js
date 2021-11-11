@@ -12,6 +12,13 @@ export function notifyCreation () {
   })
 }
 
+export function notifyAnonCreation () {
+  return dispatchNotification({
+    variant: 'info',
+    title: 'Your chart was saved and will be created after sign up'
+  })
+}
+
 export function notifyDuplication () {
   return dispatchNotification({
     variant: 'success',

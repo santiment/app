@@ -30,6 +30,7 @@ import { parseTemplate } from './sharing/template'
 import { useRedrawer } from '../../hooks'
 import { Tab } from '../../ducks/Studio/Tabs'
 import {
+  notifyAnonCreation,
   notifyCreation,
   notifySave
 } from '../../ducks/Studio/Template/notifications'
@@ -42,6 +43,7 @@ import styles from './index.module.scss'
 window.notifyLayoutSave = notifySave
 window.notifyLayoutEdit = notifySave
 window.notifyLayoutCreation = notifyCreation
+window.notifyLayoutAnonCreation = notifyAnonCreation
 
 function getScreen () {
   const { pathname } = window.location

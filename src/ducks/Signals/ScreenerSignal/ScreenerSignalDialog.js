@@ -65,7 +65,7 @@ const ScreenerSignalDialog = ({
   const [open, setOpen] = useState(defaultOpen)
 
   const targetId = watchlistId || getWachlistIdFromSignal(signal)
-  const [watchlist = {}] = useWatchlist({ id: targetId })
+  const [watchlist] = useWatchlist({ id: targetId })
 
   const hasSignal = signal && signal.id > 0
 
@@ -164,7 +164,7 @@ const ScreenerSignalDialog = ({
     >
       <Dialog.ScrollContent>
         <ScreenerSignal
-          watchlist={watchlist}
+          watchlist={watchlist || {}}
           signal={stateSignal}
           onCancel={close}
           onSubmit={onSubmit}

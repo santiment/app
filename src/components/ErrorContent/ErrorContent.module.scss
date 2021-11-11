@@ -1,32 +1,43 @@
-@import '../../../node_modules/@santiment-network/ui/mixins';
+@import "../../../node_modules/@santiment-network/ui/mixins";
 
 .container {
   display: flex;
   max-width: 1152px;
-  margin: auto;
   align-items: center;
+  margin: auto;
+  gap: 135px;
 
-  @include responsive('phone', 'phone-xs', 'tablet', 'laptop') {
+  :global(.phone-xs) &,
+  :global(.phone) &,
+  :global(.tablet) &,
+  :global(.laptop) & {
+    margin: 0;
     flex-direction: column-reverse;
-    padding: 16px;
+    justify-content: flex-end;
+    gap: 0;
+    padding: 16px 16px 80px;
   }
 }
 
-.title {
-  @include text('h2', 'l');
+:global(.desktop) .info {
+  min-width: 400px;
+}
 
-  @include responsive('phone', 'phone-xs', 'tablet', 'laptop') {
-    @include text('h4', 'l');
+.title {
+  @include text("h4", "l");
+
+  :global(.desktop) & {
+    @include text("h2", "l");
   }
 }
 
 .error {
   margin-top: 32px;
 
-  @include text('body-1', 'm');
+  @include text("body-2", "m");
 
-  @include responsive('phone', 'phone-xs', 'tablet', 'laptop') {
-    @include text('body-2', 'm');
+  :global(.desktop) & {
+    @include text("body-1", "m");
   }
 }
 
@@ -38,12 +49,12 @@
 }
 
 .description {
-  @include text('body-1');
-
   margin-top: 16px;
 
-  @include responsive('phone', 'phone-xs', 'tablet', 'laptop') {
-    @include text('body-2', 'm');
+  @include text("body-2", "m");
+
+  :global(.desktop) & {
+    @include text("body-1");
   }
 }
 
@@ -52,7 +63,9 @@
   min-width: 146px;
   justify-content: center;
 
-  @include responsive('phone', 'phone-xs') {
+  :global(.phone) &,
+  :global(.tablet) &,
+  :global(.phone-xs) & {
     width: 100%;
   }
 }
@@ -60,13 +73,15 @@
 .img {
   min-width: 600px;
   min-height: 440px;
-  margin-left: 135px;
 
-  @include responsive('phone', 'phone-xs', 'tablet', 'laptop') {
+  :global(.phone) &,
+  :global(.phone-xs) &,
+  :global(.tablet) & {
     margin-left: 0;
-    margin-bottom: 51px;
     width: 100%;
     min-width: 100%;
     min-height: 100%;
+    height: 300px;
+    padding-bottom: 30px;
   }
 }

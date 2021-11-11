@@ -20,6 +20,25 @@
 3. Wait until first build and install has completed (note: this can take a while - it might also help to increase the memory docker has been allocated)
 4. Open Terminal within VSCode (ctrl-`)
 
+## Local development (under HTTPS)
+
+To start your local development you need to:
+1. Whitelist your domain
+   1. Open `/etc/hosts`
+   2. Add the following line: `127.0.0.1 dev.mylocalsite.com`
+   3. Save the file
+2. In `.env.local` add the following lines <br />
+   `HTTPS=true`<br />
+   `HOST='dev.mylocalsite.com'`
+3. Install [mkcert](https://github.com/FiloSottile/mkcert)
+4. Create your own certificate authority on your system <br />
+   `mkcert -install`
+5. Create a certificate for your custom domain and concatenate the two files <br />
+   `mkcert "127.0.0.1" "localhost" "dev.mylocalsite.com"` <br />
+   `cat *-key.pem *.pem > server.pem`
+6. Create /.cert folder and move the server.pem file into it in app root directory
+7. Run `npm run start`
+
 ## Lint/Format
 We use prettier-standard. eslint rules from standard and format by prettier.
 Setup your editor with prettier-standard lint rules - https://github.com/sheerun/prettier-standard
