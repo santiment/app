@@ -22,13 +22,13 @@ export const SCROLLABLE_ANCHORS = [
 
 export const TOP_LINKS = [
   {
-    title: 'Signals',
-    link: KEYSTACKHOLDERS_ANCHOR,
+    title: 'Explore Screeners',
+    link: SCREENERS_ANCHOR,
     Icon: () => (
-      <svg className={styles.topIcon} width='12' height='16'>
+      <svg className={styles.topIcon} width='16' height='16'>
         <path
           fillRule='evenodd'
-          d='M8.7 1.4a1 1 0 0 0-1-1.4H3.4c-.4 0-.9.3-1 .7L0 8.2a1 1 0 0 0 1 1.4h4.1l-1 5.8c-.2.5.6.8 1 .4L11.7 7c.5-.6 0-1.7-1-1.7H7.6l1.2-4ZM5.5 13.7 11 6.4H6L7.8 1H3.3l-.2.2L1 8.5v.1h5.4l-1 5Z'
+          d='M5.9 1H1v4.9h4.9V1ZM1 0a1 1 0 0 0-1 1v4.9c0 .5.4 1 1 1h4.9c.5 0 1-.5 1-1V1c0-.6-.5-1-1-1H1Zm14 1h-4.9v4.9H15V1Zm-4.9-1a1 1 0 0 0-1 1v4.9c0 .5.5 1 1 1H15c.6 0 1-.5 1-1V1c0-.6-.4-1-1-1h-4.9ZM0 12.5c0-.3.2-.5.5-.5h15a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5ZM.5 9a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1H.5ZM0 15.5c0-.3.2-.5.5-.5h15a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5Z'
         />
       </svg>
     )
@@ -43,13 +43,13 @@ export const TOP_LINKS = [
     )
   },
   {
-    title: 'Explore Screeners',
-    link: SCREENERS_ANCHOR,
+    title: 'Signals',
+    link: KEYSTACKHOLDERS_ANCHOR,
     Icon: () => (
-      <svg className={styles.topIcon} width='16' height='16'>
+      <svg className={styles.topIcon} width='12' height='16'>
         <path
           fillRule='evenodd'
-          d='M5.9 1H1v4.9h4.9V1ZM1 0a1 1 0 0 0-1 1v4.9c0 .5.4 1 1 1h4.9c.5 0 1-.5 1-1V1c0-.6-.5-1-1-1H1Zm14 1h-4.9v4.9H15V1Zm-4.9-1a1 1 0 0 0-1 1v4.9c0 .5.5 1 1 1H15c.6 0 1-.5 1-1V1c0-.6-.4-1-1-1h-4.9ZM0 12.5c0-.3.2-.5.5-.5h15a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5ZM.5 9a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1H.5ZM0 15.5c0-.3.2-.5.5-.5h15a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5Z'
+          d='M8.7 1.4a1 1 0 0 0-1-1.4H3.4c-.4 0-.9.3-1 .7L0 8.2a1 1 0 0 0 1 1.4h4.1l-1 5.8c-.2.5.6.8 1 .4L11.7 7c.5-.6 0-1.7-1-1.7H7.6l1.2-4ZM5.5 13.7 11 6.4H6L7.8 1H3.3l-.2.2L1 8.5v.1h5.4l-1 5Z'
         />
       </svg>
     )

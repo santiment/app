@@ -36,9 +36,9 @@ const IndexPage = () => (
     <Block className={styles.block_main} contentClassName={styles.content_main}>
       <Navigation className={styles.navigation} />
       <main className={styles.main}>
-        <KeystackeholdersEvents />
-        <TrendsSection />
         <FeaturedScreeners />
+        <TrendsSection />
+        <KeystackeholdersEvents />
         <InsightsOnDemand />
         <Section title='Video insights' link={VIDEOS_ANCHOR}>
           <WebinarWidget />
