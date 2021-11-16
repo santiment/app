@@ -14,15 +14,21 @@ export const VALUE_IFS = ['drops below', 'rises above']
 
 export const createSuggestion = (alert, render) => ({ alert, render })
 
-export const buildValueChangeSuggester = metric => {
+const defaultTransformer = data => data
+export const buildValueChangeSuggester = (
+  metric,
+  transformer = defaultTransformer
+) => {
   const { formatter = FORMATTER, label } = metric
 
-  return ({ slug, asset = slug, value, lastValue, selector }) => {
+  return alert => {
+    const { value, lastValue } = alert
     const isAbove = value > lastValue
     const type = PRICE_CHANGE_TYPES[isAbove ? SIGNAL_ABOVE : SIGNAL_BELOW]
+    const { slug, selector } = transformer(alert)
 
     return createSuggestion(
-      buildValueChangeSignal(asset, roundNumber(value), type, metric, selector),
+      buildValueChangeSignal(slug, roundNumber(value), type, metric, selector),
       <>
         {label} {VALUE_IFS[+isAbove]} <Value>{formatter(value)}</Value>
       </>
@@ -30,14 +36,20 @@ export const buildValueChangeSuggester = metric => {
   }
 }
 
-export const buildPercentUpSuggester = metric => {
+export const buildPercentUpSuggester = (
+  metric,
+  transformer = defaultTransformer
+) => {
   const { label } = metric
 
-  return ({ slug, asset = slug, selector }) =>
-    createSuggestion(
-      buildPercentUpDownSignal(asset, metric, selector),
+  return alert => {
+    const { slug, selector } = transformer(alert)
+
+    return createSuggestion(
+      buildPercentUpDownSignal(slug, metric, selector),
       <>
         {label} moves up or down by <Value>10%</Value>
       </>
     )
+  }
 }
