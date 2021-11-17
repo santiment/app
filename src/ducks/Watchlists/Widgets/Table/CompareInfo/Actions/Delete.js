@@ -34,6 +34,59 @@ const Delete = ({ selected, watchlist, refetchAssets }) => {
     [store, showNotification]
   )
 
+  const onUndo = projectIds => {
+    setLoading(true)
+    addWatchlistItems({
+      variables: {
+        id: parseInt(watchlist.id),
+        listItems: projectIds
+      }
+    })
+      .then(() => setLoading(false))
+      .then(refetchAssets)
+      .catch(reportError)
+  }
+
+  const onClick = () => {
+    if (loading) return
+
+    setLoading(true)
+    let projectIds = []
+
+    getProjectIDs(selected)
+      .then(res => {
+        projectIds = Object.entries(res.data.items.projects).map(p => ({
+          projectId: parseInt(p[1].id)
+        }))
+      })
+      .then(() => {
+        removeWatchlistItems({
+          variables: {
+            id: parseInt(watchlist.id),
+            listItems: projectIds
+          }
+        })
+      })
+      .then(() => setLoading(false))
+      .then(() => {
+        store.dispatch(
+          showNotification({
+            variant: 'info',
+            title: `${selectedText} deleted successfully.`,
+            description: (
+              <NotificationActions
+                isOpenLink={false}
+                onClick={() => onUndo(projectIds)}
+              />
+            ),
+            dismissAfter: 8000
+          })
+        )
+      })
+      .then(refetchAssets)
+      .catch(reportError)
+  }
+
   return (
     <DarkTooltip
       align='center'
@@ -41,56 +94,7 @@ const Delete = ({ selected, watchlist, refetchAssets }) => {
       on='hover'
       className={tableStyles.tooltip_oneline}
       trigger={
-        <div
-          onClick={() => {
-            if (loading) return
-            setLoading(true)
-            let projectIds = []
-            getProjectIDs(selected)
-              .then(res => {
-                projectIds = Object.entries(res.data).map(p => ({
-                  projectId: parseInt(p[1].id)
-                }))
-              })
-              .then(() => {
-                removeWatchlistItems({
-                  variables: {
-                    id: parseInt(watchlist.id),
-                    listItems: projectIds
-                  }
-                })
-              })
-              .then(() => setLoading(false))
-              .then(() => {
-                store.dispatch(
-                  showNotification({
-                    variant: 'info',
-                    title: `${selectedText} deleted successfully.`,
-                    description: (
-                      <NotificationActions
-                        isOpenLink={false}
-                        onClick={() => {
-                          setLoading(true)
-                          addWatchlistItems({
-                            variables: {
-                              id: parseInt(watchlist.id),
-                              listItems: projectIds
-                            }
-                          })
-                            .then(() => setLoading(false))
-                            .then(refetchAssets)
-                            .catch(reportError)
-                        }}
-                      />
-                    ),
-                    dismissAfter: 8000
-                  })
-                )
-              })
-              .then(refetchAssets)
-              .catch(reportError)
-          }}
-        >
+        <div onClick={onClick}>
           <Icon type='remove' className={styles.remove} />
         </div>
       }

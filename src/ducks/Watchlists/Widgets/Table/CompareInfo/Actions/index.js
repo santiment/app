@@ -4,7 +4,7 @@ import styles from './Actions.module.scss'
 
 const Actions = ({ selected, watchlist, refetchAssets }) => {
   return (
-    <div className={styles.action}>
+    <div className={styles.actions}>
       <Delete
         selected={selected}
         watchlist={watchlist}

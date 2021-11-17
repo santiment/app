@@ -1,15 +1,14 @@
 @import '~@santiment-network/ui/mixins';
 
-.action {
+.actions {
     margin-right: 24px;
     line-height: 0;
   
-    svg {
-      cursor: pointer;
-    }
 }
 
 .remove {
+  cursor: pointer;
+
   fill: var(--waterloo);
   
   &:hover {
