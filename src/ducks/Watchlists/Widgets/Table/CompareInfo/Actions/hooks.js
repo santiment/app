@@ -1,19 +1,13 @@
 import gql from 'graphql-tag'
-import { useQuery, useMutation } from '@apollo/react-hooks'
+import { useMutation } from '@apollo/react-hooks'
+import { client } from '../../../../../../apollo'
 
-export const useProjectID = selected => {
+export const getProjectIDs = selected => {
   const query = selected
     .map(s => `${s.ticker}: projectBySlug(slug: "${s.slug}") {id}`)
     .join(',')
   const GET_PROJECT_ID_BY_SLUG = gql`{${query}}`
-  const { data } = useQuery(GET_PROJECT_ID_BY_SLUG)
-
-  return {
-    projectIds:
-      selected.length > 0 && data
-        ? Object.entries(data).map(s => ({ projectId: parseInt(s[1].id) }))
-        : []
-  }
+  return client.query({ query: GET_PROJECT_ID_BY_SLUG })
 }
 
 const DELETE_WATCHLIST_ITEMS_QUERY = gql`
