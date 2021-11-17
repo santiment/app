@@ -223,6 +223,7 @@ const ProjectsChart = ({
                     verticalAnchor='end'
                     stroke={'var(--fiord)'}
                     onClick={onProjectClick}
+                    dx={-5}
                   />
 
                   <Tooltip
