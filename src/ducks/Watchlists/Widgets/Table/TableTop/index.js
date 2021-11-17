@@ -63,6 +63,7 @@ const TableTop = ({
           </div>
           {comparingAssets.length > 0 && (
             <CompareInfo
+              type={type}
               selected={comparingAssets}
               watchlist={watchlist}
               refetchAssets={refetchAssets}
