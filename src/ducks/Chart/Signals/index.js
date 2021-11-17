@@ -57,6 +57,7 @@ const DEFAULT_SIGNALS = []
 const Signals = ({
   width,
   slug,
+  asset,
   selector = 'slug',
   chart,
   data,
@@ -191,6 +192,7 @@ const Signals = ({
           hoverPoint={hoverPoint}
           slug={slug}
           selector={selector}
+          asset={asset}
           data={data}
           createAlert={createSignal}
           onDialogClose={onMouseLeave}
