@@ -21,8 +21,6 @@ const Delete = ({selected, watchlist, refetchAssets}) => {
         return `${selected.length} ${selected.length > 1 ? 'items' : 'item'}`;
     }, [selected]);
 
-    console.log(projectIds);
-
     const deleteClickHandler = useCallback(async() => {
         try {
             await removeWatchlistItems({
