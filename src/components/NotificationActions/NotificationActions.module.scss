@@ -17,9 +17,12 @@
 .undo {
   color: var(--persimmon);
   cursor: pointer;
-  margin-left: 16px;
 
   &:hover {
     color: var(--persimmon-hover);
   }
+}
+
+.undoMargin {
+  margin-left: 16px;
 }

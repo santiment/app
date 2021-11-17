@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import styles from './NotificationActions.module.scss'
 
-const UndoTrigger = ({ onClick }) => (
-  <div onClick={onClick} className={styles.undo}>
+const UndoTrigger = ({ onClick, isOpenLink }) => (
+  <div onClick={onClick} className={isOpenLink ? [styles.undo, styles.undoMargin] : styles.undo}>
     Undo
   </div>
 )
@@ -46,9 +46,10 @@ const NotificationActions = ({
         />
       ) : (
         <UndoTrigger
+          isOpenLink={isOpenLink}
           onClick={() => {
-            onClick()
-            hide()
+            onClick();
+            hide();
           }}
         />
       )}

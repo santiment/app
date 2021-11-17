@@ -5,6 +5,10 @@
   padding: 6px 12px;
 
   @include text('caption');
+
+  &Oneline {
+    max-width: 100%;
+  }
 }
 
 .compareIcon {

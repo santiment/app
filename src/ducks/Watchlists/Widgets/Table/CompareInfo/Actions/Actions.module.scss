@@ -1,0 +1,56 @@
+@import '~@santiment-network/ui/mixins';
+
+.actions {
+    margin-right: 24px;
+    line-height: 0;
+  
+    & svg {
+      cursor: pointer;
+    }
+}
+
+.deleteDialog {
+    width: 480px;
+    height: 260px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    & svg {
+        margin-bottom: 16px;
+    }
+
+    & h4 {
+        line-height: 32px;
+        color: var(--rhino);
+        margin-bottom: 8px;
+    }
+
+    & h5 {
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 20px;
+        color: var(--waterloo);
+        margin-bottom: 24px;
+    }
+}
+
+.dialogActions {
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+
+    & .delete {
+        background: var(--white);
+        border: 1px solid var(--porcelain);
+        color: var(--rhino);
+        margin-right: 16px;
+    }
+
+    & .cancel {
+        background: var(--jungle-green);
+        color: var(--white);
+    }
+}

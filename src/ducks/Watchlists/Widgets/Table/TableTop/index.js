@@ -61,9 +61,12 @@ const TableTop = ({
               disabledComparision={disabledComparision}
             />
           </div>
-
           {comparingAssets.length > 0 && (
-            <CompareInfo selected={comparingAssets} />
+            <CompareInfo
+              selected={comparingAssets}
+              watchlist={watchlist}
+              refetchAssets={refetchAssets}
+            />
           )}
         </div>
       )}
