@@ -1,11 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import Icon from '@santiment-network/ui/Icon'
 import { store } from '../../../../../../redux'
-import {
-  getProjectIDs,
-  useDeleteWatchlistItems,
-  useAddWatchlistItems
-} from './hooks'
+import { useDeleteWatchlistItems, useAddWatchlistItems } from './hooks'
 import { showNotification } from '../../../../../../actions/rootActions'
 import DarkTooltip from '../../../../../../components/Tooltip/DarkTooltip'
 import NotificationActions from '../../../../../../components/NotificationActions/NotificationActions'
@@ -34,12 +30,12 @@ const Delete = ({ selected, watchlist, refetchAssets }) => {
     [store, showNotification]
   )
 
-  const onUndo = projectIds => {
+  const onUndo = listItems => {
     setLoading(true)
     addWatchlistItems({
       variables: {
         id: parseInt(watchlist.id),
-        listItems: projectIds
+        listItems
       }
     })
       .then(() => setLoading(false))
@@ -51,22 +47,14 @@ const Delete = ({ selected, watchlist, refetchAssets }) => {
     if (loading) return
 
     setLoading(true)
-    let projectIds = []
+    const listItems = selected.map(s => ({ projectId: parseInt(s.id) }))
 
-    getProjectIDs(selected)
-      .then(res => {
-        projectIds = Object.entries(res.data.items.projects).map(p => ({
-          projectId: parseInt(p[1].id)
-        }))
-      })
-      .then(() => {
-        removeWatchlistItems({
-          variables: {
-            id: parseInt(watchlist.id),
-            listItems: projectIds
-          }
-        })
-      })
+    removeWatchlistItems({
+      variables: {
+        id: parseInt(watchlist.id),
+        listItems
+      }
+    })
       .then(() => setLoading(false))
       .then(() => {
         store.dispatch(
@@ -76,7 +64,7 @@ const Delete = ({ selected, watchlist, refetchAssets }) => {
             description: (
               <NotificationActions
                 isOpenLink={false}
-                onClick={() => onUndo(projectIds)}
+                onClick={() => onUndo(listItems)}
               />
             ),
             dismissAfter: 8000

@@ -16,7 +16,7 @@ test:
 	docker-compose up --build test
 
 sh:
-	docker-compose run frontend sh
+	docker-compose exec frontend sh
 
 # Extracts node_modules from the image so it is cached in subsequent builds
 cache:
