@@ -1,19 +1,23 @@
 import React from 'react'
-
-import Actions from './Actions/index';
+import Actions from './Actions/index'
 import styles from './CompareInfo.module.scss'
 
-const CompareInfo = ({ type, selected, cleanAll, watchlist, refetchAssets }) => {
+const CompareInfo = ({
+  type,
+  selected,
+  cleanAll,
+  watchlist,
+  refetchAssets
+}) => {
   return (
     <div className={styles.container}>
-      
-      {type === "PROJECT" &&
+      {type === 'PROJECT' && (
         <Actions
           selected={selected}
           watchlist={watchlist}
           refetchAssets={refetchAssets}
         />
-      }
+      )}
 
       <div className={styles.info}>
         <div className={styles.text}>
