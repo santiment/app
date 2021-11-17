@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import Icon from '@santiment-network/ui/Icon'
 import { store } from '../../../../../../redux'
 import {
@@ -17,6 +17,7 @@ const Delete = ({ selected, watchlist, refetchAssets }) => {
   const { projectIds } = useProjectID(selected)
   const { removeWatchlistItems } = useDeleteWatchlistItems()
   const { addWatchlistItems } = useAddWatchlistItems()
+  const [loading, setLoading] = useState(false);
 
   // UI variables
   const selectedText = useMemo(() => {
@@ -33,48 +34,6 @@ const Delete = ({ selected, watchlist, refetchAssets }) => {
     )
   }, [store, showNotification])
 
-  const deleteClickHandler = useCallback(() => {
-    removeWatchlistItems({
-        variables: {
-            id: parseInt(watchlist.id),
-            listItems: projectIds
-        }
-    })
-    .then(() => {
-        store.dispatch(
-            showNotification({
-                variant: 'info',
-                title: `${selectedText} deleted successfully.`,
-                description: (
-                <NotificationActions isOpenLink={false} onClick={undoHandler} />
-                ),
-                dismissAfter: 8000
-            })
-        )    
-    })
-    .then(refetchAssets)
-    .catch(reportError)
-  }, [
-    projectIds,
-    removeWatchlistItems,
-    watchlist,
-    store,
-    showNotification,
-    refetchAssets,
-    reportError
-  ])
-
-  const undoHandler = useCallback(() => {
-    addWatchlistItems({
-        variables: {
-            id: parseInt(watchlist.id),
-            listItems: projectIds
-        }
-    })
-    .then(refetchAssets)
-    .catch(reportError)
-  }, [addWatchlistItems, projectIds, watchlist, refetchAssets, reportError])
-
   return (
     <DarkTooltip
       align='center'
@@ -82,7 +41,40 @@ const Delete = ({ selected, watchlist, refetchAssets }) => {
       on='hover'
       className={tableStyles.tooltip_oneline}
       trigger={
-        <div onClick={deleteClickHandler}>
+        <div onClick={()=>{
+            if (loading) return;
+            setLoading(true);
+            removeWatchlistItems({
+                variables: {
+                    id: parseInt(watchlist.id),
+                    listItems: projectIds
+                }
+            })
+            .then(() => setLoading(false))
+            .then(() => {
+                store.dispatch(
+                    showNotification({
+                        variant: 'info',
+                        title: `${selectedText} deleted successfully.`,
+                        description: (
+                        <NotificationActions isOpenLink={false} onClick={() => {
+                            addWatchlistItems({
+                                variables: {
+                                    id: parseInt(watchlist.id),
+                                    listItems: projectIds
+                                }
+                            })
+                            .then(refetchAssets)
+                            .catch(reportError)                        
+                        }} />
+                        ),
+                        dismissAfter: 8000
+                    })
+                )    
+            })
+            .then(refetchAssets)
+            .catch(reportError)
+        }}>
           <Icon type='remove' className={styles.remove} />
         </div>
       }
