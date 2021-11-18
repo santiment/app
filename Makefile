@@ -3,7 +3,7 @@
 start:
 	make build
 	make dev
-	echo "Let's start :) Open http://localhost:8000/"
+	echo "Let's start :) Open https://local.santiment.net:8000/"
 
 build:
 	docker-compose build frontend
@@ -11,6 +11,9 @@ build:
 
 dev:
 	docker-compose up -d frontend
+
+log:
+	docker-compose logs -f
 
 test:
 	docker-compose up --build test
