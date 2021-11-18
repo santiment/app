@@ -63,7 +63,7 @@ export const DefaultAssetLinkWithLabels = ({ address, labels }) => {
   return (
     <div>
       <span className={styles.link}>
-        {makeShortAddresLink({ link: address || '' })}
+        {makeShortAddresLink({ link: address })}
       </span>
       {labels && <TransactionTableLabels labels={labels} />}
     </div>
