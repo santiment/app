@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import Icon from '@santiment-network/ui/Icon'
 import { store } from '../../../../../../redux'
 import { useDeleteWatchlistItems, useAddWatchlistItems } from './hooks'
@@ -8,29 +8,27 @@ import NotificationActions from '../../../../../../components/NotificationAction
 import tableStyles from '../../AssetsTable.module.scss'
 import styles from './Actions.module.scss'
 
+function reportError (err) {
+  store.dispatch(
+    showNotification({
+      variant: 'error',
+      title: err.message,
+      dismissAfter: 2000
+    })
+  )
+}
+
 const Delete = ({ selected, watchlist, refetchAssets }) => {
   const { removeWatchlistItems } = useDeleteWatchlistItems()
   const { addWatchlistItems } = useAddWatchlistItems()
   const [loading, setLoading] = useState(false)
 
-  const selectedText = useMemo(() => {
-    return `${selected.length} ${selected.length > 1 ? 'items' : 'item'}`
-  }, [selected])
-
-  const reportError = useCallback(
-    err => {
-      store.dispatch(
-        showNotification({
-          variant: 'error',
-          title: err.message,
-          dismissAfter: 2000
-        })
-      )
-    },
-    [store, showNotification]
+  const selectedText = useMemo(
+    () => `${selected.length} ${selected.length > 1 ? 'items' : 'item'}`,
+    [selected]
   )
 
-  const onUndo = listItems => {
+  function onUndo (listItems) {
     setLoading(true)
     addWatchlistItems({
       variables: {
@@ -43,7 +41,7 @@ const Delete = ({ selected, watchlist, refetchAssets }) => {
       .catch(reportError)
   }
 
-  const onClick = () => {
+  function onClick () {
     if (loading) return
 
     setLoading(true)
