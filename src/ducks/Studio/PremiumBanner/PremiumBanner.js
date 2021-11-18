@@ -17,14 +17,11 @@ const PremiumBanner = () => {
 
   const availableForUser = (isPro && isTrial) || (!isPro && isLoggedIn)
 
-  useEffect(
-    () => {
-      if (availableForUser && !loading) {
-        setShow(!localStorage.getItem(WIDGET_KEY))
-      }
-    },
-    [availableForUser, loading]
-  )
+  useEffect(() => {
+    if (availableForUser && !loading) {
+      setShow(!localStorage.getItem(WIDGET_KEY))
+    }
+  }, [availableForUser, loading])
 
   if (!show) {
     return null
@@ -51,20 +48,7 @@ const PremiumBanner = () => {
         </div>
 
         <div className={styles.actions}>
-          {!isTrial && (
-            <Button
-              fluid
-              accent='orange'
-              variant='fill'
-              className={styles.btn}
-              as={Link}
-              to={PATHS.CREATE_ACCOUNT}
-            >
-              Start free trial for 14 days
-            </Button>
-          )}
-
-          {isTrial && <UpgradeBtn variant={'fill'} showCrown={false} />}
+          <UpgradeBtn variant={'fill'} showCrown={false} />
         </div>
 
         <div onClick={hide}>

@@ -65,7 +65,7 @@ const ScreenerSignalDialog = ({
   const [open, setOpen] = useState(defaultOpen)
 
   const targetId = watchlistId || getWachlistIdFromSignal(signal)
-  const [watchlist = {}] = useWatchlist({ id: targetId })
+  const [watchlist] = useWatchlist({ id: targetId })
 
   const hasSignal = signal && signal.id > 0
 
@@ -73,36 +73,30 @@ const ScreenerSignalDialog = ({
     skip: hasSignal
   })
 
-  useEffect(
-    () => {
-      if (hasSignal) {
-        setSignal(signal)
-      }
-    },
-    [signal]
-  )
+  useEffect(() => {
+    if (hasSignal) {
+      setSignal(signal)
+    }
+  }, [signal])
 
-  useEffect(
-    () => {
-      if (watchlist && !hasSignal) {
-        if (signals.length > 0) {
-          let signalOfWatchlist = getWatchlistSignal({ signals, watchlist })
-          if (signalOfWatchlist) {
-            setSignal(signalOfWatchlist)
-            return
-          }
+  useEffect(() => {
+    if (watchlist && !hasSignal) {
+      if (signals.length > 0) {
+        let signalOfWatchlist = getWatchlistSignal({ signals, watchlist })
+        if (signalOfWatchlist) {
+          setSignal(signalOfWatchlist)
+          return
         }
-
-        const newSignal = {
-          ...SCREENER_DEFAULT_SIGNAL,
-          title: `Alert for screener '${watchlist.name}'`
-        }
-        newSignal.settings.operation.selector = { watchlist_id: watchlist.id }
-        setSignal(newSignal)
       }
-    },
-    [signals, watchlist]
-  )
+
+      const newSignal = {
+        ...SCREENER_DEFAULT_SIGNAL,
+        title: `Alert for screener '${watchlist.name}'`
+      }
+      newSignal.settings.operation.selector = { watchlist_id: watchlist.id }
+      setSignal(newSignal)
+    }
+  }, [signals, watchlist])
 
   const onSubmit = useCallback(
     data => {
@@ -119,13 +113,10 @@ const ScreenerSignalDialog = ({
     [stateSignal]
   )
 
-  const close = useCallback(
-    () => {
-      setOpen(false)
-      goBackTo && redirect(goBackTo)
-    },
-    [goBackTo, redirect, setOpen]
-  )
+  const close = useCallback(() => {
+    setOpen(false)
+    goBackTo && redirect(goBackTo)
+  }, [goBackTo, redirect, setOpen])
 
   const isActive = !!stateSignal.id && !!stateSignal.isActive
   const title = isActive ? 'Edit Alert' : 'Enable Alert'
@@ -173,7 +164,7 @@ const ScreenerSignalDialog = ({
     >
       <Dialog.ScrollContent>
         <ScreenerSignal
-          watchlist={watchlist}
+          watchlist={watchlist || {}}
           signal={stateSignal}
           onCancel={close}
           onSubmit={onSubmit}
@@ -193,7 +184,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(ScreenerSignalDialog)
+export default connect(null, mapDispatchToProps)(ScreenerSignalDialog)

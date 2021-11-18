@@ -66,29 +66,23 @@ const ProjectsChart = ({
     sorter: { sortBy = 'marketcapUsd', desc: sortDesc } = {},
     currency: defaultCurrency
   } = settings
-  const defaultIndex = useMemo(
-    () => {
-      const index = SORT_RANGES.findIndex(
-        ({ key, desc }) => key === sortBy && desc === sortDesc
-      )
-      return index >= 0 ? index : 0
-    },
-    [sortBy, sortDesc]
-  )
+  const defaultIndex = useMemo(() => {
+    const index = SORT_RANGES.findIndex(
+      ({ key, desc }) => key === sortBy && desc === sortDesc
+    )
+    return index >= 0 ? index : 0
+  }, [sortBy, sortDesc])
 
   const [sortedByIndex, setSortedByIndex] = useState(defaultIndex)
 
   const { key: sortByKey, label: sortLabel, desc } = SORT_RANGES[sortedByIndex]
 
-  useEffect(
-    () => {
-      onChangeSettings(type, {
-        sortBy: sortByKey,
-        desc
-      })
-    },
-    [sortByKey, desc]
-  )
+  useEffect(() => {
+    onChangeSettings(type, {
+      sortBy: sortByKey,
+      desc
+    })
+  }, [sortByKey, desc])
 
   const { currentRanges, currency, setCurrency } = useInfographicRanges({
     type,
@@ -114,15 +108,12 @@ const ProjectsChart = ({
     type: type
   })
 
-  const colored = useMemo(
-    () => {
-      return data.map(item => ({
-        ...item,
-        color: getBarColor(item[key])
-      }))
-    },
-    [data]
-  )
+  const colored = useMemo(() => {
+    return data.map(item => ({
+      ...item,
+      color: getBarColor(item[key])
+    }))
+  }, [data])
 
   const onProjectClick = useCallback(
     data => {
@@ -232,6 +223,7 @@ const ProjectsChart = ({
                     verticalAnchor='end'
                     stroke={'var(--fiord)'}
                     onClick={onProjectClick}
+                    dx={-5}
                   />
 
                   <Tooltip
@@ -264,7 +256,4 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(ProjectsChart)
+export default connect(null, mapDispatchToProps)(ProjectsChart)

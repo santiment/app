@@ -146,10 +146,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  connect(
-    null,
-    mapDispatchToProps
-  ),
+  connect(null, mapDispatchToProps),
   graphql(NEWSLETTER_SUBSCRIPTION_MUTATION, { name: 'mutateDigestType' })
 )
 

@@ -22,7 +22,7 @@ export const useAnchorLoading = (deps, scrollAnchors) => {
         hashLinkScroll(history)
       }
     },
-    1000,
+    0,
     [history.location, scrollAnchors, ...deps]
   )
 }

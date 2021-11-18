@@ -18,7 +18,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(WatchlistDeleteDialog)
+export default connect(null, mapDispatchToProps)(WatchlistDeleteDialog)

@@ -1,29 +1,18 @@
 @import '~@santiment-network/ui/mixins';
+@import '../../../animations.scss';
 
 .new {
   font-size: 10px;
   min-width: initial !important;
   margin-left: 8px;
+  display: flex;
 }
 
-@keyframes fadeOutDown {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
+.action {
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 .container {
@@ -35,22 +24,23 @@
   padding: 16px;
   cursor: pointer;
   box-sizing: border-box;
-  transition: background-color 1000ms linear;
+  transition: background-color 0.35s ease-in-out;
 
   .new {
     font-size: 10px;
     min-width: initial !important;
     margin-left: 8px;
-    animation-duration: 1000ms;
+    animation-duration: 0.35s;
     animation-fill-mode: both;
-    animation-name: fadeOutDown;
+    animation-name: disappear;
+    animation-delay: 0.2s;
   }
 
   &__unread {
     background: var(--athens);
 
     .new {
-      animation-name: fadeInUp;
+      animation-name: appear;
     }
   }
 
@@ -63,6 +53,13 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+}
+
+.actions {
+  display: flex;
+  position: relative;
+  min-width: 40px;
+  min-height: 32px;
 }
 
 .title {
@@ -125,4 +122,34 @@
 .right {
   display: flex;
   align-items: center;
+}
+
+.activityMarkdown {
+  word-break: break-all;
+
+  a {
+    color: var(--jungle-green);
+
+    &:hover {
+      color: var(--jungle-green-hover);
+    }
+  }
+
+  p {
+    margin-bottom: 0 !important;
+  }
+
+  a:nth-of-type(2) {
+    display: none;
+  }
+
+  p:nth-of-type(2) {
+    display: none;
+    margin: 0;
+  }
+
+  p:nth-of-type(3) {
+    display: none;
+    margin: 0;
+  }
 }

@@ -19,12 +19,9 @@ const WatchlistAnomalies = ({
   isDesktop = true
 }) => {
   const isTrendsFilter = type === filteringTypes.TRENDS
-  const totalAnomalies = useMemo(
-    () => {
-      return new Set(trends.map(({ id }) => id))
-    },
-    [trends]
-  )
+  const totalAnomalies = useMemo(() => {
+    return new Set(trends.map(({ id }) => id))
+  }, [trends])
   return trends.length > 0 ? (
     <div className={styles.wrapper}>
       <div className={styles.layout}>

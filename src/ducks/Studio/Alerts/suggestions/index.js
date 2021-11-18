@@ -2,12 +2,17 @@ import { buildPercentUpSuggester, buildValueChangeSuggester } from './helpers'
 import { dailyActiveAddressesSuggesters } from './dailyActiveAddresses'
 import { Metric } from '../../../dataHub/metrics'
 
+const priceTransformer = ({ slug, asset = slug }) => ({
+  slug: asset,
+  selector: 'slug'
+})
+
 export const Suggestion = Object.assign(Object.create(null), {
   price_usd: {
     title: 'Price',
     suggesters: [
-      buildValueChangeSuggester(Metric.price_usd),
-      buildPercentUpSuggester(Metric.price_usd)
+      buildValueChangeSuggester(Metric.price_usd, priceTransformer),
+      buildPercentUpSuggester(Metric.price_usd, priceTransformer)
     ]
   },
   daily_active_addresses: {

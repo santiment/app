@@ -53,29 +53,23 @@ const SignalPreviewChart = ({
 
   const { settings: { selector: { infrastructure } = {} } = {} } = trigger
 
-  const settings = useMemo(
-    () => {
-      return {
-        interval: metricsInterval,
-        slug,
-        address,
-        from,
-        to
-      }
-    },
-    [metricsInterval, slug, address, from, to]
-  )
+  const settings = useMemo(() => {
+    return {
+      interval: metricsInterval,
+      slug,
+      address,
+      from,
+      to
+    }
+  }, [metricsInterval, slug, address, from, to])
 
-  const requestedMetrics = useMemo(
-    () => {
-      return mapToRequestedMetrics(metrics, {
-        reqMeta: {
-          infrastructure
-        }
-      })
-    },
-    [infrastructure, metrics]
-  )
+  const requestedMetrics = useMemo(() => {
+    return mapToRequestedMetrics(metrics, {
+      reqMeta: {
+        infrastructure
+      }
+    })
+  }, [infrastructure, metrics])
 
   const [data, loadings] = useTimeseries(requestedMetrics, settings)
 
@@ -84,26 +78,20 @@ const SignalPreviewChart = ({
     [data, triggersBy]
   )
 
-  let triggeredSignals = useMemo(
-    () => {
-      const filtered = points.filter(point => point['triggered?'])
+  let triggeredSignals = useMemo(() => {
+    const filtered = points.filter(point => point['triggered?'])
 
-      return makeSameRange(filtered, merged)
-    },
-    [points, merged]
-  )
+    return makeSameRange(filtered, merged)
+  }, [points, merged])
 
-  const alertPoints = useMemo(
-    () => {
-      return mapWithTimeseriesAndYCoord(
-        triggeredSignals,
-        triggersBy,
-        merged,
-        isStrongDaily
-      )
-    },
-    [triggeredSignals, triggersBy, merged, isStrongDaily]
-  )
+  const alertPoints = useMemo(() => {
+    return mapWithTimeseriesAndYCoord(
+      triggeredSignals,
+      triggersBy,
+      merged,
+      isStrongDaily
+    )
+  }, [triggeredSignals, triggersBy, merged, isStrongDaily])
 
   const referenceDots = useMemo(
     () =>

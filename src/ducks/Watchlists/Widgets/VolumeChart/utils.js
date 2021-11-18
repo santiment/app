@@ -152,12 +152,12 @@ export const mapToColors = (data, key) => {
 export const getBarValue = value => {
   return Math.abs(value) < 1
     ? formatNumber(value, {
-      maximumFractionDigits: 2
-    })
+        maximumFractionDigits: 2
+      })
     : formatNumber(value, {
-      maximumFractionDigits: 0,
-      minimumFractionDigits: 0
-    })
+        maximumFractionDigits: 0,
+        minimumFractionDigits: 0
+      })
 }
 
 export const tooltipLabelFormatter = (value, payload) => {

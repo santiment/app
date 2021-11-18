@@ -7,6 +7,7 @@ import { NewLabelTemplate } from '../../../components/NewLabel/NewLabel'
 import { MoreInfoAlert } from '../../../pages/feed/GeneralFeed/FeedItemRenderer/feedSignalCardWithMarkdown/FeedSignalCardWithMarkdown'
 import { getLink, getTitle, getTypes, TRIGGER_FIRED } from './utils'
 import { getUserTriggerData } from '../../../pages/SonarFeed/ActivityRenderer/ActivityWithBacktesting'
+import NotificationActions from '../../../components/NotificationBellBtn/NotificationActions'
 import styles from './NotificationItem.module.scss'
 
 const AlertPlaceholder = ({ data }) => {
@@ -37,32 +38,28 @@ const NotificationItem = ({
   isOpened,
   className,
   timeoutIndex,
+  closeDropdown,
   isNew: isNewInput
 }) => {
   const { insertedAt, user } = data
   const { user: currentUser } = useUser()
 
   const [isNew, setIsNew] = useState(isNewInput)
+  const [isHover, setIsHover] = useState(false)
 
-  useEffect(
-    () => {
-      setIsNew(isNewInput)
-    },
-    [isNewInput]
-  )
+  useEffect(() => {
+    setIsNew(isNewInput)
+  }, [isNewInput])
 
-  useEffect(
-    () => {
-      if (isOpened) {
-        const timeoutId = setTimeout(() => {
-          setIsNew(false)
-        }, (timeoutIndex + 2) * 1000)
+  useEffect(() => {
+    if (isOpened) {
+      const timeoutId = setTimeout(() => {
+        setIsNew(false)
+      }, (timeoutIndex + 2) * 1000)
 
-        return () => clearTimeout(timeoutId)
-      }
-    },
-    [isOpened]
-  )
+      return () => clearTimeout(timeoutId)
+    }
+  }, [isOpened])
 
   const title = useMemo(() => getTitle(data), [data])
   const linkTo = useMemo(() => getLink(data), [data])
@@ -78,15 +75,27 @@ const NotificationItem = ({
   function onClick () {
     if (linkTo) {
       window.open(linkTo, '_blank')
+      closeDropdown && closeDropdown()
     }
+  }
+
+  function mouseEnter () {
+    if (isNew) {
+      setIsNew(false)
+    }
+
+    setIsHover(true)
+  }
+
+  function mouseLeave () {
+    setIsHover(false)
   }
 
   return (
     <div
       onClick={onClick}
-      onMouseEnter={() => {
-        isNew && setIsNew(false)
-      }}
+      onMouseEnter={mouseEnter}
+      onMouseLeave={mouseLeave}
       className={cx(
         styles.container,
         className,
@@ -95,16 +104,20 @@ const NotificationItem = ({
     >
       <div className={styles.header}>
         <div className={styles.title}>{title}</div>
-
-        {isNewInput && <NewLabelTemplate className={styles.new} />}
+        <div className={styles.actions}>
+          {isNewInput && <NewLabelTemplate className={styles.new} />}
+          {isHover && (
+            <NotificationActions data={data} className={styles.action} />
+          )}
+        </div>
       </div>
 
       <div className={styles.footer}>
-        <div className={styles.left}>
+        <div>
           {isAlertAuthor ? (
             <AlertPlaceholder data={data} />
           ) : (
-            <SignalCreator user={user} classes={styles}>
+            <SignalCreator user={user} classes={styles} onClick={closeDropdown}>
               <FeedCardDate date={insertedAt} className={styles.date} />
             </SignalCreator>
           )}

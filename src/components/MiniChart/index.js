@@ -13,46 +13,43 @@ const MiniChart = ({
   gradientColor,
   gradientOpacity
 }) => {
-  const [linePoints, areaPoints] = useMemo(
-    () => {
-      const dataLength = data.length
-      if (!dataLength) return ''
+  const [linePoints, areaPoints] = useMemo(() => {
+    const dataLength = data.length
+    if (!dataLength) return ''
 
-      let min = data[0][valueKey]
-      let max = data[0][valueKey]
+    let min = data[0][valueKey]
+    let max = data[0][valueKey]
 
-      data.forEach(item => {
-        const value = item[valueKey]
-        if (value < min) {
-          min = value
-        }
-        if (value > max) {
-          max = value
-        }
-      })
-
-      if (min === max) {
-        min = 0
+    data.forEach(item => {
+      const value = item[valueKey]
+      if (value < min) {
+        min = value
       }
+      if (value > max) {
+        max = value
+      }
+    })
 
-      const xAxisFactor = width / (dataLength - 1)
-      const yAxisFactor = height / (max - min)
+    if (min === max) {
+      min = 0
+    }
 
-      const points = data.map(
-        (item, index) =>
-          `${index * xAxisFactor},${(max - item[valueKey]) * yAxisFactor}`
-      )
-      const [startX, startY] = points[0].split(',')
-      const [lastX] = points[dataLength - 1].split(',')
+    const xAxisFactor = width / (dataLength - 1)
+    const yAxisFactor = height / (max - min)
 
-      const linePoints = points.join(' ')
-      return [
-        linePoints,
-        `${linePoints} ${lastX},${height} ${startX},${height}, ${startX},${startY}`
-      ]
-    },
-    [data]
-  )
+    const points = data.map(
+      (item, index) =>
+        `${index * xAxisFactor},${(max - item[valueKey]) * yAxisFactor}`
+    )
+    const [startX, startY] = points[0].split(',')
+    const [lastX] = points[dataLength - 1].split(',')
+
+    const linePoints = points.join(' ')
+    return [
+      linePoints,
+      `${linePoints} ${lastX},${height} ${startX},${height}, ${startX},${startY}`
+    ]
+  }, [data])
 
   return (
     <svg

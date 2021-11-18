@@ -28,18 +28,13 @@ const TransactionsDominance = ({ settings }) => {
   })
   const [isDominance, setIsDominance] = useState(false)
 
-  const prepared = useMemo(
-    () => {
-      const filtered = data.filter(({ value }) => value > 0)
+  const prepared = useMemo(() => {
+    const filtered = data.filter(({ value }) => value > 0)
 
-      const newData = isDominance ? calculatePercentValues(filtered) : filtered
+    const newData = isDominance ? calculatePercentValues(filtered) : filtered
 
-      return newData
-        .sort(sortByValue)
-        .map(item => ({ ...item, key: item.slug }))
-    },
-    [data, isDominance]
-  )
+    return newData.sort(sortByValue).map(item => ({ ...item, key: item.slug }))
+  }, [data, isDominance])
 
   return (
     <div className={styles.container}>

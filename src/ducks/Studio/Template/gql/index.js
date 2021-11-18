@@ -20,6 +20,7 @@ export const TEMPLATE_COMMON_FRAGMENT = gql`
     }
     options
     insertedAt
+    updatedAt
     __typename
   }
 `

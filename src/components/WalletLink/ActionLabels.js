@@ -36,10 +36,10 @@ export const EtherscanLink = ({
 
   const props = asLink
     ? {
-      href: isTx ? mapToTxLink(address) : mapToTxAddress(address),
-      target: '_blank',
-      rel: 'noopener noreferrer'
-    }
+        href: isTx ? mapToTxLink(address) : mapToTxAddress(address),
+        target: '_blank',
+        rel: 'noopener noreferrer'
+      }
     : {}
 
   return (

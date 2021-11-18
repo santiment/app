@@ -58,15 +58,12 @@ export function useProjectsSocialVolumeChanges ({ orderBy, slugs }) {
     }
   })
 
-  return useMemo(
-    () => {
-      const { data, loading, error } = query
-      const items = data ? data.allProjectsByFunction.projects : []
+  return useMemo(() => {
+    const { data, loading, error } = query
+    const items = data ? data.allProjectsByFunction.projects : []
 
-      return [items, loading, error]
-    },
-    [query]
-  )
+    return [items, loading, error]
+  }, [query])
 }
 
 export function useProjectPriceChanges ({ metric, interval, orderBy, slugs }) {
@@ -77,13 +74,10 @@ export function useProjectPriceChanges ({ metric, interval, orderBy, slugs }) {
     }
   })
 
-  return useMemo(
-    () => {
-      const { data, loading, error } = query
-      const items = data ? data.allProjectsByFunction.projects : []
+  return useMemo(() => {
+    const { data, loading, error } = query
+    const items = data ? data.allProjectsByFunction.projects : []
 
-      return [items, loading, error]
-    },
-    [query]
-  )
+    return [items, loading, error]
+  }, [query])
 }

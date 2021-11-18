@@ -32,7 +32,8 @@ const DialogForm = ({
   }
 
   if (!isLoggedIn) {
-    return <LoginPopup>{props.trigger}</LoginPopup>
+    const loginProps = props.trigger ? undefined : props
+    return <LoginPopup {...loginProps}>{props.trigger}</LoginPopup>
   }
 
   return (

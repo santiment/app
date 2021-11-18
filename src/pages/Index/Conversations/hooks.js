@@ -47,14 +47,11 @@ export const useConversations = ({ to = 'utc_now' }) => {
     }
   })
 
-  return useMemo(
-    () => {
-      return {
-        data: data ? data.commentsFeed : [],
-        loading,
-        error
-      }
-    },
-    [data, loading, error]
-  )
+  return useMemo(() => {
+    return {
+      data: data ? data.commentsFeed : [],
+      loading,
+      error
+    }
+  }, [data, loading, error])
 }

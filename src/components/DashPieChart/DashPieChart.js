@@ -68,8 +68,8 @@ const DashPieChart = ({
             <p
               className={styles.time}
             >{`Last update: ${D} ${MMM}, ${make12Hours(H)}:${mm}${getAmPm(
-                H
-              )}`}</p>
+              H
+            )}`}</p>
           </div>
           <div className={styles.text}>
             <ul className={styles.list}>

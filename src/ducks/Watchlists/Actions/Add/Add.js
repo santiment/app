@@ -29,12 +29,9 @@ const Watchlists = ({
 }) => {
   const [watchlists, isLoading] = getWatchlists()
 
-  useEffect(
-    () => {
-      if (!isLoading) onLoaded(watchlists)
-    },
-    [isLoading]
-  )
+  useEffect(() => {
+    if (!isLoading) onLoaded(watchlists)
+  }, [isLoading])
 
   return (
     <>
@@ -42,13 +39,13 @@ const Watchlists = ({
         {isLoading && <Loader className={styles.loader} />}
         {isLoading || watchlists.length
           ? watchlists.map(watchlist => (
-            <Watchlist
-              key={watchlist.id}
-              watchlist={watchlist}
-              isActive={selections.has(watchlist)}
-              onClick={onWatchlistClick}
-            />
-          ))
+              <Watchlist
+                key={watchlist.id}
+                watchlist={watchlist}
+                isActive={selections.has(watchlist)}
+                onClick={onWatchlistClick}
+              />
+            ))
           : "You don't have any watchlists yet."}
       </div>
 

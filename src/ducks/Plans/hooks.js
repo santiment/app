@@ -7,20 +7,15 @@ export function usePlans () {
   const [productPlans, setProductPlans] = useState([])
   const { data, loading } = useQuery(PLANS_QUERY)
 
-  useEffect(
-    () => {
-      if (data) {
-        const product = data.productsWithPlans.find(sanbaseProductFinder)
-        if (product) {
-          const plans = product.plans.filter(
-            ({ isDeprecated }) => !isDeprecated
-          )
-          setProductPlans(plans)
-        }
+  useEffect(() => {
+    if (data) {
+      const product = data.productsWithPlans.find(sanbaseProductFinder)
+      if (product) {
+        const plans = product.plans.filter(({ isDeprecated }) => !isDeprecated)
+        setProductPlans(plans)
       }
-    },
-    [data]
-  )
+    }
+  }, [data])
 
   return [productPlans, loading]
 }

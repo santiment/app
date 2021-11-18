@@ -5,7 +5,6 @@
   justify-content: space-between;
   align-items: center;
   padding: 39px 99px;
-  min-width: 1018px;
   min-height: 418px;
 
   @include responsive('phone', 'phone-xs', 'tablet', 'laptop') {
@@ -118,7 +117,7 @@
 
 .metamask {
   margin: auto;
-  color: var(--white);
+  color: $white;
 
   @include text('body-3');
 }

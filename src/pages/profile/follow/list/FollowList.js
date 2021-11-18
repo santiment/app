@@ -1,109 +1,102 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import cx from 'classnames'
-import { Query } from 'react-apollo'
 import withSizes from 'react-sizes'
-import { connect } from 'react-redux'
-import { compose } from 'recompose'
 import { Link } from 'react-router-dom'
-import { mapSizesToProps } from '../../../../utils/withSizes'
-import Dialog from '@santiment-network/ui/Dialog'
-import FollowBtn, { updateCurrentUserQueryCache } from '../FollowBtn'
-import UserAvatar from '../../../Account/avatar/UserAvatar'
-import { PUBLIC_USER_DATA_QUERY } from '../../../../queries/ProfileGQL'
-import PageLoader from '../../../../components/Loader/PageLoader'
 import Search from '@santiment-network/ui/Search'
+import Dialog from '@santiment-network/ui/Dialog'
+import { mapSizesToProps } from '../../../../utils/withSizes'
+import FollowBtn from '../FollowBtn'
+import UserAvatar from '../../../Account/avatar/UserAvatar'
+import {
+  updateCurrentUserFollowQueryCache,
+  useOldUserFollowersFollowing
+} from '../../../../queries/ProfileGQL'
+import { useDialogState } from '../../../../hooks/dialog'
+import PageLoader from '../../../../components/Loader/PageLoader'
+import NotificationBellBtn from '../../../../components/NotificationBellBtn/NotificationBellBtn'
 import styles from './FollowList.module.scss'
 
-const makeQueryVars = currentUserId => ({
-  userId: +currentUserId
-})
+const ARR = []
+
+const makeQueryVars = id => ({ userId: +id })
 
 const FollowList = ({
   title,
-  list: { users = [] },
-  trigger,
+  list: { users = ARR },
   currentUserId,
+  isCurrentUser,
+  trigger,
   isDesktop
 }) => {
-  const [isOpen, setOpen] = useState(false)
+  const { isOpened, openDialog, closeDialog } = useDialogState()
+
+  const {
+    data: { following },
+    loading
+  } = useOldUserFollowersFollowing(makeQueryVars(currentUserId))
 
   return (
     <Dialog
-      open={isOpen}
-      onClose={() => setOpen(false)}
-      onOpen={() => setOpen(true)}
+      open={isOpened}
+      onClose={closeDialog}
+      onOpen={openDialog}
       title={title}
       classes={styles}
       trigger={trigger}
     >
       <Dialog.ScrollContent>
-        <Query
-          query={PUBLIC_USER_DATA_QUERY}
-          variables={makeQueryVars(currentUserId)}
-          skip={!currentUserId}
-        >
-          {({ data: { getUser = {}, loading } = {} }) => {
-            if (loading) {
-              return <PageLoader className={styles.loader} />
-            }
-
-            const { following = {} } = getUser
-
-            return (
-              <List
-                users={users}
-                following={following}
-                currentUserId={currentUserId}
-                isDesktop={isDesktop}
-                onClickItem={() => setOpen(false)}
-              />
-            )
-          }}
-        </Query>
+        {loading && <PageLoader className={styles.loader} />}
+        {!loading && isOpened && (
+          <List
+            users={users}
+            following={following}
+            currentUserId={currentUserId}
+            isCurrentUser={isCurrentUser}
+            isDesktop={isDesktop}
+            onClickItem={closeDialog}
+          />
+        )}
       </Dialog.ScrollContent>
     </Dialog>
   )
 }
 
 const List = ({
-  users = [],
+  users = ARR,
   following,
   currentUserId,
+  isCurrentUser,
   isDesktop,
   onClickItem
 }) => {
   const [searchToken, setSearchToken] = useState()
+  const [defaultUsers] = useState(users)
+
+  const filteredUsers = useMemo(() => {
+    return searchToken
+      ? defaultUsers.filter(
+          ({ username }) => username && username.indexOf(searchToken) !== -1
+        )
+      : defaultUsers
+  }, [searchToken, defaultUsers])
 
   return (
     <div className={styles.listWrapper}>
-      {users.length > 5 && (
+      {defaultUsers.length > 5 && (
         <Search
           className={styles.search}
           iconPosition='left'
           placeholder='Search a user'
-          options={users.map(({ username, ...rest }) => {
-            return {
-              label: username,
-              ...rest
-            }
-          })}
+          options={users.map(({ username, ...rest }) => ({
+            label: username,
+            ...rest
+          }))}
           onChange={val => setSearchToken(val)}
         />
       )}
       <div className={styles.list}>
-        {users
-          .filter(({ username = '' }) => {
-            if (searchToken) {
-              if (username) {
-                return username.indexOf(searchToken) !== -1
-              } else {
-                return false
-              }
-            } else {
-              return true
-            }
-          })
-          .map(user => (
+        {filteredUsers.map(user =>
+          isCurrentUser && +user.id === +currentUserId ? null : (
             <FollowItem
               user={user}
               following={following}
@@ -112,7 +105,8 @@ const List = ({
               isDesktop={isDesktop}
               onClickItem={onClickItem}
             />
-          ))}
+          )
+        )}
       </div>
     </div>
   )
@@ -130,19 +124,26 @@ const getShortName = (username, isDesktop) => {
 
 const FollowItem = ({
   user: { id, username, avatarUrl },
-  following = { users: [] },
+  following = { users: ARR },
   currentUserId,
   isDesktop,
   onClickItem
 }) => {
   const updateCache = (cache, queryData) => {
     const queryVariables = makeQueryVars(currentUserId)
-    updateCurrentUserQueryCache(cache, queryData, queryVariables, id, {
+    updateCurrentUserFollowQueryCache(
+      cache,
+      queryData,
+      queryVariables,
       id,
-      avatarUrl,
-      username,
-      __typename: 'PublicUser'
-    })
+      {
+        id,
+        avatarUrl,
+        username,
+        __typename: 'PublicUser'
+      },
+      currentUserId
+    )
   }
 
   const newUserName = username ? getShortName(username, isDesktop) : ''
@@ -152,9 +153,8 @@ const FollowItem = ({
       <div className={styles.user} onClick={onClickItem}>
         <UserAvatar
           userId={id}
-          isExternal
-          externalAvatarUrl={avatarUrl}
           classes={styles}
+          externalAvatarUrl={avatarUrl}
         />
 
         <Link
@@ -165,26 +165,20 @@ const FollowItem = ({
         </Link>
       </div>
       {!!currentUserId && +id !== +currentUserId && (
-        <FollowBtn
-          className={styles.followBtn}
-          userId={id}
-          targetUserId={id}
-          users={following.users}
-          updateCache={updateCache}
-          variant={isDesktop ? 'fill' : 'ghost'}
-        />
+        <>
+          <NotificationBellBtn targetUserId={id} className={styles.bell} />
+          <FollowBtn
+            className={styles.followBtn}
+            userId={id}
+            targetUserId={id}
+            users={following.users}
+            updateCache={updateCache}
+            variant={isDesktop ? 'fill' : 'ghost'}
+          />
+        </>
       )}
     </div>
   )
 }
 
-const mapStateToProps = state => {
-  return {
-    currentUserId: state.user.data ? +state.user.data.id : null
-  }
-}
-
-export default compose(
-  connect(mapStateToProps),
-  withSizes(mapSizesToProps)
-)(FollowList)
+export default withSizes(mapSizesToProps)(FollowList)

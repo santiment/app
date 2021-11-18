@@ -42,7 +42,7 @@ export const RecommendedSignals = ({ showTitle = true, showNew }) => {
     hasSignals && (
       <>
         {showTitle && <h4 className={styles.subtitle}>Recommended for you</h4>}
-        <SignalCardsGrid signals={mapped} showNew={showNew} />
+        <SignalCardsGrid signals={mapped} />
       </>
     )
   )

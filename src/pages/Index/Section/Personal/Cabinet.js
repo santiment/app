@@ -17,26 +17,17 @@ const CABINETS = [
       <CabinetTitle
         img={ReportsImg}
         title='Weekly Reports'
-        description={
-          'Check out our latest premium reports about crypto activity in the market'
-        }
+        description='Check out our latest premium reports about crypto activity in the market'
       />
     ),
-    content: (
-      <div className={styles.reports}>
-        <Reports />
-      </div>
-    ),
+    content: <Reports />,
     isOpened: true
   },
   {
     title: (
       <CabinetTitle
         as={HashLink}
-        to={SHEETS_ANCHOR}
-        onClick={e => {
-          e.stopPropagation()
-        }}
+        to={`#${SHEETS_ANCHOR}`}
         img={<div className={styles.img}>{SheetsTemplatesImg}</div>}
         title='Sansheets Pro Templates'
         description={
@@ -76,6 +67,7 @@ const Cabinet = () => {
       key={index}
       title={title}
       isOpenedDefault={isOpened}
+      animateOnMount={true}
       showArrow={false}
       classes={styles}
     >

@@ -8,11 +8,8 @@ export const updateIsBetaMode = isBetaMode =>
 export function useIsBetaMode () {
   const query = useQuery(USER_SETTINGS_QUERY)
 
-  return useMemo(
-    () => {
-      const { data } = query
-      return data && data.currentUser && data.currentUser.settings.isBetaMode
-    },
-    [query]
-  )
+  return useMemo(() => {
+    const { data } = query
+    return data && data.currentUser && data.currentUser.settings.isBetaMode
+  }, [query])
 }

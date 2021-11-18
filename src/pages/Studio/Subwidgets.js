@@ -11,6 +11,7 @@ export function useSubwidgetsController () {
   const [subwidgets, setSubwidgets] = useState([])
 
   function onSubwidget (target, subwidgetNode, parentWidget) {
+    if (!subwidgetNode) return
     const subwidget = KeyToSubwidget[subwidgetNode.key]
     if (!subwidget) return
 

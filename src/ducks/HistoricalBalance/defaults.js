@@ -20,3 +20,8 @@ export const withDefaults = Component => ({ defaultSettings, ...props }) => (
     defaultSettings={Object.assign({}, SETTINGS, defaultSettings)}
   />
 )
+
+export const TabType = {
+  LATEST_TRANSACTIONS: 'Latest transactions',
+  TOP_TRANSACTIONS: 'Top transactions'
+}

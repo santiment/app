@@ -21,7 +21,7 @@ const PlanActionDialog = ({ subscription, ...rest }) => {
   return <PlanPaymentDialog subscription={subscription} {...rest} />
 }
 
-const TRIAL_LABEL = 'Start Free 14-day Trial'
+export const TRIAL_LABEL = 'Start 14-Day Free Trial'
 
 export default {
   FREE: {

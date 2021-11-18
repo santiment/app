@@ -19,7 +19,10 @@ import { getAlternativeBillingPlan, hasInactiveTrial } from '../../utils/plans'
 import { usePlans } from '../../ducks/Plans/hooks'
 import { useTrackEvents } from '../../hooks/tracking'
 import { USER_SUBSCRIPTION_CHANGE } from '../../actions/types'
-import { updateUserSubscriptions } from '../../stores/user/subscriptions'
+import {
+  updateUserSubscriptions,
+  useUserSubscriptionStatus
+} from '../../stores/user/subscriptions'
 import FreeTrialLabel from './PlanDialogLabels/FreeTrialLabel'
 import ProExpiredLabel from './PlanDialogLabels/ProExpiredLabel'
 import styles from './PlanPaymentDialog.module.scss'
@@ -109,6 +112,10 @@ const PlanPaymentDialog = ({
   const [paymentVisible, setPaymentVisiblity] = useState(false)
   const [selectedPlan, setSelectedPlan] = useState({})
   const [trackEvent] = useTrackEvents()
+  const {
+    trialDaysLeft,
+    isEligibleForSanbaseTrial
+  } = useUserSubscriptionStatus()
 
   const {
     id: planId,
@@ -117,17 +124,14 @@ const PlanPaymentDialog = ({
     amount: price
   } = selectedPlan
 
-  useEffect(
-    () => {
-      setSelectedPlan({
-        id,
-        name,
-        interval,
-        amount
-      })
-    },
-    [id, name, amount, interval]
-  )
+  useEffect(() => {
+    setSelectedPlan({
+      id,
+      name,
+      interval,
+      amount
+    })
+  }, [id, name, amount, interval])
 
   function changeSelectedPlan (interval) {
     if (selectedPlan.interval !== interval) {
@@ -233,20 +237,19 @@ const PlanPaymentDialog = ({
               }}
             >
               <Dialog.ScrollContent className={styles.content}>
-                {!hasCompletedTrial && (
+                {isEligibleForSanbaseTrial ? (
                   <FreeTrialLabel
                     price={price}
                     trialEndData={getFreeTrialEnd(
                       subscription && subscription.trialEnd
                     )}
                   />
-                )}
-
-                {hasCompletedTrial && (
+                ) : (
                   <ProExpiredLabel
                     price={price}
                     nextPaymentDate={nextPaymentDate}
                     period={billing}
+                    trialDaysLeft={trialDaysLeft}
                   />
                 )}
 
@@ -256,6 +259,7 @@ const PlanPaymentDialog = ({
                   billing={billing}
                   loading={loading}
                   subscription={subscription}
+                  hasCompletedTrial={hasCompletedTrial}
                   changeSelectedPlan={changeSelectedPlan}
                 />
               </Dialog.ScrollContent>

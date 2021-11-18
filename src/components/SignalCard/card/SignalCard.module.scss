@@ -218,3 +218,13 @@
     margin-right: 9px;
   }
 }
+
+.buttonWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  &__button {
+    color: var(--rhino);
+  }
+}

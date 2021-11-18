@@ -53,49 +53,38 @@ const Screener = ({
       activeColumns
     })
   )
+
   const [tableLoading, setTableLoading] = useState(true)
   const { widgets, setWidgets } = useScreenerUrl({ location, history })
 
-  useEffect(
-    () => {
-      if (loading !== tableLoading) {
-        setTableLoading(loading)
-      }
-    },
-    [loading]
-  )
+  useEffect(() => {
+    if (loading !== tableLoading) {
+      setTableLoading(loading)
+    }
+  }, [loading])
 
-  useEffect(
-    () => {
-      if (!tableLoading) {
-        refetchAssets()
-      }
-    },
-    [orderBy]
-  )
+  useEffect(() => {
+    if (!tableLoading) {
+      refetchAssets()
+    }
+  }, [orderBy])
 
-  useEffect(
-    () => {
-      const fn = watchlist.function
-      if (fn !== screenerFn) {
-        if (!fn && screenerFn === DEFAULT_SCREENER_FN) {
-          return
-        }
-
-        setScreenerFn(fn)
+  useEffect(() => {
+    const fn = watchlist.function
+    if (fn !== screenerFn) {
+      if (!fn && screenerFn === DEFAULT_SCREENER_FN) {
+        return
       }
-    },
-    [watchlist.function]
-  )
 
-  useEffect(
-    () => {
-      if (pagination.page !== 1) {
-        setPagination({ ...pagination, page: 1 })
-      }
-    },
-    [screenerFn]
-  )
+      setScreenerFn(fn)
+    }
+  }, [watchlist.function])
+
+  useEffect(() => {
+    if (pagination.page !== 1) {
+      setPagination({ ...pagination, page: 1 })
+    }
+  }, [screenerFn])
 
   function updateWatchlistFunction (fn) {
     if (watchlist.id) {

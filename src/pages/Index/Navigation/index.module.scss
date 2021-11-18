@@ -1,0 +1,86 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  width: 232px;
+  min-width: 232px;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.top {
+  position: sticky;
+  top: 32px;
+  width: 232px;
+  margin-bottom: 144px;
+}
+
+.bottom {
+  position: sticky;
+  bottom: 32px;
+  width: 232px;
+}
+
+.buttonBottom {
+  padding: 12px 20px;
+  height: auto;
+  background: none !important;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: 100%;
+  fill: var(--waterloo);
+
+  @include text('body-2', 'm');
+}
+
+.icon {
+  margin-right: 16px;
+}
+
+.topIcon {
+  fill: var(--waterloo);
+}
+
+.iconBack {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: transparent;
+  margin-right: 8px;
+  border-radius: 50%;
+  transition: background-color 1s ease;
+}
+
+.anchor {
+  display: flex;
+  align-items: center;
+  border-radius: 100px;
+  padding: 8px 10px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  color: var(--rhino) !important;
+
+  @include text('body-1', 'm');
+
+  &:hover {
+    border-color: var(--mystic);
+    transition: border-color 0.1s ease-out;
+  }
+}
+
+.activeAnchor {
+  background: var(--white);
+  border-color: var(--porcelain);
+
+  & .iconBack {
+    background-color: var(--athens);
+  }
+}
+
+.anchor + .anchor {
+  margin-top: 12px;
+}

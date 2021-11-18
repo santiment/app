@@ -34,11 +34,15 @@ import { mapSizesToProps } from './utils/withSizes'
 import CreateAccountFreeTrial from './pages/Login/CreateAccountFreeTrial'
 import { withSavedCommentLookup } from './withSavedCommentLookup'
 import Intercom from './components/Intercom/index.js'
+import LiveWidget from './components/LiveWidget'
+import TrialPromptDialog from './components/TrialPromptDialog'
 import styles from './App.module.scss'
+import './index.scss'
 import './App.scss'
 
 const FOOTER_DISABLED_FOR = [
   PATHS.STUDIO,
+  PATHS.ALERTS,
   PATHS.FEED,
   PATHS.PRO_METRICS,
   PATHS.SOCIAL_TOOl,
@@ -110,10 +114,6 @@ const LoadableTrendsExplorePage = LoadablePage(() =>
   import('./pages/TrendsExplore')
 )
 
-const LoadableSonarFeedPage = LoadablePage(() =>
-  import('./pages/SonarFeed/SonarFeedPage')
-)
-
 const LoadableAssetsMobilePage = LoadablePage(() =>
   import('./pages/Watchlists/AssetsMobilePage')
 )
@@ -158,6 +158,8 @@ const LoadableUnsubscribePage = LoadablePage(() =>
 )
 
 const LoadableFeedPage = LoadablePage(() => import('./pages/feed/Feed'))
+
+const LoadableAlertsPage = LoadablePage(() => import('./pages/Alerts/Alerts'))
 
 class Route extends React.Component {
   componentWillMount () {
@@ -226,18 +228,15 @@ export const App = ({
 }) => {
   const [isWatchlistPage, setIsWatchlistPage] = useState(false)
 
-  useEffect(
-    () => {
-      if (isListPath(pathname)) {
-        if (!isWatchlistPage) {
-          setIsWatchlistPage(true)
-        }
-      } else if (isWatchlistPage) {
-        setIsWatchlistPage(false)
+  useEffect(() => {
+    if (isListPath(pathname)) {
+      if (!isWatchlistPage) {
+        setIsWatchlistPage(true)
       }
-    },
-    [pathname]
-  )
+    } else if (isWatchlistPage) {
+      setIsWatchlistPage(false)
+    }
+  }, [pathname])
 
   return (
     <div
@@ -258,6 +257,7 @@ export const App = ({
         {isDesktop && <UrlModals />}
 
         <ErrorBoundary history={history}>
+          <TrialPromptDialog />
           <Switch>
             <Route path={SHARE_PATH} component={PageLoader} />
             {['list', 'screener'].map(name => (
@@ -357,7 +357,16 @@ export const App = ({
             />
             <Route
               path={PATHS.FEED}
-              render={props => <LoadableFeedPage {...props} />}
+              render={props => {
+                if (isDesktop) {
+                  return <Redirect to='/' />
+                }
+                return <LoadableFeedPage {...props} />
+              }}
+            />
+            <Route
+              path={PATHS.ALERTS}
+              render={props => <LoadableAlertsPage {...props} />}
             />
             <Route
               exact
@@ -403,16 +412,6 @@ export const App = ({
               path={['/labs/trends/explore/:word', '/labs/trends/explore/']}
               render={props => (
                 <LoadableTrendsExplorePage isDesktop={isDesktop} {...props} />
-              )}
-            />
-            <Route
-              path={'/alerts'}
-              render={props => (
-                <LoadableSonarFeedPage
-                  isDesktop={isDesktop}
-                  isLoggedIn={isLoggedIn}
-                  {...props}
-                />
               )}
             />
             <Redirect
@@ -560,11 +559,14 @@ export const App = ({
             <Route path={PATHS.INDEX} component={LoadableIndexPage} />
           </Switch>
 
-          <Intercom isDesktop={isDesktop} />
+          {!pathname.includes(PATHS.CHARTS) && pathname !== PATHS.INDEX && (
+            <Intercom isDesktop={isDesktop} />
+          )}
         </ErrorBoundary>
 
         <NotificationStack />
         <CookiePopup />
+        {isDesktop && <LiveWidget />}
 
         {isDesktop && showFooter && (
           <Footer

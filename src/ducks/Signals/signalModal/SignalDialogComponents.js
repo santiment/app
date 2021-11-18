@@ -1,7 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
-import Icon from '@santiment-network/ui/Icon'
 import EmptySection from '../../../components/EmptySection/EmptySection'
 import styles from './SignalMasterModalForm.module.scss'
 
@@ -31,16 +30,16 @@ export const signalModalTrigger = (
   enabled,
   label,
   variant = 'fill',
-  border = false
+  border = false,
+  classes
 ) => (
   <Button
     variant={variant}
     border={border}
     disabled={!enabled}
     accent='positive'
-    className={cx(styles.newSignal)}
+    className={cx(styles.newSignal, classes)}
   >
-    <Icon type='plus-round' className={styles.newSignal__icon} />
     {label}
   </Button>
 )

@@ -2,9 +2,10 @@ import React from 'react'
 import cx from 'classnames'
 import RestrictBtn from './RestrictBtn'
 import Features from './Features'
-import PLANS from './list'
+import PLANS, { TRIAL_LABEL } from './list'
 import { formatPrice, getAlternativeBillingPlan } from '../../utils/plans'
 import { useUser } from '../../stores/user'
+import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import styles from './Plan.module.scss'
 
 export const getAltPrice = (plans, billing, name) => {
@@ -36,6 +37,7 @@ const Plan = ({
   const { id, name, amount } = plan
   const card = PLANS[name]
   const userPlan = subscription && subscription.plan.id
+  const { isTrial } = useUserSubscriptionStatus()
 
   const [price, priceType] = formatPrice(amount, name, billing)
   const sameAsUserPlan = isSameAsUserPlan(subscription, id, userPlan)
@@ -63,7 +65,7 @@ const Plan = ({
         <h3
           className={cx(styles.card__title, isFree && styles.card__title__free)}
         >
-          {card.title}
+          {card.title} {sameAsUserPlan && isTrial ? 'Trial' : ''}
         </h3>
       </div>
       <div className={styles.desc}>{card.desc}</div>
@@ -120,8 +122,15 @@ export const PlanBtn = ({
   showCreditMsg
 }) => {
   const { isLoggedIn } = useUser()
+  const { isEligibleForSanbaseTrial } = useUserSubscriptionStatus()
   const isSubscriptionCanceled = subscription && subscription.cancelAtPeriodEnd
 
+  const label =
+    isLoggedIn && card.link === TRIAL_LABEL
+      ? isEligibleForSanbaseTrial
+        ? card.link
+        : 'Pay'
+      : card.link
   return (
     <div className={className}>
       {!isLoggedIn || sameAsUserPlan || isSubscriptionCanceled ? (
@@ -130,13 +139,13 @@ export const PlanBtn = ({
             showCreditMsg={showCreditMsg}
             sameAsUserPlan={sameAsUserPlan}
             isSubscriptionCanceled={isSubscriptionCanceled}
-            label={card.link}
+            label={label}
           />
         </>
       ) : (
         <card.Component
           title={card.title}
-          label={card.link}
+          label={label}
           price={amount}
           billing={billing}
           planId={+id}

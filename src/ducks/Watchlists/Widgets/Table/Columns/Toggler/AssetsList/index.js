@@ -16,19 +16,16 @@ const AssetsList = ({
 }) => {
   const [filteredItems, filterItems] = useState(items)
 
-  useEffect(
-    () => {
-      const filtered = items.filter(({ item: { key } }) => {
-        const isActive = activeKeys && activeKeys.includes(key)
-        const isHide =
-          isActive || (currentSearch && !filteredColumns.includes(key))
+  useEffect(() => {
+    const filtered = items.filter(({ item: { key } }) => {
+      const isActive = activeKeys && activeKeys.includes(key)
+      const isHide =
+        isActive || (currentSearch && !filteredColumns.includes(key))
 
-        return !isHide
-      })
-      filterItems(filtered)
-    },
-    [items, activeKeys, currentSearch, filteredColumns]
-  )
+      return !isHide
+    })
+    filterItems(filtered)
+  }, [items, activeKeys, currentSearch, filteredColumns])
 
   const rowRenderer = ({ index, key, style }) => {
     const item = filteredItems[index].item

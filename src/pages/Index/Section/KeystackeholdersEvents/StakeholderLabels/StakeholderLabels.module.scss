@@ -6,31 +6,31 @@
 }
 
 .label {
-  background: var(--porcelain);
-  border: 1px solid var(--porcelain);
-  box-sizing: border-box;
-  border-radius: $border-radius;
+  display: inline-flex;
+  cursor: pointer;
+  padding: 4px 8px;
   margin-right: 8px;
   margin-bottom: 8px;
-  padding: 4px 8px;
-  cursor: pointer;
   color: var(--rhino);
+  border-radius: $border-radius;
+  background: var(--jungle-green-light);
+  border: 1px solid var(--jungle-green-light-3);
+  transition: background 0.2s ease-in-out, border-color 0.2s ease-in-out;
+
+  &:hover {
+    border: 1px solid var(--jungle-green);
+  }
 
   &__hidden {
     background: var(--white);
-    color: var(--rhino);
-
-    &:hover {
-      background: var(--white);
-      border: 1px solid var(--mystic);
-    }
+    border: 1px solid var(--porcelain);
   }
+}
 
-  &:hover {
-    background: var(--porcelain);
-    border: 1px solid var(--mystic);
-    color: var(--mirage);
-  }
+.proLabel {
+  margin-left: 6px;
+  color: var(--texas-rose) !important;
+  background-color: var(--texas-rose-light) !important;
 }
 
 .panel {

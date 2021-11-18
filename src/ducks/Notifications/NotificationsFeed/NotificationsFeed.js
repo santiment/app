@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
+import isEqual from 'lodash.isequal'
 import InfiniteScroll from 'react-infinite-scroller'
 import Icon from '@santiment-network/ui/Icon'
-import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Tabs from '@santiment-network/ui/Tabs'
-import isEqual from 'lodash.isequal'
+import ContextMenu from '@santiment-network/ui/ContextMenu'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import Skeleton from '../../../components/Skeleton/Skeleton'
 import { useTimelineEvents } from './hooks'
@@ -66,12 +66,9 @@ const NotificationsFeed = () => {
   const { openDialog, closeDialog, isOpened } = useDialogState()
   const { isLoggedIn } = useUser()
 
-  const tabs = useMemo(
-    () => {
-      return isLoggedIn ? LOGGED_IN_TABS : ANON_TABS
-    },
-    [isLoggedIn]
-  )
+  const tabs = useMemo(() => (isLoggedIn ? LOGGED_IN_TABS : ANON_TABS), [
+    isLoggedIn
+  ])
 
   const [activeTab, setTab] = useState(tabs[0])
   const [events, setEvents] = useState([])
@@ -84,27 +81,21 @@ const NotificationsFeed = () => {
     author: settings.author
   })
 
-  useEffect(
-    () => {
-      if (!loading) {
-        if (chunk && chunk.length > 0) {
-          setEvents([...events, ...chunk])
-        }
-
-        setCanLoad(chunk && chunk.length > 0)
-      } else {
-        setCanLoad(false)
+  useEffect(() => {
+    if (!loading) {
+      if (chunk && chunk.length > 0) {
+        setEvents([...events, ...chunk])
       }
-    },
-    [chunk, loading]
-  )
 
-  useEffect(
-    () => {
-      setToLsFirst(events)
-    },
-    [events]
-  )
+      setCanLoad(chunk && chunk.length > 0)
+    } else {
+      setCanLoad(false)
+    }
+  }, [chunk, loading])
+
+  useEffect(() => {
+    isOpened && setToLsFirst(events)
+  }, [events, isOpened])
 
   function loadMore () {
     if (!loading && canLoad && !error) {
@@ -149,15 +140,12 @@ const NotificationsFeed = () => {
     closeDialog()
   }
 
-  const hasNew = useMemo(
-    () => {
-      return (
-        (!lastLoadedDate && events.length !== 0) ||
-        events.some(item => isNew(item, lastLoadedDate))
-      )
-    },
-    [events, lastLoadedDate]
-  )
+  const hasNew = useMemo(() => {
+    return (
+      (!lastLoadedDate && events.length !== 0) ||
+      events.some(item => isNew(item, lastLoadedDate))
+    )
+  }, [events, lastLoadedDate])
 
   return (
     <div className={styles.wrapper}>
@@ -166,10 +154,9 @@ const NotificationsFeed = () => {
         position='bottom'
         onClose={onClose}
         onOpen={openDialog}
-        isOpen={isOpened}
+        open={isOpened}
         align='end'
-        offsetY={32}
-        offsetX={24}
+        offsetY={18}
         className={styles.dropdown}
         trigger={
           <div className={cx(styles.trigger, hasNew && styles.trigger__active)}>
@@ -183,7 +170,7 @@ const NotificationsFeed = () => {
           contentClassName={styles.panelContent}
           header={
             <Tabs
-              className={styles.tabs}
+              className={cx(styles.tabs, tabs.length === 1 && styles.tabs__one)}
               options={tabs}
               defaultSelectedIndex={activeTab}
               onSelect={tab => {
@@ -217,9 +204,10 @@ const NotificationsFeed = () => {
                     {events.map((item, index) => (
                       <NotificationItem
                         data={item}
-                        isOpened={isOpened}
                         key={item.id}
+                        isOpened={isOpened}
                         className={styles.item}
+                        closeDropdown={onClose}
                         timeoutIndex={index % MAX_TIMELINE_EVENTS_LIMIT}
                         isNew={
                           hasNew &&

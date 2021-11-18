@@ -10,7 +10,6 @@ import OrUseDivider from './OrUseDivider'
 import MobileWrapper from './Mobile/MobileWrapper'
 import { PATHS } from '../../paths'
 import { mapSizesToProps } from '../../utils/withSizes'
-import SwipablePages from '../../components/SwipablePages/SwipablePages'
 import { MobileOnly } from '../../components/Responsive'
 import LogitTwitterBtn from './LoginTwitterBtn'
 import externalStyles from './index.module.scss'
@@ -52,6 +51,7 @@ const TRIAL_DESCRIPTIONS = [
   }
 ]
 
+// eslint-disable-next-line
 const TrialDescriptions = () => {
   return (
     <div className={styles.trials}>
@@ -69,7 +69,7 @@ const TrialDescriptions = () => {
         <div className={styles.back}>
           <Icon type='pointer-right' className={styles.iconBack} />
           <Link to={PATHS.CREATE_ACCOUNT} className={styles.link}>
-            Start your free trial
+            Sign up
           </Link>
         </div>
       </MobileOnly>
@@ -81,11 +81,8 @@ const SignupDescription = ({ loading, loginEmail, setEmail }) => {
   return (
     <div className={externalStyles.loginBlock}>
       <h2 className={externalStyles.title}>
-        <div>Sign up now to start </div>
-        <div>your free trial</div>
+        <div>Sign up now</div>
       </h2>
-
-      <div className={styles.subtitle}>Get 14 days free of Sanbase Pro!</div>
 
       <LoginGoogleBtn signUp className={styles.google} />
 
@@ -127,30 +124,18 @@ export const PrepareState = props => {
           loginEmail={loginEmail}
           setEmail={setEmail}
         />
-
-        <LoginDivider />
-
-        <TrialDescriptions />
       </div>
     )
   }
 
   return (
-    <SwipablePages
-      props={props}
-      pages={[
-        <MobileWrapper onBack={history.goBack}>
-          <SignupDescription
-            loading={loading}
-            loginEmail={loginEmail}
-            setEmail={setEmail}
-          />
-        </MobileWrapper>,
-        <MobileWrapper onBack={history.goBack}>
-          <TrialDescriptions />
-        </MobileWrapper>
-      ]}
-    />
+    <MobileWrapper onBack={history.goBack}>
+      <SignupDescription
+        loading={loading}
+        loginEmail={loginEmail}
+        setEmail={setEmail}
+      />
+    </MobileWrapper>
   )
 }
 

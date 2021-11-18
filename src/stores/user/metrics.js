@@ -44,22 +44,19 @@ let isInFlight = false
 export function useFavoriteMetrics () {
   const { data } = useQuery(USER_SETTINGS_QUERY)
 
-  return useMemo(
-    () => {
-      if (!data) return DEFAULT
+  return useMemo(() => {
+    if (!data) return DEFAULT
 
-      const { currentUser } = data
-      if (!currentUser) return DEFAULT_LOADED
+    const { currentUser } = data
+    if (!currentUser) return DEFAULT_LOADED
 
-      const { favoriteMetrics } = data.currentUser.settings
+    const { favoriteMetrics } = data.currentUser.settings
 
-      return {
-        favoriteMetrics: favoriteMetrics.map(getMetricByKey),
-        isLoading: false
-      }
-    },
-    [data]
-  )
+    return {
+      favoriteMetrics: favoriteMetrics.map(getMetricByKey),
+      isLoading: false
+    }
+  }, [data])
 }
 
 function updateFavoriteMetricsCache (_, { data }) {

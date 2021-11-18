@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import cx from 'classnames'
 import { push } from 'react-router-redux'
 import UISearch from '@santiment-network/ui/Search'
+import { track } from 'webkit/analytics'
 import Suggestions from './Suggestions'
 import { useCursorNavigation } from './navigation'
 import { addRecent } from './RecentsCategory'
@@ -20,12 +21,27 @@ const Search = () => {
   )
 
   useEffect(() => {
+    if (!searchTerm) return
+
+    const timer = setTimeout(
+      () => track.event('navbar_search', { value: searchTerm }),
+      500
+    )
+    return () => clearTimeout(timer)
+  }, [searchTerm])
+
+  useEffect(() => {
     const input = inputRef.current
     if (!input) return
 
     function onKeyPress (e) {
       const { code, target } = e
-      if (code === 'Slash' && !EDITABLE_TAGS.has(target.tagName)) {
+
+      if (
+        code === 'Slash' &&
+        !EDITABLE_TAGS.has(target.tagName) &&
+        !target.isContentEditable
+      ) {
         e.preventDefault()
         openSuggestions()
         input.focus()

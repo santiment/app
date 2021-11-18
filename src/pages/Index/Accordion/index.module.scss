@@ -28,8 +28,9 @@
 
 .toggle {
   fill: var(--waterloo);
+  transition: transform 0.25s ease-in-out;
 
   .wrapper_opened & {
-    transform: rotate(180deg);
+    transform: rotate(-180deg);
   }
 }

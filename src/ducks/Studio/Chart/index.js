@@ -70,15 +70,12 @@ const Chart = ({
     focusedMetricKey
   )
   const domainGroups = useDomainGroups(metrics)
-  const mirrorDomainGroups = useMemo(
-    () => {
-      const mirrorDomains = extractMirrorMetricsDomainGroups(domainGroups) || []
-      return mirrorDomains.concat(
-        extractIndicatorDomainGroups(widget.MetricIndicators)
-      )
-    },
-    [domainGroups]
-  )
+  const mirrorDomainGroups = useMemo(() => {
+    const mirrorDomains = extractMirrorMetricsDomainGroups(domainGroups) || []
+    return mirrorDomains.concat(
+      extractIndicatorDomainGroups(widget.MetricIndicators)
+    )
+  }, [domainGroups])
   const [allTimeData] = useAllTimeData(
     metrics,
     settings,
@@ -89,14 +86,11 @@ const Chart = ({
 
   useEffect(onMetricHoverEnd, [metrics])
 
-  useEffect(
-    () => {
-      if (!metricSettings || metrics.includes(metricSettings)) return
+  useEffect(() => {
+    if (!metricSettings || metrics.includes(metricSettings)) return
 
-      setMetricSettings()
-    },
-    [metrics]
-  )
+    setMetricSettings()
+  }, [metrics])
 
   function onMetricHover (metric, { currentTarget }) {
     const { parentNode } = currentTarget

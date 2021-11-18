@@ -14,6 +14,8 @@ export function getNewFunction (filter, baseProjects = []) {
 }
 
 // for screeners that created with old way
+// we still have some old-design screeners on prod
+// before delete need to migrate on backend first
 function reconstructFilters (filters) {
   return filters.map(filter => ({ args: filter, name: 'metric' }))
 }
@@ -61,6 +63,11 @@ function buildFunction ({ fn, pagination, orderBy }) {
   }
 }
 
-export function buildFunctionQuery ({ fn, pagination, orderBy, activeColumns }) {
+export function buildFunctionQuery ({
+  fn,
+  pagination,
+  orderBy,
+  activeColumns
+}) {
   return [buildFunction({ fn, pagination, orderBy }), tableQuery(activeColumns)]
 }

@@ -15,23 +15,17 @@ const TransactionTable = ({
   tableClassName,
   loading
 }) => {
-  const El = useMemo(
-    () => {
-      return header ? PanelWithHeader : Panel
-    },
-    [header]
-  )
+  const El = useMemo(() => {
+    return header ? PanelWithHeader : Panel
+  }, [header])
 
-  const availableColumns = useMemo(
-    () => {
-      if (slug === 'bitcoin') {
-        return COLUMNS.filter(({ accessor }) => accessor !== 'fromAddress')
-      }
+  const availableColumns = useMemo(() => {
+    if (slug === 'bitcoin') {
+      return COLUMNS.filter(({ accessor }) => accessor !== 'fromAddress')
+    }
 
-      return COLUMNS
-    },
-    [data, slug]
-  )
+    return COLUMNS
+  }, [data, slug])
 
   return (
     <El

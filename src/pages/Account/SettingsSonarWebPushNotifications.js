@@ -15,21 +15,21 @@ const SERVICE_WORKER_NAME = 'san-sonar-service-worker.js'
 export const getSanSonarSW = registrations => {
   return registrations
     ? registrations
-      .filter(({ active }) => !!active)
-      .find((props = {}) => {
-        const { waiting } = props
+        .filter(({ active }) => !!active)
+        .find((props = {}) => {
+          const { waiting } = props
 
-        if (waiting) {
-          const { scriptURL } = waiting
-          if (scriptURL.endsWith(SERVICE_WORKER_NAME)) {
-            return true
+          if (waiting) {
+            const { scriptURL } = waiting
+            if (scriptURL.endsWith(SERVICE_WORKER_NAME)) {
+              return true
+            }
           }
-        }
 
-        const { active: { scriptURL } = {} } = props
+          const { active: { scriptURL } = {} } = props
 
-        return scriptURL.endsWith(SERVICE_WORKER_NAME)
-      })
+          return scriptURL.endsWith(SERVICE_WORKER_NAME)
+        })
     : undefined
 }
 
@@ -84,21 +84,18 @@ const SettingsSonarWebPushNotifications = ({
     setPermissionsGranted(false)
   }
 
-  useEffect(
-    () => {
-      if (navigator.serviceWorker && navigator.serviceWorker.getRegistrations) {
-        navigator.serviceWorker.getRegistrations().then(registrations => {
-          const sanServiceRegistration = getSanSonarSW(registrations)
-          if (sanServiceRegistration) {
-            toggle(true)
-          } else {
-            toggle(false)
-          }
-        })
-      }
-    },
-    [isActive]
-  )
+  useEffect(() => {
+    if (navigator.serviceWorker && navigator.serviceWorker.getRegistrations) {
+      navigator.serviceWorker.getRegistrations().then(registrations => {
+        const sanServiceRegistration = getSanSonarSW(registrations)
+        if (sanServiceRegistration) {
+          toggle(true)
+        } else {
+          toggle(false)
+        }
+      })
+    }
+  }, [isActive])
 
   const unRegisterSw = () => {
     postMessage({

@@ -18,9 +18,7 @@ export function getValidityMsg (dateSettings) {
 
   const daysInMonth = getDaysInMonth(year, fullMonth)
   if (day > daysInMonth) {
-    return `${
-      MONTH_NAMES[month]
-    } has "${daysInMonth}" days, but tried to set "${day}"`
+    return `${MONTH_NAMES[month]} has "${daysInMonth}" days, but tried to set "${day}"`
   }
 
   return ''

@@ -12,7 +12,8 @@ import {
   useSettings,
   useWidgetsStore,
   useStudioMetrics,
-  useWidgets
+  useWidgets,
+  useHistory
 } from './stores'
 import LoginCTA from './LoginCTA'
 import { getExternalWidget } from './Widget'
@@ -24,13 +25,25 @@ import { useSidewidget } from './Sidewidget'
 import StudioTab from './Tabs/Studio'
 import KeyStatsTab from './Tabs/KeyStats'
 import InsightsTab from './Tabs/Insights'
+import { shareWidgets } from './sharing/share'
+import { parseTemplate } from './sharing/template'
 import { useRedrawer } from '../../hooks'
 import { Tab } from '../../ducks/Studio/Tabs'
+import {
+  notifyAnonCreation,
+  notifyCreation,
+  notifySave
+} from '../../ducks/Studio/Template/notifications'
 import 'webkit/styles/color.css'
 import 'webkit/styles/text.css'
 import 'webkit/styles/layout.css'
 import 'webkit/styles/elements.css'
 import styles from './index.module.scss'
+
+window.notifyLayoutSave = notifySave
+window.notifyLayoutEdit = notifySave
+window.notifyLayoutCreation = notifyCreation
+window.notifyLayoutAnonCreation = notifyAnonCreation
 
 function getScreen () {
   const { pathname } = window.location
@@ -55,6 +68,7 @@ const Studio = ({
   const setWidgetsRef = useRef()
   const isMapviewDisabledRef = useRef()
   const selectMetricRef = useRef()
+  const onSidebarProjectMountRef = useRef()
   const [studio, setStudio] = useState()
   const settings = useSettings()
   const widgetsStore = useWidgetsStore(studio)
@@ -63,6 +77,7 @@ const Studio = ({
   const subwidgetsController = useSubwidgetsController()
   const metrics = useStudioMetrics(studio)
   const InsightsStore = useInsightsStoreCreator()
+  const History = useHistory(studio)
   const redraw = useRedrawer()[1]
   const [mountedScreen, setMountedScreen] = useState()
   const [modRange, setModRange] = useState()
@@ -82,11 +97,14 @@ const Studio = ({
         defaultSettings,
         onModRangeSelect,
         onChartPointClick,
+        parseLayoutWidgets: parseTemplate,
+        shareLayoutWidgets: shareWidgets,
         onAnonFavoriteClick: () => setIsLoginCTAOpened(true),
         onWidget: () => redraw(),
         onWidgetInit: () => setWidgetsRef.current(widgets => widgets.slice()),
         onSubwidget: subwidgetsController.onSubwidget,
         onScreenMount: setMountedScreen,
+        onSidebarProjectMount: node => onSidebarProjectMountRef.current(node),
         checkIsMapviewDisabled: () => isMapviewDisabledRef.current,
         adjustSelectedMetric: onMetricSelect,
         InsightsContextStore: InsightsStore,
@@ -104,25 +122,19 @@ const Studio = ({
     return () => studio.$destroy()
   }, [])
 
-  useEffect(
-    () => {
-      if (!studio) return
+  useEffect(() => {
+    if (!studio) return
 
-      const screen = getScreen()
+    const screen = getScreen()
 
-      isMapviewDisabledRef.current = !!screen
-      studio.$$set({ screen })
-    },
-    [studio, pathname]
-  )
+    isMapviewDisabledRef.current = !!screen
+    studio.$$set({ screen })
+  }, [studio, pathname])
 
-  useEffect(
-    () => {
-      if (defaultSettings) settingsStore.setProject(defaultSettings)
-      if (studio && defaultWidgets) widgetsStore.set(defaultWidgets)
-    },
-    [studio, defaultSettings, defaultWidgets]
-  )
+  useEffect(() => {
+    if (defaultSettings) settingsStore.setProject(defaultSettings)
+    if (studio && defaultWidgets) widgetsStore.set(defaultWidgets)
+  }, [studio, defaultSettings, defaultWidgets])
 
   function onModRangeSelect (start, end, e) {
     setModRange([new Date(start.value), new Date(end.value)])
@@ -130,22 +142,35 @@ const Studio = ({
 
   function onProjectSelect (project) {
     if (project) {
-      const { slug, ticker, name, id } = project
+      const { slug } = project
 
       if (settings.slug !== slug) {
         track.event(Event.ChangeAsset, { asset: slug })
         widgets.forEach(widget => {
           if (widget.MetricsSignals) widget.MetricsSignals.clear()
         })
+
+        if (settings.name) {
+          const oldProject = Object.assign({}, settings)
+          History.add(
+            'Asset change',
+            () => setProject(oldProject),
+            () => setProject(project)
+          )
+        }
       }
 
-      settingsStore.setProject({
-        slug,
-        ticker,
-        name,
-        projectId: id
-      })
+      setProject(project)
     }
+  }
+
+  function setProject ({ slug, ticker, name, id }) {
+    settingsStore.setProject({
+      slug,
+      ticker,
+      name,
+      projectId: id
+    })
   }
 
   function onMetricSelect (node) {
@@ -162,13 +187,16 @@ const Studio = ({
             settings={settings}
             onProjectSelect={onProjectSelect}
           />
-          <Sidebar
-            studio={studio}
-            settings={settings}
-            selectMetricRef={selectMetricRef}
-          />
         </>
       )}
+
+      <Sidebar
+        studio={studio}
+        settings={settings}
+        widgets={widgets}
+        selectMetricRef={selectMetricRef}
+        onSidebarProjectMountRef={onSidebarProjectMountRef}
+      />
 
       {studio && (
         <Switch>
@@ -192,6 +220,7 @@ const Studio = ({
                 sidewidget={sidewidget}
                 modDate={modDate}
                 modRange={modRange}
+                prevFullUrlRef={props.prevFullUrlRef}
                 InsightsStore={InsightsStore}
                 subwidgetsController={subwidgetsController}
               />

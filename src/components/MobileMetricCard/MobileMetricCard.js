@@ -29,12 +29,9 @@ const MobileMetricCard = ({
   const [settings, setSettings] = useState({ ...DEFAULT_SETTINGS, slug })
   const [data, loadings] = useTimeseries([metric], settings)
 
-  useEffect(
-    () => {
-      setSettings({ ...settings, slug })
-    },
-    [slug]
-  )
+  useEffect(() => {
+    setSettings({ ...settings, slug })
+  }, [slug])
 
   let errorText = errorsMetricsKeys[dataKey] && 'Failed to fetch the data'
 

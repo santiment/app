@@ -8,7 +8,7 @@ const LoginEmailBtn = () => {
   return (
     <Link to='/login/email' className={cx(styles.btn, styles.btn_email)}>
       <Icon type='envelope' className={styles.btn__icon} />
-      Email
+      Log in with Email
     </Link>
   )
 }

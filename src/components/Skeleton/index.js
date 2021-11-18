@@ -25,15 +25,3 @@ export const Skeleton = ({ className, show }) => (
     <div className={cx(styles.skeleton, className)} />
   </BaseSkeleton>
 )
-
-export const Skeletons = ({ className, show, repeat }) => {
-  const elem = new Array(repeat).fill(0)
-
-  return (
-    <BaseSkeleton>
-      {elem.map((_, idx) => (
-        <div className={cx(styles.skeleton, className)} key={idx} />
-      ))}
-    </BaseSkeleton>
-  )
-}

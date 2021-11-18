@@ -38,6 +38,7 @@ const SignalCardBottom = ({
               isPublic={isPublic}
               deleteEnabled={deleteEnabled}
               editable={editable}
+              signal={signal}
             />
           </DesktopOnly>
         )}

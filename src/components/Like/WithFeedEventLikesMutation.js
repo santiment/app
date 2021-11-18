@@ -17,7 +17,4 @@ const mapDispatchToProps = dispatch => ({
     })
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(withFeedEventLikesMutation)
+export default connect(null, mapDispatchToProps)(withFeedEventLikesMutation)

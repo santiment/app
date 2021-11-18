@@ -1,26 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import {
-  useTrendWordContext,
-  useTrendSocialVolume,
-  useTrendSocialVolumeChange
-} from './hooks'
+import { useTrendWordContext, useTrendSocialVolume } from './hooks'
 import { prepareColumns } from '../_Table'
 import { INDEX_COLUMN } from '../_Table/columns'
 import { Skeleton } from '../../components/Skeleton'
 import MiniChart from '../../components/MiniChart'
-import PercentChanges from '../../components/PercentChanges'
 import { WordCloud } from '../../components/WordCloud/WordCloud'
 import styles from './index.module.scss'
 
 const Loader = () => <Skeleton show className={styles.chart__skeleton} />
-
-const SocialVolumeScore = ({ value, change }) => (
-  <>
-    {value}
-    <PercentChanges changes={change} className={styles.change__percent} />
-  </>
-)
 
 const SocialVolumeChart = ({ trend, words }) => {
   const { data, isLoading } = useTrendSocialVolume(words, trend)
@@ -38,16 +26,6 @@ const SocialVolumeChart = ({ trend, words }) => {
       gradientColor='malibu'
       gradientOpacity='0.7'
     />
-  )
-}
-
-const SocialVolume = ({ trend, words }) => {
-  const { value, change } = useTrendSocialVolumeChange(words, trend)
-
-  return (
-    <div className={styles.change}>
-      {value ? <SocialVolumeScore value={value} change={change} /> : <Loader />}
-    </div>
   )
 }
 
@@ -80,10 +58,6 @@ export const COLUMNS = [INDEX_COLUMN].concat(
           {word}
         </Link>
       )
-    },
-    {
-      title: Column.SOCIAL_VOLUME,
-      render: (trend, { words }) => <SocialVolume trend={trend} words={words} />
     },
     {
       title: Column.TRENDING_CHART,

@@ -9,6 +9,7 @@ import WalletLink from '../../../../../components/WalletLink/WalletLink'
 import StakeholderChartPreview from '../StakeholderChartPreview/StakeholderChartPreview'
 import { HARDCODED_EXCHANGE_LINKS } from '../../../../../components/WalletLink/TransactionTableLabels'
 import { usdFormatter } from '../../../../../ducks/dataHub/metrics/formatters'
+// import UsefulSuggestion from '../UsefulSuggestion'
 import styles from './StakeholderSignal.module.scss'
 
 function formatDate (date) {
@@ -52,6 +53,9 @@ const ExchangeLink = ({ exchange_name }) => {
 function isValueUsd (value, value_usd, signal) {
   if (!value_usd) {
     switch (signal) {
+      case 'ath':
+      case 'ath_price_usd':
+      case 'price_usd_all_time_high':
       case 'large_transactions':
       case 'large_exchange_deposit':
       case 'large_exchange_withdrawal':
@@ -203,6 +207,7 @@ const StakeholderSignal = ({ data, settings }) => {
             project={project}
             settings={settings}
           />
+          {/* <UsefulSuggestion /> */}
         </div>
       </div>
     </div>

@@ -38,14 +38,11 @@ const Button = ({ id, label, activeKey, activeRef, onChange }) => (
 
 const NodeSetting = ({ metric, widget, rerenderWidgets }) => {
   const { activeRef, close, Dropdown } = useDropdown()
-  const node = useMemo(
-    () => {
-      const settings = widget.MetricSettingMap.get(metric)
-      const node = (settings && settings.node) || metric.node
-      return BARS.has(node) ? Node.AUTO_WIDTH_BAR : node
-    },
-    [widget.MetricSettingMap, metric]
-  )
+  const node = useMemo(() => {
+    const settings = widget.MetricSettingMap.get(metric)
+    const node = (settings && settings.node) || metric.node
+    return BARS.has(node) ? Node.AUTO_WIDTH_BAR : node
+  }, [widget.MetricSettingMap, metric])
 
   function onChange (newNode) {
     const newMap = new Map(widget.MetricSettingMap)

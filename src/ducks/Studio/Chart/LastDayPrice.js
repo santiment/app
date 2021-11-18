@@ -53,17 +53,14 @@ function getLastDayPrice (firstPoint, from, to) {
 const LastDayPrice = ({ data, from, to }) => {
   const chart = useChart()
 
-  useEffect(
-    () => {
-      const lastDayPrice = getLastDayPrice(data[0], from, to)
+  useEffect(() => {
+    const lastDayPrice = getLastDayPrice(data[0], from, to)
 
-      chart.plotter.register(
-        'lastDayPrice',
-        lastDayPrice ? () => drawLastDayPrice(chart, lastDayPrice) : noop
-      )
-    },
-    [data, from, to]
-  )
+    chart.plotter.register(
+      'lastDayPrice',
+      lastDayPrice ? () => drawLastDayPrice(chart, lastDayPrice) : noop
+    )
+  }, [data, from, to])
 
   return null
 }

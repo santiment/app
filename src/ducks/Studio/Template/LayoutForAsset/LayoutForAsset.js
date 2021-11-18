@@ -63,16 +63,13 @@ const Trigger = ({
   className,
   ...rest
 }) => {
-  let Wrapper = useMemo(
-    () => {
-      return markedAsNew
-        ? RowTooltipBuilder({
+  let Wrapper = useMemo(() => {
+    return markedAsNew
+      ? RowTooltipBuilder({
           onHide: () => markedAsNew && hideMarkedAsNew(false)
         })
-        : IconTooltipWrapper
-    },
-    [markedAsNew, hideMarkedAsNew]
-  )
+      : IconTooltipWrapper
+  }, [markedAsNew, hideMarkedAsNew])
 
   return (
     <Wrapper className={className} index={counter}>

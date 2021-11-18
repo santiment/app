@@ -12,27 +12,21 @@ import styles from './index.module.scss'
 function useSocialTimeseries (metrics, settings, MetricSettingMap) {
   const [activeMetrics, setMetrics] = useState([])
 
-  useEffect(
-    () => {
-      if (MetricSettingMap.size > 0) {
-        setMetrics(metrics)
-      }
-    },
-    [metrics]
-  )
+  useEffect(() => {
+    if (MetricSettingMap.size > 0) {
+      setMetrics(metrics)
+    }
+  }, [metrics])
 
-  useEffect(
-    () => {
-      if (
-        activeMetrics.length === 0 &&
-        metrics.length !== 0 &&
-        MetricSettingMap.size > 0
-      ) {
-        setMetrics(metrics)
-      }
-    },
-    [MetricSettingMap]
-  )
+  useEffect(() => {
+    if (
+      activeMetrics.length === 0 &&
+      metrics.length !== 0 &&
+      MetricSettingMap.size > 0
+    ) {
+      setMetrics(metrics)
+    }
+  }, [MetricSettingMap])
 
   return useTimeseries(activeMetrics, settings, MetricSettingMap)
 }
@@ -50,51 +44,39 @@ const Content = ({ topics: defaultTopics, range, linkedAssets }) => {
     MetricSettingMap
   )
 
-  useEffect(
-    () => {
-      const { from: FROM, to: TO } = getIntervalByTimeRange(range)
-      setSettings({
-        ...settings,
-        from: FROM.toISOString(),
-        to: TO.toISOString()
-      })
-    },
-    [range]
-  )
+  useEffect(() => {
+    const { from: FROM, to: TO } = getIntervalByTimeRange(range)
+    setSettings({
+      ...settings,
+      from: FROM.toISOString(),
+      to: TO.toISOString()
+    })
+  }, [range])
 
-  useEffect(
-    () => {
-      const newAvg = calcAverage(metrics, data)
-      if (JSON.stringify(newAvg) !== JSON.stringify(avg)) {
-        setAvg(newAvg)
+  useEffect(() => {
+    const newAvg = calcAverage(metrics, data)
+    if (JSON.stringify(newAvg) !== JSON.stringify(avg)) {
+      setAvg(newAvg)
+    }
+  }, [data])
+
+  useEffect(() => {
+    if (defaultTopics !== topics) {
+      if (JSON.stringify(defaultTopics) === JSON.stringify(topics)) {
+        return
       }
-    },
-    [data]
-  )
 
-  useEffect(
-    () => {
-      if (defaultTopics !== topics) {
-        if (JSON.stringify(defaultTopics) === JSON.stringify(topics)) {
-          return
-        }
+      let newMetrics = defaultTopics.map(topic => buildExploredMetric(topic))
+      newMetrics = [Metric.social_volume_total, ...newMetrics]
+      setTopics(defaultTopics)
+      setMetrics(newMetrics)
+      setAvg([])
+    }
+  }, [defaultTopics])
 
-        let newMetrics = defaultTopics.map(topic => buildExploredMetric(topic))
-        newMetrics = [Metric.social_volume_total, ...newMetrics]
-        setTopics(defaultTopics)
-        setMetrics(newMetrics)
-        setAvg([])
-      }
-    },
-    [defaultTopics]
-  )
-
-  useEffect(
-    () => {
-      rebuildMetricsMap()
-    },
-    [metrics, linkedAssets]
-  )
+  useEffect(() => {
+    rebuildMetricsMap()
+  }, [metrics, linkedAssets])
 
   function rebuildMetricsMap () {
     const newMetricSettingMap = new Map(new Map())

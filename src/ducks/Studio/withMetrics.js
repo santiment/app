@@ -71,35 +71,28 @@ export function useProjectMetrics (
     variables: { slug }
   })
 
-  return useMemo(
-    () => {
-      if (!data) return DEFAULT_STATE
+  return useMemo(() => {
+    if (!data) return DEFAULT_STATE
 
-      const {
-        availableMetrics,
-        availableQueries,
-        marketSegments
-      } = data.project
+    const { availableMetrics, availableQueries, marketSegments } = data.project
 
-      const Submetrics = getMergedTimeboundSubmetrics(availableMetrics)
-      const categories = getCategoryGraph(
-        availableQueries
-          .concat(availableMetrics)
-          .concat(noMarketSegments ? [] : marketSegments.map(getMarketSegment)),
-        hiddenMetrics,
-        Submetrics,
-        isBeta
-      )
+    const Submetrics = getMergedTimeboundSubmetrics(availableMetrics)
+    const categories = getCategoryGraph(
+      availableQueries
+        .concat(availableMetrics)
+        .concat(noMarketSegments ? [] : marketSegments.map(getMarketSegment)),
+      hiddenMetrics,
+      Submetrics,
+      isBeta
+    )
 
-      return {
-        categories,
-        Submetrics,
-        availableMetrics,
-        ...getAssetNewMetrics(availableMetrics, { slug, isBeta })
-      }
-    },
-    [data, isBeta, hiddenMetrics, noMarketSegments]
-  )
+    return {
+      categories,
+      Submetrics,
+      availableMetrics,
+      ...getAssetNewMetrics(availableMetrics, { slug, isBeta })
+    }
+  }, [data, isBeta, hiddenMetrics, noMarketSegments])
 }
 
 export default Component => props => {

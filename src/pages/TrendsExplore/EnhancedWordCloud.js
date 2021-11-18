@@ -15,19 +15,16 @@ const EnhancedWordCloud = ({ words, isDesktop, ...props }) => {
   const [date, setDate] = useState([MAX_DATE])
   const [period, setPeriod] = useState(getTimePeriod(MAX_DATE))
 
-  useEffect(
-    () => {
-      if (words.length > 1) {
-        setDate([MAX_DATE])
-        setPeriod(getTimePeriod(MAX_DATE))
-      }
+  useEffect(() => {
+    if (words.length > 1) {
+      setDate([MAX_DATE])
+      setPeriod(getTimePeriod(MAX_DATE))
+    }
 
-      if (!words.includes(word)) {
-        setWord(words[0])
-      }
-    },
-    [words]
-  )
+    if (!words.includes(word)) {
+      setWord(words[0])
+    }
+  }, [words])
 
   function onCalendarChange (datetime) {
     setDate([datetime])

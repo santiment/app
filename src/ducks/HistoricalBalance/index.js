@@ -5,7 +5,7 @@ import { useSettings, useWalletAssets } from './hooks'
 import Chart from './Chart'
 import AddressSetting from './Address'
 import Comments from './Comments'
-import LatestTransactions from './LatestTransactions'
+import AddressTransactions from './AddressTransactions'
 import Sankey from './Sankey'
 import { withSizes, DesktopOnly } from '../../components/Responsive'
 import { Infrastructure } from '../../utils/address'
@@ -27,18 +27,15 @@ const HistoricalBalance = ({
   const [priceAssets, setPriceAssets] = useState(defaultPriceAssets)
   const [isLog, setIsLog] = useState(defaultIsLog)
 
-  useEffect(
-    () => {
-      const priceAssetsSet = new Set(priceAssets)
-      const priceAssetsToDelete = new Set(priceAssetsSet)
+  useEffect(() => {
+    const priceAssetsSet = new Set(priceAssets)
+    const priceAssetsToDelete = new Set(priceAssetsSet)
 
-      chartAssets.forEach(({ slug }) => priceAssetsToDelete.delete(slug))
-      priceAssetsToDelete.forEach(asset => priceAssetsSet.delete(asset))
+    chartAssets.forEach(({ slug }) => priceAssetsToDelete.delete(slug))
+    priceAssetsToDelete.forEach(asset => priceAssetsSet.delete(asset))
 
-      setPriceAssets([...priceAssetsSet])
-    },
-    [chartAssets]
-  )
+    setPriceAssets([...priceAssetsSet])
+  }, [chartAssets])
 
   function togglePriceAsset (asset) {
     const priceAssetsSet = new Set(priceAssets)
@@ -103,7 +100,10 @@ const HistoricalBalance = ({
 
       <div className={cx(styles.bottom, isPhone && styles.bottom_phone)}>
         <div className={styles.left}>
-          <LatestTransactions settings={settings} />
+          <AddressTransactions
+            settings={settings}
+            walletAssets={walletAssets}
+          />
         </div>
         <div className={styles.right}>
           <Comments settings={settings} />

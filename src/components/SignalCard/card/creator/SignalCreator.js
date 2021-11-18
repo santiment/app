@@ -8,10 +8,9 @@ import styles from './SignalCreator.module.scss'
 export const showUserActions = () =>
   window && window.location && window.location.pathname !== personalLocation
 
-const onClick = e => e.stopPropagation()
-
 const SignalCreator = ({
   className,
+  onClick,
   classes = {},
   user: { id, username, email, avatarUrl } = {},
   children
@@ -28,12 +27,13 @@ const SignalCreator = ({
     <Link
       to={'/profile/' + id}
       className={cx(styles.container, className)}
-      onClick={onClick}
+      onClick={e => {
+        e.stopPropagation()
+        onClick && onClick()
+      }}
     >
       <UserAvatar
-        as='div'
         userId={id}
-        isExternal
         externalAvatarUrl={avatarUrl}
         classes={{ ...styles, ...classes }}
       />

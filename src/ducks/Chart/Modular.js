@@ -38,42 +38,36 @@ export const Chart = ({
     }
   }, [])
 
-  useEffect(
-    () => {
-      if (chart) {
-        Object.assign(chart, paintConfigs[+isNightMode])
-        chart.redraw()
-      }
-    },
-    [chart, isNightMode]
-  )
-
-  useEffect(
-    () => {
-      if (!chart) return
-
-      const { tooltip, brush, drawer, canvasWidth, canvasHeight } = chart
-
-      const _width = width || canvasWidth
-      const _height = height || canvasHeight
-
-      updateChartDimensions(chart, _width, _height, padding)
-
-      if (tooltip) {
-        updateSize(tooltip.canvas, tooltip.ctx, chart.dpr, _width, _height)
-      }
-      if (brush) {
-        brush.updateWidth(_width)
-      }
-      if (drawer) {
-        updateSize(drawer.canvas, drawer.ctx, chart.dpr, _width, _height)
-        drawer.redraw()
-      }
-
+  useEffect(() => {
+    if (chart) {
+      Object.assign(chart, paintConfigs[+isNightMode])
       chart.redraw()
-    },
-    [chart, width, height, padding]
-  )
+    }
+  }, [chart, isNightMode])
+
+  useEffect(() => {
+    if (!chart) return
+
+    const { tooltip, brush, drawer, canvasWidth, canvasHeight } = chart
+
+    const _width = width || canvasWidth
+    const _height = height || canvasHeight
+
+    updateChartDimensions(chart, _width, _height, padding)
+
+    if (tooltip) {
+      updateSize(tooltip.canvas, tooltip.ctx, chart.dpr, _width, _height)
+    }
+    if (brush) {
+      brush.updateWidth(_width)
+    }
+    if (drawer) {
+      updateSize(drawer.canvas, drawer.ctx, chart.dpr, _width, _height)
+      drawer.redraw()
+    }
+
+    chart.redraw()
+  }, [chart, width, height, padding])
 
   return (
     <div className={cx(styles.wrapper, className)}>

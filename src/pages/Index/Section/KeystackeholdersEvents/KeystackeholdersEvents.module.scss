@@ -9,6 +9,8 @@
   align-items: center;
   width: 100%;
   margin-bottom: 8px;
+  padding-top: 24px;
+  margin-top: 8px;
 
   @include text('h4', 'm');
 }
@@ -41,9 +43,10 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  background-color: var(--white);
 
   &__range {
-    background: none !important;
+    background: var(--white) !important;
     color: var(--rhino) !important;
     margin-left: 0;
     padding: 6px 16px;
@@ -73,6 +76,11 @@
 
 .anchor {
   color: var(--rhino);
+
+  &:hover,
+  &:focus {
+    color: var(--rhino);
+  }
 }
 
 .list {
@@ -84,6 +92,7 @@
 .accordions {
   border-radius: $border-radius;
   border: 1px solid var(--porcelain);
+  background: var(--white);
   box-sizing: border-box;
   flex: 1;
   overflow-x: hidden;

@@ -1,18 +1,80 @@
-@import '~@santiment-network/ui/variables';
+@import '~@santiment-network/ui/mixins';
 
-.btn {
-  margin: 24px;
-
-  &:active,
-  &:focus {
-    color: $white;
-  }
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0 0 0;
+  width: 100%;
+  position: relative;
+  background-color: var(--white);
+  border-radius: 4px;
+  border: 1px solid var(--porcelain);
 }
 
-.external {
-  margin-left: 8px;
+.charts {
+  display: block;
+  width: 100%;
+  overflow-y: hidden;
+  position: relative;
+  height: 260px;
+  padding: 0;
+
+  @include overlay-scroll('hover', 'x');
+}
+
+.scroller {
+  position: absolute;
+  display: flex;
+  top: 0;
+  left: 24px;
+}
+
+.hoverChart {
+  cursor: hover;
+  background: var(--mirage);
+  opacity: 0.8;
+  border-radius: 8px;
+  width: 315px;
+  height: 177px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: var(--white) !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+
+  @include text('body-2', 'm');
 }
 
 .chart {
-  min-height: 405px;
+  position: relative;
+  width: 315px;
+
+  &:hover {
+    & .hoverChart {
+      display: flex;
+    }
+  }
+
+  &:last-child {
+    margin-right: 24px;
+  }
+}
+
+.chart + .chart {
+  margin-left: 20px;
+}
+
+.title {
+  @include text('body-2');
+
+  margin: 16px 0 24px 0;
+}
+
+.widget {
+  width: 315px;
+  border: 1px solid var(--porcelain);
+  border-radius: 8px;
 }

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { newGlobalShortcut } from 'webkit/utils/events'
 import { globals } from 'studio/stores/globals'
 import { mapview } from 'studio/stores/mapview'
+import { useHistory } from '../stores'
 import Header from '../Header'
 import Widget from '../Widget'
 import Subwidgets from '../Subwidgets'
@@ -16,8 +17,11 @@ const StudioTab = ({
   modDate,
   modRange,
   InsightsStore,
+  prevFullUrlRef,
   subwidgetsController
 }) => {
+  const History = useHistory(studio)
+
   useEffect(() => {
     const unsubL = newGlobalShortcut('L', () => globals.toggle('isNewDrawing'))
     const unsubCmdM = newGlobalShortcut('CMD+M', mapview.toggle)
@@ -28,6 +32,18 @@ const StudioTab = ({
     }
   }, [])
 
+  useEffect(() => {
+    if (!History) return
+
+    const unsubCmdZ = newGlobalShortcut('CMD+Z', History.undo)
+    const unsubCmdShiftZ = newGlobalShortcut('CMD+SHIFT+Z', History.redo)
+
+    return () => {
+      unsubCmdZ()
+      unsubCmdShiftZ()
+    }
+  }, [History])
+
   return (
     <>
       <Header
@@ -35,6 +51,7 @@ const StudioTab = ({
         settings={settings}
         widgets={widgets}
         metrics={metrics}
+        prevFullUrlRef={prevFullUrlRef}
       />
 
       {widgets.map(

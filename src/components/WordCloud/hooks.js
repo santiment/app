@@ -4,20 +4,17 @@ import { WORD_CLOUD_QUERY } from './wordCloudGQL'
 import { getTimeIntervalFromToday } from '../../utils/dates'
 
 const useIsoTime = ({ from, to }) => {
-  return useMemo(
-    () => {
-      let fromIso = from
-      let toIso = to
-      if (!from) {
-        const { from, to } = getTimeIntervalFromToday(-1, 'd')
-        fromIso = from.toISOString()
-        toIso = to.toISOString()
-      }
+  return useMemo(() => {
+    let fromIso = from
+    let toIso = to
+    if (!from) {
+      const { from, to } = getTimeIntervalFromToday(-1, 'd')
+      fromIso = from.toISOString()
+      toIso = to.toISOString()
+    }
 
-      return { fromIso, toIso }
-    },
-    [from, to]
-  )
+    return { fromIso, toIso }
+  }, [from, to])
 }
 
 export function useWordCloud ({ size = 25, word, from, to, onLoad }) {
@@ -32,18 +29,15 @@ export function useWordCloud ({ size = 25, word, from, to, onLoad }) {
     }
   })
 
-  return useMemo(
-    () => {
-      const { data, loading, error } = query
+  return useMemo(() => {
+    const { data, loading, error } = query
 
-      if (data && onLoad) onLoad()
+    if (data && onLoad) onLoad()
 
-      return {
-        cloud: data && data.wordContext ? data.wordContext : [],
-        loading,
-        error
-      }
-    },
-    [query]
-  )
+    return {
+      cloud: data && data.wordContext ? data.wordContext : [],
+      loading,
+      error
+    }
+  }, [query])
 }

@@ -3,8 +3,6 @@ import sanapi from './icons/sanapi.svg'
 import sanbase from './icons/sanbase.svg'
 import insights from './icons/insights.svg'
 import sansheets from './icons/sansheets.svg'
-import sanhunters from './icons/sanhunters.svg'
-import datascience from './icons/datascience.svg'
 
 export const BUSINESS_PRODUCTS = [
   {
@@ -25,14 +23,7 @@ export const BUSINESS_PRODUCTS = [
     img: sanapi,
     title: 'SanAPI',
     description: 'The most comprehensive crypto API on the market',
-    to: 'https://neuro.santiment.net'
-  },
-  {
-    img: datascience,
-    title: 'Data Science as a Service',
-    description: 'Bespoke market intelligence for digital assets',
-    message: 'Talk with expert about Data Science as a Service.',
-    isIntercomButton: true
+    to: 'https://api.santiment.net'
   }
 ]
 
@@ -42,12 +33,6 @@ export const CHAIN_PRODUCTS = [
     title: 'SanR',
     description: 'Decentralized marketplace for crypto price signals',
     to: 'https://sanr.santiment.net'
-  },
-  {
-    img: sanhunters,
-    title: 'Sanhunters',
-    description: 'Get rewarded for market research and your crypto know-how',
-    to: 'https://hunters.santiment.net'
   },
   {
     img: insights,

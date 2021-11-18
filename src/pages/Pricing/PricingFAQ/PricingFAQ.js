@@ -3,11 +3,11 @@ import ExpansionItem from '../../../components/ExpansionItem/ExpansionItem'
 import styles from './PricingFAQ.module.scss'
 
 const QUESTIONS = [
-  {
-    title: 'Is there a free trial?',
-    descr:
-      'Yes! You can try all the paywalled features of our platform for a full week, right after your first login. There is no additional information needed for the trial and it will cancel automatically when it runs out.'
-  },
+  // {
+  // title: 'Is there a free trial?',
+  // descr:
+  // 'Yes! You can try all the paywalled features of our platform for a full week, right after your first login. There is no additional information needed for the trial and it will cancel automatically when it runs out.'
+  // },
   {
     title: 'Can I cancel my paid subscription at any time?',
     descr:

@@ -1,15 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { parse } from 'query-string'
 import { track } from 'webkit/analytics'
+import { queryLayout } from 'studio/api/layouts'
+import { selectedLayout } from 'studio/stores/layout'
 import Studio from './Studio'
 import URLExtension from './URLExtension'
 import RecentAssetExtension from './RecentAssetExtension'
+import { SHORT_URL_POSTFIX, getShortUrlHash } from './utils'
 import { parseUrl } from './sharing/parse'
 import { parseTemplate } from './sharing/template'
 import { getIdFromSEOLink } from '../../utils/url'
+import { getFullUrl } from '../../components/Share/utils'
 import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
 import PageLoader from '../../components/Loader/PageLoader'
-import { getTemplate } from '../../ducks/Studio/Template/gql/hooks'
+
+const parseLayout = layout =>
+  layout && queryLayout(+layout).then(selectedLayout.set)
 
 const Extensions = props => (
   <>
@@ -28,48 +34,81 @@ export default ({ location }) => {
 
   const { pathname, search } = location
 
-  useEffect(
-    () => {
-      const newSlug = parse(search).slug
-      if (newSlug && newSlug !== slug) setSlug(newSlug)
-    },
-    [search]
-  )
+  useEffect(() => () => selectedLayout.set(), [])
 
-  useEffect(
-    () => {
-      const templateId = getIdFromSEOLink(pathname)
-      if (prevFullUrlRef.current === pathname + search) return
-      track.pageview('sanbase')
+  useEffect(() => {
+    const newSlug = parse(search).slug
+    if (newSlug && newSlug !== slug) setSlug(newSlug)
+  }, [search])
 
-      if (Number.isFinite(templateId)) {
-        if (templateId === prevTemplateId) return
+  useEffect(() => {
+    if (pathname === '/charts') selectedLayout.set()
 
-        setPrevTemplateId(templateId)
-        getTemplate(templateId)
-          .then(template => {
-            const parsedUrl = {
-              settings: template.project,
-              widgets: parseTemplate(template)
-            }
-            if (!parsedUrl.settings.slug) {
-              parsedUrl.settings.slug = 'bitcoin'
-              parsedUrl.settings.ticker = 'BTC'
-            }
-            setSlug(parsedUrl.settings.slug || '')
-            setParsedUrl(parsedUrl)
-          })
-          .catch(console.error)
-        return
-      }
+    let isRacing = false
+    const templateId = getIdFromSEOLink(pathname)
+    if (prevFullUrlRef.current === pathname + search) return
+    track.pageview('sanbase')
+    const [prevShortUrlHash, setShortUrlHash] = shortUrlHashState
+
+    if (Number.isFinite(templateId)) {
+      if (templateId === prevTemplateId) return
+
+      setPrevTemplateId(templateId)
+      queryLayout(+templateId)
+        .then(layout => {
+          if (isRacing) return
+          const parsedUrl = {
+            settings: layout.project,
+            widgets: parseTemplate(layout)
+          }
+          if (!parsedUrl.settings.slug) {
+            parsedUrl.settings.slug = 'bitcoin'
+            parsedUrl.settings.ticker = 'BTC'
+          }
+
+          selectedLayout.set(layout)
+          setShortUrlHash()
+          setSlug(parsedUrl.settings.slug || '')
+          setParsedUrl(parsedUrl)
+        })
+        .catch(console.error)
+      return
+    }
+
+    if (!pathname.endsWith(SHORT_URL_POSTFIX)) {
       const parsedUrl = parseUrl(search)
       if (parsedUrl.settings) {
         setSlug(parsedUrl.settings.slug || '')
       }
-      setParsedUrl(parsedUrl) // TODO: Delete after enabling short urls [@vanguard | Mar  3, 2021]
-    },
-    [pathname]
-  )
+
+      parseLayout(parsedUrl.layout)
+      setShortUrlHash()
+      return setParsedUrl(parsedUrl)
+    }
+
+    const shortUrlHash = getShortUrlHash(pathname)
+    if (shortUrlHash === prevShortUrlHash) return
+
+    getFullUrl(shortUrlHash)
+      .then(fullUrl => {
+        if (isRacing) return
+
+        setShortUrlHash(shortUrlHash)
+        if (prevFullUrlRef.current !== fullUrl) {
+          prevFullUrlRef.current = fullUrl
+          const parsedUrl = parseUrl(fullUrl)
+
+          if (parsedUrl.settings) {
+            setSlug(parsedUrl.settings.slug || '')
+          }
+          parseLayout(parsedUrl.layout)
+          setParsedUrl(parsedUrl)
+        }
+      })
+      .catch(console.error)
+
+    return () => (isRacing = true)
+  }, [pathname])
 
   if (!parsedUrl) return <PageLoader />
 

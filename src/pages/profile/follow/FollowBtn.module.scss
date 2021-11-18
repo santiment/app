@@ -9,5 +9,14 @@
   fill: var(--accent);
   margin-right: 10px;
   position: relative;
-  top: -2px;
+}
+
+.grey {
+  background-color: var(--porcelain);
+  color: var(--waterloo) !important;
+  fill: var(--waterloo) !important;
+
+  &:hover {
+    background-color: var(--mystic);
+  }
 }

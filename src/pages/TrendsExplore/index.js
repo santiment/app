@@ -19,39 +19,33 @@ import styles from './index.module.scss'
 const EMPTY_MAP = new Map()
 
 const pageDescription =
-  'Explore the social volume of ANY word (or phrase) on crypto social media, including 100s of Telegram groups, crypto subreddits, discord channels, trader chats and more.'
+  'Explore the social volume of ANY word (or phrase) on crypto social media, including 100s of Telegram groups, crypto subreddits, trader chats and more.'
 
 const TrendsExplore = ({ topic, addedTopics, history, isDesktop }) => {
   const { projects } = useProjects()
   const { isPro: hasPremium } = useUserSubscriptionStatus()
   const [topics, setTopics] = useState([topic, ...addedTopics].filter(Boolean))
   const [activeLinkedAssets, setActiveLinkedAssets] = useState(EMPTY_MAP)
-  const linkedAssets = useMemo(
-    () => {
-      if (projects.length === 0) return EMPTY_MAP
+  const linkedAssets = useMemo(() => {
+    if (projects.length === 0) return EMPTY_MAP
 
-      const newLinkedAssets = new Map()
-      topics.forEach(topic =>
-        newLinkedAssets.set(topic, getProjectInfo(projects, topic, topic))
-      )
-      return newLinkedAssets
-    },
-    [topics, projects]
-  )
+    const newLinkedAssets = new Map()
+    topics.forEach(topic =>
+      newLinkedAssets.set(topic, getProjectInfo(projects, topic, topic))
+    )
+    return newLinkedAssets
+  }, [topics, projects])
 
   useEffect(() => topics.forEach(addRecentTrends), [topics])
-  useEffect(
-    () => {
-      if (topic !== '') {
-        setTopics([topic, ...addedTopics])
+  useEffect(() => {
+    if (topic !== '') {
+      setTopics([topic, ...addedTopics])
 
-        if (topic !== topics[0]) {
-          trackTopicSearch(topic)
-        }
+      if (topic !== topics[0]) {
+        trackTopicSearch(topic)
       }
-    },
-    [topic, addedTopics]
-  )
+    }
+  }, [topic, addedTopics])
 
   function updTopics (newTopics) {
     if (newTopics !== topics) {

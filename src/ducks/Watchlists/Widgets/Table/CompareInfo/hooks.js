@@ -39,39 +39,40 @@ export function useAvailableMetrics (assets) {
 
   const assetsHash = hashAssets(assets)
 
-  useEffect(
-    () => {
-      if (!assetsHash) {
-        setAvailableMetrics([])
-      }
+  useEffect(() => {
+    if (!assetsHash) {
+      setAvailableMetrics([])
+    }
 
-      setAbortables(abortRemovedAssets(abortables, assets))
-    },
-    [assetsHash]
-  )
+    setAbortables(abortRemovedAssets(abortables, assets))
+  }, [assetsHash])
 
-  useEffect(
-    () => {
-      let raceCondition = false
+  useEffect(() => {
+    let raceCondition = false
 
-      assets.forEach(asset => {
-        const { slug } = asset
-        const abortController = new AbortController()
+    assets.forEach(asset => {
+      const { slug } = asset
+      const abortController = new AbortController()
 
-        setLoadings(state => {
-          const loadingsSet = new Set(state)
-          loadingsSet.add(asset)
-          return [...loadingsSet]
-        })
+      setLoadings(state => {
+        const loadingsSet = new Set(state)
+        loadingsSet.add(asset)
+        return [...loadingsSet]
+      })
 
-        const request = fetchData(
-          PROJECT_METRICS_BY_SLUG_QUERY,
-          { slug },
-          abortController.signal
-        )
+      const request = fetchData(
+        PROJECT_METRICS_BY_SLUG_QUERY,
+        { slug },
+        abortController.signal
+      )
 
-        request
-          .then(({ data: { project: { availableMetrics } } }) => {
+      request
+        .then(
+          ({
+            data: {
+              project: { availableMetrics }
+            }
+          }) => {
             if (raceCondition) return
 
             if (!availableMetrics.length) {
@@ -83,29 +84,28 @@ export function useAvailableMetrics (assets) {
             })
 
             return availableMetrics
-          })
-          .catch(({ message }) => {
-            if (raceCondition) return
-          })
-          .finally(() => {
-            if (raceCondition) return
+          }
+        )
+        .catch(({ message }) => {
+          if (raceCondition) return
+        })
+        .finally(() => {
+          if (raceCondition) return
 
-            setAbortables(state => {
-              const newState = new Map(state)
-              newState.delete(asset)
-              return newState
-            })
-
-            setLoadings(state => state.filter(loadable => loadable !== asset))
+          setAbortables(state => {
+            const newState = new Map(state)
+            newState.delete(asset)
+            return newState
           })
-      })
 
-      return () => {
-        raceCondition = true
-      }
-    },
-    [assetsHash]
-  )
+          setLoadings(state => state.filter(loadable => loadable !== asset))
+        })
+    })
+
+    return () => {
+      raceCondition = true
+    }
+  }, [assetsHash])
 
   return { availableMetrics, loadings }
 }

@@ -18,22 +18,16 @@ const ProjectSelectDialog = ({
   const [searchedProjects, setSearchedProjects] = useState(allProjects)
   const [lastSearchTerm, setLastSearchTerm] = useState('')
 
-  useEffect(
-    () => {
-      if (!open) {
-        setSearchedProjects(allProjects)
-        setLastSearchTerm('')
-      }
-    },
-    [open]
-  )
+  useEffect(() => {
+    if (!open) {
+      setSearchedProjects(allProjects)
+      setLastSearchTerm('')
+    }
+  }, [open])
 
-  useEffect(
-    () => {
-      searchProjects(lastSearchTerm)
-    },
-    [allProjects]
-  )
+  useEffect(() => {
+    searchProjects(lastSearchTerm)
+  }, [allProjects])
 
   function searchProjects (searchTerm) {
     const lowerCase = searchTerm.toLowerCase()

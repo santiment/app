@@ -44,7 +44,9 @@ const Filter = ({
 
   const isViewMode =
     !isAuthor && !isAuthorLoading && (isLoggedIn || !isDefaultScreener)
-  const filters = extractFilters(screenerFunction.args)
+  const filters = useMemo(() => extractFilters(screenerFunction.args), [
+    screenerFunction
+  ])
   const [currentSearch, setCurrentSearch] = useState('')
   const [filter, updateFilter] = useState(filters)
   const [baseProjects, setBaseProjects] = useState(
@@ -57,57 +59,46 @@ const Filter = ({
   const [isReset, setIsReset] = useState(false)
   const { isPro } = useUserSubscriptionStatus()
 
+  useEffect(() => {
+    updateFilter(filters)
+  }, [filters])
+
   const isNoFilters = useMemo(
     () => filters.length === 0 || screenerFunction.name === 'top_all_projects',
     [filters, screenerFunction]
   )
 
-  useEffect(
-    () => {
-      if (isOutdatedVersion && appVersionState !== APP_STATES.LATEST) {
-        notifyOutdatedVersion()
-      }
-    },
-    [isOutdatedVersion]
-  )
+  useEffect(() => {
+    if (isOutdatedVersion && appVersionState !== APP_STATES.LATEST) {
+      notifyOutdatedVersion()
+    }
+  }, [isOutdatedVersion])
 
-  useEffect(
-    () => {
-      if (isViewMode && !isActiveFiltersOnly) {
-        setIsActiveFiltersOnly(true)
-      }
-    },
-    [isViewMode]
-  )
+  useEffect(() => {
+    if (isViewMode && !isActiveFiltersOnly) {
+      setIsActiveFiltersOnly(true)
+    }
+  }, [isViewMode])
 
-  useEffect(
-    () => {
-      if (!isLoggedIn && !isViewMode && isWereChanges && isOpen) {
-        notifyLoginForSave()
-      }
-    },
-    [isWereChanges]
-  )
+  useEffect(() => {
+    if (!isLoggedIn && !isViewMode && isWereChanges && isOpen) {
+      notifyLoginForSave()
+    }
+  }, [isWereChanges])
 
-  useEffect(
-    () => {
-      if (!isOpen) {
-        setCurrentSearch('')
-      }
-    },
-    [isOpen]
-  )
+  useEffect(() => {
+    if (!isOpen) {
+      setCurrentSearch('')
+    }
+  }, [isOpen])
 
-  useEffect(
-    () => {
-      if (!isViewMode && baseProjects !== screenerFunction.args.baseProjects) {
-        const newFunction = getNewFunction(filter, baseProjects)
-        updateWatchlistFunction(newFunction)
-        setScreenerFunction(newFunction)
-      }
-    },
-    [baseProjects]
-  )
+  useEffect(() => {
+    if (!isViewMode && baseProjects !== screenerFunction.args.baseProjects) {
+      const newFunction = getNewFunction(filter, baseProjects)
+      updateWatchlistFunction(newFunction)
+      setScreenerFunction(newFunction)
+    }
+  }, [baseProjects])
 
   function resetAll () {
     const func = getNewFunction([], baseProjects)
@@ -129,10 +120,10 @@ const Filter = ({
     const filters = isNoFilters
       ? []
       : filter.filter(
-        item =>
-          !isContainMetric(item.args.metric || item.name, key) &&
+          item =>
+            !isContainMetric(item.args.metric || item.name, key) &&
             !isContainMetric(item.args.metric || item.name, alternativeKey)
-      )
+        )
     const newFilter = [...filters, metric]
 
     const newFunction = getNewFunction(newFilter, baseProjects)

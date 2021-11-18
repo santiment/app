@@ -3,39 +3,30 @@ import { getIntervalByTimeRange } from '../../utils/dates'
 export const TOPICS = [
   { slug: 'hold OR love OR btc OR bitcoin OR buy', title: 'Buy Bitcoin' },
   {
-    slug: 'doge',
-    title: 'Dogecoin Pumps',
-    query: 'doge?asset=dogecoin&ticker=DOGE'
+    slug: 'bull AND market',
+    title: 'Bull Market'
   },
   {
-    slug: 'shib',
-    title: 'Shiba Inu All Time High',
-    query: 'shib?asset=shiba-inu&ticker=SHIB'
+    slug: 'shadowy',
+    title: 'Shadowy Crypto Coders'
   },
-  {
-    slug: 'nft',
-    title: 'NFT madness',
-    query: 'nft?asset=nft&ticker=NFT&slug=nft'
-  },
+  { slug: 'china', title: 'Chinese FUD' },
   { slug: 'correction', title: 'BTC Correction' },
-  { slug: 'options', title: 'Options expiration' },
-  { slug: 'visa', title: 'Visa crypto adoption' },
+  { slug: 'mcafee', title: 'McAfee dies' },
   {
-    slug: 'icp',
-    title: 'Internet Computer Launch',
-    query: 'icp?asset=internet-computer&ticker=ICP'
+    slug: 'robinhood',
+    title: 'Robinhood Went IPO'
   },
   {
-    slug: 'xrp OR ripple',
-    title: 'Ripple pumps',
-    query: 'xrp OR ripple?asset=ripple&ticker=XRP&slug=ripple'
+    slug: 'amazon',
+    title: 'Amazon and BTC rumours'
   },
-  { slug: 'elon AND musk AND doge', title: 'Musk and Dogecoin' },
-  { slug: 'stimulus', title: 'Stimulus' },
+  { slug: 'pizza', title: 'Bitcoin Pizza Day' },
+  { slug: 'powell', title: 'Powell' },
+  { slug: 'dca', title: 'DCA' },
   {
-    slug: 'eth AND ath',
-    title: 'Ethereum ATH',
-    query: 'eth%20AND%20ath?asset=ethereum&ticker=ETH'
+    slug: 'hack',
+    title: 'Hack'
   }
 ]
 
@@ -46,9 +37,9 @@ export const INDEX_PAGE_GROUPS = [
       'The most popular topics in crypto social media. Ranges from worldwide economic and health topics to the prices discussions',
     topics: [
       {
-        title: 'Coinbase Stocks Listing',
-        slug: 'coinbase',
-        createdAt: '2021-05-20T08:07:20.922Z'
+        title: 'El Salvador & El Bitcoin',
+        slug: 'salvador',
+        createdAt: '2021-07-28T08:07:20.922Z'
       },
       {
         title: 'Biden and Taxes',
@@ -56,14 +47,14 @@ export const INDEX_PAGE_GROUPS = [
         createdAt: '2021-05-20T07:18:20.922Z'
       },
       {
-        title: 'BTC All Time High',
-        slug: 'btc AND ath',
-        createdAt: '2020-12-17T15:18:20.922Z'
+        title: 'London Ethereum Hard Fork',
+        slug: 'london OR 1559',
+        createdAt: '2021-09-01T15:18:20.922Z'
       },
       {
-        title: 'Tesla and BTC',
-        slug: 'tesla',
-        createdAt: '2021-03-16T10:07:20.922Z'
+        title: 'Infrastructure Amendment',
+        slug: 'infrastructure AND amendment',
+        createdAt: '2021-09-01T10:07:20.922Z'
       },
       {
         title: 'Inflation',
@@ -71,9 +62,9 @@ export const INDEX_PAGE_GROUPS = [
         createdAt: '2021-05-20T10:07:21.922Z'
       },
       {
-        title: 'Shitcoins',
-        slug: 'shitcoin',
-        createdAt: '2021-05-20T10:07:22.922Z'
+        title: 'Gaming and NFT',
+        slug: 'nft OR gaming',
+        createdAt: '2021-09-01T10:07:22.922Z'
       }
     ]
   }

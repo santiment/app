@@ -1,4 +1,5 @@
 .wrapper {
+  position: relative;
   color: var(--black);
   fill: var(--black);
   background-color: var(--white);
@@ -53,4 +54,16 @@
   &:hover {
     fill: var(--green);
   }
+}
+
+.btn__icon {
+  margin-right: 8px;
+}
+
+.watchlist {
+  border: 0;
+}
+
+.signal {
+  fill: var(--casper);
 }

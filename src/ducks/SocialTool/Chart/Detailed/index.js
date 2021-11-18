@@ -9,8 +9,6 @@ import styles from './index.module.scss'
 const GENERAL_CHARTS = [
   DetailedMetric.social_volume_telegram,
   DetailedMetric.social_volume_reddit,
-  DetailedMetric.social_volume_professional_traders_chat,
-  DetailedMetric.social_volume_discord,
   DetailedMetric.social_volume_twitter
 ]
 const COMMUNITY_CHARTS = [DetailedMetric.community_messages_count_telegram]
@@ -57,21 +55,18 @@ const DetailedBlock = ({
       ? allDetectedAssets.get(settings.slug)
       : linkedAssets.get(settings.slug)
 
-  useEffect(
-    () => {
-      const newMetricSettingMap = new Map(MetricSettingMap)
-      const metricSetting = {
-        selector: detectedAsset ? 'slug' : 'text',
-        slug: detectedAsset ? detectedAsset.slug : settings.slug
-      }
+  useEffect(() => {
+    const newMetricSettingMap = new Map(MetricSettingMap)
+    const metricSetting = {
+      selector: detectedAsset ? 'slug' : 'text',
+      slug: detectedAsset ? detectedAsset.slug : settings.slug
+    }
 
-      if (charts.length > 0) {
-        charts.forEach(metric => newMetricSettingMap.set(metric, metricSetting))
-        setMetricSettingMap(newMetricSettingMap)
-      }
-    },
-    [charts, settings.slug]
-  )
+    if (charts.length > 0) {
+      charts.forEach(metric => newMetricSettingMap.set(metric, metricSetting))
+      setMetricSettingMap(newMetricSettingMap)
+    }
+  }, [charts, settings.slug])
 
   if (charts.length === 0) {
     return null
@@ -104,7 +99,7 @@ const DetailedBlock = ({
         ))}
       </div>
     </>
-    )
+  )
 }
 
 export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {

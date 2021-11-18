@@ -47,12 +47,9 @@ const MetricSelector = ({
 
   useEffect(() => setFavorites(favoriteMetrics), [favoriteMetrics])
 
-  useEffect(
-    () => {
-      rebuildDescriptions(Submetrics)
-    },
-    [Submetrics]
-  )
+  useEffect(() => {
+    rebuildDescriptions(Submetrics)
+  }, [Submetrics])
 
   function onDragEnd ({ oldIndex, newIndex }) {
     const newFavoriteMetrics = favoriteMetrics.slice()

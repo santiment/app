@@ -54,12 +54,9 @@ export const Block = ({
   tag,
   className
 }) => {
-  const El = useMemo(
-    () => {
-      return isPaywalActive ? CheckProPaywall : Fragment
-    },
-    [isPaywalActive]
-  )
+  const El = useMemo(() => {
+    return isPaywalActive ? CheckProPaywall : Fragment
+  }, [isPaywalActive])
 
   return (
     <div className={cx(styles.block, className)} id={tag}>
@@ -99,16 +96,13 @@ export const BlockWithRanges = ({
     interval
   })
 
-  useEffect(
-    () => {
-      setSettings({
-        ...settings,
-        ...getNewTimerangePeriod(interval),
-        interval
-      })
-    },
-    [interval]
-  )
+  useEffect(() => {
+    setSettings({
+      ...settings,
+      ...getNewTimerangePeriod(interval),
+      interval
+    })
+  }, [interval])
 
   const Wrapper = checkPro ? CheckProPaywall : Fragment
 

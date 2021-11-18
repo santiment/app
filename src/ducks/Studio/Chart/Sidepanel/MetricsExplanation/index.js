@@ -67,16 +67,13 @@ const MetricsExplanation = ({
   const [options, setOptions] = useState(OPTIONS)
   const [selected, setSelected] = useState(SELECTED)
 
-  useEffect(
-    () => {
-      const newOptions = buildOptions(metrics, MetricColor)
-      const newSelected = newOptions[0]
+  useEffect(() => {
+    const newOptions = buildOptions(metrics, MetricColor)
+    const newSelected = newOptions[0]
 
-      setOptions(newOptions)
-      setSelected(newSelected)
-    },
-    [metrics]
-  )
+    setOptions(newOptions)
+    setSelected(newSelected)
+  }, [metrics])
 
   const { metric } = selected || {}
   if (!metric) return null

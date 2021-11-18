@@ -2,6 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import { useDialogState } from '../../hooks/dialog'
+import AccordionContent from '../AccordionContent'
 import styles from './ExpansionItem.module.scss'
 
 const ExpansionItem = ({ title, children, isOpen, classes = {} }) => {
@@ -17,11 +18,11 @@ const ExpansionItem = ({ title, children, isOpen, classes = {} }) => {
 
         <Icon
           className={cx(styles.arrow, isOpened && styles.arrowOpened)}
-          type={isOpened ? 'arrow-up-big' : 'arrow-down-big'}
+          type='arrow-down-big'
         />
       </div>
 
-      {isOpened && children}
+      <AccordionContent show={isOpened}>{children}</AccordionContent>
     </div>
   )
 }

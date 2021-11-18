@@ -104,19 +104,16 @@ const TriggerFormHistoricalBalance = ({
     heldLoading
   ])
 
-  const metaMappedToAll = useMemo(
-    () => {
-      return allProjects.length
-        ? mapAssetsToAllProjects(
+  const metaMappedToAll = useMemo(() => {
+    return allProjects.length
+      ? mapAssetsToAllProjects(
           allProjects,
           Array.isArray(metaTarget.value)
             ? metaTarget.value
             : [metaTarget.value]
         )
-        : []
-    },
-    [allProjects, metaTarget]
-  )
+      : []
+  }, [allProjects, metaTarget])
 
   const setTarget = useCallback(
     newTarget => {
@@ -196,75 +193,54 @@ const TriggerFormHistoricalBalance = ({
     ]
   )
 
-  useEffect(
-    () => {
-      if (heldAssets && heldAssets.length > 0) {
-        if (!isInAssetsList(heldAssets, target) && isNewSignal) {
-          validateTarget(heldAssets[0])
-        }
+  useEffect(() => {
+    if (heldAssets && heldAssets.length > 0) {
+      if (!isInAssetsList(heldAssets, target) && isNewSignal) {
+        validateTarget(heldAssets[0])
       }
-    },
-    [heldAssets]
-  )
+    }
+  }, [heldAssets])
 
-  useEffect(
-    () => {
-      validateTarget(target)
-    },
-    [target, ethAddress, allProjects]
-  )
+  useEffect(() => {
+    validateTarget(target)
+  }, [target, ethAddress, allProjects])
 
-  useEffect(
-    () => {
-      const showError =
-        allProjects &&
-        allProjects.length > 0 &&
-        isErc20Assets(target, allProjects)
+  useEffect(() => {
+    const showError =
+      allProjects &&
+      allProjects.length > 0 &&
+      isErc20Assets(target, allProjects)
 
-      setFieldValue(
-        'isHbAddressError',
-        showError ? !hasHBAddresses(ethAddress) : false
-      )
-    },
-    [target, ethAddress, allProjects.length]
-  )
+    setFieldValue(
+      'isHbAddressError',
+      showError ? !hasHBAddresses(ethAddress) : false
+    )
+  }, [target, ethAddress, allProjects.length])
 
-  useEffect(
-    () => {
-      validateAddressField(target)
-    },
-    [target]
-  )
+  useEffect(() => {
+    validateAddressField(target)
+  }, [target])
 
-  useEffect(
-    () => {
-      setFieldValue('isLoading', allLoading)
-    },
-    [allLoading]
-  )
+  useEffect(() => {
+    setFieldValue('isLoading', allLoading)
+  }, [allLoading])
 
-  useEffect(
-    () => {
-      if (!hasHBAddresses(ethAddress)) {
-        if (!Array.isArray(target)) {
-          setTarget([target])
-        }
+  useEffect(() => {
+    if (!hasHBAddresses(ethAddress)) {
+      if (!Array.isArray(target)) {
+        setTarget([target])
       }
-    },
-    [ethAddress]
-  )
+    }
+  }, [ethAddress])
 
-  const selectableProjects = useMemo(
-    () => {
-      return hasHBAddresses(ethAddress) &&
-        !disabledWalletField &&
-        heldAssets &&
-        heldAssets.length > 0
-        ? mapAssetsToAllProjects(allProjects, heldAssets)
-        : allProjects
-    },
-    [hasHBAddresses, disabledWalletField, heldAssets, allProjects]
-  )
+  const selectableProjects = useMemo(() => {
+    return hasHBAddresses(ethAddress) &&
+      !disabledWalletField &&
+      heldAssets &&
+      heldAssets.length > 0
+      ? mapAssetsToAllProjects(allProjects, heldAssets)
+      : allProjects
+  }, [hasHBAddresses, disabledWalletField, heldAssets, allProjects])
 
   return (
     <>

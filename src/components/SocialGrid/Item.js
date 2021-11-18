@@ -26,19 +26,16 @@ const Item = ({
   settings,
   createSignal
 }) => {
-  const MetricSettingMap = useMemo(
-    () => {
-      const MetricSettingMap = new Map()
+  const MetricSettingMap = useMemo(() => {
+    const MetricSettingMap = new Map()
 
-      MetricSettingMap.set(metrics[0], {
-        selector: 'text',
-        slug: topic
-      })
+    MetricSettingMap.set(metrics[0], {
+      selector: 'text',
+      slug: topic
+    })
 
-      return MetricSettingMap
-    },
-    [metrics]
-  )
+    return MetricSettingMap
+  }, [metrics])
 
   return show ? (
     <article className={styles.wrapper}>
@@ -120,7 +117,4 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(Item)
+export default connect(null, mapDispatchToProps)(Item)

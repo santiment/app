@@ -85,12 +85,9 @@ const labelsSorter = (a, b) => a.name.localeCompare(b.name)
 const Labels = ({ settings, showCount = 5 }) => {
   const labels = useAddressLabels(settings)
 
-  const sorted = useMemo(
-    () => {
-      return labels.sort(labelsSorter)
-    },
-    [labels]
-  )
+  const sorted = useMemo(() => {
+    return labels.sort(labelsSorter)
+  }, [labels])
 
   const visibleLabels = sorted.slice(0, showCount)
   const hiddenLabels = sorted.slice(showCount)

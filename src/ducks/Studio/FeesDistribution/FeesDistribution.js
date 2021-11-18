@@ -60,12 +60,9 @@ const FeesDistribution = ({ onDisable, deleteWidget, widget }) => {
     deleteWidget(widget)
   }
 
-  useEffect(
-    () => {
-      setSettings({ ...interval, ...formIntervalSettings(interval) })
-    },
-    [interval]
-  )
+  useEffect(() => {
+    setSettings({ ...interval, ...formIntervalSettings(interval) })
+  }, [interval])
 
   const { isPro } = useUserSubscriptionStatus()
 
@@ -104,27 +101,21 @@ export const FeesDistributionChart = ({
     selectedPeriod ? { ...settings, ...selectedPeriod } : { ...settings }
   )
 
-  const prepared = useMemo(
-    () => {
-      return data.map(item => {
-        return {
-          ...item,
-          key: item.slug || item.address,
-          clickable: !!item.slug
-        }
-      })
-    },
-    [data]
-  )
-
-  useEffect(
-    () => {
-      if (interval !== '1d' && selectedPeriod) {
-        setSelectedPeriod(null)
+  const prepared = useMemo(() => {
+    return data.map(item => {
+      return {
+        ...item,
+        key: item.slug || item.address,
+        clickable: !!item.slug
       }
-    },
-    [interval]
-  )
+    })
+  }, [data])
+
+  useEffect(() => {
+    if (interval !== '1d' && selectedPeriod) {
+      setSelectedPeriod(null)
+    }
+  }, [interval])
 
   if (!loading && error) {
     onDisable && onDisable()

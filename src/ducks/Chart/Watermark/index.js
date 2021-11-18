@@ -8,13 +8,10 @@ const ID = 'watermark'
 export default buildPlotter((chart, { light }) => {
   const { isNightMode } = useTheme()
 
-  useEffect(
-    () => {
-      chart.plotter.register(ID, () => drawWatermark(chart, isNightMode, light))
-      chart.redraw()
-    },
-    [isNightMode, light]
-  )
+  useEffect(() => {
+    chart.plotter.register(ID, () => drawWatermark(chart, isNightMode, light))
+    chart.redraw()
+  }, [isNightMode, light])
 
   usePlotterRemove(chart, ID)
 })

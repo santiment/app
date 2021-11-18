@@ -19,8 +19,8 @@ const getWords = (allProjects, trendingWordsWithWords) => {
   const preselectedWords = Array.isArray(trendingWordsWithWords)
     ? trendingWordsWithWords
     : trendingWordsWithWords
-      ? [trendingWordsWithWords]
-      : []
+    ? [trendingWordsWithWords]
+    : []
 
   return [...preselectedWords, ...defaultOptions]
 }

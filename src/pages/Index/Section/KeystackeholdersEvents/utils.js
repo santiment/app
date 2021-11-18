@@ -34,21 +34,18 @@ export function GetReferenceDots (signals, yAxisId) {
 }
 
 export const useMinMaxValues = (data, key) => {
-  return useMemo(
-    () => {
-      let lowest = Number.POSITIVE_INFINITY
-      let highest = Number.NEGATIVE_INFINITY
-      let tmp
-      for (let i = 0; i < data.length; i++) {
-        tmp = data[i][key]
-        if (tmp < lowest) lowest = tmp
-        if (tmp > highest) highest = tmp
-      }
+  return useMemo(() => {
+    let lowest = Number.POSITIVE_INFINITY
+    let highest = Number.NEGATIVE_INFINITY
+    let tmp
+    for (let i = 0; i < data.length; i++) {
+      tmp = data[i][key]
+      if (tmp < lowest) lowest = tmp
+      if (tmp > highest) highest = tmp
+    }
 
-      return { min: lowest, max: highest }
-    },
-    [data, key]
-  )
+    return { min: lowest, max: highest }
+  }, [data, key])
 }
 
 export function getNearestPricePoint (timeseries, datetime) {

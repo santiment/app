@@ -28,13 +28,10 @@ const Input = ({ value, onCalendarChange }) => {
   const [isInvalid, setIsInvalid] = useState()
   const inputRef = useRef()
 
-  useEffect(
-    () => {
-      setInput(value)
-      setIsInvalid(false)
-    },
-    [value]
-  )
+  useEffect(() => {
+    setInput(value)
+    setIsInvalid(false)
+  }, [value])
 
   function onFocus () {
     setIsFocused(true)

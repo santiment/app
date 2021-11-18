@@ -82,9 +82,7 @@ function checkIsPercentMetric (filter = []) {
   }
 
   console.error(
-    `Error in ${
-      filter[0].metric
-    } type: ${totalNumber} metrics and ${percentMetricsNumber} with percent type`
+    `Error in ${filter[0].metric} type: ${totalNumber} metrics and ${percentMetricsNumber} with percent type`
   )
 }
 
@@ -92,12 +90,12 @@ export function extractParams (filter = [], filterType, baseMetric) {
   return filter.length === 0
     ? {}
     : {
-      isActive: true,
-      type: filterType.key,
-      firstThreshold: extractThreshold(filter, filterType, baseMetric, 1),
-      secondThreshold: extractThreshold(filter, filterType, baseMetric, 2),
-      timeRange: extractTimeRange(filter)
-    }
+        isActive: true,
+        type: filterType.key,
+        firstThreshold: extractThreshold(filter, filterType, baseMetric, 1),
+        secondThreshold: extractThreshold(filter, filterType, baseMetric, 2),
+        timeRange: extractTimeRange(filter)
+      }
 }
 
 function extractTimeRange (filter = []) {

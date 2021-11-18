@@ -39,29 +39,23 @@ const ImageEditor = ({
     setCroppedAreaPixels(croppedAreaPixels)
   }, [])
 
-  useEffect(
-    () => {
-      setZoom(MIN_ZOOM)
-    },
-    [imageUrl]
-  )
+  useEffect(() => {
+    setZoom(MIN_ZOOM)
+  }, [imageUrl])
 
-  const showCroppedImage = useCallback(
-    async () => {
-      try {
-        const croppedImage = await getCroppedImg(
-          imageUrl,
-          croppedAreaPixels,
-          rotation
-        )
+  const showCroppedImage = useCallback(async () => {
+    try {
+      const croppedImage = await getCroppedImg(
+        imageUrl,
+        croppedAreaPixels,
+        rotation
+      )
 
-        onChange(croppedImage)
-      } catch (e) {
-        console.error(e)
-      }
-    },
-    [croppedAreaPixels, rotation]
-  )
+      onChange(croppedImage)
+    } catch (e) {
+      console.error(e)
+    }
+  }, [croppedAreaPixels, rotation])
 
   const onUploaded = data => {
     const url = extractUploadedImageUrl(data)

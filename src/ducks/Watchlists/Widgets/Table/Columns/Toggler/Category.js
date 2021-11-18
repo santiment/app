@@ -80,32 +80,26 @@ const Category = ({
     () =>
       groups
         ? Object.values(groups)
-          .flat()
-          .map(({ item }) => item)
+            .flat()
+            .map(({ item }) => item)
         : columns,
     [columns, groups]
   )
 
-  const filteredColumns = useMemo(
-    () => {
-      const searchInput = currentSearch.toLowerCase()
-      return rawItems
-        .filter(
-          ({ label, shortLabel = label }) =>
-            label.toLowerCase().includes(searchInput) ||
-            shortLabel.toLowerCase().includes(searchInput)
-        )
-        .map(({ key }) => key)
-    },
-    [currentSearch]
-  )
+  const filteredColumns = useMemo(() => {
+    const searchInput = currentSearch.toLowerCase()
+    return rawItems
+      .filter(
+        ({ label, shortLabel = label }) =>
+          label.toLowerCase().includes(searchInput) ||
+          shortLabel.toLowerCase().includes(searchInput)
+      )
+      .map(({ key }) => key)
+  }, [currentSearch])
 
-  useEffect(
-    () => {
-      setActiveColumns(columns)
-    },
-    [columns]
-  )
+  useEffect(() => {
+    setActiveColumns(columns)
+  }, [columns])
 
   const isShowCategory =
     !currentSearch || (currentSearch && filteredColumns.length !== 0)

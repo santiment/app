@@ -1,8 +1,10 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import * as Sentry from '@sentry/react'
 import { store } from '../../redux'
+import { Link } from 'react-router-dom'
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import Button from '@santiment-network/ui/Button'
+import Dialog from '@santiment-network/ui/Dialog'
 import gql from 'graphql-tag'
 import Settings from './Settings'
 import Mobile from './devices/Mobile'
@@ -97,6 +99,8 @@ export function useUserSessions () {
   )
 }
 
+const UNAUTHORIZED_MSG = 'Unauthorized'
+
 export function useRemoveSession (jti, isCurrent, refreshWidget) {
   const [mutate, data] = useMutation(
     isCurrent ? DESTROY_CURRENT_SESSION_QUERY : DESTROY_SESSION_QUERY
@@ -112,10 +116,11 @@ export function useRemoveSession (jti, isCurrent, refreshWidget) {
         refreshWidget(jti)
       })
       .catch(err => {
-        Sentry.captureException(err)
-        store.dispatch(
-          showNotification({ title: err.message, variant: 'error' })
-        )
+        if (err.message.includes('Unauthorized')) {
+          return UNAUTHORIZED_MSG
+        } else {
+          Sentry.captureException(err)
+        }
       })
   }
 
@@ -134,29 +139,63 @@ const Session = ({
     onRemove,
     data: { loading }
   } = useRemoveSession(jti, isCurrent, refreshWidget)
+  const [error, setError] = useState(false)
+
+  function onClick () {
+    onRemove().then(msg => {
+      if (msg === UNAUTHORIZED_MSG) {
+        setError(true)
+      }
+    })
+  }
 
   return (
-    <Settings.Row className={styles.wrapper}>
-      {getPlatformIcon(platform)}
-      <div className={styles.info}>
-        <span className={styles.platform}>
-          {platform}, {client}
-        </span>
-        <span className={styles.time}>
-          {isCurrent
-            ? 'Current session'
-            : `Last active ${formatDate(lastActiveAt)}`}
-        </span>
-      </div>
-      <Button
-        accent='negative'
-        isLoading={loading}
-        className={styles.revoke}
-        onClick={onRemove}
+    <>
+      <Dialog
+        title='Action required'
+        size='s'
+        open={error}
+        onClose={() => setError(false)}
       >
-        Revoke
-      </Button>
-    </Settings.Row>
+        <Dialog.ScrollContent withPadding>
+          The authentification must have been done less than 10 minutes ago.
+          Please, relogin to revoke a session.
+        </Dialog.ScrollContent>
+
+        <Dialog.Actions>
+          <Dialog.Approve accent='negative' as={Link} to='/logout'>
+            Log out
+          </Dialog.Approve>
+          <Dialog.Cancel
+            className={styles.closeDialog}
+            onClick={() => setError(false)}
+          >
+            Cancel
+          </Dialog.Cancel>
+        </Dialog.Actions>
+      </Dialog>
+      <Settings.Row className={styles.wrapper}>
+        {getPlatformIcon(platform)}
+        <div className={styles.info}>
+          <span className={styles.platform}>
+            {platform}, {client}
+          </span>
+          <span className={styles.time}>
+            {isCurrent
+              ? 'Current session'
+              : `Last active ${formatDate(lastActiveAt)}`}
+          </span>
+        </div>
+        <Button
+          accent='negative'
+          isLoading={loading}
+          className={styles.revoke}
+          onClick={onClick}
+        >
+          Revoke
+        </Button>
+      </Settings.Row>
+    </>
   )
 }
 

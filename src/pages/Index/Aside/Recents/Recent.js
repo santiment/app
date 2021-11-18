@@ -19,19 +19,30 @@ export const getItemBuilder = query => id =>
 const Row = props => <Link {...props} className={styles.row} />
 export const Column = props => <div {...props} className={styles.column} />
 
-const Recent = ({ title, rightHeader, ids, getItem, getLink, Item }) => {
+const Recent = ({
+  title,
+  rightHeader,
+  ids,
+  getItem,
+  getLink,
+  Item,
+  setHeight
+}) => {
   const [items, setItems] = useState(ids)
   const [isLoading, setIsLoading] = useState(true)
 
-  useEffect(
-    () => {
-      Promise.all(ids.map(getItem)).then(items => {
-        setItems(items.flat().filter(Boolean))
-        setIsLoading(false)
-      })
-    },
-    [ids]
-  )
+  useEffect(() => {
+    if (items && items.length && !isLoading) {
+      setHeight && setHeight(items.length)
+    }
+  }, [items, isLoading])
+
+  useEffect(() => {
+    Promise.all(ids.map(getItem)).then(items => {
+      setItems(items.flat().filter(Boolean))
+      setIsLoading(false)
+    })
+  }, [ids])
 
   if (!isLoading && items.length === 0) return null
 

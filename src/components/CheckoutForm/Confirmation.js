@@ -7,12 +7,9 @@ import Icon from '@santiment-network/ui/Icon'
 import Input from '@santiment-network/ui/Input'
 import Dialog from '@santiment-network/ui/Dialog'
 import { useDebounce } from '../../hooks'
-import {
-  formatOnlyPrice,
-  getAlternativeBillingPlan,
-  hasActiveTrial
-} from '../../utils/plans'
+import { formatOnlyPrice, getAlternativeBillingPlan } from '../../utils/plans'
 import { usePlans } from '../../ducks/Plans/hooks'
+import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import PlansDropdown from './PlansDropdown'
 import sharedStyles from './CheckoutForm.module.scss'
 import styles from './Confirmation.module.scss'
@@ -110,8 +107,7 @@ const Confirmation = ({
   const planWithBilling = `${name} ${billing}ly`
   const plan = { name: name.toUpperCase(), interval: billing, amount: price }
   const altPlan = getAlternativeBillingPlan(plans, plan) || {}
-
-  const isTrialActive = hasActiveTrial(subscription)
+  const { isEligibleForSanbaseTrial } = useUserSubscriptionStatus()
 
   return (
     <div className={sharedStyles.confirmation}>
@@ -179,9 +175,7 @@ const Confirmation = ({
           className={styles.btn}
           fluid
         >
-          {isTrialActive
-            ? `Upgrade to ${name.toUpperCase()}`
-            : 'Start 14-day free trial'}
+          {isEligibleForSanbaseTrial ? 'Start 14-Day Free Trial' : 'Pay'}
         </Dialog.Approve>
       </div>
     </div>

@@ -18,18 +18,15 @@ export default () => {
   )
   const { data } = useQuery(HISTOGRAM_USER_PERIOD_RESTRICTIONS_QUERY)
 
-  useEffect(
-    () => {
-      if (data) {
-        const { restrictedFrom, restrictedTo } = data.getMetric.metadata
-        const formattedFrom = formatRestrictionDate(restrictedFrom)
-        const formattedTo = formatRestrictionDate(restrictedTo)
+  useEffect(() => {
+    if (data) {
+      const { restrictedFrom, restrictedTo } = data.getMetric.metadata
+      const formattedFrom = formatRestrictionDate(restrictedFrom)
+      const formattedTo = formatRestrictionDate(restrictedTo)
 
-        setAvailablePeriodLabel(`from ${formattedFrom} to ${formattedTo}`)
-      }
-    },
-    [data]
-  )
+      setAvailablePeriodLabel(`from ${formattedFrom} to ${formattedTo}`)
+    }
+  }, [data])
 
   return (
     <Message variant='warn' className={styles.msg}>

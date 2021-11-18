@@ -2,22 +2,122 @@
 
 .wrapper {
   text-align: center;
-  padding: 24px 54px;
+  padding: 32px 32px 40px;
+  position: relative;
+
+  @include responsive('phone-xs') {
+    padding: 32px 0;
+  }
+
+  @include responsive('desktop') {
+    width: 960px;
+    padding: 32px 54px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
 
 .title {
-  @include text('h4', 'l');
+  @include text('h4', 'm');
 
-  margin-bottom: 8px;
+  margin: 0 0 24px 0;
+  color: var(--mirage);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & img {
+    margin-left: 8px;
+  }
+}
+
+.section {
+  background-color: var(--athens);
+  padding: 24px 32px 32px;
+  border-radius: 4px;
 }
 
 .text {
-  @include text('body-3');
+  @include text('body-3', 'm');
 
-  color: var(--waterloo);
-  margin-bottom: 31px;
+  color: (--fiord);
+  margin: 0 0 16px;
+
+  &__last {
+    margin: 16px 0 8px;
+  }
+}
+
+.point {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  &__text {
+    margin-left: 11px;
+    color: var(--fiord);
+  }
+}
+
+.point + .point {
+  margin-top: 12px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .btn {
-  margin-bottom: 10px;
+  margin: 24px 0 8px;
+  height: 40px;
+  width: 292px;
+  justify-content: center;
+}
+
+.textarea {
+  border-radius: $border-radius;
+  width: 100%;
+  padding: 10px 12px;
+  color: var(--rhino);
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  resize: vertical;
+  outline: none;
+
+  @include text('body-3');
+
+  &::placeholder {
+    color: var(--casper);
+  }
+
+  &:hover,
+  &:focus {
+    border: 1px solid var(--jungle-green);
+  }
+}
+
+.divider {
+  display: none;
+  width: 1px;
+  background-color: var(--porcelain);
+  position: absolute;
+  left: 50%;
+  top: 32px;
+  bottom: 40px;
+
+  @include responsive('desktop') {
+    display: block;
+  }
+}
+
+.image {
+  display: none;
+  margin-right: 38px;
+
+  @include responsive('desktop') {
+    display: block;
+  }
 }

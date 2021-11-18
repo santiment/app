@@ -16,12 +16,9 @@ export const useInfographicRanges = ({
 
   const currentRanges = useMemo(() => ranges[currency], [currency, ranges])
 
-  useEffect(
-    () => {
-      onChangeSettings(type, { currency })
-    },
-    [currency]
-  )
+  useEffect(() => {
+    onChangeSettings(type, { currency })
+  }, [currency])
 
   return { currency, setCurrency, currentRanges }
 }

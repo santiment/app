@@ -20,22 +20,38 @@
     content: 'PRO';
     margin-left: 8px;
     background: var(--texas-rose);
-    color: var(--white);
+    color: $white;
     padding: 3px 7px 1px;
     border-radius: 4px;
   }
 }
 
+.arrow {
+  margin-left: auto;
+  fill: var(--waterloo);
+  opacity: 0;
+  transition: opacity 0.1s ease;
+}
+
 .row {
-  @include text('body-2');
+  @include text('body-3');
 
   cursor: pointer;
   color: var(--rhino);
   border: none !important;
+  transition: background-color 0.1s ease, color 0.1s ease;
+
+  &__active {
+    color: var(--waterloo);
+  }
 
   &:hover {
     color: var(--rhino);
-    background: var(--athens);
+    background: var(--jungle-green-light-2);
+
+    & .arrow {
+      opacity: 1;
+    }
   }
 }
 
@@ -44,16 +60,17 @@
   height: 32px;
   width: 32px;
   margin-right: 16px;
-  border: 1px solid var(--porcelain);
-  fill: var(--white);
+  border: 1px solid var(--mystic);
+  fill: var(--mystic);
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: var(--white);
 
   &_active {
-    background: var(--jungle-green);
+    background-color: var(--jungle-green);
     border-color: var(--jungle-green);
-    box-shadow: 0 2px 8px 0 rgba($jungle-green, 0.3);
+    fill: $white;
   }
 }
 
@@ -62,11 +79,20 @@
   height: 8px;
 }
 
-.arrow {
-  margin-left: auto;
-  fill: var(--waterloo);
-}
-
 .accordionContent {
   padding: 12px 0;
+}
+
+.wrapper {
+  width: 304px;
+  padding: 16px 0;
+  background-color: var(--jungle-green-light);
+  border: 1px solid var(--jungle-green);
+  border-radius: 4px;
+}
+
+.title {
+  @include text('body-2', 'm');
+
+  margin: 0 0 8px 21px;
 }

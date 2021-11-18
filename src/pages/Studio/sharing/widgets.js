@@ -1,6 +1,7 @@
 import ChartWidget from 'studio/ChartWidget'
 import HolderDistributionWidget from 'studio/HolderDistributionWidget'
 import HolderDistributionCombinedBalanceWidget from 'studio/HolderDistributionWidget/Balance'
+import HolderDistributionLabeledWidget from 'studio/HolderDistributionWidget/Labeled'
 import PriceDAADivergenceWidget from 'studio/PriceDAAWidget'
 import { newWidget } from 'studio/stores/widgets'
 import { SelectorNode } from 'studio/metrics/selector'
@@ -13,6 +14,7 @@ const KeyToWidget = {
   ChartWidget,
   HolderDistributionWidget,
   HolderDistributionCombinedBalanceWidget,
+  HolderDistributionLabeledWidget,
   PriceDAADivergenceWidget,
   AdjustedPriceDAADivergenceWidget,
   FeesDistribution,

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { get } from 'svelte/store'
+import { CONTEXT as HISTORY_CONTEXT } from 'webkit/ui/history'
 import { globals } from 'studio/stores/globals'
 import { studio, LOCKED_ASSET_CONTEXT } from 'studio/stores/studio'
 import { useUser } from '../../stores/user'
@@ -29,16 +30,13 @@ export function useGlobalsUpdater () {
   const userInfo = useUserSubscriptionStatus()
   const isBeta = useIsBetaMode()
 
-  useEffect(
-    () => {
-      globals.toggle('isNightMode', theme.isNightMode)
-      globals.toggle('isLoggedIn', isLoggedIn)
-      globals.toggle('isPro', userInfo.isPro)
-      globals.toggle('isProPlus', userInfo.isProPlus)
-      globals.toggle('isBeta', isBeta)
-    },
-    [userInfo, isLoggedIn, theme, isBeta]
-  )
+  useEffect(() => {
+    globals.toggle('isNightMode', theme.isNightMode)
+    globals.toggle('isLoggedIn', isLoggedIn)
+    globals.toggle('isPro', userInfo.isPro)
+    globals.toggle('isProPlus', userInfo.isProPlus)
+    globals.toggle('isBeta', isBeta)
+  }, [userInfo, isLoggedIn, theme, isBeta])
 }
 
 const settingsImmute = store => Object.assign({}, store)
@@ -53,34 +51,37 @@ export const useWidgetsStore = studio => getSvelteContext(studio, 'widgets')
 export const useWidgets = (studio, setWidgetsRef) =>
   useStore(useWidgetsStore(studio), widgetsImmute, setWidgetsRef) || []
 
+const flat = array =>
+  array.flat ? array.flat() : array.reduce((acc, val) => acc.concat(val), [])
+
 const noop = () => {}
 export function useStudioMetrics (studio) {
   const widgets = useWidgets(studio)
   const [metrics, setMetrics] = useState([])
 
-  useEffect(
-    () => {
-      const unsubs = new Array(widgets.length)
-      const WidgetMetric = {}
+  useEffect(() => {
+    const unsubs = new Array(widgets.length)
+    const WidgetMetric = {}
 
-      widgets.forEach((widget, i) => {
-        if (!widget.Metrics) return (unsubs[i] = noop)
+    widgets.forEach((widget, i) => {
+      if (!widget.Metrics) return (unsubs[i] = noop)
 
-        unsubs[i] = widget.Metrics.subscribe(metrics => {
-          WidgetMetric[widget.id] = metrics
-          updateMetrics()
-        })
+      unsubs[i] = widget.Metrics.subscribe(metrics => {
+        WidgetMetric[widget.id] = metrics
+        updateMetrics()
       })
+    })
 
-      function updateMetrics () {
-        setMetrics(Array.from(new Set(Object.values(WidgetMetric).flat())))
-      }
+    function updateMetrics () {
+      const metrics = flat(Object.values(WidgetMetric))
+      setMetrics(Array.from(new Set(metrics)))
+    }
 
-      const unsubscribe = unsub => unsub()
-      return () => unsubs.forEach(unsubscribe)
-    },
-    [widgets]
-  )
+    const unsubscribe = unsub => unsub()
+    return () => unsubs.forEach(unsubscribe)
+  }, [widgets])
 
   return metrics
 }
+
+export const useHistory = studio => getSvelteContext(studio, HISTORY_CONTEXT)

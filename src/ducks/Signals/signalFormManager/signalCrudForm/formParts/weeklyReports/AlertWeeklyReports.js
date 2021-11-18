@@ -15,25 +15,19 @@ const AlertWeeklyReports = ({ watchlist }) => {
     settings: { isEmailConnected }
   } = useUserSettings()
 
-  useEffect(
-    () => {
-      setMonitored(initialMonitoring)
-    },
-    [initialMonitoring]
-  )
+  useEffect(() => {
+    setMonitored(initialMonitoring)
+  }, [initialMonitoring])
 
-  const toggle = useCallback(
-    () => {
-      const { name } = watchlist
-      const newVal = !isMonitored
+  const toggle = useCallback(() => {
+    const { name } = watchlist
+    const newVal = !isMonitored
 
-      updateWatchlist(watchlist, { isMonitored: newVal }).then(state =>
-        setMonitored(state.isMonitored)
-      )
-      notifyMonitoring({ name, isMonitored: newVal, type: 'screener' })
-    },
-    [watchlist, initialMonitoring, isMonitored]
-  )
+    updateWatchlist(watchlist, { isMonitored: newVal }).then(state =>
+      setMonitored(state.isMonitored)
+    )
+    notifyMonitoring({ name, isMonitored: newVal, type: 'screener' })
+  }, [watchlist, initialMonitoring, isMonitored])
 
   return (
     <div className={styles.container}>

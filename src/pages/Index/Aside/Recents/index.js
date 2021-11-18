@@ -26,27 +26,36 @@ const CHART_LAYOUTS = 'Chart Layouts'
 const WATCHLISTS = 'Watchlists'
 const SCREENERS = 'Screeners'
 
+const ROW_HEIGHT = 53
+const HEADER_HEIGHT = 34
+
 const TAB_COMPONENT = {
-  [ASSETS]: ({ assets }) => <Assets slugs={assets} />,
-  [CHART_LAYOUTS]: ({ chartLayouts }) => <ChartLayouts ids={chartLayouts} />,
-  [WATCHLISTS]: ({ watchlists }) => <Watchlists ids={watchlists} />,
-  [SCREENERS]: ({ screeners }) => <Watchlists ids={screeners} />
+  [ASSETS]: ({ assets, setHeight }) => (
+    <Assets slugs={assets} setHeight={setHeight} />
+  ),
+  [CHART_LAYOUTS]: ({ chartLayouts, setHeight }) => (
+    <ChartLayouts ids={chartLayouts} setHeight={setHeight} />
+  ),
+  [WATCHLISTS]: ({ watchlists, setHeight }) => (
+    <Watchlists ids={watchlists} setHeight={setHeight} />
+  ),
+  [SCREENERS]: ({ screeners, setHeight }) => (
+    <Watchlists ids={screeners} setHeight={setHeight} />
+  )
 }
 
 const Recents = () => {
   const [assets, chartLayouts, watchlists, screeners] = useMemo(getRecents, [])
+  const [height, setHeight] = useState(1)
 
-  const availableTabs = useMemo(
-    () => {
-      return [
-        assets.length > 0 && ASSETS,
-        chartLayouts.length > 0 && CHART_LAYOUTS,
-        watchlists.length > 0 && WATCHLISTS,
-        screeners.length > 0 && SCREENERS
-      ].filter(Boolean)
-    },
-    [assets, chartLayouts, watchlists, screeners]
-  )
+  const availableTabs = useMemo(() => {
+    return [
+      assets.length > 0 && ASSETS,
+      chartLayouts.length > 0 && CHART_LAYOUTS,
+      watchlists.length > 0 && WATCHLISTS,
+      screeners.length > 0 && SCREENERS
+    ].filter(Boolean)
+  }, [assets, chartLayouts, watchlists, screeners])
 
   const [tab, setTab] = useState(availableTabs[0])
 
@@ -66,14 +75,20 @@ const Recents = () => {
         classes={styles}
       />
 
-      {Component && (
-        <Component
-          assets={assets}
-          chartLayouts={chartLayouts}
-          watchlists={watchlists}
-          screeners={screeners}
-        />
-      )}
+      <div
+        className={styles.wrapper}
+        style={{ height: `${HEADER_HEIGHT + height * ROW_HEIGHT}px` }}
+      >
+        {Component && (
+          <Component
+            assets={assets}
+            chartLayouts={chartLayouts}
+            watchlists={watchlists}
+            screeners={screeners}
+            setHeight={setHeight}
+          />
+        )}
+      </div>
     </Section>
   )
 }

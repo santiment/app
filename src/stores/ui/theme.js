@@ -38,8 +38,8 @@ function ThemeProvider ({ children }) {
           return isNightMode === isAccountNightMode
             ? state
             : {
-              isNightMode: isNightMode || isAccountNightMode
-            }
+                isNightMode: isNightMode || isAccountNightMode
+              }
         })
 
         subscription.unsubscribe()
@@ -48,13 +48,10 @@ function ThemeProvider ({ children }) {
     return () => subscription.unsubscribe()
   }, [])
 
-  useEffect(
-    () => {
-      themeUpdater = updateTheme
-      return () => (themeUpdater = null)
-    },
-    [updateTheme]
-  )
+  useEffect(() => {
+    themeUpdater = updateTheme
+    return () => (themeUpdater = null)
+  }, [updateTheme])
 
   return (
     <ThemeContext.Provider value={state}>

@@ -20,19 +20,16 @@ const Refresh = ({ onRefreshClick, timestamp, isLoading }) => {
     setAutoRefresh(!autoRefresh)
   }
 
-  useEffect(
-    () => {
-      if (!autoRefresh) {
-        clearInterval(timer)
-        return
-      }
+  useEffect(() => {
+    if (!autoRefresh) {
+      clearInterval(timer)
+      return
+    }
 
-      const id = setInterval(onRefreshClick, INTERVAL * 3)
-      setTimer(id)
-      return () => clearInterval(id)
-    },
-    [autoRefresh]
-  )
+    const id = setInterval(onRefreshClick, INTERVAL * 3)
+    setTimer(id)
+    return () => clearInterval(id)
+  }, [autoRefresh])
 
   return (
     <div className={styles.wrapper}>
@@ -49,8 +46,8 @@ const Refresh = ({ onRefreshClick, timestamp, isLoading }) => {
               isLoading
                 ? 'Loading...'
                 : timestamp
-                  ? `Updated ${dateDifferenceInWords(options)}`
-                  : ''
+                ? `Updated ${dateDifferenceInWords(options)}`
+                : ''
             }
           </Timer>
         </DarkTooltip>

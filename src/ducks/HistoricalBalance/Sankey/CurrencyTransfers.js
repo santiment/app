@@ -8,16 +8,13 @@ import styles from './index.module.scss'
 
 const EMPTY = []
 const useTickerRank = projects =>
-  useMemo(
-    () => {
-      const TickerRank = {}
-      for (let i = 0; i < projects.length; i++) {
-        TickerRank[projects[i].ticker] = i + 1
-      }
-      return TickerRank
-    },
-    [projects]
-  )
+  useMemo(() => {
+    const TickerRank = {}
+    for (let i = 0; i < projects.length; i++) {
+      TickerRank[projects[i].ticker] = i + 1
+    }
+    return TickerRank
+  }, [projects])
 
 const Option = ({ option, style, selectValue }) => {
   const { address, name, symbol } = option
@@ -49,31 +46,25 @@ const CurrencyTransfers = ({ address, currency, setCurrency }) => {
   const { projects } = useProjects()
   const TickerRank = useTickerRank(projects)
   const [rawCurrencies, setCurrencies] = useState(EMPTY)
-  const currencies = useMemo(
-    () => {
-      if (projects.length === 0) return rawCurrencies
+  const currencies = useMemo(() => {
+    if (projects.length === 0) return rawCurrencies
 
-      const sorted = rawCurrencies
-        .slice()
-        .sort(
-          ({ symbol: a }, { symbol: b }) =>
-            (TickerRank[a] || 99999) - (TickerRank[b] || 99999)
-        )
+    const sorted = rawCurrencies
+      .slice()
+      .sort(
+        ({ symbol: a }, { symbol: b }) =>
+          (TickerRank[a] || 99999) - (TickerRank[b] || 99999)
+      )
 
-      setCurrency(sorted[0])
-      return sorted
-    },
-    [rawCurrencies, TickerRank]
-  )
+    setCurrency(sorted[0])
+    return sorted
+  }, [rawCurrencies, TickerRank])
 
-  useEffect(
-    () => {
-      getCurrencyTransfers(address).then(currencies => {
-        setCurrencies(currencies)
-      })
-    },
-    [address]
-  )
+  useEffect(() => {
+    getCurrencyTransfers(address).then(currencies => {
+      setCurrencies(currencies)
+    })
+  }, [address])
 
   return (
     <div className={styles.currencies}>

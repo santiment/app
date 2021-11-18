@@ -30,39 +30,36 @@ const Distributions = ({ distributions }) =>
 function useCurrentBalance (walletAssets) {
   const { projects } = useProjects()
 
-  return useMemo(
-    () => {
-      if (projects.length === 0) return { distributions: [] }
+  return useMemo(() => {
+    if (projects.length === 0) return { distributions: [] }
 
-      const sortedAssets = walletAssets
-        .filter(existingAssetsFilter)
-        .sort(distributionSorter)
-      const { length } = sortedAssets
-      const distributions = new Array(length)
+    const sortedAssets = walletAssets
+      .filter(existingAssetsFilter)
+      .sort(distributionSorter)
+    const { length } = sortedAssets
+    const distributions = new Array(length)
 
-      let totalBalance = 0
-      for (let i = 0; i < length; i++) {
-        totalBalance += sortedAssets[i].balanceUsd
+    let totalBalance = 0
+    for (let i = 0; i < length; i++) {
+      totalBalance += sortedAssets[i].balanceUsd
+    }
+
+    for (let i = 0; i < length; i++) {
+      const { slug, balanceUsd } = sortedAssets[i]
+      const { ticker } = getProjectInfo(projects, slug) || {}
+
+      distributions[i] = {
+        ticker,
+        balance: '$' + millify(balanceUsd, balanceUsd < 1 ? 3 : 1)
       }
+    }
 
-      for (let i = 0; i < length; i++) {
-        const { slug, balanceUsd } = sortedAssets[i]
-        const { ticker } = getProjectInfo(projects, slug) || {}
-
-        distributions[i] = {
-          ticker,
-          balance: '$' + millify(balanceUsd, balanceUsd < 1 ? 3 : 1)
-        }
-      }
-
-      return {
-        usd: intlFormatter.format(totalBalance),
-        totalBalance,
-        distributions
-      }
-    },
-    [projects, walletAssets]
-  )
+    return {
+      usd: intlFormatter.format(totalBalance),
+      totalBalance,
+      distributions
+    }
+  }, [projects, walletAssets])
 }
 
 const CurrentBalance = ({ walletAssets, className }) => {

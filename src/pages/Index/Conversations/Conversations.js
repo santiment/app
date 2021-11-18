@@ -15,18 +15,15 @@ const Conversations = () => {
 
   const { data, loading } = useConversations({ to: upTo })
 
-  useEffect(
-    () => {
-      if (data.length > 0) {
-        setConversations([...conversations, ...data])
-      }
+  useEffect(() => {
+    if (data.length > 0) {
+      setConversations([...conversations, ...data])
+    }
 
-      if (!loading && data.length === 0) {
-        setCanLoad(false)
-      }
-    },
-    [data]
-  )
+    if (!loading && data.length === 0) {
+      setCanLoad(false)
+    }
+  }, [data])
 
   function loadMore () {
     if (!loading && canLoad) {

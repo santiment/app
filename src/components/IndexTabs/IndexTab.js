@@ -1,41 +1,60 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import { SignalModal } from '../../pages/SonarFeed/SonarFeedPage'
 import styles from './IndexTab.module.scss'
 
-const IndexTab = ({ tabs }) => {
-  const [activeTab, setTab] = useState(0)
+const IndexTab = ({
+  tabs,
+  initialTab = 0,
+  renderTopActions = [],
+  bottomActions = []
+}) => {
+  const [activeTab, setTab] = useState(initialTab)
 
   const tab = tabs[activeTab]
-  const { content } = tab
+  const { content, title } = tab
 
   return (
     <>
       <div className={styles.header}>
+        {renderTopActions(activeTab)}
         <div className={styles.tabs}>
-          {tabs.map((item, index) => {
+          {tabs.map(item => {
             if (!item) {
               return null
             }
 
-            const { title } = item
+            const { title, id } = item
 
             return (
               <div
-                key={index}
-                className={cx(
-                  styles.title,
-                  index === activeTab && styles.active
-                )}
-                onClick={() => setTab(index)}
+                key={id}
+                className={cx(styles.title, id === activeTab && styles.active)}
+                onClick={() => setTab(id)}
               >
                 {title}
               </div>
             )
           })}
         </div>
+        <div className={styles.actions}>
+          {bottomActions
+            .filter(({ showOnTabs, hide, component }) => {
+              if (!component) {
+                return false
+              }
+              if (hide) {
+                return false
+              }
+              if (showOnTabs) {
+                return showOnTabs.includes(title)
+              }
 
-        <SignalModal canRedirect={false} />
+              return true
+            })
+            .map(({ component: Action, props, id }) => (
+              <Action key={id} {...props} />
+            ))}
+        </div>
       </div>
       {content}
     </>

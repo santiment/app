@@ -62,31 +62,28 @@ const TriggerFormMetricTypes = ({
 
   const [{ availableMetrics }, loading] = useAvailableMetrics(slug)
 
-  useEffect(
-    () => {
-      if (slug && !loading) {
-        const checking = trigger.settings.metric
+  useEffect(() => {
+    if (slug && !loading) {
+      const checking = trigger.settings.metric
 
-        const notAvailable = availableMetrics.indexOf(checking) === -1
-        const notDefined = !METRICS_OPTIONS.some(
-          ({ metric }) => metric === checking
+      const notAvailable = availableMetrics.indexOf(checking) === -1
+      const notDefined = !METRICS_OPTIONS.some(
+        ({ metric }) => metric === checking
+      )
+
+      if (notAvailable && notDefined) {
+        const nameOfMetric =
+          (Metric[checking] && Metric[checking].label) || checking
+        showErrorAlert(
+          `${capitalizeStr(
+            slug
+          )} does't support alerts with metric '${nameOfMetric}'`
         )
-
-        if (notAvailable && notDefined) {
-          const nameOfMetric =
-            (Metric[checking] && Metric[checking].label) || checking
-          showErrorAlert(
-            `${capitalizeStr(
-              slug
-            )} does't support alerts with metric '${nameOfMetric}'`
-          )
-        } else {
-          showErrorAlert('')
-        }
+      } else {
+        showErrorAlert('')
       }
-    },
-    [slug, availableMetrics]
-  )
+    }
+  }, [slug, availableMetrics])
 
   return (
     <div className={styles.row}>

@@ -6,17 +6,14 @@ const FeedFiltersDdWrapper = ({ title, ids, onUpdate, render, className }) => {
   const [selectedValues, setSelectedValues] = useState([])
   const [data, setData] = useState([])
 
-  useEffect(
-    () => {
-      if (ids.length === 0) {
-        onChange([])
-      } else if (data.length > 0 && selectedValues.length === 0) {
-        const filtered = data.filter(({ id }) => ids.indexOf(+id) !== -1)
-        setSelectedValues(filtered)
-      }
-    },
-    [ids.length, selectedValues.length, data.length]
-  )
+  useEffect(() => {
+    if (ids.length === 0) {
+      onChange([])
+    } else if (data.length > 0 && selectedValues.length === 0) {
+      const filtered = data.filter(({ id }) => ids.indexOf(+id) !== -1)
+      setSelectedValues(filtered)
+    }
+  }, [ids.length, selectedValues.length, data.length])
 
   const onChange = value => {
     setSelectedValues(value)

@@ -7,6 +7,18 @@ export const filterByChannels = (signals, type) =>
     Array.isArray(channel) ? channel.indexOf(type) !== -1 : channel === type
   )
 
+export const filterByIsActiveFlag = (signals, statusFilter) =>
+  signals.filter(({ isActive }) => {
+    switch (statusFilter) {
+      case 'enabled':
+        return isActive
+      case 'disabled':
+        return !isActive
+      default:
+        return true
+    }
+  })
+
 const DEFAULT_STATE = []
 
 export function useSignals ({ skip = false, filters, mapper } = {}) {
@@ -14,17 +26,21 @@ export function useSignals ({ skip = false, filters, mapper } = {}) {
     skip: skip
   })
 
-  const alerts = useMemo(
-    () => {
-      if (!data || !data.currentUser) return DEFAULT_STATE
-      const { triggers = DEFAULT_STATE } = data.currentUser
+  const alerts = useMemo(() => {
+    if (!data || !data.currentUser) return DEFAULT_STATE
+    const { triggers = DEFAULT_STATE } = data.currentUser
 
-      return filters && filters.channel
-        ? filterByChannels(triggers, filters.channel)
-        : triggers
-    },
-    [data, filters]
-  )
+    if (filters) {
+      if (filters.channel) {
+        return filterByChannels(triggers, filters.channel)
+      }
+      if (filters.statusFilter) {
+        return filterByIsActiveFlag(triggers, filters.statusFilter)
+      }
+    }
+
+    return triggers
+  }, [data, filters])
 
   return {
     data: alerts,

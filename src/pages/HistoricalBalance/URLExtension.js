@@ -14,24 +14,18 @@ const URLExtension = ({
 }) => {
   const { search } = history.location
 
-  useEffect(
-    () => {
-      const { address } = parseUrl(search).settings
-      if (address !== settings.address) {
-        onAddressChange(address)
-      }
-    },
-    [search]
-  )
+  useEffect(() => {
+    const { address } = parseUrl(search).settings
+    if (address !== settings.address) {
+      onAddressChange(address)
+    }
+  }, [search])
 
-  useEffect(
-    () => {
-      history.replace(
-        '?' + generateSearchQuery(settings, chartAssets, priceAssets, isLog)
-      )
-    },
-    [settings, chartAssets, priceAssets, isLog]
-  )
+  useEffect(() => {
+    history.replace(
+      '?' + generateSearchQuery(settings, chartAssets, priceAssets, isLog)
+    )
+  }, [settings, chartAssets, priceAssets, isLog])
 
   return null
 }

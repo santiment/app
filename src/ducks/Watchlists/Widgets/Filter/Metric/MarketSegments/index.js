@@ -1,17 +1,18 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useState, useEffect, useMemo, Fragment } from 'react'
 import cx from 'classnames'
-import ContextMenu from '@santiment-network/ui/ContextMenu'
-import Button from '@santiment-network/ui/Button'
-import { InputWithIcon as Input } from '@santiment-network/ui/Input'
-import Panel from '@santiment-network/ui/Panel'
 import Icon from '@santiment-network/ui/Icon'
-import Skeleton from '../../../../../../components/Skeleton/Skeleton'
-import ExplanationTooltip from '../../../../../../components/ExplanationTooltip/ExplanationTooltip'
+import Panel from '@santiment-network/ui/Panel'
+import Button from '@santiment-network/ui/Button'
+import ContextMenu from '@santiment-network/ui/ContextMenu'
+import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import MetricState from '../MetricState'
-import { useAvailableSegments } from './hooks'
-import { extractFilterByMetricType } from '../../detector'
 import Suggestions from '../Suggestions'
-import { filterSegmentsBySearch } from './utils'
+import Combinators from '../Combinators'
+import { useMetricSettings } from '../hooks'
+import { useAvailableSegments } from './hooks'
+import { filterValuesBySearch } from '../utils'
+import { extractFilterByMetricType } from '../../detector'
+import Skeleton from '../../../../../../components/Skeleton/Skeleton'
 import styles from './index.module.scss'
 
 const DEFAULT_SETTINGS = {
@@ -28,64 +29,54 @@ const MarketSegments = ({
   updMetricInFilter,
   toggleMetricInFilter
 }) => {
-  const [segments = [], loading] = useAvailableSegments()
-  const [settings, setSettings] = useState(defaultSettings)
-  const [currentSearch, setCurrentSearch] = useState('')
+  const [segments, loading] = useAvailableSegments()
+  const {
+    settings,
+    setSettings,
+    selectSuggest,
+    clickCheckbox
+  } = useMetricSettings(defaultSettings)
+  const [search, setSearch] = useState('')
 
   const hasActiveSegments = settings.market_segments.length > 0
   const isANDCombinator = settings.market_segments_combinator === 'and'
-
-  const filteredSegments = filterSegmentsBySearch(currentSearch, segments)
-
-  useEffect(
-    () => {
-      if (isNoFilters) {
-        setSettings(DEFAULT_SETTINGS)
-      }
-    },
-    [isNoFilters]
+  const filteredSegments = useMemo(
+    () => filterValuesBySearch(search, segments, 'name'),
+    [search, segments]
   )
 
-  useEffect(
-    () => {
-      if (settings !== defaultSettings) {
-        const {
-          market_segments,
-          market_segments_combinator,
-          isActive
-        } = settings
-        const { isActive: previousIsActive } = defaultSettings
+  useEffect(() => {
+    if (isNoFilters) {
+      setSettings(DEFAULT_SETTINGS)
+    }
+  }, [isNoFilters])
 
-        const newFilter = {
-          args: { market_segments_combinator, market_segments },
-          name: 'market_segments'
-        }
+  useEffect(() => {
+    if (settings !== defaultSettings) {
+      const { market_segments, market_segments_combinator, isActive } = settings
+      const { isActive: previousIsActive } = defaultSettings
 
-        if (hasActiveSegments) {
-          if (previousIsActive !== isActive) {
-            toggleMetricInFilter(newFilter, baseMetric.key)
-          } else {
-            updMetricInFilter(newFilter, baseMetric.key)
-          }
-        }
+      const newFilter = {
+        args: { market_segments_combinator, market_segments },
+        name: 'market_segments'
+      }
 
-        if (!hasActiveSegments && isActive && defaultSettings.isActive) {
+      if (hasActiveSegments) {
+        if (previousIsActive !== isActive) {
           toggleMetricInFilter(newFilter, baseMetric.key)
+        } else {
+          updMetricInFilter(newFilter, baseMetric.key)
         }
       }
-    },
-    [settings]
-  )
 
-  function onCheckboxClicked () {
-    setSettings(state => ({ ...state, isActive: !settings.isActive }))
-  }
+      if (!hasActiveSegments && isActive && defaultSettings.isActive) {
+        toggleMetricInFilter(newFilter, baseMetric.key)
+      }
+    }
+  }, [settings])
 
-  function onToggleMode () {
-    setSettings(state => ({
-      ...state,
-      market_segments_combinator: isANDCombinator ? 'or' : 'and'
-    }))
+  function onToggleMode (combinator) {
+    setSettings(state => ({ ...state, market_segments_combinator: combinator }))
   }
 
   function onToggleSegment (segment) {
@@ -101,10 +92,6 @@ const MarketSegments = ({
     }))
   }
 
-  function onSuggestionClick (props) {
-    setSettings(state => ({ ...state, ...props }))
-  }
-
   return (
     <>
       <MetricState
@@ -112,12 +99,12 @@ const MarketSegments = ({
         metric={baseMetric}
         settings={settings}
         isActive={settings.isActive}
-        onCheckboxClicked={onCheckboxClicked}
+        onCheckboxClicked={clickCheckbox}
         customStateText={
           settings.isActive && hasActiveSegments
             ? `shows ${
-              isANDCombinator ? 'all' : 'at least one'
-            } of selected groups`
+                isANDCombinator ? 'all' : 'at least one'
+              } of selected groups`
             : ''
         }
       />
@@ -147,7 +134,7 @@ const MarketSegments = ({
         </div>
       )}
       {settings.isActive && !isViewMode && (
-        <>
+        <div className={styles.wrapper}>
           <div className={styles.settings}>
             <ContextMenu
               passOpenStateAs='data-isactive'
@@ -163,7 +150,7 @@ const MarketSegments = ({
                   placeholder='Choose market segments'
                   onChange={evt => {
                     const { value } = evt.currentTarget
-                    setCurrentSearch(value)
+                    setSearch(value)
                   }}
                 />
               }
@@ -207,9 +194,7 @@ const MarketSegments = ({
                         fluid
                         variant='ghost'
                         key={idx}
-                        onClick={() =>
-                          isSelected ? {} : onToggleSegment(name)
-                        }
+                        onClick={() => !isSelected && onToggleSegment(name)}
                       >
                         <div>
                           <span className={styles.name}>{name}</span>
@@ -229,32 +214,16 @@ const MarketSegments = ({
                 </div>
               </Panel>
             </ContextMenu>
-            <ExplanationTooltip
-              text={
-                isANDCombinator
-                  ? 'Show assets that matches all of selected segments'
-                  : 'Show assets that matches at least one of selected segments'
-              }
-              className={styles.explanation}
-              align='end'
-              offsetY={10}
-            >
-              <Button
-                className={styles.toggleModeBtn}
-                fluid
-                variant='flat'
-                isActive
-                onClick={onToggleMode}
-              >
-                {isANDCombinator ? 'All' : 'Any'}
-              </Button>
-            </ExplanationTooltip>
+            <Combinators
+              onSelect={onToggleMode}
+              isANDCombinator={isANDCombinator}
+            />
           </div>
           <Suggestions
             hints={baseMetric.hints}
-            onSuggestionClick={onSuggestionClick}
+            onSuggestionClick={selectSuggest}
           />
-        </>
+        </div>
       )}
     </>
   )

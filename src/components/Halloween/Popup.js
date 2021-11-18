@@ -8,8 +8,8 @@ import Gift from '../Illustrations/Gift'
 import Rocket from '../Illustrations/Rocket'
 import styles from './index.module.scss'
 
-const DISCOUND_CODE = 'pumpkin40'
-const PERCENT_DISCOUNT = '40'
+const DISCOUND_CODE = 'pumpkin35'
+const PERCENT_DISCOUNT = '35'
 
 const STEPS = [
   {
@@ -29,8 +29,8 @@ The night is getting darker...👻`,
   },
   {
     title: 'Congratulations!',
-    description: () => `To celebrate Halloween, we’re gifting you a one-time discount code for Sanbase Pro - "${DISCOUND_CODE}".
-Use the code during checkout and get ${PERCENT_DISCOUNT}% off Sanbase Pro!🎁
+    description: () => `To celebrate Halloween, we’re gifting you a one-time discount code - "${DISCOUND_CODE}".
+Use the code during checkout and get ${PERCENT_DISCOUNT}%!🎁
 `,
     button: 'Copy code to clipboard',
     img: Gift
@@ -41,18 +41,15 @@ const HalloweenPopup = ({ activeNumber, name }) => {
   const [isOpen, setOpen] = useState(false)
   const [isCopied, setIsCopied] = useState(false)
 
-  useEffect(
-    () => {
-      if (!activeNumber && isOpen) {
-        setOpen(false)
-      }
+  useEffect(() => {
+    if (!activeNumber && isOpen) {
+      setOpen(false)
+    }
 
-      if (activeNumber && !isOpen) {
-        setOpen(true)
-      }
-    },
-    [activeNumber]
-  )
+    if (activeNumber && !isOpen) {
+      setOpen(true)
+    }
+  }, [activeNumber])
 
   const Img = STEPS[activeNumber - 1].img
   const Description = STEPS[activeNumber - 1].description

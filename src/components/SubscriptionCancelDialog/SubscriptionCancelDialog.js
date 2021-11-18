@@ -3,8 +3,9 @@ import { connect } from 'react-redux'
 import Button from '@santiment-network/ui/Button'
 import Dialog from '@santiment-network/ui/Dialog'
 import { Mutation } from 'react-apollo'
-import CancellationScreen from './CancellationScreen'
 import MissYouScreen from './MissYouScreen'
+import SolutionsScreen from './SolutionsScreen'
+import DialogTitle from './DialogTitle'
 import { showNotification } from '../../actions/rootActions'
 import { formatPrice } from '../../utils/plans'
 import { getDateFormats } from '../../utils/dates'
@@ -32,14 +33,14 @@ const createCacheUpdate = subsId =>
     })
   }
 
-const SCREENS = [MissYouScreen, CancellationScreen]
+const SCREENS = [SolutionsScreen, MissYouScreen]
 
 const CancelPlanDialog = ({
   addNot,
   subscription: {
     id,
     currentPeriodEnd,
-    plan: { amount, name, interval }
+    plan: { amount, name }
   }
 }) => {
   const [opened, setOpened] = useState(false)
@@ -51,15 +52,19 @@ const CancelPlanDialog = ({
 
   function closeDialog () {
     setOpened(false)
-    setScreen(0)
   }
 
   function openDialog () {
+    setScreen(0)
     setOpened(true)
   }
 
   function nextScreen () {
     setScreen(screen + 1)
+  }
+
+  function previousScreen () {
+    setScreen(screen - 1)
   }
 
   const Screen = SCREENS[screen]
@@ -72,7 +77,7 @@ const CancelPlanDialog = ({
       {(cancelSubscription, { loading }) => (
         <Dialog
           open={opened}
-          title='Subscription cancelling'
+          title={<DialogTitle screen={screen} onClick={previousScreen} />}
           onClose={closeDialog}
           trigger={
             <Button onClick={openDialog} accent='positive'>
@@ -101,7 +106,4 @@ const mapDispatchToProps = dispatch => ({
   addNot: message => dispatch(showNotification(message))
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(CancelPlanDialog)
+export default connect(null, mapDispatchToProps)(CancelPlanDialog)

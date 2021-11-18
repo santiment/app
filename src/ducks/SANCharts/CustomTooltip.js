@@ -30,8 +30,8 @@ export const formatTooltipValue = (isPrice, value) =>
   isPrice
     ? formatNumber(value, { currency: 'USD' })
     : value > LARGE_NUMBER_STEP
-      ? millify(value)
-      : formatNumber(value)
+    ? millify(value)
+    : formatNumber(value)
 
 const CustomTooltip = ({ active, payload, label, classes = {} }) => {
   if (active && payload) {

@@ -25,12 +25,9 @@ export const useComparingAssets = () => {
     [comparingAssets, setComparingAssets]
   )
 
-  const cleanAll = useCallback(
-    () => {
-      setComparingAssets([])
-    },
-    [setComparingAssets]
-  )
+  const cleanAll = useCallback(() => {
+    setComparingAssets([])
+  }, [setComparingAssets])
 
   return {
     comparingAssets,

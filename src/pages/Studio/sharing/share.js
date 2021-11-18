@@ -1,4 +1,7 @@
+import { get } from 'svelte/store'
 import { WidgetToKeyMap } from './widgets'
+import { shareChartAddons } from './addons'
+import { shareDrawings } from './drawings'
 import FeesDistribution from '../Widget/FeesDistribution'
 import HoldersDistributionTable from '../Widget/HoldersDistributionTable'
 import TopExchangesTable from '../Widget/TopExchangesTable'
@@ -34,11 +37,6 @@ function shareIndicators (MetricIndicators) {
 const shareAxesMetrics = axesMetrics =>
   Array.from(axesMetrics || []).map(keyAccessor)
 
-function shareDrawings (drawings = []) {
-  if (drawings.length === 0) return
-  return drawings.map(({ color, relCoor }) => ({ color, relCoor }))
-}
-
 function shareSubwidgets (subwidgets) {
   if (subwidgets.length === 0) return
 
@@ -54,6 +52,21 @@ function shareSignalMetrics (signalMetrics) {
   return metrics.length ? shareMetrics(metrics) : undefined
 }
 
+function shareCombinedMetrics (metrics) {
+  return metrics
+    .filter(({ expression }) => expression)
+    .map(({ key, expression, label, baseMetrics }) => ({
+      k: key,
+      exp: expression,
+      l: label,
+      bm: shareMetrics(baseMetrics)
+    }))
+}
+
+function shareHolderLabels (holderLabels) {
+  if (holderLabels && holderLabels.length) return holderLabels
+}
+
 function shareChartWidget (widget) {
   const shared = {}
   shared.widget = WidgetToKeyMap.get(widget.Widget)
@@ -66,7 +79,8 @@ function shareChartWidget (widget) {
     return shared
   }
 
-  shared.metrics = shareMetrics(widget.metrics)
+  if (widget.isSharedAxisEnabled) shared.wcsa = widget.isSharedAxisEnabled
+  shared.metrics = shareMetrics(widget.metrics || [])
   shared.axesMetrics = shareAxesMetrics(widget.axesMetrics)
   shared.colors = widget.colors
   shared.settings = shareMetricSettings(widget.metricSettings)
@@ -74,6 +88,12 @@ function shareChartWidget (widget) {
   shared.drawings = shareDrawings(widget.drawings)
   shared.connectedWidgets = shareSubwidgets(widget.subwidgets)
   shared.signalMetrics = shareSignalMetrics(widget.signalMetrics)
+  shared.combinedMetrics = shareCombinedMetrics(widget.metrics)
+  shared.holderLabels = shareHolderLabels(widget.holderLabels)
+
+  if (widget.ChartAddons) {
+    shared.wcadon = shareChartAddons(get(widget.ChartAddons))
+  }
 
   return shared
 }

@@ -32,13 +32,10 @@ export function useSelectedItemsSet (items) {
 
 const ARRAY = []
 export function useColumns (allColumns, hiddenColumnIds = ARRAY) {
-  return useMemo(
-    () => {
-      if (hiddenColumnIds.length === 0) return allColumns
+  return useMemo(() => {
+    if (hiddenColumnIds.length === 0) return allColumns
 
-      const hiddenSet = new Set(hiddenColumnIds)
-      return allColumns.filter(({ id }) => !hiddenSet.has(id))
-    },
-    [hiddenColumnIds]
-  )
+    const hiddenSet = new Set(hiddenColumnIds)
+    return allColumns.filter(({ id }) => !hiddenSet.has(id))
+  }, [hiddenColumnIds])
 }

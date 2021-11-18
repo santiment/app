@@ -51,20 +51,14 @@ const AssetsSelector = ({ onChange, selected, projects, slugs, className }) => {
     return list.filter(slug => slug.indexOf(term) !== -1)
   }
 
-  const selectedAssets = useMemo(
-    () => {
-      return filterBySearch(Object.keys(selected))
-    },
-    [selected, searchTerm]
-  )
+  const selectedAssets = useMemo(() => {
+    return filterBySearch(Object.keys(selected))
+  }, [selected, searchTerm])
 
-  const selectableAssets = useMemo(
-    () => {
-      const cache = new Set(selectedAssets)
-      return filterBySearch(slugs.filter(s => !cache.has(s)))
-    },
-    [selectedAssets, slugs, searchTerm]
-  )
+  const selectableAssets = useMemo(() => {
+    const cache = new Set(selectedAssets)
+    return filterBySearch(slugs.filter(s => !cache.has(s)))
+  }, [selectedAssets, slugs, searchTerm])
 
   const countSelected = selectedAssets.length
   const isResetVisible = selectableAssets.length > 0

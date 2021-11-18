@@ -1,0 +1,40 @@
+@import "~@santiment-network/ui/mixins";
+
+.iconFilter {
+  margin: auto;
+  width: 16px;
+  height: 16px;
+  fill: var(--waterloo);
+}
+
+.openState {
+  background: var(--jungle-green-light);
+
+  .iconFilter {
+    fill: var(--jungle-green);
+  }
+}
+
+.tooltip {
+  background: var(--white);
+  box-sizing: border-box;
+  box-shadow: 0 4px 8px rgba(24, 27, 43, 0.03);
+  border-radius: $border-radius;
+  border: 1px solid var(--porcelain);
+}
+
+.trigger {
+  cursor: pointer;
+  margin-left: auto;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  border-radius: $border-radius;
+  border: 1px solid var(--porcelain);
+
+  &:hover {
+    .iconFilter {
+      fill: var(--jungle-green);
+    }
+  }
+}

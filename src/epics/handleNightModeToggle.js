@@ -87,20 +87,26 @@ export const sendNightModeIfDiff = (action$, store, { client }) =>
         loadKeyState('isNightMode') === undefined &&
         loadKeyState('isNightModeEnabled') === true
     )
-    .mergeMap(({ user: { settings: { theme } } }) => {
-      saveKeyState('isNightMode', true)
-      const mutation = client.mutate({
-        mutation: NIGHT_MODE_MUTATION,
-        variables: { theme: true }
-      })
-      return Observable.from(mutation)
-        .mergeMap(({ data: { updateUserSettings } }) => {
-          return Observable.of({
-            type: APP_USER_NIGHT_MODE_SAVE,
-            payload: updateUserSettings.theme === THEME_TYPES.nightmode
-          })
+    .mergeMap(
+      ({
+        user: {
+          settings: { theme }
+        }
+      }) => {
+        saveKeyState('isNightMode', true)
+        const mutation = client.mutate({
+          mutation: NIGHT_MODE_MUTATION,
+          variables: { theme: true }
         })
-        .catch(handleErrorAndTriggerAction(APP_USER_NIGHT_MODE_SAVE_FAILED))
-    })
+        return Observable.from(mutation)
+          .mergeMap(({ data: { updateUserSettings } }) => {
+            return Observable.of({
+              type: APP_USER_NIGHT_MODE_SAVE,
+              payload: updateUserSettings.theme === THEME_TYPES.nightmode
+            })
+          })
+          .catch(handleErrorAndTriggerAction(APP_USER_NIGHT_MODE_SAVE_FAILED))
+      }
+    )
 
 export default handleNightModeToggle

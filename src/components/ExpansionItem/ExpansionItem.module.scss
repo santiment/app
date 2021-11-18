@@ -29,8 +29,10 @@
 
 .arrow {
   fill: var(--waterloo);
+  transition: transform 0.25s ease-in-out;
 }
 
 .arrowOpened {
   fill: var(--waterloo);
+  transform: rotate(-180deg);
 }

@@ -11,6 +11,14 @@ module.exports = function override(config, env) {
     .oneOf.find((rule) => rule.loader && rule.loader.includes('file-loader'))
     .exclude.push(/\.svelte$/)
 
+  const urlLoader = config.module.rules
+    .find((rule) => !!rule.oneOf)
+    .oneOf.find((rule) => rule.loader && rule.loader.includes('url-loader'))
+
+  if (urlLoader) {
+    urlLoader.options.limit = 1000
+  }
+
   config.resolve.alias.svelte = path.resolve('node_modules', 'svelte')
   config.resolve.alias['@sapper/app'] = path.resolve(__dirname, 'src/svelte.js')
   config.resolve.alias['@/apollo'] = path.resolve(
@@ -51,7 +59,7 @@ module.exports = function override(config, env) {
       'process.env.MEDIA_PATH': JSON.stringify('/static'),
       'process.env.ICONS_PATH': JSON.stringify('/static/icons'),
       'process.env.IS_PROD_BACKEND': dev
-        ? process.env.REACT_APP_BACKEND_URL.includes('-stage') === false
+        ? (process.env.REACT_APP_BACKEND_URL || "").includes('-stage') === false
         : 'window.location.hostname.includes("-stage") === false',
     }),
   )

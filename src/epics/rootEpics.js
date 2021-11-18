@@ -42,11 +42,8 @@ import {
   generateTelegramDeepLinkEpic,
   revokeTelegramDeepLinkEpic
 } from '../pages/Account/epics'
-import keyboardEpic from './keyboardEpic'
 import { insightslikesEpic } from '../components/Like/insightslikesEpic'
 import { feedEventlikesEpic } from '../components/Like/feedEventlikesEpic'
-import { trialSubscriptionEpic } from './trialSubscriptionEpic'
-import handleWideChartToggle from './handleWideChartToggle'
 
 export default combineEpics(
   handleLauched,
@@ -58,7 +55,6 @@ export default combineEpics(
   digestSubscriptionEpic,
   handleEthLogin,
   handleGDPR,
-  keyboardEpic,
   // user's assets lists
   addAssetToWatchlistEpic,
   removeAssetFromWatchlistEpic,
@@ -75,7 +71,6 @@ export default combineEpics(
   apikeyGenerateEpic,
   apikeyRevokeEpic,
   handleNightModeToggle,
-  handleWideChartToggle,
   saveNightModeAfterLaunch,
   sendNightModeIfDiff,
   handleBetaModeToggle,
@@ -88,7 +83,5 @@ export default combineEpics(
   removeSignalEpic,
   // likes
   insightslikesEpic,
-  feedEventlikesEpic,
-  // trial subscription
-  trialSubscriptionEpic
+  feedEventlikesEpic
 )

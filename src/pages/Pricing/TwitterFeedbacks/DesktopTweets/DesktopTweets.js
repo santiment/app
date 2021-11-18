@@ -28,12 +28,9 @@ const DesktopTweets = () => {
     }
   }
 
-  const _onResize = useCallback(
-    () => {
-      _calculateColumnCount()
-    },
-    [_calculateColumnCount]
-  )
+  const _onResize = useCallback(() => {
+    _calculateColumnCount()
+  }, [_calculateColumnCount])
 
   useEventListener('resize', _onResize)
 

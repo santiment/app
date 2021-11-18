@@ -1,3 +1,4 @@
+import 'studio/metrics/selector/subitems'
 import { useMemo } from 'react'
 import { parse } from 'query-string'
 import { Metric } from 'studio/metrics'
@@ -11,8 +12,11 @@ import {
   cacheIndicator,
   Indicator
 } from 'studio/ChartWidget/MetricSettings/IndicatorSetting/utils'
+import { newExpessionMetric } from 'studio/CombineDialog/utils'
 import { parseMetricGraphValue } from './settings'
 import { getWidgetByKey, parseSubwidgets } from './widgets'
+import { parseDrawings } from './drawings'
+import { parseChartAddons } from './addons'
 import { ExternalWidgetCreator } from '../Widget'
 import { parseSharedSidepanel } from '../../../ducks/Studio/url/parse'
 import {
@@ -118,6 +122,16 @@ function parseMetrics (metrics, comparables = [], KnownMetric) {
     .filter(Boolean)
 }
 
+function parseCombinedMetrics (metrics, KnownMetric) {
+  return (metrics || []).map(({ k, exp, l, bm }) => {
+    const metric = newExpessionMetric(bm.map(getMetric), exp, l)
+    metric.key = k
+
+    KnownMetric[k] = metric
+    return metric
+  })
+}
+
 export function parseWidget (widget) {
   const newExternalWidget = ExternalWidgetCreator[widget.widget]
   if (newExternalWidget) return newExternalWidget()
@@ -125,6 +139,7 @@ export function parseWidget (widget) {
   const Widget = getWidgetByKey(widget.widget)
   const KnownMetric = {}
 
+  parseCombinedMetrics(widget.combinedMetrics, KnownMetric)
   Widget.metricIndicators = parseIndicators(widget.indicators, KnownMetric)
   Widget.mergedMetrics = parseMergedMetrics(widget.metrics, KnownMetric)
   Widget.metrics = parseMetrics(widget.metrics, widget.comparables, KnownMetric)
@@ -132,9 +147,12 @@ export function parseWidget (widget) {
   Widget.colors = parseMetricGraphValue(widget.colors, KnownMetric)
   Object.assign(Widget, parseAxesMetrics(widget.axesMetrics, KnownMetric))
   Object.assign(Widget, parseSubwidgets(widget.connectedWidgets))
-  Widget.drawings = widget.drawings
+  Widget.drawings = parseDrawings(widget.drawings)
   const { signalMetrics = [] } = widget
   Widget.signalMetrics = parseMetrics(signalMetrics, undefined, KnownMetric)
+  Widget.holderLabels = widget.holderLabels
+  Widget.isSharedAxisEnabled = widget.wcsa
+  Widget.chartAddons = parseChartAddons(widget.wcadon)
 
   return Widget
 }
@@ -168,12 +186,15 @@ function tryParseSettings (settings) {
 }
 
 export function parseUrl (url) {
-  const { settings, widgets, sidepanel } = parse(url)
+  const { settings, widgets, sidepanel, layout } = parse(
+    url.slice(url.indexOf('?'))
+  )
 
   return {
     settings: settings && tryParseSettings(settings),
     widgets: widgets && tryParseWidgets(widgets),
-    sidewidget: sidepanel && tryParseSharedSidewidget(sidepanel)
+    sidewidget: sidepanel && tryParseSharedSidewidget(sidepanel),
+    layout
   }
 }
 

@@ -63,73 +63,67 @@ const Brush = ({
     setBrush(brush)
   }, [])
 
-  useEffect(
-    () => {
-      const { length } = data
-      if (brush && length) {
-        const lastIndex = length - 1
-        let { startIndex = 0, endIndex = lastIndex } = brush
-        const { datetime: startTimestamp } = data[0]
-        const { datetime: endTimestamp } = data[lastIndex]
-        const fromTimestamp = +new Date(from)
-        const toTimestamp = +new Date(to)
+  useEffect(() => {
+    const { length } = data
+    if (brush && length) {
+      const lastIndex = length - 1
+      let { startIndex = 0, endIndex = lastIndex } = brush
+      const { datetime: startTimestamp } = data[0]
+      const { datetime: endTimestamp } = data[lastIndex]
+      const fromTimestamp = +new Date(from)
+      const toTimestamp = +new Date(to)
 
-        const scale = length / (endTimestamp - startTimestamp)
+      const scale = length / (endTimestamp - startTimestamp)
 
-        if (!data[startIndex] || fromTimestamp !== data[startIndex].datetime) {
-          startIndex = Math.trunc(scale * (fromTimestamp - startTimestamp))
-        }
-
-        if (!data[endIndex] || toTimestamp !== data[endIndex].datetime) {
-          endIndex = Math.trunc(scale * (toTimestamp - startTimestamp))
-        }
-
-        startIndex =
-          startIndex > 0 ? (startIndex < length ? startIndex : lastIndex) : 0
-        endIndex = endIndex > 0 ? (endIndex < length ? endIndex : lastIndex) : 0
-
-        if (endIndex - startIndex < 2) {
-          if (startIndex > 2) {
-            startIndex -= 2
-          } else {
-            endIndex += 2
-          }
-        }
-
-        brush.startIndex = startIndex
-        brush.endIndex = endIndex
-
-        requestRedraw()
+      if (!data[startIndex] || fromTimestamp !== data[startIndex].datetime) {
+        startIndex = Math.trunc(scale * (fromTimestamp - startTimestamp))
       }
-    },
-    [brush, data, from, to]
-  )
 
-  useEffect(
-    () => {
-      if (!brush) return
+      if (!data[endIndex] || toTimestamp !== data[endIndex].datetime) {
+        endIndex = Math.trunc(scale * (toTimestamp - startTimestamp))
+      }
 
-      clearCtx(brush)
-      brush.paintConfig = isNightMode
-        ? nightBrushPaintConfig
-        : dayBrushPaintConfig
+      startIndex =
+        startIndex > 0 ? (startIndex < length ? startIndex : lastIndex) : 0
+      endIndex = endIndex > 0 ? (endIndex < length ? endIndex : lastIndex) : 0
 
-      if (data.length === 0) return
+      if (endIndex - startIndex < 2) {
+        if (startIndex > 2) {
+          startIndex -= 2
+        } else {
+          endIndex += 2
+        }
+      }
 
-      const brushCategories = { ...categories }
-      brushCategories.lines = [...categories.lines, ...categories.candles]
+      brush.startIndex = startIndex
+      brush.endIndex = endIndex
 
-      brush.plotBrushData = () =>
-        getBrushPlotItems(chart.plotter).forEach(plot => {
-          plot(brush, scale, data, colors, brushCategories)
-        })
-      brush.redraw = () =>
-        updateBrushState(brush, data, categories.joinedCategories)
+      requestRedraw()
+    }
+  }, [brush, data, from, to])
 
-      brush.redraw()
-    },
-    [brush, data, colors, domainGroups, isNightMode, isAwaitingRedraw]
-  )
+  useEffect(() => {
+    if (!brush) return
+
+    clearCtx(brush)
+    brush.paintConfig = isNightMode
+      ? nightBrushPaintConfig
+      : dayBrushPaintConfig
+
+    if (data.length === 0) return
+
+    const brushCategories = { ...categories }
+    brushCategories.lines = [...categories.lines, ...categories.candles]
+
+    brush.plotBrushData = () =>
+      getBrushPlotItems(chart.plotter).forEach(plot => {
+        plot(brush, scale, data, colors, brushCategories)
+      })
+    brush.redraw = () =>
+      updateBrushState(brush, data, categories.joinedCategories)
+
+    brush.redraw()
+  }, [brush, data, colors, domainGroups, isNightMode, isAwaitingRedraw])
 
   return null
 }

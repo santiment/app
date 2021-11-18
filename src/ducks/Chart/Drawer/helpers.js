@@ -42,8 +42,8 @@ export const getPressedHandleType = (ctx, [handle1, handle2], x, y) =>
   ctx.isPointInPath(handle1, x, y)
     ? HandleType.LEFT
     : ctx.isPointInPath(handle2, x, y)
-      ? HandleType.RIGHT
-      : HandleType.MOVE
+    ? HandleType.RIGHT
+    : HandleType.MOVE
 
 export function getLineHandle (ctx, x, y, bgColor, strokeColor) {
   const handle = new Path2D()

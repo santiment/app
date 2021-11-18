@@ -10,11 +10,8 @@ import LoginEmailForm from './LoginEmailForm'
 import LoginEmailBtn from './LoginEmailBtn'
 import LoginGoogleBtn from './LoginGoogleBtn'
 import LogitTwitterBtn from './LoginTwitterBtn'
-import FreeTrialBlock from './FreeTrialBlock'
 import { PATHS } from '../../paths'
-import SwipablePages from '../../components/SwipablePages/SwipablePages'
 import MobileWrapper from './Mobile/MobileWrapper'
-import { LoginDivider } from './CreateAccountFreeTrial'
 import { hasMetamask as detectMetamask } from '../../web3Helpers'
 import { mapSizesToProps } from '../../utils/withSizes'
 import styles from './index.module.scss'
@@ -52,26 +49,14 @@ const LoginOptions = props => {
     return (
       <div className={styles.container}>
         <LoginDescription />
-
-        <LoginDivider />
-
-        <FreeTrialBlock />
       </div>
     )
   }
 
   return (
-    <SwipablePages
-      props={props}
-      pages={[
-        <MobileWrapper onBack={props.history.goBack}>
-          <LoginDescription />
-        </MobileWrapper>,
-        <MobileWrapper onBack={props.history.goBack}>
-          <FreeTrialBlock />
-        </MobileWrapper>
-      ]}
-    />
+    <MobileWrapper onBack={props.history.goBack}>
+      <LoginDescription />
+    </MobileWrapper>
   )
 }
 

@@ -17,9 +17,9 @@ const InsightsTab = ({ settings }) => {
 
   return target
     ? ReactDOM.createPortal(
-      <LoadableRelatedInsights settings={settings} />,
-      target
-    )
+        <LoadableRelatedInsights settings={settings} />,
+        target
+      )
     : null
 }
 

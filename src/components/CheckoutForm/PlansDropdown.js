@@ -16,16 +16,13 @@ const PlansDropdown = ({ title, plan, altPlan, onBillingSelect }) => {
     ? [altMonthPrice, monthPrice]
     : [monthPrice, altMonthPrice]
 
-  useEffect(
-    () => {
-      if (isOpened) {
-        window.addEventListener('click', closeDropdown)
+  useEffect(() => {
+    if (isOpened) {
+      window.addEventListener('click', closeDropdown)
 
-        return () => window.removeEventListener('click', closeDropdown)
-      }
-    },
-    [isOpened]
-  )
+      return () => window.removeEventListener('click', closeDropdown)
+    }
+  }, [isOpened])
 
   function closeDropdown () {
     setIsOpened(false)

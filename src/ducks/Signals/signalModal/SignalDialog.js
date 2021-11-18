@@ -36,7 +36,7 @@ const SignalDialog = ({
   const [isSharedPreview, setSharedPreview] = useState(isShared)
   const [trackEvent] = useTrackEvents()
 
-  const { variant, border } = buttonParams
+  const { variant, border, classes } = buttonParams
 
   const toggleAnon = useCallback(
     (warn = true) => {
@@ -47,28 +47,19 @@ const SignalDialog = ({
 
   useEffect(() => toggleAnon(!isLoggedIn), [isLoggedIn])
 
-  useEffect(
-    () => {
-      if (isLoading) {
-        toggleAnon(false)
-      }
-    },
-    [isLoading]
-  )
+  useEffect(() => {
+    if (isLoading) {
+      toggleAnon(false)
+    }
+  }, [isLoading])
 
-  useEffect(
-    () => {
-      setSharedPreview(isShared)
-    },
-    [isShared]
-  )
+  useEffect(() => {
+    setSharedPreview(isShared)
+  }, [isShared])
 
-  useEffect(
-    () => {
-      isSharedPreview && onSetDialogTitle('Alert details')
-    },
-    [isSharedPreview]
-  )
+  useEffect(() => {
+    isSharedPreview && onSetDialogTitle('Alert details')
+  }, [isSharedPreview])
 
   const canOpen = (isLoggedIn || isShared) && !isAnonWarning
 
@@ -99,7 +90,8 @@ const SignalDialog = ({
       }}
       onClose={onCloseMainModal}
       trigger={
-        dialogTrigger || signalModalTrigger(enabled, label, variant, border)
+        dialogTrigger ||
+        signalModalTrigger(enabled, label, variant, border, classes)
       }
       title={
         <TriggerModalTitle

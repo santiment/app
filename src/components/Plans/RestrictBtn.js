@@ -25,12 +25,12 @@ const getProps = ({
   return sameAsUserPlan
     ? { children: 'Your current plan', disabled: true }
     : isSubscriptionCanceled
-      ? {
+    ? {
         children: 'Upgrade now',
         as: Link,
         to: '/account#subscription?renew'
       }
-      : { children: 'Upgrade now', as: Link, to: '/account', variant: 'fill' }
+    : { children: 'Upgrade now', as: Link, to: '/account', variant: 'fill' }
 }
 
 const RestrictBtn = ({
@@ -48,21 +48,13 @@ const RestrictBtn = ({
   })
 
   return (
-    <>
-      <Button
-        fluid
-        accent='orange'
-        border
-        {...props}
-        className={cx(sharedStyles.link, styles.restrictBtn)}
-      />
-      {!isLoggedIn && (
-        <div className={styles.noCredit}>
-          {!sameAsUserPlan && showCreditMsg ? 'No credit card required' : ' '}
-          &nbsp;
-        </div>
-      )}
-    </>
+    <Button
+      fluid
+      accent='orange'
+      border
+      {...props}
+      className={cx(sharedStyles.link, styles.restrictBtn)}
+    />
   )
 }
 

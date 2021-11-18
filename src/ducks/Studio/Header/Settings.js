@@ -39,11 +39,15 @@ export const CopyLink = ({ shareLink, getShareLink, className }) => {
   )
 }
 
-export const ShareButton = ({ sharePath, shortUrlHash }) => {
+export const ShareButton = ({ sharePath, shortUrlHash, controller }) => {
   const { shortShareLink, getShortShareLink } = useShortShareLink(sharePath)
 
   const shareLink = shortUrlHash ? window.location.href : shortShareLink
-  const getShareLink = shortUrlHash ? getBrowserUrl : getShortShareLink
+  const getShareLink = shortUrlHash
+    ? getBrowserUrl
+    : controller
+    ? () => getShortShareLink(controller())
+    : getShortShareLink
 
   function onMouseDown () {
     getShareLink()
@@ -80,6 +84,7 @@ export default ({
   sidepanel,
   sharePath,
   shortUrlHash,
+  controller,
   isOverviewOpened,
   changeTimePeriod,
   toggleSidepanel,
@@ -90,25 +95,22 @@ export default ({
     [metrics]
   )
 
-  useEffect(
-    () => {
-      const { current: header } = headerRef
-      let transform
-      if (isOverviewOpened) {
-        let { top } = header.getBoundingClientRect()
+  useEffect(() => {
+    const { current: header } = headerRef
+    let transform
+    if (isOverviewOpened) {
+      let { top } = header.getBoundingClientRect()
 
-        if (window.scrollY < SAN_HEADER_HEIGHT) {
-          top -= SAN_HEADER_HEIGHT - window.scrollY - 1
-        }
-
-        transform = `translateY(-${top}px)`
-      } else {
-        transform = null
+      if (window.scrollY < SAN_HEADER_HEIGHT) {
+        top -= SAN_HEADER_HEIGHT - window.scrollY - 1
       }
-      header.style.transform = transform
-    },
-    [isOverviewOpened]
-  )
+
+      transform = `translateY(-${top}px)`
+    } else {
+      transform = null
+    }
+    header.style.transform = transform
+  }, [isOverviewOpened])
 
   return (
     <div className={cx(styles.wrapper, className)}>
@@ -123,7 +125,11 @@ export default ({
         />
       )}
 
-      <ShareButton shortUrlHash={shortUrlHash} sharePath={sharePath} />
+      <ShareButton
+        shortUrlHash={shortUrlHash}
+        sharePath={sharePath}
+        controller={controller}
+      />
 
       <Button
         border

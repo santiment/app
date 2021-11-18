@@ -35,20 +35,17 @@ export const useMetric = (settings, metric) => {
     variables: { ...settings, metric }
   })
 
-  return useMemo(
-    () => {
-      return {
-        data: data.getMetric
-          ? data.getMetric.timeseriesData.reduce(
+  return useMemo(() => {
+    return {
+      data: data.getMetric
+        ? data.getMetric.timeseriesData.reduce(
             (acc, item) => acc + item[metric],
             0
           )
-          : 0,
-        loading
-      }
-    },
-    [data, loading]
-  )
+        : 0,
+      loading
+    }
+  }, [data, loading])
 }
 
 export const AGGREGATION_TYPES = {

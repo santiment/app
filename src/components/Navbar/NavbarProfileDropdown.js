@@ -28,7 +28,7 @@ import dropdownStyles from './NavbarDropdown.module.scss'
 import styles from './NavbarProfileDropdown.module.scss'
 
 const personalLinks = [
-  { as: Link, to: '/alerts', children: 'My alerts' },
+  { as: Link, to: '/alerts?tab=1', children: 'My alerts' },
   { as: Link, to: '/assets', children: 'My watchlists' },
   {
     as: 'a',
@@ -108,8 +108,8 @@ const SubscriptionsList = () => {
       {loading
         ? 'Loading...'
         : activeSubscriptions.map(subscription => (
-          <ProductSubscription key={subscription.id} {...subscription} />
-        ))}
+            <ProductSubscription key={subscription.id} {...subscription} />
+          ))}
     </div>
   )
 }

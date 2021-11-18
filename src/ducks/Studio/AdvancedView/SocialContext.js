@@ -33,17 +33,14 @@ const SocialContext = ({ interval, date, project: { slug } }) => {
   const [trendPeriod, setTrendPeriod] = useState({})
   const constrainedInterval = INTERVAL_ALIAS[interval] ? '1h' : interval
 
-  useEffect(
-    () => {
-      setContextDate([date])
-      setTrendDate([date])
+  useEffect(() => {
+    setContextDate([date])
+    setTrendDate([date])
 
-      const period = getTimePeriod(date, constrainedInterval)
-      setContextPeriod(period)
-      setTrendPeriod(period)
-    },
-    [date, interval]
-  )
+    const period = getTimePeriod(date, constrainedInterval)
+    setContextPeriod(period)
+    setTrendPeriod(period)
+  }, [date, interval])
 
   function onTrendCalendarChange (datetime) {
     setTrendDate([datetime])
