@@ -12,6 +12,7 @@
 
 * `make start` - Start your docker container with dev server
 * `make sh` - Bash in your dev container
+* `make log` - Show logs
 
 ### VSCODE
 
@@ -25,16 +26,16 @@
 To start your local development you need to:
 1. Whitelist your domain
    1. Open `/etc/hosts`
-   2. Add the following line: `127.0.0.1 dev.mylocalsite.com`
+   2. Add the following line: `127.0.0.1 local.santiment.net`
    3. Save the file
 2. In `.env.local` add the following lines <br />
    `HTTPS=true`<br />
-   `HOST='dev.mylocalsite.com'`
+   `HOST='local.santiment.net'`
 3. Install [mkcert](https://github.com/FiloSottile/mkcert)
 4. Create your own certificate authority on your system <br />
    `mkcert -install`
 5. Create a certificate for your custom domain and concatenate the two files <br />
-   `mkcert "127.0.0.1" "localhost" "dev.mylocalsite.com"` <br />
+   `mkcert "127.0.0.1" "localhost" "local.santiment.net"` <br />
    `cat *-key.pem *.pem > server.pem`
 6. Create /.cert folder and move the server.pem file into it in app root directory
 7. Run `npm run start`
