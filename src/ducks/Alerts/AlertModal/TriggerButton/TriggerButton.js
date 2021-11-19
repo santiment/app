@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '@santiment-network/ui/Button'
 import cx from 'classnames'
-import styles from './styles.module.scss'
+import styles from './TriggerButton.module.scss'
 
 const TriggerButton = ({
   variant,

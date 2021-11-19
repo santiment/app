@@ -1,49 +1,151 @@
-import React, { useEffect, useState } from "react";
-import { useFormik } from "formik";
+import React, { useEffect, useState } from 'react'
+import { useFormik } from 'formik'
 
-import AlertModal from "./AlertModal/AlertModal";
+import AlertModal from './AlertModal/AlertModal'
+
+import {
+  DEFAULT_FORM_META_SETTINGS,
+  METRIC_DEFAULT_VALUES,
+  PRICE_PERCENT_CHANGE
+} from '../Signals/utils/constants'
+import {
+  getNewDescription,
+  getNewTitle,
+  mapTriggerToFormProps,
+  titleMetricValuesHeader
+} from '../Signals/utils/utils'
+
+const mapFormSettings = (baseSettings, meta) => {
+  const formMetric =
+    meta && meta.metric ? meta.metric.value.value : PRICE_PERCENT_CHANGE
+
+  const metaFormSettings = {
+    ...DEFAULT_FORM_META_SETTINGS,
+    ethAddress: baseSettings.ethAddress,
+    ...meta
+  }
+
+  let settings = {
+    ...METRIC_DEFAULT_VALUES[formMetric],
+    target: metaFormSettings.target.value
+      ? metaFormSettings.target.value
+      : baseSettings.target,
+    metric: metaFormSettings.metric.value
+      ? metaFormSettings.metric.value
+      : baseSettings.metric,
+    type: metaFormSettings.type.value
+      ? metaFormSettings.type.value
+      : baseSettings.type,
+    signalType: metaFormSettings.signalType.value
+      ? metaFormSettings.signalType.value
+      : baseSettings.signalType,
+    ethAddress: metaFormSettings.ethAddress,
+    ...baseSettings
+  }
+
+  if (!settings.title && !settings.description) {
+    settings = {
+      title: getNewTitle(settings),
+      description: getNewDescription(settings),
+      ...settings
+    }
+  }
+
+  return [settings, metaFormSettings]
+}
+
+const getFormData = (stateTrigger, metaFormSettings) =>
+  mapFormSettings(mapTriggerToFormProps(stateTrigger), metaFormSettings)
 
 const AlertModalMaster = ({ triggerButtonParams }) => {
-  const [isAlertModalOpen, setIsAlertModalOpen] = useState(false);
+  const [isAlertModalOpen, setIsAlertModalOpen] = useState(false)
+  const [formData, setFormData] = useState([])
 
   const formik = useFormik({
     initialValues: {
-      asset: {}
+      target: [],
+      metric: {},
+      type: {},
+      title: '',
+      description: '',
+      subtitle: {},
+      signalType: {}
     },
-    onSubmit(val) {
-      console.log(val);
+    onSubmit (val) {
+      console.log(val)
     },
     validateOnChange: false
-  });
+  })
 
   useEffect(() => {
-    console.log(formik.values);
-  }, [formik.values]);
+    const data = getFormData(
+      { title: '', description: '', isActive: true, isPublic: false },
+      {}
+    )
+    setFormData(data)
+    formik.setValues(values => ({ ...data[0], ...values }))
+  }, [])
+
+  useEffect(() => {
+    if (formik.values.metric.value) {
+      formik.setFieldValue('title', getNewTitle({ ...formik.values }))
+      formik.setFieldValue(
+        'description',
+        getNewDescription({ ...formik.values })
+      )
+      // formik.setFieldValue(
+      //   "subtitle",
+      //   titleMetricValuesHeader(
+      //     !!formik.values.type.dependencies,
+      //     {
+      //       ...formik.values
+      //     },
+      //     `of ${formik.values.target.map(item => item.name).join(", ")}`
+      //   )
+      // );
+    }
+    //
+    // console.log(
+    //   formik.values,
+    //   getNewTitle({ ...settings, ...formik.values }),
+    //   titleMetricValuesHeader(
+    //     !!formik.values.type.dependencies,
+    //     {
+    //       ...settings,
+    //       ...formik.values
+    //     },
+    //     `of ${formik.values.target.map(item => item.name).join(", ")}`
+    //   ),
+    //
+    // );
+  }, [formik.values])
 
   const handleFormValueChange = ({ field, value }) => {
-    console.log(field)
-    formik.setFieldValue(field, value, false);
-  };
+    formik.setFieldValue(field, value, false)
+  }
 
   const handleCloseAlertModal = () => {
-    setIsAlertModalOpen(false);
-  };
+    setIsAlertModalOpen(false)
+  }
 
   const handleOpenAlertModal = () => {
-    setIsAlertModalOpen(true);
-  };
+    setIsAlertModalOpen(true)
+  }
+
+  const [settings, metaForm] = formData
 
   return (
     <AlertModal
       handleFormValueChange={handleFormValueChange}
       formValues={formik.values}
-      defaultIsOpen={true}
+      defaultIsOpen={false}
       isOpen={isAlertModalOpen}
       handleClose={handleCloseAlertModal}
       handleOpen={handleOpenAlertModal}
       triggerButtonParams={triggerButtonParams}
+      metaFormSettings={metaForm}
     />
-  );
-};
+  )
+}
 
-export default AlertModalMaster;
+export default AlertModalMaster

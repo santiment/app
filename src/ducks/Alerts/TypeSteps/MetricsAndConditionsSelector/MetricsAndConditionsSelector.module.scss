@@ -1,0 +1,104 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.titleWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  font-size: 16px;
+  color: var(--rhino);
+
+  .icon {
+    margin-right: 10px;
+  }
+}
+
+.search {
+  margin-bottom: 12px;
+
+  input {
+    height: 32px;
+  }
+}
+
+.error {
+  @include text("caption");
+
+  margin: 0 0 8px 0;
+  color: var(--persimmon);
+}
+
+.metricCard {
+  margin-top: 16px;
+  margin-bottom: 8px;
+  min-width: 224px;
+  border: 1px solid var(--porcelain);
+  box-sizing: border-box;
+  padding: 8px 16px;
+  border-radius: 4px;
+
+  .metricCardTitle {
+    display: flex;
+    justify-content: space-between;
+    color: var(--rhino);
+
+    @include text("body-3", "m");
+
+    .metricCardEditIcon {
+      margin-left: 16px;
+      min-width: 16px;
+      cursor: pointer;
+    }
+  }
+
+  .metricCardDescr {
+    margin-top: 6px;
+    color: var(--waterloo);
+
+    @include text("caption");
+
+    font-weight: normal;
+  }
+}
+
+.selectedMetric {
+  margin-bottom: 16px;
+  border: 1px solid var(--jungle-green-light-3);
+  box-sizing: border-box;
+  padding: 8px 16px;
+  border-radius: 4px;
+
+  .selectedMetricTitle {
+    display: flex;
+    justify-content: space-between;
+    color: var(--rhino);
+
+    @include text("body-3", "m");
+  }
+
+  .selectedMetricDescr {
+    margin-top: 6px;
+    color: var(--waterloo);
+
+    @include text("caption");
+
+    font-weight: normal;
+  }
+}
+
+.chartPreview {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin-top: 16px;
+  margin-bottom: 24px;
+  height: 190px;
+  border: 1px solid var(--porcelain);
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 12px;
+}

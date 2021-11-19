@@ -1,3 +1,5 @@
+@import "~@santiment-network/ui/mixins";
+
 .sidebar {
   display: flex;
   flex-direction: column;
@@ -48,4 +50,32 @@
 
 .smallStepSelector {
   padding: 0 0 0 8px;
+}
+
+.assetsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.projectWrapper {
+  border: 1px solid var(--porcelain);
+  display: flex;
+  align-items: center;
+  height: 24px;
+  padding: 4px 8px;
+  border-radius: 4px;
+
+  & .projectTitle {
+    color: var(--rhino);
+    margin-left: 6px;
+
+    @include text("caption");
+  }
+
+  & .projectLengthTitle {
+    color: var(--rhino);
+
+    @include text("caption");
+  }
 }

@@ -46,7 +46,6 @@
 
 .stepsItemContent {
   max-width: 340px;
-  min-height: 48px;
   overflow: hidden;
 }
 
@@ -82,7 +81,29 @@
 
 .stepsItemWait {
   .stepsItemIcon {
+    background-color: var(--waterloo);
+
+    > .stepsIcon {
+      color: var(--white);
+    }
+  }
+
+  .stepsItemTitle {
+    color: var(--rhino);
+  }
+
+  .stepsItemDescription {
+    color: var(--waterloo);
+  }
+
+  .stepsItemTail::after {
     background-color: var(--porcelain);
+  }
+}
+
+.stepsItemDisabled {
+  .stepsItemIcon {
+    background-color: var(--mystic);
 
     > .stepsIcon {
       color: var(--waterloo);
@@ -198,7 +219,11 @@
 
   .stepsItemFinish {
     .stepsItemIcon {
-      background-color: var(--fiord);
+      background-color: var(--waterloo);
+
+      > img {
+        display: none;
+      }
 
       > .stepsIcon {
         color: var(--jungle-green);

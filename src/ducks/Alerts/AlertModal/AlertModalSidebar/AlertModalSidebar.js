@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import cx from "classnames";
-import Icon from "@santiment-network/ui/Icon";
-import Button from "@santiment-network/ui/Button";
+import React, { useState } from 'react'
+import cx from 'classnames'
+import Icon from '@santiment-network/ui/Icon'
+import Button from '@santiment-network/ui/Button'
 
-import Steps from "../../../../components/Steps/Steps";
+import Steps from '../../../../components/Steps/Steps'
+import ProjectIcon from '../../../../components/ProjectIcon/ProjectIcon'
 
-import { ALERT_TYPES } from "../../constants";
+import { ALERT_TYPES } from '../../constants'
 
-import styles from "./styles.module.scss";
-import ProjectIcon from "../../../../components/ProjectIcon/ProjectIcon";
+import styles from './AlertModalSidebar.module.scss'
 
 const AlertModalSidebar = ({
   currentAlertType,
@@ -17,16 +17,20 @@ const AlertModalSidebar = ({
   onChange,
   formValues
 }) => {
-  const [selectedType, setSelectedType] = useState(currentAlertType);
+  const [selectedType, setSelectedType] = useState(currentAlertType)
 
   const handleSelectType = type => () => {
-    setSelectedType(type);
-    onChange(type);
-  };
+    setSelectedType(type)
+    onChange(type)
+  }
 
   const handleClickBack = () => {
-    setSelectedStep(undefined);
-  };
+    setSelectedStep(undefined)
+  }
+
+  const handleStepClick = step => () => {
+    setSelectedStep(step)
+  }
 
   if (selectedStep === undefined) {
     return (
@@ -44,57 +48,66 @@ const AlertModalSidebar = ({
           </div>
         ))}
       </div>
-    );
+    )
   }
 
   return (
     <div className={styles.sidebar}>
       <Button onClick={handleClickBack} className={styles.backButton}>
-        <Icon type="pointer-right" /> Type of alert
+        <Icon type='pointer-right' /> Type of alert
       </Button>
       <div className={styles.smallStepSelector}>
-        <Steps size="small" initial={0} current={selectedStep}>
-          {currentAlertType.subSteps.map((item, index) => (
-            <Steps.Step
-              key={item.label}
-              title={item.label}
-              description={
-                index === 0 && formValues.asset.slug ? (
-                  <div
-                    style={{
-                      border: "1px solid #E7EAF3",
-                      display: "flex",
-                      alignItems: "center",
-                      height: 24,
-                      padding: "4px 8px",
-                      borderRadius: 4
-                    }}
-                  >
-                    <ProjectIcon
-                      className={styles.icon}
-                      size={16}
-                      slug={formValues.asset.slug}
-                      logoUrl={formValues.asset.logoUrl}
-                    />
-                    <div style={{
-                      fontSize: 12,
-                      color: '#2F354D',
-                      marginLeft: 6,
-                      lineHeight: '16px'
-                    }}>
-                      {formValues.asset.name}
-                    </div>
+        <Steps size='small' initial={0} current={selectedStep}>
+          {currentAlertType.subSteps.map((item, index) => {
+            let description
+
+            switch (index) {
+              case 0:
+                const shouldRenderTicker = formValues.target.length > 1
+                description = formValues.target.length > 0 && (
+                  <div className={styles.assetsWrapper}>
+                    {formValues.target.slice(0, 3).map(asset => (
+                      <div key={asset.id} className={styles.projectWrapper}>
+                        <ProjectIcon
+                          size={16}
+                          slug={asset.slug}
+                          logoUrl={asset.logoUrl}
+                        />
+                        <div className={styles.projectTitle}>
+                          {shouldRenderTicker ? asset.ticker : asset.name}
+                        </div>
+                      </div>
+                    ))}
+                    {formValues.target.length > 3 && (
+                      <div className={styles.projectWrapper}>
+                        <div className={styles.projectLengthTitle}>
+                          + {formValues.target.length - 3}
+                        </div>
+                      </div>
+                    )}
                   </div>
-                ) : (
-                  ""
                 )
-              }
-            />
-          ))}
+                break
+              default:
+                description = ''
+            }
+
+            const isDisabled = formValues.target.length === 0 && index !== 0
+
+            return (
+              <Steps.Step
+                disabled={isDisabled}
+                key={item.label}
+                title={item.label}
+                description={description}
+                onClick={handleStepClick(index)}
+              />
+            )
+          })}
         </Steps>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AlertModalSidebar;
+export default AlertModalSidebar

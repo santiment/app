@@ -3,7 +3,7 @@ import cx from 'classnames'
 
 import checkmark from './../../assets/checkmark.svg'
 
-import styles from './styles.module.scss'
+import styles from './Steps.module.scss'
 
 const Step = ({
   className,
@@ -28,6 +28,9 @@ const Step = ({
   }
 
   const renderIconNode = () => {
+    if (icons && icons.process && status === 'process') {
+      return icons.process
+    }
     if (status === 'finish') {
       return <img src={checkmark} alt='Check' />
     }
@@ -37,7 +40,7 @@ const Step = ({
   const classString = cx(
     styles.stepsItem,
     {
-      [styles.stepsItemWait]: status === 'wait',
+      [styles.stepsItemWait]: status === 'wait' && !disabled,
       [styles.stepsItemProcess]: status === 'process',
       [styles.stepsItemFinish]: status === 'finish',
       [styles.stepsItemDisabled]: disabled

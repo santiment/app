@@ -1,0 +1,9 @@
+@import "~@santiment-network/ui/mixins";
+
+.wrapper {
+  @include text("caption");
+
+  color: var(--waterloo);
+  font-weight: normal;
+  text-align: end;
+}

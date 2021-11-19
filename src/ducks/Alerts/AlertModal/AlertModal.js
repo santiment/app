@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 
 import AlertModalSidebar from './AlertModalSidebar/AlertModalSidebar'
@@ -7,7 +7,7 @@ import TriggerButton from './TriggerButton/TriggerButton'
 
 import { ALERT_TYPES } from '../constants'
 
-import styles from './styles.module.scss'
+import styles from './AlertModal.module.scss'
 
 const AlertModal = ({
   isOpen,
@@ -18,11 +18,29 @@ const AlertModal = ({
   modalLabel,
   enabled,
   triggerButtonParams,
-                      handleFormValueChange,
-  formValues
+  handleFormValueChange,
+  formValues,
+  metaFormSettings
 }) => {
   const [currentAlertType, setCurrentAlertType] = useState(ALERT_TYPES[0])
   const [selectedStep, setSelectedStep] = useState()
+
+  useEffect(() => {
+    switch (currentAlertType) {
+      case ALERT_TYPES[0]:
+        handleFormValueChange('signalType', {
+          label: 'Assets',
+          value: 'assets'
+        })
+        break
+      default:
+        handleFormValueChange('signalType', {
+          label: 'Assets',
+          value: 'assets'
+        })
+        break
+    }
+  }, [currentAlertType])
 
   const handleSetCurrentAlertType = type => {
     setCurrentAlertType(type)
@@ -61,6 +79,8 @@ const AlertModal = ({
             currentAlertType={currentAlertType}
             selectedStep={selectedStep}
             setSelectedStep={setSelectedStep}
+            formValues={formValues}
+            metaFormSettings={metaFormSettings}
           />
         </div>
       </Dialog>

@@ -91,7 +91,6 @@ const SignalMaster = ({
   const [formData, setFormData] = useState(() =>
     getFormData(stateTrigger, metaFormSettings)
   )
-
   useEffect(() => {
     if (propsTrigger.id && !stateTrigger.id) {
       setStateTrigger({

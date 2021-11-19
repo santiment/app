@@ -1,0 +1,147 @@
+@import "~@santiment-network/ui/mixins";
+
+.wrapperList {
+  user-select: none;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--porcelain);
+  }
+}
+
+.list {
+  outline: none;
+}
+
+.innerList {
+  margin-left: 16px;
+  border-left: 1px solid var(--porcelain);
+}
+
+.expansionContainer {
+  margin: 0;
+}
+
+.expansionIcon {
+  display: none;
+}
+
+.expansionOpened {
+  &.expansionTitle {
+    background: var(--jungle-green-light);
+    margin-bottom: 8px;
+  }
+
+  .expansionIcon {
+    display: block;
+  }
+}
+
+.expansionTitle {
+  padding: 6px 16px;
+  background: transparent;
+  color: var(--rhino);
+
+  @include text("body-3", "m");
+
+  &:not(:first-of-type) {
+    margin: 8px 0 0;
+  }
+
+  &:hover {
+    background: var(--athens);
+
+    .expansionIcon {
+      display: block;
+    }
+  }
+}
+
+.news {
+  display: flex;
+  align-items: center;
+
+  &::after {
+    display: inline-block;
+    content: "";
+    width: 6px;
+    height: 6px;
+    background: var(--texas-rose-hover);
+    border-radius: 50%;
+    margin-left: 8px;
+  }
+}
+
+.group {
+  @include text("caption");
+
+  height: 32px;
+  padding-left: 8px;
+  user-select: none;
+  color: var(--waterloo);
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+
+  /* stylelint-disable */
+
+  .toggle {
+    padding: 2px 6px;
+    fill: var(--waterloo);
+  }
+
+  &:hover .toggle {
+    fill: var(--jungle-green);
+  }
+  /* stylelint-enable */
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+
+    &_hidden {
+      display: none;
+    }
+  }
+}
+
+.metricBtn {
+  @include text("body-3");
+
+  padding-left: 12px;
+  color: var(--fiord);
+
+  svg:first-of-type {
+    display: none;
+  }
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    background: var(--porcelain);
+    left: -24px;
+  }
+
+  &::before {
+    width: 0;
+  }
+
+  &::after {
+    height: 1px;
+    width: 24px;
+  }
+}
+
+.info {
+  visibility: visible;
+  width: 12px;
+  height: 12px;
+  min-width: 12px;
+}

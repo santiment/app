@@ -1,0 +1,39 @@
+@import "~@santiment-network/ui/mixins";
+
+.steps {
+  padding: 20px 40px 16px;
+}
+
+.content {
+  padding: 20px 40px 0;
+  overflow-y: auto;
+}
+
+.assetsWrapper {
+  margin-top: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.projectWrapper {
+  border: 1px solid var(--porcelain);
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding: 8px 12px;
+  border-radius: 4px;
+
+  & .projectTitle {
+    color: var(--rhino);
+    margin-left: 6px;
+
+    @include text("body-3");
+  }
+
+  & .projectLengthTitle {
+    color: var(--rhino);
+
+    @include text("body-3");
+  }
+}

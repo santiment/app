@@ -22,11 +22,13 @@ export const TriggerFormMetricValues = ({
     absoluteBorderLeft = 0,
     target
   },
+  values,
   blocks = [],
   showTypes,
   metaFormSettings,
   typeSelectors
 }) => {
+  // console.log(values, blocks, showTypes, metaFormSettings, typeSelectors)
   const { key } = metric
   const isPrice = isPriceMetric(metric)
 

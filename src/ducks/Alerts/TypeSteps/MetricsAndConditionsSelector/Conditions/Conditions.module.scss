@@ -1,0 +1,44 @@
+@import "~@santiment-network/ui/mixins";
+
+.wrapper {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.metricSelector {
+  flex: 1;
+  min-width: 200px;
+  width: 100%;
+}
+
+.conditionInfo {
+  @include text("caption");
+
+  display: flex;
+  color: var(--rhino);
+  font-weight: normal;
+  white-space: nowrap;
+
+  :nth-child(1) {
+    color: var(--waterloo);
+    text-transform: capitalize;
+    margin-right: 4px;
+  }
+}
+
+.fieldDescr {
+  height: 16px;
+  margin-bottom: 4px;
+}
+
+.inputWrapper {
+}

@@ -1,0 +1,36 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.field {
+  width: 100%;
+  text-align: left;
+}
+
+.divider {
+  margin: 16px 4px 0;
+}
+
+.input {
+  max-width: 100%;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+}
+
+.fieldTitle {
+  @include text("caption");
+
+  color: var(--waterloo);
+  font-weight: normal;
+}
+
+.lastPrice {
+  margin-top: 4px;
+}

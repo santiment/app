@@ -96,7 +96,7 @@ export const GroupNodes = ({
         }
 
         return (
-          <Fragment key={item.key}>
+          <Fragment key={item.key || item.value}>
             {showRoot && (
               <Button
                 index={index}

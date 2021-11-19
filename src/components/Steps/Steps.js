@@ -3,7 +3,7 @@ import cx from 'classnames'
 
 import Step from './Step'
 
-import styles from './styles.module.scss'
+import styles from './Steps.module.scss'
 
 const Steps = ({
   className,

@@ -26,7 +26,12 @@ const MetricButton = ({
   const settings = isActive && metric && MetricSettings[metric.key]
   const isPro = metric && metric.isPro
 
-  const { btnClassName, infoClassName, tooltipPosition = 'right' } = btnProps
+  const {
+    btnClassName,
+    infoClassName,
+    tooltipPosition = 'right',
+    btnType
+  } = btnProps
 
   return (
     <Button
@@ -66,7 +71,7 @@ const MetricButton = ({
             position={tooltipPosition}
           >
             <Icon
-              type='info-round'
+              type={btnType || 'info-round'}
               className={cx(styles.info, infoClassName)}
             />
           </MetricExplanation>
