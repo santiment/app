@@ -102,13 +102,20 @@ export const New = ({ type, onSubmit }) => (
   />
 )
 
-export const SaveAs = ({ type, watchlist }) => (
-  <SaveAsAction
-    type={type}
-    watchlist={watchlist}
-    trigger={<Item icon='disk'>Save as</Item>}
-  />
-)
+export const SaveAs = ({ type, watchlist }) => {
+  const showDuplicate = ['SCREENER', 'PROJECT'].includes(type)
+  return (
+    <SaveAsAction
+      type={type}
+      watchlist={watchlist}
+      trigger={
+        <Item icon={showDuplicate ? 'duplicate' : 'disk'}>
+          {showDuplicate ? 'Duplicate' : 'Save as'}
+        </Item>
+      }
+    />
+  )
+}
 
 export const Edit = ({ type, title, watchlist, onSubmit, isLoading }) => {
   const [opened, setOpened] = useState(false)
