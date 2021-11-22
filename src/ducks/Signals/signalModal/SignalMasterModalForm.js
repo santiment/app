@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
+import { useHistory, useLocation } from 'react-router-dom'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import { useSignal } from '../common/getSignal'
 import { ALERT_ROUTES } from '../common/constants'
@@ -27,6 +28,8 @@ const SignalMasterModalForm = ({
   onClose,
   noLoginPopupContainer
 }) => {
+  const history = useHistory()
+  const location = useLocation()
   const { id: shareId, isShared: isOldShared } = shareParams
 
   if (!triggerId && match) {
@@ -60,6 +63,10 @@ const SignalMasterModalForm = ({
 
   const closeDialog = useCallback(() => {
     setDialogOpenState(false)
+
+    if (hasTrigger && location.pathname.includes(`/${triggerId}`)) {
+      history.replace(location.pathname.replace(`/${triggerId}`, ''))
+    }
 
     if (onClose) {
       onClose()

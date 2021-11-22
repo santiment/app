@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import Loadable from 'react-loadable'
 import { useLocation } from 'react-router-dom'
 import { parse } from 'query-string'
@@ -14,19 +14,22 @@ import { useSignals } from '../../ducks/Signals/common/getSignals'
 import { useUser } from '../../stores/user'
 import { mapSizesToProps } from '../../utils/withSizes'
 import styles from './Alerts.module.scss'
+import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
 
 const LoadableAlertsList = Loadable({
   loader: () => import('../SonarFeed/SignalsList'),
   loading: () => <PageLoader />
 })
 
-const Alerts = ({ isDesktop }) => {
+const Alerts = ({ isDesktop, match }) => {
   const [filter, setFilter] = useState(filters.ALL)
   const { user, loading: isUserLoading } = useUser()
   const { tab } = parse(useLocation().search, { parseNumbers: true })
   const { data: signals = [], loading } = useSignals({
     skip: user && !user.id
   })
+  const defaultOpenAlertId = match.params.id
+
   const initialTab = tab || (signals && signals.length > 0 ? 1 : 0)
 
   const handleChangeFilter = res => {
@@ -106,6 +109,14 @@ const Alerts = ({ isDesktop }) => {
             bottomActions={bottomActions}
             renderTopActions={renderTopActions}
           />
+          {defaultOpenAlertId && (
+            <SignalMasterModalForm
+              id={defaultOpenAlertId}
+              defaultOpen={true}
+              canRedirect={false}
+              trigger={<></>}
+            />
+          )}
         </div>
       )}
     </div>

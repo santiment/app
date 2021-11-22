@@ -8,14 +8,16 @@
 }
 
 .openState {
-  background: var(--jungle-green-light);
-
   .iconFilter {
     fill: var(--jungle-green);
   }
+
+  :global(.desktop) & {
+    border: 1px solid var(--jungle-green);
+  }
 }
 
-.tooltip {
+.contextMenu {
   background: var(--white);
   box-sizing: border-box;
   box-shadow: 0 4px 8px rgba(24, 27, 43, 0.03);

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import Tooltip from '@santiment-network/ui/Tooltip'
+import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Icon from '@santiment-network/ui/Icon'
 import Dialog from '@santiment-network/ui/Dialog'
 import { DesktopOnly, MobileOnly } from '../Responsive'
@@ -12,19 +12,20 @@ const FilterWrapper = ({ children, dialogTitle = 'Filter' }) => {
   return (
     <>
       <DesktopOnly>
-        <Tooltip
-          closeTimeout={200}
+        <ContextMenu
           position='bottom'
           align='end'
-          className={styles.tooltip}
+          className={styles.contextMenu}
           trigger={
-            <div className={styles.trigger}>
+            <div className={cx(styles.trigger, isOpen && styles.openState)}>
               <Icon type='filter' className={styles.iconFilter} />
             </div>
           }
+          onOpen={() => setOpen(true)}
+          onClose={() => setOpen(false)}
         >
           {children}
-        </Tooltip>
+        </ContextMenu>
       </DesktopOnly>
       <MobileOnly>
         <Dialog

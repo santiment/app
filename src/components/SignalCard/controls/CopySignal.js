@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import debounce from 'lodash.debounce'
 import Button from '@santiment-network/ui/Button'
+import Icon from '@santiment-network/ui/Icon'
+import isEqual from 'lodash.isequal'
 import { createTrigger } from '../../../ducks/Signals/common/actions'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
-import isEqual from 'lodash.isequal'
 import styles from './CopySignal.module.scss'
 
 const CopySignal = ({
@@ -17,9 +18,25 @@ const CopySignal = ({
   createTrigger,
   onCreate,
   label = 'Copy alert',
+  doneLabel = 'Copied to my alerts',
   classes = {},
   btnParams
 }) => {
+  const [isCreation, setCreation] = useState(false)
+
+  if (isCreated && isCreation) {
+    return (
+      <Button
+        as={as}
+        className={cx(styles.copyBtn, styles.copiedBtn)}
+        {...btnParams}
+      >
+        {doneLabel}
+        <Icon className={styles.copyBtnIcon} type='success-round' />
+      </Button>
+    )
+  }
+
   if (isAuthor || isCreated) {
     return null
   }
@@ -41,22 +58,29 @@ const CopySignal = ({
     }
   })
 
-  const [isCreation, setCreation] = useState(false)
-
-  return (
-    !isCreation && (
-      <>
-        {children}
-        <Button
-          onClick={copySignal}
-          as={as}
-          className={cx(styles.copyBtn, classes.copyBtn)}
-          {...btnParams}
-        >
-          {label}
-        </Button>
-      </>
-    )
+  return !isCreation ? (
+    <>
+      {children}
+      <Button
+        onClick={copySignal}
+        as={as}
+        className={cx(styles.copyBtn, classes.copyBtn)}
+        {...btnParams}
+      >
+        {label}
+      </Button>
+    </>
+  ) : (
+    <>
+      {children}
+      <Button
+        as={as}
+        className={cx(styles.copyBtn, classes.copyBtn)}
+        {...btnParams}
+      >
+        {label}
+      </Button>
+    </>
   )
 }
 
