@@ -19,4 +19,11 @@
       transform: rotate(90deg);
     }
   }
+
+  :global(.night-mode) & svg {
+    --jungle-green-light-3: #89e1c9;
+    --texas-rose-light-3: #ffd49c;
+    --dodger-blue: #5275ff;
+    --heliotrope-light-2: #c9c2ff;
+  }
 }
