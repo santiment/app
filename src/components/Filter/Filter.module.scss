@@ -12,7 +12,9 @@
     fill: var(--jungle-green);
   }
 
-  :global(.desktop) & {
+  :global(.desktop) &,
+  :global(.laptop) &,
+  :global(.tablet) & {
     border: 1px solid var(--jungle-green);
   }
 }

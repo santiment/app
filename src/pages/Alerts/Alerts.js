@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import Loadable from 'react-loadable'
 import { useLocation } from 'react-router-dom'
 import { parse } from 'query-string'
@@ -13,8 +13,8 @@ import { SignalModal } from '../SonarFeed/SonarFeedPage'
 import { useSignals } from '../../ducks/Signals/common/getSignals'
 import { useUser } from '../../stores/user'
 import { mapSizesToProps } from '../../utils/withSizes'
-import styles from './Alerts.module.scss'
 import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
+import styles from './Alerts.module.scss'
 
 const LoadableAlertsList = Loadable({
   loader: () => import('../SonarFeed/SignalsList'),

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import debounce from 'lodash.debounce'
@@ -58,22 +58,11 @@ const CopySignal = ({
     }
   })
 
-  return !isCreation ? (
+  return (
     <>
       {children}
       <Button
-        onClick={copySignal}
-        as={as}
-        className={cx(styles.copyBtn, classes.copyBtn)}
-        {...btnParams}
-      >
-        {label}
-      </Button>
-    </>
-  ) : (
-    <>
-      {children}
-      <Button
+        onClick={!isCreation ? copySignal : undefined}
         as={as}
         className={cx(styles.copyBtn, classes.copyBtn)}
         {...btnParams}
