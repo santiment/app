@@ -10,6 +10,7 @@
 
   & svg {
     transition: transform 0.2s ease-in-out;
+    --heliotrope-light-4: #C1ABFF;
   }
 
   :global(.dd__trigger.active) & {
@@ -23,7 +24,7 @@
   :global(.night-mode) & svg {
     --jungle-green-light-3: #165E55;
     --texas-rose-light-3: #8A6A56;
-    --dodger-blue: #354895;
-    --heliotrope-light-2: #4E3995;
+    --dodger-blue-light-3: #354895;
+    --heliotrope-light-4: #4E3995;
   }
 }

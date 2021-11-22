@@ -18,11 +18,10 @@ export const ProductsTrigger = ({ isOpen, className }) => (
         width='7'
         height='7'
         y='9'
-        fill='var(--dodger-blue)'
-        opacity='.5'
+        fill='var(--dodger-blue-light-3)'
         rx='1'
       />
-      <circle cx='12.5' cy='3.5' r='3.5' fill='var(--heliotrope-light-2)' />
+      <circle cx='12.5' cy='3.5' r='3.5' fill='var(--heliotrope-light-4)' />
     </svg>
   </div>
 )
