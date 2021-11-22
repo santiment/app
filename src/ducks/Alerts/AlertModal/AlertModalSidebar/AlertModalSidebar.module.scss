@@ -79,3 +79,36 @@
     @include text("caption");
   }
 }
+
+.metricsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metricWrapper {
+  width: fit-content;
+  border: 1px solid var(--porcelain);
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+
+  & .metricTitle {
+    color: var(--rhino);
+
+    @include text("caption");
+  }
+}
+
+.metricSubtitle {
+  color: var(--rhino);
+
+  @include text("caption");
+
+  & > span {
+    color: var(--waterloo);
+
+    text-transform: capitalize;
+  }
+}
