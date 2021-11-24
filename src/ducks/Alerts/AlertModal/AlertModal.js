@@ -20,23 +20,30 @@ const AlertModal = ({
   triggerButtonParams,
   handleFormValueChange,
   formValues,
-  metaFormSettings
+  metaFormSettings,
+  resetForm
 }) => {
   const [currentAlertType, setCurrentAlertType] = useState(ALERT_TYPES[0])
   const [selectedStep, setSelectedStep] = useState()
 
   useEffect(() => {
-    switch (currentAlertType) {
-      case ALERT_TYPES[0]:
-        handleFormValueChange('signalType', {
-          label: 'Assets',
-          value: 'assets'
+    switch (currentAlertType.title) {
+      case ALERT_TYPES[0].title:
+        handleFormValueChange({
+          field: 'signalType',
+          value: {
+            label: 'Assets',
+            value: 'assets'
+          }
         })
         break
       default:
-        handleFormValueChange('signalType', {
-          label: 'Assets',
-          value: 'assets'
+        handleFormValueChange({
+          field: 'signalType',
+          value: {
+            label: 'Assets',
+            value: 'assets'
+          }
         })
         break
     }
@@ -81,6 +88,8 @@ const AlertModal = ({
             setSelectedStep={setSelectedStep}
             formValues={formValues}
             metaFormSettings={metaFormSettings}
+            handleClose={handleClose}
+            resetForm={resetForm}
           />
         </div>
       </Dialog>

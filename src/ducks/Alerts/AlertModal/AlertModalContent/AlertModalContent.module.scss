@@ -1,12 +1,47 @@
 @import "~@santiment-network/ui/mixins";
 
 .steps {
+  position: relative;
   padding: 20px 40px 16px;
 }
 
 .content {
   padding: 20px 40px 0;
   overflow-y: auto;
+}
+
+.metricWrapper {
+  margin-top: 6px;
+  border: 1px solid var(--porcelain);
+  display: block;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: var(--rhino);
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow: hidden;
+  max-height: 3.6em;
+
+  @include text("body-3");
+}
+
+.channelsWrapper {
+  margin-top: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.channel {
+  border: 1px solid var(--porcelain);
+  display: flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: var(--rhino);
+
+  @include text("body-3");
 }
 
 .assetsWrapper {
@@ -21,7 +56,7 @@
   display: flex;
   align-items: center;
   height: 32px;
-  padding: 8px 12px;
+  padding: 6px 12px;
   border-radius: 4px;
 
   & .projectTitle {
@@ -36,4 +71,18 @@
 
     @include text("body-3");
   }
+}
+
+.submitWrapper {
+  position: absolute;
+  bottom: 8px;
+  right: 40px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submitButton {
+  display: flex;
+  justify-content: center;
+  width: 129px;
 }

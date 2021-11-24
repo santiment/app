@@ -1,13 +1,30 @@
 import React from 'react'
+import Button from '@santiment-network/ui/Button'
+import { connect } from 'react-redux'
 
 import Steps from '../../../../components/Steps/Steps'
 import ProjectIcon from '../../../../components/ProjectIcon/ProjectIcon'
 
 import AssetSelector from '../../TypeSteps/AssetSelector/AssetSelector'
 import MetricsAndConditionsSelector from '../../TypeSteps/MetricsAndConditionsSelector/MetricsAndConditionsSelector'
+import NotificationsSettings from '../../TypeSteps/NotificationsSettings/NotificationsSettings'
+import NameAndDescription from '../../TypeSteps/NameAndDescription/NameAndDescription'
+
+import {
+  getNewDescription,
+  getNewTitle,
+  getSlugFromSignalTarget,
+  mapFormPropsToTrigger,
+  titleMetricValuesHeader
+} from '../../../Signals/utils/utils'
+import { createTrigger } from '../../../Signals/common/actions'
 
 import styles from './AlertModalContent.module.scss'
-import { getSlugFromSignalTarget } from '../../../Signals/utils/utils'
+
+function getLastWord (words) {
+  const wordsArr = words.split(' ')
+  return wordsArr[wordsArr.length - 1]
+}
 
 const AlertModalContent = ({
   currentAlertType,
@@ -15,10 +32,54 @@ const AlertModalContent = ({
   setSelectedStep,
   handleFormValueChange,
   formValues,
-  metaFormSettings
+  metaFormSettings,
+  createTrigger,
+  handleClose,
+  resetForm
 }) => {
   const handleStepClick = step => () => {
     setSelectedStep(step)
+  }
+
+  const handleTitlesChange = (fieldName, value) => {
+    const subtitle = titleMetricValuesHeader(
+      !!formValues.type.dependencies,
+      {
+        ...formValues,
+        [fieldName]: value
+      },
+      `of ${formValues.target.map(item => item.name).join(', ')}`
+    )
+    handleFormValueChange({
+      field: 'title',
+      value: getNewTitle({ ...formValues, [fieldName]: value })
+    })
+    handleFormValueChange({
+      field: 'description',
+      value: getNewDescription({ ...formValues, [fieldName]: value })
+    })
+    handleFormValueChange({
+      field: 'subtitle',
+      value: subtitle
+        ? {
+            first: subtitle.titleLabel && getLastWord(subtitle.titleLabel),
+            last: subtitle.titleDescription
+          }
+        : {}
+    })
+  }
+
+  const handleCreateAlert = () => {
+    const data = mapFormPropsToTrigger(formValues, {
+      title: '',
+      description: '',
+      isActive: true,
+      isPublic: false
+    })
+
+    createTrigger(data)
+    handleClose()
+    resetForm()
   }
 
   switch (selectedStep) {
@@ -29,6 +90,7 @@ const AlertModalContent = ({
             handleFormValueChange={handleFormValueChange}
             handleStepClick={handleStepClick}
             initialValues={formValues.target}
+            values={formValues}
           />
         </div>
       )
@@ -56,7 +118,41 @@ const AlertModalContent = ({
             }}
             slug={slug}
             metaFormSettings={metaFormSettings}
+            handleTitlesChange={handleTitlesChange}
           />
+        </div>
+      )
+    case 2:
+      return (
+        <div className={styles.content}>
+          <NotificationsSettings
+            values={formValues}
+            metaFormSettings={metaFormSettings}
+            handleStepClick={handleStepClick}
+            handleTitlesChange={handleTitlesChange}
+            handleFormValueChange={handleFormValueChange}
+          />
+        </div>
+      )
+    case 3:
+      return (
+        <div className={styles.content}>
+          <NameAndDescription
+            handleTitlesChange={handleTitlesChange}
+            values={formValues}
+            handleFormValueChange={handleFormValueChange}
+          />
+          <div className={styles.submitWrapper}>
+            <Button
+              accent='positive'
+              variant='fill'
+              disabled={!formValues.title}
+              className={styles.submitButton}
+              onClick={handleCreateAlert}
+            >
+              Create alert
+            </Button>
+          </div>
         </div>
       )
     default:
@@ -95,6 +191,56 @@ const AlertModalContent = ({
                     )
                   }
                   break
+                case 1:
+                  if (formValues.metric.label) {
+                    description = (
+                      <div className={styles.metricWrapper}>
+                        {formValues.title}
+                      </div>
+                    )
+                  }
+                  break
+
+                case 2:
+                  if (
+                    formValues.target.length > 0 &&
+                    formValues.channels.length > 0
+                  ) {
+                    description = (
+                      <div className={styles.channelsWrapper}>
+                        <div className={styles.channel}>
+                          {formValues.isPublic
+                            ? 'Public alert'
+                            : 'Private alert'}
+                        </div>
+                        <div className={styles.channel}>
+                          Notify me on{' '}
+                          {formValues.channels
+                            .map(channel => {
+                              if (typeof channel !== 'string') {
+                                return 'Webhook'
+                              }
+                              return (
+                                channel.charAt(0).toUpperCase() +
+                                channel.slice(1)
+                              )
+                            })
+                            .join(', ')}
+                        </div>
+                      </div>
+                    )
+                  }
+
+                  break
+                case 3:
+                  if (formValues.title) {
+                    description = (
+                      <div className={styles.metricWrapper}>
+                        {formValues.title}
+                      </div>
+                    )
+                  }
+                  break
                 default:
                   break
               }
@@ -112,9 +258,26 @@ const AlertModalContent = ({
               )
             })}
           </Steps>
+          <div className={styles.submitWrapper}>
+            <Button
+              accent='positive'
+              variant='fill'
+              disabled={!formValues.title}
+              className={styles.submitButton}
+              onClick={handleCreateAlert}
+            >
+              Create alert
+            </Button>
+          </div>
         </div>
       )
   }
 }
 
-export default AlertModalContent
+const mapDispatchToProps = dispatch => ({
+  createTrigger: payload => {
+    dispatch(createTrigger(payload))
+  }
+})
+
+export default connect(null, mapDispatchToProps)(AlertModalContent)

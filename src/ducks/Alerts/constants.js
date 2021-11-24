@@ -37,10 +37,5 @@ export const ALERT_TYPES = [
         label: 'Name & Description'
       }
     ]
-  },
-  {
-    title: 'Watchlist',
-    mainSteps: [],
-    subSteps: []
   }
 ]

@@ -8,13 +8,26 @@ import ProjectsList from './ProjectsList/ProjectsList'
 
 import { useAssets } from '../../../../hooks/project'
 import { hasAssetById } from './utils'
+import {
+  getNearestTypeByMetric,
+  getNewDescription,
+  getNewTitle,
+  titleMetricValuesHeader
+} from '../../../Signals/utils/utils'
+import { PRICE_METRIC } from '../../../Signals/utils/constants'
 
 import styles from './AssetSelector.module.scss'
+
+function getLastWord (words) {
+  const wordsArr = words.split(' ')
+  return wordsArr[wordsArr.length - 1]
+}
 
 const AssetSelector = ({
   handleFormValueChange,
   handleStepClick,
-  initialValues
+  initialValues,
+  values
 }) => {
   const [projects] = useAssets({
     shouldSkipLoggedInState: false
@@ -49,6 +62,55 @@ const AssetSelector = ({
         handleFormValueChange({
           field: 'metric',
           value: {}
+        })
+      }
+
+      if (selected.length !== 0) {
+        const type = getNearestTypeByMetric(PRICE_METRIC)
+        handleFormValueChange({
+          field: 'metric',
+          value: PRICE_METRIC
+        })
+        handleFormValueChange({
+          field: 'type',
+          value: type
+        })
+        const subtitle = titleMetricValuesHeader(
+          !!type.dependencies,
+          {
+            ...values,
+            target: selected,
+            metric: PRICE_METRIC,
+            type
+          },
+          `of ${selected.map(item => item.name).join(', ')}`
+        )
+        handleFormValueChange({
+          field: 'title',
+          value: getNewTitle({
+            ...values,
+            target: selected,
+            metric: PRICE_METRIC,
+            type
+          })
+        })
+        handleFormValueChange({
+          field: 'description',
+          value: getNewDescription({
+            ...values,
+            target: selected,
+            metric: PRICE_METRIC,
+            type
+          })
+        })
+        handleFormValueChange({
+          field: 'subtitle',
+          value: subtitle
+            ? {
+                first: subtitle.titleLabel && getLastWord(subtitle.titleLabel),
+                last: subtitle.titleDescription
+              }
+            : {}
         })
       }
     },

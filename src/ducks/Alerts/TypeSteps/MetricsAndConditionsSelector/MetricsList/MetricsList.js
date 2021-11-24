@@ -1,72 +1,66 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState
-} from "react";
-import cx from "classnames";
-import AutoSizer from "react-virtualized/dist/commonjs/AutoSizer";
-import List from "react-virtualized/dist/commonjs/List";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import cx from 'classnames'
+import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
+import List from 'react-virtualized/dist/commonjs/List'
 
-import { GroupNodes } from "../../../../Studio/Sidebar/Group";
-import MetricButton from "../../../../Studio/Sidebar/Button";
-import ExpansionItem from "../../../../../components/ExpansionItem/ExpansionItem";
+import { GroupNodes } from '../../../../Studio/Sidebar/Group'
+import MetricButton from '../../../../Studio/Sidebar/Button'
+import ExpansionItem from '../../../../../components/ExpansionItem/ExpansionItem'
 
-import { getAssetNewMetrics } from "../../../../dataHub/metrics/news";
-import { useProject } from "../../../../../hooks/project";
-import { METRICS_OPTIONS } from "../../../../Signals/utils/constants";
+import { getAssetNewMetrics } from '../../../../dataHub/metrics/news'
+import { useProject } from '../../../../../hooks/project'
+import { METRICS_OPTIONS } from '../../../../Signals/utils/constants'
 
-import styles from "./MetricsList.module.scss";
+import styles from './MetricsList.module.scss'
 
 const getSelectedCount = groupItems => {
-  const keys = Object.keys(groupItems);
+  const keys = Object.keys(groupItems)
 
   return keys.reduce(
     (acc, curr) => {
-      const metricsArr = groupItems[curr];
+      const metricsArr = groupItems[curr]
 
       const metricsLength = metricsArr.reduce((metricsAcc, metricsCurr) => {
-        const metricLength = metricsCurr.item.label.length > 50 ? 1.45 : 1;
+        const metricLength = metricsCurr.item.label.length > 50 ? 1.45 : 1
         if (metricsCurr.subitems.length > 0) {
-          return metricsAcc + metricLength + metricsCurr.subitems.length;
+          return metricsAcc + metricLength + metricsCurr.subitems.length
         }
 
-        return metricsAcc + metricLength;
-      }, 0);
+        return metricsAcc + metricLength
+      }, 0)
 
-      return acc + metricsLength;
+      return acc + metricsLength
     },
     keys.length !== 1 ? keys.length - 1 : 0
-  );
-};
+  )
+}
 
 const getDefaultMetrics = () => {
-  let metrics = [];
+  let metrics = []
 
-  METRICS_OPTIONS.filter(metric => metric.label !== "Social Trends").forEach(
+  METRICS_OPTIONS.filter(metric => metric.label !== 'Social Trends').forEach(
     metric => {
       metrics.push({
         item: {
           ...metric
         },
         subitems: []
-      });
+      })
     }
-  );
+  )
 
   return {
     _: metrics
-  };
-};
+  }
+}
 
-export const NO_GROUP = "_";
+export const NO_GROUP = '_'
 
-const ROW_HEIGHT = 40;
+const ROW_HEIGHT = 40
 
-const noop = () => {};
+const noop = () => {}
 
-function MetricsList({
+function MetricsList ({
   list,
   onSelect,
   availableMetrics,
@@ -77,51 +71,51 @@ function MetricsList({
   hasValue,
   cardHeight
 }) {
-  const [selectedIndexes, setSelectedIndexes] = useState([0]);
-  const listRef = useRef(null);
-  const metricKeys = useMemo(() => ["Suggested", ...Object.keys(list)], [list]);
+  const [selectedIndexes, setSelectedIndexes] = useState([0])
+  const listRef = useRef(null)
+  const metricKeys = useMemo(() => ['Suggested', ...Object.keys(list)], [list])
 
-  const [project] = useProject(slug);
+  const [project] = useProject(slug)
   const newMetricsProps = getAssetNewMetrics(availableMetrics, {
     slug: project ? project.slug : undefined,
     isBeta
-  });
+  })
 
-  const { NewMetricsCategory } = newMetricsProps;
+  const { NewMetricsCategory } = newMetricsProps
 
-  const defaultMetrics = getDefaultMetrics();
+  const defaultMetrics = getDefaultMetrics()
 
   const getRowHeight = useCallback(
     ({ index }) => {
       return selectedIndexes.includes(index)
         ? getSelectedCount(
-            metricKeys[index] === "Suggested"
+            metricKeys[index] === 'Suggested'
               ? getDefaultMetrics()
               : list[metricKeys[index]]
           ) *
             32 +
             ROW_HEIGHT +
             8
-        : ROW_HEIGHT;
+        : ROW_HEIGHT
     },
     [selectedIndexes, list]
-  );
+  )
 
   useEffect(() => {
     if (listRef.current) {
-      listRef.current.recomputeRowHeights();
+      listRef.current.recomputeRowHeights()
     }
-  }, [getRowHeight, availableMetrics]);
+  }, [getRowHeight, availableMetrics])
 
   const handleExpansionClick = itemIndex => isOpened => {
     isOpened
       ? setSelectedIndexes(prev => prev.filter(idx => idx !== itemIndex))
-      : setSelectedIndexes(prev => [...prev, itemIndex]);
-  };
+      : setSelectedIndexes(prev => [...prev, itemIndex])
+  }
 
   const rowRenderer = useCallback(
     props => {
-      const { index, style, key } = props;
+      const { index, style, key } = props
       return (
         <ExpansionItem
           key={key}
@@ -141,12 +135,12 @@ function MetricsList({
             opened: styles.expansionOpened,
             arrow: styles.expansionIcon
           }}
-          iconType="arrow-down"
+          iconType='arrow-down'
         >
           <div className={styles.innerList}>
-            {metricKeys[index] === "Suggested"
+            {metricKeys[index] === 'Suggested'
               ? Object.keys(defaultMetrics).map(key => {
-                  const items = defaultMetrics[key];
+                  const items = defaultMetrics[key]
                   return (
                     <Group
                       key={key}
@@ -158,10 +152,10 @@ function MetricsList({
                       setMetricSettingMap={noop}
                       {...newMetricsProps}
                     />
-                  );
+                  )
                 })
               : Object.keys(list[metricKeys[index]]).map(key => {
-                  const items = list[metricKeys[index]][key];
+                  const items = list[metricKeys[index]][key]
                   return (
                     <Group
                       key={key}
@@ -173,18 +167,18 @@ function MetricsList({
                       setMetricSettingMap={noop}
                       {...newMetricsProps}
                     />
-                  );
+                  )
                 })}
           </div>
         </ExpansionItem>
-      );
+      )
     },
     [selectedIndexes, metricKeys]
-  );
+  )
 
   const wrapperStyle = {
     height: hasError ? 282 : hasValue ? 306 - cardHeight : 306
-  };
+  }
 
   return (
     <div style={wrapperStyle} className={styles.wrapperList}>
@@ -205,15 +199,15 @@ function MetricsList({
         </AutoSizer>
       )}
     </div>
-  );
+  )
 }
 
 const Group = ({ groupLabel, onSelect, group, project, selected, ...rest }) => {
   if (group.length === 0) {
-    return null;
+    return null
   }
 
-  const { NewMetricsGroup } = rest;
+  const { NewMetricsGroup } = rest
 
   return (
     <>
@@ -235,14 +229,14 @@ const Group = ({ groupLabel, onSelect, group, project, selected, ...rest }) => {
         btnProps={{
           btnClassName: styles.metricBtn,
           infoClassName: styles.info,
-          tooltipPosition: "top",
-          btnType: "question-round-small"
+          tooltipPosition: 'top',
+          btnType: 'question-round-small'
         }}
         Button={MetricButton}
         {...rest}
       />
     </>
-  );
-};
+  )
+}
 
-export default MetricsList;
+export default MetricsList

@@ -28,7 +28,6 @@ export const TriggerFormMetricValues = ({
   metaFormSettings,
   typeSelectors
 }) => {
-  // console.log(values, blocks, showTypes, metaFormSettings, typeSelectors)
   const { key } = metric
   const isPrice = isPriceMetric(metric)
 

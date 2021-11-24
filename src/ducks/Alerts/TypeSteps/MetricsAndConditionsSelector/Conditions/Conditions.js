@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
-import cx from "classnames";
+import React, { useEffect } from 'react'
+import cx from 'classnames'
 
-import MetricOptionsRenderer from "./MetricOprionsRenderer/MetricOptionsRenderer";
-import LastPrice from "./LastPrice/LastPrice";
-import ConditionSelect from "./ConditionSelect/ConditionSelect";
-import TimeWindow from "./TimeWindow/TimeWindow";
+import MetricOptionsRenderer from './MetricOprionsRenderer/MetricOptionsRenderer'
+import LastPrice from './LastPrice/LastPrice'
+import ConditionSelect from './ConditionSelect/ConditionSelect'
+import TimeWindow from './TimeWindow/TimeWindow'
 
-import AbsoluteThreshold from "./blocks/AbsoluteThreshold/AbsoluteThreshold";
-import AbsoluteBorders from "./blocks/AbsoluteBorders/AbsoluteBorders";
-import PercentThresholdByBorders from "./blocks/PercentThresholdByBorders/PercentThresholdByBorders";
+import AbsoluteThreshold from './blocks/AbsoluteThreshold/AbsoluteThreshold'
+import AbsoluteBorders from './blocks/AbsoluteBorders/AbsoluteBorders'
+import PercentThresholdByBorders from './blocks/PercentThresholdByBorders/PercentThresholdByBorders'
 
 import {
   getNewDescription,
@@ -17,15 +17,10 @@ import {
   mapTargetObject,
   targetMapper,
   titleMetricValuesHeader
-} from "../../../../Signals/utils/utils";
-import { isDailyMetric } from "../../../../Signals/signalFormManager/signalCrudForm/formParts/metricTypes/metrics";
+} from '../../../../Signals/utils/utils'
+import { isDailyMetric } from '../../../../Signals/signalFormManager/signalCrudForm/formParts/metricTypes/metrics'
 
-import styles from "./Conditions.module.scss";
-
-function getLastWord(words) {
-  const wordsArr = words.split(" ");
-  return wordsArr[wordsArr.length - 1];
-}
+import styles from './Conditions.module.scss'
 
 const Conditions = ({
   values: {
@@ -43,62 +38,34 @@ const Conditions = ({
     timeWindowUnit,
     subtitle
   },
-  values,
   blocks = [],
   showTypes,
   metaFormSettings,
   typeSelectors,
-  handleFormValueChange
+  handleFormValueChange,
+  handleTitlesChange
 }) => {
-  const { key } = metric;
-  const isPrice = isPriceMetric(metric);
+  const { key } = metric
+  const isPrice = isPriceMetric(metric)
 
-  const mappedTargets = mapTargetObject(target, targetMapper);
-  const slugName = !Array.isArray(mappedTargets) ? mappedTargets : undefined;
+  const mappedTargets = mapTargetObject(target, targetMapper)
+  const slugName = !Array.isArray(mappedTargets) ? mappedTargets : undefined
 
-  const isTimeWindow = blocks.includes("timeWindow") && !isDailyMetric(key);
+  const isTimeWindow = blocks.includes('timeWindow') && !isDailyMetric(key)
 
-  const defaultType = metaFormSettings.type;
-
-  const handleTitlesChange = (fieldName, value) => {
-    const subtitle = titleMetricValuesHeader(
-      !!values.type.dependencies,
-      {
-        ...values,
-        [fieldName]: value
-      },
-      `of ${values.target.map(item => item.name).join(", ")}`
-    );
-    handleFormValueChange({
-      field: "title",
-      value: getNewTitle({ ...values, [fieldName]: value })
-    });
-    handleFormValueChange({
-      field: "description",
-      value: getNewDescription({ ...values, [fieldName]: value })
-    });
-    handleFormValueChange({
-      field: "subtitle",
-      value: subtitle
-        ? {
-            first: subtitle.titleLabel && getLastWord(subtitle.titleLabel),
-            last: subtitle.titleDescription
-          }
-        : {}
-    });
-  };
+  const defaultType = metaFormSettings.type
 
   useEffect(() => {
-    handleTitlesChange();
-  }, []);
+    handleTitlesChange()
+  }, [])
 
   const handleFieldChange = fieldName => value => {
     handleFormValueChange({
       field: fieldName,
       value
-    });
-    handleTitlesChange(fieldName, value);
-  };
+    })
+    handleTitlesChange(fieldName, value)
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -115,29 +82,29 @@ const Conditions = ({
                 isSearchable
                 disabled={defaultType.isDisabled}
                 defaultValue={defaultType.value}
-                placeholder="Choose a type"
+                placeholder='Choose a type'
                 options={typeSelectors}
                 optionRenderer={MetricOptionsRenderer}
                 isOptionDisabled={option => !option.value}
                 value={type}
-                handleFormValueChange={handleFieldChange("type")}
+                handleFormValueChange={handleFieldChange('type')}
               />
             </div>
-            {type && blocks.includes("absoluteThreshold") && (
+            {type && blocks.includes('absoluteThreshold') && (
               <div>
                 <div className={styles.fieldDescr}>
                   {isPrice && <LastPrice slugTitle={slugName} />}
                 </div>
                 <AbsoluteThreshold
-                  type="number"
-                  placeholder="Absolute value"
-                  prefix={isPrice ? "$" : ""}
+                  type='number'
+                  placeholder='Absolute value'
+                  prefix={isPrice ? '$' : ''}
                   value={absoluteThreshold}
-                  handleFormValueChange={handleFieldChange("absoluteThreshold")}
+                  handleFormValueChange={handleFieldChange('absoluteThreshold')}
                 />
               </div>
             )}
-            {type && blocks.includes("absoluteBorders") && (
+            {type && blocks.includes('absoluteBorders') && (
               <AbsoluteBorders
                 isPriceMetric={isPrice}
                 absoluteBorderRight={absoluteBorderRight}
@@ -147,24 +114,24 @@ const Conditions = ({
               />
             )}
 
-            {type && blocks.includes("percentThreshold") && (
+            {type && blocks.includes('percentThreshold') && (
               <div>
                 <div className={styles.fieldDescr}>
                   {isPrice && <LastPrice slugTitle={slugName} />}
                 </div>
                 <AbsoluteThreshold
-                  type="number"
-                  placeholder="Percentage amount"
-                  prefix="%"
+                  type='number'
+                  placeholder='Percentage amount'
+                  prefix='%'
                   value={percentThreshold}
-                  handleFormValueChange={handleFieldChange("percentThreshold")}
+                  handleFormValueChange={handleFieldChange('percentThreshold')}
                 />
               </div>
             )}
 
             {type &&
-              blocks.includes("percentThresholdLeft") &&
-              blocks.includes("percentThresholdRight") && (
+              blocks.includes('percentThresholdLeft') &&
+              blocks.includes('percentThresholdRight') && (
                 <PercentThresholdByBorders
                   isPriceMetric={isPrice}
                   percentThresholdLeft={percentThresholdLeft}
@@ -174,17 +141,17 @@ const Conditions = ({
                 />
               )}
 
-            {type && blocks.includes("threshold") && (
+            {type && blocks.includes('threshold') && (
               <div>
                 <div className={styles.fieldDescr}>
                   {isPrice && <LastPrice slugTitle={slugName} />}
                 </div>
                 <AbsoluteThreshold
-                  type="number"
+                  type='number'
                   step={0.001}
-                  placeholder="Threshold"
+                  placeholder='Threshold'
                   value={threshold}
-                  handleFormValueChange={handleFieldChange("threshold")}
+                  handleFormValueChange={handleFieldChange('threshold')}
                 />
               </div>
             )}
@@ -200,7 +167,7 @@ const Conditions = ({
         />
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Conditions;
+export default Conditions

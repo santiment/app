@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import Icon from '@santiment-network/ui/Icon'
+import Button from '@santiment-network/ui/Button'
 
 import MetricIcon from '../../../../components/Illustrations/MetricIcon'
 import Search from '../../../Studio/Sidebar/Search'
@@ -35,7 +36,8 @@ const MetricsAndConditionsSelector = ({
   trigger,
   values,
   handleFormValueChange,
-  metaFormSettings
+  metaFormSettings,
+  handleTitlesChange
 }) => {
   const [{ availableMetrics }, loading] = useAvailableMetrics(slug)
   const isBeta = useIsBetaMode()
@@ -111,8 +113,8 @@ const MetricsAndConditionsSelector = ({
 
   const categoriesKeys = Object.keys(categories)
 
-  const handleSetEditMetric = () => {
-    setIsEditMetricMode(true)
+  const handleSetEditMetric = value => () => {
+    setIsEditMetricMode(value)
   }
 
   if (!isEditMetricMode) {
@@ -140,7 +142,7 @@ const MetricsAndConditionsSelector = ({
                 <div className={styles.metricCardTitle}>
                   {values.metric.label}
                   <Icon
-                    onClick={handleSetEditMetric}
+                    onClick={handleSetEditMetric(true)}
                     fill='var(--jungle-green)'
                     type='edit'
                     className={styles.metricCardEditIcon}
@@ -163,12 +165,23 @@ const MetricsAndConditionsSelector = ({
           showTypes={showTypes}
           metaFormSettings={metaFormSettings}
           handleFormValueChange={handleFormValueChange}
+          handleTitlesChange={handleTitlesChange}
         />
         {showChart && (
           <div className={styles.chartPreview}>
             <SignalPreview trigger={mappedTrigger} type={values.metric.value} />
           </div>
         )}
+        <div className={styles.bottomActions}>
+          <Button
+            onClick={handleStepClick(2)}
+            className={styles.submit}
+            accent='positive'
+          >
+            Notification settings
+            <Icon className={styles.submitIcon} type='pointer-right' />
+          </Button>
+        </div>
       </>
     )
   }
@@ -181,6 +194,16 @@ const MetricsAndConditionsSelector = ({
             <MetricIcon className={styles.icon} />
             Choose Metric
           </div>
+          {values.metric.label && (
+            <Button
+              onClick={handleSetEditMetric(false)}
+              className={styles.submit}
+              accent='positive'
+            >
+              Conditions
+              <Icon className={styles.submitIcon} type='pointer-right' />
+            </Button>
+          )}
         </div>
         {error && <div className={styles.error}>{error}</div>}
         <Search
@@ -193,7 +216,7 @@ const MetricsAndConditionsSelector = ({
           categories={categories}
           searchPredicate={SEARCH_PREDICATE_ONLY_METRICS}
         />
-        {values.metric.key && (
+        {values.metric.label && (
           <div className={styles.selectedMetric} ref={cardRef}>
             <div className={styles.selectedMetricTitle}>
               {values.metric.label}
@@ -212,7 +235,7 @@ const MetricsAndConditionsSelector = ({
           isBeta={isBeta}
           slug={slug}
           hasError={error}
-          hasValue={values.metric.key}
+          hasValue={values.metric.label}
           cardHeight={cardHeight}
         />
       </>

@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import cx from "classnames";
-import Icon from "@santiment-network/ui/Icon";
-import Button from "@santiment-network/ui/Button";
+import React, { useState } from 'react'
+import cx from 'classnames'
+import Icon from '@santiment-network/ui/Icon'
+import Button from '@santiment-network/ui/Button'
 
-import Steps from "../../../../components/Steps/Steps";
-import ProjectIcon from "../../../../components/ProjectIcon/ProjectIcon";
+import Steps from '../../../../components/Steps/Steps'
+import ProjectIcon from '../../../../components/ProjectIcon/ProjectIcon'
 
-import { ALERT_TYPES } from "../../constants";
+import { ALERT_TYPES } from '../../constants'
 
-import styles from "./AlertModalSidebar.module.scss";
+import styles from './AlertModalSidebar.module.scss'
 
 const AlertModalSidebar = ({
   currentAlertType,
@@ -17,20 +17,20 @@ const AlertModalSidebar = ({
   onChange,
   formValues
 }) => {
-  const [selectedType, setSelectedType] = useState(currentAlertType);
+  const [selectedType, setSelectedType] = useState(currentAlertType)
 
   const handleSelectType = type => () => {
-    setSelectedType(type);
-    onChange(type);
-  };
+    setSelectedType(type)
+    onChange(type)
+  }
 
   const handleClickBack = () => {
-    setSelectedStep(undefined);
-  };
+    setSelectedStep(undefined)
+  }
 
   const handleStepClick = step => () => {
-    setSelectedStep(step);
-  };
+    setSelectedStep(step)
+  }
 
   if (selectedStep === undefined) {
     return (
@@ -48,22 +48,22 @@ const AlertModalSidebar = ({
           </div>
         ))}
       </div>
-    );
+    )
   }
 
   return (
     <div className={styles.sidebar}>
       <Button onClick={handleClickBack} className={styles.backButton}>
-        <Icon type="pointer-right" /> Type of alert
+        <Icon type='pointer-right' /> Type of alert
       </Button>
       <div className={styles.smallStepSelector}>
-        <Steps size="small" initial={0} current={selectedStep}>
+        <Steps size='small' initial={0} current={selectedStep}>
           {currentAlertType.subSteps.map((item, index) => {
-            let description;
+            let description
 
             switch (index) {
               case 0:
-                const shouldRenderTicker = formValues.target.length > 1;
+                const shouldRenderTicker = formValues.target.length > 1
                 description = formValues.target.length > 0 && (
                   <div className={styles.assetsWrapper}>
                     {formValues.target.slice(0, 3).map(asset => (
@@ -86,8 +86,8 @@ const AlertModalSidebar = ({
                       </div>
                     )}
                   </div>
-                );
-                break;
+                )
+                break
               case 1:
                 description = formValues.metric.label && (
                   <div className={styles.metricsWrapper}>
@@ -103,13 +103,13 @@ const AlertModalSidebar = ({
                       </div>
                     )}
                   </div>
-                );
-                break;
+                )
+                break
               default:
-                description = "";
+                description = ''
             }
 
-            const isDisabled = formValues.target.length === 0 && index !== 0;
+            const isDisabled = formValues.target.length === 0 && index !== 0
 
             return (
               <Steps.Step
@@ -119,12 +119,12 @@ const AlertModalSidebar = ({
                 description={description}
                 onClick={handleStepClick(index)}
               />
-            );
+            )
           })}
         </Steps>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AlertModalSidebar;
+export default AlertModalSidebar

@@ -1,0 +1,116 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.titleWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  font-size: 16px;
+  color: var(--rhino);
+
+  .icon {
+    margin-right: 10px;
+  }
+}
+
+.bottomActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.submit {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  height: 24px;
+}
+
+.submitIcon {
+  margin-left: 8px;
+}
+
+.cardWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  border: 1px solid var(--porcelain);
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+.cardTitle {
+  margin-bottom: 12px;
+  color: var(--waterloo);
+
+  @include text("caption");
+
+  font-weight: normal;
+}
+
+.cardField {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.cardFieldInfo {
+  display: flex;
+  flex-direction: column;
+  margin-left: 8px;
+}
+
+.cardFieldTitle {
+  display: flex;
+  margin-bottom: 4px;
+
+  @include text("body-3");
+}
+
+.cardFieldSubtitle {
+  color: var(--waterloo);
+
+  @include text("body-3");
+}
+
+.enableTitle {
+  margin-left: 4px;
+  cursor: pointer;
+  color: var(--jungle-green);
+
+  @include text("body-3");
+}
+
+.inputRow {
+  display: flex;
+  gap: 8px;
+
+  & > div:nth-child(1) {
+    flex-basis: 197.5px;
+  }
+
+  & > div:nth-child(2) {
+    width: 53px;
+  }
+
+  & > div:nth-child(3) {
+    width: 77.5px;
+  }
+}
+
+.messages {
+  margin-top: 10px;
+}
+
+.openSettings {
+  cursor: pointer;
+}
+
+.link {
+  color: var(--persimmon);
+}
