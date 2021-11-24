@@ -65,7 +65,7 @@ const MoreSignalActions = ({
             signalId={signalId}
             signalTitle={signalTitle}
             shareBtnClassName={styles.shareSingle}
-            trigger={ShareIcon}
+            trigger={PublicSignalShareTrigger}
           />
         )}
         <DesktopOnly>
@@ -125,14 +125,17 @@ const MoreSignalActions = ({
   )
 }
 
+const PublicSignalShareTrigger = ({ ...props }) => (
+  <Button as='a' className={styles.share} {...props}>
+    <Icon className={styles.shareIcon} type='share' />
+    Share alert
+  </Button>
+)
+
 const SignalShareTrigger = ({ ...props }) => (
   <Button as='a' {...props} className={styles.share}>
     Share
   </Button>
-)
-
-const ShareIcon = props => (
-  <Icon {...props} className={styles.share} type='share' />
 )
 
 export default MoreSignalActions

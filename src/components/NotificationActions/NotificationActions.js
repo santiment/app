@@ -40,6 +40,7 @@ const NotificationActions = ({
           id={id}
           trigger={({ onClick }) => (
             <UndoTrigger
+              isOpenLink={isOpenLink}
               onClick={() => {
                 onClick()
                 hide()

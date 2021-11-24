@@ -365,7 +365,12 @@ export const App = ({
               }}
             />
             <Route
+              exact
               path={PATHS.ALERTS}
+              render={props => <LoadableAlertsPage {...props} />}
+            />
+            <Route
+              path={`${PATHS.ALERTS}/:id`}
               render={props => <LoadableAlertsPage {...props} />}
             />
             <Route
