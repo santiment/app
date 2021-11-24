@@ -1,30 +1,34 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom'
+import { copy } from 'webkit/utils'
 import { studio as settingsStore } from 'studio/stores/studio'
-import { mapview } from 'studio/stores/mapview'
-import { useWidgetsStore, useStore, useHistory } from './stores'
-import { useSidewidgetStore } from './Sidewidget'
-import { shareWidgets } from './sharing/share'
-import { parseTemplate } from './sharing/template'
-import { Header as StudioHeader } from '../../ducks/Studio/Header'
+import { useHistory } from './stores'
+import { useShortShareLink } from '../../components/Share/hooks'
+import Calendar from '../../ducks/Studio/Header/Calendar'
+import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
+import styles from '../../ducks/Studio/Header/Settings.module.scss'
 
 const Header = ({ studio, settings, widgets, metrics, prevFullUrlRef }) => {
-  const [target, setTarget] = useState()
-  const $mapview = useStore(mapview)
-  const widgetsStore = useWidgetsStore(studio)
-  const sidewidgetStore = useSidewidgetStore(studio)
-  const sidewidget = useStore(sidewidgetStore)
+  const [calendarTarget, setCalendarTarget] = useState()
+  const [isShareOpened, setIsShareOpened] = useState(false)
+  const clearTimerRef = useRef()
   const History = useHistory(studio)
   const sharePath = '/charts' + window.location.search
+  const { shortShareLink, getShortShareLink } = useShortShareLink(sharePath)
 
   useEffect(() => {
     if (!studio) return
-    setTarget(document.querySelector('.header'))
-  }, [studio])
+    setCalendarTarget(document.querySelector('.studio-calendar'))
 
-  function toggleSidepanel (value) {
-    sidewidgetStore.set(value === sidewidget ? null : value)
-  }
+    window.onHeaderShareClick = onShareClick
+    window.onHeaderCopyLinkClick = onCopyLinkClick
+
+    return () => {
+      if (clearTimerRef.current) clearTimerRef.current()
+      window.onHeaderShareClick = null
+      window.onHeaderCopyLinkClick = null
+    }
+  }, [studio])
 
   function changeTimePeriod (start, end) {
     const { from, to } = settings
@@ -35,33 +39,38 @@ const Header = ({ studio, settings, widgets, metrics, prevFullUrlRef }) => {
     redo()
   }
 
-  function buildShareLink () {
-    return prevFullUrlRef.current
+  function onShareClick () {
+    getShortShareLink(prevFullUrlRef.current)
+    setIsShareOpened(true)
   }
 
-  return target
-    ? ReactDOM.createPortal(
-        <StudioHeader
-          {...settings}
-          settings={settings}
-          widgets={widgets}
-          metrics={metrics}
-          sidepanel={sidewidget}
-          sharePath={sharePath}
-          saveWidgets={shareWidgets}
-          souldReloadOnSave={false}
-          headerRef={{ current: target }}
-          isOverviewOpened={$mapview > 0}
-          changeTimePeriod={changeTimePeriod}
-          toggleOverview={mapview.toggle}
-          toggleSidepanel={toggleSidepanel}
-          parseTemplate={parseTemplate}
-          setWidgets={widgetsStore.set}
-          controller={buildShareLink}
-        />,
-        target
-      )
-    : null
+  function onCopyLinkClick () {
+    if (clearTimerRef.current) clearTimerRef.current()
+
+    getShortShareLink(prevFullUrlRef.current).then(url => {
+      const node = document.querySelector('.copy .link')
+      const clb = () => node && (node.ariaLabel = 'Copy link')
+
+      if (node) node.ariaLabel = 'Copied!'
+      clearTimerRef.current = copy(url, clb)
+    })
+  }
+
+  return calendarTarget ? (
+    <>
+      {ReactDOM.createPortal(
+        <Calendar settings={settings} changeTimePeriod={changeTimePeriod} />,
+        calendarTarget
+      )}
+
+      <ShareModalTrigger
+        classes={styles}
+        shareLink={shortShareLink}
+        open={isShareOpened}
+        onClose={() => setIsShareOpened(false)}
+      />
+    </>
+  ) : null
 }
 
 export default Header
