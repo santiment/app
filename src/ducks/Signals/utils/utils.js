@@ -1881,7 +1881,7 @@ export const buildValueChangeSignal = (slug, value, type, metric, selector) => {
       absoluteThreshold: value,
       metric
     },
-    selector
+    metric.key === 'price_usd' ? 'slug' : selector
   )
 }
 

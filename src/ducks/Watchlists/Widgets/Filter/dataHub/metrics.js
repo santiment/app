@@ -279,6 +279,12 @@ export const Metric = {
     shortLabel: 'Soc.Vol.',
     isOnlyPercentFilters: true
   },
+  sentiment_volume_consumed_total: {
+    category: CATEGORIES.SOCIAL,
+    label: 'Weighted Sentiment (Total)',
+    shortLabel: 'Weight.Sent.',
+    isOnlyPercentFilters: true
+  },
   social_dominance_total: {
     category: CATEGORIES.SOCIAL,
     label: 'Social Dominance',
@@ -628,6 +634,7 @@ export const metrics = [
   Metric.market_segments,
   Metric.social_volume_total,
   Metric.social_dominance_total,
+  Metric.sentiment_volume_consumed_total,
   Metric.sentiment_balance_total,
   Metric.mean_dollar_invested_age,
   Metric.percent_of_total_supply_on_exchanges,
