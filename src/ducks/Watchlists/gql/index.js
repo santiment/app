@@ -37,6 +37,7 @@ export function tableQuery (columns) {
   query allProjectsByFunction($fn: json) {
     allProjectsByFunction(function: $fn) {
       projects {
+        id
         name
         slug
         ticker

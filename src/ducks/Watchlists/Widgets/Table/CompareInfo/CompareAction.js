@@ -26,7 +26,7 @@ const CompareTooltip = ({ disabledComparision }) => {
         </div>
       }
     >
-      Select at least 2 assets to able to compare
+      Select at least 2 assets to be able to compare
     </DarkTooltip>
   )
 }

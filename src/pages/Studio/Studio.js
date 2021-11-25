@@ -28,6 +28,7 @@ import InsightsTab from './Tabs/Insights'
 import { shareWidgets } from './sharing/share'
 import { parseTemplate } from './sharing/template'
 import { useRedrawer } from '../../hooks'
+import { SAN_HEADER_HEIGHT } from '../../constants'
 import { Tab } from '../../ducks/Studio/Tabs'
 import {
   notifyAnonCreation,
@@ -108,6 +109,7 @@ const Studio = ({
         checkIsMapviewDisabled: () => isMapviewDisabledRef.current,
         adjustSelectedMetric: onMetricSelect,
         InsightsContextStore: InsightsStore,
+        headerPadding: SAN_HEADER_HEIGHT,
         screen: getScreen(),
         sidewidget: defaultSidewidget,
         widgets: defaultWidgets || [

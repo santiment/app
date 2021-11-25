@@ -13,6 +13,7 @@ import { SignalModal } from '../SonarFeed/SonarFeedPage'
 import { useSignals } from '../../ducks/Signals/common/getSignals'
 import { useUser } from '../../stores/user'
 import { mapSizesToProps } from '../../utils/withSizes'
+import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
 import styles from './Alerts.module.scss'
 
 const LoadableAlertsList = Loadable({
@@ -20,13 +21,15 @@ const LoadableAlertsList = Loadable({
   loading: () => <PageLoader />
 })
 
-const Alerts = ({ isDesktop }) => {
+const Alerts = ({ isDesktop, match }) => {
   const [filter, setFilter] = useState(filters.ALL)
   const { user, loading: isUserLoading } = useUser()
   const { tab } = parse(useLocation().search, { parseNumbers: true })
   const { data: signals = [], loading } = useSignals({
     skip: user && !user.id
   })
+  const defaultOpenAlertId = match.params.id
+
   const initialTab = tab || (signals && signals.length > 0 ? 1 : 0)
 
   const handleChangeFilter = res => {
@@ -106,6 +109,14 @@ const Alerts = ({ isDesktop }) => {
             bottomActions={bottomActions}
             renderTopActions={renderTopActions}
           />
+          {defaultOpenAlertId && (
+            <SignalMasterModalForm
+              id={defaultOpenAlertId}
+              defaultOpen={true}
+              canRedirect={false}
+              trigger={<></>}
+            />
+          )}
         </div>
       )}
     </div>

@@ -19,4 +19,8 @@
       transform: rotate(90deg);
     }
   }
+
+  :global(.night-mode) & svg {
+    --texas-rose-light-3: #8A6A56;
+  }
 }

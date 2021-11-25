@@ -8,3 +8,14 @@
     color: var(--jungle-green-hover);
   }
 }
+
+.copiedBtn {
+  &:hover {
+    color: var(--jungle-green);
+  }
+}
+
+.copyBtnIcon {
+  fill: var(--jungle-green);
+  margin-left: 8px;
+}
