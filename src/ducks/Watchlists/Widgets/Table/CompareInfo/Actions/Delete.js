@@ -36,8 +36,8 @@ const Delete = ({ selected, watchlist, refetchAssets }) => {
         listItems
       }
     })
-      .then(() => setLoading(false))
       .then(refetchAssets)
+      .then(() => setLoading(false))
       .catch(reportError)
   }
 
@@ -53,23 +53,20 @@ const Delete = ({ selected, watchlist, refetchAssets }) => {
         listItems
       }
     })
-      .then(() => setLoading(false))
-      .then(() => {
-        store.dispatch(
-          showNotification({
-            variant: 'info',
-            title: `${selectedText} deleted successfully.`,
-            description: (
-              <NotificationActions
-                isOpenLink={false}
-                onClick={() => onUndo(listItems)}
-              />
-            ),
-            dismissAfter: 8000
-          })
-        )
-      })
-      .then(refetchAssets)
+      .then(() => refetchAssets(() => {
+        store.dispatch(showNotification({
+          variant: 'info',
+          title: `${selectedText} deleted successfully.`,
+          description: (
+            <NotificationActions
+              isOpenLink={false}
+              onClick={() => onUndo(listItems)}
+            />
+          ),
+          dismissAfter: 8000
+        }))
+        setLoading(false)
+      }))
       .catch(reportError)
   }
 
@@ -81,7 +78,7 @@ const Delete = ({ selected, watchlist, refetchAssets }) => {
       className={tableStyles.tooltip_oneline}
       trigger={
         <div onClick={onClick}>
-          <Icon type='remove' className={styles.remove} />
+          <Icon type={loading ? 'update' : 'remove'} className={styles.remove} />
         </div>
       }
     >
