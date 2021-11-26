@@ -37,7 +37,7 @@ const TableTop = ({
           id={watchlist.id}
           watchlist={watchlist}
           assets={allItems}
-          onSave={callback => refetchAssets(callback)}
+          onSave={onRefetchDone => refetchAssets(onRefetchDone)}
           trigger={
             <Button border accent='positive' className={styles.addassets}>
               <Icon type='assets' className={styles.icon} />
