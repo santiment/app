@@ -23,7 +23,7 @@ const validateUsername = username => {
   if (username && username[0] === "@") {
     return "@ is not allowed for the first character"
   }
-  if (username && [" ", "'", '"', "`", "<", ">", "^", "#", "&", "%", "+", "-", "~", "!", "*"].some(c => username.includes(c))) {
+  if (username && [" ", "'", '"', "`", "<", ">", "^", "#", "&", "%", "+", "-", "~", "!", "*", "/", '\\'].some(c => username.includes(c))) {
     return 'Space and special characters not allowed'
   }
 }
