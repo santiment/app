@@ -71,7 +71,7 @@ const WatchlistPage = ({ location, history, watchlist }) => {
     }
   }, [watchlist.listItems])
 
-  const refetchAssets = (callback) => {
+  const refetchAssets = (onRefetchDone) => {
     setTableLoading(true)
     getAssetsByFunction(
       ...buildFunctionQuery({
@@ -82,7 +82,7 @@ const WatchlistPage = ({ location, history, watchlist }) => {
       })
     )
     .then(() => setTableLoading(false))
-    .then(() => typeof callback === 'function' && callback())
+    .then(() => typeof onRefetchDone === 'function' && onRefetchDone())
   }
 
   const fetchAllColumns = () =>
