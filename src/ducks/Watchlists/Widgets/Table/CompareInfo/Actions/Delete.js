@@ -53,20 +53,24 @@ const Delete = ({ selected, watchlist, refetchAssets }) => {
         listItems
       }
     })
-      .then(() => refetchAssets(() => {
-        store.dispatch(showNotification({
-          variant: 'info',
-          title: `${selectedText} deleted successfully.`,
-          description: (
-            <NotificationActions
-              isOpenLink={false}
-              onClick={() => onUndo(listItems)}
-            />
-          ),
-          dismissAfter: 8000
-        }))
-        setLoading(false)
-      }))
+      .then(() =>
+        refetchAssets(() => {
+          store.dispatch(
+            showNotification({
+              variant: 'info',
+              title: `${selectedText} deleted successfully.`,
+              description: (
+                <NotificationActions
+                  isOpenLink={false}
+                  onClick={() => onUndo(listItems)}
+                />
+              ),
+              dismissAfter: 8000
+            })
+          )
+          setLoading(false)
+        })
+      )
       .catch(reportError)
   }
 

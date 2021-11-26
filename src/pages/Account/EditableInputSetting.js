@@ -90,13 +90,12 @@ class EditableInputSetting extends PureComponent {
                 )}
                 accent='waterloo'
               >
-                {`${!!prefix ? prefix : ''}${defaultValue}` || `Please add your ${label.toLowerCase()}`}
+                {`${prefix || ''}${defaultValue}` ||
+                  `Please add your ${label.toLowerCase()}`}
               </Label>
             </div>
           )}
-          {editing && !!prefix &&
-            <div className={styles.prefix}>{prefix}</div>
-          }
+          {editing && !!prefix && <div className={styles.prefix}>{prefix}</div>}
           <Input
             forwardedRef={this.inputRef}
             className={cx(

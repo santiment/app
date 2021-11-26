@@ -167,11 +167,11 @@
 .prefix {
   position: absolute;
   color: var(--jungle-green);
-  font-size: 14px;
-  line-height: 20px;
   top: 50%;
   transform: translateY(-50%);
   left: 25px;
+  
+  @include text('body-3');
 
   @include responsive('phone', 'phone-xs') {
     left: 10px;

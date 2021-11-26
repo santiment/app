@@ -20,15 +20,20 @@ const validateUsername = username => {
   if (username && username.length < 3) {
     return 'Username should be at least 3 characters long'
   }
-  if (username && username[0] === "@") {
-    return "@ is not allowed for the first character"
+  if (username && username[0] === '@') {
+    return '@ is not allowed for the first character'
   }
 }
 
-const UsernameSetting = ({ dispatchNewUsername, username, name, changeUsername }) => {
-  let _username = username;
+const UsernameSetting = ({
+  dispatchNewUsername,
+  username,
+  name,
+  changeUsername
+}) => {
+  let _username = username
   if (!username && name) {
-    _username = name.toLowerCase().replace(/ /g,"_");
+    _username = name.toLowerCase().replace(/ /g, '_')
   }
 
   return (

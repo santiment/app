@@ -33,10 +33,7 @@ const SettingsGeneral = ({
       <Settings.Row>
         <AvatarSettings avatarUrl={avatarUrl} />
       </Settings.Row>
-      <NameSetting
-        dispatchNewName={dispatchNewName}
-        name={name}
-      />
+      <NameSetting dispatchNewName={dispatchNewName} name={name} />
       <UsernameSetting
         dispatchNewUsername={dispatchNewUsername}
         username={username}
