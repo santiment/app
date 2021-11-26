@@ -9,6 +9,7 @@ export const USER_QUERY = gql`
     currentUser {
       id
       username
+      name
       email
       avatarUrl
       consentId

@@ -60,7 +60,8 @@ class EditableInputSetting extends PureComponent {
 
   render () {
     const { editing, error } = this.state
-    const { label, defaultValue, classes = {} } = this.props
+    const { label, defaultValue, classes = {}, prefix } = this.props
+
     return (
       <form
         className={cx(
@@ -89,15 +90,19 @@ class EditableInputSetting extends PureComponent {
                 )}
                 accent='waterloo'
               >
-                {defaultValue || `Please add your ${label.toLowerCase()}`}
+                {`${!!prefix ? prefix : ''}${defaultValue}` || `Please add your ${label.toLowerCase()}`}
               </Label>
             </div>
           )}
+          {editing && !!prefix &&
+            <div className={styles.prefix}>{prefix}</div>
+          }
           <Input
             forwardedRef={this.inputRef}
             className={cx(
               styles.form__input,
-              editing && styles.form__input_edit
+              editing && styles.form__input_edit,
+              !!prefix && styles.form__input_prefix
             )}
             defaultValue={defaultValue}
             onChange={this.onChangeDebounced}

@@ -97,6 +97,15 @@ export default (state = initialState, action) => {
           username: action.username
         }
       }
+    case actions.USER_NAME_CHANGE:
+      updateUser({ name: action.name })
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          name: action.name
+        }
+      }
     case actions.USER_AVATAR_CHANGE: {
       updateUser({ avatarUrl: action.avatarUrl })
       return {

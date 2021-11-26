@@ -4,6 +4,7 @@ import Label from '@santiment-network/ui/Label'
 import Toggle from '@santiment-network/ui/Toggle'
 import Settings from './Settings'
 import UsernameSetting from './userName/UsernameSetting'
+import NameSetting from './name/NameSetting'
 import AvatarSettings from './avatar/AvatarSettings'
 import AlertMessage from '../../components/Alert/AlertMessage'
 import * as actions from '../../actions/types'
@@ -12,8 +13,10 @@ import styles from './AccountPage.module.scss'
 const SettingsGeneral = ({
   email,
   username,
+  name,
   avatarUrl,
   dispatchNewUsername,
+  dispatchNewName,
   toggleNightMode,
   toggleBetaMode,
   isNightModeEnabled,
@@ -30,10 +33,14 @@ const SettingsGeneral = ({
       <Settings.Row>
         <AvatarSettings avatarUrl={avatarUrl} />
       </Settings.Row>
-
+      <NameSetting
+        dispatchNewName={dispatchNewName}
+        name={name}
+      />
       <UsernameSetting
         dispatchNewUsername={dispatchNewUsername}
         username={username}
+        name={name}
       />
       <Settings.Row>
         <div className={styles.setting__left}>
@@ -63,6 +70,11 @@ const mapDispatchToProps = dispatch => ({
     dispatch({
       type: actions.USER_USERNAME_CHANGE,
       username
+    }),
+  dispatchNewName: name =>
+    dispatch({
+      type: actions.USER_NAME_CHANGE,
+      name
     }),
   toggleNightMode: () =>
     dispatch({

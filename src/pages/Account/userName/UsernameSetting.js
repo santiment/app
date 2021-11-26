@@ -17,19 +17,31 @@ const CHANGE_USERNAME_MUTATION = gql`
 `
 
 const validateUsername = username => {
-  if (!username || username.length < 3) {
+  if (username && username.length < 3) {
     return 'Username should be at least 3 characters long'
+  }
+  if (username && username[0] === "@") {
+    return "@ is not allowed for the first character"
+  }
+  if (username && [" ", "'", '"', "`", "<", ">", "^", "#", "&", "%", "+", "-", "~", "!", "*"].some(c => username.includes(c))) {
+    return 'Space and special characters not allowed'
   }
 }
 
-const UsernameSetting = ({ dispatchNewUsername, username, changeUsername }) => {
+const UsernameSetting = ({ dispatchNewUsername, username, name, changeUsername }) => {
+  let _username = username;
+  if (!username && name) {
+    _username = name.toLowerCase().replace(/ /g,"_");
+  }
+
   return (
     <EditableInputSetting
-      label='Name'
-      defaultValue={username}
+      label='Username'
+      defaultValue={_username}
       validate={validateUsername}
       classes={styles}
-      onSubmit={(value, revertValue) =>
+      prefix='@'
+      onSubmit={value =>
         changeUsername({ variables: { value } })
           .then(() => {
             store.dispatch(
