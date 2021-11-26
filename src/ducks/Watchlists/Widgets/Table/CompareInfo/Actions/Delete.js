@@ -78,7 +78,7 @@ const Delete = ({ selected, watchlist, refetchAssets }) => {
       className={tableStyles.tooltip_oneline}
       trigger={
         <div onClick={onClick}>
-          <Icon type={loading ? 'update' : 'remove'} className={styles.remove} />
+          <Icon type='remove' className={styles.remove} />
         </div>
       }
     >

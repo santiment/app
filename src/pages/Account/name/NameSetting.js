@@ -15,7 +15,7 @@ const CHANGE_NAME_MUTATION = gql`
 `
 
 const validateName = name => {
-  if (!name || name.length < 3) {
+  if (name && name.length < 3) {
     return 'Name should be at least 3 characters long'
   }
 }
