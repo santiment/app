@@ -1,0 +1,206 @@
+.stepsItemContainer {
+  &[role="button"] {
+    cursor: pointer;
+    transition: opacity 0.3s;
+  }
+}
+
+.stepsItemIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 100%;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.stepsIcon {
+  margin-left: 1px;
+}
+
+.stepsItemTail {
+  position: absolute;
+  left: 12px;
+  top: 0;
+  height: 100%;
+  width: 1px;
+  padding: 28px 0 4px 0;
+}
+
+.stepsItemContentContainer {
+  display: flex;
+}
+
+.stepsItemContent {
+  max-width: 340px;
+  overflow: hidden;
+}
+
+.stepsItemTitle {
+  line-height: 24px;
+  font-size: 16px;
+  color: var(--rhino);
+  position: relative;
+}
+
+.stepsItemDescription {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--waterloo);
+  padding-bottom: 16px;
+}
+
+.stepsItemTail::after {
+  height: 100%;
+  width: 1px;
+  content: "";
+  display: inline-block;
+  border-radius: 1px;
+  transition: background 0.3s;
+  background-color: var(--porcelain);
+}
+
+.stepsItem {
+  position: relative;
+  overflow: visible;
+
+  &.stepsItemDisabled {
+    [role="button"] {
+      cursor: initial;
+    }
+
+    .stepsItemIcon {
+      background-color: var(--mystic);
+
+      > .stepsIcon {
+        color: var(--waterloo);
+      }
+    }
+
+    .stepsItemTitle {
+      color: var(--waterloo);
+    }
+
+    .stepsItemDescription {
+      color: var(--casper);
+    }
+
+    .stepsItemTail::after {
+      background-color: var(--porcelain);
+    }
+  }
+
+  &.stepsItemProcess {
+    .stepsItemIcon {
+      background-color: var(--waterloo);
+
+      > .stepsIcon {
+        color: var(--white);
+      }
+    }
+
+    .stepsItemTitle {
+      color: var(--rhino);
+    }
+
+    .stepsItemDescription {
+      color: var(--waterloo);
+    }
+
+    .stepsItemTail::after {
+      background-color: var(--porcelain);
+    }
+  }
+
+  &.stepsItemFinish {
+    .stepsItemIcon {
+      background-color: var(--jungle-green-light);
+
+      > .stepsIcon {
+        color: var(--jungle-green);
+      }
+    }
+
+    .stepsItemTitle {
+      color: var(--rhino);
+    }
+
+    .stepsItemDescription {
+      color: var(--rhino);
+    }
+
+    .stepsItemTail::after {
+      background-color: var(--porcelain);
+    }
+  }
+
+  &.stepsSmall {
+    .stepsItemIcon {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      margin-right: 10px;
+      margin-top: 5px;
+      padding-right: 5px;
+
+      > .stepsIcon {
+        font-size: 0;
+      }
+    }
+
+    .stepsItemContent {
+      min-height: 36px;
+      margin-top: 0;
+    }
+
+    .stepsItemTitle {
+      font-size: 13px;
+      line-height: 16px;
+      margin-bottom: 8px;
+    }
+
+    .stepsItemDescription {
+      font-size: 12px;
+      padding-bottom: 14px;
+    }
+
+    .stepsItemTail {
+      left: 2px;
+      top: 0;
+      padding: 15px 0 0;
+    }
+
+    &.stepsItemFinish {
+      .stepsItemIcon {
+        background-color: var(--jungle-green);
+
+        > img {
+          display: none;
+        }
+
+        > .stepsIcon {
+          color: var(--jungle-green);
+        }
+      }
+    }
+
+    &.stepsItemWait {
+      .stepsItemIcon {
+        background-color: var(--waterloo);
+      }
+
+      .stepsItemTitle {
+        color: var(--fiord);
+      }
+    }
+  }
+}
+
+.stepsItem:last-child {
+  .stepsItemTail,
+  .stepsItemTitle::after {
+    display: none;
+  }
+}
