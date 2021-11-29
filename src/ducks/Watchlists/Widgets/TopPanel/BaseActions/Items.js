@@ -104,12 +104,13 @@ export const New = ({ type, onSubmit }) => (
 
 export const SaveAs = ({ type, watchlist }) => {
   const showDuplicate = ['SCREENER', 'PROJECT'].includes(type)
+  const iconName = showDuplicate ? 'duplicate' : 'disk'
   return (
     <SaveAsAction
       type={type}
       watchlist={watchlist}
       trigger={
-        <Item icon={showDuplicate ? 'duplicate' : 'disk'}>
+        <Item icon={iconName} className={iconName}>
           {showDuplicate ? 'Duplicate' : 'Save as'}
         </Item>
       }
