@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "prestart": "rm -f ./node_modules/webpack-dev-server/ssl/server.pem && cp -f .cert/server.pem ./node_modules/webpack-dev-server/ssl",
-    "start": "node scripts && REACT_APP_VERSION=$(node -pe 'require(\"./package.json\").version')-$(echo $GIT_HEAD) react-app-rewired start",
+    "start": "node scripts && REACT_APP_VERSION=$(node -pe 'require(\"./package.json\").version')-$(git rev-parse --short=7 HEAD) react-app-rewired start",
     "format:js": "prettier-standard 'src/**/*.js'",
     "format:css": "stylelint src/*{sass,scss} --syntax scss --fix",
     "format": "npm run format:js && npm run format:css",
@@ -13,7 +13,7 @@
     "lint": "npm run lint:js && npm run lint:css",
     "precommit": "lint-staged",
     "storybook": "start-storybook -p 9001 -c .storybook",
-    "build": "node scripts && npm run build:sw && REACT_APP_VERSION=$(node -pe 'require(\"./package.json\").version')-$(echo $GIT_HEAD) react-app-rewired build",
+    "build": "node scripts && npm run build:sw && REACT_APP_VERSION=$(node -pe 'require(\"./package.json\").version')-$(git rev-parse --short=7 HEAD) react-app-rewired build",
     "test:js": "react-scripts test",
     "test": "CI=true npm run test:js",
     "eject": "react-scripts eject",
