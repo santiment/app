@@ -6,6 +6,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
+  fill: none;
 
   @include responsive('phone', 'phone-xs') {
     margin-top: 22vh;

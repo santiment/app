@@ -21,15 +21,6 @@ html {
   scroll-behavior: smooth;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  color: var(--rhino);
-  overflow-x: hidden;
-
-  @include text('body-3');
-}
-
 * {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
@@ -42,103 +33,11 @@ a {
   text-decoration-color: initial;
 }
 
-a:hover,
-a:focus {
-  // NOTE(vanguard): remove after removing semantic css
-  color: var(--jungle-green);
-
-  @include responsive('phone', 'phone-xs') {
-    color: var(--rhino);
-  }
-}
-
 #dd-modal {
   position: absolute;
-}
-
-h1 {
-  font-size: 32px;
-  font-weight: 400;
-  margin-left: 16px;
-  margin-top: 32px;
-  line-height: inherit;
-}
-
-h2 {
-  font-size: 24px;
-  font-weight: 300;
-  line-height: inherit;
-}
-
-h3 {
-  font-size: 21px;
-  font-weight: 300;
-  line-height: inherit;
-}
-
-p {
-  margin-top: 0;
-  line-height: 22.4px;
-  margin-bottom: 1rem;
-}
-
-h4 {
-  margin-bottom: 24px;
-  font-size: 1.5rem;
-  line-height: 1.1;
-  font-weight: 500;
-}
-
-hr {
-  margin-top: 16px;
-  margin-bottom: 16px;
-  border: 0;
-  border-top: var(--porcelain);
-}
-
-@media (max-width: 767px) {
-  h1 {
-    margin-left: 0;
-  }
-
-  .panel {
-    margin: 16px 0;
-    padding: 8px;
-  }
-}
-
-.intercom-launcher {
-  @include responsive('phone', 'phone-xs') {
-    display: none;
-  }
 }
 
 // Fix index level of san-ui Select menu list
 .Select-menu-outer {
   z-index: 100;
-}
-
-.modal[class*='svelte'],
-.bg[class*='svelte'] {
-  z-index: 10000 !important;
-  font-size: 14px;
-  line-height: 20px;
-}
-
-[class*='svelte'] {
-  h1,
-  h2,
-  h3,
-  h4,
-  h5 {
-    font-size: 14px;
-    line-height: 20px;
-    margin: 0;
-    padding: 0;
-    font-weight: inherit;
-  }
-}
-
-.intercom-lightweight-app {
-  display: none;
 }

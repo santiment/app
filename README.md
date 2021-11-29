@@ -12,7 +12,8 @@
 
 * `make start` - Start your docker container with dev server
 * `make sh` - Bash in your dev container
-* `make log` - Show logs
+* `make logs` - Show logs
+* `make format` - Run `npm run format`
 
 ### VSCODE
 

@@ -50,8 +50,6 @@
 }
 
 .restriction {
-  margin-top: -12px;
-
   @include text('caption');
 
   color: var(--waterloo);
