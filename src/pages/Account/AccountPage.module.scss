@@ -173,7 +173,7 @@
   
   @include text('body-3');
 
-  @include responsive('phone', 'phone-xs') {
+  :global(.phone) &, :global(.phone-xs) & { 
     left: 10px;
   }
 }

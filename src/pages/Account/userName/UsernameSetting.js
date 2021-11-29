@@ -31,15 +31,13 @@ const UsernameSetting = ({
   name,
   changeUsername
 }) => {
-  let _username = username
-  if (!username && name) {
-    _username = name.toLowerCase().replace(/ /g, '_')
-  }
+  const normalizedUsername =
+    username || (name && name.toLowerCase().replace(/ /g, '_'))
 
   return (
     <EditableInputSetting
       label='Username'
-      defaultValue={_username}
+      defaultValue={normalizedUsername}
       validate={validateUsername}
       classes={styles}
       prefix='@'
