@@ -64,6 +64,7 @@ const Header = ({ studio, settings, widgets, metrics, prevFullUrlRef }) => {
       )}
 
       <ShareModalTrigger
+        isDialogOnly
         classes={styles}
         shareLink={shortShareLink}
         open={isShareOpened}

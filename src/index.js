@@ -19,6 +19,7 @@ import { ThemeProvider } from './stores/ui/theme'
 import initSentry from './utils/initSentry'
 import { redirectSharedLink } from './components/Share/utils'
 import 'webkit/responsive'
+import 'webkit/styles/main.css'
 
 const EmbeddedWidgetPage = Loadable({
   loader: () => import('./pages/Embedded'),
