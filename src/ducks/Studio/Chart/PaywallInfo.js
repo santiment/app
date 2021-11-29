@@ -84,14 +84,16 @@ const PaywallInfo = ({ metrics, className }) => {
       className={styles.tooltip}
     >
       <div className={styles.content}>
-        <h2 className={styles.title}>Why is some data hidden?</h2>
+        <h2 className={cx(styles.title, 'mrg-m mrg--b')}>
+          Why is some data hidden?
+        </h2>
         <p className={styles.text}>Your plan has limited data period for:</p>
         {infos.map(({ label, boundaries }) => (
-          <p key={label} className={styles.restriction}>
+          <p key={label} className={cx(styles.restriction, 'mrg-xs mrg--t')}>
             {label} ({boundaries})
           </p>
         ))}
-        <p className={styles.text}>
+        <p className={cx(styles.text, 'mrg-l mrg--t mrg--b')}>
           To unlock the full potential of Santiment metrics you need to upgrade
           your account to PRO
         </p>

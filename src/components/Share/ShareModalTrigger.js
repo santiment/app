@@ -16,7 +16,7 @@ const ShareModalTrigger = ({
   isDialogOnly,
   ...props
 }) => {
-  return window.navigator.share ? (
+  return !isDialogOnly && window.navigator.share ? (
     <Trigger
       {...props}
       onClick={() => {
