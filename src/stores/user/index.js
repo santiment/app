@@ -8,7 +8,8 @@ export const USER_QUERY = gql`
   {
     currentUser {
       id
-      username
+      username # username, unique
+      name # user full name, not unique
       email
       avatarUrl
       consentId
