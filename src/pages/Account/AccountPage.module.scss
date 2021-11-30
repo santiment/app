@@ -164,6 +164,20 @@
   }
 }
 
+.prefix {
+  position: absolute;
+  color: var(--jungle-green);
+  top: 50%;
+  transform: translateY(-50%);
+  left: 25px;
+  
+  @include text('body-3');
+
+  :global(.phone) &, :global(.phone-xs) & { 
+    left: 10px;
+  }
+}
+
 .inputLabels {
   display: flex;
   flex-direction: column;
@@ -177,6 +191,7 @@
 .inputBlock {
   margin-right: 5px;
   display: flex;
+  position: relative;
 
   @include responsive('phone', 'phone-xs') {
     width: 100%;
@@ -205,6 +220,10 @@
         margin: 0;
         width: 100%;
       }
+    }
+
+    &_prefix {
+      padding-left: 22px;
     }
   }
 
