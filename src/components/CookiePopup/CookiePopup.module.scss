@@ -32,6 +32,7 @@
   min-height: 88px;
   max-width: 70px;
   max-height: 88px;
+  fill: none;
 
   @include responsive('phone', 'phone-xs') {
     min-width: 102px;

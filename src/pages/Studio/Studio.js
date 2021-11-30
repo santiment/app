@@ -35,10 +35,6 @@ import {
   notifyCreation,
   notifySave
 } from '../../ducks/Studio/Template/notifications'
-import 'webkit/styles/color.css'
-import 'webkit/styles/text.css'
-import 'webkit/styles/layout.css'
-import 'webkit/styles/elements.css'
 import styles from './index.module.scss'
 
 window.notifyLayoutSave = notifySave

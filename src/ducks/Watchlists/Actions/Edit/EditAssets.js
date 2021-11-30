@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import { Dialog, Label } from '@santiment-network/ui'
-import { store } from '../../../../redux';
+import { store } from '../../../../redux'
 import { showNotification } from '../../../../actions/rootActions'
 import NotificationActions from '../../../../components/NotificationActions/NotificationActions'
 import { USER_EDIT_ASSETS_IN_LIST } from '../../../../actions/types'
@@ -32,7 +32,7 @@ const WatchlistEdit = ({
   const [editWatchlistState, setEditWatchlistState] = useState(
     editableWatchlists
   )
-  const [cachedAssets, setCachedAssets] = useState();
+  const [cachedAssets, setCachedAssets] = useState()
 
   const close = () => {
     setEditing(false)
@@ -58,22 +58,25 @@ const WatchlistEdit = ({
   if (editableWatchlists.length !== editWatchlistState.length) {
     setEditWatchlistState(editableWatchlists)
     if (editableWatchlists.length === 0 && isShown) {
-      onSave && onSave(() => {
-        store.dispatch(showNotification({
-          variant: 'info',
-          title: `"${name}" was modified`,
-          description: (
-            <NotificationActions
-              isOpenLink={false}
-              onClick={() => {
-                sendChanges({listItems: cachedAssets, assetsListId: id})
-                onSave()
-              }}
-            />
-          ),
-          dismissAfter: 8000
-        }))
-      })
+      onSave &&
+        onSave(() => {
+          store.dispatch(
+            showNotification({
+              variant: 'info',
+              title: `"${name}" was modified`,
+              description: (
+                <NotificationActions
+                  isOpenLink={false}
+                  onClick={() => {
+                    sendChanges({ listItems: cachedAssets, assetsListId: id })
+                    onSave()
+                  }}
+                />
+              ),
+              dismissAfter: 8000
+            })
+          )
+        })
       close()
     }
   }

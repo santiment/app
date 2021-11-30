@@ -17,19 +17,31 @@ const CHANGE_USERNAME_MUTATION = gql`
 `
 
 const validateUsername = username => {
-  if (!username || username.length < 3) {
+  if (username && username.length < 3) {
     return 'Username should be at least 3 characters long'
+  }
+  if (username && username[0] === '@') {
+    return '@ is not allowed for the first character'
   }
 }
 
-const UsernameSetting = ({ dispatchNewUsername, username, changeUsername }) => {
+const UsernameSetting = ({
+  dispatchNewUsername,
+  username,
+  name,
+  changeUsername
+}) => {
+  const normalizedUsername =
+    username || (name && name.toLowerCase().replace(/ /g, '_'))
+
   return (
     <EditableInputSetting
-      label='Name'
-      defaultValue={username}
+      label='Username'
+      defaultValue={normalizedUsername}
       validate={validateUsername}
       classes={styles}
-      onSubmit={(value, revertValue) =>
+      prefix='@'
+      onSubmit={value =>
         changeUsername({ variables: { value } })
           .then(() => {
             store.dispatch(
@@ -38,6 +50,7 @@ const UsernameSetting = ({ dispatchNewUsername, username, changeUsername }) => {
             dispatchNewUsername(value)
           })
           .catch(error => {
+            // TODO: we should handle other error types
             if (error.graphQLErrors[0].details.username.includes(TAKEN_MSG)) {
               store.dispatch(
                 showNotification({

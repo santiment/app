@@ -39,7 +39,7 @@ const CtaJoinPopup = () => {
       classes={styles}
     >
       <Panel padding className={styles.container}>
-        <Rocket />
+        <Rocket className={styles.rocket} />
         <div className={styles.join}>Join our community!</div>
         <div className={styles.description}>
           Santiment is a behavior analytics platform for cryptocurrencies,
