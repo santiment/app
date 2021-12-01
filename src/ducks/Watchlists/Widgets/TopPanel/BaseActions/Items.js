@@ -5,6 +5,7 @@ import Button from '@santiment-network/ui/Button'
 import NewAction from '../../../Actions/New'
 import SaveAsAction from '../../../Actions/SaveAs'
 import DeleteAction from '../../../Actions/Delete'
+import CopyAction from '../../../Actions/Copy'
 import EditForm from '../../../Actions/Edit/EditForm'
 import styles from './Items.module.scss'
 
@@ -55,11 +56,12 @@ export const Trigger = ({
         type={type}
         open={opened}
         id={watchlist.id}
+        watchlist={watchlist}
         isLoading={isLoading}
         toggleOpen={setOpened}
         title={'Edit ' + title}
         onFormSubmit={onSubmit}
-        settings={{ name, description, isPublic }}
+        settings={{ name, description, isPublic, placeholder: 'Add a description'  }}
         trigger={<Button className={styles.trigger__text}>Edit</Button>}
       />
       <div
@@ -127,12 +129,23 @@ export const Edit = ({ type, title, watchlist, onSubmit, isLoading }) => {
       type={type}
       open={opened}
       id={watchlist.id}
+      watchlist={watchlist}
       isLoading={isLoading}
       toggleOpen={setOpened}
       title={'Edit ' + title}
       trigger={<Item icon='edit'>Edit</Item>}
-      settings={{ name, description, isPublic }}
+      settings={{ name, description, isPublic, placeholder: 'Add a description' }}
       onFormSubmit={payload => onSubmit(payload).then(() => setOpened(false))}
+    />
+  )
+}
+
+export const Copy = ({ watchlist }) => {
+  return (
+    <CopyAction
+      id={watchlist.id}
+      assets={watchlist.listItems.map(l => l.project)}
+      trigger={<Item icon='copy'>Copy assets</Item>}
     />
   )
 }

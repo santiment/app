@@ -33,7 +33,7 @@
 
 .textarea {
   border-radius: $border-radius;
-  margin: 0 0 24px;
+  margin: 0;
   padding: 10px 16px;
   color: var(--rhino);
   background: var(--white);
@@ -57,6 +57,7 @@
 .actions {
   display: flex;
   align-items: center;
+  margin-top: 24px;
 
   @include responsive('phone-xs', 'phone') {
     flex-direction: column-reverse;
