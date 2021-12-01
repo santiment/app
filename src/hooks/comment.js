@@ -1,10 +1,10 @@
+import { useEffect } from 'react'
 import { push } from 'react-router-redux'
 import { getSEOLinkFromIdAndTitle } from 'webkit/utils/url'
 import { lookupSavedComment } from 'webkit/ui/Comments/utils'
 import { CommentsType } from 'webkit/api/comments'
 import { store } from '../redux'
 import { showNotification } from '../actions/rootActions'
-import { useEffect } from 'react'
 
 function getPath ({ id, commentsForTitle, type, href }) {
   if (!commentsForTitle) return href
