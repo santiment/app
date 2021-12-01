@@ -30,6 +30,10 @@ const CONVERSATIONS_QUERY = gql`
           origin
         }
       }
+      chartConfiguration {
+        id
+        title
+      }
       user {
         id
         username
