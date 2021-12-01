@@ -7,7 +7,13 @@ import { selectedLayout } from 'studio/stores/layout'
 import Studio from './Studio'
 import URLExtension from './URLExtension'
 import RecentAssetExtension from './RecentAssetExtension'
-import { SHORT_URL_POSTFIX, getShortUrlHash } from './utils'
+import {
+  SHORT_URL_POSTFIX,
+  getShortUrlHash,
+  onAnonComment,
+  handleSavedComment,
+  handleLayoutCommentLink
+} from './utils'
 import { parseUrl } from './sharing/parse'
 import { parseTemplate } from './sharing/template'
 import { getIdFromSEOLink } from '../../utils/url'
@@ -44,9 +50,11 @@ export default ({ location }) => {
       const href = node.getAttribute('href')
       if (href) history.push(href)
     }
+    window.onAnonComment = onAnonComment
 
     return () => {
       window.__onLinkClick = null
+      window.onAnonComment = null
       selectedLayout.set()
     }
   }, [])
@@ -82,6 +90,8 @@ export default ({ location }) => {
           }
 
           selectedLayout.set(layout)
+          if (location.hash === '#comment') handleSavedComment(parsedUrl)
+          handleLayoutCommentLink(parsedUrl, search)
           setShortUrlHash()
           setSlug(parsedUrl.settings.slug || '')
           setParsedUrl(parsedUrl)
