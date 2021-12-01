@@ -25,8 +25,6 @@ export function useSavedComment (isLoggedIn) {
     const comment = lookupSavedComment()
     if (!comment) return
 
-    console.log(comment)
-
     store.dispatch(
       showNotification({
         title: 'You have unposted comment',
