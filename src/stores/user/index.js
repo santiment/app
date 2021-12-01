@@ -1,8 +1,8 @@
-import { useMemo } from 'react'
-import gql from 'graphql-tag'
-import { useQuery } from '@apollo/react-hooks'
-import { buildRefetcher } from './utils'
-import { client } from '../../apollo'
+import { useMemo } from "react";
+import gql from "graphql-tag";
+import { useQuery } from "@apollo/react-hooks";
+import { buildRefetcher } from "./utils";
+import { client } from "../../apollo";
 
 export const USER_QUERY = gql`
   {
@@ -19,33 +19,34 @@ export const USER_QUERY = gql`
       privacyPolicyAccepted
     }
   }
-`
+`;
 
-export const refetchUser = buildRefetcher(USER_QUERY)
+export const refetchUser = buildRefetcher(USER_QUERY);
 
-export function updateUser (newUser) {
+export function updateUser(newUser) {
   const { currentUser } = client.readQuery({
-    query: USER_QUERY
-  })
+    query: USER_QUERY,
+  });
 
   client.writeQuery({
     query: USER_QUERY,
     data: {
-      currentUser: newUser && Object.assign({}, currentUser, newUser)
-    }
-  })
+      currentUser: newUser && Object.assign({}, currentUser, newUser),
+    },
+  });
 }
 
-export function useUser () {
-  const query = useQuery(USER_QUERY)
+export function useUser() {
+  const query = useQuery(USER_QUERY);
 
   return useMemo(() => {
-    const { loading, data } = query
-    const user = data && data.currentUser
+    const { loading, data } = query;
+    const user = data && data.currentUser;
+
     return {
       loading,
       user,
-      isLoggedIn: !!user
-    }
-  }, [query])
+      isLoggedIn: !!user,
+    };
+  }, [query]);
 }
