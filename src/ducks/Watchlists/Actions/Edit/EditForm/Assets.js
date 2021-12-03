@@ -3,9 +3,10 @@ import Label from '@santiment-network/ui/Label'
 import MultiInput from '@santiment-network/ui/Input/MultiInput'
 // import {CollapsedLabels} from '../../../../../ducks/HistoricalBalance/Address/Labels'
 import styles from './index.module.scss'
+import cardStyles from '../../../../../ducks/Watchlists/Widgets/Table/AssetCard.module.scss'
 
 const Assets = ({watchlist}) => {
-    const items = watchlist.listItems.map(l => l.project);
+    const items = watchlist ? watchlist.listItems.map(l => l.project) : [];
 
     return (
         <>
@@ -18,7 +19,7 @@ const Assets = ({watchlist}) => {
                 valueContent={item => {
                     return (
                         <div onClick={e => e.preventDefault()}>
-                            {item.name} <span>{item.ticker}</span>
+                            {item.name} <span className={cardStyles.ticker}>{item.ticker}</span>
                         </div>
                     )
                 }}
