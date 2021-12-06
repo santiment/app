@@ -2,11 +2,14 @@ import React from 'react'
 import Label from '@santiment-network/ui/Label'
 import MultiInput from '@santiment-network/ui/Input/MultiInput'
 // import {CollapsedLabels} from '../../../../../ducks/HistoricalBalance/Address/Labels'
+import { useAllProjects } from './hooks'
 import styles from './index.module.scss'
 import cardStyles from '../../../../../ducks/Watchlists/Widgets/Table/AssetCard.module.scss'
 
 const Assets = ({watchlist}) => {
-    const items = watchlist ? watchlist.listItems.map(l => l.project) : [];
+    const items = watchlist ? watchlist.listItems.map(l => l.project) : [];    
+    const {data} = useAllProjects();
+    console.log(data);
 
     return (
         <>
@@ -14,7 +17,6 @@ const Assets = ({watchlist}) => {
                 Assets
             </Label>
             <MultiInput
-                values={items}
                 defaultValues={items}
                 valueContent={item => {
                     return (
