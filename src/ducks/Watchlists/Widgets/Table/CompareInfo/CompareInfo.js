@@ -1,5 +1,6 @@
 import React from 'react'
 import Actions from './Actions/index'
+import { useDeleteWatchlistItems, useAddWatchlistItems } from './Actions/hooks'
 import styles from './CompareInfo.module.scss'
 
 const CompareInfo = ({
@@ -9,13 +10,27 @@ const CompareInfo = ({
   watchlist,
   refetchAssets
 }) => {
+  const { removeWatchlistItems } = useDeleteWatchlistItems()
+  const { addWatchlistItems } = useAddWatchlistItems()
+
   return (
     <div className={styles.container}>
       {type === 'PROJECT' && (
         <Actions
-          selected={selected}
+          selected={selected.map(s => ({ projectId: parseInt(s.id) }))}
           watchlist={watchlist}
-          refetchAssets={refetchAssets}
+          onAdd={(watchlistId, listItems, onAddDone) => addWatchlistItems({
+            variables: {
+              id: watchlistId,
+              listItems
+            }
+          }).then(() => refetchAssets(onAddDone))}
+          onRemove={(watchlistId, listItems, onRemoveDone) => removeWatchlistItems({
+            variables: {
+              id: watchlistId,
+              listItems
+            }
+          }).then(() => refetchAssets(onRemoveDone))}
         />
       )}
 

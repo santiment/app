@@ -9,6 +9,9 @@ import {
   getAddressInfrastructure,
   Infrastructure
 } from '../../../../../utils/address'
+import { store } from '../../../../../redux'
+import { showNotification } from '../../../../../actions/rootActions'
+import NotificationActions from '../../../../../components/NotificationActions/NotificationActions'
 import { useIsAuthor } from '../../../gql/list/hooks'
 import { updateWatchlistShort } from '../../../gql/list/mutations'
 import { useAddressNote } from '../../../../HistoricalBalance/hooks'
@@ -22,17 +25,7 @@ export const ALREADY_ADDED_ADDRESS = 'This address is already in this watchlist'
 
 const extractAddress = ({ blockchainAddress }) => blockchainAddress
 
-const mapAddressToAPIType = ({ address, infrastructure, notes }) => {
-  return {
-    blockchainAddress: {
-      address,
-      infrastructure: infrastructure || getAddressInfrastructure(address),
-      notes
-    }
-  }
-}
-
-const EditAddresses = ({ trigger, watchlist }) => {
+const EditAddresses = ({ trigger, watchlist, refreshList, mapAddressToAPIType }) => {
   const { id, name } = watchlist
   const { isAuthor } = useIsAuthor(watchlist)
 
@@ -55,12 +48,34 @@ const EditAddresses = ({ trigger, watchlist }) => {
     setItems(listItems)
   }, [listItems])
 
+  const onUndo = listItems => updateWatchlist({
+    id,
+    listItems: listItems.map(a => mapAddressToAPIType(a))
+  }).then(refreshList)
+  
+  function notificationHanlder() {
+    store.dispatch(
+      showNotification({
+        variant: 'info',
+        title: 'Addresses updated successfully',
+        description: (
+          <NotificationActions
+            isOpenLink={false}
+            onClick={() => onUndo(listItems)}
+          />
+        ),
+        dismissAfter: 8000
+      })
+    )
+  }
+
   function apply () {
     updateWatchlist({
       id,
       listItems: items.map(a => mapAddressToAPIType(a))
     }).then(() => {
       closeDialog()
+      refreshList(notificationHanlder)
     })
   }
 
