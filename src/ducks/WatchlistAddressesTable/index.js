@@ -68,10 +68,11 @@ const WatchlistAddressesTable = props => {
       updateActiveColumnsKeys={setActiveColumnsKeys}
       itemKeyProperty='address'
       normalizeCSVData={normalizeCSVData}
-      onRefreshClick={(id, onRefreshDone) => 
+      onRefreshClick={(id, onRefreshDone) =>
         refetchAddressWatchlist(id, activeColumns)
-        .then(list => setList(list))
-        .then(() => typeof onRefreshDone === "function" && onRefreshDone())}
+          .then(list => setList(list))
+          .then(() => typeof onRefreshDone === 'function' && onRefreshDone())
+      }
     />
   )
 }

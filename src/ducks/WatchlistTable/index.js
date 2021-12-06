@@ -8,7 +8,7 @@ import Refresh from '../../components/Refresh/Refresh'
 import { BLOCKCHAIN_ADDRESS } from '../Watchlists/detector'
 import ColumnsToggler from '../Watchlists/Widgets/Table/Columns/Toggler'
 import EditAddresses from '../Watchlists/Actions/Edit/EditAddresses/EditAddresses'
-import Actions from '../Watchlists/Widgets/Table/CompareInfo/Actions';
+import Actions from '../Watchlists/Widgets/Table/CompareInfo/Actions'
 import { updateWatchlistShort } from '../../ducks/Watchlists/gql/list/mutations'
 import { getAddressInfrastructure } from '../../utils/address'
 import styles from './index.module.scss'
@@ -37,11 +37,12 @@ const WatchlistTable = ({
   const { items } = props
   const [refreshTimestamp, setRefreshTimestamp] = useState(Date.now)
   const csvData = useMemo(() => normalizeCSVData(items), [items])
-  const selectedItemsSet = useSelectedItemsSet(items);
-  const refreshList = onRefreshDone => onRefreshClick(watchlist.id, () => {
-    setRefreshTimestamp(Date.now())
-    typeof onRefreshDone === "function" && onRefreshDone()
-  })
+  const selectedItemsSet = useSelectedItemsSet(items)
+  const refreshList = onRefreshDone =>
+    onRefreshClick(watchlist.id, () => {
+      setRefreshTimestamp(Date.now())
+      typeof onRefreshDone === 'function' && onRefreshDone()
+    })
 
   return (
     <>
@@ -57,25 +58,32 @@ const WatchlistTable = ({
             </Button>
           }
         />
-        <Refresh
-          timestamp={refreshTimestamp}
-          onRefreshClick={refreshList}
-        />
+        <Refresh timestamp={refreshTimestamp} onRefreshClick={refreshList} />
 
-        {selectedItemsSet.selectedItemsSet.size > 0 &&
+        {selectedItemsSet.selectedItemsSet.size > 0 && (
           <div className={styles.ml1}>
             <Actions
               selected={Array.from(selectedItemsSet.selectedItemsSet)}
               watchlist={watchlist}
-              onAdd={(watchlistId, _, onAddDone) => updateWatchlistShort({id: watchlistId, listItems: items.map(a => mapAddressToAPIType(a))}).then(() => refreshList(onAddDone))}
+              onAdd={(watchlistId, _, onAddDone) =>
+                updateWatchlistShort({
+                  id: watchlistId,
+                  listItems: items.map(a => mapAddressToAPIType(a))
+                }).then(() => refreshList(onAddDone))
+              }
               onRemove={(watchlistId, listItems, onRemoveDone) => {
-                const addresses = listItems.map(l => l.address);
-                const removeItems = items.filter(l => !addresses.includes(l.address))
-                return updateWatchlistShort({id: watchlistId, listItems: removeItems.map(a => mapAddressToAPIType(a))}).then(() => refreshList(onRemoveDone))
+                const addresses = listItems.map(l => l.address)
+                const removeItems = items.filter(
+                  l => !addresses.includes(l.address)
+                )
+                return updateWatchlistShort({
+                  id: watchlistId,
+                  listItems: removeItems.map(a => mapAddressToAPIType(a))
+                }).then(() => refreshList(onRemoveDone))
               }}
             />
           </div>
-        }
+        )}
 
         <div className={styles.actions}>
           <ColumnsToggler

@@ -25,7 +25,12 @@ export const ALREADY_ADDED_ADDRESS = 'This address is already in this watchlist'
 
 const extractAddress = ({ blockchainAddress }) => blockchainAddress
 
-const EditAddresses = ({ trigger, watchlist, refreshList, mapAddressToAPIType }) => {
+const EditAddresses = ({
+  trigger,
+  watchlist,
+  refreshList,
+  mapAddressToAPIType
+}) => {
   const { id, name } = watchlist
   const { isAuthor } = useIsAuthor(watchlist)
 
@@ -48,12 +53,13 @@ const EditAddresses = ({ trigger, watchlist, refreshList, mapAddressToAPIType })
     setItems(listItems)
   }, [listItems])
 
-  const onUndo = listItems => updateWatchlist({
-    id,
-    listItems: listItems.map(a => mapAddressToAPIType(a))
-  }).then(refreshList)
-  
-  function notificationHanlder() {
+  const onUndo = listItems =>
+    updateWatchlist({
+      id,
+      listItems: listItems.map(a => mapAddressToAPIType(a))
+    }).then(refreshList)
+
+  function notificationHanlder () {
     store.dispatch(
       showNotification({
         variant: 'info',

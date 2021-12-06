@@ -19,18 +19,22 @@ const CompareInfo = ({
         <Actions
           selected={selected.map(s => ({ projectId: parseInt(s.id) }))}
           watchlist={watchlist}
-          onAdd={(watchlistId, listItems, onAddDone) => addWatchlistItems({
-            variables: {
-              id: watchlistId,
-              listItems
-            }
-          }).then(() => refetchAssets(onAddDone))}
-          onRemove={(watchlistId, listItems, onRemoveDone) => removeWatchlistItems({
-            variables: {
-              id: watchlistId,
-              listItems
-            }
-          }).then(() => refetchAssets(onRemoveDone))}
+          onAdd={(watchlistId, listItems, onAddDone) =>
+            addWatchlistItems({
+              variables: {
+                id: watchlistId,
+                listItems
+              }
+            }).then(() => refetchAssets(onAddDone))
+          }
+          onRemove={(watchlistId, listItems, onRemoveDone) =>
+            removeWatchlistItems({
+              variables: {
+                id: watchlistId,
+                listItems
+              }
+            }).then(() => refetchAssets(onRemoveDone))
+          }
         />
       )}
 
