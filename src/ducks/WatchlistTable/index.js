@@ -8,9 +8,22 @@ import Refresh from '../../components/Refresh/Refresh'
 import { BLOCKCHAIN_ADDRESS } from '../Watchlists/detector'
 import ColumnsToggler from '../Watchlists/Widgets/Table/Columns/Toggler'
 import EditAddresses from '../Watchlists/Actions/Edit/EditAddresses/EditAddresses'
+import Actions from '../Watchlists/Widgets/Table/CompareInfo/Actions'
+import { updateWatchlistShort } from '../../ducks/Watchlists/gql/list/mutations'
+import { getAddressInfrastructure } from '../../utils/address'
 import styles from './index.module.scss'
 
 export const Divider = () => <div className={styles.divider} />
+
+const mapAddressToAPIType = ({ address, infrastructure, notes }) => {
+  return {
+    blockchainAddress: {
+      address,
+      infrastructure: infrastructure || getAddressInfrastructure(address),
+      notes
+    }
+  }
+}
 
 const WatchlistTable = ({
   watchlist,
@@ -24,12 +37,20 @@ const WatchlistTable = ({
   const { items } = props
   const [refreshTimestamp, setRefreshTimestamp] = useState(Date.now)
   const csvData = useMemo(() => normalizeCSVData(items), [items])
+  const selectedItemsSet = useSelectedItemsSet(items)
+  const refreshList = onRefreshDone =>
+    onRefreshClick(watchlist.id, () => {
+      setRefreshTimestamp(Date.now())
+      typeof onRefreshDone === 'function' && onRefreshDone()
+    })
 
   return (
     <>
       <div className={styles.top}>
         <EditAddresses
           watchlist={watchlist}
+          refreshList={refreshList}
+          mapAddressToAPIType={mapAddressToAPIType}
           trigger={
             <Button border accent='positive' className={styles.add}>
               <Icon type='assets' className={styles.icon} />
@@ -37,12 +58,32 @@ const WatchlistTable = ({
             </Button>
           }
         />
-        <Refresh
-          timestamp={refreshTimestamp}
-          onRefreshClick={() =>
-            setRefreshTimestamp(Date.now()) || onRefreshClick(watchlist.id)
-          }
-        />
+        <Refresh timestamp={refreshTimestamp} onRefreshClick={refreshList} />
+
+        {selectedItemsSet.selectedItemsSet.size > 0 && (
+          <div className={styles.ml1}>
+            <Actions
+              selected={Array.from(selectedItemsSet.selectedItemsSet)}
+              watchlist={watchlist}
+              onAdd={(watchlistId, _, onAddDone) =>
+                updateWatchlistShort({
+                  id: watchlistId,
+                  listItems: items.map(a => mapAddressToAPIType(a))
+                }).then(() => refreshList(onAddDone))
+              }
+              onRemove={(watchlistId, listItems, onRemoveDone) => {
+                const addresses = listItems.map(l => l.address)
+                const removeItems = items.filter(
+                  l => !addresses.includes(l.address)
+                )
+                return updateWatchlistShort({
+                  id: watchlistId,
+                  listItems: removeItems.map(a => mapAddressToAPIType(a))
+                }).then(() => refreshList(onRemoveDone))
+              }}
+            />
+          </div>
+        )}
 
         <div className={styles.actions}>
           <ColumnsToggler
@@ -64,7 +105,7 @@ const WatchlistTable = ({
         stickyPageControls
         padding
         minRows={6}
-        itemProps={useSelectedItemsSet(items)}
+        itemProps={selectedItemsSet}
         className={styles.table}
         controlsClassName={styles.controls}
       />
