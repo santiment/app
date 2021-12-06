@@ -36,6 +36,7 @@ import { withSavedCommentLookup } from './withSavedCommentLookup'
 import Intercom from './components/Intercom/index.js'
 import LiveWidget from './components/LiveWidget'
 import TrialPromptDialog from './components/TrialPromptDialog'
+import { useSavedComment } from './hooks/comment'
 import styles from './App.module.scss'
 import './index.scss'
 import './App.scss'
@@ -227,6 +228,8 @@ export const App = ({
   history
 }) => {
   const [isWatchlistPage, setIsWatchlistPage] = useState(false)
+
+  useSavedComment(isLoggedIn)
 
   useEffect(() => {
     if (isListPath(pathname)) {
