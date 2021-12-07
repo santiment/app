@@ -65,10 +65,14 @@ function parseAxesMetrics (metrics, KnownMetric) {
   return { axesMetrics, disabledAxesMetrics }
 }
 
-function parseIndicators (indicators, KnownMetric) {
+function parseIndicators (indicators, KnownMetric, metrics) {
   const MetricIndicators = {}
 
-  Object.keys(indicators || {}).forEach(metricKey => {
+  if (!indicators) return MetricIndicators
+
+  metrics.forEach(metricKey => {
+    if (!indicators[metricKey]) return
+
     const metric = getMetric(metricKey)
 
     if (!metric) return
@@ -139,12 +143,13 @@ export function parseWidget (widget) {
   const Widget = getWidgetByKey(widget.widget)
   const KnownMetric = {}
 
+  const { metrics, indicators, settings } = widget
   parseCombinedMetrics(widget.combinedMetrics, KnownMetric)
-  Widget.metricIndicators = parseIndicators(widget.indicators, KnownMetric)
-  Widget.mergedMetrics = parseMergedMetrics(widget.metrics, KnownMetric)
-  Widget.metrics = parseMetrics(widget.metrics, widget.comparables, KnownMetric)
-  Widget.metricSettings = parseMetricGraphValue(widget.settings, KnownMetric)
-  Widget.colors = parseMetricGraphValue(widget.colors, KnownMetric)
+  Widget.metricIndicators = parseIndicators(indicators, KnownMetric, metrics)
+  Widget.mergedMetrics = parseMergedMetrics(metrics, KnownMetric)
+  Widget.metrics = parseMetrics(metrics, widget.comparables, KnownMetric)
+  Widget.metricSettings = parseMetricGraphValue(settings, KnownMetric, metrics)
+  Widget.colors = parseMetricGraphValue(widget.colors, KnownMetric, metrics)
   Object.assign(Widget, parseAxesMetrics(widget.axesMetrics, KnownMetric))
   Object.assign(Widget, parseSubwidgets(widget.connectedWidgets))
   Widget.drawings = parseDrawings(widget.drawings)

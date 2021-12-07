@@ -43,6 +43,7 @@ export function useUser () {
   return useMemo(() => {
     const { loading, data } = query
     const user = data && data.currentUser
+
     return {
       loading,
       user,
