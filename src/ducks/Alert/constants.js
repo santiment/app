@@ -154,6 +154,7 @@ export const ALERT_TYPES = [
   },
   {
     title: 'Screener',
+    type: 'metric_signal',
     steps: [
       {
         label: 'Select Screener',

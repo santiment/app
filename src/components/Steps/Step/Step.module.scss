@@ -1,3 +1,5 @@
+@import "~@santiment-network/ui/mixins";
+
 .stepsItemContainer {
   &[role="button"] {
     cursor: pointer;
@@ -16,8 +18,8 @@
   margin-right: 10px;
 }
 
-.stepsIcon {
-  margin-left: 1px;
+.finishIcon {
+  fill: var(--jungle-green);
 }
 
 .stepsItemTail {
@@ -34,22 +36,23 @@
 }
 
 .stepsItemContent {
-  max-width: 340px;
+  width: 100%;
+  max-width: 344px;
   overflow: hidden;
 }
 
 .stepsItemTitle {
-  line-height: 24px;
-  font-size: 16px;
   color: var(--rhino);
   position: relative;
+
+  @include text("body-2");
 }
 
 .stepsItemDescription {
-  font-size: 14px;
-  line-height: 20px;
   color: var(--waterloo);
   padding-bottom: 16px;
+
+  @include text("body-3");
 }
 
 .stepsItemTail::after {

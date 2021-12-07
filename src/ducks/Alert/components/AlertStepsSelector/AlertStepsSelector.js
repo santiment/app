@@ -1,21 +1,20 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
+import { useFormikContext } from 'formik'
 import Steps from '../../../../components/Steps/Steps'
+import AlertStepDescription from './AlertStepDescription/AlertStepDescription'
 
 function AlertStepsSelector ({
   size,
-  selectedType,
-  selectedStep,
-  setSelectedStep,
   isMetricsDisabled,
   items,
-  visitedSteps,
-  setVisitedSteps
+  selectorSettings: {
+    selectedStep,
+    setSelectedStep,
+    visitedSteps,
+    setVisitedSteps
+  }
 }) {
-  useEffect(() => {
-    if (selectedStep === undefined) {
-      setVisitedSteps([])
-    }
-  }, [selectedType])
+  const { values } = useFormikContext()
 
   const handleStepClick = stepIndex => {
     setSelectedStep(stepIndex)
@@ -41,7 +40,14 @@ function AlertStepsSelector ({
           disabled={disabled}
           key={step.label}
           title={step.label}
-          description={step.description}
+          description={
+            <AlertStepDescription
+              size={size}
+              description={step.description}
+              values={values}
+              type={step.label}
+            />
+          }
           onStepClick={() => handleStepClick(index)}
         />
       )

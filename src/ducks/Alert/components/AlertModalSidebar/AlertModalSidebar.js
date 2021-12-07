@@ -8,21 +8,21 @@ import { ALERT_TYPES } from '../../constants'
 import styles from './AlertModalSidebar.module.scss'
 
 function AlertModalSidebar ({
-  selectedStep,
-  selectedType,
-  setSelectedStep,
   isMetricsDisabled,
   onTypeSelect,
-  visitedSteps,
-  setVisitedSteps
+  selectorSettings
 }) {
   const [openedSteps, setOpenedSteps] = useState([])
+
+  const { selectedType, selectedStep, setSelectedStep } = selectorSettings
 
   useEffect(() => {
     setOpenedSteps([])
   }, [selectedType])
 
   if (selectedStep !== undefined) {
+    const tips = selectedType.steps[selectedStep].tips
+
     return (
       <div className={styles.wrapper}>
         <div>
@@ -36,21 +36,17 @@ function AlertModalSidebar ({
             <AlertStepsSelector
               items={selectedType.subSteps}
               size='small'
-              selectedType={selectedType}
-              selectedStep={selectedStep}
-              setSelectedStep={setSelectedStep}
+              selectorSettings={selectorSettings}
               isMetricsDisabled={isMetricsDisabled}
-              visitedSteps={visitedSteps}
-              setVisitedSteps={setVisitedSteps}
             />
           </div>
         </div>
-        {selectedType.steps[selectedStep].tips && (
+        {tips && (
           <Tip
             openedSteps={openedSteps}
             setOpenedSteps={setOpenedSteps}
             selectedStep={selectedStep}
-            tips={selectedType.steps[selectedStep].tips}
+            tips={tips}
           />
         )}
       </div>

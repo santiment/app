@@ -31,7 +31,7 @@ const Step = ({
       return icons.process
     }
     if (status === 'finish' && !disabled) {
-      return <Icon type='checkmark' />
+      return <Icon className={styles.finishIcon} type='checkmark' />
     }
     return <span className={styles.stepsIcon}>{stepNumber}</span>
   }

@@ -1,35 +1,40 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useFormikContext } from 'formik'
 import Button from '@santiment-network/ui/Button'
 import AlertStepsSelector from '../AlertStepsSelector/AlertStepsSelector'
 import StepsContent from './StepsContent/StepsContent'
 import styles from './AlertModalContent.module.scss'
 
-function AlertModalContent ({
-  selectedStep,
-  selectedType,
-  setSelectedStep,
-  isMetricsDisabled,
-  handleSubmit,
-  visitedSteps,
-  setVisitedSteps
-}) {
+function AlertModalContent ({ isMetricsDisabled, selectorSettings }) {
+  const { submitForm, isSubmitting } = useFormikContext()
+
+  const { selectedStep, selectedType, setVisitedSteps } = selectorSettings
+
+  useEffect(() => {
+    if (selectedStep === undefined) {
+      setVisitedSteps([])
+    }
+  }, [selectedType])
+
   if (selectedStep !== undefined) {
     return (
       <div className={styles.wrapper}>
-        <StepsContent selectedStep={selectedStep} />
+        <StepsContent selectorSettings={selectorSettings} />
       </div>
     )
+  }
+
+  const handleSubmit = () => {
+    if (isSubmitting) {
+      submitForm()
+    }
   }
 
   return (
     <div className={styles.wrapper}>
       <AlertStepsSelector
-        visitedSteps={visitedSteps}
-        setVisitedSteps={setVisitedSteps}
         items={selectedType.steps}
-        selectedType={selectedType}
-        selectedStep={selectedStep}
-        setSelectedStep={setSelectedStep}
+        selectorSettings={selectorSettings}
         isMetricsDisabled={isMetricsDisabled}
       />
       <Button

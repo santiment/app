@@ -1,0 +1,18 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.textarea {
+  margin-top: 8px;
+  height: 100%;
+  border: none;
+  border-radius: $border-radius;
+  color: var(--rhino);
+  background: var(--white);
+  resize: none;
+  outline: none;
+
+  @include text("body-3");
+
+  &::placeholder {
+    color: var(--casper);
+  }
+}
