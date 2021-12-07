@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useFormik } from 'formik'
 import { connect } from 'react-redux'
 import AlertModalSidebar from './components/AlertModalSidebar/AlertModalSidebar'
@@ -39,11 +39,15 @@ function AlertModalForm ({ defaultType, createAlert }) {
     }
   })
 
-  const handleSelectType = type => {
+  function handleSelectType (type) {
     setSelectedType(type)
     setSelectedStep(undefined)
     formik.resetForm()
   }
+
+  const visitedStepsMemo = useMemo(() => new Set([...visitedSteps]), [
+    visitedSteps
+  ])
 
   return (
     <div className={styles.wrapper}>
@@ -53,7 +57,7 @@ function AlertModalForm ({ defaultType, createAlert }) {
         selectedType={selectedType}
         setSelectedStep={setSelectedStep}
         onTypeSelect={handleSelectType}
-        visitedSteps={visitedSteps}
+        visitedSteps={visitedStepsMemo}
         setVisitedSteps={setVisitedSteps}
       />
       <AlertModalContent
@@ -62,7 +66,7 @@ function AlertModalForm ({ defaultType, createAlert }) {
         selectedType={selectedType}
         setSelectedStep={setSelectedStep}
         handleSubmit={formik.submitForm}
-        visitedSteps={visitedSteps}
+        visitedSteps={visitedStepsMemo}
         setVisitedSteps={setVisitedSteps}
       />
     </div>

@@ -30,7 +30,8 @@ function AlertModalSidebar ({
             className={styles.backButton}
             onClick={() => setSelectedStep(undefined)}
           >
-            <Icon type='pointer-right' /> Type of alert
+            <Icon type='pointer-right' className={styles.backIcon} /> Type of
+            alert
           </Button>
           <div className={styles.steps}>
             <AlertStepsSelector

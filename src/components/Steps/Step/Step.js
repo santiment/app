@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
-import Icon from '@santiment-network/ui/Icon'
+import StepIcon from '../StepIcon/StepIcon'
+import { getClassString } from '../utils'
 import styles from './Step.module.scss'
 
 const Step = ({
@@ -18,7 +19,7 @@ const Step = ({
   size,
   ...restProps
 }) => {
-  const handleClick = (...args) => {
+  function handleClick (...args) {
     if (onClick) {
       onClick(...args)
     }
@@ -26,36 +27,9 @@ const Step = ({
     onStepClick(stepIndex)
   }
 
-  const renderIconNode = () => {
-    if (icons && icons.process && status === 'process') {
-      return icons.process
-    }
-    if (status === 'finish' && !disabled) {
-      return <Icon type='checkmark' />
-    }
-    return <span className={styles.stepsIcon}>{stepNumber}</span>
-  }
-
-  const getClassString = () => {
-    if (disabled) {
-      return styles.stepsItemDisabled
-    }
-    if (status === 'wait' && !disabled) {
-      return styles.stepsItemWait
-    }
-    if (status === 'process') {
-      return styles.stepsItemProcess
-    }
-    if (status === 'finish' && !disabled) {
-      return styles.stepsItemFinish
-    }
-  }
-
   const classString = cx(
-    styles.stepsItem,
-    getClassString(),
-    size === 'small' && styles.stepsSmall,
-    className
+    getClassString(styles, disabled, status),
+    size === 'small' && styles.small
   )
 
   const accessibilityProps = {
@@ -71,15 +45,21 @@ const Step = ({
   }
 
   return (
-    <div {...restProps} className={classString}>
-      <div {...accessibilityProps} className={styles.stepsItemContainer}>
-        <div className={styles.stepsItemTail} />
-        <div className={styles.stepsItemContentContainer}>
-          <div className={styles.stepsItemIcon}>{renderIconNode()}</div>
-          <div className={styles.stepsItemContent}>
-            <div className={styles.stepsItemTitle}>{title}</div>
+    <div {...restProps} className={cx(styles.wrapper, classString, className)}>
+      <div {...accessibilityProps} className={styles.container}>
+        <div className={styles.tail} />
+        <div className={styles.contentWrapper}>
+          <StepIcon
+            disabled={disabled}
+            stepNumber={stepNumber}
+            icons={icons}
+            status={status}
+            size={size}
+          />
+          <div className={styles.content}>
+            <div className={styles.title}>{title}</div>
             {description && (
-              <div className={styles.stepsItemDescription}>{description}</div>
+              <div className={styles.description}>{description}</div>
             )}
           </div>
         </div>
