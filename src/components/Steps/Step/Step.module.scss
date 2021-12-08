@@ -83,7 +83,11 @@
 
 .finish {
   --description-color: var(--rhino);
-  --icon-background-color: var(--jungle-green);
+  --icon-background-color: var(--jungle-green-light);
+
+  &.small {
+    --icon-background-color: var(--jungle-green);
+  }
 }
 
 .small {
