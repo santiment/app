@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import StepIcon from '../StepIcon/StepIcon'
+import StepIcon from './StepIcon/StepIcon'
 import { getClassString } from '../utils'
 import styles from './Step.module.scss'
 
@@ -54,7 +54,6 @@ const Step = ({
             stepNumber={stepNumber}
             icons={icons}
             status={status}
-            size={size}
           />
           <div className={styles.content}>
             <div className={styles.title}>{title}</div>

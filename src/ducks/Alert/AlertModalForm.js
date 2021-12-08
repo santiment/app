@@ -30,6 +30,7 @@ function AlertModalForm ({ defaultType, createAlert }) {
   const [selectedType, setSelectedType] = useState(defaultType)
   const [selectedStep, setSelectedStep] = useState(undefined)
   const [visitedSteps, setVisitedSteps] = useState([])
+  const visitedStepsMemo = useMemo(() => new Set(visitedSteps), [visitedSteps])
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -44,10 +45,6 @@ function AlertModalForm ({ defaultType, createAlert }) {
     setSelectedStep(undefined)
     formik.resetForm()
   }
-
-  const visitedStepsMemo = useMemo(() => new Set([...visitedSteps]), [
-    visitedSteps
-  ])
 
   return (
     <div className={styles.wrapper}>

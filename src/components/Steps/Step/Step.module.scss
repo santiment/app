@@ -1,3 +1,5 @@
+@import "~@santiment-network/ui/mixins";
+
 .wrapper {
   position: relative;
   overflow: visible;
@@ -37,15 +39,35 @@
 }
 
 .title {
-  line-height: 24px;
-  font-size: 16px;
   position: relative;
+  color: var(--title-color, var(--rhino));
+
+  @include text("body-2");
 }
 
 .description {
-  font-size: 14px;
-  line-height: 20px;
   padding-bottom: 16px;
+  color: var(--description-color, var(--waterloo));
+
+  @include text("body-3");
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 100%;
+  font-size: 14px;
+  margin-right: 10px;
+  background-color: var(--icon-background-color, var(--waterloo));
+  color: var(--icon-color, var(--white));
+}
+
+.icon {
+  margin-left: 1px;
+  color: currentColor;
 }
 
 .disabled {
@@ -54,31 +76,26 @@
   }
 
   .title {
-    color: var(--waterloo);
+    --title-color: var(--waterloo);
   }
 
   .description {
-    color: var(--casper);
-  }
-}
-
-.process {
-  .title {
-    color: var(--rhino);
+    --description-color: var(--casper);
   }
 
-  .description {
-    color: var(--waterloo);
+  .iconWrapper {
+    --icon-background-color: var(--mystic);
+    --icon-color: var(--waterloo);
   }
 }
 
 .finish {
-  .title {
-    color: var(--rhino);
+  .description {
+    --description-color: var(--rhino);
   }
 
-  .description {
-    color: var(--rhino);
+  .iconWrapper {
+    --icon-background-color: var(--jungle-green);
   }
 }
 
@@ -89,13 +106,14 @@
   }
 
   .title {
-    font-size: 13px;
-    line-height: 16px;
     margin-bottom: 8px;
+
+    --title-color: var(--fiord);
+
+    @include text("caption", "m");
   }
 
   .description {
-    font-size: 12px;
     padding-bottom: 14px;
   }
 
@@ -103,6 +121,19 @@
     left: 2px;
     top: 0;
     padding: 15px 0 0;
+  }
+
+  .iconWrapper {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-top: 5px;
+    padding-right: 5px;
+
+    .icon {
+      font-size: 0;
+    }
   }
 }
 
