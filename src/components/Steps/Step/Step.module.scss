@@ -1,13 +1,58 @@
 @import "~@santiment-network/ui/mixins";
 
-.stepsItemContainer {
-  &[role="button"] {
-    cursor: pointer;
-    transition: opacity 0.3s;
+.wrapper {
+  position: relative;
+  overflow: visible;
+}
+
+.container[role="button"] {
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.tail {
+  position: absolute;
+  left: 12px;
+  top: 0;
+  height: 100%;
+  width: 1px;
+  padding: 28px 0 4px 0;
+
+  &::after {
+    height: 100%;
+    width: 1px;
+    content: "";
+    display: inline-block;
+    border-radius: 1px;
+    transition: background 0.3s;
+    background-color: var(--porcelain);
   }
 }
 
-.stepsItemIcon {
+.contentWrapper {
+  display: flex;
+}
+
+.content {
+  max-width: 340px;
+  overflow: hidden;
+}
+
+.title {
+  position: relative;
+  color: var(--title-color, var(--rhino));
+
+  @include text("body-2");
+}
+
+.description {
+  padding-bottom: 16px;
+  color: var(--description-color, var(--waterloo));
+
+  @include text("body-3");
+}
+
+.iconWrapper {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,194 +61,72 @@
   border-radius: 100%;
   font-size: 14px;
   margin-right: 10px;
+  background-color: var(--icon-background-color, var(--waterloo));
+  color: var(--icon-color, var(--white));
 }
 
-.finishIcon {
-  fill: var(--jungle-green);
+.icon {
+  margin-left: 1px;
+  color: currentColor;
 }
 
-.stepsItemTail {
-  position: absolute;
-  left: 12px;
-  top: 0;
-  height: 100%;
-  width: 1px;
-  padding: 28px 0 4px 0;
-}
-
-.stepsItemContentContainer {
-  display: flex;
-}
-
-.stepsItemContent {
-  width: 100%;
-  max-width: 344px;
-  overflow: hidden;
-}
-
-.stepsItemTitle {
-  color: var(--rhino);
-  position: relative;
-
-  @include text("body-2");
-}
-
-.stepsItemDescription {
-  color: var(--waterloo);
-  padding-bottom: 16px;
-
-  @include text("body-3");
-}
-
-.stepsItemTail::after {
-  height: 100%;
-  width: 1px;
-  content: "";
-  display: inline-block;
-  border-radius: 1px;
-  transition: background 0.3s;
-  background-color: var(--porcelain);
-}
-
-.stepsItem {
-  position: relative;
-  overflow: visible;
-
-  &.stepsItemDisabled {
-    [role="button"] {
-      cursor: initial;
-    }
-
-    .stepsItemIcon {
-      background-color: var(--mystic);
-
-      > .stepsIcon {
-        color: var(--waterloo);
-      }
-    }
-
-    .stepsItemTitle {
-      color: var(--waterloo);
-    }
-
-    .stepsItemDescription {
-      color: var(--casper);
-    }
-
-    .stepsItemTail::after {
-      background-color: var(--porcelain);
-    }
+.disabled {
+  &[role="button"] {
+    cursor: initial;
   }
 
-  &.stepsItemProcess {
-    .stepsItemIcon {
-      background-color: var(--waterloo);
+  --title-color: var(--waterloo);
+  --description-color: var(--casper);
+  --icon-background-color: var(--mystic);
+  --icon-color: var(--waterloo);
+}
 
-      > .stepsIcon {
-        color: var(--white);
-      }
-    }
+.finish {
+  --description-color: var(--rhino);
+  --icon-background-color: var(--jungle-green);
+}
 
-    .stepsItemTitle {
-      color: var(--rhino);
-    }
+.small {
+  --title-color: var(--fiord);
 
-    .stepsItemDescription {
-      color: var(--waterloo);
-    }
-
-    .stepsItemTail::after {
-      background-color: var(--porcelain);
-    }
+  .content {
+    min-height: 36px;
+    margin-top: 0;
   }
 
-  &.stepsItemFinish {
-    .stepsItemIcon {
-      background-color: var(--jungle-green-light);
+  .title {
+    margin-bottom: 8px;
 
-      > .stepsIcon {
-        color: var(--jungle-green);
-      }
-    }
-
-    .stepsItemTitle {
-      color: var(--rhino);
-    }
-
-    .stepsItemDescription {
-      color: var(--rhino);
-    }
-
-    .stepsItemTail::after {
-      background-color: var(--porcelain);
-    }
+    @include text("caption", "m");
   }
 
-  &.stepsSmall {
-    .stepsItemIcon {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      margin-right: 10px;
-      margin-top: 5px;
-      padding-right: 5px;
+  .description {
+    padding-bottom: 14px;
+  }
 
-      > .stepsIcon {
-        font-size: 0;
-      }
-    }
+  .tail {
+    left: 2px;
+    top: 0;
+    padding: 15px 0 0;
+  }
 
-    .stepsItemContent {
-      min-height: 36px;
-      margin-top: 0;
-    }
+  .iconWrapper {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-top: 5px;
+    padding-right: 5px;
 
-    .stepsItemTitle {
-      font-size: 13px;
-      line-height: 16px;
-      margin-bottom: 8px;
-    }
-
-    .stepsItemDescription {
-      font-size: 12px;
-      padding-bottom: 14px;
-    }
-
-    .stepsItemTail {
-      left: 2px;
-      top: 0;
-      padding: 15px 0 0;
-    }
-
-    &.stepsItemFinish {
-      .stepsItemIcon {
-        background-color: var(--jungle-green);
-
-        > img {
-          display: none;
-        }
-
-        > .stepsIcon {
-          color: var(--jungle-green);
-        }
-      }
-    }
-
-    &.stepsItemWait {
-      .stepsItemIcon {
-        background-color: var(--waterloo);
-      }
-
-      .stepsItemTitle {
-        color: var(--fiord);
-      }
+    .icon {
+      font-size: 0;
     }
   }
 }
 
-.stepsItem:last-child {
-  .stepsItemTail,
-  .stepsItemTitle::after {
+.wrapper:last-child {
+  .tail,
+  .title::after {
     display: none;
   }
 }

@@ -16,21 +16,23 @@ function AlertStepsSelector ({
 }) {
   const { values } = useFormikContext()
 
-  const handleStepClick = stepIndex => {
+  function handleStepClick (stepIndex) {
     setSelectedStep(stepIndex)
 
-    if (!visitedSteps.includes(stepIndex)) {
+    if (!visitedSteps.has(stepIndex)) {
       setVisitedSteps(prev => [...prev, stepIndex])
     }
   }
 
   const renderSteps = useCallback(() => {
+    const hasDisabledStep = items.length !== 3 && isMetricsDisabled
+
     return items.map((step, index) => {
-      const disabled = items.length !== 3 && isMetricsDisabled && index === 1
+      const disabled = hasDisabledStep && index === 1
 
-      let status = (visitedSteps.includes(index) && 'finish') || 'process'
+      let status = (visitedSteps.has(index) && 'finish') || 'process'
 
-      if (items.length !== 3 && isMetricsDisabled && index === 0) {
+      if (hasDisabledStep && index === 0) {
         status = 'process'
       }
 

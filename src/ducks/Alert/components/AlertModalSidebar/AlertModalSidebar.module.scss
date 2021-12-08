@@ -35,20 +35,16 @@
   color: var(--waterloo);
   font-size: 13px;
 
-  & > svg {
-    margin-bottom: 2px;
-    transform: rotate(180deg);
-    margin-right: 8px;
-    fill: var(--waterloo);
-  }
-
   &:hover {
     color: var(--jungle-green);
-
-    & > svg {
-      fill: var(--jungle-green);
-    }
   }
+}
+
+.backIcon {
+  margin-bottom: 2px;
+  transform: rotate(180deg);
+  margin-right: 8px;
+  fill: currentColor;
 }
 
 .steps {
