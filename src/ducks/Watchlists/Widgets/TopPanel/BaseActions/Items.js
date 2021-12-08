@@ -46,9 +46,7 @@ export const Trigger = ({
   const { name, description, isPublic } = watchlist
   const [opened, setOpened] = useState(false)
 
-  function onSubmit (props) {
-    onPrimaryAction(props).then(() => setOpened(false))
-  }
+  const onSubmit = props => onPrimaryAction(props).then(() => setOpened(false))
 
   return (
     <div className={styles.trigger} ref={forwardedRef}>
@@ -61,7 +59,7 @@ export const Trigger = ({
         toggleOpen={setOpened}
         title={'Edit ' + title}
         onFormSubmit={onSubmit}
-        settings={{ name, description, isPublic, placeholder: 'Add a description'  }}
+        settings={{ name, description, isPublic }}
         trigger={<Button className={styles.trigger__text}>Edit</Button>}
       />
       <div
@@ -134,7 +132,7 @@ export const Edit = ({ type, title, watchlist, onSubmit, isLoading }) => {
       toggleOpen={setOpened}
       title={'Edit ' + title}
       trigger={<Item icon='edit'>Edit</Item>}
-      settings={{ name, description, isPublic, placeholder: 'Add a description' }}
+      settings={{ name, description, isPublic }}
       onFormSubmit={payload => onSubmit(payload).then(() => setOpened(false))}
     />
   )

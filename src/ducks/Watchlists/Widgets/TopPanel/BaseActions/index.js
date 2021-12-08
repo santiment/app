@@ -35,11 +35,10 @@ const Actions = ({ watchlist, type, onClick, isAuthor, isAuthorLoading }) => {
   const title = getTitleByWatchlistType(type)
   const showDelete = isAuthor && (type !== SCREENER || lists.length > 1)
 
-  const onEditApprove = props =>
-    updateWatchlist(watchlist, { ...props }).then(() => {
-      setIsMenuOpened(false)
-      notifyUpdate(title)
-    })
+  const onEditApprove = props => updateWatchlist(watchlist, { ...props }).then(() => {
+    setIsMenuOpened(false)
+    notifyUpdate(title)
+  })
 
   return (
     <div onClick={onClick} className={styles.container}>

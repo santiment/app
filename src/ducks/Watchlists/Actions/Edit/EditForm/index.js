@@ -37,7 +37,7 @@ const EditForm = ({
     evt.preventDefault()
     let err = ''
 
-    const { name, description, isPublic, error } = formState
+    const { name, description, isPublic, listItems, error } = formState
 
     if (!error) {
       err = checkName(name)
@@ -51,11 +51,12 @@ const EditForm = ({
       name === defaultSettings.name &&
       description === defaultSettings.description &&
       isPublic === defaultSettings.isPublic &&
+      listItems === defaultSettings.listItems &&
       id
     ) {
       toggleOpen(false)
     } else {
-      onFormSubmit({ name, description, isPublic })
+      onFormSubmit({ name, description, isPublic, listItems }).then()
     }
   }
 
@@ -158,10 +159,19 @@ const EditForm = ({
             className={styles.textarea}
             onChange={onTextareaChange}
             defaultValue={formState.description}
-            placeholder={defaultSettings.placeholder}
+            placeholder="Add a description"
           />
         )}
-        {isOpen && <Assets watchlist={watchlist} />}
+        {isOpen && 
+          <Assets 
+            watchlist={watchlist} 
+            onChange={items => {
+              const _listItems = items.map(l => ({projectId: parseInt(l.id)}))
+              setFormState(state => ({ ...state, listItems: _listItems}))
+              checkIsTouched("listItems", _listItems)
+            }}
+          />
+        }
         <div className={styles.actions}>
           <Dialog.Approve
             className={styles.btn}
@@ -195,6 +205,7 @@ export default ({ settings = {}, ...props }) => (
       name: '',
       description: '',
       isPublic: false,
+      listItems: props.watchlist ? props.watchlist.listItems : [],
       ...settings
     }}
   />
