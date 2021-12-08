@@ -75,31 +75,20 @@
     cursor: initial;
   }
 
-  .title {
-    --title-color: var(--waterloo);
-  }
-
-  .description {
-    --description-color: var(--casper);
-  }
-
-  .iconWrapper {
-    --icon-background-color: var(--mystic);
-    --icon-color: var(--waterloo);
-  }
+  --title-color: var(--waterloo);
+  --description-color: var(--casper);
+  --icon-background-color: var(--mystic);
+  --icon-color: var(--waterloo);
 }
 
 .finish {
-  .description {
-    --description-color: var(--rhino);
-  }
-
-  .iconWrapper {
-    --icon-background-color: var(--jungle-green);
-  }
+  --description-color: var(--rhino);
+  --icon-background-color: var(--jungle-green);
 }
 
 .small {
+  --title-color: var(--fiord);
+
   .content {
     min-height: 36px;
     margin-top: 0;
@@ -107,8 +96,6 @@
 
   .title {
     margin-bottom: 8px;
-
-    --title-color: var(--fiord);
 
     @include text("caption", "m");
   }
