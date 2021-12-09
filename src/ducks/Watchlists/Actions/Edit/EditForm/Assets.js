@@ -110,7 +110,7 @@ const Assets = ({watchlist, onChange}) => {
 
 const AssetItem = ({item, src, isActive, onClick}) => (
     <div className={styles.assetItem} onClick={() => onClick(item, !isActive)}>
-        <Checkbox isActive={isActive} /> <img src={src} className={styles.logo} alt={item.name} /> {item.name} <span className={cardStyles.ticker}>{item.ticker}</span>
+        <Checkbox isActive={isActive} /> <img src={src} loading="lazy" className={styles.logo} alt={item.name} /> {item.name} <span className={cardStyles.ticker}>{item.ticker}</span>
     </div>
 ) 
 
