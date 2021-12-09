@@ -109,6 +109,7 @@ const WatchlistPage = ({ location, history, watchlist }) => {
         widgets={widgets}
         setWidgets={setWidgets}
         watchlist={watchlist}
+        refetchAssets={refetchAssets}
       />
       <Infographics
         type='Watchlist'

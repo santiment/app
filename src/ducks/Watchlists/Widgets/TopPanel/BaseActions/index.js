@@ -10,7 +10,7 @@ import { getTitleByWatchlistType, SCREENER } from '../../../detector'
 import { Delete, New, SaveAs, Edit, NonAuthorTrigger, Trigger, Copy } from './Items'
 import styles from './index.module.scss'
 
-const Actions = ({ watchlist, type, onClick, isAuthor, isAuthorLoading }) => {
+const Actions = ({ watchlist, type, onClick, isAuthor, isAuthorLoading, refetchAssets }) => {
   const [lists] = useUserWatchlists(type)
   const [updateWatchlist, { loading }] = useUpdateWatchlist(type)
   const [isMenuOpened, setIsMenuOpened] = useState(false)
@@ -38,6 +38,7 @@ const Actions = ({ watchlist, type, onClick, isAuthor, isAuthorLoading }) => {
   const onEditApprove = props => updateWatchlist(watchlist, { ...props }).then(() => {
     setIsMenuOpened(false)
     notifyUpdate(title)
+    refetchAssets()
   })
 
   return (

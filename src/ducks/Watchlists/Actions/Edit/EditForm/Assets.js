@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useMemo } from 'react'
 import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import Icon from '@santiment-network/ui/Icon'
@@ -17,25 +17,27 @@ const Assets = ({watchlist, onChange}) => {
     const ref = useRef();
     const [isSearchMode, setIsSearchMode] = useState(false);
     const [filter, setFilter] = useState('');
-    const [items, setItems] = useState(watchlist ? watchlist.listItems.map(l => l.project) : []);
-    const [checkedItems, setCheckedItems] = useState(watchlist ? watchlist.listItems.map(l => l.project) : [])
+    const watchListItems = useMemo(() => watchlist ? watchlist.listItems.map(l => l.project) : [], [watchlist])
+    const [items, setItems] = useState(watchListItems);
+    const watchListIDs = useMemo(() => items.map(i => i.id), [items])
+    const [checkedItems, setCheckedItems] = useState(watchListItems)
     const { isNightMode } = useTheme()
-    const { data, loading } = useAllProjects(filter.toLowerCase());
+    const { data } = useAllProjects(filter.toLowerCase());
+
     useOnClickOutside(ref, () => {
         setFilter('')
         setIsSearchMode(false)
     });
-    const inWatchlist = items.map(i => i.id)
 
     useEffect(() => {   
-        let _items = watchlist ? watchlist.listItems.map(l => l.project) : []; 
+        let _items = watchListItems; 
         if (filter && filter.length > 0) {
             const _filter = filter.toLowerCase()
             const filterHelper = item => item.name.toLowerCase().includes(_filter) || item.ticker.toLowerCase().includes(_filter)
             _items = _items.filter(filterHelper)
         }
         setItems(_items)
-    }, [filter, watchlist])
+    }, [filter, watchListItems])
 
     const checkboxClickHandler = (item, newValue) => setCheckedItems(old => {
         const items = [...old];
@@ -73,38 +75,33 @@ const Assets = ({watchlist, onChange}) => {
                 }
 
                 {isSearchMode &&
-                    <>
-                        {loading && <span className={cardStyles.ticker}>Loading...</span>}
-                        {!loading &&
-                            <Input
-                                autoFocus
-                                maxLength='25'
-                                autoComplete='off'
-                                placeholder="Type to search"
-                                className={styles.searchInput}
-                                onChange={({ currentTarget: { value } }) => setFilter(value)}
-                            />
-                        }
-                    </>
+                    <Input
+                        autoFocus
+                        maxLength='25'
+                        autoComplete='off'
+                        placeholder="Type to search"
+                        className={styles.searchInput}
+                        onChange={({ currentTarget: { value } }) => setFilter(value)}
+                    />
                 }
 
                 <Icon onClick={() => isSearchMode && setFilter('') && setIsSearchMode(false)} type='arrow-down' className={cx(fieldStyles.arrow, styles.arrow, isSearchMode && styles.arrowup)} />
 
                 <Panel className={cx(styles.panel, !isSearchMode && styles.hide)}>
-                    {items.length > 0 &&
+                    {isSearchMode &&
                         <>
                             <h6 className={styles.groupLabel}>Contained in watchlist</h6>
                             {items.map(item => {
                                 const src = (isNightMode && item.darkLogoUrl) ? item.darkLogoUrl : item.logoUrl;
                                 return <AssetItem onClick={checkboxClickHandler} isActive={checkedItems.includes(item)} key={item.id} item={item} src={src} />
                             })}
+                            <h6 className={cx(styles.groupLabel, styles.groupLabel_mt)}>Assets</h6>
+                            {data.filter(item => !watchListIDs.includes(item.id)).map(item => {
+                                const src = (isNightMode && item.darkLogoUrl) ? item.darkLogoUrl : item.logoUrl;
+                                return <AssetItem onClick={checkboxClickHandler} isActive={checkedItems.includes(item)} key={item.id} item={item} src={src} />
+                            })}
                         </>
                     }
-                    <h6 className={cx(styles.groupLabel, styles.groupLabel_mt)}>Assets</h6>
-                    {data.filter(item => !inWatchlist.includes(item.id)).map(item => {
-                        const src = (isNightMode && item.darkLogoUrl) ? item.darkLogoUrl : item.logoUrl;
-                        return <AssetItem onClick={checkboxClickHandler} isActive={checkedItems.includes(item)} key={item.id} item={item} src={src} />
-                    })}
                 </Panel>
             </div>
         </>
