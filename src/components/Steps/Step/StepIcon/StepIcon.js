@@ -7,7 +7,7 @@ function StepIcon ({ icons, status, disabled, stepNumber }) {
   if (icons && icons.process && status === 'process') {
     children = icons.process
   } else if (status === 'finish' && !disabled) {
-    children = <Icon type='checkmark' />
+    children = <Icon type='checkmark' className={styles.icon} />
   }
 
   return <div className={styles.iconWrapper}>{children}</div>

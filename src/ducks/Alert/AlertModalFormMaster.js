@@ -29,6 +29,7 @@ function AlertModalFormMaster ({ defaultType, createAlert }) {
   const [selectedType, setSelectedType] = useState(defaultType)
   const [selectedStep, setSelectedStep] = useState(undefined)
   const [visitedSteps, setVisitedSteps] = useState([])
+  const visitedStepsMemo = useMemo(() => new Set(visitedSteps), [visitedSteps])
 
   function handleSubmit (values, { setSubmitting }) {
     console.log(values)
@@ -42,7 +43,7 @@ function AlertModalFormMaster ({ defaultType, createAlert }) {
       setSelectedType,
       selectedStep,
       setSelectedStep,
-      visitedSteps,
+      visitedSteps: visitedStepsMemo,
       setVisitedSteps
     }),
     [
@@ -50,7 +51,7 @@ function AlertModalFormMaster ({ defaultType, createAlert }) {
       setSelectedType,
       selectedStep,
       setSelectedStep,
-      visitedSteps,
+      visitedStepsMemo,
       setVisitedSteps
     ]
   )
