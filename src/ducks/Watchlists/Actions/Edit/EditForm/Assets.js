@@ -88,7 +88,7 @@ const Assets = ({watchlist, onChange}) => {
                 <Icon onClick={() => isSearchMode && setFilter('') && setIsSearchMode(false)} type='arrow-down' className={cx(fieldStyles.arrow, styles.arrow, isSearchMode && styles.arrowup)} />
 
                 <Panel className={cx(styles.panel, !isSearchMode && styles.hide)}>
-                    {isSearchMode &&
+                    {isSearchMode && 
                         <>
                             <h6 className={styles.groupLabel}>Contained in watchlist</h6>
                             {items.map(item => {
