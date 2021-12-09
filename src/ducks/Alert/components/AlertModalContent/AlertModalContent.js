@@ -24,7 +24,7 @@ function AlertModalContent ({ isMetricsDisabled, selectorSettings }) {
     )
   }
 
-  const handleSubmit = () => {
+  function handleSubmit() {
     if (isSubmitting) {
       submitForm()
     }

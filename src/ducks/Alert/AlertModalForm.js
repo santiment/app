@@ -7,11 +7,12 @@ import styles from './AlertModalFormMaster.module.scss'
 function AlertModalForm ({ selectorSettings, resetForm }) {
   const { setSelectedType, setSelectedStep } = selectorSettings
 
-  const handleSelectType = type => {
+  function handleSelectType(type) {
     setSelectedType(type)
     setSelectedStep(undefined)
     resetForm()
   }
+
   return (
     <Form className={styles.wrapper}>
       <AlertModalSidebar

@@ -13,7 +13,7 @@ function NotificationAndPrivacy ({
     setVisitedSteps
   }
 }) {
-  const handleNextClick = () => {
+  function handleNextClick() {
     setSelectedStep(selectedStep + 1)
 
     if (!visitedSteps.includes(selectedStep + 1)) {

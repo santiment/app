@@ -10,7 +10,7 @@ function NameAndDescription () {
   const [titleField] = useField('title')
   const [descriptionField] = useField('description')
 
-  const handleSubmit = () => {
+  function handleSubmit() {
     if (isSubmitting) {
       submitForm()
     }
