@@ -23,6 +23,13 @@ const Assets = ({watchlist, onChange}) => {
     const [checkedItems, setCheckedItems] = useState(watchListItems)
     const { isNightMode } = useTheme()
     const { data } = useAllProjects(filter.toLowerCase());
+    const assets = useMemo(() => data.filter(item => !watchListIDs.includes(item.id)), [data, watchListIDs])
+    const [showItems, setShowItems] = useState(false);
+    
+    useEffect(() => {
+        const showTimeout = setTimeout(() => setShowItems(true), 300);
+        return () => clearTimeout(showTimeout)
+    }, [])
 
     useOnClickOutside(ref, () => {
         setFilter('')
@@ -88,7 +95,7 @@ const Assets = ({watchlist, onChange}) => {
                 <Icon onClick={() => isSearchMode && setFilter('') && setIsSearchMode(false)} type='arrow-down' className={cx(fieldStyles.arrow, styles.arrow, isSearchMode && styles.arrowup)} />
 
                 <Panel className={cx(styles.panel, !isSearchMode && styles.hide)}>
-                    {isSearchMode && 
+                    {showItems && 
                         <>
                             <h6 className={styles.groupLabel}>Contained in watchlist</h6>
                             {items.map(item => {
@@ -96,7 +103,7 @@ const Assets = ({watchlist, onChange}) => {
                                 return <AssetItem onClick={checkboxClickHandler} isActive={checkedItems.includes(item)} key={item.id} item={item} src={src} />
                             })}
                             <h6 className={cx(styles.groupLabel, styles.groupLabel_mt)}>Assets</h6>
-                            {data.filter(item => !watchListIDs.includes(item.id)).map(item => {
+                            {assets.map(item => {
                                 const src = (isNightMode && item.darkLogoUrl) ? item.darkLogoUrl : item.logoUrl;
                                 return <AssetItem onClick={checkboxClickHandler} isActive={checkedItems.includes(item)} key={item.id} item={item} src={src} />
                             })}
