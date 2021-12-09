@@ -56,7 +56,7 @@ const EditForm = ({
     ) {
       toggleOpen(false)
     } else {
-      onFormSubmit({ name, description, isPublic, listItems }).then()
+      onFormSubmit({ name, description, isPublic, listItems })
     }
   }
 
