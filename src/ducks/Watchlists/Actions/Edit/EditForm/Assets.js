@@ -81,7 +81,12 @@ const Assets = ({ watchlist, onChange }) => {
       <div
         ref={ref}
         className={cx(fieldStyles.selector, styles.selector)}
-        onClick={() => !isSearchMode && setIsSearchMode(true) && setFilter('')}
+        onClick={() => {
+          if (!isSearchMode) {
+            setIsSearchMode(true)
+            setFilter('')
+          }
+        }}
       >
         {isSearchMode ? (
           <Input
@@ -97,9 +102,12 @@ const Assets = ({ watchlist, onChange }) => {
         )}
 
         <Icon
-          onClick={() =>
-            isSearchMode && setFilter('') && setIsSearchMode(false)
-          }
+          onClick={() => {
+            if (isSearchMode) {
+              setFilter('')
+              setIsSearchMode(false)
+            }
+          }}
           type='arrow-down'
           className={cx(
             fieldStyles.arrow,
