@@ -7,10 +7,25 @@ import SaveAsAction from '../../../Actions/SaveAs'
 import { useUserWatchlists } from '../../../gql/lists/hooks'
 import { useUpdateWatchlist } from '../../../gql/list/mutations'
 import { getTitleByWatchlistType, SCREENER } from '../../../detector'
-import { Delete, New, SaveAs, Edit, NonAuthorTrigger, Trigger, Copy } from './Items'
+import {
+  Delete,
+  New,
+  SaveAs,
+  Edit,
+  NonAuthorTrigger,
+  Trigger,
+  Copy
+} from './Items'
 import styles from './index.module.scss'
 
-const Actions = ({ watchlist, type, onClick, isAuthor, isAuthorLoading, refetchAssets }) => {
+const Actions = ({
+  watchlist,
+  type,
+  onClick,
+  isAuthor,
+  isAuthorLoading,
+  refetchAssets
+}) => {
   const [lists] = useUserWatchlists(type)
   const [updateWatchlist, { loading }] = useUpdateWatchlist(type)
   const [isMenuOpened, setIsMenuOpened] = useState(false)
@@ -35,11 +50,12 @@ const Actions = ({ watchlist, type, onClick, isAuthor, isAuthorLoading, refetchA
   const title = getTitleByWatchlistType(type)
   const showDelete = isAuthor && (type !== SCREENER || lists.length > 1)
 
-  const onEditApprove = props => updateWatchlist(watchlist, { ...props }).then(() => {
-    setIsMenuOpened(false)
-    notifyUpdate(title)
-    refetchAssets()
-  })
+  const onEditApprove = props =>
+    updateWatchlist(watchlist, { ...props }).then(() => {
+      setIsMenuOpened(false)
+      notifyUpdate(title)
+      refetchAssets()
+    })
 
   return (
     <div onClick={onClick} className={styles.container}>
@@ -70,7 +86,7 @@ const Actions = ({ watchlist, type, onClick, isAuthor, isAuthorLoading, refetchA
           />
           <SaveAs type={type} watchlist={watchlist} />
           <New type={type} />
-          {type === "PROJECT" && <Copy watchlist={watchlist} />}
+          {type === 'PROJECT' && <Copy watchlist={watchlist} />}
           {showDelete && <Delete id={id} name={name} title={title} />}
         </Panel>
       </ContextMenu>

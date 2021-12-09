@@ -29,7 +29,7 @@ const EditForm = ({
 }) => {
   const [lists] = useUserWatchlists(type)
   const [formState, setFormState] = useState(defaultSettings)
-  const [isTouched, setIsTouched] = useState(false);
+  const [isTouched, setIsTouched] = useState(false)
   const debouncedCheckName = useDebounce(checkName, 300)
   const placeholder = type === SCREENER ? 'Most price performance' : 'Favorites'
 
@@ -61,9 +61,11 @@ const EditForm = ({
   }
 
   function checkIsTouched (key, value) {
-    const _value = (value === "" || value === undefined || value === null) ? null : value;
-    const _formState = {...formState, [key]: _value};
-    _formState.description = _formState.description === "" ? null : _formState.description;
+    const _value =
+      value === '' || value === undefined || value === null ? null : value
+    const _formState = { ...formState, [key]: _value }
+    _formState.description =
+      _formState.description === '' ? null : _formState.description
     delete _formState.error
     setIsTouched(JSON.stringify(_formState) !== JSON.stringify(defaultSettings))
   }
@@ -75,17 +77,16 @@ const EditForm = ({
 
   function onTextareaChange ({ currentTarget: { value: description } }) {
     setFormState(state => ({ ...state, description }))
-    checkIsTouched("description", description)
+    checkIsTouched('description', description)
   }
 
   function onToggleClick (evt) {
     evt.preventDefault()
     setFormState(state => {
-      const _isPublic = !state.isPublic;
-      checkIsTouched("isPublic", _isPublic)
-      return { ...state, isPublic:  _isPublic}
+      const _isPublic = !state.isPublic
+      checkIsTouched('isPublic', _isPublic)
+      return { ...state, isPublic: _isPublic }
     })
-    
   }
 
   function checkName (name = '') {
@@ -110,7 +111,7 @@ const EditForm = ({
       error = NAME_EXISTS_ERROR
     }
 
-    if (!error) checkIsTouched("name", name)
+    if (!error) checkIsTouched('name', name)
     setFormState(state => ({ ...state, error }))
 
     return error
@@ -159,19 +160,19 @@ const EditForm = ({
             className={styles.textarea}
             onChange={onTextareaChange}
             defaultValue={formState.description}
-            placeholder="Add a description"
+            placeholder='Add a description'
           />
         )}
-        {isOpen && 
-          <Assets 
-            watchlist={watchlist} 
+        {isOpen && (
+          <Assets
+            watchlist={watchlist}
             onChange={items => {
-              const _listItems = items.map(l => ({projectId: parseInt(l.id)}))
-              setFormState(state => ({ ...state, listItems: _listItems}))
-              checkIsTouched("listItems", _listItems)
+              const _listItems = items.map(l => ({ projectId: parseInt(l.id) }))
+              setFormState(state => ({ ...state, listItems: _listItems }))
+              checkIsTouched('listItems', _listItems)
             }}
           />
-        }
+        )}
         <div className={styles.actions}>
           <Dialog.Approve
             className={styles.btn}
@@ -184,7 +185,7 @@ const EditForm = ({
               formState.name.length < MIN_LENGTH
             }
           >
-            {(isTouched && !formState.error) ? 'Apply changes' : buttonLabel}
+            {isTouched && !formState.error ? 'Apply changes' : buttonLabel}
           </Dialog.Approve>
           <PublicityToggle
             variant='flat'
