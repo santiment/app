@@ -1,32 +1,18 @@
 import { useEffect, useMemo } from 'react'
-import gql from 'graphql-tag'
-import { useQuery } from '@apollo/react-hooks'
-
-const ALL_PROJECTS = gql`
-  {
-    allProjects {
-      id
-      name
-      ticker
-      logoUrl
-      darkLogoUrl
-    }
-  }
-`
-
+import { useProjects } from '../../../../../stores/projects'
 export const useAllProjects = filter => {
-  const { data, loading, error } = useQuery(ALL_PROJECTS)
+  const { projects, isLoading } = useProjects()
 
   return useMemo(() => {
-    let items = data && data.allProjects ? data.allProjects : []
+    let items = projects
     if (items.length > 0 && filter && filter.length > 0) {
-      const filterHelper = item =>
-        item.name.toLowerCase().includes(filter) ||
-        item.ticker.toLowerCase().includes(filter)
+      const filterHelper = ({ name, ticker }) =>
+        name.toLowerCase().includes(filter) ||
+        ticker.toLowerCase().includes(filter)
       items = items.filter(filterHelper)
     }
-    return { data: items, loading, error }
-  }, [data, loading, error, filter])
+    return { data: items, loading: isLoading }
+  }, [projects, isLoading, filter])
 }
 
 export function useOnClickOutside (ref, handler) {

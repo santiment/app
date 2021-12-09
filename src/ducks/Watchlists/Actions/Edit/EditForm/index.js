@@ -61,13 +61,14 @@ const EditForm = ({
   }
 
   function checkIsTouched (key, value) {
-    const _value =
-      value === '' || value === undefined || value === null ? null : value
-    const _formState = { ...formState, [key]: _value }
-    _formState.description =
-      _formState.description === '' ? null : _formState.description
-    delete _formState.error
-    setIsTouched(JSON.stringify(_formState) !== JSON.stringify(defaultSettings))
+    const normalizedValue = value || null
+    const newFormState = { ...formState, [key]: normalizedValue }
+    newFormState.description =
+      newFormState.description === '' ? null : newFormState.description
+    delete newFormState.error
+    setIsTouched(
+      JSON.stringify(newFormState) !== JSON.stringify(defaultSettings)
+    )
   }
 
   function onInputChange ({ currentTarget: { value: name } }) {
@@ -83,9 +84,9 @@ const EditForm = ({
   function onToggleClick (evt) {
     evt.preventDefault()
     setFormState(state => {
-      const _isPublic = !state.isPublic
-      checkIsTouched('isPublic', _isPublic)
-      return { ...state, isPublic: _isPublic }
+      const isPublic = !state.isPublic
+      checkIsTouched('isPublic', isPublic)
+      return { ...state, isPublic }
     })
   }
 
@@ -167,9 +168,9 @@ const EditForm = ({
           <Assets
             watchlist={watchlist}
             onChange={items => {
-              const _listItems = items.map(l => ({ projectId: parseInt(l.id) }))
-              setFormState(state => ({ ...state, listItems: _listItems }))
-              checkIsTouched('listItems', _listItems)
+              const listItems = items.map(l => ({ projectId: parseInt(l.id) }))
+              setFormState(state => ({ ...state, listItems }))
+              checkIsTouched('listItems', listItems)
             }}
           />
         )}
