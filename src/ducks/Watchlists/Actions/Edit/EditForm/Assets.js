@@ -22,12 +22,18 @@ const Assets = ({ watchlist, onChange }) => {
     [watchlist]
   )
   const [items, setItems] = useState(watchListItems)
-  const watchListIDs = useMemo(() => items.map(i => i.id), [items])
+  const watchListIDs = useMemo(
+    () =>
+      new Set(
+        items.map(i => i.id),
+        [items]
+      )
+  )
   const [checkedItems, setCheckedItems] = useState(watchListItems)
   const { isNightMode } = useTheme()
   const { data } = useAllProjects(filter.toLowerCase())
   const assets = useMemo(
-    () => data.filter(item => !watchListIDs.includes(item.id)),
+    () => data.filter(item => !watchListIDs.has(item.id)),
     [data, watchListIDs]
   )
   const [showItems, setShowItems] = useState(false)
@@ -153,7 +159,10 @@ const AssetItemDropdown = ({ checkedItems }) => (
         const seprator = hasComma ? ', ' : hasDots ? '...' : ''
         return (
           <div className={cx(cardStyles.name, styles.mrhalf)} key={item.id}>
-            {item.name} <span className={cardStyles.ticker}>{item.ticker}</span>{' '}
+            {item.name}{' '}
+            <span className={cx(styles.mlzero, cardStyles.ticker)}>
+              {item.ticker}
+            </span>{' '}
             {seprator}
           </div>
         )
