@@ -8,7 +8,7 @@ ENV NODE_ENV=${NODE_ENV}
 ARG REACT_APP_BACKEND_URL
 ENV REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL}
 ARG GIT_HEAD
-RUN GIT_HEAD=$GIT_HEAD
+ENV GIT_HEAD=$GIT_HEAD
 # Tini - https://github.com/krallin/tini#why-tini
 RUN apk --no-cache add git tini
 ENTRYPOINT ["/sbin/tini", "--"]
@@ -51,5 +51,5 @@ ENV NODE_ENV=production
 ARG REACT_APP_BACKEND_URL
 ENV REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL}
 ARG GIT_HEAD
-RUN GIT_HEAD=$GIT_HEAD
+ENV GIT_HEAD=$GIT_HEAD
 COPY --from=builder /opt/san/app/build /opt/san/app/build

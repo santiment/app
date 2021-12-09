@@ -16,6 +16,13 @@ jest.mock('svelte-adapter/react', () => ({
   default: () => ({})
 }))
 
+jest.mock('./stores/user/flow.js', () => ({
+  __esModule: true,
+  default: () => ({}),
+  loginUser: jest.fn(),
+  logoutUser: jest.fn()
+}))
+
 jest.mock('./ducks/Studio/Compare/ProjectSelectTabs.js', () => ({
   __esModule: true,
   DEFAULT_TABS: [],
