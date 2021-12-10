@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from 'react'
 import { useProjects } from '../../../../../stores/projects'
-export const useAllProjects = filter => {
+
+export function useAllProjects (filter) {
   const { projects, isLoading } = useProjects()
 
   return useMemo(() => {

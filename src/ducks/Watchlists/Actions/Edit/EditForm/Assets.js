@@ -17,22 +17,22 @@ const Assets = ({ watchlist, onChange }) => {
   const ref = useRef()
   const [isSearchMode, setIsSearchMode] = useState(false)
   const [filter, setFilter] = useState('')
-  const watchListItems = useMemo(
+  const watchlistProjects = useMemo(
     () => (watchlist ? watchlist.listItems.map(l => l.project) : []),
     [watchlist]
   )
-  const [items, setItems] = useState(watchListItems)
+  const [filteredProjects, setFilteredProjects] = useState(watchlistProjects)
   const watchListIDs = useMemo(
     () =>
       new Set(
-        items.map(i => i.id),
-        [items]
+        filteredProjects.map(i => i.id),
+        [filteredProjects]
       )
   )
-  const [checkedItems, setCheckedItems] = useState(watchListItems)
+  const [checkedItems, setCheckedItems] = useState(watchlistProjects)
   const { isNightMode } = useTheme()
   const { data } = useAllProjects(filter.toLowerCase())
-  const assets = useMemo(
+  const unusedProjects = useMemo(
     () => data.filter(item => !watchListIDs.has(item.id)),
     [data, watchListIDs]
   )
@@ -49,7 +49,7 @@ const Assets = ({ watchlist, onChange }) => {
   })
 
   useEffect(() => {
-    let items = watchListItems
+    let items = watchlistProjects
     if (filter && filter.length > 0) {
       const lowercaseFilter = filter.toLowerCase()
       const filterHelper = ({ name, ticker }) =>
@@ -57,8 +57,8 @@ const Assets = ({ watchlist, onChange }) => {
         ticker.toLowerCase().includes(lowercaseFilter)
       items = items.filter(filterHelper)
     }
-    setItems(items)
-  }, [filter, watchListItems])
+    setFilteredProjects(items)
+  }, [filter, watchlistProjects])
 
   const checkboxClickHandler = (item, newValue) =>
     setCheckedItems(old => {
@@ -127,7 +127,7 @@ const Assets = ({ watchlist, onChange }) => {
           {showItems && (
             <>
               <h6 className={styles.groupLabel}>Contained in watchlist</h6>
-              {items.map(item => {
+              {filteredProjects.map(item => {
                 return (
                   <AssetItem
                     onClick={checkboxClickHandler}
@@ -141,7 +141,7 @@ const Assets = ({ watchlist, onChange }) => {
               <h6 className={cx(styles.groupLabel, styles.groupLabel_mt)}>
                 Assets
               </h6>
-              {assets.map(item => {
+              {unusedProjects.map(item => {
                 return (
                   <AssetItem
                     onClick={checkboxClickHandler}
