@@ -1,34 +1,60 @@
-import { useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useProjects } from '../../../../../stores/projects'
 
-export function useAllProjects (filter) {
-  const { projects, isLoading } = useProjects()
+const filterHelper = (filter, { ticker, name }) =>
+  name.toLowerCase().includes(filter) || ticker.toLowerCase().includes(filter)
+
+function useAllProjects (filter) {
+  const { projects } = useProjects()
 
   return useMemo(() => {
     let items = projects
     if (items.length > 0 && filter && filter.length > 0) {
-      const filterHelper = ({ name, ticker }) =>
-        name.toLowerCase().includes(filter) ||
-        ticker.toLowerCase().includes(filter)
-      items = items.filter(filterHelper)
+      items = items.filter(item => filterHelper(filter, item))
     }
-    return { data: items, loading: isLoading }
-  }, [projects, isLoading, filter])
+    return items
+  }, [projects, filter])
 }
 
-export function useOnClickOutside (ref, handler) {
+export function useEditAssets (filter, watchlist, onChange) {
+  const data = useAllProjects(filter)
+  const watchlistProjects = useMemo(
+    () => (watchlist ? watchlist.listItems.map(l => l.project) : []),
+    [watchlist]
+  )
+  const [checkedItems, setCheckedItems] = useState(watchlistProjects)
+  const [filteredProjects, setFilteredProjects] = useState(watchlistProjects)
+  const unusedProjects = useMemo(() => {
+    const watchListIDs = new Set(filteredProjects.map(i => i.id))
+    return data.filter(item => !watchListIDs.has(item.id))
+  }, [data, filteredProjects])
+
   useEffect(() => {
-    const listener = event => {
-      if (!ref.current || ref.current.contains(event.target)) {
-        return
+    let items = watchlistProjects
+    if (filter && filter.length > 0) {
+      items = items.filter(item => filterHelper(filter, item))
+    }
+    setFilteredProjects(items)
+  }, [filter, watchlistProjects])
+
+  const toggleWatchlistProject = item =>
+    setCheckedItems(old => {
+      let items = new Set(old)
+      const has = items.has(item)
+      if (!has) {
+        items.add(item)
+      } else {
+        items.delete(item)
       }
-      handler(event)
-    }
-    document.addEventListener('mousedown', listener)
-    document.addEventListener('touchstart', listener)
-    return () => {
-      document.removeEventListener('mousedown', listener)
-      document.removeEventListener('touchstart', listener)
-    }
-  }, [ref, handler])
+      items = Array.from(items)
+      onChange && onChange(items)
+      return items
+    })
+
+  return {
+    checkedItems,
+    toggleWatchlistProject,
+    unusedProjects,
+    filteredProjects
+  }
 }

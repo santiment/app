@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import Icon from '@santiment-network/ui/Icon'
@@ -6,7 +6,8 @@ import Input from '@santiment-network/ui/Input'
 import Panel from '@santiment-network/ui/Panel'
 import { Checkbox } from '@santiment-network/ui/Checkboxes/Checkboxes'
 import { useTheme } from '../../../../../stores/ui/theme'
-import { useAllProjects, useOnClickOutside } from './hooks'
+import { useOnClickOutside } from '../../../../../hooks/click'
+import { useEditAssets } from './hooks'
 import styles from './index.module.scss'
 import cardStyles from '../../../../../ducks/Watchlists/Widgets/Table/AssetCard.module.scss'
 import fieldStyles from '../../../../../ducks/Studio/Sidebar/ProjectSelector/index.module.scss'
@@ -17,25 +18,13 @@ const Assets = ({ watchlist, onChange }) => {
   const ref = useRef()
   const [isSearchMode, setIsSearchMode] = useState(false)
   const [filter, setFilter] = useState('')
-  const watchlistProjects = useMemo(
-    () => (watchlist ? watchlist.listItems.map(l => l.project) : []),
-    [watchlist]
-  )
-  const [filteredProjects, setFilteredProjects] = useState(watchlistProjects)
-  const watchListIDs = useMemo(
-    () =>
-      new Set(
-        filteredProjects.map(i => i.id),
-        [filteredProjects]
-      )
-  )
-  const [checkedItems, setCheckedItems] = useState(watchlistProjects)
+  const {
+    checkedItems,
+    toggleWatchlistProject,
+    unusedProjects,
+    filteredProjects
+  } = useEditAssets(filter.toLowerCase(), watchlist, onChange)
   const { isNightMode } = useTheme()
-  const { data } = useAllProjects(filter.toLowerCase())
-  const unusedProjects = useMemo(
-    () => data.filter(item => !watchListIDs.has(item.id)),
-    [data, watchListIDs]
-  )
   const [showItems, setShowItems] = useState(false)
 
   useEffect(() => {
@@ -47,38 +36,6 @@ const Assets = ({ watchlist, onChange }) => {
     setFilter('')
     setIsSearchMode(false)
   })
-
-  useEffect(() => {
-    let items = watchlistProjects
-    if (filter && filter.length > 0) {
-      const lowercaseFilter = filter.toLowerCase()
-      const filterHelper = ({ name, ticker }) =>
-        name.toLowerCase().includes(lowercaseFilter) ||
-        ticker.toLowerCase().includes(lowercaseFilter)
-      items = items.filter(filterHelper)
-    }
-    setFilteredProjects(items)
-  }, [filter, watchlistProjects])
-
-  const checkboxClickHandler = (item, newValue) =>
-    setCheckedItems(old => {
-      let changed = false
-      let items = new Set(old)
-      const has = items.has(item)
-      if (!has && newValue) {
-        items.add(item)
-        changed = true
-      } else if (has && !newValue) {
-        items.delete(item)
-        changed = true
-      }
-      if (changed) {
-        items = Array.from(items)
-        if (onChange) onChange(items)
-        return items
-      }
-      return old
-    })
 
   return (
     <>
@@ -130,7 +87,7 @@ const Assets = ({ watchlist, onChange }) => {
               {filteredProjects.map(item => {
                 return (
                   <AssetItem
-                    onClick={checkboxClickHandler}
+                    toggleWatchlistProject={toggleWatchlistProject}
                     isActive={checkedItems.includes(item)}
                     key={item.id}
                     item={item}
@@ -144,7 +101,7 @@ const Assets = ({ watchlist, onChange }) => {
               {unusedProjects.map(item => {
                 return (
                   <AssetItem
-                    onClick={checkboxClickHandler}
+                    toggleWatchlistProject={toggleWatchlistProject}
                     isActive={checkedItems.includes(item)}
                     key={item.id}
                     item={item}
@@ -185,11 +142,14 @@ const AssetItemDropdown = ({ checkedItems }) => (
   </>
 )
 
-const AssetItem = ({ item, isNightMode, isActive, onClick }) => {
+const AssetItem = ({ item, isNightMode, isActive, toggleWatchlistProject }) => {
   const src = (isNightMode && item.darkLogoUrl) || item.logoUrl
 
   return (
-    <div className={styles.assetItem} onClick={() => onClick(item, !isActive)}>
+    <div
+      className={styles.assetItem}
+      onClick={() => toggleWatchlistProject(item)}
+    >
       <Checkbox isActive={isActive} />{' '}
       <img src={src} loading='lazy' className={styles.logo} alt={item.name} />{' '}
       {item.name} <span className={cardStyles.ticker}>{item.ticker}</span>
