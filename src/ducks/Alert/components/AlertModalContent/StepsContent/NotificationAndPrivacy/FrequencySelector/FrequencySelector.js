@@ -6,7 +6,7 @@ import Input from '@santiment-network/ui/Input'
 import { getFrequencyPeriods, getFrequencyTypes } from './utils'
 import styles from './FrequencySelector.module.scss'
 
-function FrequencySelector () {
+const FrequencySelector = () => {
   const { values } = useFormikContext()
   const [, { value: cooldown }, { setValue: setCooldown }] = useField(
     'cooldown'
@@ -24,8 +24,9 @@ function FrequencySelector () {
   )
   const [type, setType] = useState(frequencyTypes[0])
   const frequencyPeriods = useMemo(() => getFrequencyPeriods(type), [type])
-  const cooldownFrequencyPeriod = frequencyPeriods.find(
-    ({ value }) => value === cooldownPeriod
+  const cooldownFrequencyPeriod = useMemo(
+    () => frequencyPeriods.find(({ value }) => value === cooldownPeriod),
+    [cooldownPeriod, frequencyPeriods]
   )
   const [period, setPeriod] = useState(
     (cooldown && cooldownFrequencyPeriod) || frequencyPeriods[0]

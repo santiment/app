@@ -3,7 +3,7 @@ import { useFormikContext } from 'formik'
 import Steps from '../../../../components/Steps/Steps'
 import AlertStepDescription from './AlertStepDescription/AlertStepDescription'
 
-function AlertStepsSelector ({
+const AlertStepsSelector = ({
   size,
   isMetricsDisabled,
   items,
@@ -13,7 +13,7 @@ function AlertStepsSelector ({
     visitedSteps,
     setVisitedSteps
   }
-}) {
+}) => {
   const { values } = useFormikContext()
 
   function handleStepClick (stepIndex) {

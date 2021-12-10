@@ -5,7 +5,7 @@ import AlertStepsSelector from '../AlertStepsSelector/AlertStepsSelector'
 import StepsContent from './StepsContent/StepsContent'
 import styles from './AlertModalContent.module.scss'
 
-function AlertModalContent ({ isMetricsDisabled, selectorSettings }) {
+const AlertModalContent = ({ isMetricsDisabled, selectorSettings }) => {
   const { submitForm, isSubmitting } = useFormikContext()
 
   const { selectedStep, selectedType, setVisitedSteps } = selectorSettings

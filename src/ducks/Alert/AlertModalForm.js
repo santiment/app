@@ -4,7 +4,7 @@ import AlertModalSidebar from './components/AlertModalSidebar/AlertModalSidebar'
 import AlertModalContent from './components/AlertModalContent/AlertModalContent'
 import styles from './AlertModalFormMaster.module.scss'
 
-function AlertModalForm ({ selectorSettings, resetForm }) {
+const AlertModalForm = ({ selectorSettings, resetForm }) => {
   const { setSelectedType, setSelectedStep } = selectorSettings
 
   function handleSelectType (type) {

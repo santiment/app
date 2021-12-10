@@ -5,14 +5,14 @@ import NextStep from '../NextStep/NextStep'
 import FrequencySelector from './FrequencySelector/FrequencySelector'
 import styles from './NotificationAndPrivacy.module.scss'
 
-function NotificationAndPrivacy ({
+const NotificationAndPrivacy = ({
   selectorSettings: {
     setSelectedStep,
     selectedStep,
     visitedSteps,
     setVisitedSteps
   }
-}) {
+}) => {
   function handleNextClick () {
     setSelectedStep(selectedStep + 1)
 

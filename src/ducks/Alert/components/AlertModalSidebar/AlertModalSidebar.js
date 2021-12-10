@@ -7,11 +7,11 @@ import Tip from './Tip/Tip'
 import { ALERT_TYPES } from '../../constants'
 import styles from './AlertModalSidebar.module.scss'
 
-function AlertModalSidebar ({
+const AlertModalSidebar = ({
   isMetricsDisabled,
   onTypeSelect,
   selectorSettings
-}) {
+}) => {
   const [openedSteps, setOpenedSteps] = useState([])
 
   const { selectedType, selectedStep, setSelectedStep } = selectorSettings

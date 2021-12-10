@@ -2,7 +2,7 @@ import React from 'react'
 import NotificationAndPrivacy from './NotificationAndPrivacy/NotificationAndPrivacy'
 import NameAndDescription from './NameAndDescription/NameAndDescription'
 
-function StepsContent ({ selectorSettings }) {
+const StepsContent = ({ selectorSettings }) => {
   const { selectedType, selectedStep } = selectorSettings
 
   switch (selectedType.subSteps[selectedStep].label) {

@@ -5,7 +5,7 @@ import StepTitle from '../StepTitle/StepTitle'
 import BlockInput from './BlockInput/BlockInput'
 import styles from './NameAndDescription.module.scss'
 
-function NameAndDescription () {
+const NameAndDescription = () => {
   const { submitForm, isSubmitting } = useFormikContext()
   const [titleField] = useField('title')
   const [descriptionField] = useField('description')

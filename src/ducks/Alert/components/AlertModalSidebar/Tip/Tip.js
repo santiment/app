@@ -5,7 +5,7 @@ import Icon from '@santiment-network/ui/Icon'
 import Tip from '../../../../../components/Illustrations/Tip'
 import styles from './Tip.module.scss'
 
-function Tips ({ tips, selectedStep, openedSteps, setOpenedSteps }) {
+const Tips = ({ tips, selectedStep, openedSteps, setOpenedSteps }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [currentTip, setCurrentTip] = useState(0)
 

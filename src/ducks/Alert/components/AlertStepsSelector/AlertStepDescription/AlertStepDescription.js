@@ -18,7 +18,7 @@ function checkValueByType (values, type) {
   }
 }
 
-function AlertStepDescription ({ description, size, type, values }) {
+const AlertStepDescription = ({ description, size, type, values }) => {
   const valueDescription = checkValueByType(values, type)
 
   if (!valueDescription.value) {

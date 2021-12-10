@@ -25,7 +25,7 @@ const initialValues = {
   title: ''
 }
 
-function AlertModalFormMaster ({ defaultType, createAlert }) {
+const AlertModalFormMaster = ({ defaultType, createAlert }) => {
   const [selectedType, setSelectedType] = useState(defaultType)
   const [selectedStep, setSelectedStep] = useState(undefined)
   const [visitedSteps, setVisitedSteps] = useState([])

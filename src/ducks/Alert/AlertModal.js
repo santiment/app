@@ -6,12 +6,12 @@ import AlertModalForm from './AlertModalFormMaster'
 import { useUser } from '../../stores/user'
 import styles from './AlertModal.module.scss'
 
-function AlertModal ({
+const AlertModal = ({
   disabled,
   triggerButtonProps,
   modalTitle,
   defaultOpen
-}) {
+}) => {
   const { isLoggedIn } = useUser()
   const [isModalOpen, setIsModalOpen] = useState(false)
 
