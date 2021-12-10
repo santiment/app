@@ -28,9 +28,7 @@ function FrequencySelector () {
     ({ value }) => value === cooldownPeriod
   )
   const [period, setPeriod] = useState(
-    cooldown
-      ? cooldownFrequencyPeriod || frequencyPeriods[0]
-      : frequencyPeriods[0]
+    (cooldown && cooldownFrequencyPeriod) || frequencyPeriods[0]
   )
   const [count, setCount] = useState(
     cooldownFrequencyPeriod ? cooldownCount : period.counts.min
@@ -42,14 +40,14 @@ function FrequencySelector () {
     }
   }, [period, count])
 
-  function handleChangeType(frequencyType) {
+  function handleChangeType (frequencyType) {
     setType(frequencyType)
     const periods = getFrequencyPeriods(frequencyType)
     setPeriod(periods[0])
     setCount(periods[0].counts.min)
   }
 
-  function handleIsRepeatingChange() {
+  function handleIsRepeatingChange () {
     setIsRepeating(!isRepeating)
     const frequencies = getFrequencyTypes(values.settings.metric)
     const periods = getFrequencyPeriods(frequencies[0])
@@ -98,7 +96,11 @@ function FrequencySelector () {
           isActive={!isRepeating}
           onClick={handleIsRepeatingChange}
         />
-        <label htmlFor='isRepeating' onClick={handleIsRepeatingChange}>
+        <label
+          className={styles.repeatingCheckLabel}
+          htmlFor='isRepeating'
+          onClick={handleIsRepeatingChange}
+        >
           Disable after it triggers
         </label>
       </div>

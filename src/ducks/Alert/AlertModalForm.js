@@ -7,7 +7,7 @@ import styles from './AlertModalFormMaster.module.scss'
 function AlertModalForm ({ selectorSettings, resetForm }) {
   const { setSelectedType, setSelectedStep } = selectorSettings
 
-  function handleSelectType(type) {
+  function handleSelectType (type) {
     setSelectedType(type)
     setSelectedStep(undefined)
     resetForm()

@@ -1,5 +1,12 @@
 @import "~@santiment-network/ui/mixins";
 
+.disabled {
+  --step-icon-background: var(--porcelain);
+  --step-icon-fill: var(--waterloo);
+  --step-title-color: var(--waterloo);
+  --step-description-color: var(--casper);
+}
+
 .wrapper {
   display: flex;
 }
@@ -11,45 +18,27 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: var(--waterloo);
-
-  &.disabled {
-    background: var(--porcelain);
-  }
+  background: var(--step-icon-background, var(--waterloo));
 }
 
 .icon {
-  fill: var(--white);
-
-  &.disabled {
-    fill: var(--waterloo);
-  }
+  fill: var(--step-icon-fill, var(--white));
 }
 
 .titleWrapper {
   display: flex;
   flex-direction: column;
   margin-left: 12px;
+}
 
-  .title {
-    color: var(--rhino);
+.title {
+  color: var(--step-title-color, var(--rhino));
 
-    @include text("body-2");
-  }
+  @include text("body-2");
+}
 
-  .description {
-    color: var(--waterloo);
+.description {
+  color: var(--step-description-color, var(--waterloo));
 
-    @include text("body-3");
-  }
-
-  &.disabled {
-    .title {
-      color: var(--waterloo);
-    }
-
-    .description {
-      color: var(--casper);
-    }
-  }
+  @include text("body-3");
 }

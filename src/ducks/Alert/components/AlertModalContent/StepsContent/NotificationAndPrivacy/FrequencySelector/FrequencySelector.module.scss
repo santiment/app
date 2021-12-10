@@ -17,13 +17,13 @@
     display: flex;
     align-items: center;
   }
+}
 
-  label {
-    color: var(--rhino);
-    cursor: pointer;
+.repeatingCheckLabel {
+  color: var(--rhino);
+  cursor: pointer;
 
-    @include text("body-3");
-  }
+  @include text("body-3");
 }
 
 .frequencyType {

@@ -8,10 +8,6 @@ const DESCRIPTION_TYPES = {
 function checkValueByType (values, type) {
   switch (type) {
     case 'Check name and description':
-      return {
-        value: values.title,
-        type: DESCRIPTION_TYPES.TITLE
-      }
     case 'Name & Description':
       return {
         value: values.title,

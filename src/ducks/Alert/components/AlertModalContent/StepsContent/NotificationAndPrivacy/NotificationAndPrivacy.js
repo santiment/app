@@ -13,10 +13,10 @@ function NotificationAndPrivacy ({
     setVisitedSteps
   }
 }) {
-  function handleNextClick() {
+  function handleNextClick () {
     setSelectedStep(selectedStep + 1)
 
-    if (!visitedSteps.includes(selectedStep + 1)) {
+    if (!visitedSteps.has(selectedStep + 1)) {
       setVisitedSteps(prev => [...prev, selectedStep + 1])
     }
   }

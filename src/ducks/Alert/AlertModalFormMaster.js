@@ -33,7 +33,6 @@ function AlertModalFormMaster ({ defaultType, createAlert }) {
 
   function handleSubmit (values, { setSubmitting }) {
     console.log(values)
-    // createAlert(values);
     setSubmitting(false)
   }
 
