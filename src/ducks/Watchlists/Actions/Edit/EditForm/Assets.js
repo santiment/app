@@ -51,10 +51,10 @@ const Assets = ({ watchlist, onChange }) => {
   useEffect(() => {
     let items = watchListItems
     if (filter && filter.length > 0) {
-      const _filter = filter.toLowerCase()
-      const filterHelper = item =>
-        item.name.toLowerCase().includes(_filter) ||
-        item.ticker.toLowerCase().includes(_filter)
+      const lowercaseFilter = filter.toLowerCase()
+      const filterHelper = ({ name, ticker }) =>
+        name.toLowerCase().includes(lowercaseFilter) ||
+        ticker.toLowerCase().includes(lowercaseFilter)
       items = items.filter(filterHelper)
     }
     setItems(items)
@@ -62,15 +62,22 @@ const Assets = ({ watchlist, onChange }) => {
 
   const checkboxClickHandler = (item, newValue) =>
     setCheckedItems(old => {
-      const items = [...old]
-      const index = items.findIndex(i => i.id === item.id)
-      if (index === -1 && newValue) {
-        items.push(item)
-      } else if (index > -1 && !newValue) {
-        items.splice(index, 1)
+      let changed = false
+      let items = new Set(old)
+      const has = items.has(item)
+      if (!has && newValue) {
+        items.add(item)
+        changed = true
+      } else if (has && !newValue) {
+        items.delete(item)
+        changed = true
       }
-      if (onChange) onChange(items)
-      return items
+      if (changed) {
+        items = Array.from(items)
+        if (onChange) onChange(items)
+        return items
+      }
+      return old
     })
 
   return (
