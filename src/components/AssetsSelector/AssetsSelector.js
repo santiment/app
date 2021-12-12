@@ -1,11 +1,11 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useRef } from 'react'
 import cx from 'classnames'
-import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Panel from '@santiment-network/ui/Panel'
 import Input from '@santiment-network/ui/Input'
 import Item from '../../ducks/Watchlists/Widgets/Filter/EntryPoint/Item'
 import { useProject } from '../../hooks/project'
 import { toggleByKey } from '../../pages/Index/Section/KeystackeholdersEvents/StakeholderLabels/StakeholderLabels'
+import { useOnClickOutside } from '../../hooks/click'
 import styles from './AssetsSelector.module.scss'
 
 const ProjectItem = ({
@@ -27,12 +27,16 @@ const ProjectItem = ({
       name={name}
       ticker={ticker}
       id={targetSlug}
+      className={styles.item}
     />
   )
 }
 
 const AssetsSelector = ({ onChange, selected, projects, slugs, className }) => {
   const [searchTerm, setSearchTerm] = useState('')
+  const [showPanel, setShowPanel] = useState(false)
+  const ref = useRef()
+  useOnClickOutside(ref, () => setShowPanel(false))
 
   function onChangeSearch (e) {
     setSearchTerm(e.target.value)
@@ -64,102 +68,96 @@ const AssetsSelector = ({ onChange, selected, projects, slugs, className }) => {
   const isResetVisible = selectableAssets.length > 0
 
   return (
-    <div className={styles.wrapper}>
-      <ContextMenu
-        passOpenStateAs='data-isactive'
-        position='bottom'
-        align='end'
-        className={styles.dropdown}
-        trigger={
-          <div className={cx(styles.trigger, className)}>
-            All assets
-            {countSelected > 0 ? `: ${countSelected}` : ''}
-          </div>
-        }
+    <div className={styles.wrapper} ref={ref}>
+      <div
+        className={cx(styles.trigger, className)}
+        onClick={() => setShowPanel(old => !old)}
       >
-        <Panel className={styles.panel}>
-          <div className={styles.content}>
-            <Input
-              type='text'
-              onChange={onChangeSearch}
-              defaultValue={searchTerm}
-              className={styles.search}
-              placeholder='Search for asset'
-            />
+        All assets
+        {countSelected > 0 ? `: ${countSelected}` : ''}
+      </div>
+      <Panel className={cx(styles.panel, showPanel && styles.panel_show)}>
+        <div className={styles.content}>
+          <Input
+            type='text'
+            onChange={onChangeSearch}
+            defaultValue={searchTerm}
+            className={styles.search}
+            placeholder='Search for asset'
+          />
 
-            <div className={styles.scroller}>
-              {countSelected > 0 && (
-                <>
-                  <div className={styles.title}>Selected assets</div>
-                  <div
-                    className={cx(
-                      styles.list,
-                      !isResetVisible && styles.noMargin
-                    )}
-                  >
-                    {selectedAssets.map(slug => {
-                      return (
-                        <ProjectItem
-                          key={slug}
-                          slug={slug}
-                          project={projects[slug]}
-                          addItemInState={addItemInState}
-                          selected={true}
-                        />
-                      )
-                    })}
-                  </div>
-                </>
-              )}
+          <div className={styles.scroller}>
+            {countSelected > 0 && (
+              <>
+                <div className={styles.title}>Selected assets</div>
+                <div
+                  className={cx(
+                    styles.list,
+                    !isResetVisible && styles.noMargin
+                  )}
+                >
+                  {selectedAssets.map(slug => {
+                    return (
+                      <ProjectItem
+                        key={slug}
+                        slug={slug}
+                        project={projects[slug]}
+                        addItemInState={addItemInState}
+                        selected={true}
+                      />
+                    )
+                  })}
+                </div>
+              </>
+            )}
 
-              {selectableAssets.length > 0 && (
-                <>
-                  <div className={styles.title}>Assets</div>
-                  <div className={cx(styles.list, styles.noMargin)}>
-                    {selectableAssets.map(slug => {
-                      return (
-                        <ProjectItem
-                          key={slug}
-                          slug={slug}
-                          project={projects[slug]}
-                          addItemInState={addItemInState}
-                          selected={false}
-                        />
-                      )
-                    })}
-                  </div>
-                </>
-              )}
-            </div>
+            {selectableAssets.length > 0 && (
+              <>
+                <div className={styles.title}>Assets</div>
+                <div className={cx(styles.list, styles.noMargin)}>
+                  {selectableAssets.map(slug => {
+                    return (
+                      <ProjectItem
+                        key={slug}
+                        slug={slug}
+                        project={projects[slug]}
+                        addItemInState={addItemInState}
+                        selected={false}
+                      />
+                    )
+                  })}
+                </div>
+              </>
+            )}
           </div>
+        </div>
 
-          {isResetVisible ? (
-            <div
-              className={styles.reset}
-              onClick={() => {
-                onChange(
-                  slugs.reduce((acc, s) => {
-                    acc[s] = true
+        {isResetVisible ? (
+          <div
+            className={styles.reset}
+            onClick={() => {
+              onChange(
+                slugs.reduce((acc, s) => {
+                  acc[s] = true
 
-                    return acc
-                  }, {})
-                )
-              }}
-            >
-              Select all
-            </div>
-          ) : (
-            <div
-              className={styles.reset}
-              onClick={() => {
-                onChange({})
-              }}
-            >
-              Deselect all
-            </div>
-          )}
-        </Panel>
-      </ContextMenu>
+                  return acc
+                }, {})
+              )
+            }}
+          >
+            Select all
+          </div>
+        ) : (
+          <div
+            className={styles.reset}
+            onClick={() => {
+              onChange({})
+            }}
+          >
+            Deselect all
+          </div>
+        )}
+      </Panel>
     </div>
   )
 }
