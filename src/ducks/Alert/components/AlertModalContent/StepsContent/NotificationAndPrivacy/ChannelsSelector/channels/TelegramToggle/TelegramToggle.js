@@ -65,7 +65,7 @@ const TelegramToggle = ({
             value={telegramChat}
             onChange={e => setTelegramChat(e.target.value)}
             className={styles.input}
-            disabled={disabled}
+            disabled={!isActive || disabled}
             isError={isError}
             errorText={isError && 'Invalid telegram ID'}
           />

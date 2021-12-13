@@ -20,9 +20,7 @@ const ChannelsSelector = () => {
   const {
     settings: {
       alertNotifyTelegram: isTelegramConnected,
-      alertNotifyEmail: isEmailConnected,
-      isEmailAllowAlerts,
-      hasTelegramConnected
+      alertNotifyEmail: isEmailConnected
     }
   } = useUserSettings()
 
@@ -66,10 +64,10 @@ const ChannelsSelector = () => {
   const updateDefaultSettings = useCallback(() => {
     const selected = []
 
-    if (isEmailAllowAlerts) {
+    if (isEmailConnected) {
       selected.push('email')
     }
-    if (hasTelegramConnected) {
+    if (isTelegramConnected) {
       selected.push('telegram')
     }
 
