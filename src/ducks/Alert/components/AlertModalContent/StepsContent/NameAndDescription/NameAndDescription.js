@@ -1,14 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useField, useFormikContext } from 'formik'
 import Button from '@santiment-network/ui/Button'
 import StepTitle from '../StepTitle/StepTitle'
 import BlockInput from './BlockInput/BlockInput'
+import { getDescriptionStr } from '../../../../utils'
 import styles from './NameAndDescription.module.scss'
 
 const NameAndDescription = () => {
-  const { submitForm, isSubmitting } = useFormikContext()
+  const { submitForm, isSubmitting, values } = useFormikContext()
   const [titleField] = useField('title')
-  const [descriptionField] = useField('description')
+  const [descriptionField, , { setValue }] = useField('description')
+
+  useEffect(() => {
+    if (values.cooldown && !values.description) {
+      setValue(
+        getDescriptionStr({
+          cooldown: values.cooldown,
+          channels: values.settings.channel
+        })
+      )
+    }
+  }, [])
 
   function handleSubmit () {
     if (isSubmitting) {

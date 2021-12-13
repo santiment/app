@@ -24,3 +24,9 @@ export const TRIGGER_BY_ID_QUERY = gql`
   }
   ${TRIGGERS_COMMON_FRAGMENT}
 `
+
+export const IS_TELEGRAM_CHAT_VALID_QUERY = gql`
+  query isTelegramChatIdValid($id: String!) {
+    isTelegramChatIdValid(chatId: $id)
+  }
+`

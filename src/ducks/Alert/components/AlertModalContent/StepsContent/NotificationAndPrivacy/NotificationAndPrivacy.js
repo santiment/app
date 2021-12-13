@@ -2,6 +2,7 @@ import React from 'react'
 import StepTitle from '../StepTitle/StepTitle'
 import Block from '../Block/Block'
 import NextStep from '../NextStep/NextStep'
+import ChannelsSelector from './ChannelsSelector/ChannelsSelector'
 import FrequencySelector from './FrequencySelector/FrequencySelector'
 import styles from './NotificationAndPrivacy.module.scss'
 
@@ -28,7 +29,9 @@ const NotificationAndPrivacy = ({
         title='Notification & Privacy settings'
         className={styles.title}
       />
-      <Block label='Alert action' className={styles.actionBlock} />
+      <Block label='Alert action' className={styles.actionBlock}>
+        <ChannelsSelector />
+      </Block>
       <Block
         label='Frequency of notifications'
         className={styles.frequencyBlock}

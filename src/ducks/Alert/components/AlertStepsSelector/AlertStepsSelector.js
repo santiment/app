@@ -48,6 +48,7 @@ const AlertStepsSelector = ({
               description={step.description}
               values={values}
               type={step.label}
+              status={status}
             />
           }
           onStepClick={() => handleStepClick(index)}

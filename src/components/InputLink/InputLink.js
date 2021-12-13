@@ -1,7 +1,7 @@
 import React from 'react'
 import Input from '@santiment-network/ui/Input'
 
-function validURL (str) {
+export function validURL (str) {
   var pattern = new RegExp(
     '^(https?:\\/\\/)?' + // protocol
     '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name

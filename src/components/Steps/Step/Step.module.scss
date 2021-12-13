@@ -6,7 +6,7 @@
 }
 
 .container[role="button"] {
-  cursor: pointer;
+  cursor: var(--step-cursor, pointer);
   transition: opacity 0.3s;
 }
 
@@ -71,10 +71,7 @@
 }
 
 .disabled {
-  &[role="button"] {
-    cursor: initial;
-  }
-
+  --step-cursor: default;
   --title-color: var(--waterloo);
   --description-color: var(--casper);
   --icon-background-color: var(--mystic);
