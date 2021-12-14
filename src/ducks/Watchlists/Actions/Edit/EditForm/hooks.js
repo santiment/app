@@ -36,7 +36,7 @@ export function useEditAssets (filter, watchlist, onChange) {
         items.delete(item)
       }
       items = Array.from(items)
-      if (onChange) onChange(items)
+      if (onChange) onChange(items.map(l => ({ projectId: parseInt(l.id) })))
       return items
     })
 
