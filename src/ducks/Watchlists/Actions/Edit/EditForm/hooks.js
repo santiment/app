@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { useProjects } from '../../../../../stores/projects'
 
 const filterHelper = (filter, { ticker, name }) =>
@@ -17,31 +17,17 @@ function useAllProjects (filter) {
 }
 
 export function useEditAssets (filter, watchlist, onChange) {
-  const data = useAllProjects(filter)
-  const watchlistProjects = useMemo(
-    () => (watchlist ? watchlist.listItems.map(l => l.project) : []),
-    [watchlist]
-  )
-  const [checkedItems, setCheckedItems] = useState(watchlistProjects)
-  const [filteredProjects, setFilteredProjects] = useState(watchlistProjects)
+  const allProjects = useAllProjects(filter)
+  const [checkedItems, setCheckedItems] = useState(watchlist)
   const unusedProjects = useMemo(() => {
-    const watchListIDs = new Set(filteredProjects.map(i => i.id))
-    return data.filter(item => !watchListIDs.has(item.id))
-  }, [data, filteredProjects])
-
-  useEffect(() => {
-    let items = watchlistProjects
-    if (filter && filter.length > 0) {
-      items = items.filter(item => filterHelper(filter, item))
-    }
-    setFilteredProjects(items)
-  }, [filter, watchlistProjects])
+    const checkedItemsIDs = new Set(checkedItems.map(i => i.id))
+    return allProjects.filter(item => !checkedItemsIDs.has(item.id))
+  }, [allProjects, checkedItems])
 
   const toggleWatchlistProject = item =>
     setCheckedItems(old => {
       let items = new Set(old)
-      const has = items.has(item)
-      if (!has) {
+      if (!items.has(item)) {
         items.add(item)
       } else {
         items.delete(item)
@@ -54,7 +40,6 @@ export function useEditAssets (filter, watchlist, onChange) {
   return {
     checkedItems,
     toggleWatchlistProject,
-    unusedProjects,
-    filteredProjects
+    unusedProjects
   }
 }

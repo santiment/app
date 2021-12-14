@@ -21,9 +21,12 @@ const Assets = ({ watchlist, onChange }) => {
   const {
     checkedItems,
     toggleWatchlistProject,
-    unusedProjects,
-    filteredProjects
-  } = useEditAssets(filter.toLowerCase(), watchlist, onChange)
+    unusedProjects
+  } = useEditAssets(
+    filter.toLowerCase(),
+    watchlist ? watchlist.listItems.map(l => l.project) : [],
+    onChange
+  )
   const { isNightMode } = useTheme()
   const [showItems, setShowItems] = useState(false)
 
@@ -84,7 +87,7 @@ const Assets = ({ watchlist, onChange }) => {
           {showItems && (
             <>
               <h6 className={styles.groupLabel}>Contained in watchlist</h6>
-              {filteredProjects.map(item => {
+              {checkedItems.map(item => {
                 return (
                   <AssetItem
                     toggleWatchlistProject={toggleWatchlistProject}
