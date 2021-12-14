@@ -14,9 +14,7 @@ import styles from './ChannelsSelector.module.scss'
 const ChannelsSelector = () => {
   const [, { value }, { setValue }] = useField('settings.channel')
   const [isPushDisabled, setIsPushDisabled] = useState(false)
-  const {
-    user: { email }
-  } = useUser()
+  const { user } = useUser()
   const {
     settings: {
       alertNotifyTelegram: isTelegramConnected,
@@ -53,12 +51,9 @@ const ChannelsSelector = () => {
   const checkPushAvailability = useCallback(() => {
     navigator.serviceWorker &&
       navigator.serviceWorker.getRegistrations &&
-      navigator.serviceWorker.getRegistrations().then(registrations => {
-        const sw = getSanSonarSW(registrations)
-        const hasServiceWorker = !!sw
-
-        setIsPushDisabled(!hasServiceWorker)
-      })
+      navigator.serviceWorker
+        .getRegistrations()
+        .then(registrations => setIsPushDisabled(!getSanSonarSW(registrations)))
   }, [setIsPushDisabled])
 
   const updateDefaultSettings = useCallback(() => {
@@ -72,7 +67,7 @@ const ChannelsSelector = () => {
     }
 
     setValue(selected)
-  }, [setValue])
+  }, [setValue, isEmailConnected, isTelegramConnected])
 
   useEffect(() => {
     if (value.length === 0) {
@@ -116,7 +111,7 @@ const ChannelsSelector = () => {
   return (
     <div className={styles.wrapper}>
       <EmailToggle
-        email={email}
+        email={user ? user.email : ''}
         disabled={!isEmailConnected}
         isActive={channels.has('email')}
         onChange={handleChangeChannels('email')}

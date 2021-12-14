@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Checkbox } from '@santiment-network/ui/Checkboxes/Checkboxes'
+import SourceToggle from '../SourceToggle'
 import InputLink, {
   validURL
 } from '../../../../../../../../../components/InputLink/InputLink'
@@ -36,21 +36,21 @@ const WebhookToggle = ({
   }, [webhookUrl, disabled])
 
   return (
-    <div className={styles.inputsRow}>
-      <Checkbox id='webhookChannel' isActive={isActive} onClick={onChange} />
-      <div className={styles.checkInfo}>
-        <div className={styles.labelRow}>Webhook URL</div>
-        <div>
-          <InputLink
-            className={styles.input}
-            disabled={disabled}
-            errorText={isError && 'Invalid webhook URL'}
-            value={webhookUrl}
-            onChange={e => setWebhookUrl(e.target.value)}
-          />
-        </div>
-      </div>
-    </div>
+    <SourceToggle
+      disabled={disabled}
+      onChange={onChange}
+      isActive={isActive}
+      label='Webhook URL'
+      isWebhook
+    >
+      <InputLink
+        className={styles.input}
+        disabled={disabled}
+        errorText={isError && 'Invalid webhook URL'}
+        value={webhookUrl}
+        onChange={e => setWebhookUrl(e.target.value)}
+      />
+    </SourceToggle>
   )
 }
 

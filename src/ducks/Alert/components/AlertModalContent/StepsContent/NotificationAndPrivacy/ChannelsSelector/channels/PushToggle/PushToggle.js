@@ -1,6 +1,5 @@
 import React from 'react'
-import cx from 'classnames'
-import { Checkbox } from '@santiment-network/ui/Checkboxes/Checkboxes'
+import SourceToggle from '../SourceToggle'
 import TriggerChannelSettings from '../../../../../../../../Signals/signalFormManager/signalCrudForm/formParts/channels/TriggerChannelSettings'
 import styles from '../../ChannelsSelector.module.scss'
 
@@ -10,15 +9,12 @@ const PushToggle = ({
   isActive,
   onChange
 }) => (
-  <div className={cx(styles.inputsRow, disabled && styles.disabled)}>
-    <Checkbox
-      id='pushChannel'
-      disabled={disabled}
-      isActive={!disabled && isActive}
-      onClick={!disabled ? onChange : null}
-    />
-    <div className={styles.checkInfo}>
-      <div className={styles.labelRow}>
+  <SourceToggle
+    disabled={disabled}
+    isActive={isActive}
+    onChange={onChange}
+    label={
+      <>
         Push
         <TriggerChannelSettings
           showTrigger={disabled}
@@ -29,10 +25,11 @@ const PushToggle = ({
             </div>
           }
         />
-      </div>
-      <div>Get fast notifications</div>
-    </div>
-  </div>
+      </>
+    }
+  >
+    Get fast notifications
+  </SourceToggle>
 )
 
 export default PushToggle

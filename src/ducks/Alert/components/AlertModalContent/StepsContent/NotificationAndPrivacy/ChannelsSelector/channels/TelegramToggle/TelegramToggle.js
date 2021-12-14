@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import cx from 'classnames'
-import { Checkbox } from '@santiment-network/ui/Checkboxes/Checkboxes'
 import Input from '@santiment-network/ui/Input'
+import SourceToggle from '../SourceToggle'
 import TriggerChannelSettings from '../../../../../../../../Signals/signalFormManager/signalCrudForm/formParts/channels/TriggerChannelSettings'
 import { useCheckTelegramValid } from '../../../../../../../hooks/useCheckTelegramValid'
 import styles from '../../ChannelsSelector.module.scss'
@@ -41,15 +40,12 @@ const TelegramToggle = ({
   const isError = telegramChat && data && !data.isTelegramChatIdValid
 
   return (
-    <div className={cx(styles.inputsRow, disabled && styles.disabled)}>
-      <Checkbox
-        id='telegramChannel'
-        disabled={disabled}
-        isActive={!disabled && isActive}
-        onClick={!disabled ? onChange : null}
-      />
-      <div className={styles.checkInfo}>
-        <div className={styles.labelRow}>
+    <SourceToggle
+      disabled={disabled}
+      isActive={isActive}
+      onChange={onChange}
+      label={
+        <>
           Telegram
           <TriggerChannelSettings
             showTrigger={disabled}
@@ -59,19 +55,18 @@ const TelegramToggle = ({
               </div>
             }
           />
-        </div>
-        <div>
-          <Input
-            value={telegramChat}
-            onChange={e => setTelegramChat(e.target.value)}
-            className={styles.input}
-            disabled={!isActive || disabled}
-            isError={isError}
-            errorText={isError && 'Invalid telegram ID'}
-          />
-        </div>
-      </div>
-    </div>
+        </>
+      }
+    >
+      <Input
+        value={telegramChat}
+        onChange={e => setTelegramChat(e.target.value)}
+        className={styles.input}
+        disabled={!isActive || disabled}
+        isError={isError}
+        errorText={isError && 'Invalid telegram ID'}
+      />
+    </SourceToggle>
   )
 }
 

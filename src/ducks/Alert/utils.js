@@ -1,6 +1,9 @@
+import { parseIntervalString } from '../../utils/dates'
+
 function formatFrequencyStr (cooldown) {
-  const cooldownPeriod = cooldown.slice(-1)
-  const cooldownCount = cooldown.slice(0, cooldown.length - 1)
+  const { amount: cooldownCount, format: cooldownPeriod } = parseIntervalString(
+    cooldown
+  )
 
   switch (cooldownPeriod) {
     case 'm':
