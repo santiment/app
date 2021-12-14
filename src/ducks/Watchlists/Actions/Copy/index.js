@@ -193,8 +193,7 @@ const WatchlistCopyPopup = ({
 }
 
 const mapStateToProps = state => ({
-  watchlistUi: state.watchlistUi,
-  assets: state.projects.items
+  watchlistUi: state.watchlistUi
 })
 
 const mapDispatchToProps = dispatch => ({

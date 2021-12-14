@@ -7,10 +7,25 @@ import SaveAsAction from '../../../Actions/SaveAs'
 import { useUserWatchlists } from '../../../gql/lists/hooks'
 import { useUpdateWatchlist } from '../../../gql/list/mutations'
 import { getTitleByWatchlistType, SCREENER } from '../../../detector'
-import { Delete, New, SaveAs, Edit, NonAuthorTrigger, Trigger } from './Items'
+import {
+  Delete,
+  New,
+  SaveAs,
+  Edit,
+  NonAuthorTrigger,
+  Trigger,
+  Copy
+} from './Items'
 import styles from './index.module.scss'
 
-const Actions = ({ watchlist, type, onClick, isAuthor, isAuthorLoading }) => {
+const Actions = ({
+  watchlist,
+  type,
+  onClick,
+  isAuthor,
+  isAuthorLoading,
+  refetchAssets
+}) => {
   const [lists] = useUserWatchlists(type)
   const [updateWatchlist, { loading }] = useUpdateWatchlist(type)
   const [isMenuOpened, setIsMenuOpened] = useState(false)
@@ -29,52 +44,54 @@ const Actions = ({ watchlist, type, onClick, isAuthor, isAuthorLoading }) => {
         />
       </div>
     )
-  } else {
-    const { id, name } = watchlist
-    const title = getTitleByWatchlistType(type)
-    const showDelete = isAuthor && (type !== SCREENER || lists.length > 1)
-
-    const onEditApprove = props =>
-      updateWatchlist(watchlist, { ...props }).then(() => {
-        setIsMenuOpened(false)
-        notifyUpdate(title)
-      })
-
-    return (
-      <div onClick={onClick} className={styles.container}>
-        <ContextMenu
-          trigger={
-            <Trigger
-              type={type}
-              title={title}
-              isLoading={loading}
-              watchlist={watchlist}
-              onPrimaryAction={onEditApprove}
-              openMenu={() => setIsMenuOpened(true)}
-            />
-          }
-          align='start'
-          position='bottom'
-          open={isMenuOpened}
-          passOpenStateAs='isActive'
-          onClose={() => setIsMenuOpened(false)}
-        >
-          <Panel variant='modal' className={styles.wrapper}>
-            <Edit
-              type={type}
-              title={title}
-              watchlist={watchlist}
-              isLoading={loading}
-              onSubmit={onEditApprove}
-            />
-            <SaveAs type={type} watchlist={watchlist} />
-            <New type={type} />
-            {showDelete && <Delete id={id} name={name} title={title} />}
-          </Panel>
-        </ContextMenu>
-      </div>
-    )
   }
+
+  const { id, name } = watchlist
+  const title = getTitleByWatchlistType(type)
+  const showDelete = isAuthor && (type !== SCREENER || lists.length > 1)
+
+  const onEditApprove = props =>
+    updateWatchlist(watchlist, { ...props }).then(() => {
+      setIsMenuOpened(false)
+      notifyUpdate(title)
+      refetchAssets()
+    })
+
+  return (
+    <div onClick={onClick} className={styles.container}>
+      <ContextMenu
+        trigger={
+          <Trigger
+            type={type}
+            title={title}
+            isLoading={loading}
+            watchlist={watchlist}
+            onPrimaryAction={onEditApprove}
+            openMenu={() => setIsMenuOpened(true)}
+          />
+        }
+        align='start'
+        position='bottom'
+        open={isMenuOpened}
+        passOpenStateAs='isActive'
+        onClose={() => setIsMenuOpened(false)}
+      >
+        <Panel variant='modal' className={styles.wrapper}>
+          <Edit
+            type={type}
+            title={title}
+            watchlist={watchlist}
+            isLoading={loading}
+            onSubmit={onEditApprove}
+          />
+          <SaveAs type={type} watchlist={watchlist} />
+          <New type={type} />
+          {type === 'PROJECT' && <Copy watchlist={watchlist} />}
+          {showDelete && <Delete id={id} name={name} title={title} />}
+        </Panel>
+      </ContextMenu>
+    </div>
+  )
 }
 
 Actions.propTypes = {

@@ -46,6 +46,9 @@ export function useUpdateWatchlist (type) {
       newParams.isMonitored === undefined
         ? watchlist.isMonitored
         : newParams.isMonitored
+    const listItems = newParams.listItems
+      ? newParams.listItems
+      : watchlist.listItems
 
     return mutate({
       variables: {
@@ -53,6 +56,7 @@ export function useUpdateWatchlist (type) {
         isPublic,
         isMonitored,
         description,
+        listItems,
         name: newParams.name || name,
         function: stringifyFn(newParams.function || oldFn)
       }
