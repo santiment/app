@@ -4,21 +4,24 @@ import { useProjects } from '../../../../../stores/projects'
 const filterHelper = (filter, { ticker, name }) =>
   name.toLowerCase().includes(filter) || ticker.toLowerCase().includes(filter)
 
-function useAllProjects (filter) {
-  const { projects } = useProjects()
-
+function useFilteredItems (filter, items) {
   return useMemo(() => {
-    let items = projects
     if (items.length > 0 && filter && filter.length > 0) {
       items = items.filter(item => filterHelper(filter, item))
     }
     return items
-  }, [projects, filter])
+  }, [filter, items])
+}
+
+function useAllProjects (filter) {
+  const { projects } = useProjects()
+  return useFilteredItems(filter, projects)
 }
 
 export function useEditAssets (filter, watchlist, onChange) {
   const allProjects = useAllProjects(filter)
   const [checkedItems, setCheckedItems] = useState(watchlist)
+  const filteredWatchlist = useFilteredItems(filter, checkedItems)
   const unusedProjects = useMemo(() => {
     const checkedItemsIDs = new Set(checkedItems.map(i => i.id))
     return allProjects.filter(item => !checkedItemsIDs.has(item.id))
@@ -33,12 +36,13 @@ export function useEditAssets (filter, watchlist, onChange) {
         items.delete(item)
       }
       items = Array.from(items)
-      onChange && onChange(items)
+      if (onChange) onChange(items)
       return items
     })
 
   return {
     checkedItems,
+    filteredWatchlist,
     toggleWatchlistProject,
     unusedProjects
   }

@@ -20,6 +20,7 @@ const Assets = ({ watchlist, onChange }) => {
   const [filter, setFilter] = useState('')
   const {
     checkedItems,
+    filteredWatchlist,
     toggleWatchlistProject,
     unusedProjects
   } = useEditAssets(
@@ -87,7 +88,7 @@ const Assets = ({ watchlist, onChange }) => {
           {showItems && (
             <>
               <h6 className={styles.groupLabel}>Contained in watchlist</h6>
-              {checkedItems.map(item => {
+              {filteredWatchlist.map(item => {
                 return (
                   <AssetItem
                     toggleWatchlistProject={toggleWatchlistProject}
