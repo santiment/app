@@ -91,7 +91,7 @@ const Assets = ({ watchlist, onChange }) => {
                 return (
                   <AssetItem
                     toggleWatchlistProject={toggleWatchlistProject}
-                    isActive={checkedItems.includes(item)}
+                    isActive={true}
                     key={item.id}
                     item={item}
                     isNightMode={isNightMode}
@@ -105,7 +105,7 @@ const Assets = ({ watchlist, onChange }) => {
                 return (
                   <AssetItem
                     toggleWatchlistProject={toggleWatchlistProject}
-                    isActive={checkedItems.includes(item)}
+                    isActive={false}
                     key={item.id}
                     item={item}
                     isNightMode={isNightMode}
