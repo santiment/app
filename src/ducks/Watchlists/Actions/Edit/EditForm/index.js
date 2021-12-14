@@ -167,8 +167,7 @@ const EditForm = ({
         {isOpen && (
           <Assets
             watchlist={watchlist}
-            onChange={items => {
-              const listItems = items.map(l => ({ projectId: parseInt(l.id) }))
+            onChange={listItems => {
               setFormState(state => ({ ...state, listItems }))
               checkIsTouched('listItems', listItems)
             }}
