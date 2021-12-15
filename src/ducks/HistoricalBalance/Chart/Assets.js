@@ -1,5 +1,5 @@
 import React from 'react'
-import Select from '@santiment-network/ui/Search/Select/Select'
+import Select from '@santiment-network/ui/Select/Select'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Setting from '../Setting'
 import { ASSETS_LIMIT } from '../defaults'
