@@ -27,7 +27,7 @@ const SaveAs = ({ watchlist, trigger, type }) => {
   function onSubmit (props) {
     createWatchlist({
       ...props,
-      listItems,
+      listItems: props.listItems || listItems,
       function: fn,
       openOnSuccess: true
     }).then(closeDialog)
@@ -41,8 +41,9 @@ const SaveAs = ({ watchlist, trigger, type }) => {
       isLoading={loading}
       toggleOpen={toggleOpen}
       onFormSubmit={onSubmit}
-      title={'Save as ' + title}
+      title={'Duplicate ' + title}
       settings={{ name, description }}
+      watchlist={watchlist}
     />
   )
 }

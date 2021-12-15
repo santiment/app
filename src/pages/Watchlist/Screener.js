@@ -128,6 +128,7 @@ const Screener = ({
         isDefaultScreener={isDefaultScreener}
         widgets={widgets}
         setWidgets={setWidgets}
+        refetchAssets={refetchAssets}
       />
 
       <Infographics

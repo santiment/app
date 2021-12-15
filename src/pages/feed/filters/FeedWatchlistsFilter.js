@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Select from '@santiment-network/ui/Search/Select/Select'
+import Select from '@santiment-network/ui/Select/Select'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import FeedFiltersDdWrapper from './FeedFiltersDdWrapper'
 import { useProjectWatchlists } from '../../../ducks/Watchlists/gql/lists/hooks'

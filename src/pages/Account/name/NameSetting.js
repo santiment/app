@@ -16,14 +16,14 @@ const CHANGE_NAME_MUTATION = gql`
 
 function validateName (name) {
   if (name && name.length < 3) {
-    return 'Name should be at least 3 characters long'
+    return 'Full name should be at least 3 characters long'
   }
 }
 
 const NameSetting = ({ dispatchNewName, name, changeName }) => {
   return (
     <EditableInputSetting
-      label='Name'
+      label='Full name'
       defaultValue={name}
       validate={validateName}
       classes={styles}
@@ -31,7 +31,7 @@ const NameSetting = ({ dispatchNewName, name, changeName }) => {
         changeName({ variables: { value } })
           .then(() => {
             store.dispatch(
-              showNotification(`Name successfully changed to "${value}"`)
+              showNotification(`Full name successfully changed to "${value}"`)
             )
             dispatchNewName(value)
           })

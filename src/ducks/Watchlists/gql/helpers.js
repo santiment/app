@@ -7,7 +7,7 @@ const normalizeAddress = ({
 }) => ({
   blockchainAddress: { address, infrastructure, notes }
 })
-const normalizeProject = ({ project: { id } }) => ({ project_id: +id })
+const normalizeProject = ({ projectId }) => ({ project_id: +projectId })
 
 export function normalizeItems (items = ARR, type) {
   switch (type) {
