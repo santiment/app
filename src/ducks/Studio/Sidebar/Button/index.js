@@ -26,7 +26,12 @@ const MetricButton = ({
   const settings = isActive && metric && MetricSettings[metric.key]
   const isPro = metric && metric.isPro
 
-  const { btnClassName, infoClassName, tooltipPosition = 'right' } = btnProps
+  const {
+    btnClassName,
+    infoClassName,
+    tooltipPosition = 'right',
+    addIconClassName
+  } = btnProps
 
   return (
     <Button
@@ -41,6 +46,7 @@ const MetricButton = ({
       )}
       isActive={isActive}
       onClick={onClick}
+      type='button'
     >
       <div className={styles.top}>
         {isError ? (
@@ -48,7 +54,11 @@ const MetricButton = ({
         ) : (
           <Icon
             type='plus-small'
-            className={cx(styles.plus, isActive && styles.active)}
+            className={cx(
+              styles.plus,
+              isActive && styles.active,
+              addIconClassName
+            )}
           />
         )}
         {label}

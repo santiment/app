@@ -15,7 +15,7 @@ const initialValues = {
   settings: {
     type: '',
     metric: '',
-    target: { slug: '', watchlist_id: '', word: '', address: '' },
+    target: { slug: 'bitcoin', watchlist_id: '', word: '', address: '' },
     selector: { slug: '', infrastructure: '' },
     channel: [],
     time_window: '',
@@ -32,7 +32,6 @@ const AlertModalFormMaster = ({ defaultType, createAlert }) => {
   const visitedStepsMemo = useMemo(() => new Set(visitedSteps), [visitedSteps])
 
   function handleSubmit (values, { setSubmitting }) {
-    console.log(values)
     setSubmitting(false)
   }
 
