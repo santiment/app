@@ -41,7 +41,6 @@ const Filter = ({
   if (!screenerFunction) {
     return null
   }
-
   const isViewMode =
     !isAuthor && !isAuthorLoading && (isLoggedIn || !isDefaultScreener)
   const filters = useMemo(() => extractFilters(screenerFunction.args), [

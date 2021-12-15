@@ -24,6 +24,7 @@ const TopPanel = ({
   isDefaultScreener,
   isUpdatingWatchlist,
   updateWatchlistFunction,
+  refetchAssets,
   ...props
 }) => {
   const { isAuthor, isAuthorLoading } = useIsAuthor(watchlist)
@@ -63,6 +64,7 @@ const TopPanel = ({
           onClick={closeFilter}
           isAuthor={isAuthor}
           isAuthorLoading={isAuthorLoading}
+          refetchAssets={refetchAssets}
         />
         {isUpdatingWatchlist && (
           <span className={styles.saving}>Saving...</span>

@@ -5,6 +5,7 @@ import Button from '@santiment-network/ui/Button'
 import NewAction from '../../../Actions/New'
 import SaveAsAction from '../../../Actions/SaveAs'
 import DeleteAction from '../../../Actions/Delete'
+import CopyAction from '../../../Actions/Copy'
 import EditForm from '../../../Actions/Edit/EditForm'
 import styles from './Items.module.scss'
 
@@ -45,9 +46,7 @@ export const Trigger = ({
   const { name, description, isPublic } = watchlist
   const [opened, setOpened] = useState(false)
 
-  function onSubmit (props) {
-    onPrimaryAction(props).then(() => setOpened(false))
-  }
+  const onSubmit = props => onPrimaryAction(props).then(() => setOpened(false))
 
   return (
     <div className={styles.trigger} ref={forwardedRef}>
@@ -55,6 +54,7 @@ export const Trigger = ({
         type={type}
         open={opened}
         id={watchlist.id}
+        watchlist={watchlist}
         isLoading={isLoading}
         toggleOpen={setOpened}
         title={'Edit ' + title}
@@ -104,12 +104,13 @@ export const New = ({ type, onSubmit }) => (
 
 export const SaveAs = ({ type, watchlist }) => {
   const showDuplicate = ['SCREENER', 'PROJECT'].includes(type)
+  const iconName = showDuplicate ? 'duplicate' : 'disk'
   return (
     <SaveAsAction
       type={type}
       watchlist={watchlist}
       trigger={
-        <Item icon={showDuplicate ? 'duplicate' : 'disk'}>
+        <Item icon={iconName} className={iconName}>
           {showDuplicate ? 'Duplicate' : 'Save as'}
         </Item>
       }
@@ -126,12 +127,23 @@ export const Edit = ({ type, title, watchlist, onSubmit, isLoading }) => {
       type={type}
       open={opened}
       id={watchlist.id}
+      watchlist={watchlist}
       isLoading={isLoading}
       toggleOpen={setOpened}
       title={'Edit ' + title}
       trigger={<Item icon='edit'>Edit</Item>}
       settings={{ name, description, isPublic }}
       onFormSubmit={payload => onSubmit(payload).then(() => setOpened(false))}
+    />
+  )
+}
+
+export const Copy = ({ watchlist }) => {
+  return (
+    <CopyAction
+      id={watchlist.id}
+      assets={watchlist.listItems.map(l => l.project)}
+      trigger={<Item icon='copy'>Copy assets</Item>}
     />
   )
 }
