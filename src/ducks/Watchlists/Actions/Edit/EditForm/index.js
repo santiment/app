@@ -5,6 +5,7 @@ import Label from '@santiment-network/ui/Label'
 import { SCREENER } from '../../../detector'
 import { useDebounce } from '../../../../../hooks/index'
 import PublicityToggle from '../../ChangeVisibility/Toggle'
+import Assets from './Assets'
 import { useUserWatchlists } from '../../../gql/lists/hooks'
 import styles from './index.module.scss'
 
@@ -23,10 +24,12 @@ const EditForm = ({
   onFormSubmit,
   defaultSettings,
   buttonLabel = 'Save',
+  watchlist,
   ...props
 }) => {
   const [lists] = useUserWatchlists(type)
   const [formState, setFormState] = useState(defaultSettings)
+  const [isTouched, setIsTouched] = useState(false)
   const debouncedCheckName = useDebounce(checkName, 300)
   const placeholder = type === SCREENER ? 'Most price performance' : 'Favorites'
 
@@ -34,7 +37,7 @@ const EditForm = ({
     evt.preventDefault()
     let err = ''
 
-    const { name, description, isPublic, error } = formState
+    const { name, description, isPublic, listItems, error } = formState
 
     if (!error) {
       err = checkName(name)
@@ -48,12 +51,24 @@ const EditForm = ({
       name === defaultSettings.name &&
       description === defaultSettings.description &&
       isPublic === defaultSettings.isPublic &&
+      listItems === defaultSettings.listItems &&
       id
     ) {
       toggleOpen(false)
     } else {
-      onFormSubmit({ name, description, isPublic })
+      onFormSubmit({ name, description, isPublic, listItems })
     }
+  }
+
+  function checkIsTouched (key, value) {
+    const normalizedValue = value || null
+    const newFormState = { ...formState, [key]: normalizedValue }
+    newFormState.description =
+      newFormState.description === '' ? null : newFormState.description
+    delete newFormState.error
+    setIsTouched(
+      JSON.stringify(newFormState) !== JSON.stringify(defaultSettings)
+    )
   }
 
   function onInputChange ({ currentTarget: { value: name } }) {
@@ -63,11 +78,16 @@ const EditForm = ({
 
   function onTextareaChange ({ currentTarget: { value: description } }) {
     setFormState(state => ({ ...state, description }))
+    checkIsTouched('description', description)
   }
 
   function onToggleClick (evt) {
     evt.preventDefault()
-    setFormState(state => ({ ...state, isPublic: !state.isPublic }))
+    setFormState(state => {
+      const isPublic = !state.isPublic
+      checkIsTouched('isPublic', isPublic)
+      return { ...state, isPublic }
+    })
   }
 
   function checkName (name = '') {
@@ -92,7 +112,9 @@ const EditForm = ({
       error = NAME_EXISTS_ERROR
     }
 
+    if (!error) checkIsTouched('name', name)
     setFormState(state => ({ ...state, error }))
+
     return error
   }
 
@@ -138,7 +160,17 @@ const EditForm = ({
             name='description'
             className={styles.textarea}
             onChange={onTextareaChange}
-            defaultValue={formState.description || ''}
+            defaultValue={formState.description}
+            placeholder='Add a description'
+          />
+        )}
+        {isOpen && (
+          <Assets
+            watchlist={watchlist}
+            onChange={listItems => {
+              setFormState(state => ({ ...state, listItems }))
+              checkIsTouched('listItems', listItems)
+            }}
           />
         )}
         <div className={styles.actions}>
@@ -153,7 +185,7 @@ const EditForm = ({
               formState.name.length < MIN_LENGTH
             }
           >
-            {buttonLabel}
+            {isTouched && !formState.error ? 'Apply changes' : buttonLabel}
           </Dialog.Approve>
           <PublicityToggle
             variant='flat'
@@ -174,6 +206,7 @@ export default ({ settings = {}, ...props }) => (
       name: '',
       description: '',
       isPublic: false,
+      listItems: props.watchlist ? props.watchlist.listItems : [],
       ...settings
     }}
   />

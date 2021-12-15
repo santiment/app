@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import Button from '@santiment-network/ui/Button'
-import Select from '@santiment-network/ui/Search/Select/Select'
+import Select from '@santiment-network/ui/Select/Select'
 import { getCurrencyTransfers } from './currencies'
 import Title from './Title'
 import { useProjects } from '../../../stores/projects'
