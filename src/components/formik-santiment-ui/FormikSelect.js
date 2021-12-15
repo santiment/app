@@ -1,9 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Select from '@santiment-network/ui/Search/Select/Select'
+import Select from '@santiment-network/ui/Select/Select'
 import { Field } from 'formik'
-/* @GarageInc: pay attention, that creatable components works only with react-select 1.0.0 */
-import { Creatable } from 'react-select'
+import { Creatable } from 'react-select-virtualized';
 import { showNotification } from '../../actions/rootActions'
 import './FormikSelect.scss'
 
