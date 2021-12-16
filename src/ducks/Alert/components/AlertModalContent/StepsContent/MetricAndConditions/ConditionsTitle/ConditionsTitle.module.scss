@@ -1,0 +1,37 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.conditionsIcon {
+  height: 12px;
+  width: 12px;
+  fill: var(--white);
+}
+
+.editIcon {
+  cursor: pointer;
+  fill: var(--jungle-green);
+}
+
+.wrapper {
+  margin-top: 16px;
+  margin-bottom: 8px;
+  padding: 8px 16px;
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  cursor: default;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  color: var(--rhino);
+
+  @include text("body-3", "m");
+}
+
+.description {
+  color: var(--waterloo);
+
+  @include text("caption");
+}

@@ -6,17 +6,16 @@ import { ALERT_TYPES } from './constants'
 import { createTrigger } from '../Signals/common/actions'
 
 const initialValues = {
-  cooldown: '',
+  cooldown: '1d',
   description: '',
   iconUrl: '',
   isActive: true,
   isPublic: false,
   isRepeating: true,
   settings: {
-    type: '',
+    type: 'metric_signal',
     metric: '',
     target: { slug: 'bitcoin', watchlist_id: '', word: '', address: '' },
-    selector: { slug: '', infrastructure: '' },
     channel: [],
     time_window: '',
     operation: {}

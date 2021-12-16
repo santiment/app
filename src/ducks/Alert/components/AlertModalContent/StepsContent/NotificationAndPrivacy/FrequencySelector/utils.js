@@ -11,5 +11,10 @@ export function getFrequencyTypes (metric) {
 }
 
 export function getFrequencyPeriods (frequencyType) {
-  return FREQUENCY_MAP.get(frequencyType)
+  const frequencyTypes = Array.from(FREQUENCY_MAP.keys())
+  const currentType = frequencyTypes.find(
+    type => type.value === frequencyType.value
+  )
+
+  return FREQUENCY_MAP.get(currentType)
 }

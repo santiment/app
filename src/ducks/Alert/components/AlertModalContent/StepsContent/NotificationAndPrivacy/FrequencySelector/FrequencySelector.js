@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useField, useFormikContext } from 'formik'
-import Select from '@santiment-network/ui/Search/Select/Select'
+import Select from '@santiment-network/ui/Select/Select'
 import { Checkbox } from '@santiment-network/ui/Checkboxes/Checkboxes'
 import Input from '@santiment-network/ui/Input'
 import { getFrequencyPeriods, getFrequencyTypes } from './utils'
@@ -61,13 +61,14 @@ const FrequencySelector = () => {
     <div className={styles.wrapper}>
       <div className={styles.inputsRow}>
         <Select
-          disabled={!isRepeating}
-          clearable={false}
-          searchable={false}
+          isDisabled={!isRepeating}
+          isClearable={false}
+          isSearchable={false}
           options={frequencyTypes}
           value={type}
           onChange={handleChangeType}
           className={styles.frequencyType}
+          menuPlacement='top'
         />
         <Input
           disabled={!isRepeating}
@@ -79,16 +80,17 @@ const FrequencySelector = () => {
           className={styles.counter}
         />
         <Select
-          clearable={false}
-          searchable={false}
+          isDisabled={!isRepeating || frequencyPeriods.length === 1}
+          isClearable={false}
+          isSearchable={false}
           options={frequencyPeriods}
-          disabled={!isRepeating || frequencyPeriods.length === 1}
           value={period}
           onChange={val => {
             setPeriod(val)
             setCount(val.counts.min)
           }}
           className={styles.frequencyPeriod}
+          menuPlacement='top'
         />
       </div>
       <div className={styles.inputsRow}>

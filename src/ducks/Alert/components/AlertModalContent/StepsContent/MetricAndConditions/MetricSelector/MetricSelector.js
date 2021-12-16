@@ -9,6 +9,7 @@ import { useProject } from '../../../../../../../hooks/project'
 import { useIsBetaMode } from '../../../../../../../stores/ui'
 import { filterOnlyMetrics, getByAvailable } from './utils'
 import styles from './MetricSelector.module.scss'
+import SelectedMetric from './SelectedMetric/SelectedMetric'
 
 const searchProps = {
   iconPosition: 'left',
@@ -19,7 +20,7 @@ const searchProps = {
   searchPredicate: SEARCH_PREDICATE_ONLY_METRICS
 }
 
-const MetricSelector = ({ metrics, target }) => {
+const MetricSelector = ({ selectedMetric, metrics, target, onChange }) => {
   const [, , { setValue: setMetric }] = useField('settings.metric')
   const isBeta = useIsBetaMode()
   const [project] = useProject(target.slug)
@@ -45,7 +46,8 @@ const MetricSelector = ({ metrics, target }) => {
   }, [metrics, allMetrics, isBeta])
 
   function handleSelectMetric (metric) {
-    setMetric(metric)
+    setMetric(metric.key)
+    onChange(metric)
   }
 
   return (
@@ -56,6 +58,7 @@ const MetricSelector = ({ metrics, target }) => {
         toggleMetric={handleSelectMetric}
         project={project}
       />
+      {selectedMetric && <SelectedMetric metric={selectedMetric} />}
       <MetricsList
         metricsList={categories}
         project={project}

@@ -1,0 +1,59 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.wrapper {
+  margin-top: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.inputsCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.operation {
+  min-width: 240px;
+
+  [class="ReactVirtualized__Grid ReactVirtualized__List"] {
+    min-height: 304px;
+  }
+}
+
+.fullWidth {
+  min-width: 374px;
+}
+
+.counter {
+  width: 104px;
+}
+
+.groupTitle {
+  display: flex;
+  align-items: center;
+  color: var(--waterloo);
+  cursor: default;
+
+  @include text("caption");
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.condition {
+  margin-bottom: 4px;
+  color: var(--rhino);
+
+  @include text("caption");
+}
+
+.price {
+  margin-bottom: 4px;
+  color: var(--waterloo);
+
+  @include text("caption");
+}

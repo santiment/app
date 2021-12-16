@@ -39,6 +39,28 @@ function sortCategoryGroups (category, Submetrics) {
   return sortedCategory
 }
 
+export function getMetric (availableMetric) {
+  const availableTimebounds = { ...AVAILABLE_TIMEBOUNDS }
+
+  let metric =
+    typeof availableMetric === 'object'
+      ? availableMetric
+      : Metric[availableMetric]
+
+  if (!metric) {
+    const availableTimeboundKey = Object.keys(availableTimebounds).find(key => {
+      return availableMetric.indexOf(key) !== -1
+    })
+
+    if (availableTimeboundKey) {
+      metric = availableTimebounds[availableTimeboundKey].base
+      delete availableTimebounds[availableTimeboundKey]
+    }
+  }
+
+  return metric
+}
+
 export const getCategoryGraph = (
   availableMetrics,
   hiddenMetrics = [],
@@ -57,31 +79,13 @@ export const getCategoryGraph = (
   }
   const { length } = availableMetrics
 
-  const availableTimebounds = { ...AVAILABLE_TIMEBOUNDS }
-
   for (let i = 0; i < length; i++) {
     const availableMetric = availableMetrics[i]
 
-    let metric =
-      typeof availableMetric === 'object'
-        ? availableMetric
-        : Metric[availableMetric]
+    const metric = getMetric(availableMetric)
 
     if (!metric) {
-      const availableTimeboundKey = Object.keys(availableTimebounds).find(
-        key => {
-          return availableMetric.indexOf(key) !== -1
-        }
-      )
-
-      if (availableTimeboundKey) {
-        metric = availableTimebounds[availableTimeboundKey].base
-        delete availableTimebounds[availableTimeboundKey]
-      }
-
-      if (!metric) {
-        continue
-      }
+      continue
     }
 
     if (!hiddenMetrics.includes(metric)) {

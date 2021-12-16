@@ -30,3 +30,14 @@ export const IS_TELEGRAM_CHAT_VALID_QUERY = gql`
     isTelegramChatIdValid(chatId: $id)
   }
 `
+
+export const LAST_PRICE_QUERY = gql`
+  query getMetric($slug: String!) {
+    getMetric(metric: "price_usd") {
+      timeseriesData(slug: $slug, from: "utc_now-1d", to: "utc_now") {
+        value
+        datetime
+      }
+    }
+  }
+`

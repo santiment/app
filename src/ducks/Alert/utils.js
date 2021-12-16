@@ -67,3 +67,45 @@ export function getDescriptionStr ({ cooldown, channels }) {
 
   return `Send me notifications every ${frequencyStr}${channelsStr}.`
 }
+
+export function getSelectedAssetMetricCardDescription (metric) {
+  return `Notify me when an asset’s ${metric.label.toLowerCase()} moves a certain way`
+}
+
+export function getConditionsStr ({ operation, count, timeWindow }) {
+  let condition = `Moving down ${count} %`
+
+  switch (operation) {
+    case 'above':
+      condition = `Goes above $${count}`
+      break
+    case 'above_or_equal':
+      condition = `Goes above or equal $${count}`
+      break
+    case 'below':
+      condition = `Goes below $${count}`
+      break
+    case 'below_or_equal':
+      condition = `Goes below or equal $${count}`
+      break
+    case 'inside_channel':
+      condition = `Goes between $${count[0]} and $${count[1]}`
+      break
+    case 'outside_channel':
+      condition = `Goes outside $${count[0]} and $${count[1]}`
+      break
+    case 'percent_up':
+      condition = `Moving up ${count} %`
+      break
+    case 'percent_down':
+      condition = `Moving down ${count} %`
+      break
+    case 'some_of':
+      condition = `Moving up ${count[0]} % or moving down ${count[1]} %`
+      break
+    default:
+      break
+  }
+
+  return `${condition} compared to ${formatFrequencyStr(timeWindow)} earlier`
+}
