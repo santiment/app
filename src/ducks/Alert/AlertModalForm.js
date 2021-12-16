@@ -4,7 +4,7 @@ import AlertModalSidebar from './components/AlertModalSidebar/AlertModalSidebar'
 import AlertModalContent from './components/AlertModalContent/AlertModalContent'
 import styles from './AlertModalFormMaster.module.scss'
 
-const AlertModalForm = ({ selectorSettings, resetForm }) => {
+const AlertModalForm = ({ selectorSettings, resetForm, values }) => {
   const { setSelectedType, setSelectedStep } = selectorSettings
 
   function handleSelectType (type) {
@@ -13,15 +13,18 @@ const AlertModalForm = ({ selectorSettings, resetForm }) => {
     resetForm()
   }
 
+  const slug = values.settings.target.slug
+  const isMetricsDisabled = typeof slug === 'string' ? !slug : slug.length === 0
+
   return (
     <Form className={styles.wrapper}>
       <AlertModalSidebar
-        isMetricsDisabled={true}
+        isMetricsDisabled={isMetricsDisabled}
         selectorSettings={selectorSettings}
         onTypeSelect={handleSelectType}
       />
       <AlertModalContent
-        isMetricsDisabled={true}
+        isMetricsDisabled={isMetricsDisabled}
         selectorSettings={selectorSettings}
       />
     </Form>

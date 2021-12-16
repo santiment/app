@@ -15,7 +15,7 @@ const initialValues = {
   settings: {
     type: 'metric_signal',
     metric: '',
-    target: { slug: 'bitcoin', watchlist_id: '', word: '', address: '' },
+    target: { slug: '', watchlist_id: '', word: '', address: '' },
     channel: [],
     time_window: '',
     operation: {}
