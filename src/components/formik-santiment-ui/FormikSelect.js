@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Select from '@santiment-network/ui/Select/Select'
 import { Field } from 'formik'
-import { Creatable } from 'react-select-virtualized';
+import { Creatable } from 'react-select-virtualized'
 import { showNotification } from '../../actions/rootActions'
 import './FormikSelect.scss'
 

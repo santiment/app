@@ -13,6 +13,7 @@ import EventBanner from '../../components/EventBanner'
 import ResearchesBlock from '../../components/ResearchesBlock'
 import KeystackeholdersEvents from './Section/KeystackeholdersEvents/KeystackeholdersEvents'
 import FeaturedScreeners from './Section/FeaturedScreeners'
+import NftInfluencers from './Section/NftInfluencers'
 import styles from './index.module.scss'
 
 const Block = ({ className, contentClassName, children }) => (
@@ -36,6 +37,7 @@ const IndexPage = () => (
     <Block className={styles.block_main} contentClassName={styles.content_main}>
       <Navigation className={styles.navigation} />
       <main className={styles.main}>
+        <NftInfluencers />
         <FeaturedScreeners />
         <TrendsSection />
         <KeystackeholdersEvents />

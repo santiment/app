@@ -1,0 +1,21 @@
+@import '~@santiment-network/ui/mixins';
+
+.section {
+    position: relative;
+}
+
+.topLink {
+    position: absolute;
+    top: 28px;
+    right: 2px;
+  
+    @include text('body-2');
+}
+
+.link {
+    color: var(--jungle-green);
+  
+    &:hover {
+      color: var(--jungle-green-hover);
+    }
+}
