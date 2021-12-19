@@ -55,7 +55,7 @@ const AlertStepsSelector = ({
         />
       )
     })
-  }, [visitedSteps, items, isMetricsDisabled])
+  }, [visitedSteps, items, isMetricsDisabled, values])
 
   return (
     <Steps initial={0} current={selectedStep} size={size}>

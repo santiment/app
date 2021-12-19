@@ -14,5 +14,12 @@
 }
 
 .prefix {
+  position: absolute;
+  left: 10px;
+  top: 7px;
+  color: var(--casper);
+}
 
+.inputWithPrefix {
+  padding-left: 22px;
 }

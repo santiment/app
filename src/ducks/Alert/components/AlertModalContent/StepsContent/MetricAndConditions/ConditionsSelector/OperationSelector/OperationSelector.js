@@ -5,8 +5,12 @@ import Select from '@santiment-network/ui/Select/Select'
 import OperationInput from './OperationInput/OperationInput'
 import { useLastPrice } from '../../../../../../hooks/useLastPrice'
 import { formatNumber } from '../../../../../../../../utils/formatting'
-import { getConditionsStr } from '../../../../../../utils'
-import { AVAILABLE_OPERATIONS, MULTIPLE_VALUES_OPERATIONS } from './constants'
+import { getConditionsStr, parseOperation } from '../../../../../../utils'
+import {
+  AVAILABLE_OPERATIONS,
+  MULTIPLE_VALUES_OPERATIONS,
+  PERCENT_OPERATIONS
+} from './constants'
 import { formatOptionLabel } from './utils'
 import styles from './OperationSelector.module.scss'
 
@@ -14,13 +18,12 @@ function getCountDefault (value) {
   return MULTIPLE_VALUES_OPERATIONS.includes(value) ? [1, 1] : 1
 }
 
-const OperationSelector = () => {
+const OperationSelector = ({ metric }) => {
   const { values } = useFormikContext()
   const slug = values.settings.target.slug
   const { data, loading } = useLastPrice(slug)
   const [, { value }, { setValue }] = useField('settings.operation')
-  const selectedOperation = Object.keys(value)[0]
-  const selectedCount = value[selectedOperation]
+  const { selectedCount, selectedOperation } = parseOperation(value)
   const [operation, setOperation] = useState(
     (selectedOperation &&
       AVAILABLE_OPERATIONS.find(op => op.value === selectedOperation)) ||
@@ -29,7 +32,7 @@ const OperationSelector = () => {
   const [count, setCount] = useState(
     selectedCount || getCountDefault(operation)
   )
-  const shouldRenderPrice = !Array.isArray(slug)
+  const shouldRenderPrice = slug && !Array.isArray(slug) && data
 
   function handleChangeOperation ({ label, value }) {
     setOperation({ label, value })
@@ -37,8 +40,20 @@ const OperationSelector = () => {
   }
 
   useEffect(() => {
-    setValue({ [operation.value]: count })
+    if (operation.value === 'some_of') {
+      setValue({
+        [operation.value]: [
+          { percent_up: count[0] },
+          { percent_down: count[1] }
+        ]
+      })
+    } else {
+      setValue({ [operation.value]: count })
+    }
   }, [operation, count])
+
+  const hasPriceIcon = metric.category === 'Financial'
+  const isPercentIcon = PERCENT_OPERATIONS.includes(operation.value)
 
   return (
     <div className={styles.wrapper}>
@@ -70,7 +85,13 @@ const OperationSelector = () => {
             shouldRenderPrice &&
             `1 ${slug} = ${formatNumber(data, { currency: 'USD' })}`}
         </div>
-        <OperationInput count={count} setCount={setCount} />
+        <OperationInput
+          count={count}
+          setCount={setCount}
+          operation={operation.value}
+          hasIcon={hasPriceIcon || isPercentIcon}
+          iconType={isPercentIcon && 'percent'}
+        />
       </div>
     </div>
   )

@@ -1,4 +1,6 @@
 import { parseIntervalString } from '../../utils/dates'
+import { getMetric } from '../Studio/Sidebar/utils'
+import { capitalizeStr } from '../../utils/utils'
 
 function formatFrequencyStr (cooldown) {
   const { amount: cooldownCount, format: cooldownPeriod } = parseIntervalString(
@@ -35,17 +37,13 @@ export function getChannelsTitles (channels) {
   })
 }
 
-function capitalizeFirstLetter (string) {
-  return string.charAt(0).toUpperCase() + string.slice(1)
-}
-
 export function formatChannelsTitles (channels) {
   return channels.map(item => {
     if (item === 'web_push') {
       return 'Push'
     }
     if (typeof item === 'string') {
-      return capitalizeFirstLetter(item)
+      return capitalizeStr(item)
     }
     if ('telegram_channel' in item) {
       return 'Telegram'
@@ -72,40 +70,80 @@ export function getSelectedAssetMetricCardDescription (metric) {
   return `Notify me when an asset’s ${metric.label.toLowerCase()} moves a certain way`
 }
 
+function getCountSomeOf (count) {
+  const left = count[0].percent_up
+  const right = count[1].percent_down
+
+  return [left, right]
+}
+
+export function parseOperation (value) {
+  const operation = Object.keys(value)[0]
+  const count =
+    operation === 'some_of'
+      ? getCountSomeOf(value[operation])
+      : value[operation]
+
+  return { selectedOperation: operation, selectedCount: count }
+}
+
 export function getConditionsStr ({ operation, count, timeWindow }) {
-  let condition = `Moving down ${count} %`
+  let condition = `moving down ${count} %`
 
   switch (operation) {
     case 'above':
-      condition = `Goes above $${count}`
+      condition = `goes above $${count}`
       break
     case 'above_or_equal':
-      condition = `Goes above or equal $${count}`
+      condition = `goes above or equal $${count}`
       break
     case 'below':
-      condition = `Goes below $${count}`
+      condition = `goes below $${count}`
       break
     case 'below_or_equal':
-      condition = `Goes below or equal $${count}`
+      condition = `goes below or equal $${count}`
       break
     case 'inside_channel':
-      condition = `Goes between $${count[0]} and $${count[1]}`
+      condition = `goes between $${count[0]} and $${count[1]}`
       break
     case 'outside_channel':
-      condition = `Goes outside $${count[0]} and $${count[1]}`
+      condition = `goes outside $${count[0]} and $${count[1]}`
       break
     case 'percent_up':
-      condition = `Moving up ${count} %`
+      condition = `moving up ${count} %`
       break
     case 'percent_down':
-      condition = `Moving down ${count} %`
+      condition = `moving down ${count} %`
       break
     case 'some_of':
-      condition = `Moving up ${count[0]} % or moving down ${count[1]} %`
+      condition = `moving up ${count[0]} % or moving down ${count[1]} %`
       break
     default:
       break
   }
 
   return `${condition} compared to ${formatFrequencyStr(timeWindow)} earlier`
+}
+
+export function getTitleStr ({
+  slug,
+  metric,
+  operation,
+  timeWindow,
+  onlyCondition
+}) {
+  const selectedMetric = getMetric(metric)
+  const { selectedCount, selectedOperation } = parseOperation(operation)
+  const conditionStr = getConditionsStr({
+    operation: selectedOperation,
+    count: selectedCount,
+    timeWindow
+  })
+
+  if (onlyCondition) {
+    return conditionStr
+  }
+
+  return `${capitalizeStr(slug)} ${(selectedMetric && selectedMetric.label) ||
+    'Metric'} ${conditionStr}`
 }

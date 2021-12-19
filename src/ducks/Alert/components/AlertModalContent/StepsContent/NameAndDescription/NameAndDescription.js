@@ -3,22 +3,54 @@ import { useField, useFormikContext } from 'formik'
 import Button from '@santiment-network/ui/Button'
 import StepTitle from '../StepTitle/StepTitle'
 import BlockInput from './BlockInput/BlockInput'
-import { getDescriptionStr } from '../../../../utils'
+import { getDescriptionStr, getTitleStr } from '../../../../utils'
 import styles from './NameAndDescription.module.scss'
 
 const NameAndDescription = () => {
   const { submitForm, isSubmitting, values } = useFormikContext()
-  const [titleField] = useField('title')
-  const [descriptionField, , { setValue }] = useField('description')
+  const [titleField, , { setValue: setTitle }] = useField('title')
+  const [descriptionField, , { setValue: setDescription }] = useField(
+    'description'
+  )
 
   useEffect(() => {
-    if (values.cooldown && !values.description) {
-      setValue(
-        getDescriptionStr({
-          cooldown: values.cooldown,
-          channels: values.settings.channel
+    const {
+      cooldown,
+      description,
+      title,
+      settings: {
+        channel,
+        metric,
+        operation,
+        time_window,
+        target: { slug }
+      }
+    } = values
+
+    if (cooldown) {
+      if (!description && cooldown && channel) {
+        let descriptionStr = getDescriptionStr({
+          cooldown,
+          channels: channel
         })
-      )
+
+        if (metric && operation && time_window) {
+          descriptionStr = `Notify me when ${getTitleStr({
+            slug,
+            metric,
+            operation,
+            timeWindow: time_window
+          })}. ${descriptionStr}`
+        }
+
+        setDescription(descriptionStr)
+      }
+
+      if (!title && metric && operation && time_window) {
+        setTitle(
+          getTitleStr({ slug, metric, operation, timeWindow: time_window })
+        )
+      }
     }
   }, [])
 
