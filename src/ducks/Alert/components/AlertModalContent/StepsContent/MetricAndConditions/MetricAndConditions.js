@@ -6,10 +6,10 @@ import NextStep from '../NextStep/NextStep'
 import StepTitle from '../StepTitle/StepTitle'
 import ConditionsTitle from './ConditionsTitle/ConditionsTitle'
 import MetricSelector from './MetricSelector/MetricSelector'
+import ConditionsSelector from './ConditionsSelector/ConditionsSelector'
 import { useAvailableMetrics } from '../../../../hooks/useAvailableMetrics'
 import { getMetric } from '../../../../../Studio/Sidebar/utils'
 import styles from './MetricAndConditions.module.scss'
-import ConditionsSelector from './ConditionsSelector/ConditionsSelector'
 
 const MetricAndConditions = ({
   selectorSettings: {
@@ -67,7 +67,7 @@ const MetricAndConditions = ({
           metric={selectedMetric}
           onClick={() => setIsEditMode(true)}
         />
-        <ConditionsSelector />
+        <ConditionsSelector metric={selectedMetric} />
         <NextStep
           onClick={handleNextClick}
           label='Notification settings'

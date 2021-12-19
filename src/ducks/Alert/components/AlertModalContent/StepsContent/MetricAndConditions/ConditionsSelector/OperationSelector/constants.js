@@ -42,3 +42,9 @@ export const MULTIPLE_VALUES_OPERATIONS = [
   AVAILABLE_OPERATIONS[5],
   AVAILABLE_OPERATIONS[8]
 ].map(operation => operation.value)
+
+export const PERCENT_OPERATIONS = [
+  AVAILABLE_OPERATIONS[6],
+  AVAILABLE_OPERATIONS[7],
+  AVAILABLE_OPERATIONS[8]
+].map(operation => operation.value)

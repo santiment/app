@@ -49,6 +49,10 @@
   color: var(--rhino);
 
   @include text("caption");
+
+  &::first-letter {
+    text-transform: capitalize;
+  }
 }
 
 .price {
