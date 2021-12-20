@@ -12,11 +12,11 @@ const OperationInput = ({ count, hasIcon, iconType, setCount, operation }) => {
 
   if (Array.isArray(count)) {
     function handleChangeCount (e) {
-      const value = e.target.value
+      const value = Number(e.target.value)
       if (value > count[1] && operation !== 'some_of') {
-        setCount([e.target.value, e.target.value])
+        setCount([value, value])
       } else {
-        setCount([e.target.value, count[1]])
+        setCount([value, count[1]])
       }
     }
 
@@ -38,7 +38,7 @@ const OperationInput = ({ count, hasIcon, iconType, setCount, operation }) => {
             type='number'
             min={operation === 'some_of' ? 1 : count[0]}
             value={count[1]}
-            onChange={e => setCount([count[0], e.target.value])}
+            onChange={e => setCount([count[0], Number(e.target.value)])}
             className={cx(hasIcon && styles.inputWithPrefix)}
           />
         </div>
@@ -54,7 +54,7 @@ const OperationInput = ({ count, hasIcon, iconType, setCount, operation }) => {
         min={1}
         className={cx(styles.singleInput, hasIcon && styles.inputWithPrefix)}
         value={count}
-        onChange={e => setCount(e.target.value)}
+        onChange={e => setCount(Number(e.target.value))}
       />
     </div>
   )
