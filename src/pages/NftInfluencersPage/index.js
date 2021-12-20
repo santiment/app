@@ -3,6 +3,7 @@ import cx from 'classnames'
 import { Helmet } from 'react-helmet'
 import { withRenderQueueProvider } from '../../ducks/renderQueue/viewport'
 import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
+import Table from '../Index/Section/NftInfluencers/Table'
 import SharePage from '../../components/SharePage/SharePage'
 import externalStyles from './../StablecoinsPage/StablecoinsPage.module.scss'
 
@@ -32,6 +33,11 @@ const NftInfluencersPage = () => {
         </div>
       </div>
 
+      <div className={externalStyles.body}>
+        <div className={externalStyles.inner}>
+          <Table isHome={false} />
+        </div>
+      </div>
     </DashboardLayout>
   )
 }

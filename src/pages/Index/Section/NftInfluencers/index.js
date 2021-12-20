@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { NFTINFLUENCERS_ANCHOR } from '../../Navigation/anchors'
 import { Section, Container } from '../index'
+import Table from './Table'
 import { PATHS } from '../../../../paths'
 import styles from './index.module.scss'
 
@@ -19,7 +20,9 @@ const NftInfluencers = () => {
         </Link>
       </div>
 
-      <Container></Container>
+      <Container>
+        <Table />
+      </Container>
     </Section>
   )
 }
