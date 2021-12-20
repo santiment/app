@@ -46,3 +46,31 @@
 .conditionType {
   color: var(--waterloo);
 }
+
+.smallAsset {
+  --asset-wrapper-padding: 4px 6px;
+  --asset-wrapper-gap: 4px;
+
+  margin-top: 0;
+  margin-bottom: 14px;
+  gap: 4px;
+
+  .assetTitle {
+    @include text("caption");
+  }
+}
+
+.assetWrapper {
+  display: flex;
+  align-items: center;
+  padding: var(--asset-wrapper-padding, 5px 12px);
+  gap: var(--asset-wrapper-gap, 6px);
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+}
+
+.assetTitle {
+  color: var(--rhino);
+
+  @include text("body-3");
+}

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import LoginPopup from '../../components/banners/feature/PopupBanner'
 import AlertTriggerButton from './components/AlertTriggerButton/AlertTriggerButton'
-import AlertModalForm from './AlertModalFormMaster'
+import AlertModalFormMaster from './AlertModalFormMaster'
 import { useUser } from '../../stores/user'
 import styles from './AlertModal.module.scss'
 
@@ -44,7 +44,7 @@ const AlertModal = ({
         dialog: styles.dialog
       }}
     >
-      <AlertModalForm />
+      <AlertModalFormMaster setIsModalOpen={setIsModalOpen} />
     </Dialog>
   )
 }

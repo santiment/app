@@ -15,6 +15,7 @@ const NameAndDescription = () => {
 
   useEffect(() => {
     const {
+      isRepeating,
       cooldown,
       description,
       title,
@@ -31,7 +32,8 @@ const NameAndDescription = () => {
       if (!description && cooldown && channel) {
         let descriptionStr = getDescriptionStr({
           cooldown,
-          channels: channel
+          channels: channel,
+          isRepeating
         })
 
         if (metric && operation && time_window) {
@@ -60,6 +62,27 @@ const NameAndDescription = () => {
     }
   }
 
+  const {
+    settings: {
+      target: { slug },
+      time_window,
+      operation,
+      channel,
+      metric
+    },
+    title,
+    description
+  } = values
+
+  const isDisabled =
+    !slug ||
+    !time_window ||
+    !operation ||
+    !channel.length > 0 ||
+    !metric ||
+    !title ||
+    !description
+
   return (
     <div className={styles.wrapper}>
       <div>
@@ -82,6 +105,7 @@ const NameAndDescription = () => {
         </div>
       </div>
       <Button
+        disabled={isDisabled}
         type='submit'
         variant='fill'
         border={false}

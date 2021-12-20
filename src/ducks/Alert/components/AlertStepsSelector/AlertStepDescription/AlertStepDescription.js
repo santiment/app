@@ -1,7 +1,10 @@
 import React from 'react'
 import cx from 'classnames'
+import { ProjectIcon } from '../../../../../components/ProjectIcon/ProjectIcon'
 import { getMetric } from '../../../../Studio/Sidebar/utils'
+import { useAssets } from '../../../../../hooks/project'
 import {
+  clipText,
   formatChannelsTitles,
   getDescriptionStr,
   getTitleStr
@@ -11,7 +14,8 @@ import styles from './AlertStepDescription.module.scss'
 const DESCRIPTION_TYPES = {
   TITLE: 'title',
   NOTIFICATIONS: 'notifications_settings',
-  METRICS_AND_CONDITIONS: 'metrics_and_conditions'
+  METRICS_AND_CONDITIONS: 'metrics_and_conditions',
+  ASSETS: 'assets'
 }
 
 function checkValueByType (values, type) {
@@ -25,7 +29,8 @@ function checkValueByType (values, type) {
           slug: values.settings.target.slug,
           metric: values.settings.metric,
           operation: values.settings.operation,
-          timeWindow: values.settings.time_window
+          timeWindow: values.settings.time_window,
+          isRepeating: values.isRepeating
         },
         type: DESCRIPTION_TYPES.TITLE
       }
@@ -48,6 +53,12 @@ function checkValueByType (values, type) {
         },
         type: DESCRIPTION_TYPES.METRICS_AND_CONDITIONS
       }
+    case 'Select Asset':
+    case 'Asset':
+      return {
+        value: values.settings.target.slug,
+        type: DESCRIPTION_TYPES.ASSETS
+      }
     default:
       return {}
   }
@@ -55,6 +66,9 @@ function checkValueByType (values, type) {
 
 const AlertStepDescription = ({ description, size, type, values, status }) => {
   const valueDescription = checkValueByType(values, type)
+  const [projects] = useAssets({
+    shouldSkipLoggedInState: false
+  })
 
   if (!valueDescription.value) {
     return description || ''
@@ -72,13 +86,15 @@ const AlertStepDescription = ({ description, size, type, values, status }) => {
         metric,
         slug,
         cooldown,
-        channels
+        channels,
+        isRepeating
       } = valueDescription.value
 
       if (operation && metric) {
         let descriptionStr = getDescriptionStr({
           cooldown,
-          channels
+          channels,
+          isRepeating
         })
 
         if (metric && operation && timeWindow) {
@@ -153,7 +169,7 @@ const AlertStepDescription = ({ description, size, type, values, status }) => {
               </div>
               <div className={styles.condition}>
                 <span className={styles.conditionType}>{conditionType}</span>
-                {restCondition}
+                {clipText(restCondition, 50)}
               </div>
             </div>
           )
@@ -180,6 +196,70 @@ const AlertStepDescription = ({ description, size, type, values, status }) => {
       }
 
       return description || ''
+    }
+    case DESCRIPTION_TYPES.ASSETS: {
+      const { value: slug } = valueDescription
+
+      const shouldRenderTicker = slug.length > 1
+
+      if (slug.length === 0) {
+        return description || ''
+      }
+
+      const assets =
+        typeof slug === 'string'
+          ? projects.find(project => project.slug === slug)
+          : slug.map(item => projects.find(project => project.slug === item))
+
+      let children = ''
+
+      if (typeof slug !== 'string') {
+        children = (
+          <>
+            {assets.slice(0, 2).map(asset => (
+              <div key={asset.id} className={styles.assetWrapper}>
+                <ProjectIcon
+                  size={16}
+                  slug={asset.slug}
+                  logoUrl={asset.logoUrl}
+                />
+                <div className={styles.assetTitle}>
+                  {shouldRenderTicker ? asset.ticker : asset.name}
+                </div>
+              </div>
+            ))}
+            {assets.length > 2 && (
+              <div className={styles.assetWrapper}>
+                <div className={styles.assetTitle}>+ {assets.length - 2}</div>
+              </div>
+            )}
+          </>
+        )
+      }
+
+      if (typeof slug === 'string') {
+        children = (
+          <div className={styles.assetWrapper}>
+            <ProjectIcon
+              size={16}
+              slug={assets.slug}
+              logoUrl={assets.logoUrl}
+            />
+            <div className={styles.assetTitle}>{assets.name}</div>
+          </div>
+        )
+      }
+
+      return (
+        <div
+          className={cx(
+            styles.rowWrapper,
+            size === 'small' && styles.smallAsset
+          )}
+        >
+          {children}
+        </div>
+      )
     }
     default:
       return ''

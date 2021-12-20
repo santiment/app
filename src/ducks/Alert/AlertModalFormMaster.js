@@ -15,7 +15,7 @@ const initialValues = {
   settings: {
     type: 'metric_signal',
     metric: '',
-    target: { slug: 'bitcoin', watchlist_id: '', word: '', address: '' },
+    target: { slug: '', watchlist_id: '', word: '', address: '' },
     channel: [],
     time_window: '',
     operation: {}
@@ -24,14 +24,16 @@ const initialValues = {
   title: ''
 }
 
-const AlertModalFormMaster = ({ defaultType, createAlert }) => {
+const AlertModalFormMaster = ({ defaultType, createAlert, setIsModalOpen }) => {
   const [selectedType, setSelectedType] = useState(defaultType)
   const [selectedStep, setSelectedStep] = useState(undefined)
   const [visitedSteps, setVisitedSteps] = useState([])
   const visitedStepsMemo = useMemo(() => new Set(visitedSteps), [visitedSteps])
 
   function handleSubmit (values, { setSubmitting }) {
+    createAlert(values)
     setSubmitting(false)
+    setIsModalOpen(false)
   }
 
   const selectorSettings = useMemo(

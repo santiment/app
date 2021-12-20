@@ -28,8 +28,7 @@ const AlertStepsSelector = ({
     const hasDisabledStep = items.length !== 3 && isMetricsDisabled
 
     return items.map((step, index) => {
-      // TODO: Change index to 1
-      const disabled = hasDisabledStep && index === 5
+      const disabled = hasDisabledStep && index === 1
 
       let status = (visitedSteps.has(index) && 'finish') || 'process'
 
