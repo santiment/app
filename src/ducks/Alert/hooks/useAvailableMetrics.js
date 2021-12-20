@@ -6,7 +6,7 @@ import {
 
 export function useAvailableMetrics (slug) {
   const { data, loading, error } = useQuery(PROJECT_METRICS_BY_SLUG_QUERY, {
-    skip: !slug,
+    skip: !slug || typeof slug !== 'string',
     variables: {
       slug
     }

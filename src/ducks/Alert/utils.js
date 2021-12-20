@@ -144,6 +144,10 @@ export function getTitleStr ({
     return conditionStr
   }
 
-  return `${capitalizeStr(slug)} ${(selectedMetric && selectedMetric.label) ||
+  const slugStr = Array.isArray(slug)
+    ? slug.map(item => capitalizeStr(item)).join(', ')
+    : capitalizeStr(slug)
+
+  return `${slugStr} ${(selectedMetric && selectedMetric.label) ||
     'Metric'} ${conditionStr}`
 }

@@ -7,7 +7,7 @@ export const useLastPrice = slugTitle => {
     variables: {
       slug: slugTitle
     },
-    skip: !slugTitle
+    skip: !slugTitle || typeof slugTitle !== 'string'
   })
 
   const value = useMemo(() => {

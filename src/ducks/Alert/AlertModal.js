@@ -44,7 +44,7 @@ const AlertModal = ({
         dialog: styles.dialog
       }}
     >
-      <AlertModalForm />
+      <AlertModalForm setIsModalOpen={setIsModalOpen} />
     </Dialog>
   )
 }

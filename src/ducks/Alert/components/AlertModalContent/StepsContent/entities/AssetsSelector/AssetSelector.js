@@ -1,11 +1,10 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useField } from 'formik'
-import SearchProjects from '../../../../../../../components/Search/SearchProjects'
+import { InputWithIcon } from '@santiment-network/ui/Input'
 import NextStep from '../../NextStep/NextStep'
 import StepTitle from '../../StepTitle/StepTitle'
 import ProjectsList from './ProjectsList/ProjectsList'
 import { useAssets } from '../../../../../../../hooks/project'
-import { hasAssetById } from './utils'
 import styles from './AssetSelector.module.scss'
 
 const AssetSelector = ({
@@ -16,25 +15,35 @@ const AssetSelector = ({
     setVisitedSteps
   }
 }) => {
-  const [, , { setValue: setSlug }] = useField('settings.target.slug')
+  const [, { value }, { setValue: setSlug }] = useField('settings.target.slug')
   const [, , { setValue: setMetric }] = useField('settings.metric')
   const [projects] = useAssets({
     shouldSkipLoggedInState: false
   })
   const [listItems, setListItems] = useState([])
+  const [searchTerm, setSearchTerm] = useState('')
 
-  const checkedAssetsAsSet = useMemo(() => {
-    return new Set(listItems)
-  }, [listItems])
+  useEffect(() => {
+    if (value && value.length > 0) {
+      const assets =
+        typeof value === 'string'
+          ? [projects.find(project => project.slug === value)]
+          : value.map(item => projects.find(project => project.slug === item))
+      setListItems([...assets])
+    }
+  }, [])
 
   const setSelectedAssets = useCallback(
     selected => {
       if (listItems.length !== selected.length) {
-        setSlug(selected)
+        const selectedAssets = selected.map(item => item.slug)
+        setSlug(
+          selectedAssets.length === 1 ? selectedAssets[0] : selectedAssets
+        )
         setListItems(selected)
 
         if (selected.length === 0) {
-          setSlug([])
+          setSlug('')
           setListItems([])
         }
 
@@ -47,8 +56,14 @@ const AssetSelector = ({
   const toggleAsset = useCallback(
     ({ project, listItems: items, isAssetInList }) => {
       if (isAssetInList) {
+        const selectedAssets = items
+          .filter(({ id }) => id !== project.id)
+          .map(item => item.slug)
+
         setSelectedAssets(items.filter(({ id }) => id !== project.id))
-        setSlug(items.filter(({ id }) => id !== project.id))
+        setSlug(
+          selectedAssets.length === 1 ? selectedAssets[0] : selectedAssets
+        )
       } else {
         setSelectedAssets([...items, project])
       }
@@ -56,32 +71,14 @@ const AssetSelector = ({
     [setSelectedAssets, listItems]
   )
 
-  const onSuggestionSelect = useCallback(
-    project => {
-      if (project) {
-        const target = project.item ? project.item : project
-        toggleAsset({
-          project: target,
-          listItems,
-          isAssetInList: hasAssetById({ listItems, id: target.id })
-        })
-      }
-    },
-    [toggleAsset, listItems]
-  )
-
-  const sortedProjects = useMemo(() => {
-    return projects
-      .slice()
-      .sort(({ rank: a }, { rank: b }) => (a || Infinity) - (b || Infinity))
-  }, [projects])
-
   const filteredProjects = useMemo(
     () =>
       projects.filter(
-        project => !listItems.map(item => item.id).includes(project.id)
+        project =>
+          project.name.toLowerCase().indexOf(searchTerm) !== -1 &&
+          !listItems.map(item => item.id).includes(project.id)
       ),
-    [listItems, projects]
+    [listItems, projects, searchTerm]
   )
 
   const allProjects = useMemo(() => {
@@ -108,7 +105,7 @@ const AssetSelector = ({
         }
       ]
     }
-  }, [filteredProjects])
+  }, [filteredProjects, listItems])
 
   function handleNextClick () {
     setSelectedStep(selectedStep + 1)
@@ -130,15 +127,14 @@ const AssetSelector = ({
           <NextStep label='Choose Metric' onClick={handleNextClick} />
         )}
       </div>
-      <SearchProjects
-        noTrends
-        searchIconPosition='left'
+      <InputWithIcon
+        type='text'
+        icon='search-small'
+        iconPosition='left'
         className={styles.search}
-        projects={sortedProjects}
-        suggestionsProps={{ style: { zIndex: 50 } }}
-        checkedAssets={checkedAssetsAsSet}
-        onSuggestionSelect={onSuggestionSelect}
-        inputProps={{ autoFocus: true, placeholder: 'Search for asset' }}
+        placeholder='Search for asset'
+        value={searchTerm}
+        onChange={e => setSearchTerm(e.target.value)}
       />
       <ProjectsList
         isContained

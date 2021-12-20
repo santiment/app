@@ -60,6 +60,27 @@ const NameAndDescription = () => {
     }
   }
 
+  const {
+    settings: {
+      target: { slug },
+      time_window,
+      operation,
+      channel,
+      metric
+    },
+    title,
+    description
+  } = values
+
+  const isDisabled =
+    !slug ||
+    !time_window ||
+    !operation ||
+    !channel.length > 0 ||
+    !metric ||
+    !title ||
+    !description
+
   return (
     <div className={styles.wrapper}>
       <div>
@@ -82,6 +103,7 @@ const NameAndDescription = () => {
         </div>
       </div>
       <Button
+        disabled={isDisabled}
         type='submit'
         variant='fill'
         border={false}

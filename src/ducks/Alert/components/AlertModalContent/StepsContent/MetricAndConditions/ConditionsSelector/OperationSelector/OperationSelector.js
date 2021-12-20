@@ -54,6 +54,7 @@ const OperationSelector = ({ metric }) => {
 
   const hasPriceIcon = metric.category === 'Financial'
   const isPercentIcon = PERCENT_OPERATIONS.includes(operation.value)
+  const isMultipleValues = MULTIPLE_VALUES_OPERATIONS.includes(operation.value)
 
   return (
     <div className={styles.wrapper}>
@@ -68,11 +69,7 @@ const OperationSelector = ({ metric }) => {
         <Select
           isClearable={false}
           isSearchable={false}
-          className={cx(
-            styles.operation,
-            MULTIPLE_VALUES_OPERATIONS.includes(operation.value) &&
-              styles.fullWidth
-          )}
+          className={cx(styles.operation, isMultipleValues && styles.fullWidth)}
           options={AVAILABLE_OPERATIONS}
           formatOptionLabel={formatOptionLabel}
           value={operation}

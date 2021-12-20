@@ -42,7 +42,7 @@ export function useProjectById (id) {
 
 export function useProject (slug) {
   const { data, loading, error } = useQuery(PROJECT_WITH_SLUG_QUERY, {
-    skip: !slug,
+    skip: !slug || typeof slug !== 'string',
     variables: {
       slug
     }

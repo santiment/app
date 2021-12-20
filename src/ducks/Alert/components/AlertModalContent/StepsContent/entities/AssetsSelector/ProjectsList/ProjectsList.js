@@ -39,6 +39,11 @@ function subExtractor (sections = [], index) {
   }
 }
 
+const cache = new CellMeasurerCache({
+  fixedWidth: true,
+  defaultHeight: ROW_HEIGHT
+})
+
 const ProjectsList = ({
   items,
   listItems,
@@ -47,11 +52,6 @@ const ProjectsList = ({
   hideCheckboxes = false,
   sections
 }) => {
-  const cache = new CellMeasurerCache({
-    fixedWidth: true,
-    defaultHeight: ROW_HEIGHT
-  })
-
   const rowRenderer = useCallback(
     ({ key, index, style, parent }) => {
       const { item, index: itemIndex, header, isLast } = subExtractor(
@@ -70,9 +70,15 @@ const ProjectsList = ({
             columnIndex={0}
             rowIndex={itemIndex}
           >
-            <div style={style} className={styles.sectionTitle}>
-              {item.title}
-            </div>
+            {({ registerChild }) => (
+              <div
+                ref={registerChild}
+                style={style}
+                className={styles.sectionTitle}
+              >
+                {item.title}
+              </div>
+            )}
           </CellMeasurer>
         )
       } else if (!header) {
@@ -89,51 +95,57 @@ const ProjectsList = ({
             columnIndex={0}
             rowIndex={index}
           >
-            <div
-              style={style}
-              className={cx(isSelectedItem && styles.selectedItem)}
-            >
+            {({ registerChild }) => (
               <div
-                className={cx(styles.project, !isLast && styles.projectPadding)}
-                onClick={() => {
-                  onToggleProject({
-                    project: item,
-                    listItems,
-                    isAssetInList
-                  })
-                }}
+                ref={registerChild}
+                style={style}
+                className={cx(isSelectedItem && styles.selectedItem)}
               >
-                {!hideCheckboxes && (
-                  <Checkbox
-                    isActive={isAssetInList}
-                    disabled={isContained ? false : isAssetInList}
-                  />
-                )}
                 <div
                   className={cx(
-                    styles.asset,
-                    !isContained && isAssetInList && styles.disabled
+                    styles.project,
+                    !isLast && styles.projectPadding
                   )}
+                  onClick={() => {
+                    onToggleProject({
+                      project: item,
+                      listItems,
+                      isAssetInList
+                    })
+                  }}
                 >
-                  <ProjectIcon
-                    className={styles.icon}
-                    size={16}
-                    slug={slug}
-                    logoUrl={logoUrl}
-                  />
-                  <span className={styles.name}>{name}</span>
-                  <Label accent='waterloo'>
-                    (
-                    {balance >= 0 && (
-                      <Label className={styles.balance}>
-                        {formatTokensCount(balance)}
-                      </Label>
+                  {!hideCheckboxes && (
+                    <Checkbox
+                      isActive={isAssetInList}
+                      disabled={isContained ? false : isAssetInList}
+                    />
+                  )}
+                  <div
+                    className={cx(
+                      styles.asset,
+                      !isContained && isAssetInList && styles.disabled
                     )}
-                    {ticker})
-                  </Label>
+                  >
+                    <ProjectIcon
+                      className={styles.icon}
+                      size={16}
+                      slug={slug}
+                      logoUrl={logoUrl}
+                    />
+                    <span className={styles.name}>{name}</span>
+                    <Label accent='waterloo'>
+                      (
+                      {balance >= 0 && (
+                        <Label className={styles.balance}>
+                          {formatTokensCount(balance)}
+                        </Label>
+                      )}
+                      {ticker})
+                    </Label>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </CellMeasurer>
         )
       }
