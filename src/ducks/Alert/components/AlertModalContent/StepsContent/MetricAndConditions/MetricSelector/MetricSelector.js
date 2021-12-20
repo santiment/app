@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useField } from 'formik'
-import Search from '../../../../../../Studio/Sidebar/Search'
 import MetricsList from './MetricsList/MetricsList'
+import SelectedMetric from './SelectedMetric/SelectedMetric'
+import Search from '../../../../../../Studio/Sidebar/Search'
 import { SEARCH_PREDICATE_ONLY_METRICS } from '../../../../../../Studio/Compare/Comparable/Metric'
 import { useMergedTimeboundSubmetrics } from '../../../../../../dataHub/timebounds'
 import { getCategoryGraph } from '../../../../../../Studio/Sidebar/utils'
@@ -9,7 +10,6 @@ import { useProject } from '../../../../../../../hooks/project'
 import { useIsBetaMode } from '../../../../../../../stores/ui'
 import { filterOnlyMetrics, getByAvailable } from './utils'
 import styles from './MetricSelector.module.scss'
-import SelectedMetric from './SelectedMetric/SelectedMetric'
 
 const searchProps = {
   iconPosition: 'left',
