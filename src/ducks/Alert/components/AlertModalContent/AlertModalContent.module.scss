@@ -8,7 +8,8 @@
   height: 409px;
   padding: 20px 36px 0 40px;
   box-sizing: border-box;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .submit {

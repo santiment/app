@@ -1,0 +1,12 @@
+@import "~@santiment-network/ui/mixins";
+
+.wrapper {
+  margin-top: 6px;
+  padding: 6px 12px;
+  border: 1px solid var(--porcelain);
+  box-sizing: border-box;
+  border-radius: 4px;
+  color: var(--rhino);
+
+  @include text("body-3");
+}

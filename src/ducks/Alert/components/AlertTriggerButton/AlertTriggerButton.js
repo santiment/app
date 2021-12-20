@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '@santiment-network/ui/Button'
 
-function AlertTriggerButton ({ triggerButtonProps, disabled, ...rest }) {
+const AlertTriggerButton = ({ triggerButtonProps, disabled, ...rest }) => {
   const {
     variant,
     border,

@@ -1,0 +1,30 @@
+.wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.title {
+  margin-bottom: 24px;
+}
+
+.titleBlock {
+  height: 92px;
+  margin-bottom: 16px;
+}
+
+.descriptionBlock {
+  height: 108px;
+  margin-bottom: 24px;
+}
+
+.submit {
+  align-self: flex-end;
+  min-height: 32px;
+  width: 129px;
+  display: flex;
+  justify-content: center;
+}

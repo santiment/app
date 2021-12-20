@@ -66,8 +66,8 @@
 }
 
 .icon {
-  margin-left: 1px;
   color: currentColor;
+  fill: currentColor;
 }
 
 .disabled {
@@ -84,6 +84,7 @@
 .finish {
   --description-color: var(--rhino);
   --icon-background-color: var(--jungle-green-light);
+  --icon-color: var(--jungle-green);
 
   &.small {
     --icon-background-color: var(--jungle-green);
@@ -105,7 +106,7 @@
   }
 
   .description {
-    padding-bottom: 14px;
+    padding-bottom: 0;
   }
 
   .tail {

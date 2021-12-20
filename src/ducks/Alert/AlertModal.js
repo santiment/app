@@ -2,16 +2,16 @@ import React, { useState } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import LoginPopup from '../../components/banners/feature/PopupBanner'
 import AlertTriggerButton from './components/AlertTriggerButton/AlertTriggerButton'
-import AlertModalForm from './AlertModalForm'
+import AlertModalForm from './AlertModalFormMaster'
 import { useUser } from '../../stores/user'
 import styles from './AlertModal.module.scss'
 
-function AlertModal ({
+const AlertModal = ({
   disabled,
   triggerButtonProps,
   modalTitle,
   defaultOpen
-}) {
+}) => {
   const { isLoggedIn } = useUser()
   const [isModalOpen, setIsModalOpen] = useState(false)
 

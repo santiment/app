@@ -1,0 +1,12 @@
+.wrapper {
+  height: 24px;
+  padding: 0;
+
+  &:hover {
+    color: var(--jungle-green-light-3);
+  }
+}
+
+.icon {
+  margin-left: 8px;
+}
