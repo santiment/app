@@ -56,11 +56,10 @@ const AssetSelector = ({
   const toggleAsset = useCallback(
     ({ project, listItems: items, isAssetInList }) => {
       if (isAssetInList) {
-        const selectedAssets = items
-          .filter(({ id }) => id !== project.id)
-          .map(item => item.slug)
+        const filteredAssets = items.filter(({ id }) => id !== project.id)
+        const selectedAssets = filteredAssets.map(item => item.slug)
 
-        setSelectedAssets(items.filter(({ id }) => id !== project.id))
+        setSelectedAssets(filteredAssets)
         setSlug(
           selectedAssets.length === 1 ? selectedAssets[0] : selectedAssets
         )
@@ -71,12 +70,16 @@ const AssetSelector = ({
     [setSelectedAssets, listItems]
   )
 
+  const listItemsIds = useMemo(() => new Set(listItems.map(item => item.id)), [
+    listItems
+  ])
+
   const filteredProjects = useMemo(
     () =>
       projects.filter(
         project =>
           project.name.toLowerCase().indexOf(searchTerm) !== -1 &&
-          !listItems.map(item => item.id).includes(project.id)
+          !listItemsIds.has(project.id)
       ),
     [listItems, projects, searchTerm]
   )
@@ -140,6 +143,7 @@ const AssetSelector = ({
         isContained
         classes={styles}
         listItems={listItems}
+        listItemsIds={listItemsIds}
         items={allProjects}
         onToggleProject={toggleAsset}
         sections={sections}

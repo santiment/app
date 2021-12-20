@@ -216,7 +216,7 @@ const AlertStepDescription = ({ description, size, type, values, status }) => {
       if (typeof slug !== 'string') {
         children = (
           <>
-            {assets.slice(0, 3).map(asset => (
+            {assets.slice(0, 2).map(asset => (
               <div key={asset.id} className={styles.assetWrapper}>
                 <ProjectIcon
                   size={16}
@@ -228,9 +228,9 @@ const AlertStepDescription = ({ description, size, type, values, status }) => {
                 </div>
               </div>
             ))}
-            {assets.length > 3 && (
+            {assets.length > 2 && (
               <div className={styles.assetWrapper}>
-                <div className={styles.assetTitle}>+ {assets.length - 3}</div>
+                <div className={styles.assetTitle}>+ {assets.length - 2}</div>
               </div>
             )}
           </>

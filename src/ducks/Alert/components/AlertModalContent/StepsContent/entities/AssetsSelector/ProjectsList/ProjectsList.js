@@ -1,12 +1,8 @@
 import React, { useCallback } from 'react'
-import cx from 'classnames'
 import List from 'react-virtualized/dist/commonjs/List'
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import { CellMeasurer, CellMeasurerCache } from 'react-virtualized'
-import Label from '@santiment-network/ui/Label'
-import { Checkbox } from '@santiment-network/ui/Checkboxes'
-import ProjectIcon from '../../../../../../../../components/ProjectIcon/ProjectIcon'
-import { formatTokensCount } from '../../../../../../../../utils/formatting'
+import ProjectListItem from './ProjectListItem/ProjectListItem'
 import styles from './ProjectsList.module.scss'
 
 const ROW_HEIGHT = 32
@@ -47,6 +43,7 @@ const cache = new CellMeasurerCache({
 const ProjectsList = ({
   items,
   listItems,
+  listItemsIds,
   onToggleProject,
   isContained,
   hideCheckboxes = false,
@@ -81,10 +78,9 @@ const ProjectsList = ({
             )}
           </CellMeasurer>
         )
-      } else if (!header) {
-        const isAssetInList = listItems.some(
-          ({ id: itemId }) => itemId === item.id
-        )
+      } else {
+        const isAssetInList = listItemsIds.has(item.id)
+
         const { name, ticker, slug, balance, logoUrl } = item
 
         return (
@@ -96,55 +92,23 @@ const ProjectsList = ({
             rowIndex={index}
           >
             {({ registerChild }) => (
-              <div
+              <ProjectListItem
                 ref={registerChild}
                 style={style}
-                className={cx(isSelectedItem && styles.selectedItem)}
-              >
-                <div
-                  className={cx(
-                    styles.project,
-                    !isLast && styles.projectPadding
-                  )}
-                  onClick={() => {
-                    onToggleProject({
-                      project: item,
-                      listItems,
-                      isAssetInList
-                    })
-                  }}
-                >
-                  {!hideCheckboxes && (
-                    <Checkbox
-                      isActive={isAssetInList}
-                      disabled={isContained ? false : isAssetInList}
-                    />
-                  )}
-                  <div
-                    className={cx(
-                      styles.asset,
-                      !isContained && isAssetInList && styles.disabled
-                    )}
-                  >
-                    <ProjectIcon
-                      className={styles.icon}
-                      size={16}
-                      slug={slug}
-                      logoUrl={logoUrl}
-                    />
-                    <span className={styles.name}>{name}</span>
-                    <Label accent='waterloo'>
-                      (
-                      {balance >= 0 && (
-                        <Label className={styles.balance}>
-                          {formatTokensCount(balance)}
-                        </Label>
-                      )}
-                      {ticker})
-                    </Label>
-                  </div>
-                </div>
-              </div>
+                isSelectedItem={isSelectedItem}
+                isLast={isLast}
+                onToggleProject={onToggleProject}
+                item={item}
+                listItems={listItems}
+                isAssetInList={isAssetInList}
+                hideCheckboxes={hideCheckboxes}
+                isContained={isContained}
+                slug={slug}
+                logoUrl={logoUrl}
+                name={name}
+                balance={balance}
+                ticker={ticker}
+              />
             )}
           </CellMeasurer>
         )
