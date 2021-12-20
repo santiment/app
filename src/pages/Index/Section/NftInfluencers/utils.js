@@ -67,10 +67,9 @@ const capitalizeFirstLetter = string =>
 export const Marketplace = ({ marketplace }) => (
   <>
     {capitalizeFirstLetter(marketplace)}{' '}
-    <Icon
-      type='external-link'
-      className={cx(styles.icon, styles.ml, styles.pointer)}
-    />
+    <a href='/FIXME' target='_blank' rel='noopener noreferrer'>
+      <Icon type='external-link' className={cx(styles.icon, styles.ml)} />
+    </a>
   </>
 )
 
