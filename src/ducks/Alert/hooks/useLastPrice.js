@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { LAST_PRICE_QUERY } from './queries'
 
@@ -10,16 +9,8 @@ export const useLastPrice = slugTitle => {
     skip: !slugTitle
   })
 
-  const value = useMemo(() => {
-    if (data && data.getMetric.timeseriesData[0]) {
-      return data.getMetric.timeseriesData[0].value
-    }
-
-    return 0
-  }, [data])
-
   return {
-    data: value,
+    data: data && data.metric.price,
     loading
   }
 }
