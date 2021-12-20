@@ -1,0 +1,136 @@
+@import "~@santiment-network/ui/mixins";
+
+.wrapper {
+  position: relative;
+  overflow: visible;
+}
+
+.container[role="button"] {
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.tail {
+  position: absolute;
+  left: 12px;
+  top: 0;
+  height: 100%;
+  width: 1px;
+  padding: 28px 0 4px 0;
+
+  &::after {
+    height: 100%;
+    width: 1px;
+    content: "";
+    display: inline-block;
+    border-radius: 1px;
+    transition: background 0.3s;
+    background-color: var(--porcelain);
+  }
+}
+
+.contentWrapper {
+  display: flex;
+}
+
+.content {
+  max-width: 340px;
+  overflow: hidden;
+}
+
+.title {
+  position: relative;
+  color: var(--title-color, var(--rhino));
+
+  @include text("body-2");
+}
+
+.description {
+  padding-bottom: 16px;
+  color: var(--description-color, var(--waterloo));
+
+  @include text("body-3");
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 100%;
+  font-size: 14px;
+  margin-right: 10px;
+  background-color: var(--icon-background-color, var(--waterloo));
+  color: var(--icon-color, var(--white));
+}
+
+.icon {
+  margin-left: 1px;
+  color: currentColor;
+}
+
+.disabled {
+  &[role="button"] {
+    cursor: initial;
+  }
+
+  --title-color: var(--waterloo);
+  --description-color: var(--casper);
+  --icon-background-color: var(--mystic);
+  --icon-color: var(--waterloo);
+}
+
+.finish {
+  --description-color: var(--rhino);
+  --icon-background-color: var(--jungle-green-light);
+
+  &.small {
+    --icon-background-color: var(--jungle-green);
+  }
+}
+
+.small {
+  --title-color: var(--fiord);
+
+  .content {
+    min-height: 36px;
+    margin-top: 0;
+  }
+
+  .title {
+    margin-bottom: 8px;
+
+    @include text("caption", "m");
+  }
+
+  .description {
+    padding-bottom: 14px;
+  }
+
+  .tail {
+    left: 2px;
+    top: 0;
+    padding: 15px 0 0;
+  }
+
+  .iconWrapper {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-top: 5px;
+    padding-right: 5px;
+
+    .icon {
+      font-size: 0;
+    }
+  }
+}
+
+.wrapper:last-child {
+  .tail,
+  .title::after {
+    display: none;
+  }
+}

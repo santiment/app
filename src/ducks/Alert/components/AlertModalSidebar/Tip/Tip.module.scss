@@ -1,0 +1,75 @@
+@import "~@santiment-network/ui/mixins";
+
+.wrapper {
+  background: var(--white);
+  box-sizing: border-box;
+  box-shadow: 0 4px 8px rgba(24, 27, 43, 0.03);
+  border-radius: $border-radius;
+  border: 1px solid var(--heliotrope-light-2);
+}
+
+.icon {
+  margin: auto;
+  width: 16px;
+  height: 16px;
+}
+
+.trigger {
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  border-radius: $border-radius;
+  border: 1px solid var(--heliotrope-light-2);
+
+  &.openState {
+    border: 1px solid var(--heliotrope);
+  }
+
+  &:hover {
+    border: 1px solid var(--heliotrope);
+  }
+}
+
+.tipWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 176px;
+  padding: 12px 16px;
+  box-sizing: border-box;
+}
+
+.tipTitle {
+  color: var(--heliotrope);
+  margin-bottom: 4px;
+
+  @include text("body-3", "m");
+}
+
+.tipContent {
+  color: var(--waterloo);
+  margin-bottom: 4px;
+
+  @include text("caption");
+}
+
+.tipChanger {
+  text-align: right;
+  color: var(--rhino);
+  cursor: pointer;
+
+  @include text("caption");
+
+  .nextIcon {
+    margin-left: 6px;
+    margin-bottom: 1px;
+    fill: var(--waterloo);
+  }
+
+  .previousIcon {
+    margin-right: 6px;
+    margin-bottom: 1px;
+    fill: var(--waterloo);
+    transform: rotate(180deg);
+  }
+}
