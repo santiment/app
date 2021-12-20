@@ -1,7 +1,14 @@
 @import "~@santiment-network/ui/mixins";
 
-.wrapper {
+.rowWrapper {
+  display: flex;
   margin-top: 6px;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.wrapper {
+  height: 34px;
   padding: 6px 12px;
   border: 1px solid var(--porcelain);
   box-sizing: border-box;
