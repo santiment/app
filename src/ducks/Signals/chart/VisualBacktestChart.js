@@ -73,7 +73,7 @@ const RenderChart = ({
         <Tooltip
           content={<CustomTooltip classes={classes} />}
           cursor={false}
-          position={{ x: 0, y: -22 }}
+          position={{ x: 12, y: -22 }}
           isAnimationActive={false}
         />
       </ComposedChart>

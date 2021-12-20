@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useField } from 'formik'
-import Search from '../../../../../../Studio/Sidebar/Search'
 import MetricsList from './MetricsList/MetricsList'
+import SelectedMetric from './SelectedMetric/SelectedMetric'
+import Search from '../../../../../../Studio/Sidebar/Search'
 import { SEARCH_PREDICATE_ONLY_METRICS } from '../../../../../../Studio/Compare/Comparable/Metric'
 import { useMergedTimeboundSubmetrics } from '../../../../../../dataHub/timebounds'
 import { getCategoryGraph } from '../../../../../../Studio/Sidebar/utils'
@@ -19,7 +20,7 @@ const searchProps = {
   searchPredicate: SEARCH_PREDICATE_ONLY_METRICS
 }
 
-const MetricSelector = ({ metrics, target }) => {
+const MetricSelector = ({ selectedMetric, metrics, target, onChange }) => {
   const [, , { setValue: setMetric }] = useField('settings.metric')
   const isBeta = useIsBetaMode()
   const [project] = useProject(target.slug)
@@ -45,7 +46,8 @@ const MetricSelector = ({ metrics, target }) => {
   }, [metrics, allMetrics, isBeta])
 
   function handleSelectMetric (metric) {
-    setMetric(metric)
+    setMetric(metric.key)
+    onChange(metric)
   }
 
   return (
@@ -56,6 +58,7 @@ const MetricSelector = ({ metrics, target }) => {
         toggleMetric={handleSelectMetric}
         project={project}
       />
+      {selectedMetric && <SelectedMetric metric={selectedMetric} />}
       <MetricsList
         metricsList={categories}
         project={project}

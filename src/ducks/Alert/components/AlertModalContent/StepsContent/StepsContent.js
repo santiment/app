@@ -8,7 +8,7 @@ const StepsContent = ({ selectorSettings }) => {
 
   switch (selectedType.subSteps[selectedStep].label) {
     case 'Metric & Conditions': {
-      return <MetricAndConditions />
+      return <MetricAndConditions selectorSettings={selectorSettings} />
     }
     case 'Notification & Privacy settings': {
       return <NotificationAndPrivacy selectorSettings={selectorSettings} />

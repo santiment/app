@@ -7,10 +7,17 @@ import styles from './MetricCategory.module.scss'
 const buttonProps = {
   tooltipPosition: 'top',
   btnClassName: styles.button,
-  addIconClassName: styles.addIcon
+  addIconClassName: styles.addIcon,
+  infoClassName: styles.infoIcon
 }
 
-const MetricCategory = ({ category, metricsList, project, onSelect }) => {
+const MetricCategory = ({
+  category,
+  metricsList,
+  project,
+  onSelect,
+  defaultOpen
+}) => {
   const categoryKeys = useMemo(() => Object.keys(metricsList[category]), [
     metricsList,
     category
@@ -22,6 +29,7 @@ const MetricCategory = ({ category, metricsList, project, onSelect }) => {
       categories.map(({ item, subitems }) => {
         const children = (
           <MetricButton
+            metric={item}
             project={project}
             item={item}
             label={item.label}
@@ -37,6 +45,7 @@ const MetricCategory = ({ category, metricsList, project, onSelect }) => {
               <div className={styles.subitemsWrapper}>
                 {subitems.map(subitem => (
                   <MetricButton
+                    metric={subitem}
                     key={subitem.key}
                     project={project}
                     item={subitem}
@@ -74,6 +83,7 @@ const MetricCategory = ({ category, metricsList, project, onSelect }) => {
 
   return (
     <ExpansionItem
+      isOpen={defaultOpen}
       title={category}
       classes={{
         expansion: styles.expansionContainer,

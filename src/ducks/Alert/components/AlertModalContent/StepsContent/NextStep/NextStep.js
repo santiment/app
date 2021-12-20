@@ -6,6 +6,7 @@ import styles from './NextStep.module.scss'
 
 const NextStep = ({ label, onClick, className, ...rest }) => (
   <Button
+    type='button'
     className={cx(styles.wrapper, className)}
     accent='positive'
     onClick={onClick}

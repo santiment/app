@@ -1,5 +1,9 @@
 @import "~@santiment-network/ui/mixins";
 
+.expandableHeight {
+  --height: auto;
+}
+
 .rowWrapper {
   display: flex;
   margin-top: 6px;
@@ -8,7 +12,7 @@
 }
 
 .wrapper {
-  height: 34px;
+  height: var(--height, 34px);
   padding: 6px 12px;
   border: 1px solid var(--porcelain);
   box-sizing: border-box;
@@ -16,4 +20,29 @@
   color: var(--rhino);
 
   @include text("body-3");
+}
+
+.smallCol {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+
+.metric {
+  width: fit-content;
+  padding: 4px 8px;
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  color: var(--rhino);
+
+  @include text("caption");
+}
+
+.condition {
+  @include text("caption");
+}
+
+.conditionType {
+  color: var(--waterloo);
 }

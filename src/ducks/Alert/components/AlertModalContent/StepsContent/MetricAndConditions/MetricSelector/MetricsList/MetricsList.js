@@ -9,6 +9,7 @@ const MetricsList = ({ metricsList, project, onSelect }) => {
     <div className={styles.wrapper}>
       {listKeys.map(category => (
         <MetricCategory
+          defaultOpen={category === listKeys[0]}
           key={category}
           category={category}
           metricsList={metricsList}

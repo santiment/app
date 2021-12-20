@@ -1,0 +1,25 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.singleInput {
+  max-width: 122px;
+}
+
+.prefix {
+  position: absolute;
+  left: 10px;
+  top: 7px;
+  color: var(--casper);
+}
+
+.inputWithPrefix {
+  padding-left: 22px;
+}
