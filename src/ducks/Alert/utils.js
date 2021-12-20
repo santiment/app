@@ -56,12 +56,16 @@ export function formatChannelsTitles (channels) {
   })
 }
 
-export function getDescriptionStr ({ cooldown, channels }) {
+export function getDescriptionStr ({ cooldown, channels, isRepeating }) {
   const frequencyStr = formatFrequencyStr(cooldown)
   const channelsStr =
     channels.length > 0
       ? ` via ${formatChannelsTitles(channels).join(', ')}`
       : ''
+
+  if (!isRepeating) {
+    return `Send me notifications once${channelsStr}.`
+  }
 
   return `Send me notifications every ${frequencyStr}${channelsStr}.`
 }
@@ -150,4 +154,15 @@ export function getTitleStr ({
 
   return `${slugStr} ${(selectedMetric && selectedMetric.label) ||
     'Metric'} ${conditionStr}`
+}
+
+export function clipText (text, maxLength) {
+  if (text && maxLength) {
+    const lengthBorder = maxLength - 3
+    if (text.length > lengthBorder) {
+      return text.slice(0, lengthBorder) + '...'
+    }
+  }
+
+  return text
 }

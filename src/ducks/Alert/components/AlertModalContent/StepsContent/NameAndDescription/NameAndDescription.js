@@ -15,6 +15,7 @@ const NameAndDescription = () => {
 
   useEffect(() => {
     const {
+      isRepeating,
       cooldown,
       description,
       title,
@@ -31,7 +32,8 @@ const NameAndDescription = () => {
       if (!description && cooldown && channel) {
         let descriptionStr = getDescriptionStr({
           cooldown,
-          channels: channel
+          channels: channel,
+          isRepeating
         })
 
         if (metric && operation && time_window) {
