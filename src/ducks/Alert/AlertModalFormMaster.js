@@ -15,7 +15,7 @@ const initialValues = {
   settings: {
     type: 'metric_signal',
     metric: '',
-    target: { slug: '', watchlist_id: '', word: '', address: '' },
+    target: { slug: '' },
     channel: [],
     time_window: '',
     operation: {}
@@ -55,8 +55,12 @@ const AlertModalFormMaster = ({ defaultType, createAlert, setIsModalOpen }) => {
     ]
   )
 
+  const values = useMemo(() => {
+    return { ...initialValues, settings: selectedType.settings }
+  }, [selectedType])
+
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+    <Formik initialValues={values} onSubmit={handleSubmit} enableReinitialize>
       {formik => (
         <AlertModalForm selectorSettings={selectorSettings} {...formik} />
       )}

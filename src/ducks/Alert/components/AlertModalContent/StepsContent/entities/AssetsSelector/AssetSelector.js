@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useField } from 'formik'
 import { InputWithIcon } from '@santiment-network/ui/Input'
+import PageLoader from '../../../../../../../components/Loader/PageLoader'
 import NextStep from '../../NextStep/NextStep'
 import StepTitle from '../../StepTitle/StepTitle'
 import ProjectsList from './ProjectsList/ProjectsList'
@@ -17,7 +18,7 @@ const AssetSelector = ({
 }) => {
   const [, { value }, { setValue: setSlug }] = useField('settings.target.slug')
   const [, , { setValue: setMetric }] = useField('settings.metric')
-  const [projects] = useAssets({
+  const [projects, loading] = useAssets({
     shouldSkipLoggedInState: false
   })
   const [listItems, setListItems] = useState([])
@@ -78,7 +79,7 @@ const AssetSelector = ({
     () =>
       projects.filter(
         project =>
-          project.name.toLowerCase().indexOf(searchTerm) !== -1 &&
+          project.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1 &&
           !listItemsIds.has(project.id)
       ),
     [listItems, projects, searchTerm]
@@ -118,8 +119,8 @@ const AssetSelector = ({
     }
   }
 
-  return (
-    <div className={styles.wrapper}>
+  let children = (
+    <>
       <div className={styles.titleWrapper}>
         <StepTitle
           iconType='assets'
@@ -148,8 +149,19 @@ const AssetSelector = ({
         onToggleProject={toggleAsset}
         sections={sections}
       />
-    </div>
+    </>
   )
+
+  if (loading) {
+    children = (
+      <PageLoader
+        containerClass={styles.loaderWrapper}
+        className={styles.loader}
+      />
+    )
+  }
+
+  return <div className={styles.wrapper}>{children}</div>
 }
 
 export default AssetSelector

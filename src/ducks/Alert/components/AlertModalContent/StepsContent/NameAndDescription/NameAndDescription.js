@@ -3,15 +3,22 @@ import { useField, useFormikContext } from 'formik'
 import Button from '@santiment-network/ui/Button'
 import StepTitle from '../StepTitle/StepTitle'
 import BlockInput from './BlockInput/BlockInput'
+import { useWatchlistAndScreener } from '../../../../hooks/useWatchlistAndScreener'
 import { getDescriptionStr, getTitleStr } from '../../../../utils'
 import styles from './NameAndDescription.module.scss'
 
-const NameAndDescription = () => {
+const NameAndDescription = ({ selectorSettings: { selectedType } }) => {
   const { submitForm, isSubmitting, values } = useFormikContext()
   const [titleField, , { setValue: setTitle }] = useField('title')
   const [descriptionField, , { setValue: setDescription }] = useField(
     'description'
   )
+  const watchlist = useWatchlistAndScreener({
+    type: selectedType.title,
+    settings: values.settings,
+    skip:
+      selectedType.title !== 'Screener' && selectedType.title !== 'Watchlist'
+  })
 
   useEffect(() => {
     const {
@@ -19,13 +26,7 @@ const NameAndDescription = () => {
       cooldown,
       description,
       title,
-      settings: {
-        channel,
-        metric,
-        operation,
-        time_window,
-        target: { slug }
-      }
+      settings: { channel, metric, operation, time_window, target }
     } = values
 
     if (cooldown) {
@@ -38,7 +39,8 @@ const NameAndDescription = () => {
 
         if (metric && operation && time_window) {
           descriptionStr = `Notify me when ${getTitleStr({
-            slug,
+            watchlist: watchlist && watchlist.name,
+            slug: target && target.slug,
             metric,
             operation,
             timeWindow: time_window
@@ -50,7 +52,13 @@ const NameAndDescription = () => {
 
       if (!title && metric && operation && time_window) {
         setTitle(
-          getTitleStr({ slug, metric, operation, timeWindow: time_window })
+          getTitleStr({
+            watchlist: watchlist && watchlist.name,
+            slug: target && target.slug,
+            metric,
+            operation,
+            timeWindow: time_window
+          })
         )
       }
     }
@@ -61,27 +69,6 @@ const NameAndDescription = () => {
       submitForm()
     }
   }
-
-  const {
-    settings: {
-      target: { slug },
-      time_window,
-      operation,
-      channel,
-      metric
-    },
-    title,
-    description
-  } = values
-
-  const isDisabled =
-    !slug ||
-    !time_window ||
-    !operation ||
-    !channel.length > 0 ||
-    !metric ||
-    !title ||
-    !description
 
   return (
     <div className={styles.wrapper}>
@@ -105,7 +92,6 @@ const NameAndDescription = () => {
         </div>
       </div>
       <Button
-        disabled={isDisabled}
         type='submit'
         variant='fill'
         border={false}

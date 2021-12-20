@@ -1,0 +1,41 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.paddingWrapper {
+  padding-bottom: 14px;
+}
+
+.wrapper {
+  cursor: var(--watchlist-item-cursor, pointer);
+  min-height: 52px;
+  padding: 8px 12px;
+  border: 1px solid var(--watchlist-item-border, var(--porcelain));
+  border-radius: 4px;
+
+  &:hover {
+    --watchlist-item-border: var(--jungle-green-light-3);
+  }
+}
+
+.selectedItem {
+  --watchlist-item-border: var(--jungle-green);
+  --watchlist-item-cursor: default;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--rhino);
+
+  @include text("body-3");
+}
+
+.description {
+  color: var(--waterloo);
+
+  @include text("caption");
+}
+
+.icon {
+  cursor: pointer;
+}

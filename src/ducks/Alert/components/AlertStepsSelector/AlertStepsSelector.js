@@ -8,6 +8,7 @@ const AlertStepsSelector = ({
   isMetricsDisabled,
   items,
   selectorSettings: {
+    selectedType,
     selectedStep,
     setSelectedStep,
     visitedSteps,
@@ -49,6 +50,7 @@ const AlertStepsSelector = ({
               values={values}
               type={step.label}
               status={status}
+              selectedType={selectedType}
             />
           }
           onStepClick={() => handleStepClick(index)}

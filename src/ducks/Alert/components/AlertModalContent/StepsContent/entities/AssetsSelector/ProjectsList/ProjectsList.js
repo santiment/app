@@ -118,8 +118,7 @@ const ProjectsList = ({
   )
 
   const wrapperStyles = {
-    height:
-      items.length > MAX_SHOWING_ITEMS ? `318px` : `${32 * items.length}px`,
+    height: '318px',
     paddingRight: items.length > MAX_SHOWING_ITEMS ? '0px' : `5px`
   }
 

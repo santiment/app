@@ -6,7 +6,7 @@ import StepsContent from './StepsContent/StepsContent'
 import styles from './AlertModalContent.module.scss'
 
 const AlertModalContent = ({ isMetricsDisabled, selectorSettings }) => {
-  const { submitForm, isSubmitting, values } = useFormikContext()
+  const { submitForm, isSubmitting } = useFormikContext()
 
   const { selectedStep, selectedType, setVisitedSteps } = selectorSettings
 
@@ -30,27 +30,6 @@ const AlertModalContent = ({ isMetricsDisabled, selectorSettings }) => {
     }
   }
 
-  const {
-    settings: {
-      target: { slug },
-      time_window,
-      operation,
-      channel,
-      metric
-    },
-    title,
-    description
-  } = values
-
-  const isDisabled =
-    !slug ||
-    !time_window ||
-    !operation ||
-    !channel.length > 0 ||
-    !metric ||
-    !title ||
-    !description
-
   return (
     <div className={styles.wrapper}>
       <AlertStepsSelector
@@ -59,7 +38,6 @@ const AlertModalContent = ({ isMetricsDisabled, selectorSettings }) => {
         isMetricsDisabled={isMetricsDisabled}
       />
       <Button
-        disabled={isDisabled}
         variant='fill'
         border={false}
         accent='positive'

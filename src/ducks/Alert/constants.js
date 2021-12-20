@@ -1,6 +1,14 @@
 export const ALERT_TYPES = [
   {
     title: 'Asset',
+    settings: {
+      type: 'metric_signal',
+      metric: '',
+      target: { slug: '' },
+      channel: [],
+      time_window: '',
+      operation: {}
+    },
     steps: [
       {
         label: 'Select Asset',
@@ -78,6 +86,14 @@ export const ALERT_TYPES = [
   },
   {
     title: 'Watchlist',
+    settings: {
+      type: 'metric_signal',
+      metric: '',
+      target: { watchlist_id: '' },
+      channel: [],
+      time_window: '',
+      operation: {}
+    },
     steps: [
       {
         label: 'Select Watchlist',
@@ -154,7 +170,12 @@ export const ALERT_TYPES = [
   },
   {
     title: 'Screener',
-    type: 'metric_signal',
+    settings: {
+      type: 'screener_signal',
+      metric: 'social_volume_total',
+      channel: [],
+      operation: { selector: { watchlist_id: '' } }
+    },
     steps: [
       {
         label: 'Select Screener',
@@ -185,6 +206,13 @@ export const ALERT_TYPES = [
   },
   {
     title: 'Wallet address',
+    settings: {
+      type: 'wallet_movement',
+      target: { address: '' },
+      selector: { infrastructure: '', slug: '' },
+      channel: [],
+      operation: {}
+    },
     steps: [
       {
         label: 'Choose Wallet & Conditions',
@@ -215,6 +243,12 @@ export const ALERT_TYPES = [
   },
   {
     title: 'Social trends',
+    settings: {
+      type: 'trending_words',
+      channel: [],
+      target: { watchlist_id: '', word: '', slug: '' },
+      operation: { trending_project: true, trending_word: false }
+    },
     steps: [
       {
         label: 'Choose Social trend',
@@ -234,36 +268,6 @@ export const ALERT_TYPES = [
     subSteps: [
       {
         label: 'Social trend'
-      },
-      {
-        label: 'Notification & Privacy settings'
-      },
-      {
-        label: 'Name & Description'
-      }
-    ]
-  },
-  {
-    title: 'Key Stakeholder Signals',
-    steps: [
-      {
-        label: 'Choose Key Stakeholder Signal',
-        description: 'You can choose any of the signal fired past 30 days'
-      },
-      {
-        label: 'Set up Notifications and Privacy',
-        description:
-          'Choose where you want to receive notifications and the frequency of them..'
-      },
-      {
-        label: 'Check name and description',
-        description:
-          'We generate the description automatically, you can change it anytime, as a name and a privacy of the alert'
-      }
-    ],
-    subSteps: [
-      {
-        label: 'Key Stakeholders signal'
       },
       {
         label: 'Notification & Privacy settings'

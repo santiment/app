@@ -1,4 +1,5 @@
 import React from 'react'
+import WatchlistAndScreenerSelector from './entities/WatchlistAndScreenerSelector/WatchlistAndScreenerSelector'
 import AssetSelector from './entities/AssetsSelector/AssetSelector'
 import MetricAndConditions from './MetricAndConditions/MetricAndConditions'
 import NotificationAndPrivacy from './NotificationAndPrivacy/NotificationAndPrivacy'
@@ -8,6 +9,22 @@ const StepsContent = ({ selectorSettings }) => {
   const { selectedType, selectedStep } = selectorSettings
 
   switch (selectedType.subSteps[selectedStep].label) {
+    case 'Screener': {
+      return (
+        <WatchlistAndScreenerSelector
+          type='screener'
+          selectorSettings={selectorSettings}
+        />
+      )
+    }
+    case 'Watchlist': {
+      return (
+        <WatchlistAndScreenerSelector
+          type='watchlist'
+          selectorSettings={selectorSettings}
+        />
+      )
+    }
     case 'Asset': {
       return <AssetSelector selectorSettings={selectorSettings} />
     }
@@ -18,7 +35,7 @@ const StepsContent = ({ selectorSettings }) => {
       return <NotificationAndPrivacy selectorSettings={selectorSettings} />
     }
     case 'Name & Description': {
-      return <NameAndDescription />
+      return <NameAndDescription selectorSettings={selectorSettings} />
     }
     default:
       return <div />

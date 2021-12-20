@@ -3,6 +3,7 @@ import cx from 'classnames'
 import { ProjectIcon } from '../../../../../components/ProjectIcon/ProjectIcon'
 import { getMetric } from '../../../../Studio/Sidebar/utils'
 import { useAssets } from '../../../../../hooks/project'
+import { useWatchlistAndScreener } from '../../../hooks/useWatchlistAndScreener'
 import {
   clipText,
   formatChannelsTitles,
@@ -15,7 +16,9 @@ const DESCRIPTION_TYPES = {
   TITLE: 'title',
   NOTIFICATIONS: 'notifications_settings',
   METRICS_AND_CONDITIONS: 'metrics_and_conditions',
-  ASSETS: 'assets'
+  ASSETS: 'assets',
+  WATCHLISTS: 'watchlists',
+  SCREENERS: 'screeners'
 }
 
 function checkValueByType (values, type) {
@@ -26,7 +29,7 @@ function checkValueByType (values, type) {
         value: {
           channels: values.settings.channel,
           cooldown: values.cooldown,
-          slug: values.settings.target.slug,
+          slug: values.settings.target && values.settings.target.slug,
           metric: values.settings.metric,
           operation: values.settings.operation,
           timeWindow: values.settings.time_window,
@@ -56,18 +59,45 @@ function checkValueByType (values, type) {
     case 'Select Asset':
     case 'Asset':
       return {
-        value: values.settings.target.slug,
+        value: values.settings.target && values.settings.target.slug,
         type: DESCRIPTION_TYPES.ASSETS
+      }
+    case 'Select Watchlist':
+    case 'Watchlist':
+      return {
+        value: values.settings.target && values.settings.target.watchlist_id,
+        type: DESCRIPTION_TYPES.WATCHLISTS
+      }
+    case 'Select Screener':
+    case 'Screener':
+      return {
+        value:
+          values.settings.operation.selector &&
+          values.settings.operation.selector.watchlist_id,
+        type: DESCRIPTION_TYPES.SCREENERS
       }
     default:
       return {}
   }
 }
 
-const AlertStepDescription = ({ description, size, type, values, status }) => {
+const AlertStepDescription = ({
+  description,
+  size,
+  type,
+  values,
+  status,
+  selectedType
+}) => {
   const valueDescription = checkValueByType(values, type)
   const [projects] = useAssets({
     shouldSkipLoggedInState: false
+  })
+  const watchlist = useWatchlistAndScreener({
+    type: selectedType.title,
+    settings: values.settings,
+    skip:
+      selectedType.title !== 'Screener' && selectedType.title !== 'Watchlist'
   })
 
   if (!valueDescription.value) {
@@ -90,7 +120,7 @@ const AlertStepDescription = ({ description, size, type, values, status }) => {
         isRepeating
       } = valueDescription.value
 
-      if (operation && metric) {
+      if (operation && metric && channels.length > 0) {
         let descriptionStr = getDescriptionStr({
           cooldown,
           channels,
@@ -258,6 +288,28 @@ const AlertStepDescription = ({ description, size, type, values, status }) => {
           )}
         >
           {children}
+        </div>
+      )
+    }
+    case DESCRIPTION_TYPES.WATCHLISTS: {
+      const { value: watchlistId } = valueDescription
+
+      if (!watchlistId) {
+        return description || ''
+      }
+
+      return (
+        <div
+          className={cx(
+            styles.rowWrapper,
+            size === 'small' && styles.smallAsset
+          )}
+        >
+          <div className={styles.assetWrapper}>
+            <div className={styles.assetTitle}>
+              {watchlist && watchlist.name}
+            </div>
+          </div>
         </div>
       )
     }
