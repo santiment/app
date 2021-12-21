@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import NftTable from '../../../../ducks/Table'
 import { dateDifferenceInWords } from '../../../../utils/dates'
-import { useNftQuery } from './hooks'
+import { useNftQuery, useNftCountQuery } from './hooks'
 import {
   HOME_INDEX,
   PAGE_INDEX,
@@ -19,12 +19,8 @@ const Table = ({ isHome = true }) => {
   const [pageSize, setPageSize] = useState(isHome ? 6 : 10)
   const [orderBy, setOrderBy] = useState('AMOUNT')
   const [direction, setDirection] = useState('DESC')
-  const { data, maxAmount, loading } = useNftQuery(
-    pageIndex,
-    pageSize,
-    orderBy,
-    direction
-  )
+  const { data, loading } = useNftQuery(pageIndex, pageSize, orderBy, direction)
+  const { maxAmount } = useNftCountQuery()
 
   const index = isHome ? HOME_INDEX : PAGE_INDEX
 

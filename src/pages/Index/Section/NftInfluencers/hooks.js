@@ -41,6 +41,16 @@ const GET_NFT_TRADES_QUERY = gql`
   }
 `
 
+const GET_NFT_TRADES_COUNT = gql`
+  {
+    getNftTradesCount(
+      labelKey: NFT_INFLUENCER
+      from: "utc_now-30d"
+      to: "utc_now"
+    )
+  }
+`
+
 export const useNftQuery = (
   page = 0,
   pageSize = 6,
@@ -55,6 +65,10 @@ export const useNftQuery = (
       direction
     }
   })
-  // FIXME: replace `maxAmount` value
-  return { data: data ? data.getNftTrades : [], maxAmount: 89, loading, error }
+  return { data: data ? data.getNftTrades : [], loading, error }
+}
+
+export const useNftCountQuery = () => {
+  const { data } = useQuery(GET_NFT_TRADES_COUNT)
+  return { maxAmount: data ? data.getNftTradesCount : 0 }
 }
