@@ -50,6 +50,10 @@ const DASHBOARDS = [
     name: 'Bitcoin Locked on Ethereum',
     to: '/bitcoin-locked-on-ethereum',
     createdAt: '2020-11-04T00:00:00Z'
+  },
+  {
+    name: 'NFT Influencers Trx',
+    to: '/nft-influencers-trx'
   }
 ]
 

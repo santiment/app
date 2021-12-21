@@ -146,6 +146,10 @@ const LoadableBtcLockedPage = LoadablePage(() =>
   import('./pages/BtcLockedPage/BtcLockedPage')
 )
 
+const LoadableNftInfluencersPage = LoadablePage(() =>
+  import('./pages/NftInfluencersPage/index')
+)
+
 const LoadableSheetsTemplatePage = LoadablePage(() =>
   import('./pages/SheetsTemplatePage/SheetsTemplatePage')
 )
@@ -541,6 +545,10 @@ export const App = ({
             <Route
               path={PATHS.BTC_LOCKED}
               render={props => <LoadableBtcLockedPage {...props} />}
+            />
+            <Route
+              path={PATHS.NFT_INFLUENCERS_TRX}
+              render={props => <LoadableNftInfluencersPage {...props} />}
             />
             <Route
               path={PATHS.SHEETS_TEMPLATES}

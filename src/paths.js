@@ -19,6 +19,7 @@ export const PATHS = {
   LABELS: '/labels',
   DEXS: '/decentralized-exchanges',
   BTC_LOCKED: '/bitcoin-locked-on-ethereum',
+  NFT_INFLUENCERS_TRX: '/nft-influencers-trx',
   ADDRESSES_WATCHLIST: '/watchlist/addresses',
   PROJECTS_WATCHLIST: '/watchlist/projects',
   SCREENER: '/screener'
