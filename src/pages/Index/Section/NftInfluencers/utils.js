@@ -17,6 +17,7 @@ export const PAGE_INDEX = [
   '#',
   'Twitter NFT Influencer',
   'Activity',
+  'NFT collection name',
   'Transaction',
   'When',
   'Price',

@@ -19,7 +19,12 @@ const Table = ({ isHome = true }) => {
   const [pageSize, setPageSize] = useState(isHome ? 6 : 10)
   const [orderBy, setOrderBy] = useState('AMOUNT')
   const [direction, setDirection] = useState('DESC')
-  const { data, loading } = useNftQuery(pageIndex, pageSize, orderBy, direction)
+  const { data, maxAmount, loading } = useNftQuery(
+    pageIndex,
+    pageSize,
+    orderBy,
+    direction
+  )
 
   const index = isHome ? HOME_INDEX : PAGE_INDEX
 
@@ -42,6 +47,8 @@ const Table = ({ isHome = true }) => {
           )
         case 'Activity':
           return <Activity original={row.original} />
+        case 'NFT collection name':
+          return row.original.nft.name
         case 'Transaction':
           return (
             <Transaction
@@ -58,7 +65,7 @@ const Table = ({ isHome = true }) => {
             row.original.currencyProject.ticker
           }`
         case 'Quantity':
-          return <>...</>
+          return row.original.quantity
         case 'Marketplace':
           return <Marketplace marketplace={row.original.marketplace} />
         default:
@@ -98,8 +105,7 @@ const Table = ({ isHome = true }) => {
           pageSize,
           pageIndex,
           onChangePage: setPageIndex,
-          // TODO: set maxAmount and uncomment
-          // controlledPageCount: Math.ceil(maxAmount / pageSize),
+          controlledPageCount: Math.ceil(maxAmount / pageSize),
           manualPagination: true
         }
       }}

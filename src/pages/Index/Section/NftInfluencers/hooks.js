@@ -28,14 +28,15 @@ const GET_NFT_TRADES_QUERY = gql`
       }
       nft {
         contractAddress
+        name
       }
       trxHash
       marketplace
       currencyProject {
-        slug
         ticker
       }
       amount
+      quantity
     }
   }
 `
@@ -54,5 +55,6 @@ export const useNftQuery = (
       direction
     }
   })
-  return { data: data ? data.getNftTrades : [], loading, error }
+  // FIXME: replace `maxAmount` value
+  return { data: data ? data.getNftTrades : [], maxAmount: 89, loading, error }
 }
