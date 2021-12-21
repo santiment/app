@@ -1,6 +1,5 @@
 import React from 'react'
 import Button from '@santiment-network/ui/Button'
-import { SvgNew } from '../../Illustrations/NewCard'
 import CreateWatchlistBtn from './CreateWatchlistBtn'
 import { PROJECT } from '../../../ducks/Watchlists/detector'
 import NewWatchlist from '../../../ducks/Watchlists/Actions/New'
@@ -8,8 +7,6 @@ import styles from './EmptySection.module.scss'
 
 const WatchlistsEmptySection = () => (
   <div className={styles.wrapper}>
-    <SvgNew />
-
     <span className={styles.description}>
       <NewWatchlist
         type={PROJECT}

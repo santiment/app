@@ -5,7 +5,6 @@ import Header from './Header'
 import ChartPreview from './ChartPreview'
 import { Phase } from '../phases'
 import { useKeyDown } from '../hooks'
-import { SvgNew } from '../../../components/Illustrations/NewCard'
 import styles from './Overview.module.scss'
 
 const SortableItem = SortableElement(
@@ -49,7 +48,6 @@ const SortableList = SortableContainer(
             onClick={() => onNewChartClick()}
             // NOTE: Not passing `onNewChartClick` as a reference since arguments will be mapped incorrectly [@vanguard | Aug  5, 2020]
           >
-            <SvgNew className={styles.iconNew} />
             Add new chart
           </div>
         )}

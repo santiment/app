@@ -2,7 +2,6 @@ import React from 'react'
 import cx from 'classnames'
 import NewWatchlist from '../Actions/New'
 import { ProLabel } from '../../../components/ProLabel'
-import { SvgNew } from '../../../components/Illustrations/NewCard'
 import { BLOCKCHAIN_ADDRESS, PROJECT, SCREENER } from '../detector'
 import LoginPopup from '../../../components/banners/feature/PopupBanner'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
@@ -18,7 +17,6 @@ const Trigger = ({ title, showProBanner, ...props }) => (
     )}
     {...props}
   >
-    <SvgNew isDisabled={showProBanner} />
     <div className={styles.createLink}>
       Create {title}
       {showProBanner && <ProLabel className={styles.proLabel} as={'span'} />}

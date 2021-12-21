@@ -1,13 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { SvgNew } from '../../Illustrations/NewCard'
 import CreateLayoutLink from './CreateLayoutLink'
 import styles from './LayoutsEmptySection.module.scss'
 
 const LayoutsEmptySection = () => (
   <div className={styles.wrapper}>
-    <SvgNew />
-
     <span className={styles.description}>
       <Link to='/charts' className={styles.link}>
         Create
