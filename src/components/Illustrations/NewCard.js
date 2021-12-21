@@ -5,7 +5,7 @@ export const SvgNew = ({ className, isDisabled }) => (
     width='45'
     height='48'
     fill='none'
-    style='fill:none'
+    style={{fill:'none'}}
     className={className}
   >
     <path
