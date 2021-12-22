@@ -1,7 +1,13 @@
 import React from 'react'
 
 export const SvgNew = ({ className, isDisabled }) => (
-  <svg width='45' height='48' fill='none' className={className}>
+  <svg
+    width='45'
+    height='48'
+    fill='none'
+    style={{fill:'none'}}
+    className={className}
+  >
     <path
       fill={isDisabled ? 'var(--athens)' : 'var(--porcelain)'}
       d='M11.78 45.58c-7.03-3.3-9.1-12.9-6.56-11.77 16.88 7.5 16.34-1.22 21.5-4.63 8.57-5.68 11.52-11.51 6.97-18.28-1.91-2.84-6.5-8.01-3.63-8.62 2.88-.6 11.53 3.53 13.44 11.26 2.52 10.2 1.5 23.83-7.81 30.62-5.16 3.77-16.88 4.71-23.9 1.42z'
