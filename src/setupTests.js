@@ -4,7 +4,7 @@ import React from 'react'
 import Enzyme from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 // https://github.com/felippenardi/lottie-react-web/issues/21
-import 'jest-canvas-mock';
+import 'jest-canvas-mock'
 
 Enzyme.configure({ adapter: new Adapter() })
 
