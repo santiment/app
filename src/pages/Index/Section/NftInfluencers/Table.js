@@ -61,7 +61,7 @@ const Table = ({ isHome = true }) => {
           })
         case 'Price':
           return `${parseFloat(row.original.amount.toFixed(3))} ${
-            row.original.currencyProject.ticker
+            row.original.currencyProject && row.original.currencyProject.ticker
           }`
         case 'Quantity':
           return row.original.quantity
