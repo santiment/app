@@ -1,7 +1,7 @@
 import React from 'react'
-import Lottie from "lottie-react"
+import Lottie from 'lottie-react'
 import cx from 'classnames'
-import logoAnimation from "./logoAnimation.json"
+import logoAnimation from './logoAnimation.json'
 import styles from './PageLoader.module.scss'
 
 // FIXME: Remove `Lottie` and `logoAnimation`, uncomment `<svg>` after christmas sale
