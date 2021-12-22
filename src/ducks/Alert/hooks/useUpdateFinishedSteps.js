@@ -83,6 +83,24 @@ export const useUpdateFinishedSteps = ({
         }
         break
       }
+      case 'Social trends': {
+        const slug = values.settings.target.slug
+        const noSlug =
+          typeof slug === 'string' ? !slug : slug && slug.length === 0
+        const word = values.settings.target.word
+        const noWord =
+          typeof word === 'string' ? !word : word && word.length === 0
+        if (
+          (!noSlug && slug) ||
+          (!noWord && word) ||
+          values.settings.target.watchlist_id
+        ) {
+          !finishedSteps.has(0) && setFinishedSteps(prev => [...prev, 0])
+        } else {
+          setFinishedSteps(prev => prev.filter(step => step !== 0))
+        }
+        break
+      }
       default:
         break
     }

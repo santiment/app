@@ -1,55 +1,53 @@
-import React from "react";
-import SocialTrendsSelector from "./entities/SocialTrendsSelector/SocialTrendsSelector";
-import WalletAndConditionsSelector from "./entities/WalletAndConditionsSelector/WalletAndConditionsSelector";
-import WatchlistAndScreenerSelector from "./entities/WatchlistAndScreenerSelector/WatchlistAndScreenerSelector";
-import AssetSelector from "./entities/AssetSelector/AssetSelector";
-import MetricAndConditions from "./MetricAndConditions/MetricAndConditions";
-import NotificationAndPrivacy from "./NotificationAndPrivacy/NotificationAndPrivacy";
-import NameAndDescription from "./NameAndDescription/NameAndDescription";
+import React from 'react'
+import SocialTrendsSelector from './entities/SocialTrendsSelector/SocialTrendsSelector'
+import WalletAndConditionsSelector from './entities/WalletAndConditionsSelector/WalletAndConditionsSelector'
+import WatchlistAndScreenerSelector from './entities/WatchlistAndScreenerSelector/WatchlistAndScreenerSelector'
+import AssetSelector from './entities/AssetSelector/AssetSelector'
+import MetricAndConditions from './MetricAndConditions/MetricAndConditions'
+import NotificationAndPrivacy from './NotificationAndPrivacy/NotificationAndPrivacy'
+import NameAndDescription from './NameAndDescription/NameAndDescription'
 
 const StepsContent = ({ selectorSettings }) => {
-  const { selectedType, selectedStep } = selectorSettings;
+  const { selectedType, selectedStep } = selectorSettings
 
   switch (selectedType.subSteps[selectedStep].label) {
-    case "Social trend": {
-      return <SocialTrendsSelector selectorSettings={selectorSettings} />;
+    case 'Social trend': {
+      return <SocialTrendsSelector selectorSettings={selectorSettings} />
     }
-    case "Wallet & Conditions": {
-      return (
-        <WalletAndConditionsSelector selectorSettings={selectorSettings} />
-      );
+    case 'Wallet & Conditions': {
+      return <WalletAndConditionsSelector selectorSettings={selectorSettings} />
     }
-    case "Screener": {
+    case 'Screener': {
       return (
         <WatchlistAndScreenerSelector
-          type="screener"
+          type='screener'
           selectorSettings={selectorSettings}
         />
-      );
+      )
     }
-    case "Watchlist": {
+    case 'Watchlist': {
       return (
         <WatchlistAndScreenerSelector
-          type="watchlist"
+          type='watchlist'
           selectorSettings={selectorSettings}
         />
-      );
+      )
     }
-    case "Asset": {
-      return <AssetSelector selectorSettings={selectorSettings} />;
+    case 'Asset': {
+      return <AssetSelector selectorSettings={selectorSettings} />
     }
-    case "Metric & Conditions": {
-      return <MetricAndConditions selectorSettings={selectorSettings} />;
+    case 'Metric & Conditions': {
+      return <MetricAndConditions selectorSettings={selectorSettings} />
     }
-    case "Notification & Privacy settings": {
-      return <NotificationAndPrivacy selectorSettings={selectorSettings} />;
+    case 'Notification & Privacy settings': {
+      return <NotificationAndPrivacy selectorSettings={selectorSettings} />
     }
-    case "Name & Description": {
-      return <NameAndDescription selectorSettings={selectorSettings} />;
+    case 'Name & Description': {
+      return <NameAndDescription selectorSettings={selectorSettings} />
     }
     default:
-      return <div />;
+      return <div />
   }
-};
+}
 
-export default StepsContent;
+export default StepsContent

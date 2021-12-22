@@ -13,7 +13,12 @@ const cache = new CellMeasurerCache({
   defaultHeight: ROW_HEIGHT
 })
 
-const WatchlistsAndScreenersList = ({ items, selectedWatchlist, onSelect }) => {
+const WatchlistsAndScreenersList = ({
+  items,
+  selectedWatchlist,
+  onSelect,
+  isSocial
+}) => {
   const rowRenderer = useCallback(
     ({ key, index, style, parent }) => {
       const item = items[index]
@@ -44,7 +49,7 @@ const WatchlistsAndScreenersList = ({ items, selectedWatchlist, onSelect }) => {
   )
 
   const wrapperStyles = {
-    height: '458px'
+    height: isSocial ? '393px' : '458px'
   }
 
   return (
