@@ -19,6 +19,7 @@ export const PAGE_INDEX = [
   'Activity',
   'NFT collection name',
   'Transaction',
+  'TRX hash',
   'When',
   'Price',
   'Quantity',
@@ -100,4 +101,16 @@ export const Transaction = ({ from, to }) => (
     from: <Address address={from} />
     to: <Address address={to} />
   </div>
+)
+
+export const TRXhash = ({ hash }) => (
+  <a
+    href={`https://etherscan.io/tx/${hash}`}
+    className={styles.address}
+    title={hash}
+    target='_blank'
+    rel='noopener noreferrer'
+  >
+    {truncate(hash)}
+  </a>
 )

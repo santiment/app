@@ -10,14 +10,15 @@ import {
   Activity,
   Marketplace,
   getTwitterAccount,
-  Transaction
+  Transaction,
+  TRXhash
 } from './utils'
 import styles from './index.module.scss'
 
 const Table = ({ isHome = true }) => {
   const [pageIndex, setPageIndex] = useState(0)
   const [pageSize, setPageSize] = useState(isHome ? 6 : 10)
-  const [orderBy, setOrderBy] = useState('AMOUNT')
+  const [orderBy, setOrderBy] = useState('DATETIME')
   const [direction, setDirection] = useState('DESC')
   const { data, loading } = useNftQuery(pageIndex, pageSize, orderBy, direction)
   const { maxAmount } = useNftCountQuery()
@@ -52,6 +53,8 @@ const Table = ({ isHome = true }) => {
               to={row.original.toAddress.address}
             />
           )
+        case 'TRX hash':
+          return <TRXhash hash={row.original.trxHash} />
         case 'When':
           return dateDifferenceInWords({
             from: new Date(row.original.datetime)
