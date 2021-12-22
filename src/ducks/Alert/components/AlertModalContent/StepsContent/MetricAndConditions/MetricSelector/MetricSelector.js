@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useField } from 'formik'
 import MetricsList from './MetricsList/MetricsList'
-import SelectedMetric from './SelectedMetric/SelectedMetric'
 import Search from '../../../../../../Studio/Sidebar/Search'
 import { SEARCH_PREDICATE_ONLY_METRICS } from '../../../../../../Studio/Compare/Comparable/Metric'
 import { useMergedTimeboundSubmetrics } from '../../../../../../dataHub/timebounds'
@@ -58,11 +57,11 @@ const MetricSelector = ({ selectedMetric, metrics, target, onChange }) => {
         toggleMetric={handleSelectMetric}
         project={project}
       />
-      {selectedMetric && <SelectedMetric metric={selectedMetric} />}
       <MetricsList
         metricsList={categories}
         project={project}
         onSelect={handleSelectMetric}
+        selectedMetric={selectedMetric}
       />
     </>
   )

@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useField } from 'formik'
-import Message from '@santiment-network/ui/Message'
 import EmailToggle from './channels/EmailToggle/EmailToggle'
 import TelegramToggle from './channels/TelegramToggle/TelegramToggle'
 import PushToggle from './channels/PushToggle/PushToggle'
@@ -116,6 +115,7 @@ const ChannelsSelector = () => {
         isActive={channels.has('email')}
         onChange={handleChangeChannels('email')}
       />
+      <div className={styles.divider} />
       <TelegramToggle
         disabled={!isTelegramConnected}
         isActive={channels.has('telegram') || channels.has('telegram_channel')}
@@ -124,12 +124,14 @@ const ChannelsSelector = () => {
         value={value}
         setValue={setValue}
       />
+      <div className={styles.divider} />
       <PushToggle
         disabled={isPushDisabled}
         checkPushAvailability={checkPushAvailability}
         isActive={channels.has('web_push')}
         onChange={handleChangeChannels('web_push')}
       />
+      <div className={styles.divider} />
       <WebhookToggle
         disabled={!channels.has('webhook')}
         isActive={channels.has('webhook')}
@@ -138,9 +140,6 @@ const ChannelsSelector = () => {
         value={value}
         setValue={setValue}
       />
-      {value.length === 0 && (
-        <Message variant='warn'>You must setup notification channel</Message>
-      )}
     </div>
   )
 }

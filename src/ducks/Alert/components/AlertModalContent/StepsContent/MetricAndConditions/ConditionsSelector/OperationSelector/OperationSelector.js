@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useField, useFormikContext } from 'formik'
+import { useField } from 'formik'
 import cx from 'classnames'
 import Select from '@santiment-network/ui/Select/Select'
 import OperationInput from './OperationInput/OperationInput'
-import { useLastPrice } from '../../../../../../hooks/useLastPrice'
-import { formatNumber } from '../../../../../../../../utils/formatting'
-import { getConditionsStr, parseOperation } from '../../../../../../utils'
+import OperationValue from './OperationValue/OperationValue'
+import { parseOperation } from '../../../../../../utils'
 import {
   AVAILABLE_OPERATIONS,
   MULTIPLE_VALUES_OPERATIONS,
@@ -19,9 +18,6 @@ function getCountDefault (value) {
 }
 
 const OperationSelector = ({ metric }) => {
-  const { values } = useFormikContext()
-  const slug = values.settings.target.slug
-  const { data, loading } = useLastPrice(slug)
   const [, { value }, { setValue }] = useField('settings.operation')
   const { selectedCount, selectedOperation } = parseOperation(value)
   const [operation, setOperation] = useState(
@@ -32,7 +28,6 @@ const OperationSelector = ({ metric }) => {
   const [count, setCount] = useState(
     selectedCount || getCountDefault(operation)
   )
-  const shouldRenderPrice = slug && !Array.isArray(slug) && data
 
   function handleChangeOperation ({ label, value }) {
     setOperation({ label, value })
@@ -57,39 +52,25 @@ const OperationSelector = ({ metric }) => {
   const isMultipleValues = MULTIPLE_VALUES_OPERATIONS.includes(operation.value)
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.inputsCol}>
-        <div className={styles.condition}>
-          {getConditionsStr({
-            operation: operation.value,
-            count,
-            timeWindow: values.settings.time_window
-          })}
-        </div>
-        <Select
-          isClearable={false}
-          isSearchable={false}
-          className={cx(styles.operation, isMultipleValues && styles.fullWidth)}
-          options={AVAILABLE_OPERATIONS}
-          formatOptionLabel={formatOptionLabel}
-          value={operation}
-          onChange={handleChangeOperation}
-        />
-      </div>
-      <div className={cx(styles.inputsCol)}>
-        <div className={styles.price}>
-          {!loading &&
-            shouldRenderPrice &&
-            `1 ${slug} = ${formatNumber(data, { currency: 'USD' })}`}
-        </div>
-        <OperationInput
-          count={count}
-          setCount={setCount}
-          operation={operation.value}
-          hasIcon={hasPriceIcon || isPercentIcon}
-          iconType={isPercentIcon && 'percent'}
-        />
-      </div>
+    <div className={cx(styles.wrapper, isMultipleValues && styles.multiple)}>
+      <Select
+        isClearable={false}
+        isSearchable={false}
+        className={styles.operation}
+        options={AVAILABLE_OPERATIONS}
+        formatOptionLabel={formatOptionLabel}
+        value={operation}
+        onChange={handleChangeOperation}
+        components={{ SingleValue: OperationValue }}
+      />
+      <OperationInput
+        count={count}
+        setCount={setCount}
+        operation={operation.value}
+        hasIcon={hasPriceIcon || isPercentIcon}
+        iconType={isPercentIcon && 'percent'}
+        className={styles.inputs}
+      />
     </div>
   )
 }

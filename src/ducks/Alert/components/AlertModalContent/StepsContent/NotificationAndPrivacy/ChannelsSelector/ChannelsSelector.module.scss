@@ -8,13 +8,29 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding-top: 12px;
+}
+
+.sourceWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+}
+
+.divider {
+  height: 1px;
+  width: 100%;
+  background: var(--porcelain);
 }
 
 .inputsRow {
   display: flex;
+  align-items: center;
   gap: 8px;
+}
+
+.content {
+  color: var(--waterloo);
 }
 
 .checkInfo {
@@ -31,8 +47,4 @@
 .channelSettingsTrigger {
   color: var(--jungle-green);
   cursor: pointer;
-}
-
-.input {
-  margin-top: 4px;
 }

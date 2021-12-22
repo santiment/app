@@ -27,6 +27,8 @@ export const useUserAddressWatchlists = () =>
   useUserWatchlistsLoader(getWatchlistsShortQuery(BLOCKCHAIN_ADDRESS))
 
 // use it when you need listItems
+export const useProjectScreeners = () =>
+  useUserWatchlistsLoader(getWatchlistsQuery(SCREENER), screenersCB)
 export const useProjectWatchlists = () =>
   useUserWatchlistsLoader(getWatchlistsQuery(PROJECT), filterIfNotScreener)
 export const useAddressWatchlists = () =>

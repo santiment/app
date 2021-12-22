@@ -11,6 +11,7 @@ const Steps = ({
   initial,
   icons,
   onChange,
+  selected,
   ...restProps
 }) => {
   function onStepClick (next) {
@@ -30,14 +31,15 @@ const Steps = ({
           icons,
           onStepClick: onChange && onStepClick,
           size,
+          selected,
           ...child.props
         }
 
         if (!child.props.status) {
           if (stepNumber === current) {
-            childProps.status = 'process'
+            childProps.status = 'selected'
           } else if (stepNumber < current) {
-            childProps.status = 'finish'
+            childProps.status = 'visited'
           } else {
             childProps.status = 'wait'
           }

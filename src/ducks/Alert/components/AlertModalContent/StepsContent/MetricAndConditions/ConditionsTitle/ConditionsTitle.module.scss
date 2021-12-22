@@ -1,33 +1,43 @@
 @import "~@santiment-network/ui/mixins.scss";
 
-.conditionsIcon {
-  height: 12px;
-  width: 12px;
-  fill: var(--white);
-}
-
-.editIcon {
-  cursor: pointer;
-  fill: var(--jungle-green);
-}
-
 .wrapper {
-  margin-top: 16px;
-  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.selectedWrapper {
+  margin-left: 12px;
+  border-left: 1px solid var(--porcelain);
+  padding: 16px 0 32px 24px;
+}
+
+.selected {
+  width: fit-content;
   padding: 8px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
   border: 1px solid var(--porcelain);
   border-radius: 4px;
-  cursor: default;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--jungle-green);
+  }
 }
 
 .title {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 6px;
+  justify-content: space-between;
   color: var(--rhino);
 
   @include text("body-3", "m");
+}
+
+.icon {
+  fill: var(--jungle-green);
 }
 
 .description {

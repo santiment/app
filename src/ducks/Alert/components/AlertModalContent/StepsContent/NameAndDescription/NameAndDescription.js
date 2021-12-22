@@ -1,87 +1,21 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useField, useFormikContext } from 'formik'
 import Button from '@santiment-network/ui/Button'
 import StepTitle from '../StepTitle/StepTitle'
 import BlockInput from './BlockInput/BlockInput'
-import { getDescriptionStr, getTitleStr } from '../../../../utils'
 import styles from './NameAndDescription.module.scss'
 
-const NameAndDescription = () => {
-  const { submitForm, isSubmitting, values } = useFormikContext()
-  const [titleField, , { setValue: setTitle }] = useField('title')
-  const [descriptionField, , { setValue: setDescription }] = useField(
-    'description'
-  )
-
-  useEffect(() => {
-    const {
-      isRepeating,
-      cooldown,
-      description,
-      title,
-      settings: {
-        channel,
-        metric,
-        operation,
-        time_window,
-        target: { slug }
-      }
-    } = values
-
-    if (cooldown) {
-      if (!description && cooldown && channel) {
-        let descriptionStr = getDescriptionStr({
-          cooldown,
-          channels: channel,
-          isRepeating
-        })
-
-        if (metric && operation && time_window) {
-          descriptionStr = `Notify me when ${getTitleStr({
-            slug,
-            metric,
-            operation,
-            timeWindow: time_window
-          })}. ${descriptionStr}`
-        }
-
-        setDescription(descriptionStr)
-      }
-
-      if (!title && metric && operation && time_window) {
-        setTitle(
-          getTitleStr({ slug, metric, operation, timeWindow: time_window })
-        )
-      }
-    }
-  }, [])
+const NameAndDescription = ({ selectorSettings }) => {
+  const { selectedType, finishedSteps } = selectorSettings
+  const { submitForm, isSubmitting } = useFormikContext()
+  const [titleField] = useField('title')
+  const [descriptionField] = useField('description')
 
   function handleSubmit () {
     if (isSubmitting) {
       submitForm()
     }
   }
-
-  const {
-    settings: {
-      target: { slug },
-      time_window,
-      operation,
-      channel,
-      metric
-    },
-    title,
-    description
-  } = values
-
-  const isDisabled =
-    !slug ||
-    !time_window ||
-    !operation ||
-    !channel.length > 0 ||
-    !metric ||
-    !title ||
-    !description
 
   return (
     <div className={styles.wrapper}>
@@ -105,7 +39,7 @@ const NameAndDescription = () => {
         </div>
       </div>
       <Button
-        disabled={isDisabled}
+        disabled={selectedType.steps.length !== finishedSteps.size}
         type='submit'
         variant='fill'
         border={false}

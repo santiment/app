@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Formik } from 'formik'
 import { connect } from 'react-redux'
 import AlertModalForm from './AlertModalForm'
@@ -13,9 +13,9 @@ const initialValues = {
   isPublic: false,
   isRepeating: true,
   settings: {
-    type: 'metric_signal',
+    type: '',
     metric: '',
-    target: { slug: '', watchlist_id: '', word: '', address: '' },
+    target: { slug: '' },
     channel: [],
     time_window: '',
     operation: {}
@@ -28,7 +28,18 @@ const AlertModalFormMaster = ({ defaultType, createAlert, setIsModalOpen }) => {
   const [selectedType, setSelectedType] = useState(defaultType)
   const [selectedStep, setSelectedStep] = useState(undefined)
   const [visitedSteps, setVisitedSteps] = useState([])
+  const [finishedSteps, setFinishedSteps] = useState([])
   const visitedStepsMemo = useMemo(() => new Set(visitedSteps), [visitedSteps])
+  const finishedStepsMemo = useMemo(() => new Set(finishedSteps), [
+    finishedSteps
+  ])
+
+  useEffect(() => {
+    if (selectedStep === undefined) {
+      setVisitedSteps([])
+      setFinishedSteps([])
+    }
+  }, [selectedType])
 
   function handleSubmit (values, { setSubmitting }) {
     createAlert(values)
@@ -43,7 +54,9 @@ const AlertModalFormMaster = ({ defaultType, createAlert, setIsModalOpen }) => {
       selectedStep,
       setSelectedStep,
       visitedSteps: visitedStepsMemo,
-      setVisitedSteps
+      setVisitedSteps,
+      finishedSteps: finishedStepsMemo,
+      setFinishedSteps
     }),
     [
       selectedType,
@@ -51,12 +64,22 @@ const AlertModalFormMaster = ({ defaultType, createAlert, setIsModalOpen }) => {
       selectedStep,
       setSelectedStep,
       visitedStepsMemo,
-      setVisitedSteps
+      setVisitedSteps,
+      finishedStepsMemo,
+      setFinishedSteps
     ]
   )
 
+  const values = useMemo(() => {
+    return { ...initialValues, settings: selectedType.settings }
+  }, [selectedType])
+
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+    <Formik
+      initialValues={values}
+      onSubmit={handleSubmit}
+      enableReinitialize={true}
+    >
       {formik => (
         <AlertModalForm selectorSettings={selectorSettings} {...formik} />
       )}

@@ -3,7 +3,14 @@ import cx from 'classnames'
 import Input from '@santiment-network/ui/Input'
 import styles from './OperationInput.module.scss'
 
-const OperationInput = ({ count, hasIcon, iconType, setCount, operation }) => {
+const OperationInput = ({
+  count,
+  hasIcon,
+  iconType,
+  setCount,
+  operation,
+  className
+}) => {
   let prefix = '$'
 
   if (iconType === 'percent') {
@@ -21,7 +28,7 @@ const OperationInput = ({ count, hasIcon, iconType, setCount, operation }) => {
     }
 
     return (
-      <div className={styles.wrapper}>
+      <div className={cx(styles.wrapper, className)}>
         <div className={styles.inputWrapper}>
           {hasIcon && <span className={styles.prefix}>{prefix}</span>}
           <Input
@@ -29,7 +36,7 @@ const OperationInput = ({ count, hasIcon, iconType, setCount, operation }) => {
             min={1}
             value={count[0]}
             onChange={handleChangeCount}
-            className={cx(hasIcon && styles.inputWithPrefix)}
+            className={hasIcon && styles.inputWithPrefix}
           />
         </div>
         <div className={styles.inputWrapper}>
@@ -39,7 +46,7 @@ const OperationInput = ({ count, hasIcon, iconType, setCount, operation }) => {
             min={operation === 'some_of' ? 1 : count[0]}
             value={count[1]}
             onChange={e => setCount([count[0], Number(e.target.value)])}
-            className={cx(hasIcon && styles.inputWithPrefix)}
+            className={hasIcon && styles.inputWithPrefix}
           />
         </div>
       </div>
@@ -47,7 +54,7 @@ const OperationInput = ({ count, hasIcon, iconType, setCount, operation }) => {
   }
 
   return (
-    <div className={styles.inputWrapper}>
+    <div className={cx(styles.inputWrapper, className)}>
       {hasIcon && <span className={styles.prefix}>{prefix}</span>}
       <Input
         type='number'

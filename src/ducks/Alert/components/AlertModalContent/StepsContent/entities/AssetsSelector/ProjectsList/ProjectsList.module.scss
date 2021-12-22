@@ -8,22 +8,16 @@
   padding-right: var(--padding-right);
 }
 
-.projectWrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 14px 0;
-}
-
 .selectedItem {
   padding-bottom: 0;
 }
 
 .sectionTitle {
-  padding: 14px 0;
+  min-height: 36px;
   color: var(--waterloo);
+  padding-bottom: 16px;
 
-  @include text("caption");
+  @include text("caption", "l");
 }
 
 .project {
@@ -32,21 +26,24 @@
   justify-content: flex-start;
   color: var(--mirage);
   cursor: pointer;
+  padding-bottom: 16px;
 
   @include text("body-3");
-}
 
-.projectPadding {
-  padding-bottom: 14px;
+  &:hover {
+    --project-text-color: var(--jungle-green);
+  }
 }
 
 .name {
+  color: var(--project-text-color, var(--rhino));
   margin-right: 5px;
 }
 
-.balance {
-  color: var(--jungle-green);
-  margin-right: 5px;
+.label {
+  color: var(--project-text-color, var(--casper));
+
+  @include text("body-3");
 }
 
 .checkbox {
@@ -54,24 +51,15 @@
 }
 
 .list {
+  padding-top: 16px;
   outline: none;
+
+  @include overlay-scroll;
 }
 
 .asset {
   margin-left: 10px;
   display: flex;
-
-  &:hover {
-    color: var(--jungle-green-hover) !important;
-  }
-}
-
-.disabled {
-  color: var(--waterloo) !important;
-
-  &:hover {
-    color: var(--waterloo) !important;
-  }
 }
 
 .icon {

@@ -1,0 +1,22 @@
+@import "~@santiment-network/ui/mixins";
+
+.wrapper {
+  margin-top: var(--watchlist-item-margin, 6px);
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  padding: var(--watchlist-description-padding, 6px 12px);
+  border: 1px solid var(--porcelain);
+  box-sizing: border-box;
+  border-radius: 4px;
+  color: var(--fiord);
+
+  @include text("body-3");
+}
+
+.small {
+  --watchlist-item-margin: 4px;
+  --watchlist-description-padding: 4px 6px;
+
+  @include text("caption");
+}

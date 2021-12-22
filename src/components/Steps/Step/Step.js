@@ -17,6 +17,7 @@ const Step = ({
   onStepClick,
   onClick,
   size,
+  selected,
   ...restProps
 }) => {
   function handleClick (...args) {
@@ -28,8 +29,9 @@ const Step = ({
   }
 
   const classString = cx(
-    getClassString(styles, disabled, status),
-    size === 'small' && styles.small
+    size === 'small' && styles.small,
+    selected && styles.selected,
+    getClassString(styles, disabled, status)
   )
 
   const accessibilityProps = {

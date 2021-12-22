@@ -1,4 +1,7 @@
+@import "~@santiment-network/ui/mixins";
+
 .wrapper {
   height: 100%;
-  overflow-y: auto;
+
+  @include overlay-scroll;
 }

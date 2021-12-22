@@ -130,6 +130,7 @@ export function getConditionsStr ({ operation, count, timeWindow }) {
 }
 
 export function getTitleStr ({
+  watchlist,
   slug,
   metric,
   operation,
@@ -152,7 +153,8 @@ export function getTitleStr ({
     ? slug.map(item => capitalizeStr(item)).join(', ')
     : capitalizeStr(slug)
 
-  return `${slugStr} ${(selectedMetric && selectedMetric.label) ||
+  return `${slugStr || capitalizeStr(watchlist)} ${(selectedMetric &&
+    selectedMetric.label) ||
     'Metric'} ${conditionStr}`
 }
 
@@ -165,4 +167,11 @@ export function clipText (text, maxLength) {
   }
 
   return text
+}
+
+export function splitStr (str) {
+  const firstWord = str.split(' ')[0]
+  const rest = str.replace(`${firstWord} `, '')
+
+  return { firstWord, rest }
 }

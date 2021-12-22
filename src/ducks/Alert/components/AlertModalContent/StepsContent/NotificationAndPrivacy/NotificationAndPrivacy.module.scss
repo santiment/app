@@ -1,7 +1,7 @@
 .wrapper {
   width: 100%;
   height: auto;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 .title {
@@ -13,10 +13,22 @@
 }
 
 .frequencyBlock {
+  margin-bottom: 16px;
+}
+
+.privacyBlock {
   margin-bottom: 26px;
 }
 
 .nextBtn {
   float: right;
   height: 24px;
+}
+
+.warning {
+  color: var(--rhino);
+  padding: 10px 16px;
+  width: fit-content;
+  background: transparent;
+  margin-bottom: 16px;
 }

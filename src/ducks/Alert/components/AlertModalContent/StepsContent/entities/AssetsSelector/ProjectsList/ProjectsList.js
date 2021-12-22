@@ -5,8 +5,8 @@ import { CellMeasurer, CellMeasurerCache } from 'react-virtualized'
 import ProjectListItem from './ProjectListItem/ProjectListItem'
 import styles from './ProjectsList.module.scss'
 
-const ROW_HEIGHT = 32
-const MAX_SHOWING_ITEMS = 4
+const ROW_HEIGHT = 36
+const listStyle = { overflowX: false, overflowY: false }
 
 function subExtractor (sections = [], index) {
   let itemIndex = index
@@ -21,15 +21,13 @@ function subExtractor (sections = [], index) {
           title: section.title
         },
         index: index,
-        header: true,
-        isLast: false
+        header: true
       }
     } else {
       return {
         item: section.data[itemIndex],
         index: index,
-        header: false,
-        isLast: !section.data[itemIndex + 1]
+        header: false
       }
     }
   }
@@ -45,16 +43,12 @@ const ProjectsList = ({
   listItems,
   listItemsIds,
   onToggleProject,
-  isContained,
-  hideCheckboxes = false,
-  sections
+  sections,
+  searchTerm
 }) => {
   const rowRenderer = useCallback(
     ({ key, index, style, parent }) => {
-      const { item, index: itemIndex, header, isLast } = subExtractor(
-        sections,
-        index
-      )
+      const { item, index: itemIndex, header } = subExtractor(sections, index)
 
       const isSelectedItem = listItems.length > 0 && index === 0
 
@@ -81,7 +75,7 @@ const ProjectsList = ({
       } else {
         const isAssetInList = listItemsIds.has(item.id)
 
-        const { name, ticker, slug, balance, logoUrl } = item
+        const { name, ticker, slug, logoUrl } = item
 
         return (
           <CellMeasurer
@@ -96,17 +90,13 @@ const ProjectsList = ({
                 ref={registerChild}
                 style={style}
                 isSelectedItem={isSelectedItem}
-                isLast={isLast}
                 onToggleProject={onToggleProject}
                 item={item}
                 listItems={listItems}
                 isAssetInList={isAssetInList}
-                hideCheckboxes={hideCheckboxes}
-                isContained={isContained}
                 slug={slug}
                 logoUrl={logoUrl}
                 name={name}
-                balance={balance}
                 ticker={ticker}
               />
             )}
@@ -114,14 +104,17 @@ const ProjectsList = ({
         )
       }
     },
-    [sections]
+    [sections, listItemsIds, searchTerm]
   )
 
   const wrapperStyles = {
-    height:
-      items.length > MAX_SHOWING_ITEMS ? `318px` : `${32 * items.length}px`,
-    paddingRight: items.length > MAX_SHOWING_ITEMS ? '0px' : `5px`
+    height: '443px'
   }
+
+  const getRowCount = () =>
+    sections.reduce((acc, section) => {
+      return 1 + acc + section.data.length
+    }, 0)
 
   return (
     <div style={wrapperStyles} className={styles.wrapperList}>
@@ -134,9 +127,10 @@ const ProjectsList = ({
               height={height}
               deferredMeasurementCache={cache}
               rowHeight={cache.rowHeight}
-              rowCount={items.length}
+              rowCount={getRowCount()}
               overscanRowCount={5}
               rowRenderer={rowRenderer}
+              style={listStyle}
             />
           )}
         </AutoSizer>

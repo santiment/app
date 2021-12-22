@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
@@ -12,13 +12,7 @@ const AlertModalSidebar = ({
   onTypeSelect,
   selectorSettings
 }) => {
-  const [openedSteps, setOpenedSteps] = useState([])
-
   const { selectedType, selectedStep, setSelectedStep } = selectorSettings
-
-  useEffect(() => {
-    setOpenedSteps([])
-  }, [selectedType])
 
   if (selectedStep !== undefined) {
     const tips = selectedType.steps[selectedStep].tips
@@ -42,14 +36,7 @@ const AlertModalSidebar = ({
             />
           </div>
         </div>
-        {tips && (
-          <Tip
-            openedSteps={openedSteps}
-            setOpenedSteps={setOpenedSteps}
-            selectedStep={selectedStep}
-            tips={tips}
-          />
-        )}
+        {tips && <Tip tips={tips} />}
       </div>
     )
   }

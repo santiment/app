@@ -3,7 +3,6 @@ import SourceToggle from '../SourceToggle'
 import InputLink, {
   validURL
 } from '../../../../../../../../../components/InputLink/InputLink'
-import styles from '../../ChannelsSelector.module.scss'
 
 const WebhookToggle = ({
   disabled,
@@ -44,7 +43,6 @@ const WebhookToggle = ({
       isWebhook
     >
       <InputLink
-        className={styles.input}
         disabled={disabled}
         errorText={isError && 'Invalid webhook URL'}
         value={webhookUrl}

@@ -1,23 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Icon from '@santiment-network/ui/Icon'
 import Tip from '../../../../../components/Illustrations/Tip'
 import styles from './Tip.module.scss'
 
-const Tips = ({ tips, selectedStep, openedSteps, setOpenedSteps }) => {
+const Tips = ({ tips }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [currentTip, setCurrentTip] = useState(0)
 
-  useEffect(() => {
-    if (!openedSteps.includes(selectedStep)) {
-      setIsOpen(true)
-      setOpenedSteps(prev => [...prev, selectedStep])
-    }
-  }, [tips])
-
   return (
     <ContextMenu
+      classes={{ bg: styles.background }}
       position='top'
       align='start'
       className={styles.wrapper}

@@ -11,15 +11,7 @@
 }
 
 .title {
-  display: flex;
-  align-items: center;
-  margin-bottom: 16px;
-  font-size: 16px;
-  color: var(--rhino);
-
-  .icon {
-    margin-right: 10px;
-  }
+  margin-bottom: 20px;
 }
 
 .submit {
@@ -35,4 +27,12 @@
 
 .search {
   z-index: 5;
+}
+
+.loaderWrapper {
+  height: 100%;
+}
+
+.loader {
+  height: 100%;
 }
