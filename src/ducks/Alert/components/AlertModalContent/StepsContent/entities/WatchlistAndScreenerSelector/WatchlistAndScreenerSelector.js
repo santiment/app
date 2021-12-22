@@ -56,7 +56,7 @@ const WatchlistAndScreenerSelector = ({
     if (value === id) {
       setValue('')
     } else {
-      setValue(+id)
+      setValue(id)
     }
     if (type === 'watchlist') {
       setMetric('')

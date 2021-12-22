@@ -18,7 +18,7 @@ const WatchlistsAndScreenersList = ({ items, selectedWatchlist, onSelect }) => {
     ({ key, index, style, parent }) => {
       const item = items[index]
 
-      const isSelectedItem = item.id === selectedWatchlist
+      const isSelectedItem = +item.id === +selectedWatchlist
 
       return (
         <CellMeasurer
@@ -44,7 +44,7 @@ const WatchlistsAndScreenersList = ({ items, selectedWatchlist, onSelect }) => {
   )
 
   const wrapperStyles = {
-    height: '428px'
+    height: '458px'
   }
 
   return (

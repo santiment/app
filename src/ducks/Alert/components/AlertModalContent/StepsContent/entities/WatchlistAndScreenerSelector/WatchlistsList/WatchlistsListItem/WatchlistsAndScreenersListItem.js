@@ -15,7 +15,7 @@ const WatchlistsAndScreenersListItem = forwardRef(
       <div ref={ref} style={style} className={styles.paddingWrapper}>
         <div
           className={cx(styles.wrapper, isSelectedItem && styles.selectedItem)}
-          onClick={() => onSelect(id)}
+          onClick={() => onSelect(+id)}
         >
           <div className={styles.title}>
             {name}
@@ -23,7 +23,7 @@ const WatchlistsAndScreenersListItem = forwardRef(
               <Icon
                 type='close-small'
                 className={styles.icon}
-                onClick={() => onSelect(id)}
+                onClick={() => onSelect(+id)}
               />
             )}
           </div>
