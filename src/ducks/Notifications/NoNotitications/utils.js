@@ -1,7 +1,7 @@
 import React from 'react'
 
 export const NoNotificationsSvg = (
-  <svg width='135' height='130' fill='none'>
+  <svg width='135' height='130' fill='none' style={{ fill: 'none' }}>
     <path
       d='M96 57.018c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48z'
       fill='var(--athens)'
