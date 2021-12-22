@@ -13,7 +13,6 @@ import AlertModal from '../../ducks/Alert/AlertModal'
 import { useSignals } from '../../ducks/Signals/common/getSignals'
 import { useUser } from '../../stores/user'
 import { mapSizesToProps } from '../../utils/withSizes'
-import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
 import styles from './Alerts.module.scss'
 
 const LoadableAlertsList = Loadable({
@@ -110,7 +109,7 @@ const Alerts = ({ isDesktop, match }) => {
             renderTopActions={renderTopActions}
           />
           {defaultOpenAlertId && (
-            <SignalMasterModalForm
+            <AlertModal
               id={defaultOpenAlertId}
               defaultOpen={true}
               canRedirect={false}

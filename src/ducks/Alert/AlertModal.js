@@ -11,7 +11,9 @@ const AlertModal = ({
   disabled,
   triggerButtonProps,
   modalTitle,
-  defaultOpen
+  defaultOpen,
+  trigger,
+  defaultType
 }) => {
   const { isLoggedIn } = useUser()
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -38,16 +40,21 @@ const AlertModal = ({
         onOpen={() => setIsModalOpen(true)}
         onClose={() => setIsClosing(true)}
         trigger={
-          <AlertTriggerButton
-            disabled={disabled}
-            triggerButtonProps={triggerButtonProps}
-          />
+          trigger || (
+            <AlertTriggerButton
+              disabled={disabled}
+              triggerButtonProps={triggerButtonProps}
+            />
+          )
         }
         classes={{
           dialog: styles.dialog
         }}
       >
-        <AlertModalFormMaster setIsModalOpen={setIsModalOpen} />
+        <AlertModalFormMaster
+          defaultType={defaultType}
+          setIsModalOpen={setIsModalOpen}
+        />
       </Dialog>
       <ConfirmClose
         isOpen={isClosing}
