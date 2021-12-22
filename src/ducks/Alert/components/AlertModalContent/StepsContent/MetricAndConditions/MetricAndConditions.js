@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useFormikContext } from 'formik'
 import PageLoader from '../../../../../../components/Loader/PageLoader'
-import Metrics from '../../../../../../components/Illustrations/Metrics'
 import NextStep from '../NextStep/NextStep'
 import StepTitle from '../StepTitle/StepTitle'
 import ConditionsTitle from './ConditionsTitle/ConditionsTitle'
@@ -43,8 +42,8 @@ const MetricAndConditions = ({
     <>
       <div className={styles.titleWrapper}>
         <StepTitle
-          icon={<Metrics />}
-          title='Choose metric'
+          iconType="metric"
+          title='Choose Metric'
           className={styles.title}
         />
         {selectedMetric && (

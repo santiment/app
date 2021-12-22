@@ -26,6 +26,8 @@ const WatchlistAndScreenerSelector = ({
       : 'settings.operation.selector.watchlist_id'
   )
   const [, , { setValue: setMetric }] = useField('settings.metric')
+  const [, , { setValue: setTimeWindow }] = useField('settings.time_window')
+  const [, , { setValue: setOperation }] = useField('settings.operation')
   const [watchlists, watchlistsLoading] = useProjectWatchlists()
   const [screeners, screenersLoading] = useProjectScreeners()
   const [searchTerm, setSearchTerm] = useState('')
@@ -54,10 +56,12 @@ const WatchlistAndScreenerSelector = ({
     if (value === id) {
       setValue('')
     } else {
-      setValue(id)
+      setValue(+id)
     }
     if (type === 'watchlist') {
-      setMetric('')
+      setMetric("")
+      setTimeWindow("");
+      setOperation({});
     }
   }
 

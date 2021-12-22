@@ -1,0 +1,25 @@
+@import "~@santiment-network/ui/mixins";
+
+.wrapper {
+  margin-top: var(--title-item-margin, 6px);
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  padding: var(--title-description-padding, 6px 12px);
+  border: 1px solid var(--porcelain);
+  box-sizing: border-box;
+  border-radius: 4px;
+  color: var(--fiord);
+
+  @include text("body-3");
+}
+
+.small {
+  --title-item-margin: 4px;
+  --title-description-padding: 4px 6px;
+
+  padding: 0;
+  border: none;
+
+  @include text("caption");
+}

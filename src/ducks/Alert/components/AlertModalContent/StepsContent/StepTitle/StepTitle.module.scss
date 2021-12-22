@@ -1,10 +1,15 @@
 @import "~@santiment-network/ui/mixins";
 
 .disabled {
-  --step-icon-background: var(--porcelain);
-  --step-icon-fill: var(--waterloo);
-  --step-title-color: var(--waterloo);
+  --step-icon-background: var(--athens);
+  --step-icon-fill: var(--mystic);
+  --step-title-color: var(--mystic);
   --step-description-color: var(--casper);
+}
+
+.finished {
+  --step-icon-background: var(--jungle-green-light);
+  --step-icon-fill: var(--jungle-green);
 }
 
 .wrapper {

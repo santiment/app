@@ -16,7 +16,7 @@
   top: 0;
   height: 100%;
   width: 1px;
-  padding: 28px 0 4px 0;
+  padding: 32px 0 8px 0;
 
   &::after {
     height: 100%;
@@ -34,7 +34,7 @@
 }
 
 .content {
-  max-width: 340px;
+  max-width: 508px;
   overflow: hidden;
 }
 
@@ -43,10 +43,14 @@
   color: var(--title-color, var(--rhino));
 
   @include text("body-2");
+
+  &:hover {
+    --title-color: var(--jungle-green);
+  }
 }
 
 .description {
-  padding-bottom: 16px;
+  padding-bottom: 32px;
   color: var(--description-color, var(--waterloo));
 
   @include text("body-3");
@@ -59,47 +63,34 @@
   width: 24px;
   height: 24px;
   border-radius: 100%;
-  font-size: 14px;
-  margin-right: 10px;
+  margin-right: 12px;
   background-color: var(--icon-background-color, var(--waterloo));
   color: var(--icon-color, var(--white));
+  border: var(--icon-border);
+
+  @include text("body-3", "m");
 }
 
 .icon {
+  text-align: center;
+  width: 8px;
   color: currentColor;
   fill: currentColor;
 }
 
-.disabled {
-  --step-cursor: default;
-  --title-color: var(--waterloo);
-  --description-color: var(--casper);
-  --icon-background-color: var(--mystic);
-  --icon-color: var(--waterloo);
-}
-
-.finish {
-  --description-color: var(--rhino);
-  --icon-background-color: var(--jungle-green-light);
-  --icon-color: var(--jungle-green);
-
-  &.small {
-    --icon-background-color: var(--jungle-green);
-  }
-}
-
 .small {
+  --icon-background-color: transparent;
+  --icon-border: 1px solid var(--waterloo);
   --title-color: var(--fiord);
 
   .content {
-    min-height: 36px;
+    max-width: 160px;
     margin-top: 0;
+    margin-bottom: 20px;
   }
 
   .title {
-    margin-bottom: 8px;
-
-    @include text("caption", "m");
+    @include text("body-3");
   }
 
   .description {
@@ -107,21 +98,83 @@
   }
 
   .tail {
-    left: 2px;
+    left: 4px;
     top: 0;
-    padding: 15px 0 0;
+    padding: 19px 0 1px;
   }
 
   .iconWrapper {
-    width: 5px;
-    height: 5px;
+    width: 9px;
+    height: 9px;
     border-radius: 50%;
     margin-right: 10px;
     margin-top: 5px;
-    padding-right: 5px;
 
     .icon {
-      font-size: 0;
+      display: none;
+    }
+  }
+}
+
+.finish {
+  --description-color: var(--rhino);
+  --icon-background-color: var(--jungle-green);
+  --icon-color: var(--white);
+
+  &.small {
+    --icon-background-color: var(--jungle-green);
+    --icon-border: 1px solid var(--jungle-green);
+
+    .iconWrapper {
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      margin-right: 8px;
+      margin-left: -2px;
+
+      .icon {
+        width: 7px;
+        display: block;
+      }
+    }
+
+    .tail {
+      left: 4px;
+      top: 0;
+      padding: 23px 0 2px;
+    }
+  }
+}
+
+.disabled {
+  --step-cursor: default;
+  --description-color: var(--casper);
+  --icon-background-color: var(--athens);
+  --icon-color: var(--mystic);
+  --title-color: var(--waterloo);
+
+  .title {
+    &:hover {
+      --title-color: var(--waterloo);
+    }
+  }
+
+  &.small {
+    --title-color: var(--casper);
+    --icon-border: 1px solid var(--mystic);
+
+    .title {
+      &:hover {
+        --title-color: var(--casper);
+      }
+    }
+  }
+}
+
+.selected {
+  &.small {
+    .title {
+      --title-color: var(--jungle-green);
     }
   }
 }

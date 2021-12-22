@@ -1,27 +1,21 @@
-import React, { useEffect, useState } from 'react'
-import cx from 'classnames'
-import Button from '@santiment-network/ui/Button'
-import Icon from '@santiment-network/ui/Icon'
-import AlertStepsSelector from '../AlertStepsSelector/AlertStepsSelector'
-import Tip from './Tip/Tip'
-import { ALERT_TYPES } from '../../constants'
-import styles from './AlertModalSidebar.module.scss'
+import React from "react";
+import cx from "classnames";
+import Button from "@santiment-network/ui/Button";
+import Icon from "@santiment-network/ui/Icon";
+import AlertStepsSelector from "../AlertStepsSelector/AlertStepsSelector";
+import Tip from "./Tip/Tip";
+import { ALERT_TYPES } from "../../constants";
+import styles from "./AlertModalSidebar.module.scss";
 
 const AlertModalSidebar = ({
   isMetricsDisabled,
   onTypeSelect,
   selectorSettings
 }) => {
-  const [openedSteps, setOpenedSteps] = useState([])
-
-  const { selectedType, selectedStep, setSelectedStep } = selectorSettings
-
-  useEffect(() => {
-    setOpenedSteps([])
-  }, [selectedType])
+  const { selectedType, selectedStep, setSelectedStep } = selectorSettings;
 
   if (selectedStep !== undefined) {
-    const tips = selectedType.steps[selectedStep].tips
+    const tips = selectedType.steps[selectedStep].tips;
 
     return (
       <div className={styles.wrapper}>
@@ -30,28 +24,21 @@ const AlertModalSidebar = ({
             className={styles.backButton}
             onClick={() => setSelectedStep(undefined)}
           >
-            <Icon type='pointer-right' className={styles.backIcon} /> Type of
+            <Icon type="pointer-right" className={styles.backIcon} /> Type of
             alert
           </Button>
           <div className={styles.steps}>
             <AlertStepsSelector
               items={selectedType.subSteps}
-              size='small'
+              size="small"
               selectorSettings={selectorSettings}
               isMetricsDisabled={isMetricsDisabled}
             />
           </div>
         </div>
-        {tips && (
-          <Tip
-            openedSteps={openedSteps}
-            setOpenedSteps={setOpenedSteps}
-            selectedStep={selectedStep}
-            tips={tips}
-          />
-        )}
+        {tips && <Tip tips={tips} />}
       </div>
-    )
+    );
   }
 
   return (
@@ -71,7 +58,7 @@ const AlertModalSidebar = ({
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AlertModalSidebar
+export default AlertModalSidebar;

@@ -1,16 +1,17 @@
-import React from 'react'
-import Block from '../../Block/Block'
-import styles from './BlockInput.module.scss'
+import React from "react";
+import styles from "./BlockInput.module.scss";
+import cx from "classnames";
 
 const BlockInput = ({ label, value, onChange, blockClassname, ...rest }) => (
-  <Block label={label} className={blockClassname}>
+  <div className={cx(styles.wrapper, blockClassname)}>
+    <div className={styles.label}>{label}</div>
     <textarea
       value={value}
       onChange={onChange}
       className={styles.textarea}
       {...rest}
     />
-  </Block>
-)
+  </div>
+);
 
-export default BlockInput
+export default BlockInput;

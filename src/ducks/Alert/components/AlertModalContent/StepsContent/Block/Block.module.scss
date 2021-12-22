@@ -3,14 +3,17 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  padding: 12px 16px;
   border: 1px solid var(--porcelain);
   border-radius: 4px;
   box-sizing: border-box;
 }
 
 .label {
+  padding: 8px 16px;
+  height: 32px;
   color: var(--waterloo);
+  background: var(--athens);
+  border-bottom: 1px solid var(--porcelain);
 
-  @include text("caption");
+  @include text("caption", "m");
 }

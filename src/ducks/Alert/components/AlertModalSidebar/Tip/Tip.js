@@ -1,25 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import cx from 'classnames'
-import ContextMenu from '@santiment-network/ui/ContextMenu'
-import Icon from '@santiment-network/ui/Icon'
-import Tip from '../../../../../components/Illustrations/Tip'
-import styles from './Tip.module.scss'
+import React, { useState } from "react";
+import cx from "classnames";
+import ContextMenu from "@santiment-network/ui/ContextMenu";
+import Icon from "@santiment-network/ui/Icon";
+import Tip from "../../../../../components/Illustrations/Tip";
+import styles from "./Tip.module.scss";
 
-const Tips = ({ tips, selectedStep, openedSteps, setOpenedSteps }) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [currentTip, setCurrentTip] = useState(0)
-
-  useEffect(() => {
-    if (!openedSteps.includes(selectedStep)) {
-      setIsOpen(true)
-      setOpenedSteps(prev => [...prev, selectedStep])
-    }
-  }, [tips])
+const Tips = ({ tips }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentTip, setCurrentTip] = useState(0);
 
   return (
     <ContextMenu
-      position='top'
-      align='start'
+      classes={{ bg: styles.background }}
+      position="top"
+      align="start"
       className={styles.wrapper}
       trigger={
         <div className={cx(styles.trigger, isOpen && styles.openState)}>
@@ -28,11 +22,11 @@ const Tips = ({ tips, selectedStep, openedSteps, setOpenedSteps }) => {
       }
       open={isOpen}
       onOpen={() => {
-        setIsOpen(true)
+        setIsOpen(true);
       }}
       onClose={() => {
-        setIsOpen(false)
-        setCurrentTip(0)
+        setIsOpen(false);
+        setCurrentTip(0);
       }}
     >
       <div className={styles.tipWrapper}>
@@ -50,13 +44,13 @@ const Tips = ({ tips, selectedStep, openedSteps, setOpenedSteps }) => {
             {currentTip !== tips.length - 1 ? (
               <>
                 Next
-                <Icon className={styles.nextIcon} type='pointer-right-small' />
+                <Icon className={styles.nextIcon} type="pointer-right-small" />
               </>
             ) : (
               <>
                 <Icon
                   className={styles.previousIcon}
-                  type='pointer-right-small'
+                  type="pointer-right-small"
                 />
                 Previous
               </>
@@ -65,11 +59,11 @@ const Tips = ({ tips, selectedStep, openedSteps, setOpenedSteps }) => {
         )}
       </div>
     </ContextMenu>
-  )
-}
+  );
+};
 
 Tips.defaultProps = {
   defaultOpen: false
-}
+};
 
-export default Tips
+export default Tips;

@@ -18,7 +18,7 @@ export const ALERT_TYPES = [
           {
             title: 'Asset Tip',
             description:
-              'You can create an alert for a specific asset. Choose one or a few assets.Be aware if you change the asset you metric chosen metric may not work.'
+              'You can create an alert for a specific asset. Choose one or a few assets. Be aware if you change the asset you metric chosen metric may not work.'
           }
         ]
       },
@@ -64,7 +64,7 @@ export const ALERT_TYPES = [
           {
             title: 'Description Tip',
             description:
-              'Name and description are ganarated automaticly, but you can change it any time you want.'
+              'Name and description are generated automatically, but you can change it any time you want.'
           }
         ]
       }
@@ -148,7 +148,7 @@ export const ALERT_TYPES = [
           {
             title: 'Description Tip',
             description:
-              'Name and description are ganarated automaticly, but you can change it any time you want.'
+              'Name and description are generated automatically, but you can change it any time you want.'
           }
         ]
       }
@@ -184,12 +184,31 @@ export const ALERT_TYPES = [
       {
         label: 'Set up Notifications and Privacy',
         description:
-          'Choose where you want to receive notifications and the frequency of them..'
+          'Choose where you want to receive notifications and the frequency of them..',
+        tips: [
+          {
+            title: 'Notification Tip',
+            description:
+              'Choose one or few alert action. Make sure you enable notifications first. Add alert to the specific telegram group, by typing a name in the input.'
+          },
+          {
+            title: 'Privacy Tip',
+            description:
+              'Your alert is private by default. But you can change it anytime. If you want to share your alert you should first change privacy settings and then share.'
+          }
+        ]
       },
       {
         label: 'Check name and description',
         description:
-          'We generate the desctiption automaticly, you can change it anytime, as a name and a privacy of the alert'
+          'We generate the desctiption automaticly, you can change it anytime, as a name and a privacy of the alert',
+        tips: [
+          {
+            title: 'Description Tip',
+            description:
+              'Name and description are generated automatically, but you can change it any time you want.'
+          }
+        ]
       }
     ],
     subSteps: [
@@ -221,12 +240,31 @@ export const ALERT_TYPES = [
       {
         label: 'Set up Notifications and Privacy',
         description:
-          'Choose where you want to receive notifications and the frequency of them..'
+          'Choose where you want to receive notifications and the frequency of them..',
+        tips: [
+          {
+            title: 'Notification Tip',
+            description:
+              'Choose one or few alert action. Make sure you enable notifications first. Add alert to the specific telegram group, by typing a name in the input.'
+          },
+          {
+            title: 'Privacy Tip',
+            description:
+              'Your alert is private by default. But you can change it anytime. If you want to share your alert you should first change privacy settings and then share.'
+          }
+        ]
       },
       {
         label: 'Check name and description',
         description:
-          'We generate the description automatically, you can change it anytime, as a name and a privacy of the alert'
+          'We generate the description automatically, you can change it anytime, as a name and a privacy of the alert',
+        tips: [
+          {
+            title: 'Description Tip',
+            description:
+              'Name and description are generated automatically, but you can change it any time you want.'
+          }
+        ]
       }
     ],
     subSteps: [
@@ -257,12 +295,31 @@ export const ALERT_TYPES = [
       {
         label: 'Set up Notifications and Privacy',
         description:
-          'Choose where you want to receive notifications and the frequency of them..'
+          'Choose where you want to receive notifications and the frequency of them..',
+        tips: [
+          {
+            title: 'Notification Tip',
+            description:
+              'Choose one or few alert action. Make sure you enable notifications first. Add alert to the specific telegram group, by typing a name in the input.'
+          },
+          {
+            title: 'Privacy Tip',
+            description:
+              'Your alert is private by default. But you can change it anytime. If you want to share your alert you should first change privacy settings and then share.'
+          }
+        ]
       },
       {
         label: 'Check name and description',
         description:
-          'We generate the description automatically, you can change it anytime, as a name and a privacy of the alert'
+          'We generate the description automatically, you can change it anytime, as a name and a privacy of the alert',
+        tips: [
+          {
+            title: 'Description Tip',
+            description:
+              'Name and description are generated automatically, but you can change it any time you want.'
+          }
+        ]
       }
     ],
     subSteps: [

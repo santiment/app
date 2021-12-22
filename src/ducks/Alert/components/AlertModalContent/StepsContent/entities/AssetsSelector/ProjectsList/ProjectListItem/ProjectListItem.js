@@ -1,27 +1,22 @@
-import React, { forwardRef } from 'react'
-import cx from 'classnames'
-import { Checkbox } from '@santiment-network/ui/Checkboxes'
-import Label from '@santiment-network/ui/Label'
-import { ProjectIcon } from '../../../../../../../../../components/ProjectIcon/ProjectIcon'
-import { formatTokensCount } from '../../../../../../../../../utils/formatting'
-import styles from '../ProjectsList.module.scss'
+import React, { forwardRef } from "react";
+import cx from "classnames";
+import { Checkbox } from "@santiment-network/ui/Checkboxes";
+import Label from "@santiment-network/ui/Label";
+import { ProjectIcon } from "../../../../../../../../../components/ProjectIcon/ProjectIcon";
+import styles from "../ProjectsList.module.scss";
 
 const ProjectListItem = forwardRef(
   (
     {
       style,
       isSelectedItem,
-      isLast,
       onToggleProject,
       item,
       listItems,
       isAssetInList,
-      hideCheckboxes,
-      isContained,
       slug,
       logoUrl,
       name,
-      balance,
       ticker
     },
     ref
@@ -32,27 +27,17 @@ const ProjectListItem = forwardRef(
       className={cx(isSelectedItem && styles.selectedItem)}
     >
       <div
-        className={cx(styles.project, !isLast && styles.projectPadding)}
+        className={styles.project}
         onClick={() => {
           onToggleProject({
             project: item,
             listItems,
             isAssetInList
-          })
+          });
         }}
       >
-        {!hideCheckboxes && (
-          <Checkbox
-            isActive={isAssetInList}
-            disabled={isContained ? false : isAssetInList}
-          />
-        )}
-        <div
-          className={cx(
-            styles.asset,
-            !isContained && isAssetInList && styles.disabled
-          )}
-        >
+        <Checkbox isActive={isAssetInList} />
+        <div className={styles.asset}>
           <ProjectIcon
             className={styles.icon}
             size={16}
@@ -60,19 +45,13 @@ const ProjectListItem = forwardRef(
             logoUrl={logoUrl}
           />
           <span className={styles.name}>{name}</span>
-          <Label accent='waterloo'>
-            (
-            {balance >= 0 && (
-              <Label className={styles.balance}>
-                {formatTokensCount(balance)}
-              </Label>
-            )}
-            {ticker})
+          <Label accent="waterloo" className={styles.label}>
+            ({ticker})
           </Label>
         </div>
       </div>
     </div>
   )
-)
+);
 
-export default ProjectListItem
+export default ProjectListItem;

@@ -1,36 +1,34 @@
-import React, { useCallback } from 'react'
-import List from 'react-virtualized/dist/commonjs/List'
-import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
-import { CellMeasurer, CellMeasurerCache } from 'react-virtualized'
-import ProjectListItem from './ProjectListItem/ProjectListItem'
-import styles from './ProjectsList.module.scss'
+import React, { useCallback } from "react";
+import List from "react-virtualized/dist/commonjs/List";
+import AutoSizer from "react-virtualized/dist/commonjs/AutoSizer";
+import { CellMeasurer, CellMeasurerCache } from "react-virtualized";
+import ProjectListItem from "./ProjectListItem/ProjectListItem";
+import styles from "./ProjectsList.module.scss";
 
-const ROW_HEIGHT = 32
-const MAX_SHOWING_ITEMS = 4
+const ROW_HEIGHT = 36;
+const listStyle = { overflowX: false, overflowY: false };
 
-function subExtractor (sections = [], index) {
-  let itemIndex = index
+function subExtractor(sections = [], index) {
+  let itemIndex = index;
   for (let ii = 0; ii < sections.length; ii++) {
-    const section = sections[ii]
-    itemIndex -= 1
+    const section = sections[ii];
+    itemIndex -= 1;
     if (itemIndex >= section.data.length) {
-      itemIndex -= section.data.length
+      itemIndex -= section.data.length;
     } else if (itemIndex === -1) {
       return {
         item: {
           title: section.title
         },
         index: index,
-        header: true,
-        isLast: false
-      }
+        header: true
+      };
     } else {
       return {
         item: section.data[itemIndex],
         index: index,
-        header: false,
-        isLast: !section.data[itemIndex + 1]
-      }
+        header: false
+      };
     }
   }
 }
@@ -38,25 +36,21 @@ function subExtractor (sections = [], index) {
 const cache = new CellMeasurerCache({
   fixedWidth: true,
   defaultHeight: ROW_HEIGHT
-})
+});
 
 const ProjectsList = ({
   items,
   listItems,
   listItemsIds,
   onToggleProject,
-  isContained,
-  hideCheckboxes = false,
-  sections
+  sections,
+  searchTerm
 }) => {
   const rowRenderer = useCallback(
     ({ key, index, style, parent }) => {
-      const { item, index: itemIndex, header, isLast } = subExtractor(
-        sections,
-        index
-      )
+      const { item, index: itemIndex, header } = subExtractor(sections, index);
 
-      const isSelectedItem = listItems.length > 0 && index === 0
+      const isSelectedItem = listItems.length > 0 && index === 0;
 
       if (header) {
         return (
@@ -77,11 +71,11 @@ const ProjectsList = ({
               </div>
             )}
           </CellMeasurer>
-        )
+        );
       } else {
-        const isAssetInList = listItemsIds.has(item.id)
+        const isAssetInList = listItemsIds.has(item.id);
 
-        const { name, ticker, slug, balance, logoUrl } = item
+        const { name, ticker, slug, logoUrl } = item;
 
         return (
           <CellMeasurer
@@ -96,31 +90,31 @@ const ProjectsList = ({
                 ref={registerChild}
                 style={style}
                 isSelectedItem={isSelectedItem}
-                isLast={isLast}
                 onToggleProject={onToggleProject}
                 item={item}
                 listItems={listItems}
                 isAssetInList={isAssetInList}
-                hideCheckboxes={hideCheckboxes}
-                isContained={isContained}
                 slug={slug}
                 logoUrl={logoUrl}
                 name={name}
-                balance={balance}
                 ticker={ticker}
               />
             )}
           </CellMeasurer>
-        )
+        );
       }
     },
-    [sections]
-  )
+    [sections, listItemsIds, searchTerm]
+  );
 
   const wrapperStyles = {
-    height: '318px',
-    paddingRight: items.length > MAX_SHOWING_ITEMS ? '0px' : `5px`
-  }
+    height: "443px"
+  };
+
+  const getRowCount = () =>
+    sections.reduce((acc, section) => {
+      return 1 + acc + section.data.length;
+    }, 0);
 
   return (
     <div style={wrapperStyles} className={styles.wrapperList}>
@@ -133,15 +127,16 @@ const ProjectsList = ({
               height={height}
               deferredMeasurementCache={cache}
               rowHeight={cache.rowHeight}
-              rowCount={items.length}
+              rowCount={getRowCount()}
               overscanRowCount={5}
               rowRenderer={rowRenderer}
+              style={listStyle}
             />
           )}
         </AutoSizer>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default ProjectsList
+export default ProjectsList;

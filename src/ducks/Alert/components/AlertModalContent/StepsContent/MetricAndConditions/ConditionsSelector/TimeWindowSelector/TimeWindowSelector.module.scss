@@ -1,15 +1,14 @@
 .wrapper {
   display: flex;
   gap: 8px;
-  margin-bottom: 16px;
 }
 
 .counter {
-  width: 130px;
+  width: 80px;
 }
 
 .period {
-  width: 124px;
+  width: 120px;
 
   [class="ReactVirtualized__Grid ReactVirtualized__List"] {
     min-height: 112px;

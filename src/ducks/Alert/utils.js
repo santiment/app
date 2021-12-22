@@ -1,135 +1,135 @@
-import { parseIntervalString } from '../../utils/dates'
-import { getMetric } from '../Studio/Sidebar/utils'
-import { capitalizeStr } from '../../utils/utils'
+import { parseIntervalString } from "../../utils/dates";
+import { getMetric } from "../Studio/Sidebar/utils";
+import { capitalizeStr } from "../../utils/utils";
 
-function formatFrequencyStr (cooldown) {
+function formatFrequencyStr(cooldown) {
   const { amount: cooldownCount, format: cooldownPeriod } = parseIntervalString(
     cooldown
-  )
+  );
 
   switch (cooldownPeriod) {
-    case 'm':
-      return `${cooldownCount} minute(s)`
-    case 'h':
-      return `${cooldownCount} hour(s)`
-    case 'd':
-      return `${cooldownCount} day(s)`
-    case 'w':
-      return `${cooldownCount} week(s)`
+    case "m":
+      return `${cooldownCount} minute(s)`;
+    case "h":
+      return `${cooldownCount} hour(s)`;
+    case "d":
+      return `${cooldownCount} day(s)`;
+    case "w":
+      return `${cooldownCount} week(s)`;
     default:
-      return ''
+      return "";
   }
 }
 
-export function getChannelsTitles (channels) {
+export function getChannelsTitles(channels) {
   return channels.map(item => {
-    if (typeof item === 'string') {
-      return item
+    if (typeof item === "string") {
+      return item;
     }
-    if ('telegram_channel' in item) {
-      return 'telegram_channel'
+    if ("telegram_channel" in item) {
+      return "telegram_channel";
     }
-    if ('webhook' in item) {
-      return 'webhook'
+    if ("webhook" in item) {
+      return "webhook";
     }
 
-    return item
-  })
+    return item;
+  });
 }
 
-export function formatChannelsTitles (channels) {
+export function formatChannelsTitles(channels) {
   return channels.map(item => {
-    if (item === 'web_push') {
-      return 'Push'
+    if (item === "web_push") {
+      return "Push";
     }
-    if (typeof item === 'string') {
-      return capitalizeStr(item)
+    if (typeof item === "string") {
+      return capitalizeStr(item);
     }
-    if ('telegram_channel' in item) {
-      return 'Telegram'
+    if ("telegram_channel" in item) {
+      return "Telegram";
     }
-    if ('webhook' in item) {
-      return 'Webhook'
+    if ("webhook" in item) {
+      return "Webhook";
     }
 
-    return item
-  })
+    return item;
+  });
 }
 
-export function getDescriptionStr ({ cooldown, channels, isRepeating }) {
-  const frequencyStr = formatFrequencyStr(cooldown)
+export function getDescriptionStr({ cooldown, channels, isRepeating }) {
+  const frequencyStr = formatFrequencyStr(cooldown);
   const channelsStr =
     channels.length > 0
-      ? ` via ${formatChannelsTitles(channels).join(', ')}`
-      : ''
+      ? ` via ${formatChannelsTitles(channels).join(", ")}`
+      : "";
 
   if (!isRepeating) {
-    return `Send me notifications once${channelsStr}.`
+    return `Send me notifications once${channelsStr}.`;
   }
 
-  return `Send me notifications every ${frequencyStr}${channelsStr}.`
+  return `Send me notifications every ${frequencyStr}${channelsStr}.`;
 }
 
-export function getSelectedAssetMetricCardDescription (metric) {
-  return `Notify me when an asset’s ${metric.label.toLowerCase()} moves a certain way`
+export function getSelectedAssetMetricCardDescription(metric) {
+  return `Notify me when an asset’s ${metric.label.toLowerCase()} moves a certain way`;
 }
 
-function getCountSomeOf (count) {
-  const left = count[0].percent_up
-  const right = count[1].percent_down
+function getCountSomeOf(count) {
+  const left = count[0].percent_up;
+  const right = count[1].percent_down;
 
-  return [left, right]
+  return [left, right];
 }
 
-export function parseOperation (value) {
-  const operation = Object.keys(value)[0]
+export function parseOperation(value) {
+  const operation = Object.keys(value)[0];
   const count =
-    operation === 'some_of'
+    operation === "some_of"
       ? getCountSomeOf(value[operation])
-      : value[operation]
+      : value[operation];
 
-  return { selectedOperation: operation, selectedCount: count }
+  return { selectedOperation: operation, selectedCount: count };
 }
 
-export function getConditionsStr ({ operation, count, timeWindow }) {
-  let condition = `moving down ${count} %`
+export function getConditionsStr({ operation, count, timeWindow }) {
+  let condition = `moving down ${count} %`;
 
   switch (operation) {
-    case 'above':
-      condition = `goes above $${count}`
-      break
-    case 'above_or_equal':
-      condition = `goes above or equal $${count}`
-      break
-    case 'below':
-      condition = `goes below $${count}`
-      break
-    case 'below_or_equal':
-      condition = `goes below or equal $${count}`
-      break
-    case 'inside_channel':
-      condition = `goes between $${count[0]} and $${count[1]}`
-      break
-    case 'outside_channel':
-      condition = `goes outside $${count[0]} and $${count[1]}`
-      break
-    case 'percent_up':
-      condition = `moving up ${count} %`
-      break
-    case 'percent_down':
-      condition = `moving down ${count} %`
-      break
-    case 'some_of':
-      condition = `moving up ${count[0]} % or moving down ${count[1]} %`
-      break
+    case "above":
+      condition = `goes above $${count}`;
+      break;
+    case "above_or_equal":
+      condition = `goes above or equal $${count}`;
+      break;
+    case "below":
+      condition = `goes below $${count}`;
+      break;
+    case "below_or_equal":
+      condition = `goes below or equal $${count}`;
+      break;
+    case "inside_channel":
+      condition = `goes between $${count[0]} and $${count[1]}`;
+      break;
+    case "outside_channel":
+      condition = `goes outside $${count[0]} and $${count[1]}`;
+      break;
+    case "percent_up":
+      condition = `moving up ${count} %`;
+      break;
+    case "percent_down":
+      condition = `moving down ${count} %`;
+      break;
+    case "some_of":
+      condition = `moving up ${count[0]} % or moving down ${count[1]} %`;
+      break;
     default:
-      break
+      break;
   }
 
-  return `${condition} compared to ${formatFrequencyStr(timeWindow)} earlier`
+  return `${condition} compared to ${formatFrequencyStr(timeWindow)} earlier`;
 }
 
-export function getTitleStr ({
+export function getTitleStr({
   watchlist,
   slug,
   metric,
@@ -137,34 +137,41 @@ export function getTitleStr ({
   timeWindow,
   onlyCondition
 }) {
-  const selectedMetric = getMetric(metric)
-  const { selectedCount, selectedOperation } = parseOperation(operation)
+  const selectedMetric = getMetric(metric);
+  const { selectedCount, selectedOperation } = parseOperation(operation);
   const conditionStr = getConditionsStr({
     operation: selectedOperation,
     count: selectedCount,
     timeWindow
-  })
+  });
 
   if (onlyCondition) {
-    return conditionStr
+    return conditionStr;
   }
 
   const slugStr = Array.isArray(slug)
-    ? slug.map(item => capitalizeStr(item)).join(', ')
-    : capitalizeStr(slug)
+    ? slug.map(item => capitalizeStr(item)).join(", ")
+    : capitalizeStr(slug);
 
   return `${slugStr || capitalizeStr(watchlist)} ${(selectedMetric &&
     selectedMetric.label) ||
-    'Metric'} ${conditionStr}`
+    "Metric"} ${conditionStr}`;
 }
 
-export function clipText (text, maxLength) {
+export function clipText(text, maxLength) {
   if (text && maxLength) {
-    const lengthBorder = maxLength - 3
+    const lengthBorder = maxLength - 3;
     if (text.length > lengthBorder) {
-      return text.slice(0, lengthBorder) + '...'
+      return text.slice(0, lengthBorder) + "...";
     }
   }
 
-  return text
+  return text;
+}
+
+export function splitStr(str) {
+  const firstWord = str.split(" ")[0];
+  const rest = str.replace(`${firstWord} `, "");
+
+  return { firstWord, rest };
 }

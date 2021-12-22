@@ -2,3 +2,11 @@
   display: flex;
   flex-direction: column;
 }
+
+.selectors {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 16px;
+  row-gap: 8px;
+}

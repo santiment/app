@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { useField } from 'formik'
-import { InputWithIcon } from '@santiment-network/ui/Input'
-import PageLoader from '../../../../../../../components/Loader/PageLoader'
-import NextStep from '../../NextStep/NextStep'
-import StepTitle from '../../StepTitle/StepTitle'
-import ProjectsList from './ProjectsList/ProjectsList'
-import { useAssets } from '../../../../../../../hooks/project'
-import styles from './AssetSelector.module.scss'
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useField } from "formik";
+import { InputWithIcon } from "@santiment-network/ui/Input";
+import PageLoader from "../../../../../../../components/Loader/PageLoader";
+import NextStep from "../../NextStep/NextStep";
+import StepTitle from "../../StepTitle/StepTitle";
+import ProjectsList from "./ProjectsList/ProjectsList";
+import { useAssets } from "../../../../../../../hooks/project";
+import styles from "./AssetSelector.module.scss";
 
 const AssetSelector = ({
   selectorSettings: {
@@ -16,64 +16,68 @@ const AssetSelector = ({
     setVisitedSteps
   }
 }) => {
-  const [, { value }, { setValue: setSlug }] = useField('settings.target.slug')
-  const [, , { setValue: setMetric }] = useField('settings.metric')
+  const [, { value }, { setValue: setSlug }] = useField("settings.target.slug");
+  const [, , { setValue: setMetric }] = useField("settings.metric");
+  const [, , { setValue: setTimeWindow }] = useField("settings.time_window");
+  const [, , { setValue: setOperation }] = useField("settings.operation");
   const [projects, loading] = useAssets({
     shouldSkipLoggedInState: false
-  })
-  const [listItems, setListItems] = useState([])
-  const [searchTerm, setSearchTerm] = useState('')
+  });
+  const [listItems, setListItems] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     if (value && value.length > 0) {
       const assets =
-        typeof value === 'string'
+        typeof value === "string"
           ? [projects.find(project => project.slug === value)]
-          : value.map(item => projects.find(project => project.slug === item))
-      setListItems([...assets])
+          : value.map(item => projects.find(project => project.slug === item));
+      setListItems([...assets]);
     }
-  }, [])
+  }, []);
 
   const setSelectedAssets = useCallback(
     selected => {
       if (listItems.length !== selected.length) {
-        const selectedAssets = selected.map(item => item.slug)
+        const selectedAssets = selected.map(item => item.slug);
         setSlug(
           selectedAssets.length === 1 ? selectedAssets[0] : selectedAssets
-        )
-        setListItems(selected)
+        );
+        setListItems(selected);
 
         if (selected.length === 0) {
-          setSlug('')
-          setListItems([])
+          setSlug("");
+          setListItems([]);
         }
 
-        setMetric('')
+        setMetric("");
+        setTimeWindow("");
+        setOperation({});
       }
     },
     [setListItems, listItems]
-  )
+  );
 
   const toggleAsset = useCallback(
     ({ project, listItems: items, isAssetInList }) => {
       if (isAssetInList) {
-        const filteredAssets = items.filter(({ id }) => id !== project.id)
-        const selectedAssets = filteredAssets.map(item => item.slug)
+        const filteredAssets = items.filter(({ id }) => id !== project.id);
+        const selectedAssets = filteredAssets.map(item => item.slug);
 
-        setSelectedAssets(filteredAssets)
+        setSelectedAssets(filteredAssets);
         setSlug(
           selectedAssets.length === 1 ? selectedAssets[0] : selectedAssets
-        )
+        );
       } else {
-        setSelectedAssets([...items, project])
+        setSelectedAssets([...items, project]);
       }
     },
     [setSelectedAssets, listItems]
-  )
+  );
 
   const listItemsIds = useMemo(() => new Set(listItems.map(item => item.id)), [
     listItems
-  ])
+  ]);
 
   const filteredProjects = useMemo(
     () =>
@@ -83,39 +87,39 @@ const AssetSelector = ({
           !listItemsIds.has(project.id)
       ),
     [listItems, projects, searchTerm]
-  )
+  );
 
   const allProjects = useMemo(() => {
-    return [...listItems, ...filteredProjects]
-  }, [filteredProjects])
+    return [...listItems, ...filteredProjects];
+  }, [filteredProjects]);
 
   const sections = useMemo(() => {
     if (listItems.length > 0) {
       return [
         {
-          title: 'Selected',
+          title: "Selected",
           data: listItems
         },
         {
-          title: 'Assets',
+          title: "Assets",
           data: filteredProjects
         }
-      ]
+      ];
     } else {
       return [
         {
-          title: 'Assets',
+          title: "Assets",
           data: filteredProjects
         }
-      ]
+      ];
     }
-  }, [filteredProjects, listItems])
+  }, [filteredProjects]);
 
-  function handleNextClick () {
-    setSelectedStep(selectedStep + 1)
+  function handleNextClick() {
+    setSelectedStep(selectedStep + 1);
 
     if (!visitedSteps.has(selectedStep + 1)) {
-      setVisitedSteps(prev => [...prev, selectedStep + 1])
+      setVisitedSteps(prev => [...prev, selectedStep + 1]);
     }
   }
 
@@ -123,34 +127,34 @@ const AssetSelector = ({
     <>
       <div className={styles.titleWrapper}>
         <StepTitle
-          iconType='assets'
-          title='Select Asset'
+          iconType="assets"
+          title="Select Asset"
           className={styles.title}
         />
         {listItems.length > 0 && (
-          <NextStep label='Choose Metric' onClick={handleNextClick} />
+          <NextStep label="Choose Metric" onClick={handleNextClick} />
         )}
       </div>
       <InputWithIcon
-        type='text'
-        icon='search-small'
-        iconPosition='left'
+        type="text"
+        icon="search-small"
+        iconPosition="left"
         className={styles.search}
-        placeholder='Search for asset'
+        placeholder="Search for asset"
         value={searchTerm}
         onChange={e => setSearchTerm(e.target.value)}
       />
       <ProjectsList
-        isContained
         classes={styles}
         listItems={listItems}
         listItemsIds={listItemsIds}
         items={allProjects}
         onToggleProject={toggleAsset}
         sections={sections}
+        searchTerm={searchTerm}
       />
     </>
-  )
+  );
 
   if (loading) {
     children = (
@@ -158,10 +162,10 @@ const AssetSelector = ({
         containerClass={styles.loaderWrapper}
         className={styles.loader}
       />
-    )
+    );
   }
 
-  return <div className={styles.wrapper}>{children}</div>
-}
+  return <div className={styles.wrapper}>{children}</div>;
+};
 
-export default AssetSelector
+export default AssetSelector;

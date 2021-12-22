@@ -1,32 +1,26 @@
-import React, { useEffect } from 'react'
-import { useFormikContext } from 'formik'
-import Button from '@santiment-network/ui/Button'
-import AlertStepsSelector from '../AlertStepsSelector/AlertStepsSelector'
-import StepsContent from './StepsContent/StepsContent'
-import styles from './AlertModalContent.module.scss'
+import React from "react";
+import { useFormikContext } from "formik";
+import Button from "@santiment-network/ui/Button";
+import AlertStepsSelector from "../AlertStepsSelector/AlertStepsSelector";
+import StepsContent from "./StepsContent/StepsContent";
+import styles from "./AlertModalContent.module.scss";
 
 const AlertModalContent = ({ isMetricsDisabled, selectorSettings }) => {
-  const { submitForm, isSubmitting } = useFormikContext()
+  const { submitForm, isSubmitting } = useFormikContext();
 
-  const { selectedStep, selectedType, setVisitedSteps } = selectorSettings
-
-  useEffect(() => {
-    if (selectedStep === undefined) {
-      setVisitedSteps([])
-    }
-  }, [selectedType])
+  const { selectedStep, selectedType, finishedSteps } = selectorSettings;
 
   if (selectedStep !== undefined) {
     return (
       <div className={styles.wrapper}>
         <StepsContent selectorSettings={selectorSettings} />
       </div>
-    )
+    );
   }
 
-  function handleSubmit () {
+  function handleSubmit() {
     if (isSubmitting) {
-      submitForm()
+      submitForm();
     }
   }
 
@@ -38,16 +32,18 @@ const AlertModalContent = ({ isMetricsDisabled, selectorSettings }) => {
         isMetricsDisabled={isMetricsDisabled}
       />
       <Button
-        variant='fill'
+        type="submit"
+        disabled={selectedType.steps.length !== finishedSteps.size}
+        variant="fill"
         border={false}
-        accent='positive'
+        accent="positive"
         className={styles.submit}
         onClick={handleSubmit}
       >
         Create alert
       </Button>
     </div>
-  )
-}
+  );
+};
 
-export default AlertModalContent
+export default AlertModalContent;

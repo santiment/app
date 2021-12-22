@@ -9,9 +9,10 @@ const StepTitle = ({
   title,
   description,
   disabled,
-  className
+  className,
+  finished
 }) => (
-  <div className={cx(styles.wrapper, disabled && styles.disabled, className)}>
+  <div className={cx(styles.wrapper, disabled && styles.disabled, finished && styles.finished, className)}>
     <div className={styles.iconWrapper}>
       {icon || <Icon type={iconType} className={styles.icon} />}
     </div>

@@ -1,13 +1,13 @@
-import React from 'react'
-import cx from 'classnames'
-import StepIcon from './StepIcon/StepIcon'
-import { getClassString } from '../utils'
-import styles from './Step.module.scss'
+import React from "react";
+import cx from "classnames";
+import StepIcon from "./StepIcon/StepIcon";
+import { getClassString } from "../utils";
+import styles from "./Step.module.scss";
 
 const Step = ({
   className,
   active,
-  status = 'wait',
+  status = "wait",
   stepNumber,
   disabled,
   description,
@@ -17,30 +17,32 @@ const Step = ({
   onStepClick,
   onClick,
   size,
+  selected,
   ...restProps
 }) => {
-  function handleClick (...args) {
+  function handleClick(...args) {
     if (onClick) {
-      onClick(...args)
+      onClick(...args);
     }
 
-    onStepClick(stepIndex)
+    onStepClick(stepIndex);
   }
 
   const classString = cx(
-    getClassString(styles, disabled, status),
-    size === 'small' && styles.small
-  )
+    size === "small" && styles.small,
+    selected && styles.selected,
+    getClassString(styles, disabled, status)
+  );
 
   const accessibilityProps = {
-    role: 'button',
+    role: "button",
     tabIndex: 0
-  }
+  };
   if (!disabled) {
     if (onStepClick) {
-      accessibilityProps.onClick = handleClick
+      accessibilityProps.onClick = handleClick;
     } else if (onClick) {
-      accessibilityProps.onClick = onClick
+      accessibilityProps.onClick = onClick;
     }
   }
 
@@ -64,7 +66,7 @@ const Step = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Step
+export default Step;

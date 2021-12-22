@@ -44,7 +44,7 @@ const WatchlistsAndScreenersList = ({ items, selectedWatchlist, onSelect }) => {
   )
 
   const wrapperStyles = {
-    height: '318px'
+    height: '428px'
   }
 
   return (
