@@ -3,8 +3,8 @@ import { Form } from 'formik'
 import AlertModalSidebar from './components/AlertModalSidebar/AlertModalSidebar'
 import AlertModalContent from './components/AlertModalContent/AlertModalContent'
 import { useUpdateFinishedSteps } from './hooks/useUpdateFinishedSteps'
-import styles from './AlertModalFormMaster.module.scss'
 import { useUpdateNameAndDescription } from './hooks/useUpdateNameAndDescription'
+import styles from './AlertModalFormMaster.module.scss'
 
 const AlertModalForm = ({ selectorSettings, resetForm, values }) => {
   const {
