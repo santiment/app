@@ -70,6 +70,19 @@ export const useUpdateFinishedSteps = ({
         }
         break
       }
+      case 'Wallet address': {
+        if (
+          values.settings.target.address &&
+          values.settings.selector &&
+          values.settings.selector.slug &&
+          values.settings.selector.infrastructure
+        ) {
+          !finishedSteps.has(0) && setFinishedSteps(prev => [...prev, 0])
+        } else {
+          setFinishedSteps(prev => prev.filter(step => step !== 0))
+        }
+        break
+      }
       default:
         break
     }

@@ -171,9 +171,61 @@ export const useUpdateNameAndDescription = ({
           }
           break
         }
+        case 'Wallet address': {
+          const {
+            cooldown,
+            isRepeating,
+            settings: {
+              channel,
+              selector: { slug, infrastructure },
+              target: { address },
+              operation,
+              time_window
+            }
+          } = values
+          const currentProject = projects.find(project => project.slug === slug)
+          let slugTicker = 'Screener'
+          const hasSlugTicker = currentProject && currentProject.ticker
+
+          if (hasSlugTicker) {
+            slugTicker = currentProject.ticker
+          }
+
+          if (hasSlugTicker && address && infrastructure) {
+            const { selectedCount, selectedOperation } = parseOperation(
+              operation
+            )
+            const conditionsStr = getConditionsStr({
+              operation: selectedOperation,
+              count: selectedCount,
+              timeWindow: time_window
+            })
+
+            setTitle(`${slugTicker} wallet ${address} ${conditionsStr || ''}`)
+
+            if (cooldown && channel.length > 0) {
+              const notificationsStr = getDescriptionStr({
+                cooldown,
+                channels: channel,
+                isRepeating
+              })
+
+              setDescription(
+                `Notify me when the balance of ${slugTicker.toLowerCase()} wallet ${address ||
+                  ''} ${conditionsStr || ''}. ${notificationsStr}`
+              )
+            }
+          } else {
+            setTitle('')
+          }
+          break
+        }
         default:
           break
       }
     }
   }, [values])
 }
+
+// KICK wallet 0x008024771614f4290696b63ba3dd3a1ceb34d4d9 historical balance down 10% compared to 1 day(s) earlier
+// Notify me when the balance of kick wallet 0x008024771614f4290696b63ba3dd3a1ceb34d4d9 down 10% compared to 1 day(s) earlier. Send me notifications every 1 day(s) via telegram.

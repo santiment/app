@@ -12,22 +12,24 @@ import {
 import { formatNumber } from '../../../../../../../../utils/formatting'
 import styles from './ChartPreview.module.scss'
 
-const ChartPreview = () => {
+const ChartPreview = ({ isWallet }) => {
   const {
     values,
     values: {
       settings: {
         target: { slug },
         time_window,
-        operation
+        operation,
+        selector
       }
     }
   } = useFormikContext()
-  const { data, loading } = useLastPrice(slug)
-  const [project] = useProject(slug)
+  const currentSlug = isWallet ? selector.slug : slug
+  const { data, loading } = useLastPrice(currentSlug)
+  const [project] = useProject(currentSlug)
 
-  const shouldRenderChart = slug && typeof slug === 'string'
-  const shouldRenderPrice = slug && !Array.isArray(slug) && data
+  const shouldRenderChart = currentSlug && typeof currentSlug === 'string'
+  const shouldRenderPrice = currentSlug && !Array.isArray(currentSlug) && data
   const { selectedCount, selectedOperation } = parseOperation(operation)
   const conditionsStr = getConditionsStr({
     operation: selectedOperation,
@@ -46,7 +48,9 @@ const ChartPreview = () => {
         <div className={styles.price}>
           {!loading &&
             shouldRenderPrice &&
-            `1 ${project.ticker} = ${formatNumber(data, { currency: 'USD' })}`}
+            `1 ${project && project.ticker} = ${formatNumber(data, {
+              currency: 'USD'
+            })}`}
         </div>
       </div>
 

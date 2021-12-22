@@ -230,6 +230,7 @@ export const ALERT_TYPES = [
       target: { address: '' },
       selector: { infrastructure: '', slug: '' },
       channel: [],
+      time_window: '',
       operation: {}
     },
     steps: [

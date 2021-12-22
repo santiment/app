@@ -7,6 +7,7 @@ import OperationValue from './OperationValue/OperationValue'
 import { parseOperation } from '../../../../../../utils'
 import {
   AVAILABLE_OPERATIONS,
+  ETH_WALLETS_OPERATIONS,
   MULTIPLE_VALUES_OPERATIONS,
   PERCENT_OPERATIONS
 } from './constants'
@@ -17,12 +18,14 @@ function getCountDefault (value) {
   return MULTIPLE_VALUES_OPERATIONS.includes(value) ? [1, 1] : 1
 }
 
-const OperationSelector = ({ metric }) => {
+const OperationSelector = ({ metric, isWallet }) => {
   const [, { value }, { setValue }] = useField('settings.operation')
   const { selectedCount, selectedOperation } = parseOperation(value)
   const [operation, setOperation] = useState(
     (selectedOperation &&
-      AVAILABLE_OPERATIONS.find(op => op.value === selectedOperation)) ||
+      AVAILABLE_OPERATIONS.concat(isWallet ? ETH_WALLETS_OPERATIONS : []).find(
+        op => op.value === selectedOperation
+      )) ||
       AVAILABLE_OPERATIONS[0]
   )
   const [count, setCount] = useState(
@@ -57,7 +60,9 @@ const OperationSelector = ({ metric }) => {
         isClearable={false}
         isSearchable={false}
         className={styles.operation}
-        options={AVAILABLE_OPERATIONS}
+        options={AVAILABLE_OPERATIONS.concat(
+          isWallet ? ETH_WALLETS_OPERATIONS : []
+        )}
         formatOptionLabel={formatOptionLabel}
         value={operation}
         onChange={handleChangeOperation}
