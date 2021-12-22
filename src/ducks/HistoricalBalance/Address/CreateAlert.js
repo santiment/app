@@ -4,7 +4,7 @@ import {
   ETH_WALLET_METRIC,
   PRICE_ABS_CHANGE_BELOW
 } from '../../Signals/utils/constants'
-import SignalMasterModalForm from '../../Signals/signalModal/SignalMasterModalForm'
+import AlertModal from '../../Alert/AlertModal'
 
 const PARAMS = {
   variant: 'ghost',
@@ -31,7 +31,7 @@ const CreateAlert = ({ assets, address, trigger }) => {
   )
 
   return (
-    <SignalMasterModalForm
+    <AlertModal
       trigger={trigger}
       enabled={address && assets.length}
       canRedirect={false}
