@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./BlockInput.module.scss";
-import cx from "classnames";
+import React from 'react'
+import styles from './BlockInput.module.scss'
+import cx from 'classnames'
 
 const BlockInput = ({ label, value, onChange, blockClassname, ...rest }) => (
   <div className={cx(styles.wrapper, blockClassname)}>
@@ -12,6 +12,6 @@ const BlockInput = ({ label, value, onChange, blockClassname, ...rest }) => (
       {...rest}
     />
   </div>
-);
+)
 
-export default BlockInput;
+export default BlockInput

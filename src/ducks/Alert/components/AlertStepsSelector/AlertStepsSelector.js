@@ -1,7 +1,7 @@
-import React, { useCallback } from "react";
-import { useFormikContext } from "formik";
-import Steps from "../../../../components/Steps/Steps";
-import AlertStepDescription from "./AlertStepDescription/AlertStepDescription";
+import React, { useCallback } from 'react'
+import { useFormikContext } from 'formik'
+import Steps from '../../../../components/Steps/Steps'
+import AlertStepDescription from './AlertStepDescription/AlertStepDescription'
 
 const AlertStepsSelector = ({
   size,
@@ -16,15 +16,15 @@ const AlertStepsSelector = ({
     finishedSteps
   }
 }) => {
-  const { values } = useFormikContext();
-  const hasDisabledStep = items.length !== 3 && isMetricsDisabled;
+  const { values } = useFormikContext()
+  const hasDisabledStep = items.length !== 3 && isMetricsDisabled
 
-  function handleStepClick(stepIndex) {
-    setSelectedStep(stepIndex);
+  function handleStepClick (stepIndex) {
+    setSelectedStep(stepIndex)
 
     if (!visitedSteps.has(stepIndex)) {
       if (!(hasDisabledStep && stepIndex === 1)) {
-        setVisitedSteps(prev => [...prev, stepIndex]);
+        setVisitedSteps(prev => [...prev, stepIndex])
       }
     }
   }
@@ -32,16 +32,16 @@ const AlertStepsSelector = ({
   const renderSteps = useCallback(
     () =>
       items.map((step, index) => {
-        const disabled = hasDisabledStep && index === 1;
+        const disabled = hasDisabledStep && index === 1
 
-        let status = "process";
+        let status = 'process'
 
         if (visitedSteps.has(index)) {
-          status = "visited";
+          status = 'visited'
         }
 
         if (finishedSteps.has(index)) {
-          status = "finish";
+          status = 'finish'
         }
 
         return (
@@ -62,7 +62,7 @@ const AlertStepsSelector = ({
             }
             onStepClick={() => handleStepClick(index)}
           />
-        );
+        )
       }),
     [
       visitedSteps,
@@ -73,13 +73,13 @@ const AlertStepsSelector = ({
       finishedSteps,
       selectedStep
     ]
-  );
+  )
 
   return (
     <Steps initial={0} current={selectedStep} size={size}>
       {renderSteps()}
     </Steps>
-  );
-};
+  )
+}
 
-export default AlertStepsSelector;
+export default AlertStepsSelector

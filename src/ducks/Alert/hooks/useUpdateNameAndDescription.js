@@ -1,10 +1,10 @@
-import { useEffect } from "react";
-import { useField } from "formik";
-import { getMetricByKey } from "../../Studio/metrics";
-import { getConditionsStr, getDescriptionStr, parseOperation } from "../utils";
-import { useAssets } from "../../../hooks/project";
-import { useWatchlistAndScreener } from "./useWatchlistAndScreener";
-import { capitalizeStr } from "../../../utils/utils";
+import { useEffect } from 'react'
+import { useField } from 'formik'
+import { getMetricByKey } from '../../Studio/metrics'
+import { getConditionsStr, getDescriptionStr, parseOperation } from '../utils'
+import { useAssets } from '../../../hooks/project'
+import { useWatchlistAndScreener } from './useWatchlistAndScreener'
+import { capitalizeStr } from '../../../utils/utils'
 
 export const useUpdateNameAndDescription = ({
   selectedType,
@@ -13,22 +13,22 @@ export const useUpdateNameAndDescription = ({
 }) => {
   const [projects, loading] = useAssets({
     shouldSkipLoggedInState: false
-  });
-  const [, , { setValue: setTitle }] = useField("title");
-  const [, , { setValue: setDescription }] = useField("description");
+  })
+  const [, , { setValue: setTitle }] = useField('title')
+  const [, , { setValue: setDescription }] = useField('description')
   const watchlist = useWatchlistAndScreener({
     type: selectedType.title,
     settings: values.settings,
     skip:
-      selectedType.title !== "Screener" && selectedType.title !== "Watchlist"
-  });
-  const stepsLength = selectedType.steps.length;
-  const nameAndDescriptionIndex = stepsLength - 1;
+      selectedType.title !== 'Screener' && selectedType.title !== 'Watchlist'
+  })
+  const stepsLength = selectedType.steps.length
+  const nameAndDescriptionIndex = stepsLength - 1
 
   useEffect(() => {
     if (selectedStep !== nameAndDescriptionIndex || !selectedStep) {
       switch (selectedType.title) {
-        case "Asset": {
+        case 'Asset': {
           const {
             cooldown,
             isRepeating,
@@ -39,145 +39,141 @@ export const useUpdateNameAndDescription = ({
               time_window,
               target: { slug }
             }
-          } = values;
-          let assets = "Asset";
-          const hasSlug = slug && slug.length > 0 && !loading;
+          } = values
+          let assets = 'Asset'
+          const hasSlug = slug && slug.length > 0 && !loading
 
           if (hasSlug) {
             assets =
-              typeof slug === "string"
+              typeof slug === 'string'
                 ? projects.find(project => project.slug === slug).name
                 : slug
                     .map(
                       item =>
                         projects.find(project => project.slug === item).name
                     )
-                    .join(", ");
+                    .join(', ')
           }
 
-          const { selectedCount, selectedOperation } = parseOperation(
-            operation
-          );
-          const selectedMetric = getMetricByKey(metric);
-          const metricLabel = selectedMetric ? selectedMetric.label : "metric";
+          const { selectedCount, selectedOperation } = parseOperation(operation)
+          const selectedMetric = getMetricByKey(metric)
+          const metricLabel = selectedMetric ? selectedMetric.label : 'metric'
           const conditionsStr = getConditionsStr({
             operation: selectedOperation,
             count: selectedCount,
             timeWindow: time_window
-          });
+          })
 
           if (operation && metric && time_window && hasSlug) {
             setTitle(
-              `${assets || ""} ${
-                metricLabel ? metricLabel.toLowerCase() : ""
-              } ${conditionsStr || ""}`
-            );
+              `${assets || ''} ${
+                metricLabel ? metricLabel.toLowerCase() : ''
+              } ${conditionsStr || ''}`
+            )
 
             if (cooldown && channel.length > 0) {
               const notificationsStr = getDescriptionStr({
                 cooldown,
                 channels: channel,
                 isRepeating
-              });
+              })
 
               setDescription(
                 `Notify me when the ${
-                  metricLabel ? metricLabel.toLowerCase() : ""
-                } of ${assets || ""} ${conditionsStr ||
-                  ""}. ${notificationsStr}`
-              );
+                  metricLabel ? metricLabel.toLowerCase() : ''
+                } of ${assets || ''} ${conditionsStr ||
+                  ''}. ${notificationsStr}`
+              )
             }
           } else {
-            setTitle("");
+            setTitle('')
           }
-          break;
+          break
         }
-        case "Watchlist": {
+        case 'Watchlist': {
           const {
             cooldown,
             isRepeating,
             settings: { channel, operation, metric, time_window }
-          } = values;
-          let watchlistName = "Watchlist";
-          const hasWatchlist = watchlist && watchlist.name;
+          } = values
+          let watchlistName = 'Watchlist'
+          const hasWatchlist = watchlist && watchlist.name
 
           if (hasWatchlist) {
-            watchlistName = watchlist.name;
+            watchlistName = watchlist.name
           }
 
-          const { selectedCount, selectedOperation } = parseOperation(
-            operation
-          );
-          const selectedMetric = getMetricByKey(metric);
-          const metricLabel = selectedMetric ? selectedMetric.label : "metric";
+          const { selectedCount, selectedOperation } = parseOperation(operation)
+          const selectedMetric = getMetricByKey(metric)
+          const metricLabel = selectedMetric ? selectedMetric.label : 'metric'
           const conditionsStr = getConditionsStr({
             operation: selectedOperation,
             count: selectedCount,
             timeWindow: time_window
-          });
+          })
 
           if (operation && metric && time_window && hasWatchlist) {
             setTitle(
-              `${capitalizeStr(watchlistName) || ""} ${
-                metricLabel ? metricLabel.toLowerCase() : ""
-              } ${conditionsStr || ""}`
-            );
+              `${capitalizeStr(watchlistName) || ''} ${
+                metricLabel ? metricLabel.toLowerCase() : ''
+              } ${conditionsStr || ''}`
+            )
 
             if (cooldown && channel.length > 0) {
               const notificationsStr = getDescriptionStr({
                 cooldown,
                 channels: channel,
                 isRepeating
-              });
+              })
 
               setDescription(
                 `Notify me when the ${
-                  metricLabel ? metricLabel.toLowerCase() : ""
-                } of ${watchlistName || ""} ${conditionsStr ||
-                  ""}. ${notificationsStr}`
-              );
+                  metricLabel ? metricLabel.toLowerCase() : ''
+                } of ${watchlistName || ''} ${conditionsStr ||
+                  ''}. ${notificationsStr}`
+              )
             }
           } else {
-            setTitle("");
+            setTitle('')
           }
-          break;
+          break
         }
-        case "Screener": {
+        case 'Screener': {
           const {
             cooldown,
             isRepeating,
             settings: { channel }
-          } = values;
-          let screenerName = "Screener";
-          const hasScreener = watchlist && watchlist.name;
+          } = values
+          let screenerName = 'Screener'
+          const hasScreener = watchlist && watchlist.name
 
           if (hasScreener) {
-            screenerName = watchlist.name;
+            screenerName = watchlist.name
           }
           if (hasScreener) {
             setTitle(
-              `Project enters/exits ${capitalizeStr(screenerName) || ""}`
-            );
+              `Project enters/exits ${capitalizeStr(screenerName) || ''}`
+            )
 
             if (cooldown && channel.length > 0) {
               const notificationsStr = getDescriptionStr({
                 cooldown,
                 channels: channel,
                 isRepeating
-              });
+              })
 
               setDescription(
                 `Notify me when any project enters/exits ${screenerName}. ${notificationsStr}`
-              );
+              )
             }
           } else {
-            setTitle("");
+            setTitle('')
           }
-          break;
+          break
         }
         default:
-          break;
+          break
       }
     }
-  }, [values]);
-};
+  }, [values])
+}

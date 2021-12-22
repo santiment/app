@@ -1,9 +1,9 @@
-import React, { forwardRef } from "react";
-import cx from "classnames";
-import { Checkbox } from "@santiment-network/ui/Checkboxes";
-import Label from "@santiment-network/ui/Label";
-import { ProjectIcon } from "../../../../../../../../../components/ProjectIcon/ProjectIcon";
-import styles from "../ProjectsList.module.scss";
+import React, { forwardRef } from 'react'
+import cx from 'classnames'
+import { Checkbox } from '@santiment-network/ui/Checkboxes'
+import Label from '@santiment-network/ui/Label'
+import { ProjectIcon } from '../../../../../../../../../components/ProjectIcon/ProjectIcon'
+import styles from '../ProjectsList.module.scss'
 
 const ProjectListItem = forwardRef(
   (
@@ -33,7 +33,7 @@ const ProjectListItem = forwardRef(
             project: item,
             listItems,
             isAssetInList
-          });
+          })
         }}
       >
         <Checkbox isActive={isAssetInList} />
@@ -45,13 +45,13 @@ const ProjectListItem = forwardRef(
             logoUrl={logoUrl}
           />
           <span className={styles.name}>{name}</span>
-          <Label accent="waterloo" className={styles.label}>
+          <Label accent='waterloo' className={styles.label}>
             ({ticker})
           </Label>
         </div>
       </div>
     </div>
   )
-);
+)
 
-export default ProjectListItem;
+export default ProjectListItem

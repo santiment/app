@@ -1,16 +1,16 @@
-import React from "react";
-import cx from "classnames";
-import { useFormikContext } from "formik";
-import SignalPreview from "../../../../../../../Signals/chart/preview/SignalPreview";
-import { useLastPrice } from "../../../../../../hooks/useLastPrice";
-import { useProject } from "../../../../../../../../hooks/project";
+import React from 'react'
+import cx from 'classnames'
+import { useFormikContext } from 'formik'
+import SignalPreview from '../../../../../../../Signals/chart/preview/SignalPreview'
+import { useLastPrice } from '../../../../../../hooks/useLastPrice'
+import { useProject } from '../../../../../../../../hooks/project'
 import {
   getConditionsStr,
   parseOperation,
   splitStr
-} from "../../../../../../utils";
-import { formatNumber } from "../../../../../../../../utils/formatting";
-import styles from "./ChartPreview.module.scss";
+} from '../../../../../../utils'
+import { formatNumber } from '../../../../../../../../utils/formatting'
+import styles from './ChartPreview.module.scss'
 
 const ChartPreview = () => {
   const {
@@ -22,19 +22,19 @@ const ChartPreview = () => {
         operation
       }
     }
-  } = useFormikContext();
-  const { data, loading } = useLastPrice(slug);
-  const [project] = useProject(slug);
+  } = useFormikContext()
+  const { data, loading } = useLastPrice(slug)
+  const [project] = useProject(slug)
 
-  const shouldRenderChart = slug && typeof slug === "string";
-  const shouldRenderPrice = slug && !Array.isArray(slug) && data;
-  const { selectedCount, selectedOperation } = parseOperation(operation);
+  const shouldRenderChart = slug && typeof slug === 'string'
+  const shouldRenderPrice = slug && !Array.isArray(slug) && data
+  const { selectedCount, selectedOperation } = parseOperation(operation)
   const conditionsStr = getConditionsStr({
     operation: selectedOperation,
     count: selectedCount,
     timeWindow: time_window
-  });
-  const { firstWord, rest } = splitStr(conditionsStr);
+  })
+  const { firstWord, rest } = splitStr(conditionsStr)
 
   return (
     <div className={styles.wrapper}>
@@ -46,7 +46,7 @@ const ChartPreview = () => {
         <div className={styles.price}>
           {!loading &&
             shouldRenderPrice &&
-            `1 ${project.ticker} = ${formatNumber(data, { currency: "USD" })}`}
+            `1 ${project.ticker} = ${formatNumber(data, { currency: 'USD' })}`}
         </div>
       </div>
 
@@ -59,11 +59,11 @@ const ChartPreview = () => {
         {shouldRenderChart ? (
           <SignalPreview type={values.type} trigger={values} />
         ) : (
-          "No data"
+          'No data'
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ChartPreview;
+export default ChartPreview

@@ -1,7 +1,7 @@
-import React from "react";
-import cx from "classnames";
-import { Checkbox } from "@santiment-network/ui/Checkboxes/Checkboxes";
-import styles from "../ChannelsSelector.module.scss";
+import React from 'react'
+import cx from 'classnames'
+import { Checkbox } from '@santiment-network/ui/Checkboxes/Checkboxes'
+import styles from '../ChannelsSelector.module.scss'
 
 const SourceToggle = ({
   isWebhook,
@@ -29,6 +29,6 @@ const SourceToggle = ({
     </div>
     <div className={styles.content}>{children}</div>
   </div>
-);
+)
 
-export default SourceToggle;
+export default SourceToggle

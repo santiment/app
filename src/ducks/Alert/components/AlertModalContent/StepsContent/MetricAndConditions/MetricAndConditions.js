@@ -42,7 +42,7 @@ const MetricAndConditions = ({
     <>
       <div className={styles.titleWrapper}>
         <StepTitle
-          iconType="metric"
+          iconType='metric'
           title='Choose Metric'
           className={styles.title}
         />

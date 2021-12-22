@@ -1,31 +1,31 @@
-import React from "react";
-import cx from "classnames";
-import { useFormikContext } from "formik";
-import { getMetricByKey } from "../../../../../../Studio/metrics";
+import React from 'react'
+import cx from 'classnames'
+import { useFormikContext } from 'formik'
+import { getMetricByKey } from '../../../../../../Studio/metrics'
 import {
   getConditionsStr,
   parseOperation,
   splitStr
-} from "../../../../../utils";
-import styles from "./MetricsAndConditions.module.scss";
+} from '../../../../../utils'
+import styles from './MetricsAndConditions.module.scss'
 
 const MetricsAndConditions = ({ description, isSmall }) => {
   const {
     values: {
       settings: { metric, time_window, operation }
     }
-  } = useFormikContext();
+  } = useFormikContext()
 
   if (metric && !operation.selector) {
-    const { selectedCount, selectedOperation } = parseOperation(operation);
+    const { selectedCount, selectedOperation } = parseOperation(operation)
     const conditionsStr = getConditionsStr({
       operation: selectedOperation,
       count: selectedCount,
       timeWindow: time_window
-    });
-    const { firstWord, rest } = splitStr(conditionsStr);
-    const selectedMetric = getMetricByKey(metric);
-    const metricLabel = selectedMetric ? selectedMetric.label : "Metric";
+    })
+    const { firstWord, rest } = splitStr(conditionsStr)
+    const selectedMetric = getMetricByKey(metric)
+    const metricLabel = selectedMetric ? selectedMetric.label : 'Metric'
 
     if (isSmall) {
       return (
@@ -36,17 +36,17 @@ const MetricsAndConditions = ({ description, isSmall }) => {
             {rest}
           </div>
         </div>
-      );
+      )
     }
 
     return (
       <div className={styles.item}>
         {metricLabel} {conditionsStr}
       </div>
-    );
+    )
   }
 
-  return description || "";
-};
+  return description || ''
+}
 
-export default MetricsAndConditions;
+export default MetricsAndConditions

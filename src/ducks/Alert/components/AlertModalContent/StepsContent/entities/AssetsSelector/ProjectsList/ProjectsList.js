@@ -1,20 +1,20 @@
-import React, { useCallback } from "react";
-import List from "react-virtualized/dist/commonjs/List";
-import AutoSizer from "react-virtualized/dist/commonjs/AutoSizer";
-import { CellMeasurer, CellMeasurerCache } from "react-virtualized";
-import ProjectListItem from "./ProjectListItem/ProjectListItem";
-import styles from "./ProjectsList.module.scss";
+import React, { useCallback } from 'react'
+import List from 'react-virtualized/dist/commonjs/List'
+import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
+import { CellMeasurer, CellMeasurerCache } from 'react-virtualized'
+import ProjectListItem from './ProjectListItem/ProjectListItem'
+import styles from './ProjectsList.module.scss'
 
-const ROW_HEIGHT = 36;
-const listStyle = { overflowX: false, overflowY: false };
+const ROW_HEIGHT = 36
+const listStyle = { overflowX: false, overflowY: false }
 
-function subExtractor(sections = [], index) {
-  let itemIndex = index;
+function subExtractor (sections = [], index) {
+  let itemIndex = index
   for (let ii = 0; ii < sections.length; ii++) {
-    const section = sections[ii];
-    itemIndex -= 1;
+    const section = sections[ii]
+    itemIndex -= 1
     if (itemIndex >= section.data.length) {
-      itemIndex -= section.data.length;
+      itemIndex -= section.data.length
     } else if (itemIndex === -1) {
       return {
         item: {
@@ -22,13 +22,13 @@ function subExtractor(sections = [], index) {
         },
         index: index,
         header: true
-      };
+      }
     } else {
       return {
         item: section.data[itemIndex],
         index: index,
         header: false
-      };
+      }
     }
   }
 }
@@ -36,7 +36,7 @@ function subExtractor(sections = [], index) {
 const cache = new CellMeasurerCache({
   fixedWidth: true,
   defaultHeight: ROW_HEIGHT
-});
+})
 
 const ProjectsList = ({
   items,
@@ -48,9 +48,9 @@ const ProjectsList = ({
 }) => {
   const rowRenderer = useCallback(
     ({ key, index, style, parent }) => {
-      const { item, index: itemIndex, header } = subExtractor(sections, index);
+      const { item, index: itemIndex, header } = subExtractor(sections, index)
 
-      const isSelectedItem = listItems.length > 0 && index === 0;
+      const isSelectedItem = listItems.length > 0 && index === 0
 
       if (header) {
         return (
@@ -71,11 +71,11 @@ const ProjectsList = ({
               </div>
             )}
           </CellMeasurer>
-        );
+        )
       } else {
-        const isAssetInList = listItemsIds.has(item.id);
+        const isAssetInList = listItemsIds.has(item.id)
 
-        const { name, ticker, slug, logoUrl } = item;
+        const { name, ticker, slug, logoUrl } = item
 
         return (
           <CellMeasurer
@@ -101,20 +101,20 @@ const ProjectsList = ({
               />
             )}
           </CellMeasurer>
-        );
+        )
       }
     },
     [sections, listItemsIds, searchTerm]
-  );
+  )
 
   const wrapperStyles = {
-    height: "443px"
-  };
+    height: '443px'
+  }
 
   const getRowCount = () =>
     sections.reduce((acc, section) => {
-      return 1 + acc + section.data.length;
-    }, 0);
+      return 1 + acc + section.data.length
+    }, 0)
 
   return (
     <div style={wrapperStyles} className={styles.wrapperList}>
@@ -136,7 +136,7 @@ const ProjectsList = ({
         </AutoSizer>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default ProjectsList;
+export default ProjectsList

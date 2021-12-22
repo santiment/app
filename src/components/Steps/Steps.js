@@ -1,7 +1,7 @@
-import React, { cloneElement } from "react";
-import cx from "classnames";
-import Step from "./Step/Step";
-import styles from "./Steps.module.scss";
+import React, { cloneElement } from 'react'
+import cx from 'classnames'
+import Step from './Step/Step'
+import styles from './Steps.module.scss'
 
 const Steps = ({
   className,
@@ -14,16 +14,16 @@ const Steps = ({
   selected,
   ...restProps
 }) => {
-  function onStepClick(next) {
+  function onStepClick (next) {
     if (onChange && current !== next) {
-      onChange(next);
+      onChange(next)
     }
   }
 
   return (
     <div className={cx(styles.steps, className)} {...restProps}>
       {React.Children.map(children, (child, index) => {
-        const stepNumber = initial + index;
+        const stepNumber = initial + index
         const childProps = {
           stepNumber: `${stepNumber + 1}`,
           stepIndex: stepNumber,
@@ -33,31 +33,31 @@ const Steps = ({
           size,
           selected,
           ...child.props
-        };
+        }
 
         if (!child.props.status) {
           if (stepNumber === current) {
-            childProps.status = "selected";
+            childProps.status = 'selected'
           } else if (stepNumber < current) {
-            childProps.status = "visited";
+            childProps.status = 'visited'
           } else {
-            childProps.status = "wait";
+            childProps.status = 'wait'
           }
         }
-        childProps.active = stepNumber === current;
+        childProps.active = stepNumber === current
 
-        return cloneElement(child, childProps);
+        return cloneElement(child, childProps)
       })}
     </div>
-  );
-};
+  )
+}
 
-Steps.Step = Step;
+Steps.Step = Step
 
 Steps.defaultProps = {
   initial: 0,
   current: 0,
-  size: ""
-};
+  size: ''
+}
 
-export default Steps;
+export default Steps

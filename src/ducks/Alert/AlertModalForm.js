@@ -1,10 +1,10 @@
-import React from "react";
-import { Form } from "formik";
-import AlertModalSidebar from "./components/AlertModalSidebar/AlertModalSidebar";
-import AlertModalContent from "./components/AlertModalContent/AlertModalContent";
-import { useUpdateFinishedSteps } from "./hooks/useUpdateFinishedSteps";
-import styles from "./AlertModalFormMaster.module.scss";
-import { useUpdateNameAndDescription } from "./hooks/useUpdateNameAndDescription";
+import React from 'react'
+import { Form } from 'formik'
+import AlertModalSidebar from './components/AlertModalSidebar/AlertModalSidebar'
+import AlertModalContent from './components/AlertModalContent/AlertModalContent'
+import { useUpdateFinishedSteps } from './hooks/useUpdateFinishedSteps'
+import styles from './AlertModalFormMaster.module.scss'
+import { useUpdateNameAndDescription } from './hooks/useUpdateNameAndDescription'
 
 const AlertModalForm = ({ selectorSettings, resetForm, values }) => {
   const {
@@ -15,7 +15,7 @@ const AlertModalForm = ({ selectorSettings, resetForm, values }) => {
     finishedSteps,
     setFinishedSteps,
     selectedStep
-  } = selectorSettings;
+  } = selectorSettings
 
   useUpdateFinishedSteps({
     selectedType,
@@ -23,39 +23,39 @@ const AlertModalForm = ({ selectorSettings, resetForm, values }) => {
     finishedSteps,
     setFinishedSteps,
     values
-  });
-  useUpdateNameAndDescription({ selectedType, selectedStep, values });
+  })
+  useUpdateNameAndDescription({ selectedType, selectedStep, values })
 
-  function handleSelectType(type) {
-    setSelectedType(type);
-    setSelectedStep(undefined);
-    resetForm();
+  function handleSelectType (type) {
+    setSelectedType(type)
+    setSelectedStep(undefined)
+    resetForm()
   }
 
-  let isMetricsDisabled;
-  const hasTarget = values.settings.target;
+  let isMetricsDisabled
+  const hasTarget = values.settings.target
 
   switch (selectedType.title) {
-    case "Asset":
-      const slug = hasTarget && values.settings.target.slug;
+    case 'Asset':
+      const slug = hasTarget && values.settings.target.slug
 
       isMetricsDisabled =
-        typeof slug === "string" ? !slug : slug && slug.length === 0;
-      break;
-    case "Watchlist":
-      const watchlist = hasTarget && values.settings.target.watchlist_id;
+        typeof slug === 'string' ? !slug : slug && slug.length === 0
+      break
+    case 'Watchlist':
+      const watchlist = hasTarget && values.settings.target.watchlist_id
 
-      isMetricsDisabled = !watchlist;
-      break;
-    case "Screener":
+      isMetricsDisabled = !watchlist
+      break
+    case 'Screener':
       const screener =
         values.settings.operation.selector &&
-        values.settings.operation.selector.watchlist_id;
+        values.settings.operation.selector.watchlist_id
 
-      isMetricsDisabled = !screener;
-      break;
+      isMetricsDisabled = !screener
+      break
     default:
-      isMetricsDisabled = false;
+      isMetricsDisabled = false
   }
 
   return (
@@ -70,7 +70,7 @@ const AlertModalForm = ({ selectorSettings, resetForm, values }) => {
         selectorSettings={selectorSettings}
       />
     </Form>
-  );
-};
+  )
+}
 
-export default AlertModalForm;
+export default AlertModalForm

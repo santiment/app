@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import SelectedMetric from "../SelectedMetric/SelectedMetric";
+import SelectedMetric from '../SelectedMetric/SelectedMetric'
 import MetricCategory from './MetricCategory/MetricCategory'
 import styles from './MetricsList.module.scss'
 

@@ -1,19 +1,19 @@
-import React from "react";
-import { useField, useFormikContext } from "formik";
-import Button from "@santiment-network/ui/Button";
-import StepTitle from "../StepTitle/StepTitle";
-import BlockInput from "./BlockInput/BlockInput";
-import styles from "./NameAndDescription.module.scss";
+import React from 'react'
+import { useField, useFormikContext } from 'formik'
+import Button from '@santiment-network/ui/Button'
+import StepTitle from '../StepTitle/StepTitle'
+import BlockInput from './BlockInput/BlockInput'
+import styles from './NameAndDescription.module.scss'
 
 const NameAndDescription = ({ selectorSettings }) => {
-  const { selectedType, finishedSteps } = selectorSettings;
-  const { submitForm, isSubmitting } = useFormikContext();
-  const [titleField] = useField("title");
-  const [descriptionField] = useField("description");
+  const { selectedType, finishedSteps } = selectorSettings
+  const { submitForm, isSubmitting } = useFormikContext()
+  const [titleField] = useField('title')
+  const [descriptionField] = useField('description')
 
-  function handleSubmit() {
+  function handleSubmit () {
     if (isSubmitting) {
-      submitForm();
+      submitForm()
     }
   }
 
@@ -21,18 +21,18 @@ const NameAndDescription = ({ selectorSettings }) => {
     <div className={styles.wrapper}>
       <div>
         <StepTitle
-          iconType="settings"
-          title="Name & Description"
+          iconType='settings'
+          title='Name & Description'
           className={styles.title}
         />
         <div>
           <BlockInput
-            label="Alert name"
+            label='Alert name'
             {...titleField}
             blockClassname={styles.titleBlock}
           />
           <BlockInput
-            label="Description"
+            label='Description'
             {...descriptionField}
             blockClassname={styles.descriptionBlock}
           />
@@ -40,17 +40,17 @@ const NameAndDescription = ({ selectorSettings }) => {
       </div>
       <Button
         disabled={selectedType.steps.length !== finishedSteps.size}
-        type="submit"
-        variant="fill"
+        type='submit'
+        variant='fill'
         border={false}
-        accent="positive"
+        accent='positive'
         className={styles.submit}
         onClick={handleSubmit}
       >
         Create alert
       </Button>
     </div>
-  );
-};
+  )
+}
 
-export default NameAndDescription;
+export default NameAndDescription

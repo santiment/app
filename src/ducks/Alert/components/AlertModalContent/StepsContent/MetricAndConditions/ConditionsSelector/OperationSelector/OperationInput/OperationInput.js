@@ -1,7 +1,7 @@
-import React from "react";
-import cx from "classnames";
-import Input from "@santiment-network/ui/Input";
-import styles from "./OperationInput.module.scss";
+import React from 'react'
+import cx from 'classnames'
+import Input from '@santiment-network/ui/Input'
+import styles from './OperationInput.module.scss'
 
 const OperationInput = ({
   count,
@@ -11,19 +11,19 @@ const OperationInput = ({
   operation,
   className
 }) => {
-  let prefix = "$";
+  let prefix = '$'
 
-  if (iconType === "percent") {
-    prefix = "%";
+  if (iconType === 'percent') {
+    prefix = '%'
   }
 
   if (Array.isArray(count)) {
-    function handleChangeCount(e) {
-      const value = Number(e.target.value);
-      if (value > count[1] && operation !== "some_of") {
-        setCount([value, value]);
+    function handleChangeCount (e) {
+      const value = Number(e.target.value)
+      if (value > count[1] && operation !== 'some_of') {
+        setCount([value, value])
       } else {
-        setCount([value, count[1]]);
+        setCount([value, count[1]])
       }
     }
 
@@ -32,7 +32,7 @@ const OperationInput = ({
         <div className={styles.inputWrapper}>
           {hasIcon && <span className={styles.prefix}>{prefix}</span>}
           <Input
-            type="number"
+            type='number'
             min={1}
             value={count[0]}
             onChange={handleChangeCount}
@@ -42,29 +42,29 @@ const OperationInput = ({
         <div className={styles.inputWrapper}>
           {hasIcon && <span className={styles.prefix}>{prefix}</span>}
           <Input
-            type="number"
-            min={operation === "some_of" ? 1 : count[0]}
+            type='number'
+            min={operation === 'some_of' ? 1 : count[0]}
             value={count[1]}
             onChange={e => setCount([count[0], Number(e.target.value)])}
             className={hasIcon && styles.inputWithPrefix}
           />
         </div>
       </div>
-    );
+    )
   }
 
   return (
     <div className={cx(styles.inputWrapper, className)}>
       {hasIcon && <span className={styles.prefix}>{prefix}</span>}
       <Input
-        type="number"
+        type='number'
         min={1}
         className={cx(styles.singleInput, hasIcon && styles.inputWithPrefix)}
         value={count}
         onChange={e => setCount(Number(e.target.value))}
       />
     </div>
-  );
-};
+  )
+}
 
-export default OperationInput;
+export default OperationInput

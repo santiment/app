@@ -1,18 +1,18 @@
-import React from "react";
-import Toggle from "@santiment-network/ui/Toggle";
-import Icon from "@santiment-network/ui/Icon";
-import styles from "./PrivacySelector.module.scss";
-import { useField } from "formik";
+import React from 'react'
+import Toggle from '@santiment-network/ui/Toggle'
+import Icon from '@santiment-network/ui/Icon'
+import styles from './PrivacySelector.module.scss'
+import { useField } from 'formik'
 
-const IconNotActive = props => <Icon {...props} type="eye-disabled" />;
-const IconActive = props => <Icon {...props} type="eye" />;
+const IconNotActive = props => <Icon {...props} type='eye-disabled' />
+const IconActive = props => <Icon {...props} type='eye' />
 
 const PrivacySelector = () => {
-  const [, { value }, { setValue }] = useField("isPublic");
+  const [, { value }, { setValue }] = useField('isPublic')
 
   return (
     <div className={styles.wrapper}>
-      {value ? "Public" : "Private"}
+      {value ? 'Public' : 'Private'}
       <Toggle
         isActive={value}
         IconActive={IconActive}
@@ -20,7 +20,7 @@ const PrivacySelector = () => {
         onClick={() => setValue(!value)}
       />
     </div>
-  );
-};
+  )
+}
 
-export default PrivacySelector;
+export default PrivacySelector

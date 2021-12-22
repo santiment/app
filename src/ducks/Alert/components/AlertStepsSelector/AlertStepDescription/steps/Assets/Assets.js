@@ -1,44 +1,40 @@
-import React from "react";
-import cx from "classnames";
-import { useFormikContext } from "formik";
-import { ProjectIcon } from "../../../../../../../components/ProjectIcon/ProjectIcon";
-import { useAssets } from "../../../../../../../hooks/project";
-import styles from "./Assets.module.scss";
+import React from 'react'
+import cx from 'classnames'
+import { useFormikContext } from 'formik'
+import { ProjectIcon } from '../../../../../../../components/ProjectIcon/ProjectIcon'
+import { useAssets } from '../../../../../../../hooks/project'
+import styles from './Assets.module.scss'
 
 const Assets = ({ description, isSmall }) => {
   const [projects, loading] = useAssets({
     shouldSkipLoggedInState: false
-  });
-  const { values } = useFormikContext();
+  })
+  const { values } = useFormikContext()
   const {
     settings: {
       target: { slug }
     }
-  } = values;
+  } = values
 
   if (!slug || slug.length === 0 || loading) {
-    return description || "";
+    return description || ''
   }
 
   const assets =
-    typeof slug === "string"
+    typeof slug === 'string'
       ? projects.find(project => project.slug === slug)
-      : slug.map(item => projects.find(project => project.slug === item));
+      : slug.map(item => projects.find(project => project.slug === item))
 
-  let children;
+  let children
 
-  if (typeof slug !== "string") {
-    const shouldRenderTicker = slug.length > 1;
+  if (typeof slug !== 'string') {
+    const shouldRenderTicker = slug.length > 1
 
     children = (
       <>
         {assets.slice(0, 3).map(asset => (
           <div key={asset.id} className={styles.item}>
-            <ProjectIcon
-              size={16}
-              slug={asset.slug}
-              logoUrl={asset.logoUrl}
-            />
+            <ProjectIcon size={16} slug={asset.slug} logoUrl={asset.logoUrl} />
             <div className={styles.title}>
               {shouldRenderTicker ? asset.ticker : asset.name}
             </div>
@@ -50,25 +46,21 @@ const Assets = ({ description, isSmall }) => {
           </div>
         )}
       </>
-    );
+    )
   } else {
     children = (
       <div className={styles.item}>
-        <ProjectIcon
-          size={16}
-          slug={assets.slug}
-          logoUrl={assets.logoUrl}
-        />
+        <ProjectIcon size={16} slug={assets.slug} logoUrl={assets.logoUrl} />
         <div className={styles.title}>{assets.name}</div>
       </div>
-    );
+    )
   }
 
   return (
     <div className={cx(styles.wrapper, isSmall && styles.small)}>
       {children}
     </div>
-  );
-};
+  )
+}
 
-export default Assets;
+export default Assets
