@@ -17,7 +17,8 @@ const ProjectListItem = forwardRef(
       slug,
       logoUrl,
       name,
-      ticker
+      ticker,
+      isWords
     },
     ref
   ) => (
@@ -38,16 +39,20 @@ const ProjectListItem = forwardRef(
       >
         <Checkbox isActive={isAssetInList} />
         <div className={styles.asset}>
-          <ProjectIcon
-            className={styles.icon}
-            size={16}
-            slug={slug}
-            logoUrl={logoUrl}
-          />
-          <span className={styles.name}>{name}</span>
-          <Label accent='waterloo' className={styles.label}>
-            ({ticker})
-          </Label>
+          {!isWords && (
+            <ProjectIcon
+              className={styles.icon}
+              size={16}
+              slug={slug}
+              logoUrl={logoUrl}
+            />
+          )}
+          <span className={styles.name}>{isWords ? slug : name}</span>
+          {!isWords && (
+            <Label accent='waterloo' className={styles.label}>
+              ({ticker})
+            </Label>
+          )}
         </div>
       </div>
     </div>

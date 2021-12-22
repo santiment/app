@@ -44,7 +44,9 @@ const ProjectsList = ({
   listItemsIds,
   onToggleProject,
   sections,
-  searchTerm
+  searchTerm,
+  isSocial,
+  isWords
 }) => {
   const rowRenderer = useCallback(
     ({ key, index, style, parent }) => {
@@ -98,6 +100,7 @@ const ProjectsList = ({
                 logoUrl={logoUrl}
                 name={name}
                 ticker={ticker}
+                isWords={isWords}
               />
             )}
           </CellMeasurer>
@@ -108,7 +111,7 @@ const ProjectsList = ({
   )
 
   const wrapperStyles = {
-    height: '443px'
+    height: isSocial || isWords ? '393px' : '443px'
   }
 
   const getRowCount = () =>

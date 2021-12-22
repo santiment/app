@@ -18,7 +18,8 @@ const WatchlistAndScreenerSelector = ({
     visitedSteps,
     setVisitedSteps
   },
-  type
+  type,
+  isSocial
 }) => {
   const [, { value }, { setValue }] = useField(
     type === 'watchlist'
@@ -58,7 +59,7 @@ const WatchlistAndScreenerSelector = ({
     } else {
       setValue(id)
     }
-    if (type === 'watchlist') {
+    if (type === 'watchlist' && !isSocial) {
       setMetric('')
       setTimeWindow('')
       setOperation({})
@@ -67,21 +68,25 @@ const WatchlistAndScreenerSelector = ({
 
   let children = (
     <>
-      <div className={styles.titleWrapper}>
-        <StepTitle
-          iconType='view-option'
-          title={type === 'watchlist' ? 'Select Watchlist' : 'Select Screener'}
-          className={styles.title}
-        />
-        {value && (
-          <NextStep
-            label={
-              type === 'watchlist' ? 'Choose Metric' : 'Notification settings'
+      {!isSocial && (
+        <div className={styles.titleWrapper}>
+          <StepTitle
+            iconType='view-option'
+            title={
+              type === 'watchlist' ? 'Select Watchlist' : 'Select Screener'
             }
-            onClick={handleNextClick}
+            className={styles.title}
           />
-        )}
-      </div>
+          {value && (
+            <NextStep
+              label={
+                type === 'watchlist' ? 'Choose Metric' : 'Notification settings'
+              }
+              onClick={handleNextClick}
+            />
+          )}
+        </div>
+      )}
       <InputWithIcon
         type='text'
         icon='search-small'
@@ -94,6 +99,7 @@ const WatchlistAndScreenerSelector = ({
         onChange={e => setSearchTerm(e.target.value)}
       />
       <WatchlistsAndScreenersList
+        isSocial={isSocial}
         items={filteredItems}
         selectedWatchlist={value}
         onSelect={handleSelectWatchlist}

@@ -14,9 +14,13 @@ const AssetSelector = ({
     selectedStep,
     visitedSteps,
     setVisitedSteps
-  }
+  },
+  isSocial,
+  isWords
 }) => {
-  const [, { value }, { setValue: setSlug }] = useField('settings.target.slug')
+  const [, { value }, { setValue: setSlug }] = useField(
+    isWords ? 'settings.target.word' : 'settings.target.slug'
+  )
   const [, , { setValue: setMetric }] = useField('settings.metric')
   const [, , { setValue: setTimeWindow }] = useField('settings.time_window')
   const [, , { setValue: setOperation }] = useField('settings.operation')
@@ -50,12 +54,14 @@ const AssetSelector = ({
           setListItems([])
         }
 
-        setMetric('')
-        setTimeWindow('')
-        setOperation({})
+        if (!isSocial) {
+          setMetric('')
+          setTimeWindow('')
+          setOperation({})
+        }
       }
     },
-    [setListItems, listItems]
+    [setListItems, listItems, isWords]
   )
 
   const toggleAsset = useCallback(
@@ -101,19 +107,19 @@ const AssetSelector = ({
           data: listItems
         },
         {
-          title: 'Assets',
+          title: isWords ? 'Most popular' : 'Assets',
           data: filteredProjects
         }
       ]
     } else {
       return [
         {
-          title: 'Assets',
+          title: isWords ? 'Most popular' : 'Assets',
           data: filteredProjects
         }
       ]
     }
-  }, [filteredProjects])
+  }, [filteredProjects, isWords])
 
   function handleNextClick () {
     setSelectedStep(selectedStep + 1)
@@ -125,26 +131,32 @@ const AssetSelector = ({
 
   let children = (
     <>
-      <div className={styles.titleWrapper}>
-        <StepTitle
-          iconType='assets'
-          title='Select Asset'
-          className={styles.title}
-        />
-        {listItems.length > 0 && (
-          <NextStep label='Choose Metric' onClick={handleNextClick} />
-        )}
-      </div>
+      {!isSocial && !isWords && (
+        <div className={styles.titleWrapper}>
+          <StepTitle
+            iconType='assets'
+            title='Select Asset'
+            className={styles.title}
+          />
+          {listItems.length > 0 && (
+            <NextStep label='Choose Metric' onClick={handleNextClick} />
+          )}
+        </div>
+      )}
       <InputWithIcon
         type='text'
         icon='search-small'
         iconPosition='left'
         className={styles.search}
-        placeholder='Search for asset'
+        placeholder={
+          isWords ? 'Type a word or choose from bellow' : 'Search for asset'
+        }
         value={searchTerm}
         onChange={e => setSearchTerm(e.target.value)}
       />
       <ProjectsList
+        isWords={isWords}
+        isSocial={isSocial}
         classes={styles}
         listItems={listItems}
         listItemsIds={listItemsIds}

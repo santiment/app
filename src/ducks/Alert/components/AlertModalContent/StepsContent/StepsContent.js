@@ -1,6 +1,8 @@
 import React from 'react'
+import SocialTrendsSelector from './entities/SocialTrendsSelector/SocialTrendsSelector'
+import WalletAndConditionsSelector from './entities/WalletAndConditionsSelector/WalletAndConditionsSelector'
 import WatchlistAndScreenerSelector from './entities/WatchlistAndScreenerSelector/WatchlistAndScreenerSelector'
-import AssetSelector from './entities/AssetsSelector/AssetSelector'
+import AssetSelector from './entities/AssetSelector/AssetSelector'
 import MetricAndConditions from './MetricAndConditions/MetricAndConditions'
 import NotificationAndPrivacy from './NotificationAndPrivacy/NotificationAndPrivacy'
 import NameAndDescription from './NameAndDescription/NameAndDescription'
@@ -9,6 +11,12 @@ const StepsContent = ({ selectorSettings }) => {
   const { selectedType, selectedStep } = selectorSettings
 
   switch (selectedType.subSteps[selectedStep].label) {
+    case 'Social trend': {
+      return <SocialTrendsSelector selectorSettings={selectorSettings} />
+    }
+    case 'Wallet & Conditions': {
+      return <WalletAndConditionsSelector selectorSettings={selectorSettings} />
+    }
     case 'Screener': {
       return (
         <WatchlistAndScreenerSelector

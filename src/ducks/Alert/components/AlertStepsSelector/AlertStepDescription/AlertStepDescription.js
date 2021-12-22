@@ -4,6 +4,7 @@ import Notifications from './steps/Notifications/Notifications'
 import Title from './steps/Title/Title'
 import MetricsAndConditions from './steps/MetricsAndConditions/MetricsAndConditions'
 import Assets from './steps/Assets/Assets'
+import WalletAndConditions from './steps/WalletAndConditions/WalletAndConditions'
 
 const DESCRIPTION_TYPES = {
   TITLE: 'title',
@@ -11,7 +12,8 @@ const DESCRIPTION_TYPES = {
   METRICS_AND_CONDITIONS: 'metrics_and_conditions',
   ASSETS: 'assets',
   WATCHLISTS: 'watchlists',
-  SCREENERS: 'screeners'
+  SCREENERS: 'screeners',
+  WALLET: 'wallet'
 }
 
 function checkType (type) {
@@ -34,6 +36,9 @@ function checkType (type) {
     case 'Select Screener':
     case 'Screener':
       return DESCRIPTION_TYPES.SCREENERS
+    case 'Choose Wallet & Conditions':
+    case 'Wallet & Conditions':
+      return DESCRIPTION_TYPES.WALLET
     default:
       return {}
   }
@@ -76,6 +81,15 @@ const AlertStepDescription = ({
     case DESCRIPTION_TYPES.SCREENERS: {
       return (
         <WatchlistAndScreener
+          selectedType={selectedType}
+          description={description}
+          isSmall={size === 'small'}
+        />
+      )
+    }
+    case DESCRIPTION_TYPES.WALLET: {
+      return (
+        <WalletAndConditions
           selectedType={selectedType}
           description={description}
           isSmall={size === 'small'}

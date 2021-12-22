@@ -20,7 +20,9 @@ export const useUpdateNameAndDescription = ({
     type: selectedType.title,
     settings: values.settings,
     skip:
-      selectedType.title !== 'Screener' && selectedType.title !== 'Watchlist'
+      selectedType.title !== 'Screener' &&
+      selectedType.title !== 'Watchlist' &&
+      selectedType.title !== 'Social trends'
   })
   const stepsLength = selectedType.steps.length
   const nameAndDescriptionIndex = stepsLength - 1
@@ -171,9 +173,141 @@ export const useUpdateNameAndDescription = ({
           }
           break
         }
+        case 'Wallet address': {
+          const {
+            cooldown,
+            isRepeating,
+            settings: {
+              channel,
+              selector: { slug, infrastructure },
+              target: { address },
+              operation,
+              time_window
+            }
+          } = values
+          const currentProject = projects.find(project => project.slug === slug)
+          let slugTicker = 'Screener'
+          const hasSlugTicker = currentProject && currentProject.ticker
+
+          if (hasSlugTicker) {
+            slugTicker = currentProject.ticker
+          }
+
+          if (hasSlugTicker && address && infrastructure) {
+            const { selectedCount, selectedOperation } = parseOperation(
+              operation
+            )
+            const conditionsStr = getConditionsStr({
+              operation: selectedOperation,
+              count: selectedCount,
+              timeWindow: time_window
+            })
+
+            setTitle(`${slugTicker} wallet ${address} ${conditionsStr || ''}`)
+
+            if (cooldown && channel.length > 0) {
+              const notificationsStr = getDescriptionStr({
+                cooldown,
+                channels: channel,
+                isRepeating
+              })
+
+              setDescription(
+                `Notify me when the balance of ${slugTicker.toLowerCase()} wallet ${address ||
+                  ''} ${conditionsStr || ''}. ${notificationsStr}`
+              )
+            }
+          } else {
+            setTitle('')
+          }
+          break
+        }
+        case 'Social trends': {
+          const {
+            cooldown,
+            isRepeating,
+            settings: {
+              channel,
+              target: { slug, word, watchlist_id }
+            }
+          } = values
+          let assets = 'Asset'
+          const noSlug =
+            typeof slug === 'string' ? !slug : slug && slug.length === 0
+          const noWord =
+            typeof word === 'string' ? !word : word && word.length === 0
+
+          let watchlistName = 'Watchlist'
+          const hasWatchlist = watchlist_id && watchlist && watchlist.name
+
+          if (hasWatchlist) {
+            watchlistName = watchlist.name
+          }
+
+          if (!noSlug && slug) {
+            assets =
+              typeof slug === 'string'
+                ? projects.find(project => project.slug === slug).name
+                : slug
+                    .map(
+                      item =>
+                        projects.find(project => project.slug === item).name
+                    )
+                    .join(', ')
+          }
+          if (!noWord && word) {
+            assets =
+              typeof word === 'string'
+                ? projects.find(project => project.slug === word).slug
+                : word
+                    .map(
+                      item =>
+                        projects.find(project => project.slug === item).slug
+                    )
+                    .join(', ')
+          }
+
+          if ((!noWord && word) || (!noSlug && slug) || hasWatchlist) {
+            if (!noSlug && slug) {
+              setTitle(`${assets || ''} in trending assets/projects`)
+            }
+            if (!noWord && word) {
+              setTitle(`${assets || ''} in trending words`)
+            }
+            if (hasWatchlist) {
+              setTitle(`${watchlistName || ''} in trending`)
+            }
+
+            if (cooldown && channel.length > 0) {
+              const notificationsStr = getDescriptionStr({
+                cooldown,
+                channels: channel,
+                isRepeating
+              })
+
+              if ((!noWord && word) || (!noSlug && slug)) {
+                setDescription(
+                  `Notify me when the ${assets} appears in social trends. ${notificationsStr}`
+                )
+              }
+
+              if (hasWatchlist) {
+                setDescription(
+                  `Notify me when the ${watchlistName} appears in social trends. ${notificationsStr}`
+                )
+              }
+            }
+          } else {
+            setTitle('')
+          }
+          break
+        }
         default:
           break
       }
     }
   }, [values])
 }
+
+// KICK wallet 0x008024771614f4290696b63ba3dd3a1ceb34d4d9 historical balance down 10% compared to 1 day(s) earlier
+// Notify me when the balance of kick wallet 0x008024771614f4290696b63ba3dd3a1ceb34d4d9 down 10% compared to 1 day(s) earlier. Send me notifications every 1 day(s) via telegram.

@@ -37,6 +37,17 @@ export const AVAILABLE_OPERATIONS = [
   }
 ]
 
+export const ETH_WALLETS_OPERATIONS = [
+  {
+    label: 'Amount down',
+    value: 'amount_down'
+  },
+  {
+    label: 'Amount up',
+    value: 'amount_up'
+  }
+]
+
 export const MULTIPLE_VALUES_OPERATIONS = [
   AVAILABLE_OPERATIONS[4],
   AVAILABLE_OPERATIONS[5],
