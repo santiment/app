@@ -49,19 +49,19 @@ const HistoricalBalance = ({
     setPriceAssets([...priceAssetsSet])
   }
 
-  function updateChartAssets (newChartAssets) {
-    const { length } = newChartAssets
-    if (length > ASSETS_LIMIT) return
+  function updateChartAssets (asset) {
+    if (Array.isArray(asset)) {
+      setChartAssets(asset.map(item => ({ ...item.value })))
+    } else {
+      if (chartAssets.length + 1 > ASSETS_LIMIT) return
 
-    const lastAsset = newChartAssets[length - 1]
-    if (chartAssets.length < length && lastAsset) {
-      const { slug } = lastAsset
+      setChartAssets([...chartAssets, asset.value])
+
+      const { slug } = asset.value
       if (!priceAssets.includes(slug)) {
         setPriceAssets([...priceAssets, slug])
       }
     }
-
-    setChartAssets(newChartAssets)
   }
 
   return (
