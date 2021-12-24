@@ -19,23 +19,6 @@ const searchProps = {
   searchPredicate: SEARCH_PREDICATE_ONLY_METRICS
 }
 
-//_: Array(4)
-// 0:
-// item:
-// category: "Financial"
-// fill: true
-// formatter: ƒ usdFormatter(val)
-// key: "volume_usd"
-// label: "Volume"
-// node: "bar"
-// [[Prototype]]: Object
-// subitems: []
-// [[Prototype]]: Object
-// 1: {item: {…}, subitems: Array(0)}
-// 2: {item: {…}, subitems: Array(0)}
-// 3: {item: {…}, subitems: Array(0)}
-// length: 4
-
 const suggestedMetrics = {
   Suggested: {
     _: [
