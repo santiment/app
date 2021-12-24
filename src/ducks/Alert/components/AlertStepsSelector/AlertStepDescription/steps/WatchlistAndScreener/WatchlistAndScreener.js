@@ -6,7 +6,7 @@ import styles from './WatchlistAndScreener.module.scss'
 
 const WatchlistAndScreener = ({ selectedType, description, isSmall }) => {
   const { values } = useFormikContext()
-  const watchlist = useWatchlistAndScreener({
+  const { watchlist } = useWatchlistAndScreener({
     type: selectedType.title,
     settings: values.settings,
     skip:

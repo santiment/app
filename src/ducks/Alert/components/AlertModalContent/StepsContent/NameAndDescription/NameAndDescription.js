@@ -7,7 +7,7 @@ import styles from './NameAndDescription.module.scss'
 
 const NameAndDescription = ({ selectorSettings }) => {
   const { selectedType, finishedSteps } = selectorSettings
-  const { submitForm, isSubmitting } = useFormikContext()
+  const { submitForm, isSubmitting, values } = useFormikContext()
   const [titleField] = useField('title')
   const [descriptionField] = useField('description')
 
@@ -47,7 +47,7 @@ const NameAndDescription = ({ selectorSettings }) => {
         className={styles.submit}
         onClick={handleSubmit}
       >
-        Create alert
+        {values.id ? 'Update' : 'Create'} alert
       </Button>
     </div>
   )

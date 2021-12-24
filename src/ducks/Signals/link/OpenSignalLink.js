@@ -92,7 +92,9 @@ const OpenSignalLink = ({ signal, children }) => {
       return <ScreenerSignalDialog signal={signal} trigger={trigger} />
     }
     default: {
-      return <AlertModal id={id} trigger={trigger} />
+      return (
+        <AlertModal modalTitle='Update alert for' id={id} trigger={trigger} />
+      )
     }
   }
 }

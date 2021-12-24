@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Form } from 'formik'
 import AlertModalSidebar from './components/AlertModalSidebar/AlertModalSidebar'
 import AlertModalContent from './components/AlertModalContent/AlertModalContent'
 import { useUpdateFinishedSteps } from './hooks/useUpdateFinishedSteps'
 import { useUpdateNameAndDescription } from './hooks/useUpdateNameAndDescription'
-import styles from './AlertModalFormMaster.module.scss'
+import styles from './AlertModalForm.module.scss'
 
 const AlertModalForm = ({ selectorSettings, resetForm, values }) => {
   const {
