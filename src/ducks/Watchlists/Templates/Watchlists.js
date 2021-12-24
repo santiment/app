@@ -13,6 +13,7 @@ const Watchlists = ({
   projectId,
   slug,
   onWatchlistClick,
+  withNewButton = true,
   classes = {}
 }) => (
   <>
@@ -46,11 +47,13 @@ const Watchlists = ({
         )}
       </div>
     </div>
-    <NewWatchlist
-      type={PROJECT}
-      openOnSuccess={false}
-      trigger={<NewBtn border className={styles.watchlistNew} />}
-    />
+    {withNewButton && (
+      <NewWatchlist
+        type={PROJECT}
+        openOnSuccess={false}
+        trigger={<NewBtn border className={styles.watchlistNew} />}
+      />
+    )}
   </>
 )
 

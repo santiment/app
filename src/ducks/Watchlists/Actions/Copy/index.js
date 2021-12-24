@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import Dialog from '@santiment-network/ui/Dialog'
-import Label from '@santiment-network/ui/Label'
 import { USER_EDIT_ASSETS_IN_LIST } from '../../../../actions/types'
 import { sortByAsDates } from '../../../../utils/sortMethods'
 import { showNotification } from '../../../../actions/rootActions'
@@ -161,14 +160,15 @@ const WatchlistCopyPopup = ({
           />
         </div>
         <div className={styles.watchlistsWrapper}>
-          <Label accent='waterloo' className={styles.heading}>
-            Watchlists
-          </Label>
+          <div className={styles.header}>
+            Choose watchlist below or Create new
+          </div>
           <Watchlists
             onWatchlistClick={onWatchlistClick}
             className={styles.wrapperList}
             classes={{ list: styles.watchlists }}
             lists={lists}
+            withNewButton={false}
           />
         </div>
       </Dialog.ScrollContent>
@@ -178,15 +178,15 @@ const WatchlistCopyPopup = ({
         </div>
       )}
       <Dialog.Actions className={styles.actions}>
-        <Dialog.Cancel onClick={close}>Cancel</Dialog.Cancel>
         <Dialog.Approve
           disabled={editWatchlistState.length > 0 || !isEditing}
           isLoading={editWatchlistState.length > 0}
           onClick={applyChanges}
           className={styles.approve}
         >
-          Apply
+          Copy assets
         </Dialog.Approve>
+        <Dialog.Cancel onClick={close}>Cancel</Dialog.Cancel>
       </Dialog.Actions>
     </Dialog>
   )
