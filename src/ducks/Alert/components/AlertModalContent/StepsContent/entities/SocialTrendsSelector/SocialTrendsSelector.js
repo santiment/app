@@ -20,6 +20,7 @@ const SocialTrendsSelector = ({
   const [, { value: target }, { setValue: setTarget }] = useField(
     'settings.target'
   )
+  const [, , { setValue: setOperation }] = useField('settings.operation')
   const {
     values: {
       settings: {
@@ -39,12 +40,15 @@ const SocialTrendsSelector = ({
   function handleSelectTarget (target) {
     if (target === 'slug') {
       setTarget({ slug: '' })
+      setOperation({ trending_project: true })
     }
     if (target === 'word') {
       setTarget({ word: '' })
+      setOperation({ trending_word: true })
     }
     if (target === 'watchlist_id') {
       setTarget({ watchlist_id: '' })
+      setOperation({ trending_project: true })
     }
   }
 

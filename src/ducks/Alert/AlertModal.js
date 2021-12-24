@@ -1,13 +1,17 @@
 import React, { useState } from 'react'
+import cx from 'classnames'
 import Dialog from '@santiment-network/ui/Dialog'
 import LoginPopup from '../../components/banners/feature/PopupBanner'
 import AlertTriggerButton from './components/AlertTriggerButton/AlertTriggerButton'
 import ConfirmClose from './components/ConfirmClose/ConfirmClose'
 import AlertModalFormMaster from './AlertModalFormMaster'
 import { useUser } from '../../stores/user'
+import { useSignal } from './hooks/useSignal'
+import { ALERT_TYPES } from './constants'
 import styles from './AlertModal.module.scss'
 
 const AlertModal = ({
+  id,
   disabled,
   triggerButtonProps,
   modalTitle,
@@ -18,6 +22,10 @@ const AlertModal = ({
   const { isLoggedIn } = useUser()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isClosing, setIsClosing] = useState(false)
+  const { data = {}, loading } = useSignal({
+    id,
+    skip: !id || !isModalOpen
+  })
 
   if (!isLoggedIn) {
     return (
@@ -29,6 +37,22 @@ const AlertModal = ({
       </LoginPopup>
     )
   }
+
+  const signal = data.trigger ? data.trigger.trigger : {}
+  const signalType = signal.settings
+    ? ALERT_TYPES.find(type => {
+        if (signal.settings.type === 'metric_signal') {
+          if (signal.settings.target.slug) {
+            return ALERT_TYPES[0]
+          }
+          if (signal.settings.target.watchlist_id) {
+            return ALERT_TYPES[1]
+          }
+        } else {
+          return type.settings.type === signal.settings.type
+        }
+      })
+    : defaultType
 
   return (
     <>
@@ -48,21 +72,29 @@ const AlertModal = ({
           )
         }
         classes={{
-          dialog: styles.dialog
+          dialog: cx(styles.dialog, isClosing && styles.hidden)
         }}
       >
-        <AlertModalFormMaster
-          defaultType={defaultType}
-          setIsModalOpen={setIsModalOpen}
-        />
+        {isModalOpen && (
+          <AlertModalFormMaster
+            isSignalLoading={loading}
+            signal={signal}
+            defaultType={signalType}
+            setIsModalOpen={setIsModalOpen}
+            isModalOpen={isModalOpen}
+          />
+        )}
       </Dialog>
       <ConfirmClose
         isOpen={isClosing}
         onApprove={() => {
-          setIsClosing(false)
           setIsModalOpen(false)
+          setIsClosing(false)
         }}
-        onCancel={() => setIsClosing(false)}
+        onCancel={() => {
+          setIsClosing(false)
+          setIsModalOpen(true)
+        }}
       />
     </>
   )

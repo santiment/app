@@ -35,11 +35,7 @@ export const useUpdateFinishedSteps = ({
           setFinishedSteps(prev => prev.filter(step => step !== 1))
         }
         const slug = values.settings.target.slug
-        if (
-          typeof slug === 'string'
-            ? slug
-            : values.settings.target.slug.length > 0
-        ) {
+        if (slug && (typeof slug === 'string' ? slug : slug.length > 0)) {
           !finishedSteps.has(0) && setFinishedSteps(prev => [...prev, 0])
         } else {
           setFinishedSteps(prev => prev.filter(step => step !== 0))

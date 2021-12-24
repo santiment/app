@@ -16,7 +16,7 @@ export const useUpdateNameAndDescription = ({
   })
   const [, , { setValue: setTitle }] = useField('title')
   const [, , { setValue: setDescription }] = useField('description')
-  const watchlist = useWatchlistAndScreener({
+  const { watchlist, isWatchlistLoading } = useWatchlistAndScreener({
     type: selectedType.title,
     settings: values.settings,
     skip:
@@ -28,7 +28,7 @@ export const useUpdateNameAndDescription = ({
   const nameAndDescriptionIndex = stepsLength - 1
 
   useEffect(() => {
-    if (selectedStep !== nameAndDescriptionIndex || !selectedStep) {
+    if (selectedStep !== nameAndDescriptionIndex) {
       switch (selectedType.title) {
         case 'Asset': {
           const {
@@ -57,16 +57,18 @@ export const useUpdateNameAndDescription = ({
                     .join(', ')
           }
 
-          const { selectedCount, selectedOperation } = parseOperation(operation)
-          const selectedMetric = getMetricByKey(metric)
-          const metricLabel = selectedMetric ? selectedMetric.label : 'metric'
-          const conditionsStr = getConditionsStr({
-            operation: selectedOperation,
-            count: selectedCount,
-            timeWindow: time_window
-          })
-
           if (operation && metric && time_window && hasSlug) {
+            const { selectedCount, selectedOperation } = parseOperation(
+              operation
+            )
+            const selectedMetric = getMetricByKey(metric)
+            const metricLabel = selectedMetric ? selectedMetric.label : 'metric'
+            const conditionsStr = getConditionsStr({
+              operation: selectedOperation,
+              count: selectedCount,
+              timeWindow: time_window
+            })
+
             setTitle(
               `${assets || ''} ${
                 metricLabel ? metricLabel.toLowerCase() : ''
@@ -244,7 +246,7 @@ export const useUpdateNameAndDescription = ({
             watchlistName = watchlist.name
           }
 
-          if (!noSlug && slug) {
+          if (!noSlug && slug && projects.length > 0) {
             assets =
               typeof slug === 'string'
                 ? projects.find(project => project.slug === slug).name
@@ -255,7 +257,7 @@ export const useUpdateNameAndDescription = ({
                     )
                     .join(', ')
           }
-          if (!noWord && word) {
+          if (!noWord && word && projects.length > 0) {
             assets =
               typeof word === 'string'
                 ? projects.find(project => project.slug === word).slug
@@ -306,8 +308,5 @@ export const useUpdateNameAndDescription = ({
           break
       }
     }
-  }, [values])
+  }, [values, loading, isWatchlistLoading])
 }
-
-// KICK wallet 0x008024771614f4290696b63ba3dd3a1ceb34d4d9 historical balance down 10% compared to 1 day(s) earlier
-// Notify me when the balance of kick wallet 0x008024771614f4290696b63ba3dd3a1ceb34d4d9 down 10% compared to 1 day(s) earlier. Send me notifications every 1 day(s) via telegram.

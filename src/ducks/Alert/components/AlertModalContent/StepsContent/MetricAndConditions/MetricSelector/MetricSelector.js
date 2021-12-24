@@ -19,6 +19,25 @@ const searchProps = {
   searchPredicate: SEARCH_PREDICATE_ONLY_METRICS
 }
 
+const suggestedMetrics = {
+  Suggested: {
+    _: [
+      {
+        item: { category: 'Suggested', label: 'Price', key: 'price_usd' },
+        subitems: []
+      },
+      {
+        item: {
+          category: 'Suggested',
+          label: 'Daily Active Addresses',
+          key: 'daily_active_addresses'
+        },
+        subitems: []
+      }
+    ]
+  }
+}
+
 const MetricSelector = ({ selectedMetric, metrics, target, onChange }) => {
   const [, , { setValue: setMetric }] = useField('settings.metric')
   const isBeta = useIsBetaMode()
@@ -41,7 +60,7 @@ const MetricSelector = ({ selectedMetric, metrics, target, onChange }) => {
   useEffect(() => {
     const submetrics = filterOnlyMetrics(allSubmetrics)
     const newCategories = getCategoryGraph(allMetrics, [], submetrics, isBeta)
-    setCategories(newCategories)
+    setCategories({ ...suggestedMetrics, ...newCategories })
   }, [metrics, allMetrics, isBeta])
 
   function handleSelectMetric (metric) {

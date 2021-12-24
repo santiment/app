@@ -8,10 +8,10 @@ export const useWatchlistAndScreener = ({ type, settings, skip }) => {
         settings.operation.selector &&
         settings.operation.selector.watchlist_id
 
-  const [watchlist] = useWatchlist({
+  const [watchlist, loading] = useWatchlist({
     id,
     skip: skip || !id
   })
 
-  return watchlist
+  return { watchlist, isWatchlistLoading: loading }
 }
