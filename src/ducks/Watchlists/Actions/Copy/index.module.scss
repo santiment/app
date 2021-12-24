@@ -113,8 +113,8 @@
 }
 
 .header {
-  font-size: 14px;
-  line-height: 20px;
+  @include text('body-3');
+
   display: flex;
   align-items: center;
   color: var(--waterloo);
