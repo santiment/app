@@ -98,7 +98,7 @@ const AlertModalFormMaster = ({
 
   if (isSignalLoading) {
     return (
-      <div className={styles.wrapper}>
+      <div>
         <PageLoader
           containerClass={styles.loaderWrapper}
           className={styles.loader}
