@@ -69,7 +69,7 @@ class ConfirmDialog extends PureComponent {
       >
         <Dialog.ScrollContent withPadding>
           {title && <div className={styles.title}>{title}</div>}
-          <div className={styles.description}>{description}</div>
+          {description && <div className={styles.description}>{description}</div>}
         </Dialog.ScrollContent>
         <Dialog.Actions className={styles.actions}>
           <Dialog.Approve onClick={this.onDeleteClick} isLoading={isLoading}>
