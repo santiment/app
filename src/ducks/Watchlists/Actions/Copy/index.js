@@ -160,9 +160,7 @@ const WatchlistCopyPopup = ({
           />
         </div>
         <div className={styles.watchlistsWrapper}>
-          <div className={styles.header}>
-            Choose watchlist below or Create new
-          </div>
+          <div className={styles.header}>Choose watchlist below</div>
           <Watchlists
             onWatchlistClick={onWatchlistClick}
             className={styles.wrapperList}

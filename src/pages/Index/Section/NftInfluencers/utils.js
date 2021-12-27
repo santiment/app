@@ -4,6 +4,8 @@ import Icon from '@santiment-network/ui/Icon'
 import accounts from './accounts.json'
 import styles from './index.module.scss'
 
+export const PAGE_SIZE_OPTIONS = [30, 60, 100]
+
 export const HOME_INDEX = [
   '#',
   'Twitter NFT Influencer',

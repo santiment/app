@@ -20,14 +20,13 @@
 
 .btn,
 .input {
-  height: 40px;
+  height: 32px;
   padding: 10px 16px;
 
   @include text('body-3');
 }
 
 .btn {
-  min-width: 116px;
   justify-content: center;
 }
 
