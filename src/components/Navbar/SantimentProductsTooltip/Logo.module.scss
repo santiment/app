@@ -3,10 +3,10 @@
 .logo {
   display: inline-flex;
   align-items: center;
-  transform: translateY(-3px);
 
   svg {
     fill: var(--rhino);
+    transform: translateY(-3px);
   }
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {

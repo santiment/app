@@ -59,8 +59,8 @@ const Logo = ({ className }) => (
         fill='#D2D6E7'
         d='M16 30.83a14.83 14.83 0 100-29.66 14.83 14.83 0 000 29.66zM32 16a16 16 0 11-32 0 16 16 0 0132 0z'
       />
-    </svg>
-    <span className={styles.logoText}>Sanbase</span> */}
+    </svg> */}
+    <span className={styles.logoText}>Sanbase</span>
   </Link>
 )
 
