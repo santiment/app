@@ -48,9 +48,8 @@ const AlertModal = ({
           if (signal.settings.target.watchlist_id) {
             return ALERT_TYPES[1]
           }
-        } else {
-          return type.settings.type === signal.settings.type
         }
+        return type.settings.type === signal.settings.type
       })
     : defaultType
 
