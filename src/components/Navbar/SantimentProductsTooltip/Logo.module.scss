@@ -7,7 +7,7 @@
   svg {
     fill: var(--rhino);
     transform: translateY(-3px);
-    margin-right: 10px;
+    margin-right: 2px;
   }
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
