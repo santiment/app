@@ -3,6 +3,7 @@
 .logo {
   display: inline-flex;
   align-items: center;
+  transform: translateY(-3px);
 
   svg {
     fill: var(--rhino);

@@ -30,7 +30,7 @@ const PageLoader = ({
           d='M16 30.83a14.83 14.83 0 100-29.66 14.83 14.83 0 000 29.66zM32 16a16 16 0 11-32 0 16 16 0 0132 0z'
         />
       </svg> */}
-      <Lottie animationData={logoAnimation} />
+      <Lottie animationData={logoAnimation} className={styles.logo} />
       <span className={styles.text}>{text}...</span>
     </div>
   </div>

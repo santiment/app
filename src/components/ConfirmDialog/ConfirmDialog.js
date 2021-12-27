@@ -7,7 +7,7 @@ class ConfirmDialog extends PureComponent {
 
   static defaultProps = {
     title: 'Do you want to delete this watchlist?',
-    description: 'This action cannot be undone',
+    description: 'Are you sure? This action cannot be undone.',
     confirmLabel: 'Delete',
     classes: {}
   }
@@ -65,13 +65,18 @@ class ConfirmDialog extends PureComponent {
         onClose={this.onClose}
         onOpen={this.openDialog}
         trigger={trigger}
-        title={title}
         classes={mergedClasses}
       >
         <Dialog.ScrollContent withPadding>
-          <div className={classes.description}>{description}</div>
+          {title && <div className={styles.title}>{title}</div>}
+          {description && (
+            <div className={styles.description}>{description}</div>
+          )}
         </Dialog.ScrollContent>
-        <Dialog.Actions>
+        <Dialog.Actions className={styles.actions}>
+          <Dialog.Approve onClick={this.onDeleteClick} isLoading={isLoading}>
+            {confirmLabel}
+          </Dialog.Approve>
           <Dialog.Cancel
             onClick={this.onClose}
             className={styles.cancel}
@@ -79,9 +84,6 @@ class ConfirmDialog extends PureComponent {
           >
             Cancel
           </Dialog.Cancel>
-          <Dialog.Approve onClick={this.onDeleteClick} isLoading={isLoading}>
-            {confirmLabel}
-          </Dialog.Approve>
         </Dialog.Actions>
       </Dialog>
     )

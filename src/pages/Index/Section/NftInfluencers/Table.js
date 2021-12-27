@@ -7,6 +7,7 @@ import {
   HOME_INDEX,
   PAGE_INDEX,
   DEFAULT_SORTING,
+  PAGE_SIZE_OPTIONS,
   Activity,
   Marketplace,
   getTwitterAccount,
@@ -17,7 +18,7 @@ import styles from './index.module.scss'
 
 const Table = ({ isHome = true }) => {
   const [pageIndex, setPageIndex] = useState(0)
-  const [pageSize, setPageSize] = useState(isHome ? 6 : 10)
+  const [pageSize, setPageSize] = useState(isHome ? 6 : 30)
   const [orderBy, setOrderBy] = useState('DATETIME')
   const [direction, setDirection] = useState('DESC')
   const { data, loading } = useNftQuery(pageIndex, pageSize, orderBy, direction)
@@ -103,6 +104,7 @@ const Table = ({ isHome = true }) => {
           pageSize,
           pageIndex,
           onChangePage: setPageIndex,
+          pageSizeOptions: PAGE_SIZE_OPTIONS,
           controlledPageCount: Math.ceil(maxAmount / pageSize),
           manualPagination: true
         }
