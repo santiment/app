@@ -124,7 +124,7 @@ const Assets = ({ watchlist, onChange }) => {
 const AssetItemDropdown = ({ checkedItems }) => (
   <>
     {checkedItems.length === 0 && (
-      <span className={cardStyles.ticker}>Select asset for watchlist</span>
+      <span className={cx(cardStyles.ticker, styles.mlzero)}>Select asset for watchlist</span>
     )}
     {checkedItems.length > 0 &&
       checkedItems.slice(0, VIEW_ITEM_COUNT).map((item, index) => {
@@ -136,7 +136,7 @@ const AssetItemDropdown = ({ checkedItems }) => (
         return (
           <div className={cx(cardStyles.name, styles.mrhalf)} key={item.id}>
             {item.name}{' '}
-            <span className={cx(styles.mlzero, cardStyles.ticker)}>
+            <span className={cx(cardStyles.ticker, styles.mlzero)}>
               {item.ticker}
             </span>{' '}
             {seprator}
