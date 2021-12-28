@@ -90,7 +90,7 @@ class EditableInputSetting extends PureComponent {
                 )}
                 accent='waterloo'
               >
-                {`${prefix || ''}${defaultValue}` ||
+                {(defaultValue && `${prefix || ''}${defaultValue}`) ||
                   `Please add your ${label.toLowerCase()}`}
               </Label>
             </div>
