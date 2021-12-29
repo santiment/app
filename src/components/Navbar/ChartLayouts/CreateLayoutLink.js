@@ -7,7 +7,7 @@ import styles from './LayoutsEmptySection.module.scss'
 const CreateLayoutLink = ({ className }) => (
   <Button
     as={Link}
-    to='/charts'
+    to='/charts/new'
     border
     className={cx(styles.createBtn, className)}
   >

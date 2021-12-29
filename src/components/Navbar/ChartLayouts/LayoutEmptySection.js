@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { SvgNew } from '../../Illustrations/NewCard'
 import CreateLayoutLink from './CreateLayoutLink'
 import styles from './LayoutsEmptySection.module.scss'
@@ -9,10 +8,7 @@ const LayoutsEmptySection = () => (
     <SvgNew />
 
     <span className={styles.description}>
-      <Link to='/charts' className={styles.link}>
-        Create
-      </Link>{' '}
-      your own chart layout for
+      <span className={styles.link}>Create</span> your own chart layout for
     </span>
     <span>quick token analysis</span>
 
