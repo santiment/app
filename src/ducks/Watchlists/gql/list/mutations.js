@@ -48,6 +48,8 @@ export function useUpdateWatchlist (type) {
         : newParams.isMonitored
     const listItems = newParams.listItems
       ? newParams.listItems
+      : type === 'SCREENER'
+      ? []
       : watchlist.listItems
 
     return mutate({
