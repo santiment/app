@@ -46,11 +46,13 @@ export function useUpdateWatchlist (type) {
       newParams.isMonitored === undefined
         ? watchlist.isMonitored
         : newParams.isMonitored
-    const listItems = newParams.listItems
-      ? newParams.listItems
-      : type === 'SCREENER'
-      ? []
-      : watchlist.listItems
+
+    const listItems =
+      type === 'SCREENER'
+        ? []
+        : newParams.listItems
+        ? newParams.listItems
+        : watchlist.listItems
 
     return mutate({
       variables: {
