@@ -181,8 +181,11 @@ export const useUpdateNameAndDescription = ({
             isRepeating,
             settings: {
               channel,
-              selector: { slug, infrastructure },
-              target: { address },
+              selector: { slug, infrastructure } = {
+                slug: '',
+                infrastructure: ''
+              },
+              target: { address } = { address: '' },
               operation,
               time_window
             }

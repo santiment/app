@@ -48,7 +48,7 @@ export const useUpdateFinishedSteps = ({
         } else {
           setFinishedSteps(prev => prev.filter(step => step !== 1))
         }
-        if (values.settings.target.watchlist_id) {
+        if (values.settings.target && values.settings.target.watchlist_id) {
           !finishedSteps.has(0) && setFinishedSteps(prev => [...prev, 0])
         } else {
           setFinishedSteps(prev => prev.filter(step => step !== 0))
@@ -68,6 +68,7 @@ export const useUpdateFinishedSteps = ({
       }
       case 'Wallet address': {
         if (
+          values.settings.target &&
           values.settings.target.address &&
           values.settings.selector &&
           values.settings.selector.slug &&

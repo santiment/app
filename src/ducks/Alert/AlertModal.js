@@ -17,7 +17,8 @@ const AlertModal = ({
   modalTitle,
   defaultOpen,
   trigger,
-  defaultType
+  defaultType,
+  signalData
 }) => {
   const { isLoggedIn } = useUser()
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -38,7 +39,8 @@ const AlertModal = ({
     )
   }
 
-  const signal = data.trigger ? data.trigger.trigger : {}
+  const signal = signalData || (data.trigger ? data.trigger.trigger : {})
+
   const signalType = signal.settings
     ? ALERT_TYPES.find(type => {
         if (signal.settings.type === 'metric_signal') {
