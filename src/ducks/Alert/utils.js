@@ -4,7 +4,7 @@ import { capitalizeStr } from '../../utils/utils'
 
 function formatFrequencyStr (cooldown) {
   const { amount: cooldownCount, format: cooldownPeriod } = parseIntervalString(
-    cooldown
+    cooldown || '5m'
   )
 
   switch (cooldownPeriod) {

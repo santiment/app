@@ -89,10 +89,34 @@ const AlertModalFormMaster = ({
   )
 
   const values = useMemo(() => {
+    const signalChannels =
+      (signal && signal.settings && signal.settings.channel) || []
+
     if (signal.id) {
-      return { ...signal }
+      return {
+        ...signal,
+        settings: {
+          ...signal.settings,
+          channel: Array.isArray(signalChannels) ? signalChannels : []
+        }
+      }
     }
-    return { ...initialValues, settings: selectedType.settings, ...signal }
+
+    const signalSettings = (signal && signal.settings) || {}
+
+    const settings = {
+      ...selectedType.settings,
+      ...signalSettings,
+      channel: signal && Array.isArray(signalChannels) ? signalChannels : []
+    }
+
+    return {
+      ...initialValues,
+      ...signal,
+      settings: {
+        ...settings
+      }
+    }
   }, [selectedType, signal])
 
   if (isSignalLoading) {

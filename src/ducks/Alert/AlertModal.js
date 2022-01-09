@@ -18,7 +18,8 @@ const AlertModal = ({
   modalTitle,
   defaultOpen,
   trigger,
-  defaultType
+  defaultType,
+  signalData
 }) => {
   const match = useRouteMatch('/alerts/:id')
   const history = useHistory()
@@ -49,7 +50,7 @@ const AlertModal = ({
     setIsClosing(false)
   }
 
-  const signal = data.trigger ? data.trigger.trigger : {}
+  const signal = signalData || (data.trigger ? data.trigger.trigger : {})
   const signalType = signal.settings
     ? ALERT_TYPES.find(type => {
         if (signal.settings.type === 'metric_signal') {
@@ -109,7 +110,7 @@ AlertModal.defaultProps = {
   modalTitle: 'Create alert for',
   disabled: false,
   defaultOpen: false,
-  defaultType: ALERT_TYPES[1]
+  defaultType: ALERT_TYPES[0]
 }
 
 export default AlertModal

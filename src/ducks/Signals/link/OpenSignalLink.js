@@ -1,7 +1,5 @@
 import React from 'react'
 import AlertModal from '../../Alert/AlertModal'
-import ScreenerSignalDialog from '../ScreenerSignal/ScreenerSignalDialog'
-import { METRIC_TYPES } from '../utils/constants'
 import styles from './OpenSignalLink.module.scss'
 
 const PERCENT_REGEXP = new RegExp(
@@ -74,11 +72,7 @@ export const prepareAlertTitle = title => {
 }
 
 const OpenSignalLink = ({ signal, children }) => {
-  const {
-    id,
-    title,
-    settings: { type }
-  } = signal
+  const { id, title } = signal
 
   const trigger = (
     <div>
@@ -87,16 +81,7 @@ const OpenSignalLink = ({ signal, children }) => {
     </div>
   )
 
-  switch (type) {
-    case METRIC_TYPES.SCREENER_SIGNAL: {
-      return <ScreenerSignalDialog signal={signal} trigger={trigger} />
-    }
-    default: {
-      return (
-        <AlertModal modalTitle='Update alert for' id={id} trigger={trigger} />
-      )
-    }
-  }
+  return <AlertModal modalTitle='Update alert for' id={id} trigger={trigger} />
 }
 
 export default OpenSignalLink
