@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
+import { useHistory, useRouteMatch } from 'react-router-dom'
 import Dialog from '@santiment-network/ui/Dialog'
 import LoginPopup from '../../components/banners/feature/PopupBanner'
 import AlertTriggerButton from './components/AlertTriggerButton/AlertTriggerButton'
@@ -19,8 +20,10 @@ const AlertModal = ({
   trigger,
   defaultType
 }) => {
+  const match = useRouteMatch('/alerts/:id')
+  const history = useHistory()
   const { isLoggedIn } = useUser()
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(defaultOpen)
   const [isClosing, setIsClosing] = useState(false)
   const { data = {}, loading } = useSignal({
     id,
@@ -36,6 +39,14 @@ const AlertModal = ({
         />
       </LoginPopup>
     )
+  }
+
+  function handleCloseDialog () {
+    if (match && match.params.id) {
+      history.push('/alerts')
+    }
+    setIsModalOpen(false)
+    setIsClosing(false)
   }
 
   const signal = data.trigger ? data.trigger.trigger : {}
@@ -58,7 +69,6 @@ const AlertModal = ({
       <Dialog
         withAnimation
         title={modalTitle}
-        defaultOpen={defaultOpen}
         open={isModalOpen}
         onOpen={() => setIsModalOpen(true)}
         onClose={() => setIsClosing(true)}
@@ -79,17 +89,13 @@ const AlertModal = ({
             isSignalLoading={loading}
             signal={signal}
             defaultType={signalType}
-            setIsModalOpen={setIsModalOpen}
-            isModalOpen={isModalOpen}
+            handleCloseDialog={handleCloseDialog}
           />
         )}
       </Dialog>
       <ConfirmClose
         isOpen={isClosing}
-        onApprove={() => {
-          setIsModalOpen(false)
-          setIsClosing(false)
-        }}
+        onApprove={handleCloseDialog}
         onCancel={() => {
           setIsClosing(false)
           setIsModalOpen(true)
@@ -102,7 +108,8 @@ const AlertModal = ({
 AlertModal.defaultProps = {
   modalTitle: 'Create alert for',
   disabled: false,
-  defaultOpen: false
+  defaultOpen: false,
+  defaultType: ALERT_TYPES[1]
 }
 
 export default AlertModal

@@ -95,7 +95,7 @@ const MoreSignalActions = ({
         {editable && (
           <div className={cx(styles.popupItem, styles.popupButton)}>
             <Link
-              to={`/alerts/${signalId}/edit${window.location.search}`}
+              to={`/alerts/${signalId}${window.location.search}`}
               className={styles.link}
             >
               Edit
