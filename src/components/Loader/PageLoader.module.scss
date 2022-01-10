@@ -5,6 +5,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: 80vh;
   height: 100%;
 
   @include responsive('phone', 'phone-xs') {
@@ -33,4 +34,5 @@
 .text {
   color: var(--rhino);
   padding-left: 5px;
+  margin-top: 16px;
 }
