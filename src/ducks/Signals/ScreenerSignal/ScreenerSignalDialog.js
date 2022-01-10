@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import memoize from 'lodash.memoize'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
