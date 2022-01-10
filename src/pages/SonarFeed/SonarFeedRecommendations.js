@@ -1,9 +1,9 @@
 import React from 'react'
 import SignalCardsGrid from '../../components/SignalCard/SignalCardsGrid'
-import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
-import { useFeaturedUserTriggers } from '../../ducks/Signals/common/useFeaturedUserTriggers'
 import EmptySection from '../../components/EmptySection/EmptySection'
 import PageLoader from '../../components/Loader/PageLoader'
+import AlertModal from '../../ducks/Alert/AlertModal'
+import { useFeaturedUserTriggers } from '../../ducks/Signals/common/useFeaturedUserTriggers'
 import styles from './SonarFeedRecommendations.module.scss'
 
 const SonarFeedRecommendations = ({
@@ -14,7 +14,15 @@ const SonarFeedRecommendations = ({
     <div className={styles.wrapper}>
       <EmptySection className={styles.empty}>
         <div className={styles.description}>{description}</div>
-        {showButton && <SignalMasterModalForm label='Add first alert' />}
+        {showButton && (
+          <AlertModal
+            triggerButtonProps={{
+              label: 'Add first alert',
+              variant: 'fill',
+              border: false
+            }}
+          />
+        )}
       </EmptySection>
     </div>
   )

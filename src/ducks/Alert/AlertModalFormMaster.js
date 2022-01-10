@@ -3,7 +3,6 @@ import { Formik } from 'formik'
 import { connect } from 'react-redux'
 import PageLoader from '../../components/Loader/PageLoader'
 import AlertModalForm from './AlertModalForm'
-import { ALERT_TYPES } from './constants'
 import { createTrigger, updateTrigger } from '../Signals/common/actions'
 import styles from './AlertModalFormMaster.module.scss'
 
@@ -30,7 +29,7 @@ const AlertModalFormMaster = ({
   defaultType,
   createAlert,
   updateAlert,
-  setIsModalOpen,
+  handleCloseDialog,
   signal,
   isSignalLoading
 }) => {
@@ -63,7 +62,7 @@ const AlertModalFormMaster = ({
       createAlert(values)
     }
     setSubmitting(false)
-    setIsModalOpen(false)
+    handleCloseDialog()
   }
 
   const selectorSettings = useMemo(
@@ -142,10 +141,6 @@ const AlertModalFormMaster = ({
       )}
     </Formik>
   )
-}
-
-AlertModalFormMaster.defaultProps = {
-  defaultType: ALERT_TYPES[0]
 }
 
 const mapDispatchToProps = dispatch => ({

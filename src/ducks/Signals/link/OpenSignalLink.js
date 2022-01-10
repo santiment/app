@@ -1,7 +1,5 @@
 import React from 'react'
 import AlertModal from '../../Alert/AlertModal'
-import ScreenerSignalDialog from '../ScreenerSignal/ScreenerSignalDialog'
-import { METRIC_TYPES } from '../utils/constants'
 import styles from './OpenSignalLink.module.scss'
 
 const PERCENT_REGEXP = new RegExp(

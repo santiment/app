@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
+import { useHistory, useRouteMatch } from 'react-router-dom'
 import Dialog from '@santiment-network/ui/Dialog'
 import LoginPopup from '../../components/banners/feature/PopupBanner'
 import AlertTriggerButton from './components/AlertTriggerButton/AlertTriggerButton'
@@ -20,8 +21,10 @@ const AlertModal = ({
   defaultType,
   signalData
 }) => {
+  const match = useRouteMatch('/alerts/:id')
+  const history = useHistory()
   const { isLoggedIn } = useUser()
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(defaultOpen)
   const [isClosing, setIsClosing] = useState(false)
   const { data = {}, loading } = useSignal({
     id,
@@ -39,8 +42,15 @@ const AlertModal = ({
     )
   }
 
-  const signal = signalData || (data.trigger ? data.trigger.trigger : {})
+  function handleCloseDialog () {
+    if (match && match.params.id) {
+      history.push('/alerts')
+    }
+    setIsModalOpen(false)
+    setIsClosing(false)
+  }
 
+  const signal = signalData || (data.trigger ? data.trigger.trigger : {})
   const signalType = signal.settings
     ? ALERT_TYPES.find(type => {
         if (signal.settings.type === 'metric_signal') {
@@ -60,7 +70,6 @@ const AlertModal = ({
       <Dialog
         withAnimation
         title={modalTitle}
-        defaultOpen={defaultOpen}
         open={isModalOpen}
         onOpen={() => setIsModalOpen(true)}
         onClose={() => setIsClosing(true)}
@@ -81,17 +90,13 @@ const AlertModal = ({
             isSignalLoading={loading}
             signal={signal}
             defaultType={signalType}
-            setIsModalOpen={setIsModalOpen}
-            isModalOpen={isModalOpen}
+            handleCloseDialog={handleCloseDialog}
           />
         )}
       </Dialog>
       <ConfirmClose
         isOpen={isClosing}
-        onApprove={() => {
-          setIsModalOpen(false)
-          setIsClosing(false)
-        }}
+        onApprove={handleCloseDialog}
         onCancel={() => {
           setIsClosing(false)
           setIsModalOpen(true)
@@ -104,7 +109,8 @@ const AlertModal = ({
 AlertModal.defaultProps = {
   modalTitle: 'Create alert for',
   disabled: false,
-  defaultOpen: false
+  defaultOpen: false,
+  defaultType: ALERT_TYPES[0]
 }
 
 export default AlertModal
