@@ -57,9 +57,15 @@ const AlertModalFormMaster = ({
 
   function handleSubmit (values, { setSubmitting }) {
     if (signal.id) {
-      updateAlert(values)
+      updateAlert({
+        ...values,
+        settings: { ...values.settings, type: selectedType.settings.type }
+      })
     } else {
-      createAlert(values)
+      createAlert({
+        ...values,
+        settings: { ...values.settings, type: selectedType.settings.type }
+      })
     }
     setSubmitting(false)
     handleCloseDialog()
@@ -93,6 +99,17 @@ const AlertModalFormMaster = ({
       (signal && signal.settings && signal.settings.channel) || []
 
     if (signal.id) {
+      if (selectedType.settings.type !== signal.settings.type) {
+        return {
+          id: signal.id,
+          isActive: signal.isActive,
+          isPublic: signal.isPublic,
+          isRepeating: signal.isRepeating,
+          ...initialValues,
+          settings: selectedType.settings
+        }
+      }
+
       return {
         ...signal,
         settings: {

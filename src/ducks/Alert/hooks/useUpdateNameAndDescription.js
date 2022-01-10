@@ -261,13 +261,22 @@ export const useUpdateNameAndDescription = ({
                     .join(', ')
           }
           if (!noWord && word && projects.length > 0) {
+            const projectItem = projects.find(
+              project => project.slug === word
+            ) || {
+              slug: word
+            }
             assets =
               typeof word === 'string'
-                ? projects.find(project => project.slug === word).slug
+                ? projectItem.slug
                 : word
                     .map(
                       item =>
-                        projects.find(project => project.slug === item).slug
+                        (
+                          projects.find(project => project.slug === item) || {
+                            slug: item
+                          }
+                        ).slug
                     )
                     .join(', ')
           }
