@@ -285,8 +285,8 @@ export const ALERT_TYPES = [
     settings: {
       type: 'trending_words',
       channel: [],
-      target: { watchlist_id: '', word: '', slug: '' },
-      operation: {}
+      target: { slug: '' },
+      operation: { trending_project: true }
     },
     steps: [
       {
