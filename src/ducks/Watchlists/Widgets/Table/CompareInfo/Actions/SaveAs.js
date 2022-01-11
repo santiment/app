@@ -21,7 +21,7 @@ const SaveAs = ({ selected, onRemove, selectedText }) => {
       className={tableStyles.tooltip_oneline}
       trigger={
         <div onClick={onClick}>
-          <Icon type='copy' className={styles.icon} />
+          <Icon type='watchlist-plus' className={styles.icon} />
         </div>
       }
     >
