@@ -55,24 +55,7 @@ const ChannelsSelector = () => {
         .then(registrations => setIsPushDisabled(!getSanSonarSW(registrations)))
   }, [setIsPushDisabled])
 
-  const updateDefaultSettings = useCallback(() => {
-    const selected = []
-
-    if (isEmailConnected) {
-      selected.push('email')
-    }
-    if (isTelegramConnected) {
-      selected.push('telegram')
-    }
-
-    setValue(selected)
-  }, [setValue, isEmailConnected, isTelegramConnected])
-
   useEffect(() => {
-    if (value.length === 0) {
-      updateDefaultSettings()
-    }
-
     checkPushAvailability()
   }, [])
 

@@ -26,6 +26,7 @@ const AlertModal = ({
   const { isLoggedIn } = useUser()
   const [isModalOpen, setIsModalOpen] = useState(defaultOpen)
   const [isClosing, setIsClosing] = useState(false)
+  const [isEdited, setIsEdited] = useState(false)
   const { data = {}, loading } = useSignal({
     id,
     skip: !id || !isModalOpen
@@ -34,10 +35,12 @@ const AlertModal = ({
   if (!isLoggedIn) {
     return (
       <LoginPopup>
-        <AlertTriggerButton
-          disabled={disabled}
-          triggerButtonProps={triggerButtonProps}
-        />
+        {trigger || (
+          <AlertTriggerButton
+            disabled={disabled}
+            triggerButtonProps={triggerButtonProps}
+          />
+        )}
       </LoginPopup>
     )
   }
@@ -72,7 +75,13 @@ const AlertModal = ({
         title={modalTitle}
         open={isModalOpen}
         onOpen={() => setIsModalOpen(true)}
-        onClose={() => setIsClosing(true)}
+        onClose={() => {
+          if (isEdited) {
+            setIsClosing(true)
+          } else {
+            setIsModalOpen(false)
+          }
+        }}
         trigger={
           trigger || (
             <AlertTriggerButton
@@ -91,6 +100,7 @@ const AlertModal = ({
             signal={signal}
             defaultType={signalType}
             handleCloseDialog={handleCloseDialog}
+            setIsEdited={setIsEdited}
           />
         )}
       </Dialog>
