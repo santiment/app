@@ -24,7 +24,8 @@ const TableTop = ({
   sorting,
   setOrderBy,
   activeColumns,
-  updateActiveColumnsKeys
+  updateActiveColumnsKeys,
+  toggleSelected
 }) => {
   const [refreshTimestamp, setRefreshTimestamp] = useState(Date.now)
   const disabledComparision = comparingAssets.length < 2
@@ -67,6 +68,7 @@ const TableTop = ({
               selected={comparingAssets}
               watchlist={watchlist}
               refetchAssets={refetchAssets}
+              cleanAll={() => toggleSelected(false)}
             />
           )}
         </div>

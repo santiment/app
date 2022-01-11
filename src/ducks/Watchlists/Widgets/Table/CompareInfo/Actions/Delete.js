@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import DarkTooltip from '../../../../../../components/Tooltip/DarkTooltip'
 import tableStyles from '../../AssetsTable.module.scss'
@@ -21,7 +22,7 @@ const Delete = ({ selected, onRemove, selectedText }) => {
       className={tableStyles.tooltip_oneline}
       trigger={
         <div onClick={onClick}>
-          <Icon type='remove' className={styles.remove} />
+          <Icon type='remove' className={cx(styles.icon, styles.remove)} />
         </div>
       }
     >

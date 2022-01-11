@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import TableTop from './TableTop'
 import Table from '../../../Table'
 import { usePriceGraph } from './PriceGraph/hooks'
@@ -36,6 +36,7 @@ const AssetsTable = ({
   updateActiveColumnsKeys,
   fetchAllColumns
 }) => {
+  const [toggleSelected, setToggleSelected] = useState()
   const defaultSorting = useMemo(
     () => [{ id: sorting.metric, desc: sorting.direction === 'desc' }],
     [sorting]
@@ -84,6 +85,7 @@ const AssetsTable = ({
         setOrderBy={setOrderBy}
         activeColumns={activeColumns}
         updateActiveColumnsKeys={updateActiveColumnsKeys}
+        toggleSelected={toggleSelected}
       />
       <Table
         data={data}
@@ -129,6 +131,7 @@ const AssetsTable = ({
           headerColumn: styles.headerColumn,
           bodyColumn: styles.bodyColumn
         }}
+        onToggle={toggleFunction => setToggleSelected(() => toggleFunction)}
       />
     </>
   )
