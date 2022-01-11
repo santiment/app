@@ -3,6 +3,8 @@ import { store } from '../../../../../../redux'
 import { showNotification } from '../../../../../../actions/rootActions'
 import NotificationActions from '../../../../../../components/NotificationActions/NotificationActions'
 import Delete from './Delete'
+import Copy from './Copy'
+import SaveAs from './SaveAs'
 import styles from './Actions.module.scss'
 
 const reportError = err =>
@@ -45,6 +47,16 @@ const Actions = ({ selected, watchlist, onAdd, onRemove }) => {
 
   return (
     <div className={styles.actions}>
+      <Copy
+        selected={selected}
+        onRemove={removeHandler}
+        selectedText={selectedText}
+      />
+      <SaveAs
+        selected={selected}
+        onRemove={removeHandler}
+        selectedText={selectedText}
+      />
       <Delete
         selected={selected}
         onRemove={removeHandler}

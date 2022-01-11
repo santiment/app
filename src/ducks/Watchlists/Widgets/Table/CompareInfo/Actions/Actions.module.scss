@@ -1,16 +1,32 @@
 @import '~@santiment-network/ui/mixins';
 
 .actions {
-    margin-right: 24px;
+    margin-right: 8px;
     line-height: 0;
-  
+    display: flex;
+    align-items: center;
+
+    svg {
+      margin-left: 16px;
+      margin-right: 16px;
+      padding: 4px 0;
+    }
+
+    & > div:not(:last-child) {
+      border-right: 1px solid var(--porcelain);
+    }
+}
+
+.icon {
+  cursor: pointer;
+  fill: var(--waterloo);
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
 }
 
 .remove {
-  cursor: pointer;
-
-  fill: var(--waterloo);
-  
   &:hover {
     fill: var(--persimmon);
   }

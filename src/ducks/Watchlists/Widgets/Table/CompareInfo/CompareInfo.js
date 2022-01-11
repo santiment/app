@@ -41,7 +41,7 @@ const CompareInfo = ({
       <div className={styles.info}>
         <div className={styles.text}>
           {selected.length} asset{selected.length !== 1 ? 's are ' : ' is '}
-          selected.
+          selected
         </div>
 
         {selected.length > 0 && cleanAll && (

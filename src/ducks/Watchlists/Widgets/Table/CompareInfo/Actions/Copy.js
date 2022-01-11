@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
-import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import DarkTooltip from '../../../../../../components/Tooltip/DarkTooltip'
 import tableStyles from '../../AssetsTable.module.scss'
 import styles from './Actions.module.scss'
 
-const Delete = ({ selected, onRemove, selectedText }) => {
+const Copy = ({ selected, onRemove, selectedText }) => {
   const [loading, setLoading] = useState(false)
 
   function onClick () {
@@ -22,13 +21,13 @@ const Delete = ({ selected, onRemove, selectedText }) => {
       className={tableStyles.tooltip_oneline}
       trigger={
         <div onClick={onClick}>
-          <Icon type='remove' className={cx(styles.icon, styles.remove)} />
+          <Icon type='copy' className={styles.icon} />
         </div>
       }
     >
-      Delete {selectedText} from the watchlist
+      Copy {selectedText} to watchlist
     </DarkTooltip>
   )
 }
 
-export default Delete
+export default Copy

@@ -31,7 +31,8 @@ const Table = ({
     rowSelectSettings
   } = EMPTY_OBJ,
   className,
-  classes = EMPTY_OBJ
+  classes = EMPTY_OBJ,
+  onToggle
 }) => {
   const { isLoading, repeatLoading } = loadingSettings || EMPTY_OBJ
   const { allowSort, defaultSorting } = sortingSettings || EMPTY_OBJ
@@ -84,6 +85,7 @@ const Table = ({
     setPageSize,
     setSortBy,
     selectedFlatRows,
+    toggleAllRowsSelected,
     state: { pageIndex, pageSize, sortBy }
   } = useTable(
     {
@@ -130,6 +132,12 @@ const Table = ({
     previousPage,
     pageSizeOptions
   }
+
+  useEffect(() => {
+    if (onToggle) {
+      onToggle(toggleAllRowsSelected)
+    }
+  }, [toggleAllRowsSelected])
 
   useEffect(() => {
     if (onChangeSelectedRows) {
