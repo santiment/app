@@ -4,13 +4,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 0 0 24px;
+  margin: 0 0 0 8px;
 
   @include text('body-3');
 }
 
 .info {
   display: flex;
+  align-items: center;
+  background: var(--athens);
+  border-radius: 4px;
+  padding: 6px 12px;
 }
 
 .text {
@@ -18,7 +22,7 @@
 }
 
 .clean {
-  margin-left: 4px;
+  margin-left: 12px;
   color: var(--jungle-green);
   cursor: pointer;
 

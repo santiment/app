@@ -18,6 +18,7 @@ const CompareInfo = ({
       {type === 'PROJECT' && (
         <Actions
           selected={selected.map(s => ({ projectId: parseInt(s.id) }))}
+          assets={selected}
           watchlist={watchlist}
           onAdd={(watchlistId, listItems, onAddDone) =>
             addWatchlistItems({
@@ -41,7 +42,7 @@ const CompareInfo = ({
       <div className={styles.info}>
         <div className={styles.text}>
           {selected.length} asset{selected.length !== 1 ? 's are ' : ' is '}
-          selected.
+          selected
         </div>
 
         {selected.length > 0 && cleanAll && (

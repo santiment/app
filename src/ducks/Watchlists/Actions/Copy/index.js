@@ -18,15 +18,15 @@ const WatchlistCopyPopup = ({
   watchlistUi: { editableWatchlists },
   id: currentId,
   sendChanges,
-  setNotification
+  setNotification,
+  checkedAssets = new Set()
 }) => {
   const { isLoggedIn } = useUser()
-
   const [watchlists] = useProjectWatchlists()
   const [isShown, setIsShown] = useState(false)
   const [isEditing, setEditing] = useState(false)
   const [warning, setWarning] = useState(false)
-  const [assetsToCopy, setAssetsToCopy] = useState(new Set())
+  const [assetsToCopy, setAssetsToCopy] = useState(checkedAssets)
   const [watchlistsToCopy, setWatchlistsToCopy] = useState(new Set())
   const [editWatchlistState, setEditWatchlistState] = useState(
     editableWatchlists

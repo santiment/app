@@ -8,7 +8,7 @@ import ProPopupWrapper from '../../../../components/ProPopup/Wrapper'
 import LoginPopup from '../../../../components/banners/feature/PopupBanner'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 
-const SaveAs = ({ watchlist, trigger, type }) => {
+const SaveAs = ({ watchlist, trigger, type, prefix = 'Duplicate' }) => {
   const { isLoggedIn } = useUser()
   const title = getTitleByWatchlistType(type)
   const { isPro } = useUserSubscriptionStatus()
@@ -41,7 +41,7 @@ const SaveAs = ({ watchlist, trigger, type }) => {
       isLoading={loading}
       toggleOpen={toggleOpen}
       onFormSubmit={onSubmit}
-      title={'Duplicate ' + title}
+      title={`${prefix} ${title}`}
       settings={{ name, description }}
       watchlist={watchlist}
     />

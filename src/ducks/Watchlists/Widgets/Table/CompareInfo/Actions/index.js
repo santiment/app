@@ -3,6 +3,8 @@ import { store } from '../../../../../../redux'
 import { showNotification } from '../../../../../../actions/rootActions'
 import NotificationActions from '../../../../../../components/NotificationActions/NotificationActions'
 import Delete from './Delete'
+import Copy from './Copy'
+import SaveAs from './SaveAs'
 import styles from './Actions.module.scss'
 
 const reportError = err =>
@@ -14,7 +16,7 @@ const reportError = err =>
     })
   )
 
-const Actions = ({ selected, watchlist, onAdd, onRemove }) => {
+const Actions = ({ selected, watchlist, onAdd, onRemove, assets }) => {
   const selectedText = useMemo(
     () => `${selected.length} ${selected.length > 1 ? 'items' : 'item'}`,
     [selected]
@@ -44,13 +46,22 @@ const Actions = ({ selected, watchlist, onAdd, onRemove }) => {
   }
 
   return (
-    <div className={styles.actions}>
-      <Delete
-        selected={selected}
-        onRemove={removeHandler}
-        selectedText={selectedText}
-      />
-    </div>
+    <>
+      <div className={styles.actions}>
+        <Copy
+          selectedText={selectedText}
+          watchlist={watchlist}
+          assets={assets}
+          selected={selected}
+        />
+        <SaveAs selectedText={selectedText} watchlist={watchlist} />
+        <Delete
+          selected={selected}
+          onRemove={removeHandler}
+          selectedText={selectedText}
+        />
+      </div>
+    </>
   )
 }
 
