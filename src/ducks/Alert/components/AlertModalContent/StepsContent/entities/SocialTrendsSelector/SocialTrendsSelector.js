@@ -103,7 +103,7 @@ const SocialTrendsSelector = ({
         onSelectOption={handleSelectTarget}
         variant='border'
       />
-      {children}
+      <div className={styles.content}>{children}</div>
     </div>
   )
 }

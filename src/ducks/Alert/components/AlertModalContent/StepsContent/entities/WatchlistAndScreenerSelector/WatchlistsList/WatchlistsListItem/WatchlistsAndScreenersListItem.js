@@ -21,7 +21,7 @@ const WatchlistsAndScreenersListItem = forwardRef(
             {name}
             {isSelectedItem && (
               <Icon
-                type='close-small'
+                type='checkmark'
                 className={styles.icon}
                 onClick={() => onSelect(+id)}
               />

@@ -1,12 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Form } from 'formik'
+import isEqual from 'lodash.isequal'
 import AlertModalSidebar from './components/AlertModalSidebar/AlertModalSidebar'
 import AlertModalContent from './components/AlertModalContent/AlertModalContent'
 import { useUpdateFinishedSteps } from './hooks/useUpdateFinishedSteps'
 import { useUpdateNameAndDescription } from './hooks/useUpdateNameAndDescription'
 import styles from './AlertModalForm.module.scss'
 
-const AlertModalForm = ({ selectorSettings, resetForm, values }) => {
+const AlertModalForm = ({
+  selectorSettings,
+  resetForm,
+  values,
+  setIsEdited,
+  initialValues
+}) => {
   const {
     setSelectedType,
     setSelectedStep,
@@ -25,6 +32,12 @@ const AlertModalForm = ({ selectorSettings, resetForm, values }) => {
     values
   })
   useUpdateNameAndDescription({ selectedType, selectedStep, values })
+
+  useEffect(() => {
+    if (!isEqual(initialValues, values)) {
+      setIsEdited(true)
+    }
+  }, [values])
 
   function handleSelectType (type) {
     setSelectedType(type)

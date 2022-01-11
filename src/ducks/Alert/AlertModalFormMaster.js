@@ -31,7 +31,8 @@ const AlertModalFormMaster = ({
   updateAlert,
   handleCloseDialog,
   signal,
-  isSignalLoading
+  isSignalLoading,
+  setIsEdited
 }) => {
   const [selectedType, setSelectedType] = useState(defaultType)
   const [selectedStep, setSelectedStep] = useState(undefined)
@@ -41,6 +42,48 @@ const AlertModalFormMaster = ({
   const finishedStepsMemo = useMemo(() => new Set(finishedSteps), [
     finishedSteps
   ])
+
+  const values = useMemo(() => {
+    const signalChannels =
+      (signal && signal.settings && signal.settings.channel) || []
+
+    if (signal.id) {
+      if (selectedType.settings.type !== signal.settings.type) {
+        return {
+          id: signal.id,
+          isActive: signal.isActive,
+          isPublic: signal.isPublic,
+          isRepeating: signal.isRepeating,
+          ...initialValues,
+          settings: selectedType.settings
+        }
+      }
+
+      return {
+        ...signal,
+        settings: {
+          ...signal.settings,
+          channel: Array.isArray(signalChannels) ? signalChannels : []
+        }
+      }
+    }
+
+    const signalSettings = (signal && signal.settings) || {}
+
+    const settings = {
+      ...selectedType.settings,
+      ...signalSettings,
+      channel: signal && Array.isArray(signalChannels) ? signalChannels : []
+    }
+
+    return {
+      ...initialValues,
+      ...signal,
+      settings: {
+        ...settings
+      }
+    }
+  }, [selectedType, signal])
 
   useEffect(() => {
     if (defaultType.title !== selectedType.title) {
@@ -94,48 +137,6 @@ const AlertModalFormMaster = ({
     ]
   )
 
-  const values = useMemo(() => {
-    const signalChannels =
-      (signal && signal.settings && signal.settings.channel) || []
-
-    if (signal.id) {
-      if (selectedType.settings.type !== signal.settings.type) {
-        return {
-          id: signal.id,
-          isActive: signal.isActive,
-          isPublic: signal.isPublic,
-          isRepeating: signal.isRepeating,
-          ...initialValues,
-          settings: selectedType.settings
-        }
-      }
-
-      return {
-        ...signal,
-        settings: {
-          ...signal.settings,
-          channel: Array.isArray(signalChannels) ? signalChannels : []
-        }
-      }
-    }
-
-    const signalSettings = (signal && signal.settings) || {}
-
-    const settings = {
-      ...selectedType.settings,
-      ...signalSettings,
-      channel: signal && Array.isArray(signalChannels) ? signalChannels : []
-    }
-
-    return {
-      ...initialValues,
-      ...signal,
-      settings: {
-        ...settings
-      }
-    }
-  }, [selectedType, signal])
-
   if (isSignalLoading) {
     return (
       <div>
@@ -154,7 +155,11 @@ const AlertModalFormMaster = ({
       enableReinitialize={true}
     >
       {formik => (
-        <AlertModalForm selectorSettings={selectorSettings} {...formik} />
+        <AlertModalForm
+          selectorSettings={selectorSettings}
+          setIsEdited={setIsEdited}
+          {...formik}
+        />
       )}
     </Formik>
   )
