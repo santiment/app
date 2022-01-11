@@ -1,32 +1,33 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Icon from '@santiment-network/ui/Icon'
 import DarkTooltip from '../../../../../../components/Tooltip/DarkTooltip'
+import SaveAsAction from '../../../../../../ducks/Watchlists/Actions/SaveAs'
+import { PROJECT } from '../../../../../..//ducks/Watchlists/detector'
 import tableStyles from '../../AssetsTable.module.scss'
 import styles from './Actions.module.scss'
 
-const SaveAs = ({ selected, onRemove, selectedText }) => {
-  const [loading, setLoading] = useState(false)
-
-  function onClick () {
-    if (loading) return
-    setLoading(true)
-    onRemove(selected, () => setLoading(false))
-  }
-
+const SaveAs = ({ selectedText, watchlist }) => {
   return (
-    <DarkTooltip
-      align='center'
-      position='top'
-      on='hover'
-      className={tableStyles.tooltip_oneline}
-      trigger={
-        <div onClick={onClick}>
-          <Icon type='watchlist-plus' className={styles.icon} />
-        </div>
-      }
-    >
-      Save {selectedText} as watchlist
-    </DarkTooltip>
+    <div>
+      <SaveAsAction
+        trigger={
+          <div>
+            <DarkTooltip
+              align='center'
+              position='top'
+              on='hover'
+              className={tableStyles.tooltip_oneline}
+              trigger={<Icon type='watchlist-plus' className={styles.icon} />}
+            >
+              Save {selectedText} as watchlist
+            </DarkTooltip>
+          </div>
+        }
+        type={PROJECT}
+        watchlist={watchlist}
+        prefix='Save as'
+      />
+    </div>
   )
 }
 

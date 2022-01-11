@@ -25,7 +25,7 @@ const TableTop = ({
   setOrderBy,
   activeColumns,
   updateActiveColumnsKeys,
-  toggleSelected,
+  toggleSelected
 }) => {
   const [refreshTimestamp, setRefreshTimestamp] = useState(Date.now)
   const disabledComparision = comparingAssets.length < 2

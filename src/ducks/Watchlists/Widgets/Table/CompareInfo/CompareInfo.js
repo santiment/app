@@ -18,6 +18,7 @@ const CompareInfo = ({
       {type === 'PROJECT' && (
         <Actions
           selected={selected.map(s => ({ projectId: parseInt(s.id) }))}
+          assets={selected}
           watchlist={watchlist}
           onAdd={(watchlistId, listItems, onAddDone) =>
             addWatchlistItems({
