@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
-import { PROJECT, SCREENER } from '../../../detector'
+import { PROJECT } from '../../../detector'
 import ColumnsToggler from '../Columns/Toggler'
 import CompareInfo from '../CompareInfo/CompareInfo'
-import SaveAs from '../../../../WatchlistTable/SaveAs'
 import CompareAction from '../CompareInfo/CompareAction'
 import EditAssets from '../../../Actions/Edit/EditAssets'
 import Refresh from '../../../../../components/Refresh/Refresh'
@@ -87,12 +86,6 @@ const TableTop = ({
           watchlist={watchlist}
           downloadData={fetchAllColumns}
         />
-        {type === SCREENER && (
-          <>
-            <div className={styles.divider} />
-            <SaveAs watchlist={watchlist} type={PROJECT} />
-          </>
-        )}
       </div>
     </div>
   )
