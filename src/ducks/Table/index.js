@@ -247,7 +247,7 @@ const Table = ({
       {!!loadingSettings && !isLoading && data.length === 0 && (
         <NoData {...noDataSettings} />
       )}
-      {!!paginationSettings && (
+      {!!paginationSettings && paginationParams.pageCount > 1 && (
         <Pagination
           {...paginationParams}
           onChangePage={onChangePage}

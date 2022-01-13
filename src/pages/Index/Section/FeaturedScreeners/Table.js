@@ -52,6 +52,8 @@ const Table = ({ screener }) => {
           allowSort: false
         },
         paginationSettings: {
+          pageSize: assets.length,
+          controlledPageCount: 1,
           manualPagination: true
         }
       }}
