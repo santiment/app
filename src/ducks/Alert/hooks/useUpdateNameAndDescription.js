@@ -9,7 +9,9 @@ import { capitalizeStr } from '../../../utils/utils'
 export const useUpdateNameAndDescription = ({
   selectedType,
   selectedStep,
-  values
+  values,
+  hasSignal,
+  isEdited
 }) => {
   const [projects, loading] = useAssets({
     shouldSkipLoggedInState: false
@@ -26,9 +28,13 @@ export const useUpdateNameAndDescription = ({
   })
   const stepsLength = selectedType.steps.length
   const nameAndDescriptionIndex = stepsLength - 1
+  const shouldUpdateNameAndDescription = !hasSignal || isEdited
 
   useEffect(() => {
-    if (selectedStep !== nameAndDescriptionIndex) {
+    if (
+      selectedStep !== nameAndDescriptionIndex &&
+      shouldUpdateNameAndDescription
+    ) {
       switch (selectedType.title) {
         case 'Asset': {
           const {

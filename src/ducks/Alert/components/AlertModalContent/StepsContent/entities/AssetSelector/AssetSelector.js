@@ -6,6 +6,7 @@ import NextStep from '../../NextStep/NextStep'
 import StepTitle from '../../StepTitle/StepTitle'
 import ProjectsList from './ProjectsList/ProjectsList'
 import { useAssets } from '../../../../../../../hooks/project'
+import { useTrendingWords } from '../../../../../../../components/Navbar/Search/TrendingWordsCategory'
 import styles from './AssetSelector.module.scss'
 
 const AssetSelector = ({
@@ -27,15 +28,38 @@ const AssetSelector = ({
   const [projects, loading] = useAssets({
     shouldSkipLoggedInState: false
   })
+  const trendingWords = useTrendingWords({ skip: !isWords })
   const [listItems, setListItems] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
+  const words = useMemo(() => {
+    return trendingWords.map(item => ({
+      id: item.word,
+      slug: item.word,
+      name: item.word
+    }))
+  }, [trendingWords])
 
   useEffect(() => {
     if (value && value.length > 0) {
-      const assets =
+      let assets =
         typeof value === 'string'
-          ? [projects.find(project => project.slug === value)]
-          : value.map(item => projects.find(project => project.slug === item))
+          ? [
+              projects.find(project => project.slug === value) ||
+                words.find(item => item.slug === value) || {
+                  id: value,
+                  slug: value,
+                  name: value
+                }
+            ]
+          : value.map(
+              item =>
+                projects.find(project => project.slug === item) ||
+                words.find(word => word.slug === value) || {
+                  id: item,
+                  slug: item,
+                  name: item
+                }
+            )
       setListItems([...assets])
     }
   }, [])
@@ -95,9 +119,21 @@ const AssetSelector = ({
     [listItems, projects, searchTerm]
   )
 
-  const allProjects = useMemo(() => {
-    return [...listItems, ...filteredProjects]
-  }, [filteredProjects])
+  const filteredWords = useMemo(() => {
+    if (!isWords) {
+      return []
+    }
+    return words.filter(
+      word =>
+        word.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1 &&
+        !listItemsIds.has(word.id)
+    )
+  }, [listItems, words, searchTerm])
+
+  const allProjects = useMemo(
+    () => [...listItems, ...filteredWords, ...filteredProjects],
+    [filteredProjects, filteredWords]
+  )
 
   const sections = useMemo(() => {
     if (listItems.length > 0) {
@@ -108,24 +144,45 @@ const AssetSelector = ({
         },
         {
           title: isWords ? 'Most popular' : 'Assets',
-          data: filteredProjects
+          data: isWords
+            ? [...filteredWords, ...filteredProjects]
+            : filteredProjects
         }
       ]
     } else {
       return [
         {
           title: isWords ? 'Most popular' : 'Assets',
-          data: filteredProjects
+          data: isWords
+            ? [...filteredWords, ...filteredProjects]
+            : filteredProjects
         }
       ]
     }
-  }, [filteredProjects, isWords])
+  }, [filteredProjects, filteredWords, isWords])
 
   function handleNextClick () {
     setSelectedStep(selectedStep + 1)
 
     if (!visitedSteps.has(selectedStep + 1)) {
       setVisitedSteps(prev => [...prev, selectedStep + 1])
+    }
+  }
+
+  function handlePressEnter (e) {
+    if (e.key === 'Enter' && isWords) {
+      e.preventDefault()
+      toggleAsset({
+        project: {
+          id: searchTerm,
+          slug: searchTerm,
+          name: searchTerm
+        },
+        listItems,
+        isAssetInList: listItemsIds.has(searchTerm)
+      })
+
+      setSearchTerm('')
     }
   }
 
@@ -149,10 +206,13 @@ const AssetSelector = ({
         iconPosition='left'
         className={styles.search}
         placeholder={
-          isWords ? 'Type a word or choose from bellow' : 'Search for asset'
+          isWords
+            ? 'Type a word and press Enter or choose from bellow'
+            : 'Search for asset'
         }
         value={searchTerm}
         onChange={e => setSearchTerm(e.target.value)}
+        onKeyPress={handlePressEnter}
       />
       <ProjectsList
         isWords={isWords}

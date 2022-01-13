@@ -4,7 +4,8 @@ export const useUpdateFinishedSteps = ({
   selectedType,
   finishedSteps,
   setFinishedSteps,
-  values
+  values,
+  isModalOpen
 }) => {
   const stepsLength = selectedType.steps.length
   const nameAndDescriptionIndex = stepsLength - 1
@@ -101,5 +102,5 @@ export const useUpdateFinishedSteps = ({
       default:
         break
     }
-  }, [values])
+  }, [values, isModalOpen, selectedType])
 }
