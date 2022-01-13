@@ -8,7 +8,6 @@ const DEFAULT = {}
 const Screener = props => {
   const { isLoggedIn, isUserLoading } = props
   const isDefaultScreener = checkIsDefaultScreener(props.location.pathname)
-
   if (isDefaultScreener) {
     const Page = isLoggedIn && !isUserLoading ? NewScreener : WatchlistPage
     return (

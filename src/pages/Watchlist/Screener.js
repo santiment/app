@@ -86,6 +86,13 @@ const Screener = ({
     }
   }, [screenerFn])
 
+  useEffect(() => {
+    if (watchlist.tableConfiguration) {
+      const { sorting } = watchlist.tableConfiguration.columns
+      sorting && setOrderBy(sorting)
+    }
+  }, [watchlist])
+
   function updateWatchlistFunction (fn) {
     if (watchlist.id) {
       updateWatchlist(watchlist, { function: fn })
