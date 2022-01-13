@@ -24,12 +24,16 @@ const ShareSignal = ({
   className,
   shareBtnClassName,
   signalId,
-  signalTitle
+  signalTitle,
+  isDialogOnly,
+  isAlert
 }) => {
   const link = generateShareLink(signalId, signalTitle)
   return (
     <div className={cx(styles.popupItem, styles.popupButton, className)}>
       <ShareModalTrigger
+        isAlert={isAlert}
+        isDialogOnly={isDialogOnly}
         trigger={trigger}
         className={shareBtnClassName}
         shareTitle='Santiment'
@@ -61,6 +65,8 @@ const MoreSignalActions = ({
       <div className={styles.buttonWrapper}>
         {canShare && (
           <ShareSignal
+            isAlert={true}
+            isDialogOnly={true}
             className={styles.shareBtn}
             signalId={signalId}
             signalTitle={signalTitle}
@@ -105,6 +111,8 @@ const MoreSignalActions = ({
 
         {canShare && isPublic && (
           <ShareSignal
+            isAlert={true}
+            isDialogOnly={true}
             trigger={SignalShareTrigger}
             signalId={signalId}
             signalTitle={signalTitle}

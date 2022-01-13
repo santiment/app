@@ -7,7 +7,6 @@ import AlertTriggerButton from './components/AlertTriggerButton/AlertTriggerButt
 import ConfirmClose from './components/ConfirmClose/ConfirmClose'
 import AlertModalFormMaster from './AlertModalFormMaster'
 import { useUser } from '../../stores/user'
-import { useSignal } from './hooks/useSignal'
 import { ALERT_TYPES } from './constants'
 import styles from './AlertModal.module.scss'
 
@@ -27,10 +26,6 @@ const AlertModal = ({
   const [isModalOpen, setIsModalOpen] = useState(defaultOpen)
   const [isClosing, setIsClosing] = useState(false)
   const [isEdited, setIsEdited] = useState(false)
-  const { data = {}, loading } = useSignal({
-    id,
-    skip: !id || !isModalOpen
-  })
 
   if (!isLoggedIn) {
     return (
@@ -53,21 +48,6 @@ const AlertModal = ({
     setIsClosing(false)
   }
 
-  const signal = signalData || (data.trigger ? data.trigger.trigger : {})
-  const signalType = signal.settings
-    ? ALERT_TYPES.find(type => {
-        if (signal.settings.type === 'metric_signal') {
-          if (signal.settings.target.slug) {
-            return ALERT_TYPES[0]
-          }
-          if (signal.settings.target.watchlist_id) {
-            return ALERT_TYPES[1]
-          }
-        }
-        return type.settings.type === signal.settings.type
-      })
-    : defaultType
-
   return (
     <>
       <Dialog
@@ -79,7 +59,7 @@ const AlertModal = ({
           if (isEdited) {
             setIsClosing(true)
           } else {
-            setIsModalOpen(false)
+            handleCloseDialog()
           }
         }}
         trigger={
@@ -94,15 +74,15 @@ const AlertModal = ({
           dialog: cx(styles.dialog, isClosing && styles.hidden)
         }}
       >
-        {isModalOpen && (
-          <AlertModalFormMaster
-            isSignalLoading={loading}
-            signal={signal}
-            defaultType={signalType}
-            handleCloseDialog={handleCloseDialog}
-            setIsEdited={setIsEdited}
-          />
-        )}
+        <AlertModalFormMaster
+          id={id}
+          signalData={signalData}
+          defaultType={defaultType}
+          handleCloseDialog={handleCloseDialog}
+          setIsEdited={setIsEdited}
+          isEdited={isEdited}
+          isModalOpen={isModalOpen}
+        />
       </Dialog>
       <ConfirmClose
         isOpen={isClosing}

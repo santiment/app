@@ -6,9 +6,9 @@ import StepsContent from './StepsContent/StepsContent'
 import styles from './AlertModalContent.module.scss'
 
 const AlertModalContent = ({ isMetricsDisabled, selectorSettings }) => {
-  const { submitForm, isSubmitting, values } = useFormikContext()
+  const { submitForm, isSubmitting } = useFormikContext()
 
-  const { selectedStep, selectedType, finishedSteps } = selectorSettings
+  const { selectedStep, selectedType, finishedSteps, id } = selectorSettings
 
   if (selectedStep !== undefined) {
     return (
@@ -40,7 +40,7 @@ const AlertModalContent = ({ isMetricsDisabled, selectorSettings }) => {
         className={styles.submit}
         onClick={handleSubmit}
       >
-        {values.id ? 'Update' : 'Create'} alert
+        {id ? 'Update' : 'Create'} alert
       </Button>
     </div>
   )

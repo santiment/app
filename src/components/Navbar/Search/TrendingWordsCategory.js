@@ -31,9 +31,12 @@ function trendingWordsPredicate (value) {
   return ({ word }) => word.includes(searchTerm)
 }
 
-function useTrendingWords () {
+export function useTrendingWords ({ skip }) {
   const { data: { getTrendingWords = [] } = {} } = useQuery(
-    TRENDING_WORDS_QUERY
+    TRENDING_WORDS_QUERY,
+    {
+      skip
+    }
   )
   return getTrendingWords[0]
     ? getTrendingWords[0].topWords
@@ -55,7 +58,7 @@ const buildLookupSuggestion = searchTerm => ({
 })
 
 const TrendingWordsCategory = ({ searchTerm, ...props }) => {
-  const trendingWords = useTrendingWords()
+  const trendingWords = useTrendingWords({})
   const suggestions = useMemo(
     () =>
       trendingWords

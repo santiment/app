@@ -14,6 +14,7 @@ const ShareModalTrigger = ({
   classes,
   dialogTitle = 'Share the data',
   isDialogOnly,
+  isAlert,
   ...props
 }) => {
   return !isDialogOnly && window.navigator.share ? (
@@ -30,7 +31,7 @@ const ShareModalTrigger = ({
   ) : (
     <Dialog
       size='m'
-      trigger={isDialogOnly ? null : <Trigger {...props} />}
+      trigger={isDialogOnly && !isAlert ? null : <Trigger {...props} />}
       title={dialogTitle}
       classes={classes}
       {...props}

@@ -1,9 +1,8 @@
 import React from 'react'
 import cx from 'classnames'
 import { useSuggestions } from './suggestions/hooks'
-import SignalMasterModalForm from '../../Signals/signalModal/SignalMasterModalForm'
-import { mapToOption } from '../../Signals/utils/utils'
 import LoginPopup from '../../../components/banners/feature/PopupBanner'
+import AlertModal from '../../Alert/AlertModal'
 import styles from './index.module.scss'
 
 const Alert = ({ alert, render, createAlert }) => {
@@ -43,15 +42,8 @@ export default ({
     <div ref={containerRef} className={cx(styles.wrapper, className)}>
       <div className={styles.header}>
         Create alert if:
-        <SignalMasterModalForm
-          onClose={onDialogClose}
-          canRedirect={false}
+        <AlertModal
           trigger={<span className={styles.manual}>Create alert manually</span>}
-          metaFormSettings={{
-            target: {
-              value: mapToOption(rest.slug)
-            }
-          }}
         />
       </div>
       <div className={styles.suggestions}>

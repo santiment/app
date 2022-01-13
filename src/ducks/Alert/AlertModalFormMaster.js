@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Formik } from 'formik'
 import { connect } from 'react-redux'
 import PageLoader from '../../components/Loader/PageLoader'
 import AlertModalForm from './AlertModalForm'
 import { createTrigger, updateTrigger } from '../Signals/common/actions'
+import { useSignal } from './hooks/useSignal'
 import styles from './AlertModalFormMaster.module.scss'
 
 const initialValues = {
@@ -14,7 +15,7 @@ const initialValues = {
   isPublic: false,
   isRepeating: true,
   settings: {
-    type: '',
+    type: 'metric_signal',
     metric: '',
     target: { slug: '' },
     channel: [],
@@ -30,9 +31,11 @@ const AlertModalFormMaster = ({
   createAlert,
   updateAlert,
   handleCloseDialog,
-  signal,
-  isSignalLoading,
-  setIsEdited
+  setIsEdited,
+  isEdited,
+  signalData,
+  id,
+  isModalOpen
 }) => {
   const [selectedType, setSelectedType] = useState(defaultType)
   const [selectedStep, setSelectedStep] = useState(undefined)
@@ -42,65 +45,15 @@ const AlertModalFormMaster = ({
   const finishedStepsMemo = useMemo(() => new Set(finishedSteps), [
     finishedSteps
   ])
-
-  const values = useMemo(() => {
-    const signalChannels =
-      (signal && signal.settings && signal.settings.channel) || []
-
-    if (signal.id) {
-      if (selectedType.settings.type !== signal.settings.type) {
-        return {
-          id: signal.id,
-          isActive: signal.isActive,
-          isPublic: signal.isPublic,
-          isRepeating: signal.isRepeating,
-          ...initialValues,
-          settings: selectedType.settings
-        }
-      }
-
-      return {
-        ...signal,
-        settings: {
-          ...signal.settings,
-          channel: Array.isArray(signalChannels) ? signalChannels : []
-        }
-      }
-    }
-
-    const signalSettings = (signal && signal.settings) || {}
-
-    const settings = {
-      ...selectedType.settings,
-      ...signalSettings,
-      channel: signal && Array.isArray(signalChannels) ? signalChannels : []
-    }
-
-    return {
-      ...initialValues,
-      ...signal,
-      settings: {
-        ...settings
-      }
-    }
-  }, [selectedType, signal])
-
-  useEffect(() => {
-    if (defaultType.title !== selectedType.title) {
-      setSelectedType(defaultType)
-    }
-  }, [defaultType])
-
-  useEffect(() => {
-    if (selectedStep === undefined) {
-      setVisitedSteps([])
-      setFinishedSteps([])
-    }
-  }, [selectedType])
+  const { data = {}, loading } = useSignal({
+    id,
+    skip: !id
+  })
 
   function handleSubmit (values, { setSubmitting }) {
-    if (signal.id) {
+    if (id) {
       updateAlert({
+        id,
         ...values,
         settings: { ...values.settings, type: selectedType.settings.type }
       })
@@ -123,7 +76,8 @@ const AlertModalFormMaster = ({
       visitedSteps: visitedStepsMemo,
       setVisitedSteps,
       finishedSteps: finishedStepsMemo,
-      setFinishedSteps
+      setFinishedSteps,
+      id
     }),
     [
       selectedType,
@@ -133,11 +87,12 @@ const AlertModalFormMaster = ({
       visitedStepsMemo,
       setVisitedSteps,
       finishedStepsMemo,
-      setFinishedSteps
+      setFinishedSteps,
+      id
     ]
   )
 
-  if (isSignalLoading) {
+  if (loading) {
     return (
       <div>
         <PageLoader
@@ -149,15 +104,15 @@ const AlertModalFormMaster = ({
   }
 
   return (
-    <Formik
-      initialValues={values}
-      onSubmit={handleSubmit}
-      enableReinitialize={true}
-    >
+    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       {formik => (
         <AlertModalForm
+          signal={signalData || (data && data.trigger && data.trigger.trigger)}
+          isModalOpen={isModalOpen}
           selectorSettings={selectorSettings}
           setIsEdited={setIsEdited}
+          hasSignal={!!id}
+          isEdited={isEdited}
           {...formik}
         />
       )}
