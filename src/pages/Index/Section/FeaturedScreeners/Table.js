@@ -1,7 +1,6 @@
 import React, { useMemo, useEffect } from 'react'
 import { useColumns } from '../../../../ducks/Watchlists/Widgets/Table/hooks'
 import { DEFAULT_COLUMNS } from '../../../../ducks/Watchlists/Widgets/Table/Columns/defaults'
-import { useTableConfig } from '../../../../ducks/Watchlists/Widgets/Table/Columns/gql/queries'
 import ScreenerTable from '../../../../ducks/Table'
 import { buildFunctionQuery } from '../../../../ducks/Watchlists/Widgets/Filter/utils'
 import { getProjectsByFunction } from '../../../../ducks/Watchlists/gql/hooks'
@@ -9,7 +8,6 @@ import { DYNAMIC_COLUMNS, pagination } from './utils'
 import styles from './index.module.scss'
 
 const Table = ({ screener }) => {
-  const { tableConfig } = useTableConfig(screener.tableConfiguration.id)
   const {
     orderBy,
     setOrderBy,
@@ -18,12 +16,12 @@ const Table = ({ screener }) => {
   } = useColumns()
 
   useEffect(() => {
-    if (tableConfig) {
-      const { sorting } = tableConfig.columns
+    if (screener.tableConfiguration) {
+      const { sorting } = screener.tableConfiguration.columns
       sorting && setOrderBy(sorting)
     }
     setActiveColumnsKeys(DYNAMIC_COLUMNS)
-  }, [tableConfig])
+  }, [screener])
 
   const { assets } = getProjectsByFunction(
     ...buildFunctionQuery({
@@ -52,6 +50,9 @@ const Table = ({ screener }) => {
         sortingSettings: {
           defaultSorting,
           allowSort: false
+        },
+        paginationSettings: {
+          manualPagination: true
         }
       }}
     />
