@@ -20,6 +20,7 @@ const FEATURED_SCREENERS_QUERY = gql`
       function
       tableConfiguration {
         id
+        columns
       }
     }
   }
