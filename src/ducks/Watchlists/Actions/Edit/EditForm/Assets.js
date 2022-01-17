@@ -18,6 +18,7 @@ const Assets = ({ watchlist, onChange }) => {
   const ref = useRef()
   const [isSearchMode, setIsSearchMode] = useState(false)
   const [filter, setFilter] = useState('')
+
   const {
     checkedItems,
     filteredWatchlist,

@@ -54,7 +54,7 @@ const Actions = ({
     updateWatchlist(watchlist, { ...props }).then(() => {
       setIsMenuOpened(false)
       notifyUpdate(title)
-      refetchAssets()
+      refetchAssets && refetchAssets()
     })
 
   return (

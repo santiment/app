@@ -164,7 +164,7 @@ const EditForm = ({
             placeholder='Add a description'
           />
         )}
-        {isOpen && (
+        {isOpen && type === 'PROJECT' && (
           <Assets
             watchlist={watchlist}
             onChange={listItems => {
