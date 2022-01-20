@@ -16,6 +16,8 @@
 .top {
   display: flex;
   position: relative;
+  justify-content: center;
+  text-align: center;
 }
 
 .headerContent {
@@ -47,7 +49,7 @@
   color: var(--waterloo);
   font-size: 18px !important;
   line-height: 26px !important;
-  margin: 10px 0 0 0;
+  margin: 19px 0 0 0;
   display: flex;
 
   @include responsive('phone-xs', 'phone', 'tablet') {

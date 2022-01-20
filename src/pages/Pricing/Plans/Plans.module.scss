@@ -74,7 +74,8 @@
 .billing {
   display: flex;
   align-items: center;
-  margin-bottom: 47px;
+  justify-content: center;
+  margin-bottom: 76px;
 
   @include responsive('phone-xs', 'phone', 'tablet') {
     margin-bottom: 40px;
