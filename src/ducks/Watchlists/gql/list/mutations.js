@@ -54,7 +54,7 @@ export function useUpdateWatchlist (type) {
       } else {
         listItems = watchlist.listItems
       }
-      listItems = listItems.map(item => ({ projectId: +item.project.id }))
+      listItems = listItems.map(item => ({ projectId: item.project ? +item.project.id : +item.projectId}))
     }
 
     return mutate({

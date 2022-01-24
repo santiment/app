@@ -53,6 +53,7 @@ export function redirectSharedLink () {
       switch (pathname[hashEndIndex]) {
         case '/':
         case '?':
+        case '&': // NOTE(vanguard): remove when external link generator is fixed [21 Jan, 22]
           break loop
         default:
           continue
