@@ -1,6 +1,4 @@
 import React from 'react'
-import { useFormikContext } from 'formik'
-import AlertMessage from '../../../../../../components/Alert/AlertMessage'
 import StepTitle from '../StepTitle/StepTitle'
 import Block from '../Block/Block'
 import NextStep from '../NextStep/NextStep'
@@ -17,8 +15,6 @@ const NotificationAndPrivacy = ({
     setVisitedSteps
   }
 }) => {
-  const { values } = useFormikContext()
-
   function handleNextClick () {
     setSelectedStep(selectedStep + 1)
 
@@ -29,18 +25,13 @@ const NotificationAndPrivacy = ({
 
   return (
     <div className={styles.wrapper}>
-      <StepTitle
-        iconType='settings'
-        title='Notification & Privacy settings'
-        className={styles.title}
-      />
-      {values.settings.channel.length === 0 && (
-        <AlertMessage
-          className={styles.warning}
-          warning
-          text='You must setup notification channel to create an alert'
+      <div className={styles.titleWrapper}>
+        <StepTitle
+          title='Notification & Privacy settings'
+          className={styles.title}
         />
-      )}
+        <NextStep onClick={handleNextClick} label='Name & Description' />
+      </div>
       <Block label='Alert action' className={styles.actionBlock}>
         <ChannelsSelector />
       </Block>
@@ -53,11 +44,6 @@ const NotificationAndPrivacy = ({
       <Block label='Privacy settings' className={styles.privacyBlock}>
         <PrivacySelector />
       </Block>
-      <NextStep
-        onClick={handleNextClick}
-        label='Name & Description'
-        className={styles.nextBtn}
-      />
     </div>
   )
 }

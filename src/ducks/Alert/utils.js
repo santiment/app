@@ -46,7 +46,7 @@ export function formatChannelsTitles (channels) {
       return capitalizeStr(item)
     }
     if ('telegram_channel' in item) {
-      return 'Telegram'
+      return 'Telegram Channel'
     }
     if ('webhook' in item) {
       return 'Webhook'
@@ -91,7 +91,12 @@ export function parseOperation (value) {
   return { selectedOperation: operation, selectedCount: count }
 }
 
-export function getConditionsStr ({ operation, count, timeWindow }) {
+export function getConditionsStr ({
+  operation,
+  count,
+  timeWindow,
+  hasPriceIcon = true
+}) {
   let condition = `moving down ${count} %`
 
   switch (operation) {
@@ -126,7 +131,9 @@ export function getConditionsStr ({ operation, count, timeWindow }) {
       break
   }
 
-  return `${condition} compared to ${formatFrequencyStr(timeWindow)} earlier`
+  return `${
+    hasPriceIcon ? condition : condition.replace('$', '')
+  } compared to ${formatFrequencyStr(timeWindow)} earlier`
 }
 
 export function getTitleStr ({
@@ -174,4 +181,267 @@ export function splitStr (str) {
   const rest = str.replace(`${firstWord} `, '')
 
   return { firstWord, rest }
+}
+
+export function validateFormSteps ({
+  type,
+  values,
+  setInvalidSteps,
+  submitForm,
+  onlyValidate
+}) {
+  const { settings, cooldown, title } = values
+
+  switch (type.title) {
+    case 'Asset': {
+      let invalidSteps = []
+
+      if (settings.target.slug.length === 0) {
+        invalidSteps.push('asset')
+      }
+
+      if (
+        !settings.metric ||
+        Object.keys(settings.operation).length === 0 ||
+        !settings.time_window
+      ) {
+        invalidSteps.push('metric')
+      }
+
+      if (!cooldown || settings.channel.length === 0) {
+        invalidSteps.push('notifications')
+      }
+
+      if (
+        settings.channel.length > 0 &&
+        settings.channel.some(item => typeof item !== 'string')
+      ) {
+        const telegramChannel = settings.channel.find(
+          item => typeof item !== 'string' && 'telegram_channel' in item
+        )
+        if (telegramChannel && !telegramChannel.telegram_channel) {
+          invalidSteps.push('notifications')
+        }
+        const webhook = settings.channel.find(
+          item => typeof item !== 'string' && 'webhook' in item
+        )
+        if (webhook && !webhook.webhook) {
+          invalidSteps.push('notifications')
+        }
+      }
+
+      if (!title) {
+        invalidSteps.push('title')
+      }
+
+      if (invalidSteps.length > 0) {
+        setInvalidSteps(invalidSteps)
+      } else {
+        setInvalidSteps([])
+        if (!onlyValidate) {
+          submitForm()
+        }
+      }
+      break
+    }
+    case 'Watchlist': {
+      let invalidSteps = []
+
+      if (!settings.target.watchlist_id) {
+        invalidSteps.push('watchlist')
+      }
+
+      if (
+        !settings.metric ||
+        Object.keys(settings.operation).length === 0 ||
+        !settings.time_window
+      ) {
+        invalidSteps.push('metric')
+      }
+
+      if (!cooldown || settings.channel.length === 0) {
+        invalidSteps.push('notifications')
+      }
+
+      if (
+        settings.channel.length > 0 &&
+        settings.channel.some(item => typeof item !== 'string')
+      ) {
+        const telegramChannel = settings.channel.find(
+          item => typeof item !== 'string' && 'telegram_channel' in item
+        )
+        if (telegramChannel && !telegramChannel.telegram_channel) {
+          invalidSteps.push('notifications')
+        }
+        const webhook = settings.channel.find(
+          item => typeof item !== 'string' && 'webhook' in item
+        )
+        if (webhook && !webhook.webhook) {
+          invalidSteps.push('notifications')
+        }
+      }
+
+      if (!title) {
+        invalidSteps.push('title')
+      }
+
+      if (invalidSteps.length > 0) {
+        setInvalidSteps(invalidSteps)
+      } else {
+        setInvalidSteps([])
+        if (!onlyValidate) {
+          submitForm()
+        }
+      }
+      break
+    }
+    case 'Screener': {
+      let invalidSteps = []
+
+      if (!settings.operation.selector.watchlist_id) {
+        invalidSteps.push('watchlist')
+      }
+
+      if (!cooldown || settings.channel.length === 0) {
+        invalidSteps.push('notifications')
+      }
+
+      if (
+        settings.channel.length > 0 &&
+        settings.channel.some(item => typeof item !== 'string')
+      ) {
+        const telegramChannel = settings.channel.find(
+          item => typeof item !== 'string' && 'telegram_channel' in item
+        )
+        if (telegramChannel && !telegramChannel.telegram_channel) {
+          invalidSteps.push('notifications')
+        }
+        const webhook = settings.channel.find(
+          item => typeof item !== 'string' && 'webhook' in item
+        )
+        if (webhook && !webhook.webhook) {
+          invalidSteps.push('notifications')
+        }
+      }
+
+      if (!title) {
+        invalidSteps.push('title')
+      }
+
+      if (invalidSteps.length > 0) {
+        setInvalidSteps(invalidSteps)
+      } else {
+        setInvalidSteps([])
+        if (!onlyValidate) {
+          submitForm()
+        }
+      }
+      break
+    }
+    case 'Wallet address': {
+      let invalidSteps = []
+
+      if (
+        !settings.target.address ||
+        !settings.selector.infrastructure ||
+        !settings.selector.slug ||
+        Object.keys(settings.operation).length === 0
+      ) {
+        invalidSteps.push('wallet')
+      }
+
+      if (!cooldown || settings.channel.length === 0) {
+        invalidSteps.push('notifications')
+      }
+
+      if (
+        settings.channel.length > 0 &&
+        settings.channel.some(item => typeof item !== 'string')
+      ) {
+        const telegramChannel = settings.channel.find(
+          item => typeof item !== 'string' && 'telegram_channel' in item
+        )
+        if (telegramChannel && !telegramChannel.telegram_channel) {
+          invalidSteps.push('notifications')
+        }
+        const webhook = settings.channel.find(
+          item => typeof item !== 'string' && 'webhook' in item
+        )
+        if (webhook && !webhook.webhook) {
+          invalidSteps.push('notifications')
+        }
+      }
+
+      if (!title) {
+        invalidSteps.push('title')
+      }
+
+      if (invalidSteps.length > 0) {
+        setInvalidSteps(invalidSteps)
+      } else {
+        setInvalidSteps([])
+        if (!onlyValidate) {
+          submitForm()
+        }
+      }
+      break
+    }
+    case 'Social trends': {
+      let invalidSteps = []
+
+      if ('slug' in settings.target && settings.target.slug.length === 0) {
+        invalidSteps.push('trend')
+      }
+
+      if ('word' in settings.target && settings.target.word.length === 0) {
+        invalidSteps.push('trend')
+      }
+
+      if ('watchlist_id' in settings.target && !settings.target.watchlist_id) {
+        invalidSteps.push('trend')
+      }
+
+      if (!cooldown || settings.channel.length === 0) {
+        invalidSteps.push('notifications')
+      }
+
+      if (
+        settings.channel.length > 0 &&
+        settings.channel.some(item => typeof item !== 'string')
+      ) {
+        const telegramChannel = settings.channel.find(
+          item => typeof item !== 'string' && 'telegram_channel' in item
+        )
+        if (telegramChannel && !telegramChannel.telegram_channel) {
+          invalidSteps.push('notifications')
+        }
+        const webhook = settings.channel.find(
+          item => typeof item !== 'string' && 'webhook' in item
+        )
+        if (webhook && !webhook.webhook) {
+          invalidSteps.push('notifications')
+        }
+      }
+
+      if (!title) {
+        invalidSteps.push('title')
+      }
+
+      if (invalidSteps.length > 0) {
+        setInvalidSteps(invalidSteps)
+      } else {
+        setInvalidSteps([])
+        if (!onlyValidate) {
+          submitForm()
+        }
+      }
+      break
+    }
+    default: {
+      setInvalidSteps([])
+      if (!onlyValidate) {
+        submitForm()
+      }
+    }
+  }
 }

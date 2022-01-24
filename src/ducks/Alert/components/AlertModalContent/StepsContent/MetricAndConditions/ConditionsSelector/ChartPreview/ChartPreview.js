@@ -12,7 +12,7 @@ import {
 import { formatNumber } from '../../../../../../../../utils/formatting'
 import styles from './ChartPreview.module.scss'
 
-const ChartPreview = ({ isWallet }) => {
+const ChartPreview = ({ isWallet, metric }) => {
   const {
     values,
     values: {
@@ -31,11 +31,15 @@ const ChartPreview = ({ isWallet }) => {
   const shouldRenderChart = currentSlug && typeof currentSlug === 'string'
   const shouldRenderPrice = currentSlug && !Array.isArray(currentSlug) && data
   const { selectedCount, selectedOperation } = parseOperation(operation)
+  const hasPriceIcon =
+    metric.category === 'Financial' || metric.key === 'price_usd'
   const conditionsStr = getConditionsStr({
     operation: selectedOperation,
     count: selectedCount,
-    timeWindow: time_window
+    timeWindow: time_window,
+    hasPriceIcon
   })
+
   const { firstWord, rest } = splitStr(conditionsStr)
 
   return (
@@ -60,10 +64,8 @@ const ChartPreview = ({ isWallet }) => {
           !shouldRenderChart && styles.noChart
         )}
       >
-        {shouldRenderChart ? (
+        {shouldRenderChart && (
           <SignalPreview type={values.type} trigger={values} />
-        ) : (
-          'No data'
         )}
       </div>
     </div>

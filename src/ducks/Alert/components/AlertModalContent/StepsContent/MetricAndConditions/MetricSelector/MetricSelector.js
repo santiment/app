@@ -1,23 +1,13 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useField } from 'formik'
+import { InputWithIcon } from '@santiment-network/ui/Input'
 import MetricsList from './MetricsList/MetricsList'
-import Search from '../../../../../../Studio/Sidebar/Search'
-import { SEARCH_PREDICATE_ONLY_METRICS } from '../../../../../../Studio/Compare/Comparable/Metric'
 import { useMergedTimeboundSubmetrics } from '../../../../../../dataHub/timebounds'
 import { getCategoryGraph } from '../../../../../../Studio/Sidebar/utils'
 import { useProject } from '../../../../../../../hooks/project'
 import { useIsBetaMode } from '../../../../../../../stores/ui'
 import { filterOnlyMetrics, getByAvailable } from './utils'
 import styles from './MetricSelector.module.scss'
-
-const searchProps = {
-  iconPosition: 'left',
-  inputProps: {
-    placeholder: 'Search for a metric'
-  },
-  className: styles.search,
-  searchPredicate: SEARCH_PREDICATE_ONLY_METRICS
-}
 
 const suggestedMetrics = {
   Suggested: {
@@ -38,11 +28,62 @@ const suggestedMetrics = {
   }
 }
 
+function filterCategories (categories, searchTerm) {
+  return Object.keys(categories).reduce((acc, curr) => {
+    const category = Object.keys(categories[curr]).reduce((catAcc, catCurr) => {
+      const arr = categories[curr][catCurr].reduce(
+        (arrItemAcc, arrItemCurr) => {
+          const hasItem =
+            arrItemCurr.item.label
+              .toLowerCase()
+              .indexOf(searchTerm.toLowerCase()) !== -1
+
+          if (hasItem) {
+            return [
+              ...arrItemAcc,
+              {
+                ...arrItemCurr,
+                subitems: arrItemCurr.subitems.filter(
+                  subitem =>
+                    subitem.label
+                      .toLowerCase()
+                      .indexOf(searchTerm.toLowerCase()) !== -1
+                )
+              }
+            ]
+          }
+
+          return arrItemAcc
+        },
+        []
+      )
+
+      if (arr.length > 0) {
+        return { ...catAcc, [catCurr]: arr }
+      }
+
+      return catAcc
+    }, {})
+
+    if (Object.keys(category).length > 0) {
+      return { ...acc, [curr]: category }
+    }
+
+    return acc
+  }, {})
+}
+
 const MetricSelector = ({ selectedMetric, metrics, target, onChange }) => {
   const [, , { setValue: setMetric }] = useField('settings.metric')
   const isBeta = useIsBetaMode()
   const [project] = useProject(target.slug)
   const [categories, setCategories] = useState({})
+  const [searchTerm, setSearchTerm] = useState('')
+
+  const allCategories = useMemo(
+    () => filterCategories(categories, searchTerm),
+    [categories, searchTerm]
+  )
 
   const allMetrics = useMemo(
     () =>
@@ -70,14 +111,17 @@ const MetricSelector = ({ selectedMetric, metrics, target, onChange }) => {
 
   return (
     <>
-      <Search
-        {...searchProps}
-        categories={categories}
-        toggleMetric={handleSelectMetric}
-        project={project}
+      <InputWithIcon
+        type='text'
+        icon='search-small'
+        iconPosition='left'
+        className={styles.search}
+        placeholder={'Search for metric'}
+        value={searchTerm}
+        onChange={e => setSearchTerm(e.target.value)}
       />
       <MetricsList
-        metricsList={categories}
+        metricsList={allCategories}
         project={project}
         onSelect={handleSelectMetric}
         selectedMetric={selectedMetric}

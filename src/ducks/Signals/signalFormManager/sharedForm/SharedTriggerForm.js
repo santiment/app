@@ -3,26 +3,21 @@ import Button from '@santiment-network/ui/Button'
 import { couldShowChart } from '../../utils/utils'
 import SignalPreview from '../../chart/preview/SignalPreview'
 import NoSignalPreview from '../../chart/preview/NoSignalPreview'
+import { SignalTypeIcon } from '../../../../components/SignalCard/controls/SignalControls'
 import { DesktopOnly, MobileOnly } from '../../../../components/Responsive'
 import CopySignal from '../../../../components/SignalCard/controls/CopySignal'
 import { isStrictTrendingWords } from '../../../../components/SignalCard/card/utils'
-import { useUser } from '../../../../stores/user'
 import styles from './ShareTriggerForm.module.scss'
 
 const SharedTriggerForm = ({
   trigger,
-  onOpen,
-  onCreate,
+  onClose,
   settings,
   originalTrigger,
-  userId,
-  SignalCard
+  prepareAlertTitle,
+  setIsPreview
 }) => {
-  const { metric } = settings
-  const { id } = trigger
-
-  const { user } = useUser()
-  const isAuthor = user && +userId === +user.id
+  const { metric, type } = settings
 
   if (!originalTrigger.id) {
     return null
@@ -48,44 +43,38 @@ const SharedTriggerForm = ({
 
   return (
     <div className={styles.container}>
-      <SignalCard
-        id={id}
-        signal={trigger}
-        showMoreActions={false}
-        className={styles.cardPanel}
-        showStatus={false}
-        isSharedTriggerForm={true}
-      />
-
+      <div className={styles.title}>
+        <SignalTypeIcon type={type} metric={metric} />
+        <div className={styles.link}>{prepareAlertTitle(trigger.title)}</div>
+      </div>
       <div className={styles.backTesting}>
         {showChart ? (
           <>
-            <div className={styles.chartDivider} />
             <div className={styles.preview}>
               <SignalPreview trigger={trigger} type={metric.value} />
             </div>
+            <div className={styles.chartDivider} />
           </>
         ) : (
           <NoSignalPreview />
         )}
       </div>
-
       <div className={styles.actions}>
         <DesktopOnly>
           <CopySignal
             signal={trigger}
-            label='Add alert'
-            onCreate={onCreate}
+            label='Copy to my alerts'
+            onClose={onClose}
             classes={styles}
             as='div'
             btnParams={{ variant: 'fill', accent: 'positive' }}
           />
           <Button
             className={styles.btnEdit}
-            onClick={() => onOpen(false)}
+            onClick={() => setIsPreview(false)}
             border
           >
-            {isAuthor ? 'Edit alert' : 'Open alert'}
+            Open alert
           </Button>
         </DesktopOnly>
 
@@ -93,7 +82,7 @@ const SharedTriggerForm = ({
           <CopySignal
             signal={trigger}
             label='Add alert'
-            onCreate={onCreate}
+            onClose={onClose}
             classes={styles}
             as='div'
             btnParams={{ fluid: true, accent: 'positive' }}
@@ -101,9 +90,9 @@ const SharedTriggerForm = ({
           <Button
             fluid
             className={styles.btnEdit}
-            onClick={() => onOpen(false)}
+            onClick={() => setIsPreview(false)}
           >
-            {isAuthor ? 'Edit alert' : 'Open alert'}
+            Open alert
           </Button>
         </MobileOnly>
       </div>

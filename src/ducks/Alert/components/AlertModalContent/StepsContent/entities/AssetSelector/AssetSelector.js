@@ -1,13 +1,17 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useField } from 'formik'
-import { InputWithIcon } from '@santiment-network/ui/Input'
-import PageLoader from '../../../../../../../components/Loader/PageLoader'
+import cx from 'classnames'
+import Search from '@santiment-network/ui/Search'
+import ProjectsSelectTabs from '../../../../../../Studio/Compare/ProjectSelectTabs'
 import NextStep from '../../NextStep/NextStep'
 import StepTitle from '../../StepTitle/StepTitle'
 import ProjectsList from './ProjectsList/ProjectsList'
-import { useAssets } from '../../../../../../../hooks/project'
-import { useTrendingWords } from '../../../../../../../components/Navbar/Search/TrendingWordsCategory'
+import { useTrendingWords } from '../../../../../../TrendsTable/hooks'
 import styles from './AssetSelector.module.scss'
+import {
+  PROJECTS_QUERY,
+  useProjects
+} from '../../../../../../../stores/projects'
 
 const AssetSelector = ({
   selectorSettings: {
@@ -25,10 +29,15 @@ const AssetSelector = ({
   const [, , { setValue: setMetric }] = useField('settings.metric')
   const [, , { setValue: setTimeWindow }] = useField('settings.time_window')
   const [, , { setValue: setOperation }] = useField('settings.operation')
-  const [projects, loading] = useAssets({
-    shouldSkipLoggedInState: false
+  const { projects: allFetchedProjects } = useProjects(PROJECTS_QUERY, {
+    skip: !isWords
   })
-  const trendingWords = useTrendingWords({ skip: !isWords })
+  const [projects, setProjects] = useState([])
+  const { trendingWords } = useTrendingWords({
+    from: 'utc_now-7d',
+    to: 'utc_now',
+    interval: '1h'
+  })
   const [listItems, setListItems] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   const words = useMemo(() => {
@@ -40,42 +49,54 @@ const AssetSelector = ({
   }, [trendingWords])
 
   useEffect(() => {
-    if (value && value.length > 0) {
+    if (isWords) {
+      setProjects(allFetchedProjects)
+    }
+  }, [isWords, allFetchedProjects])
+
+  useEffect(() => {
+    if (value && value.length > 0 && projects && projects.length > 0) {
+      const wordAsset = words.find(item => item.slug === value) || {
+        id: value,
+        slug: value,
+        name: value
+      }
+
       let assets =
         typeof value === 'string'
           ? [
-              projects.find(project => project.slug === value) ||
-                words.find(item => item.slug === value) || {
-                  id: value,
-                  slug: value,
-                  name: value
-                }
+              isWords
+                ? projects.find(project => project.slug === value) || wordAsset
+                : projects.find(project => project.slug === value)
             ]
-          : value.map(
-              item =>
-                projects.find(project => project.slug === item) ||
-                words.find(word => word.slug === value) || {
-                  id: item,
-                  slug: item,
-                  name: item
-                }
-            )
+          : value.map(item => {
+              const wordAssetItem = words.find(word => word.slug === value) || {
+                id: item,
+                slug: item,
+                name: item
+              }
+
+              return isWords
+                ? projects.find(project => project.slug === item) ||
+                    wordAssetItem
+                : projects.find(project => project.slug === item)
+            })
       setListItems([...assets])
     }
-  }, [])
+  }, [projects, words])
 
   const setSelectedAssets = useCallback(
     selected => {
       if (listItems.length !== selected.length) {
-        const selectedAssets = selected.map(item => item.slug)
-        setSlug(
-          selectedAssets.length === 1 ? selectedAssets[0] : selectedAssets
-        )
-        setListItems(selected)
-
         if (selected.length === 0) {
           setSlug('')
           setListItems([])
+        } else {
+          const selectedAssets = selected.map(item => item.slug)
+          setSlug(
+            selectedAssets.length === 1 ? selectedAssets[0] : selectedAssets
+          )
+          setListItems(selected)
         }
 
         if (!isSocial) {
@@ -92,12 +113,7 @@ const AssetSelector = ({
     ({ project, listItems: items, isAssetInList }) => {
       if (isAssetInList) {
         const filteredAssets = items.filter(({ id }) => id !== project.id)
-        const selectedAssets = filteredAssets.map(item => item.slug)
-
         setSelectedAssets(filteredAssets)
-        setSlug(
-          selectedAssets.length === 1 ? selectedAssets[0] : selectedAssets
-        )
       } else {
         setSelectedAssets([...items, project])
       }
@@ -135,12 +151,20 @@ const AssetSelector = ({
     [filteredProjects, filteredWords]
   )
 
+  const filteredListItems = useMemo(
+    () =>
+      listItems.filter(
+        item => item.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+      ),
+    [searchTerm, listItems]
+  )
+
   const sections = useMemo(() => {
-    if (listItems.length > 0) {
+    if (filteredListItems.length > 0) {
       return [
         {
           title: 'Selected',
-          data: listItems
+          data: filteredListItems
         },
         {
           title: isWords ? 'Most popular' : 'Assets',
@@ -159,7 +183,7 @@ const AssetSelector = ({
         }
       ]
     }
-  }, [filteredProjects, filteredWords, isWords])
+  }, [filteredProjects, filteredWords, filteredListItems, isWords])
 
   function handleNextClick () {
     setSelectedStep(selectedStep + 1)
@@ -186,34 +210,39 @@ const AssetSelector = ({
     }
   }
 
+  function onTabSelect (projects, isLoading) {
+    if (!projects || isLoading) {
+      return
+    }
+    setSelectedAssets([])
+    setProjects(projects)
+  }
+
   let children = (
     <>
       {!isSocial && !isWords && (
         <div className={styles.titleWrapper}>
-          <StepTitle
-            iconType='assets'
-            title='Select Asset'
-            className={styles.title}
-          />
+          <StepTitle title='Select Asset' className={styles.title} />
           {listItems.length > 0 && (
             <NextStep label='Choose Metric' onClick={handleNextClick} />
           )}
         </div>
       )}
-      <InputWithIcon
+      <Search
         type='text'
-        icon='search-small'
-        iconPosition='left'
-        className={styles.search}
+        className={cx(styles.search, isWords && styles.searchWithWords)}
         placeholder={
           isWords
             ? 'Type a word and press Enter or choose from bellow'
             : 'Search for asset'
         }
         value={searchTerm}
-        onChange={e => setSearchTerm(e.target.value)}
+        onChange={value => setSearchTerm(value)}
         onKeyPress={handlePressEnter}
       />
+      {!isWords && (
+        <ProjectsSelectTabs onSelect={onTabSelect} className={styles.tabs} />
+      )}
       <ProjectsList
         isWords={isWords}
         isSocial={isSocial}
@@ -227,15 +256,6 @@ const AssetSelector = ({
       />
     </>
   )
-
-  if (loading) {
-    children = (
-      <PageLoader
-        containerClass={styles.loaderWrapper}
-        className={styles.loader}
-      />
-    )
-  }
 
   return <div className={styles.wrapper}>{children}</div>
 }

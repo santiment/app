@@ -10,6 +10,7 @@ import LoginPopup from '../../../components/banners/feature/PopupBanner'
 import AlertModal from '../../Alert/AlertModal'
 import { SCREENER_DEFAULT_SIGNAL } from './utils'
 import { ALERT_TYPES } from '../../Alert/constants'
+import { prepareAlertTitle } from '../link/OpenSignalLink'
 import styles from './ScreenerSignalDialog.module.scss'
 
 export const EditSignalIcon = ({ className }) => (
@@ -106,6 +107,7 @@ const ScreenerSignalDialog = ({ trigger: ElTrigger, signal, watchlistId }) => {
 
   return (
     <AlertModal
+      prepareAlertTitle={prepareAlertTitle}
       defaultType={ALERT_TYPES[2]}
       signalData={stateSignal}
       trigger={

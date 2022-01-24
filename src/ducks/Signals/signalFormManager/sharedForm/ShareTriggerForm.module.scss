@@ -8,8 +8,24 @@
   }
 }
 
+.link {
+  cursor: pointer;
+  color: var(--rhino) !important;
+  word-break: break-word;
+
+  @include text('body-1');
+
+  &:hover {
+    color: var(--jungle-green) !important;
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    margin-left: 0;
+  }
+}
+
 .backTesting {
-  margin-top: 24px;
+  margin-top: 40px;
 
   @include responsive('phone', 'phone-xs') {
     margin-top: 32px;
@@ -20,10 +36,15 @@
   position: relative;
 }
 
+.title {
+  display: flex;
+  gap: 16px;
+}
+
 .chartDivider {
-  border-top: 1px solid var(--porcelain);
-  margin-bottom: 24px;
-  padding-top: 16px;
+  height: 1px;
+  background: var(--porcelain);
+  margin: 24px -24px 0;
 
   @include responsive('phone', 'phone-xs') {
     display: none;
@@ -31,10 +52,9 @@
 }
 
 .actions {
-  margin-top: 40px;
+  margin-top: 20px;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
   width: 100%;
 }
 

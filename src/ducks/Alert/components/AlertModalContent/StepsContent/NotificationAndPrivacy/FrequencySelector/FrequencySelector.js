@@ -1,10 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useField, useFormikContext } from 'formik'
+import cx from 'classnames'
 import Select from '@santiment-network/ui/Select/Select'
 import { Checkbox } from '@santiment-network/ui/Checkboxes/Checkboxes'
 import Input from '@santiment-network/ui/Input'
 import { getFrequencyPeriods, getFrequencyTypes } from './utils'
 import styles from './FrequencySelector.module.scss'
+import { AVAILABLE_FREQUENCIES_FOR_METRICS } from './constants'
 
 const FrequencySelector = () => {
   const { values } = useFormikContext()
@@ -22,6 +24,7 @@ const FrequencySelector = () => {
     () => getFrequencyTypes(values.settings.metric),
     []
   )
+  const isDAA = AVAILABLE_FREQUENCIES_FOR_METRICS.has(values.settings.metric)
   const [type, setType] = useState(frequencyTypes[0])
   const frequencyPeriods = useMemo(() => getFrequencyPeriods(type), [type])
   const cooldownFrequencyPeriod = useMemo(
@@ -67,7 +70,7 @@ const FrequencySelector = () => {
           options={frequencyTypes}
           value={type}
           onChange={handleChangeType}
-          className={styles.frequencyType}
+          className={cx(styles.frequencyType, isDAA && styles.frequencyTypeDAA)}
           menuPlacement='top'
         />
         <Input
