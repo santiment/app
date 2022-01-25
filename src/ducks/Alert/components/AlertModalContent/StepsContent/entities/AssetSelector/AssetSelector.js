@@ -129,7 +129,7 @@ const AssetSelector = ({
     () =>
       projects.filter(
         project =>
-          project.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1 &&
+          project.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
           !listItemsIds.has(project.id)
       ),
     [listItems, projects, searchTerm]
@@ -141,7 +141,7 @@ const AssetSelector = ({
     }
     return words.filter(
       word =>
-        word.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1 &&
+        word.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
         !listItemsIds.has(word.id)
     )
   }, [listItems, words, searchTerm])
@@ -153,8 +153,8 @@ const AssetSelector = ({
 
   const filteredListItems = useMemo(
     () =>
-      listItems.filter(
-        item => item.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+      listItems.filter(item =>
+        item.name.toLowerCase().includes(searchTerm.toLowerCase())
       ),
     [searchTerm, listItems]
   )

@@ -33,21 +33,17 @@ function filterCategories (categories, searchTerm) {
     const category = Object.keys(categories[curr]).reduce((catAcc, catCurr) => {
       const arr = categories[curr][catCurr].reduce(
         (arrItemAcc, arrItemCurr) => {
-          const hasItem =
-            arrItemCurr.item.label
-              .toLowerCase()
-              .indexOf(searchTerm.toLowerCase()) !== -1
+          const hasItem = arrItemCurr.item.label
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase())
 
           if (hasItem) {
             return [
               ...arrItemAcc,
               {
                 ...arrItemCurr,
-                subitems: arrItemCurr.subitems.filter(
-                  subitem =>
-                    subitem.label
-                      .toLowerCase()
-                      .indexOf(searchTerm.toLowerCase()) !== -1
+                subitems: arrItemCurr.subitems.filter(subitem =>
+                  subitem.label.toLowerCase().includes(searchTerm.toLowerCase())
                 )
               }
             ]

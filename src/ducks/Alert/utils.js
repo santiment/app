@@ -183,6 +183,113 @@ export function splitStr (str) {
   return { firstWord, rest }
 }
 
+function validateNotificationsAndTitle ({
+  invalidSteps,
+  settings,
+  cooldown,
+  title
+}) {
+  if (!cooldown || settings.channel.length === 0) {
+    invalidSteps.push('notifications')
+  }
+
+  if (
+    settings.channel.length > 0 &&
+    settings.channel.some(item => typeof item !== 'string')
+  ) {
+    const telegramChannel = settings.channel.find(
+      item => typeof item !== 'string' && 'telegram_channel' in item
+    )
+    if (telegramChannel && !telegramChannel.telegram_channel) {
+      invalidSteps.push('notifications')
+    }
+    const webhook = settings.channel.find(
+      item => typeof item !== 'string' && 'webhook' in item
+    )
+    if (webhook && !webhook.webhook) {
+      invalidSteps.push('notifications')
+    }
+  }
+
+  if (!title) {
+    invalidSteps.push('title')
+  }
+}
+
+function validateAssetStep ({ invalidSteps, settings, cooldown, title }) {
+  if (settings.target.slug.length === 0) {
+    invalidSteps.push('asset')
+  }
+
+  if (
+    !settings.metric ||
+    Object.keys(settings.operation).length === 0 ||
+    !settings.time_window
+  ) {
+    invalidSteps.push('metric')
+  }
+
+  validateNotificationsAndTitle({ invalidSteps, settings, cooldown, title })
+}
+
+function validateWatchlistStep ({ invalidSteps, settings, cooldown, title }) {
+  if (!settings.target.watchlist_id) {
+    invalidSteps.push('watchlist')
+  }
+
+  if (
+    !settings.metric ||
+    Object.keys(settings.operation).length === 0 ||
+    !settings.time_window
+  ) {
+    invalidSteps.push('metric')
+  }
+
+  validateNotificationsAndTitle({ invalidSteps, settings, cooldown, title })
+}
+
+function validateScreenerStep ({ invalidSteps, settings, cooldown, title }) {
+  if (!settings.operation.selector.watchlist_id) {
+    invalidSteps.push('watchlist')
+  }
+
+  validateNotificationsAndTitle({ invalidSteps, settings, cooldown, title })
+}
+
+function validateWalletStep ({ invalidSteps, settings, cooldown, title }) {
+  if (
+    !settings.target.address ||
+    !settings.selector.infrastructure ||
+    !settings.selector.slug ||
+    Object.keys(settings.operation).length === 0
+  ) {
+    invalidSteps.push('wallet')
+  }
+
+  validateNotificationsAndTitle({ invalidSteps, settings, cooldown, title })
+}
+
+function validateSocialTrendsStep ({
+  invalidSteps,
+  settings,
+  cooldown,
+  title
+}) {
+  if ('slug' in settings.target && settings.target.slug.length === 0) {
+    invalidSteps.push('trend')
+  }
+
+  if ('word' in settings.target && settings.target.word.length === 0) {
+    invalidSteps.push('trend')
+  }
+
+  if ('watchlist_id' in settings.target && !settings.target.watchlist_id) {
+    invalidSteps.push('trend')
+  }
+
+  validateNotificationsAndTitle({ invalidSteps, settings, cooldown, title })
+}
+
 export function validateFormSteps ({
   type,
   values,
@@ -196,43 +303,7 @@ export function validateFormSteps ({
     case 'Asset': {
       let invalidSteps = []
 
-      if (settings.target.slug.length === 0) {
-        invalidSteps.push('asset')
-      }
-
-      if (
-        !settings.metric ||
-        Object.keys(settings.operation).length === 0 ||
-        !settings.time_window
-      ) {
-        invalidSteps.push('metric')
-      }
-
-      if (!cooldown || settings.channel.length === 0) {
-        invalidSteps.push('notifications')
-      }
-
-      if (
-        settings.channel.length > 0 &&
-        settings.channel.some(item => typeof item !== 'string')
-      ) {
-        const telegramChannel = settings.channel.find(
-          item => typeof item !== 'string' && 'telegram_channel' in item
-        )
-        if (telegramChannel && !telegramChannel.telegram_channel) {
-          invalidSteps.push('notifications')
-        }
-        const webhook = settings.channel.find(
-          item => typeof item !== 'string' && 'webhook' in item
-        )
-        if (webhook && !webhook.webhook) {
-          invalidSteps.push('notifications')
-        }
-      }
-
-      if (!title) {
-        invalidSteps.push('title')
-      }
+      validateAssetStep({ invalidSteps, settings, cooldown, title })
 
       if (invalidSteps.length > 0) {
         setInvalidSteps(invalidSteps)
@@ -247,43 +318,7 @@ export function validateFormSteps ({
     case 'Watchlist': {
       let invalidSteps = []
 
-      if (!settings.target.watchlist_id) {
-        invalidSteps.push('watchlist')
-      }
-
-      if (
-        !settings.metric ||
-        Object.keys(settings.operation).length === 0 ||
-        !settings.time_window
-      ) {
-        invalidSteps.push('metric')
-      }
-
-      if (!cooldown || settings.channel.length === 0) {
-        invalidSteps.push('notifications')
-      }
-
-      if (
-        settings.channel.length > 0 &&
-        settings.channel.some(item => typeof item !== 'string')
-      ) {
-        const telegramChannel = settings.channel.find(
-          item => typeof item !== 'string' && 'telegram_channel' in item
-        )
-        if (telegramChannel && !telegramChannel.telegram_channel) {
-          invalidSteps.push('notifications')
-        }
-        const webhook = settings.channel.find(
-          item => typeof item !== 'string' && 'webhook' in item
-        )
-        if (webhook && !webhook.webhook) {
-          invalidSteps.push('notifications')
-        }
-      }
-
-      if (!title) {
-        invalidSteps.push('title')
-      }
+      validateWatchlistStep({ invalidSteps, settings, cooldown, title })
 
       if (invalidSteps.length > 0) {
         setInvalidSteps(invalidSteps)
@@ -298,35 +333,7 @@ export function validateFormSteps ({
     case 'Screener': {
       let invalidSteps = []
 
-      if (!settings.operation.selector.watchlist_id) {
-        invalidSteps.push('watchlist')
-      }
-
-      if (!cooldown || settings.channel.length === 0) {
-        invalidSteps.push('notifications')
-      }
-
-      if (
-        settings.channel.length > 0 &&
-        settings.channel.some(item => typeof item !== 'string')
-      ) {
-        const telegramChannel = settings.channel.find(
-          item => typeof item !== 'string' && 'telegram_channel' in item
-        )
-        if (telegramChannel && !telegramChannel.telegram_channel) {
-          invalidSteps.push('notifications')
-        }
-        const webhook = settings.channel.find(
-          item => typeof item !== 'string' && 'webhook' in item
-        )
-        if (webhook && !webhook.webhook) {
-          invalidSteps.push('notifications')
-        }
-      }
-
-      if (!title) {
-        invalidSteps.push('title')
-      }
+      validateScreenerStep({ invalidSteps, settings, cooldown, title })
 
       if (invalidSteps.length > 0) {
         setInvalidSteps(invalidSteps)
@@ -341,40 +348,7 @@ export function validateFormSteps ({
     case 'Wallet address': {
       let invalidSteps = []
 
-      if (
-        !settings.target.address ||
-        !settings.selector.infrastructure ||
-        !settings.selector.slug ||
-        Object.keys(settings.operation).length === 0
-      ) {
-        invalidSteps.push('wallet')
-      }
-
-      if (!cooldown || settings.channel.length === 0) {
-        invalidSteps.push('notifications')
-      }
-
-      if (
-        settings.channel.length > 0 &&
-        settings.channel.some(item => typeof item !== 'string')
-      ) {
-        const telegramChannel = settings.channel.find(
-          item => typeof item !== 'string' && 'telegram_channel' in item
-        )
-        if (telegramChannel && !telegramChannel.telegram_channel) {
-          invalidSteps.push('notifications')
-        }
-        const webhook = settings.channel.find(
-          item => typeof item !== 'string' && 'webhook' in item
-        )
-        if (webhook && !webhook.webhook) {
-          invalidSteps.push('notifications')
-        }
-      }
-
-      if (!title) {
-        invalidSteps.push('title')
-      }
+      validateWalletStep({ invalidSteps, settings, cooldown, title })
 
       if (invalidSteps.length > 0) {
         setInvalidSteps(invalidSteps)
@@ -389,43 +363,7 @@ export function validateFormSteps ({
     case 'Social trends': {
       let invalidSteps = []
 
-      if ('slug' in settings.target && settings.target.slug.length === 0) {
-        invalidSteps.push('trend')
-      }
-
-      if ('word' in settings.target && settings.target.word.length === 0) {
-        invalidSteps.push('trend')
-      }
-
-      if ('watchlist_id' in settings.target && !settings.target.watchlist_id) {
-        invalidSteps.push('trend')
-      }
-
-      if (!cooldown || settings.channel.length === 0) {
-        invalidSteps.push('notifications')
-      }
-
-      if (
-        settings.channel.length > 0 &&
-        settings.channel.some(item => typeof item !== 'string')
-      ) {
-        const telegramChannel = settings.channel.find(
-          item => typeof item !== 'string' && 'telegram_channel' in item
-        )
-        if (telegramChannel && !telegramChannel.telegram_channel) {
-          invalidSteps.push('notifications')
-        }
-        const webhook = settings.channel.find(
-          item => typeof item !== 'string' && 'webhook' in item
-        )
-        if (webhook && !webhook.webhook) {
-          invalidSteps.push('notifications')
-        }
-      }
-
-      if (!title) {
-        invalidSteps.push('title')
-      }
+      validateSocialTrendsStep({ invalidSteps, settings, cooldown, title })
 
       if (invalidSteps.length > 0) {
         setInvalidSteps(invalidSteps)
