@@ -14,7 +14,7 @@
 .condition {
   color: var(--fiord);
 
-  @include text("caption");
+  @include text("body-3", "m");
 }
 
 .conditionType {
@@ -26,7 +26,7 @@
 .price {
   color: var(--waterloo);
 
-  @include text("caption");
+  @include text("body-3", "m");
 }
 
 .chartWrapper {
@@ -41,7 +41,5 @@
 }
 
 .noChart {
-  align-items: center;
-
-  @include text("body-3");
+  display: none;
 }

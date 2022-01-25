@@ -1,19 +1,18 @@
 @import "~@santiment-network/ui/mixins.scss";
 
 .multiple {
-  --operation-inputs-width: 100%;
-  --operation-inputs-flex: 1;
+  --operation-inputs-direction: column;
 }
 
 .wrapper {
-  width: var(--operation-inputs-width);
   display: flex;
+  flex-direction: var(--operation-inputs-direction, row);
   flex-wrap: wrap;
   gap: 8px;
 }
 
 .operation {
-  min-width: var(--operation-inputs-width, 286px);
+  flex: 1;
 
   [class="ReactVirtualized__Grid ReactVirtualized__List"] {
     min-height: 304px;
@@ -21,7 +20,7 @@
 }
 
 .inputs {
-  width: var(--operation-inputs-width, 80px);
+  flex: 1;
 }
 
 .option {

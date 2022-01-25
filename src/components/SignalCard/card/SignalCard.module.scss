@@ -74,18 +74,35 @@
 }
 
 .popup {
+  width: 144px;
   background: var(--white);
 
   @include border-box();
 
   border-radius: $border-radius;
-  padding: 8px 8px;
+  padding: 8px;
 }
 
 .popupItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 128px;
+  height: 32px;
+  border-radius: 4px;
   padding: 6px 8px;
 
   @include text("body-3");
+
+  &:hover {
+    background: var(--athens);
+    fill: var(--jungle-green-hover);
+    color: var(--jungle-green-hover);
+  }
+}
+
+.sharePanelBtn {
+  margin: 2px 0;
 }
 
 .bottom {
@@ -109,8 +126,6 @@
 }
 
 .link {
-  color: var(--mirage);
-
   @include text("body-3");
 }
 
@@ -122,12 +137,6 @@
   &:hover {
     fill: var(--jungle-green-hover);
   }
-}
-
-.removeSignal {
-  cursor: pointer;
-
-  @include text("body-3");
 }
 
 .shareBtn {
@@ -143,14 +152,10 @@
 }
 
 .popupButton {
-  @include text("body-3");
-
+  cursor: pointer;
   align-items: center;
 
-  &:hover {
-    fill: var(--jungle-green-hover);
-    color: var(--jungle-green-hover);
-  }
+  @include text("body-3");
 }
 
 .awaitingBlock {
@@ -232,4 +237,29 @@
 
 .shareIcon {
   margin-right: 8px;
+}
+
+.messageWrapper {
+  overflow: hidden;
+  height: 58px;
+  opacity: 1;
+  transition-property: height, opacity;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+
+  &__hide {
+    height: 1px;
+    opacity: 0;
+  }
+}
+
+.message {
+  margin-bottom: 16px;
+}
+
+.toggle {
+  width: auto;
+  position: absolute;
+  right: 16px;
+  bottom: 24px;
 }

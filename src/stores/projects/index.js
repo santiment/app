@@ -26,8 +26,8 @@ export const PROJECTS_QUERY = gql`
   ${projectBaseData}
 `
 
-export function useProjects (query = PROJECTS_QUERY) {
-  const { data, loading } = useQuery(query)
+export function useProjects (query = PROJECTS_QUERY, options = {}) {
+  const { data, loading } = useQuery(query, options)
 
   return useMemo(
     () => ({

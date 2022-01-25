@@ -13,6 +13,7 @@ import AlertModal from '../../ducks/Alert/AlertModal'
 import { useSignals } from '../../ducks/Signals/common/getSignals'
 import { useUser } from '../../stores/user'
 import { mapSizesToProps } from '../../utils/withSizes'
+import { prepareAlertTitle } from '../../ducks/Signals/link/OpenSignalLink'
 import styles from './Alerts.module.scss'
 
 const LoadableAlertsList = Loadable({
@@ -90,13 +91,20 @@ const Alerts = ({ isDesktop, match }) => {
               {
                 id: 0,
                 title: 'Explore Alerts',
-                content: <RecommendedSignals showTitle={false} showNew />
+                content: (
+                  <RecommendedSignals
+                    userId={user.id}
+                    showTitle={false}
+                    showNew
+                  />
+                )
               },
               {
                 id: 1,
                 title: 'My Alerts',
                 content: (
                   <LoadableAlertsList
+                    userId={user.id}
                     showNew
                     filters={{
                       statusFilter: filter
@@ -114,6 +122,7 @@ const Alerts = ({ isDesktop, match }) => {
               defaultOpen={true}
               canRedirect={false}
               trigger={<></>}
+              prepareAlertTitle={prepareAlertTitle}
             />
           )}
         </div>

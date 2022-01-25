@@ -4,6 +4,7 @@ import EmailToggle from './channels/EmailToggle/EmailToggle'
 import TelegramToggle from './channels/TelegramToggle/TelegramToggle'
 import PushToggle from './channels/PushToggle/PushToggle'
 import WebhookToggle from './channels/WebhookToggle/WebhookToggle'
+import TelegramChannelToggle from './channels/TelegramChannelToggle/TelegramChannelToggle'
 import { useUserSettings } from '../../../../../../../stores/user/settings'
 import { useUser } from '../../../../../../../stores/user'
 import { getSanSonarSW } from '../../../../../../../pages/Account/SettingsSonarWebPushNotifications'
@@ -62,11 +63,9 @@ const ChannelsSelector = () => {
   const handleChangeChannels = useCallback(
     channelTitle => () => {
       if (channels.has(channelTitle)) {
-        if (channelTitle === 'telegram') {
+        if (channelTitle === 'telegram_channel') {
           const updatedChannels = value.filter(item =>
-            typeof item === 'string'
-              ? item !== 'telegram'
-              : !('telegram_channel' in item)
+            typeof item === 'string' ? item : !('telegram_channel' in item)
           )
 
           setValue(updatedChannels)
@@ -82,6 +81,8 @@ const ChannelsSelector = () => {
       } else {
         if (channelTitle === 'webhook') {
           setValue([...value, { webhook: '' }])
+        } else if (channelTitle === 'telegram_channel') {
+          setValue([...value, { telegram_channel: '' }])
         } else {
           setValue([...value, channelTitle])
         }
@@ -101,9 +102,15 @@ const ChannelsSelector = () => {
       <div className={styles.divider} />
       <TelegramToggle
         disabled={!isTelegramConnected}
-        isActive={channels.has('telegram') || channels.has('telegram_channel')}
+        isActive={channels.has('telegram')}
         onChange={handleChangeChannels('telegram')}
-        telegram={telegramObj}
+      />
+      <div className={styles.divider} />
+      <TelegramChannelToggle
+        disabled={!channels.has('telegram_channel')}
+        isActive={channels.has('telegram_channel')}
+        onChange={handleChangeChannels('telegram_channel')}
+        telegramChannel={telegramObj}
         value={value}
         setValue={setValue}
       />

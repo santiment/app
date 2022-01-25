@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Form } from 'formik'
-import isEqual from 'lodash.isequal'
 import AlertModalSidebar from './components/AlertModalSidebar/AlertModalSidebar'
 import AlertModalContent from './components/AlertModalContent/AlertModalContent'
 import { useUpdateFinishedSteps } from './hooks/useUpdateFinishedSteps'
@@ -12,23 +11,22 @@ const AlertModalForm = ({
   selectorSettings,
   values,
   setValues,
-  setIsEdited,
   initialValues,
   hasSignal,
   signal,
   isEdited,
-  isModalOpen
+  isModalOpen,
+  isSharedTrigger
 }) => {
-  const [formValues, setFormValues] = useState(initialValues)
   const {
     setSelectedType,
-    setSelectedStep,
     selectedType,
     visitedSteps,
-    setVisitedSteps,
     finishedSteps,
     setFinishedSteps,
-    selectedStep
+    selectedStep,
+    setFormPreviousValues,
+    setInitialState
   } = selectorSettings
 
   useUpdateFinishedSteps({
@@ -48,13 +46,7 @@ const AlertModalForm = ({
   })
 
   useEffect(() => {
-    if (!isEqual(formValues, values)) {
-      setIsEdited(true)
-    }
-
-    return () => {
-      setIsEdited(false)
-    }
+    setFormPreviousValues(values)
   }, [values])
 
   useEffect(() => {
@@ -81,7 +73,11 @@ const AlertModalForm = ({
           ...signal,
           settings: { ...signal.settings, channel: channelSetting }
         })
-        setFormValues({
+        setFormPreviousValues({
+          ...signal,
+          settings: { ...signal.settings, channel: channelSetting }
+        })
+        setInitialState({
           ...signal,
           settings: { ...signal.settings, channel: channelSetting }
         })
@@ -91,7 +87,12 @@ const AlertModalForm = ({
           ...signal,
           settings: { ...signal.settings, channel: channelSetting }
         })
-        setFormValues({
+        setFormPreviousValues({
+          ...initialValues,
+          ...signal,
+          settings: { ...signal.settings, channel: channelSetting }
+        })
+        setInitialState({
           ...initialValues,
           ...signal,
           settings: { ...signal.settings, channel: channelSetting }
@@ -101,57 +102,51 @@ const AlertModalForm = ({
 
     return () => {
       setValues(initialValues)
-      setFormValues(initialValues)
     }
   }, [signal])
-
-  function handleSelectType (type) {
-    setSelectedType(type)
-    setSelectedStep(undefined)
-    setFinishedSteps([])
-    setVisitedSteps([])
-    setValues({ ...initialValues, settings: type.settings })
-  }
 
   let isMetricsDisabled
   const hasTarget = values.settings.target
 
-  switch (selectedType.title) {
-    case 'Asset':
-      const slug = hasTarget && values.settings.target.slug
+  if (selectedType) {
+    switch (selectedType.title) {
+      case 'Asset':
+        const slug = hasTarget && values.settings.target.slug
 
-      isMetricsDisabled =
-        typeof slug === 'string' ? !slug : slug && slug.length === 0
-      break
-    case 'Watchlist':
-      const watchlist = hasTarget && values.settings.target.watchlist_id
+        isMetricsDisabled =
+          typeof slug === 'string' ? !slug : slug && slug.length === 0
+        break
+      case 'Watchlist':
+        const watchlist = hasTarget && values.settings.target.watchlist_id
 
-      isMetricsDisabled = !watchlist
-      break
-    case 'Screener':
-      const screener =
-        values.settings.operation.selector &&
-        values.settings.operation.selector.watchlist_id
+        isMetricsDisabled = !watchlist
+        break
+      case 'Screener':
+        const screener =
+          values.settings.operation.selector &&
+          values.settings.operation.selector.watchlist_id
 
-      isMetricsDisabled = !screener
-      break
-    default:
-      isMetricsDisabled = false
+        isMetricsDisabled = !screener
+        break
+      default:
+        isMetricsDisabled = false
+    }
+
+    return (
+      <Form className={styles.wrapper}>
+        <AlertModalSidebar
+          isSharedTrigger={isSharedTrigger}
+          isMetricsDisabled={isMetricsDisabled}
+          selectorSettings={selectorSettings}
+          values={values}
+          hasSignal={hasSignal}
+        />
+        <AlertModalContent selectorSettings={selectorSettings} />
+      </Form>
+    )
+  } else {
+    return null
   }
-
-  return (
-    <Form className={styles.wrapper}>
-      <AlertModalSidebar
-        isMetricsDisabled={isMetricsDisabled}
-        selectorSettings={selectorSettings}
-        onTypeSelect={handleSelectType}
-      />
-      <AlertModalContent
-        isMetricsDisabled={isMetricsDisabled}
-        selectorSettings={selectorSettings}
-      />
-    </Form>
-  )
 }
 
 export default AlertModalForm

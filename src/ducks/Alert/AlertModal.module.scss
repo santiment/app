@@ -1,11 +1,19 @@
+
 .dialog {
   max-width: 960px;
   width: 100%;
-  max-height: 600px;
+  max-height: 640px;
   height: 100%;
   overflow: hidden;
 }
 
 .hidden {
   visibility: hidden;
+}
+
+.preview {
+  max-width: 496px;
+  width: 100%;
+  max-height: 420px;
+  height: 100%;
 }

@@ -8,7 +8,7 @@ const normalizeAddress = ({
   blockchainAddress: { address, infrastructure, notes }
 })
 
-function normalizeProject(item) {
+function normalizeProject (item) {
   if (item.project) {
     return { projectId: +item.project.id }
   } else if (item.projectId) {

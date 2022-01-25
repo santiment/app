@@ -10,7 +10,7 @@ const ConditionsSelector = ({ metric, isWallet }) => (
       <OperationSelector metric={metric} isWallet={isWallet} />
       <TimeWindowSelector />
     </div>
-    <ChartPreview isWallet={isWallet} />
+    <ChartPreview metric={metric} isWallet={isWallet} />
   </div>
 )
 

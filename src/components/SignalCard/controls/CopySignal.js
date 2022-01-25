@@ -17,6 +17,7 @@ const CopySignal = ({
   signal,
   createTrigger,
   onCreate,
+  onClose,
   label = 'Copy alert',
   doneLabel = 'Copied to my alerts',
   classes = {},
@@ -55,6 +56,9 @@ const CopySignal = ({
       newSignal.isPublic = false
       createTrigger(newSignal)
       setCreation && setCreation(true)
+    }
+    if (onClose) {
+      onClose()
     }
   })
 

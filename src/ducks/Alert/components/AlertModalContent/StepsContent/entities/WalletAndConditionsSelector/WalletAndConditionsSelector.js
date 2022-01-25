@@ -62,11 +62,17 @@ const WalletAndConditionsSelector = ({
 
   let children = (
     <>
-      <StepTitle
-        iconType='wallet'
-        title='Choose Wallet & Conditions'
-        className={styles.title}
-      />
+      <div className={styles.titleWrapper}>
+        <StepTitle
+          title='Choose Wallet & Conditions'
+          className={styles.title}
+        />
+        <NextStep
+          onClick={handleNextClick}
+          label='Notification settings'
+          className={styles.nextBtn}
+        />
+      </div>
       <div className={styles.row}>
         <div className={styles.label}>Wallet address</div>
         {address && infrastructure === Infrastructure.ETH && (
@@ -99,19 +105,10 @@ const WalletAndConditionsSelector = ({
         onChange={asset => setSelectedAsset(asset)}
         className={styles.assetSelect}
       />
-      <StepTitle
-        disabled={!selector.slug}
-        iconType='customize'
-        title='Conditions'
-      />
+      <StepTitle disabled={!selector.slug} title='Conditions' />
       {selector.slug && (
         <div className={styles.conditions}>
           <ConditionsSelector metric={{ category: '' }} isWallet />
-          <NextStep
-            onClick={handleNextClick}
-            label='Notification settings'
-            className={styles.nextBtn}
-          />
         </div>
       )}
     </>

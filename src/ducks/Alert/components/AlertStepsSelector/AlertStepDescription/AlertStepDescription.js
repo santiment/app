@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useFormikContext } from 'formik'
+import AlertMessage from '../../../../../components/Alert/AlertMessage'
 import WatchlistAndScreener from './steps/WatchlistAndScreener/WatchlistAndScreener'
 import Notifications from './steps/Notifications/Notifications'
 import Title from './steps/Title/Title'
 import MetricsAndConditions from './steps/MetricsAndConditions/MetricsAndConditions'
 import Assets from './steps/Assets/Assets'
 import WalletAndConditions from './steps/WalletAndConditions/WalletAndConditions'
+import styles from './AlertStepDescription.module.scss'
 
 const DESCRIPTION_TYPES = {
   TITLE: 'title',
@@ -46,36 +49,73 @@ function checkType (type) {
 
 const AlertStepDescription = ({
   description,
-  size,
   type,
   status,
-  selectedType
+  selectedType,
+  invalidStepsMemo,
+  selected,
+  isFinished
 }) => {
+  const {
+    values: { settings }
+  } = useFormikContext()
   const currentType = checkType(type)
+
+  const isInvalid = invalidStepsMemo.has('trend')
+
+  useEffect(() => {
+    if (
+      settings.target &&
+      (settings.target.slug ||
+        settings.target.word ||
+        settings.target.watchlist_id) &&
+      isInvalid
+    ) {
+      invalidStepsMemo.delete('trend')
+    }
+  }, [settings, isInvalid])
 
   switch (currentType) {
     case DESCRIPTION_TYPES.TITLE: {
-      return <Title description={description} isSmall={size === 'small'} />
+      return (
+        <Title
+          description={description}
+          invalidStepsMemo={invalidStepsMemo}
+          selected={selected}
+          isFinished={isFinished}
+        />
+      )
     }
     case DESCRIPTION_TYPES.NOTIFICATIONS: {
       return (
         <Notifications
           status={status}
           description={description}
-          isSmall={size === 'small'}
+          invalidStepsMemo={invalidStepsMemo}
+          selected={selected}
+          isFinished={isFinished}
         />
       )
     }
     case DESCRIPTION_TYPES.METRICS_AND_CONDITIONS: {
       return (
         <MetricsAndConditions
-          isSmall={size === 'small'}
           description={description}
+          invalidStepsMemo={invalidStepsMemo}
+          selected={selected}
+          isFinished={isFinished}
         />
       )
     }
     case DESCRIPTION_TYPES.ASSETS: {
-      return <Assets description={description} isSmall={size === 'small'} />
+      return (
+        <Assets
+          description={description}
+          invalidStepsMemo={invalidStepsMemo}
+          selected={selected}
+          isFinished={isFinished}
+        />
+      )
     }
     case DESCRIPTION_TYPES.WATCHLISTS:
     case DESCRIPTION_TYPES.SCREENERS: {
@@ -83,7 +123,9 @@ const AlertStepDescription = ({
         <WatchlistAndScreener
           selectedType={selectedType}
           description={description}
-          isSmall={size === 'small'}
+          invalidStepsMemo={invalidStepsMemo}
+          selected={selected}
+          isFinished={isFinished}
         />
       )
     }
@@ -92,12 +134,25 @@ const AlertStepDescription = ({
         <WalletAndConditions
           selectedType={selectedType}
           description={description}
-          isSmall={size === 'small'}
+          invalidStepsMemo={invalidStepsMemo}
+          selected={selected}
+          isFinished={isFinished}
         />
       )
     }
     default:
-      return description || ''
+      return (
+        <div className={styles.wrapper}>
+          {(selected || isFinished) && (description || '')}
+          {isInvalid && (
+            <AlertMessage
+              className={styles.error}
+              error
+              text='Social trend is required'
+            />
+          )}
+        </div>
+      )
   }
 }
 

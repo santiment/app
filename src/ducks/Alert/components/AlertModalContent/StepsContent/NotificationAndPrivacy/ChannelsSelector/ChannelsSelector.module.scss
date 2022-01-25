@@ -30,10 +30,15 @@
 }
 
 .content {
+  max-width: 215px;
+  text-align: right;
   color: var(--waterloo);
 }
 
 .checkInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   color: var(--check-label-color, var(--rhino));
 
   @include text("body-3");
@@ -47,4 +52,34 @@
 .channelSettingsTrigger {
   color: var(--jungle-green);
   cursor: pointer;
+}
+
+.info {
+  cursor: pointer;
+  fill: var(--waterloo);
+  width: 12px;
+  height: 12px;
+  min-width: 12px;
+
+  &:hover {
+    fill: var(--rhino);
+  }
+}
+
+.tooltip {
+  z-index: 1000;
+  padding: 18px 24px;
+  width: 320px;
+  height: auto;
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  color: var(--fiord);
+  box-shadow: 0 4px 8px rgba(24, 27, 43, 0.03);
+
+  &__content {
+    position: relative;
+
+    @include text("body-3");
+  }
 }

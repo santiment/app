@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react'
+import AlertModal from '../../Alert/AlertModal'
 import { mapToOptions } from '../../Signals/utils/utils'
 import {
   ETH_WALLET_METRIC,
   PRICE_ABS_CHANGE_BELOW
 } from '../../Signals/utils/constants'
-import AlertModal from '../../Alert/AlertModal'
+import { prepareAlertTitle } from '../../Signals/link/OpenSignalLink'
 
 const PARAMS = {
   variant: 'ghost',
@@ -42,6 +43,7 @@ const CreateAlert = ({ assets, address, trigger }) => {
       }}
       buttonParams={PARAMS}
       noLoginPopupContainer
+      prepareAlertTitle={prepareAlertTitle}
     />
   )
 }

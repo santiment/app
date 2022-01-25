@@ -1,4 +1,4 @@
-@import '~@santiment-network/ui/mixins';
+@import "~@santiment-network/ui/mixins";
 
 .alert {
   @include border-box();
@@ -16,8 +16,19 @@
   color: var(--texas-rose);
 }
 
+.error {
+  border: 1px solid var(--persimmon);
+  color: var(--rhino);
+
+  @include text("body-3");
+}
+
 .warningIcon {
   fill: var(--texas-rose);
+}
+
+.errorIcon {
+  fill: var(--persimmon);
 }
 
 .text {
