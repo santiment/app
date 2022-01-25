@@ -48,12 +48,14 @@ const Actions = ({ selected, watchlist, onAdd, onRemove, assets }) => {
   return (
     <>
       <div className={styles.actions}>
-        <Copy
-          selectedText={selectedText}
-          watchlist={watchlist}
-          assets={assets}
-          selected={selected}
-        />
+        {watchlist && watchlist.type !== "BLOCKCHAIN_ADDRESS" &&
+          <Copy
+            selectedText={selectedText}
+            watchlist={watchlist}
+            assets={assets}
+            selected={selected}
+          />
+        }
         <SaveAs selectedText={selectedText} watchlist={watchlist} />
         <Delete
           selected={selected}

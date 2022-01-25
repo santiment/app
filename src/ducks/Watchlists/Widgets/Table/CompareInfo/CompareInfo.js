@@ -12,7 +12,6 @@ const CompareInfo = ({
 }) => {
   const { removeWatchlistItems } = useDeleteWatchlistItems()
   const { addWatchlistItems } = useAddWatchlistItems()
-
   return (
     <div className={styles.container}>
       {type === 'PROJECT' && (
