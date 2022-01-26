@@ -8,7 +8,6 @@ import Watchlists from '../../Templates/Watchlists'
 import AssetsList from './AssetsList'
 import { useUser } from '../../../../stores/user/index'
 import LoginPopup from '../../../../components/banners/feature/PopupBanner'
-import SearchProjects from '../../../../components/Search/SearchProjects'
 import { useProjectWatchlists } from '../../gql/lists/hooks'
 import styles from './index.module.scss'
 
@@ -22,7 +21,7 @@ const WatchlistCopyPopup = ({
   checkedAssets = new Set()
 }) => {
   const { isLoggedIn } = useUser()
-  const [watchlists] = useProjectWatchlists()
+  const [watchlists, isWatchlistsLoading] = useProjectWatchlists()
   const [isShown, setIsShown] = useState(false)
   const [isEditing, setEditing] = useState(false)
   const [warning, setWarning] = useState(false)
@@ -144,19 +143,12 @@ const WatchlistCopyPopup = ({
     >
       <Dialog.ScrollContent className={styles.wrapper}>
         <div className={styles.assetsWrapper}>
-          <SearchProjects
-            noTrends
-            projects={assets}
-            checkedAssets={assetsToCopy}
-            isCopyingAssets={true}
-            className={styles.search}
-            onSuggestionSelect={({ item: { id } }) => onAssetClick(id)}
-          />
           <AssetsList
             items={assets}
             selectedItems={assetsToCopy}
             onToggleAsset={onAssetClick}
             classes={{ list: styles.wrapperList, asset: styles.asset }}
+            withSearch
           />
         </div>
         <div className={styles.watchlistsWrapper}>
@@ -167,6 +159,7 @@ const WatchlistCopyPopup = ({
             classes={{ list: styles.watchlists }}
             lists={lists}
             withNewButton={false}
+            loading={isWatchlistsLoading}
           />
         </div>
       </Dialog.ScrollContent>

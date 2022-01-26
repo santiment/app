@@ -23,7 +23,8 @@ const Toggler = ({
   watchlist,
   sorting,
   setOrderBy,
-  type
+  type,
+  flexible = true,
 }) => {
   const { isNightMode } = useTheme()
   const { isAuthor } = useIsAuthor(watchlist)
@@ -156,6 +157,7 @@ const Toggler = ({
         onClose={() => setOpen(false)}
         position='bottom'
         align='end'
+        flexible={flexible}
       >
         <Panel
           variant='modal'
