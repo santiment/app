@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import cx from 'classnames'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import { notifyUpdate } from '../notifications'
@@ -29,6 +30,27 @@ const Actions = ({
   const [lists] = useUserWatchlists(type)
   const [updateWatchlist, { loading }] = useUpdateWatchlist(type)
   const [isMenuOpened, setIsMenuOpened] = useState(false)
+  const [showPanel, setShowPanel] = useState(true)
+
+  useEffect(() => {
+    const panelVisibilityChange = ({ detail }) => {
+      if (detail === 'show') {
+        setIsMenuOpened(false)
+      }
+      setShowPanel(detail === 'show')
+    }
+    window.addEventListener(
+      'panelVisibilityChange',
+      panelVisibilityChange,
+      false
+    )
+    return () =>
+      window.removeEventListener(
+        'panelVisibilityChange',
+        panelVisibilityChange,
+        false
+      )
+  }, [])
 
   if (!watchlist.id || isAuthorLoading) {
     return null
@@ -76,7 +98,10 @@ const Actions = ({
         passOpenStateAs='isActive'
         onClose={() => setIsMenuOpened(false)}
       >
-        <Panel variant='modal' className={styles.wrapper}>
+        <Panel
+          variant='modal'
+          className={cx(styles.wrapper, !showPanel && styles.hidePanel)}
+        >
           <Edit
             type={type}
             title={title}

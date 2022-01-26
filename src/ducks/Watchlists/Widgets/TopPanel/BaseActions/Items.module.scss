@@ -11,7 +11,7 @@
   fill: var(--casper);
 
   &:hover {
-    fill: var(--jungle-green-light-3);
+    fill: var(--jungle-green);
   }
 }
 
@@ -70,9 +70,6 @@
 }
 
 .delete {
-  fill: var(--persimmon);
-  color: var(--persimmon);
-
   &:hover {
     fill: var(--persimmon-hover);
     color: var(--persimmon-hover);

@@ -42,6 +42,7 @@ const SaveAs = ({ watchlist, trigger, type, prefix = 'Duplicate' }) => {
       toggleOpen={toggleOpen}
       onFormSubmit={onSubmit}
       title={`${prefix} ${title}`}
+      buttonLabel={prefix}
       settings={{ name, description }}
       watchlist={watchlist}
     />

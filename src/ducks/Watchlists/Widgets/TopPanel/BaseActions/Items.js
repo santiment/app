@@ -87,7 +87,7 @@ export const Delete = ({ id, name, title }) => (
     id={id}
     name={name}
     trigger={
-      <Item icon='remove' accent='negative' className={styles.delete}>
+      <Item icon='remove' className={styles.delete}>
         Delete
       </Item>
     }
