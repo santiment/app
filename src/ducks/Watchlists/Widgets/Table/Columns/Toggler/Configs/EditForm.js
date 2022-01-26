@@ -9,7 +9,7 @@ import styles from './EditForm.module.scss'
 const MIN_LENGTH = 3
 const SHORT_NAME_ERROR = `The name should be at least ${MIN_LENGTH} characters`
 const BAD_SYMBOLS_ERROR = "Use only letters, numbers, whitespace and _-.'/,"
-const NAME_EXISTS_ERROR = 'You has already use this name'
+const NAME_EXISTS_ERROR = 'You have already used this name'
 const ALLOWED_SYMBOLS_REGEXP = /^([.\-/_' ,\w]*)$/
 
 const EMPTY_ARRAY = []
@@ -102,7 +102,8 @@ const EditForm = ({
           placeholder='For example, Social movements'
           maxLength='25'
           defaultValue={formState.name}
-          onChange={onInputChange}
+          onChange={e => formState.error && onInputChange(e)}
+          onBlur={onInputChange}
           isError={formState.error}
           errorText={formState.error}
           autoComplete='off'
@@ -117,12 +118,7 @@ const EditForm = ({
             className={styles.btn}
             accent='positive'
             isLoading={isLoading}
-            disabled={
-              isLoading ||
-              formState.error ||
-              !formState.name ||
-              formState.name.length < MIN_LENGTH
-            }
+            disabled={isLoading}
           >
             {buttonLabel}
           </Dialog.Approve>
