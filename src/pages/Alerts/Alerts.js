@@ -93,7 +93,7 @@ const Alerts = ({ isDesktop, match }) => {
                 title: 'Explore Alerts',
                 content: (
                   <RecommendedSignals
-                    userId={user.id}
+                    userId={user ? user.id : ''}
                     showTitle={false}
                     showNew
                   />
@@ -104,7 +104,7 @@ const Alerts = ({ isDesktop, match }) => {
                 title: 'My Alerts',
                 content: (
                   <LoadableAlertsList
-                    userId={user.id}
+                    userId={user ? user.id : ''}
                     showNew
                     filters={{
                       statusFilter: filter
