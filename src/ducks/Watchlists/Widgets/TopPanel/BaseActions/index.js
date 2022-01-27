@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import { notifyUpdate } from '../notifications'
@@ -34,10 +33,9 @@ const Actions = ({
 
   useEffect(() => {
     const panelVisibilityChange = ({ detail }) => {
-      if (detail === 'show') {
-        setIsMenuOpened(false)
-      }
-      setShowPanel(detail === 'show')
+      const isShowPanel = detail === 'show'
+      setShowPanel(isShowPanel)
+      setIsMenuOpened(!isShowPanel)
     }
     window.addEventListener(
       'panelVisibilityChange',
@@ -100,7 +98,7 @@ const Actions = ({
       >
         <Panel
           variant='modal'
-          className={cx(styles.wrapper, !showPanel && styles.hidePanel)}
+          className={showPanel ? styles.wrapper : styles.hidePanel}
         >
           <Edit
             type={type}

@@ -38,9 +38,17 @@ const WatchlistCopyPopup = ({
     setAssetsToCopy(new Set())
     setEditing(false)
     setIsShown(false)
+    window.dispatchEvent(
+      new CustomEvent('panelVisibilityChange', { detail: 'show' })
+    )
   }
 
-  const open = () => setIsShown(true)
+  const open = () => {
+    setIsShown(true);
+    window.dispatchEvent(
+      new CustomEvent('panelVisibilityChange', { detail: 'hide' })
+    )
+  }
 
   const normalizeListItems = items => items.map(({ project: { id } }) => id)
 

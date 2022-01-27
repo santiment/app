@@ -15,11 +15,12 @@ const AssetsList = ({ items, selectedItems, onToggleAsset, classes, withSearch =
   const [filteredItems, setFilteredItems] = useState(items)
 
   useEffect(() => {
+    if (!withSearch) return;
     let filteredItems = [...items]
-    if (withSearch && filter) {
-      const _filter = filter.trim().toLowerCase()
+    if (filter) {
+      const normalizedFilter = filter.trim().toLowerCase()
       filteredItems = filteredItems.filter(({name, ticker}) => {
-        return name.toLowerCase().includes(_filter) || ticker.toLowerCase().includes(_filter)
+        return name.toLowerCase().includes(normalizedFilter) || ticker.toLowerCase().includes(normalizedFilter)
       })
     }
     setFilteredItems(filteredItems)
@@ -49,7 +50,7 @@ const AssetsList = ({ items, selectedItems, onToggleAsset, classes, withSearch =
   }
 
   return (
-    <div style={wrapperStyles} className={cx(styles.wrapperList, classes.list)}>
+    <>
       {withSearch &&
         <InputWithIcon
           type='text'
@@ -61,20 +62,22 @@ const AssetsList = ({ items, selectedItems, onToggleAsset, classes, withSearch =
           placeholder='Type to search'
         />
       }
-      <AutoSizer>
-        {({ height, width }) => (
-          <List
-            width={width}
-            height={height}
-            rowHeight={ROW_HEIGHT}
-            rowCount={filteredItems.length}
-            overscanRowCount={5}
-            rowRenderer={rowRenderer}
-            className={styles.list}
-          />
-        )}
-      </AutoSizer>
-    </div>
+      <div style={wrapperStyles} className={cx(styles.wrapperList, classes.list)}>
+        <AutoSizer>
+          {({ height, width }) => (
+            <List
+              width={width}
+              height={height}
+              rowHeight={ROW_HEIGHT}
+              rowCount={filteredItems.length}
+              overscanRowCount={5}
+              rowRenderer={rowRenderer}
+              className={styles.list}
+            />
+          )}
+        </AutoSizer>
+      </div>
+    </>
   )
 }
 
