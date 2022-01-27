@@ -45,22 +45,10 @@ const Page = () => {
 
         <Plans id='plans' classes={styles} />
 
-        <PlanDescriptions />
-
-        <PayWithCrypto />
+        <PricingFAQ />
 
         <SpeakBlocks />
-
-        <Companies />
-
-        <Testimonials />
-
-        <TwitterFeedbacks />
-
-        <PricingFAQ />
       </div>
-
-      {!isLoggedIn && <UpgradeInfo />}
     </DashboardLayout>
   )
 }
