@@ -72,6 +72,12 @@ module.exports = function override(config, env) {
         flatten: true,
       },
       {
+        // NOTE(vanguard): update CopyPlugin to use recursive copy
+        from: path.resolve('node_modules/san-webkit/lib/sprites/illus/*.svg'),
+        to: 'static/sprites/illus',
+        flatten: true,
+      },
+      {
         from: path.resolve('node_modules/san-webkit/lib/icons/*.svg'),
         to: 'static/icons',
         flatten: true,
