@@ -7,12 +7,12 @@
 }
 
 .header {
+  z-index: 1000;
   border: 1px solid var(--porcelain);
-  border-bottom: 0;
   border-top-left-radius: $border-radius;
   border-top-right-radius: $border-radius;
   position: sticky;
-  top: 0;
+  top: 46px;
   background: var(--white);
 }
 
@@ -63,6 +63,7 @@
 .table {
   margin-top: 0;
   border: 1px solid var(--porcelain);
+  border-top: 0;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
