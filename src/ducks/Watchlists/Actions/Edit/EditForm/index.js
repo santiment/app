@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import Input from '@santiment-network/ui/Input'
 import Label from '@santiment-network/ui/Label'
@@ -29,8 +29,15 @@ const EditForm = ({
 }) => {
   const [lists] = useUserWatchlists(type)
   const [formState, setFormState] = useState(defaultSettings)
+  const [preSelectedItems, setPreSelectedItems] = useState([])
   const debouncedCheckName = useDebounce(checkName, 300)
   const placeholder = type === SCREENER ? 'Most price performance' : 'Favorites'
+
+  useEffect(() => {
+    const comparingAssetsChangeHandler = ({detail}) => setPreSelectedItems(detail)
+    window.addEventListener("comparingAssetsChanged", comparingAssetsChangeHandler, false)
+    return () => window.removeEventListener("comparingAssetsChanged", comparingAssetsChangeHandler, false)
+  }, [])
 
   function onSubmit (evt) {
     evt.preventDefault()
@@ -161,6 +168,7 @@ const EditForm = ({
         {isOpen && type === 'PROJECT' && (
           <Assets
             watchlist={watchlist}
+            preSelectedItems={preSelectedItems}
             onChange={listItems => {
               setFormState(state => ({ ...state, listItems }))
             }}

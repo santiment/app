@@ -14,11 +14,10 @@ import fieldStyles from '../../../../../ducks/Studio/Sidebar/ProjectSelector/ind
 
 const VIEW_ITEM_COUNT = 4
 
-const Assets = ({ watchlist, onChange }) => {
+const Assets = ({ watchlist, onChange, preSelectedItems }) => {
   const ref = useRef()
   const [isSearchMode, setIsSearchMode] = useState(false)
   const [filter, setFilter] = useState('')
-
   const {
     checkedItems,
     filteredWatchlist,
@@ -67,7 +66,7 @@ const Assets = ({ watchlist, onChange }) => {
             onChange={({ currentTarget: { value } }) => setFilter(value)}
           />
         ) : (
-          <AssetItemDropdown checkedItems={checkedItems} />
+          <AssetItemDropdown checkedItems={preSelectedItems.length > 0 ? preSelectedItems : checkedItems} />
         )}
 
         <Icon
