@@ -254,7 +254,7 @@ export const App = ({
 
   return (
     <div
-      className={cx('App', isWatchlistPage && isDesktop && 'list-container', isLessThan20 && 'list-full-height')}
+      className={cx('App', isWatchlistPage && isDesktop && 'list-container', isWatchlistPage && isDesktop && isLessThan20 && 'list-full-height')}
     >
       <ErrorBoundary history={history}>
         {isOffline && (
