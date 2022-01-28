@@ -66,3 +66,32 @@
 .error-message {
   color: var(--persimmon);
 }
+
+.list-container {
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: auto;
+  overflow: overlay;
+  scrollbar-width: thin;
+
+  & header {
+    position: sticky;
+    left: 0;
+  }
+
+  & footer {
+    display: none;
+  }
+
+  &.list-height {
+    height: calc(100vh - 64px) !important;
+    min-height: calc(100vh - 64px) !important;
+  }
+
+  &.list-full-height {
+    height: 100vh !important;
+    min-height: 100vh !important;
+  }
+}

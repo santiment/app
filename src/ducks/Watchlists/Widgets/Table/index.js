@@ -72,9 +72,19 @@ const AssetsTable = ({
   }, [graphData7d, graphData1d, graphData30d, items])
 
   useEffect(() => {
-    window.dispatchEvent(
-      new CustomEvent('tableRowsCountChanged', { detail: data.length })
+    const app = document.querySelector('.App')
+    const isWatchlistPageInDesktopMode = app.classList.contains(
+      'list-container'
     )
+    if (!isWatchlistPageInDesktopMode) return
+
+    if (data.length < 20) {
+      app.classList.remove('list-height')
+      app.classList.add('list-full-height')
+    } else {
+      app.classList.remove('list-full-height')
+      app.classList.add('list-height')
+    }
   }, [data])
 
   useEffect(() => {

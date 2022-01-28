@@ -232,7 +232,6 @@ export const App = ({
   history
 }) => {
   const [isWatchlistPage, setIsWatchlistPage] = useState(false)
-  const [isLessThan20, setIsLessThan20] = useState(false)
 
   useSavedComment(isLoggedIn)
 
@@ -246,33 +245,9 @@ export const App = ({
     }
   }, [pathname])
 
-  useEffect(() => {
-    const tableRowsCountChangeHandler = ({ detail }) =>
-      setIsLessThan20(detail < 20)
-    window.addEventListener(
-      'tableRowsCountChanged',
-      tableRowsCountChangeHandler,
-      false
-    )
-    return () =>
-      window.removeEventListener(
-        'tableRowsCountChanged',
-        tableRowsCountChangeHandler,
-        false
-      )
-  }, [])
-
-  const isWatchlistPageInDesktopMode = isWatchlistPage && isDesktop
-
   return (
     <div
-      className={cx(
-        'App',
-        isWatchlistPageInDesktopMode && styles['list-container'],
-        isWatchlistPageInDesktopMode && isLessThan20
-          ? styles['list-full-height']
-          : styles['list-height']
-      )}
+      className={cx('App', isWatchlistPage && isDesktop && 'list-container')}
     >
       <ErrorBoundary history={history}>
         {isOffline && (
