@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useProjects } from '../../../../../stores/projects'
 
 const filterHelper = (filter, { ticker, name }) =>
@@ -18,7 +18,7 @@ function useAllProjects (filter) {
   return useFilteredItems(filter, projects)
 }
 
-export function useEditAssets (filter, watchlist, onChange) {
+export function useEditAssets (filter, watchlist, onChange, preSelectedItems = []) {
   const allProjects = useAllProjects(filter)
   const [checkedItems, setCheckedItems] = useState(watchlist)
   const filteredWatchlist = useFilteredItems(filter, checkedItems)
@@ -26,6 +26,13 @@ export function useEditAssets (filter, watchlist, onChange) {
     const checkedItemsIDs = new Set(checkedItems.map(i => i.id))
     return allProjects.filter(item => !checkedItemsIDs.has(item.id))
   }, [allProjects, checkedItems])
+
+  useEffect(() => {
+    if (preSelectedItems.length > 0) {
+      setCheckedItems(preSelectedItems)
+      onChange(preSelectedItems.map(l => ({ projectId: parseInt(l.id) })))
+    }
+  }, [preSelectedItems])
 
   const toggleWatchlistProject = item =>
     setCheckedItems(old => {

@@ -53,6 +53,11 @@
   }
 }
 
+:global(.list-full-height) {
+  height: 100vh !important;
+  min-height: 100vh !important;
+}
+
 .container {
   margin: 0 auto;
   padding-right: 15px;

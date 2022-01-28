@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import TableTop from './TableTop'
 import Table from '../../../Table'
 import { usePriceGraph } from './PriceGraph/hooks'
@@ -70,6 +70,10 @@ const AssetsTable = ({
 
     return result
   }, [graphData7d, graphData1d, graphData30d, items])
+
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent("tableRowsCountChanged", {detail: data.length}))
+  }, [data])
 
   return (
     <>

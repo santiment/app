@@ -26,7 +26,8 @@ const Assets = ({ watchlist, onChange, preSelectedItems }) => {
   } = useEditAssets(
     filter.toLowerCase(),
     watchlist ? watchlist.listItems.map(l => l.project) : [],
-    onChange
+    onChange,
+    preSelectedItems
   )
   const { isNightMode } = useTheme()
   const [showItems, setShowItems] = useState(false)
@@ -66,7 +67,7 @@ const Assets = ({ watchlist, onChange, preSelectedItems }) => {
             onChange={({ currentTarget: { value } }) => setFilter(value)}
           />
         ) : (
-          <AssetItemDropdown checkedItems={preSelectedItems.length > 0 ? preSelectedItems : checkedItems} />
+          <AssetItemDropdown checkedItems={checkedItems} />
         )}
 
         <Icon
