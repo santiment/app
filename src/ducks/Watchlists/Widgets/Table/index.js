@@ -78,8 +78,8 @@ const AssetsTable = ({
     const node = document.querySelector('.App')
     const isSmall = data.length < 20
 
-    node.classList.remove(isSmall ? 'list-height' : 'list-full-height')
-    node.classList.add(isSmall ? 'list-full-height' : 'list-height')
+    node.classList.remove(isSmall ? styles.defaultHeight : styles.fullHeight)
+    node.classList.add(isSmall ? styles.fullHeight : styles.defaultHeight)
   }, [data])
 
   useEffect(() => {

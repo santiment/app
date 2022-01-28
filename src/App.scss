@@ -84,14 +84,4 @@
   & footer {
     display: none;
   }
-
-  &.list-height {
-    height: calc(100vh - 64px) !important;
-    min-height: calc(100vh - 64px) !important;
-  }
-
-  &.list-full-height {
-    height: 100vh !important;
-    min-height: 100vh !important;
-  }
 }

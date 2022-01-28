@@ -1,16 +1,9 @@
 import React from 'react'
 import Plans from './Plans/Plans'
-import PayWithCrypto from './PayWithCrypto'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
-import UpgradeInfo from './UpgradeInfo/UpgradeInfo'
 import SpeakBlocks from './SpeakBlocks/SpeakBlocks'
-import PlanDescriptions from './PlanDescriptions/PlanDescriptions'
-import { useUser } from '../../stores/user'
 import PricingFAQ from './PricingFAQ/PricingFAQ'
-import Testimonials from '../../components/Testimonials'
-import Companies from './Companies/Companies'
-import TwitterFeedbacks from './TwitterFeedbacks/TwitterFeedbacks'
 import styles from './index.module.scss'
 
 const Header = () => {
@@ -35,22 +28,15 @@ const Header = () => {
   )
 }
 
-const Page = () => {
-  const { isLoggedIn } = useUser()
-
-  return (
-    <DashboardLayout showResearchers={false}>
-      <div className={styles.inner}>
-        <Header />
-
-        <Plans id='plans' classes={styles} />
-
-        <PricingFAQ />
-
-        <SpeakBlocks />
-      </div>
-    </DashboardLayout>
-  )
-}
+const Page = () => (
+  <DashboardLayout showResearchers={false}>
+    <div className={styles.inner}>
+      <Header />
+      <Plans id='plans' classes={styles} />
+      <PricingFAQ />
+      <SpeakBlocks />
+    </div>
+  </DashboardLayout>
+)
 
 export default Page
