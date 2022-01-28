@@ -262,12 +262,16 @@ export const App = ({
       )
   }, [])
 
+  const isWatchlistPageInDesktopMode = isWatchlistPage && isDesktop
+
   return (
     <div
       className={cx(
         'App',
-        isWatchlistPage && isDesktop && 'list-container',
-        isWatchlistPage && isDesktop && isLessThan20 && 'list-full-height'
+        isWatchlistPageInDesktopMode && styles['list-container'],
+        isWatchlistPageInDesktopMode &&
+          isLessThan20 &&
+          styles['list-full-height']
       )}
     >
       <ErrorBoundary history={history}>

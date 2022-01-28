@@ -14,6 +14,7 @@ const SHORT_NAME_ERROR = `The name should be at least ${MIN_LENGTH} characters`
 const BAD_SYMBOLS_ERROR = "Use only letters, numbers, whitespace and _-.'/,"
 const NAME_EXISTS_ERROR = 'You have already used this name'
 const ALLOWED_SYMBOLS_REGEXP = /^([.\-/_' ,\w]*)$/
+const DUPLICATE_LABELS = ['Duplicate', 'Save as']
 
 const EditForm = ({
   id,
@@ -120,8 +121,6 @@ const EditForm = ({
     return error
   }
 
-  const isDuplicate = ['Duplicate', 'Save as'].includes(buttonLabel)
-
   return (
     <Dialog
       open={isOpen}
@@ -155,7 +154,11 @@ const EditForm = ({
             onBlur={onInputChange}
             isError={formState.error}
             errorText={formState.error}
-            defaultValue={isDuplicate ? undefined : formState.name}
+            defaultValue={
+              DUPLICATE_LABELS.includes(buttonLabel)
+                ? undefined
+                : formState.name
+            }
             placeholder={'For example, ' + placeholder}
           />
         )}
