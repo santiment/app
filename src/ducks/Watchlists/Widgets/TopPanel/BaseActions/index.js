@@ -34,7 +34,7 @@ const Actions = ({
   useEffect(() => {
     const panelVisibilityChange = ({ detail }) => {
       const isShowPanel = detail === 'show'
-      setShowPanel(isShowPanel)
+      if (!isShowPanel) setShowPanel(isShowPanel)
       setIsMenuOpened(!isShowPanel)
     }
     window.addEventListener(
@@ -87,7 +87,10 @@ const Actions = ({
             isLoading={loading}
             watchlist={watchlist}
             onPrimaryAction={onEditApprove}
-            openMenu={() => setIsMenuOpened(true)}
+            openMenu={() => {
+              setShowPanel(true)
+              setIsMenuOpened(true)
+            }}
           />
         }
         align='start'

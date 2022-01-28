@@ -20,6 +20,7 @@ const WatchlistCopyPopup = ({
   setNotification,
   checkedAssets = new Set()
 }) => {
+  console.log({assets, checkedAssets})
   const { isLoggedIn } = useUser()
   const [watchlists, isWatchlistsLoading] = useProjectWatchlists()
   const [isShown, setIsShown] = useState(false)
