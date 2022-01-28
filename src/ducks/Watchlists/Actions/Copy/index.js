@@ -20,13 +20,12 @@ const WatchlistCopyPopup = ({
   setNotification,
   checkedAssets = new Set()
 }) => {
-  console.log({assets, checkedAssets})
   const { isLoggedIn } = useUser()
   const [watchlists, isWatchlistsLoading] = useProjectWatchlists()
   const [isShown, setIsShown] = useState(false)
   const [isEditing, setEditing] = useState(false)
   const [warning, setWarning] = useState(false)
-  const [assetsToCopy, setAssetsToCopy] = useState(checkedAssets)
+  const [assetsToCopy, setAssetsToCopy] = useState()
   const [watchlistsToCopy, setWatchlistsToCopy] = useState(new Set())
   const [editWatchlistState, setEditWatchlistState] = useState(
     editableWatchlists
@@ -46,6 +45,7 @@ const WatchlistCopyPopup = ({
 
   const open = () => {
     setIsShown(true);
+    setAssetsToCopy(checkedAssets)
     window.dispatchEvent(
       new CustomEvent('panelVisibilityChange', { detail: 'hide' })
     )
