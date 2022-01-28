@@ -110,6 +110,8 @@ const EditForm = ({
     return error
   }
 
+  const isDuplicate = ["Duplicate", "Save as"].includes(buttonLabel)
+
   return (
     <Dialog
       open={isOpen}
@@ -144,7 +146,7 @@ const EditForm = ({
             onBlur={onInputChange}
             isError={formState.error}
             errorText={formState.error}
-            defaultValue={formState.name}
+            defaultValue={isDuplicate ? undefined : formState.name}
             placeholder={'For example, ' + placeholder}
           />
         )}
