@@ -34,9 +34,19 @@ const EditForm = ({
   const placeholder = type === SCREENER ? 'Most price performance' : 'Favorites'
 
   useEffect(() => {
-    const comparingAssetsChangeHandler = ({detail}) => setPreSelectedItems(detail)
-    window.addEventListener("comparingAssetsChanged", comparingAssetsChangeHandler, false)
-    return () => window.removeEventListener("comparingAssetsChanged", comparingAssetsChangeHandler, false)
+    const comparingAssetsChangeHandler = ({ detail }) =>
+      setPreSelectedItems(detail)
+    window.addEventListener(
+      'comparingAssetsChanged',
+      comparingAssetsChangeHandler,
+      false
+    )
+    return () =>
+      window.removeEventListener(
+        'comparingAssetsChanged',
+        comparingAssetsChangeHandler,
+        false
+      )
   }, [])
 
   function onSubmit (evt) {
@@ -110,7 +120,7 @@ const EditForm = ({
     return error
   }
 
-  const isDuplicate = ["Duplicate", "Save as"].includes(buttonLabel)
+  const isDuplicate = ['Duplicate', 'Save as'].includes(buttonLabel)
 
   return (
     <Dialog

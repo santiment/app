@@ -16,10 +16,15 @@ const Watchlists = ({
   onWatchlistClick,
   withNewButton = true,
   classes = {},
-  loading = false,
+  loading = false
 }) => {
-
-  let watchlistsContent = loading ? (<div className={styles.loading}><LoaderImage /> <p>Loading ...</p></div>) : (<div>You don't have any watchlists yet.</div>)
+  let watchlistsContent = loading ? (
+    <div className={styles.loading}>
+      <LoaderImage /> <p>Loading ...</p>
+    </div>
+  ) : (
+    <div>You don't have any watchlists yet.</div>
+  )
 
   if (lists.length > 0) {
     watchlistsContent = lists.map(({ id, name, isPublic, listItems = [] }) => (
@@ -49,9 +54,7 @@ const Watchlists = ({
   return (
     <>
       <div className={styles.listWrapper}>
-        <div className={cx(styles.list, classes.list)}>
-          {watchlistsContent}
-        </div>
+        <div className={cx(styles.list, classes.list)}>{watchlistsContent}</div>
       </div>
       {withNewButton && (
         <NewWatchlist

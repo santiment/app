@@ -18,7 +18,12 @@ function useAllProjects (filter) {
   return useFilteredItems(filter, projects)
 }
 
-export function useEditAssets (filter, watchlist, onChange, preSelectedItems = []) {
+export function useEditAssets (
+  filter,
+  watchlist,
+  onChange,
+  preSelectedItems = []
+) {
   const allProjects = useAllProjects(filter)
   const [checkedItems, setCheckedItems] = useState(watchlist)
   const filteredWatchlist = useFilteredItems(filter, checkedItems)

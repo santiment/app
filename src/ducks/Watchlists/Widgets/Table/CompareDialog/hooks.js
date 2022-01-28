@@ -29,7 +29,9 @@ export const useComparingAssets = () => {
     setComparingAssets([])
   }, [setComparingAssets])
 
-  window.dispatchEvent(new CustomEvent("comparingAssetsChanged", {detail: comparingAssets}))
+  window.dispatchEvent(
+    new CustomEvent('comparingAssetsChanged', { detail: comparingAssets })
+  )
 
   return {
     comparingAssets,

@@ -44,7 +44,7 @@ const WatchlistCopyPopup = ({
   }
 
   const open = () => {
-    setIsShown(true);
+    setIsShown(true)
     setAssetsToCopy(checkedAssets)
     window.dispatchEvent(
       new CustomEvent('panelVisibilityChange', { detail: 'hide' })

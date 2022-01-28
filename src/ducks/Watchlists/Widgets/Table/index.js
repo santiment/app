@@ -72,7 +72,9 @@ const AssetsTable = ({
   }, [graphData7d, graphData1d, graphData30d, items])
 
   useEffect(() => {
-    window.dispatchEvent(new CustomEvent("tableRowsCountChanged", {detail: data.length}))
+    window.dispatchEvent(
+      new CustomEvent('tableRowsCountChanged', { detail: data.length })
+    )
   }, [data])
 
   return (

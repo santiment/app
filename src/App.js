@@ -247,14 +247,28 @@ export const App = ({
   }, [pathname])
 
   useEffect(() => {
-    const tableRowsCountChangeHandler = ({detail}) => setIsLessThan20(detail < 20)
-    window.addEventListener("tableRowsCountChanged", tableRowsCountChangeHandler, false)
-    return () => window.removeEventListener("tableRowsCountChanged", tableRowsCountChangeHandler, false)
+    const tableRowsCountChangeHandler = ({ detail }) =>
+      setIsLessThan20(detail < 20)
+    window.addEventListener(
+      'tableRowsCountChanged',
+      tableRowsCountChangeHandler,
+      false
+    )
+    return () =>
+      window.removeEventListener(
+        'tableRowsCountChanged',
+        tableRowsCountChangeHandler,
+        false
+      )
   }, [])
 
   return (
     <div
-      className={cx('App', isWatchlistPage && isDesktop && 'list-container', isWatchlistPage && isDesktop && isLessThan20 && 'list-full-height')}
+      className={cx(
+        'App',
+        isWatchlistPage && isDesktop && 'list-container',
+        isWatchlistPage && isDesktop && isLessThan20 && 'list-full-height'
+      )}
     >
       <ErrorBoundary history={history}>
         {isOffline && (

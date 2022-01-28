@@ -24,7 +24,7 @@ const Toggler = ({
   sorting,
   setOrderBy,
   type,
-  flexible = true,
+  flexible = true
 }) => {
   const { isNightMode } = useTheme()
   const { isAuthor } = useIsAuthor(watchlist)
