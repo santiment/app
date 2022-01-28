@@ -134,12 +134,13 @@
   z-index: 100;
   padding: 12px 17px;
   opacity: 1;
-  transition: all 0.25s ease-in-out;
+  transition: opacity 0.25s ease-in-out, height 0.25s ease-in-out;
 }
 
 .hide {
   opacity: 0;
   height: 0;
+  transform: scale(0);
 }
 
 .groupLabel {

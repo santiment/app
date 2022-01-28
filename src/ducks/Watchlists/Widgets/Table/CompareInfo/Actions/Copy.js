@@ -24,7 +24,7 @@ const Copy = ({ selectedText, watchlist, assets, selected }) => {
         }
         id={watchlist.id}
         assets={assets}
-        checkedAssets={new Set(selected.map(s => s.projectId.toString()))}
+        checkedAssets={new Set(selected.map(s => s.id.toString()))}
       />
     </div>
   )

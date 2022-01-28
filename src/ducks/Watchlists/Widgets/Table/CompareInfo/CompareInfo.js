@@ -16,8 +16,8 @@ const CompareInfo = ({
     <div className={styles.container}>
       {type === 'PROJECT' && (
         <Actions
-          selected={selected.map(s => ({ projectId: parseInt(s.id) }))}
-          assets={selected}
+          selected={selected}
+          assets={watchlist.listItems.map(item => item.project)}
           watchlist={watchlist}
           onAdd={(watchlistId, listItems, onAddDone) =>
             addWatchlistItems({

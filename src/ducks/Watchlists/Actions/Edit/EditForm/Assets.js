@@ -14,11 +14,10 @@ import fieldStyles from '../../../../../ducks/Studio/Sidebar/ProjectSelector/ind
 
 const VIEW_ITEM_COUNT = 4
 
-const Assets = ({ watchlist, onChange }) => {
+const Assets = ({ watchlist, onChange, preSelectedItems }) => {
   const ref = useRef()
   const [isSearchMode, setIsSearchMode] = useState(false)
   const [filter, setFilter] = useState('')
-
   const {
     checkedItems,
     filteredWatchlist,
@@ -27,7 +26,8 @@ const Assets = ({ watchlist, onChange }) => {
   } = useEditAssets(
     filter.toLowerCase(),
     watchlist ? watchlist.listItems.map(l => l.project) : [],
-    onChange
+    onChange,
+    preSelectedItems
   )
   const { isNightMode } = useTheme()
   const [showItems, setShowItems] = useState(false)

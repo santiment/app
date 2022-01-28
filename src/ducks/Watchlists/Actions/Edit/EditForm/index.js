@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import Input from '@santiment-network/ui/Input'
 import Label from '@santiment-network/ui/Label'
@@ -14,6 +14,7 @@ const SHORT_NAME_ERROR = `The name should be at least ${MIN_LENGTH} characters`
 const BAD_SYMBOLS_ERROR = "Use only letters, numbers, whitespace and _-.'/,"
 const NAME_EXISTS_ERROR = 'You have already used this name'
 const ALLOWED_SYMBOLS_REGEXP = /^([.\-/_' ,\w]*)$/
+const DUPLICATE_LABELS = ['Duplicate', 'Save as']
 
 const EditForm = ({
   id,
@@ -29,8 +30,25 @@ const EditForm = ({
 }) => {
   const [lists] = useUserWatchlists(type)
   const [formState, setFormState] = useState(defaultSettings)
+  const [preSelectedItems, setPreSelectedItems] = useState([])
   const debouncedCheckName = useDebounce(checkName, 300)
   const placeholder = type === SCREENER ? 'Most price performance' : 'Favorites'
+
+  useEffect(() => {
+    const comparingAssetsChangeHandler = ({ detail }) =>
+      setPreSelectedItems(detail)
+    window.addEventListener(
+      'comparingAssetsChanged',
+      comparingAssetsChangeHandler,
+      false
+    )
+    return () =>
+      window.removeEventListener(
+        'comparingAssetsChanged',
+        comparingAssetsChangeHandler,
+        false
+      )
+  }, [])
 
   function onSubmit (evt) {
     evt.preventDefault()
@@ -128,7 +146,6 @@ const EditForm = ({
         </Label>
         {isOpen && (
           <Input
-            autoFocus
             name='name'
             maxLength='25'
             autoComplete='off'
@@ -137,7 +154,11 @@ const EditForm = ({
             onBlur={onInputChange}
             isError={formState.error}
             errorText={formState.error}
-            defaultValue={formState.name}
+            defaultValue={
+              DUPLICATE_LABELS.includes(buttonLabel)
+                ? undefined
+                : formState.name
+            }
             placeholder={'For example, ' + placeholder}
           />
         )}
@@ -161,6 +182,7 @@ const EditForm = ({
         {isOpen && type === 'PROJECT' && (
           <Assets
             watchlist={watchlist}
+            preSelectedItems={preSelectedItems}
             onChange={listItems => {
               setFormState(state => ({ ...state, listItems }))
             }}
