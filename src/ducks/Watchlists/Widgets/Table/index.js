@@ -34,7 +34,8 @@ const AssetsTable = ({
   activeColumns,
   setOrderBy,
   updateActiveColumnsKeys,
-  fetchAllColumns
+  fetchAllColumns,
+  isDesktop
 }) => {
   const [toggleSelected, setToggleSelected] = useState()
   const defaultSorting = useMemo(
@@ -72,16 +73,13 @@ const AssetsTable = ({
   }, [graphData7d, graphData1d, graphData30d, items])
 
   useEffect(() => {
-    const app = document.querySelector('.App')
-    if (!app.classList.contains('list-container')) return
+    if (!isDesktop) return
 
-    if (data.length < 20) {
-      app.classList.remove('list-height')
-      app.classList.add('list-full-height')
-    } else {
-      app.classList.remove('list-full-height')
-      app.classList.add('list-height')
-    }
+    const node = document.querySelector('.App')
+    const isSmall = data.length < 20
+
+    node.classList.remove(isSmall ? 'list-height' : 'list-full-height')
+    node.classList.add(isSmall ? 'list-full-height' : 'list-height')
   }, [data])
 
   useEffect(() => {

@@ -13,7 +13,7 @@ import {
 import { buildFunctionQuery } from '../../ducks/Watchlists/Widgets/Filter/utils'
 import AssetsTemplates from '../../ducks/Watchlists/Widgets/Table/AssetsTemplates'
 
-const WatchlistPage = ({ location, history, watchlist }) => {
+const WatchlistPage = ({ location, history, watchlist, isDesktop }) => {
   const fn = useMemo(
     () => ({
       name: 'selector',
@@ -120,6 +120,7 @@ const WatchlistPage = ({ location, history, watchlist }) => {
         updatedAt={updatedAt}
       />
       <AssetsTable
+        isDesktop={isDesktop}
         items={assets}
         allItems={allItems}
         type={PROJECT}
