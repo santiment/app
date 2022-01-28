@@ -147,7 +147,6 @@ const EditForm = ({
         </Label>
         {isOpen && (
           <Input
-            autoFocus
             name='name'
             maxLength='25'
             autoComplete='off'

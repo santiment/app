@@ -77,6 +77,12 @@ const AssetsTable = ({
     )
   }, [data])
 
+  useEffect(() => {
+    window.dispatchEvent(
+      new CustomEvent('comparingAssetsChanged', { detail: comparingAssets })
+    )
+  }, [comparingAssets])
+
   return (
     <>
       <TableTop
