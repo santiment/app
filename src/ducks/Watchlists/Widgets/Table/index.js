@@ -73,10 +73,7 @@ const AssetsTable = ({
 
   useEffect(() => {
     const app = document.querySelector('.App')
-    const isWatchlistPageInDesktopMode = app.classList.contains(
-      'list-container'
-    )
-    if (!isWatchlistPageInDesktopMode) return
+    if (!app.classList.contains('list-container')) return
 
     if (data.length < 20) {
       app.classList.remove('list-height')
