@@ -269,7 +269,9 @@ export const App = ({
       className={cx(
         'App',
         isWatchlistPageInDesktopMode && styles['list-container'],
-        (isWatchlistPageInDesktopMode && isLessThan20) ? styles['list-full-height'] : styles['list-height']
+        isWatchlistPageInDesktopMode && isLessThan20
+          ? styles['list-full-height']
+          : styles['list-height']
       )}
     >
       <ErrorBoundary history={history}>
