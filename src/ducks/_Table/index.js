@@ -3,6 +3,7 @@ import cx from 'classnames'
 import { FluidSkeleton as Skeleton } from '../../components/Skeleton'
 import EmptySection from '../../pages/Watchlists/EmptySection'
 import { BLOCKCHAIN_ADDRESS } from '../../ducks/Watchlists/detector'
+import { DesktopOnly } from '../../components/Responsive'
 import styles from './index.module.scss'
 
 export function prepareColumns (columns) {
@@ -44,13 +45,15 @@ const Table = ({
   ...props
 }) => (
   <table className={cx(styles.wrapper, className)}>
-    <thead>
-      <tr>
-        {columns.map(({ id, title, Title }) => (
-          <th key={id}>{Title ? <Title {...itemProps} /> : title}</th>
-        ))}
-      </tr>
-    </thead>
+    <DesktopOnly>
+      <thead>
+        <tr>
+          {columns.map(({ id, title, Title }) => (
+            <th key={id}>{Title ? <Title {...itemProps} /> : title}</th>
+          ))}
+        </tr>
+      </thead>
+    </DesktopOnly>
     <tbody>
       {!isLoading && items.length === 0 && (
         <tr className={styles.disableHover}>
@@ -68,17 +71,20 @@ const Table = ({
         <>
           {items.map((item, i) => {
             const itemIndex = offset + i
-
             return (
               <tr
                 key={getItemKey ? getItemKey(item) : item[itemKeyProperty]}
                 onClick={onRowClick && (e => onRowClick(item, e))}
               >
-                {columns.map(({ id, render, className }) => (
-                  <td key={id} className={className}>
-                    {render(item, itemProps, itemIndex)}
-                  </td>
-                ))}
+                {columns
+                  .filter(({ id }) =>
+                    props.isDesktop ? true : id !== 'CHECKBOX'
+                  )
+                  .map(({ id, render, className }) => (
+                    <td key={id} className={className}>
+                      {render(item, itemProps, itemIndex)}
+                    </td>
+                  ))}
               </tr>
             )
           })}

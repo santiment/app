@@ -15,6 +15,7 @@ import NotificationActions from '../../../../../components/NotificationActions/N
 import { useIsAuthor } from '../../../gql/list/hooks'
 import { updateWatchlistShort } from '../../../gql/list/mutations'
 import { useAddressNote } from '../../../../HistoricalBalance/hooks'
+import { mapAddressToAPIType as defaultMapAddress } from '../../../../../utils/address'
 import styles from './EditAddresses.module.scss'
 
 const updateWatchlist = ({ id, listItems }) =>
@@ -27,9 +28,9 @@ const extractAddress = ({ blockchainAddress }) => blockchainAddress
 
 const EditAddresses = ({
   trigger,
-  watchlist,
+  watchlist = { listItems: [] },
   refreshList,
-  mapAddressToAPIType
+  mapAddressToAPIType = defaultMapAddress
 }) => {
   const { id, name } = watchlist
   const { isAuthor } = useIsAuthor(watchlist)

@@ -25,6 +25,7 @@ const MobileHeader = ({
   rightActions,
   classes: _classes = {},
   showBack = false,
+  showSearch = true,
   children
 }) => {
   const classes = { ...defaultClasses, ..._classes }
@@ -57,9 +58,11 @@ const MobileHeader = ({
       {children}
       <div className={classes.right}>
         {rightActions}
-        <Button to='/search' as={Link} className={classes.searchBtn}>
-          <Icon type='search' />
-        </Button>
+        {showSearch && (
+          <Button to='/search' as={Link} className={classes.searchBtn}>
+            <Icon type='search' />
+          </Button>
+        )}
       </div>
     </div>
   )

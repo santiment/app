@@ -5,6 +5,8 @@ import DownloadCSV from './DownloadCSV'
 import PagedTable from '../_Table/Paged'
 import { useSelectedItemsSet } from '../_Table/hooks'
 import Refresh from '../../components/Refresh/Refresh'
+import MobileHeader from '../../components/MobileHeader/MobileHeader'
+import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import { BLOCKCHAIN_ADDRESS } from '../Watchlists/detector'
 import ColumnsToggler from '../Watchlists/Widgets/Table/Columns/Toggler'
 import EditAddresses from '../Watchlists/Actions/Edit/EditAddresses/EditAddresses'
@@ -36,59 +38,81 @@ const WatchlistTable = ({
 
   return (
     <>
-      <div className={styles.top}>
-        <EditAddresses
-          watchlist={watchlist}
-          refreshList={refreshList}
-          mapAddressToAPIType={mapAddressToAPIType}
-          trigger={
-            <Button border accent='positive' className={styles.add}>
-              <Icon type='assets' className={styles.icon} />
-              Edit addresses
-            </Button>
-          }
-        />
-        <Refresh timestamp={refreshTimestamp} onRefreshClick={refreshList} />
+      <DesktopOnly>
+        <div className={styles.top}>
+          <EditAddresses
+            watchlist={watchlist}
+            refreshList={refreshList}
+            trigger={
+              <Button border accent='positive' className={styles.add}>
+                <Icon type='assets' className={styles.icon} />
+                Edit addresses
+              </Button>
+            }
+          />
+          <Refresh timestamp={refreshTimestamp} onRefreshClick={refreshList} />
 
-        {selectedItemsSet.selectedItemsSet.size > 0 && (
-          <div className={styles.ml1}>
-            <Actions
-              selected={Array.from(selectedItemsSet.selectedItemsSet)}
+          {selectedItemsSet.selectedItemsSet.size > 0 && (
+            <div className={styles.ml1}>
+              <Actions
+                selected={Array.from(selectedItemsSet.selectedItemsSet)}
+                watchlist={watchlist}
+                onAdd={(watchlistId, _, onAddDone) =>
+                  updateWatchlistShort({
+                    id: watchlistId,
+                    listItems: items.map(a => mapAddressToAPIType(a))
+                  }).then(() => refreshList(onAddDone))
+                }
+                onRemove={(watchlistId, listItems, onRemoveDone) => {
+                  const addresses = listItems.map(l => l.address)
+                  const removeItems = items.filter(
+                    l => !addresses.includes(l.address)
+                  )
+                  return updateWatchlistShort({
+                    id: watchlistId,
+                    listItems: removeItems.map(a => mapAddressToAPIType(a))
+                  }).then(() => refreshList(onRemoveDone))
+                }}
+              />
+            </div>
+          )}
+
+          <div className={styles.actions}>
+            <ColumnsToggler
+              type={BLOCKCHAIN_ADDRESS}
               watchlist={watchlist}
-              onAdd={(watchlistId, _, onAddDone) =>
-                updateWatchlistShort({
-                  id: watchlistId,
-                  listItems: items.map(a => mapAddressToAPIType(a))
-                }).then(() => refreshList(onAddDone))
-              }
-              onRemove={(watchlistId, listItems, onRemoveDone) => {
-                const addresses = listItems.map(l => l.address)
-                const removeItems = items.filter(
-                  l => !addresses.includes(l.address)
-                )
-                return updateWatchlistShort({
-                  id: watchlistId,
-                  listItems: removeItems.map(a => mapAddressToAPIType(a))
-                }).then(() => refreshList(onRemoveDone))
-              }}
+              activeColumns={activeColumns}
+              updateActiveColumnsKeys={updateActiveColumnsKeys}
+            />
+            <DownloadCSV
+              type={BLOCKCHAIN_ADDRESS}
+              watchlist={watchlist}
+              data={csvData}
             />
           </div>
-        )}
-
-        <div className={styles.actions}>
-          <ColumnsToggler
-            type={BLOCKCHAIN_ADDRESS}
-            watchlist={watchlist}
-            activeColumns={activeColumns}
-            updateActiveColumnsKeys={updateActiveColumnsKeys}
-          />
-          <DownloadCSV
-            type={BLOCKCHAIN_ADDRESS}
-            watchlist={watchlist}
-            data={csvData}
-          />
         </div>
-      </div>
+      </DesktopOnly>
+
+      <MobileOnly>
+        <MobileHeader
+          showBack={true}
+          title={watchlist.name}
+          backRoute='/watchlists'
+          showSearch={false}
+          classes={{ title: styles.title }}
+          rightActions={
+            <EditAddresses
+              watchlist={watchlist}
+              refreshList={refreshList}
+              trigger={
+                <Button>
+                  <Icon type='edit' />
+                </Button>
+              }
+            />
+          }
+        />
+      </MobileOnly>
 
       <PagedTable
         {...props}
