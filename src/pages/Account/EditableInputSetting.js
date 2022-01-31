@@ -3,6 +3,8 @@ import Button from '@santiment-network/ui/Button'
 import Label from '@santiment-network/ui/Label'
 import Input from '@santiment-network/ui/Input'
 import Panel from '@santiment-network/ui/Panel'
+import Icon from '@santiment-network/ui/Icon'
+import DarkTooltip from '../../components/Tooltip/DarkTooltip'
 import cx from 'classnames'
 import styles from './AccountPage.module.scss'
 
@@ -60,7 +62,7 @@ class EditableInputSetting extends PureComponent {
 
   render () {
     const { editing, error } = this.state
-    const { label, defaultValue, classes = {}, prefix } = this.props
+    const { label, defaultValue, classes = {}, prefix, tooltip } = this.props
 
     return (
       <form
@@ -82,7 +84,27 @@ class EditableInputSetting extends PureComponent {
         >
           {!editing && (
             <div className={cx(classes.inputLabels, styles.inputLabels)}>
-              <Label>{label}</Label>
+              <Label className={styles.label}>
+                {tooltip ? (
+                  <DarkTooltip
+                    trigger={
+                      <div>
+                        {label}{' '}
+                        <Icon
+                          type='info-round'
+                          className={styles.labelTooltip}
+                        />
+                      </div>
+                    }
+                    position='top'
+                    align='start'
+                  >
+                    {tooltip}
+                  </DarkTooltip>
+                ) : (
+                  label
+                )}
+              </Label>
               <Label
                 className={cx(
                   styles.setting__description,

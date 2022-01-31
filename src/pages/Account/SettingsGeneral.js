@@ -41,13 +41,13 @@ const SettingsGeneral = ({
       />
       <Settings.Row>
         <div className={styles.setting__left}>
-          <Label>Night mode</Label>
+          <Label className={styles.label}>Night mode</Label>
         </div>
         <Toggle isActive={isNightModeEnabled} onClick={toggleNightMode} />
       </Settings.Row>
       <Settings.Row>
         <div className={styles.setting__left}>
-          <Label>Beta mode</Label>
+          <Label className={styles.label}>Beta mode</Label>
         </div>
         <Toggle isActive={isBetaModeEnabled} onClick={toggleBetaMode} />
       </Settings.Row>

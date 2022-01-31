@@ -17,7 +17,7 @@ const CHANGE_USERNAME_MUTATION = gql`
 `
 
 const validateUsername = username => {
-  if (username && username.length < 3) {
+  if (username.length < 3) {
     return 'Username should be at least 3 characters long'
   }
   if (username && username[0] === '@') {
@@ -41,6 +41,7 @@ const UsernameSetting = ({
       validate={validateUsername}
       classes={styles}
       prefix='@'
+      tooltip='Service assignation for any interactions on Sanbase'
       onSubmit={value =>
         changeUsername({ variables: { value } })
           .then(() => {
