@@ -27,6 +27,7 @@ const NameSetting = ({ dispatchNewName, name, changeName }) => {
       defaultValue={name}
       validate={validateName}
       classes={styles}
+      tooltip='Official assignation for visitors to your user profile'
       onSubmit={value =>
         changeName({ variables: { value } })
           .then(() => {
