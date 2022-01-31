@@ -29,9 +29,12 @@
   top: 0;
 }
 
-.nodata {
-  position: absolute;
-  top: 53%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.emptyWrapper {
+  flex-direction: column;
+}
+
+.disableHover {
+  &:hover, &:hover td {
+    background: var(--white) !important;
+  }
 }

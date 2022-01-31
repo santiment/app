@@ -1,7 +1,8 @@
 import React from 'react'
 import cx from 'classnames'
 import { FluidSkeleton as Skeleton } from '../../components/Skeleton'
-import NoDataImage from '../../components/Illustrations/NoData'
+import EmptySection from '../../pages/Watchlists/EmptySection'
+import { BLOCKCHAIN_ADDRESS } from '../../ducks/Watchlists/detector'
 import styles from './index.module.scss'
 
 export function prepareColumns (columns) {
@@ -39,7 +40,8 @@ const Table = ({
   itemProps,
   isLoading,
   getItemKey,
-  onRowClick
+  onRowClick,
+  ...props
 }) => (
   <table className={cx(styles.wrapper, className)}>
     <thead>
@@ -50,29 +52,42 @@ const Table = ({
       </tr>
     </thead>
     <tbody>
-      {items.map((item, i) => {
-        const itemIndex = offset + i
+      {!isLoading && items.length === 0 && (
+        <tr className={styles.disableHover}>
+          <td colSpan={columns.length}>
+            <EmptySection
+              wrapperClassName={styles.emptyWrapper}
+              type={BLOCKCHAIN_ADDRESS}
+              watchlist={props.watchlist}
+              refreshList={props.refreshList}
+            />
+          </td>
+        </tr>
+      )}
+      {items.length > 0 && (
+        <>
+          {items.map((item, i) => {
+            const itemIndex = offset + i
 
-        return (
-          <tr
-            key={getItemKey ? getItemKey(item) : item[itemKeyProperty]}
-            onClick={onRowClick && (e => onRowClick(item, e))}
-          >
-            {columns.map(({ id, render, className }) => (
-              <td key={id} className={className}>
-                {render(item, itemProps, itemIndex)}
-              </td>
-            ))}
-          </tr>
-        )
-      })}
-      {minRowsPadding(minRows, columns, items)}
+            return (
+              <tr
+                key={getItemKey ? getItemKey(item) : item[itemKeyProperty]}
+                onClick={onRowClick && (e => onRowClick(item, e))}
+              >
+                {columns.map(({ id, render, className }) => (
+                  <td key={id} className={className}>
+                    {render(item, itemProps, itemIndex)}
+                  </td>
+                ))}
+              </tr>
+            )
+          })}
+          {minRowsPadding(minRows, columns, items)}
+        </>
+      )}
     </tbody>
     <caption>
       <Skeleton show={isLoading} className={styles.skeleton} />
-      {!isLoading && items.length === 0 && (
-        <NoDataImage className={styles.nodata} />
-      )}
     </caption>
   </table>
 )

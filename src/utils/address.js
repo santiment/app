@@ -51,3 +51,13 @@ export function getAddressInfrastructure (address) {
     return Infrastructure.XRP
   }
 }
+
+export const mapAddressToAPIType = ({ address, infrastructure, notes }) => {
+  return {
+    blockchainAddress: {
+      address,
+      infrastructure: infrastructure || getAddressInfrastructure(address),
+      notes
+    }
+  }
+}

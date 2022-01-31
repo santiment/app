@@ -10,20 +10,10 @@ import ColumnsToggler from '../Watchlists/Widgets/Table/Columns/Toggler'
 import EditAddresses from '../Watchlists/Actions/Edit/EditAddresses/EditAddresses'
 import Actions from '../Watchlists/Widgets/Table/CompareInfo/Actions'
 import { updateWatchlistShort } from '../../ducks/Watchlists/gql/list/mutations'
-import { getAddressInfrastructure } from '../../utils/address'
+import { mapAddressToAPIType } from '../../utils/address'
 import styles from './index.module.scss'
 
 export const Divider = () => <div className={styles.divider} />
-
-const mapAddressToAPIType = ({ address, infrastructure, notes }) => {
-  return {
-    blockchainAddress: {
-      address,
-      infrastructure: infrastructure || getAddressInfrastructure(address),
-      notes
-    }
-  }
-}
 
 const WatchlistTable = ({
   watchlist,
@@ -108,6 +98,8 @@ const WatchlistTable = ({
         itemProps={selectedItemsSet}
         className={styles.table}
         controlsClassName={styles.controls}
+        watchlist={watchlist}
+        refreshList={refreshList}
       />
     </>
   )
