@@ -103,7 +103,9 @@ export const New = ({ type, onSubmit }) => (
 )
 
 export const SaveAs = ({ type, watchlist }) => {
-  const showDuplicate = ['SCREENER', 'PROJECT'].includes(type)
+  const showDuplicate = ['SCREENER', 'PROJECT', 'BLOCKCHAIN_ADDRESS'].includes(
+    type
+  )
   const iconName = showDuplicate ? 'duplicate' : 'disk'
   return (
     <SaveAsAction
