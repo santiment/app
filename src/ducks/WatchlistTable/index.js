@@ -118,7 +118,6 @@ const WatchlistTable = ({
         {...props}
         stickyPageControls
         padding
-        minRows={6}
         itemProps={selectedItemsSet}
         className={styles.table}
         controlsClassName={styles.controls}
