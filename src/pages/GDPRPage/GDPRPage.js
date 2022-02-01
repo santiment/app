@@ -14,6 +14,7 @@ import styles from './GDPRPage.module.scss'
 import MobileWrapper from '../Login/Mobile/MobileWrapper'
 import { useUser } from '../../stores/user'
 import { useChangeUsername } from './hooks'
+const TAKEN_MSG = 'has already been taken'
 
 const GdprDescription = ({ toggleGDPR, isGDPR, togglePrivacyPolicy }) => {
   const [username, setUsername] = useState()
@@ -29,19 +30,27 @@ const GdprDescription = ({ toggleGDPR, isGDPR, togglePrivacyPolicy }) => {
       error = '@ is not allowed for the first character'
     }
     setUsernameError(error)
-    return error
+    return !!error
   }, [username])
 
   const continueButtonHandler = useCallback(() => {
     if (loading) return
-    checkUsername()
-    if (!isGDPR) {
-      setGDPRerror(true)
-      return
-    }
+    if (!isGDPR) setGDPRerror(true)
+    if (checkUsername() || !isGDPR) return
+
     changeUsername(username)
       .then(togglePrivacyPolicy)
-      .catch(e => setUsernameError(e.message))
+      .catch(e => {
+        let error = 'Something went wrong, please try again later'
+        if (e.graphQLErrors) {
+          const { details, message } = e.graphQLErrors[0]
+          error = message
+          if (details.username && details.username.includes(TAKEN_MSG)) {
+            error = `Username "${username}" is already teaken`
+          }
+        }
+        setUsernameError(error)
+      })
   }, [isGDPR, username, loading])
 
   return (
