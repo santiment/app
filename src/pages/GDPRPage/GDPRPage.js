@@ -1,46 +1,125 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
+import Input from '@santiment-network/ui/Input'
 import Button from '@santiment-network/ui/Button'
+import Notification from '@santiment-network/ui/Notification'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import Panel from '@santiment-network/ui/Panel'
 import * as actions from './../../actions/types'
 import styles from './GDPRPage.module.scss'
 import MobileWrapper from '../Login/Mobile/MobileWrapper'
 import { useUser } from '../../stores/user'
+import { useChangeUsername } from './hooks'
 
 const GdprDescription = ({ toggleGDPR, isGDPR, togglePrivacyPolicy }) => {
+  const [username, setUsername] = useState()
+  const [usernameError, setUsernameError] = useState()
+  const [GDPRerror, setGDPRerror] = useState(false)
+  const { changeUsername, loading } = useChangeUsername()
+
+  const checkUsername = useCallback(() => {
+    let error = undefined
+    if (!username || username.length < 3) {
+      error = 'Username should be at least 3 characters long'
+    } else if (username[0] === '@') {
+      error = '@ is not allowed for the first character'
+    }
+    setUsernameError(error)
+    return error
+  }, [username])
+
+  const continueButtonHandler = useCallback(() => {
+    if (loading) return
+    checkUsername()
+    if (!isGDPR) {
+      setGDPRerror(true)
+      return
+    }
+    changeUsername(username)
+      .then(togglePrivacyPolicy)
+      .catch(e => setUsernameError(e.message))
+  }, [isGDPR, username, loading])
+
   return (
     <>
-      <h3 className={styles.title}>We value your privacy</h3>
+      <h3 className={styles.title}>Welcome to Sanbase</h3>
       <p className={styles.description}>
-        Please review and accept our Privacy Policy to continue using Sanbase
+        Please type your username to access all features
+      </p>
+      <div className={styles.inputPrefix}>
+        <Input
+          name='username'
+          maxLength='25'
+          autoComplete='off'
+          placeholder='username'
+          onChange={e => {
+            setUsername(e.target.value)
+            setUsernameError()
+          }}
+          onBlur={checkUsername}
+          isError={!!usernameError}
+          errorText={usernameError}
+          className={styles.usernameInput}
+          disabled={loading}
+        />
+      </div>
+      <p className={styles.description}>
+        Review and accept our Privacy Policy to continue using Sanbase
       </p>
       <div className={styles.check}>
         <Checkbox
           isActive={isGDPR}
-          onClick={toggleGDPR}
-          className={styles.checkbox}
+          onClick={() => {
+            setGDPRerror(false)
+            toggleGDPR()
+          }}
+          className={cx(styles.checkbox, GDPRerror && styles.checkboxError)}
+          disabled={loading}
         />
         <div className={styles.checkDescription}>
-          <label className={styles.accept}>
-            &nbsp;I have read and accept the &nbsp;
+          <label
+            className={styles.accept}
+            onClick={() => {
+              setGDPRerror(false)
+              toggleGDPR()
+            }}
+          >
+            I accept{' '}
+            <a
+              href='https://santiment.net/terms/'
+              target='_blank'
+              rel='noopener noreferrer'
+              className={styles.link}
+            >
+              Terms
+            </a>{' '}
+            and{' '}
+            <Link to='/privacy-policy' className={styles.link}>
+              Privacy Policy
+            </Link>
           </label>
-          <Link to='/privacy-policy' className={styles.link}>
-            Santiment Privacy Policy
-          </Link>
         </div>
+        {GDPRerror && (
+          <Notification
+            className={styles.gdprError}
+            hasCloseBtn={false}
+            title='Please agree with the Privacy Policy to sign up'
+            size='small'
+            variant='error'
+          />
+        )}
       </div>
       <Button
         className={styles.toggleBtn}
-        disabled={!isGDPR}
         variant='fill'
-        accent='positive'
-        onClick={togglePrivacyPolicy}
+        accent={!loading ? 'positive' : 'grey'}
+        onClick={continueButtonHandler}
       >
-        Continue
+        {loading ? <Loader className={styles.loader} /> : 'Continue'}
       </Button>
     </>
   )
