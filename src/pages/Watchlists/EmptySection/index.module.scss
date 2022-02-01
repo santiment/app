@@ -16,8 +16,7 @@
 .empty__text {
   @include responsive('desktop', 'laptop', 'tablet') {
     display: flex;
-    align-items: baseline;
-    margin-left: 55px;
+    align-items: center;
     flex-direction: column;
   }
 
@@ -53,5 +52,5 @@
   justify-content: center;
   align-items: center;
   width: 160px;
-  margin-top: 16px;
+  margin: 16px 0;
 }

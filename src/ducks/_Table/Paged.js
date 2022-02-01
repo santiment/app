@@ -49,48 +49,50 @@ const PagedTable = ({
   return (
     <>
       <Table {...props} items={pageItems} offset={offset} />
-      <div
-        className={cx(
-          styles.controls,
-          stickyPageControls && styles.stickyPageControls,
-          padding && styles.padding,
-          controlsClassName
-        )}
-      >
-        <Dropdown
-          options={pageSizes}
-          selected={pageSize}
-          onSelect={option => setPageSize(option.index)}
-          classes={DROPDOWN_CLASSES}
-        />
-        Page
-        <Input
-          className={styles.input}
-          type='number'
-          style={{ '--width': `${(page + 1).toString().length}ch` }}
-          value={page + 1}
-          onChange={({ target }) => changePage(target.value - 1)}
-        />
-        of {maxPage || 1}
-        <Button
-          className={styles.prev}
-          border
-          disabled={isPrevPageDisabled}
-          onClick={() => changePage(page - 1)}
+      {maxPage > 1 && (
+        <div
+          className={cx(
+            styles.controls,
+            stickyPageControls && styles.stickyPageControls,
+            padding && styles.padding,
+            controlsClassName
+          )}
         >
-          Prev
-          <Icon className={styles.prev__icon} type='arrow-left' />
-        </Button>
-        <Button
-          className={styles.next}
-          border
-          disabled={isNextPageDisabled}
-          onClick={() => changePage(page + 1)}
-        >
-          <Icon className={styles.next__icon} type='arrow-right' />
-          Next
-        </Button>
-      </div>
+          <Dropdown
+            options={pageSizes}
+            selected={pageSize}
+            onSelect={option => setPageSize(option.index)}
+            classes={DROPDOWN_CLASSES}
+          />
+          Page
+          <Input
+            className={styles.input}
+            type='number'
+            style={{ '--width': `${(page + 1).toString().length}ch` }}
+            value={page + 1}
+            onChange={({ target }) => changePage(target.value - 1)}
+          />
+          of {maxPage || 1}
+          <Button
+            className={styles.prev}
+            border
+            disabled={isPrevPageDisabled}
+            onClick={() => changePage(page - 1)}
+          >
+            Prev
+            <Icon className={styles.prev__icon} type='arrow-left' />
+          </Button>
+          <Button
+            className={styles.next}
+            border
+            disabled={isNextPageDisabled}
+            onClick={() => changePage(page + 1)}
+          >
+            <Icon className={styles.next__icon} type='arrow-right' />
+            Next
+          </Button>
+        </div>
+      )}
     </>
   )
 }
