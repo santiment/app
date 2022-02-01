@@ -73,15 +73,9 @@ const Table = ({
     </tbody>
     <caption>
       <Skeleton show={isLoading} className={styles.skeleton} />
-      {!isLoading && items.length === 0 && (
-        <>
-          {emptySection ? (
-            emptySection
-          ) : (
-            <NoDataImage className={styles.nodata} />
-          )}
-        </>
-      )}
+      {!isLoading &&
+        items.length === 0 &&
+        (emptySection || <NoDataImage className={styles.nodata} />)}
     </caption>
   </table>
 )
