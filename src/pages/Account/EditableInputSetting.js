@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import Button from '@santiment-network/ui/Button'
 import Label from '@santiment-network/ui/Label'
 import Input from '@santiment-network/ui/Input'
-import Panel from '@santiment-network/ui/Panel'
 import Icon from '@santiment-network/ui/Icon'
 import DarkTooltip from '../../components/Tooltip/DarkTooltip'
 import cx from 'classnames'
@@ -37,11 +36,11 @@ class EditableInputSetting extends PureComponent {
       return
     }
 
-    this.disableEditing()
-    onSubmit(value)
+    onSubmit(value, this.disableEditing)
   }
 
   disableEditing = () => {
+    this.props.clearError && this.props.clearError()
     this.setState({ editing: false, value: '', error: '' })
   }
 
@@ -61,8 +60,20 @@ class EditableInputSetting extends PureComponent {
   }
 
   render () {
-    const { editing, error } = this.state
-    const { label, defaultValue, classes = {}, prefix, tooltip } = this.props
+    const { editing, error, value } = this.state
+    const {
+      label,
+      defaultValue,
+      classes = {},
+      prefix,
+      tooltip,
+      saving = false,
+      submitError
+    } = this.props
+
+    if (submitError) {
+      this.setState(state => ({ ...state, error: submitError }))
+    }
 
     return (
       <form
@@ -126,12 +137,12 @@ class EditableInputSetting extends PureComponent {
               !!prefix && styles.form__input_prefix
             )}
             defaultValue={defaultValue}
+            value={value}
             onChange={this.onChangeDebounced}
             isError={error}
+            errorText={error}
+            disabled={saving}
           />
-          <Panel padding className={styles.form__error}>
-            <Label accent='persimmon'>{error}</Label>
-          </Panel>
         </div>
 
         <div className={classes.inputContainerRight}>
@@ -142,6 +153,7 @@ class EditableInputSetting extends PureComponent {
                 accent='positive'
                 className={styles.btn}
                 type='submit'
+                disabled={saving}
               >
                 Save
               </Button>
@@ -149,6 +161,7 @@ class EditableInputSetting extends PureComponent {
                 border
                 className={cx(styles.btn, styles.btn_cancel)}
                 onClick={this.disableEditing}
+                disabled={saving}
               >
                 Cancel
               </Button>

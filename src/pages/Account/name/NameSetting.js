@@ -28,13 +28,14 @@ const NameSetting = ({ dispatchNewName, name, changeName }) => {
       validate={validateName}
       classes={styles}
       tooltip='Official assignation for visitors to your user profile'
-      onSubmit={value =>
+      onSubmit={(value, successCallback) =>
         changeName({ variables: { value } })
           .then(() => {
             store.dispatch(
               showNotification(`Full name successfully changed to "${value}"`)
             )
             dispatchNewName(value)
+            if (successCallback) successCallback()
           })
           .catch(() => {
             store.dispatch(
