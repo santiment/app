@@ -35,40 +35,50 @@ const InfoBlock = ({
   profile,
   followData: { followers } = {}
 }) => {
-  const { username, id } = profile
+  const { username, id, name } = profile
 
   return (
     <div className={styles.leftText}>
       <div className={styles.info}>
-        <div className={styles.name}>{username}</div>
+        <div>
+          <div className={cx(styles.name, !name && styles.empty)}>
+            {name || 'No full name'}
+          </div>
+          <div className={styles.username}>
+            {`@${username}` || 'No username'}
+          </div>
+          {isLoggedIn &&
+            (!isCurrentUser ? (
+              <div className={styles.followContainer}>
+                {followers && (
+                  <FollowBtn
+                    className={styles.followBtn}
+                    users={followers.users}
+                    userId={id}
+                    updateCache={updateCache}
+                  />
+                )}
+                <NotificationBellBtn
+                  targetUserId={id}
+                  className={styles.bell}
+                />
+              </div>
+            ) : (
+              <Button
+                className={styles.accountBtn}
+                as={Link}
+                to='/account'
+                variant='fill'
+                accent='positive'
+              >
+                Account settings
+              </Button>
+            ))}
+        </div>
         <DesktopOnly>
           <ShareProfile />
         </DesktopOnly>
       </div>
-      {isLoggedIn &&
-        (!isCurrentUser ? (
-          <>
-            {followers && (
-              <FollowBtn
-                className={styles.followBtn}
-                users={followers.users}
-                userId={id}
-                updateCache={updateCache}
-              />
-            )}
-            <NotificationBellBtn targetUserId={id} className={styles.bell} />
-          </>
-        ) : (
-          <Button
-            className={styles.accountBtn}
-            as={Link}
-            to='/account'
-            variant='fill'
-            accent='positive'
-          >
-            Account settings
-          </Button>
-        ))}
     </div>
   )
 }

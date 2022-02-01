@@ -21,7 +21,12 @@
 }
 
 .leftText {
+  height: 140px;
   word-break: break-word;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .right {
@@ -42,7 +47,7 @@
 .socials {
   display: flex;
   align-items: center;
-  margin-top: 32px;
+  margin-top: 16px;
 }
 
 .followersBlocks {
@@ -119,8 +124,12 @@
   margin-right: 8px;
 }
 
+.followContainer {
+  display: flex;
+  align-items: center;
+}
+
 .followBtn {
-  margin-top: 16px;
   padding: 6px 12px 6px 7px;
   max-width: 142px;
 
@@ -132,7 +141,6 @@
 .accountBtn {
   min-width: 143px;
   justify-content: center;
-  margin-top: 16px;
 
   @include responsive('phone', 'phone-xs') {
     margin: 12px 0 0 auto;
@@ -141,6 +149,8 @@
 
 .info {
   display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .name {
@@ -152,6 +162,19 @@
   @include responsive('phone', 'phone-xs') {
     @include text('h4');
   }
+
+  margin-bottom: 8px;
+}
+
+.empty {
+  color: var(--waterloo);
+}
+
+.username {
+  color: var(--waterloo);
+  font-size: 18px;
+  line-height: 28px;
+  margin-bottom: 16px;
 }
 
 .email {
