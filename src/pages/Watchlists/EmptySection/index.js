@@ -5,7 +5,7 @@ import NewWatchlist from '../../../ducks/Watchlists/Actions/New'
 import EditAddresses from '../../../ducks/Watchlists/Actions/Edit/EditAddresses/EditAddresses'
 import Section from '../../../components/EmptySection/EmptySection'
 import { PROJECT, BLOCKCHAIN_ADDRESS } from '../../../ducks/Watchlists/detector'
-import { mapAddressToAPIType } from '../../../utils/address'
+import { mapAddressToAPIType } from '../../../ducks/Watchlists/utils'
 import styles from './index.module.scss'
 
 const CTAButton = ({ type = PROJECT, onClick }) => (

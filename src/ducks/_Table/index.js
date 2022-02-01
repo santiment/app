@@ -1,9 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
 import { FluidSkeleton as Skeleton } from '../../components/Skeleton'
-import EmptySection from '../../pages/Watchlists/EmptySection'
-import { BLOCKCHAIN_ADDRESS } from '../../ducks/Watchlists/detector'
-import { DesktopOnly } from '../../components/Responsive'
 import styles from './index.module.scss'
 
 export function prepareColumns (columns) {
@@ -42,61 +39,54 @@ const Table = ({
   isLoading,
   getItemKey,
   onRowClick,
+  isWithColumnTitles = true,
+  emptySection,
   ...props
-}) => (
-  <table className={cx(styles.wrapper, className)}>
-    <DesktopOnly>
-      <thead>
-        <tr>
-          {columns.map(({ id, title, Title }) => (
-            <th key={id}>{Title ? <Title {...itemProps} /> : title}</th>
-          ))}
-        </tr>
-      </thead>
-    </DesktopOnly>
-    <tbody>
-      {!isLoading && items.length === 0 && (
-        <tr className={styles.disableHover}>
-          <td colSpan={columns.length}>
-            <EmptySection
-              wrapperClassName={styles.emptyWrapper}
-              type={BLOCKCHAIN_ADDRESS}
-              watchlist={props.watchlist}
-              refreshList={props.refreshList}
-            />
-          </td>
-        </tr>
+}) => {
+  return (
+    <table className={cx(styles.wrapper, className)}>
+      {isWithColumnTitles && (
+        <thead>
+          <tr>
+            {columns.map(({ id, title, Title }) => (
+              <th key={id}>{Title ? <Title {...itemProps} /> : title}</th>
+            ))}
+          </tr>
+        </thead>
       )}
-      {items.length > 0 && (
-        <>
-          {items.map((item, i) => {
-            const itemIndex = offset + i
-            return (
-              <tr
-                key={getItemKey ? getItemKey(item) : item[itemKeyProperty]}
-                onClick={onRowClick && (e => onRowClick(item, e))}
-              >
-                {columns
-                  .filter(({ id }) =>
-                    props.isDesktop ? true : id !== 'CHECKBOX'
-                  )
-                  .map(({ id, render, className }) => (
+      <tbody>
+        {!isLoading && items.length === 0 && emptySection && (
+          <tr className={styles.disableHover}>
+            <td colSpan={columns.length}>{emptySection}</td>
+          </tr>
+        )}
+        {items.length > 0 && (
+          <>
+            {items.map((item, i) => {
+              const itemIndex = offset + i
+              return (
+                <tr
+                  key={getItemKey ? getItemKey(item) : item[itemKeyProperty]}
+                  onClick={onRowClick && (e => onRowClick(item, e))}
+                >
+                  {columns.map(({ id, render, className }) => (
                     <td key={id} className={className}>
                       {render(item, itemProps, itemIndex)}
                     </td>
                   ))}
-              </tr>
-            )
-          })}
-          {minRowsPadding(minRows, columns, items)}
-        </>
-      )}
-    </tbody>
-    <caption>
-      <Skeleton show={isLoading} className={styles.skeleton} />
-    </caption>
-  </table>
-)
+                </tr>
+              )
+            })}
+            {minRowsPadding(minRows, columns, items)}
+          </>
+        )}
+      </tbody>
+      <caption>
+        <Skeleton show={isLoading} className={styles.skeleton} />
+      </caption>
+    </table>
+  )
+}
 
 Table.defaultProps = {
   items: [],

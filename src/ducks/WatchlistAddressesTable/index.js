@@ -50,7 +50,11 @@ const normalizeCSVData = items => items.map(normalizeCSVItem)
 const WatchlistAddressesTable = props => {
   const [list, setList] = useState(props.watchlist)
   const { activeColumns, setActiveColumnsKeys } = useColumns(BLOCKCHAIN_ADDRESS)
-  const columns = useMemo(() => combineColumns(activeColumns), [activeColumns])
+  const columns = useMemo(() => {
+    const _columns = combineColumns(activeColumns)
+    if (props.isDesktop) return _columns
+    return _columns.filter(({ id }) => id !== 'CHECKBOX')
+  }, [activeColumns, props.isDesktop])
   const items = useAddressWatchlistItems(list)
 
   useEffect(() => {

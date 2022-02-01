@@ -1,3 +1,5 @@
+@import "~@santiment-network/ui/mixins.scss";
+
 :root {
   --list-top-panel-height: 64px;
   --addresses-list-table-top-height: 52px;
@@ -125,11 +127,12 @@
   display: flex;
 }
 
-
 .title {
-  font-size: 24px;
-  line-height: 32px;
-  font-weight: 600;
+  @include text('h4', 'l');
   color: var(--mirage);
   width: 100%;
+}
+
+.emptyWrapper {
+  flex-direction: column !important;
 }

@@ -15,7 +15,7 @@ import NotificationActions from '../../../../../components/NotificationActions/N
 import { useIsAuthor } from '../../../gql/list/hooks'
 import { updateWatchlistShort } from '../../../gql/list/mutations'
 import { useAddressNote } from '../../../../HistoricalBalance/hooks'
-import { mapAddressToAPIType as defaultMapAddress } from '../../../../../utils/address'
+import { mapAddressToAPIType as defaultMapAddress } from '../../../utils'
 import styles from './EditAddresses.module.scss'
 
 const updateWatchlist = ({ id, listItems }) =>

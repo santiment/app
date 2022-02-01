@@ -29,10 +29,6 @@
   top: 0;
 }
 
-.emptyWrapper {
-  flex-direction: column;
-}
-
 .disableHover {
   &:hover, &:hover td {
     background: var(--white) !important;

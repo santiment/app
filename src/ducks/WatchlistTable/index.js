@@ -6,13 +6,14 @@ import PagedTable from '../_Table/Paged'
 import { useSelectedItemsSet } from '../_Table/hooks'
 import Refresh from '../../components/Refresh/Refresh'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
+import EmptySection from '../../pages/Watchlists/EmptySection'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import { BLOCKCHAIN_ADDRESS } from '../Watchlists/detector'
 import ColumnsToggler from '../Watchlists/Widgets/Table/Columns/Toggler'
 import EditAddresses from '../Watchlists/Actions/Edit/EditAddresses/EditAddresses'
 import Actions from '../Watchlists/Widgets/Table/CompareInfo/Actions'
 import { updateWatchlistShort } from '../../ducks/Watchlists/gql/list/mutations'
-import { mapAddressToAPIType } from '../../utils/address'
+import { mapAddressToAPIType } from '../Watchlists/utils'
 import styles from './index.module.scss'
 
 export const Divider = () => <div className={styles.divider} />
@@ -123,6 +124,15 @@ const WatchlistTable = ({
         controlsClassName={styles.controls}
         watchlist={watchlist}
         refreshList={refreshList}
+        isWithColumnTitles={props.isDesktop}
+        emptySection={
+          <EmptySection
+            wrapperClassName={styles.emptyWrapper}
+            type={BLOCKCHAIN_ADDRESS}
+            watchlist={watchlist}
+            refreshList={refreshList}
+          />
+        }
       />
     </>
   )
