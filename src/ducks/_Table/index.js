@@ -42,51 +42,49 @@ const Table = ({
   isWithColumnTitles = true,
   emptySection,
   ...props
-}) => {
-  return (
-    <table className={cx(styles.wrapper, className)}>
-      {isWithColumnTitles && (
-        <thead>
-          <tr>
-            {columns.map(({ id, title, Title }) => (
-              <th key={id}>{Title ? <Title {...itemProps} /> : title}</th>
-            ))}
-          </tr>
-        </thead>
+}) => (
+  <table className={cx(styles.wrapper, className)}>
+    {isWithColumnTitles && (
+      <thead>
+        <tr>
+          {columns.map(({ id, title, Title }) => (
+            <th key={id}>{Title ? <Title {...itemProps} /> : title}</th>
+          ))}
+        </tr>
+      </thead>
+    )}
+    <tbody>
+      {!isLoading && items.length === 0 && emptySection && (
+        <tr className={styles.disableHover}>
+          <td colSpan={columns.length}>{emptySection}</td>
+        </tr>
       )}
-      <tbody>
-        {!isLoading && items.length === 0 && emptySection && (
-          <tr className={styles.disableHover}>
-            <td colSpan={columns.length}>{emptySection}</td>
-          </tr>
-        )}
-        {items.length > 0 && (
-          <>
-            {items.map((item, i) => {
-              const itemIndex = offset + i
-              return (
-                <tr
-                  key={getItemKey ? getItemKey(item) : item[itemKeyProperty]}
-                  onClick={onRowClick && (e => onRowClick(item, e))}
-                >
-                  {columns.map(({ id, render, className }) => (
-                    <td key={id} className={className}>
-                      {render(item, itemProps, itemIndex)}
-                    </td>
-                  ))}
-                </tr>
-              )
-            })}
-            {minRowsPadding(minRows, columns, items)}
-          </>
-        )}
-      </tbody>
-      <caption>
-        <Skeleton show={isLoading} className={styles.skeleton} />
-      </caption>
-    </table>
-  )
-}
+      {items.length > 0 && (
+        <>
+          {items.map((item, i) => {
+            const itemIndex = offset + i
+            return (
+              <tr
+                key={getItemKey ? getItemKey(item) : item[itemKeyProperty]}
+                onClick={onRowClick && (e => onRowClick(item, e))}
+              >
+                {columns.map(({ id, render, className }) => (
+                  <td key={id} className={className}>
+                    {render(item, itemProps, itemIndex)}
+                  </td>
+                ))}
+              </tr>
+            )
+          })}
+          {minRowsPadding(minRows, columns, items)}
+        </>
+      )}
+    </tbody>
+    <caption>
+      <Skeleton show={isLoading} className={styles.skeleton} />
+    </caption>
+  </table>
+)
 
 Table.defaultProps = {
   items: [],
