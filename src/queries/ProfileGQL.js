@@ -11,6 +11,7 @@ export const PUBLIC_USER_DATA_QUERY = gql`
       id
       email
       username
+      name
       avatarUrl
       watchlists {
         ...generalFragment
