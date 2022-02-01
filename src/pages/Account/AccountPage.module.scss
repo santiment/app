@@ -169,7 +169,7 @@
   color: var(--jungle-green);
   top: 50%;
   transform: translateY(-50%);
-  left: 25px;
+  left: 8px;
   
   @include text('body-3');
 
@@ -191,6 +191,7 @@
 .inputBlock {
   margin-right: 5px;
   display: flex;
+  flex-direction: column;
   position: relative;
 
   @include responsive('phone', 'phone-xs') {
@@ -209,7 +210,6 @@
   }
 
   &__input {
-    margin-left: 16px;
     display: none;
 
     &_edit {

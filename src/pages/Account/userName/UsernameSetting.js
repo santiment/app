@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import { store } from '../../../redux'
@@ -31,6 +31,8 @@ const UsernameSetting = ({
   name,
   changeUsername
 }) => {
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState()
   const normalizedUsername =
     username || (name && name.toLowerCase().replace(/ /g, '_'))
 
@@ -39,29 +41,30 @@ const UsernameSetting = ({
       label='Username'
       defaultValue={normalizedUsername}
       validate={validateUsername}
+      clearError={() => setError()}
       classes={styles}
       prefix='@'
       tooltip='Service assignation for any interactions on Sanbase'
-      onSubmit={value =>
+      saving={saving}
+      submitError={error}
+      onSubmit={(value, successCallback) => {
+        if (saving) return
+        setSaving(true)
         changeUsername({ variables: { value } })
           .then(() => {
             store.dispatch(
               showNotification(`Username successfully changed to "${value}"`)
             )
             dispatchNewUsername(value)
+            if (successCallback) successCallback()
           })
           .catch(error => {
-            // TODO: we should handle other error types
             if (error.graphQLErrors[0].details.username.includes(TAKEN_MSG)) {
-              store.dispatch(
-                showNotification({
-                  variant: 'error',
-                  title: `Username "${value}" is already taken`
-                })
-              )
+              setError(`Username "${value}" is already taken`)
             }
           })
-      }
+          .finally(() => setSaving(false))
+      }}
     />
   )
 }
