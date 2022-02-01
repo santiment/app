@@ -29,8 +29,9 @@
   top: 0;
 }
 
-.disableHover {
-  &:hover, &:hover td {
-    background: var(--white) !important;
-  }
+.nodata {
+  position: absolute;
+  top: 53%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

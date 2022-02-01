@@ -133,6 +133,7 @@ const WatchlistTable = ({
             refreshList={refreshList}
           />
         }
+        minRows={8}
       />
     </>
   )

@@ -6,6 +6,7 @@ import { BLOCKCHAIN_ADDRESS } from '../Watchlists/detector'
 import { useColumns } from '../Watchlists/Widgets/Table/hooks'
 import { SUFFIX } from '../Watchlists/Widgets/Table/Columns/builder'
 import { useAddressWatchlistItems } from '../../pages/WatchlistAddresses/hooks'
+import { CHECKBOX_COLUMN } from '../../ducks/_Table/columns'
 
 const ARRAY = []
 const normalizeLabel = ({ name }) => name
@@ -51,9 +52,9 @@ const WatchlistAddressesTable = props => {
   const [list, setList] = useState(props.watchlist)
   const { activeColumns, setActiveColumnsKeys } = useColumns(BLOCKCHAIN_ADDRESS)
   const columns = useMemo(() => {
-    const _columns = combineColumns(activeColumns)
-    if (props.isDesktop) return _columns
-    return _columns.filter(({ id }) => id !== 'CHECKBOX')
+    const columns = combineColumns(activeColumns)
+    if (props.isDesktop) return columns
+    return columns.filter(({ id }) => id !== CHECKBOX_COLUMN.id)
   }, [activeColumns, props.isDesktop])
   const items = useAddressWatchlistItems(list)
 
