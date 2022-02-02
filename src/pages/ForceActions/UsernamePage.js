@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Input from '@santiment-network/ui/Input'
+import Icon from '@santiment-network/ui/Icon'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Panel from '@santiment-network/ui/Panel'
 import SantimentLogo from './SantimentLogo'
@@ -49,12 +50,18 @@ const UsernameChangeModal = () => {
           disabled={loading}
         />
       </div>
+      <ul className={styles.checkList}>
+          <li><div><Icon type='checkmark'/></div> All your messages will be marked to this username</li>
+          <li><div><Icon type='checkmark'/></div> All charts you create will be assigned this username</li>
+          <li><div><Icon type='checkmark'/></div> Users will be able to tag you using this username</li>
+      </ul>
       <Button
+        fluid
         className={styles.toggleBtn}
         variant='fill'
         accent={!loading ? 'positive' : 'grey'}
       >
-        {loading ? <Loader className={styles.loader} /> : 'Continue'}
+        {loading ? <Loader className={styles.loader} /> : 'Save'}
       </Button>
     </>
   )

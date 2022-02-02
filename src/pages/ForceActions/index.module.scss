@@ -135,3 +135,34 @@
 .loader {
   justify-content: center;
 }
+
+.checkList {
+  margin-top: 24px;
+  font-weight: normal;
+  color: var(--rhino);  
+
+  li {
+    display: flex;
+    align-items: center;
+
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      margin-right: 12px;
+      border: none;
+      border-radius: 50%;
+      background-color: var(--jungle-green-light);
+    }
+
+    svg {
+      fill: var(--jungle-green);
+    }
+  }
+
+  li:not(:last-of-type) {
+    margin-bottom: 16px;
+  }
+}
