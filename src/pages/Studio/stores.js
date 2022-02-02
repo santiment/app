@@ -33,6 +33,7 @@ export function useGlobalsUpdater () {
   useEffect(() => {
     globals.toggle('isNightMode', theme.isNightMode)
     globals.toggle('isLoggedIn', isLoggedIn)
+    globals.toggle('isTrial', userInfo.isTrial)
     globals.toggle('isPro', userInfo.isPro)
     globals.toggle('isProPlus', userInfo.isProPlus)
     globals.toggle('isBeta', isBeta)
