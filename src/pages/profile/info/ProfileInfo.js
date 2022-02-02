@@ -3,6 +3,9 @@ import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
+import Dialog from '@santiment-network/ui/Dialog'
+import Input from '@santiment-network/ui/Input'
+import DarkTooltip from '../../../components/Tooltip/DarkTooltip'
 import FollowBtn from '../follow/FollowBtn'
 import { useUser } from '../../../stores/user'
 import FollowList from '../follow/list/FollowList'
@@ -28,6 +31,71 @@ export const ShareProfile = () => (
   />
 )
 
+const EditProfile = ({ profile }) => {
+  return (
+    <div className={styles.modalContent}>
+      <label className={styles.label}>
+        <DarkTooltip
+          trigger={
+            <div>
+              Full name <Icon type='info-round' />
+            </div>
+          }
+          position='top'
+          align='start'
+        >
+          Official assignation for visitors to your user profile
+        </DarkTooltip>
+      </label>
+      <Input />
+      <label className={styles.label}>
+        <DarkTooltip
+          trigger={
+            <div>
+              Username <Icon type='info-round' />
+            </div>
+          }
+          position='top'
+          align='start'
+        >
+          Service assignation for any interactions on Sanbase
+        </DarkTooltip>
+      </label>
+      <Input />
+      <Dialog.Actions className={styles.actions}>
+        <Dialog.Approve>Save</Dialog.Approve>
+        <Dialog.Cancel>Cancel</Dialog.Cancel>
+      </Dialog.Actions>
+    </div>
+  )
+}
+
+const DisplayProfileValue = ({ label, value, isCurrentUser, profile }) => {
+  if (!isCurrentUser) {
+    return <>{value || `No ${label}`}</>
+  }
+
+  const Trigger = () => (
+    <>
+      {value || `Add ${label}`} <Icon className={styles.ml16} type='edit' />
+    </>
+  )
+
+  return (
+    <Dialog
+      title='Edit'
+      trigger={
+        <div>
+          <Trigger />
+        </div>
+      }
+      classes={{ dialog: styles.editWrapper, title: styles.modalTitle }}
+    >
+      <EditProfile profile={profile} />
+    </Dialog>
+  )
+}
+
 const InfoBlock = ({
   isLoggedIn,
   isCurrentUser,
@@ -41,11 +109,29 @@ const InfoBlock = ({
     <div className={styles.leftText}>
       <div className={styles.info}>
         <div>
-          <div className={cx(styles.name, !name && styles.empty)}>
-            {name || 'No full name'}
+          <div
+            className={cx(
+              styles.name,
+              !name && styles.empty,
+              isCurrentUser && styles.editable
+            )}
+          >
+            <DisplayProfileValue
+              label='full name'
+              value={name}
+              isCurrentUser={isCurrentUser}
+              profile={profile}
+            />
           </div>
-          <div className={styles.username}>
-            {`@${username}` || 'No username'}
+          <div
+            className={cx(styles.username, isCurrentUser && styles.editable)}
+          >
+            <DisplayProfileValue
+              label='username'
+              value={`@${username}`}
+              isCurrentUser={isCurrentUser}
+              profile={profile}
+            />
           </div>
           {isLoggedIn &&
             (!isCurrentUser ? (
@@ -109,6 +195,7 @@ const ProfileInfo = ({ profile, updateCache, followData = {} }) => {
           userId={id}
           externalAvatarUrl={avatarUrl}
           classes={styles}
+          isCurrentUser={isCurrentUser}
         />
         <MobileOnly>
           <InfoBlock
