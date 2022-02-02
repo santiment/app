@@ -7,6 +7,7 @@ export const PATHS = {
   LOGIN_VIA_EMAIL: '/login/email',
   CREATE_ACCOUNT: '/sign-up',
   GDPR: '/gdpr',
+  USERNAME: '/username',
   PRO_METRICS: '/pro-sheets-templates',
   INDEX: '/',
   STUDIO: '/studio',
