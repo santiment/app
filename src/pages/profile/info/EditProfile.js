@@ -54,6 +54,7 @@ const EditProfile = ({ profile }) => {
                     setUsernameError()
                     setUsername(e.target.value)
                 }}
+                defaultValue={profile.username}
                 onBlur={e => checkUsername(e.target.value)}
                 isError={!!usernameError}
                 errorText={usernameError}
