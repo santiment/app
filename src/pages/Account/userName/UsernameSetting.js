@@ -1,38 +1,19 @@
-import React, { useState } from 'react'
-import gql from 'graphql-tag'
-import { graphql } from 'react-apollo'
+import React from 'react'
 import { store } from '../../../redux'
 import { showNotification } from '../../../actions/rootActions'
 import EditableInputSetting from './../EditableInputSetting'
+import { useUsernameChange } from '../../../hooks/usernameChange'
 import styles from './UsernameSettings.module.scss'
 
-const TAKEN_MSG = 'has already been taken'
-
-const CHANGE_USERNAME_MUTATION = gql`
-  mutation changeUsername($value: String!) {
-    changeUsername(username: $value) {
-      username
-    }
-  }
-`
-
-const validateUsername = username => {
-  if (username.length < 3) {
-    return 'Username should be at least 3 characters long'
-  }
-  if (username && username[0] === '@') {
-    return '@ is not allowed for the first character'
-  }
-}
-
-const UsernameSetting = ({
-  dispatchNewUsername,
-  username,
-  name,
-  changeUsername
-}) => {
-  const [saving, setSaving] = useState(false)
-  const [error, setError] = useState()
+const UsernameSetting = ({ dispatchNewUsername, username, name }) => {
+  const {
+    changeUsername,
+    savingUsername,
+    usernameError,
+    setUsernameError,
+    checkUsername,
+    catchUsernameChangeError
+  } = useUsernameChange()
   const normalizedUsername =
     username || (name && name.toLowerCase().replace(/ /g, '_'))
 
@@ -40,17 +21,16 @@ const UsernameSetting = ({
     <EditableInputSetting
       label='Username'
       defaultValue={normalizedUsername}
-      validate={validateUsername}
-      clearError={() => setError()}
+      validate={checkUsername}
+      clearError={() => setUsernameError()}
       classes={styles}
       prefix='@'
       tooltip='Service assignation for any interactions on Sanbase'
-      saving={saving}
-      submitError={error}
+      saving={savingUsername}
+      submitError={usernameError}
       onSubmit={(value, successCallback) => {
-        if (saving) return
-        setSaving(true)
-        changeUsername({ variables: { value } })
+        if (savingUsername) return
+        changeUsername(value)
           .then(() => {
             store.dispatch(
               showNotification(`Username successfully changed to "${value}"`)
@@ -58,17 +38,10 @@ const UsernameSetting = ({
             dispatchNewUsername(value)
             if (successCallback) successCallback()
           })
-          .catch(error => {
-            if (error.graphQLErrors[0].details.username.includes(TAKEN_MSG)) {
-              setError(`Username "${value}" is already taken`)
-            }
-          })
-          .finally(() => setSaving(false))
+          .catch(catchUsernameChangeError)
       }}
     />
   )
 }
 
-export default graphql(CHANGE_USERNAME_MUTATION, { name: 'changeUsername' })(
-  UsernameSetting
-)
+export default UsernameSetting

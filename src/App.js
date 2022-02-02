@@ -24,10 +24,10 @@ import withIntercom from './withIntercom'
 import ErrorBoundary from './components/ErrorContent/ErrorBoundary'
 import PageLoader from './components/Loader/PageLoader'
 import Footer from './components/Footer'
-import GDPRPage from './pages/GDPRPage/GDPRPage'
+import { GDPRPage, UsernamePage } from './pages/ForceActions'
 import { getConsentUrl } from './utils/utils'
 import CookiePopup from './components/CookiePopup/CookiePopup'
-import GdprRedirector from './components/GdprRedirector'
+import ForceActionRedirector from './components/ForceActionRedirector'
 import { SHARE_PATH } from './components/Share/utils'
 import LogoutPage from './pages/Logout/Logout'
 import { mapSizesToProps } from './utils/withSizes'
@@ -260,7 +260,7 @@ export const App = ({
         ) : (
           <MobileNavbar activeLink={pathname} />
         )}
-        <GdprRedirector pathname={pathname} />
+        <ForceActionRedirector pathname={pathname} />
         {isDesktop && <UrlModals />}
 
         <ErrorBoundary history={history}>
@@ -298,6 +298,13 @@ export const App = ({
               exact
               path={PATHS.GDPR}
               render={props => <GDPRPage {...props} isDesktop={isDesktop} />}
+            />
+            <Route
+              exact
+              path={PATHS.USERNAME}
+              render={props => (
+                <UsernamePage {...props} isDesktop={isDesktop} />
+              )}
             />
             <Route
               exact
