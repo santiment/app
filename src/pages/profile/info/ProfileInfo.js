@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Dialog from '@santiment-network/ui/Dialog'
-import Input from '@santiment-network/ui/Input'
-import DarkTooltip from '../../../components/Tooltip/DarkTooltip'
 import FollowBtn from '../follow/FollowBtn'
 import { useUser } from '../../../stores/user'
 import FollowList from '../follow/list/FollowList'
@@ -14,6 +12,7 @@ import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
 import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
 import SidecarExplanationTooltip from '../../../ducks/SANCharts/SidecarExplanationTooltip'
 import NotificationBellBtn from '../../../components/NotificationBellBtn/NotificationBellBtn'
+import EditProfile from './EditProfile'
 import styles from './ProfileInfo.module.scss'
 
 const ShareTrigger = props => (
@@ -30,45 +29,6 @@ export const ShareProfile = () => (
     trigger={ShareTrigger}
   />
 )
-
-const EditProfile = ({ profile }) => {
-  return (
-    <div className={styles.modalContent}>
-      <label className={styles.label}>
-        <DarkTooltip
-          trigger={
-            <div>
-              Full name <Icon type='info-round' />
-            </div>
-          }
-          position='top'
-          align='start'
-        >
-          Official assignation for visitors to your user profile
-        </DarkTooltip>
-      </label>
-      <Input />
-      <label className={styles.label}>
-        <DarkTooltip
-          trigger={
-            <div>
-              Username <Icon type='info-round' />
-            </div>
-          }
-          position='top'
-          align='start'
-        >
-          Service assignation for any interactions on Sanbase
-        </DarkTooltip>
-      </label>
-      <Input />
-      <Dialog.Actions className={styles.actions}>
-        <Dialog.Approve>Save</Dialog.Approve>
-        <Dialog.Cancel>Cancel</Dialog.Cancel>
-      </Dialog.Actions>
-    </div>
-  )
-}
 
 const DisplayProfileValue = ({ label, value, isCurrentUser, profile }) => {
   if (!isCurrentUser) {
@@ -195,7 +155,6 @@ const ProfileInfo = ({ profile, updateCache, followData = {} }) => {
           userId={id}
           externalAvatarUrl={avatarUrl}
           classes={styles}
-          isCurrentUser={isCurrentUser}
         />
         <MobileOnly>
           <InfoBlock

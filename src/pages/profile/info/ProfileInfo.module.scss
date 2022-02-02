@@ -312,3 +312,20 @@
     height: 40px;
   }
 }
+
+.usernameInput {
+  padding-left: 25px;
+}
+
+.inputPrefix {
+  position: relative;
+
+  &::before {
+    content: '@';
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    color: var(--jungle-green);
+    transform: translateY(-50%);
+  }
+}
