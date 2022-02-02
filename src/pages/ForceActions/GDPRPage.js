@@ -14,7 +14,7 @@ import * as actions from './../../actions/types'
 import MobileWrapper from '../Login/Mobile/MobileWrapper'
 import { useUser } from '../../stores/user'
 import { useChangeUsername } from './hooks'
-import styles from './GDPRPage.module.scss'
+import styles from './index.module.scss'
 
 const TAKEN_MSG = 'has already been taken'
 

@@ -8,7 +8,7 @@ import Panel from '@santiment-network/ui/Panel'
 import SantimentLogo from './SantimentLogo'
 import MobileWrapper from '../Login/Mobile/MobileWrapper'
 import { useUser } from '../../stores/user'
-import styles from './GDPRPage.module.scss'
+import styles from './index.module.scss'
 
 const UsernameChangeModal = () => {
     const [username, setUsername] = useState()

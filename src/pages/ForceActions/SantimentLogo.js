@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './GDPRPage.module.scss'
+import styles from './index.module.scss'
 
 const SantimentLogo = () => (
 <svg
