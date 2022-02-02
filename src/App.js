@@ -24,7 +24,7 @@ import withIntercom from './withIntercom'
 import ErrorBoundary from './components/ErrorContent/ErrorBoundary'
 import PageLoader from './components/Loader/PageLoader'
 import Footer from './components/Footer'
-import {GDPRPage, UsernamePage} from './pages/ForceActions'
+import { GDPRPage, UsernamePage } from './pages/ForceActions'
 import { getConsentUrl } from './utils/utils'
 import CookiePopup from './components/CookiePopup/CookiePopup'
 import ForceActionRedirector from './components/ForceActionRedirector'
@@ -302,7 +302,9 @@ export const App = ({
             <Route
               exact
               path={PATHS.USERNAME}
-              render={props => <UsernamePage {...props} isDesktop={isDesktop} />}
+              render={props => (
+                <UsernamePage {...props} isDesktop={isDesktop} />
+              )}
             />
             <Route
               exact

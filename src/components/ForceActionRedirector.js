@@ -10,10 +10,10 @@ const ForceActionRedirector = ({ pathname }) => {
   const { user } = useUser()
 
   useEffect(() => {
-    if (!user || ignoredPages.includes(pathname)) return;
+    if (!user || ignoredPages.includes(pathname)) return
     if (!user.privacyPolicyAccepted) {
       store.dispatch(push(PATHS.GDPR))
-    } else if (user.username) { // FIXME : !user.username
+    } else if (!user.username) {
       store.dispatch(push(PATHS.USERNAME))
     }
   }, [user, pathname])

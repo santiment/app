@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 import styles from './index.module.scss'
 
 const SantimentLogo = () => (
-<svg
+  <svg
     className={styles.santimentLogo}
     width='130'
     height='24'

@@ -13,47 +13,46 @@ import SantimentLogo from './SantimentLogo'
 import * as actions from './../../actions/types'
 import MobileWrapper from '../Login/Mobile/MobileWrapper'
 import { useUser } from '../../stores/user'
-import { useChangeUsername } from './hooks'
+import { useUsernameChange } from '../../hooks/usernameChange'
 import styles from './index.module.scss'
 
-const TAKEN_MSG = 'has already been taken'
-
-const GdprDescription = ({ toggleGDPR, isGDPR, togglePrivacyPolicy }) => {
-  const [username, setUsername] = useState()
-  const [usernameError, setUsernameError] = useState()
+const GdprDescription = ({
+  toggleGDPR,
+  isGDPR,
+  togglePrivacyPolicy,
+  dispatchNewUsername
+}) => {
   const [GDPRerror, setGDPRerror] = useState(false)
-  const { changeUsername, loading } = useChangeUsername()
-
-  const checkUsername = useCallback(() => {
-    let error = undefined
-    if (!username || username.length < 3) {
-      error = 'Username should be at least 3 characters long'
-    } else if (username[0] === '@') {
-      error = '@ is not allowed for the first character'
-    }
-    setUsernameError(error)
-    return !!error
-  }, [username])
+  const {
+    changeUsername,
+    savingUsername,
+    usernameError,
+    setUsernameError,
+    username,
+    setUsername,
+    checkUsername,
+    catchUsernameChangeError
+  } = useUsernameChange()
 
   const continueButtonHandler = useCallback(() => {
-    if (loading) return
+    if (savingUsername) return
     if (!isGDPR) setGDPRerror(true)
-    if (checkUsername() || !isGDPR) return
+    if (checkUsername(username) || !isGDPR) return
 
     changeUsername(username)
-      .then(togglePrivacyPolicy)
-      .catch(e => {
-        let error = 'Something went wrong, please try again later'
-        if (e.graphQLErrors) {
-          const { details, message } = e.graphQLErrors[0]
-          error = message
-          if (details.username && details.username.includes(TAKEN_MSG)) {
-            error = `Username "${username}" is already teaken`
-          }
-        }
-        setUsernameError(error)
+      .then(() => {
+        dispatchNewUsername(username)
+        togglePrivacyPolicy()
       })
-  }, [isGDPR, username, loading])
+      .catch(catchUsernameChangeError)
+  }, [
+    isGDPR,
+    username,
+    savingUsername,
+    checkUsername,
+    catchUsernameChangeError,
+    changeUsername
+  ])
 
   return (
     <>
@@ -68,14 +67,14 @@ const GdprDescription = ({ toggleGDPR, isGDPR, togglePrivacyPolicy }) => {
           autoComplete='off'
           placeholder='username'
           onChange={e => {
-            setUsername(e.target.value)
             setUsernameError()
+            setUsername(e.target.value)
           }}
-          onBlur={checkUsername}
+          onBlur={e => checkUsername(e.target.value)}
           isError={!!usernameError}
           errorText={usernameError}
           className={styles.usernameInput}
-          disabled={loading}
+          disabled={savingUsername}
         />
       </div>
       <p className={styles.description}>
@@ -89,7 +88,7 @@ const GdprDescription = ({ toggleGDPR, isGDPR, togglePrivacyPolicy }) => {
             toggleGDPR()
           }}
           className={cx(styles.checkbox, GDPRerror && styles.checkboxError)}
-          disabled={loading}
+          disabled={savingUsername}
         />
         <div className={styles.checkDescription}>
           <label
@@ -127,16 +126,16 @@ const GdprDescription = ({ toggleGDPR, isGDPR, togglePrivacyPolicy }) => {
       <Button
         className={styles.toggleBtn}
         variant='fill'
-        accent={!loading ? 'positive' : 'grey'}
+        accent={!savingUsername ? 'positive' : 'grey'}
         onClick={continueButtonHandler}
       >
-        {loading ? <Loader className={styles.loader} /> : 'Continue'}
+        {savingUsername ? <Loader className={styles.loader} /> : 'Continue'}
       </Button>
     </>
   )
 }
 
-const GDPRPage = ({ togglePrivacyPolicy, isDesktop }) => {
+const GDPRPage = ({ togglePrivacyPolicy, dispatchNewUsername, isDesktop }) => {
   const { user } = useUser()
   const [isGDPR, setGDPR] = useState(false)
   const toggleGDPR = () => setGDPR(!isGDPR)
@@ -150,6 +149,7 @@ const GDPRPage = ({ togglePrivacyPolicy, isDesktop }) => {
       toggleGDPR={toggleGDPR}
       isGDPR={isGDPR}
       togglePrivacyPolicy={togglePrivacyPolicy}
+      dispatchNewUsername={dispatchNewUsername}
     />
   )
 
@@ -171,7 +171,12 @@ const mapDispatchToProps = dispatch => {
   return {
     togglePrivacyPolicy: () => {
       dispatch({ type: actions.USER_TOGGLE_PRIVACY_POLICY })
-    }
+    },
+    dispatchNewUsername: username =>
+      dispatch({
+        type: actions.USER_USERNAME_CHANGE,
+        username
+      })
   }
 }
 
