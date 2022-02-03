@@ -30,7 +30,7 @@ export const ShareProfile = () => (
   />
 )
 
-const DisplayProfileValue = ({ label, value, isCurrentUser, profile }) => {
+const DisplayProfileValue = ({ label, value, isCurrentUser }) => {
   const [isDialogVisible, setIsDialogVisible] = useState(false)
   if (!isCurrentUser) {
     return <>{value || `No ${label}`}</>
@@ -83,7 +83,6 @@ const InfoBlock = ({
               label='full name'
               value={name}
               isCurrentUser={isCurrentUser}
-              profile={profile}
             />
           </div>
           <div
@@ -93,7 +92,6 @@ const InfoBlock = ({
               label='username'
               value={`@${username}`}
               isCurrentUser={isCurrentUser}
-              profile={profile}
             />
           </div>
           {isLoggedIn &&
