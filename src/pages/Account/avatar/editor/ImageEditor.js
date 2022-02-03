@@ -99,25 +99,29 @@ const ImageEditor = ({
 
         <div className={styles.actions}>
           <div className={styles.sliderContainer}>
-            <OnStepChange
-              onClick={() => onZoomChange(zoom - STEP_ZOOM)}
-              className={styles.zoomMin}
-            />
+            {!saving && imageUrl && (
+              <>
+                <OnStepChange
+                  onClick={() => onZoomChange(zoom - STEP_ZOOM)}
+                  className={styles.zoomMin}
+                />
 
-            <input
-              type='range'
-              step={STEP_ZOOM}
-              min={MIN_ZOOM}
-              max={MAX_ZOOM}
-              value={zoom}
-              onChange={event => onZoomChange(event.target.value)}
-              className={styles.slider}
-            />
+                <input
+                  type='range'
+                  step={STEP_ZOOM}
+                  min={MIN_ZOOM}
+                  max={MAX_ZOOM}
+                  value={zoom}
+                  onChange={event => onZoomChange(event.target.value)}
+                  className={styles.slider}
+                />
 
-            <OnStepChange
-              onClick={() => onZoomChange(zoom + STEP_ZOOM)}
-              className={styles.zoomMax}
-            />
+                <OnStepChange
+                  onClick={() => onZoomChange(zoom + STEP_ZOOM)}
+                  className={styles.zoomMax}
+                />
+              </>
+            )}
           </div>
 
           <div className={styles.btns}>
