@@ -10,12 +10,13 @@ import Panel from '@santiment-network/ui/Panel'
 import SantimentLogo from './SantimentLogo'
 import MobileWrapper from '../Login/Mobile/MobileWrapper'
 import { useUser } from '../../stores/user'
-import { useUsernameChange } from '../../hooks/usernameChange'
+import { useUsernameChange } from '../../hooks/profileChange'
 import { USER_USERNAME_CHANGE } from '../../actions/types'
 import styles from './index.module.scss'
 
 const UsernameChangeModal = ({ dispatchNewUsername }) => {
   const history = useHistory()
+
   const {
     changeUsername,
     savingUsername,
@@ -24,24 +25,25 @@ const UsernameChangeModal = ({ dispatchNewUsername }) => {
     username,
     setUsername,
     checkUsername,
-    catchUsernameChangeError
+    catchUsernameChangeError,
+    showUsernameChangedNotifiction
   } = useUsernameChange()
 
   const saveUsernameButtonHandler = useCallback(() => {
     if (savingUsername) return
     if (checkUsername(username)) return
     changeUsername(username)
-      .then(() => {
-        dispatchNewUsername(username)
-        history.replace('/')
-      })
+      .then(() => dispatchNewUsername(username))
+      .then(() => history.replace('/'))
+      .then(showUsernameChangedNotifiction)
       .catch(catchUsernameChangeError)
   }, [
     username,
     savingUsername,
     checkUsername,
     catchUsernameChangeError,
-    changeUsername
+    changeUsername,
+    showUsernameChangedNotifiction
   ])
 
   return (
