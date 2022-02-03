@@ -3,6 +3,7 @@ import Cropper from 'react-easy-crop'
 import Dialog from '@santiment-network/ui/Dialog'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import getCroppedImg from './utils'
 import ImageUpload, {
   extractUploadedImageUrl
@@ -25,7 +26,9 @@ const ImageEditor = ({
   setOpen,
   onChangeUrl,
   isOpen,
-  title
+  title,
+  withRemoveButton = false,
+  saving
 }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [rotation, setRotation] = useState(0)
@@ -118,23 +121,40 @@ const ImageEditor = ({
           </div>
 
           <div className={styles.btns}>
-            <Button border className={styles.addBtn}>
-              <ImageUpload
-                className={styles.fileLoader}
-                onUploaded={onUploaded}
-              />
-              Upload
-            </Button>
-            {imageUrl && (
-              <Button
-                variant='fill'
-                accent='positive'
-                disabled={!imageUrl}
-                className={styles.cropBtn}
-                onClick={showCroppedImage}
-              >
-                Update
-              </Button>
+            {saving ? (
+              <Loader />
+            ) : (
+              <>
+                {withRemoveButton && (
+                  <Button
+                    variant='flat'
+                    accent='negative'
+                    disabled={!imageUrl}
+                    className={styles.cropBtn}
+                    onClick={() => onChangeUrl('', false)}
+                  >
+                    Remove
+                  </Button>
+                )}
+                <Button border className={styles.addBtn}>
+                  <ImageUpload
+                    className={styles.fileLoader}
+                    onUploaded={onUploaded}
+                  />
+                  Upload
+                </Button>
+                {imageUrl && (
+                  <Button
+                    variant='fill'
+                    accent='positive'
+                    disabled={!imageUrl}
+                    className={styles.cropBtn}
+                    onClick={showCroppedImage}
+                  >
+                    Update
+                  </Button>
+                )}
+              </>
             )}
           </div>
         </div>
