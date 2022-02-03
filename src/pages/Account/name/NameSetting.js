@@ -1,55 +1,39 @@
 import React from 'react'
-import gql from 'graphql-tag'
-import { graphql } from 'react-apollo'
-import { store } from '../../../redux'
-import { showNotification } from '../../../actions/rootActions'
+import { useFullnameChange } from '../../../hooks/profileChange'
 import EditableInputSetting from '../EditableInputSetting'
 import styles from '../userName/UsernameSettings.module.scss'
 
-const CHANGE_NAME_MUTATION = gql`
-  mutation changeName($value: String!) {
-    changeName(name: $value) {
-      name
-    }
-  }
-`
+const NameSetting = ({ dispatchNewName, name }) => {
+  const {
+    changeFullname,
+    showFullnameChangedNotifiction,
+    catchFullnameChangeError,
+    checkFullname
+  } = useFullnameChange()
 
-function validateName (name) {
-  if (name && name.length < 3) {
-    return 'Full name should be at least 3 characters long'
-  }
-}
-
-const NameSetting = ({ dispatchNewName, name, changeName }) => {
   return (
     <EditableInputSetting
       label='Full name'
       defaultValue={name}
-      validate={validateName}
+      validate={checkFullname}
       classes={styles}
       tooltip='Official assignation for visitors to your user profile'
-      onSubmit={(value, successCallback) =>
-        changeName({ variables: { value } })
-          .then(() => {
-            store.dispatch(
-              showNotification(`Full name successfully changed to "${value}"`)
-            )
-            dispatchNewName(value)
-            if (successCallback) successCallback()
+      onSubmit={async (value, successCallback) => {
+        try {
+          await changeFullname(value)
+          dispatchNewName(value)
+          showFullnameChangedNotifiction(null, value)
+          if (successCallback) successCallback()
+        } catch (e) {
+          catchFullnameChangeError(e)
+          showFullnameChangedNotifiction({
+            variant: 'error',
+            title: `Oops! Something went wrong, please try again`
           })
-          .catch(() => {
-            store.dispatch(
-              showNotification({
-                variant: 'error',
-                title: `Oops! Something went wrong, please try again`
-              })
-            )
-          })
-      }
+        }
+      }}
     />
   )
 }
 
-export default graphql(CHANGE_NAME_MUTATION, { name: 'changeName' })(
-  NameSetting
-)
+export default NameSetting

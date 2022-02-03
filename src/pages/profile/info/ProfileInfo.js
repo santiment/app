@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import Icon from '@santiment-network/ui/Icon'
@@ -31,6 +31,7 @@ export const ShareProfile = () => (
 )
 
 const DisplayProfileValue = ({ label, value, isCurrentUser, profile }) => {
+  const [isDialogVisible, setIsDialogVisible] = useState(false)
   if (!isCurrentUser) {
     return <>{value || `No ${label}`}</>
   }
@@ -45,13 +46,15 @@ const DisplayProfileValue = ({ label, value, isCurrentUser, profile }) => {
     <Dialog
       title='Edit'
       trigger={
-        <div>
+        <div onClick={() => setIsDialogVisible(true)}>
           <Trigger />
         </div>
       }
       classes={{ dialog: styles.editWrapper, title: styles.modalTitle }}
+      open={isDialogVisible}
+      onClose={() => setIsDialogVisible(false)}
     >
-      <EditProfile profile={profile} />
+      <EditProfile onClose={() => setIsDialogVisible(false)} />
     </Dialog>
   )
 }
@@ -143,9 +146,13 @@ const ProfileInfo = ({ profile, updateCache, followData = {} }) => {
     following: { count: followingCount } = {}
   } = followData
   const { isLoggedIn, user } = useUser()
-  const { id, avatarUrl } = profile
   const currentUserId = useMemo(() => (user ? user.id : null), [user])
-  const isCurrentUser = useMemo(() => +currentUserId === +id, [user, profile])
+  const isCurrentUser = useMemo(() => +currentUserId === +profile.id, [
+    user,
+    profile
+  ])
+  const userProfile = isCurrentUser ? user : profile
+  const { id, avatarUrl } = userProfile
 
   return (
     <div className={styles.container}>
@@ -158,7 +165,7 @@ const ProfileInfo = ({ profile, updateCache, followData = {} }) => {
         />
         <MobileOnly>
           <InfoBlock
-            profile={profile}
+            profile={userProfile}
             isLoggedIn={isLoggedIn}
             followData={followData}
             updateCache={updateCache}
@@ -170,7 +177,7 @@ const ProfileInfo = ({ profile, updateCache, followData = {} }) => {
       <div className={styles.right}>
         <DesktopOnly>
           <InfoBlock
-            profile={profile}
+            profile={userProfile}
             isLoggedIn={isLoggedIn}
             followData={followData}
             updateCache={updateCache}

@@ -13,7 +13,7 @@ import SantimentLogo from './SantimentLogo'
 import * as actions from './../../actions/types'
 import MobileWrapper from '../Login/Mobile/MobileWrapper'
 import { useUser } from '../../stores/user'
-import { useUsernameChange } from '../../hooks/usernameChange'
+import { useUsernameChange } from '../../hooks/profileChange'
 import styles from './index.module.scss'
 
 const GdprDescription = ({

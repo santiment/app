@@ -2,7 +2,7 @@ import React from 'react'
 import { store } from '../../../redux'
 import { showNotification } from '../../../actions/rootActions'
 import EditableInputSetting from './../EditableInputSetting'
-import { useUsernameChange } from '../../../hooks/usernameChange'
+import { useUsernameChange } from '../../../hooks/profileChange'
 import styles from './UsernameSettings.module.scss'
 
 const UsernameSetting = ({ dispatchNewUsername, username, name }) => {

@@ -9,7 +9,7 @@ const UserAvatar = ({
   avatarUrl,
   as: El = Link,
   classes = {},
-  externalAvatarUrl,
+  externalAvatarUrl
 }) => {
   const picUrl = externalAvatarUrl || avatarUrl
   const linkTo = userId
@@ -24,7 +24,7 @@ const UserAvatar = ({
       className={cx(
         styles.avatar,
         classes.avatar,
-        !picUrl && classes.avatarEmpty,
+        !picUrl && classes.avatarEmpty
       )}
       style={{ backgroundImage: `url("${picUrl}"` }}
     >
