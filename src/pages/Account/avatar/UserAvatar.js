@@ -9,7 +9,8 @@ const UserAvatar = ({
   avatarUrl,
   as: El = Link,
   classes = {},
-  externalAvatarUrl
+  externalAvatarUrl,
+  isCurrentUser = false
 }) => {
   const picUrl = externalAvatarUrl || avatarUrl
   const linkTo = userId
@@ -20,14 +21,16 @@ const UserAvatar = ({
 
   return (
     <El
-      to={linkTo}
+      to={!isCurrentUser && linkTo}
       className={cx(
         styles.avatar,
         classes.avatar,
-        !picUrl && classes.avatarEmpty
+        !picUrl && classes.avatarEmpty,
+        isCurrentUser && classes.editable
       )}
       style={{ backgroundImage: `url("${picUrl}"` }}
     >
+      {isCurrentUser && <Icon type='edit' className={classes.editableAvatar} />}
       {!picUrl && <Icon type='profile' className={classes.avatarIcon} />}
     </El>
   )

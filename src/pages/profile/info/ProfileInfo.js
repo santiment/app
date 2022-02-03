@@ -13,6 +13,8 @@ import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
 import SidecarExplanationTooltip from '../../../ducks/SANCharts/SidecarExplanationTooltip'
 import NotificationBellBtn from '../../../components/NotificationBellBtn/NotificationBellBtn'
 import EditProfile from './EditProfile'
+import AvatarEditor from '../../../pages/Account/avatar/AvatarEditor'
+
 import styles from './ProfileInfo.module.scss'
 
 const ShareTrigger = props => (
@@ -152,15 +154,30 @@ const ProfileInfo = ({ profile, updateCache, followData = {} }) => {
   const userProfile = isCurrentUser ? user : profile
   const { id, avatarUrl } = userProfile
 
+  const AvatarHolder = () => (
+    <UserAvatar
+      as='div'
+      userId={id}
+      externalAvatarUrl={avatarUrl}
+      classes={styles}
+      isCurrentUser={isCurrentUser}
+    />
+  )
+
   return (
     <div className={styles.container}>
       <div className={styles.left}>
-        <UserAvatar
-          as='div'
-          userId={id}
-          externalAvatarUrl={avatarUrl}
-          classes={styles}
-        />
+        {isCurrentUser ? (
+          <AvatarEditor
+            avatarUrl={avatarUrl}
+            withRemove={false}
+            withRemoveButton={true}
+          >
+            <AvatarHolder />
+          </AvatarEditor>
+        ) : (
+          <AvatarHolder />
+        )}
         <MobileOnly>
           <InfoBlock
             profile={userProfile}
