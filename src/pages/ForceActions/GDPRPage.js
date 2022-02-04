@@ -140,7 +140,7 @@ const GDPRPage = ({ togglePrivacyPolicy, dispatchNewUsername, isDesktop }) => {
   const [isGDPR, setGDPR] = useState(false)
   const toggleGDPR = () => setGDPR(!isGDPR)
 
-  if (user && user.privacyPolicyAccepted) {
+  if (!user || (user && user.privacyPolicyAccepted)) {
     return <Redirect to='/' />
   }
 
