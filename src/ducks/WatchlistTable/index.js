@@ -56,6 +56,7 @@ const WatchlistTable = ({
           {selectedItemsSet.selectedItemsSet.size > 0 && (
             <div className={styles.ml1}>
               <Actions
+                assets={watchlist.listItems}
                 selected={Array.from(selectedItemsSet.selectedItemsSet)}
                 watchlist={watchlist}
                 onAdd={(watchlistId, _, onAddDone) =>
