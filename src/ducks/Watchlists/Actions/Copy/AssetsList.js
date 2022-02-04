@@ -5,6 +5,7 @@ import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import Label from '@santiment-network/ui/Label'
 import { InputWithIcon } from '@santiment-network/ui/Input'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
+import { BLOCKCHAIN_ADDRESS } from '../../detector'
 import styles from './AssetsList.module.scss'
 import inputStyles from '../../../../components/BlockchainLabelsSelector/BlockchainLabelsSelector.module.scss'
 
@@ -15,40 +16,49 @@ const AssetsList = ({
   selectedItems,
   onToggleAsset,
   classes,
-  withSearch = false
+  withSearch = false,
+  type
 }) => {
   const [filter, setFilter] = useState()
   const [filteredItems, setFilteredItems] = useState(items)
-
   useEffect(() => {
     if (!withSearch) return
     let filteredItems = [...items]
     if (filter) {
       const normalizedFilter = filter.trim().toLowerCase()
-      filteredItems = filteredItems.filter(({ name, ticker }) => {
-        return (
-          name.toLowerCase().includes(normalizedFilter) ||
-          ticker.toLowerCase().includes(normalizedFilter)
-        )
-      })
+      filteredItems =
+        type === BLOCKCHAIN_ADDRESS
+          ? filteredItems.filter(({ blockchainAddress }) =>
+              blockchainAddress.address.toLowerCase().includes(normalizedFilter)
+            )
+          : filteredItems.filter(({ name, ticker }) => {
+              return (
+                name.toLowerCase().includes(normalizedFilter) ||
+                ticker.toLowerCase().includes(normalizedFilter)
+              )
+            })
     }
     setFilteredItems(filteredItems)
-  }, [items, filter, withSearch])
+  }, [items, filter, withSearch, type])
 
   const rowRenderer = ({ key, index, style }) => {
-    const { name, ticker, id } = filteredItems[index]
-    const isSelectedAsset = selectedItems.has(id)
+    const { name, ticker, id, blockchainAddress } = filteredItems[index]
+    const lookupId =
+      type === BLOCKCHAIN_ADDRESS ? blockchainAddress.address : id
+    const isSelectedAsset = selectedItems.has(lookupId)
 
     return (
       <div
         key={key}
         className={cx(styles.project, classes.asset)}
         style={style}
-        onClick={() => onToggleAsset(id)}
+        onClick={() => onToggleAsset(lookupId)}
       >
         <Checkbox isActive={isSelectedAsset} className={styles.checkbox} />
-        <Label className={styles.name}>{name}</Label>
-        <Label accent='casper'>{ticker}</Label>
+        <Label className={styles.name}>
+          {type === BLOCKCHAIN_ADDRESS ? blockchainAddress.address : name}
+        </Label>
+        {type !== BLOCKCHAIN_ADDRESS && <Label accent='casper'>{ticker}</Label>}
       </div>
     )
   }

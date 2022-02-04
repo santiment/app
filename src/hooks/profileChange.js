@@ -38,13 +38,13 @@ export function useUsernameChange (_username) {
     return error
   }
 
-  function catchUsernameChangeError (e) {
+  function catchUsernameChangeError (e, _username) {
     let error = 'Something went wrong, please try again later'
     if (e.graphQLErrors) {
       const { details, message } = e.graphQLErrors[0]
       error = message
       if (details.username && details.username.includes(TAKEN_MSG)) {
-        error = `Username "${username}" is already teaken`
+        error = `Username "${_username || username}" is already taken`
       }
     }
     setUsernameError(error)

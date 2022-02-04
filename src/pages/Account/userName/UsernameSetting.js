@@ -38,7 +38,7 @@ const UsernameSetting = ({ dispatchNewUsername, username, name }) => {
             dispatchNewUsername(value)
             if (successCallback) successCallback()
           })
-          .catch(catchUsernameChangeError)
+          .catch(e => catchUsernameChangeError(e, value))
       }}
     />
   )

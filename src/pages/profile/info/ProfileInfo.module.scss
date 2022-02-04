@@ -253,6 +253,14 @@
 .editable {
   cursor: pointer;
   position: relative;
+
+  svg:not(.avatarIcon) {
+    display: none;
+  }
+
+  &:hover svg:not(.avatarIcon) {
+    display: initial; 
+  }
 }
 
 .ml16 {
