@@ -103,7 +103,7 @@ const UsernameChangeModal = ({ dispatchNewUsername }) => {
 const UsernamePage = ({ isDesktop, dispatchNewUsername }) => {
   const { user } = useUser()
 
-  if (user && user.username) {
+  if (!user || user.username) {
     return <Redirect to='/' />
   }
 
