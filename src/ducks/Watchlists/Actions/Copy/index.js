@@ -106,7 +106,6 @@ const WatchlistCopyPopup = ({
       if (hasWatchlistWithoutSelectedAssets !== isEditing) {
         setEditing(hasWatchlistWithoutSelectedAssets)
       }
-      console.log({ w: [...watchlists], hasWatchlistWithoutSelectedAssets })
       if (!hasWatchlistWithoutSelectedAssets && !warning) setWarning(true)
       if (hasWatchlistWithoutSelectedAssets && warning) setWarning(false)
     }
