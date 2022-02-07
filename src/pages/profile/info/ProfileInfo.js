@@ -34,14 +34,14 @@ export const ShareProfile = () => (
 
 const DisplayProfileValue = ({ label, value, isCurrentUser }) => {
   const [isDialogVisible, setIsDialogVisible] = useState(false)
+
   if (!isCurrentUser) {
-    return <>{value ? `@${value}` : `No ${label}`}</>
+    return <>{value || `No ${label}`}</>
   }
 
   const Trigger = () => (
     <>
-      {value ? `@${value}` : `Add ${label}`}{' '}
-      <Icon className={styles.ml16} type='edit' />
+      {value || `Add ${label}`} <Icon className={styles.ml16} type='edit' />
     </>
   )
 
@@ -93,7 +93,7 @@ const InfoBlock = ({
           >
             <DisplayProfileValue
               label='username'
-              value={username}
+              value={username && `@${username}`}
               isCurrentUser={isCurrentUser}
             />
           </div>

@@ -38,7 +38,8 @@ const EditProfile = ({ onClose, dispatchNewUsername, dispatchNewName }) => {
     changeFullname
   } = useFullnameChange(user.name)
 
-  async function saveButtonHandler () {
+  async function saveButtonHandler (e) {
+    e.preventDefault()
     if (
       savingFullname ||
       savingUsername ||
@@ -75,8 +76,10 @@ const EditProfile = ({ onClose, dispatchNewUsername, dispatchNewName }) => {
     }
   }
 
+  const loading = savingFullname || savingUsername
+
   return (
-    <div className={styles.modalContent}>
+    <form className={styles.modalContent} onSubmit={saveButtonHandler}>
       <label className={styles.label}>
         <DarkTooltip
           trigger={
@@ -102,7 +105,7 @@ const EditProfile = ({ onClose, dispatchNewUsername, dispatchNewName }) => {
         onBlur={e => checkFullname(e.target.value)}
         isError={!!fullnameError}
         errorText={fullnameError}
-        disabled={savingFullname}
+        disabled={loading}
       />
       <label className={styles.label}>
         <DarkTooltip
@@ -132,24 +135,22 @@ const EditProfile = ({ onClose, dispatchNewUsername, dispatchNewName }) => {
           isError={!!usernameError}
           errorText={usernameError}
           className={styles.usernameInput}
-          disabled={savingUsername}
+          disabled={loading}
         />
       </div>
       <Dialog.Actions className={styles.actions}>
         <Dialog.Approve
-          isLoading={savingFullname || savingUsername}
+          isLoading={loading}
           onClick={saveButtonHandler}
+          type='submit'
         >
           Save
         </Dialog.Approve>
-        <Dialog.Cancel
-          isLoading={savingFullname || savingUsername}
-          onClick={onClose}
-        >
+        <Dialog.Cancel disabled={loading} onClick={onClose} type='button'>
           Cancel
         </Dialog.Cancel>
       </Dialog.Actions>
-    </div>
+    </form>
   )
 }
 
