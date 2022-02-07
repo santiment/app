@@ -1,17 +1,23 @@
 @import "~@santiment-network/ui/mixins";
 
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .wrapper {
   margin-top: 4px;
   display: flex;
   flex-wrap: wrap;
-  gap: var(--notification-description-gap, 8px);
+  gap: 8px;
 }
 
 .item {
   display: flex;
   align-items: center;
   width: fit-content;
-  padding: var(--notification-description-padding, 6px 12px);
+  padding: 6px 12px;
   border: 1px solid var(--porcelain);
   box-sizing: border-box;
   border-radius: 4px;
@@ -25,26 +31,8 @@
   margin-right: 4px;
 }
 
-.channelsText {
-  margin-right: var(--notification-text-margin, 4px);
-}
-
-.small {
-  --notification-description-padding: 4px 6px;
-  --notification-text-margin: 2px;
-
-  .item {
-    @include text("caption");
-  }
-
-  .channels {
-    display: block;
-    padding: 0;
-    border: none;
-  }
-
-  .channelsText {
-    color: var(--waterloo);
-    text-transform: lowercase;
-  }
+.error {
+  margin: 0;
+  width: fit-content;
+  padding: 6px 10px !important;
 }

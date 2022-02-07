@@ -7,7 +7,6 @@ import AlertTriggerButton from './components/AlertTriggerButton/AlertTriggerButt
 import ConfirmClose from './components/ConfirmClose/ConfirmClose'
 import AlertModalFormMaster from './AlertModalFormMaster'
 import { useUser } from '../../stores/user'
-import { ALERT_TYPES } from './constants'
 import styles from './AlertModal.module.scss'
 
 const AlertModal = ({
@@ -18,7 +17,9 @@ const AlertModal = ({
   defaultOpen,
   trigger,
   defaultType,
-  signalData
+  signalData,
+  isUserTheAuthor = true,
+  prepareAlertTitle
 }) => {
   const match = useRouteMatch('/alerts/:id')
   const history = useHistory()
@@ -26,6 +27,7 @@ const AlertModal = ({
   const [isModalOpen, setIsModalOpen] = useState(defaultOpen)
   const [isClosing, setIsClosing] = useState(false)
   const [isEdited, setIsEdited] = useState(false)
+  const [isPreview, setIsPreview] = useState(!isUserTheAuthor)
 
   if (!isLoggedIn) {
     return (
@@ -46,13 +48,14 @@ const AlertModal = ({
     }
     setIsModalOpen(false)
     setIsClosing(false)
+    setIsPreview(!isUserTheAuthor)
   }
 
   return (
     <>
       <Dialog
         withAnimation
-        title={modalTitle}
+        title={isPreview ? 'Alert details' : modalTitle}
         open={isModalOpen}
         onOpen={() => setIsModalOpen(true)}
         onClose={() => {
@@ -71,10 +74,16 @@ const AlertModal = ({
           )
         }
         classes={{
-          dialog: cx(styles.dialog, isClosing && styles.hidden)
+          dialog: cx(
+            styles.dialog,
+            isClosing && styles.hidden,
+            isPreview && styles.preview
+          )
         }}
       >
         <AlertModalFormMaster
+          isPreview={isPreview}
+          setIsPreview={setIsPreview}
           id={id}
           signalData={signalData}
           defaultType={defaultType}
@@ -82,6 +91,8 @@ const AlertModal = ({
           setIsEdited={setIsEdited}
           isEdited={isEdited}
           isModalOpen={isModalOpen}
+          isUserTheAuthor={isUserTheAuthor}
+          prepareAlertTitle={prepareAlertTitle}
         />
       </Dialog>
       <ConfirmClose
@@ -97,10 +108,9 @@ const AlertModal = ({
 }
 
 AlertModal.defaultProps = {
-  modalTitle: 'Create alert for',
+  modalTitle: 'Create custom alerts',
   disabled: false,
-  defaultOpen: false,
-  defaultType: ALERT_TYPES[0]
+  defaultOpen: false
 }
 
 export default AlertModal

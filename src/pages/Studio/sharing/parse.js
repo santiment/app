@@ -71,7 +71,11 @@ function parseIndicators (indicators, KnownMetric, metrics) {
   if (!indicators) return MetricIndicators
 
   metrics.forEach(metricKey => {
-    if (!indicators[metricKey]) return
+    if (!indicators[metricKey]) {
+      // HACK(vanguard): forcing indicator parse from metric key
+      metricKey = metricKey.slice(metricKey.indexOf('_') + 1)
+      if (!indicators[metricKey]) return
+    }
 
     const metric = getMetric(metricKey)
 

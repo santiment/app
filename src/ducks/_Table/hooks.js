@@ -26,7 +26,8 @@ export function useSelectedItemsSet (items) {
     selectedItemsSet,
     selectItem,
     selectAll,
-    isAllItemSelected: selectedItemsSet.size === items.length
+    isAllItemSelected:
+      items.length > 0 && selectedItemsSet.size === items.length
   }
 }
 

@@ -1,62 +1,67 @@
 import React from 'react'
-import cx from 'classnames'
+import { useFormikContext } from 'formik'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import AlertStepsSelector from '../AlertStepsSelector/AlertStepsSelector'
-import Tip from './Tip/Tip'
-import { ALERT_TYPES } from '../../constants'
 import styles from './AlertModalSidebar.module.scss'
 
 const AlertModalSidebar = ({
   isMetricsDisabled,
-  onTypeSelect,
-  selectorSettings
+  selectorSettings,
+  values,
+  hasSignal,
+  isSharedTrigger
 }) => {
-  const { selectedType, selectedStep, setSelectedStep } = selectorSettings
+  const { submitForm, isSubmitting } = useFormikContext()
 
-  if (selectedStep !== undefined) {
-    const tips = selectedType.steps[selectedStep].tips
+  const {
+    selectedType,
+    id,
+    setSelectedStep,
+    setFormPreviousValues,
+    setInvalidSteps
+  } = selectorSettings
 
-    return (
-      <div className={styles.wrapper}>
-        <div>
-          <Button
-            className={styles.backButton}
-            onClick={() => setSelectedStep(undefined)}
-          >
-            <Icon type='pointer-right' className={styles.backIcon} /> Type of
-            alert
-          </Button>
-          <div className={styles.steps}>
-            <AlertStepsSelector
-              items={selectedType.subSteps}
-              size='small'
-              selectorSettings={selectorSettings}
-              isMetricsDisabled={isMetricsDisabled}
-            />
-          </div>
-        </div>
-        {tips && <Tip tips={tips} />}
-      </div>
-    )
+  function handleReturnBack () {
+    setSelectedStep(undefined)
+    setFormPreviousValues(values)
+    setInvalidSteps([])
+  }
+
+  function handleSubmit () {
+    if (isSubmitting) {
+      submitForm()
+    }
   }
 
   return (
     <div className={styles.wrapper}>
       <div>
-        {ALERT_TYPES.map(type => (
-          <div
-            key={type.title}
-            className={cx(
-              styles.type,
-              selectedType.title === type.title && styles.active
-            )}
-            onClick={() => onTypeSelect(type)}
-          >
-            {type.title}
-          </div>
-        ))}
+        <div className={styles.titleWrapper}>
+          <div className={styles.title}>{selectedType.title}</div>
+          {!hasSignal && (
+            <Button className={styles.backButton} onClick={handleReturnBack}>
+              <Icon type='arrow-left' className={styles.backIcon} /> Alert types
+            </Button>
+          )}
+        </div>
+        <div className={styles.divider} />
+        <AlertStepsSelector
+          items={selectedType.steps}
+          selectorSettings={selectorSettings}
+          isMetricsDisabled={isMetricsDisabled}
+        />
       </div>
+      <Button
+        type='submit'
+        variant='fill'
+        border={false}
+        accent='positive'
+        className={styles.submit}
+        onClick={handleSubmit}
+      >
+        {id && !isSharedTrigger ? 'Apply changes' : 'Create alert'}
+      </Button>
     </div>
   )
 }

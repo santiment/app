@@ -2,6 +2,7 @@ import qs from 'query-string'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import queryString from 'query-string'
 import { INFOGRAPHICS } from './Widgets/VolumeChart/utils'
+import { getAddressInfrastructure } from '../../utils/address'
 
 export const ALL_PROJECTS_WATCHLIST_SLUG = 'projects'
 
@@ -146,4 +147,14 @@ export const useScreenerUrlUpdaters = (widgets, setWidgets) => {
   )
 
   return { onChangeSettings }
+}
+
+export const mapAddressToAPIType = ({ address, infrastructure, notes }) => {
+  return {
+    blockchainAddress: {
+      address,
+      infrastructure: infrastructure || getAddressInfrastructure(address),
+      notes
+    }
+  }
 }

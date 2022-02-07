@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
@@ -29,6 +29,26 @@ const Actions = ({
   const [lists] = useUserWatchlists(type)
   const [updateWatchlist, { loading }] = useUpdateWatchlist(type)
   const [isMenuOpened, setIsMenuOpened] = useState(false)
+  const [showPanel, setShowPanel] = useState(true)
+
+  useEffect(() => {
+    const panelVisibilityChange = ({ detail }) => {
+      const isShowPanel = detail === 'show'
+      if (!isShowPanel) setShowPanel(isShowPanel)
+      setIsMenuOpened(!isShowPanel)
+    }
+    window.addEventListener(
+      'panelVisibilityChange',
+      panelVisibilityChange,
+      false
+    )
+    return () =>
+      window.removeEventListener(
+        'panelVisibilityChange',
+        panelVisibilityChange,
+        false
+      )
+  }, [])
 
   if (!watchlist.id || isAuthorLoading) {
     return null
@@ -67,7 +87,10 @@ const Actions = ({
             isLoading={loading}
             watchlist={watchlist}
             onPrimaryAction={onEditApprove}
-            openMenu={() => setIsMenuOpened(true)}
+            openMenu={() => {
+              setShowPanel(true)
+              setIsMenuOpened(true)
+            }}
           />
         }
         align='start'
@@ -76,7 +99,10 @@ const Actions = ({
         passOpenStateAs='isActive'
         onClose={() => setIsMenuOpened(false)}
       >
-        <Panel variant='modal' className={styles.wrapper}>
+        <Panel
+          variant='modal'
+          className={showPanel ? styles.wrapper : styles.hidePanel}
+        >
           <Edit
             type={type}
             title={title}

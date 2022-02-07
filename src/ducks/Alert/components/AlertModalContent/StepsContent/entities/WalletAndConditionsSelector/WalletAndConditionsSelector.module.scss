@@ -39,12 +39,9 @@
 .conditions {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
 }
 
-.nextBtn {
-  margin-top: 40px;
-  float: right;
-  height: 24px;
-  margin-bottom: 24px;
+.titleWrapper {
+  display: flex;
+  justify-content: space-between;
 }

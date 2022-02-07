@@ -1,7 +1,7 @@
-import React from 'react'
-import cx from 'classnames'
+import React, { useEffect } from 'react'
 import { useFormikContext } from 'formik'
 import { ProjectIcon } from '../../../../../../../components/ProjectIcon/ProjectIcon'
+import AlertMessage from '../../../../../../../components/Alert/AlertMessage'
 import {
   clipText,
   getConditionsStr,
@@ -11,7 +11,12 @@ import {
 import { useAssets } from '../../../../../../../hooks/project'
 import styles from './WalletAndConditions.module.scss'
 
-const WalletAndConditions = ({ description, isSmall }) => {
+const WalletAndConditions = ({
+  description,
+  invalidStepsMemo,
+  selected,
+  isFinished
+}) => {
   const {
     values: {
       settings: { target, selector, time_window, operation }
@@ -20,6 +25,16 @@ const WalletAndConditions = ({ description, isSmall }) => {
   const [projects, loading] = useAssets({
     shouldSkipLoggedInState: false
   })
+
+  const isInvalid = invalidStepsMemo.has('wallet')
+
+  useEffect(() => {
+    if (selector && target.address && selector.slug && !loading && isInvalid) {
+      invalidStepsMemo.delete('wallet')
+    }
+  }, [selector, target, loading, isInvalid])
+
+  let children = ''
 
   if (selector && target.address && selector.slug && !loading) {
     const project = projects.find(project => project.slug === selector.slug)
@@ -31,8 +46,8 @@ const WalletAndConditions = ({ description, isSmall }) => {
     })
     const { rest } = splitStr(conditionsStr)
 
-    return (
-      <div className={cx(styles.wrapper, isSmall && styles.small)}>
+    children = (
+      <div className={styles.wrapper}>
         <div className={styles.address}>{clipText(target.address, 24)}</div>
         <div className={styles.item}>
           <ProjectIcon
@@ -48,9 +63,22 @@ const WalletAndConditions = ({ description, isSmall }) => {
         </div>
       </div>
     )
+  } else {
+    children = description || ''
   }
 
-  return description || ''
+  return (
+    <div className={styles.col}>
+      {(selected || isFinished) && children}
+      {isInvalid && (
+        <AlertMessage
+          className={styles.error}
+          error
+          text='Wallet is required'
+        />
+      )}
+    </div>
+  )
 }
 
 export default WalletAndConditions

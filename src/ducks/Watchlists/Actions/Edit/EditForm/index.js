@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import Input from '@santiment-network/ui/Input'
 import Label from '@santiment-network/ui/Label'
@@ -12,8 +12,9 @@ import styles from './index.module.scss'
 const MIN_LENGTH = 3
 const SHORT_NAME_ERROR = `The name should be at least ${MIN_LENGTH} characters`
 const BAD_SYMBOLS_ERROR = "Use only letters, numbers, whitespace and _-.'/,"
-const NAME_EXISTS_ERROR = 'You has already use this name'
+const NAME_EXISTS_ERROR = 'You have already used this name'
 const ALLOWED_SYMBOLS_REGEXP = /^([.\-/_' ,\w]*)$/
+const DUPLICATE_LABELS = ['Duplicate', 'Save as']
 
 const EditForm = ({
   id,
@@ -23,15 +24,31 @@ const EditForm = ({
   open: isOpen,
   onFormSubmit,
   defaultSettings,
-  buttonLabel = 'Save',
+  buttonLabel = 'Apply changes',
   watchlist,
   ...props
 }) => {
   const [lists] = useUserWatchlists(type)
   const [formState, setFormState] = useState(defaultSettings)
-  const [isTouched, setIsTouched] = useState(false)
+  const [preSelectedItems, setPreSelectedItems] = useState([])
   const debouncedCheckName = useDebounce(checkName, 300)
   const placeholder = type === SCREENER ? 'Most price performance' : 'Favorites'
+
+  useEffect(() => {
+    const comparingAssetsChangeHandler = ({ detail }) =>
+      setPreSelectedItems(detail)
+    window.addEventListener(
+      'comparingAssetsChanged',
+      comparingAssetsChangeHandler,
+      false
+    )
+    return () =>
+      window.removeEventListener(
+        'comparingAssetsChanged',
+        comparingAssetsChangeHandler,
+        false
+      )
+  }, [])
 
   function onSubmit (evt) {
     evt.preventDefault()
@@ -60,17 +77,6 @@ const EditForm = ({
     }
   }
 
-  function checkIsTouched (key, value) {
-    const normalizedValue = value || null
-    const newFormState = { ...formState, [key]: normalizedValue }
-    newFormState.description =
-      newFormState.description === '' ? null : newFormState.description
-    delete newFormState.error
-    setIsTouched(
-      JSON.stringify(newFormState) !== JSON.stringify(defaultSettings)
-    )
-  }
-
   function onInputChange ({ currentTarget: { value: name } }) {
     setFormState(state => ({ ...state, name }))
     debouncedCheckName(name)
@@ -78,14 +84,12 @@ const EditForm = ({
 
   function onTextareaChange ({ currentTarget: { value: description } }) {
     setFormState(state => ({ ...state, description }))
-    checkIsTouched('description', description)
   }
 
   function onToggleClick (evt) {
     evt.preventDefault()
     setFormState(state => {
       const isPublic = !state.isPublic
-      checkIsTouched('isPublic', isPublic)
       return { ...state, isPublic }
     })
   }
@@ -112,7 +116,6 @@ const EditForm = ({
       error = NAME_EXISTS_ERROR
     }
 
-    if (!error) checkIsTouched('name', name)
     setFormState(state => ({ ...state, error }))
 
     return error
@@ -121,10 +124,18 @@ const EditForm = ({
   return (
     <Dialog
       open={isOpen}
-      onClose={() => toggleOpen(false)}
+      onClose={() => {
+        toggleOpen(false)
+        window.dispatchEvent(
+          new CustomEvent('panelVisibilityChange', { detail: 'show' })
+        )
+      }}
       onOpen={() => {
         setFormState({ ...defaultSettings })
         toggleOpen(true)
+        window.dispatchEvent(
+          new CustomEvent('panelVisibilityChange', { detail: 'hide' })
+        )
       }}
       classes={styles}
       {...props}
@@ -135,15 +146,19 @@ const EditForm = ({
         </Label>
         {isOpen && (
           <Input
-            autoFocus
             name='name'
             maxLength='25'
             autoComplete='off'
             className={styles.input}
-            onChange={onInputChange}
+            onChange={e => formState.error && onInputChange(e)}
+            onBlur={onInputChange}
             isError={formState.error}
             errorText={formState.error}
-            defaultValue={formState.name}
+            defaultValue={
+              DUPLICATE_LABELS.includes(buttonLabel)
+                ? undefined
+                : formState.name
+            }
             placeholder={'For example, ' + placeholder}
           />
         )}
@@ -167,9 +182,9 @@ const EditForm = ({
         {isOpen && type === 'PROJECT' && (
           <Assets
             watchlist={watchlist}
+            preSelectedItems={preSelectedItems}
             onChange={listItems => {
               setFormState(state => ({ ...state, listItems }))
-              checkIsTouched('listItems', listItems)
             }}
           />
         )}
@@ -178,14 +193,9 @@ const EditForm = ({
             className={styles.btn}
             accent='positive'
             isLoading={isLoading}
-            disabled={
-              isLoading ||
-              formState.error ||
-              !formState.name ||
-              formState.name.length < MIN_LENGTH
-            }
+            disabled={isLoading}
           >
-            {isTouched && !formState.error ? 'Apply changes' : buttonLabel}
+            {buttonLabel}
           </Dialog.Approve>
           <PublicityToggle
             variant='flat'

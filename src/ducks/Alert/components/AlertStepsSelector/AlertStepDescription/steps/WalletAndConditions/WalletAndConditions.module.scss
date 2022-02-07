@@ -2,9 +2,9 @@
 
 .wrapper {
   display: flex;
-  flex-direction: var(--wallet-wrapper-flex, row);
-  gap: var(--wallet-wrapper-flex-gap, 8px);
-  margin-top: var(--wallet-wrapper-margin, 4px);
+  flex-direction: row;
+  gap: 8px;
+  margin-top: 4px;
   flex-wrap: wrap;
 }
 
@@ -13,7 +13,7 @@
   align-items: center;
   gap: 4px;
   width: fit-content;
-  padding: var(--wallet-item-padding, 6px 12px);
+  padding: 6px 12px;
   border: 1px solid var(--porcelain);
   box-sizing: border-box;
   border-radius: 4px;
@@ -24,43 +24,34 @@
 
 .address {
   border-radius: 4px;
-  padding: var(--wallet-address-padding, 6px 12px);
-  border: var(--wallet-item-border, 1px solid var(--porcelain));
-  margin-top: var(--wallet-address-margin, 0);
+  padding: 6px 12px;
+  border: 1px solid var(--porcelain);
+  margin-top: 0;
   color: var(--fiord);
 }
 
 .condition {
   border-radius: 4px;
-  padding: var(--wallet-address-padding, 6px 12px);
-  border: var(--wallet-item-border, 1px solid var(--porcelain));
+  padding: 6px 12px;
+  border: 1px solid var(--porcelain);
   color: var(--fiord);
 }
 
-.small {
-  --wallet-address-padding: 0;
-  --wallet-item-border: none;
-  --wallet-wrapper-margin: 0;
-  --wallet-wrapper-flex: column;
-  --wallet-wrapper-flex-gap: 4px;
-  --wallet-item-padding: 4px 8px;
-  --wallet-item-margin: 4px;
-  --wallet-address-margin: 4px;
-
-  .item {
-    @include text("caption");
-  }
-
-  .address {
-    @include text("caption");
-  }
-
-  .condition {
-    @include text("caption");
-  }
-}
 
 .conditionType {
   margin-right: 4px;
   color: var(--waterloo);
+}
+
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.error {
+  margin: 0;
+  width: fit-content;
+  padding: 6px 10px !important;
 }

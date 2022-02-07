@@ -41,11 +41,7 @@ const MetricAndConditions = ({
   let children = (
     <>
       <div className={styles.titleWrapper}>
-        <StepTitle
-          iconType='metric'
-          title='Choose Metric'
-          className={styles.title}
-        />
+        <StepTitle title='Choose Metric' className={styles.title} />
         {selectedMetric && (
           <NextStep label='Conditions' onClick={() => setIsEditMode(false)} />
         )}
@@ -65,13 +61,10 @@ const MetricAndConditions = ({
         <ConditionsTitle
           metric={selectedMetric}
           onClick={() => setIsEditMode(true)}
+          handleNextClick={handleNextClick}
         />
+        <StepTitle title='Conditions' size='s' />
         <ConditionsSelector metric={selectedMetric} />
-        <NextStep
-          onClick={handleNextClick}
-          label='Notification settings'
-          className={styles.nextBtn}
-        />
       </div>
     )
   }

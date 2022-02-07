@@ -28,7 +28,7 @@
 }
 
 .frequencyType {
-  width: 380px;
+  width: 250px;
 
   [class="ReactVirtualized__Grid ReactVirtualized__List"] {
     min-height: 176px;
@@ -36,7 +36,7 @@
 }
 
 .counter {
-  width: 50px;
+  width: 80px;
 }
 
 .frequencyPeriod {
@@ -44,5 +44,11 @@
 
   [class="ReactVirtualized__Grid ReactVirtualized__List"] {
     min-height: 144px;
+  }
+}
+
+.frequencyTypeDAA {
+  [class="ReactVirtualized__Grid ReactVirtualized__List"] {
+    min-height: 80px;
   }
 }

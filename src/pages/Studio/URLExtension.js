@@ -41,7 +41,7 @@ const URLExtension = ({
   shortUrlHashState,
   setSlug
 }) => {
-  const { ticker, name } = settings
+  const { name } = settings
   const [sharedWidgets, setSharedWidgets] = useState('')
   const { isLoggedIn } = useUser()
   const layout = useStore(selectedLayout)
@@ -133,7 +133,6 @@ const URLExtension = ({
 
   return (
     <Helmet
-      title={ticker ? `${ticker} project page` : 'Sanbase...'}
       meta={[
         {
           property: 'og:title',

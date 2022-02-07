@@ -111,7 +111,7 @@ const ProjectsList = ({
   )
 
   const wrapperStyles = {
-    height: isSocial || isWords ? '393px' : '443px'
+    height: isWords ? '450px' : '443px'
   }
 
   const getRowCount = () =>

@@ -87,7 +87,7 @@ export const Delete = ({ id, name, title }) => (
     id={id}
     name={name}
     trigger={
-      <Item icon='remove' accent='negative' className={styles.delete}>
+      <Item icon='remove' className={styles.delete}>
         Delete
       </Item>
     }
@@ -103,7 +103,9 @@ export const New = ({ type, onSubmit }) => (
 )
 
 export const SaveAs = ({ type, watchlist }) => {
-  const showDuplicate = ['SCREENER', 'PROJECT'].includes(type)
+  const showDuplicate = ['SCREENER', 'PROJECT', 'BLOCKCHAIN_ADDRESS'].includes(
+    type
+  )
   const iconName = showDuplicate ? 'duplicate' : 'disk'
   return (
     <SaveAsAction

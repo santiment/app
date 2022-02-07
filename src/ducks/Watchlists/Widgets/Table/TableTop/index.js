@@ -80,6 +80,7 @@ const TableTop = ({
           setOrderBy={setOrderBy}
           activeColumns={activeColumns}
           updateActiveColumnsKeys={updateActiveColumnsKeys}
+          flexible={false}
         />
         <DownloadCSV
           type={type}

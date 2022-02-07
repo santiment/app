@@ -39,20 +39,23 @@ const Table = ({
   itemProps,
   isLoading,
   getItemKey,
-  onRowClick
+  onRowClick,
+  isWithColumnTitles = true,
+  emptySection
 }) => (
   <table className={cx(styles.wrapper, className)}>
-    <thead>
-      <tr>
-        {columns.map(({ id, title, Title }) => (
-          <th key={id}>{Title ? <Title {...itemProps} /> : title}</th>
-        ))}
-      </tr>
-    </thead>
+    {isWithColumnTitles && (
+      <thead>
+        <tr>
+          {columns.map(({ id, title, Title }) => (
+            <th key={id}>{Title ? <Title {...itemProps} /> : title}</th>
+          ))}
+        </tr>
+      </thead>
+    )}
     <tbody>
       {items.map((item, i) => {
         const itemIndex = offset + i
-
         return (
           <tr
             key={getItemKey ? getItemKey(item) : item[itemKeyProperty]}
@@ -70,9 +73,9 @@ const Table = ({
     </tbody>
     <caption>
       <Skeleton show={isLoading} className={styles.skeleton} />
-      {!isLoading && items.length === 0 && (
-        <NoDataImage className={styles.nodata} />
-      )}
+      {!isLoading &&
+        items.length === 0 &&
+        (emptySection || <NoDataImage className={styles.nodata} />)}
     </caption>
   </table>
 )

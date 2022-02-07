@@ -1,14 +1,17 @@
 @import "~@santiment-network/ui/mixins";
 
 .wrapper {
+  height: 590px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   flex-basis: 100%;
-  max-width: 256px;
-  padding: 32px 24px;
-  background: var(--athens);
+  max-width: 374px;
+  padding: 32px 40px 24px 48px;
   border-radius: 0 0 0 4px;
+  border-right: 1px solid var(--porcelain);
+
+  @include overlay-scroll;
 }
 
 .type {
@@ -33,9 +36,7 @@
 }
 
 .backButton {
-  background-color: var(--athens);
   padding: 0;
-  margin-bottom: 24px;
   color: var(--waterloo);
 
   @include text("body-3");
@@ -47,11 +48,34 @@
 
 .backIcon {
   margin-bottom: 2px;
-  transform: rotate(180deg);
   margin-right: 8px;
   fill: currentColor;
 }
 
-.steps {
-  padding-left: 8px;
+.titleWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.title {
+  color: var(--rhino);
+
+  @include text("h4");
+}
+
+.divider {
+  height: 1px;
+  background: var(--porcelain);
+  border-radius: 2px;
+  margin-top: 16px;
+  margin-bottom: 24px;
+}
+
+.submit {
+  margin-top: 24px;
+  min-height: 32px;
+  width: 129px;
+  display: flex;
+  justify-content: center;
 }

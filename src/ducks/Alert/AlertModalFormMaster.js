@@ -1,10 +1,16 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Formik } from 'formik'
 import { connect } from 'react-redux'
+import isEqual from 'lodash.isequal'
 import PageLoader from '../../components/Loader/PageLoader'
+import AlertTypeSelector from './components/AlertTypeSelector/AlertTypeSelector'
+import EmptySection from '../../components/EmptySection/EmptySection'
+import AlertPreview from './components/AlertPreview/AlertPreview'
 import AlertModalForm from './AlertModalForm'
 import { createTrigger, updateTrigger } from '../Signals/common/actions'
+import { useUser } from '../../stores/user'
 import { useSignal } from './hooks/useSignal'
+import { validateFormSteps } from './utils'
 import styles from './AlertModalFormMaster.module.scss'
 
 const initialValues = {
@@ -35,36 +41,75 @@ const AlertModalFormMaster = ({
   isEdited,
   signalData,
   id,
-  isModalOpen
+  isModalOpen,
+  isPreview,
+  setIsPreview,
+  prepareAlertTitle
 }) => {
+  const [formPreviousValues, setFormPreviousValues] = useState(initialValues)
   const [selectedType, setSelectedType] = useState(defaultType)
+  const [initialState, setInitialState] = useState(initialValues)
   const [selectedStep, setSelectedStep] = useState(undefined)
   const [visitedSteps, setVisitedSteps] = useState([])
   const [finishedSteps, setFinishedSteps] = useState([])
+  const [invalidSteps, setInvalidSteps] = useState([])
   const visitedStepsMemo = useMemo(() => new Set(visitedSteps), [visitedSteps])
+  const invalidStepsMemo = useMemo(() => new Set(invalidSteps), [invalidSteps])
   const finishedStepsMemo = useMemo(() => new Set(finishedSteps), [
     finishedSteps
   ])
-  const { data = {}, loading } = useSignal({
+  const { user } = useUser()
+  const { data = {}, loading, error } = useSignal({
     id,
     skip: !id
   })
 
-  function handleSubmit (values, { setSubmitting }) {
-    if (id) {
+  const isSharedTrigger =
+    data && data.trigger && +data.trigger.authorId !== +user.id
+
+  useEffect(() => {
+    if (id || signalData) {
+      setSelectedStep(0)
+    }
+  }, [id, signalData])
+
+  useEffect(() => {
+    if (!isEqual(formPreviousValues, initialState)) {
+      setIsEdited(true)
+    } else {
+      setIsEdited(false)
+    }
+
+    if (!isModalOpen) {
+      setIsEdited(false)
+    }
+  }, [formPreviousValues, isModalOpen])
+
+  function submitFormValues ({ values, setSubmitting }) {
+    const triggerValues = {
+      ...values,
+      settings: { ...values.settings, type: selectedType.settings.type }
+    }
+
+    if (id && !isSharedTrigger) {
       updateAlert({
         id,
-        ...values,
-        settings: { ...values.settings, type: selectedType.settings.type }
+        ...triggerValues
       })
     } else {
-      createAlert({
-        ...values,
-        settings: { ...values.settings, type: selectedType.settings.type }
-      })
+      createAlert(triggerValues)
     }
     setSubmitting(false)
     handleCloseDialog()
+  }
+
+  function handleSubmit (values, { setSubmitting }) {
+    validateFormSteps({
+      type: selectedType,
+      values,
+      setInvalidSteps,
+      submitForm: () => submitFormValues({ values, setSubmitting })
+    })
   }
 
   const selectorSettings = useMemo(
@@ -77,7 +122,13 @@ const AlertModalFormMaster = ({
       setVisitedSteps,
       finishedSteps: finishedStepsMemo,
       setFinishedSteps,
-      id
+      id,
+      initialState,
+      setInitialState,
+      formPreviousValues,
+      setFormPreviousValues,
+      invalidStepsMemo,
+      setInvalidSteps
     }),
     [
       selectedType,
@@ -88,31 +139,64 @@ const AlertModalFormMaster = ({
       setVisitedSteps,
       finishedStepsMemo,
       setFinishedSteps,
-      id
+      id,
+      initialState,
+      setInitialState,
+      formPreviousValues,
+      setFormPreviousValues,
+      invalidStepsMemo,
+      setInvalidSteps
     ]
   )
 
   if (loading) {
     return (
-      <div>
-        <PageLoader
-          containerClass={styles.loaderWrapper}
-          className={styles.loader}
-        />
-      </div>
+      <PageLoader
+        containerClass={styles.loaderWrapper}
+        className={styles.loader}
+      />
     )
   }
 
+  if (error) {
+    return (
+      <EmptySection className={styles.notSignalInfo}>
+        Alert doesn't exist
+        <br />
+        or it's a private alert.
+      </EmptySection>
+    )
+  }
+
+  if (isPreview) {
+    return (
+      <AlertPreview
+        setIsPreview={setIsPreview}
+        signal={data.trigger.trigger}
+        prepareAlertTitle={prepareAlertTitle}
+        handleCloseDialog={handleCloseDialog}
+      />
+    )
+  }
+
+  if (selectedStep === undefined) {
+    return <AlertTypeSelector selectorSettings={selectorSettings} />
+  }
+
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+    <Formik
+      initialValues={initialState}
+      onSubmit={handleSubmit}
+      enableReinitialize={true}
+    >
       {formik => (
         <AlertModalForm
           signal={signalData || (data && data.trigger && data.trigger.trigger)}
           isModalOpen={isModalOpen}
           selectorSettings={selectorSettings}
-          setIsEdited={setIsEdited}
           hasSignal={!!id}
           isEdited={isEdited}
+          isSharedTrigger={isSharedTrigger}
           {...formik}
         />
       )}

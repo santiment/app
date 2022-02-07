@@ -6,7 +6,6 @@ import styles from './Steps.module.scss'
 const Steps = ({
   className,
   children,
-  size,
   current,
   initial,
   icons,
@@ -30,7 +29,6 @@ const Steps = ({
           key: stepNumber,
           icons,
           onStepClick: onChange && onStepClick,
-          size,
           selected,
           ...child.props
         }

@@ -16,7 +16,6 @@ const Step = ({
   stepIndex,
   onStepClick,
   onClick,
-  size,
   selected,
   ...restProps
 }) => {
@@ -29,7 +28,6 @@ const Step = ({
   }
 
   const classString = cx(
-    size === 'small' && styles.small,
     selected && styles.selected,
     getClassString(styles, disabled, status)
   )
@@ -59,9 +57,7 @@ const Step = ({
           />
           <div className={styles.content}>
             <div className={styles.title}>{title}</div>
-            {description && (
-              <div className={styles.description}>{description}</div>
-            )}
+            <div className={styles.description}>{description || null}</div>
           </div>
         </div>
       </div>
