@@ -148,3 +148,29 @@
 .testimonials {
   margin-bottom: 48px;
 }
+
+.companiesHeader {
+  @include text('h2', 'l');
+  text-align: center;
+  color: var(--mystic);
+  margin-bottom: 56px;
+  display: flex;
+  align-items: center;
+
+  &::before, &::after {
+    content: '';
+    width: 5px;
+    height: 5px;
+    background-color: var(--mystic);
+    border-radius: 50%;
+    border: none;
+  }
+
+  &::before {
+    margin-right: 9px;
+  }
+
+  &::after {
+    margin-left: 9px;
+  }
+}
