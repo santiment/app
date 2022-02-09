@@ -49,14 +49,12 @@ export default {
     Component: PlanActionDialog,
     link: TRIAL_LABEL,
     features: [
-      <b>All in Free and:</b>,
-      'Sanbase metrics: full historical and present-day data',
-      'Get unlimited access to every daily market insight',
-      'Exclusive weekly Pro reports',
-      'Full access to Santiment Screener',
+      'Sanbase metrics - full historical and present-day data',
       'Access to all Sanbase alerts',
-      'Closed chat',
-      'Google Sheets Plugin'
+      'Full access to Santiment Screener',
+      'Daily market insights',
+      'Exclusive weekly Pro reports',
+      'Market segment dashboards - stablecoins, defi, dexes and more'
     ]
   },
   PRO_PLUS: {
@@ -66,11 +64,11 @@ export default {
     link: TRIAL_LABEL,
     features: [
       <b>All in PRO and:</b>,
-      'Dedicated account manager',
-      'Basic API 300k API calls',
-      'Closed Webinars with Santiment Analytics',
-      'Closed chat with Santiment market analysts',
-      'Custom education & onboarding'
+      'Basic API',
+      'Dedicated Account Manager',
+      'Google Sheets / Excel Plugin',
+      'Closed chat with Santiment analytics',
+      'Tailored market reports and token analysis'
     ]
   },
   BASIC: {

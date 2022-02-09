@@ -16,6 +16,8 @@
 .top {
   display: flex;
   position: relative;
+  justify-content: center;
+  text-align: center;
 }
 
 .headerContent {
@@ -47,7 +49,7 @@
   color: var(--waterloo);
   font-size: 18px !important;
   line-height: 26px !important;
-  margin: 10px 0 0 0;
+  margin: 19px 0 0 0;
   display: flex;
 
   @include responsive('phone-xs', 'phone', 'tablet') {
@@ -140,5 +142,35 @@
       background: var(--athens);
       border-color: var(--athens);
     }
+  }
+}
+
+.testimonials {
+  margin-bottom: 48px;
+}
+
+.companiesHeader {
+  @include text('h2', 'l');
+  text-align: center;
+  color: var(--mystic);
+  margin-bottom: 56px;
+  display: flex;
+  align-items: center;
+
+  &::before, &::after {
+    content: '';
+    width: 5px;
+    height: 5px;
+    background-color: var(--mystic);
+    border-radius: 50%;
+    border: none;
+  }
+
+  &::before {
+    margin-right: 9px;
+  }
+
+  &::after {
+    margin-left: 9px;
   }
 }
