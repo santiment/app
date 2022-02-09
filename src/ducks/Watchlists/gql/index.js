@@ -33,8 +33,6 @@ export function tableQuery (columns) {
     }
   )
 
-  console.log(dynamicColumns)
-
   return gql`
   query allProjectsByFunction($fn: json) {
     allProjectsByFunction(function: $fn) {
