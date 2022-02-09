@@ -2,9 +2,8 @@ import React from 'react'
 import Plans from './Plans/Plans'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
+import SpeakBlocks from './SpeakBlocks/SpeakBlocks'
 import PricingFAQ from './PricingFAQ/PricingFAQ'
-import Testimonials from '../../components/Testimonials'
-import TwitterFeedbacks from '../../pages/Pricing/TwitterFeedbacks/TwitterFeedbacks'
 import styles from './index.module.scss'
 
 const Header = () => {
@@ -34,9 +33,8 @@ const Page = () => (
     <div className={styles.inner}>
       <Header />
       <Plans id='plans' classes={styles} />
-      <Testimonials slice={3} wrapperClass={styles.testimonials} />
-      <TwitterFeedbacks />
       <PricingFAQ />
+      <SpeakBlocks />
     </div>
   </DashboardLayout>
 )
