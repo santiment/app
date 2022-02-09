@@ -9,8 +9,7 @@ export const newExternalWidget = (Widget, props) =>
     ...props
   })
 
-export const withExternal = Component => props => {
-  const { target } = props
+export const withExternal = Component => ({target, ...props}) => {
   if (target) {
     target.classList.remove('widget')
     target.classList.remove('border')
