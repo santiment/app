@@ -50,7 +50,9 @@ export function tableQuery (columns) {
             metric: "${accessor}"
             from: "utc_now-${
               aggregation.toUpperCase() === AGGREGATIONS_UPPER.LAST
-                ? '1d'
+                ? accessor === 'sentiment_volume_consumed_total_change_1d'
+                  ? '2d'
+                  : '1d'
                 : timeRange
             }"
             to: "utc_now"
