@@ -7,7 +7,7 @@ import { useChannel } from '../utils/socketHooks'
 import { useUserSubscriptionStatus } from '../stores/user/subscriptions'
 
 const ignoredPages = ['/privacy-policy', '/roadmap']
-const PRICING_PAGE = '/pricing'
+const LIMIT_TAB_ALLOWED_PAGES = ['/pricing']
 const TRY_WAIT_TIME_MS = 3000
 const MAX_TABS_FREE = 2
 const MAX_TABS_PRO = 4
@@ -18,7 +18,7 @@ const ForceActionRedirector = ({ pathname }) => {
   const { channel, setShowTabLimitModal } = useChannel()
 
   const checkOpenTabs = () => {
-    if (!channel || isProPlus || ignoredPages.includes(PRICING_PAGE)) return
+    if (!channel || isProPlus || LIMIT_TAB_ALLOWED_PAGES.includes(pathname)) return
     channel
       .push('open_tabs', {}, 10000)
       .receive('ok', ({ open_tabs }) => {
