@@ -15,7 +15,7 @@ const MAX_TABS_PRO = 4
 const ForceActionRedirector = ({ pathname }) => {
   const { user } = useUser()
   const { isPro, isProPlus } = useUserSubscriptionStatus()
-  const channel = useChannel()
+  const { channel, setShowTabLimitModal } = useChannel()
 
   const checkOpenTabs = () => {
     if (!channel || isProPlus || ignoredPages.includes(PRICING_PAGE)) return
@@ -23,9 +23,7 @@ const ForceActionRedirector = ({ pathname }) => {
       .push('open_tabs', {}, 10000)
       .receive('ok', ({ open_tabs }) => {
         const max_tabs = isPro ? MAX_TABS_PRO : MAX_TABS_FREE
-        if (open_tabs > max_tabs) {
-          console.log('TODO: SHOW MODAL NOW')
-        }
+        setShowTabLimitModal(open_tabs > max_tabs)
       })
       .receive('error', () => setTimeout(checkOpenTabs, TRY_WAIT_TIME_MS))
       .receive('timeout', () => setTimeout(checkOpenTabs, TRY_WAIT_TIME_MS))

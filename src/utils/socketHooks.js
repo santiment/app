@@ -11,13 +11,18 @@ import { useUser } from '../stores/user'
 
 export const HOST_NAME = new URL(process.env.REACT_APP_BACKEND_URL).hostname
 
-export const SocketContext = createContext({ channel: null, showModal: false })
+export const SocketContext = createContext({
+  channel: null,
+  showModal: false,
+  setShowTabLimitModal: null
+})
 
 export const SocketProvider = ({ children }) => {
   const { user } = useUser()
   const [sessions] = useUserSessions()
   const session = sessions.find(session => session.isCurrent)
   const [channel, setChannel] = useState(null)
+  const [showTabLimitModal, setShowTabLimitModal] = useState(false)
 
   useEffect(() => {
     if (!user || !session || !session.jti) return
@@ -33,12 +38,13 @@ export const SocketProvider = ({ children }) => {
     SocketContext.Provider,
     {
       value: {
-        channel
+        channel,
+        showTabLimitModal,
+        setShowTabLimitModal
       }
     },
     children
   )
 }
 
-export const useChannel = () => useContext(SocketContext).channel
-export const useShowTabLimitModal = () => useContext(SocketContext).showModal
+export const useChannel = () => useContext(SocketContext)

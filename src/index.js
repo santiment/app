@@ -18,7 +18,7 @@ import { markAsLatestApp, newAppAvailable } from './ducks/Updates/actions'
 import { ThemeProvider } from './stores/ui/theme'
 import initSentry from './utils/initSentry'
 import { redirectSharedLink } from './components/Share/utils'
-import { PhoenixProvider } from './utils/socketHooks'
+import { SocketProvider } from './utils/socketHooks'
 import 'webkit/responsive'
 import 'webkit/styles/main.css'
 
@@ -115,7 +115,7 @@ const main = () => {
     <StripeProvider apiKey={stripeKey}>
       <ApolloProvider client={client}>
         <ThemeProvider>
-          <PhoenixProvider>
+          <SocketProvider>
             <Provider store={store}>
               <Router history={history}>
                 <Switch>
@@ -129,7 +129,7 @@ const main = () => {
                 </Switch>
               </Router>
             </Provider>
-          </PhoenixProvider>
+          </SocketProvider>
         </ThemeProvider>
       </ApolloProvider>
     </StripeProvider>,
