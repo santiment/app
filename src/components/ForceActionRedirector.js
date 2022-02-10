@@ -7,7 +7,7 @@ import { useChannel } from '../utils/socketHooks'
 import { useUserSubscriptionStatus } from '../stores/user/subscriptions'
 
 const ignoredPages = ['/privacy-policy', '/roadmap']
-const LIMIT_TAB_ALLOWED_PAGES = ['/pricing']
+const LIMIT_TAB_ALLOWED_PAGES = [...ignoredPages, '/pricing']
 const TRY_WAIT_TIME_MS = 3000
 const MAX_TABS_FREE = 2
 const MAX_TABS_PRO = 4
