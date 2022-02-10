@@ -13,7 +13,7 @@ export const HOST_NAME = new URL(process.env.REACT_APP_BACKEND_URL).hostname
 
 export const SocketContext = createContext({
   channel: null,
-  showModal: false,
+  showTabLimitModal: false,
   setShowTabLimitModal: null
 })
 
