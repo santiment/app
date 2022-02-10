@@ -18,7 +18,11 @@ const ForceActionRedirector = ({ pathname }) => {
   const { channel, setShowTabLimitModal } = useChannel()
 
   const checkOpenTabs = () => {
-    if (!channel || isProPlus || LIMIT_TAB_ALLOWED_PAGES.includes(pathname)) return
+    if (!channel || isProPlus || LIMIT_TAB_ALLOWED_PAGES.includes(pathname)) {
+      setShowTabLimitModal(false)
+      return
+    }
+
     channel
       .push('open_tabs', {}, 10000)
       .receive('ok', ({ open_tabs }) => {
