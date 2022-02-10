@@ -20,7 +20,7 @@ export const PhoenixProvider = ({ children }) => {
   const [channel, setChannel] = useState(null)
 
   useEffect(() => {
-    if (!session || !session.jti || !user) return
+    if (!user || !session || !session.jti) return
     const socket = new Socket(`wss://${HOST_NAME}/socket`, {
       params: { jti: session.jti }
     })
