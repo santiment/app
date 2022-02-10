@@ -18,7 +18,7 @@ import { markAsLatestApp, newAppAvailable } from './ducks/Updates/actions'
 import { ThemeProvider } from './stores/ui/theme'
 import initSentry from './utils/initSentry'
 import { redirectSharedLink } from './components/Share/utils'
-import { PhoenixProvider } from './utils/phoenixContext'
+import { PhoenixProvider } from './utils/socketHooks'
 import 'webkit/responsive'
 import 'webkit/styles/main.css'
 

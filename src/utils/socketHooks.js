@@ -11,9 +11,9 @@ import { useUser } from '../stores/user'
 
 export const HOST_NAME = new URL(process.env.REACT_APP_BACKEND_URL).hostname
 
-export const PhoenixContext = createContext({ channel: null })
+export const SocketContext = createContext({ channel: null, showModal: false })
 
-export const PhoenixProvider = ({ children }) => {
+export const SocketProvider = ({ children }) => {
   const { user } = useUser()
   const [sessions] = useUserSessions()
   const session = sessions.find(session => session.isCurrent)
@@ -30,7 +30,7 @@ export const PhoenixProvider = ({ children }) => {
   }, [user, session])
 
   return createElement(
-    PhoenixContext.Provider,
+    SocketContext.Provider,
     {
       value: {
         channel
@@ -40,4 +40,5 @@ export const PhoenixProvider = ({ children }) => {
   )
 }
 
-export const useChannel = () => useContext(PhoenixContext).channel
+export const useChannel = () => useContext(SocketContext).channel
+export const useShowTabLimitModal = () => useContext(SocketContext).showModal

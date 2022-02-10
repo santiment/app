@@ -3,7 +3,7 @@ import { push } from 'react-router-redux'
 import { useUser } from '../stores/user'
 import { store } from '../redux'
 import { PATHS } from '../paths'
-import { useChannel } from '../utils/phoenixContext'
+import { useChannel } from '../utils/socketHooks'
 import { useUserSubscriptionStatus } from '../stores/user/subscriptions'
 
 const ignoredPages = ['/privacy-policy', '/roadmap']
