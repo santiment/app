@@ -29,7 +29,7 @@ export default {
         },
         {
           name: 'Browser Tabs',
-          texts: ['Unlimited', 'Up to 2', 'Up to 4']
+          texts: ['N/A', 'Up to 4', 'Unlimited']
         }
       ]
     },
