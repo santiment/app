@@ -1,4 +1,5 @@
 import React from 'react'
+import Twitter from '@santiment-network/ui/Twitter'
 import Plans from './Plans/Plans'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import { useUser } from '../../stores/user'
@@ -6,7 +7,6 @@ import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
 import SpeakBlocks from './SpeakBlocks/SpeakBlocks'
 import PricingFAQ from './PricingFAQ/PricingFAQ'
 import Testimonials from '../../components/Testimonials'
-import TwitterFeedbacks from '../../pages/Pricing/TwitterFeedbacks/TwitterFeedbacks'
 import Companies from '../..//pages/Pricing/Companies/Companies'
 import styles from './index.module.scss'
 
@@ -48,7 +48,7 @@ const Page = () => {
               }
             />
             <Testimonials slice={3} wrapperClass={styles.testimonials} />
-            <TwitterFeedbacks />
+            <Twitter />
           </>
         )}
         <PricingFAQ />
