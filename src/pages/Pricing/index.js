@@ -1,4 +1,5 @@
 import React from 'react'
+import Twitter from '@santiment-network/ui/Twitter'
 import Plans from './Plans/Plans'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import { useUser } from '../../stores/user'
@@ -6,9 +7,23 @@ import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
 import SpeakBlocks from './SpeakBlocks/SpeakBlocks'
 import PricingFAQ from './PricingFAQ/PricingFAQ'
 import Testimonials from '../../components/Testimonials'
-import TwitterFeedbacks from '../../pages/Pricing/TwitterFeedbacks/TwitterFeedbacks'
-import Companies from '../..//pages/Pricing/Companies/Companies'
+import Companies from '../../pages/Pricing/Companies/Companies'
+import { TwitterBg } from './TwitterFeedbacks/TwitterFeedbacks'
+import twitterStyles from './twitter.module.scss'
 import styles from './index.module.scss'
+
+const TwitterFeed = () => (
+  <div className={twitterStyles.container}>
+    <div className={twitterStyles.header}>
+      <TwitterBg className={twitterStyles.headerBg} />
+      <div className={twitterStyles.title}>
+        <TwitterBg className={twitterStyles.twitterBlue} />
+        More reviews from Twitter
+      </div>
+    </div>
+    <Twitter />
+  </div>
+)
 
 const Header = ({ trialDaysLeft }) => (
   <div className={styles.top}>
@@ -48,7 +63,7 @@ const Page = () => {
               }
             />
             <Testimonials slice={3} wrapperClass={styles.testimonials} />
-            <TwitterFeedbacks />
+            <TwitterFeed />
           </>
         )}
         <PricingFAQ />
