@@ -3,7 +3,7 @@ import {
   createContext,
   useState,
   useEffect,
-  useContext,
+  useContext
 } from 'react'
 import { Socket } from 'phoenix'
 import { useUserSessions } from '../pages/Account/SettingsSessions'

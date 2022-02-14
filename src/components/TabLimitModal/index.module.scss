@@ -1,0 +1,33 @@
+@import '~@santiment-network/ui/mixins';
+
+.modalWrapper {
+    background: rgba(37, 40, 48, 0.8);
+}
+
+.dialog {
+    width: 600px;
+    height: 470px;
+    padding: 48px 90px;
+}
+
+.title {
+    display: none;
+}
+
+.descTop {
+    @include text('h4', 'l');
+    color: var(--rhino);
+    margin-top: 24px;
+    margin-bottom: 4px;
+}
+
+.descBottom {
+    @include text('body-2');
+    color: var(--fiord);
+    margin-bottom: 40px;
+}
+
+.btn {
+    margin-right: 8px;
+    padding: 6px 20px
+}

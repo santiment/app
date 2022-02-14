@@ -1,10 +1,11 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { push } from 'react-router-redux'
 import { useUser } from '../stores/user'
 import { store } from '../redux'
 import { PATHS } from '../paths'
 import { useSocket } from '../utils/socketHooks'
 import { useUserSubscriptionStatus } from '../stores/user/subscriptions'
+import TabLimitModal from './TabLimitModal'
 
 const ignoredPages = ['/privacy-policy', '/roadmap']
 const LIMIT_TAB_PAGES = ['/screener', '/watchlists', '/charts']
@@ -12,12 +13,14 @@ const TRY_WAIT_TIME_MS = 3000
 const MAX_TABS_FREE = 2
 const MAX_TABS_PRO = 4
 
-const shouldCheckPage = pathname => LIMIT_TAB_PAGES.find(page => page.startsWith(pathname))
+const shouldCheckPage = pathname =>
+  LIMIT_TAB_PAGES.find(page => pathname.startsWith(page))
 
 const ForceActionRedirector = ({ pathname }) => {
   const { user } = useUser()
   const { isPro, isProPlus } = useUserSubscriptionStatus()
-  const { socket, setShowTabLimitModal } = useSocket()
+  const { socket, showTabLimitModal, setShowTabLimitModal } = useSocket()
+  const MAX_TABS = isPro ? MAX_TABS_PRO : MAX_TABS_FREE
 
   function checkOpenTabs () {
     if (!socket || isProPlus || !shouldCheckPage(pathname)) {
@@ -30,8 +33,7 @@ const ForceActionRedirector = ({ pathname }) => {
       channel
         .push('open_restricted_tabs', {}, 10000)
         .receive('ok', ({ open_restricted_tabs }) => {
-          const max_tabs = isPro ? MAX_TABS_PRO : MAX_TABS_FREE
-          setShowTabLimitModal(open_restricted_tabs > max_tabs)
+          setShowTabLimitModal(open_restricted_tabs > MAX_TABS)
         })
         .receive('error', () => setTimeout(checkOpenTabs, TRY_WAIT_TIME_MS))
         .receive('timeout', () => setTimeout(checkOpenTabs, TRY_WAIT_TIME_MS))
@@ -49,7 +51,9 @@ const ForceActionRedirector = ({ pathname }) => {
     }
   }, [user, isPro, isProPlus, pathname, socket])
 
-  return null
+  return showTabLimitModal ? (
+    <TabLimitModal maxTabsCount={MAX_TABS} isPro={isPro} />
+  ) : null
 }
 
 export default ForceActionRedirector
