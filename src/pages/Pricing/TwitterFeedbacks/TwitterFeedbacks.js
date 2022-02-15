@@ -26,7 +26,7 @@ export const useSlider = () => {
   return { slider, slickNext, slickPrev }
 }
 
-const TwitterBg = ({ className }) => (
+export const TwitterBg = ({ className }) => (
   <Icon type='twitter' className={className} />
 )
 

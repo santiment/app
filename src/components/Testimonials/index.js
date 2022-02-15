@@ -19,6 +19,14 @@ const testimonials = [
       'I’ve yet to find another site that lets me chart full historical data and indicators from 3 or 4 completely different sources on a single graph, and make it simple to find new correlations that I couldn’t see otherwise. If you want to get the full picture of the market, you need to tap into all information sources available, and that’s what Sanbase lets me do'
   },
   {
+    author: 'Bagsy',
+    alias: 'B',
+    pic: 'default',
+    position: 'Trader',
+    text:
+      'I’ve yet to find another site that lets me chart full historical data and indicators from 3 or 4 completely different sources on a single graph, and make it simple to find new correlations.'
+  },
+  {
     author: 'Panama_TJ',
     alias: 'PC',
     pic: 'panama_crypto',
@@ -51,9 +59,12 @@ const BgImage = (
   </svg>
 )
 
-const Testimonials = () => {
+const Testimonials = ({ slice, wrapperClass }) => {
+  const normalizedTestimonials = slice
+    ? testimonials.slice(0, slice)
+    : testimonials
   return (
-    <section className={styles.wrapper}>
+    <section className={cx(styles.wrapper, wrapperClass && wrapperClass)}>
       <h2 className={styles.title}>Testimonials</h2>
       <div className={styles.description}>
         Our users send us bunch of smiles with our services, just read some of
@@ -61,7 +72,7 @@ const Testimonials = () => {
       </div>
 
       <div className={styles.list}>
-        {testimonials.map((item, index) => (
+        {normalizedTestimonials.map((item, index) => (
           <Testimonial item={item} key={index} />
         ))}
       </div>

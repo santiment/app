@@ -8,14 +8,20 @@ import BloomberImg from './bloomberg.png'
 import CoinTelegraphImg from './cointelegraph.png'
 import styles from './Companies.module.scss'
 
-const Companies = () => {
-  return (
-    <div className={styles.container}>
+const Companies = ({ header }) => {
+  const Header = () => {
+    if (header) return header
+    return (
       <div className={styles.header}>
         <div className={styles.line} />
         <div className={styles.title}>As referenced in major publications</div>
       </div>
+    )
+  }
 
+  return (
+    <div className={styles.container}>
+      <Header />
       <div className={styles.list}>
         <div className={styles.row}>
           <img alt='bloomberg' src={BloomberImg} width='260' />

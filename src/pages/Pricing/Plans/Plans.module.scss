@@ -2,16 +2,12 @@
 @import '../../../../node_modules/@santiment-network/ui/variables';
 
 .cards {
-  display: grid;
-  grid-column-gap: 40px;
-  grid-template-columns: 1fr 1fr 1fr;
-
-  &__two {
-    grid-template-columns: 1fr 1fr;
-  }
+  display: flex;
+  justify-content: center;
+  margin-bottom: 60px;
 
   @include responsive('phone-xs', 'phone') {
-    grid-template-columns: 1fr;
+    flex-direction: column;
   }
 }
 
@@ -74,7 +70,8 @@
 .billing {
   display: flex;
   align-items: center;
-  margin-bottom: 47px;
+  justify-content: center;
+  margin-bottom: 76px;
 
   @include responsive('phone-xs', 'phone', 'tablet') {
     margin-bottom: 40px;

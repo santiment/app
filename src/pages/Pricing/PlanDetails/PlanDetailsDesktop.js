@@ -65,7 +65,7 @@ const PlanDetailsDesktop = ({
                 {row.group.name}
               </td>
 
-              {all.map((item, index) => (
+              {all.map((_, index) => (
                 <td
                   key={index}
                   className={cx(styles.cell, styles.noRightBorder)}
@@ -73,7 +73,8 @@ const PlanDetailsDesktop = ({
               ))}
             </tr>
             {row.data.map(({ name, checks, texts }) => {
-              const checkboxes = !texts ? checks || all : undefined
+              let _checks = checks && checks.filter((_, idx) => idx !== 0)
+              let checkboxes = !texts ? _checks || all : undefined
 
               return (
                 <tr key={name} className={externalStyles.row}>
@@ -91,24 +92,21 @@ const PlanDetailsDesktop = ({
                         )}
                       >
                         {check && (
-                          <MarkIcon
-                            className={cx(
-                              styles.feature__check,
-                              y === 0 && styles.feature__check__green
-                            )}
-                          />
+                          <MarkIcon className={styles.feature__check} />
                         )}
                       </td>
                     ))}
                   {texts &&
-                    texts.map((text, y) => (
-                      <td
-                        key={y}
-                        className={cx(styles.cell, styles.feature__cell)}
-                      >
-                        {text}
-                      </td>
-                    ))}
+                    texts
+                      .filter((_, idx) => idx !== 0)
+                      .map((text, y) => (
+                        <td
+                          key={y}
+                          className={cx(styles.cell, styles.feature__cell)}
+                        >
+                          {text}
+                        </td>
+                      ))}
                 </tr>
               )
             })}

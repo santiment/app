@@ -11,7 +11,6 @@ import styles from './Plan.module.scss'
 export const getAltPrice = (plans, billing, name) => {
   const { amount: altAmount, interval: altInterval } =
     getAlternativeBillingPlan(plans, { name, interval: billing }) || {}
-
   const [altPrice] = formatPrice(altAmount, null, altInterval)
 
   return { altPrice, altInterval }

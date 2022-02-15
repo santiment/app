@@ -1,0 +1,67 @@
+@import "~@santiment-network/ui/mixins";
+
+.dialog {
+  max-width: 600px;
+  width: 100%;
+  max-height: 520px;
+  height: 100%;
+  overflow: hidden;
+
+
+  @include responsive("phone", "phone-xs") {
+    max-height: 590px;
+    flex-direction: column;
+  }
+}
+
+.dialogTitle {
+  color: var(--rhino);
+
+  @include text("body-2");
+
+  > div {
+    height: auto;
+  }
+}
+
+.wrapper {
+  height: 100%;
+  width: 100%;
+}
+
+.content {
+  height: 393px;
+  width: 100%;
+  padding: 20px 24px 0 24px;
+
+  @include overlay-scroll;
+}
+
+.info {
+  color: var(--fiord);
+  margin-bottom: 20px;
+
+  @include text("body-3");
+}
+
+.link {
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 72px;
+  width: 100%;
+  padding: 20px 24px;
+
+  @include responsive("phone", "phone-xs") {
+    height: 144px;
+    flex-direction: column;
+  }
+}
