@@ -120,14 +120,7 @@ export const SaveAs = ({ type, watchlist }) => {
   )
 }
 
-export const Edit = ({
-  type,
-  title,
-  watchlist,
-  onSubmit,
-  isLoading,
-  trigger
-}) => {
+export const Edit = ({ type, title, watchlist, onSubmit, isLoading }) => {
   const [opened, setOpened] = useState(false)
   const { name, description, isPublic } = watchlist
 
@@ -140,7 +133,7 @@ export const Edit = ({
       isLoading={isLoading}
       toggleOpen={setOpened}
       title={'Edit ' + title}
-      trigger={trigger || <Item icon='edit'>Edit</Item>}
+      trigger={<Item icon='edit'>Edit</Item>}
       settings={{ name, description, isPublic }}
       onFormSubmit={payload => onSubmit(payload).then(() => setOpened(false))}
     />

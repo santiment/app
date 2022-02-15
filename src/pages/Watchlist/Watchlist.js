@@ -12,6 +12,7 @@ import {
 } from '../../ducks/Watchlists/gql/hooks'
 import { buildFunctionQuery } from '../../ducks/Watchlists/Widgets/Filter/utils'
 import AssetsTemplates from '../../ducks/Watchlists/Widgets/Table/AssetsTemplates'
+import TopBar from '../../ducks/Watchlists/Widgets/TopBar/TopBar'
 
 const WatchlistPage = ({ location, history, watchlist, isDesktop }) => {
   const fn = useMemo(
@@ -104,6 +105,7 @@ const WatchlistPage = ({ location, history, watchlist, isDesktop }) => {
 
   return (
     <>
+      <TopBar entity={watchlist} type={PROJECT} refetchAssets={refetchAssets} />
       <TopPanel
         type={PROJECT}
         widgets={widgets}

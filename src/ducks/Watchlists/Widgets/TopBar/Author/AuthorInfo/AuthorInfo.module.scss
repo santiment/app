@@ -1,0 +1,90 @@
+@import "~@santiment-network/ui/mixins";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+
+  &__info {
+    display: flex;
+    gap: 8px;
+  }
+}
+
+.avatarWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.avatarPlaceholderWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--porcelain);
+  background: var(--athens);
+}
+
+.avatarPlaceholder {
+  width: 16px;
+}
+
+.nameWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.fullName {
+  color: var(--fullname-color, var(--rhino));
+
+  @include text("body-3", "m");
+}
+
+.noFullName {
+  --fullname-color: var(--waterloo);
+}
+
+.userName {
+  color: var(--waterloo);
+
+  @include text("caption");
+}
+
+.projects {
+  display: flex;
+  gap: 8px;
+}
+
+.card {
+  width: 182px;
+  --project-card-height: 168px;
+  --project-card-padding: 12px 16px 20px 16px;
+
+  &:hover {
+    --project-card-border-color: var(--porcelain);
+    --project-card-color: var(--rhino);
+    background: var(--athens);
+  }
+}
+
+.cardMiddle {
+  --project-card-middle-margin: 12px 0 16px 0;
+  gap: 8px;
+  flex-direction: column;
+  max-height: 70px;
+}

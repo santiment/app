@@ -1,0 +1,85 @@
+@import "~@santiment-network/ui/mixins";
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--rhino);
+
+  @include text("body-2");
+
+  &:hover {
+    --hover-edit-icon: block;
+  }
+}
+
+.disabledEdit {
+  cursor: default;
+}
+
+.edit {
+  display: var(--hover-edit-icon, none);
+  fill: var(--jungle-green);
+  margin: 0 8px 0 16px;
+
+  &:hover {
+    fill: var(--jungle-green-hover);
+  }
+}
+
+.descIcon {
+  cursor: pointer;
+  width: 16px;
+  fill: var(--waterloo);
+
+  &:hover {
+    fill: var(--rhino);
+  }
+}
+
+.tooltip {
+  z-index: 1000;
+  padding: 16px 24px 24px;
+  width: 320px;
+  height: auto;
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  color: var(--fiord);
+  box-shadow: 0 4px 8px rgba(24, 27, 43, 0.03);
+
+  &__content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+.descTitle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--waterloo);
+
+  @include text("body-3", "m");
+}
+
+.contentIcon {
+  width: 12px;
+  height: 14px;
+  fill: var(--waterloo);
+}
+
+.description {
+  color: var(--rhino);
+  padding-left: 24px;
+
+  @include text("body-3");
+}

@@ -66,6 +66,7 @@ const ProjectCard = ({
   useWatchlistMarketcap,
   skipMarketcap,
   onMarketcapLoad,
+  chartWidth,
   ...props
 }) => {
   const { data, marketcap, change } = useWatchlistMarketcap(
@@ -89,7 +90,7 @@ const ProjectCard = ({
               valueKey='marketcap'
               data={data}
               change={change}
-              width={90}
+              width={chartWidth || 90}
             />
           )}
         </>
