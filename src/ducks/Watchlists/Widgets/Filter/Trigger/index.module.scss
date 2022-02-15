@@ -22,16 +22,23 @@
 }
 
 .button {
-  background: var(--athens);
+  background: var(--white);
   fill: var(--casper);
-  margin-left: 20px;
+  margin-left: 12px;
 
   &.active {
+    color: var(--jungle-green);
     border: 1px solid var(--jungle-green);
+    fill: var(--jungle-green);
+
+    & .text__active::after {
+      background: var(--jungle-green);
+    }
   }
 
   &:hover {
-    fill: var(--jungle-green-light-3);
+    border: 1px solid var(--jungle-green-hover);
+    fill: var(--jungle-green-hover);
 
     & .text__active::after {
       background: var(--jungle-green-hover);

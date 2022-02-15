@@ -78,7 +78,7 @@ const Actions = ({
     })
 
   return (
-    <div onClick={onClick} className={styles.container}>
+    <div onClick={onClick}>
       <ContextMenu
         trigger={
           <Trigger

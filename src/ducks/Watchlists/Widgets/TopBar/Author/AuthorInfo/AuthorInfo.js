@@ -48,8 +48,10 @@ const AuthorInfo = ({
     )
   }
 
-  const screeners = watchlists.filter(checkIsScreener)
-  const projectWatchlists = watchlists.filter(checkIsNotScreener)
+  const screeners = watchlists ? watchlists.filter(checkIsScreener) : []
+  const projectWatchlists = watchlists
+    ? watchlists.filter(checkIsNotScreener)
+    : []
 
   let entitiesData = {
     entities: [],

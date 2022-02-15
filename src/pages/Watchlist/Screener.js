@@ -6,7 +6,6 @@ import {
 } from '../../ducks/Watchlists/gql/hooks'
 import Infographics from './Infographics'
 import { SCREENER } from '../../ducks/Watchlists/detector'
-import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
 import TopBar from '../../ducks/Watchlists/Widgets/TopBar/TopBar'
 import AssetsTable from '../../ducks/Watchlists/Widgets/Table'
 import { useRecent } from '../../ducks/Watchlists/gql/list/hooks'
@@ -124,13 +123,8 @@ const Screener = ({
   return (
     <>
       <TopBar
+        type={SCREENER}
         entity={watchlist}
-        type={SCREENER}
-        refetchAssets={refetchAssets}
-      />
-      <TopPanel
-        type={SCREENER}
-        watchlist={watchlist}
         projectsCount={projectsCount}
         loading={tableLoading}
         isLoggedIn={isLoggedIn}

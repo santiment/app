@@ -105,13 +105,12 @@ const WatchlistPage = ({ location, history, watchlist, isDesktop }) => {
 
   return (
     <>
-      <TopBar entity={watchlist} type={PROJECT} refetchAssets={refetchAssets} />
-      <TopPanel
+      <TopBar
+        entity={watchlist}
         type={PROJECT}
+        refetchAssets={refetchAssets}
         widgets={widgets}
         setWidgets={setWidgets}
-        watchlist={watchlist}
-        refetchAssets={refetchAssets}
       />
       <Infographics
         type='Watchlist'
