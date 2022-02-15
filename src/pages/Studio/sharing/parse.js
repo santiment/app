@@ -130,10 +130,21 @@ function parseMetrics (metrics, comparables = [], KnownMetric) {
     .filter(Boolean)
 }
 
+function parseProjectCombinedMetrics (metric) {
+  return getProjectMetricByKey(metric.key, undefined, {
+    getMetricByKey: () => metric,
+    parseSlug: false
+  })
+}
+
 function parseCombinedMetrics (metrics, KnownMetric) {
   return (metrics || []).map(({ k, exp, l, bm }) => {
-    const metric = newExpessionMetric(bm.map(getMetric), exp, l)
+    let metric = newExpessionMetric(bm.map(getMetric), exp, l)
     metric.key = k
+
+    if (checkIsProjectMetricKey(k)) {
+      metric = parseProjectCombinedMetrics(metric)
+    }
 
     KnownMetric[k] = metric
     return metric
