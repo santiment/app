@@ -9,7 +9,7 @@ import { usePlans } from '../../ducks/Plans/hooks'
 import HeaderImage from './header'
 import styles from './index.module.scss'
 
-const INTERVAL = 'year'
+const INTERVAL = 'month'
 
 const TabLimitModal = ({ maxTabsCount, isPro }) => {
   const { subscription } = useUserSubscription()
