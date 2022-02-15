@@ -9,9 +9,10 @@ import TabLimitModal from './TabLimitModal'
 
 const ignoredPages = ['/privacy-policy', '/roadmap']
 const LIMIT_TAB_PAGES = ['/screener', '/watchlists', '/charts']
-const TRY_WAIT_TIME_MS = 3000
+const TRY_WAIT_TIME_MS = 10000
 const MAX_TABS_FREE = 2
 const MAX_TABS_PRO = 4
+const PUSH_TIMEOUT = 10000 // The push timeout in milliseconds
 
 const shouldCheckPage = pathname =>
   LIMIT_TAB_PAGES.find(page => pathname.startsWith(page))
@@ -31,7 +32,7 @@ const ForceActionRedirector = ({ pathname }) => {
     const channel = socket.channel(`open_restricted_tabs:${user.id}`, {})
     channel.join().receive('ok', () => {
       channel
-        .push('open_restricted_tabs', {}, 10000)
+        .push('open_restricted_tabs', {}, PUSH_TIMEOUT)
         .receive('ok', ({ open_restricted_tabs }) => {
           setShowTabLimitModal(open_restricted_tabs > MAX_TABS)
         })
