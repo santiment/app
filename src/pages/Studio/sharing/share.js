@@ -67,10 +67,10 @@ function shareSignalMetrics (signalMetrics) {
 function shareCombinedMetrics (metrics) {
   return metrics
     .filter(({ expression }) => expression)
-    .map(({ key, expression, label, baseMetrics }) => ({
+    .map(({ key, expression, label, baseMetrics, base }) => ({
       k: key,
       exp: expression,
-      l: label,
+      l: base ? base.label : label,
       bm: shareMetrics(baseMetrics)
     }))
 }
