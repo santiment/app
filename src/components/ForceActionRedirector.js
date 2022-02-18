@@ -9,7 +9,7 @@ import { useUserSubscriptionStatus } from '../stores/user/subscriptions'
 import TabLimitModal from './TabLimitModal'
 
 const ignoredPages = ['/privacy-policy', '/roadmap']
-const LIMIT_TAB_PAGES = ['/charts'] // '/screener', '/watchlists' FIXME: removed for now
+const LIMIT_TAB_PAGES = ['/charts', '/screener']
 const TRY_WAIT_TIME_MS = 10000
 const MAX_TABS_FREE = 2
 const MAX_TABS_PRO = 4

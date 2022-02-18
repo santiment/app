@@ -37,10 +37,11 @@ const TabLimitModal = ({ maxTabsCount, isPro, onOpen }) => {
             card={PLANS[PLAN_KEY]}
             billing={INTERVAL}
             btnProps={{
-              className: undefined,
               variant: 'fill',
               accent: 'orange',
-              border: undefined
+              border: undefined,
+              fluid: undefined,
+              className: undefined
             }}
             amount={PLAN.amount}
             id={PLAN.id}
