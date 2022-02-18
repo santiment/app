@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { track } from 'webkit/analytics'
 import Dialog from '@santiment-network/ui/Dialog'
 import Button from '@santiment-network/ui/Button'
 import { useUserSubscription } from '../../stores/user/subscriptions'
@@ -11,7 +12,7 @@ import styles from './index.module.scss'
 
 const INTERVAL = 'month'
 
-const TabLimitModal = ({ maxTabsCount, isPro }) => {
+const TabLimitModal = ({ maxTabsCount, isPro, onOpen }) => {
   const { subscription } = useUserSubscription()
   const [plans] = usePlans()
   const PLAN_KEY = isPro ? 'PRO_PLUS' : 'PRO'
@@ -37,13 +38,22 @@ const TabLimitModal = ({ maxTabsCount, isPro }) => {
             billing={INTERVAL}
             btnProps={{
               className: undefined,
-              accent: 'orange'
+              variant: 'fill',
+              accent: 'orange',
+              border: undefined
             }}
             amount={PLAN.amount}
             id={PLAN.id}
+            onOpen={onOpen}
           />
         )}
-        <Button variant='flat' border as={Link} to='/pricing'>
+        <Button
+          variant='flat'
+          border
+          as={Link}
+          to='/pricing'
+          onClick={() => track.event('tab_limit_modal_review_plans_clicked')}
+        >
           Review plans
         </Button>
       </div>
