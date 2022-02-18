@@ -3,11 +3,9 @@ import {
   createContext,
   useState,
   useEffect,
-  useContext,
-  useCallback
+  useContext
 } from 'react'
 import { Socket } from 'phoenix'
-import { track } from 'webkit/analytics'
 import { useUserSessions } from '../pages/Account/SettingsSessions'
 import { useUser } from '../stores/user'
 import { API_HOST_NAME } from '../utils/utils'
@@ -35,20 +33,13 @@ export const SocketProvider = ({ children }) => {
     setSocket(socket)
   }, [user, session])
 
-  const upgradeButtonClick = useCallback(() => {
-    if (showTabLimitModal) {
-      track.event('tab_limit_modal_upgrade_button_clicked')
-    }
-  }, [showTabLimitModal])
-
   return createElement(
     SocketContext.Provider,
     {
       value: {
         socket,
         showTabLimitModal,
-        setShowTabLimitModal,
-        upgradeButtonClick
+        setShowTabLimitModal
       }
     },
     children

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { push } from 'react-router-redux'
 import { track } from 'webkit/analytics'
 import { useUser } from '../stores/user'
@@ -23,6 +23,12 @@ const ForceActionRedirector = ({ pathname }) => {
   const { isPro, isProPlus } = useUserSubscriptionStatus()
   const { socket, showTabLimitModal, setShowTabLimitModal } = useSocket()
   const MAX_TABS = isPro ? MAX_TABS_PRO : MAX_TABS_FREE
+
+  const upgradeButtonClick = useCallback(() => {
+    if (showTabLimitModal) {
+      track.event('tab_limit_modal_upgrade_button_clicked')
+    }
+  }, [showTabLimitModal])
 
   function checkOpenTabs () {
     if (!socket || isProPlus || !shouldCheckPage(pathname)) {
@@ -66,7 +72,11 @@ const ForceActionRedirector = ({ pathname }) => {
   }, [user, isPro, isProPlus, pathname, socket])
 
   return showTabLimitModal ? (
-    <TabLimitModal maxTabsCount={MAX_TABS} isPro={isPro} />
+    <TabLimitModal
+      maxTabsCount={MAX_TABS}
+      isPro={isPro}
+      onOpen={upgradeButtonClick}
+    />
   ) : null
 }
 

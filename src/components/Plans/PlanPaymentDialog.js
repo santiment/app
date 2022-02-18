@@ -27,7 +27,6 @@ import FreeTrialLabel from './PlanDialogLabels/FreeTrialLabel'
 import ProExpiredLabel from './PlanDialogLabels/ProExpiredLabel'
 import styles from './PlanPaymentDialog.module.scss'
 import sharedStyles from './Plans.module.scss'
-import { useSocket } from '../../utils/socketHooks'
 
 function useFormLoading () {
   const [loading, setLoading] = useState(false)
@@ -107,7 +106,8 @@ const PlanPaymentDialog = ({
   btnProps,
   updateSubscription,
   subscription,
-  Trigger = Button
+  Trigger = Button,
+  onOpen
 }) => {
   const [plans] = usePlans()
   const [loading, toggleLoading] = useFormLoading()
@@ -118,7 +118,6 @@ const PlanPaymentDialog = ({
     trialDaysLeft,
     isEligibleForSanbaseTrial
   } = useUserSubscriptionStatus()
-  const { upgradeButtonClick } = useSocket()
 
   const {
     id: planId,
@@ -147,7 +146,7 @@ const PlanPaymentDialog = ({
   }
 
   function showPayment () {
-    upgradeButtonClick()
+    onOpen && onOpen()
     trackEvent({
       category: 'User',
       action: 'Payment form opened'

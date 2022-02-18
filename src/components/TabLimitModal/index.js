@@ -12,7 +12,7 @@ import styles from './index.module.scss'
 
 const INTERVAL = 'month'
 
-const TabLimitModal = ({ maxTabsCount, isPro }) => {
+const TabLimitModal = ({ maxTabsCount, isPro, onOpen }) => {
   const { subscription } = useUserSubscription()
   const [plans] = usePlans()
   const PLAN_KEY = isPro ? 'PRO_PLUS' : 'PRO'
@@ -44,6 +44,7 @@ const TabLimitModal = ({ maxTabsCount, isPro }) => {
             }}
             amount={PLAN.amount}
             id={PLAN.id}
+            onOpen={onOpen}
           />
         )}
         <Button
