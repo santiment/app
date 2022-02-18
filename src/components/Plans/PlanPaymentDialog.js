@@ -146,7 +146,7 @@ const PlanPaymentDialog = ({
   }
 
   function showPayment () {
-    onOpen && onOpen()
+    if (onOpen) onOpen()
     trackEvent({
       category: 'User',
       action: 'Payment form opened'
