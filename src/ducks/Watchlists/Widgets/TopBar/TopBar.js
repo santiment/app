@@ -10,7 +10,7 @@ import WeeklyReport from '../../Actions/WeeklyReport'
 import Filter from '../Filter'
 import { usePublicUserData } from '../../../../pages/profile/ProfilePage'
 import { useUser } from '../../../../stores/user'
-import { PROJECT, SCREENER } from '../../detector'
+import { BLOCKCHAIN_ADDRESS, PROJECT, SCREENER } from '../../detector'
 import { useIsAuthor } from '../../gql/list/hooks'
 import styles from './TopBar.module.scss'
 
@@ -101,16 +101,16 @@ const TopBar = ({
           isAuthorLoading={isAuthorLoading}
           refetchAssets={refetchAssets}
         />
-        {widgets && <Widgets widgets={widgets} setWidgets={setWidgets} />}
+        {widgets && type !== BLOCKCHAIN_ADDRESS && (
+          <Widgets widgets={widgets} setWidgets={setWidgets} />
+        )}
         <div
           className={cx(
             styles.rightDivider,
             isDefaultScreener && styles.defaultDivider
           )}
         />
-        {isAuthor && !isDefaultScreener && (
-          <Share watchlist={entity} isAuthor={isAuthor} />
-        )}
+        <Share watchlist={entity} isAuthor={isAuthor} />
         {(isAuthor || isDefaultScreener) && (
           <ScreenerSignalDialog watchlistId={entity.id} type={type} />
         )}

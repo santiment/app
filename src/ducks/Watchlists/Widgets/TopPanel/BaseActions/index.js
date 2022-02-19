@@ -103,6 +103,9 @@ const Actions = ({
           variant='modal'
           className={showPanel ? styles.wrapper : styles.hidePanel}
         >
+          <New type={type} />
+          <SaveAs type={type} watchlist={watchlist} />
+          {type === 'PROJECT' && <Copy watchlist={watchlist} />}
           <Edit
             type={type}
             title={title}
@@ -110,9 +113,6 @@ const Actions = ({
             isLoading={loading}
             onSubmit={onEditApprove}
           />
-          <SaveAs type={type} watchlist={watchlist} />
-          <New type={type} />
-          {type === 'PROJECT' && <Copy watchlist={watchlist} />}
           {showDelete && <Delete id={id} name={name} title={title} />}
         </Panel>
       </ContextMenu>

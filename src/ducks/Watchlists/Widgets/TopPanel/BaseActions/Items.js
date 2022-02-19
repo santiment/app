@@ -35,32 +35,19 @@ export const NonAuthorTrigger = props => (
 
 export const Trigger = ({
   type,
-  title,
-  watchlist,
   forwardedRef,
   isActive,
   onPrimaryAction,
-  isLoading,
   openMenu
 }) => {
-  const { name, description, isPublic } = watchlist
-  const [opened, setOpened] = useState(false)
-
-  const onSubmit = props => onPrimaryAction(props).then(() => setOpened(false))
+  const onSubmit = props => onPrimaryAction(props)
 
   return (
     <div className={styles.trigger} ref={forwardedRef}>
-      <EditForm
+      <NewAction
         type={type}
-        open={opened}
-        id={watchlist.id}
-        watchlist={watchlist}
-        isLoading={isLoading}
-        toggleOpen={setOpened}
-        title={'Edit ' + title}
-        onFormSubmit={onSubmit}
-        settings={{ name, description, isPublic }}
-        trigger={<Button className={styles.trigger__text}>Edit</Button>}
+        onSubmit={onSubmit}
+        trigger={<Button className={styles.trigger__text}>New</Button>}
       />
       <div
         className={cx(

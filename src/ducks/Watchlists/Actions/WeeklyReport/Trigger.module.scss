@@ -30,8 +30,9 @@
 }
 
 .trigger {
+  padding: 0;
+  margin-left: 24px;
   &:hover {
-
     .text {
       color: var(--jungle-green);
     }

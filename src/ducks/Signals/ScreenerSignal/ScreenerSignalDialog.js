@@ -93,7 +93,7 @@ const ScreenerSignalDialog = ({
   }, [signals, watchlist])
 
   const isActive = !!stateSignal.id && !!stateSignal.isActive
-  const title = isActive ? 'Edit Alert' : 'Enable Alert'
+  const title = isActive ? 'Edit Alert' : 'Create Alert'
 
   if (signalsLoading) {
     return <Loader className={styles.loader} />

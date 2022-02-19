@@ -20,7 +20,7 @@ const Share = ({ watchlist, isAuthor, className, customLink }) => {
     }
   }, [watchlist.isPublic])
 
-  return isAuthor ? (
+  return (
     <ShareModalTrigger
       dialogTitle={`Share ${type}`}
       shareLink={customLink || shortShareLink}
@@ -46,13 +46,15 @@ const Share = ({ watchlist, isAuthor, className, customLink }) => {
           Your {type} is private. Please, switch it to “Public” first.
         </Message>
       </div>
-      <PublicityToggle
-        variant='flat'
-        watchlist={watchlist}
-        className={styles.toggle}
-      />
+      {isAuthor && (
+        <PublicityToggle
+          variant='flat'
+          watchlist={watchlist}
+          className={styles.toggle}
+        />
+      )}
     </ShareModalTrigger>
-  ) : null
+  )
 }
 
 export default Share

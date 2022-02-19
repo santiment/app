@@ -18,32 +18,44 @@ const Title = ({
 }) => {
   const [updateWatchlist, { loading }] = useUpdateWatchlist(type)
 
-  const onEditApprove = props =>
-    updateWatchlist(entity, { ...props }).then(() => {
+  function onEditApprove (props) {
+    return updateWatchlist(entity, { ...props }).then(() => {
       notifyUpdate(title)
       refetchAssets && refetchAssets()
     })
+  }
 
   return (
     <div className={styles.wrapper}>
-      <div
-        className={cx(
-          styles.title,
-          (!isLoggedIn || !isCurrentUser) && styles.disabledEdit
-        )}
-      >
-        {title}
-        {isLoggedIn && isCurrentUser && (
-          <Edit
-            type={type}
-            title={title}
-            watchlist={entity}
-            isLoading={loading}
-            onSubmit={onEditApprove}
-            trigger={<Icon type='edit' className={styles.edit} />}
-          />
-        )}
-      </div>
+      {isLoggedIn && isCurrentUser ? (
+        <Edit
+          type={type}
+          title={title}
+          watchlist={entity}
+          isLoading={loading}
+          onSubmit={onEditApprove}
+          trigger={
+            <div
+              className={cx(
+                styles.title,
+                (!isLoggedIn || !isCurrentUser) && styles.disabledEdit
+              )}
+            >
+              {title}
+              <Icon type='edit' className={styles.edit} />
+            </div>
+          }
+        />
+      ) : (
+        <div
+          className={cx(
+            styles.title,
+            (!isLoggedIn || !isCurrentUser) && styles.disabledEdit
+          )}
+        >
+          {title}
+        </div>
+      )}
       <Tooltip
         align='start'
         position='bottom'

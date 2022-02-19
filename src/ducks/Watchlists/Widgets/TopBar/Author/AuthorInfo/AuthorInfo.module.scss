@@ -70,12 +70,18 @@
   gap: 8px;
 }
 
+
 .card {
   width: 182px;
   --project-card-height: 168px;
   --project-card-padding: 12px 16px 20px 16px;
 
+  &.addressCard {
+    --project-card-height: 88px;
+  }
+
   &:hover {
+    color: var(--jungle-green);
     --project-card-border-color: var(--porcelain);
     --project-card-color: var(--rhino);
     background: var(--athens);

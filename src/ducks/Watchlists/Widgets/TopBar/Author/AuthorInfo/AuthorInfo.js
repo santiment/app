@@ -5,6 +5,7 @@ import Button from '@santiment-network/ui/Button'
 import Avatar from '../../../../../../components/Illustrations/Avatar'
 import FollowBtn from '../../../../../../pages/profile/follow/FollowBtn'
 import ProjectCard from '../../../../Cards/ProjectCard'
+import AddressCard from '../../../../Cards/AddressCard'
 import { WatchlistCards } from '../../../../Cards/Card'
 import {
   updateCurrentUserFollowQueryCache,
@@ -14,7 +15,7 @@ import {
   checkIsNotScreener,
   checkIsScreener
 } from '../../../../../Screener/utils'
-import { PROJECT, SCREENER } from '../../../../detector'
+import { BLOCKCHAIN_ADDRESS, PROJECT, SCREENER } from '../../../../detector'
 import styles from './AuthorInfo.module.scss'
 
 const AuthorInfo = ({
@@ -96,7 +97,7 @@ const AuthorInfo = ({
               {fullName ? fullName : 'No full name'}
             </div>
             <div className={styles.userName}>
-              {userName ? `@${userName}` : 'No Username'}
+              {userName ? `@${userName}` : 'No username'}
             </div>
           </div>
         </div>
@@ -117,19 +118,25 @@ const AuthorInfo = ({
             </Button>
           ))}
       </div>
-      {entitiesData.entities.length > 0 && (
-        <div className={styles.projects}>
-          <WatchlistCards
-            chartWidth={150}
-            className={styles.card}
-            classes={{ middle: styles.cardMiddle }}
-            isWithVisibility={false}
-            watchlists={entitiesData.entities.slice(-2)}
-            path={entitiesData.path}
-            Card={ProjectCard}
-          />
-        </div>
-      )}
+      {entitiesData &&
+        entitiesData.entities &&
+        entitiesData.entities.length > 0 && (
+          <div className={styles.projects}>
+            <WatchlistCards
+              chartWidth={150}
+              className={cx(
+                styles.card,
+                type === BLOCKCHAIN_ADDRESS && styles.addressCard
+              )}
+              classes={{ middle: styles.cardMiddle }}
+              isWithVisibility={false}
+              watchlists={entitiesData.entities.slice(-2)}
+              path={entitiesData.path}
+              type={type}
+              Card={type === BLOCKCHAIN_ADDRESS ? AddressCard : ProjectCard}
+            />
+          </div>
+        )}
     </div>
   )
 }
