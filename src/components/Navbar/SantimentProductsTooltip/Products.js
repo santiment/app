@@ -29,10 +29,18 @@ export const BUSINESS_PRODUCTS = [
 
 export const CHAIN_PRODUCTS = [
   {
+    title: 'SanX',
+    to: 'https://sanx.santiment.net/'
+  },
+  {
     img: sanr,
     title: 'SanR',
     description: 'Decentralized marketplace for crypto price signals',
     to: 'https://sanr.santiment.net'
+  },
+  {
+    title: 'SanX',
+    to: 'https://hunters.santiment.net/'
   },
   {
     img: insights,
