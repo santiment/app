@@ -6,6 +6,33 @@ import styles from './ProductsNav.module.scss'
 
 let timeoutId
 
+export const ProductsNavContent = () => (
+  <div className={styles.container}>
+    <div className={styles.column}>
+      <h3 className={styles.title}>SAN chain</h3>
+      <ul className={styles.products}>
+        {CHAIN_PRODUCTS.map((item, index) => (
+          <li key={index}>
+            <a href={item.to}>{item.title}</a>
+            {item.label && <p className={styles.label}>{item.label}</p>}
+          </li>
+        ))}
+      </ul>
+    </div>
+    <div className={styles.column}>
+      <h3 className={styles.title}>SAN business</h3>
+      <ul className={styles.products}>
+        {BUSINESS_PRODUCTS.map((item, index) => (
+          <li key={index}>
+            <a href={item.to}>{item.title}</a>
+            {item.label && <p className={styles.label}>{item.label}</p>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+)
+
 const ProductsNav = () => {
   const [isOpen, setOpenState] = useState(false)
 
@@ -26,30 +53,7 @@ const ProductsNav = () => {
       onOpen={setOpened}
       onClose={setClosed}
     >
-      <div className={styles.container}>
-        <div className={styles.column}>
-          <h3 className={styles.title}>SAN chain</h3>
-          <ul className={styles.products}>
-            {CHAIN_PRODUCTS.map((item, index) => (
-              <li key={index}>
-                <a href={item.to}>{item.title}</a>
-                {item.label && <p className={styles.label}>{item.label}</p>}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className={styles.column}>
-          <h3 className={styles.title}>SAN business</h3>
-          <ul className={styles.products}>
-            {BUSINESS_PRODUCTS.map((item, index) => (
-              <li key={index}>
-                <a href={item.to}>{item.title}</a>
-                {item.label && <p className={styles.label}>{item.label}</p>}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+      <ProductsNavContent />
     </SmoothDropdownItem>
   )
 }
