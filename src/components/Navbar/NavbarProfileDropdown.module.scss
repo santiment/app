@@ -50,22 +50,6 @@
   fill: var(--white);
 }
 
-.nameWrapper {
-  display: flex;
-}
-
-.name {
-  color: var(--rhino);
-
-  @include text('body-3');
-
-  width: 100%;
-  overflow: hidden;
-  display: inline-block;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .plan {
   @include text('caption');
 
@@ -124,4 +108,38 @@
 
 .newInsight {
   margin: 6px 0 8px 16px;
+}
+
+.name {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--rhino);
+}
+
+.username {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--waterloo);
+}
+
+.userInfoWrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+
+  .infoWrapper {
+    margin-left: 8px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &:hover .username {
+    color: var(--jungle-green);
+  }
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
 }

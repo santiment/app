@@ -21,7 +21,7 @@ const SignalCreator = ({
     return null
   }
 
-  const nameOrEmail = username || email
+  const nameOrEmail = username ? `@${username}` : email
 
   return (
     <Link

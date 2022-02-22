@@ -47,7 +47,7 @@ const SignalCard = ({
       )}
 
       <div className={styles.wrapper__right}>
-        <OpenSignalLink signal={signal}>
+        <OpenSignalLink signal={signal} isUserTheAuthor={isUserTheAuthor}>
           <div className={clickable ? styles.pointer : ''}>
             {description && (
               <h3 className={styles.description}>

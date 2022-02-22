@@ -1,6 +1,8 @@
 export const ALERT_TYPES = [
   {
     title: 'Asset',
+    description: 'Create an alert for the specific asset or group of assets',
+    iconType: 'assets',
     settings: {
       type: 'metric_signal',
       metric: '',
@@ -13,60 +15,21 @@ export const ALERT_TYPES = [
       {
         label: 'Select Asset',
         description:
-          'You can create an alert for a specific asset. Choose one or a few assets..',
-        tips: [
-          {
-            title: 'Asset Tip',
-            description:
-              'You can create an alert for a specific asset. Choose one or a few assets. Be aware if you change the asset you metric chosen metric may not work.'
-          }
-        ]
+          'You can create an alert for a specific asset. Choose one or multiple assets'
       },
       {
         label: 'Choose Metric and Conditions',
         description:
-          'Depend on which asset you choose, there will be available metrics for it and the opposite...',
-        tips: [
-          {
-            title: 'Metric Tip',
-            description:
-              'Depending on which asset you choose, there will be available metrics for it and the opposite. The next step is selecting conditions for this metric.'
-          },
-          {
-            title: 'Conditions Tip',
-            description:
-              'Choose absolute or percentage changes, compared to n days, hours or minutes earlier. Chart bellow will show similar alerts that were fired before.'
-          }
-        ]
+          'Depend on which asset you choose, there will be available metrics for it and the opposite...'
       },
       {
         label: 'Set up Notifications and Privacy',
-        description:
-          'Choose where you want to receive notifications and the frequency of them..',
-        tips: [
-          {
-            title: 'Notification Tip',
-            description:
-              'Choose one or few alert action. Make sure you enable notifications first. Add alert to the specific telegram group, by typing a name in the input.'
-          },
-          {
-            title: 'Privacy Tip',
-            description:
-              'Your alert is private by default. But you can change it anytime. If you want to share your alert you should first change privacy settings and then share.'
-          }
-        ]
+        description: 'Choose one or multiple alert methods'
       },
       {
         label: 'Check name and description',
         description:
-          'We generate the description automatically, you can change it anytime, as a name and a privacy of the alert',
-        tips: [
-          {
-            title: 'Description Tip',
-            description:
-              'Name and description are generated automatically, but you can change it any time you want.'
-          }
-        ]
+          'Name and description are generated automatically, but you can change it at your will'
       }
     ],
     subSteps: [
@@ -86,6 +49,8 @@ export const ALERT_TYPES = [
   },
   {
     title: 'Watchlist',
+    description: 'Create an alert for the specific watchlist of yours',
+    iconType: 'view-option',
     settings: {
       type: 'metric_signal',
       metric: '',
@@ -97,60 +62,21 @@ export const ALERT_TYPES = [
     steps: [
       {
         label: 'Select Watchlist',
-        description: 'You can choose any of your watchlists',
-        tips: [
-          {
-            title: 'Watchlist Tip',
-            description:
-              'Choose any of your watchlists. If you want to create a new one go to app.santiment.net/watchlists.'
-          }
-        ]
+        description: 'You can choose any of your watchlists'
       },
       {
         label: 'Choose Metric and Conditions',
         description:
-          'Depend on which watchlist you choose, there will be available metrics for it and the opposite...',
-        tips: [
-          {
-            title: 'Metric Tip',
-            description:
-              'Depending on which asset you choose, there will be available metrics for it and the opposite. The next step is selecting conditions for this metric.'
-          },
-          {
-            title: 'Conditions Tip',
-            description:
-              'Choose absolute or percentage changes, compared to n days, hours or minutes earlier.'
-          }
-        ]
+          'Depend on which watchlist you choose, there will be available metrics for it and the opposite...'
       },
       {
         label: 'Set up Notifications and Privacy',
-        description:
-          'Choose where you want to receive notifications and the frequency of them..',
-        tips: [
-          {
-            title: 'Notification Tip',
-            description:
-              'Choose one or few alert action. Make sure you enable notifications first. Add alert to the specific telegram group, by typing a name in the input.'
-          },
-          {
-            title: 'Privacy Tip',
-            description:
-              'Your alert is private by default. But you can change it anytime. If you want to share your alert you should first change privacy settings and then share.'
-          }
-        ]
+        description: 'Choose one or multiple alert methods'
       },
       {
         label: 'Check name and description',
         description:
-          'We generate the description automatically, you can change it anytime, as a name and a privacy of the alert',
-        tips: [
-          {
-            title: 'Description Tip',
-            description:
-              'Name and description are generated automatically, but you can change it any time you want.'
-          }
-        ]
+          'Name and description are generated automatically, but you can change it at your will'
       }
     ],
     subSteps: [
@@ -170,6 +96,8 @@ export const ALERT_TYPES = [
   },
   {
     title: 'Screener',
+    description: 'Create an alert for one of your screeners',
+    iconType: 'view-option',
     settings: {
       type: 'screener_signal',
       metric: 'social_volume_total',
@@ -183,32 +111,12 @@ export const ALERT_TYPES = [
       },
       {
         label: 'Set up Notifications and Privacy',
-        description:
-          'Choose where you want to receive notifications and the frequency of them..',
-        tips: [
-          {
-            title: 'Notification Tip',
-            description:
-              'Choose one or few alert action. Make sure you enable notifications first. Add alert to the specific telegram group, by typing a name in the input.'
-          },
-          {
-            title: 'Privacy Tip',
-            description:
-              'Your alert is private by default. But you can change it anytime. If you want to share your alert you should first change privacy settings and then share.'
-          }
-        ]
+        description: 'Choose one or multiple alert methods'
       },
       {
         label: 'Check name and description',
         description:
-          'We generate the desctiption automaticly, you can change it anytime, as a name and a privacy of the alert',
-        tips: [
-          {
-            title: 'Description Tip',
-            description:
-              'Name and description are generated automatically, but you can change it any time you want.'
-          }
-        ]
+          'Name and description are generated automatically, but you can change it at your will'
       }
     ],
     subSteps: [
@@ -225,6 +133,9 @@ export const ALERT_TYPES = [
   },
   {
     title: 'Wallet address',
+    description:
+      'Create an alert for the specific asset inside a certain wallet',
+    iconType: 'wallet',
     settings: {
       type: 'wallet_movement',
       target: { address: '' },
@@ -240,32 +151,12 @@ export const ALERT_TYPES = [
       },
       {
         label: 'Set up Notifications and Privacy',
-        description:
-          'Choose where you want to receive notifications and the frequency of them..',
-        tips: [
-          {
-            title: 'Notification Tip',
-            description:
-              'Choose one or few alert action. Make sure you enable notifications first. Add alert to the specific telegram group, by typing a name in the input.'
-          },
-          {
-            title: 'Privacy Tip',
-            description:
-              'Your alert is private by default. But you can change it anytime. If you want to share your alert you should first change privacy settings and then share.'
-          }
-        ]
+        description: 'Choose one or multiple alert methods'
       },
       {
         label: 'Check name and description',
         description:
-          'We generate the description automatically, you can change it anytime, as a name and a privacy of the alert',
-        tips: [
-          {
-            title: 'Description Tip',
-            description:
-              'Name and description are generated automatically, but you can change it any time you want.'
-          }
-        ]
+          'Name and description are generated automatically, but you can change it at your will'
       }
     ],
     subSteps: [
@@ -282,6 +173,9 @@ export const ALERT_TYPES = [
   },
   {
     title: 'Social trends',
+    description:
+      'Create an alert for any of the social words, asset or watchlist',
+    iconType: 'social',
     settings: {
       type: 'trending_words',
       channel: [],
@@ -295,32 +189,12 @@ export const ALERT_TYPES = [
       },
       {
         label: 'Set up Notifications and Privacy',
-        description:
-          'Choose where you want to receive notifications and the frequency of them..',
-        tips: [
-          {
-            title: 'Notification Tip',
-            description:
-              'Choose one or few alert action. Make sure you enable notifications first. Add alert to the specific telegram group, by typing a name in the input.'
-          },
-          {
-            title: 'Privacy Tip',
-            description:
-              'Your alert is private by default. But you can change it anytime. If you want to share your alert you should first change privacy settings and then share.'
-          }
-        ]
+        description: 'Choose one or multiple alert methods'
       },
       {
         label: 'Check name and description',
         description:
-          'We generate the description automatically, you can change it anytime, as a name and a privacy of the alert',
-        tips: [
-          {
-            title: 'Description Tip',
-            description:
-              'Name and description are generated automatically, but you can change it any time you want.'
-          }
-        ]
+          'Name and description are generated automatically, but you can change it at your will'
       }
     ],
     subSteps: [

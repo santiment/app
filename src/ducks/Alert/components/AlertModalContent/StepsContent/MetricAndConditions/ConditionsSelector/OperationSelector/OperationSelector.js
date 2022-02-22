@@ -50,7 +50,8 @@ const OperationSelector = ({ metric, isWallet }) => {
     }
   }, [operation, count])
 
-  const hasPriceIcon = metric.category === 'Financial'
+  const hasPriceIcon =
+    metric.category === 'Financial' || metric.key === 'price_usd'
   const isPercentIcon = PERCENT_OPERATIONS.includes(operation.value)
   const isMultipleValues = MULTIPLE_VALUES_OPERATIONS.includes(operation.value)
 

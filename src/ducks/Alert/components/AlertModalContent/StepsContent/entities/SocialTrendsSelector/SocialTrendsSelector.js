@@ -86,11 +86,7 @@ const SocialTrendsSelector = ({
   return (
     <div className={styles.wrapper}>
       <div className={styles.titleWrapper}>
-        <StepTitle
-          iconType='social'
-          title='Choose Social trend'
-          className={styles.title}
-        />
+        <StepTitle title='Choose Social trend' className={styles.title} />
         {(!noSlug || watchlist_id || !noWord) && (
           <NextStep label='Notification settings' onClick={handleNextClick} />
         )}

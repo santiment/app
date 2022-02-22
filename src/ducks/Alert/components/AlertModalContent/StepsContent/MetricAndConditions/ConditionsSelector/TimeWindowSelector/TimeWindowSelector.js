@@ -26,13 +26,18 @@ const TimeWindowSelector = () => {
     }
   }, [period, count])
 
+  function handleChange (e) {
+    const currentValue = parseInt(e.target.value)
+    setCount(currentValue || 1)
+  }
+
   return (
     <div className={styles.wrapper}>
       <Input
         type='number'
         min={1}
         value={count}
-        onChange={e => setCount(e.target.value)}
+        onChange={handleChange}
         className={styles.counter}
       />
       <Select

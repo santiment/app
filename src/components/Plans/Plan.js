@@ -11,7 +11,6 @@ import styles from './Plan.module.scss'
 export const getAltPrice = (plans, billing, name) => {
   const { amount: altAmount, interval: altInterval } =
     getAlternativeBillingPlan(plans, { name, interval: billing }) || {}
-
   const [altPrice] = formatPrice(altAmount, null, altInterval)
 
   return { altPrice, altInterval }
@@ -119,7 +118,8 @@ export const PlanBtn = ({
   billing,
   id,
   className,
-  showCreditMsg
+  showCreditMsg,
+  onOpen
 }) => {
   const { isLoggedIn } = useUser()
   const { isEligibleForSanbaseTrial } = useUserSubscriptionStatus()
@@ -153,6 +153,7 @@ export const PlanBtn = ({
           onDialogClose={onDialogClose}
           btnProps={btnProps}
           altPrice={altPrice}
+          onOpen={onOpen}
         />
       )}
     </div>

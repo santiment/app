@@ -3,6 +3,7 @@ import cx from 'classnames'
 import { useSuggestions } from './suggestions/hooks'
 import LoginPopup from '../../../components/banners/feature/PopupBanner'
 import AlertModal from '../../Alert/AlertModal'
+import { prepareAlertTitle } from '../../Signals/link/OpenSignalLink'
 import styles from './index.module.scss'
 
 const Alert = ({ alert, render, createAlert }) => {
@@ -44,6 +45,7 @@ export default ({
         Create alert if:
         <AlertModal
           trigger={<span className={styles.manual}>Create alert manually</span>}
+          prepareAlertTitle={prepareAlertTitle}
         />
       </div>
       <div className={styles.suggestions}>

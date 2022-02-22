@@ -2,9 +2,9 @@ import React, { useCallback } from 'react'
 import { useFormikContext } from 'formik'
 import Steps from '../../../../components/Steps/Steps'
 import AlertStepDescription from './AlertStepDescription/AlertStepDescription'
+import { validateFormSteps } from '../../utils'
 
 const AlertStepsSelector = ({
-  size,
   isMetricsDisabled,
   items,
   selectorSettings: {
@@ -13,7 +13,9 @@ const AlertStepsSelector = ({
     setSelectedStep,
     visitedSteps,
     setVisitedSteps,
-    finishedSteps
+    finishedSteps,
+    invalidStepsMemo,
+    setInvalidSteps
   }
 }) => {
   const { values } = useFormikContext()
@@ -21,6 +23,15 @@ const AlertStepsSelector = ({
 
   function handleStepClick (stepIndex) {
     setSelectedStep(stepIndex)
+
+    if (stepIndex > 0) {
+      validateFormSteps({
+        values,
+        type: selectedType,
+        setInvalidSteps,
+        onlyValidate: true
+      })
+    }
 
     if (!visitedSteps.has(stepIndex)) {
       if (!(hasDisabledStep && stepIndex === 1)) {
@@ -53,11 +64,13 @@ const AlertStepsSelector = ({
             title={step.label}
             description={
               <AlertStepDescription
-                size={size}
                 description={step.description}
                 type={step.label}
                 status={status}
                 selectedType={selectedType}
+                invalidStepsMemo={invalidStepsMemo}
+                selected={index === selectedStep}
+                isFinished={status === 'finish'}
               />
             }
             onStepClick={() => handleStepClick(index)}
@@ -71,12 +84,13 @@ const AlertStepsSelector = ({
       values,
       hasDisabledStep,
       finishedSteps,
-      selectedStep
+      selectedStep,
+      invalidStepsMemo
     ]
   )
 
   return (
-    <Steps initial={0} current={selectedStep} size={size}>
+    <Steps initial={0} current={selectedStep}>
       {renderSteps()}
     </Steps>
   )

@@ -3,17 +3,17 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 20px;
+  margin-bottom: 32px;
 }
 
-.selectedWrapper {
-  margin-left: 12px;
-  border-left: 1px solid var(--porcelain);
-  padding: 16px 0 32px 24px;
+.titleWrapper {
+  display: flex;
+  justify-content: space-between;
 }
 
 .selected {
-  width: fit-content;
+  width: 100%;
   padding: 8px 16px;
   display: flex;
   flex-direction: column;

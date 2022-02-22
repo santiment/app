@@ -5,10 +5,12 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Tooltip from '@santiment-network/ui/Tooltip'
+import Message from '@santiment-network/ui/Message'
 import ShareModalTrigger from '../../Share/ShareModalTrigger'
 import { DesktopOnly } from '../../Responsive'
 import RemoveSignalButton from './RemoveSignalButton'
 import CopySignal from './CopySignal'
+import UpdatePublicity from './UpdatePublicity/UpdatePublicity'
 import { mapStateToQS } from '../../../utils/utils'
 import styles from '../card/SignalCard.module.scss'
 
@@ -25,12 +27,15 @@ const ShareSignal = ({
   shareBtnClassName,
   signalId,
   signalTitle,
+  signal,
   isDialogOnly,
-  isAlert
+  isAlert,
+  isPublic,
+  isUserTheAuthor
 }) => {
   const link = generateShareLink(signalId, signalTitle)
   return (
-    <div className={cx(styles.popupItem, styles.popupButton, className)}>
+    <div className={cx(styles.sharePanelBtn, className)}>
       <ShareModalTrigger
         isAlert={isAlert}
         isDialogOnly={isDialogOnly}
@@ -39,7 +44,28 @@ const ShareSignal = ({
         shareTitle='Santiment'
         shareText={`Crypto Alert '${signalTitle}'`}
         shareLink={link}
-      />
+        isDisabled={!isPublic && isUserTheAuthor}
+      >
+        <>
+          <div
+            className={cx(
+              styles.messageWrapper,
+              (isPublic || !isUserTheAuthor) && styles.messageWrapper__hide
+            )}
+          >
+            <Message variant='warn' className={styles.message}>
+              Your alert is private. Please, switch it to “Public” first.
+            </Message>
+          </div>
+          {isUserTheAuthor && (
+            <UpdatePublicity
+              variant='flat'
+              signal={signal}
+              className={styles.toggle}
+            />
+          )}
+        </>
+      </ShareModalTrigger>
     </div>
   )
 }
@@ -56,7 +82,8 @@ const MoreSignalActions = ({
   isUserTheAuthor,
   deleteEnabled = true,
   editable = true,
-  signal
+  signal,
+  userId
 }) => {
   const canShare = true
 
@@ -65,6 +92,8 @@ const MoreSignalActions = ({
       <div className={styles.buttonWrapper}>
         {canShare && (
           <ShareSignal
+            signal={signal}
+            isPublic={isPublic}
             isAlert={true}
             isDialogOnly={true}
             className={styles.shareBtn}
@@ -72,6 +101,8 @@ const MoreSignalActions = ({
             signalTitle={signalTitle}
             shareBtnClassName={styles.shareSingle}
             trigger={PublicSignalShareTrigger}
+            isUserTheAuthor={isUserTheAuthor}
+            userId={userId}
           />
         )}
         <DesktopOnly>
@@ -99,34 +130,40 @@ const MoreSignalActions = ({
     >
       <Panel className={styles.popup}>
         {editable && (
-          <div className={cx(styles.popupItem, styles.popupButton)}>
-            <Link
-              to={`/alerts/${signalId}${window.location.search}`}
-              className={styles.link}
-            >
-              Edit
-            </Link>
-          </div>
+          <Link
+            to={`/alerts/${signalId}${window.location.search}`}
+            className={cx(styles.popupItem, styles.popupButton)}
+          >
+            <Icon type='edit' />
+            Edit
+          </Link>
         )}
 
-        {canShare && isPublic && (
+        {canShare && (
           <ShareSignal
+            signal={signal}
+            isPublic={isPublic}
             isAlert={true}
             isDialogOnly={true}
             trigger={SignalShareTrigger}
             signalId={signalId}
             signalTitle={signalTitle}
+            isUserTheAuthor={isUserTheAuthor}
+            userId={userId}
           />
         )}
 
         {deleteEnabled && (
-          <div className={cx(styles.popupItem, styles.popupButton)}>
-            <RemoveSignalButton
-              id={signalId}
-              signalTitle={signalTitle}
-              trigger={() => <div className={styles.removeSignal}>Delete</div>}
-            />
-          </div>
+          <RemoveSignalButton
+            id={signalId}
+            signalTitle={signalTitle}
+            trigger={() => (
+              <div className={cx(styles.popupItem, styles.popupButton)}>
+                <Icon type='remove' />
+                Delete
+              </div>
+            )}
+          />
         )}
       </Panel>
     </Tooltip>
@@ -141,7 +178,12 @@ const PublicSignalShareTrigger = ({ ...props }) => (
 )
 
 const SignalShareTrigger = ({ ...props }) => (
-  <Button as='a' {...props} className={styles.share}>
+  <Button
+    as='a'
+    {...props}
+    className={cx(styles.popupItem, styles.popupButton)}
+  >
+    <Icon type='share' />
     Share
   </Button>
 )

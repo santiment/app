@@ -26,6 +26,10 @@ export default {
             '5K API calls / mo',
             '300K API calls / mo'
           ]
+        },
+        {
+          name: 'Browser Tabs',
+          texts: ['N/A', 'Up to 4', 'Unlimited']
         }
       ]
     },

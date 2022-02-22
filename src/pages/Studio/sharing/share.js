@@ -9,6 +9,18 @@ import TopExchangesTable from '../Widget/TopExchangesTable'
 const isEmptyObject = obj => Object.keys(obj).length === 0
 const keyAccessor = ({ key }) => key
 
+function getSortedObjectKeys (object) {
+  const result = {}
+  Object.keys(object)
+    .sort()
+    .forEach(key => {
+      const value = object[key]
+      result[key] =
+        typeof value === 'object' ? getSortedObjectKeys(value) : value
+    })
+  return result
+}
+
 function shareMetricSettings (MetricSettings) {
   let result
   Object.entries(MetricSettings || {}).forEach(([key, _value]) => {
@@ -17,7 +29,7 @@ function shareMetricSettings (MetricSettings) {
     delete value.preTransform
     if (isEmptyObject(value)) return
     if (!result) result = {}
-    result[key] = value
+    result[key] = getSortedObjectKeys(value)
   })
   return result
 }
@@ -55,10 +67,10 @@ function shareSignalMetrics (signalMetrics) {
 function shareCombinedMetrics (metrics) {
   return metrics
     .filter(({ expression }) => expression)
-    .map(({ key, expression, label, baseMetrics }) => ({
+    .map(({ key, expression, label, baseMetrics, base }) => ({
       k: key,
       exp: expression,
-      l: label,
+      l: base ? base.label : label,
       bm: shareMetrics(baseMetrics)
     }))
 }

@@ -105,7 +105,9 @@ const PlanPaymentDialog = ({
   addNot,
   btnProps,
   updateSubscription,
-  subscription
+  subscription,
+  Trigger = Button,
+  onOpen
 }) => {
   const [plans] = usePlans()
   const [loading, toggleLoading] = useFormLoading()
@@ -144,6 +146,7 @@ const PlanPaymentDialog = ({
   }
 
   function showPayment () {
+    if (onOpen) onOpen()
     trackEvent({
       category: 'User',
       action: 'Payment form opened'
@@ -156,7 +159,7 @@ const PlanPaymentDialog = ({
 
   return (
     <>
-      <Button
+      <Trigger
         className={sharedStyles.link}
         fluid
         border
@@ -166,7 +169,7 @@ const PlanPaymentDialog = ({
         onClick={showPayment}
       >
         {label}
-      </Button>
+      </Trigger>
 
       <Mutation mutation={SUBSCRIBE_MUTATION} update={updateCache}>
         {(subscribe, { called, error, data }) => {

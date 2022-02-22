@@ -21,7 +21,12 @@
 }
 
 .leftText {
+  height: 140px;
   word-break: break-word;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .right {
@@ -42,7 +47,7 @@
 .socials {
   display: flex;
   align-items: center;
-  margin-top: 32px;
+  margin-top: 16px;
 }
 
 .followersBlocks {
@@ -119,8 +124,12 @@
   margin-right: 8px;
 }
 
+.followContainer {
+  display: flex;
+  align-items: center;
+}
+
 .followBtn {
-  margin-top: 16px;
   padding: 6px 12px 6px 7px;
   max-width: 142px;
 
@@ -132,7 +141,6 @@
 .accountBtn {
   min-width: 143px;
   justify-content: center;
-  margin-top: 16px;
 
   @include responsive('phone', 'phone-xs') {
     margin: 12px 0 0 auto;
@@ -141,6 +149,8 @@
 
 .info {
   display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .name {
@@ -152,6 +162,23 @@
   @include responsive('phone', 'phone-xs') {
     @include text('h4');
   }
+
+  margin-bottom: 8px;
+
+  display: flex;
+  align-items: center;
+}
+
+.empty {
+  color: var(--waterloo);
+}
+
+.username {
+  @include text('body-1', 't');
+  color: var(--waterloo);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
 }
 
 .email {
@@ -221,4 +248,92 @@
 
 .bell {
   margin-left: 24px;
+}
+
+.editable {
+  cursor: pointer;
+  position: relative;
+
+  svg:not(.avatarIcon) {
+    display: none;
+  }
+
+  &:hover svg:not(.avatarIcon) {
+    display: initial; 
+  }
+}
+
+.ml16 {
+  margin-left: 16px;
+  fill: var(--waterloo);
+}
+
+.editableAvatar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.editWrapper {
+  width: 480px;
+}
+
+.modalContent {
+  padding: 14px 20px;
+}
+
+.modalTitle {
+  @include text('body-2');
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+  color: var(--waterloo);
+  cursor: pointer;
+
+  &:not(:first-of-type) {
+    margin-top: 16px;
+  }
+
+  svg {
+    width: 12px;
+    height: 12px;
+    fill: var(--waterloo);
+    margin-left: 6px;
+  }
+}
+
+.actions {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  justify-content: flex-start;
+  padding: 0;
+
+  button {
+    @include text('body-2');
+    margin-right: 16px;
+    padding: 8px 20px;
+    height: 40px;
+  }
+}
+
+.usernameInput {
+  padding-left: 25px;
+}
+
+.inputPrefix {
+  position: relative;
+
+  &::before {
+    content: '@';
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    color: var(--jungle-green);
+    transform: translateY(-50%);
+  }
 }

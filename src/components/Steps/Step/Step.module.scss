@@ -16,14 +16,13 @@
   top: 0;
   height: 100%;
   width: 1px;
-  padding: 32px 0 8px 0;
+  padding-top: 25px;
 
   &::after {
     height: 100%;
     width: 1px;
     content: "";
     display: inline-block;
-    border-radius: 1px;
     transition: background 0.3s;
     background-color: var(--porcelain);
   }
@@ -34,13 +33,13 @@
 }
 
 .content {
-  max-width: 508px;
+  max-width: 240px;
   overflow: hidden;
 }
 
 .title {
   position: relative;
-  color: var(--title-color, var(--rhino));
+  color: var(--title-color, var(--fiord));
 
   @include text("body-2");
 
@@ -50,8 +49,9 @@
 }
 
 .description {
-  padding-bottom: 32px;
-  color: var(--description-color, var(--waterloo));
+  margin-top: 4px;
+  padding-bottom: 20px;
+  color: var(--description-color, var(--fiord));
 
   @include text("body-3");
 }
@@ -60,8 +60,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 25px;
+  height: 25px;
   border-radius: 100%;
   margin-right: 12px;
   background-color: var(--icon-background-color, var(--waterloo));
@@ -72,110 +72,34 @@
 }
 
 .icon {
-  text-align: center;
-  width: 8px;
   color: currentColor;
   fill: currentColor;
 }
 
-.small {
-  --icon-background-color: transparent;
-  --icon-border: 1px solid var(--waterloo);
-  --title-color: var(--fiord);
-
-  .content {
-    max-width: 160px;
-    margin-top: 0;
-    margin-bottom: 20px;
-  }
-
-  .title {
-    @include text("body-3");
-  }
-
-  .description {
-    padding-bottom: 0;
-  }
-
-  .tail {
-    left: 4px;
-    top: 0;
-    padding: 19px 0 1px;
-  }
-
-  .iconWrapper {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    margin-right: 10px;
-    margin-top: 5px;
-
-    .icon {
-      display: none;
-    }
-  }
-}
-
 .finish {
-  --description-color: var(--rhino);
   --icon-background-color: var(--jungle-green);
   --icon-color: var(--white);
-
-  &.small {
-    --icon-background-color: var(--jungle-green);
-    --icon-border: 1px solid var(--jungle-green);
-
-    .iconWrapper {
-      width: 13px;
-      height: 13px;
-      border-radius: 50%;
-      margin-right: 8px;
-      margin-left: -2px;
-
-      .icon {
-        width: 7px;
-        display: block;
-      }
-    }
-
-    .tail {
-      left: 4px;
-      top: 0;
-      padding: 23px 0 2px;
-    }
-  }
 }
 
 .disabled {
   --step-cursor: default;
-  --description-color: var(--casper);
-  --icon-background-color: var(--athens);
-  --icon-color: var(--mystic);
-  --title-color: var(--waterloo);
+  --icon-background-color: var(--mystic);
+  --icon-color: var(--white);
+  --title-color: var(--casper);
 
   .title {
     &:hover {
-      --title-color: var(--waterloo);
-    }
-  }
-
-  &.small {
-    --title-color: var(--casper);
-    --icon-border: 1px solid var(--mystic);
-
-    .title {
-      &:hover {
-        --title-color: var(--casper);
-      }
+      --title-color: var(--casper);
     }
   }
 }
 
 .selected {
-  &.small {
-    .title {
-      --title-color: var(--jungle-green);
-    }
+  --icon-background-color: var(--jungle-green);
+  --icon-color: var(--white);
+  --title-color: var(--jungle-green);
+
+  .title {
   }
 }
 

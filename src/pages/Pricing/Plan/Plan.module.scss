@@ -8,12 +8,12 @@
   background: var(--white);
   border: 1px solid var(--porcelain);
 
-  @include responsive('desktop', 'laptop') {
-    text-align: center;
+  &:not(:last-child) {
+    margin-right: 32px;
   }
 
-  &:last-child {
-    flex: 1;
+  @include responsive('desktop', 'laptop') {
+    text-align: center;
   }
 
   &_active {

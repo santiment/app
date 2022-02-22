@@ -51,6 +51,7 @@ export const getYearMonthPrices = (amount, billing) => {
 
 export const findSanbasePlan = ({ id }) => id === sanbaseProductId
 
+export const noFreePlan = ({ name }) => name !== PLANS.FREE
 export const noBasicPlan = ({ name }) => name !== PLANS.BASIC
 export const noEnterprisePlan = ({ name }) => name !== PLANS.ENTERPRISE
 
@@ -91,6 +92,7 @@ export const getTrialLabel = (trialEnd, status) =>
 
 export function getShowingPlans (plans, billing) {
   return plans
+    .filter(noFreePlan)
     .filter(noBasicPlan)
     .filter(noEnterprisePlan)
     .filter(({ name, interval }) => interval === billing || name === 'FREE')

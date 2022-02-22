@@ -71,7 +71,7 @@ export const prepareAlertTitle = title => {
   return checkingTitle
 }
 
-const OpenSignalLink = ({ signal, children }) => {
+const OpenSignalLink = ({ signal, children, isUserTheAuthor }) => {
   const { id, title } = signal
 
   const trigger = (
@@ -81,7 +81,14 @@ const OpenSignalLink = ({ signal, children }) => {
     </div>
   )
 
-  return <AlertModal modalTitle='Update alert for' id={id} trigger={trigger} />
+  return (
+    <AlertModal
+      id={id}
+      trigger={trigger}
+      isUserTheAuthor={isUserTheAuthor}
+      prepareAlertTitle={prepareAlertTitle}
+    />
+  )
 }
 
 export default OpenSignalLink

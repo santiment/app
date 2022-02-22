@@ -39,3 +39,13 @@
 .tableRow {
   height: 60px;
 }
+
+.defaultHeight {
+  height: calc(100vh - 64px) !important;
+  min-height: calc(100vh - 64px) !important;
+}
+
+.fullHeight {
+  height: 100vh !important;
+  min-height: 100vh !important;
+}

@@ -48,13 +48,16 @@ export function useUpdateWatchlist (type) {
         : newParams.isMonitored
 
     let listItems = []
-    if (type !== 'SCREENER') {
+    if (type === PROJECT) {
       if (newParams.listItems) {
         listItems = newParams.listItems
       } else {
         listItems = watchlist.listItems
       }
-      listItems = listItems.map(item => ({ projectId: +item.project.id }))
+
+      listItems = listItems.map(item => ({
+        projectId: item.project ? +item.project.id : +item.projectId
+      }))
     }
 
     return mutate({

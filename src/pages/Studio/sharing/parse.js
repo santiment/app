@@ -71,7 +71,11 @@ function parseIndicators (indicators, KnownMetric, metrics) {
   if (!indicators) return MetricIndicators
 
   metrics.forEach(metricKey => {
-    if (!indicators[metricKey]) return
+    if (!indicators[metricKey]) {
+      // HACK(vanguard): forcing indicator parse from metric key
+      metricKey = metricKey.slice(metricKey.indexOf('_') + 1)
+      if (!indicators[metricKey]) return
+    }
 
     const metric = getMetric(metricKey)
 
@@ -126,10 +130,21 @@ function parseMetrics (metrics, comparables = [], KnownMetric) {
     .filter(Boolean)
 }
 
+function parseProjectCombinedMetrics (metric) {
+  return getProjectMetricByKey(metric.key, undefined, {
+    getMetricByKey: () => metric,
+    parseSlug: false
+  })
+}
+
 function parseCombinedMetrics (metrics, KnownMetric) {
   return (metrics || []).map(({ k, exp, l, bm }) => {
-    const metric = newExpessionMetric(bm.map(getMetric), exp, l)
+    let metric = newExpessionMetric(bm.map(getMetric), exp, l)
     metric.key = k
+
+    if (checkIsProjectMetricKey(k)) {
+      metric = parseProjectCombinedMetrics(metric)
+    }
 
     KnownMetric[k] = metric
     return metric

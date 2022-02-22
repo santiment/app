@@ -11,6 +11,7 @@ export const PUBLIC_USER_DATA_QUERY = gql`
       id
       email
       username
+      name
       avatarUrl
       watchlists {
         ...generalFragment
@@ -122,14 +123,11 @@ export const updateFollowersList = (followers, follow, unfollow, userId) => {
 export const updateFollowingList = (usersList, userData) => {
   const isInList = usersList.users.some(({ id }) => +id === +userData.id)
   const { users } = usersList
-
   if (isInList) {
     const { id: followerId } = userData
     usersList.users = users.filter(({ id }) => +id !== +followerId)
   } else {
     users.push({
-      username: '',
-      avatarUrl: '',
       __typename: 'User',
       ...userData
     })

@@ -24,8 +24,11 @@ import { VersionLabel } from '../Version/Version'
 import { APP_STATES } from '../../ducks/Updates/reducers'
 import { isHalloweenDay } from '../../utils/halloween'
 import ContactUs from '../ContactUs/ContactUs'
+import UserAvatar from '../../pages/Account/avatar/UserAvatar'
 import dropdownStyles from './NavbarDropdown.module.scss'
 import styles from './NavbarProfileDropdown.module.scss'
+
+const MAX_STR_LENGTH = 28
 
 const personalLinks = [
   { as: Link, to: '/alerts?tab=1', children: 'My alerts' },
@@ -123,15 +126,31 @@ export const NavbarProfileDropdown = ({
   const { isPro } = useUserSubscriptionStatus()
   const { isNightMode } = useTheme()
 
+  const trimString = str =>
+    str.length < MAX_STR_LENGTH ? str : str.substring(0, MAX_STR_LENGTH) + '...'
+
   return (
     <div className={cx(styles.wrapper, !user && styles.login)}>
       {user && (
         <div className={styles.profile}>
-          <div className={styles.nameWrapper}>
-            <Link className={styles.name} to={`/profile/${user.id}`}>
-              {user.username || user.email}
-            </Link>
-          </div>
+          <Link className={styles.userInfoWrapper} to={`/profile/${user.id}`}>
+            <UserAvatar
+              as='div'
+              userId={user.id}
+              externalAvatarUrl={user.avatarUrl}
+              classes={styles}
+            />
+            <div className={styles.infoWrapper}>
+              <div className={styles.name}>
+                {user.name ? trimString(user.name) : 'No full name'}
+              </div>
+              <div className={styles.username}>
+                {user.username
+                  ? trimString(`@${user.username}`)
+                  : 'No username'}
+              </div>
+            </div>
+          </Link>
           <SubscriptionsList />
           {isPro || (
             <UpgradeBtn

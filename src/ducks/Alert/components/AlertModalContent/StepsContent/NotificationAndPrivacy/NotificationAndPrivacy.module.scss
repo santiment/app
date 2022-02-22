@@ -20,15 +20,7 @@
   margin-bottom: 26px;
 }
 
-.nextBtn {
-  float: right;
-  height: 24px;
-}
-
-.warning {
-  color: var(--rhino);
-  padding: 10px 16px;
-  width: fit-content;
-  background: transparent;
-  margin-bottom: 16px;
+.titleWrapper {
+  display: flex;
+  justify-content: space-between;
 }

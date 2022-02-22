@@ -4,11 +4,12 @@
 }
 
 .counter {
-  width: 80px;
+  max-width: 243px;
+  flex: 1;
 }
 
 .period {
-  width: 120px;
+  flex: 1;
 
   [class="ReactVirtualized__Grid ReactVirtualized__List"] {
     min-height: 112px;

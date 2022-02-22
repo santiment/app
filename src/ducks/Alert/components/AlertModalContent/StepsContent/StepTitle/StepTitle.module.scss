@@ -1,46 +1,27 @@
 @import "~@santiment-network/ui/mixins";
 
 .disabled {
-  --step-icon-background: var(--athens);
-  --step-icon-fill: var(--mystic);
   --step-title-color: var(--mystic);
   --step-description-color: var(--casper);
-}
-
-.finished {
-  --step-icon-background: var(--jungle-green-light);
-  --step-icon-fill: var(--jungle-green);
 }
 
 .wrapper {
   display: flex;
 }
 
-.iconWrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: var(--step-icon-background, var(--waterloo));
-}
-
-.icon {
-  width: 12px;
-  fill: var(--step-icon-fill, var(--white));
-}
-
 .titleWrapper {
   display: flex;
   flex-direction: column;
-  margin-left: 12px;
 }
 
 .title {
   color: var(--step-title-color, var(--rhino));
 
-  @include text("body-2");
+  @include text("body-1", "m");
+}
+
+.smallTitle {
+  @include text("body-1");
 }
 
 .description {

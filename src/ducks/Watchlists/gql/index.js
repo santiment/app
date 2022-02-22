@@ -48,7 +48,13 @@ export function tableQuery (columns) {
           ({ accessor, timeRange, aggregation }) =>
             `${accessor}: aggregatedTimeseriesData(
             metric: "${accessor}"
-            from: "utc_now-${timeRange}"
+            from: "utc_now-${
+              aggregation.toUpperCase() === AGGREGATIONS_UPPER.LAST
+                ? accessor === 'sentiment_volume_consumed_total_change_1d'
+                  ? '2d'
+                  : '1d'
+                : timeRange
+            }"
             to: "utc_now"
             aggregation: ${AGGREGATIONS_UPPER[aggregation.toUpperCase()]}
           )`

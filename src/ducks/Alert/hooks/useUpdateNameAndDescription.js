@@ -19,21 +19,23 @@ export const useUpdateNameAndDescription = ({
   const [, , { setValue: setTitle }] = useField('title')
   const [, , { setValue: setDescription }] = useField('description')
   const { watchlist, isWatchlistLoading } = useWatchlistAndScreener({
-    type: selectedType.title,
+    type: selectedType && selectedType.title,
     settings: values.settings,
     skip:
-      selectedType.title !== 'Screener' &&
-      selectedType.title !== 'Watchlist' &&
-      selectedType.title !== 'Social trends'
+      !selectedType ||
+      (selectedType.title !== 'Screener' &&
+        selectedType.title !== 'Watchlist' &&
+        selectedType.title !== 'Social trends')
   })
-  const stepsLength = selectedType.steps.length
+  const stepsLength = selectedType ? selectedType.steps.length : 1
   const nameAndDescriptionIndex = stepsLength - 1
   const shouldUpdateNameAndDescription = !hasSignal || isEdited
 
   useEffect(() => {
     if (
       selectedStep !== nameAndDescriptionIndex &&
-      shouldUpdateNameAndDescription
+      shouldUpdateNameAndDescription &&
+      selectedType
     ) {
       switch (selectedType.title) {
         case 'Asset': {

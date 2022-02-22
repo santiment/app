@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import TableTop from './TableTop'
 import Table from '../../../Table'
 import { usePriceGraph } from './PriceGraph/hooks'
@@ -34,7 +34,8 @@ const AssetsTable = ({
   activeColumns,
   setOrderBy,
   updateActiveColumnsKeys,
-  fetchAllColumns
+  fetchAllColumns,
+  isDesktop
 }) => {
   const [toggleSelected, setToggleSelected] = useState()
   const defaultSorting = useMemo(
@@ -70,6 +71,22 @@ const AssetsTable = ({
 
     return result
   }, [graphData7d, graphData1d, graphData30d, items])
+
+  useEffect(() => {
+    if (!isDesktop) return
+
+    const node = document.querySelector('.App')
+    const isSmall = data.length < 20
+
+    node.classList.remove(isSmall ? styles.defaultHeight : styles.fullHeight)
+    node.classList.add(isSmall ? styles.fullHeight : styles.defaultHeight)
+  }, [data])
+
+  useEffect(() => {
+    window.dispatchEvent(
+      new CustomEvent('comparingAssetsChanged', { detail: comparingAssets })
+    )
+  }, [comparingAssets])
 
   return (
     <>

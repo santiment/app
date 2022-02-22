@@ -3,12 +3,14 @@
 .title {
   @include text('h3');
 
-  margin: 0;
+  margin: 0 0 16px 0;
   color: var(--rhino);
 }
 
 .container {
-  padding: 81px 144px !important;
+  padding: 64px 120px !important;
+  box-shadow: 0px 6px 50px rgba(24, 27, 43, 0.03);
+  border-radius: 10px;
 
   @include responsive('phone', 'phone-xs', 'tablet') {
     padding: 0 !important;
@@ -30,9 +32,9 @@
 .toggleBtn {
   display: block;
   min-width: 188px;
-  margin-top: 32px;
   height: 40px;
   text-align: center;
+  margin-top: 30px;
 
   @include responsive('phone', 'phone-xs', 'tablet') {
     @include text('body-3');
@@ -42,7 +44,7 @@
 .description {
   @include text('body-2');
 
-  margin: 24px 0 0 0;
+  margin: 16px 0 16px 0;
   color: var(--waterloo);
   max-width: 350px;
 
@@ -67,7 +69,7 @@
 
 .check {
   display: flex;
-  margin-top: 24px;
+  position: relative;
 
   @include responsive('phone', 'phone-xs', 'tablet') {
     text-align: center;
@@ -83,6 +85,10 @@
   @include text('body-2');
 }
 
+.accept {
+  cursor: pointer;
+}
+
 .wrapper {
   height: 100%;
   display: flex;
@@ -95,5 +101,68 @@
 
   @include responsive('phone', 'phone-xs', 'tablet') {
     background-image: none;
+  }
+}
+
+.checkboxError > div {
+  border-color: var(--persimmon);
+}
+
+.gdprError {
+  position: absolute;
+  left: 0;
+  top: 24px;
+  z-index: 1;
+}
+
+.inputPrefix {
+  position: relative;
+
+  &::before {
+    content: '@';
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    color: var(--jungle-green);
+    transform: translateY(-50%);
+  }
+}
+
+.usernameInput {
+  padding-left: 25px;
+}
+
+.loader {
+  justify-content: center;
+}
+
+.checkList {
+  margin-top: 24px;
+  font-weight: normal;
+  color: var(--rhino);  
+
+  li {
+    display: flex;
+    align-items: center;
+
+    &:not(:last-of-type) {
+      margin-bottom: 16px;
+    }
+
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      margin-right: 12px;
+      border: none;
+      border-radius: 50%;
+      background-color: var(--jungle-green-light);
+    }
+
+    svg {
+      fill: var(--jungle-green);
+    }
   }
 }

@@ -37,7 +37,7 @@ const Billing = ({ selected, onClick }) => {
         onClick={() => onClick('year')}
       >
         Yearly
-        <span className={styles.billing__save}>(Save 10%)</span>
+        <span className={styles.billing__save}>(2 months free)</span>
       </span>
     </>
   )
@@ -45,7 +45,7 @@ const Billing = ({ selected, onClick }) => {
 
 const Plans = ({ id, classes = {} }) => {
   const { subscription } = useUserSubscription()
-  const [billing, setBilling] = useState('year')
+  const [billing, setBilling] = useState('month')
   const [plans, loading] = usePlans()
 
   const isSubscriptionCanceled = subscription && subscription.cancelAtPeriodEnd

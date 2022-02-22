@@ -71,7 +71,6 @@ const WatchlistAndScreenerSelector = ({
       {!isSocial && (
         <div className={styles.titleWrapper}>
           <StepTitle
-            iconType='view-option'
             title={
               type === 'watchlist' ? 'Select Watchlist' : 'Select Screener'
             }
