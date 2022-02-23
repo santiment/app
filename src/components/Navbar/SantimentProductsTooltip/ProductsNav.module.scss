@@ -13,9 +13,7 @@
 }
 
 .title {
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
+  @include text('body-3', 'm');
   color: var(--waterloo);
   margin-bottom: 16px;
 }
@@ -34,9 +32,7 @@
       line-height: 20px;
       color: var(--rhino);
 
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 24px;
+      @include text('body-2', 'm');
 
       svg {
         transition: transform 0.3s ease-in-out;
@@ -113,8 +109,7 @@
 }
 
 .description {
-  font-size: 14px;
-  line-height: 20px;
+  @include text('body-3');
   color: var(--waterloo);
   max-width: 256px;
   white-space: normal;
