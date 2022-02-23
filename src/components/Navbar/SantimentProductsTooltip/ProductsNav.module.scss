@@ -6,27 +6,18 @@
 }
 
 .container {
-  padding: 24px 30px;
-  width: 260px;
+  padding: 24px 32px;
+  width: 320px;
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
-}
-
-.column {
-  width: 92px;
-
-  &:first-of-type {
-    margin-right: 26px;
-  }
+  flex-direction: column;
 }
 
 .title {
   font-weight: 500;
-  font-size: 12px;
-  line-height: 16px;
+  font-size: 14px;
+  line-height: 20px;
   color: var(--waterloo);
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .products {
@@ -35,17 +26,102 @@
     font-size: 14px;
 
     a {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2px;
       line-height: 20px;
       color: var(--rhino);
 
-      &:hover {
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+
+      svg {
+        transition: transform 0.3s ease-in-out;
+        opacity: 0;
+        transform: translateX(0);       
+      }
+  
+      &:hover {    
+        & svg {
+          opacity: 1;
+          transform: translateX(4px);
+        }
+      }
+      
+      &.Sanbase:hover {
         color: var(--jungle-green);
+
+        & svg {
+          fill: var(--jungle-green);
+        }
+      }
+
+      &.Sansheets:hover {
+        color: var(--sheets);
+
+        & svg {
+          fill: var(--sheets);
+        }
+      }
+
+      &.SanAPI:hover {
+        color: var(--dodger-blue);
+
+        & svg {
+          fill: var(--dodger-blue);
+        }
+      }
+
+      &.SanX:hover {
+        color: var(--heliotrope);
+
+        & svg {
+          fill: var(--heliotrope);
+        }
+      }
+
+      &.SanR:hover {
+        color: #0DB67A;
+
+        & svg {
+          fill: #0DB67A;
+        }
+      }
+
+      &.Insights:hover {
+        color: var(--texas-rose);
+
+        & svg {
+          fill: var(--texas-rose);
+        }
       }
     }
   }
 }
 
+.hr {
+  margin: 12px 0 24px 0;
+  width: 100%;
+  border-radius: 8px;
+  background-color: var(--porcelain);
+  color: var(--porcelain);
+  height: 1px;
+  border: 0;
+}
+
+.description {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--waterloo);
+  max-width: 256px;
+  white-space: normal;
+}
+
 .label {
+  display: inline-block;
   background: var(--texas-rose-light);
   border-radius: 4px;
   padding: 4px 8px;
@@ -54,5 +130,4 @@
   font-size: 12px;
   line-height: 16px;
   margin-top: 4px;
-  white-space: normal;
 }

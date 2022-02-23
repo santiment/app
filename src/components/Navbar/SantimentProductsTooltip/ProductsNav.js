@@ -1,35 +1,48 @@
 import React, { useState } from 'react'
+import cx from 'classnames'
 import { ProductsTrigger } from './Trigger'
-import { BUSINESS_PRODUCTS, CHAIN_PRODUCTS } from './Products'
+import { BUSINESS_PRODUCTS, CHAIN_PRODUCTS, ArrowRight } from './Products'
 import SmoothDropdownItem from '../../SmoothDropdown/SmoothDropdownItem'
 import styles from './ProductsNav.module.scss'
 
 let timeoutId
 
-export const ProductsNavContent = () => (
-  <div className={styles.container}>
-    <div className={styles.column}>
-      <h3 className={styles.title}>SAN chain</h3>
-      <ul className={styles.products}>
-        {CHAIN_PRODUCTS.map((item, index) => (
-          <li key={index}>
-            <a href={item.to}>{item.title}</a>
-            {item.label && <p className={styles.label}>{item.label}</p>}
-          </li>
-        ))}
-      </ul>
-    </div>
-    <div className={styles.column}>
-      <h3 className={styles.title}>SAN business</h3>
-      <ul className={styles.products}>
-        {BUSINESS_PRODUCTS.map((item, index) => (
-          <li key={index}>
-            <a href={item.to}>{item.title}</a>
-            {item.label && <p className={styles.label}>{item.label}</p>}
-          </li>
-        ))}
-      </ul>
-    </div>
+const ListItem = ({ item }) => (
+  <li>
+    <a href={item.to} className={styles[item.title]}>
+      {item.title} <ArrowRight />
+    </a>
+    {item.description && (
+      <div className={styles.description}>{item.description}</div>
+    )}
+    {item.label && <span className={styles.label}>{item.label}</span>}
+  </li>
+)
+
+const RowBlock = ({ title, items, boxClass }) => (
+  <div className={boxClass}>
+    <h3 className={styles.title}>{title}</h3>
+    <ul className={styles.products}>
+      {items.map((item, index) => (
+        <ListItem item={item} key={index} />
+      ))}
+    </ul>
+  </div>
+)
+
+export const ProductsNavContent = ({
+  containerClass,
+  showLine = true,
+  boxClass
+}) => (
+  <div className={cx(styles.container, containerClass && containerClass)}>
+    <RowBlock
+      title='SAN business'
+      items={BUSINESS_PRODUCTS}
+      boxClass={boxClass}
+    />
+    {showLine && <hr className={styles.hr} />}
+    <RowBlock title='SAN chain' items={CHAIN_PRODUCTS} boxClass={boxClass} />
   </div>
 )
 

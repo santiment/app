@@ -23,7 +23,11 @@ const NavbarMore = ({ activeLink, links }) => {
             )
           })}
         </div>
-        <ProductsNavContent />
+        <ProductsNavContent
+          containerClass={styles.containerClass}
+          showLine={false}
+          boxClass={styles.boxClass}
+        />
       </div>
     </Panel>
   )
