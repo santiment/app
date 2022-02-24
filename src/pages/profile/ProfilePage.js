@@ -7,6 +7,7 @@ import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import PageLoader from '../../components/Loader/PageLoader'
 import {
   PUBLIC_USER_DATA_QUERY,
+  PUBLIC_CURRENT_USER_DATA_QUERY,
   updateCurrentUserFollowQueryCache,
   useOldUserFollowersFollowing
 } from '../../queries/ProfileGQL'
@@ -16,14 +17,22 @@ import ProfileActivities from './activities/ProfileActivities'
 import { useUser } from '../../stores/user'
 import styles from './ProfilePage.module.scss'
 
-export const usePublicUserData = variables => {
-  const query = useQuery(PUBLIC_USER_DATA_QUERY, {
-    variables: { ...variables }
-  })
+export const usePublicUserData = (variables, currentUserId) => {
+  const isCurrentUser = variables.userId === currentUserId
+  const QUERY = isCurrentUser
+    ? PUBLIC_CURRENT_USER_DATA_QUERY
+    : PUBLIC_USER_DATA_QUERY
+  const QUERY_FIELD = isCurrentUser ? 'currentUser' : 'getUser'
+  const query = useQuery(
+    QUERY,
+    !isCurrentUser && {
+      variables: { ...variables }
+    }
+  )
 
   return useMemo(() => {
     const { data, loading, error } = query
-    return { data: data ? data.getUser : undefined, loading, error }
+    return { data: data ? data[QUERY_FIELD] : undefined, loading, error }
   }, [query])
 }
 
@@ -64,7 +73,10 @@ const ProfilePage = props => {
     return getQueryVariables(newProps)
   }, [props, currentUserId])
 
-  const { loading: isLoading, data: profile } = usePublicUserData(queryVars)
+  const { loading: isLoading, data: profile } = usePublicUserData(
+    queryVars,
+    currentUserId
+  )
 
   const { data: followData, loading } = useOldUserFollowersFollowing(queryVars)
 
