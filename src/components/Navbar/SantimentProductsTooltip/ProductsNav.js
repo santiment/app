@@ -8,8 +8,8 @@ import styles from './ProductsNav.module.scss'
 let timeoutId
 
 const ListItem = ({ item }) => (
-  <li>
-    <a href={item.to} className={styles[item.title]}>
+  <li tabIndex={1} className={styles[item.title]}>
+    <a href={item.to}>
       {item.title} <ArrowRight />
     </a>
     {item.description && (
@@ -62,7 +62,7 @@ const ProductsNav = () => {
     <SmoothDropdownItem
       className={styles.tooltip}
       trigger={<ProductsTrigger isOpen={isOpen} />}
-      ddParams={{ position: 'start', offsetX: 0, offsetY: 0 }}
+      ddParams={{ position: 'start', offsetX: -24, offsetY: 0 }}
       onOpen={setOpened}
       onClose={setClosed}
     >

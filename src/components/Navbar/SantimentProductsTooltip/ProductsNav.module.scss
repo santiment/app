@@ -22,6 +22,7 @@
   li {
     margin-bottom: 12px;
     font-size: 14px;
+    cursor: pointer;
 
     a {
       display: flex;
@@ -39,60 +40,72 @@
         opacity: 0;
         transform: translateX(0);       
       }
-  
-      &:hover {    
-        & svg {
-          opacity: 1;
-          transform: translateX(4px);
-        }
+    }
+
+    &:hover {    
+      & svg {
+        opacity: 1;
+        transform: translateX(4px);
       }
-      
-      &.Sanbase:hover {
+    }
+    
+    &.Sanbase:hover {
+      & a {
         color: var(--jungle-green);
-
-        & svg {
-          fill: var(--jungle-green);
-        }
       }
 
-      &.Sansheets:hover {
+      & svg {
+        fill: var(--jungle-green);
+      }
+    }
+
+    &.Sansheets:hover {
+      & a {
         color: var(--sheets);
-
-        & svg {
-          fill: var(--sheets);
-        }
       }
 
-      &.SanAPI:hover {
+      & svg {
+        fill: var(--sheets);
+      }
+    }
+
+    &.SanAPI:hover {
+      & a {
         color: var(--dodger-blue);
-
-        & svg {
-          fill: var(--dodger-blue);
-        }
       }
 
-      &.SanX:hover {
+      & svg {
+        fill: var(--dodger-blue);
+      }
+    }
+
+    &.SanX:hover {
+      & a {
         color: var(--heliotrope);
-
-        & svg {
-          fill: var(--heliotrope);
-        }
       }
 
-      &.SanR:hover {
+      & svg {
+        fill: var(--heliotrope);
+      }
+    }
+
+    &.SanR:hover {
+      & a {
         color: #0DB67A;
-
-        & svg {
-          fill: #0DB67A;
-        }
       }
 
-      &.Insights:hover {
-        color: var(--texas-rose);
+      & svg {
+        fill: #0DB67A;
+      }
+    }
 
-        & svg {
-          fill: var(--texas-rose);
-        }
+    &.Insights:hover {
+      & a {
+        color: var(--texas-rose);
+      }
+
+      & svg {
+        fill: var(--texas-rose);
       }
     }
   }
