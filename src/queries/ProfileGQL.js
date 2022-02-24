@@ -37,6 +37,38 @@ export const PUBLIC_USER_DATA_QUERY = gql`
   ${SHORT_WATCHLIST_FRAGMENT}
 `
 
+export const PUBLIC_CURRENT_USER_DATA_QUERY = gql`
+  query getUser {
+    currentUser {
+      id
+      email
+      username
+      name
+      avatarUrl
+      watchlists {
+        ...generalFragment
+        historicalStats(from: "utc_now-7d", to: "utc_now", interval: "6h") {
+          marketcap
+        }
+      }
+      addressesWatchlists: watchlists(type: BLOCKCHAIN_ADDRESS) {
+        ...generalFragment
+        stats {
+          blockchainAddressesCount
+        }
+      }
+      triggers {
+        ...triggersCommon
+      }
+      insightsCount {
+        totalCount
+      }
+    }
+  }
+  ${TRIGGERS_COMMON_FRAGMENT}
+  ${SHORT_WATCHLIST_FRAGMENT}
+`
+
 export const PUBLIC_USER_FOLLOWERS_DATA_QUERY = gql`
   query getUserFollow($userId: ID, $username: String) {
     followData: getUser(selector: { id: $userId, username: $username }) {
