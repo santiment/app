@@ -18,15 +18,14 @@ import { useUser } from '../../stores/user'
 import styles from './ProfilePage.module.scss'
 
 export const usePublicUserData = (variables, currentUserId) => {
-  const QUERY =
-    variables.userId === currentUserId
-      ? PUBLIC_CURRENT_USER_DATA_QUERY
-      : PUBLIC_USER_DATA_QUERY
-  const QUERY_FIELD =
-    variables.userId === currentUserId ? 'currentUser' : 'getUser'
+  const isCurrentUser = variables.userId === currentUserId
+  const QUERY = isCurrentUser
+    ? PUBLIC_CURRENT_USER_DATA_QUERY
+    : PUBLIC_USER_DATA_QUERY
+  const QUERY_FIELD = isCurrentUser ? 'currentUser' : 'getUser'
   const query = useQuery(
     QUERY,
-    variables.userId !== currentUserId && {
+    !isCurrentUser && {
       variables: { ...variables }
     }
   )
