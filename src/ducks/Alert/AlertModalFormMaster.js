@@ -91,6 +91,14 @@ const AlertModalFormMaster = ({
       settings: { ...values.settings, type: selectedType.settings.type }
     }
 
+    // cannot use daily metrics in the metric_signal, you need to use the daily_metric_signal
+    if (
+      triggerValues.cooldown === '1d' &&
+      triggerValues.settings.type === 'metric_signal'
+    ) {
+      triggerValues.settings.type = 'daily_metric_signal'
+    }
+
     if (id && !isSharedTrigger) {
       updateAlert({
         id,
