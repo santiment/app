@@ -4,7 +4,7 @@ import cx from 'classnames'
 import { useQuery } from '@apollo/react-hooks'
 import ProfileInfo, { ShareProfile } from './info/ProfileInfo'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
-import PageLoader from '../../components/Loader/PageLoader'
+import PageLoader, { LoaderImage } from '../../components/Loader/PageLoader'
 import {
   PUBLIC_USER_DATA_QUERY,
   PUBLIC_CURRENT_USER_DATA_QUERY,
@@ -127,7 +127,7 @@ const ProfilePage = props => {
           followData={followData}
         />
       )}
-      <Suspense fallback={<PageLoader />}>
+      <Suspense fallback={<LoaderImage />}>
         <ProfileActivities
           profileId={profile.id}
           currentUserId={currentUserId}

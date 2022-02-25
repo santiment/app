@@ -7,6 +7,7 @@ import { useUserTemplates } from '../../../ducks/Studio/Template/gql/hooks'
 import ProfileTemplates from '../templates/ProfileTemplates'
 import ProjectCard from '../../../ducks/Watchlists/Cards/ProjectCard'
 import AddressCard from '../../../ducks/Watchlists/Cards/AddressCard'
+import LoaderImage from '../../../components/Loader/PageLoader'
 import {
   checkIsNotScreener,
   checkIsScreener
@@ -31,7 +32,7 @@ const Counter = ({ value }) => {
 const ProfileActivities = ({ profileId, currentUserId }) => {
   const [step, setStep] = useState(window.location.hash || STEPS.INSIGHTS)
   const [templates] = useUserTemplates(profileId)
-  const { data } = useProfileActivities(profileId, currentUserId)
+  const { data, loading } = useProfileActivities(profileId, currentUserId)
   const {
     insightsCount = { totalCount: 0 },
     triggers = ARRAY,
@@ -44,6 +45,10 @@ const ProfileActivities = ({ profileId, currentUserId }) => {
   const goTo = val => {
     window.location.hash = val
     return setStep(val)
+  }
+
+  if (loading) {
+    return <LoaderImage />
   }
 
   return (
