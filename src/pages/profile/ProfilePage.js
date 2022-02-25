@@ -5,6 +5,7 @@ import { useQuery } from '@apollo/react-hooks'
 import ProfileInfo, { ShareProfile } from './info/ProfileInfo'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import PageLoader from '../../components/Loader/PageLoader'
+import ProfileActivities from './activities/ProfileActivities'
 import {
   PUBLIC_USER_DATA_QUERY,
   PUBLIC_CURRENT_USER_DATA_QUERY,
@@ -13,7 +14,6 @@ import {
 } from '../../queries/ProfileGQL'
 import { MobileOnly } from '../../components/Responsive'
 import { mapQSToState } from '../../utils/utils'
-import ProfileActivities from './activities/ProfileActivities'
 import { useUser } from '../../stores/user'
 import styles from './ProfilePage.module.scss'
 
@@ -78,9 +78,9 @@ const ProfilePage = props => {
     currentUserId
   )
 
-  const { data: followData, loading } = useOldUserFollowersFollowing(queryVars)
+  const { data: followData } = useOldUserFollowersFollowing(queryVars)
 
-  if (isUserLoading || isLoading || loading) {
+  if (isUserLoading || isLoading) {
     return <PageLoader />
   }
 
@@ -119,14 +119,14 @@ const ProfilePage = props => {
           />
         </div>
       </MobileOnly>
-
-      <ProfileInfo
-        profile={profile}
-        updateCache={updateCache}
-        followData={followData}
-      />
-
-      <ProfileActivities profile={profile} />
+      {followData && (
+        <ProfileInfo
+          profile={profile}
+          updateCache={updateCache}
+          followData={followData}
+        />
+      )}
+      <ProfileActivities profileId={profile.id} currentUserId={currentUserId} />
     </div>
   )
 }
