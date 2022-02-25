@@ -12,6 +12,7 @@ import {
   checkIsScreener
 } from '../../../ducks/Screener/utils'
 import styles from './ProfileActivities.module.scss'
+import { useProfileActivities } from '../../../queries/ProfileGQL'
 
 const ARRAY = []
 const STEPS = {
@@ -27,17 +28,16 @@ const Counter = ({ value }) => {
   return <div className={styles.counter}>({value})</div>
 }
 
-const ProfileActivities = ({
-  profile: {
-    id: profileId,
-    insightsCount,
-    triggers,
-    watchlists = ARRAY,
-    addressesWatchlists = ARRAY
-  }
-}) => {
+const ProfileActivities = ({ profileId, currentUserId }) => {
   const [step, setStep] = useState(window.location.hash || STEPS.INSIGHTS)
   const [templates] = useUserTemplates(profileId)
+  const { data } = useProfileActivities(profileId, currentUserId)
+  const {
+    insightsCount = { totalCount: 0 },
+    triggers = ARRAY,
+    watchlists = ARRAY,
+    addressesWatchlists = ARRAY
+  } = data
   const screeners = watchlists.filter(checkIsScreener)
   const projectWatchlists = watchlists.filter(checkIsNotScreener)
 

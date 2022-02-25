@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, Suspense, lazy } from 'react'
 import { Redirect } from 'react-router-dom'
 import cx from 'classnames'
 import { useQuery } from '@apollo/react-hooks'
@@ -13,9 +13,10 @@ import {
 } from '../../queries/ProfileGQL'
 import { MobileOnly } from '../../components/Responsive'
 import { mapQSToState } from '../../utils/utils'
-import ProfileActivities from './activities/ProfileActivities'
 import { useUser } from '../../stores/user'
 import styles from './ProfilePage.module.scss'
+
+const ProfileActivities = lazy(() => import('./activities/ProfileActivities'))
 
 export const usePublicUserData = (variables, currentUserId) => {
   const isCurrentUser = variables.userId === currentUserId
@@ -125,8 +126,12 @@ const ProfilePage = props => {
         updateCache={updateCache}
         followData={followData}
       />
-
-      <ProfileActivities profile={profile} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <ProfileActivities
+          profileId={profile.id}
+          currentUserId={currentUserId}
+        />
+      </Suspense>
     </div>
   )
 }
