@@ -33,14 +33,6 @@ const ProfileActivities = ({ profileId, currentUserId }) => {
   const [step, setStep] = useState(window.location.hash || STEPS.INSIGHTS)
   const [templates] = useUserTemplates(profileId)
   const { data, loading } = useProfileActivities(profileId, currentUserId)
-  const {
-    insightsCount = { totalCount: 0 },
-    triggers = ARRAY,
-    watchlists = ARRAY,
-    addressesWatchlists = ARRAY
-  } = data
-  const screeners = watchlists.filter(checkIsScreener)
-  const projectWatchlists = watchlists.filter(checkIsNotScreener)
 
   const goTo = val => {
     window.location.hash = val
@@ -50,6 +42,15 @@ const ProfileActivities = ({ profileId, currentUserId }) => {
   if (loading) {
     return <LoaderImage />
   }
+
+  const {
+    insightsCount = { totalCount: 0 },
+    triggers = ARRAY,
+    watchlists = ARRAY,
+    addressesWatchlists = ARRAY
+  } = data
+  const screeners = watchlists.filter(checkIsScreener)
+  const projectWatchlists = watchlists.filter(checkIsNotScreener)
 
   return (
     <div className={styles.container}>
