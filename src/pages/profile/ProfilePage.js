@@ -1,10 +1,11 @@
-import React, { useMemo, Suspense, lazy } from 'react'
+import React, { useMemo } from 'react'
 import { Redirect } from 'react-router-dom'
 import cx from 'classnames'
 import { useQuery } from '@apollo/react-hooks'
 import ProfileInfo, { ShareProfile } from './info/ProfileInfo'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
-import PageLoader, { LoaderImage } from '../../components/Loader/PageLoader'
+import PageLoader from '../../components/Loader/PageLoader'
+import ProfileActivities from './activities/ProfileActivities'
 import {
   PUBLIC_USER_DATA_QUERY,
   PUBLIC_CURRENT_USER_DATA_QUERY,
@@ -15,8 +16,6 @@ import { MobileOnly } from '../../components/Responsive'
 import { mapQSToState } from '../../utils/utils'
 import { useUser } from '../../stores/user'
 import styles from './ProfilePage.module.scss'
-
-const ProfileActivities = lazy(() => import('./activities/ProfileActivities'))
 
 export const usePublicUserData = (variables, currentUserId) => {
   const isCurrentUser = variables.userId === currentUserId
@@ -127,12 +126,7 @@ const ProfilePage = props => {
           followData={followData}
         />
       )}
-      <Suspense fallback={<LoaderImage />}>
-        <ProfileActivities
-          profileId={profile.id}
-          currentUserId={currentUserId}
-        />
-      </Suspense>
+      <ProfileActivities profileId={profile.id} currentUserId={currentUserId} />
     </div>
   )
 }
