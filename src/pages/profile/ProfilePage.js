@@ -79,9 +79,9 @@ const ProfilePage = props => {
     currentUserId
   )
 
-  const { data: followData, loading } = useOldUserFollowersFollowing(queryVars)
+  const { data: followData } = useOldUserFollowersFollowing(queryVars)
 
-  if (isUserLoading || isLoading || loading) {
+  if (isUserLoading || isLoading) {
     return <PageLoader />
   }
 
@@ -120,13 +120,14 @@ const ProfilePage = props => {
           />
         </div>
       </MobileOnly>
-
-      <ProfileInfo
-        profile={profile}
-        updateCache={updateCache}
-        followData={followData}
-      />
-      <Suspense fallback={<div>Loading...</div>}>
+      {followData && (
+        <ProfileInfo
+          profile={profile}
+          updateCache={updateCache}
+          followData={followData}
+        />
+      )}
+      <Suspense fallback={<PageLoader />}>
         <ProfileActivities
           profileId={profile.id}
           currentUserId={currentUserId}
