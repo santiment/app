@@ -97,7 +97,7 @@ const AlertModalFormMaster = ({
     const { data } = await refetch({ metric: triggerValues.settings.metric })
     const minInterval = data.metric.metadata.minInterval
     triggerValues.settings.type =
-      minInterval !== '5m' ? 'daily_metric_signal' : 'metric_signal'
+      minInterval <= '5m' ? 'metric_signal' : 'daily_metric_signal'
 
     if (id && !isSharedTrigger) {
       updateAlert({
