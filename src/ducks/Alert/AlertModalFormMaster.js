@@ -12,8 +12,8 @@ import { createTrigger, updateTrigger } from '../Signals/common/actions'
 import { useUser } from '../../stores/user'
 import { useSignal } from './hooks/useSignal'
 import { validateFormSteps } from './utils'
-import styles from './AlertModalFormMaster.module.scss'
 import { GET_METRIC_MIN_INTERVAL } from './hooks/queries'
+import styles from './AlertModalFormMaster.module.scss'
 
 const initialValues = {
   cooldown: '1d',
