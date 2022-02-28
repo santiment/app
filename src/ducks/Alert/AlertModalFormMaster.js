@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Formik } from 'formik'
 import { connect } from 'react-redux'
+import { useQuery } from 'react-apollo'
 import isEqual from 'lodash.isequal'
 import PageLoader from '../../components/Loader/PageLoader'
 import AlertTypeSelector from './components/AlertTypeSelector/AlertTypeSelector'
@@ -11,6 +12,7 @@ import { createTrigger, updateTrigger } from '../Signals/common/actions'
 import { useUser } from '../../stores/user'
 import { useSignal } from './hooks/useSignal'
 import { validateFormSteps } from './utils'
+import { GET_METRIC_MIN_INTERVAL } from './hooks/queries'
 import styles from './AlertModalFormMaster.module.scss'
 
 const initialValues = {
@@ -63,6 +65,7 @@ const AlertModalFormMaster = ({
     id,
     skip: !id
   })
+  const { refetch } = useQuery(GET_METRIC_MIN_INTERVAL)
 
   const isSharedTrigger =
     data && data.trigger && +data.trigger.authorId !== +user.id
@@ -85,19 +88,16 @@ const AlertModalFormMaster = ({
     }
   }, [formPreviousValues, isModalOpen])
 
-  function submitFormValues ({ values, setSubmitting }) {
+  async function submitFormValues ({ values, setSubmitting }) {
     const triggerValues = {
       ...values,
       settings: { ...values.settings, type: selectedType.settings.type }
     }
 
-    // cannot use daily metrics in the metric_signal, you need to use the daily_metric_signal
-    if (
-      triggerValues.cooldown === '1d' &&
-      triggerValues.settings.type === 'metric_signal'
-    ) {
-      triggerValues.settings.type = 'daily_metric_signal'
-    }
+    const { data } = await refetch({ metric: triggerValues.settings.metric })
+    const minInterval = data.metric.metadata.minInterval
+    triggerValues.settings.type =
+      minInterval <= '5m' ? 'metric_signal' : 'daily_metric_signal'
 
     if (id && !isSharedTrigger) {
       updateAlert({
