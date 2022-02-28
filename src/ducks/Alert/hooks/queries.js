@@ -43,3 +43,13 @@ export const LAST_PRICE_QUERY = gql`
     }
   }
 `
+
+export const GET_METRIC_MIN_INTERVAL = gql`
+  query getMetric($metric: String!) {
+    metric: getMetric(metric: $metric) {
+      metadata {
+        minInterval
+      }
+    }
+  }
+`
