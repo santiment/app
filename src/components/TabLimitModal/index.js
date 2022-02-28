@@ -23,12 +23,11 @@ const TabLimitModal = ({ maxTabsCount, isPro, onOpen }) => {
   return (
     <Dialog autoFocus open showCloseBtn={false} classes={styles}>
       <HeaderImage />
-      <p className={styles.descTop}>
-        Your current plan allows you to use simultaneously up to {maxTabsCount}{' '}
-        Browser Tabs{' '}
-      </p>
+      <p className={styles.descTop}>Browser Tabs Restriction</p>
       <p className={styles.descBottom}>
-        If you want to use more tabs, please upgrade your plan.
+        Dear user, your current plan allows you to use up to {maxTabsCount}{' '}
+        Browser Tabs for Charts and Screeners. If you want to use more, please
+        upgrade
       </p>
       <div className={styles.buttons}>
         {PLAN && (
