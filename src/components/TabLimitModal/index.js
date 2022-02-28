@@ -21,43 +21,45 @@ const TabLimitModal = ({ maxTabsCount, isPro, onOpen }) => {
   )
 
   return (
-    <Dialog autoFocus open showCloseBtn={false} classes={styles}>
-      <HeaderImage />
-      <p className={styles.descTop}>Browser Tabs Restriction</p>
-      <p className={styles.descBottom}>
-        Dear user, your current plan allows you to use up to {maxTabsCount}{' '}
-        Browser Tabs for Charts and Screeners. If you want to use more, please
-        upgrade
-      </p>
-      <div className={styles.buttons}>
-        {PLAN && (
-          <PlanBtn
-            subscription={subscription}
-            card={PLANS[PLAN_KEY]}
-            billing={INTERVAL}
-            btnProps={{
-              variant: 'fill',
-              accent: 'orange',
-              border: undefined,
-              fluid: undefined,
-              className: undefined
-            }}
-            amount={PLAN.amount}
-            id={PLAN.id}
-            onOpen={onOpen}
-          />
-        )}
-        <Button
-          variant='flat'
-          border
-          as={Link}
-          to='/pricing'
-          onClick={() => track.event('tab_limit_modal_review_plans_clicked')}
-        >
-          Review plans
-        </Button>
-      </div>
-    </Dialog>
+    <div onContextMenu={e => e.preventDefault()}>
+      <Dialog autoFocus open showCloseBtn={false} classes={styles}>
+        <HeaderImage />
+        <p className={styles.descTop}>Browser Tabs Restriction</p>
+        <p className={styles.descBottom}>
+          Dear user, your current plan allows you to use up to {maxTabsCount}{' '}
+          Browser Tabs for Charts and Screeners. If you want to use more, please
+          upgrade
+        </p>
+        <div className={styles.buttons}>
+          {PLAN && (
+            <PlanBtn
+              subscription={subscription}
+              card={PLANS[PLAN_KEY]}
+              billing={INTERVAL}
+              btnProps={{
+                variant: 'fill',
+                accent: 'orange',
+                border: undefined,
+                fluid: undefined,
+                className: undefined
+              }}
+              amount={PLAN.amount}
+              id={PLAN.id}
+              onOpen={onOpen}
+            />
+          )}
+          <Button
+            variant='flat'
+            border
+            as={Link}
+            to='/pricing'
+            onClick={() => track.event('tab_limit_modal_review_plans_clicked')}
+          >
+            Review plans
+          </Button>
+        </div>
+      </Dialog>
+    </div>
   )
 }
 
