@@ -30,7 +30,7 @@ const TabLimitModal = ({ maxTabsCount, isPro, onOpen }) => {
           Browser Tabs for Charts and Screeners. If you want to use more, please
           upgrade
         </p>
-        <div className={styles.buttons}>
+        <div className={styles.buttons} id='tabLimitModalButtons'>
           {PLAN && (
             <PlanBtn
               subscription={subscription}
