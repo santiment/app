@@ -55,6 +55,23 @@ const ForceActionRedirector = ({ pathname }) => {
     })
   }
 
+  // Prevents user cheat.
+  // If user removed modal from dom, this reverts back the modal
+  useEffect(() => {
+    let handCheck
+    if (showTabLimitModal) {
+      handCheck = setInterval(() => {
+        const modal = document.getElementById('tabLimitModalButtons')
+        if (!modal) {
+          clearInterval(handCheck)
+          setShowTabLimitModal(false)
+          checkOpenTabs()
+        }
+      }, 1000)
+    }
+    return () => handCheck && clearInterval(handCheck)
+  }, [showTabLimitModal])
+
   useEffect(() => {
     let timer = null
 
