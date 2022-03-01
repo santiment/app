@@ -11,7 +11,7 @@ import AlertModalForm from './AlertModalForm'
 import { createTrigger, updateTrigger } from '../Signals/common/actions'
 import { useUser } from '../../stores/user'
 import { useSignal } from './hooks/useSignal'
-import { validateFormSteps } from './utils'
+import { getMetricSignalKey, validateFormSteps } from './utils'
 import { GET_METRIC_MIN_INTERVAL } from './hooks/queries'
 import styles from './AlertModalFormMaster.module.scss'
 
@@ -95,9 +95,7 @@ const AlertModalFormMaster = ({
     }
 
     const { data } = await refetch({ metric: triggerValues.settings.metric })
-    const minInterval = data.metric.metadata.minInterval
-    triggerValues.settings.type =
-      minInterval <= '5m' ? 'metric_signal' : 'daily_metric_signal'
+    triggerValues.settings.type = getMetricSignalKey(data.metric.metadata.minInterval)
 
     if (id && !isSharedTrigger) {
       updateAlert({
