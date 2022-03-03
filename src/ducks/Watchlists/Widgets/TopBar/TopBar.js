@@ -4,6 +4,7 @@ import Author from './Author/Author'
 import Title from './Title/Title'
 import BaseActions from '../TopPanel/BaseActions'
 import Widgets from '../TopPanel/Widgets'
+import CommentActions from './CommentActions/CommentActions'
 import ScreenerSignalDialog from '../../../Signals/ScreenerSignal/ScreenerSignalDialog'
 import Share from '../../Actions/Share'
 import WeeklyReport from '../../Actions/WeeklyReport'
@@ -45,6 +46,7 @@ const TopBar = ({
   updateWatchlistFunction,
   ...props
 }) => {
+  const [isCommentsOpen, setIsCommentsOpen] = useState(false)
   const currentEntity = getCurrentEntity({ entity, type })
   const { user: currentUser, isLoggedIn } = useUser()
   const { user, name: title, description } = currentEntity
@@ -67,7 +69,12 @@ const TopBar = ({
   }
 
   return (
-    <div className={cx(styles.wrapper, isFilterOpen && styles.open)}>
+    <div
+      className={cx(
+        styles.wrapper,
+        (isFilterOpen || isCommentsOpen) && styles.open
+      )}
+    >
       <div className={styles.info}>
         <Author
           avatarUrl={avatarUrl}
@@ -90,6 +97,15 @@ const TopBar = ({
           entity={entity}
           isLoggedIn={isLoggedIn}
           isCurrentUser={isAuthor}
+        />
+        <CommentActions
+          entity={entity}
+          isLoggedIn={isLoggedIn}
+          isCommentsOpen={isCommentsOpen}
+          setIsCommentsOpen={setIsCommentsOpen}
+          currentUser={currentUser}
+          closeFilter={closeFilter}
+          type={type}
         />
       </div>
       <div className={styles.actions}>
@@ -123,7 +139,10 @@ const TopBar = ({
             isAuthorLoading={isAuthorLoading}
             isLoggedIn={isLoggedIn}
             isDefaultScreener={isDefaultScreener}
-            setIsOpen={setIsFilterOpen}
+            setIsOpen={flag => {
+              setIsFilterOpen(flag)
+              setIsCommentsOpen(false)
+            }}
             isOpen={isFilterOpen}
             updateWatchlistFunction={updateWatchlistFunction}
             {...props}

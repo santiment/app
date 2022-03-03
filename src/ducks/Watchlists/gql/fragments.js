@@ -26,6 +26,12 @@ export const WATCHLIST_GENERAL_FRAGMENT = gql`
     updatedAt
     description
     isMonitored
+    votes {
+      userVotes: currentUserVotes
+      totalVotes
+    }
+    votedAt
+    commentsCount
     user {
       id
     }

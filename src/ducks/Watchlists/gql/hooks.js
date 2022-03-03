@@ -1,9 +1,10 @@
 import { useState, useEffect, useMemo } from 'react'
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery, useMutation } from '@apollo/react-hooks'
 import { client } from '../../../apollo'
 import { getRecentWatchlist } from './index'
 import {
   PROJECTS_WATCHLIST_QUERY,
+  WATCHLIST_VOTES_MUTATION,
   WATHLIST_ITEMS_QUERY
 } from '../../../queries/WatchlistGQL'
 import { stringifyFn } from '../../Screener/utils'
@@ -20,6 +21,22 @@ export function useWatchlist ({ id, skip }) {
   })
 
   return [data ? data.watchlist : undefined, loading, error]
+}
+
+export function useWatchlistVoteMutation ({ id }) {
+  const [vote, { data }] = useMutation(WATCHLIST_VOTES_MUTATION, {
+    refetchQueries: [
+      {
+        query: PROJECTS_WATCHLIST_QUERY,
+        variables: { id: +id }
+      }
+    ]
+  })
+
+  return {
+    vote,
+    data
+  }
 }
 
 export function useWatchlistItems (id) {
