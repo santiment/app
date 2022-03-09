@@ -29,7 +29,7 @@ const Refresh = ({ onRefreshClick, timestamp, isLoading }) => {
     const id = setInterval(onRefreshClick, INTERVAL * 3)
     setTimer(id)
     return () => clearInterval(id)
-  }, [autoRefresh])
+  }, [autoRefresh, onRefreshClick])
 
   return (
     <div className={styles.wrapper}>

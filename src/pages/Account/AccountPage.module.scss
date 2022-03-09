@@ -465,4 +465,9 @@
   cursor: pointer;
   width: 12px;
   height: 12px;
+
+  fill: var(--waterloo);
+  &:hover {
+    fill: var(--rhino);
+  }
 }

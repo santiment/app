@@ -8,17 +8,13 @@ import {
 import { Socket } from 'phoenix'
 import { useUserSessions } from '../pages/Account/SettingsSessions'
 import { useUser } from '../stores/user'
+import { API_HOST_NAME } from '../utils/utils'
 
 export const SocketContext = createContext({
   socket: null,
   showTabLimitModal: false,
   setShowTabLimitModal: null
 })
-
-// For local development it uses process.env.REACT_APP_BACKEND_URL
-export const HOST_NAME = process.env.REACT_APP_BACKEND_URL
-  ? new URL(process.env.REACT_APP_BACKEND_URL).hostname
-  : window.location.hostname
 
 export const SocketProvider = ({ children }) => {
   const { user } = useUser()
@@ -29,7 +25,7 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (!user || !session || !session.jti) return
-    const socket = new Socket(`wss://${HOST_NAME}/socket`, {
+    const socket = new Socket(`wss://${API_HOST_NAME}/socket`, {
       params: { jti: session.jti },
       heartbeatIntervalMs: 3000
     })

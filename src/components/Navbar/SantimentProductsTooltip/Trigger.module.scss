@@ -7,16 +7,16 @@
   border-radius: 4px;
   transition: background-color 0.1s ease-in-out;
   background-color: transparent;
+  cursor: pointer;
 
   & svg {
     transition: transform 0.2s ease-in-out;
+    fill: var(--waterloo);
   }
 
   :global(.dd__trigger.active) & {
-    background-color: var(--athens);
-
     & svg {
-      transform: rotate(90deg);
+      fill: var(--jungle-green);
     }
   }
 

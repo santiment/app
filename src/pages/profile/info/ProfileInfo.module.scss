@@ -302,8 +302,12 @@
   svg {
     width: 12px;
     height: 12px;
-    fill: var(--waterloo);
     margin-left: 6px;
+
+    fill: var(--waterloo);
+    &:hover {
+      fill: var(--rhino);
+    }
   }
 }
 
