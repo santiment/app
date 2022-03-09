@@ -29,12 +29,13 @@ const CommentActions = ({
   closeFilter,
   type
 }) => {
-  const { id, votes, commentsCount } = entity
+  const { id, votes, commentsCount: entityCommentsCount } = entity
   const [projectVotes, setProjectVotes] = useState({
     userVotes: 0,
     totalVotes: 0
   })
   const { vote } = useWatchlistVoteMutation({ id })
+  const [commentsCount, setCommentsCount] = useState(entityCommentsCount)
 
   useEffect(() => {
     setProjectVotes({
@@ -115,11 +116,15 @@ const CommentActions = ({
               ? CommentsType.Address
               : CommentsType.Watchlist
           }
-          commentsFor={entity}
+          commentsFor={{ ...entity, id: +id }}
           currentUser={currentUser}
           onAnonComment={onAnonComment}
           onCommentsLoaded={handleSavedWatchlistComment}
           onCommentError={onCommentError}
+          onNewComment={(_, comments) =>
+            commentsCount !== comments.length &&
+            setCommentsCount(comments.length)
+          }
         />
       </div>
       {isCommentsOpen && (
