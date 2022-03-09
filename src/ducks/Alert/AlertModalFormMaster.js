@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Formik } from 'formik'
 import { connect } from 'react-redux'
+import { useQuery } from 'react-apollo'
 import isEqual from 'lodash.isequal'
 import PageLoader from '../../components/Loader/PageLoader'
 import AlertTypeSelector from './components/AlertTypeSelector/AlertTypeSelector'
@@ -10,7 +11,8 @@ import AlertModalForm from './AlertModalForm'
 import { createTrigger, updateTrigger } from '../Signals/common/actions'
 import { useUser } from '../../stores/user'
 import { useSignal } from './hooks/useSignal'
-import { validateFormSteps } from './utils'
+import { getMetricSignalKey, validateFormSteps } from './utils'
+import { GET_METRIC_MIN_INTERVAL } from './hooks/queries'
 import styles from './AlertModalFormMaster.module.scss'
 
 const initialValues = {
@@ -63,6 +65,7 @@ const AlertModalFormMaster = ({
     id,
     skip: !id
   })
+  const { refetch } = useQuery(GET_METRIC_MIN_INTERVAL)
 
   const isSharedTrigger =
     data && data.trigger && +data.trigger.authorId !== +user.id
@@ -85,11 +88,14 @@ const AlertModalFormMaster = ({
     }
   }, [formPreviousValues, isModalOpen])
 
-  function submitFormValues ({ values, setSubmitting }) {
+  async function submitFormValues ({ values, setSubmitting }) {
     const triggerValues = {
       ...values,
       settings: { ...values.settings, type: selectedType.settings.type }
     }
+
+    const { data } = await refetch({ metric: triggerValues.settings.metric })
+    triggerValues.settings.type = getMetricSignalKey(data.metric.metadata.minInterval)
 
     if (id && !isSharedTrigger) {
       updateAlert({

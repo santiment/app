@@ -106,7 +106,8 @@ const PlanPaymentDialog = ({
   btnProps,
   updateSubscription,
   subscription,
-  Trigger = Button
+  Trigger = Button,
+  onOpen
 }) => {
   const [plans] = usePlans()
   const [loading, toggleLoading] = useFormLoading()
@@ -145,6 +146,7 @@ const PlanPaymentDialog = ({
   }
 
   function showPayment () {
+    if (onOpen) onOpen()
     trackEvent({
       category: 'User',
       action: 'Payment form opened'

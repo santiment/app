@@ -5,25 +5,34 @@ import { useQuery } from '@apollo/react-hooks'
 import ProfileInfo, { ShareProfile } from './info/ProfileInfo'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import PageLoader from '../../components/Loader/PageLoader'
+import ProfileActivities from './activities/ProfileActivities'
 import {
   PUBLIC_USER_DATA_QUERY,
+  PUBLIC_CURRENT_USER_DATA_QUERY,
   updateCurrentUserFollowQueryCache,
   useOldUserFollowersFollowing
 } from '../../queries/ProfileGQL'
 import { MobileOnly } from '../../components/Responsive'
 import { mapQSToState } from '../../utils/utils'
-import ProfileActivities from './activities/ProfileActivities'
 import { useUser } from '../../stores/user'
 import styles from './ProfilePage.module.scss'
 
-export const usePublicUserData = variables => {
-  const query = useQuery(PUBLIC_USER_DATA_QUERY, {
-    variables: { ...variables }
-  })
+export const usePublicUserData = (variables, currentUserId) => {
+  const isCurrentUser = variables.userId === currentUserId
+  const QUERY = isCurrentUser
+    ? PUBLIC_CURRENT_USER_DATA_QUERY
+    : PUBLIC_USER_DATA_QUERY
+  const QUERY_FIELD = isCurrentUser ? 'currentUser' : 'getUser'
+  const query = useQuery(
+    QUERY,
+    !isCurrentUser && {
+      variables: { ...variables }
+    }
+  )
 
   return useMemo(() => {
     const { data, loading, error } = query
-    return { data: data ? data.getUser : undefined, loading, error }
+    return { data: data ? data[QUERY_FIELD] : undefined, loading, error }
   }, [query])
 }
 
@@ -64,11 +73,14 @@ const ProfilePage = props => {
     return getQueryVariables(newProps)
   }, [props, currentUserId])
 
-  const { loading: isLoading, data: profile } = usePublicUserData(queryVars)
+  const { loading: isLoading, data: profile } = usePublicUserData(
+    queryVars,
+    currentUserId
+  )
 
-  const { data: followData, loading } = useOldUserFollowersFollowing(queryVars)
+  const { data: followData } = useOldUserFollowersFollowing(queryVars)
 
-  if (isUserLoading || isLoading || loading) {
+  if (isUserLoading || isLoading) {
     return <PageLoader />
   }
 
@@ -107,14 +119,14 @@ const ProfilePage = props => {
           />
         </div>
       </MobileOnly>
-
-      <ProfileInfo
-        profile={profile}
-        updateCache={updateCache}
-        followData={followData}
-      />
-
-      <ProfileActivities profile={profile} />
+      {followData && (
+        <ProfileInfo
+          profile={profile}
+          updateCache={updateCache}
+          followData={followData}
+        />
+      )}
+      <ProfileActivities profileId={profile.id} currentUserId={currentUserId} />
     </div>
   )
 }

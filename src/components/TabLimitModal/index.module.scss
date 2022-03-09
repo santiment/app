@@ -5,9 +5,9 @@
 }
 
 .dialog {
-    width: 600px;
-    height: 470px;
-    padding: 48px 90px;
+    width: 596px;
+    height: 530px;
+    padding: 64px 90px;
 }
 
 .title {
@@ -17,27 +17,30 @@
 .descTop {
     @include text('h4', 'l');
     color: var(--rhino);
-    margin-top: 24px;
-    margin-bottom: 4px;
+    margin-top: 32px;
+    margin-bottom: 8px;
+    text-align: center;
 }
 
 .descBottom {
     @include text('body-2');
     color: var(--fiord);
-    margin-bottom: 40px;
+    font-weight: 400;
+    margin-bottom: 32px;
+    text-align: center;
 }
 
 .buttons {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    height: 32px;
+    justify-content: center;
 
     button, a {
-        padding: 6px 20px;
+        height: 40px;
+        padding: 8px 16px;
     }
 
     a {
-        margin-left: 8px;
+        margin-left: 16px;
     }
 }

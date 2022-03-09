@@ -1,6 +1,6 @@
-import { parseIntervalString } from '../../utils/dates'
 import { getMetric } from '../Studio/Sidebar/utils'
 import { capitalizeStr } from '../../utils/utils'
+import { parseIntervalString } from '../../utils/dates'
 
 function formatFrequencyStr (cooldown) {
   const { amount: cooldownCount, format: cooldownPeriod } = parseIntervalString(
@@ -382,4 +382,29 @@ export function validateFormSteps ({
       }
     }
   }
+}
+function calcSeconds (amount, format) {
+  let factor
+  switch (format) {
+    case 'm':
+      factor = 60
+      break
+    case 'h':
+      factor = 60 * 60
+      break
+    case 'd':
+      factor = 60 * 60 * 24
+      break
+    default:
+      factor = 1
+  }
+  return +amount * factor
+}
+
+export function getMetricSignalKey (minInterval) {
+  const condition = parseIntervalString('5m')
+  const base = calcSeconds(condition.amount, condition.format)
+  const { amount, format } = parseIntervalString(minInterval)
+  const value = calcSeconds(amount, format)
+  return value <= base ? 'metric_signal' : 'daily_metric_signal'
 }
