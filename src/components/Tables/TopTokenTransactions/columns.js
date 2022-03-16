@@ -39,7 +39,8 @@ export const COLUMNS = [
   {
     Header: 'Value',
     accessor: 'trxValue',
-    Cell: ({ value }) => formatNumber(value)
+    Cell: ({ value }) => formatNumber(value),
+    sortType: 'floatNumeric'
   },
   {
     Header: 'From',
