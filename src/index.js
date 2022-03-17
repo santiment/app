@@ -6,6 +6,7 @@ import { StripeProvider } from 'react-stripe-elements'
 import throttle from 'lodash.throttle'
 import { ApolloProvider } from 'react-apollo'
 import Loadable from 'react-loadable'
+import { startResponsiveController } from 'webkit/responsive'
 import App from './App'
 import { client } from './apollo'
 import { store, history } from './redux'
@@ -19,8 +20,9 @@ import { ThemeProvider } from './stores/ui/theme'
 import initSentry from './utils/initSentry'
 import { redirectSharedLink } from './components/Share/utils'
 import { SocketProvider } from './utils/socketHooks'
-import 'webkit/responsive'
 import 'webkit/styles/main.css'
+
+startResponsiveController()
 
 const EmbeddedWidgetPage = Loadable({
   loader: () => import('./pages/Embedded'),
