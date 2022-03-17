@@ -1,7 +1,8 @@
 @import '~@santiment-network/ui/mixins';
 
 .wrapper {
-  height: 300px;
+  height: 332px;
+  width: 658px;
   overflow: hidden;
   display: flex;
   position: relative;
@@ -122,5 +123,18 @@
 
   &:hover {
     color: var(--jungle-green);
+  }
+}
+
+.containerClass {
+  flex-direction: row;
+  width: auto;
+}
+
+.boxClass {
+  width: 200px;
+
+  &:first-of-type {
+    margin-right: 24px;
   }
 }

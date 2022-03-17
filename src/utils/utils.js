@@ -22,6 +22,8 @@ const getAPIUrl = () => {
   ).replace('app', 'api')
 }
 
+const API_HOST_NAME = new URL(getAPIUrl()).hostname
+
 const getConsentUrl = () => {
   if (process.env.NODE_ENV === 'development') {
     return process.env.REACT_APP_BACKEND_URL || window.location.origin
@@ -113,6 +115,7 @@ const isStage =
 export {
   getOrigin,
   getAPIUrl,
+  API_HOST_NAME,
   getConsentUrl,
   capitalizeStr,
   mapQSToState,

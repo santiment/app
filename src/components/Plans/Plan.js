@@ -118,7 +118,8 @@ export const PlanBtn = ({
   billing,
   id,
   className,
-  showCreditMsg
+  showCreditMsg,
+  onOpen
 }) => {
   const { isLoggedIn } = useUser()
   const { isEligibleForSanbaseTrial } = useUserSubscriptionStatus()
@@ -152,6 +153,7 @@ export const PlanBtn = ({
           onDialogClose={onDialogClose}
           btnProps={btnProps}
           altPrice={altPrice}
+          onOpen={onOpen}
         />
       )}
     </div>
