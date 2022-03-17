@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { getSEOLinkFromIdAndTitle } from 'webkit/utils/url'
+import { markdownToPlainText } from 'webkit/ui/Editor/markdown'
 import { makeLinkToInsight } from '../../../../components/Insight/InsightCardInternals'
 import SignalCreator from '../../../../components/SignalCard/card/creator/SignalCreator'
 import TransactionTableLabels from '../../../../components/WalletLink/TransactionTableLabels'
@@ -105,7 +106,7 @@ const Conversation = ({ data, classname }) => {
 }
 
 const Content = ({ content }) => (
-  <div className={styles.content}>{makeReadable(content)}</div>
+  <div className={styles.content}>{makeReadable(markdownToPlainText(content))}</div>
 )
 
 export default Conversation
