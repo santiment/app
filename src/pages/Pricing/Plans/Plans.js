@@ -37,7 +37,6 @@ const Billing = ({ selected, onClick }) => {
         onClick={() => onClick('year')}
       >
         Yearly
-        <span className={styles.billing__save}>(2 months free)</span>
       </span>
     </>
   )
