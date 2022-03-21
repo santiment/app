@@ -109,3 +109,15 @@
 .suggestion:hover .remove {
   display: block;
 }
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--athens);
+  border: 1px solid var(--procelain);
+  box-sizing: border-box;
+  padding: 12px 16px;
+  color: var(--waterloo);
+}
