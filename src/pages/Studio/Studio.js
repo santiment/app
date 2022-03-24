@@ -105,7 +105,7 @@ const Studio = ({
         checkIsMapviewDisabled: () => isMapviewDisabledRef.current,
         adjustSelectedMetric: onMetricSelect,
         InsightsContextStore: InsightsStore,
-        headerPadding: SAN_HEADER_HEIGHT,
+        headerPadding: SAN_HEADER_HEIGHT + 65,
         screen: getScreen(),
         sidewidget: defaultSidewidget,
         widgets: defaultWidgets || [
