@@ -2,6 +2,7 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { compose } from 'redux'
 import { graphql } from 'react-apollo'
+import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import { SearchWithSuggestions } from '@santiment-network/ui/Search'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
@@ -124,7 +125,7 @@ const AssetSuggestion = ({
 
 const Header = () => {
   return (
-    <div className={styles.header}>
+    <div className={cx(styles.header, 'c-waterloo', 'row', 'justify', 'v-center')}>
       <div>Press enter to add one of few assets</div>
       <svg width="24" height="20" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="24" height="20" rx="4" fill="#9FAAC4"/>
