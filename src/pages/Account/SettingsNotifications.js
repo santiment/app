@@ -1,11 +1,6 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { compose } from 'recompose'
-import { graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
-import { NEWSLETTER_SUBSCRIPTION_MUTATION } from './gql'
 import Settings from './Settings'
-import * as actions from '../../actions/types'
 import SettingsTelegramNotifications from './SettingsTelegramNotifications'
 import SettingsEmailNotifications from './SettingsEmailNotifications'
 import SettingsSonarWebPushNotifications from './SettingsSonarWebPushNotifications'
@@ -98,17 +93,4 @@ const SettingsNotifications = () => {
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  changeDigestType: type =>
-    dispatch({
-      type: actions.USER_DIGEST_CHANGE,
-      payload: type
-    })
-})
-
-const enhance = compose(
-  connect(null, mapDispatchToProps),
-  graphql(NEWSLETTER_SUBSCRIPTION_MUTATION, { name: 'mutateDigestType' })
-)
-
-export default enhance(SettingsNotifications)
+export default SettingsNotifications
