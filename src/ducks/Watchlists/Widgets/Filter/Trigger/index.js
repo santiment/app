@@ -21,7 +21,7 @@ const Trigger = ({ activeMetricsCount, isOpen, onClick }) => {
             onClick={() => onClick(!isOpen)}
             border
           >
-            <Icon className={styles.icon} type='filter-filled' />
+            <Icon className={styles.icon} type='filter' />
             <span className={cx(styles.text, styles.text__active)}>Filter</span>
           </Button>
         }
@@ -40,7 +40,7 @@ const Trigger = ({ activeMetricsCount, isOpen, onClick }) => {
         border
         onClick={() => onClick(!isOpen)}
       >
-        <Icon className={styles.icon} type='filter-filled' />
+        <Icon className={styles.icon} type='filter' />
         <span className={cx(styles.text, styles.text__active)}>Filter</span>
       </Button>
     )
@@ -63,7 +63,7 @@ const Trigger = ({ activeMetricsCount, isOpen, onClick }) => {
           border
           onClick={() => onClick(!isOpen)}
         >
-          <Icon className={styles.icon} type='filter-filled' />
+          <Icon className={styles.icon} type='filter' />
           <span
             className={cx(
               styles.text,

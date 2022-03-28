@@ -43,6 +43,7 @@ const Widgets = ({ widgets, setWidgets }) => {
     <ContextMenu
       trigger={
         <Button
+          border={true}
           variant='flat'
           className={cx(
             styles.triggerButton,

@@ -24,11 +24,6 @@ const WatchlistAddress = ({ match, isPhone, isDesktop }) => {
       {!isPhone && (
         <>
           <TopBar entity={watchlist} type={BLOCKCHAIN_ADDRESS} />
-          <TopPanel
-            watchlist={watchlist}
-            className={styles.wrapper}
-            type={BLOCKCHAIN_ADDRESS}
-          />
         </>
       )}
       <WatchlistAddressesTable

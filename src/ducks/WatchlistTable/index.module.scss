@@ -1,7 +1,7 @@
 @import "~@santiment-network/ui/mixins.scss";
 
 :root {
-  --list-top-panel-height: 64px;
+  --list-top-panel-height: 80px;
   --addresses-list-table-top-height: 52px;
 }
 
@@ -21,7 +21,6 @@
   left: 0;
   height: var(--addresses-list-table-top-height);
   width: 100%;
-  margin-top: 18px;
 }
 
 .actions {

@@ -10,6 +10,7 @@ import LoginPopup from '../../../components/banners/feature/PopupBanner'
 import AlertModal from '../../Alert/AlertModal'
 import { SCREENER_DEFAULT_SIGNAL } from './utils'
 import { ALERT_TYPES } from '../../Alert/constants'
+import { PROJECT, SCREENER } from '../../Watchlists/detector'
 import { prepareAlertTitle } from '../link/OpenSignalLink'
 import styles from './ScreenerSignalDialog.module.scss'
 
@@ -48,7 +49,12 @@ const getWatchlistSignal = memoize(({ signals, watchlist: { id } }) => {
   })
 })
 
-const ScreenerSignalDialog = ({ trigger: ElTrigger, signal, watchlistId }) => {
+const ScreenerSignalDialog = ({
+  trigger: ElTrigger,
+  signal,
+  watchlistId,
+  type
+}) => {
   const { isLoggedIn } = useUser()
   const [stateSignal, setSignal] = useState(signal || SCREENER_DEFAULT_SIGNAL)
 
@@ -87,7 +93,7 @@ const ScreenerSignalDialog = ({ trigger: ElTrigger, signal, watchlistId }) => {
   }, [signals, watchlist])
 
   const isActive = !!stateSignal.id && !!stateSignal.isActive
-  const title = isActive ? 'Edit Alert' : 'Enable Alert'
+  const title = isActive ? 'Edit Alert' : 'Create Alert'
 
   if (signalsLoading) {
     return <Loader className={styles.loader} />
@@ -105,10 +111,24 @@ const ScreenerSignalDialog = ({ trigger: ElTrigger, signal, watchlistId }) => {
     )
   }
 
+  let defaultType
+
+  switch (type) {
+    case PROJECT:
+      defaultType = ALERT_TYPES[1]
+      break
+    case SCREENER:
+      defaultType = ALERT_TYPES[2]
+      break
+    default:
+      defaultType = ALERT_TYPES[1]
+      break
+  }
+
   return (
     <AlertModal
       prepareAlertTitle={prepareAlertTitle}
-      defaultType={ALERT_TYPES[2]}
+      defaultType={defaultType}
       signalData={stateSignal}
       trigger={
         ElTrigger || (
