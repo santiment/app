@@ -87,15 +87,12 @@
 .closeWrapper {
   z-index: 10;
   cursor: pointer;
-  display: flex;
-  align-items: center;
   height: 32px;
   width: 9px;
   position: absolute;
   top: 16px;
   left: -9px;
   background: var(--white);
-  border: 1px solid var(--porcelain);
   border-left: 0;
   border-radius: 0 3px 3px 0;
   transform: rotate(180deg);

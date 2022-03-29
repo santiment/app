@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
 import toReact from 'svelte-adapter/react'
 import Icon from '@santiment-network/ui/Icon'
-import CreationInfoComponent from 'webkit/ui/CreationInfo/svelte'
+import CreationInfoComponent from './CreationInfoWrapper.svelte'
 import CommentsComponent from 'webkit/ui/Comments/svelte'
 import { CreationType } from 'webkit/ui/Profile/types'
 import { CommentsType } from 'webkit/api/comments'
@@ -35,14 +35,12 @@ export const CreationInfo = toReact(
 )
 export const Comments = toReact(CommentsComponent, {}, 'div')
 
-function getCurrentEntity ({ entity, type }) {
+function getCurrentEntity ({ entity, type, currentUser }) {
   if (Object.keys(entity).length === 0) {
     switch (type) {
       case SCREENER: {
         return {
-          user: {
-            id: ''
-          },
+          user: currentUser,
           name: 'My Screener',
           description: '',
           votes: {}
@@ -68,8 +66,8 @@ const TopBar = ({
   ...props
 }) => {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false)
-  const currentEntity = getCurrentEntity({ entity, type })
   const { user: currentUser, isLoggedIn } = useUser()
+  const currentEntity = getCurrentEntity({ entity, type, currentUser })
   const {
     user,
     name: title,
@@ -79,13 +77,11 @@ const TopBar = ({
     votes,
     isPublic
   } = currentEntity
-  const { data } = usePublicUserData({ userId: user.id })
+  const { data = {} } = usePublicUserData({ userId: user.id })
   const { isAuthor, isAuthorLoading } = useIsAuthor(entity)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [updateWatchlist, { loading }] = useUpdateWatchlist(type)
   const [isEditFormOpened, setIsEditFormOpened] = useState(false)
-
-  const { username: userName, id: userId } = data || {}
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -122,7 +118,10 @@ const TopBar = ({
     updateWatchlist(entity, { ...props }).then(() => {
       setIsEditFormOpened(false)
       notifyUpdate(title)
-      refetchAssets && refetchAssets()
+
+      if (refetchAssets) {
+        refetchAssets()
+      }
     })
 
   return (
@@ -141,10 +140,7 @@ const TopBar = ({
               : CreationType.Watchlist
           }
           title={title}
-          user={{
-            id: +userId,
-            username: userName
-          }}
+          user={data}
           currentUser={currentUser}
           onEditClick={() => setIsEditFormOpened(prev => !prev)}
           comments={{
@@ -155,11 +151,9 @@ const TopBar = ({
               closeFilter()
             }
           }}
-          votes={{
-            totalVotes: votes.totalVotes,
-            userVotes: votes.userVotes
-          }}
+          votes={votes}
           onVote={onVote}
+          description={description}
         />
         <EditForm
           type={type}
@@ -181,7 +175,7 @@ const TopBar = ({
           )}
         >
           <div
-            className={styles.closeWrapper}
+            className={cx(styles.closeWrapper, 'row v-center border')}
             onClick={() => setIsCommentsOpen(false)}
           >
             <Icon type='sidebar' className={styles.closeIcon} />
@@ -192,14 +186,7 @@ const TopBar = ({
                 ? CommentsType.Address
                 : CommentsType.Watchlist
             }
-            commentsFor={{
-              ...entity,
-              id: +id,
-              user: {
-                ...user,
-                id: +user.id
-              }
-            }}
+            commentsFor={entity}
             currentUser={currentUser}
             onAnonComment={onAnonComment}
             onCommentsLoaded={handleSavedWatchlistComment}
