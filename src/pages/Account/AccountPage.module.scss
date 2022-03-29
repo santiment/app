@@ -330,17 +330,6 @@
   }
 }
 
-.digest {
-  width: 100%;
-  display: flex;
-  align-items: center;
-
-  @include responsive('phone', 'phone-xs') {
-    display: flex;
-    flex-direction: column;
-  }
-}
-
 .neuro {
   width: 100%;
   display: flex;
@@ -349,14 +338,6 @@
   @include responsive('phone', 'phone-xs') {
     display: flex;
     flex-direction: column;
-  }
-}
-
-.digestSelector {
-  margin-left: auto;
-
-  @include responsive('phone', 'phone-xs') {
-    margin: 10px 0 0 0;
   }
 }
 
