@@ -108,6 +108,7 @@ const WatchlistEdit = ({
               isAssetInList: hasAssetById({ listItems, id: project.id })
             })
           }
+          inputProps={{autoFocus: true}}
         />
         <div className={styles.contentWrapper}>
           <Label accent='waterloo' className={styles.heading}>

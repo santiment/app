@@ -5,15 +5,12 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import AddToWatchlist from '../../ducks/Watchlists/Actions/Add'
 import ChartSignalCreationDialog from '../../ducks/SANCharts/ChartSignalCreationDialog'
-import ProjectSelectDialog from '../../ducks/Studio/Compare/ProjectSelectDialog'
 import Grave from '../../components/Halloween/Grave'
 import { useUser } from '../../stores/user'
 import styles from './index.module.scss'
 
-const ProjectInfo = ({ studio, settings, onProjectSelect }) => {
-  const [target, setTarget] = useState()
+const ProjectInfo = ({ studio, settings, }) => {
   const [actionsNode, setActionsNode] = useState()
-  const [isOpened, setIsOpened] = useState(false)
   const { slug } = settings
   const { isLoggedIn } = useUser()
   const [knockNumber, setKnockNumber] = useState(0)
@@ -25,34 +22,12 @@ const ProjectInfo = ({ studio, settings, onProjectSelect }) => {
       setKnockNumber(0)
     }
 
-    const target = document.querySelector('.studio-top .project')
-    target.onclick = openDialog
-    setTarget(target)
     setActionsNode(document.querySelector('.project-actions'))
   }, [studio])
 
-  function openDialog () {
-    setIsOpened(true)
-  }
 
-  function closeDialog () {
-    setIsOpened(false)
-  }
-
-  function onSelect (project) {
-    onProjectSelect(project)
-    closeDialog()
-  }
-
-  return target ? (
+  return actionsNode ? (
     <>
-      <ProjectSelectDialog
-        open={isOpened}
-        activeSlug={slug}
-        onOpen={openDialog}
-        onClose={closeDialog}
-        onSelect={onSelect}
-      />
       {ReactDOM.createPortal(
         <>
           <Grave

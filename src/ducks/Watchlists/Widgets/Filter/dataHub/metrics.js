@@ -144,6 +144,15 @@ export const Metric = {
     serverValueFormatter: mvrvServerFormatter,
     isDeprecated: true
   },
+  mvrv_usd_7d: {
+    category: CATEGORIES.ON_CHAIN,
+    group: GROUPS.NETWORK_VALUE,
+    badge: '%',
+    valueFormatter: mvrvFormatter,
+    serverValueFormatter: mvrvServerFormatter,
+    label: 'MVRV 7d',
+    hints: HINTS.mvrv
+  },
   mvrv_usd_30d: {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.NETWORK_VALUE,
@@ -626,6 +635,7 @@ export const metrics = [
   Metric.exchange_outflow_usd,
   Metric.exchange_balance,
   Metric.mvrv_usd,
+  Metric.mvrv_usd_7d,
   Metric.mvrv_usd_30d,
   Metric.mvrv_usd_180d,
   Metric.mvrv_usd_365d,
