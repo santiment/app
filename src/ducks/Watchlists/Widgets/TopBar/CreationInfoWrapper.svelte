@@ -26,8 +26,8 @@
   {onVote}
 >
   <svelte:fragment slot="info">
-    <div class="row title">
-      <Svg id="description" w="16" />
+    <div class="row mrg-s mrg--b">
+      <Svg id="description" w="16" class="mrg-m mrg--r" />
       <div class="c-waterloo body-3 txt-m">
         Description
       </div>
@@ -39,11 +39,6 @@
 </CreationInfo>
 
 <style lang="scss">
-  .title {
-    gap: 12px;
-    margin-bottom: 8px;
-  }
-
   .description {
     padding-left: 28px;
   }
