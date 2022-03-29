@@ -175,7 +175,7 @@ const TopBar = ({
           )}
         >
           <div
-            className={cx(styles.closeWrapper, 'row v-center border')}
+            className={cx(styles.closeWrapper, 'btn row v-center border')}
             onClick={() => setIsCommentsOpen(false)}
           >
             <Icon type='sidebar' className={styles.closeIcon} />

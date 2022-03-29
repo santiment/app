@@ -85,6 +85,13 @@
 }
 
 .closeWrapper {
+  --bg: var(--white);
+  --bg-hover: var(--white);
+  --fill: var(--waterloo);
+  --color: var(--waterloo);
+  --fill-hover: var(--jungle-green);
+  --color-hover: var(--jungle-green);
+
   z-index: 10;
   cursor: pointer;
   height: 32px;
@@ -92,15 +99,9 @@
   position: absolute;
   top: 16px;
   left: -9px;
-  background: var(--white);
   border-left: 0;
   border-radius: 0 3px 3px 0;
   transform: rotate(180deg);
-  color: var(--waterloo);
-
-  &:hover {
-    color: var(--jungle-green);
-  }
 }
 
 .closeIcon {
