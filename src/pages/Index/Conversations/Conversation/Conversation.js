@@ -106,7 +106,9 @@ const Conversation = ({ data, classname }) => {
 }
 
 const Content = ({ content }) => (
-  <div className={styles.content}>{makeReadable(markdownToPlainText(content))}</div>
+  <div className={styles.content}>
+    {makeReadable(markdownToPlainText(content))}
+  </div>
 )
 
 export default Conversation
