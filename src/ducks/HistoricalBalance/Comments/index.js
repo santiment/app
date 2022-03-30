@@ -24,7 +24,7 @@ const Comments = ({ settings }) => {
           type={CommentsType.Address}
           commentsFor={commentsFor}
           currentUser={user}
-          onAnonComment={onAnonComment }
+          onAnonComment={onAnonComment}
         />
       )}
     </div>
