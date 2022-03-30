@@ -86,11 +86,8 @@
 
 .closeWrapper {
   --bg: var(--white);
-  --bg-hover: var(--white);
   --fill: var(--waterloo);
-  --color: var(--waterloo);
-  --fill-hover: var(--jungle-green);
-  --color-hover: var(--jungle-green);
+  --fill-hover: var(--green);
 
   z-index: 10;
   cursor: pointer;
@@ -107,5 +104,4 @@
 .closeIcon {
   position: absolute;
   left: -13px;
-  fill: currentColor;
 }
