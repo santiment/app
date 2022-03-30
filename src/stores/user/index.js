@@ -19,8 +19,11 @@ export const USER_QUERY = gql`
       marketingAccepted
       privacyPolicyAccepted
       following {
+        count
         users {
           id
+          avatarUrl
+          username
         }
       }
     }

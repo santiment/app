@@ -45,6 +45,14 @@ export function onAnonComment () {
   return store.dispatch(push('/login'))
 }
 
+export function onCommentError () {
+  store.dispatch(
+    showNotification({
+      title: "Couldn't post the comment. Please, contact our support"
+    })
+  )
+}
+
 export function handleSavedComment (settings) {
   window.onCommentsLoaded = () => {
     delete window.onCommentsLoaded

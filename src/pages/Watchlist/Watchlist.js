@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import Infographics from './Infographics'
 import { PROJECT } from '../../ducks/Watchlists/detector'
 import { useScreenerUrl } from '../../ducks/Watchlists/utils'
-import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
 import AssetsTable from '../../ducks/Watchlists/Widgets/Table'
 import { useRecent } from '../../ducks/Watchlists/gql/list/hooks'
 import { useColumns } from '../../ducks/Watchlists/Widgets/Table/hooks'
@@ -12,6 +11,7 @@ import {
 } from '../../ducks/Watchlists/gql/hooks'
 import { buildFunctionQuery } from '../../ducks/Watchlists/Widgets/Filter/utils'
 import AssetsTemplates from '../../ducks/Watchlists/Widgets/Table/AssetsTemplates'
+import TopBar from '../../ducks/Watchlists/Widgets/TopBar/TopBar'
 
 const WatchlistPage = ({ location, history, watchlist, isDesktop }) => {
   const fn = useMemo(
@@ -104,12 +104,12 @@ const WatchlistPage = ({ location, history, watchlist, isDesktop }) => {
 
   return (
     <>
-      <TopPanel
+      <TopBar
+        entity={watchlist}
         type={PROJECT}
+        refetchAssets={refetchAssets}
         widgets={widgets}
         setWidgets={setWidgets}
-        watchlist={watchlist}
-        refetchAssets={refetchAssets}
       />
       <Infographics
         type='Watchlist'

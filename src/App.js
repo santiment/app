@@ -32,7 +32,6 @@ import { SHARE_PATH } from './components/Share/utils'
 import LogoutPage from './pages/Logout/Logout'
 import { mapSizesToProps } from './utils/withSizes'
 import CreateAccountFreeTrial from './pages/Login/CreateAccountFreeTrial'
-import { withSavedCommentLookup } from './withSavedCommentLookup'
 import Intercom from './components/Intercom/index.js'
 import LiveWidget from './components/LiveWidget'
 import TrialPromptDialog from './components/TrialPromptDialog'
@@ -622,7 +621,6 @@ const mapStateToProps = ({ user, rootUi }, { location: { pathname } }) => ({
 })
 
 const enhance = compose(
-  withSavedCommentLookup,
   connect(mapStateToProps),
   withSizes(mapSizesToProps),
   withTracker,

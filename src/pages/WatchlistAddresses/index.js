@@ -6,9 +6,8 @@ import { getIdFromSEOLink } from '../../utils/url'
 import WatchlistAddressesTable from '../../ducks/WatchlistAddressesTable'
 import PageLoader from '../../components/Loader/PageLoader'
 import { mapSizesToProps } from '../../utils/withSizes'
-import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
+import TopBar from '../../ducks/Watchlists/Widgets/TopBar/TopBar'
 import { BLOCKCHAIN_ADDRESS } from '../../ducks/Watchlists/detector'
-import styles from './index.module.scss'
 
 const WatchlistAddress = ({ match, isPhone, isDesktop }) => {
   const { watchlist, isLoading } = useAddressWatchlist(
@@ -21,11 +20,9 @@ const WatchlistAddress = ({ match, isPhone, isDesktop }) => {
   return (
     <>
       {!isPhone && (
-        <TopPanel
-          watchlist={watchlist}
-          className={styles.wrapper}
-          type={BLOCKCHAIN_ADDRESS}
-        />
+        <>
+          <TopBar entity={watchlist} type={BLOCKCHAIN_ADDRESS} />
+        </>
       )}
       <WatchlistAddressesTable
         watchlist={watchlist}

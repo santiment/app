@@ -1,6 +1,7 @@
 @import '~@santiment-network/ui/mixins';
 
 .trigger {
+  padding: 0;
   margin: 0;
   background: inherit;
   fill: var(--waterloo);

@@ -95,7 +95,9 @@ const AlertModalFormMaster = ({
     }
 
     const { data } = await refetch({ metric: triggerValues.settings.metric })
-    triggerValues.settings.type = getMetricSignalKey(data.metric.metadata.minInterval)
+    triggerValues.settings.type = getMetricSignalKey(
+      data.metric.metadata.minInterval
+    )
 
     if (id && !isSharedTrigger) {
       updateAlert({

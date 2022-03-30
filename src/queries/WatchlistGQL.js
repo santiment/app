@@ -34,6 +34,18 @@ export const WATHLIST_ITEMS_QUERY = gql`
   }
 `
 
+export const WATCHLIST_VOTES_MUTATION = gql`
+  mutation vote($id: Int!) {
+    vote(watchlistId: $id) {
+      votes {
+        userVotes: currentUserVotes
+        totalVotes
+      }
+      votedAt
+    }
+  }
+`
+
 export const WATCHLIST_WITH_TRENDS_QUERY = gql`
   query watchlist($id: ID!) {
     watchlist(id: $id) {
