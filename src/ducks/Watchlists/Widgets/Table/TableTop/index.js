@@ -86,6 +86,7 @@ const TableTop = ({
           type={type}
           watchlist={watchlist}
           downloadData={fetchAllColumns}
+          activeColumns={activeColumns}
         />
       </div>
     </div>
