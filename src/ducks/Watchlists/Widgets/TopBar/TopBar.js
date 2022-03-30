@@ -1,10 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
-import Author from './Author/Author'
-import Title from './Title/Title'
+import toReact from 'svelte-adapter/react'
+import Icon from '@santiment-network/ui/Icon'
+import CreationInfoComponent from './CreationInfoWrapper.svelte'
+import CommentsComponent from 'webkit/ui/Comments/svelte'
+import { CreationType } from 'webkit/ui/Profile/types'
+import { CommentsType } from 'webkit/api/comments'
+import { lookupSavedComment, clearSavedComment } from 'webkit/ui/Comments/utils'
+import { track } from 'webkit/analytics'
 import BaseActions from '../TopPanel/BaseActions'
+import EditForm from '../../Actions/Edit/EditForm'
 import Widgets from '../TopPanel/Widgets'
-import CommentActions from './CommentActions/CommentActions'
 import ScreenerSignalDialog from '../../../Signals/ScreenerSignal/ScreenerSignalDialog'
 import Share from '../../Actions/Share'
 import WeeklyReport from '../../Actions/WeeklyReport'
@@ -13,18 +19,30 @@ import { usePublicUserData } from '../../../../pages/profile/ProfilePage'
 import { useUser } from '../../../../stores/user'
 import { BLOCKCHAIN_ADDRESS, PROJECT, SCREENER } from '../../detector'
 import { useIsAuthor } from '../../gql/list/hooks'
+import { onAnonComment, onCommentError } from '../../../../pages/Studio/utils'
+import { useUpdateWatchlist } from '../../gql/list/mutations'
+import { notifyUpdate } from './notifications'
 import styles from './TopBar.module.scss'
 
-function getCurrentEntity ({ entity, type }) {
+export const CreationInfo = toReact(
+  CreationInfoComponent,
+  {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  'div'
+)
+export const Comments = toReact(CommentsComponent, {}, 'div')
+
+function getCurrentEntity ({ entity, type, currentUser }) {
   if (Object.keys(entity).length === 0) {
     switch (type) {
       case SCREENER: {
         return {
-          user: {
-            id: ''
-          },
+          user: currentUser,
           name: 'My Screener',
-          description: ''
+          description: '',
+          votes: {}
         }
       }
       default:
@@ -47,26 +65,63 @@ const TopBar = ({
   ...props
 }) => {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false)
-  const currentEntity = getCurrentEntity({ entity, type })
   const { user: currentUser, isLoggedIn } = useUser()
-  const { user, name: title, description } = currentEntity
-  const { data } = usePublicUserData({ userId: user.id })
+  const currentEntity = getCurrentEntity({ entity, type, currentUser })
+  const {
+    user,
+    name: title,
+    id,
+    description,
+    commentsCount,
+    votes,
+    isPublic
+  } = currentEntity
+  const { data = {} } = usePublicUserData({ userId: user.id })
   const { isAuthor, isAuthorLoading } = useIsAuthor(entity)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
+  const [updateWatchlist, { loading }] = useUpdateWatchlist(type)
+  const [isEditFormOpened, setIsEditFormOpened] = useState(false)
 
-  const {
-    avatarUrl,
-    username: userName,
-    name: fullName,
-    watchlists,
-    addressesWatchlists
-  } = data || {}
+  useEffect(() => {
+    if (isLoggedIn) {
+      const comment = lookupSavedComment()
+
+      if (comment) {
+        setIsCommentsOpen(true)
+      }
+    }
+  }, [id])
+
+  function onVote () {
+    track.event('watchlist_like', { id })
+  }
 
   function closeFilter () {
     if (isFilterOpen) {
       setIsFilterOpen(false)
     }
   }
+
+  function handleSavedWatchlistComment () {
+    const node = document.querySelector(`textarea[name="comment"]`)
+    if (node) {
+      const comment = lookupSavedComment()
+      if (comment) {
+        node.value = comment.content
+        clearSavedComment()
+      }
+    }
+  }
+
+  const onEditApprove = props =>
+    updateWatchlist(entity, { ...props }).then(() => {
+      setIsEditFormOpened(false)
+      notifyUpdate(title)
+
+      if (refetchAssets) {
+        refetchAssets()
+      }
+    })
 
   return (
     <div
@@ -76,37 +131,73 @@ const TopBar = ({
       )}
     >
       <div className={styles.info}>
-        <Author
-          avatarUrl={avatarUrl}
-          userName={userName}
-          fullName={fullName}
-          isLoggedIn={isLoggedIn}
-          isCurrentUser={isAuthor}
-          userId={user.id}
-          currentUserId={currentUser && currentUser.id}
-          watchlists={watchlists}
-          addressesWatchlists={addressesWatchlists}
-          type={type}
-        />
-        <div className={styles.leftDivider} />
-        <Title
+        <CreationInfo
+          id={id}
+          type={
+            type === BLOCKCHAIN_ADDRESS
+              ? CreationType.AddressWatchlist
+              : CreationType.Watchlist
+          }
           title={title}
-          description={description}
-          type={type}
-          refetchAssets={refetchAssets}
-          entity={entity}
-          isLoggedIn={isLoggedIn}
-          isCurrentUser={isAuthor}
-        />
-        <CommentActions
-          entity={entity}
-          isLoggedIn={isLoggedIn}
-          isCommentsOpen={isCommentsOpen}
-          setIsCommentsOpen={setIsCommentsOpen}
+          user={data}
           currentUser={currentUser}
-          closeFilter={closeFilter}
-          type={type}
+          onEditClick={() => setIsEditFormOpened(prev => !prev)}
+          comments={{
+            count: commentsCount,
+            active: isCommentsOpen,
+            onClick: () => {
+              setIsCommentsOpen(prev => !prev)
+              closeFilter()
+            }
+          }}
+          votes={votes}
+          onVote={onVote}
+          description={description}
         />
+        <EditForm
+          type={type}
+          open={isEditFormOpened}
+          id={entity.id}
+          watchlist={entity}
+          isLoading={loading}
+          toggleOpen={setIsEditFormOpened}
+          title={'Edit ' + title}
+          settings={{ name: title, description, isPublic }}
+          onFormSubmit={payload =>
+            onEditApprove(payload).then(() => setIsEditFormOpened(false))
+          }
+        />
+        <div
+          className={cx(
+            styles.commentsWrapper,
+            isCommentsOpen && styles.active
+          )}
+        >
+          <div
+            className={cx(styles.closeWrapper, 'btn row v-center border')}
+            onClick={() => setIsCommentsOpen(false)}
+          >
+            <Icon type='sidebar' className={styles.closeIcon} />
+          </div>
+          <Comments
+            type={
+              type === BLOCKCHAIN_ADDRESS
+                ? CommentsType.Address
+                : CommentsType.Watchlist
+            }
+            commentsFor={entity}
+            currentUser={currentUser}
+            onAnonComment={onAnonComment}
+            onCommentsLoaded={handleSavedWatchlistComment}
+            onCommentError={onCommentError}
+          />
+        </div>
+        {isCommentsOpen && (
+          <div
+            className={styles.background}
+            onClick={() => setIsCommentsOpen(false)}
+          />
+        )}
       </div>
       <div className={styles.actions}>
         <BaseActions
