@@ -18,6 +18,11 @@ export const USER_QUERY = gql`
       stripeCustomerId
       marketingAccepted
       privacyPolicyAccepted
+      following {
+        users {
+          id
+        }
+      }
     }
   }
 `
