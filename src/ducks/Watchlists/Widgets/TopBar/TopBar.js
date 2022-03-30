@@ -8,7 +8,6 @@ import { CreationType } from 'webkit/ui/Profile/types'
 import { CommentsType } from 'webkit/api/comments'
 import { lookupSavedComment, clearSavedComment } from 'webkit/ui/Comments/utils'
 import { track } from 'webkit/analytics'
-import { Event } from 'studio/analytics'
 import BaseActions from '../TopPanel/BaseActions'
 import EditForm from '../../Actions/Edit/EditForm'
 import Widgets from '../TopPanel/Widgets'
@@ -94,7 +93,7 @@ const TopBar = ({
   }, [id])
 
   function onVote () {
-    track.event(Event.LikeWatchlist || 'LikeWatchlist', { id })
+    track.event('watchlist_like', { id })
   }
 
   function closeFilter () {
