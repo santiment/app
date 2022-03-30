@@ -9,7 +9,7 @@ import Grave from '../../components/Halloween/Grave'
 import { useUser } from '../../stores/user'
 import styles from './index.module.scss'
 
-const ProjectInfo = ({ studio, settings, }) => {
+const ProjectInfo = ({ studio, settings }) => {
   const [actionsNode, setActionsNode] = useState()
   const { slug } = settings
   const { isLoggedIn } = useUser()
@@ -24,7 +24,6 @@ const ProjectInfo = ({ studio, settings, }) => {
 
     setActionsNode(document.querySelector('.project-actions'))
   }, [studio])
-
 
   return actionsNode ? (
     <>
