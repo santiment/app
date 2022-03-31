@@ -34,25 +34,6 @@ export const CreationInfo = toReact(
 )
 export const Comments = toReact(CommentsComponent, {}, 'div')
 
-function getCurrentEntity ({ entity, type, currentUser }) {
-  if (Object.keys(entity).length === 0) {
-    switch (type) {
-      case SCREENER: {
-        return {
-          user: currentUser,
-          name: 'My Screener',
-          description: '',
-          votes: {}
-        }
-      }
-      default:
-        return entity
-    }
-  }
-
-  return entity
-}
-
 const TopBar = ({
   entity,
   type,
@@ -66,7 +47,6 @@ const TopBar = ({
 }) => {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false)
   const { user: currentUser, isLoggedIn } = useUser()
-  const currentEntity = getCurrentEntity({ entity, type, currentUser })
   const {
     user,
     name: title,
@@ -75,7 +55,7 @@ const TopBar = ({
     commentsCount,
     votes,
     isPublic
-  } = currentEntity
+  } = entity
   const { data = {} } = usePublicUserData({ userId: isLoggedIn && user.id })
   const { isAuthor, isAuthorLoading } = useIsAuthor(entity)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
@@ -162,31 +142,36 @@ const TopBar = ({
             onEditApprove(payload).then(() => setIsEditFormOpened(false))
           }
         />
-        <div
-          className={cx(
-            styles.commentsWrapper,
-            isCommentsOpen && styles.active
-          )}
-        >
+        {!isLoggedIn && type === SCREENER ? null : (
           <div
-            className={cx(styles.closeWrapper, 'btn row v-center border')}
-            onClick={() => setIsCommentsOpen(false)}
+            className={cx(
+              styles.commentsWrapper,
+              isCommentsOpen && styles.active
+            )}
           >
-            <Icon type='sidebar' className={styles.closeIcon} />
+            <div
+              className={cx(styles.closeWrapper, 'btn row v-center border')}
+              onClick={() => setIsCommentsOpen(false)}
+            >
+              <Icon type='sidebar' className={styles.closeIcon} />
+            </div>
+            <Comments
+              type={
+                type === BLOCKCHAIN_ADDRESS
+                  ? CommentsType.Address
+                  : CommentsType.Watchlist
+              }
+              commentsFor={{
+                ...entity,
+                id: +entity.id
+              }}
+              currentUser={currentUser}
+              onAnonComment={onAnonComment}
+              onCommentsLoaded={handleSavedWatchlistComment}
+              onCommentError={onCommentError}
+            />
           </div>
-          <Comments
-            type={
-              type === BLOCKCHAIN_ADDRESS
-                ? CommentsType.Address
-                : CommentsType.Watchlist
-            }
-            commentsFor={entity}
-            currentUser={currentUser}
-            onAnonComment={onAnonComment}
-            onCommentsLoaded={handleSavedWatchlistComment}
-            onCommentError={onCommentError}
-          />
-        </div>
+        )}
         {isCommentsOpen && (
           <div
             className={styles.background}

@@ -28,7 +28,8 @@ const CustomizedTreeMapContent = props => {
   const showTicker = tickerLength + 8 < width
 
   const valueLength = getWordLength(fontSize, value)
-  const showChange = showTicker && valueLength + 2 < width && fontSize * 2 + 5 < height
+  const showChange =
+    showTicker && valueLength + 2 < width && fontSize * 2 + 5 < height
 
   return (
     <g>
