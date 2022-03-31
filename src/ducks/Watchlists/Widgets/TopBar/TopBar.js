@@ -76,7 +76,7 @@ const TopBar = ({
     votes,
     isPublic
   } = currentEntity
-  const { data = {} } = usePublicUserData({ userId: user.id })
+  const { data = {} } = usePublicUserData({ userId: isLoggedIn && user.id })
   const { isAuthor, isAuthorLoading } = useIsAuthor(entity)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [updateWatchlist, { loading }] = useUpdateWatchlist(type)
