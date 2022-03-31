@@ -50,7 +50,7 @@ const Actions = ({
       )
   }, [])
 
-  if (isAuthorLoading) {
+  if (!watchlist.id || isAuthorLoading) {
     return null
   }
 
