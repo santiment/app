@@ -87,7 +87,7 @@ const main = () => {
 
   window.addEventListener('resize', throttle(calculateHeight, 200))
 
-  window.addEventListener( ANON_EVENT , () => {
+  window.addEventListener(ANON_EVENT, () => {
     history.push('/login')
   })
 
