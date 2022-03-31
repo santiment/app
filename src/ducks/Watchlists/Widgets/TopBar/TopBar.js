@@ -124,12 +124,7 @@ const TopBar = ({
     })
 
   return (
-    <div
-      className={cx(
-        styles.wrapper,
-        (isFilterOpen || isCommentsOpen) && styles.open
-      )}
-    >
+    <div className={styles.wrapper}>
       <div className={styles.info}>
         <CreationInfo
           id={id}
@@ -236,6 +231,10 @@ const TopBar = ({
             }}
             isOpen={isFilterOpen}
             updateWatchlistFunction={updateWatchlistFunction}
+            closeClasses={{
+              wrapper: styles.closeWrapper,
+              icon: styles.closeIcon
+            }}
             {...props}
           />
         )}

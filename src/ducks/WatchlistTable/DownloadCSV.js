@@ -20,9 +20,9 @@ export const DownloadCSVButton = () => (
   </ExplanationTooltip>
 )
 
-function renameFields(assets, activeColumns) {
+function renameFields (assets, activeColumns) {
   const labels = {}
-  activeColumns.forEach(column => labels[column.key] = column.label)
+  activeColumns.forEach(column => (labels[column.key] = column.label))
   assets.forEach((asset, index) => {
     const keys = Object.keys(asset)
     keys.forEach(key => {

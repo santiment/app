@@ -1,5 +1,5 @@
-@import '~@santiment-network/ui/mixins';
-@import '../../../../animations.scss';
+@import "~@santiment-network/ui/mixins";
+@import "../../../../animations.scss";
 
 :root {
   --filter-panel-header-height: 267px;
@@ -13,7 +13,7 @@
   width: 480px;
   z-index: 10;
   position: fixed;
-  top: var(--screener-top-panel-height);
+  top: 0;
   bottom: 0;
   right: 0;
   transition: transform 0.3s ease-out;
@@ -27,7 +27,7 @@
   z-index: 9;
   background-color: $rhino;
   opacity: 0.6;
-  top: var(--screener-top-panel-height);
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
@@ -54,21 +54,9 @@
 }
 
 .content {
-  height: calc(100vh - var(--screener-top-panel-height) - var(--filter-panel-header-height)) !important;
+  height: calc(100vh - var(--filter-panel-header-height)) !important;
 
   @include overlay-scroll;
-}
-
-.closeIcon {
-  margin-left: auto;
-  padding: 5px;
-  box-sizing: content-box;
-  fill: var(--waterloo);
-  cursor: pointer;
-
-  &:hover {
-    fill: var(--rhino);
-  }
 }
 
 .row {
@@ -101,13 +89,13 @@
 }
 
 .count__assets {
-  @include text('body-2');
+  @include text("body-2");
 
   margin-right: 12px;
 }
 
 .count__filters {
-  @include text('body-3');
+  @include text("body-3");
 
   line-height: 22px;
   color: var(--waterloo);

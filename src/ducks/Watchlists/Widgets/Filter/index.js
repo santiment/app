@@ -36,7 +36,8 @@ const Filter = ({
   appVersionState,
   isOpen,
   setIsOpen,
-  updateWatchlistFunction
+  updateWatchlistFunction,
+  closeClasses
 }) => {
   if (!screenerFunction) {
     return null
@@ -202,6 +203,12 @@ const Filter = ({
         activeMetricsCount={activeBaseMetrics.length}
       />
       <section className={cx(styles.wrapper, isOpen && styles.active)}>
+        <div
+          className={cx(closeClasses.wrapper, 'btn row v-center border')}
+          onClick={() => setIsOpen(false)}
+        >
+          <Icon type='sidebar' className={closeClasses.icon} />
+        </div>
         <div className={styles.inner}>
           <div className={styles.top}>
             <div className={styles.row}>
@@ -216,11 +223,6 @@ const Filter = ({
                 } activated`}</span>
               )}
               {loading && <Loader className={styles.loader} />}
-              <Icon
-                type='close-medium'
-                className={styles.closeIcon}
-                onClick={() => setIsOpen(false)}
-              />
             </div>
             {!isViewMode && isOpen && (
               <Search
