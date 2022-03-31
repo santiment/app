@@ -162,6 +162,24 @@ export const Metric = {
     label: 'MVRV 30d',
     hints: HINTS.mvrv
   },
+  mvrv_usd_60d: {
+    category: CATEGORIES.ON_CHAIN,
+    group: GROUPS.NETWORK_VALUE,
+    badge: '%',
+    valueFormatter: mvrvFormatter,
+    serverValueFormatter: mvrvServerFormatter,
+    label: 'MVRV 60d',
+    hints: HINTS.mvrv
+  },
+  mvrv_usd_90d: {
+    category: CATEGORIES.ON_CHAIN,
+    group: GROUPS.NETWORK_VALUE,
+    badge: '%',
+    valueFormatter: mvrvFormatter,
+    serverValueFormatter: mvrvServerFormatter,
+    label: 'MVRV 90d',
+    hints: HINTS.mvrv
+  },
   mvrv_usd_180d: {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.NETWORK_VALUE,
@@ -637,6 +655,8 @@ export const metrics = [
   Metric.mvrv_usd,
   Metric.mvrv_usd_7d,
   Metric.mvrv_usd_30d,
+  Metric.mvrv_usd_60d,
+  Metric.mvrv_usd_90d,
   Metric.mvrv_usd_180d,
   Metric.mvrv_usd_365d,
   Metric.dormant_circulation_365d,
