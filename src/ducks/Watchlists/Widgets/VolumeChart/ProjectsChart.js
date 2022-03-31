@@ -39,15 +39,21 @@ const renderCustomizedLabel = props => {
   const fontSize = width < 20 ? 7 : 14
   const position = +value >= 0 ? -1 * (fontSize / 2) : fontSize
 
+  const xValue = x + width / 2
+  const yValue = y + position
+  const translateY = +value >= 0 ? -10 : 8
+
   return (
-    <g>
+    <g style={{transform: `translateY(${translateY}px)`}}>
       <text
-        x={x + width / 2}
-        y={y + position}
+        x={xValue}
+        y={yValue}
         fill={fill}
         textAnchor='middle'
         fontSize={fontSize}
         fontWeight={500}
+        dominant-baseline="central"
+        transform={`rotate(270, ${xValue}, ${yValue})`}
       >
         {value && getBarValue(+value)}
       </text>
