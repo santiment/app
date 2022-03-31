@@ -7,6 +7,7 @@ import throttle from 'lodash.throttle'
 import { ApolloProvider } from 'react-apollo'
 import Loadable from 'react-loadable'
 import { startResponsiveController } from 'webkit/responsive'
+import { ANON_EVENT } from 'webkit/ui/FollowButton/flow'
 import App from './App'
 import { client } from './apollo'
 import { store, history } from './redux'
@@ -85,6 +86,10 @@ const main = () => {
   calculateHeight()
 
   window.addEventListener('resize', throttle(calculateHeight, 200))
+
+  window.addEventListener( ANON_EVENT , () => {
+    history.push('/login')
+  })
 
   initSentry()
 
