@@ -29,7 +29,7 @@ const CustomizedTreeMapContent = props => {
 
   const valueLength = getWordLength(fontSize, value)
   const showChange =
-    showTicker && valueLength + 2 < width && fontSize * 2 + 5 < height
+    showTicker && valueLength + 6 < width && fontSize * 2 + 5 < height
 
   return (
     <g>
@@ -47,7 +47,7 @@ const CustomizedTreeMapContent = props => {
       {showTicker && (
         <text
           x={x + width / 2}
-          y={y + height / 2 - (showChange ? 2 : -2)}
+          y={y + height / 2 - (showChange ? 2 : -4)}
           textAnchor='middle'
           fill='var(--rhino)'
           fontSize={fontSize}
