@@ -8,7 +8,7 @@ import { useSignals } from '../common/getSignals'
 import { useUser } from '../../../stores/user'
 import LoginPopup from '../../../components/banners/feature/PopupBanner'
 import AlertModal from '../../Alert/AlertModal'
-import { SCREENER_DEFAULT_SIGNAL } from './utils'
+import { SCREENER_DEFAULT_SIGNAL, WATCHLIST_DEFAULT_SIGNAL } from './utils'
 import { ALERT_TYPES } from '../../Alert/constants'
 import { PROJECT, SCREENER } from '../../Watchlists/detector'
 import { prepareAlertTitle } from '../link/OpenSignalLink'
@@ -35,19 +35,27 @@ export const EditSignalIcon = ({ className }) => (
   </svg>
 )
 
-const getWachlistIdFromSignal = memoize((signal = {}) => {
+const getWachlistIdFromSignal = memoize((signal = {}, isProject) => {
+  if (isProject) {
+    const { settings: { target: { watchlist_id } = {} } = {} } = signal
+
+    return watchlist_id
+  }
+
   const {
     settings: { operation: { selector: { watchlist_id } = {} } = {} } = {}
   } = signal
   return watchlist_id
 })
 
-const getWatchlistSignal = memoize(({ signals, watchlist: { id } }) => {
-  return signals.find(signal => {
-    const wId = getWachlistIdFromSignal(signal)
-    return wId && +wId === +id
-  })
-})
+const getWatchlistSignal = memoize(
+  ({ signals, watchlist: { id }, isProject }) => {
+    return signals.find(signal => {
+      const wId = getWachlistIdFromSignal(signal, isProject)
+      return wId && +wId === +id
+    })
+  }
+)
 
 const ScreenerSignalDialog = ({
   trigger: ElTrigger,
@@ -55,10 +63,15 @@ const ScreenerSignalDialog = ({
   watchlistId,
   type
 }) => {
+  const isProject = type === PROJECT
   const { isLoggedIn } = useUser()
-  const [stateSignal, setSignal] = useState(signal || SCREENER_DEFAULT_SIGNAL)
+  const [stateSignal, setSignal] = useState(
+    signal ||
+      (type === SCREENER && SCREENER_DEFAULT_SIGNAL) ||
+      (isProject && WATCHLIST_DEFAULT_SIGNAL)
+  )
 
-  const targetId = watchlistId || getWachlistIdFromSignal(signal)
+  const targetId = watchlistId || getWachlistIdFromSignal(signal, isProject)
   const [watchlist] = useWatchlist({ id: targetId })
 
   const hasSignal = signal && signal.id > 0
@@ -76,19 +89,32 @@ const ScreenerSignalDialog = ({
   useEffect(() => {
     if (watchlist && !hasSignal) {
       if (signals.length > 0) {
-        let signalOfWatchlist = getWatchlistSignal({ signals, watchlist })
+        let signalOfWatchlist = getWatchlistSignal({
+          signals,
+          watchlist,
+          isProject
+        })
         if (signalOfWatchlist) {
           setSignal(signalOfWatchlist)
           return
         }
       }
 
-      const newSignal = {
-        ...SCREENER_DEFAULT_SIGNAL,
-        title: `Alert for screener '${watchlist.name}'`
+      if (isProject) {
+        const newSignal = {
+          ...WATCHLIST_DEFAULT_SIGNAL,
+          title: `Alert for watchlist '${watchlist.name}'`
+        }
+        newSignal.settings.target = { watchlist_id: +watchlist.id }
+        setSignal(newSignal)
+      } else {
+        const newSignal = {
+          ...SCREENER_DEFAULT_SIGNAL,
+          title: `Alert for screener '${watchlist.name}'`
+        }
+        newSignal.settings.operation.selector = { watchlist_id: watchlist.id }
+        setSignal(newSignal)
       }
-      newSignal.settings.operation.selector = { watchlist_id: watchlist.id }
-      setSignal(newSignal)
     }
   }, [signals, watchlist])
 
@@ -130,6 +156,7 @@ const ScreenerSignalDialog = ({
       prepareAlertTitle={prepareAlertTitle}
       defaultType={defaultType}
       signalData={stateSignal}
+      id={stateSignal.id}
       trigger={
         ElTrigger || (
           <Button className={styles.btn} type='button'>
