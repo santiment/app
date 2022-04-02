@@ -38,6 +38,27 @@
   }
 }
 
+.frozenWrapper {
+  --frozen-bg-color: var(--whale);
+
+  background-color: var(--frozen-bg-color);
+
+  &:hover {
+    --frozen-icon-opacity: 1;
+    --frozen-left-buttons-display: none;
+    --frozen-left-actions-display: flex;
+    --frozen-bg-color: var(--athens);
+    --frozen-title-color: var(--rhino);
+    --frozen-up-icon-color: var(--jungle-green);
+    --frozen-down-icon-color: var(--persimmon);
+    --frozen-alert-bg: var(--frozen-bg-color);
+  }
+}
+
+.frozenActions {
+  display: var(--frozen-left-actions-display, none);
+}
+
 .wrapper__top {
   display: flex;
   height: 100%;
@@ -50,6 +71,10 @@
   word-break: break-word;
   color: var(--waterloo);
   margin-top: 4px;
+}
+
+.frozenDescription {
+  color: var(--casper);
 }
 
 .pointer {
@@ -116,6 +141,7 @@
 }
 
 .expandButton {
+  background-color: transparent;
   margin-right: 20px;
   padding-left: 0;
 
@@ -123,6 +149,12 @@
     margin: 0 5px 0 auto;
     padding: 6px;
   }
+}
+
+.frozenExpandButton {
+  background-color: transparent !important;
+  fill: var(--casper) !important;
+  display: var(--frozen-left-buttons-display, block);
 }
 
 .link {
@@ -262,4 +294,14 @@
   position: absolute;
   right: 16px;
   bottom: 24px;
+}
+
+.frozenAlert {
+  height: 32px;
+  padding: 8px 12px;
+  background: var(--frozen-alert-bg, var(--white));
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  gap: 8px;
+  fill: var(--waterloo);
 }

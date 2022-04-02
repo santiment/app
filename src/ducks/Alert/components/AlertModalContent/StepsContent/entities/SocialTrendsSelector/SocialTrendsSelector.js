@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import { useField, useFormikContext } from 'formik'
 import Selector from '@santiment-network/ui/Selector/Selector'
 import StepTitle from '../../StepTitle/StepTitle'
@@ -13,7 +14,8 @@ const SocialTrendsSelector = ({
     setSelectedStep,
     selectedStep,
     visitedSteps,
-    setVisitedSteps
+    setVisitedSteps,
+    shouldHideRestrictionMessage
   },
   selectorSettings
 }) => {
@@ -99,7 +101,14 @@ const SocialTrendsSelector = ({
         onSelectOption={handleSelectTarget}
         variant='border'
       />
-      <div className={styles.content}>{children}</div>
+      <div
+        className={cx(
+          styles.content,
+          !shouldHideRestrictionMessage && styles.contentResized
+        )}
+      >
+        {children}
+      </div>
     </div>
   )
 }

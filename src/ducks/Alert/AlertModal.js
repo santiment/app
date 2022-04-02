@@ -7,6 +7,8 @@ import AlertTriggerButton from './components/AlertTriggerButton/AlertTriggerButt
 import ConfirmClose from './components/ConfirmClose/ConfirmClose'
 import AlertModalFormMaster from './AlertModalFormMaster'
 import { useUser } from '../../stores/user'
+import AlertRestrictionMessage from './components/AlertRestrictionMessage/AlertRestrictionMessage'
+import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import styles from './AlertModal.module.scss'
 
 const AlertModal = ({
@@ -19,7 +21,8 @@ const AlertModal = ({
   defaultType,
   signalData,
   isUserTheAuthor = true,
-  prepareAlertTitle
+  prepareAlertTitle,
+  shouldDisableActions
 }) => {
   const match = useRouteMatch('/alerts/:id')
   const history = useHistory()
@@ -28,6 +31,9 @@ const AlertModal = ({
   const [isClosing, setIsClosing] = useState(false)
   const [isEdited, setIsEdited] = useState(false)
   const [isPreview, setIsPreview] = useState(!isUserTheAuthor)
+  const { isPro, isProPlus, loading } = useUserSubscriptionStatus()
+
+  const shouldHideRestrictionMessage = isPro || isProPlus || loading
 
   if (!isLoggedIn) {
     return (
@@ -81,19 +87,28 @@ const AlertModal = ({
           )
         }}
       >
-        <AlertModalFormMaster
-          isPreview={isPreview}
-          setIsPreview={setIsPreview}
-          id={id}
-          signalData={signalData}
-          defaultType={defaultType}
-          handleCloseDialog={handleCloseDialog}
-          setIsEdited={setIsEdited}
-          isEdited={isEdited}
-          isModalOpen={isModalOpen}
-          isUserTheAuthor={isUserTheAuthor}
-          prepareAlertTitle={prepareAlertTitle}
-        />
+        <>
+          {!isPreview && (
+            <AlertRestrictionMessage
+              shouldHideRestrictionMessage={shouldHideRestrictionMessage}
+            />
+          )}
+          <AlertModalFormMaster
+            shouldDisableActions={shouldDisableActions}
+            shouldHideRestrictionMessage={shouldHideRestrictionMessage}
+            isPreview={isPreview}
+            setIsPreview={setIsPreview}
+            id={id}
+            signalData={signalData}
+            defaultType={defaultType}
+            handleCloseDialog={handleCloseDialog}
+            setIsEdited={setIsEdited}
+            isEdited={isEdited}
+            isModalOpen={isModalOpen}
+            isUserTheAuthor={isUserTheAuthor}
+            prepareAlertTitle={prepareAlertTitle}
+          />
+        </>
       </Dialog>
       <ConfirmClose
         isOpen={isClosing}

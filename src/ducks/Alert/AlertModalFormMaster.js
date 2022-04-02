@@ -46,7 +46,9 @@ const AlertModalFormMaster = ({
   isModalOpen,
   isPreview,
   setIsPreview,
-  prepareAlertTitle
+  prepareAlertTitle,
+  shouldHideRestrictionMessage,
+  shouldDisableActions
 }) => {
   const [formPreviousValues, setFormPreviousValues] = useState(initialValues)
   const [selectedType, setSelectedType] = useState(defaultType)
@@ -139,7 +141,8 @@ const AlertModalFormMaster = ({
       formPreviousValues,
       setFormPreviousValues,
       invalidStepsMemo,
-      setInvalidSteps
+      setInvalidSteps,
+      shouldHideRestrictionMessage
     }),
     [
       selectedType,
@@ -156,7 +159,8 @@ const AlertModalFormMaster = ({
       formPreviousValues,
       setFormPreviousValues,
       invalidStepsMemo,
-      setInvalidSteps
+      setInvalidSteps,
+      shouldHideRestrictionMessage
     ]
   )
 
@@ -182,6 +186,7 @@ const AlertModalFormMaster = ({
   if (isPreview) {
     return (
       <AlertPreview
+        shouldDisableActions={shouldDisableActions}
         setIsPreview={setIsPreview}
         signal={data.trigger.trigger}
         prepareAlertTitle={prepareAlertTitle}

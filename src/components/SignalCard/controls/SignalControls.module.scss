@@ -2,9 +2,9 @@
 
 @mixin icon($color, $bg) {
   display: inline-flex;
-  height: 24px;
-  width: 24px;
-  min-width: 24px;
+  height: 31px;
+  width: 31px;
+  min-width: 31px;
   border-radius: 50%;
   justify-content: center;
   align-items: center;
@@ -27,7 +27,7 @@
 .dialog {
   width: 440px;
 
-  @include responsive('phone', 'phone-xs') {
+  @include responsive("phone", "phone-xs") {
     width: 100%;
   }
 }
@@ -35,7 +35,7 @@
 .description {
   margin-bottom: 20px;
 
-  @include responsive('phone', 'phone-xs') {
+  @include responsive("phone", "phone-xs") {
     margin-bottom: 0;
   }
 }
@@ -46,4 +46,8 @@
   &:hover {
     color: var(--jungle-green-hover);
   }
+}
+
+.frozenIcon {
+  opacity: var(--frozen-icon-opacity, 0.5);
 }

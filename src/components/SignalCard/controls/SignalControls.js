@@ -41,11 +41,11 @@ const getIconStyles = (type, metric) => {
   }
 }
 
-export const SignalTypeIcon = ({ type, metric, className }) => {
+export const SignalTypeIcon = ({ type, metric, className, isFrozen }) => {
   const [icon, iconClass] = getIconStyles(type, metric)
 
   return (
-    <div className={cx(iconClass, className)}>
+    <div className={cx(iconClass, isFrozen && styles.frozenIcon, className)}>
       <Icon type={icon} />
     </div>
   )

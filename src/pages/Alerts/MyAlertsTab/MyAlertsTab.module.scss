@@ -1,0 +1,44 @@
+.tab {
+  --color: inherit;
+  --color-hover: var(--jungle-green);
+}
+
+.badge {
+  --bg-hover: var(--jungle-green-light);
+  --color-hover: var(--jungle-green);
+
+  height: 24px;
+  padding: 2px 10px;
+  margin-left: 10px;
+  background-color: var(--athens);
+  border-radius: 48px;
+
+  &:hover {
+    .currentAmount {
+      color: inherit;
+    }
+  }
+}
+
+.tooltip {
+  z-index: 999;
+  padding: 18px 24px;
+  width: 272px;
+  height: 96px;
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(24, 27, 43, 0.03);
+
+  &__content {
+    position: relative;
+  }
+}
+
+.link {
+  color: var(--texas-rose);
+
+  &:hover {
+    color: var(--texas-rose-hover);
+  }
+}

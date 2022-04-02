@@ -5,10 +5,12 @@ const AlertPreview = ({
   setIsPreview,
   signal,
   prepareAlertTitle,
-  handleCloseDialog
+  handleCloseDialog,
+  shouldDisableActions
 }) => {
   return (
     <SharedTriggerForm
+      shouldDisableActions={shouldDisableActions}
       trigger={signal}
       originalTrigger={signal}
       settings={signal.settings}

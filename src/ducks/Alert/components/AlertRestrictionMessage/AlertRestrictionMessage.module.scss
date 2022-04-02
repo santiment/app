@@ -1,0 +1,19 @@
+.wrapper {
+  min-height: 56px;
+  padding-left: 48px;
+  background-color: var(--texas-rose-light);
+}
+
+.icon {
+  fill: var(--texas-rose-hover);
+  margin-right: 12px;
+  margin-bottom: 3px;
+}
+
+.link {
+  color: var(--texas-rose);
+
+  &:hover {
+    color: var(--texas-rose-hover);
+  }
+}

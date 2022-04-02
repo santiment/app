@@ -1,19 +1,35 @@
-@import '~@santiment-network/ui/mixins';
+@import "~@santiment-network/ui/mixins";
 
 .link {
   cursor: pointer;
   color: var(--rhino) !important;
   word-break: break-word;
 
-  @include text('body-1');
+  @include text("body-1");
 
   &:hover {
     color: var(--jungle-green) !important;
   }
 
-  @include responsive('phone', 'phone-xs') {
+  @include responsive("phone", "phone-xs") {
     margin-left: 0;
   }
+}
+
+.frozenLink {
+  color: var(--frozen-title-color, var(--waterloo)) !important;
+
+  &:hover {
+    color: var(--frozen-title-color) !important;
+  }
+}
+
+.frozenDown {
+  color: var(--frozen-down-icon-color, var(--persimmon-light)) !important;
+}
+
+.frozenUp {
+  color: var(--frozen-up-icon-color, var(--jungle-green-light-3)) !important;
 }
 
 .down {

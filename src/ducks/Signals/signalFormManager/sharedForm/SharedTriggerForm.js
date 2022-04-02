@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import { couldShowChart } from '../../utils/utils'
 import SignalPreview from '../../chart/preview/SignalPreview'
@@ -15,7 +16,8 @@ const SharedTriggerForm = ({
   settings,
   originalTrigger,
   prepareAlertTitle,
-  setIsPreview
+  setIsPreview,
+  shouldDisableActions
 }) => {
   const { metric, type } = settings
 
@@ -65,11 +67,18 @@ const SharedTriggerForm = ({
             signal={trigger}
             label='Copy to my alerts'
             onClose={onClose}
-            classes={styles}
+            classes={{
+              copyBtn: cx(styles.copyBtn, shouldDisableActions && 'c-waterloo')
+            }}
             as='div'
-            btnParams={{ variant: 'fill', accent: 'positive' }}
+            btnParams={{
+              variant: 'fill',
+              accent: 'positive',
+              disabled: shouldDisableActions
+            }}
           />
           <Button
+            disabled={shouldDisableActions}
             className={styles.btnEdit}
             onClick={() => setIsPreview(false)}
             border
@@ -83,11 +92,18 @@ const SharedTriggerForm = ({
             signal={trigger}
             label='Add alert'
             onClose={onClose}
-            classes={styles}
+            classes={{
+              copyBtn: cx(styles.copyBtn, shouldDisableActions && 'c-waterloo')
+            }}
             as='div'
-            btnParams={{ fluid: true, accent: 'positive' }}
+            btnParams={{
+              fluid: true,
+              accent: 'positive',
+              disabled: shouldDisableActions
+            }}
           />
           <Button
+            disabled={shouldDisableActions}
             fluid
             className={styles.btnEdit}
             onClick={() => setIsPreview(false)}

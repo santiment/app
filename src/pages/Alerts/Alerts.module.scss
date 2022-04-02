@@ -23,11 +23,5 @@
 }
 
 .createButton {
-  @include responsive("tablet") {
-    height: 40px;
-    width: 100%;
-    justify-content: center;
-
-    @include text("body-2");
-  }
+  margin-left: 16px;
 }

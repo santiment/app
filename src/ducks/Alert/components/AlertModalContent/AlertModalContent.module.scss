@@ -15,6 +15,10 @@
   @include overlay-scroll;
 }
 
+.wrapperResized {
+  height: 536px;
+}
+
 .submit {
   min-height: 32px;
   width: 129px;
