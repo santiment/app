@@ -1939,12 +1939,13 @@ export const buildInTrendingWordsSignal = topic => {
 }
 
 export const skipHistoricalPreview = ({ settings }) => {
-  const { target } = settings
+  const { target, time_window } = settings
 
   return (
     getCheckingMetric(settings) === TRENDING_WORDS ||
     target.watchlist_id ||
-    typeof target.slug !== 'string'
+    typeof target.slug !== 'string' ||
+    !time_window
   )
 }
 
