@@ -92,10 +92,10 @@ const SignalCardBottom = ({
           <div
             className={cx(
               styles.frozenAlert,
-              'body-3 row hv-center mrg--l mrg-a'
+              'btn-2 btn--s body-3 row hv-center mrg--l mrg-a'
             )}
           >
-            <Icon type='frozen' />
+            <Icon type='frozen' className='mrg-s mrg--r' />
             Frozen alert
           </div>
         )}

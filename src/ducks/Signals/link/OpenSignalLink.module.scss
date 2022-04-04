@@ -8,7 +8,7 @@
   @include text("body-1");
 
   &:hover {
-    color: var(--jungle-green) !important;
+    color: var(--green) !important;
   }
 
   @include responsive("phone", "phone-xs") {
@@ -25,17 +25,17 @@
 }
 
 .frozenDown {
-  color: var(--frozen-down-icon-color, var(--persimmon-light)) !important;
+  color: var(--frozen-down-icon-color, var(--red-light-1)) !important;
 }
 
 .frozenUp {
-  color: var(--frozen-up-icon-color, var(--jungle-green-light-3)) !important;
+  color: var(--frozen-up-icon-color, var(--green-light-3)) !important;
 }
 
 .down {
-  color: var(--persimmon);
+  color: var(--red);
 }
 
 .up {
-  color: var(--jungle-green);
+  color: var(--green);
 }

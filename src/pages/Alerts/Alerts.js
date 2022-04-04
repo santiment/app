@@ -25,28 +25,11 @@ const LoadableAlertsList = Loadable({
 })
 
 function getAlertsRestrictions ({ signals, isPro, isProPlus }) {
-  if (isPro) {
-    const maxAmount = 20
-    return {
-      currentAmount: signals.length,
-      maxAmount,
-      shouldHideRestrictionMessage: signals.length !== maxAmount
-    }
-  }
-  if (isProPlus) {
-    const maxAmount = Infinity
-    return {
-      currentAmount: signals.length,
-      maxAmount,
-      shouldHideRestrictionMessage: true
-    }
-  }
-
-  const maxAmount = 3
+  const maxAmount = isProPlus ? Infinity : isPro ? 20 : 3
   return {
-    currentAmount: signals.length,
     maxAmount,
-    shouldHideRestrictionMessage: signals.length !== maxAmount
+    currentAmount: signals.length,
+    shouldHideRestrictionMessage: isProPlus || signals.length !== maxAmount
   }
 }
 
@@ -93,7 +76,7 @@ const Alerts = ({ isDesktop, match }) => {
           label: 'Create alert',
           variant: 'fill',
           border: false,
-          classes: styles.createButton
+          classes: 'mrg-l mrg--l'
         }
       }
     }

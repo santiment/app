@@ -49,8 +49,8 @@
     --frozen-left-actions-display: flex;
     --frozen-bg-color: var(--athens);
     --frozen-title-color: var(--rhino);
-    --frozen-up-icon-color: var(--jungle-green);
-    --frozen-down-icon-color: var(--persimmon);
+    --frozen-up-icon-color: var(--green);
+    --frozen-down-icon-color: var(--red);
     --frozen-alert-bg: var(--frozen-bg-color);
   }
 }
@@ -297,11 +297,12 @@
 }
 
 .frozenAlert {
+  ---border: var(--porcelain);
+  --color: var(--waterloo);
+  --color-hover: var(--waterloo);
+
+  cursor: default;
   height: 32px;
-  padding: 8px 12px;
   background: var(--frozen-alert-bg, var(--white));
-  border: 1px solid var(--porcelain);
-  border-radius: 4px;
-  gap: 8px;
   fill: var(--waterloo);
 }

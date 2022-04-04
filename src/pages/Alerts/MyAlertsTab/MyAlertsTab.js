@@ -20,9 +20,9 @@ const MyAlertsTab = ({ alertsRestrictions: { currentAmount, maxAmount } }) => (
           </div>
         }
         position='bottom'
-        className={styles.tooltip}
+        className={cx(styles.tooltip, 'border box')}
       >
-        <div className={cx(styles.tooltip__content, 'column body-3')}>
+        <div className='relative column body-3'>
           <span>
             <span className='txt-m'>{currentAmount} alerts</span> created out of{' '}
             {maxAmount} available. To unlock more alerts please

@@ -38,6 +38,7 @@ export const CREATE_TRIGGER_QUERY = gql`
         description
         cooldown
         isActive
+        isFrozen
         tags {
           name
         }
@@ -205,6 +206,7 @@ export const TRIGGER_UPDATE_QUERY = gql`
         cooldown
         iconUrl
         isActive
+        isFrozen
         isRepeating
         settings
       }
