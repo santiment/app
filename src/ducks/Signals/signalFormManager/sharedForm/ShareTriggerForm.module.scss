@@ -87,7 +87,7 @@
 
 .copyBtn {
   margin: 0 !important;
-  color: var(--white) !important;
+  color: var(--white);
 
   @include responsive('phone', 'phone-xs') {
     display: flex;

@@ -11,7 +11,7 @@ const IndexTab = ({
   const [activeTab, setTab] = useState(initialTab)
 
   const tab = tabs[activeTab]
-  const { content, title } = tab
+  const { content, id } = tab
 
   return (
     <>
@@ -46,7 +46,7 @@ const IndexTab = ({
                 return false
               }
               if (showOnTabs) {
-                return showOnTabs.includes(title)
+                return showOnTabs.includes(id)
               }
 
               return true

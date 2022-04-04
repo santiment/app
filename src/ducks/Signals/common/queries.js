@@ -10,6 +10,7 @@ export const TRIGGERS_COMMON_FRAGMENT = gql`
     settings
     isActive
     isRepeating
+    isFrozen
   }
 `
 

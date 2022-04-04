@@ -30,7 +30,11 @@ const SonarFeedRecommendations = ({
   )
 }
 
-export const RecommendedSignals = ({ showTitle = true, userId }) => {
+export const RecommendedSignals = ({
+  showTitle = true,
+  userId,
+  shouldDisableActions
+}) => {
   const [signals, loading] = useFeaturedUserTriggers()
 
   if (!signals) {
@@ -52,7 +56,11 @@ export const RecommendedSignals = ({ showTitle = true, userId }) => {
     hasSignals && (
       <>
         {showTitle && <h4 className={styles.subtitle}>Recommended for you</h4>}
-        <SignalCardsGrid userId={userId} signals={mapped} />
+        <SignalCardsGrid
+          userId={userId}
+          signals={mapped}
+          shouldDisableActions={shouldDisableActions}
+        />
       </>
     )
   )

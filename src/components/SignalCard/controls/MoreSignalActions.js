@@ -83,7 +83,8 @@ const MoreSignalActions = ({
   deleteEnabled = true,
   editable = true,
   signal,
-  userId
+  userId,
+  shouldDisableActions
 }) => {
   const canShare = true
 
@@ -105,23 +106,32 @@ const MoreSignalActions = ({
             userId={userId}
           />
         )}
-        <DesktopOnly>
-          <CopySignal
-            signal={signal}
-            label='Copy to my alerts'
-            as='div'
-            classes={classes}
-            btnParams={btnParams}
-          />
-        </DesktopOnly>
+        {!shouldDisableActions && (
+          <DesktopOnly>
+            <CopySignal
+              signal={signal}
+              label='Copy to my alerts'
+              as='div'
+              classes={classes}
+              btnParams={btnParams}
+            />
+          </DesktopOnly>
+        )}
       </div>
     )
   }
 
+  const { isFrozen } = signal
+
   return (
     <Tooltip
       trigger={
-        <Button className={styles.expandButton}>
+        <Button
+          className={cx(
+            styles.expandButton,
+            isFrozen && styles.frozenExpandButton
+          )}
+        >
           <Icon type='dots' />
         </Button>
       }

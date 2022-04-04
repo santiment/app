@@ -1,10 +1,12 @@
 import React from 'react'
 import cx from 'classnames'
-import { DesktopOnly } from '../../Responsive'
 import Icon from '@santiment-network/ui/Icon'
 import Toggle from '@santiment-network/ui/Toggle'
+import { Button } from '@santiment-network/ui'
+import { DesktopOnly } from '../../Responsive'
 import StatusLabel from '../../StatusLabel'
 import MoreSignalActions from '../controls/MoreSignalActions'
+import RemoveSignalButton from '../controls/RemoveSignalButton'
 import styles from './SignalCard.module.scss'
 
 const UnpublishedMsg = () => (
@@ -23,15 +25,17 @@ const SignalCardBottom = ({
   deleteEnabled,
   showMoreActions,
   showStatus = true,
-  editable = true
+  editable = true,
+  shouldDisableActions
 }) => {
-  const { isActive, isPublic, title } = signal
+  const { isActive, isPublic, isFrozen, title } = signal
   return (
     showStatus && (
       <div className={styles.bottom}>
         {showMoreActions && (
           <DesktopOnly>
             <MoreSignalActions
+              shouldDisableActions={shouldDisableActions}
               isUserTheAuthor={isUserTheAuthor}
               signalTitle={title}
               signalId={signalId}
@@ -52,14 +56,48 @@ const SignalCardBottom = ({
               </div>
             )}
             {isUserTheAuthor && !isAwaiting && (
-              <StatusLabel isPublic={isPublic} />
+              <StatusLabel isPublic={isPublic} isFrozen={isFrozen} />
             )}
           </h4>
         ) : (
           <UnpublishedMsg />
         )}
-        {isUserTheAuthor && toggleSignal && (
+        {isUserTheAuthor && toggleSignal && !isFrozen && (
           <ToggleSignal isActive={isActive} toggleSignal={toggleSignal} />
+        )}
+        {isFrozen && (
+          <div className={cx(styles.frozenActions, 'row hv-center')}>
+            <Button
+              as='a'
+              href='/pricing'
+              rel='noopener noreferrer'
+              target='_self'
+              variant='fill'
+              accent='positive'
+            >
+              Extend alert
+            </Button>
+            <RemoveSignalButton
+              signalTitle={title}
+              id={signalId}
+              trigger={() => (
+                <Button className='mrg--l mrg-l' border>
+                  Delete
+                </Button>
+              )}
+            />
+          </div>
+        )}
+        {isFrozen && (
+          <div
+            className={cx(
+              styles.frozenAlert,
+              'btn-2 btn--s body-3 row hv-center mrg--l mrg-a'
+            )}
+          >
+            <Icon type='frozen' className='mrg-s mrg--r' />
+            Frozen alert
+          </div>
         )}
       </div>
     )

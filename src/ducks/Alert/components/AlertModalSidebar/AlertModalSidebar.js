@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import { useFormikContext } from 'formik'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
@@ -19,7 +20,8 @@ const AlertModalSidebar = ({
     id,
     setSelectedStep,
     setFormPreviousValues,
-    setInvalidSteps
+    setInvalidSteps,
+    shouldHideRestrictionMessage
   } = selectorSettings
 
   function handleReturnBack () {
@@ -35,7 +37,12 @@ const AlertModalSidebar = ({
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div
+      className={cx(
+        styles.wrapper,
+        !shouldHideRestrictionMessage && styles.wrapperResized
+      )}
+    >
       <div>
         <div className={styles.titleWrapper}>
           <div className={styles.title}>{selectedType.title}</div>

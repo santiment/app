@@ -18,15 +18,23 @@ const SignalCard = ({
   deleteEnabled = true,
   showMoreActions = true,
   showStatus = true,
-  isSharedTriggerForm = false
+  isSharedTriggerForm = false,
+  shouldDisableActions
 }) => {
   const isAwaiting = +id <= 0
-  const { description = '', isPublic, settings } = signal
+  const { description = '', isPublic, settings, isFrozen } = signal
 
   const clickable = canOpenTrigger(settings)
 
   return (
-    <Panel padding className={cx(styles.wrapper, className)}>
+    <Panel
+      padding
+      className={cx(
+        styles.wrapper,
+        isFrozen && styles.frozenWrapper,
+        className
+      )}
+    >
       {isSharedTriggerForm && (
         <DesktopOnly>
           <SignalCardHeader
@@ -47,10 +55,19 @@ const SignalCard = ({
       )}
 
       <div className={styles.wrapper__right}>
-        <OpenSignalLink signal={signal} isUserTheAuthor={isUserTheAuthor}>
+        <OpenSignalLink
+          signal={signal}
+          isUserTheAuthor={isUserTheAuthor}
+          shouldDisableActions={shouldDisableActions}
+        >
           <div className={clickable ? styles.pointer : ''}>
             {description && (
-              <h3 className={styles.description}>
+              <h3
+                className={cx(
+                  styles.description,
+                  isFrozen && styles.frozenDescription
+                )}
+              >
                 <MultilineText
                   id='SignalCard__description'
                   maxLines={2}
@@ -61,6 +78,7 @@ const SignalCard = ({
           </div>
         </OpenSignalLink>
         <SignalCardBottom
+          shouldDisableActions={shouldDisableActions}
           signalId={id}
           signal={signal}
           showMoreActions={showMoreActions}

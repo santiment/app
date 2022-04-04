@@ -16,6 +16,7 @@
 }
 
 .active {
+  --color: var(--rhino);
   color: var(--rhino);
 }
 
@@ -51,5 +52,4 @@
   justify-content: flex-end;
   align-items: center;
   flex: 1 1 100%;
-  gap: 16px;
 }

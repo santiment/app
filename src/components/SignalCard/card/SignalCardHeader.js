@@ -11,13 +11,13 @@ const SignalCardHeader = ({
   isPublic,
   signal
 }) => {
-  const { id, title, settings: { type, metric } = {} } = signal
+  const { id, title, settings: { type, metric } = {}, isFrozen } = signal
 
   return (
     <div
       className={cx(styles.wrapper__left, styles.wrapper__left_subscription)}
     >
-      <SignalTypeIcon type={type} metric={metric} />
+      <SignalTypeIcon type={type} metric={metric} isFrozen={isFrozen} />
 
       <MobileOnly>
         <MoreSignalActions

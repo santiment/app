@@ -1,0 +1,23 @@
+.wrapper {
+  min-height: 56px;
+  padding-left: 48px;
+  background-color: var(--orange-light-1);
+}
+
+.wrapperPage {
+  border-radius: 4px;
+}
+
+.icon {
+  fill: var(--orange-hover);
+  margin-right: 12px;
+  margin-bottom: 3px;
+}
+
+.link {
+  color: var(--orange);
+
+  &:hover {
+    color: var(--orange-hover);
+  }
+}

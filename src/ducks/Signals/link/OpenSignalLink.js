@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import AlertModal from '../../Alert/AlertModal'
 import styles from './OpenSignalLink.module.scss'
 
@@ -9,7 +10,7 @@ const PERCENT_REGEXP = new RegExp(
 
 const NEGATIVE_WORDS = ['down', 'below', 'decreases']
 
-export const prepareAlertTitle = title => {
+export const prepareAlertTitle = (title, isFrozen) => {
   let checkingTitle = title
   if (Array.isArray(title)) {
     checkingTitle = title.join('')
@@ -41,13 +42,19 @@ export const prepareAlertTitle = title => {
 
         if (item[0] === '-' || isForceNegative) {
           result.push(
-            <span key={i} className={styles.down}>
+            <span
+              key={i}
+              className={cx(styles.down, isFrozen && styles.frozenDown)}
+            >
               {item}
             </span>
           )
         } else {
           result.push(
-            <span key={i} className={styles.up}>
+            <span
+              key={i}
+              className={cx(styles.up, isFrozen && styles.frozenUp)}
+            >
               {item}
             </span>
           )
@@ -71,18 +78,26 @@ export const prepareAlertTitle = title => {
   return checkingTitle
 }
 
-const OpenSignalLink = ({ signal, children, isUserTheAuthor }) => {
-  const { id, title } = signal
+const OpenSignalLink = ({
+  signal,
+  children,
+  isUserTheAuthor,
+  shouldDisableActions
+}) => {
+  const { id, title, isFrozen } = signal
 
   const trigger = (
     <div>
-      <div className={styles.link}>{prepareAlertTitle(title)}</div>
+      <div className={cx(styles.link, isFrozen && styles.frozenLink)}>
+        {prepareAlertTitle(title, isFrozen)}
+      </div>
       {children}
     </div>
   )
 
   return (
     <AlertModal
+      shouldDisableActions={shouldDisableActions}
       id={id}
       trigger={trigger}
       isUserTheAuthor={isUserTheAuthor}
