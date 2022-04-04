@@ -56,7 +56,10 @@ const AlertModalForm = ({
 
       setSelectedType(
         ALERT_TYPES.find((item, index) => {
-          if (signal.settings.type === 'metric_signal') {
+          if (
+            signal.settings.type === 'metric_signal' ||
+            signal.settings.type === 'daily_metric_signal'
+          ) {
             if (signal.settings.target.slug) {
               return index === 0
             }

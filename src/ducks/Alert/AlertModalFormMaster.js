@@ -67,7 +67,14 @@ const AlertModalFormMaster = ({
     id,
     skip: !id
   })
-  const { refetch } = useQuery(GET_METRIC_MIN_INTERVAL)
+
+  const metric = formPreviousValues.settings.metric
+  const { refetch } = useQuery(GET_METRIC_MIN_INTERVAL, {
+    variables: {
+      metric
+    },
+    skip: !metric
+  })
 
   const isSharedTrigger =
     data && data.trigger && +data.trigger.authorId !== +user.id
@@ -96,9 +103,9 @@ const AlertModalFormMaster = ({
       settings: { ...values.settings, type: selectedType.settings.type }
     }
 
-    const { data } = await refetch({ metric: triggerValues.settings.metric })
-
     if (selectedType.settings.type === 'metric_signal') {
+      const { data } = await refetch({ metric: triggerValues.settings.metric })
+
       triggerValues.settings.type = getMetricSignalKey(
         data.metric.metadata.minInterval
       )
