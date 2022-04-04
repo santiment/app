@@ -51,6 +51,23 @@ export default {
       ]
     },
     {
+      group: { name: 'Alerts' },
+      data: [
+        {
+          name: 'Custom Alerts',
+          texts: ['3', '20', 'Unlimited']
+        },
+        {
+          name: 'Alert durations',
+          texts: ['30 days', 'Unlimited', 'Unlimited']
+        },
+        {
+          name: 'Webhooks',
+          checks: [true, true, true]
+        }
+      ]
+    },
+    {
       group: { name: 'Integrations' },
       data: [
         {
