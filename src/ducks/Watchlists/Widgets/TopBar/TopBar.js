@@ -4,6 +4,7 @@ import toReact from 'svelte-adapter/react'
 import Icon from '@santiment-network/ui/Icon'
 import CreationInfoComponent from './CreationInfoWrapper.svelte'
 import CommentsComponent from 'webkit/ui/Comments/svelte'
+import Dialogs from 'webkit/ui/Dialog/Dialogs.svelte'
 import { CreationType } from 'webkit/ui/Profile/types'
 import { CommentsType } from 'webkit/api/comments'
 import { lookupSavedComment, clearSavedComment } from 'webkit/ui/Comments/utils'
@@ -32,7 +33,15 @@ export const CreationInfo = toReact(
   },
   'div'
 )
-export const Comments = toReact(CommentsComponent, {}, 'div')
+export const Comments = toReact(
+  CommentsComponent,
+  {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  'div'
+)
 
 const TopBar = ({
   entity,
@@ -61,6 +70,11 @@ const TopBar = ({
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [updateWatchlist, { loading }] = useUpdateWatchlist(type)
   const [isEditFormOpened, setIsEditFormOpened] = useState(false)
+
+  useEffect(() => {
+    const svelte = new Dialogs({ target: document.body })
+    return () => svelte.$destroy()
+  }, [])
 
   useEffect(() => {
     if (isLoggedIn) {
