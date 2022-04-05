@@ -11,7 +11,8 @@ const AlertModalSidebar = ({
   selectorSettings,
   values,
   hasSignal,
-  isSharedTrigger
+  isSharedTrigger,
+  isEdited
 }) => {
   const { submitForm, isSubmitting } = useFormikContext()
 
@@ -23,6 +24,8 @@ const AlertModalSidebar = ({
     setInvalidSteps,
     shouldHideRestrictionMessage
   } = selectorSettings
+
+  const shouldHideSubmitButton = id && !isSharedTrigger && !isEdited
 
   function handleReturnBack () {
     setSelectedStep(undefined)
@@ -40,7 +43,9 @@ const AlertModalSidebar = ({
     <div
       className={cx(
         styles.wrapper,
-        !shouldHideRestrictionMessage && styles.wrapperResized
+        !shouldHideSubmitButton && styles.submitPadding,
+        !shouldHideRestrictionMessage && styles.wrapperResized,
+        'relative'
       )}
     >
       <div>
@@ -59,16 +64,20 @@ const AlertModalSidebar = ({
           isMetricsDisabled={isMetricsDisabled}
         />
       </div>
-      <Button
-        type='submit'
-        variant='fill'
-        border={false}
-        accent='positive'
-        className={styles.submit}
-        onClick={handleSubmit}
-      >
-        {id && !isSharedTrigger ? 'Apply changes' : 'Create alert'}
-      </Button>
+      {!shouldHideSubmitButton ? (
+        <div className={styles.submitWrapper}>
+          <Button
+            type='submit'
+            variant='fill'
+            border={false}
+            accent='positive'
+            className={styles.submit}
+            onClick={handleSubmit}
+          >
+            {id && !isSharedTrigger ? 'Apply changes' : 'Create alert'}
+          </Button>
+        </div>
+      ) : null}
     </div>
   )
 }

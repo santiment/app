@@ -138,6 +138,7 @@ const AlertModalForm = ({
     return (
       <Form className={styles.wrapper}>
         <AlertModalSidebar
+          isEdited={isEdited}
           isSharedTrigger={isSharedTrigger}
           isMetricsDisabled={isMetricsDisabled}
           selectorSettings={selectorSettings}
