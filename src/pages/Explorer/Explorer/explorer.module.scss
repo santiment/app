@@ -1,0 +1,242 @@
+@import '~@santiment-network/ui/mixins';
+
+.buttonsContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.topicon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: 'Proxima Nova';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;    
+    color: #7A859E;
+
+    padding: 12px 16px 12px 12px;
+    height: 40px;
+    border: 1px solid var(--mystic);
+    box-sizing: border-box;
+    border-radius: 100px;
+    
+    &:not(:last-child) {
+        margin-right: 8px;
+    }
+
+    &:hover, &.active {
+        border: 1px solid var(--jungle-green);
+        background: #EDF8F5;
+        color: var(--jungle-green);
+
+        svg {
+            fill: var(--jungle-green);
+        }
+    }
+
+    svg {
+       fill: var(--waterloo);
+    }
+}
+
+.header {
+    width: 100%;
+    padding: 17px 24px;
+    border: 1px solid var(--porcelain);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h3 {
+        font-family: 'Proxima Nova';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 26px;
+        color: var(--rhino);
+    }
+
+    .actions {
+        display: flex;
+        justify-content: center;
+
+        div:not(:last-child) {
+            margin-right: 8px;
+        }
+    }
+}
+
+.showMore {
+    width: 100%;
+    text-align: center;
+    padding: 13.5px 0;
+    border: 1px solid var(--porcelain);
+    border-top: none;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    font-family: 'Proxima Nova';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--jungle-green);
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--athens);
+    }
+}
+
+.row {
+    padding: 12px 24px;
+    width: 100%;
+    border: 1px solid var(--porcelain);
+    border-top: none;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--athens);
+    }
+
+    .head {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .title {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    .footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .stat {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .box {
+                display: flex;
+                align-items: center;
+                
+                &:not(:last-child) {
+                    margin-right: 15px;
+                }
+
+                .number {
+                    font-family: 'Proxima Nova';
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: 14px;
+                    line-height: 20px;
+                    color: var(--waterloo);
+                }
+            }
+        }
+
+        .user {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+
+            img {
+                width: 24px;
+                border: none;
+                border-radius: 50%;
+                margin-right: 8px;
+            }
+
+            .username {
+                font-family: 'Proxima Nova';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 20px;
+                color: var(--waterloo);
+            }
+
+            &:hover .username {
+                color: var(--jungle-green);
+            }
+        }
+    }
+
+    h2 {
+        font-family: 'Proxima Nova';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        margin-right: 8px;
+    }
+}
+
+.tags {
+    font-family: 'Proxima Nova';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    display: flex;
+    align-items: center;
+
+    .tag {
+        text-align: center;
+        color: var(--waterloo);
+        background-color: var(--athens);
+        padding: 4px 8px;
+        border-radius: 12px;
+        min-width: 27px;
+
+        &:not(:last-child) {
+            margin-right: 4px;
+        }
+    }
+}
+
+.projects {
+    display: flex;
+    align-items: center;
+
+    .holder {
+        width: 24px;
+        border: none;
+        border-radius: 50%;
+        position: relative;
+    }
+
+    .projectIcon:not(:first-child) {
+        margin-left: -8px;
+    }
+
+    .counter {
+        margin-left: -8px;
+        font-family: 'Proxima Nova';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 16px;
+        color: var(--waterloo);
+        text-align: center;
+        background-color: var(--athens);
+        padding: 4px 5.5px;
+    }
+}

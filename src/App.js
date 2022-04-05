@@ -46,7 +46,8 @@ const FOOTER_DISABLED_FOR = [
   PATHS.FEED,
   PATHS.PRO_METRICS,
   PATHS.SOCIAL_TOOl,
-  PATHS.INDEX,
+  // PATHS.INDEX,
+  PATHS.EXPLORER,
   PATHS.STABLECOINS,
   PATHS.SHEETS_TEMPLATES
 ]
@@ -63,7 +64,9 @@ const LoadablePage = loader =>
     loading: () => <PageLoader />
   })
 
-const LoadableIndexPage = LoadablePage(() => import('./pages/Index'))
+// const LoadableIndexPage = LoadablePage(() => import('./pages/Index'))
+
+const LoadableIndexPage = LoadablePage(() => import('./pages/Explorer'))
 
 const LoadableAssetsPage = LoadablePage(() => import('./pages/Assets'))
 
@@ -577,11 +580,11 @@ export const App = ({
                 />
               )}
             />
-            {!isDesktop && <Redirect from={PATHS.INDEX} to='/assets' />}
-            <Route path={PATHS.INDEX} component={LoadableIndexPage} />
+            {!isDesktop && <Redirect from={PATHS.EXPLORER} to='/assets' />}
+            <Route path={PATHS.EXPLORER} component={LoadableIndexPage} />
           </Switch>
 
-          {!pathname.includes(PATHS.CHARTS) && pathname !== PATHS.INDEX && (
+          {!pathname.includes(PATHS.CHARTS) && pathname !== PATHS.EXPLORER && (
             <Intercom isDesktop={isDesktop} />
           )}
         </ErrorBoundary>
