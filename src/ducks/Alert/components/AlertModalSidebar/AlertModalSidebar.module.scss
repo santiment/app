@@ -2,10 +2,6 @@
 
 .wrapper {
   height: 590px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex-basis: 100%;
   max-width: 374px;
   padding: 32px 40px 24px 48px;
   border-radius: 0 0 0 4px;
@@ -22,54 +18,19 @@
   height: 536px;
 }
 
-.type {
-  margin-bottom: 16px;
-  padding: 6px 12px;
-  border-radius: 4px;
-  color: var(--waterloo);
-  cursor: pointer;
-
-  @include text("body-3");
-
-  &:hover {
-    color: var(--jungle-green);
-  }
-}
-
-.active {
-  color: var(--rhino);
-  background: var(--white);
-
-  @include text("body-3", "m");
-}
-
 .backButton {
-  padding: 0;
-  color: var(--waterloo);
-
-  @include text("body-3");
-
-  &:hover {
-    color: var(--jungle-green);
-  }
+  --v-padding: 0;
+  --h-padding: 0;
+  --color: var(--waterloo);
+  --color-hover:  var(--green);
 }
 
 .backIcon {
   margin-bottom: 2px;
-  margin-right: 8px;
-  fill: currentColor;
 }
 
 .titleWrapper {
-  display: flex;
-  justify-content: space-between;
   align-items: flex-end;
-}
-
-.title {
-  color: var(--rhino);
-
-  @include text("h4");
 }
 
 .divider {
@@ -98,6 +59,4 @@
 .submit {
   min-height: 32px;
   width: 129px;
-  display: flex;
-  justify-content: center;
 }

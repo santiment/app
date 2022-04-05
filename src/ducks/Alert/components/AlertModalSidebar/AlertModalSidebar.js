@@ -45,15 +45,22 @@ const AlertModalSidebar = ({
         styles.wrapper,
         !shouldHideSubmitButton && styles.submitPadding,
         !shouldHideRestrictionMessage && styles.wrapperResized,
-        'relative'
+        'relative column justify fluid'
       )}
     >
       <div>
-        <div className={styles.titleWrapper}>
-          <div className={styles.title}>{selectedType.title}</div>
+        <div className={cx(styles.titleWrapper, 'row justify')}>
+          <div className='h4 c-black'>{selectedType.title}</div>
           {!hasSignal && (
-            <Button className={styles.backButton} onClick={handleReturnBack}>
-              <Icon type='arrow-left' className={styles.backIcon} /> Alert types
+            <Button
+              className={cx(styles.backButton, 'btn body-3')}
+              onClick={handleReturnBack}
+            >
+              <Icon
+                type='arrow-left'
+                className={cx(styles.backIcon, 'mrg--r mrg-s')}
+              />{' '}
+              Alert types
             </Button>
           )}
         </div>
@@ -71,7 +78,7 @@ const AlertModalSidebar = ({
             variant='fill'
             border={false}
             accent='positive'
-            className={styles.submit}
+            className={cx(styles.submit, 'row h-center')}
             onClick={handleSubmit}
           >
             {id && !isSharedTrigger ? 'Apply changes' : 'Create alert'}
