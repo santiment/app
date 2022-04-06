@@ -26,26 +26,25 @@ export const PROJECTS_QUERY = gql`
   ${projectBaseData}
 `
 
-export function useProjects (query = PROJECTS_QUERY, options = {}) {
+export function useProjects(query = PROJECTS_QUERY, options = {}) {
   const { data, loading } = useQuery(query, options)
 
   return useMemo(
     () => ({
       projects: (data && data.projects) || ARRAY,
-      isLoading: loading
+      isLoading: loading,
     }),
-    [data]
+    [data],
   )
 }
 
 const SlugProjectInfoCache = new Map()
 const TickerProjectInfoCache = new Map()
-export function getProjectInfo (projects, slug, ticker) {
+export function getProjectInfo(projects, slug, ticker) {
   const normalizedSlug = (slug || '').toLowerCase()
   const normalizedTicker = (ticker || '').toUpperCase()
   const project =
-    SlugProjectInfoCache.get(normalizedSlug) ||
-    TickerProjectInfoCache.get(normalizedTicker)
+    SlugProjectInfoCache.get(normalizedSlug) || TickerProjectInfoCache.get(normalizedTicker)
 
   if (project || SlugProjectInfoCache.size) return project
 
@@ -55,20 +54,17 @@ export function getProjectInfo (projects, slug, ticker) {
     TickerProjectInfoCache.set(project.ticker.toUpperCase(), project)
   }
 
-  return (
-    SlugProjectInfoCache.get(normalizedSlug) ||
-    TickerProjectInfoCache.get(normalizedTicker)
-  )
+  return SlugProjectInfoCache.get(normalizedSlug) || TickerProjectInfoCache.get(normalizedTicker)
 }
 
-export function useProjectInfo (slug, ticker) {
+export function useProjectInfo(slug, ticker) {
   const { projects, isLoading } = useProjects()
 
   return useMemo(
     () => ({
       project: isLoading ? OBJECT : getProjectInfo(projects, slug, ticker),
-      isLoading
+      isLoading,
     }),
-    [projects, isLoading]
+    [projects, isLoading],
   )
 }

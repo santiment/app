@@ -15,8 +15,7 @@ const MAX_TABS_FREE = 2
 const MAX_TABS_PRO = 4
 const PUSH_TIMEOUT = 10000 // The push timeout in milliseconds
 
-const shouldCheckPage = pathname =>
-  LIMIT_TAB_PAGES.find(page => pathname.startsWith(page))
+const shouldCheckPage = (pathname) => LIMIT_TAB_PAGES.find((page) => pathname.startsWith(page))
 
 const ForceActionRedirector = ({ pathname }) => {
   const { user } = useUser()
@@ -30,7 +29,7 @@ const ForceActionRedirector = ({ pathname }) => {
     }
   }, [showTabLimitModal])
 
-  function checkOpenTabs () {
+  function checkOpenTabs() {
     if (!socket || isProPlus || !shouldCheckPage(pathname)) {
       if (showTabLimitModal) {
         track.event('tab_limit_modal_closed')
@@ -89,11 +88,7 @@ const ForceActionRedirector = ({ pathname }) => {
   }, [user, isPro, isProPlus, pathname, socket])
 
   return showTabLimitModal ? (
-    <TabLimitModal
-      maxTabsCount={MAX_TABS}
-      isPro={isPro}
-      onOpen={upgradeButtonClick}
-    />
+    <TabLimitModal maxTabsCount={MAX_TABS} isPro={isPro} onOpen={upgradeButtonClick} />
   ) : null
 }
 

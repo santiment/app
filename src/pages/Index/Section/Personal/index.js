@@ -12,34 +12,34 @@ const LS_PERSONAL_TAB = 'LS_PERSONAL_TAB'
 export const PersonalTabType = {
   START_GUIDE: 'Quick Start Guide',
   CABINET: 'Cabinet',
-  SHEETS: 'Sheets'
+  SHEETS: 'Sheets',
 }
 
 const PersonalTabHashes = {
   [PersonalTabType.CABINET]: CABINET_ANCHOR,
-  [PersonalTabType.SHEETS]: SHEETS_ANCHOR
+  [PersonalTabType.SHEETS]: SHEETS_ANCHOR,
 }
 
 const HashTab = {
   [CABINET_ANCHOR]: PersonalTabType.CABINET,
   [SHEETS_ANCHOR]: PersonalTabType.CABINET,
   [QUICK_START_ANCHOR]: PersonalTabType.START_GUIDE,
-  [KEYSTACKHOLDERS_ANCHOR]: PersonalTabType.START_GUIDE
+  [KEYSTACKHOLDERS_ANCHOR]: PersonalTabType.START_GUIDE,
 }
 
 export const TabTypeComponent = {
   [PersonalTabType.START_GUIDE]: StartGuide,
   [PersonalTabType.CABINET]: Cabinet,
-  [PersonalTabType.SHEETS]: Cabinet
+  [PersonalTabType.SHEETS]: Cabinet,
 }
 
-export const toggleVisibility = tab => {
+export const toggleVisibility = (tab) => {
   return tab ? null : PersonalTabType.START_GUIDE
 }
 
-export const saveTab = tab => localStorage.setItem(LS_PERSONAL_TAB, tab || '')
+export const saveTab = (tab) => localStorage.setItem(LS_PERSONAL_TAB, tab || '')
 
-export function loadTab () {
+export function loadTab() {
   const hashTab = HashTab[window.location.hash]
   if (hashTab) {
     return hashTab

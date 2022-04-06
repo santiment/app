@@ -11,17 +11,10 @@ const CHART_PADDING = {
   top: 5,
   right: 16,
   bottom: 5,
-  left: 16
+  left: 16,
 }
 
-const Canvas = ({
-  data,
-  metrics,
-  topic,
-  settings,
-  setCurrentPoint,
-  ...props
-}) => (
+const Canvas = ({ data, metrics, topic, settings, setCurrentPoint, ...props }) => (
   <SANChart
     {...props}
     data={data}

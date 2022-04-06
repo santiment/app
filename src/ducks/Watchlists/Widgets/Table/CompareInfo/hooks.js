@@ -3,11 +3,11 @@ import { PROJECT_METRICS_BY_SLUG_QUERY } from '../../../../Studio/withMetrics'
 import { fetchData } from '../../../../Studio/timeseries/fetcher'
 import { cancelQuery } from '../../../../Studio/timeseries/hooks'
 
-const hashAssets = assets => assets.reduce((acc, { slug }) => acc + slug, '')
+const hashAssets = (assets) => assets.reduce((acc, { slug }) => acc + slug, '')
 
-function abortRemovedAssets (abortables, newAssets) {
+function abortRemovedAssets(abortables, newAssets) {
   const toAbort = new Map(abortables)
-  newAssets.forEach(metric => {
+  newAssets.forEach((metric) => {
     const abortable = abortables.get(metric)
     if (abortable) {
       toAbort.delete(metric)
@@ -30,9 +30,9 @@ const DEFAULT_METRICS = []
 const DEFAULT_LOADINGS = []
 
 const getIntersection = (source, target) =>
-  source.length > 0 ? source.filter(value => target.includes(value)) : target
+  source.length > 0 ? source.filter((value) => target.includes(value)) : target
 
-export function useAvailableMetrics (assets) {
+export function useAvailableMetrics(assets) {
   const [availableMetrics, setAvailableMetrics] = useState(DEFAULT_METRICS)
   const [loadings, setLoadings] = useState(DEFAULT_LOADINGS)
   const [abortables, setAbortables] = useState(DEFAULT_ABORTABLES)
@@ -50,28 +50,24 @@ export function useAvailableMetrics (assets) {
   useEffect(() => {
     let raceCondition = false
 
-    assets.forEach(asset => {
+    assets.forEach((asset) => {
       const { slug } = asset
       const abortController = new AbortController()
 
-      setLoadings(state => {
+      setLoadings((state) => {
         const loadingsSet = new Set(state)
         loadingsSet.add(asset)
         return [...loadingsSet]
       })
 
-      const request = fetchData(
-        PROJECT_METRICS_BY_SLUG_QUERY,
-        { slug },
-        abortController.signal
-      )
+      const request = fetchData(PROJECT_METRICS_BY_SLUG_QUERY, { slug }, abortController.signal)
 
       request
         .then(
           ({
             data: {
-              project: { availableMetrics }
-            }
+              project: { availableMetrics },
+            },
           }) => {
             if (raceCondition) return
 
@@ -79,12 +75,12 @@ export function useAvailableMetrics (assets) {
               throw new Error('No Data')
             }
 
-            setAvailableMetrics(source => {
+            setAvailableMetrics((source) => {
               return getIntersection(source, availableMetrics)
             })
 
             return availableMetrics
-          }
+          },
         )
         .catch(({ message }) => {
           if (raceCondition) return
@@ -92,13 +88,13 @@ export function useAvailableMetrics (assets) {
         .finally(() => {
           if (raceCondition) return
 
-          setAbortables(state => {
+          setAbortables((state) => {
             const newState = new Map(state)
             newState.delete(asset)
             return newState
           })
 
-          setLoadings(state => state.filter(loadable => loadable !== asset))
+          setLoadings((state) => state.filter((loadable) => loadable !== asset))
         })
     })
 

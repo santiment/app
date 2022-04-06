@@ -17,7 +17,7 @@ const SharedTriggerForm = ({
   originalTrigger,
   prepareAlertTitle,
   setIsPreview,
-  shouldDisableActions
+  shouldDisableActions,
 }) => {
   const { metric, type } = settings
 
@@ -27,7 +27,7 @@ const SharedTriggerForm = ({
 
   const {
     settings: originalSettings,
-    settings: { target }
+    settings: { target },
   } = originalTrigger
 
   const showChart = target && couldShowChart(originalSettings)
@@ -36,9 +36,7 @@ const SharedTriggerForm = ({
   if (isUnsupportedTrigger) {
     return (
       <div className={styles.container}>
-        <div className={styles.unsupported}>
-          This type of alerts is deprecated
-        </div>
+        <div className={styles.unsupported}>This type of alerts is deprecated</div>
       </div>
     )
   }
@@ -68,13 +66,13 @@ const SharedTriggerForm = ({
             label='Copy to my alerts'
             onClose={onClose}
             classes={{
-              copyBtn: cx(styles.copyBtn, shouldDisableActions && 'c-waterloo')
+              copyBtn: cx(styles.copyBtn, shouldDisableActions && 'c-waterloo'),
             }}
             as='div'
             btnParams={{
               variant: 'fill',
               accent: 'positive',
-              disabled: shouldDisableActions
+              disabled: shouldDisableActions,
             }}
           />
           <Button
@@ -93,13 +91,13 @@ const SharedTriggerForm = ({
             label='Add alert'
             onClose={onClose}
             classes={{
-              copyBtn: cx(styles.copyBtn, shouldDisableActions && 'c-waterloo')
+              copyBtn: cx(styles.copyBtn, shouldDisableActions && 'c-waterloo'),
             }}
             as='div'
             btnParams={{
               fluid: true,
               accent: 'positive',
-              disabled: shouldDisableActions
+              disabled: shouldDisableActions,
             }}
           />
           <Button

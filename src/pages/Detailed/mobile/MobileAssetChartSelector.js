@@ -11,10 +11,9 @@ const MobileAssetChartSelector = ({
   isSmallPhone,
   timeRange,
   className,
-  onChangeTimeRange
+  onChangeTimeRange,
 }) => {
-  const options =
-    isFullscreen || !isSmallPhone ? FULL_SET_OPTIONS : SHORT_SET_OPTIONS
+  const options = isFullscreen || !isSmallPhone ? FULL_SET_OPTIONS : SHORT_SET_OPTIONS
   let defaultTimeRange
   if (options.includes(timeRange)) {
     defaultTimeRange = timeRange
@@ -26,7 +25,7 @@ const MobileAssetChartSelector = ({
     <Selector
       className={className}
       options={options}
-      onSelectOption={value => {
+      onSelectOption={(value) => {
         if (value !== timeRange) {
           onChangeTimeRange(value)
         }

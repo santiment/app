@@ -27,9 +27,7 @@ const Title = ({ description, invalidStepsMemo, selected, isFinished }) => {
   return (
     <div className={styles.wrapper}>
       {(selected || isFinished) && children}
-      {isInvalid && (
-        <AlertMessage className={styles.error} error text='Title is required' />
-      )}
+      {isInvalid && <AlertMessage className={styles.error} error text='Title is required' />}
     </div>
   )
 }

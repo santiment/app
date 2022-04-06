@@ -11,17 +11,15 @@ const SETTINGS = {
   from: FROM.toISOString(),
   to: TO.toISOString(),
   interval: getNewInterval(FROM, TO),
-  timeRange: DEFAULT_TIME_RANGE.toUpperCase()
+  timeRange: DEFAULT_TIME_RANGE.toUpperCase(),
 }
 
-export const withDefaults = Component => ({ defaultSettings, ...props }) => (
-  <Component
-    {...props}
-    defaultSettings={Object.assign({}, SETTINGS, defaultSettings)}
-  />
-)
+export const withDefaults =
+  (Component) =>
+  ({ defaultSettings, ...props }) =>
+    <Component {...props} defaultSettings={Object.assign({}, SETTINGS, defaultSettings)} />
 
 export const TabType = {
   LATEST_TRANSACTIONS: 'Latest transactions',
-  TOP_TRANSACTIONS: 'Top transactions'
+  TOP_TRANSACTIONS: 'Top transactions',
 }

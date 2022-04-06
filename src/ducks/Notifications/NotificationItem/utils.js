@@ -9,13 +9,13 @@ import styles from './NotificationItem.module.scss'
 export const TRIGGER_FIRED = 'trigger_fired'
 export const PUBLISH_INSIGHT = 'publish_insight'
 
-export const getTitle = data => {
+export const getTitle = (data) => {
   const {
     payload,
     eventType,
     trigger,
     post,
-    user: { username, email }
+    user: { username, email },
   } = data
 
   switch (eventType) {
@@ -42,7 +42,7 @@ export const getTitle = data => {
   }
 }
 
-export const getLink = data => {
+export const getLink = (data) => {
   const { eventType, trigger, post } = data
 
   switch (eventType) {

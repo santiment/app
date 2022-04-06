@@ -13,7 +13,7 @@ const Page = ({
   title,
   isPhone,
   isCentered,
-  isWithPadding
+  isWithPadding,
 }) => (
   <div className={cx(styles.wrapper, className, isCentered && styles.centered)}>
     <div className={cx(styles.header, headerClassName)}>
@@ -24,19 +24,14 @@ const Page = ({
         </Link>
       )}
     </div>
-    <main
-      className={cx(
-        styles.main,
-        isWithPadding && !isCentered && styles.main_padding
-      )}
-    >
+    <main className={cx(styles.main, isWithPadding && !isCentered && styles.main_padding)}>
       {children}
     </main>
   </div>
 )
 
 Page.defaultProps = {
-  isWithPadding: true
+  isWithPadding: true,
 }
 
 export default withSizes(mapSizesToProps)(Page)

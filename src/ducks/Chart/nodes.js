@@ -2,13 +2,13 @@ const LineNode = {
   LINE: 'line',
   FILLED_LINE: 'filledLine',
   GRADIENT_LINE: 'gradientLine',
-  AREA: 'area'
+  AREA: 'area',
 }
 
 const BarNode = {
   BAR: 'bar',
   AUTO_WIDTH_BAR: 'autoWidthBar',
-  GREEN_RED_BAR: 'greenRedBar'
+  GREEN_RED_BAR: 'greenRedBar',
 }
 
 export const Node = Object.assign({ CANDLES: 'candle' }, LineNode, BarNode)

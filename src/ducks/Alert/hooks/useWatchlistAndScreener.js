@@ -10,7 +10,7 @@ export const useWatchlistAndScreener = ({ type, settings, skip }) => {
 
   const [watchlist, loading] = useWatchlist({
     id,
-    skip: skip || !id
+    skip: skip || !id,
   })
 
   return { watchlist, isWatchlistLoading: loading }

@@ -10,33 +10,22 @@ import { AVAILABLE_FREQUENCIES_FOR_METRICS } from './constants'
 
 const FrequencySelector = () => {
   const { values } = useFormikContext()
-  const [, { value: cooldown }, { setValue: setCooldown }] = useField(
-    'cooldown'
-  )
-  const [, { value: isRepeating }, { setValue: setIsRepeating }] = useField(
-    'isRepeating'
-  )
+  const [, { value: cooldown }, { setValue: setCooldown }] = useField('cooldown')
+  const [, { value: isRepeating }, { setValue: setIsRepeating }] = useField('isRepeating')
 
   const cooldownPeriod = cooldown.slice(-1)
   const cooldownCount = cooldown.slice(0, cooldown.length - 1)
 
-  const frequencyTypes = useMemo(
-    () => getFrequencyTypes(values.settings.metric),
-    []
-  )
+  const frequencyTypes = useMemo(() => getFrequencyTypes(values.settings.metric), [])
   const isDAA = AVAILABLE_FREQUENCIES_FOR_METRICS.has(values.settings.metric)
   const [type, setType] = useState(frequencyTypes[0])
   const frequencyPeriods = useMemo(() => getFrequencyPeriods(type), [type])
   const cooldownFrequencyPeriod = useMemo(
     () => frequencyPeriods.find(({ value }) => value === cooldownPeriod),
-    [cooldownPeriod, frequencyPeriods]
+    [cooldownPeriod, frequencyPeriods],
   )
-  const [period, setPeriod] = useState(
-    (cooldown && cooldownFrequencyPeriod) || frequencyPeriods[0]
-  )
-  const [count, setCount] = useState(
-    cooldownFrequencyPeriod ? cooldownCount : period.counts.min
-  )
+  const [period, setPeriod] = useState((cooldown && cooldownFrequencyPeriod) || frequencyPeriods[0])
+  const [count, setCount] = useState(cooldownFrequencyPeriod ? cooldownCount : period.counts.min)
 
   useEffect(() => {
     if (period.value && count) {
@@ -44,14 +33,14 @@ const FrequencySelector = () => {
     }
   }, [period, count])
 
-  function handleChangeType (frequencyType) {
+  function handleChangeType(frequencyType) {
     setType(frequencyType)
     const periods = getFrequencyPeriods(frequencyType)
     setPeriod(periods[0])
     setCount(periods[0].counts.min)
   }
 
-  function handleIsRepeatingChange () {
+  function handleIsRepeatingChange() {
     setIsRepeating(!isRepeating)
     const frequencies = getFrequencyTypes(values.settings.metric)
     const periods = getFrequencyPeriods(frequencies[0])
@@ -79,7 +68,7 @@ const FrequencySelector = () => {
           min={period.counts.min}
           max={period.counts.max}
           value={count}
-          onChange={e => setCount(e.target.value)}
+          onChange={(e) => setCount(e.target.value)}
           className={styles.counter}
         />
         <Select
@@ -88,7 +77,7 @@ const FrequencySelector = () => {
           isSearchable={false}
           options={frequencyPeriods}
           value={period}
-          onChange={val => {
+          onChange={(val) => {
             setPeriod(val)
             setCount(val.counts.min)
           }}
@@ -97,11 +86,7 @@ const FrequencySelector = () => {
         />
       </div>
       <div className={styles.inputsRow}>
-        <Checkbox
-          id='isRepeating'
-          isActive={!isRepeating}
-          onClick={handleIsRepeatingChange}
-        />
+        <Checkbox id='isRepeating' isActive={!isRepeating} onClick={handleIsRepeatingChange} />
         <label
           className={styles.repeatingCheckLabel}
           htmlFor='isRepeating'

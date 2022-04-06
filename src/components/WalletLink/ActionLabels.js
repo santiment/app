@@ -7,7 +7,7 @@ import styles from './WalletLink.module.scss'
 export const makeShortAddresLink = ({
   link,
   isExchange,
-  settings: { linkSymbolsCount = 16 } = {}
+  settings: { linkSymbolsCount = 16 } = {},
 }) =>
   link.length > 7 && link.length > linkSymbolsCount
     ? link.slice(0, isExchange ? 7 : linkSymbolsCount) + '...'
@@ -22,14 +22,12 @@ export const EtherscanLink = ({
   asLink = true,
   settings,
   className,
-  children
+  children,
 }) => {
   const link = children || address
 
   const addressShort =
-    isFull || typeof link !== 'string'
-      ? link
-      : makeShortAddresLink({ link, isExchange, settings })
+    isFull || typeof link !== 'string' ? link : makeShortAddresLink({ link, isExchange, settings })
   const showLabel = label || children || addressShort
 
   const El = asLink ? 'a' : 'div'
@@ -38,7 +36,7 @@ export const EtherscanLink = ({
     ? {
         href: isTx ? mapToTxLink(address) : mapToTxAddress(address),
         target: '_blank',
-        rel: 'noopener noreferrer'
+        rel: 'noopener noreferrer',
       }
     : {}
 
@@ -62,9 +60,7 @@ const ActionLabels = ({ isExchange, labels, className, content, ...rest }) => {
 export const DefaultAssetLinkWithLabels = ({ address, labels }) => {
   return (
     <div>
-      <span className={styles.link}>
-        {makeShortAddresLink({ link: address || '' })}
-      </span>
+      <span className={styles.link}>{makeShortAddresLink({ link: address || '' })}</span>
       {labels && <TransactionTableLabels labels={labels} />}
     </div>
   )

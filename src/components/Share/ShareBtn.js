@@ -14,11 +14,11 @@ const ShareBtn = ({ className, ...props }) => {
 }
 
 ShareBtn.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 }
 
 ShareBtn.defaultProps = {
-  className: ''
+  className: '',
 }
 
 export default ShareBtn

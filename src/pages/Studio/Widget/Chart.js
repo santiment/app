@@ -25,19 +25,19 @@ const Settings = () => {
           selectRange
           value={dates}
           maxDate={maxDate}
-          onChange={dates => window.setSettingsCalendarDate(dates)}
+          onChange={(dates) => window.setSettingsCalendarDate(dates)}
         />,
-        target
+        target,
       )
     : null
 }
 
-const metricsImmute = metrics => metrics.slice()
-function useWidgetMetrics (widget) {
+const metricsImmute = (metrics) => metrics.slice()
+function useWidgetMetrics(widget) {
   return useStore(widget.Metrics, metricsImmute)
 }
 
-const drawerImmute = v => Object.assign({}, v)
+const drawerImmute = (v) => Object.assign({}, v)
 const ChartWidget = ({ widget, target, settings, InsightsStore }) => {
   const { isDrawing } = useStore(widget.ChartDrawer, drawerImmute)
   const metrics = useWidgetMetrics(widget)
@@ -50,13 +50,8 @@ const ChartWidget = ({ widget, target, settings, InsightsStore }) => {
       {!isDrawing &&
         chartContainer &&
         ReactDOM.createPortal(
-          <Signals
-            {...settings}
-            metrics={metrics}
-            data={[{}]}
-            chart={widget.chart}
-          />,
-          chartContainer
+          <Signals {...settings} metrics={metrics} data={[{}]} chart={widget.chart} />,
+          chartContainer,
         )}
 
       <Settings />

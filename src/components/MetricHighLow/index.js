@@ -10,15 +10,15 @@ import styles from './index.module.scss'
 const DEFAULT_RANGE_HOURS = [
   {
     range: '24h',
-    hours: 24
+    hours: 24,
   },
   {
     range: '7d',
-    hours: 24 * 7
-  }
+    hours: 24 * 7,
+  },
 ]
 
-function getPeriod (hours) {
+function getPeriod(hours) {
   const to = new Date()
   const from = new Date()
 
@@ -27,16 +27,12 @@ function getPeriod (hours) {
 
   return {
     from: from.toISOString(),
-    to: to.toISOString()
+    to: to.toISOString(),
   }
 }
 
 const Value = ({ loading, value, formatter }) =>
-  loading ? (
-    <Loader className={styles.loader} />
-  ) : (
-    <span>{formatter(value)}</span>
-  )
+  loading ? <Loader className={styles.loader} /> : <span>{formatter(value)}</span>
 
 const MetricHighLow = ({
   className,
@@ -47,7 +43,7 @@ const MetricHighLow = ({
   changes,
   selectedIndex,
   formatter,
-  onRangeChange
+  onRangeChange,
 }) => {
   const [index, setIndex] = useState(selectedIndex)
   const { range, hours } = rangeHours[index]
@@ -56,8 +52,8 @@ const MetricHighLow = ({
     variables: {
       metric,
       slug,
-      ...getPeriod(hours)
-    }
+      ...getPeriod(hours),
+    },
   })
 
   const { min = 0, max = 0, last = 0 } = data.getMetric || {}
@@ -72,7 +68,7 @@ const MetricHighLow = ({
     offset = 100
   }
 
-  function cycleRange () {
+  function cycleRange() {
     const newIndex = (index + 1) % rangeHours.length
     setIndex(newIndex)
     if (onRangeChange) {
@@ -89,10 +85,7 @@ const MetricHighLow = ({
           <span className={styles.text}>High/Low {label}</span>
         )}
         <Label
-          className={cx(
-            styles.period,
-            rangeHours.length === 1 && styles.period_only
-          )}
+          className={cx(styles.period, rangeHours.length === 1 && styles.period_only)}
           onClick={cycleRange}
         >
           {range}
@@ -110,7 +103,7 @@ const MetricHighLow = ({
 MetricHighLow.defaultProps = {
   rangeHours: DEFAULT_RANGE_HOURS,
   selectedIndex: 0,
-  formatter: v => v
+  formatter: (v) => v,
 }
 
 export default MetricHighLow

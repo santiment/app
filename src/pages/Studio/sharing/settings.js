@@ -1,9 +1,9 @@
-export function parseMetricGraphValue (graph, KnownMetric, metrics) {
+export function parseMetricGraphValue(graph, KnownMetric, metrics) {
   const MetricValue = {}
 
   if (!graph) return MetricValue
 
-  metrics.forEach(metricKey => {
+  metrics.forEach((metricKey) => {
     if (!graph[metricKey]) return
 
     const metric = KnownMetric[metricKey]

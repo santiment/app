@@ -5,30 +5,28 @@ const ON_CHAIN_DEFAULT = []
 const suggestionContent = ({ label }) => label
 const contains = (root, target) => root && root.toUpperCase().includes(target)
 
-export function checkMatch (upperCaseSearchTerm, abbreviation, label) {
+export function checkMatch(upperCaseSearchTerm, abbreviation, label) {
   if (!upperCaseSearchTerm) {
     return true
   }
 
   return (
-    (abbreviation &&
-      abbreviation.toUpperCase().includes(upperCaseSearchTerm)) ||
+    (abbreviation && abbreviation.toUpperCase().includes(upperCaseSearchTerm)) ||
     (label && label.toUpperCase().includes(upperCaseSearchTerm))
   )
 }
 
-function predicate (searchTerm) {
+function predicate(searchTerm) {
   const upperCaseSearchTerm = searchTerm ? searchTerm.toUpperCase() : ''
   return ({ label, abbreviation }) =>
-    contains(abbreviation, upperCaseSearchTerm) ||
-    contains(label, upperCaseSearchTerm)
+    contains(abbreviation, upperCaseSearchTerm) || contains(label, upperCaseSearchTerm)
 }
 
 export const getMetricSuggestions = (
   categories,
   predicate,
   props = {},
-  onChainDefault = ON_CHAIN_DEFAULT
+  onChainDefault = ON_CHAIN_DEFAULT,
 ) => {
   const suggestions = []
 
@@ -37,18 +35,14 @@ export const getMetricSuggestions = (
     const items = categoryKey === 'On-chain' ? onChainDefault.slice() : []
 
     for (const group in category) {
-      category[group].forEach(({ item, subitems }) =>
-        items.push(item, ...subitems)
-      )
+      category[group].forEach(({ item, subitems }) => items.push(item, ...subitems))
     }
 
     suggestions.push({
       suggestionContent,
       predicate,
       title: categoryKey,
-      items: items.filter(({ checkIsVisible }) =>
-        checkIsVisible ? checkIsVisible(props) : true
-      )
+      items: items.filter(({ checkIsVisible }) => (checkIsVisible ? checkIsVisible(props) : true)),
     })
   }
 
@@ -67,14 +61,8 @@ const Search = ({
     {...props}
     withMoreSuggestions={false}
     data={useMemo(
-      () =>
-        getMetricSuggestions(
-          categories,
-          searchPredicate,
-          project,
-          onChainDefault
-        ),
-      [categories, searchPredicate, project, onChainDefault]
+      () => getMetricSuggestions(categories, searchPredicate, project, onChainDefault),
+      [categories, searchPredicate, project, onChainDefault],
     )}
     onSuggestionSelect={({ item }) => toggleMetric(item, project)}
     dontResetStateAfterSelection
@@ -82,7 +70,7 @@ const Search = ({
 )
 
 Search.defaultProps = {
-  searchPredicate: predicate
+  searchPredicate: predicate,
 }
 
 export default Search

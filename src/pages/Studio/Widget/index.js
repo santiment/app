@@ -9,24 +9,24 @@ import TopExchangesTableWidget from './TopExchangesTable'
 export const ExternalWidgetCreator = {
   [SelectorNode.FeesDistribution.key]: () =>
     newExternalWidget(FeesDistributionWidget, {
-      previewTitle: 'Fees Distribution'
+      previewTitle: 'Fees Distribution',
     }),
   [SelectorNode.HoldersDistributionTable.key]: () =>
     newExternalWidget(HoldersDistributionTableWidget, {
-      previewTitle: 'Top Holders Table'
+      previewTitle: 'Top Holders Table',
     }),
   [SelectorNode.TopExchangesTable.key]: () =>
     newExternalWidget(TopExchangesTableWidget, {
-      previewTitle: 'Holdings on the top exchanges'
-    })
+      previewTitle: 'Holdings on the top exchanges',
+    }),
 }
 
-export function getExternalWidget (node) {
+export function getExternalWidget(node) {
   const newWidget = ExternalWidgetCreator[node.key]
   if (newWidget) return newWidget()
 }
 
-const Widget = props => {
+const Widget = (props) => {
   const { widget } = props
 
   if (widget.Widget === FeesDistributionWidget) {

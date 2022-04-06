@@ -9,11 +9,11 @@ const Input = ({ defaultValue, onChange, ...props }) => {
   useEffect(resize, [value])
   useEffect(() => setValue(defaultValue), [defaultValue])
 
-  function resize () {
+  function resize() {
     inputRef.current.style.width = value.toString().length + 1 + 'ch'
   }
 
-  function onInputChange ({ target: { value } }) {
+  function onInputChange({ target: { value } }) {
     setValue(value)
     if (value) {
       setLastValidValue(value)
@@ -21,13 +21,13 @@ const Input = ({ defaultValue, onChange, ...props }) => {
     onChange(+value)
   }
 
-  function onFocus () {
+  function onFocus() {
     if (!+value) {
       setValue('')
     }
   }
 
-  function onBlur () {
+  function onBlur() {
     if (!+value) {
       setValue(lastValidValue)
     }
@@ -47,7 +47,7 @@ const Input = ({ defaultValue, onChange, ...props }) => {
 }
 
 Input.defaultProps = {
-  defaultValue: 0
+  defaultValue: 0,
 }
 
 export default Input

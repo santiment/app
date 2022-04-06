@@ -4,8 +4,8 @@ import Icon from '@santiment-network/ui/Icon'
 import styles from './PrivacySelector.module.scss'
 import { useField } from 'formik'
 
-const IconNotActive = props => <Icon {...props} type='eye-disabled' />
-const IconActive = props => <Icon {...props} type='eye' />
+const IconNotActive = (props) => <Icon {...props} type='eye-disabled' />
+const IconActive = (props) => <Icon {...props} type='eye' />
 
 const PrivacySelector = () => {
   const [, { value }, { setValue }] = useField('isPublic')

@@ -1,17 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import SourceToggle from '../SourceToggle'
-import InputLink, {
-  validURL
-} from '../../../../../../../../../components/InputLink/InputLink'
+import InputLink, { validURL } from '../../../../../../../../../components/InputLink/InputLink'
 
-const WebhookToggle = ({
-  disabled,
-  isActive,
-  onChange,
-  value,
-  setValue,
-  webhook
-}) => {
+const WebhookToggle = ({ disabled, isActive, onChange, value, setValue, webhook }) => {
   const [webhookUrl, setWebhookUrl] = useState(webhook ? webhook.webhook : '')
   const [isError, setIsError] = useState(false)
 
@@ -19,15 +10,15 @@ const WebhookToggle = ({
     if (webhookUrl && validURL(webhookUrl)) {
       setIsError(false)
 
-      const updatedChannels = value.filter(item =>
-        typeof item === 'string' ? item : !('webhook' in item)
+      const updatedChannels = value.filter((item) =>
+        typeof item === 'string' ? item : !('webhook' in item),
       )
 
       setValue([
         ...updatedChannels,
         {
-          webhook: webhookUrl
-        }
+          webhook: webhookUrl,
+        },
       ])
     } else {
       setIsError(!disabled)
@@ -46,7 +37,7 @@ const WebhookToggle = ({
         disabled={disabled}
         errorText={isError && 'Invalid webhook URL'}
         value={webhookUrl}
-        onChange={e => setWebhookUrl(e.target.value)}
+        onChange={(e) => setWebhookUrl(e.target.value)}
       />
     </SourceToggle>
   )

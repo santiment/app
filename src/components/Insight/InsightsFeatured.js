@@ -7,11 +7,9 @@ import { creationDateSort } from './utils'
 const InsightsTrends = ({ data: { insights = [] }, ...props }) => {
   return insights
     .sort(creationDateSort)
-    .map(({ id, ...insight }) => (
-      <InsightCardSmall key={id} {...props} id={id} {...insight} />
-    ))
+    .map(({ id, ...insight }) => <InsightCardSmall key={id} {...props} id={id} {...insight} />)
 }
 
 export default graphql(FEATURED_INSIGHTS_QUERY, {
-  fetchPolicy: 'cache-and-network'
+  fetchPolicy: 'cache-and-network',
 })(InsightsTrends)

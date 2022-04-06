@@ -29,10 +29,10 @@ const initialValues = {
     target: { slug: '' },
     channel: [],
     time_window: '',
-    operation: {}
+    operation: {},
   },
   tags: [],
-  title: ''
+  title: '',
 }
 
 const AlertModalFormMaster = ({
@@ -60,12 +60,13 @@ const AlertModalFormMaster = ({
   const [invalidSteps, setInvalidSteps] = useState([])
   const visitedStepsMemo = useMemo(() => new Set(visitedSteps), [visitedSteps])
   const invalidStepsMemo = useMemo(() => new Set(invalidSteps), [invalidSteps])
-  const finishedStepsMemo = useMemo(() => new Set(finishedSteps), [
-    finishedSteps
-  ])
-
+  const finishedStepsMemo = useMemo(() => new Set(finishedSteps), [finishedSteps])
   const { user } = useUser()
-  const { data = {}, loading, error } = useSignal({
+  const {
+    data = {},
+    loading,
+    error,
+  } = useSignal({
     id,
     skip: !id || signalData
   })
@@ -73,9 +74,9 @@ const AlertModalFormMaster = ({
   const metric = formPreviousValues.settings.metric
   const { refetch } = useQuery(GET_METRIC_MIN_INTERVAL, {
     variables: {
-      metric
+      metric,
     },
-    skip: !metric
+    skip: !metric,
   })
 
   const isSharedTrigger =
@@ -102,24 +103,22 @@ const AlertModalFormMaster = ({
     }
   }, [formPreviousValues, isModalOpen])
 
-  async function submitFormValues ({ values, setSubmitting }) {
+  async function submitFormValues({ values, setSubmitting }) {
     const triggerValues = {
       ...values,
-      settings: { ...values.settings, type: selectedType.settings.type }
+      settings: { ...values.settings, type: selectedType.settings.type },
     }
 
     if (selectedType.settings.type === 'metric_signal') {
       const { data } = await refetch({ metric: triggerValues.settings.metric })
 
-      triggerValues.settings.type = getMetricSignalKey(
-        data.metric.metadata.minInterval
-      )
+      triggerValues.settings.type = getMetricSignalKey(data.metric.metadata.minInterval)
     }
 
     if (id && !isSharedTrigger && !isRecommendedSignal) {
       updateAlert({
         id,
-        ...triggerValues
+        ...triggerValues,
       })
     } else {
       createAlert(triggerValues)
@@ -128,12 +127,12 @@ const AlertModalFormMaster = ({
     handleCloseDialog()
   }
 
-  function handleSubmit (values, { setSubmitting }) {
+  function handleSubmit(values, { setSubmitting }) {
     validateFormSteps({
       type: selectedType,
       values,
       setInvalidSteps,
-      submitForm: () => submitFormValues({ values, setSubmitting })
+      submitForm: () => submitFormValues({ values, setSubmitting }),
     })
   }
 
@@ -154,7 +153,7 @@ const AlertModalFormMaster = ({
       setFormPreviousValues,
       invalidStepsMemo,
       setInvalidSteps,
-      shouldHideRestrictionMessage
+      shouldHideRestrictionMessage,
     }),
     [
       selectedType,
@@ -172,17 +171,12 @@ const AlertModalFormMaster = ({
       setFormPreviousValues,
       invalidStepsMemo,
       setInvalidSteps,
-      shouldHideRestrictionMessage
-    ]
+      shouldHideRestrictionMessage,
+    ],
   )
 
   if (loading) {
-    return (
-      <PageLoader
-        containerClass={styles.loaderWrapper}
-        className={styles.loader}
-      />
-    )
+    return <PageLoader containerClass={styles.loaderWrapper} className={styles.loader} />
   }
 
   if (error) {
@@ -211,12 +205,8 @@ const AlertModalFormMaster = ({
   }
 
   return (
-    <Formik
-      initialValues={initialState}
-      onSubmit={handleSubmit}
-      enableReinitialize={true}
-    >
-      {formik => (
+    <Formik initialValues={initialState} onSubmit={handleSubmit} enableReinitialize={true}>
+      {(formik) => (
         <AlertModalForm
           isRecommendedSignal={isRecommendedSignal}
           signal={signalData || (data && data.trigger && data.trigger.trigger)}
@@ -232,13 +222,13 @@ const AlertModalFormMaster = ({
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  createAlert: payload => {
+const mapDispatchToProps = (dispatch) => ({
+  createAlert: (payload) => {
     dispatch(createTrigger(payload))
   },
-  updateAlert: payload => {
+  updateAlert: (payload) => {
     dispatch(updateTrigger(payload))
-  }
+  },
 })
 
 export default connect(null, mapDispatchToProps)(AlertModalFormMaster)

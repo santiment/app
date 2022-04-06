@@ -6,22 +6,22 @@ import styles from './index.module.scss'
 export const Tab = {
   index: {
     path: '',
-    label: 'Studio'
+    label: 'Studio',
   },
   stats: {
     path: '/stats',
-    label: 'Key Stats'
+    label: 'Key Stats',
   },
   insights: {
     path: '/related-insights',
-    labelFormatter: name => (name ? `${name} Insights` : 'Insights')
-  }
+    labelFormatter: (name) => (name ? `${name} Insights` : 'Insights'),
+  },
 }
 const TABS = Object.values(Tab)
 
 const SUBPATHS = new Set(TABS.map(({ path }) => path))
 
-function getSubpath (path) {
+function getSubpath(path) {
   const slashPosition = path.lastIndexOf('/', path.length - 2)
   const subpath = path.slice(slashPosition, path.endsWith('/') ? -1 : undefined)
   return SUBPATHS.has(subpath) ? '' : subpath
@@ -31,7 +31,7 @@ const Tabs = ({
   className,
   location: { pathname },
   match: { path: base },
-  settings: { name, slug }
+  settings: { name, slug },
 }) => {
   const subpath = getSubpath(pathname.slice(base.length))
   const search = window.location.search

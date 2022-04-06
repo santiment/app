@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
 import withSizes from 'react-sizes'
-import {
-  ResponsiveContainer,
-  ComposedChart,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ReferenceLine
-} from 'recharts'
+import { ResponsiveContainer, ComposedChart, XAxis, YAxis, Tooltip, ReferenceLine } from 'recharts'
 import throttle from 'lodash.throttle'
 import Gradients from '../../../components/Gradients'
 import { Metric } from '../../../ducks/dataHub/metrics'
@@ -41,16 +34,16 @@ const MobileAssetChart = ({
     syncedColors: MetricColor,
     useShortName: true,
     activeLineDataKey: Metric.price_usd.key,
-    showActiveDot: false
+    showActiveDot: false,
   })
 
   const chartMediumIndex = data.length / 2
 
-  const hideTooltipItem = key => key === Metric.price_usd.key
+  const hideTooltipItem = (key) => key === Metric.price_usd.key
 
   const setCurrentIndex = throttle(
-    evt => setActiveIndex(evt ? evt.activeTooltipIndex : null),
-    800
+    (evt) => setActiveIndex(evt ? evt.activeTooltipIndex : null),
+    800,
   )
 
   useEffect(() => clearCache)
@@ -66,11 +59,7 @@ const MobileAssetChart = ({
       )}
       {isLoading && <Loader className={styles.loader} />}
       <ResponsiveContainer width='100%' height={chartHeight}>
-        <ComposedChart
-          data={data}
-          onMouseMove={setCurrentIndex}
-          margin={{ left: 0, right: 0 }}
-        >
+        <ComposedChart data={data} onMouseMove={setCurrentIndex} margin={{ left: 0, right: 0 }}>
           <defs>
             <Gradients />
           </defs>
@@ -78,20 +67,20 @@ const MobileAssetChart = ({
           <YAxis
             hide
             domain={[
-              dataMin => {
+              (dataMin) => {
                 if (isFinite(dataMin) && icoPrice - dataMin < 0) {
                   setIcoPricePos(0)
                 }
 
                 return dataMin
               },
-              dataMax => {
+              (dataMax) => {
                 if (isFinite(dataMax) && icoPrice - dataMax > 0) {
                   setIcoPricePos(0)
                 }
 
                 return dataMax
-              }
+              },
             ]}
             dataKey={Metric.price_usd.key}
           />
@@ -100,20 +89,15 @@ const MobileAssetChart = ({
               isAnimationActive={false}
               cursor={{ stroke: 'var(--casper)' }}
               position={{ x: 0, y: isLandscapeMode ? -49 : -62.5 }}
-              content={props => (
+              content={(props) => (
                 <>
-                  <MobilePriceTooltip
-                    {...props}
-                    labelFormatter={tooltipLabelFormatter}
-                  />
+                  <MobilePriceTooltip {...props} labelFormatter={tooltipLabelFormatter} />
                   <CommonChartTooltip
                     {...props}
                     withLabel={false}
                     className={cx(
                       styles.tooltip,
-                      activeIndex < chartMediumIndex &&
-                        metrics.length > 2 &&
-                        styles.rightAlign
+                      activeIndex < chartMediumIndex && metrics.length > 2 && styles.rightAlign,
                     )}
                     hideItem={hideTooltipItem}
                     metrics={metrics}
@@ -140,7 +124,7 @@ const MobileAssetChart = ({
 
 const mapSizesToProps = ({ width, height }) => ({
   chartHeight: (width > height ? height : width) / 2,
-  isLandscapeMode: width > height
+  isLandscapeMode: width > height,
 })
 
 export default withSizes(mapSizesToProps)(MobileAssetChart)

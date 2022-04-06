@@ -3,15 +3,10 @@ import { formatNumber } from '../../../utils/formatting'
 import Widget from '../../../components/PriceChangesWidget/PriceChangesWidget'
 import styles from './MobileAssetPriceInfo.module.scss'
 
-const MobileAssetPriceInfo = ({
-  priceUsd,
-  percentChange24h,
-  percentChange7d,
-  ...props
-}) => {
+const MobileAssetPriceInfo = ({ priceUsd, percentChange24h, percentChange7d, ...props }) => {
   const RANGES = [
     { range: '24h', value: percentChange24h },
-    { range: '7d', value: percentChange7d }
+    { range: '7d', value: percentChange7d },
   ]
 
   let [activeRange, setActiveRange] = useState(0)

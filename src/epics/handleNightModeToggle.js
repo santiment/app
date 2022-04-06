@@ -4,7 +4,7 @@ import {
   USER_TOGGLE_NIGHT_MODE,
   APP_USER_NIGHT_MODE_SAVE,
   APP_USER_NIGHT_MODE_SAVE_FAILED,
-  CHANGE_USER_DATA
+  CHANGE_USER_DATA,
 } from './../actions/types'
 import { saveKeyState, loadKeyState } from '../utils/localStorage'
 import { handleErrorAndTriggerAction } from './utils'
@@ -20,16 +20,14 @@ const NIGHT_MODE_MUTATION = gql`
 
 export const THEME_TYPES = {
   default: 'default',
-  nightmode: 'nightmode'
+  nightmode: 'nightmode',
 }
 
 const handleNightModeToggle = (action$, store, { client }) =>
   action$
     .ofType(USER_TOGGLE_NIGHT_MODE)
-    .exhaustMap(() =>
-      Observable.of(document.body.classList.toggle('night-mode'))
-    )
-    .mergeMap(isNightModeEnabled => {
+    .exhaustMap(() => Observable.of(document.body.classList.toggle('night-mode')))
+    .mergeMap((isNightModeEnabled) => {
       saveKeyState('isNightMode', isNightModeEnabled)
 
       if (isHalloweenDay()) {
@@ -41,40 +39,35 @@ const handleNightModeToggle = (action$, store, { client }) =>
         const mutation = client.mutate({
           mutation: NIGHT_MODE_MUTATION,
           variables: {
-            theme: isNightModeEnabled
-              ? THEME_TYPES.nightmode
-              : THEME_TYPES.default
-          }
+            theme: isNightModeEnabled ? THEME_TYPES.nightmode : THEME_TYPES.default,
+          },
         })
         return Observable.from(mutation)
           .mergeMap(({ data: { updateUserSettings } }) => {
             return Observable.of({
               type: APP_USER_NIGHT_MODE_SAVE,
-              payload: updateUserSettings.theme === THEME_TYPES.nightmode
+              payload: updateUserSettings.theme === THEME_TYPES.nightmode,
             })
           })
           .catch(handleErrorAndTriggerAction(APP_USER_NIGHT_MODE_SAVE_FAILED))
       }
       return Observable.of({
         type: APP_USER_NIGHT_MODE_SAVE,
-        payload: isNightModeEnabled
+        payload: isNightModeEnabled,
       })
     })
 
-export const saveNightModeAfterLaunch = action$ =>
+export const saveNightModeAfterLaunch = (action$) =>
   action$
     .ofType(CHANGE_USER_DATA)
-    .filter(
-      ({ user = {} }) =>
-        user.settings && user.settings.theme === THEME_TYPES.nightmode
-    )
+    .filter(({ user = {} }) => user.settings && user.settings.theme === THEME_TYPES.nightmode)
     .filter(() => loadKeyState('isNightMode') === undefined)
     .exhaustMap(() => Observable.of(document.body.classList.add('night-mode')))
     .mergeMap(() => {
       saveKeyState('isNightMode', true)
       return Observable.of({
         type: APP_USER_NIGHT_MODE_SAVE,
-        payload: true
+        payload: true,
       })
     })
 
@@ -84,29 +77,28 @@ export const sendNightModeIfDiff = (action$, store, { client }) =>
     .ofType(CHANGE_USER_DATA)
     .filter(
       () =>
-        loadKeyState('isNightMode') === undefined &&
-        loadKeyState('isNightModeEnabled') === true
+        loadKeyState('isNightMode') === undefined && loadKeyState('isNightModeEnabled') === true,
     )
     .mergeMap(
       ({
         user: {
-          settings: { theme }
-        }
+          settings: { theme },
+        },
       }) => {
         saveKeyState('isNightMode', true)
         const mutation = client.mutate({
           mutation: NIGHT_MODE_MUTATION,
-          variables: { theme: true }
+          variables: { theme: true },
         })
         return Observable.from(mutation)
           .mergeMap(({ data: { updateUserSettings } }) => {
             return Observable.of({
               type: APP_USER_NIGHT_MODE_SAVE,
-              payload: updateUserSettings.theme === THEME_TYPES.nightmode
+              payload: updateUserSettings.theme === THEME_TYPES.nightmode,
             })
           })
           .catch(handleErrorAndTriggerAction(APP_USER_NIGHT_MODE_SAVE_FAILED))
-      }
+      },
     )
 
 export default handleNightModeToggle

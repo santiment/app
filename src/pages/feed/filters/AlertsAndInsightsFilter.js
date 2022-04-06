@@ -8,27 +8,27 @@ export const AUTHOR_TYPES = {
   OWN: 'OWN',
   ALL: 'ALL',
   FOLLOWED: 'FOLLOWED',
-  SANFAM: 'SANFAM'
+  SANFAM: 'SANFAM',
 }
 
 const EVENTS_TYPES = [
   {
     label: 'Show all',
-    type: AUTHOR_TYPES.ALL
+    type: AUTHOR_TYPES.ALL,
   },
   {
     label: 'Only from Santiment team',
-    type: AUTHOR_TYPES.SANFAM
+    type: AUTHOR_TYPES.SANFAM,
   },
   {
     label: 'Only from people you follow',
     type: AUTHOR_TYPES.FOLLOWED,
-    hideForAnon: true
-  }
+    hideForAnon: true,
+  },
 ]
 
 const AlertsAndInsightsFilter = ({ selected, onUpdate, isLoggedIn }) => {
-  const toggleSelection = item => {
+  const toggleSelection = (item) => {
     onUpdate && onUpdate(item.type)
   }
 
@@ -36,7 +36,7 @@ const AlertsAndInsightsFilter = ({ selected, onUpdate, isLoggedIn }) => {
     <div className={styles.container}>
       <div className={styles.title}>Alerts & Insights</div>
 
-      {EVENTS_TYPES.map(item => {
+      {EVENTS_TYPES.map((item) => {
         return (
           (!item.hideForAnon || isLoggedIn) && (
             <FormikRadio
@@ -53,9 +53,9 @@ const AlertsAndInsightsFilter = ({ selected, onUpdate, isLoggedIn }) => {
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    isLoggedIn: checkIsLoggedIn(state)
+    isLoggedIn: checkIsLoggedIn(state),
   }
 }
 export default connect(mapStateToProps)(AlertsAndInsightsFilter)

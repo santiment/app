@@ -8,18 +8,10 @@ import { useSwipeState } from '../../../components/SwipablePages/SwipablePages'
 import externalStyles from './PlanDetails.module.scss'
 import styles from './PlanDetailsMobile.module.scss'
 
-const PlanDetailsMobile = ({
-  showingPlans,
-  userPlan,
-  subscription,
-  plans,
-  billing
-}) => {
+const PlanDetailsMobile = ({ showingPlans, userPlan, subscription, plans, billing }) => {
   const { active, onChange } = useSwipeState()
 
-  const all = useMemo(() => new Array(showingPlans.length).fill(true), [
-    showingPlans
-  ])
+  const all = useMemo(() => new Array(showingPlans.length).fill(true), [showingPlans])
 
   return (
     <div className={styles.container}>
@@ -29,10 +21,10 @@ const PlanDetailsMobile = ({
           swipeOptions={{
             callback: onChange,
             continuous: false,
-            startSlide: active
+            startSlide: active,
           }}
         >
-          {showingPlans.map(plan => (
+          {showingPlans.map((plan) => (
             <div key={plan.id}>
               <PlanCard
                 plan={plan}
@@ -75,7 +67,7 @@ const PlanDetailsMobile = ({
                   className={cx(
                     externalStyles.group,
                     externalStyles.cell,
-                    externalStyles.noRightBorder
+                    externalStyles.noRightBorder,
                   )}
                 >
                   {row.group.name}
@@ -87,12 +79,7 @@ const PlanDetailsMobile = ({
                 const checkboxes = !texts ? checks || all : undefined
                 return (
                   <tr key={name} className={externalStyles.row}>
-                    <td
-                      className={cx(
-                        externalStyles.cell,
-                        externalStyles.feature__title
-                      )}
-                    >
+                    <td className={cx(externalStyles.cell, externalStyles.feature__title)}>
                       {name}
                     </td>
                     {checkboxes && (
@@ -100,28 +87,21 @@ const PlanDetailsMobile = ({
                         className={cx(
                           externalStyles.cell,
                           externalStyles.feature__cell,
-                          !checkboxes[active] &&
-                            externalStyles.feature__check__grey
+                          !checkboxes[active] && externalStyles.feature__check__grey,
                         )}
                       >
                         {checkboxes[active] && (
                           <MarkIcon
                             className={cx(
                               externalStyles.feature__check,
-                              active === 0 &&
-                                externalStyles.feature__check__green
+                              active === 0 && externalStyles.feature__check__green,
                             )}
                           />
                         )}
                       </td>
                     )}
                     {texts && (
-                      <td
-                        className={cx(
-                          externalStyles.cell,
-                          externalStyles.feature__cell
-                        )}
-                      >
+                      <td className={cx(externalStyles.cell, externalStyles.feature__cell)}>
                         {texts[active]}
                       </td>
                     )}

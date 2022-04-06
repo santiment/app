@@ -9,17 +9,12 @@ import styles from './PlanEngage.module.scss'
 
 export const getTrialDaysLeft = () => ''
 
-export const getDaysLeftLabel = daysLeft =>
+export const getDaysLeftLabel = (daysLeft) =>
   daysLeft === 1 ? 'last day' : `${daysLeft} days left`
 
 const PlanEngage = () => {
   const { user, loading: isUserLoading } = useUser()
-  const {
-    loading,
-    isPro,
-    isProPlus,
-    trialDaysLeft
-  } = useUserSubscriptionStatus()
+  const { loading, isPro, isProPlus, trialDaysLeft } = useUserSubscriptionStatus()
 
   const isLoading = isUserLoading || loading
 
@@ -63,8 +58,7 @@ const PlanEngage = () => {
         className={cx(styles.text, styles.premium)}
       >
         <Icon type='crown' className={styles.icon} />
-        Pro{isProPlus && '+'}{' '}
-        {trialDaysLeft && `Trial (${getDaysLeftLabel(trialDaysLeft)})`}
+        Pro{isProPlus && '+'} {trialDaysLeft && `Trial (${getDaysLeftLabel(trialDaysLeft)})`}
       </a>
     </div>
   )

@@ -15,8 +15,7 @@ const Note = ({ children }) => (
 
 Event.trendPositionHistory.note = <Note>It will disable Anomalies</Note>
 
-const COMPLEXITY_NOTE =
-  'The requested period is outside of your plan boundaries'
+const COMPLEXITY_NOTE = 'The requested period is outside of your plan boundaries'
 
 const MetricExplanation = ({
   metric,

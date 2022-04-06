@@ -14,24 +14,24 @@ const result = {
   currentUser: {
     id: 2,
     settings: {
-      hasTelegramConnected: false
-    }
-  }
+      hasTelegramConnected: false,
+    },
+  },
 }
 
 const resultSuccess = {
   currentUser: {
     id: 2,
     settings: {
-      hasTelegramConnected: true
-    }
-  }
+      hasTelegramConnected: true,
+    },
+  },
 }
 
 const link = mockSingleLink(
   { request: { query, variables: {} }, result: { data: result } },
   { request: { query, variables: {} }, result: { data: resultSuccess } },
-  { request: { query, variables: {} }, result: { data: resultSuccess } }
+  { request: { query, variables: {} }, result: { data: resultSuccess } },
 )
 
 const falseLink = mockSingleLink(
@@ -48,15 +48,15 @@ const falseLink = mockSingleLink(
   { request: { query, variables: {} }, result: { data: result } },
   { request: { query, variables: {} }, result: { data: result } },
   { request: { query, variables: {} }, result: { data: result } },
-  { request: { query, variables: {} }, result: { data: result } }
+  { request: { query, variables: {} }, result: { data: result } },
 )
 
-const createClient = link => {
+const createClient = (link) => {
   return new ApolloClient({
     link,
     cache: new InMemoryCache({
-      addTypename: false
-    })
+      addTypename: false,
+    }),
   })
 }
 
@@ -64,7 +64,7 @@ describe('connect to telegram', () => {
   it('should return connection succesfull, if server return the true flag', async () => {
     const client = createClient(link)
     const action$ = ActionsObservable.of({
-      type: actions.SETTINGS_CONNECT_TELEGRAM
+      type: actions.SETTINGS_CONNECT_TELEGRAM,
     })
     const epic$ = connectTelegramEpic(action$, mockStore({}), { client })
     jest.useFakeTimers()
@@ -72,7 +72,7 @@ describe('connect to telegram', () => {
     jest.runAllTimers()
     const result = await promise
     expect(result[0]).toEqual({
-      type: actions.SETTINGS_CONNECT_TELEGRAM_SUCCESS
+      type: actions.SETTINGS_CONNECT_TELEGRAM_SUCCESS,
     })
   }, 30000)
 
@@ -80,11 +80,11 @@ describe('connect to telegram', () => {
     const client = createClient(link)
     const action$ = ActionsObservable.of(
       {
-        type: actions.SETTINGS_CONNECT_TELEGRAM
+        type: actions.SETTINGS_CONNECT_TELEGRAM,
       },
       {
-        type: actions.SETTINGS_CONNECT_TELEGRAM_CANCEL
-      }
+        type: actions.SETTINGS_CONNECT_TELEGRAM_CANCEL,
+      },
     )
     const epic$ = connectTelegramEpic(action$, mockStore({}), { client })
     jest.useFakeTimers()
@@ -92,7 +92,7 @@ describe('connect to telegram', () => {
     jest.runAllTimers()
     const result = await promise
     expect(result[0]).toEqual({
-      type: actions.SETTINGS_CONNECT_TELEGRAM_CANCEL
+      type: actions.SETTINGS_CONNECT_TELEGRAM_CANCEL,
     })
   }, 30000)
 })

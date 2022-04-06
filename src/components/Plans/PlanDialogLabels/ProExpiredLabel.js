@@ -9,8 +9,8 @@ const ProExpiredLabel = ({ price, nextPaymentDate, period, trialDaysLeft }) => {
     <div className={cx(styles.container, styles.expired)}>
       {trialDaysLeft < 1 ? (
         <div className={styles.title}>
-          Your Pro trial has expired! If you have accidentally bypassed the free
-          trial, please get in touch with{' '}
+          Your Pro trial has expired! If you have accidentally bypassed the free trial, please get
+          in touch with{' '}
           <ContactUs as='a' className={styles.contact}>
             our support team
           </ContactUs>
@@ -18,15 +18,13 @@ const ProExpiredLabel = ({ price, nextPaymentDate, period, trialDaysLeft }) => {
       ) : (
         <div className={styles.title}>
           Your trial will end in {trialDaysLeft} day
-          {trialDaysLeft === 1 ? '' : 's'}, you are free to upgrade it right
-          now.
+          {trialDaysLeft === 1 ? '' : 's'}, you are free to upgrade it right now.
         </div>
       )}
 
       <div className={styles.description}>
-        Your card will be charged{' '}
-        <span className={styles.highline}>{formatOnlyPrice(price)}</span> every{' '}
-        {period} until your decide to unsubscribe. Your next payment:{' '}
+        Your card will be charged <span className={styles.highline}>{formatOnlyPrice(price)}</span>{' '}
+        every {period} until your decide to unsubscribe. Your next payment:{' '}
         <span className={styles.highline}>{nextPaymentDate}</span>.
       </div>
     </div>

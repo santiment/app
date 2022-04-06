@@ -1,9 +1,5 @@
 import { useEffect } from 'react'
-import {
-  plotLines,
-  plotFilledLines,
-  plotGradientLine
-} from '@santiment-network/chart/lines'
+import { plotLines, plotFilledLines, plotGradientLine } from '@santiment-network/chart/lines'
 import { buildPlotter } from './context'
 
 export default buildPlotter(({ plotter }) => {

@@ -8,7 +8,7 @@ import {
   mapTriggerToFormProps,
   mapFormPropsToTrigger,
   getNewTitle,
-  getNewDescription
+  getNewDescription,
 } from '../../utils/utils'
 import { ALERT_ROUTES } from '../../common/constants'
 import TriggerForm from '../signalCrudForm/signal/TriggerForm'
@@ -16,45 +16,38 @@ import SharedTriggerForm from '../sharedForm/SharedTriggerForm'
 import {
   DEFAULT_FORM_META_SETTINGS,
   METRIC_DEFAULT_VALUES,
-  PRICE_PERCENT_CHANGE
+  PRICE_PERCENT_CHANGE,
 } from '../../utils/constants'
 import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
 import SignalCard from '../../../../components/SignalCard/card/SignalCard'
 import styles from '../signalCrudForm/signal/TriggerForm.module.scss'
 
 const mapFormSettings = (baseSettings, meta) => {
-  const formMetric =
-    meta && meta.metric ? meta.metric.value.value : PRICE_PERCENT_CHANGE
+  const formMetric = meta && meta.metric ? meta.metric.value.value : PRICE_PERCENT_CHANGE
 
   const metaFormSettings = {
     ...DEFAULT_FORM_META_SETTINGS,
     ethAddress: baseSettings.ethAddress,
-    ...meta
+    ...meta,
   }
 
   let settings = {
     ...METRIC_DEFAULT_VALUES[formMetric],
-    target: metaFormSettings.target.value
-      ? metaFormSettings.target.value
-      : baseSettings.target,
-    metric: metaFormSettings.metric.value
-      ? metaFormSettings.metric.value
-      : baseSettings.metric,
-    type: metaFormSettings.type.value
-      ? metaFormSettings.type.value
-      : baseSettings.type,
+    target: metaFormSettings.target.value ? metaFormSettings.target.value : baseSettings.target,
+    metric: metaFormSettings.metric.value ? metaFormSettings.metric.value : baseSettings.metric,
+    type: metaFormSettings.type.value ? metaFormSettings.type.value : baseSettings.type,
     signalType: metaFormSettings.signalType.value
       ? metaFormSettings.signalType.value
       : baseSettings.signalType,
     ethAddress: metaFormSettings.ethAddress,
-    ...baseSettings
+    ...baseSettings,
   }
 
   if (!settings.title && !settings.description) {
     settings = {
       title: getNewTitle(settings),
       description: getNewDescription(settings),
-      ...settings
+      ...settings,
     }
   }
 
@@ -78,24 +71,22 @@ const SignalMaster = ({
   isShared = false,
   isSharedPreview = false,
   toggleAnon,
-  isLoggedIn
+  isLoggedIn,
 }) => {
   const [stateTrigger, setStateTrigger] = useState({
     title: '',
     description: '',
     isActive: true,
     isPublic: false,
-    ...propsTrigger
+    ...propsTrigger,
   })
 
-  const [formData, setFormData] = useState(() =>
-    getFormData(stateTrigger, metaFormSettings)
-  )
+  const [formData, setFormData] = useState(() => getFormData(stateTrigger, metaFormSettings))
 
   useEffect(() => {
     if (propsTrigger.id && !stateTrigger.id) {
       setStateTrigger({
-        ...propsTrigger
+        ...propsTrigger,
       })
     }
   }, [propsTrigger, stateTrigger.id])
@@ -105,7 +96,7 @@ const SignalMaster = ({
   }, [stateTrigger, metaFormSettings])
 
   const handleSettingsChange = useCallback(
-    formProps => {
+    (formProps) => {
       const data = mapFormPropsToTrigger(formProps, stateTrigger)
       const { id } = data
 
@@ -127,8 +118,8 @@ const SignalMaster = ({
       onClose,
       canRedirect,
       redirect,
-      mapFormPropsToTrigger
-    ]
+      mapFormPropsToTrigger,
+    ],
   )
 
   const [settings, metaForm] = formData
@@ -150,10 +141,8 @@ const SignalMaster = ({
       {isSharedPreview && (
         <SharedTriggerForm
           trigger={stateTrigger}
-          onOpen={data => (isLoggedIn ? setSharedPreview(data) : toggleAnon())}
-          onCreate={() =>
-            isLoggedIn ? handleSettingsChange(settings) : toggleAnon()
-          }
+          onOpen={(data) => (isLoggedIn ? setSharedPreview(data) : toggleAnon())}
+          onCreate={() => (isLoggedIn ? handleSettingsChange(settings) : toggleAnon())}
           settings={settings}
           originalTrigger={propsTrigger}
           userId={userId}
@@ -164,20 +153,20 @@ const SignalMaster = ({
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  createTrigger: payload => {
+const mapDispatchToProps = (dispatch) => ({
+  createTrigger: (payload) => {
     dispatch(createTrigger(payload))
   },
-  updateTrigger: payload => {
+  updateTrigger: (payload) => {
     dispatch(updateTrigger(payload))
   },
   redirect: () => {
     dispatch(push(ALERT_ROUTES.ALERTS))
-  }
+  },
 })
 
-const mapStateToProps = state => ({
-  isLoggedIn: checkIsLoggedIn(state)
+const mapStateToProps = (state) => ({
+  isLoggedIn: checkIsLoggedIn(state),
 })
 
 const enhance = compose(connect(mapStateToProps, mapDispatchToProps))

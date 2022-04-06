@@ -27,40 +27,36 @@ const LABEL_METRIC_BOUNDARIES_QUERY = gql`
 const ANCHORS = {
   VolumeAgainstEth: {
     label: 'Volume against ETH Based tokens (DEXs)',
-    key: 'volume-against-eth'
+    key: 'volume-against-eth',
   },
   VolumeAgainstUsd: {
     label: 'Volume against USD Based tokens (Stablecoins)',
-    key: 'volume-against-usd'
+    key: 'volume-against-usd',
   },
   TokenPrice: {
     label: 'Token Price against ETH Based Tokens segmented by DEXs',
-    key: 'token-price'
+    key: 'token-price',
   },
 
   ExchangeBalance: {
     key: 'exchange-balance',
-    label: 'Exchange Balance'
+    label: 'Exchange Balance',
   },
   LabelBalance: {
     key: 'label-balance',
-    label: 'Label Balance'
-  }
+    label: 'Label Balance',
+  },
 }
 
 const ANCHORS_TREE = [
   {
     title: 'Trading',
-    list: [
-      ANCHORS.VolumeAgainstEth,
-      ANCHORS.VolumeAgainstUsd,
-      ANCHORS.TokenPrice
-    ]
+    list: [ANCHORS.VolumeAgainstEth, ANCHORS.VolumeAgainstUsd, ANCHORS.TokenPrice],
   },
   {
     title: 'Labeling',
-    list: [ANCHORS.LabelBalance]
-  }
+    list: [ANCHORS.LabelBalance],
+  },
 ]
 
 const EthTradingAnalysis = () => {
@@ -73,21 +69,19 @@ const EthTradingAnalysis = () => {
         meta={[
           {
             property: 'og:title',
-            content: 'ETH Token Trading Analysis | Sanbase'
+            content: 'ETH Token Trading Analysis | Sanbase',
           },
           {
             property: 'og:description',
-            content: 'ETH Token Trading Analysis Dashboard'
-          }
+            content: 'ETH Token Trading Analysis Dashboard',
+          },
         ]}
       />
 
       <div className={externalStyles.header}>
         <div className={cx(externalStyles.inner, externalStyles.content)}>
           <div className={externalStyles.pageDescription}>
-            <h3 className={cx(externalStyles.title, styles.title)}>
-              ETH Token Trading Analysis{' '}
-            </h3>
+            <h3 className={cx(externalStyles.title, styles.title)}>ETH Token Trading Analysis </h3>
             <SharePage />
           </div>
         </div>

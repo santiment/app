@@ -11,7 +11,7 @@ const TriggerFormBlock = ({
   titleDescription = '',
   enabledHide = true,
   showDescription = true,
-  className
+  className,
 }) => {
   const [isShow, setShowing] = useState(show)
 
@@ -25,9 +25,7 @@ const TriggerFormBlock = ({
           <div className={styles.headerContent}>
             <span className={styles.title}>{titleLabel}</span>
             {showDescription && (
-              <span className={styles.description}>
-                {titleDescription || '...'}
-              </span>
+              <span className={styles.description}>{titleDescription || '...'}</span>
             )}
           </div>
 

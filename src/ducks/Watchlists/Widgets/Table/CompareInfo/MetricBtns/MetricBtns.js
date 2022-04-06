@@ -6,7 +6,7 @@ import styles from './MetricBtns.module.scss'
 const MetricBtns = ({ metrics, onClear, removeMetric }) => {
   return (
     <div className={styles.container}>
-      {metrics.map(metric => {
+      {metrics.map((metric) => {
         const { label } = metric
         return (
           <Button border key={label} className={styles.btn}>
@@ -22,12 +22,7 @@ const MetricBtns = ({ metrics, onClear, removeMetric }) => {
       })}
 
       {metrics.length > 0 && (
-        <Button
-          onClick={onClear}
-          border
-          accent='negative'
-          className={styles.clearBtn}
-        >
+        <Button onClick={onClear} border accent='negative' className={styles.clearBtn}>
           Clear selected
         </Button>
       )}

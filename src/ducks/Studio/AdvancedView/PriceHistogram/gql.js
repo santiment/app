@@ -17,12 +17,7 @@ export const HISTOGRAM_DATA_QUERY = gql`
     }
 
     priceQuery: getMetric(metric: "price_usd") {
-      price: aggregatedTimeseriesData(
-        slug: $slug
-        from: $from
-        to: $to
-        aggregation: LAST
-      )
+      price: aggregatedTimeseriesData(slug: $slug, from: $from, to: $to, aggregation: LAST)
     }
   }
 `

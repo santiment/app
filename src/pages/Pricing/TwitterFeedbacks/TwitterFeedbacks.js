@@ -11,7 +11,7 @@ export const SLIDER_SETTINGS = {
   speed: 500,
   slidesToShow: 1,
   slidesToScroll: 1,
-  arrows: false
+  arrows: false,
 }
 
 export const useSlider = () => {
@@ -26,9 +26,7 @@ export const useSlider = () => {
   return { slider, slickNext, slickPrev }
 }
 
-export const TwitterBg = ({ className }) => (
-  <Icon type='twitter' className={className} />
-)
+export const TwitterBg = ({ className }) => <Icon type='twitter' className={className} />
 
 const TwitterFeedbacks = () => {
   useEffect(() => {

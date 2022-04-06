@@ -1,5 +1,5 @@
 export const useIntercomClick = () => {
-  return message => {
+  return (message) => {
     if (window.Intercom) {
       if (message && typeof message === 'string') {
         window.Intercom('showNewMessage', message)

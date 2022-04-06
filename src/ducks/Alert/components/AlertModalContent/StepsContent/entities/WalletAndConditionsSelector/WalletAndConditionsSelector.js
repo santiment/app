@@ -12,30 +12,19 @@ import { mapAssetsToProjects } from './utils'
 import styles from './WalletAndConditionsSelector.module.scss'
 
 const WalletAndConditionsSelector = ({
-  selectorSettings: {
-    setSelectedStep,
-    selectedStep,
-    visitedSteps,
-    setVisitedSteps
-  }
+  selectorSettings: { setSelectedStep, selectedStep, visitedSteps, setVisitedSteps },
 }) => {
-  const [, { value: address }, { setValue: setAddress }] = useField(
-    'settings.target.address'
-  )
-  const [, { value: selector }, { setValue: setSelector }] = useField(
-    'settings.selector'
-  )
+  const [, { value: address }, { setValue: setAddress }] = useField('settings.target.address')
+  const [, { value: selector }, { setValue: setSelector }] = useField('settings.selector')
   const { assets, infrastructure } = useWalletAssets({
-    walletAddress: address
+    walletAddress: address,
   })
   const { projects } = useProjects()
   const [selectedAsset, setSelectedAsset] = useState()
 
   useEffect(() => {
     if (!selectedAsset && selector.slug) {
-      const currentProject = projects.find(
-        project => project.slug === selector.slug
-      )
+      const currentProject = projects.find((project) => project.slug === selector.slug)
       setSelectedAsset({ value: selector.slug, label: currentProject.name })
     }
   }, [selector])
@@ -47,26 +36,21 @@ const WalletAndConditionsSelector = ({
   }, [selectedAsset])
 
   const walletProjects = useMemo(() => {
-    return projects.length > 0 && assets.length > 0
-      ? mapAssetsToProjects(projects, assets)
-      : []
+    return projects.length > 0 && assets.length > 0 ? mapAssetsToProjects(projects, assets) : []
   }, [assets, projects])
 
-  function handleNextClick () {
+  function handleNextClick() {
     setSelectedStep(selectedStep + 1)
 
     if (!visitedSteps.has(selectedStep + 1)) {
-      setVisitedSteps(prev => [...prev, selectedStep + 1])
+      setVisitedSteps((prev) => [...prev, selectedStep + 1])
     }
   }
 
   let children = (
     <>
       <div className={styles.titleWrapper}>
-        <StepTitle
-          title='Choose Wallet & Conditions'
-          className={styles.title}
-        />
+        <StepTitle title='Choose Wallet & Conditions' className={styles.title} />
         <NextStep
           onClick={handleNextClick}
           label='Notification settings'
@@ -89,7 +73,7 @@ const WalletAndConditionsSelector = ({
       <Input
         placeholder='Type an address'
         value={address}
-        onChange={e => setAddress(e.target.value)}
+        onChange={(e) => setAddress(e.target.value)}
         className={styles.addressInput}
       />
       <div className={styles.row}>
@@ -102,7 +86,7 @@ const WalletAndConditionsSelector = ({
         isSearchable={false}
         options={walletProjects}
         value={selectedAsset}
-        onChange={asset => setSelectedAsset(asset)}
+        onChange={(asset) => setSelectedAsset(asset)}
         className={styles.assetSelect}
       />
       <StepTitle disabled={!selector.slug} title='Conditions' />

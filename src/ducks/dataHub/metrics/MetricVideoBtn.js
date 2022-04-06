@@ -19,12 +19,7 @@ const MetricVideoBtn = ({ metric: { key } }) => {
       rel='noopener noreferrer'
       className={styles.button}
     >
-      <svg
-        xmlns='http://www.w3.org/2000/svg'
-        width='16'
-        height='14'
-        fill='none'
-      >
+      <svg xmlns='http://www.w3.org/2000/svg' width='16' height='14' fill='none'>
         <rect
           width='14.5'
           height='12.5'

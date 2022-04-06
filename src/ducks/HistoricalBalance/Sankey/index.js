@@ -7,7 +7,7 @@ import styles from './index.module.scss'
 
 const LoadableGraph = Loadable({
   loader: () => import('./Graph'),
-  loading: () => <Loader />
+  loading: () => <Loader />,
 })
 
 const Sankey = ({ settings }) => {
@@ -26,10 +26,7 @@ const Sankey = ({ settings }) => {
         onClick={() => setIsOpened(!isOpened)}
       >
         {isOpened ? 'Hide' : 'Show'} Money Flow Infographic
-        <Icon
-          type={isOpened ? 'arrow-up' : 'arrow-down'}
-          className={styles.arrow}
-        />
+        <Icon type={isOpened ? 'arrow-up' : 'arrow-down'} className={styles.arrow} />
       </div>
     </div>
   )

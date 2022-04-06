@@ -8,14 +8,10 @@ const SettingsMenu = ({
   priceAssets,
   isLog,
   togglePriceAsset,
-  setIsLog
+  setIsLog,
 }) => (
   <Menu className={styles.menu}>
-    <Setting
-      title='Log scale'
-      isActive={isLog}
-      onClick={() => setIsLog(!isLog)}
-    />
+    <Setting title='Log scale' isActive={isLog} onClick={() => setIsLog(!isLog)} />
     {chartAssets.length > 0 && <hr className={styles.divider} />}
     {chartAssets.map(({ slug }) => (
       <Setting

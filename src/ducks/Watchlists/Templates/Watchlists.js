@@ -16,7 +16,7 @@ const Watchlists = ({
   onWatchlistClick,
   withNewButton = true,
   classes = {},
-  loading = false
+  loading = false,
 }) => {
   let watchlistsContent = loading ? (
     <div className={styles.loading}>
@@ -32,9 +32,7 @@ const Watchlists = ({
         <Checkboxes
           className={styles.checkbox}
           options={[name]}
-          defaultSelectedIndexes={
-            hasAssetById({ listItems, id: projectId }) ? [name] : []
-          }
+          defaultSelectedIndexes={hasAssetById({ listItems, id: projectId }) ? [name] : []}
           key={id}
           labelOnRight
           labelClassName={styles.label}
@@ -42,7 +40,7 @@ const Watchlists = ({
             onWatchlistClick({
               id,
               slug,
-              listItems
+              listItems,
             })
           }
         />

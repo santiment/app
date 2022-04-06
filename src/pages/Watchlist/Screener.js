@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useScreenerUrl } from '../../ducks/Watchlists/utils'
-import {
-  getProjectsByFunction,
-  getAssetsByFunction
-} from '../../ducks/Watchlists/gql/hooks'
+import { getProjectsByFunction, getAssetsByFunction } from '../../ducks/Watchlists/gql/hooks'
 import Infographics from './Infographics'
 import { SCREENER } from '../../ducks/Watchlists/detector'
 import TopBar from '../../ducks/Watchlists/Widgets/TopBar/TopBar'
@@ -12,19 +9,9 @@ import { useRecent } from '../../ducks/Watchlists/gql/list/hooks'
 import { useColumns } from '../../ducks/Watchlists/Widgets/Table/hooks'
 import { useUpdateWatchlist } from '../../ducks/Watchlists/gql/list/mutations'
 import { buildFunctionQuery } from '../../ducks/Watchlists/Widgets/Filter/utils'
-import {
-  DEFAULT_SCREENER_FN,
-  DEFAULT_SCREENER_ID
-} from '../../ducks/Screener/utils'
+import { DEFAULT_SCREENER_FN, DEFAULT_SCREENER_ID } from '../../ducks/Screener/utils'
 
-const Screener = ({
-  watchlist,
-  isLoggedIn,
-  isDefaultScreener,
-  location,
-  history,
-  id
-}) => {
+const Screener = ({ watchlist, isLoggedIn, isDefaultScreener, location, history, id }) => {
   useRecent(watchlist, SCREENER)
 
   const {
@@ -34,24 +21,20 @@ const Screener = ({
     setOrderBy,
     fetchData,
     activeColumns,
-    setActiveColumnsKeys
+    setActiveColumnsKeys,
   } = useColumns()
 
   const { updatedAt } = watchlist
 
-  const [updateWatchlist, { loading: isUpdating }] = useUpdateWatchlist(
-    SCREENER
-  )
-  const [screenerFn, setScreenerFn] = useState(
-    watchlist.function || DEFAULT_SCREENER_FN
-  )
+  const [updateWatchlist, { loading: isUpdating }] = useUpdateWatchlist(SCREENER)
+  const [screenerFn, setScreenerFn] = useState(watchlist.function || DEFAULT_SCREENER_FN)
   const { assets, projectsCount, loading } = getProjectsByFunction(
     ...buildFunctionQuery({
       fn: screenerFn,
       pagination,
       orderBy,
-      activeColumns
-    })
+      activeColumns,
+    }),
   )
 
   const [tableLoading, setTableLoading] = useState(true)
@@ -93,7 +76,7 @@ const Screener = ({
     }
   }, [watchlist])
 
-  function updateWatchlistFunction (fn) {
+  function updateWatchlistFunction(fn) {
     if (watchlist.id) {
       updateWatchlist(watchlist, { function: fn })
     }
@@ -106,8 +89,8 @@ const Screener = ({
         fn: screenerFn,
         pagination,
         orderBy,
-        activeColumns
-      })
+        activeColumns,
+      }),
     ).then(() => setTableLoading(false))
   }
 
@@ -116,8 +99,8 @@ const Screener = ({
       ...buildFunctionQuery({
         fn: screenerFn,
         orderBy,
-        activeColumns
-      })
+        activeColumns,
+      }),
     )
 
   return (
@@ -161,9 +144,7 @@ const Screener = ({
         updateActiveColumnsKeys={setActiveColumnsKeys}
         pageSize={pagination.pageSize}
         pageIndex={pagination.page - 1}
-        onChangePage={pageIndex =>
-          setPagination({ ...pagination, page: +pageIndex + 1 })
-        }
+        onChangePage={(pageIndex) => setPagination({ ...pagination, page: +pageIndex + 1 })}
       />
     </>
   )

@@ -17,7 +17,7 @@ import AvatarEditor from '../../../pages/Account/avatar/AvatarEditor'
 
 import styles from './ProfileInfo.module.scss'
 
-const ShareTrigger = props => (
+const ShareTrigger = (props) => (
   <Button className={styles.shareTrigger} {...props}>
     <Icon type='share' className={styles.shareIcon} />
     Share profile
@@ -67,7 +67,7 @@ const InfoBlock = ({
   isCurrentUser,
   updateCache,
   profile,
-  followData: { followers } = {}
+  followData: { followers } = {},
 }) => {
   const { username, id, name } = profile
 
@@ -75,22 +75,10 @@ const InfoBlock = ({
     <div className={styles.leftText}>
       <div className={styles.info}>
         <div>
-          <div
-            className={cx(
-              styles.name,
-              !name && styles.empty,
-              isCurrentUser && styles.editable
-            )}
-          >
-            <DisplayProfileValue
-              label='full name'
-              value={name}
-              isCurrentUser={isCurrentUser}
-            />
+          <div className={cx(styles.name, !name && styles.empty, isCurrentUser && styles.editable)}>
+            <DisplayProfileValue label='full name' value={name} isCurrentUser={isCurrentUser} />
           </div>
-          <div
-            className={cx(styles.username, isCurrentUser && styles.editable)}
-          >
+          <div className={cx(styles.username, isCurrentUser && styles.editable)}>
             <DisplayProfileValue
               label='username'
               value={username && `@${username}`}
@@ -108,10 +96,7 @@ const InfoBlock = ({
                     updateCache={updateCache}
                   />
                 )}
-                <NotificationBellBtn
-                  targetUserId={id}
-                  className={styles.bell}
-                />
+                <NotificationBellBtn targetUserId={id} className={styles.bell} />
               </div>
             ) : (
               <Button
@@ -144,14 +129,11 @@ const ProfileInfo = ({ profile, updateCache, followData = {} }) => {
     followers,
     following,
     followers: { count: followersCount = 0 } = {},
-    following: { count: followingCount } = {}
+    following: { count: followingCount } = {},
   } = followData
   const { isLoggedIn, user } = useUser()
   const currentUserId = useMemo(() => (user ? user.id : null), [user])
-  const isCurrentUser = useMemo(() => +currentUserId === +profile.id, [
-    user,
-    profile
-  ])
+  const isCurrentUser = useMemo(() => +currentUserId === +profile.id, [user, profile])
   const userProfile = isCurrentUser ? user : profile
   const { id, avatarUrl } = userProfile
 
@@ -169,11 +151,7 @@ const ProfileInfo = ({ profile, updateCache, followData = {} }) => {
     <div className={styles.container}>
       <div className={styles.left}>
         {isCurrentUser ? (
-          <AvatarEditor
-            avatarUrl={avatarUrl}
-            withRemove={false}
-            withRemoveButton={true}
-          >
+          <AvatarEditor avatarUrl={avatarUrl} withRemove={false} withRemoveButton={true}>
             <AvatarHolder />
           </AvatarEditor>
         ) : (
@@ -217,19 +195,13 @@ const ProfileInfo = ({ profile, updateCache, followData = {} }) => {
                   currentUserId={currentUserId}
                   isCurrentUser={isCurrentUser}
                   list={followers}
-                  title={
-                    <FollowTitle title='Followers' count={followersCount} />
-                  }
+                  title={<FollowTitle title='Followers' count={followersCount} />}
                   trigger={
                     <div className={styles.followBlock}>
                       <Icon type='followers' className={styles.follow} />
                       <div className={styles.followCounters}>
-                        <div className={styles.followCounter}>
-                          {followersCount}
-                        </div>
-                        <div className={styles.followDescription}>
-                          followers
-                        </div>
+                        <div className={styles.followCounter}>{followersCount}</div>
+                        <div className={styles.followDescription}>followers</div>
                       </div>
                     </div>
                   }
@@ -240,24 +212,13 @@ const ProfileInfo = ({ profile, updateCache, followData = {} }) => {
                   currentUserId={currentUserId}
                   isCurrentUser={isCurrentUser}
                   list={following}
-                  title={
-                    <FollowTitle title='Following' count={followingCount} />
-                  }
+                  title={<FollowTitle title='Following' count={followingCount} />}
                   trigger={
-                    <div
-                      className={cx(
-                        styles.followBlock,
-                        styles.followBlockSecond
-                      )}
-                    >
+                    <div className={cx(styles.followBlock, styles.followBlockSecond)}>
                       <Icon type='following' className={styles.follow} />
                       <div className={styles.followCounters}>
-                        <div className={styles.followCounter}>
-                          {followingCount}
-                        </div>
-                        <div className={styles.followDescription}>
-                          following
-                        </div>
+                        <div className={styles.followCounter}>{followingCount}</div>
+                        <div className={styles.followDescription}>following</div>
                       </div>
                     </div>
                   }

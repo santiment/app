@@ -5,15 +5,10 @@ import InsightCard from './InsightCard'
 import { mapSizesToProps } from '../../utils/withSizes'
 import styles from './InsightsWrap.module.scss'
 
-const InsightsWrap = ({
-  insights,
-  isDesktop,
-  withAuthorPic = false,
-  classes = {}
-}) => {
+const InsightsWrap = ({ insights, isDesktop, withAuthorPic = false, classes = {} }) => {
   return (
     <div className={cx(styles.insights, classes.insights)}>
-      {insights.slice(0, 9).map(insight => (
+      {insights.slice(0, 9).map((insight) => (
         <InsightCard
           isDesktop={isDesktop}
           disabled

@@ -5,11 +5,7 @@ import styles from './Calendar.module.scss'
 
 const Calendar = ({ className, ...props }) => {
   return (
-    <LibCalendar
-      className={cx(styles.wrapper, className)}
-      tileClassName={styles.tile}
-      {...props}
-    />
+    <LibCalendar className={cx(styles.wrapper, className)} tileClassName={styles.tile} {...props} />
   )
 }
 

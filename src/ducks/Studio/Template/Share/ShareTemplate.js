@@ -5,7 +5,7 @@ import ShareModalTrigger from '../../../../components/Share/ShareModalTrigger'
 const ShareTemplate = ({ template, ...rest }) => {
   const shareLink = useMemo(
     () => window.location.origin + getTemplateSharePath(template),
-    [template]
+    [template],
   )
 
   if (!template.isPublic) {

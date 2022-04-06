@@ -10,38 +10,38 @@ import {
   percentValueFormatter,
   percentServerValueFormatter,
   percentValueMirrorFormatter,
-  percentServerValueMirrorFormatter
+  percentServerValueMirrorFormatter,
 } from '../formatters'
 
 export const Operator = {
   more: 'greater_than',
   less: 'less_than',
   inside: 'inside_channel',
-  outside: 'outside_channel'
+  outside: 'outside_channel',
 }
 
 export const Filter = {
   above: {
     icon: Above,
     label: 'Above',
-    operator: Operator.more
+    operator: Operator.more,
   },
   below: {
     icon: Below,
     label: 'Below',
-    operator: Operator.less
+    operator: Operator.less,
   },
   between: {
     icon: Between,
     label: 'Between',
     operator: Operator.inside,
-    showSecondInput: true
+    showSecondInput: true,
   },
   outside: {
     icon: Outside,
     label: 'Outside',
     operator: Operator.outside,
-    showSecondInput: true
+    showSecondInput: true,
   },
   percent_up: {
     icon: PercentUp,
@@ -54,7 +54,7 @@ export const Filter = {
     onlyPositiveNumbers: true,
     operator: Operator.more,
     valueFormatter: percentValueFormatter,
-    serverValueFormatter: percentServerValueFormatter
+    serverValueFormatter: percentServerValueFormatter,
   },
   percent_down: {
     icon: PercentDown,
@@ -66,8 +66,8 @@ export const Filter = {
     showTimeRange: true,
     onlyPositiveNumbers: true,
     operator: Operator.less,
-    valueFormatter: value => percentValueFormatter(-value),
-    serverValueFormatter: value => percentServerValueFormatter(-value)
+    valueFormatter: (value) => percentValueFormatter(-value),
+    serverValueFormatter: (value) => percentServerValueFormatter(-value),
   },
   percent_between: {
     icon: PercentBetween,
@@ -79,7 +79,7 @@ export const Filter = {
     showSecondInput: true,
     operator: Operator.inside,
     valueFormatter: percentValueFormatter,
-    serverValueFormatter: percentServerValueFormatter
+    serverValueFormatter: percentServerValueFormatter,
   },
   percent_up_or_down: {
     icon: PercentOutside,
@@ -90,10 +90,10 @@ export const Filter = {
     onlyPositiveNumbers: true,
     operator: Operator.outside,
     valueFormatter: percentValueMirrorFormatter,
-    serverValueFormatter: percentServerValueMirrorFormatter
-  }
+    serverValueFormatter: percentServerValueMirrorFormatter,
+  },
 }
 
-Object.keys(Filter).forEach(key => {
+Object.keys(Filter).forEach((key) => {
   Filter[key].key = key
 })

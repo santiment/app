@@ -21,7 +21,7 @@ const CABINETS = [
       />
     ),
     content: <Reports />,
-    isOpened: true
+    isOpened: true,
   },
   {
     title: (
@@ -41,16 +41,16 @@ const CABINETS = [
             >
               Sansheets
             </a>
-            , a plugin that lets you directly import Santiment’s data into
-            Google Spreadsheets. Popular PRO templates include Price-DAA
-            divergence, MVRV comparison model, NVT ratio and more.
+            , a plugin that lets you directly import Santiment’s data into Google Spreadsheets.
+            Popular PRO templates include Price-DAA divergence, MVRV comparison model, NVT ratio and
+            more.
           </>
         }
       />
     ),
     content: <SheetsTemplates />,
-    isOpened: true
-  }
+    isOpened: true,
+  },
 ]
 
 const Cabinet = () => {

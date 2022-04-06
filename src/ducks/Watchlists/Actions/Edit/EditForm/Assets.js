@@ -18,16 +18,11 @@ const Assets = ({ watchlist, onChange, preSelectedItems }) => {
   const ref = useRef()
   const [isSearchMode, setIsSearchMode] = useState(false)
   const [filter, setFilter] = useState('')
-  const {
-    checkedItems,
-    filteredWatchlist,
-    toggleWatchlistProject,
-    unusedProjects
-  } = useEditAssets(
+  const { checkedItems, filteredWatchlist, toggleWatchlistProject, unusedProjects } = useEditAssets(
     filter.toLowerCase(),
-    watchlist ? watchlist.listItems.map(l => l.project) : [],
+    watchlist ? watchlist.listItems.map((l) => l.project) : [],
     onChange,
-    preSelectedItems
+    preSelectedItems,
   )
   const { isNightMode } = useTheme()
   const [showItems, setShowItems] = useState(false)
@@ -78,18 +73,14 @@ const Assets = ({ watchlist, onChange, preSelectedItems }) => {
             }
           }}
           type='arrow-down'
-          className={cx(
-            fieldStyles.arrow,
-            styles.arrow,
-            isSearchMode && styles.arrowup
-          )}
+          className={cx(fieldStyles.arrow, styles.arrow, isSearchMode && styles.arrowup)}
         />
 
         <Panel className={cx(styles.panel, !isSearchMode && styles.hide)}>
           {showItems && (
             <>
               <h6 className={styles.groupLabel}>Contained in watchlist</h6>
-              {filteredWatchlist.map(item => {
+              {filteredWatchlist.map((item) => {
                 return (
                   <AssetItem
                     toggleWatchlistProject={toggleWatchlistProject}
@@ -100,10 +91,8 @@ const Assets = ({ watchlist, onChange, preSelectedItems }) => {
                   />
                 )
               })}
-              <h6 className={cx(styles.groupLabel, styles.groupLabel_mt)}>
-                Assets
-              </h6>
-              {unusedProjects.map(item => {
+              <h6 className={cx(styles.groupLabel, styles.groupLabel_mt)}>Assets</h6>
+              {unusedProjects.map((item) => {
                 return (
                   <AssetItem
                     toggleWatchlistProject={toggleWatchlistProject}
@@ -125,23 +114,16 @@ const Assets = ({ watchlist, onChange, preSelectedItems }) => {
 const AssetItemDropdown = ({ checkedItems }) => (
   <>
     {checkedItems.length === 0 && (
-      <span className={cx(cardStyles.ticker, styles.mlzero)}>
-        Select asset for watchlist
-      </span>
+      <span className={cx(cardStyles.ticker, styles.mlzero)}>Select asset for watchlist</span>
     )}
     {checkedItems.length > 0 &&
       checkedItems.slice(0, VIEW_ITEM_COUNT).map((item, index) => {
-        const hasDots =
-          checkedItems.length > VIEW_ITEM_COUNT && index === VIEW_ITEM_COUNT - 1
-        const hasComma =
-          index < VIEW_ITEM_COUNT - 1 && index < checkedItems.length - 1
+        const hasDots = checkedItems.length > VIEW_ITEM_COUNT && index === VIEW_ITEM_COUNT - 1
+        const hasComma = index < VIEW_ITEM_COUNT - 1 && index < checkedItems.length - 1
         const seprator = hasComma ? ', ' : hasDots ? '...' : ''
         return (
           <div className={cx(cardStyles.name, styles.mrhalf)} key={item.id}>
-            {item.name}{' '}
-            <span className={cx(cardStyles.ticker, styles.mlzero)}>
-              {item.ticker}
-            </span>{' '}
+            {item.name} <span className={cx(cardStyles.ticker, styles.mlzero)}>{item.ticker}</span>{' '}
             {seprator}
           </div>
         )
@@ -153,13 +135,10 @@ const AssetItem = ({ item, isNightMode, isActive, toggleWatchlistProject }) => {
   const src = (isNightMode && item.darkLogoUrl) || item.logoUrl
 
   return (
-    <div
-      className={styles.assetItem}
-      onClick={() => toggleWatchlistProject(item)}
-    >
+    <div className={styles.assetItem} onClick={() => toggleWatchlistProject(item)}>
       <Checkbox isActive={isActive} />{' '}
-      <img src={src} loading='lazy' className={styles.logo} alt={item.name} />{' '}
-      {item.name} <span className={cardStyles.ticker}>{item.ticker}</span>
+      <img src={src} loading='lazy' className={styles.logo} alt={item.name} /> {item.name}{' '}
+      <span className={cardStyles.ticker}>{item.ticker}</span>
     </div>
   )
 }

@@ -3,16 +3,16 @@ import {
   newLine,
   checkIsLineHovered,
   getPressedHandleType,
-  absoluteToRelativeCoordinates
+  absoluteToRelativeCoordinates,
 } from './helpers'
 
 const LineLockType = {
   FREE: 0,
   X: 1,
-  Y: 2
+  Y: 2,
 }
 
-function getEventCoordinates (e) {
+function getEventCoordinates(e) {
   const { offsetX, offsetY, target } = e
   const { offsetLeft, offsetTop } = target
   return [offsetX + offsetLeft, offsetY + offsetTop]
@@ -22,16 +22,11 @@ const getDprCoordinates = ({ dpr }, [x, y]) => [x * dpr, y * dpr]
 const getLineLockType = (x1, y1, x2, y2) =>
   Math.abs(x2 - x1) < Math.abs(y2 - y1) ? LineLockType.X : LineLockType.Y
 
-export function handleLineCreation (
-  chart,
-  setSelectedLine,
-  setIsDrawing,
-  setIsNewDrawing
-) {
+export function handleLineCreation(chart, setSelectedLine, setIsDrawing, setIsNewDrawing) {
   const parent = chart.canvas.parentNode
   parent.addEventListener('mousedown', onMouseDown)
 
-  function onMouseDown (e) {
+  function onMouseDown(e) {
     const { drawer } = chart
     const [startX, startY] = getEventCoordinates(e)
     const drawing = newLine(startX, startY)
@@ -45,7 +40,7 @@ export function handleLineCreation (
     parent.addEventListener('mousemove', onMouseMove)
     parent.addEventListener('mousedown', finishLine)
 
-    function onMouseMove (e) {
+    function onMouseMove(e) {
       const [moveX, moveY] = getEventCoordinates(e)
       const lineLock = e.shiftKey
         ? getLineLockType(startX, startY, moveX, moveY)
@@ -57,7 +52,7 @@ export function handleLineCreation (
       drawer.redraw()
     }
 
-    function finishLine () {
+    function finishLine() {
       parent.removeEventListener('mousemove', onMouseMove)
       parent.removeEventListener('mousedown', finishLine)
       drawing.relCoor = absoluteToRelativeCoordinates(chart, drawing)
@@ -71,8 +66,8 @@ export function handleLineCreation (
   }
 }
 
-export function handleLineHover (chart) {
-  return e => {
+export function handleLineHover(chart) {
+  return (e) => {
     const { isDrawing, drawer, tooltip } = chart
     if (isDrawing) return
 
@@ -101,21 +96,21 @@ export function handleLineHover (chart) {
   }
 }
 
-function handleClickaway (drawer) {
+function handleClickaway(drawer) {
   drawer.mouseover = null
   drawer.selected = null
   window.removeEventListener('keydown', drawer.onLineDelete)
   drawer.redraw()
 }
 
-function handleLineDelete (drawer, setSelectedLine, setIsDrawing) {
+function handleLineDelete(drawer, setSelectedLine, setIsDrawing) {
   return ({ key }) => {
     if (key !== 'Backspace') return
 
     const { selected, drawings, onLineDelete } = drawer
 
     drawer.selected = null
-    drawer.drawings = drawings.filter(drawing => drawing !== selected)
+    drawer.drawings = drawings.filter((drawing) => drawing !== selected)
     drawer.redraw()
 
     setSelectedLine()
@@ -124,7 +119,7 @@ function handleLineDelete (drawer, setSelectedLine, setIsDrawing) {
   }
 }
 
-function handleLineDrag (chart, drawing, coordinates) {
+function handleLineDrag(chart, drawing, coordinates) {
   const { drawer } = chart
   const { ctx } = drawer
   const { handles, absCoor } = drawing
@@ -138,7 +133,7 @@ function handleLineDrag (chart, drawing, coordinates) {
   const isRightHandleDrag = pressedHandle & HandleType.RIGHT
   const isNotLineDrag = pressedHandle !== HandleType.MOVE
 
-  return e => {
+  return (e) => {
     const [moveX, moveY] = getEventCoordinates(e)
     const diffX = moveX - startX
     const diffY = moveY - startY
@@ -169,8 +164,8 @@ function handleLineDrag (chart, drawing, coordinates) {
   }
 }
 
-export function handleLineMouseDown (chart, setSelectedLine, setIsDrawing) {
-  return e => {
+export function handleLineMouseDown(chart, setSelectedLine, setIsDrawing) {
+  return (e) => {
     const { drawer } = chart
     const drawing = drawer.mouseover
 
@@ -187,18 +182,14 @@ export function handleLineMouseDown (chart, setSelectedLine, setIsDrawing) {
     const parent = chart.canvas.parentNode
     const startCoordinates = getEventCoordinates(e)
 
-    drawer.onLineDelete = handleLineDelete(
-      drawer,
-      setSelectedLine,
-      setIsDrawing
-    )
+    drawer.onLineDelete = handleLineDelete(drawer, setSelectedLine, setIsDrawing)
     const onDrag = handleLineDrag(chart, drawing, startCoordinates)
 
     window.addEventListener('keydown', drawer.onLineDelete)
     parent.addEventListener('mousemove', onDrag)
     parent.addEventListener('mouseup', onMouseUp)
 
-    function onMouseUp () {
+    function onMouseUp() {
       drawing.relCoor = absoluteToRelativeCoordinates(chart, drawing)
       parent.removeEventListener('mousemove', onDrag)
       setIsDrawing(false)

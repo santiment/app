@@ -21,18 +21,18 @@ import styles from './index.module.scss'
 const PADDING = {
   top: 10,
   bottom: 73,
-  left: 5
+  left: 5,
 }
 
 export const getMultiAxesChartPadding = (axesMetricKeys, axesOffset = 50) =>
   Object.assign(
     {
-      right: axesMetricKeys.length * axesOffset
+      right: axesMetricKeys.length * axesOffset,
     },
-    PADDING
+    PADDING,
   )
 
-const useChartPadding = axesMetricKeys =>
+const useChartPadding = (axesMetricKeys) =>
   useMemo(() => getMultiAxesChartPadding(axesMetricKeys), [axesMetricKeys])
 
 const Canvas = ({
@@ -60,20 +60,11 @@ const Canvas = ({
   setIsICOPriceDisabled,
   ...props
 }) => {
-  const axesMetricKeys = useMultiAxesMetricKeys(
-    widget,
-    metrics,
-    ErrorMsg,
-    props.domainGroups
-  )
+  const axesMetricKeys = useMultiAxesMetricKeys(widget, metrics, ErrorMsg, props.domainGroups)
   const padding = useChartPadding(axesMetricKeys)
   const isDrawing = isDrawingState[0]
   const { from, to } = settings
-  const {
-    isCartesianGridActive,
-    isWatermarkLighter,
-    isWatermarkVisible
-  } = options
+  const { isCartesianGridActive, isWatermarkLighter, isWatermarkVisible } = options
 
   return (
     <ResponsiveChart padding={padding} {...props} data={data}>
@@ -104,13 +95,7 @@ const Canvas = ({
         onRangeSelecting={onRangeSelecting}
       />
 
-      <Brush
-        {...props}
-        data={brushData}
-        from={from}
-        to={to}
-        onChangeEnd={onBrushChangeEnd}
-      />
+      <Brush {...props} data={brushData} from={from} to={to} onChangeEnd={onBrushChangeEnd} />
 
       <Insights />
       <IcoPrice
@@ -118,7 +103,7 @@ const Canvas = ({
         isICOPriceActive={isICOPriceActive}
         metrics={metrics}
         className={styles.ico}
-        onResult={price => setIsICOPriceDisabled(!price)}
+        onResult={(price) => setIsICOPriceDisabled(!price)}
       />
       <LastDayPrice data={data} from={from} to={to} />
       {isNewDrawingState[0] || isDrawing || isSelectingRange || (
@@ -130,7 +115,7 @@ const Canvas = ({
 
 Canvas.defaultProps = {
   domainGroups: [],
-  ErrorMsg: {}
+  ErrorMsg: {},
 }
 
 export default Canvas

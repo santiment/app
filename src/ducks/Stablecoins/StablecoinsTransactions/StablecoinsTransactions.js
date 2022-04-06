@@ -15,8 +15,8 @@ const StablecoinsTransactions = ({ from, to }) => {
 
   const [transactions, loading] = useProjectTopTransactions(slug, from, to)
   const normalizedData = useMemo(
-    () => transactions.map(trx => normalizeTransactionData(slug, trx)),
-    [transactions]
+    () => transactions.map((trx) => normalizeTransactionData(slug, trx)),
+    [transactions],
   )
 
   return (

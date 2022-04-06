@@ -8,27 +8,24 @@ import {
 
 const PARAMS = {
   variant: 'ghost',
-  border: true
+  border: true,
 }
 
 const METRIC = {
-  value: ETH_WALLET_METRIC
+  value: ETH_WALLET_METRIC,
 }
 const TYPE = {
-  value: PRICE_ABS_CHANGE_BELOW
+  value: PRICE_ABS_CHANGE_BELOW,
 }
 
 const DEFAULTS = {
   metric: METRIC,
-  type: TYPE
+  type: TYPE,
 }
 
 const CreateAlert = ({ assets, address, trigger }) => {
   const ethAddress = useMemo(() => mapToOptions(address), [address])
-  const target = useMemo(
-    () => ({ value: assets.length ? mapToOptions(assets[0]) : [] }),
-    [assets]
-  )
+  const target = useMemo(() => ({ value: assets.length ? mapToOptions(assets[0]) : [] }), [assets])
 
   return (
     <AlertModal
@@ -38,7 +35,7 @@ const CreateAlert = ({ assets, address, trigger }) => {
       metaFormSettings={{
         ethAddress,
         target,
-        ...DEFAULTS
+        ...DEFAULTS,
       }}
       buttonParams={PARAMS}
       noLoginPopupContainer

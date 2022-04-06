@@ -13,13 +13,13 @@ const UniswapMetricsList = [
     selectors: ['slug'],
     min_plan: {
       SANAPI: 'pro',
-      SANBASE: 'free'
+      SANBASE: 'free',
     },
     aggregation: 'last',
     min_interval: '1h',
     table: 'intraday_metrics',
     has_incomplete_data: false,
-    data_type: 'timeseries'
+    data_type: 'timeseries',
   },
   {
     human_readable_name: 'Total UNI claimed by historical users',
@@ -30,13 +30,13 @@ const UniswapMetricsList = [
     selectors: ['slug'],
     min_plan: {
       SANAPI: 'pro',
-      SANBASE: 'free'
+      SANBASE: 'free',
     },
     aggregation: 'last',
     min_interval: '1h',
     table: 'intraday_metrics',
     has_incomplete_data: false,
-    data_type: 'timeseries'
+    data_type: 'timeseries',
   },
   {
     human_readable_name: 'Total UNI claimed by liquidity providers',
@@ -47,13 +47,13 @@ const UniswapMetricsList = [
     selectors: ['slug'],
     min_plan: {
       SANAPI: 'pro',
-      SANBASE: 'free'
+      SANBASE: 'free',
     },
     aggregation: 'last',
     min_interval: '1h',
     table: 'intraday_metrics',
     has_incomplete_data: false,
-    data_type: 'timeseries'
+    data_type: 'timeseries',
   },
   {
     human_readable_name: 'Percent of UNI claimed',
@@ -64,22 +64,22 @@ const UniswapMetricsList = [
     selectors: ['slug'],
     min_plan: {
       SANAPI: 'pro',
-      SANBASE: 'free'
+      SANBASE: 'free',
     },
     aggregation: 'last',
     min_interval: '5m',
     table: 'intraday_metrics',
     has_incomplete_data: false,
     data_type: 'timeseries',
-    formatter: percentageFormatter
-  }
+    formatter: percentageFormatter,
+  },
 ]
 
-const metrics = UniswapMetricsList.map(item => ({ ...item, key: item.name }))
+const metrics = UniswapMetricsList.map((item) => ({ ...item, key: item.name }))
 
 const UniswapMetrics = () => (
   <div className={styles.container}>
-    {metrics.map(m => {
+    {metrics.map((m) => {
       return <UniswapMetric key={m.key} metric={m} />
     })}
   </div>

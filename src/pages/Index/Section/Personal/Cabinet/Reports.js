@@ -9,10 +9,8 @@ const Reports = () => {
 
   return (
     <div className={styles.wrapper}>
-      {loading && (
-        <Skeleton show={loading} repeat={5} className={styles.skeleton} />
-      )}
-      {reports.map(item => (
+      {loading && <Skeleton show={loading} repeat={5} className={styles.skeleton} />}
+      {reports.map((item) => (
         <ReportCard key={item.name} report={item} />
       ))}
     </div>

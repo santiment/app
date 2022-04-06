@@ -8,7 +8,7 @@ const IFRAME_STYLES = {
   height: '100%',
   left: 0,
   top: 0,
-  zIndex: -1
+  zIndex: -1,
 }
 
 const DEFAULT_STATE = {}
@@ -24,19 +24,14 @@ const ResponsiveChart = ({ children, padding, chartRef, ...props }) => {
     iframe.contentWindow.onresize = () =>
       setDimensions({
         height: iframe.offsetHeight,
-        width: iframe.offsetWidth
+        width: iframe.offsetWidth,
       })
   }, [iframe])
 
   return (
     <Chart {...props} {...dimensions} padding={padding} chartRef={chartRef}>
       {children}
-      <iframe
-        title='resizer'
-        ref={iframeRef}
-        frameBorder='0'
-        style={IFRAME_STYLES}
-      />
+      <iframe title='resizer' ref={iframeRef} frameBorder='0' style={IFRAME_STYLES} />
     </Chart>
   )
 }

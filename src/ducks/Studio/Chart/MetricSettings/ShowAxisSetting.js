@@ -8,7 +8,7 @@ export const ShowAxisSetting = ({ metric, widget, rerenderWidgets }) => {
   const isActive = axesMetricSet.has(metric)
   const isDisabled = isActive && axesMetricSet.size < 2
 
-  function onClick () {
+  function onClick() {
     if (isDisabled) return
 
     const newSet = new Set(axesMetricSet)
@@ -27,11 +27,7 @@ export const ShowAxisSetting = ({ metric, widget, rerenderWidgets }) => {
   return (
     <Setting isDropdown={false} onClick={onClick}>
       Show axis
-      <Checkbox
-        isActive={isActive}
-        disabled={isDisabled}
-        className={styles.arrow}
-      />
+      <Checkbox isActive={isActive} disabled={isDisabled} className={styles.arrow} />
     </Setting>
   )
 }

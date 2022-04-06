@@ -8,22 +8,20 @@ const QUESTIONS = [1, 2, 3]
 
 const HelpPopupContent = () => {
   const [openedQuestion, changeOpenedQuestion] = useState(null)
-  const toggleQuestions = questionNumber => {
+  const toggleQuestions = (questionNumber) => {
     if (questionNumber === openedQuestion) changeOpenedQuestion(null)
     else changeOpenedQuestion(questionNumber)
   }
   return (
     <div className={styles.wrapper}>
       <p>
-        Every hour, we calculate the top 10 words with the highest spike in
-        mentions on crypto social media, compared to their previous 2-week
-        average.
+        Every hour, we calculate the top 10 words with the highest spike in mentions on crypto
+        social media, compared to their previous 2-week average.
       </p>
       <p>This list aims to do 2 things: </p>
       <ol>
         <li>
-          Give you a quick overview of the top <b>developing topics</b> in
-          crypto at the moment
+          Give you a quick overview of the top <b>developing topics</b> in crypto at the moment
         </li>
         <li>
           Help you spot <b>hype peaks</b> and <b>local tops</b>

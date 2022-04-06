@@ -14,8 +14,8 @@ export const EmailLoginVerification = ({ isSuccess, isError }) => {
       <div className={styles.wrapper}>
         <h2>Login failed</h2>
         <p>
-          Maybe you are trying to log in with an old email link. Please, make
-          sure, that you are using the latest link
+          Maybe you are trying to log in with an old email link. Please, make sure, that you are
+          using the latest link
         </p>
         <Link to='/login' className={styles.link}>
           Log in
@@ -36,29 +36,29 @@ export const EmailLoginVerification = ({ isSuccess, isError }) => {
 const mapStateToProps = ({ rootUi }) => {
   return {
     isError: rootUi.loginError,
-    isSuccess: rootUi.loginSuccess
+    isSuccess: rootUi.loginSuccess,
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    emailLogin: payload => {
+    emailLogin: (payload) => {
       dispatch({
         type: actions.USER_EMAIL_LOGIN,
-        payload
+        payload,
       })
-    }
+    },
   }
 }
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
   lifecycle({
-    componentDidMount () {
+    componentDidMount() {
       const payload = qs.parse(this.props.location.search)
       this.props.emailLogin(payload)
-    }
-  })
+    },
+  }),
 )
 
 export default enhance(EmailLoginVerification)

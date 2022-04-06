@@ -4,12 +4,7 @@ import { useQuery } from '@apollo/react-hooks'
 const TOP_CLAIMERS_QUERY = gql`
   query getMetric($from: DateTime!, $to: DateTime!) {
     getMetric(metric: "uniswap_top_claimers") {
-      histogramData(
-        selector: { slug: "uniswap" }
-        from: $from
-        to: $to
-        limit: 50
-      ) {
+      histogramData(selector: { slug: "uniswap" }, from: $from, to: $to, limit: 50) {
         values {
           ... on StringAddressFloatValueList {
             data {
@@ -50,12 +45,7 @@ const TRANSACTION_VOLUME_PER_ADDRESS_QUERY = gql`
     $addresses: [String]
     $selector: HistoricalBalanceSelector
   ) {
-    transactionVolumePerAddress(
-      addresses: $addresses
-      from: $from
-      to: $to
-      selector: $selector
-    ) {
+    transactionVolumePerAddress(addresses: $addresses, from: $from, to: $to, selector: $selector) {
       address
       transactionVolumeTotal
       transactionVolumeInflow
@@ -64,23 +54,19 @@ const TRANSACTION_VOLUME_PER_ADDRESS_QUERY = gql`
   }
 `
 
-export function useTopClaimers ({ from, to, slug }) {
+export function useTopClaimers({ from, to, slug }) {
   const { data = {}, loading } = useQuery(TOP_CLAIMERS_QUERY, {
-    variables: { from, to }
+    variables: { from, to },
   })
 
-  if (
-    data.getMetric &&
-    data.getMetric.histogramData &&
-    data.getMetric.histogramData.values
-  ) {
+  if (data.getMetric && data.getMetric.histogramData && data.getMetric.histogramData.values) {
     return [data.getMetric.histogramData.values.data || [], loading]
   }
 
   return [[], loading]
 }
 
-export function useUNIBalances ({ from, to, addresses = [] }) {
+export function useUNIBalances({ from, to, addresses = [] }) {
   const { data: { addressHistoricalBalanceChange } = {}, loading } = useQuery(
     ADDRESS_BALANCE_CHANGE_QUERY,
     {
@@ -91,16 +77,16 @@ export function useUNIBalances ({ from, to, addresses = [] }) {
         from,
         selector: {
           slug: 'uniswap',
-          infrastructure: 'ETH'
-        }
-      }
-    }
+          infrastructure: 'ETH',
+        },
+      },
+    },
   )
 
   return [addressHistoricalBalanceChange, loading]
 }
 
-export function useUNITransactionVolume ({ from, to, addresses = [] }) {
+export function useUNITransactionVolume({ from, to, addresses = [] }) {
   const { data: { transactionVolumePerAddress } = {}, loading } = useQuery(
     TRANSACTION_VOLUME_PER_ADDRESS_QUERY,
     {
@@ -111,10 +97,10 @@ export function useUNITransactionVolume ({ from, to, addresses = [] }) {
         from,
         selector: {
           slug: 'uniswap',
-          infrastructure: 'ETH'
-        }
-      }
-    }
+          infrastructure: 'ETH',
+        },
+      },
+    },
   )
 
   return [transactionVolumePerAddress, loading]

@@ -10,7 +10,7 @@ const Explanation = ({
   timeRange,
   type,
   metric,
-  customStateText
+  customStateText,
 }) => {
   if (customStateText) {
     return <span className={styles.explanation}>{customStateText}</span>
@@ -37,10 +37,7 @@ const Explanation = ({
 
   return (
     <span className={styles.explanation}>
-      {`${aggregation}${label} ${millify(
-        firstThreshold,
-        10
-      )}${badge}${secondInput}${timeText}`}
+      {`${aggregation}${label} ${millify(firstThreshold, 10)}${badge}${secondInput}${timeText}`}
     </span>
   )
 }

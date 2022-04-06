@@ -8,7 +8,7 @@ const { from: FROM, to: TO } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
 export const PriceMobileStyles = {
   node: 'area',
   gradientUrl: 'url(#totalUp)',
-  hideYAxis: true
+  hideYAxis: true,
 }
 
 export const PriceMetric = { ...Metric.price_usd, ...PriceMobileStyles }
@@ -19,11 +19,11 @@ export const DEFAULT_SETTINGS = {
   interval: getNewInterval(FROM, TO, '1d', { isMobile: true }),
   from: FROM.toISOString(),
   to: TO.toISOString(),
-  timeRange: DEFAULT_TIME_RANGE
+  timeRange: DEFAULT_TIME_RANGE,
 }
 
 export const POPULAR_METRICS = [
   Metric.daily_active_addresses,
   Metric.dev_activity,
-  Metric.social_volume_total
+  Metric.social_volume_total,
 ]

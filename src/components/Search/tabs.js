@@ -1,10 +1,10 @@
 export const TABS = [
   {
     index: 'Assets',
-    content: 'Assets'
+    content: 'Assets',
   },
   {
     index: 'Trends',
-    content: 'Trends'
-  }
+    content: 'Trends',
+  },
 ]

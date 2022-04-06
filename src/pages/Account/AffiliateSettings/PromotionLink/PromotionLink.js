@@ -13,10 +13,7 @@ const PromotionLink = ({ data }) => {
     <>
       <div className={styles.copyBlock}>
         <Input className={styles.linkInput} value={referralLink} disabled />
-        <Button
-          onClick={() => copy(referralLink)}
-          className={styles.copyButton}
-        >
+        <Button onClick={() => copy(referralLink)} className={styles.copyButton}>
           <Icon type='copy' className={styles.copyIcon} />
         </Button>
       </div>

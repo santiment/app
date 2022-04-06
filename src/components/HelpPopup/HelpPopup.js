@@ -9,11 +9,7 @@ import { mapSizesToProps } from '../../utils/withSizes'
 import styles from './HelpPopup.module.scss'
 
 export const HelpPopupTrigger = ({ className, ...props }) => (
-  <Icon
-    {...props}
-    className={cx(styles.trigger, className)}
-    type='info-round'
-  />
+  <Icon {...props} className={cx(styles.trigger, className)} type='info-round' />
 )
 
 const HelpPopup = ({
@@ -25,7 +21,7 @@ const HelpPopup = ({
   on = 'click',
   trigger: Trigger = HelpPopupTrigger,
   isPhone,
-  triggerClassName
+  triggerClassName,
 }) => {
   const render = content || children
 

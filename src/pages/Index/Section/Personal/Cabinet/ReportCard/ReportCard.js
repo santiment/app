@@ -26,7 +26,7 @@ const ReportCard = ({ report: { name, description, url } }) => {
         as={'a'}
         className={styles.btn}
         classes={{
-          btnIcon: !isPro && styles.disabled
+          btnIcon: !isPro && styles.disabled,
         }}
         border
       >

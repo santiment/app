@@ -32,13 +32,7 @@ export const useAlphaReports = () => {
 }
 
 const IconDw = (
-  <svg
-    width='40'
-    height='40'
-    viewBox='0 0 40 40'
-    fill='none'
-    xmlns='http://www.w3.org/2000/svg'
-  >
+  <svg width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'>
     <rect width='40' height='40' rx='20' fill='var(--persimmon-light)' />
     <path
       d='M15.8352 22.9161H15.4189V23.7499H15.8352C16.0652 23.7499 16.2514 23.5636 16.2514 23.3336C16.2514 23.1036 16.0652 22.9161 15.8352 22.9161Z'
@@ -56,8 +50,7 @@ const IconDw = (
 )
 
 const STABLECOINS_PREDICATE = ({ name }) =>
-  name.toLowerCase().indexOf('stablecoin') >= 0 &&
-  name.toLowerCase().indexOf('report')
+  name.toLowerCase().indexOf('stablecoin') >= 0 && name.toLowerCase().indexOf('report')
 
 const CurrentPageReport = ({ searchPredicate = STABLECOINS_PREDICATE }) => {
   const [reports, loading] = useAlphaReports()
@@ -90,7 +83,7 @@ const CurrentPageReport = ({ searchPredicate = STABLECOINS_PREDICATE }) => {
           as={'a'}
           className={styles.dwBtn}
           classes={{
-            btnIcon: !isPro && styles.disabled
+            btnIcon: !isPro && styles.disabled,
           }}
           border
         >

@@ -104,77 +104,64 @@ export const FOLLOWINGS_COUNT_QUERY = gql`
 const buildInsightsGetter = (query, variables) =>
   client.query({
     query,
-    variables
+    variables,
   })
 
 const allInsightsExtractor = ({ data: { insights } }) => insights
 
-export function getAllInsights (from, to) {
+export function getAllInsights(from, to) {
   return buildInsightsGetter(INSIGHTS_QUERY, {
     from,
     to,
-    isOnlyPro: false
+    isOnlyPro: false,
   }).then(allInsightsExtractor)
 }
 
-export function getProInsights (from, to) {
+export function getProInsights(from, to) {
   return buildInsightsGetter(INSIGHTS_QUERY, {
     from,
     to,
-    isOnlyPro: true
+    isOnlyPro: true,
   }).then(allInsightsExtractor)
 }
 
-export function getPulseInsights (from, to) {
-  return buildInsightsGetter(INSIGHTS_QUERY, { from, to, isPulse: true }).then(
-    allInsightsExtractor
-  )
+export function getPulseInsights(from, to) {
+  return buildInsightsGetter(INSIGHTS_QUERY, { from, to, isPulse: true }).then(allInsightsExtractor)
 }
 
-export function getTagInsights (from, to, tag) {
+export function getTagInsights(from, to, tag) {
   return buildInsightsGetter(INSIGHTS_QUERY, {
     from,
     to,
-    tags: [(tag || '').toUpperCase()]
+    tags: [(tag || '').toUpperCase()],
   }).then(allInsightsExtractor)
 }
 
-export function getSANFAMInsights (from, to) {
+export function getSANFAMInsights(from, to) {
   return buildInsightsGetter(SANFAM_INSIGHTS_QUERY, {
     from,
-    to
-  }).then(
-    ({
-      data: { sanfam_1, sanfam_2, sanfam_3, sanfam_4, sanfam_5, sanfam_6 }
-    }) =>
-      sanfam_1
-        .concat(sanfam_2, sanfam_3, sanfam_4, sanfam_5, sanfam_6)
-        .sort(publishDateSorter)
+    to,
+  }).then(({ data: { sanfam_1, sanfam_2, sanfam_3, sanfam_4, sanfam_5, sanfam_6 } }) =>
+    sanfam_1.concat(sanfam_2, sanfam_3, sanfam_4, sanfam_5, sanfam_6).sort(publishDateSorter),
   )
 }
 
-export function getMyInsights () {
-  return buildInsightsGetter(MY_INSIGHTS_QUERY).then(
-    ({ data: { currentUser } }) =>
-      currentUser ? currentUser.insights.slice().sort(publishDateSorter) : []
+export function getMyInsights() {
+  return buildInsightsGetter(MY_INSIGHTS_QUERY).then(({ data: { currentUser } }) =>
+    currentUser ? currentUser.insights.slice().sort(publishDateSorter) : [],
   )
 }
 
-export function getFollowingsInsights () {
-  return buildInsightsGetter(FOLLOWINGS_INSIGHTS_QUERY).then(
-    ({ data: { currentUser } }) =>
-      currentUser
-        ? currentUser.following.users
-            .flatMap(({ insights }) => insights)
-            .sort(publishDateSorter)
-        : []
+export function getFollowingsInsights() {
+  return buildInsightsGetter(FOLLOWINGS_INSIGHTS_QUERY).then(({ data: { currentUser } }) =>
+    currentUser
+      ? currentUser.following.users.flatMap(({ insights }) => insights).sort(publishDateSorter)
+      : [],
   )
 }
 
-export function getFollowingsCount () {
+export function getFollowingsCount() {
   return client
     .query({ query: FOLLOWINGS_COUNT_QUERY })
-    .then(({ data: { currentUser } }) =>
-      currentUser ? currentUser.following.count : 0
-    )
+    .then(({ data: { currentUser } }) => (currentUser ? currentUser.following.count : 0))
 }

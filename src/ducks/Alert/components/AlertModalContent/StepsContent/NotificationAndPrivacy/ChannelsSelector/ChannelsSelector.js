@@ -16,10 +16,7 @@ const ChannelsSelector = () => {
   const [isPushDisabled, setIsPushDisabled] = useState(false)
   const { user } = useUser()
   const {
-    settings: {
-      alertNotifyTelegram: isTelegramConnected,
-      alertNotifyEmail: isEmailConnected
-    }
+    settings: { alertNotifyTelegram: isTelegramConnected, alertNotifyEmail: isEmailConnected },
   } = useUserSettings()
 
   const channels = useMemo(() => {
@@ -29,23 +26,16 @@ const ChannelsSelector = () => {
   }, [value])
 
   const webhookObj = useMemo(
-    () =>
-      value.find(
-        channel =>
-          typeof channel !== 'string' && 'webhook' in channel && channel
-      ),
-    [value]
+    () => value.find((channel) => typeof channel !== 'string' && 'webhook' in channel && channel),
+    [value],
   )
 
   const telegramObj = useMemo(
     () =>
       value.find(
-        channel =>
-          typeof channel !== 'string' &&
-          'telegram_channel' in channel &&
-          channel
+        (channel) => typeof channel !== 'string' && 'telegram_channel' in channel && channel,
       ),
-    [value]
+    [value],
   )
 
   const checkPushAvailability = useCallback(() => {
@@ -53,7 +43,7 @@ const ChannelsSelector = () => {
       navigator.serviceWorker.getRegistrations &&
       navigator.serviceWorker
         .getRegistrations()
-        .then(registrations => setIsPushDisabled(!getSanSonarSW(registrations)))
+        .then((registrations) => setIsPushDisabled(!getSanSonarSW(registrations)))
   }, [setIsPushDisabled])
 
   useEffect(() => {
@@ -61,22 +51,22 @@ const ChannelsSelector = () => {
   }, [])
 
   const handleChangeChannels = useCallback(
-    channelTitle => () => {
+    (channelTitle) => () => {
       if (channels.has(channelTitle)) {
         if (channelTitle === 'telegram_channel') {
-          const updatedChannels = value.filter(item =>
-            typeof item === 'string' ? item : !('telegram_channel' in item)
+          const updatedChannels = value.filter((item) =>
+            typeof item === 'string' ? item : !('telegram_channel' in item),
           )
 
           setValue(updatedChannels)
         } else if (channelTitle === 'webhook') {
-          const updatedChannels = value.filter(item =>
-            typeof item === 'string' ? item : !('webhook' in item)
+          const updatedChannels = value.filter((item) =>
+            typeof item === 'string' ? item : !('webhook' in item),
           )
 
           setValue(updatedChannels)
         } else {
-          setValue(value.filter(item => item !== channelTitle))
+          setValue(value.filter((item) => item !== channelTitle))
         }
       } else {
         if (channelTitle === 'webhook') {
@@ -88,7 +78,7 @@ const ChannelsSelector = () => {
         }
       }
     },
-    [setValue, value]
+    [setValue, value],
   )
 
   return (

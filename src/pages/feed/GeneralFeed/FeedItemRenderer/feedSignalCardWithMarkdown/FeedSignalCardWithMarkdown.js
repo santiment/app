@@ -17,7 +17,7 @@ export const MoreInfoAlert = ({ slug, type, link: targetLink, className }) => {
       to={link}
       className={cx(styles.more, className)}
       target='_blank'
-      onClick={e => e.stopPropagation()}
+      onClick={(e) => e.stopPropagation()}
     >
       More info
     </Link>

@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 import { client } from '../../../apollo'
 
-const newQuery = data => ({
+const newQuery = (data) => ({
   query: gql`
     query {
       getAccessRestrictions {
@@ -9,10 +9,10 @@ const newQuery = data => ({
         ${data}
       }
     }
-  `
+  `,
 })
 
-function metricRestrictionsAccessor (data, cache) {
+function metricRestrictionsAccessor(data, cache) {
   if (cache.value) return cache.value
 
   const cacheValue = {}
@@ -27,20 +27,18 @@ function metricRestrictionsAccessor (data, cache) {
   return cacheValue
 }
 
-function newMetricRestrictions (query, accessor) {
+function newMetricRestrictions(query, accessor) {
   const cache = { value: undefined }
   const getMetricRestrictions = ({ data }) =>
     metricRestrictionsAccessor(data.getAccessRestrictions, cache)
 
-  return metricKey => {
+  return (metricKey) => {
     const promise = client.query(query).then(getMetricRestrictions)
 
     return metricKey
-      ? promise.then(MetricsRestrictions => {
+      ? promise.then((MetricsRestrictions) => {
           const MetricRestrictions = MetricsRestrictions[metricKey]
-          return MetricRestrictions && accessor
-            ? accessor(MetricRestrictions)
-            : MetricRestrictions
+          return MetricRestrictions && accessor ? accessor(MetricRestrictions) : MetricRestrictions
         })
       : promise
   }
@@ -48,9 +46,7 @@ function newMetricRestrictions (query, accessor) {
 
 export const getMetricMinInterval = newMetricRestrictions(
   newQuery('minInterval'),
-  ({ minInterval }) => minInterval
+  ({ minInterval }) => minInterval,
 )
 
-export const getMetricBoundaries = newMetricRestrictions(
-  newQuery('restrictedFrom restrictedTo')
-)
+export const getMetricBoundaries = newMetricRestrictions(newQuery('restrictedFrom restrictedTo'))

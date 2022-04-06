@@ -11,11 +11,7 @@ import cardStyles from './Card.module.scss'
 
 const Trigger = ({ title, showProBanner, ...props }) => (
   <div
-    className={cx(
-      cardStyles.wrapper,
-      styles.create,
-      showProBanner && styles.create__disabled
-    )}
+    className={cx(cardStyles.wrapper, styles.create, showProBanner && styles.create__disabled)}
     {...props}
   >
     <SvgNew isDisabled={showProBanner} />
@@ -38,7 +34,7 @@ const NewCard = ({ type }) => {
 }
 
 const NewWatchlistCard = ({ type }) => (
-  <LoginPopup trigger={props => <Trigger title='watchlist' {...props} />}>
+  <LoginPopup trigger={(props) => <Trigger title='watchlist' {...props} />}>
     <NewWatchlist trigger={<Trigger title='watchlist' />} type={type} />
   </LoginPopup>
 )
@@ -47,10 +43,7 @@ const NewScreenerCard = () => {
   const { isPro } = useUserSubscriptionStatus()
 
   return (
-    <NewWatchlist
-      trigger={<Trigger title='screener' showProBanner={!isPro} />}
-      type={SCREENER}
-    />
+    <NewWatchlist trigger={<Trigger title='screener' showProBanner={!isPro} />} type={SCREENER} />
   )
 }
 

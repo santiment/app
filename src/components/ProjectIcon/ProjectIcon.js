@@ -16,7 +16,7 @@ export const ProjectIcon = ({
   size,
   isNightMode,
   data: { project } = {},
-  className
+  className,
 }) => {
   let { logoUrl: logo, darkLogoUrl: darkLogo } = PREDEFINED_ICONS[slug] || {}
 
@@ -37,20 +37,14 @@ export const ProjectIcon = ({
   }
 
   return logo ? (
-    <img
-      src={logo}
-      width={size}
-      height={size}
-      className={cx(styles.logo, className)}
-      alt={slug}
-    />
+    <img src={logo} width={size} height={size} className={cx(styles.logo, className)} alt={slug} />
   ) : (
     <div
       className={cx(styles.default, className)}
       style={{
         '--size': `${size}px`,
         '--fill': isNightMode ? '#7a859e' : 'var(--casper)',
-        '--background': isNightMode ? 'var(--mystic)' : 'var(--porcelain)'
+        '--background': isNightMode ? 'var(--mystic)' : 'var(--porcelain)',
       }}
     >
       <Icon type={size > 20 ? 'assets' : 'asset-small'} />
@@ -59,23 +53,23 @@ export const ProjectIcon = ({
 }
 
 const mapStateToProps = ({ rootUi: { isNightModeEnabled: isNightMode } }) => ({
-  isNightMode
+  isNightMode,
 })
 
 ProjectIcon.propTypes = {
   size: PropTypes.number,
   slug: PropTypes.string,
-  className: PropTypes.string
+  className: PropTypes.string,
 }
 
 ProjectIcon.defaultProps = {
   size: 20,
-  className: ''
+  className: '',
 }
 
 export default compose(
   connect(mapStateToProps),
   graphql(PROJECT_ICON_QUERY, {
-    skip: ({ logoUrl, slug }) => !!logoUrl || !!PREDEFINED_ICONS[slug] || !slug
-  })
+    skip: ({ logoUrl, slug }) => !!logoUrl || !!PREDEFINED_ICONS[slug] || !slug,
+  }),
 )(ProjectIcon)

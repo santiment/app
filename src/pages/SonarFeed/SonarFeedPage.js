@@ -1,10 +1,7 @@
 import React from 'react'
 import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
 import { ALERT_ROUTES } from '../../ducks/Signals/common/constants'
-import {
-  getShareSignalParams,
-  useSignal
-} from '../../ducks/Signals/common/getSignal'
+import { getShareSignalParams, useSignal } from '../../ducks/Signals/common/getSignal'
 import { METRIC_TYPES } from '../../ducks/Signals/utils/constants'
 import ScreenerSignalDialog from '../../ducks/Signals/ScreenerSignal/ScreenerSignalDialog'
 

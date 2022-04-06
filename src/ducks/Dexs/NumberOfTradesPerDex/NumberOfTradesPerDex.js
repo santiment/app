@@ -24,7 +24,7 @@ export const DEXs = [
   '0x_v1',
   'TokenStore',
   'DEX.Top',
-  'Synthetix'
+  'Synthetix',
 ]
 
 const NumberOfTradesPerDex = ({ metrics, measurement: strictMeasurement }) => {
@@ -35,7 +35,7 @@ const NumberOfTradesPerDex = ({ metrics, measurement: strictMeasurement }) => {
     ({ slug, ticker }) => {
       const measurementSlug = measurement.slug.replace(/-/g, '_')
 
-      const result = DEXs.map(dex => {
+      const result = DEXs.map((dex) => {
         return {
           key: `${rootMetric.key}_${measurementSlug}_${dex.replace('.', '_')}`,
           queryKey: rootMetric.key,
@@ -45,8 +45,8 @@ const NumberOfTradesPerDex = ({ metrics, measurement: strictMeasurement }) => {
           domainGroup: 'decentralized_exchanges',
           reqMeta: {
             owner: dex,
-            slug: measurement.slug
-          }
+            slug: measurement.slug,
+          },
         }
       })
 
@@ -54,13 +54,13 @@ const NumberOfTradesPerDex = ({ metrics, measurement: strictMeasurement }) => {
         result.push({
           ...Metric.price_usd,
           label: `Price (${ticker})`,
-          reqMeta: { slug: slug }
+          reqMeta: { slug: slug },
         })
       }
 
       return result
     },
-    [rootMetric, measurement]
+    [rootMetric, measurement],
   )
 
   return (
@@ -73,7 +73,7 @@ const NumberOfTradesPerDex = ({ metrics, measurement: strictMeasurement }) => {
       setMeasurement={strictMeasurement ? null : setMeasurement}
       measurement={measurement}
       canvasSettings={{
-        height: 500
+        height: 500,
       }}
     />
   )

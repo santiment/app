@@ -2,11 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Sidebar from './Sidebar'
 import Main from './Main'
 import { newProjectMetric } from './metrics'
-import {
-  deduceItems,
-  mergeMetricSettingMap,
-  checkIsMetricWidget
-} from './utils'
+import { deduceItems, mergeMetricSettingMap, checkIsMetricWidget } from './utils'
 import { DEFAULT_SETTINGS } from './defaults'
 import { Phase, usePhase } from './phases'
 import { useKeyboardCmdShortcut } from './hooks'
@@ -27,17 +23,14 @@ import { usePressedModifier } from '../../hooks/keyboard'
 import {
   HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE,
   HOLDER_DISTRIBUTION_NODE,
-  HOLDER_LABELED_DISTRIBUTION_NODE
+  HOLDER_LABELED_DISTRIBUTION_NODE,
 } from './Sidebar/nodes'
 import {
   HolderDistributionCombinedBalanceAbsoluteMetric,
   HolderDistributionMetric,
-  HoldersLabeledDistributionMetric
+  HoldersLabeledDistributionMetric,
 } from './Chart/Sidepanel/HolderDistribution/metrics'
-import {
-  FeesDistributionMetric,
-  TopHoldersTableMetric
-} from '../dataHub/submetrics'
+import { FeesDistributionMetric, TopHoldersTableMetric } from '../dataHub/submetrics'
 import FeesDistribution from './FeesDistribution/FeesDistribution'
 import HoldersDistributionTable from './Widget/HoldersDistributionTable/HoldersDistributionTable'
 import HolderDistributionLabeledWidget from './Widget/HolderDistributionWidget/HoldersDistributionLabeled'
@@ -55,9 +48,7 @@ export const Studio = ({
   const [sidepanel, setSidepanel] = useState(defaultSidepanel)
   const [selectedMetrics, setSelectedMetrics] = useState([])
   const [selectedWidgets, setSelectedWidgets] = useState([])
-  const [selectedMetricSettingsMap, setSelectedMetricSettingsMap] = useState(
-    new Map()
-  )
+  const [selectedMetricSettingsMap, setSelectedMetricSettingsMap] = useState(new Map())
   const [isICOPriceDisabled, setIsICOPriceDisabled] = useState(true)
   const [isICOPriceActive, setIsICOPriceActive] = useState(false)
   const [isSidebarPeeked, setIsSidebarPeeked] = useState(false)
@@ -78,7 +69,7 @@ export const Studio = ({
     }
   }, [selectedMetrics.length])
 
-  function toggleOverview () {
+  function toggleOverview() {
     if (isOverviewOpened) {
       onOverviewClose()
     } else {
@@ -86,26 +77,26 @@ export const Studio = ({
     }
   }
 
-  function rerenderWidgets () {
+  function rerenderWidgets() {
     setWidgets(widgets.slice())
   }
 
-  function toggleSidepanel (key) {
+  function toggleSidepanel(key) {
     setSidepanel(sidepanel === key ? undefined : key)
   }
 
-  function deleteWidget (widget) {
-    setWidgets(widgets.filter(w => w !== widget))
+  function deleteWidget(widget) {
+    setWidgets(widgets.filter((w) => w !== widget))
   }
 
-  function deleteConnectedWidget (connectedWidget, parentWidget) {
+  function deleteConnectedWidget(connectedWidget, parentWidget) {
     parentWidget.connectedWidgets = parentWidget.connectedWidgets.filter(
-      w => w !== connectedWidget
+      (w) => w !== connectedWidget,
     )
     rerenderWidgets()
   }
 
-  function toggleWidgetMetric (widget, metric) {
+  function toggleWidgetMetric(widget, metric) {
     const isArray = Array.isArray(metric)
     const metrics = isArray ? metric : deduceItems(widget.metrics, metric)
     const { axesMetricSet, disabledAxesMetricSet, MetricSettingMap } = widget
@@ -135,20 +126,20 @@ export const Studio = ({
     }
   }
 
-  function toggleSelectionMetric (metric, project) {
+  function toggleSelectionMetric(metric, project) {
     const deducedMetric = deduceItems(
       selectedMetrics,
       !project || metric.base
         ? metric
         : project.slug === settings.slug
         ? metric
-        : newProjectMetric(project, metric)
+        : newProjectMetric(project, metric),
     )
     setSelectedMetrics(deducedMetric)
     return deducedMetric
   }
 
-  function toggleSelectionWidget (selectedWidget) {
+  function toggleSelectionWidget(selectedWidget) {
     const newSelectedWidgets = deduceItems(selectedWidgets, selectedWidget)
     const { requiredMetric } = selectedWidget
 
@@ -164,19 +155,19 @@ export const Studio = ({
     return newSelectedWidgets
   }
 
-  function changeTimePeriod (from, to, timeRange) {
+  function changeTimePeriod(from, to, timeRange) {
     const interval = getNewInterval(from, to)
 
-    setSettings(state => ({
+    setSettings((state) => ({
       ...state,
       timeRange,
       interval: INTERVAL_ALIAS[interval] || interval,
       from: from.toISOString(),
-      to: to.toISOString()
+      to: to.toISOString(),
     }))
   }
 
-  function onSidebarItemClick (item, project) {
+  function onSidebarItemClick(item, project) {
     const { type, key } = item
     let appliedMetrics
     let appliedWidgets
@@ -195,7 +186,7 @@ export const Studio = ({
       appliedWidgets = toggleSelectionWidget(item)
     } else if (isWidget || type === Type.WIDGET) {
       const scrollIntoView = {
-        scrollIntoViewOnMount: true
+        scrollIntoViewOnMount: true,
       }
       if (
         key === HOLDER_DISTRIBUTION_NODE.key ||
@@ -204,31 +195,20 @@ export const Studio = ({
         setWidgets([...widgets, HolderDistributionWidget.new(scrollIntoView)])
       } else if (
         key === HOLDER_LABELED_DISTRIBUTION_NODE.key ||
-        key ===
-          HoldersLabeledDistributionMetric.holders_labeled_distribution_1_to_10
-            .key
+        key === HoldersLabeledDistributionMetric.holders_labeled_distribution_1_to_10.key
       ) {
-        setWidgets([
-          ...widgets,
-          HolderDistributionLabeledWidget.new(scrollIntoView)
-        ])
+        setWidgets([...widgets, HolderDistributionLabeledWidget.new(scrollIntoView)])
       } else if (
         key === HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE.key ||
         key ===
           HolderDistributionCombinedBalanceAbsoluteMetric
             .holders_distribution_combined_balance_1_to_10.key
       ) {
-        setWidgets([
-          ...widgets,
-          HolderDistributionCombinedBalanceWidget.new(scrollIntoView)
-        ])
+        setWidgets([...widgets, HolderDistributionCombinedBalanceWidget.new(scrollIntoView)])
       } else if (item === Metric.price_daa_divergence) {
         setWidgets([...widgets, PriceDAADivergenceWidget.new(scrollIntoView)])
       } else if (item === Metric.adjusted_price_daa_divergence) {
-        setWidgets([
-          ...widgets,
-          AdjustedPriceDAADivergenceWidget.new(scrollIntoView)
-        ])
+        setWidgets([...widgets, AdjustedPriceDAADivergenceWidget.new(scrollIntoView)])
       } else if (item === FeesDistributionMetric) {
         setWidgets([...widgets, FeesDistribution.new(scrollIntoView)])
       } else if (item === TopHoldersTableMetric) {
@@ -249,10 +229,10 @@ export const Studio = ({
     }
   }
 
-  function onWidgetClick (
+  function onWidgetClick(
     widget,
     appliedMetrics = selectedMetrics,
-    appliedWidgets = selectedWidgets
+    appliedWidgets = selectedWidgets,
   ) {
     if (currentPhase === Phase.MAPVIEW) {
       if (widget.chartRef) {
@@ -273,21 +253,18 @@ export const Studio = ({
 
     widget.connectedWidgets = mergeConnectedWidgetsWithSelected(
       widget.connectedWidgets,
-      appliedWidgets
+      appliedWidgets,
     )
     widget.MetricSettingMap = mergeMetricSettingMap(
       widget.MetricSettingMap,
-      selectedMetricSettingsMap
+      selectedMetricSettingsMap,
     )
 
     rerenderWidgets()
     resetSelecion()
   }
 
-  function onNewChartClick (
-    appliedMetrics = selectedMetrics,
-    scrollIntoViewOnMount
-  ) {
+  function onNewChartClick(appliedMetrics = selectedMetrics, scrollIntoViewOnMount) {
     const metricSet = new Set(appliedMetrics)
     let metrics = appliedMetrics
 
@@ -302,18 +279,18 @@ export const Studio = ({
         scrollIntoViewOnMount,
         metrics,
         MetricSettingMap: selectedMetricSettingsMap,
-        connectedWidgets: mergeConnectedWidgetsWithSelected([], selectedWidgets)
-      })
+        connectedWidgets: mergeConnectedWidgetsWithSelected([], selectedWidgets),
+      }),
     ])
     resetSelecion()
   }
 
-  function onOverviewClose () {
+  function onOverviewClose() {
     setPhase(Phase.IDLE)
     resetSelecion()
   }
 
-  function resetSelecion () {
+  function resetSelecion() {
     setSelectedWidgets([])
     setSelectedMetrics([])
     setSelectedMetricSettingsMap(new Map())

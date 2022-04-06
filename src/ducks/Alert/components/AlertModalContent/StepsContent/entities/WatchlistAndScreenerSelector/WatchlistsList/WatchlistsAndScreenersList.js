@@ -10,15 +10,10 @@ const MAX_SHOWING_ITEMS = 5
 
 const cache = new CellMeasurerCache({
   fixedWidth: true,
-  defaultHeight: ROW_HEIGHT
+  defaultHeight: ROW_HEIGHT,
 })
 
-const WatchlistsAndScreenersList = ({
-  items,
-  selectedWatchlist,
-  onSelect,
-  isSocial
-}) => {
+const WatchlistsAndScreenersList = ({ items, selectedWatchlist, onSelect, isSocial }) => {
   const rowRenderer = useCallback(
     ({ key, index, style, parent }) => {
       const item = items[index]
@@ -26,13 +21,7 @@ const WatchlistsAndScreenersList = ({
       const isSelectedItem = +item.id === +selectedWatchlist
 
       return (
-        <CellMeasurer
-          key={key}
-          cache={cache}
-          parent={parent}
-          columnIndex={0}
-          rowIndex={index}
-        >
+        <CellMeasurer key={key} cache={cache} parent={parent} columnIndex={0} rowIndex={index}>
           {({ registerChild }) => (
             <WatchlistsAndScreenersListItem
               ref={registerChild}
@@ -45,11 +34,11 @@ const WatchlistsAndScreenersList = ({
         </CellMeasurer>
       )
     },
-    [items, selectedWatchlist]
+    [items, selectedWatchlist],
   )
 
   const wrapperStyles = {
-    height: isSocial ? '393px' : '458px'
+    height: isSocial ? '393px' : '458px',
   }
 
   return (

@@ -13,9 +13,9 @@ query($address: String) {
   }
 }`)
 
-export const getTransfers = address =>
+export const getTransfers = (address) =>
   currenciesQuery.request({
-    address
+    address,
   })
 
 const currencyAccessor = ({ currency }) => currency
@@ -29,9 +29,9 @@ const currencyFilter = ({ name, symbol, address }) => {
 
 const dataAccessor = ({ data: { ethereum } }) =>
   ethereum.transfers.map(currencyAccessor).filter(currencyFilter)
-export const getCurrencyTransfers = address =>
+export const getCurrencyTransfers = (address) =>
   currenciesQuery
     .request({
-      address
+      address,
     })
     .then(dataAccessor)

@@ -5,20 +5,13 @@ import LoginPopup from '../../../../../../../components/banners/feature/PopupBan
 import EditForm from './EditForm'
 import styles from './EditForm.module.scss'
 
-export const NewConfigTrigger = props => (
+export const NewConfigTrigger = (props) => (
   <Button variant='flat' border className={styles.trigger} {...props}>
     Save columns as set
   </Button>
 )
 
-const UpdateConfig = ({
-  trigger,
-  onChange,
-  sets,
-  title,
-  name,
-  buttonLabel
-}) => {
+const UpdateConfig = ({ trigger, onChange, sets, title, name, buttonLabel }) => {
   const { isLoggedIn } = useUser()
   const [isOpened, setIsOpened] = useState(false)
 
@@ -29,7 +22,7 @@ const UpdateConfig = ({
       title={title}
       name={name}
       buttonLabel={buttonLabel}
-      onFormSubmit={name => onChange(name).then(() => setIsOpened(false))}
+      onFormSubmit={(name) => onChange(name).then(() => setIsOpened(false))}
       open={isOpened}
       sets={sets}
       toggleOpen={setIsOpened}
@@ -41,7 +34,7 @@ const UpdateConfig = ({
 UpdateConfig.defaultProps = {
   trigger: <NewConfigTrigger />,
   title: 'New set',
-  buttonLabel: 'Create'
+  buttonLabel: 'Create',
 }
 
 export default UpdateConfig

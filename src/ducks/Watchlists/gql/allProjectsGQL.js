@@ -116,11 +116,7 @@ const ethereumData = gql`
 
 export const ERC20_PROJECTS_QUERY = gql`
   query allErc20Projects($minVolume: Int!, $page: Int, $pageSize: Int) {
-    projects: allErc20Projects(
-      minVolume: $minVolume
-      page: $page
-      pageSize: $pageSize
-    ) {
+    projects: allErc20Projects(minVolume: $minVolume, page: $page, pageSize: $pageSize) {
       ...generalData
       ...ethereumData
     }

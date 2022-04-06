@@ -5,31 +5,24 @@ import { useStore, getSvelteContext } from './stores'
 import SocialContext from '../../ducks/Studio/AdvancedView/SocialContext'
 import styles from './index.module.scss'
 
-export const useSidewidgetStore = studio =>
+export const useSidewidgetStore = (studio) =>
   useMemo(() => getSvelteContext(studio, 'sidewidget'), [studio])
 
-export const useSidewidget = studio => useStore(useSidewidgetStore(studio))
+export const useSidewidget = (studio) => useStore(useSidewidgetStore(studio))
 
 const KeyToSidewidget = {
-  [SelectorNode.SOCIAL_CONTEXT.key]: SocialContext
+  [SelectorNode.SOCIAL_CONTEXT.key]: SocialContext,
 }
 
-function mountSidewidget (Widget, target, setState) {
+function mountSidewidget(Widget, target, setState) {
   target.classList.add(styles.sidepanel)
   setState({
     Widget,
-    target
+    target,
   })
 }
 
-const Sidewidget = ({
-  studio,
-  project,
-  metrics,
-  sidewidget,
-  modDate,
-  modRange
-}) => {
+const Sidewidget = ({ studio, project, metrics, sidewidget, modDate, modRange }) => {
   const [state, setState] = useState()
 
   useEffect(() => {
@@ -56,7 +49,7 @@ const Sidewidget = ({
           date={modDate || (modRange && modRange[1])}
           datesRange={modRange}
         />,
-        state.target
+        state.target,
       )
     : null
 }

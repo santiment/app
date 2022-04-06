@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import Title from './Title'
 import styles from './index.module.scss'
 
-function updateSelect (select, offsetX) {
+function updateSelect(select, offsetX) {
   const { clientWidth } = select
   const x = offsetX < 0 ? 0 : offsetX > clientWidth ? clientWidth : offsetX
 
@@ -18,18 +18,18 @@ const DetailLevel = ({ value, onChange }) => {
     select.style.setProperty('--x', (value / 100) * select.clientWidth + 'px')
   }, [])
 
-  function onMouseDown (e) {
+  function onMouseDown(e) {
     const { currentTarget: select, clientX } = e
     const xAbs = select.getBoundingClientRect().left
     const xRel = clientX - xAbs
 
     updateSelect(select, xRel)
 
-    function onMouseMove ({ clientX }) {
+    function onMouseMove({ clientX }) {
       updateSelect(select, clientX - xAbs)
     }
 
-    function onMouseUp () {
+    function onMouseUp() {
       onChange(+select.dataset.value)
       window.removeEventListener('mousemove', onMouseMove)
     }

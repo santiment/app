@@ -12,15 +12,10 @@ const SourceToggle = ({
   onChange,
   label,
   children,
-  tooltipText
+  tooltipText,
 }) => (
   <div className={styles.sourceWrapper}>
-    <div
-      className={cx(
-        styles.inputsRow,
-        !isWebhook && disabled && styles.disabled
-      )}
-    >
+    <div className={cx(styles.inputsRow, !isWebhook && disabled && styles.disabled)}>
       <Checkbox
         disabled={!isWebhook && disabled}
         isActive={isWebhook ? isActive : !disabled && isActive}

@@ -23,37 +23,34 @@ const getLastUpdated = () =>
     ? new Date(localStorage.getItem(LAST_UPDATES_KEY))
     : undefined
 
-const saveLastLoadedToLS = date => {
+const saveLastLoadedToLS = (date) => {
   localStorage.setItem(LAST_UPDATES_KEY, date)
 }
 
 const DEFAULT_SETTINGS = {
   date: NOW,
   type: 'ALL',
-  author: 'ALL'
+  author: 'ALL',
 }
 
 const LOGGED_IN_TABS = ['All notifications', 'Following']
 const ANON_TABS = ['All notifications']
 const TABS_TO_FILTER_AUTHORS = {
   'All notifications': 'ALL',
-  Following: 'FOLLOWED'
+  Following: 'FOLLOWED',
 }
 
-function isNew (event, date) {
+function isNew(event, date) {
   return date && new Date(event.insertedAt).getTime() > date.getTime()
 }
 
-function setToLsFirst (events) {
+function setToLsFirst(events) {
   const first = events[0]
 
   if (first) {
     const currentValue = getLastUpdated()
 
-    if (
-      !currentValue ||
-      currentValue.getTime() < new Date(first.insertedAt).getTime()
-    ) {
+    if (!currentValue || currentValue.getTime() < new Date(first.insertedAt).getTime()) {
       saveLastLoadedToLS(first.insertedAt)
     }
   }
@@ -66,19 +63,21 @@ const NotificationsFeed = () => {
   const { openDialog, closeDialog, isOpened } = useDialogState()
   const { isLoggedIn } = useUser()
 
-  const tabs = useMemo(() => (isLoggedIn ? LOGGED_IN_TABS : ANON_TABS), [
-    isLoggedIn
-  ])
+  const tabs = useMemo(() => (isLoggedIn ? LOGGED_IN_TABS : ANON_TABS), [isLoggedIn])
 
   const [activeTab, setTab] = useState(tabs[0])
   const [events, setEvents] = useState([])
   const [canLoad, setCanLoad] = useState(true)
   const [lastLoadedDate, setLastViewedDate] = useState(getLastUpdated)
 
-  const { data: { events: chunk } = {}, loading, error } = useTimelineEvents({
+  const {
+    data: { events: chunk } = {},
+    loading,
+    error,
+  } = useTimelineEvents({
     to: settings.date,
     type: settings.type,
-    author: settings.author
+    author: settings.author,
   })
 
   useEffect(() => {
@@ -97,7 +96,7 @@ const NotificationsFeed = () => {
     isOpened && setToLsFirst(events)
   }, [events, isOpened])
 
-  function loadMore () {
+  function loadMore() {
     if (!loading && canLoad && !error) {
       const last = events[events.length - 1]
       const targetDate =
@@ -107,7 +106,7 @@ const NotificationsFeed = () => {
 
       const newSettings = {
         ...settings,
-        date: targetDate
+        date: targetDate,
       }
       if (!isEqual(settings, newSettings)) {
         setSettings(newSettings)
@@ -115,22 +114,22 @@ const NotificationsFeed = () => {
     }
   }
 
-  function updateSettings (props) {
+  function updateSettings(props) {
     setEvents([])
     setSettings({
       ...settings,
       date: NOW,
-      ...props
+      ...props,
     })
   }
 
-  function onChangeType (type) {
+  function onChangeType(type) {
     updateSettings({
-      type
+      type,
     })
   }
 
-  function onClose () {
+  function onClose() {
     const event = setToLsFirst(events)
 
     if (event) {
@@ -142,8 +141,7 @@ const NotificationsFeed = () => {
 
   const hasNew = useMemo(() => {
     return (
-      (!lastLoadedDate && events.length !== 0) ||
-      events.some(item => isNew(item, lastLoadedDate))
+      (!lastLoadedDate && events.length !== 0) || events.some((item) => isNew(item, lastLoadedDate))
     )
   }, [events, lastLoadedDate])
 
@@ -173,10 +171,10 @@ const NotificationsFeed = () => {
               className={cx(styles.tabs, tabs.length === 1 && styles.tabs__one)}
               options={tabs}
               defaultSelectedIndex={activeTab}
-              onSelect={tab => {
+              onSelect={(tab) => {
                 setTab(tab)
                 updateSettings({
-                  author: TABS_TO_FILTER_AUTHORS[tab]
+                  author: TABS_TO_FILTER_AUTHORS[tab],
                 })
               }}
               classes={styles}
@@ -189,10 +187,7 @@ const NotificationsFeed = () => {
             <div className={styles.scroller}>
               {events.length > 0 && (
                 <div
-                  className={cx(
-                    styles.list,
-                    (events.length < 5 || loading) && styles.list__strict
-                  )}
+                  className={cx(styles.list, (events.length < 5 || loading) && styles.list__strict)}
                 >
                   <InfiniteScroll
                     pageStart={0}
@@ -209,10 +204,7 @@ const NotificationsFeed = () => {
                         className={styles.item}
                         closeDropdown={onClose}
                         timeoutIndex={index % MAX_TIMELINE_EVENTS_LIMIT}
-                        isNew={
-                          hasNew &&
-                          (!lastLoadedDate || isNew(item, lastLoadedDate))
-                        }
+                        isNew={hasNew && (!lastLoadedDate || isNew(item, lastLoadedDate))}
                       />
                     ))}
                     <Skeleton
@@ -226,9 +218,7 @@ const NotificationsFeed = () => {
                 </div>
               )}
 
-              {!loading && events.length === 0 && (
-                <Warning settings={settings} />
-              )}
+              {!loading && events.length === 0 && <Warning settings={settings} />}
             </div>
           </div>
         </PanelWithHeader>

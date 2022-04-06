@@ -8,8 +8,7 @@ const WatchlistsAndScreenersListItem = forwardRef(
   ({ item, isSelectedItem, style, onSelect }, ref) => {
     const { name, id, listItems } = item
 
-    const assetsStr =
-      listItems && listItems.map(entity => entity.project.name).join(', ')
+    const assetsStr = listItems && listItems.map((entity) => entity.project.name).join(', ')
 
     return (
       <div ref={ref} style={style} className={styles.paddingWrapper}>
@@ -20,18 +19,14 @@ const WatchlistsAndScreenersListItem = forwardRef(
           <div className={styles.title}>
             {name}
             {isSelectedItem && (
-              <Icon
-                type='checkmark'
-                className={styles.icon}
-                onClick={() => onSelect(+id)}
-              />
+              <Icon type='checkmark' className={styles.icon} onClick={() => onSelect(+id)} />
             )}
           </div>
           <div className={styles.description}>{clipText(assetsStr, 60)}</div>
         </div>
       </div>
     )
-  }
+  },
 )
 
 export default WatchlistsAndScreenersListItem

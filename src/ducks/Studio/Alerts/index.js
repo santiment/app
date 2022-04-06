@@ -6,7 +6,7 @@ import AlertModal from '../../Alert/AlertModal'
 import styles from './index.module.scss'
 
 const Alert = ({ alert, render, createAlert }) => {
-  function onClick () {
+  function onClick() {
     createAlert(alert)
   }
 
@@ -19,7 +19,7 @@ const Alert = ({ alert, render, createAlert }) => {
   )
 }
 
-function getHeader (title, project) {
+function getHeader(title, project) {
   let header = title
 
   if (project) {
@@ -29,13 +29,7 @@ function getHeader (title, project) {
   return header
 }
 
-export default ({
-  className,
-  metricValues,
-  containerRef,
-  onDialogClose,
-  ...rest
-}) => {
+export default ({ className, metricValues, containerRef, onDialogClose, ...rest }) => {
   const suggestions = useSuggestions(metricValues)
 
   return (
@@ -53,11 +47,7 @@ export default ({
             <div key={header} className={styles.suggestion}>
               <div className={styles.title}>{header}</div>
               {suggesters.map((suggest, i) => (
-                <Alert
-                  key={i}
-                  {...rest}
-                  {...suggest({ ...rest, ...values, ...project })}
-                />
+                <Alert key={i} {...rest} {...suggest({ ...rest, ...values, ...project })} />
               ))}
             </div>
           )

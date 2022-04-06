@@ -10,7 +10,7 @@ export const loadState = () => {
   }
 }
 
-export const saveState = state => {
+export const saveState = (state) => {
   try {
     const serializedState = JSON.stringify(state)
     window.localStorage.setItem('user', serializedState)
@@ -19,7 +19,7 @@ export const saveState = state => {
   }
 }
 
-export const loadKeyState = key => {
+export const loadKeyState = (key) => {
   try {
     const serializedState = window.localStorage.getItem(key)
     if (serializedState === null) {
@@ -79,8 +79,6 @@ export const getSavedToggle = (key, defaultValue = false) => {
   return saved === null ? defaultValue : !!saved
 }
 
-export const getSavedMulticharts = () =>
-  getSavedToggle('isMultiChartsActive', true)
+export const getSavedMulticharts = () => getSavedToggle('isMultiChartsActive', true)
 
-export const saveToggle = (key, value) =>
-  localStorage.setItem(key, value ? '+' : '') || value
+export const saveToggle = (key, value) => localStorage.setItem(key, value ? '+' : '') || value

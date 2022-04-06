@@ -8,7 +8,7 @@ import { getRecentWatchlists } from '../../../utils/recent'
 import {
   getAddressesWatchlistLink,
   getProjectsWatchlistLink,
-  getWatchlistLink
+  getWatchlistLink,
 } from '../../../ducks/Watchlists/url'
 import { BLOCKCHAIN_ADDRESS } from '../../../ducks/Watchlists/detector'
 import { useRecentWatchlists } from '../../../ducks/Watchlists/gql/hooks'

@@ -10,7 +10,7 @@ const WALLET_LINK = '/labs/balance?address='
 const propsAccessor = ({ word, key = word, As }) => ({
   key,
   As,
-  to: WALLET_LINK + word
+  to: WALLET_LINK + word,
 })
 
 const Wallet = ({ address }) => address
@@ -20,11 +20,11 @@ const Lookup = ({ address, className }) => (
   </Button>
 )
 
-const buildLookupSuggestion = searchTerm => [
+const buildLookupSuggestion = (searchTerm) => [
   {
     key: '__lookup__',
-    As: ({ className }) => <Lookup address={searchTerm} className={className} />
-  }
+    As: ({ className }) => <Lookup address={searchTerm} className={className} />,
+  },
 ]
 
 const TrendingWordsCategory = ({ searchTerm, ...props }) => {
@@ -33,7 +33,7 @@ const TrendingWordsCategory = ({ searchTerm, ...props }) => {
       getAddressInfrastructure(searchTerm)
         ? buildLookupSuggestion(searchTerm)
         : DEFAULT_SUGGESTIONS,
-    [searchTerm]
+    [searchTerm],
   )
 
   return suggestions.length ? (

@@ -2,10 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import SignalCard from './card/SignalCard'
-import {
-  removeTrigger,
-  toggleTrigger
-} from '../../ducks/Signals/common/actions'
+import { removeTrigger, toggleTrigger } from '../../ducks/Signals/common/actions'
 import { sortById } from '../../utils/sortMethods'
 import styles from './SignalCardsGrid.module.scss'
 
@@ -25,7 +22,7 @@ const SignalCardsGrid = ({
 
   return (
     <div className={cx(styles.wrapper, className)}>
-      {signals.sort(sortById).map(signal => {
+      {signals.sort(sortById).map((signal) => {
         const { id, index, userId: signalOwnerId, isActive } = signal
 
         return (
@@ -33,15 +30,13 @@ const SignalCardsGrid = ({
             isRecommendedSignal={isRecommendedSignal}
             shouldDisableActions={shouldDisableActions}
             deleteEnabled={deleteEnabled}
-            isUserTheAuthor={
-              isAuthor || (signalOwnerId && +signalOwnerId === +userId)
-            }
+            isUserTheAuthor={isAuthor || (signalOwnerId && +signalOwnerId === +userId)}
             key={id || index}
             id={id}
             toggleSignal={() =>
               toggleSignal({
                 id,
-                isActive
+                isActive,
               })
             }
             removeSignal={() => {
@@ -56,17 +51,17 @@ const SignalCardsGrid = ({
   )
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   toggleSignal: ({ id, isActive }) => {
     id && dispatch(toggleTrigger({ id, isActive }))
   },
-  removeSignal: id => {
+  removeSignal: (id) => {
     id && dispatch(removeTrigger(id))
-  }
+  },
 })
 
 const mapStateToProps = ({ user }) => ({
-  userId: user && user.data ? user.data.id : undefined
+  userId: user && user.data ? user.data.id : undefined,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignalCardsGrid)

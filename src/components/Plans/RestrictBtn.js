@@ -7,18 +7,13 @@ import { PATHS } from '../../paths'
 import sharedStyles from './Plans.module.scss'
 import styles from './Plan.module.scss'
 
-const getProps = ({
-  isLoggedIn,
-  label,
-  sameAsUserPlan,
-  isSubscriptionCanceled
-}) => {
+const getProps = ({ isLoggedIn, label, sameAsUserPlan, isSubscriptionCanceled }) => {
   if (!isLoggedIn) {
     return {
       children: label || 'Start free trial',
       as: Link,
       to: PATHS.CREATE_ACCOUNT,
-      variant: 'fill'
+      variant: 'fill',
     }
   }
 
@@ -28,23 +23,18 @@ const getProps = ({
     ? {
         children: 'Upgrade now',
         as: Link,
-        to: '/account#subscription?renew'
+        to: '/account#subscription?renew',
       }
     : { children: 'Upgrade now', as: Link, to: '/account', variant: 'fill' }
 }
 
-const RestrictBtn = ({
-  showCreditMsg,
-  label,
-  sameAsUserPlan,
-  isSubscriptionCanceled
-}) => {
+const RestrictBtn = ({ showCreditMsg, label, sameAsUserPlan, isSubscriptionCanceled }) => {
   const { isLoggedIn } = useUser()
   const props = getProps({
     isLoggedIn,
     label,
     sameAsUserPlan,
-    isSubscriptionCanceled
+    isSubscriptionCanceled,
   })
 
   return (

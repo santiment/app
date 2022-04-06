@@ -82,9 +82,7 @@ const MobileMetricCard = ({
           ) : value ? (
             <>
               <h4 className={styles.value}>{value}</h4>
-              {diff !== null && (
-                <PercentChanges changes={diff} className={styles.diff} />
-              )}
+              {diff !== null && <PercentChanges changes={diff} className={styles.diff} />}
               {period && (
                 <Label accent='casper' className={styles.period}>
                   , {period}
@@ -97,11 +95,7 @@ const MobileMetricCard = ({
         </div>
       </div>
       {Description[dataKey] && (
-        <Dialog
-          title={label}
-          open={isOpenDescription}
-          onClose={() => setIsOpenDescription(false)}
-        >
+        <Dialog title={label} open={isOpenDescription} onClose={() => setIsOpenDescription(false)}>
           <Dialog.ScrollContent className={styles.dialog}>
             <MetricDescription metric={metric} project={rest.project} />
           </Dialog.ScrollContent>

@@ -11,16 +11,16 @@ const RechartComponent = {
   filledLine: Line,
   area: Area,
   bar: Bar,
-  autoWidthBar: Bar
+  autoWidthBar: Bar,
 }
 
-export const mapDatetimeToNumber = timeseries =>
+export const mapDatetimeToNumber = (timeseries) =>
   timeseries.map(({ datetime, ...rest }) => ({
     ...rest,
-    datetime: +new Date(datetime)
+    datetime: +new Date(datetime),
   }))
 
-const getEventColor = value => {
+const getEventColor = (value) => {
   if (value < 4) {
     return 'var(--persimmon)'
   }
@@ -30,8 +30,8 @@ const getEventColor = value => {
   return 'var(--bright-sun)'
 }
 
-export const getEventsTooltipInfo = events =>
-  Object.keys(events).map(event => {
+export const getEventsTooltipInfo = (events) =>
+  Object.keys(events).map((event) => {
     const { label, ...rest } = Event[event]
     const value = events[event]
     return {
@@ -39,13 +39,13 @@ export const getEventsTooltipInfo = events =>
       isEvent: true,
       name: label,
       color: getEventColor(value),
-      ...rest
+      ...rest,
     }
   })
 
 const MarketSegments = new Map()
 
-export const getMarketSegment = key => {
+export const getMarketSegment = (key) => {
   const target = MarketSegments.get(key)
   if (target) {
     return target
@@ -54,7 +54,7 @@ export const getMarketSegment = key => {
   const label = `Dev. Activity (${key})`
   TooltipSetting[key] = {
     label,
-    formatter: Metric.dev_activity.formatter
+    formatter: Metric.dev_activity.formatter,
   }
 
   const newSegment = {
@@ -69,14 +69,14 @@ export const getMarketSegment = key => {
     reqMeta: {
       transform: 'movingAverage',
       movingAverageIntervalBase: 7,
-      selector: { market_segments: [key] }
-    }
+      selector: { market_segments: [key] },
+    },
   }
   MarketSegments.set(key, newSegment)
   return newSegment
 }
 
-export const getMetricCssVarColor = metric => `var(--${Metric[metric].color})`
+export const getMetricCssVarColor = (metric) => `var(--${Metric[metric].color})`
 
 export const METRIC_COLORS = [
   'dodger-blue',
@@ -84,14 +84,12 @@ export const METRIC_COLORS = [
   'heliotrope',
   'waterloo',
   'sheets-hover',
-  'texas-rose'
+  'texas-rose',
 ]
 
-export const findYAxisMetric = metrics =>
+export const findYAxisMetric = (metrics) =>
   (metrics.includes(Metric.price_usd) && Metric.price_usd) ||
-  metrics.find(
-    ({ key, Component }) => key !== 'mvrvRatio' && Component !== Bar
-  ) ||
+  metrics.find(({ key, Component }) => key !== 'mvrvRatio' && Component !== Bar) ||
   metrics[0]
 
 export const setupColorGenerator = () => {
@@ -104,7 +102,7 @@ export const setupColorGenerator = () => {
 
 export const chartBars = new WeakMap()
 
-const StackedLogic = props => {
+const StackedLogic = (props) => {
   const { metric, fill, x, y, height, index, barsMap, value } = props
 
   if (value === undefined) return null
@@ -114,7 +112,7 @@ const StackedLogic = props => {
   if (!obj) {
     obj = {
       index,
-      metrics: new Map([[metric, { fill, height, y, x }]])
+      metrics: new Map([[metric, { fill, height, y, x }]]),
     }
     barsMap.set(index, obj)
   } else {
@@ -126,7 +124,7 @@ const StackedLogic = props => {
 
 const barMetricsSorter = ({ height: a }, { height: b }) => b - a
 
-const getBarMargin = diff => {
+const getBarMargin = (diff) => {
   if (diff < 1.3) {
     return 0.2
   }
@@ -179,7 +177,7 @@ export const alignDayMetrics = ({ chartRef, bars, dayMetrics, margin }) => {
     }
   }
 
-  oneDayMetricsKeys.forEach(key => {
+  oneDayMetricsKeys.forEach((key) => {
     const lastMetric = lastMetrics[key]
     if (lastMetric) {
       const boundWidth = chartRef.offsetWidth - lastMetric.x
@@ -202,12 +200,10 @@ export const generateMetricsMarkup = (
     useShortName,
     hideYAxis,
     activeDotEl: ActiveEl = ActiveLine,
-    activeDotColor
-  } = {}
+    activeDotColor,
+  } = {},
 ) => {
-  const metricWithYAxis = isMultiChartsActive
-    ? metrics[0]
-    : findYAxisMetric(metrics)
+  const metricWithYAxis = isMultiChartsActive ? metrics[0] : findYAxisMetric(metrics)
 
   // HACK(vanguard): Thanks recharts
   let barsMap = chartBars.get(chartRef)
@@ -230,7 +226,7 @@ export const generateMetricsMarkup = (
       gradientUrl,
       opacity = 1,
       formatter,
-      strokeWidth = 1.5
+      strokeWidth = 1.5,
     } = metric
 
     const El = RechartComponent[node]
@@ -242,7 +238,7 @@ export const generateMetricsMarkup = (
     const rest = {
       [El === Bar ? 'fill' : 'stroke']: syncedColors[dataKey],
       [El === Area && gradientUrl && 'fill']: gradientUrl,
-      [El === Area && gradientUrl && 'fillOpacity']: 1
+      [El === Area && gradientUrl && 'fillOpacity']: 1,
     }
 
     if (!isMultiChartsActive && chartRef !== undefined && El === Bar) {
@@ -273,16 +269,12 @@ export const generateMetricsMarkup = (
         dataKey={dataKey}
         dot={false}
         opacity={opacity}
-        activeDot={
-          activeDataKey === dataKey && (
-            <ActiveEl activeDotColor={activeDotColor} />
-          )
-        }
+        activeDot={activeDataKey === dataKey && <ActiveEl activeDotColor={activeDotColor} />}
         isAnimationActive={false}
         connectNulls
         formatter={formatter}
         {...rest}
-      />
+      />,
     )
 
     return acc
@@ -337,17 +329,14 @@ export const generateMetricsMarkup = (
               />
             ))
         })}
-      </g>
+      </g>,
     )
   }
 
   return res
 }
 
-export const mapToRequestedMetrics = (
-  metrics,
-  { interval, slug, from, to, timeRange }
-) =>
+export const mapToRequestedMetrics = (metrics, { interval, slug, from, to, timeRange }) =>
   metrics.map(({ key, alias: name = key, reqMeta }) => ({
     name,
     slug,
@@ -355,16 +344,13 @@ export const mapToRequestedMetrics = (
     to,
     timeRange,
     interval,
-    ...reqMeta
+    ...reqMeta,
   }))
 
 export const getSlugPriceSignals = (signals, slug, price = undefined) =>
   signals.filter(
     ({
-      settings: {
-        target: { slug: signalSlug } = {},
-        operation: { above, below } = {}
-      } = {}
+      settings: { target: { slug: signalSlug } = {}, operation: { above, below } = {} } = {},
     }) => {
       let result = (!!above || !!below) && slug === signalSlug
 
@@ -373,14 +359,14 @@ export const getSlugPriceSignals = (signals, slug, price = undefined) =>
       }
 
       return result
-    }
+    },
   )
 
 const MIN_TICK_MILLIFY_VALUE = 1000000
 
-export const yAxisTickFormatter = value =>
+export const yAxisTickFormatter = (value) =>
   value > MIN_TICK_MILLIFY_VALUE
     ? millify(value)
     : formatNumber(value, {
-        minimumFractionDigits: 0
+        minimumFractionDigits: 0,
       })

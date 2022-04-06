@@ -11,10 +11,10 @@ export const useUpdateNameAndDescription = ({
   selectedStep,
   values,
   hasSignal,
-  isEdited
+  isEdited,
 }) => {
   const [projects, loading] = useAssets({
-    shouldSkipLoggedInState: false
+    shouldSkipLoggedInState: false,
   })
   const [, , { setValue: setTitle }] = useField('title')
   const [, , { setValue: setDescription }] = useField('description')
@@ -25,7 +25,7 @@ export const useUpdateNameAndDescription = ({
       !selectedType ||
       (selectedType.title !== 'Screener' &&
         selectedType.title !== 'Watchlist' &&
-        selectedType.title !== 'Social trends')
+        selectedType.title !== 'Social trends'),
   })
   const stepsLength = selectedType ? selectedType.steps.length : 1
   const nameAndDescriptionIndex = stepsLength - 1
@@ -47,8 +47,8 @@ export const useUpdateNameAndDescription = ({
               operation,
               metric,
               time_window,
-              target: { slug }
-            }
+              target: { slug },
+            },
           } = values
           let assets = 'Asset'
           const hasSlug = slug && slug.length > 0 && !loading
@@ -56,45 +56,39 @@ export const useUpdateNameAndDescription = ({
           if (hasSlug) {
             assets =
               typeof slug === 'string'
-                ? projects.find(project => project.slug === slug).name
+                ? projects.find((project) => project.slug === slug).name
                 : slug
-                    .map(
-                      item =>
-                        projects.find(project => project.slug === item).name
-                    )
+                    .map((item) => projects.find((project) => project.slug === item).name)
                     .join(', ')
           }
 
           if (operation && metric && time_window && hasSlug) {
-            const { selectedCount, selectedOperation } = parseOperation(
-              operation
-            )
+            const { selectedCount, selectedOperation } = parseOperation(operation)
             const selectedMetric = getMetricByKey(metric)
             const metricLabel = selectedMetric ? selectedMetric.label : 'metric'
             const conditionsStr = getConditionsStr({
               operation: selectedOperation,
               count: selectedCount,
-              timeWindow: time_window
+              timeWindow: time_window,
             })
 
             setTitle(
-              `${assets || ''} ${
-                metricLabel ? metricLabel.toLowerCase() : ''
-              } ${conditionsStr || ''}`
+              `${assets || ''} ${metricLabel ? metricLabel.toLowerCase() : ''} ${
+                conditionsStr || ''
+              }`,
             )
 
             if (cooldown && channel.length > 0) {
               const notificationsStr = getDescriptionStr({
                 cooldown,
                 channels: channel,
-                isRepeating
+                isRepeating,
               })
 
               setDescription(
-                `Notify me when the ${
-                  metricLabel ? metricLabel.toLowerCase() : ''
-                } of ${assets || ''} ${conditionsStr ||
-                  ''}. ${notificationsStr}`
+                `Notify me when the ${metricLabel ? metricLabel.toLowerCase() : ''} of ${
+                  assets || ''
+                } ${conditionsStr || ''}. ${notificationsStr}`,
               )
             }
           } else {
@@ -106,7 +100,7 @@ export const useUpdateNameAndDescription = ({
           const {
             cooldown,
             isRepeating,
-            settings: { channel, operation, metric, time_window }
+            settings: { channel, operation, metric, time_window },
           } = values
           let watchlistName = 'Watchlist'
           const hasWatchlist = watchlist && watchlist.name
@@ -121,28 +115,27 @@ export const useUpdateNameAndDescription = ({
           const conditionsStr = getConditionsStr({
             operation: selectedOperation,
             count: selectedCount,
-            timeWindow: time_window
+            timeWindow: time_window,
           })
 
           if (operation && metric && time_window && hasWatchlist) {
             setTitle(
               `${capitalizeStr(watchlistName) || ''} ${
                 metricLabel ? metricLabel.toLowerCase() : ''
-              } ${conditionsStr || ''}`
+              } ${conditionsStr || ''}`,
             )
 
             if (cooldown && channel.length > 0) {
               const notificationsStr = getDescriptionStr({
                 cooldown,
                 channels: channel,
-                isRepeating
+                isRepeating,
               })
 
               setDescription(
-                `Notify me when the ${
-                  metricLabel ? metricLabel.toLowerCase() : ''
-                } of ${watchlistName || ''} ${conditionsStr ||
-                  ''}. ${notificationsStr}`
+                `Notify me when the ${metricLabel ? metricLabel.toLowerCase() : ''} of ${
+                  watchlistName || ''
+                } ${conditionsStr || ''}. ${notificationsStr}`,
               )
             }
           } else {
@@ -154,7 +147,7 @@ export const useUpdateNameAndDescription = ({
           const {
             cooldown,
             isRepeating,
-            settings: { channel }
+            settings: { channel },
           } = values
           let screenerName = 'Screener'
           const hasScreener = watchlist && watchlist.name
@@ -163,19 +156,17 @@ export const useUpdateNameAndDescription = ({
             screenerName = watchlist.name
           }
           if (hasScreener) {
-            setTitle(
-              `Project enters/exits ${capitalizeStr(screenerName) || ''}`
-            )
+            setTitle(`Project enters/exits ${capitalizeStr(screenerName) || ''}`)
 
             if (cooldown && channel.length > 0) {
               const notificationsStr = getDescriptionStr({
                 cooldown,
                 channels: channel,
-                isRepeating
+                isRepeating,
               })
 
               setDescription(
-                `Notify me when any project enters/exits ${screenerName}. ${notificationsStr}`
+                `Notify me when any project enters/exits ${screenerName}. ${notificationsStr}`,
               )
             }
           } else {
@@ -191,14 +182,14 @@ export const useUpdateNameAndDescription = ({
               channel,
               selector: { slug, infrastructure } = {
                 slug: '',
-                infrastructure: ''
+                infrastructure: '',
               },
               target: { address } = { address: '' },
               operation,
-              time_window
-            }
+              time_window,
+            },
           } = values
-          const currentProject = projects.find(project => project.slug === slug)
+          const currentProject = projects.find((project) => project.slug === slug)
           let slugTicker = 'Screener'
           const hasSlugTicker = currentProject && currentProject.ticker
 
@@ -207,13 +198,11 @@ export const useUpdateNameAndDescription = ({
           }
 
           if (hasSlugTicker && address && infrastructure) {
-            const { selectedCount, selectedOperation } = parseOperation(
-              operation
-            )
+            const { selectedCount, selectedOperation } = parseOperation(operation)
             const conditionsStr = getConditionsStr({
               operation: selectedOperation,
               count: selectedCount,
-              timeWindow: time_window
+              timeWindow: time_window,
             })
 
             setTitle(`${slugTicker} wallet ${address} ${conditionsStr || ''}`)
@@ -222,12 +211,13 @@ export const useUpdateNameAndDescription = ({
               const notificationsStr = getDescriptionStr({
                 cooldown,
                 channels: channel,
-                isRepeating
+                isRepeating,
               })
 
               setDescription(
-                `Notify me when the balance of ${slugTicker.toLowerCase()} wallet ${address ||
-                  ''} ${conditionsStr || ''}. ${notificationsStr}`
+                `Notify me when the balance of ${slugTicker.toLowerCase()} wallet ${
+                  address || ''
+                } ${conditionsStr || ''}. ${notificationsStr}`,
               )
             }
           } else {
@@ -241,14 +231,12 @@ export const useUpdateNameAndDescription = ({
             isRepeating,
             settings: {
               channel,
-              target: { slug, word, watchlist_id }
-            }
+              target: { slug, word, watchlist_id },
+            },
           } = values
           let assets = 'Asset'
-          const noSlug =
-            typeof slug === 'string' ? !slug : slug && slug.length === 0
-          const noWord =
-            typeof word === 'string' ? !word : word && word.length === 0
+          const noSlug = typeof slug === 'string' ? !slug : slug && slug.length === 0
+          const noWord = typeof word === 'string' ? !word : word && word.length === 0
 
           let watchlistName = 'Watchlist'
           const hasWatchlist = watchlist_id && watchlist && watchlist.name
@@ -260,31 +248,26 @@ export const useUpdateNameAndDescription = ({
           if (!noSlug && slug && projects.length > 0) {
             assets =
               typeof slug === 'string'
-                ? projects.find(project => project.slug === slug).name
+                ? projects.find((project) => project.slug === slug).name
                 : slug
-                    .map(
-                      item =>
-                        projects.find(project => project.slug === item).name
-                    )
+                    .map((item) => projects.find((project) => project.slug === item).name)
                     .join(', ')
           }
           if (!noWord && word && projects.length > 0) {
-            const projectItem = projects.find(
-              project => project.slug === word
-            ) || {
-              slug: word
+            const projectItem = projects.find((project) => project.slug === word) || {
+              slug: word,
             }
             assets =
               typeof word === 'string'
                 ? projectItem.slug
                 : word
                     .map(
-                      item =>
+                      (item) =>
                         (
-                          projects.find(project => project.slug === item) || {
-                            slug: item
+                          projects.find((project) => project.slug === item) || {
+                            slug: item,
                           }
-                        ).slug
+                        ).slug,
                     )
                     .join(', ')
           }
@@ -304,18 +287,18 @@ export const useUpdateNameAndDescription = ({
               const notificationsStr = getDescriptionStr({
                 cooldown,
                 channels: channel,
-                isRepeating
+                isRepeating,
               })
 
               if ((!noWord && word) || (!noSlug && slug)) {
                 setDescription(
-                  `Notify me when the ${assets} appears in social trends. ${notificationsStr}`
+                  `Notify me when the ${assets} appears in social trends. ${notificationsStr}`,
                 )
               }
 
               if (hasWatchlist) {
                 setDescription(
-                  `Notify me when the ${watchlistName} appears in social trends. ${notificationsStr}`
+                  `Notify me when the ${watchlistName} appears in social trends. ${notificationsStr}`,
                 )
               }
             }

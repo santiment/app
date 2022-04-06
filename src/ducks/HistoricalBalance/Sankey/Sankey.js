@@ -15,7 +15,7 @@ const SankeyGraph = ({ id, address, currency, inbound, outbound, detail }) => {
       inbound,
       outbound,
       detail,
-      currency
+      currency,
     })
   }, [address, currency, inbound, outbound, detail])
 
@@ -37,7 +37,7 @@ const SankeyGraph = ({ id, address, currency, inbound, outbound, detail }) => {
   )
 }
 SankeyGraph.defaultProps = {
-  id: 'sankey-graph'
+  id: 'sankey-graph',
 }
 
 export default SankeyGraph

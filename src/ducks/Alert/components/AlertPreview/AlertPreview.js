@@ -34,7 +34,7 @@ const AlertPreview = ({
   setIsPreview,
   signal,
   handleCloseDialog,
-  shouldDisableActions
+  shouldDisableActions,
 }) => {
   const {
     id,

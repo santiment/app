@@ -6,7 +6,7 @@ import styles from './WidgetTrend.module.scss'
 const Message = {
   initial: 'Select a word',
   isLoading: 'Loading...',
-  hasNoData: 'No data'
+  hasNoData: 'No data',
 }
 
 const getMessage = ({ initial, isLoading, hasNoData }) => {
@@ -35,12 +35,12 @@ const WidgetTrend = ({
   children,
   className,
   infoClassName,
-  contentClassName
+  contentClassName,
 }) => {
   const msg = getMessage({
     isLoading,
     hasNoData: error || !hasData,
-    initial: !trendWord && !error
+    initial: !trendWord && !error,
   })
 
   return (
@@ -52,11 +52,7 @@ const WidgetTrend = ({
 
       {msg ? (
         <div className={styles.container}>
-          {isLoading ? (
-            <Loader className={styles.loader} />
-          ) : (
-            <h3 className={styles.msg}>{msg}</h3>
-          )}
+          {isLoading ? <Loader className={styles.loader} /> : <h3 className={styles.msg}>{msg}</h3>}
         </div>
       ) : (
         <div className={cx(styles.content, contentClassName)}>{children}</div>
@@ -66,7 +62,7 @@ const WidgetTrend = ({
 }
 
 WidgetTrend.defaultProps = {
-  className: ''
+  className: '',
 }
 
 export default WidgetTrend

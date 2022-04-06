@@ -17,23 +17,20 @@ class SubscriptionForm extends PureComponent {
   state = {
     email: '',
     error: undefined,
-    hasSubscribed: true
+    hasSubscribed: true,
   }
 
-  componentWillReceiveProps ({ hasSubscribed }) {
-    if (
-      hasSubscribed !== undefined &&
-      hasSubscribed !== this.state.hasSubscribed
-    ) {
+  componentWillReceiveProps({ hasSubscribed }) {
+    if (hasSubscribed !== undefined && hasSubscribed !== this.state.hasSubscribed) {
       this.setState({ ...this.state, hasSubscribed })
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     clearTimeout(this.timeout)
   }
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault()
     const { email, error, hasSubscribed, waiting } = this.state
 
@@ -51,7 +48,7 @@ class SubscriptionForm extends PureComponent {
     const { emailLogin } = this.props
 
     emailLogin({
-      variables: { email, subscribeToWeeklyNewsletter: hasSubscribed }
+      variables: { email, subscribeToWeeklyNewsletter: hasSubscribed },
     })
       .then(() => {
         this.setState({ waiting: false })
@@ -59,37 +56,37 @@ class SubscriptionForm extends PureComponent {
           category: 'User',
           action: `User requested an email for verification ${
             hasSubscribed ? 'with' : 'without'
-          } subscription`
+          } subscription`,
         })
         store.dispatch(
           showNotification({
             variant: 'success',
             title: `Verification email has been sent to "${email}"`,
-            dismissAfter: 8000
-          })
+            dismissAfter: 8000,
+          }),
         )
       })
-      .catch(error => {
+      .catch((error) => {
         this.setState({ waiting: false })
         store.dispatch(
           showNotification({
             variant: 'error',
             title: `We got an error while generating verification email. Please try again`,
-            dismissAfter: 8000
-          })
+            dismissAfter: 8000,
+          }),
         )
         Sentry.captureException(error)
       })
   }
 
-  onSelect = data => {
+  onSelect = (data) => {
     const { hasSubscribed } = this.state
     const newValue = !hasSubscribed
 
     this.setState({ hasSubscribed: newValue })
   }
 
-  onEmailChange (email) {
+  onEmailChange(email) {
     let error
     if (!email) {
       error = 'Email is required'
@@ -105,7 +102,7 @@ class SubscriptionForm extends PureComponent {
     this.timeout = setTimeout(() => this.onEmailChange(value), 500)
   }
 
-  render () {
+  render() {
     const { error, waiting, email, hasSubscribed } = this.state
     const {
       hideCheckbox,
@@ -114,7 +111,7 @@ class SubscriptionForm extends PureComponent {
       iconPosition,
       classes = {},
       subscriptionLabel,
-      subscribeBtnLabel = 'Get started'
+      subscribeBtnLabel = 'Get started',
     } = this.props
 
     const label = subscriptionLabel || SUBSCRIPTION_LABEL
@@ -126,7 +123,7 @@ class SubscriptionForm extends PureComponent {
           className={cx(
             styles.subscription__form,
             error && styles.subscription__form_error,
-            classes.form
+            classes.form,
           )}
           onSubmit={this.onSubmit}
         >
@@ -143,18 +140,10 @@ class SubscriptionForm extends PureComponent {
             <div className={styles.checkBlock} onClick={this.onSelect}>
               <Checkbox
                 isActive={hasSubscribed}
-                className={cx(
-                  styles.checkbox,
-                  hasSubscribed && classes.selectedCheckbox
-                )}
+                className={cx(styles.checkbox, hasSubscribed && classes.selectedCheckbox)}
                 disabled={waiting || !email}
               />
-              <div
-                className={cx(
-                  styles.subscription__label,
-                  classes.subscriptionLabel
-                )}
-              >
+              <div className={cx(styles.subscription__label, classes.subscriptionLabel)}>
                 {label}
               </div>
             </div>
@@ -174,6 +163,4 @@ class SubscriptionForm extends PureComponent {
   }
 }
 
-export default graphql(EMAIL_LOGIN_MUTATION, { name: 'emailLogin' })(
-  SubscriptionForm
-)
+export default graphql(EMAIL_LOGIN_MUTATION, { name: 'emailLogin' })(SubscriptionForm)

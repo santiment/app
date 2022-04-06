@@ -4,19 +4,19 @@ import ErrorContent from './ErrorContent'
 
 class ErrorBoundary extends Component {
   state = {
-    error: null
+    error: null,
   }
 
-  setError (error) {
+  setError(error) {
     this.setState({ error })
   }
 
-  componentDidCatch (error, errorInfo) {
+  componentDidCatch(error, errorInfo) {
     this.setError(error)
     Sentry.captureException(error, { extra: errorInfo })
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.unlisten = this.props.history.listen((location, action) => {
       if (this.state.error) {
         this.setError()
@@ -24,11 +24,11 @@ class ErrorBoundary extends Component {
     })
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.unlisten()
   }
 
-  render () {
+  render() {
     if (this.state.error) {
       return <ErrorContent />
     } else {

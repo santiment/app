@@ -9,9 +9,7 @@ import styles from './BlockchainLabelsSetting.module.scss'
 const Trigger = ({ labels }) => (
   <div className={styles.trigger}>
     Labels:{' '}
-    {labels.length > 0
-      ? labels.map(getBlockchainLabelReadable).join(', ')
-      : 'Click to select'}
+    {labels.length > 0 ? labels.map(getBlockchainLabelReadable).join(', ') : 'Click to select'}
   </div>
 )
 
@@ -30,24 +28,17 @@ const BlockchainLabelsSetting = ({ metric, widget, rerenderWidgets }) => {
     const newMap = new Map()
 
     newMap.set(metric, {
-      labels: !labels || labels.length === 0 ? undefined : labels
+      labels: !labels || labels.length === 0 ? undefined : labels,
     })
 
-    widget.MetricSettingMap = mergeMetricSettingMap(
-      widget.MetricSettingMap,
-      newMap
-    )
+    widget.MetricSettingMap = mergeMetricSettingMap(widget.MetricSettingMap, newMap)
 
     debouncedRerender()
   }, [labels])
 
   return (
     <Setting isDropdown={false}>
-      <BlockchainLabelsSelector
-        onChange={setLabels}
-        value={labels}
-        trigger={Trigger}
-      />
+      <BlockchainLabelsSelector onChange={setLabels} value={labels} trigger={Trigger} />
     </Setting>
   )
 }

@@ -3,13 +3,7 @@ import Actions from './Actions/index'
 import { useDeleteWatchlistItems, useAddWatchlistItems } from './Actions/hooks'
 import styles from './CompareInfo.module.scss'
 
-const CompareInfo = ({
-  type,
-  selected,
-  cleanAll,
-  watchlist,
-  refetchAssets
-}) => {
+const CompareInfo = ({ type, selected, cleanAll, watchlist, refetchAssets }) => {
   const { removeWatchlistItems } = useDeleteWatchlistItems()
   const { addWatchlistItems } = useAddWatchlistItems()
   return (
@@ -17,22 +11,22 @@ const CompareInfo = ({
       {type === 'PROJECT' && (
         <Actions
           selected={selected}
-          assets={watchlist.listItems.map(item => item.project)}
+          assets={watchlist.listItems.map((item) => item.project)}
           watchlist={watchlist}
           onAdd={(watchlistId, listItems, onAddDone) =>
             addWatchlistItems({
               variables: {
                 id: watchlistId,
-                listItems
-              }
+                listItems,
+              },
             }).then(() => refetchAssets(onAddDone))
           }
           onRemove={(watchlistId, listItems, onRemoveDone) =>
             removeWatchlistItems({
               variables: {
                 id: watchlistId,
-                listItems
-              }
+                listItems,
+              },
             }).then(() => refetchAssets(onRemoveDone))
           }
         />

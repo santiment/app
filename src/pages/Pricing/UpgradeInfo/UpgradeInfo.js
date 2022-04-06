@@ -8,9 +8,7 @@ const UpgradeInfo = () => {
   return (
     <div className={cx(styles.ask, styles.bgSvg, styles.signSvg)}>
       <div className={styles.askBlock}>
-        <div className={cx(styles.askTitle, styles.sign)}>
-          Ready to get started? Sign up now!
-        </div>
+        <div className={cx(styles.askTitle, styles.sign)}>Ready to get started? Sign up now!</div>
 
         <SubscriptionForm
           classes={styles}

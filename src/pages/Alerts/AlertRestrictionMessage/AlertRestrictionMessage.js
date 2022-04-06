@@ -10,17 +10,10 @@ const AlertRestrictionMessage = ({ shouldHideRestrictionMessage }) => {
   }
 
   return (
-    <div
-      className={cx(
-        styles.wrapper,
-        styles.wrapperPage,
-        'mrg-xl mrg--b row v-center'
-      )}
-    >
+    <div className={cx(styles.wrapper, styles.wrapperPage, 'mrg-xl mrg--b row v-center')}>
       <Icon type='alert' className={styles.icon} />
       <div className='body-2'>
-        You have reached the maximum amount of alerts available to you. To
-        unlock more alerts please{' '}
+        You have reached the maximum amount of alerts available to you. To unlock more alerts please{' '}
         <Link to='/pricing' className={cx(styles.link, 'txt-m')}>
           Update your Plan.
         </Link>

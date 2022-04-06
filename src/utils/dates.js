@@ -28,7 +28,7 @@ export const MONTH_NAMES = [
   'September',
   'October',
   'November',
-  'December'
+  'December',
 ]
 const SHORT_MONTH_NAMES = [
   'Jan',
@@ -42,7 +42,7 @@ const SHORT_MONTH_NAMES = [
   'Sep',
   'Oct',
   'Nov',
-  'Dec'
+  'Dec',
 ]
 
 const WEEK_DAY_NAMES = [
@@ -52,7 +52,7 @@ const WEEK_DAY_NAMES = [
   'Wednesday',
   'Thursday',
   'Friday',
-  'Saturday'
+  'Saturday',
 ]
 
 const SHORT_WEEK_DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
@@ -60,7 +60,7 @@ const SHORT_WEEK_DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 const DateFormat = {
   [MONTH]: ['getMonth', 'setMonth'],
   [DAY]: ['getDate', 'setDate'],
-  [HOUR]: ['getHours', 'setHours']
+  [HOUR]: ['getHours', 'setHours'],
 }
 
 const FormatToIndex = {
@@ -69,7 +69,7 @@ const FormatToIndex = {
   [HOUR]: 2,
   [DAY]: 3,
   [MONTH]: 4,
-  [YEAR]: 5
+  [YEAR]: 5,
 }
 
 const FormatToString = {
@@ -78,14 +78,14 @@ const FormatToString = {
   [HOUR]: 'hour',
   [DAY]: 'day',
   [MONTH]: 'month',
-  [YEAR]: 'year'
+  [YEAR]: 'year',
 }
 
 const FormatToTimestamp = {
   [SECOND]: ONE_SECOND_IN_MS,
   [MINUTE]: ONE_MINUTE_IN_MS,
   [HOUR]: ONE_HOUR_IN_MS,
-  [DAY]: ONE_DAY_IN_MS
+  [DAY]: ONE_DAY_IN_MS,
 }
 
 export const CRYPTO_ERA_START_DATE = new Date('2009-01-01T01:00:00.000Z')
@@ -116,12 +116,11 @@ export const getTimeIntervalFromToday = (amount, dateFormat, options = {}) => {
 
   return {
     from,
-    to
+    to,
   }
 }
 
-const calculateUnitByFormat = (diff, format) =>
-  parseInt(diff / FormatToTimestamp[format], 10)
+const calculateUnitByFormat = (diff, format) => parseInt(diff / FormatToTimestamp[format], 10)
 
 const getUnitFormattedString = (amount, format) => {
   if (format === SECOND && amount < 60) {
@@ -150,8 +149,7 @@ export const dateDifference = ({ from, to = new Date(), format = YEAR }) => {
   } else {
     resultFormat = YEAR
   }
-  resultFormat =
-    FormatToIndex[format] < FormatToIndex[resultFormat] ? format : resultFormat
+  resultFormat = FormatToIndex[format] < FormatToIndex[resultFormat] ? format : resultFormat
 
   let result
   if (resultFormat === YEAR || resultFormat === MONTH) {
@@ -183,7 +181,7 @@ export const dateDifference = ({ from, to = new Date(), format = YEAR }) => {
  * //=> '2 days ago'
  *
  */
-export const dateDifferenceInWords = args => {
+export const dateDifferenceInWords = (args) => {
   const { diff, format } = dateDifference(args)
   return getUnitFormattedString(diff, format)
 }
@@ -202,7 +200,7 @@ export const dateDifferenceInWords = args => {
    * //=> "Wednesday, 17 April 2019"
 
  */
-export const getDateFormats = date => {
+export const getDateFormats = (date) => {
   const month = date.getMonth()
   const M = month + 1
   const D = date.getDate()
@@ -219,11 +217,11 @@ export const getDateFormats = date => {
     MMM: SHORT_MONTH_NAMES[month],
     MMMM: MONTH_NAMES[month],
     YYYY,
-    YY: YYYY.toString().slice(-2)
+    YY: YYYY.toString().slice(-2),
   }
 }
 
-export const getUTCDateFormats = date => {
+export const getUTCDateFormats = (date) => {
   const month = date.getUTCMonth()
   const M = month + 1
   const D = date.getUTCDate()
@@ -240,11 +238,11 @@ export const getUTCDateFormats = date => {
     MMM: SHORT_MONTH_NAMES[month],
     MMMM: MONTH_NAMES[month],
     YYYY,
-    YY: YYYY.toString().slice(-2)
+    YY: YYYY.toString().slice(-2),
   }
 }
 
-export const getTimeFormats = date => {
+export const getTimeFormats = (date) => {
   const m = date.getMinutes()
   const s = date.getSeconds()
   const H = date.getHours()
@@ -255,11 +253,11 @@ export const getTimeFormats = date => {
     m,
     mm: m < 10 ? `0${m}` : m,
     s,
-    ss: s < 10 ? `0${s}` : s
+    ss: s < 10 ? `0${s}` : s,
   }
 }
 
-export const getUTCTimeFormats = date => {
+export const getUTCTimeFormats = (date) => {
   const m = date.getUTCMinutes()
   const s = date.getUTCSeconds()
   const H = date.getUTCHours()
@@ -270,38 +268,38 @@ export const getUTCTimeFormats = date => {
     m,
     mm: m < 10 ? `0${m}` : m,
     s,
-    ss: s < 10 ? `0${s}` : s
+    ss: s < 10 ? `0${s}` : s,
   }
 }
 
-export function parseIntervalString (range) {
+export function parseIntervalString(range) {
   const amount = parseInt(range, 10)
   return {
     amount,
-    format: range.slice(amount.toString().length)
+    format: range.slice(amount.toString().length),
   }
 }
 
-export function getIntervalMilliseconds (interval) {
+export function getIntervalMilliseconds(interval) {
   const { amount, format } = parseIntervalString(interval)
   const formatMs = FormatToTimestamp[format === MONTH ? MINUTE : format]
   return amount * formatMs
 }
 
-export const getNewTimerangePeriod = timerange => ({
+export const getNewTimerangePeriod = (timerange) => ({
   from: `utc_now-${timerange}`,
-  to: 'utc_now'
+  to: 'utc_now',
 })
 
 // TODO: Replace 'getIntervalByTimeRange' with this function [@vanguard | Oct 20, 2020]
-export function getTimerangePeriod (timerange) {
+export function getTimerangePeriod(timerange) {
   const to = new Date()
   to.setHours(to.getHours(), 59, 59, 999)
 
   if (timerange === 'all') {
     return {
       to,
-      from: CRYPTO_ERA_START_DATE
+      from: CRYPTO_ERA_START_DATE,
     }
   }
 
@@ -321,7 +319,7 @@ export function getTimerangePeriod (timerange) {
 
   return {
     from,
-    to
+    to,
   }
 }
 
@@ -345,7 +343,7 @@ export const getIntervalByTimeRange = (timeRange, options = {}) => {
 
     return {
       to: getTimeIntervalFromToday(-1, DAY, options).to,
-      from: CRYPTO_ERA_START_DATE
+      from: CRYPTO_ERA_START_DATE,
     }
   } else if (timeRange === '1d') {
     const from = new Date()
@@ -372,7 +370,7 @@ export const getIntervalByTimeRange = (timeRange, options = {}) => {
   return getTimeIntervalFromToday(-result.amount, result.format, options)
 }
 
-export const toEndOfDay = target => {
+export const toEndOfDay = (target) => {
   target.setHours(24, 0, 0, 0)
   return target
 }
@@ -389,9 +387,9 @@ export const addMinutes = (date, minutes) => {
   return result
 }
 
-export const dateDifferenceInWordsString = dateString =>
+export const dateDifferenceInWordsString = (dateString) =>
   dateDifferenceInWords({
-    from: new Date(dateString)
+    from: new Date(dateString),
   })
 
 export const make12Hours = (hours, fillZero = true) => {
@@ -405,7 +403,7 @@ export const make12Hours = (hours, fillZero = true) => {
   return hours < 10 ? '0' + hours : hours
 }
 
-export const getAmPmWithHours = hours => {
+export const getAmPmWithHours = (hours) => {
   if (hours < 0) {
     hours = 24 - hours
   }
@@ -415,9 +413,9 @@ export const getAmPmWithHours = hours => {
   return make12Hours(hours, false) + ampm
 }
 
-export const getAmPm = hours => (hours >= 12 ? 'pm' : 'am')
+export const getAmPm = (hours) => (hours >= 12 ? 'pm' : 'am')
 
-export const convertToReadableInterval = memoize(timebound => {
+export const convertToReadableInterval = memoize((timebound) => {
   const amount = timebound.slice(0, timebound.length - 1)
 
   if (!Number(amount)) {
@@ -429,11 +427,11 @@ export const convertToReadableInterval = memoize(timebound => {
   return `${amount} ${FormatToString[format]}${plural}`
 })
 
-export function startOfMonth (date) {
+export function startOfMonth(date) {
   return new Date(date.getFullYear(), date.getMonth(), 1)
 }
 
-export function checkIsToday (targetDate) {
+export function checkIsToday(targetDate) {
   const today = new Date()
   return (
     targetDate.getDate() === today.getDate() &&

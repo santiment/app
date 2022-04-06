@@ -11,25 +11,14 @@ import { FIAT_MARKET_ASSETS } from '../../dataHub/fiat'
 import { useProjects } from '../../../stores/projects'
 import styles from './index.module.scss'
 
-const Compare = ({
-  slug,
-  comparables,
-  activeMetrics,
-  className,
-  MetricColor,
-  ...rest
-}) => {
+const Compare = ({ slug, comparables, activeMetrics, className, MetricColor, ...rest }) => {
   const { projects: allProjects } = useProjects()
   const [projects, setProjects] = useState(allProjects)
   const canSelectMoreMetrics = activeMetrics.length < MAX_METRICS_AMOUNT
   const hiddenMetricsMap = buildHiddenMetrics(comparables)
 
   useEffect(() => {
-    setProjects(
-      allProjects
-        .concat(FIAT_MARKET_ASSETS)
-        .filter(project => project.slug !== slug)
-    )
+    setProjects(allProjects.concat(FIAT_MARKET_ASSETS).filter((project) => project.slug !== slug))
   }, [allProjects, slug])
 
   return (
@@ -46,7 +35,7 @@ const Compare = ({
     >
       <Panel variant='modal' padding>
         <div>Compare with</div>
-        {comparables.map(comparable => (
+        {comparables.map((comparable) => (
           <Comparable
             {...rest}
             {...comparable}
@@ -67,9 +56,7 @@ const Compare = ({
             activeSlug={slug}
           />
         ) : (
-          <div className={styles.info}>
-            You have selected the maximum amount of metrics
-          </div>
+          <div className={styles.info}>You have selected the maximum amount of metrics</div>
         )}
       </Panel>
     </ContextMenu>

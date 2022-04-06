@@ -10,7 +10,7 @@ export const INSIGHT_TEXT_QUERY = gql`
   }
 `
 
-export function getInsightText (id) {
+export function getInsightText(id) {
   return client
     .query({ query: INSIGHT_TEXT_QUERY, variables: { id: +id } })
     .then(({ data: { insight } }) => insight.text)

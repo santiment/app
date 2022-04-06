@@ -9,14 +9,11 @@ import DialogTitle from './DialogTitle'
 import { showNotification } from '../../actions/rootActions'
 import { formatPrice } from '../../utils/plans'
 import { getDateFormats } from '../../utils/dates'
-import {
-  USER_SUBSCRIPTIONS_QUERY,
-  CANCEL_SUBSCRIPTION_MUTATION
-} from '../../queries/plans'
+import { USER_SUBSCRIPTIONS_QUERY, CANCEL_SUBSCRIPTION_MUTATION } from '../../queries/plans'
 import { updateUserSubscriptions } from '../../stores/user/subscriptions'
 
-const createCacheUpdate = subsId =>
-  function updateCache (cache, { data: { cancelSubscription } }) {
+const createCacheUpdate = (subsId) =>
+  function updateCache(cache, { data: { cancelSubscription } }) {
     const { currentUser } = cache.readQuery({ query: USER_SUBSCRIPTIONS_QUERY })
 
     const canceled = currentUser.subscriptions.find(({ id }) => id === subsId)
@@ -29,7 +26,7 @@ const createCacheUpdate = subsId =>
 
     cache.writeQuery({
       query: USER_SUBSCRIPTIONS_QUERY,
-      data: { currentUser: { ...currentUser } }
+      data: { currentUser: { ...currentUser } },
     })
   }
 
@@ -40,8 +37,8 @@ const CancelPlanDialog = ({
   subscription: {
     id,
     currentPeriodEnd,
-    plan: { amount, name }
-  }
+    plan: { amount, name },
+  },
 }) => {
   const [opened, setOpened] = useState(false)
   const [screen, setScreen] = useState(0)
@@ -50,30 +47,27 @@ const CancelPlanDialog = ({
   const { MMMM, DD, YYYY } = getDateFormats(new Date(currentPeriodEnd))
   const date = `${MMMM} ${DD}, ${YYYY}`
 
-  function closeDialog () {
+  function closeDialog() {
     setOpened(false)
   }
 
-  function openDialog () {
+  function openDialog() {
     setScreen(0)
     setOpened(true)
   }
 
-  function nextScreen () {
+  function nextScreen() {
     setScreen(screen + 1)
   }
 
-  function previousScreen () {
+  function previousScreen() {
     setScreen(screen - 1)
   }
 
   const Screen = SCREENS[screen]
 
   return (
-    <Mutation
-      mutation={CANCEL_SUBSCRIPTION_MUTATION}
-      update={createCacheUpdate(id)}
-    >
+    <Mutation mutation={CANCEL_SUBSCRIPTION_MUTATION} update={createCacheUpdate(id)}>
       {(cancelSubscription, { loading }) => (
         <Dialog
           open={opened}
@@ -102,8 +96,8 @@ const CancelPlanDialog = ({
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  addNot: message => dispatch(showNotification(message))
+const mapDispatchToProps = (dispatch) => ({
+  addNot: (message) => dispatch(showNotification(message)),
 })
 
 export default connect(null, mapDispatchToProps)(CancelPlanDialog)

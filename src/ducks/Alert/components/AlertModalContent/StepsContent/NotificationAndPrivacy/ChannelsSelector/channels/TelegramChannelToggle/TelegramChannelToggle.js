@@ -14,32 +14,32 @@ const TelegramChannelToggle = ({
   onChange,
   value,
   setValue,
-  telegramChannel
+  telegramChannel,
 }) => {
   const [hasError, setHasError] = useState(false)
   const [shown, setShown] = useState(false)
   const [telegramChat, setTelegramChat] = useState(
-    telegramChannel ? telegramChannel.telegram_channel : ''
+    telegramChannel ? telegramChannel.telegram_channel : '',
   )
   const ref = useRef()
   useOnClickOutside(ref, () => setShown(false))
 
   const { data } = useCheckTelegramValid({
-    chatId: telegramChat
+    chatId: telegramChat,
   })
 
   useEffect(() => {
     if (data && data.isTelegramChatIdValid) {
       setHasError(false)
-      const updatedChannels = value.filter(item =>
-        typeof item === 'string' ? item : !('telegram_channel' in item)
+      const updatedChannels = value.filter((item) =>
+        typeof item === 'string' ? item : !('telegram_channel' in item),
       )
 
       setValue([
         ...updatedChannels,
         {
-          telegram_channel: telegramChat
-        }
+          telegram_channel: telegramChat,
+        },
       ])
     }
   }, [telegramChat, data])
@@ -61,34 +61,21 @@ const TelegramChannelToggle = ({
           disabled={disabled}
           errorText={isError && 'Invalid Channel'}
           value={telegramChat}
-          onChange={e => setTelegramChat(e.target.value)}
+          onChange={(e) => setTelegramChat(e.target.value)}
           onBlur={() => !telegramChat && setHasError(true)}
         />
       </SourceToggle>
       {isActive && (
         <div className={styles.description}>
-          To allow notification for your telegram channel. Open your telegram
-          channel, press info, go to Administrators, add Admin. Search for
-          Santiment Signals bot. The Signals bot must be made an admin of the
-          channel with only Post Messages privileges.{' '}
-          <span
-            className={styles.screenshot}
-            onClick={() => setShown(prev => !prev)}
-          >
+          To allow notification for your telegram channel. Open your telegram channel, press info,
+          go to Administrators, add Admin. Search for Santiment Signals bot. The Signals bot must be
+          made an admin of the channel with only Post Messages privileges.{' '}
+          <span className={styles.screenshot} onClick={() => setShown((prev) => !prev)}>
             Show a screenshot
           </span>
-          <Tooltip
-            trigger={<div />}
-            shown={shown}
-            position='bottom'
-            className={styles.tooltip}
-          >
+          <Tooltip trigger={<div />} shown={shown} position='bottom' className={styles.tooltip}>
             <div className={styles.tooltip__content} ref={ref}>
-              <img
-                src={telegramChannelInfo}
-                alt=''
-                className={styles.tooltip__img}
-              />
+              <img src={telegramChannelInfo} alt='' className={styles.tooltip__img} />
             </div>
           </Tooltip>
         </div>

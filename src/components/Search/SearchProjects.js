@@ -24,7 +24,7 @@ const TRENDING_WORDS_QUERY = gql`
   }
 `
 
-const assetsPredicate = searchTerm => {
+const assetsPredicate = (searchTerm) => {
   const upperCaseSearchTerm = searchTerm.toUpperCase()
   return ({ ticker, name, slug }) =>
     name.toUpperCase().includes(upperCaseSearchTerm) ||
@@ -32,9 +32,9 @@ const assetsPredicate = searchTerm => {
     slug.toUpperCase().includes(upperCaseSearchTerm)
 }
 
-const trendWordsPredicate = searchTerm => {
+const trendWordsPredicate = (searchTerm) => {
   const upperCaseSearchTerm = searchTerm.toUpperCase()
-  return word => word.toUpperCase().includes(upperCaseSearchTerm)
+  return (word) => word.toUpperCase().includes(upperCaseSearchTerm)
 }
 
 const calculateMatchIndex = (str, value) => {
@@ -45,7 +45,7 @@ const calculateMatchIndex = (str, value) => {
 const fullMatch = (str, value) => {
   return str === value.toUpperCase()
 }
-export const assetsSorter = searchTerm => {
+export const assetsSorter = (searchTerm) => {
   const upperCaseSearchTerm = searchTerm.toUpperCase()
 
   return (a, b) => {
@@ -62,14 +62,8 @@ export const assetsSorter = searchTerm => {
       const matchIndexNameB = calculateMatchIndex(upperCaseSearchTerm, b.name)
 
       if (matchIndexNameA === matchIndexNameB) {
-        const matchIndexTickerA = calculateMatchIndex(
-          upperCaseSearchTerm,
-          a.ticker
-        )
-        const matchIndexTickerB = calculateMatchIndex(
-          upperCaseSearchTerm,
-          b.ticker
-        )
+        const matchIndexTickerA = calculateMatchIndex(upperCaseSearchTerm, a.ticker)
+        const matchIndexTickerB = calculateMatchIndex(upperCaseSearchTerm, b.ticker)
 
         if (matchIndexTickerA === matchIndexTickerB) {
           return b.marketcapUsd - a.marketcapUsd
@@ -93,15 +87,12 @@ const AssetSuggestion = ({
   isCopyingAssets,
   checkedAssets,
   isEditingWatchlist,
-  isAssetInList
+  isAssetInList,
 }) => (
   <div className={styles.projectWrapper}>
     <div className={styles.projectInfo}>
       {isCopyingAssets ? (
-        <Checkbox
-          isActive={checkedAssets.has(id)}
-          className={styles.checkbox}
-        />
+        <Checkbox isActive={checkedAssets.has(id)} className={styles.checkbox} />
       ) : (
         <ProjectIcon
           className={styles.icon}
@@ -168,14 +159,7 @@ const SearchProjects = ({
           predicate: assetsPredicate,
           items: projects,
           sorter: assetsSorter,
-          suggestionContent: ({
-            name,
-            ticker,
-            slug,
-            logoUrl,
-            darkLogoUrl,
-            id
-          }) => {
+          suggestionContent: ({ name, ticker, slug, logoUrl, darkLogoUrl, id }) => {
             const isAssetInList = isEditingWatchlist
               ? hasAssetById({ listItems: watchlistItems, id })
               : false
@@ -193,14 +177,14 @@ const SearchProjects = ({
                 checkedAssets={checkedAssets}
               />
             )
-          }
+          },
         },
         {
           title: 'Trending words',
           predicate: trendWordsPredicate,
           items: trendWords,
-          suggestionContent: word => word
-        }
+          suggestionContent: (word) => word,
+        },
       ]}
     />
   )
@@ -218,24 +202,22 @@ const enhance = compose(
       return {
         variables: {
           from,
-          to
-        }
+          to,
+        },
       }
     },
     props: ({ data: { getTrendingWords = [] } }) => {
       const trendWords = getTrendingWords[0]
       return {
-        trendWords: trendWords
-          ? trendWords.topWords.map(({ word }) => word)
-          : []
+        trendWords: trendWords ? trendWords.topWords.map(({ word }) => word) : [],
       }
-    }
+    },
   }),
   graphql(ALL_PROJECTS_FOR_SEARCH_QUERY, {
     skip: ({ projects }) => projects && projects.length > 0,
     options: () => ({
       context: { isRetriable: true },
-      variables: { minVolume: 0 }
+      variables: { minVolume: 0 },
     }),
     props: ({ data: { allProjects = [] } }) => {
       const projects = allProjects.length > 0 ? allProjects : ALL_PROJECTS
@@ -243,10 +225,10 @@ const enhance = compose(
       return {
         projects: projects
           .slice()
-          .sort(({ rank: a }, { rank: b }) => (a || Infinity) - (b || Infinity))
+          .sort(({ rank: a }, { rank: b }) => (a || Infinity) - (b || Infinity)),
       }
-    }
-  })
+    },
+  }),
 )
 
 export default enhance(SearchProjects)

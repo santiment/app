@@ -5,7 +5,7 @@
   "scripts": {
     "prestart": "rm -f ./node_modules/webpack-dev-server/ssl/server.pem && cp -f .cert/server.pem ./node_modules/webpack-dev-server/ssl",
     "start": "node scripts && REACT_APP_VERSION=$(node -pe 'require(\"./package.json\").version')-$GIT_HEAD react-app-rewired start",
-    "format:js": "prettier-standard 'src/**/*.js'",
+    "format:js": "prettier --write --loglevel silent 'src/**/*.{js,svelte}'",
     "format:css": "stylelint src/*{sass,scss} --syntax scss --fix",
     "format": "npm run format:js && npm run format:css",
     "lint:css": "stylelint src/*{sass,scss} --syntax scss",
@@ -95,8 +95,8 @@
     "redux-observable": "^0.18.0",
     "redux-persist": "^5.4.0",
     "rxjs": "5.x.x",
-    "san-studio": "https://github.com/santiment/san-studio#1269cce",
-    "san-webkit": "https://github.com/santiment/san-webkit#1c702b5",
+    "san-studio": "https://github.com/santiment/san-studio#218ef1f",
+    "san-webkit": "https://github.com/santiment/san-webkit#30b28e5",
     "sanitize-html": "^1.18.2",
     "svg-sprite": "1.5.0",
     "turndown": "^7.1.1",
@@ -132,6 +132,8 @@
     "postcss-loader-2": "npm:postcss-loader@2",
     "postcss-modules": "1.4.1",
     "prettier-standard": "^16.4.1",
+    "prettier": "^2.6.2",
+    "prettier-plugin-svelte": "^2.6.0",
     "pug": "^3.0.1",
     "react-app-rewired": "^2.1.5",
     "react-hot-loader": "^4.6.3",
@@ -160,13 +162,13 @@
   },
   "lint-staged": {
     "linters": {
-      "src/**/*.js": [
-        "yarn format",
+      "src/**/*.{js,svelte}": [
+        "npm run format",
         "git add"
       ],
       "*.{sass,scss,css}": [
-        "yarn stylefmt",
-        "yarn stylelint src/*{sass,scss} --syntax scss --fix",
+        "npm run stylefmt",
+        "npm run stylelint src/*{sass,scss} --syntax scss --fix",
         "git add"
       ]
     }

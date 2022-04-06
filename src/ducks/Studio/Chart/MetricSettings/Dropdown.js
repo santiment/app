@@ -7,7 +7,7 @@ export const useDropdown = () => {
   const [isOpened, setIsOpened] = useState(false)
   const stateRef = useRef(isOpened)
   stateRef.current = isOpened
-  const Dropdown = useRef(props => (
+  const Dropdown = useRef((props) => (
     <ContextMenu
       {...props}
       open={stateRef.current}
@@ -29,17 +29,17 @@ export const useDropdown = () => {
     }
   }, [isOpened])
 
-  function open () {
+  function open() {
     setIsOpened(true)
   }
 
-  function close () {
+  function close() {
     setIsOpened(false)
   }
 
   return {
     activeRef,
     close,
-    Dropdown
+    Dropdown,
   }
 }

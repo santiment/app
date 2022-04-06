@@ -37,10 +37,10 @@ const RecentsFeed = ({ onSlugSelect }) => {
   )
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   onSlugSelect: ({ slug }) => {
     dispatch(push('/projects/' + slug))
-  }
+  },
 })
 
 export default connect(null, mapDispatchToProps)(RecentsFeed)

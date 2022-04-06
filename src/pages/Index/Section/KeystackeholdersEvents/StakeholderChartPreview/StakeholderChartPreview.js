@@ -5,22 +5,18 @@ import { useTimeseries } from '../../../../../ducks/Studio/timeseries/hooks'
 import { getMetricYAxisId } from '../../../../../ducks/SANCharts/utils'
 import Skeleton from '../../../../../components/Skeleton/Skeleton'
 import { mapWithTimeseriesAndYCoord } from '../../../../../ducks/Signals/chart/preview/utils'
-import {
-  getNearestPricePoint,
-  GetReferenceDots,
-  useMinMaxValues
-} from '../utils'
+import { getNearestPricePoint, GetReferenceDots, useMinMaxValues } from '../utils'
 import styles from './StakeholderChartPreview.module.scss'
 
 const PRICE_METRIC = {
   ...Metric.price_usd,
   node: 'area',
   gradientUrl: 'url(#totalUp)',
-  historicalTriggersDataKey: undefined
+  historicalTriggersDataKey: undefined,
 }
 
 const METRICS_COLOR = {
-  [PRICE_METRIC.key]: 'var(--mystic)'
+  [PRICE_METRIC.key]: 'var(--mystic)',
 }
 
 const StakeholderChartPreview = ({ data, project, settings }) => {
@@ -30,23 +26,20 @@ const StakeholderChartPreview = ({ data, project, settings }) => {
     if (signal === 'dai_mint') {
       return {
         slug: 'ethereum',
-        ticker: 'ETH'
+        ticker: 'ETH',
       }
     }
     return project || { slug: targetSlug }
   }, [project, targetSlug])
 
-  const metricSettings = useMemo(() => ({ ...settings, slug }), [
-    settings,
-    slug
-  ])
+  const metricSettings = useMemo(() => ({ ...settings, slug }), [settings, slug])
 
   const metrics = useMemo(() => {
     return [
       {
         ...PRICE_METRIC,
-        label: `Price (${ticker})`
-      }
+        label: `Price (${ticker})`,
+      },
     ]
   }, [slug, ticker])
 
@@ -56,12 +49,7 @@ const StakeholderChartPreview = ({ data, project, settings }) => {
     const nearestPoint = getNearestPricePoint(timeseries, datetime)
 
     return nearestPoint
-      ? mapWithTimeseriesAndYCoord(
-          [nearestPoint],
-          PRICE_METRIC,
-          timeseries,
-          false
-        )
+      ? mapWithTimeseriesAndYCoord([nearestPoint], PRICE_METRIC, timeseries, false)
       : []
   }, [timeseries, datetime])
 
@@ -77,16 +65,16 @@ const StakeholderChartPreview = ({ data, project, settings }) => {
     return alertPoints.reduce((acc, item, currentIndex) => {
       const firstPoint = {
         ['price_usd_' + currentIndex]: min,
-        datetime: item.datetime
+        datetime: item.datetime,
       }
       const secoindPoint = {
         ['price_usd_' + currentIndex]: max,
-        datetime: item.datetime
+        datetime: item.datetime,
       }
       // GarageInc | 12.04.2021: need a third false point for correct gradient of vertical line
       const thirdPoint = {
         ['price_usd_' + currentIndex]: max,
-        datetime: item.datetime + 1000
+        datetime: item.datetime + 1000,
       }
 
       return [...acc, firstPoint, secoindPoint, thirdPoint]
@@ -112,7 +100,7 @@ const StakeholderChartPreview = ({ data, project, settings }) => {
           metricsColor={METRICS_COLOR}
           activeDotColor='var(--waterloo)'
           gradientParams={{
-            upColor: 'var(--mystic)'
+            upColor: 'var(--mystic)',
           }}
         />
       )}

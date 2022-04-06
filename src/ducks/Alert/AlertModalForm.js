@@ -27,7 +27,7 @@ const AlertModalForm = ({
     setFinishedSteps,
     selectedStep,
     setFormPreviousValues,
-    setInitialState
+    setInitialState,
   } = selectorSettings
 
   useUpdateFinishedSteps({
@@ -36,14 +36,14 @@ const AlertModalForm = ({
     finishedSteps,
     setFinishedSteps,
     values,
-    isModalOpen
+    isModalOpen,
   })
   useUpdateNameAndDescription({
     selectedType,
     selectedStep,
     values,
     hasSignal,
-    isEdited
+    isEdited,
   })
 
   useEffect(() => {
@@ -69,37 +69,37 @@ const AlertModalForm = ({
             }
           }
           return item.settings.type === signal.settings.type
-        })
+        }),
       )
 
       if (signal.id) {
         setValues({
           ...signal,
-          settings: { ...signal.settings, channel: channelSetting }
+          settings: { ...signal.settings, channel: channelSetting },
         })
         setFormPreviousValues({
           ...signal,
-          settings: { ...signal.settings, channel: channelSetting }
+          settings: { ...signal.settings, channel: channelSetting },
         })
         setInitialState({
           ...signal,
-          settings: { ...signal.settings, channel: channelSetting }
+          settings: { ...signal.settings, channel: channelSetting },
         })
       } else {
         setValues({
           ...initialValues,
           ...signal,
-          settings: { ...signal.settings, channel: channelSetting }
+          settings: { ...signal.settings, channel: channelSetting },
         })
         setFormPreviousValues({
           ...initialValues,
           ...signal,
-          settings: { ...signal.settings, channel: channelSetting }
+          settings: { ...signal.settings, channel: channelSetting },
         })
         setInitialState({
           ...initialValues,
           ...signal,
-          settings: { ...signal.settings, channel: channelSetting }
+          settings: { ...signal.settings, channel: channelSetting },
         })
       }
     }
@@ -117,8 +117,7 @@ const AlertModalForm = ({
       case 'Asset':
         const slug = hasTarget && values.settings.target.slug
 
-        isMetricsDisabled =
-          typeof slug === 'string' ? !slug : slug && slug.length === 0
+        isMetricsDisabled = typeof slug === 'string' ? !slug : slug && slug.length === 0
         break
       case 'Watchlist':
         const watchlist = hasTarget && values.settings.target.watchlist_id
@@ -127,8 +126,7 @@ const AlertModalForm = ({
         break
       case 'Screener':
         const screener =
-          values.settings.operation.selector &&
-          values.settings.operation.selector.watchlist_id
+          values.settings.operation.selector && values.settings.operation.selector.watchlist_id
 
         isMetricsDisabled = !screener
         break

@@ -7,13 +7,7 @@ import { PATHS } from '../../../paths'
 import { useUser } from '../../../stores/user'
 import styles from './PopupBanner.module.scss'
 
-const PopupBanner = ({
-  trigger: Trigger,
-  children,
-  className,
-  noContainer,
-  ...props
-}) => {
+const PopupBanner = ({ trigger: Trigger, children, className, noContainer, ...props }) => {
   const { isLoggedIn } = useUser()
 
   if (isLoggedIn) {
@@ -25,9 +19,7 @@ const PopupBanner = ({
       {...props}
       title=''
       classes={{ title: styles.header }}
-      trigger={
-        Trigger ? <Trigger /> : noContainer ? children : <div>{children}</div>
-      }
+      trigger={Trigger ? <Trigger /> : noContainer ? children : <div>{children}</div>}
     >
       <LoginWarning className={className} />
     </Dialog>
@@ -39,18 +31,11 @@ export const LoginWarning = ({ className }) => {
     <div className={cx(styles.wrapper, className)}>
       <h3 className={styles.heading}>Log in to use this feature!</h3>
       <p className={styles.desc}>
-        Log in to access more Sanbase features including real-time metrics,
-        market alerts, personalized watchlists and other information on 1500+
-        cryptocurrencies
+        Log in to access more Sanbase features including real-time metrics, market alerts,
+        personalized watchlists and other information on 1500+ cryptocurrencies
       </p>
       <div className={styles.buttons}>
-        <Button
-          variant='fill'
-          accent='positive'
-          as={Link}
-          to={PATHS.LOGIN}
-          className={styles.btn}
-        >
+        <Button variant='fill' accent='positive' as={Link} to={PATHS.LOGIN} className={styles.btn}>
           Log in
         </Button>
         <Button

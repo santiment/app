@@ -10,14 +10,10 @@ const UserAvatar = ({
   as: El = Link,
   classes = {},
   externalAvatarUrl,
-  isCurrentUser = false
+  isCurrentUser = false,
 }) => {
   const picUrl = externalAvatarUrl || avatarUrl
-  const linkTo = userId
-    ? '/profile/' + userId
-    : externalAvatarUrl
-    ? ''
-    : '/account'
+  const linkTo = userId ? '/profile/' + userId : externalAvatarUrl ? '' : '/account'
 
   return (
     <El
@@ -26,7 +22,7 @@ const UserAvatar = ({
         styles.avatar,
         classes.avatar,
         !picUrl && classes.avatarEmpty,
-        isCurrentUser && classes.editable
+        isCurrentUser && classes.editable,
       )}
       style={{ backgroundImage: `url("${picUrl}"` }}
     >

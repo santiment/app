@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import cx from 'classnames'
 import { getTemplateInfo, prepareTemplateLink } from '../../utils'
 import TemplateDetailsDialog, {
-  TemplateInfoTrigger
+  TemplateInfoTrigger,
 } from '../../TemplateDetailsDialog/TemplateDetailsDialog'
 import TemplateStatus from '../../TemplateStatus/TemplateStatus'
 import { updateHistory } from '../../../../../utils/utils'
@@ -27,12 +27,12 @@ const Template = ({
   redirect,
   onOpenTemplate,
   onRename = () => {},
-  asProject
+  asProject,
 }) => {
   const { title } = template
   const { isPublic, toggleIsPublic } = usePublicTemplates(template)
 
-  function onTemplateClick () {
+  function onTemplateClick() {
     selectTemplate && selectTemplate(template)
 
     if (asLink) {
@@ -62,7 +62,7 @@ const Template = ({
       {onOpenTemplate ? (
         <TemplateInfoTrigger
           classes={styles}
-          onClick={e => {
+          onClick={(e) => {
             e.stopPropagation()
 
             onOpenTemplate(template)
@@ -80,13 +80,13 @@ const Template = ({
 }
 
 const mapStateToProps = ({ user }, { template }) => ({
-  isAuthor: isUserAuthorOfTemplate(user, template)
+  isAuthor: isUserAuthorOfTemplate(user, template),
 })
 
-const mapDispatchToProps = dispatch => ({
-  redirect: route => {
+const mapDispatchToProps = (dispatch) => ({
+  redirect: (route) => {
     dispatch(push(route))
-  }
+  },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Template)

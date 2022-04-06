@@ -10,7 +10,7 @@ import styles from './index.module.scss'
 const DEFAULT_STABLECOIN = {
   slug: 'stablecoins',
   name: 'All stablecoins',
-  ticker: ''
+  ticker: '',
 }
 
 export const TopExchangesTableTitle = ({
@@ -18,7 +18,7 @@ export const TopExchangesTableTitle = ({
   title = 'Holdings on the top exchanges',
   ticker,
   children,
-  className
+  className,
 }) => {
   return (
     <div className={cx(styles.title, className)}>
@@ -44,13 +44,8 @@ const TopExchanges = ({
 }) => {
   const [asset, setAsset] = useState(DEFAULT_STABLECOIN)
   const additionalProps =
-    isStablecoinPage && asset.slug !== 'stablecoins'
-      ? { slug: asset.slug, selector: null }
-      : {}
-  const [items, loading] = useTopExchanges(
-    { ...props, ...additionalProps },
-    skip
-  )
+    isStablecoinPage && asset.slug !== 'stablecoins' ? { slug: asset.slug, selector: null } : {}
+  const [items, loading] = useTopExchanges({ ...props, ...additionalProps }, skip)
 
   const isLoadingForced = isForcedLoading && loading
   const data = useMemo(() => items, [items])
@@ -77,20 +72,20 @@ const TopExchanges = ({
         options={{
           loadingSettings: {
             repeatLoading: 10,
-            isLoading: isLoadingForced || (loading && data.length === 0)
+            isLoading: isLoadingForced || (loading && data.length === 0),
           },
           sortingSettings: { defaultSorting: DEFAULT_SORTING, allowSort: true },
           stickySettings: {
             isStickyHeader: true,
             isStickyColumn: true,
-            stickyColumnIdx: 0
-          }
+            stickyColumnIdx: 0,
+          },
         }}
         className={cx(className, styles.tableWrapper)}
         classes={{
           table: styles.table,
           loader: styles.loadingWrapper,
-          loaderRow: styles.loadingRow
+          loaderRow: styles.loadingRow,
         }}
       />
     </>

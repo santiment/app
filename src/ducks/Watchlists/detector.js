@@ -4,7 +4,7 @@ export const PROJECT = 'PROJECT'
 export const BLOCKCHAIN_ADDRESS = 'BLOCKCHAIN_ADDRESS'
 export const SCREENER = 'SCREENER'
 
-export function detectWatchlistType (watchlist) {
+export function detectWatchlistType(watchlist) {
   if (watchlist.type === BLOCKCHAIN_ADDRESS) {
     return BLOCKCHAIN_ADDRESS
   }
@@ -16,7 +16,7 @@ export function detectWatchlistType (watchlist) {
   return PROJECT
 }
 
-export function getTitleByWatchlistType (type) {
+export function getTitleByWatchlistType(type) {
   switch (type) {
     case SCREENER:
       return 'screener'

@@ -5,11 +5,11 @@ import TransactionTable from '../../../components/Tables/TopTokenTransactions'
 const DetailedTopTransactions = ({
   project,
   show = 'ethTopTransactions',
-  title = 'Top ETH transactions'
+  title = 'Top ETH transactions',
 }) => {
   const slug = project.slug || ''
   const data = project[show]
-    ? project[show].slice(0, 10).map(trx => normalizeTransactionData(slug, trx))
+    ? project[show].slice(0, 10).map((trx) => normalizeTransactionData(slug, trx))
     : []
 
   return <TransactionTable header={title} data={data} slug={project.slug} />

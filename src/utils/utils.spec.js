@@ -3,21 +3,13 @@ import { isEthStrictAddress, calcPercentageChange } from './utils'
 
 describe('isEthAddress', () => {
   it('should be eth address', () => {
-    expect(
-      isEthStrictAddress('0x1f3df0b8390bb8e9e322972c5e75583e87608ec2')
-    ).toBeTruthy()
-    expect(
-      isEthStrictAddress('0x140427a7d27144a4cda83bd6b9052a63b0c5b589')
-    ).toBeTruthy()
+    expect(isEthStrictAddress('0x1f3df0b8390bb8e9e322972c5e75583e87608ec2')).toBeTruthy()
+    expect(isEthStrictAddress('0x140427a7d27144a4cda83bd6b9052a63b0c5b589')).toBeTruthy()
   })
   it('should not be a valid eth address', () => {
     expect(isEthStrictAddress('0x1f3df0b8390bb8e9e322972c5e75582')).toBeFalsy()
-    expect(
-      isEthStrictAddress('1f3df0b8390bb8e9e322972c5e75583e87608ec2as')
-    ).toBeFalsy()
-    expect(
-      isEthStrictAddress('1f3df0b8390bb8e9e322972c5e75583e87608ec2as')
-    ).toBeFalsy()
+    expect(isEthStrictAddress('1f3df0b8390bb8e9e322972c5e75583e87608ec2as')).toBeFalsy()
+    expect(isEthStrictAddress('1f3df0b8390bb8e9e322972c5e75583e87608ec2as')).toBeFalsy()
     expect(isEthStrictAddress('asjdfh92ef2boejv')).toBeFalsy()
   })
 })

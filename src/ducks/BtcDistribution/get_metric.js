@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import { useMemo } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 
-export const GET_METRIC = metric => gql`
+export const GET_METRIC = (metric) => gql`
   query getMetric(
     $slug: String
     $from: DateTime!
@@ -32,18 +32,15 @@ export const useMetric = (settings, metric) => {
   const query = useMemo(() => GET_METRIC(metric), [metric])
 
   const { data = {}, loading } = useQuery(query, {
-    variables: { ...settings, metric }
+    variables: { ...settings, metric },
   })
 
   return useMemo(() => {
     return {
       data: data.getMetric
-        ? data.getMetric.timeseriesData.reduce(
-            (acc, item) => acc + item[metric],
-            0
-          )
+        ? data.getMetric.timeseriesData.reduce((acc, item) => acc + item[metric], 0)
         : 0,
-      loading
+      loading,
     }
   }, [data, loading])
 }
@@ -51,5 +48,5 @@ export const useMetric = (settings, metric) => {
 export const AGGREGATION_TYPES = {
   MAX: 'MAX',
   LAST: 'LAST',
-  SUM: 'SUM'
+  SUM: 'SUM',
 }

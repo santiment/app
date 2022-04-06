@@ -7,20 +7,20 @@ import * as actions from '../../actions/types'
 class LogoutPage extends React.Component {
   static defaultProps = { to: '/' }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.logout()
     const { to = this.props.to } = qs.parse(this.props.location.search)
     this.timeout = setTimeout(() => this.props.redirect(to), 3000)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     if (this.timeout) {
       clearTimeout(this.timeout)
       this.timeout = 0
     }
   }
 
-  render () {
+  render() {
     return (
       <section className='page'>
         <h1>Goodbye...</h1>
@@ -29,15 +29,15 @@ class LogoutPage extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   logout: () => {
     dispatch({
-      type: actions.USER_LOGOUT
+      type: actions.USER_LOGOUT,
     })
   },
   redirect: (path = '/') => {
     dispatch(push(path))
-  }
+  },
 })
 
 export default connect(null, mapDispatchToProps)(LogoutPage)

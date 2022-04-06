@@ -9,16 +9,13 @@ import { showNotification } from '../../actions/rootActions'
 import { useTrackEvents } from './../../hooks/tracking'
 import { dateDifferenceInWords } from '../../utils/dates'
 import LinkWithArrow from './Link'
-import {
-  ALL_INSIGHTS_BY_PAGE_QUERY,
-  FEATURED_INSIGHTS_QUERY
-} from '../../queries/InsightsGQL'
+import { ALL_INSIGHTS_BY_PAGE_QUERY, FEATURED_INSIGHTS_QUERY } from '../../queries/InsightsGQL'
 import { getSEOLinkFromIdAndTitle, publishDateSorter } from '../Insight/utils'
 import { EMAIL_LOGIN_MUTATION } from '../SubscriptionForm/loginGQL'
 import { useUser } from '../../stores/user'
 import styles from './InsightsDropdown.module.scss'
 
-const onClick = evt => {
+const onClick = (evt) => {
   evt.stopPropagation()
 }
 
@@ -27,18 +24,18 @@ const onSuccess = () => {
     showNotification({
       variant: 'success',
       title: `Verification email has been sent`,
-      dismissAfter: 8000
-    })
+      dismissAfter: 8000,
+    }),
   )
 }
 
-const onError = error => {
+const onError = (error) => {
   store.dispatch(
     showNotification({
       variant: 'error',
       title: `We got an error while generating verification email. Please try again`,
-      dismissAfter: 8000
-    })
+      dismissAfter: 8000,
+    }),
   )
   Sentry.captureException(error)
 }
@@ -47,7 +44,7 @@ const SubscriptionForm = () => (
   <Mutation mutation={EMAIL_LOGIN_MUTATION}>
     {(loginEmail, { loading, error, data: { emailLogin } = {} }) => {
       const [trackEvent] = useTrackEvents()
-      function onSubmit (e) {
+      function onSubmit(e) {
         e.stopPropagation()
         e.preventDefault()
 
@@ -61,7 +58,7 @@ const SubscriptionForm = () => (
           .then(() => {
             trackEvent({
               category: 'User',
-              action: `User requested an email for verification`
+              action: `User requested an email for verification`,
             })
             onSuccess()
           })
@@ -82,12 +79,7 @@ const SubscriptionForm = () => (
             required
             disabled={loading}
           />
-          <Button
-            variant='fill'
-            accent='positive'
-            type='submit'
-            disabled={loading}
-          >
+          <Button variant='fill' accent='positive' type='submit' disabled={loading}>
             Subscribe
           </Button>
         </form>
@@ -100,18 +92,10 @@ const Insight = ({ id, title, publishedAt }) => {
   return (
     <a
       className={styles.insight}
-      href={`https://insights.santiment.net/read/${getSEOLinkFromIdAndTitle(
-        id,
-        title
-      )}`}
+      href={`https://insights.santiment.net/read/${getSEOLinkFromIdAndTitle(id, title)}`}
     >
       <div className={styles.insight__icon}>
-        <svg
-          width='12'
-          height='12'
-          fill='none'
-          xmlns='http://www.w3.org/2000/svg'
-        >
+        <svg width='12' height='12' fill='none' xmlns='http://www.w3.org/2000/svg'>
           <path
             d='M2.25 3.51c0-.3.25-.56.56-.56h6.47a.56.56 0 010 1.12H2.8a.56.56 0 01-.56-.56zM2.81 6a.56.56 0 000 1.13h3.2a.56.56 0 000-1.13h-3.2z'
             fill='#14C393'
@@ -132,13 +116,13 @@ const Insight = ({ id, title, publishedAt }) => {
   )
 }
 
-const Insights = props => (
+const Insights = (props) => (
   <Query {...props}>
     {({ data: { insights = [] } = {} }) =>
       insights
         .sort(publishDateSorter)
         .slice(0, 3)
-        .map(insight => <Insight key={insight.id} {...insight} />)
+        .map((insight) => <Insight key={insight.id} {...insight} />)
     }
   </Query>
 )
@@ -152,16 +136,13 @@ const InsightsDropdown = () => {
         <div className={styles.category}>
           <h3 className={styles.title}>
             Explore insights
-            <LinkWithArrow
-              to='https://insights.santiment.net/'
-              title='See all'
-            />
+            <LinkWithArrow to='https://insights.santiment.net/' title='See all' />
           </h3>
           <Insights
             query={ALL_INSIGHTS_BY_PAGE_QUERY}
             variables={{
               page: 1,
-              pageSize: 3
+              pageSize: 3,
             }}
           />
         </div>
@@ -175,9 +156,7 @@ const InsightsDropdown = () => {
         <div className={styles.bottom} onClick={onClick}>
           <div className={styles.text}>
             <h2 className={styles.bottom__title}>Want more crypto insights?</h2>
-            <h4 className={styles.bottom__desc}>
-              Subscribe to Santiment’s weekly market Digest!
-            </h4>
+            <h4 className={styles.bottom__desc}>Subscribe to Santiment’s weekly market Digest!</h4>
           </div>
           <SubscriptionForm />
         </div>

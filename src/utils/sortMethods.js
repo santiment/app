@@ -33,7 +33,7 @@ export const sortDate = (a, b, isDesc = true) => {
   }
 }
 
-export const sumBalancesFromWallets = wallets => {
+export const sumBalancesFromWallets = (wallets) => {
   return wallets.reduce((acc, val) => {
     acc += parseFloat(val.balance)
     return acc
@@ -46,7 +46,7 @@ export const sortBalances = (a, b) => {
   return simpleSort(sumA, sumB)
 }
 
-export const sumTXOutFromWallets = wallets => {
+export const sumTXOutFromWallets = (wallets) => {
   return wallets.reduce((acc, val) => {
     acc += parseFloat(val.tx_out) || 0
     return acc
@@ -59,9 +59,8 @@ export const sortTxOut = (a, b) => {
   return simpleSort(_a, _b)
 }
 
-export const sortBy = sortBy => (a, b) => simpleSort(a[sortBy], b[sortBy])
+export const sortBy = (sortBy) => (a, b) => simpleSort(a[sortBy], b[sortBy])
 
-export const sortByAsDates = (sortBy, isDesc) => (a, b) =>
-  sortDate(a[sortBy], b[sortBy], isDesc)
+export const sortByAsDates = (sortBy, isDesc) => (a, b) => sortDate(a[sortBy], b[sortBy], isDesc)
 
 export const sortById = (a, b) => b.id - a.id

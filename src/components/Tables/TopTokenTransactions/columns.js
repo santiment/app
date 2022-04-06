@@ -7,12 +7,7 @@ import styles from '../../WalletLink/WalletLink.module.scss'
 const AddressCell = ({ value }) => <WalletLink {...value} />
 
 export const TxLinkTo = ({ value, formatter }) => (
-  <a
-    className={styles.link}
-    href={mapToTxLink(value)}
-    target='_blank'
-    rel='noopener noreferrer'
-  >
+  <a className={styles.link} href={mapToTxLink(value)} target='_blank' rel='noopener noreferrer'>
     {formatter ? formatter(value) : value}
   </a>
 )
@@ -26,38 +21,38 @@ const TrxCell = ({ value }) => (
 export const DEFAULT_SORTING = [
   {
     id: 'datetime',
-    desc: true
-  }
+    desc: true,
+  },
 ]
 
 export const COLUMNS = [
   {
     Header: 'Time',
     accessor: 'datetime',
-    sortType: 'datetime'
+    sortType: 'datetime',
   },
   {
     Header: 'Value',
     accessor: 'trxValue',
     Cell: ({ value }) => formatNumber(value),
-    sortType: 'floatNumeric'
+    sortType: 'floatNumeric',
   },
   {
     Header: 'From',
     accessor: 'fromAddress',
     Cell: AddressCell,
-    disableSortBy: true
+    disableSortBy: true,
   },
   {
     Header: 'To',
     accessor: 'toAddress',
     Cell: AddressCell,
-    disableSortBy: true
+    disableSortBy: true,
   },
   {
     Header: 'TxHash',
     accessor: 'trxHash',
     Cell: TrxCell,
-    disableSortBy: true
-  }
+    disableSortBy: true,
+  },
 ]

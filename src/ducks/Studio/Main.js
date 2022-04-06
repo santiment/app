@@ -13,7 +13,7 @@ import styles from './Main.module.scss'
 
 const LoadableRelatedInsights = Loadable({
   loader: () => import('./RelatedInsights/RelatedInsights'),
-  loading: () => <PageLoader />
+  loading: () => <PageLoader />,
 })
 
 const Main = ({
@@ -27,7 +27,7 @@ const Main = ({
 }) => {
   const { slug } = settings
 
-  function onProjectSelect (project) {
+  function onProjectSelect(project) {
     if (!project) return
 
     const { slug, name, ticker, id: projectId } = project

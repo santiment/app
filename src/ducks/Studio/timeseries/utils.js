@@ -2,41 +2,42 @@ import { getIntervalMilliseconds } from '../../../utils/dates'
 
 const OLD_DATE = { datetime: 0 }
 
-const newDataMapper = data => Object.assign({}, data)
+const newDataMapper = (data) => Object.assign({}, data)
 
 // TODO: Remove this after moving to dynamic query aliasing instead of preTransform [@vanguard | March 4, 2020]
-export const aliasTransform = (key, dataKey = key) => alias => data =>
-  extractTimeseries(key)(data).map(({ datetime, ...value }) => ({
-    datetime,
-    [alias]: value[dataKey]
-  }))
+export const aliasTransform =
+  (key, dataKey = key) =>
+  (alias) =>
+  (data) =>
+    extractTimeseries(key)(data).map(({ datetime, ...value }) => ({
+      datetime,
+      [alias]: value[dataKey],
+    }))
 
-export const extractTimeseries = name => ({ data }) => data[name]
+export const extractTimeseries =
+  (name) =>
+  ({ data }) =>
+    data[name]
 
-export const normalizeDatetimes = data => ({
+export const normalizeDatetimes = (data) => ({
   ...data,
-  datetime: +new Date(data.datetime)
+  datetime: +new Date(data.datetime),
 })
 
 export const normalizeInterval = (interval, minInterval) =>
-  getIntervalMilliseconds(interval) > getIntervalMilliseconds(minInterval)
-    ? interval
-    : minInterval
+  getIntervalMilliseconds(interval) > getIntervalMilliseconds(minInterval) ? interval : minInterval
 
-function findDatetimeBorder (baseTs, cursor, targetDatetime) {
+function findDatetimeBorder(baseTs, cursor, targetDatetime) {
   const baseTsLength = baseTs.length
 
   do {
     cursor++
-  } while (
-    cursor < baseTsLength &&
-    targetDatetime > new Date(baseTs[cursor].datetime)
-  )
+  } while (cursor < baseTsLength && targetDatetime > new Date(baseTs[cursor].datetime))
 
   return cursor
 }
 
-export function mergeTimeseries (timeseries) {
+export function mergeTimeseries(timeseries) {
   const timeseriesAmount = timeseries.length
 
   if (timeseriesAmount === 1) {
@@ -46,8 +47,7 @@ export function mergeTimeseries (timeseries) {
   // Finding longest timeserie
   let longestTS = timeseries[0]
   for (let i = 0; i < timeseriesAmount; i++) {
-    longestTS =
-      longestTS.length > timeseries[i].length ? longestTS : timeseries[i]
+    longestTS = longestTS.length > timeseries[i].length ? longestTS : timeseries[i]
   }
 
   let baseTs = longestTS.map(newDataMapper)
@@ -79,17 +79,11 @@ export function mergeTimeseries (timeseries) {
       if (timeserieDatetime > baseTsDatetime) {
         // current timeserie's datetime is greater than the base
 
-        baseTsCursor = findDatetimeBorder(
-          baseTs,
-          baseTsCursor,
-          timeserieDatetime
-        )
+        baseTsCursor = findDatetimeBorder(baseTs, baseTsCursor, timeserieDatetime)
 
         if (baseTsCursor >= baseTs.length) {
           // Base doesn't have data after this datetime
-          baseTs = baseTs.concat(
-            timeserie.slice(timeserieCursor).map(newDataMapper)
-          )
+          baseTs = baseTs.concat(timeserie.slice(timeserieCursor).map(newDataMapper))
           break
         } else {
           // Found potentially similar base to datetime
@@ -106,28 +100,18 @@ export function mergeTimeseries (timeseries) {
         // current timeserie's datetime is less than the base
         const timeserieLeftCursor = timeserieCursor
 
-        timeserieCursor = findDatetimeBorder(
-          timeserie,
-          timeserieCursor,
-          baseTsDatetime
-        )
+        timeserieCursor = findDatetimeBorder(timeserie, timeserieCursor, baseTsDatetime)
 
         if (timeserieCursor >= timeserie.length) {
           // No base found with similar datetime
-          baseTs.splice(
-            baseTsCursor,
-            0,
-            ...timeserie.slice(timeserieLeftCursor).map(newDataMapper)
-          )
+          baseTs.splice(baseTsCursor, 0, ...timeserie.slice(timeserieLeftCursor).map(newDataMapper))
           break
         } else {
           // Found potentially similar datetime to base
           baseTs.splice(
             baseTsCursor,
             0,
-            ...timeserie
-              .slice(timeserieLeftCursor, timeserieCursor)
-              .map(newDataMapper)
+            ...timeserie.slice(timeserieLeftCursor, timeserieCursor).map(newDataMapper),
           )
 
           const foundTimeserieData = timeserie[timeserieCursor]

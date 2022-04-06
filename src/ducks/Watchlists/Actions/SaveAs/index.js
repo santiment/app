@@ -24,12 +24,12 @@ const SaveAs = ({ watchlist, trigger, type, prefix = 'Duplicate' }) => {
     return <LoginPopup>{trigger}</LoginPopup>
   }
 
-  function onSubmit (props) {
+  function onSubmit(props) {
     createWatchlist({
       ...props,
       listItems: props.listItems || listItems,
       function: fn,
-      openOnSuccess: true
+      openOnSuccess: true,
     }).then(closeDialog)
   }
 

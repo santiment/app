@@ -41,10 +41,8 @@ const SettingsAffiliate = ({ isPromoter }) => {
               <Settings id='affiliate' header='Referral link'>
                 <Settings.Row>
                   <div className={styles.block}>
-                    <div className={styles.title}>
-                      Your Sanbase referral link
-                    </div>
-                    {promotions.map(item => (
+                    <div className={styles.title}>Your Sanbase referral link</div>
+                    {promotions.map((item) => (
                       <PromotionLink data={item} key={item.referralLink} />
                     ))}
                   </div>
@@ -69,11 +67,9 @@ const SettingsAffiliate = ({ isPromoter }) => {
   )
 }
 
-const mapStateToProps = ({
-  user: { data: { settings: { isPromoter } = {} } = {} }
-}) => {
+const mapStateToProps = ({ user: { data: { settings: { isPromoter } = {} } = {} } }) => {
   return {
-    isPromoter
+    isPromoter,
   }
 }
 

@@ -7,10 +7,7 @@ import styles from './index.module.scss'
 const ReactPulseInsight = toReact(SveltePulseInsight, {}, 'div')
 
 const PulseInsight = ({ insight, className }) => (
-  <ReactPulseInsight
-    insight={insight}
-    className={cx(styles.wrapper, className)}
-  />
+  <ReactPulseInsight insight={insight} className={cx(styles.wrapper, className)} />
 )
 
 export default PulseInsight

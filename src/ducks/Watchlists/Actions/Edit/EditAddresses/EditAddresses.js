@@ -5,10 +5,7 @@ import Button from '@santiment-network/ui/Button'
 import { useDialogState } from '../../../../../hooks/dialog'
 import EditableList, { rowAddressRenderer } from '../EditableList'
 import { hasAddress } from '../../../utils'
-import {
-  getAddressInfrastructure,
-  Infrastructure
-} from '../../../../../utils/address'
+import { getAddressInfrastructure, Infrastructure } from '../../../../../utils/address'
 import { store } from '../../../../../redux'
 import { showNotification } from '../../../../../actions/rootActions'
 import NotificationActions from '../../../../../components/NotificationActions/NotificationActions'
@@ -18,8 +15,7 @@ import { useAddressNote } from '../../../../HistoricalBalance/hooks'
 import { mapAddressToAPIType as defaultMapAddress } from '../../../utils'
 import styles from './EditAddresses.module.scss'
 
-const updateWatchlist = ({ id, listItems }) =>
-  updateWatchlistShort({ id: +id, listItems })
+const updateWatchlist = ({ id, listItems }) => updateWatchlistShort({ id: +id, listItems })
 
 export const NOT_VALID_ADDRESS = 'Not supported ETH address'
 export const ALREADY_ADDED_ADDRESS = 'This address is already in this watchlist'
@@ -30,7 +26,7 @@ const EditAddresses = ({
   trigger,
   watchlist = { listItems: [] },
   refreshList,
-  mapAddressToAPIType = defaultMapAddress
+  mapAddressToAPIType = defaultMapAddress,
 }) => {
   const { id, name } = watchlist
   const { isAuthor } = useIsAuthor(watchlist)
@@ -54,32 +50,27 @@ const EditAddresses = ({
     setItems(listItems)
   }, [listItems])
 
-  const onUndo = listItems =>
+  const onUndo = (listItems) =>
     updateWatchlist({
       id,
-      listItems: listItems.map(a => mapAddressToAPIType(a))
+      listItems: listItems.map((a) => mapAddressToAPIType(a)),
     }).then(refreshList)
 
-  function notificationHanlder () {
+  function notificationHanlder() {
     store.dispatch(
       showNotification({
         variant: 'info',
         title: 'Addresses updated successfully',
-        description: (
-          <NotificationActions
-            isOpenLink={false}
-            onClick={() => onUndo(listItems)}
-          />
-        ),
-        dismissAfter: 8000
-      })
+        description: <NotificationActions isOpenLink={false} onClick={() => onUndo(listItems)} />,
+        dismissAfter: 8000,
+      }),
     )
   }
 
-  function apply () {
+  function apply() {
     updateWatchlist({
       id,
-      listItems: items.map(a => mapAddressToAPIType(a))
+      listItems: items.map((a) => mapAddressToAPIType(a)),
     }).then(() => {
       closeDialog()
       refreshList(notificationHanlder)
@@ -87,24 +78,20 @@ const EditAddresses = ({
   }
 
   const toggle = ({ item, listItems, isInList }) => {
-    setItems(
-      isInList
-        ? listItems.filter(a => a.address !== item.address)
-        : [item, ...listItems]
-    )
+    setItems(isInList ? listItems.filter((a) => a.address !== item.address) : [item, ...listItems])
   }
 
-  function onAdd () {
+  function onAdd() {
     const newItem = {
       notes,
       infrastructure,
-      address: currentAddress
+      address: currentAddress,
     }
 
     toggle({
       item: newItem,
       isInList: hasAddress(items, newItem),
-      listItems: items
+      listItems: items,
     })
 
     setCurrentValue('')
@@ -185,11 +172,7 @@ const EditAddresses = ({
 
       <Dialog.Actions className={styles.actions}>
         <Dialog.Cancel onClick={closeDialog}>Cancel</Dialog.Cancel>
-        <Dialog.Approve
-          onClick={apply}
-          className={styles.approve}
-          disabled={items.length === 0}
-        >
+        <Dialog.Approve onClick={apply} className={styles.approve} disabled={items.length === 0}>
           Apply
         </Dialog.Approve>
       </Dialog.Actions>

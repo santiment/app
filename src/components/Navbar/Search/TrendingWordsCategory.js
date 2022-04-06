@@ -23,21 +23,17 @@ const TREND_LINK = '/labs/trends/explore/'
 const propsAccessor = ({ word, key = word, As }) => ({
   key,
   As,
-  to: TREND_LINK + word
+  to: TREND_LINK + word,
 })
 
-function trendingWordsPredicate (value) {
+function trendingWordsPredicate(value) {
   const searchTerm = value.toLowerCase()
   return ({ word }) => word.includes(searchTerm)
 }
 
-export function useTrendingWords () {
-  const { data: { getTrendingWords = [] } = {} } = useQuery(
-    TRENDING_WORDS_QUERY
-  )
-  return getTrendingWords[0]
-    ? getTrendingWords[0].topWords
-    : DEFAULT_SUGGESTIONS
+export function useTrendingWords() {
+  const { data: { getTrendingWords = [] } = {} } = useQuery(TRENDING_WORDS_QUERY)
+  return getTrendingWords[0] ? getTrendingWords[0].topWords : DEFAULT_SUGGESTIONS
 }
 
 const TrendingWord = ({ word }) => word
@@ -49,9 +45,9 @@ const Lookup = ({ trend, className }) => (
   </Button>
 )
 
-const buildLookupSuggestion = searchTerm => ({
+const buildLookupSuggestion = (searchTerm) => ({
   key: '__lookup__',
-  As: ({ className }) => <Lookup trend={searchTerm} className={className} />
+  As: ({ className }) => <Lookup trend={searchTerm} className={className} />,
 })
 
 const TrendingWordsCategory = ({ searchTerm, ...props }) => {
@@ -62,7 +58,7 @@ const TrendingWordsCategory = ({ searchTerm, ...props }) => {
         .filter(trendingWordsPredicate(searchTerm))
         .concat(buildLookupSuggestion(searchTerm))
         .slice(0, 5),
-    [searchTerm, trendingWords]
+    [searchTerm, trendingWords],
   )
 
   return (

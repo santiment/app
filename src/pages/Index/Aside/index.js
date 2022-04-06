@@ -36,11 +36,7 @@ const Aside = ({ className }) => {
       >
         <ChartLayouts ids={layouts.length > 0 ? layouts : featuredLayouts} />
       </Section>
-      <Section
-        title='Conversations'
-        Icon={ConversationsIcon}
-        className={styles.sticky}
-      >
+      <Section title='Conversations' Icon={ConversationsIcon} className={styles.sticky}>
         <Conversations />
       </Section>
     </aside>

@@ -2,9 +2,9 @@ import { writable } from 'svelte/store'
 
 const stores = {
   page: writable({
-    query: {}
+    query: {},
   }),
-  session: writable({ currentUser: null })
+  session: writable({ currentUser: null }),
 }
 
 const stores$ = () => stores

@@ -20,15 +20,15 @@ import styles from './Alerts.module.scss'
 
 const LoadableAlertsList = Loadable({
   loader: () => import('../SonarFeed/SignalsList'),
-  loading: () => <PageLoader />
+  loading: () => <PageLoader />,
 })
 
-function getAlertsRestrictions ({ signals, isPro, isProPlus }) {
+function getAlertsRestrictions({ signals, isPro, isProPlus }) {
   const maxAmount = isProPlus ? Infinity : isPro ? 20 : 3
   return {
     maxAmount,
     currentAmount: signals.length,
-    shouldHideRestrictionMessage: isProPlus || signals.length !== maxAmount
+    shouldHideRestrictionMessage: isProPlus || signals.length !== maxAmount,
   }
 }
 
@@ -37,20 +37,20 @@ const Alerts = ({ isDesktop, match }) => {
   const { user, loading: isUserLoading } = useUser()
   const { tab } = parse(useLocation().search, { parseNumbers: true })
   const { data: signals = [], loading } = useSignals({
-    skip: user && !user.id
+    skip: user && !user.id,
   })
   const { isPro, isProPlus } = useUserSubscriptionStatus()
   const alertsRestrictions = getAlertsRestrictions({
     signals,
     isPro,
-    isProPlus
+    isProPlus,
   })
   const { shouldHideRestrictionMessage } = alertsRestrictions
   const defaultOpenAlertId = match.params.id
 
   const initialTab = tab || (signals && signals.length > 0 ? 1 : 0)
 
-  const handleChangeFilter = res => {
+  const handleChangeFilter = (res) => {
     setFilter(res)
   }
 
@@ -62,8 +62,8 @@ const Alerts = ({ isDesktop, match }) => {
       hide: !isDesktop,
       props: {
         onSelect: handleChangeFilter,
-        selectedFilter: filter
-      }
+        selectedFilter: filter,
+      },
     },
     {
       id: 1,
@@ -75,29 +75,26 @@ const Alerts = ({ isDesktop, match }) => {
           label: 'Create alert',
           variant: 'fill',
           border: false,
-          classes: 'mrg-l mrg--l'
-        }
-      }
-    }
+          classes: 'mrg-l mrg--l',
+        },
+      },
+    },
   ]
 
   const renderTopActions = useCallback(
-    currentTab => {
+    (currentTab) => {
       return (
         <MobileOnly>
           <div className={styles.header}>
             <div className={styles.title}>Alerts</div>
             {currentTab === 1 && (
-              <AlertsFilter
-                onSelect={handleChangeFilter}
-                selectedFilter={filter}
-              />
+              <AlertsFilter onSelect={handleChangeFilter} selectedFilter={filter} />
             )}
           </div>
         </MobileOnly>
       )
     },
-    [filter]
+    [filter],
   )
 
   return (
@@ -120,7 +117,7 @@ const Alerts = ({ isDesktop, match }) => {
                     showNew
                     shouldDisableActions={!shouldHideRestrictionMessage}
                   />
-                )
+                ),
               },
               {
                 id: 1,
@@ -128,20 +125,18 @@ const Alerts = ({ isDesktop, match }) => {
                 content: (
                   <>
                     <AlertRestrictionMessage
-                      shouldHideRestrictionMessage={
-                        shouldHideRestrictionMessage
-                      }
+                      shouldHideRestrictionMessage={shouldHideRestrictionMessage}
                     />
                     <LoadableAlertsList
                       userId={user ? user.id : ''}
                       showNew
                       filters={{
-                        statusFilter: filter
+                        statusFilter: filter,
                       }}
                     />
                   </>
-                )
-              }
+                ),
+              },
             ]}
             bottomActions={bottomActions}
             renderTopActions={renderTopActions}

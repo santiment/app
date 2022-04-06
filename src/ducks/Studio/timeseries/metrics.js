@@ -5,7 +5,7 @@ const DEFAULT_SELECTOR = 'slug'
 
 export const GET_METRIC = (
   { key, queryKey = key },
-  { selector = DEFAULT_SELECTOR, queryKey: customKey } = DEFAULT_SETTINGS
+  { selector = DEFAULT_SELECTOR, queryKey: customKey } = DEFAULT_SETTINGS,
 ) => gql`
   query getMetric(
     $from: DateTime!
@@ -359,5 +359,5 @@ export const METRICS = [
   'mcd_stability_fee',
   'dai_created',
   'dai_repaid',
-  'mcd_liquidation'
+  'mcd_liquidation',
 ]

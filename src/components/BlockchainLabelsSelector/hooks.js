@@ -23,10 +23,10 @@ export const BLOCKHAIN_LABLE_READABLE = {
   eth2stakingcontract: 'ETH2 Staking Contract',
   'makerdao-bite-keeper': 'MakerDao Bite Keeper',
   'makerdao-cdp-owner': 'MakerDao CDP Owner',
-  uniswap_ecosystem: 'Uniswap Ecosystem'
+  uniswap_ecosystem: 'Uniswap Ecosystem',
 }
 
-export const getBlockchainLabelReadable = label => {
+export const getBlockchainLabelReadable = (label) => {
   return BLOCKHAIN_LABLE_READABLE[label] || label
 }
 

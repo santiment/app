@@ -12,26 +12,28 @@ import styles from './LayoutForAsset.module.scss'
 
 export const EXPLANATION_TOOLTIP_MARK = '_ASSET_CHART_LAYOUTS_ROW'
 
-const RowTooltipBuilder = ({ onHide }) => ({ children }) => {
-  const [shown, setShown] = useState(true)
+const RowTooltipBuilder =
+  ({ onHide }) =>
+  ({ children }) => {
+    const [shown, setShown] = useState(true)
 
-  return (
-    <div className={styles.tooltipWrapper}>
-      <TooltipWithImg
-        shown={shown}
-        mark={EXPLANATION_TOOLTIP_MARK}
-        onHide={onHide}
-        img={layoutsTooltipImg}
-        className={styles.explanation}
-        tooltipEl={ForceClosableExplanationTooltip}
-        description='Choose from a list of existing chart layouts that you can apply for the selected asset. Use one of our community-made templates or create your own!'
-      >
-        <div />
-      </TooltipWithImg>
-      <div onClick={() => setShown(false)}>{children}</div>
-    </div>
-  )
-}
+    return (
+      <div className={styles.tooltipWrapper}>
+        <TooltipWithImg
+          shown={shown}
+          mark={EXPLANATION_TOOLTIP_MARK}
+          onHide={onHide}
+          img={layoutsTooltipImg}
+          className={styles.explanation}
+          tooltipEl={ForceClosableExplanationTooltip}
+          description='Choose from a list of existing chart layouts that you can apply for the selected asset. Use one of our community-made templates or create your own!'
+        >
+          <div />
+        </TooltipWithImg>
+        <div onClick={() => setShown(false)}>{children}</div>
+      </div>
+    )
+  }
 
 const IconTooltipWrapper = ({ children, className, index }) => {
   return (
@@ -48,25 +50,17 @@ const IconTooltipWrapper = ({ children, className, index }) => {
         className={styles.tooltipContainer}
         trigger={children}
       >
-        <div className={cx(styles.iconTooltip, styles.tooltip)}>
-          Click to apply chart layout
-        </div>
+        <div className={cx(styles.iconTooltip, styles.tooltip)}>Click to apply chart layout</div>
       </DarkTooltip>
     </div>
   )
 }
 
-const Trigger = ({
-  markedAsNew,
-  hideMarkedAsNew,
-  counter,
-  className,
-  ...rest
-}) => {
+const Trigger = ({ markedAsNew, hideMarkedAsNew, counter, className, ...rest }) => {
   let Wrapper = useMemo(() => {
     return markedAsNew
       ? RowTooltipBuilder({
-          onHide: () => markedAsNew && hideMarkedAsNew(false)
+          onHide: () => markedAsNew && hideMarkedAsNew(false),
         })
       : IconTooltipWrapper
   }, [markedAsNew, hideMarkedAsNew])
@@ -78,7 +72,7 @@ const Trigger = ({
         className={cx(
           styles.counterContainer,
           markedAsNew && styles.hovered,
-          'assets-table-row-tooltip'
+          'assets-table-row-tooltip',
         )}
       >
         <Icon type='chart-layout' className={styles.icon} />
@@ -88,13 +82,7 @@ const Trigger = ({
   )
 }
 
-const LayoutForAsset = ({
-  item: { id },
-  hide,
-  markedAsNew,
-  index,
-  className
-}) => {
+const LayoutForAsset = ({ item: { id }, hide, markedAsNew, index, className }) => {
   const { user } = useUser()
   const [templates] = useUserTemplates(user ? user.id : undefined)
 

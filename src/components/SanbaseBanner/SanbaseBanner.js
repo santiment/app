@@ -11,7 +11,7 @@ const PUBLIC_YOUTUBE_IDS = {
   197: '4zoC64C0q-A',
   200: 'ORqsG6AvNg8',
   202: 'Ek_D_QVszKE',
-  203: '8sNUkR68nGA'
+  203: '8sNUkR68nGA',
 }
 
 const getYoutubeIdForLayout = ({ id, options }) => {
@@ -55,7 +55,7 @@ const SanbaseBanner = () => {
     <div
       className={styles.container}
       style={{
-        backgroundImage: 'url("' + SvgBgImg + '")'
+        backgroundImage: 'url("' + SvgBgImg + '")',
       }}
     >
       <VideoModal videoId={videoId} classes={styles} />
@@ -66,11 +66,7 @@ const SanbaseBanner = () => {
           <div className={styles.explanation}>{description}</div>
         </div>
 
-        <Icon
-          type='close-medium'
-          className={styles.close}
-          onClick={hideTooltip}
-        />
+        <Icon type='close-medium' className={styles.close} onClick={hideTooltip} />
       </div>
     </div>
   )

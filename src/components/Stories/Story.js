@@ -27,12 +27,12 @@ const Story = ({ story = {}, open, onEnd }) => {
     setResetFlag(!resetFlag)
   }
 
-  const onMedia = evt => {
+  const onMedia = (evt) => {
     evt.stopPropagation()
     setDuration(null)
   }
 
-  const onToggleSlide = evt => {
+  const onToggleSlide = (evt) => {
     if (!dialogWidth) {
       setDialogWidth(evt.target.offsetWidth)
     }
@@ -60,7 +60,7 @@ const Story = ({ story = {}, open, onEnd }) => {
   )
 }
 
-export function useInterval (callback, delay, resetFlag) {
+export function useInterval(callback, delay, resetFlag) {
   const savedCallback = useRef()
 
   useEffect(() => {

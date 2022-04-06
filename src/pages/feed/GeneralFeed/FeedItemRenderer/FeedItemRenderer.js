@@ -4,7 +4,7 @@ import InsightCard from '../../../../components/Insight/InsightCardWithMarketcap
 import WithFeedEventLikesMutation from '../../../../components/Like/WithFeedEventLikesMutation'
 import ActivityRenderer from '../../../SonarFeed/ActivityRenderer/ActivityRenderer'
 import TrendingWordsSignalCard, {
-  isTrendingWordsSignal
+  isTrendingWordsSignal,
 } from '../../../../components/SignalCard/card/TrendingWordsSignalCard'
 import PulseInsight from '../../../../components/Insight/PulseInsight'
 import styles from './FeedItemRenderer.module.scss'
@@ -17,7 +17,7 @@ const FeedItemRenderer = ({ item, index, showProfileExplanation }) => {
 
     return (
       <WithFeedEventLikesMutation>
-        {like =>
+        {(like) =>
           isTrendingWords ? (
             <TrendingWordsSignalCard
               activity={item}
@@ -43,16 +43,9 @@ const FeedItemRenderer = ({ item, index, showProfileExplanation }) => {
 
     if (post) {
       return post.isPulse ? (
-        <PulseInsight
-          insight={post}
-          className={cx(styles.card, styles.pulseInsight)}
-        />
+        <PulseInsight insight={post} className={cx(styles.card, styles.pulseInsight)} />
       ) : (
-        <InsightCard
-          insight={post}
-          classes={styles}
-          className={styles.activityItem}
-        />
+        <InsightCard insight={post} classes={styles} className={styles.activityItem} />
       )
     }
   }

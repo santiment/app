@@ -1,12 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import {
-  CartesianGrid,
-  ComposedChart,
-  ResponsiveContainer,
-  XAxis,
-  YAxis
-} from 'recharts'
+import { CartesianGrid, ComposedChart, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 import { SanWatermark } from './resources'
 import { HorizontalCategoryTick, getProjectsMarkup } from './utils'
 import styles from './ProjectsBarChart.module.scss'
@@ -20,7 +14,7 @@ const ProjectsBarHorizontalChart = ({
   dataKey = 'value',
   onProjectClick,
   MetricColor,
-  settings: { valueFormatter = v => v } = {}
+  settings: { valueFormatter = (v) => v } = {},
 }) => {
   const markup = getProjectsMarkup({
     MetricColor,
@@ -28,7 +22,7 @@ const ProjectsBarHorizontalChart = ({
     dataKey,
     onProjectClick,
     barSize: 40,
-    maxBarSize: 40
+    maxBarSize: 40,
   })
 
   return (
@@ -40,9 +34,7 @@ const ProjectsBarHorizontalChart = ({
           data={data}
           margin={isDesktop ? DESKTOP_MARGIN : MOBILE_MARGIN}
         >
-          {isDesktop && (
-            <CartesianGrid vertical={false} stroke='var(--porcelain)' />
-          )}
+          {isDesktop && <CartesianGrid vertical={false} stroke='var(--porcelain)' />}
 
           <YAxis
             dataKey={dataKey}
@@ -58,7 +50,7 @@ const ProjectsBarHorizontalChart = ({
 
           <XAxis
             dataKey={'slug'}
-            tick={props => <HorizontalCategoryTick {...props} data={data} />}
+            tick={(props) => <HorizontalCategoryTick {...props} data={data} />}
             minTickGap={8}
             interval={0}
             domain={['auto', 'auto']}

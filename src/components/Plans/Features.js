@@ -26,7 +26,7 @@ export default ({ isGreen, data, classes = {} }) => (
           className={cx(
             styles.feature__icon,
             isGreen && styles.feature__icon__green,
-            classes.feature__icon
+            classes.feature__icon,
           )}
         />
         <div className={styles.feature__text}>{feature}</div>

@@ -6,7 +6,7 @@ import { CommentsType } from 'webkit/api/comments'
 import { store } from '../redux'
 import { showNotification } from '../actions/rootActions'
 
-function getPath ({ id, commentsForTitle, type, href }) {
+function getPath({ id, commentsForTitle, type, href }) {
   if (!commentsForTitle) return href
 
   const link = getSEOLinkFromIdAndTitle(id, commentsForTitle)
@@ -18,7 +18,7 @@ function getPath ({ id, commentsForTitle, type, href }) {
   }
 }
 
-export function useSavedComment (isLoggedIn) {
+export function useSavedComment(isLoggedIn) {
   useEffect(() => {
     if (!isLoggedIn) return
 
@@ -35,10 +35,10 @@ export function useSavedComment (isLoggedIn) {
             onClick: (_, close) => {
               store.dispatch(push(getPath(comment)))
               close()
-            }
-          }
-        ]
-      })
+            },
+          },
+        ],
+      }),
     )
   }, [isLoggedIn])
 }

@@ -3,7 +3,7 @@ import React from 'react'
 const Gradients = ({
   downColor = 'var(--persimmon)',
   upColor = 'var(--lima)',
-  verticalLineColor = 'var(--persimmon)'
+  verticalLineColor = 'var(--persimmon)',
 }) => (
   <>
     <linearGradient id='totalDown' x1='0' x2='0' y1='0' y2='1'>

@@ -16,18 +16,14 @@ const ProfileInfo = ({
   date,
   showDate = false,
   withPic,
-  authorId
+  authorId,
 }) => {
   return (
     <div className={cx(styles.wrapper, className)}>
       {withPic && (
         <div className={styles.icon}>
           <UserAvatar userId={authorId} externalAvatarUrl={picUrl} />
-          {networkStatus && (
-            <div
-              className={cx(styles.onlineIndicator, styles[networkStatus])}
-            />
-          )}
+          {networkStatus && <div className={cx(styles.onlineIndicator, styles[networkStatus])} />}
         </div>
       )}
 

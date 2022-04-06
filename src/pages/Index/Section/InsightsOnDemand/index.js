@@ -14,7 +14,7 @@ const InsightsOnDemand = React.memo(() => {
 
   const charts = useMemo(
     () =>
-      templates.map(template => {
+      templates.map((template) => {
         const { metrics: metricKeys, project } = template
         const url = prepareTemplateLink(template)
 
@@ -23,10 +23,10 @@ const InsightsOnDemand = React.memo(() => {
           ticker: project.ticker,
           from: 'utc_now-90d',
           to: 'utc_now',
-          interval: '1d'
+          interval: '1d',
         }
 
-        const metrics = metricKeys.map(key => Metric[key]).filter(Boolean)
+        const metrics = metricKeys.map((key) => Metric[key]).filter(Boolean)
 
         const metricsArr = mapProjectMetrics(project, metrics)
         const MetricColor = setupMetricColors(metricsArr)
@@ -35,15 +35,11 @@ const InsightsOnDemand = React.memo(() => {
           ...template,
           url,
           widget: () => (
-            <Chart
-              metrics={metricsArr}
-              settings={settings}
-              MetricColor={MetricColor}
-            />
-          )
+            <Chart metrics={metricsArr} settings={settings} MetricColor={MetricColor} />
+          ),
         }
       }),
-    [templates]
+    [templates],
   )
 
   return (

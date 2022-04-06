@@ -15,8 +15,8 @@ const NoSignalPreview = ({ className }) => {
       <div className={styles.explanation}>
         <span className={styles.label}>No chart available</span>
         <HelpPopup>
-          We currently don't have enough data to display this. Support of
-          backtesting charts for this signal will be added soon!
+          We currently don't have enough data to display this. Support of backtesting charts for
+          this signal will be added soon!
         </HelpPopup>
       </div>
     </div>

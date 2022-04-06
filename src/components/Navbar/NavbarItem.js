@@ -7,7 +7,7 @@ import styles from './Navbar.module.scss'
 
 export const NavbarItem = ({
   item: { Dropdown, ddParams, onOpen, onClose, ...rest },
-  activeLink
+  activeLink,
 }) => {
   let isActive = activeLink.includes(rest.to)
 
@@ -17,8 +17,7 @@ export const NavbarItem = ({
 
   if (rest.to === '/watchlists') {
     isActive =
-      (activeLink.includes('/assets') &&
-        !activeLink.includes('/assets/screener')) ||
+      (activeLink.includes('/assets') && !activeLink.includes('/assets/screener')) ||
       activeLink.includes('/watchlist')
   }
 
@@ -37,12 +36,7 @@ export const NavbarItem = ({
 
   if (Dropdown) {
     return (
-      <SmoothDropdownItem
-        trigger={button}
-        ddParams={ddParams}
-        onOpen={onOpen}
-        onClose={onClose}
-      >
+      <SmoothDropdownItem trigger={button} ddParams={ddParams} onOpen={onOpen} onClose={onClose}>
         <Dropdown activeLink={activeLink} />
       </SmoothDropdownItem>
     )

@@ -15,12 +15,12 @@ const LAST_PRICE_QUERY = gql`
   }
 `
 
-const useLastPrice = slugTitle => {
+const useLastPrice = (slugTitle) => {
   const { data, loading } = useQuery(LAST_PRICE_QUERY, {
     variables: {
-      slug: slugTitle
+      slug: slugTitle,
     },
-    skip: !slugTitle
+    skip: !slugTitle,
   })
 
   const value = useMemo(() => {
@@ -33,7 +33,7 @@ const useLastPrice = slugTitle => {
 
   return {
     value,
-    loading
+    loading,
   }
 }
 

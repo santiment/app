@@ -2,13 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import styles from './DetailsItem.module.scss'
 
-const DetailsItem = ({
-  title = 'Total',
-  value,
-  percent = 100,
-  className,
-  color = '#FFAD4D'
-}) => (
+const DetailsItem = ({ title = 'Total', value, percent = 100, className, color = '#FFAD4D' }) => (
   <div className={cx(styles.wrapper, className)}>
     <h3 className={styles.text}>
       <b className={styles.title}>{title}</b>

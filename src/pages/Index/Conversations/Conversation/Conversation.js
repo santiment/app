@@ -10,7 +10,7 @@ import styles from './Conversation.module.scss'
 
 const LINK_SETTINGS = { linkSymbolsCount: 32 }
 
-const getLink = data => {
+const getLink = (data) => {
   const { insight, blockchainAddress, chartConfiguration } = data
 
   if (chartConfiguration) {
@@ -29,8 +29,7 @@ const getLink = data => {
   return undefined
 }
 
-const makeReadable = text =>
-  text.length > 80 ? `${text.slice(0, 80)} ...` : text
+const makeReadable = (text) => (text.length > 80 ? `${text.slice(0, 80)} ...` : text)
 
 const Conversation = ({ data, classname }) => {
   const { content, insight, timelineEvent, blockchainAddress, user } = data
@@ -38,7 +37,7 @@ const Conversation = ({ data, classname }) => {
 
   const link = getLink(data)
 
-  function openConversation () {
+  function openConversation() {
     if (link) {
       window.open(link, '_blank')
     }
@@ -56,7 +55,7 @@ const Conversation = ({ data, classname }) => {
             styles.type,
             insight && styles.insight,
             (chartConfiguration || blockchainAddress) && styles.balance,
-            timelineEvent && styles.timeline
+            timelineEvent && styles.timeline,
           )}
         >
           {insight && 'Insights'}
@@ -72,9 +71,7 @@ const Conversation = ({ data, classname }) => {
         <>
           <Content content={content} />
 
-          <div className={styles.insightTitle}>
-            {(insight || chartConfiguration).title}
-          </div>
+          <div className={styles.insightTitle}>{(insight || chartConfiguration).title}</div>
         </>
       )}
 
@@ -88,27 +85,20 @@ const Conversation = ({ data, classname }) => {
           />
 
           {blockchainAddress.labels && (
-            <TransactionTableLabels
-              labels={blockchainAddress.labels}
-              className={styles.labels}
-            />
+            <TransactionTableLabels labels={blockchainAddress.labels} className={styles.labels} />
           )}
         </>
       )}
 
-      {!blockchainAddress &&
-        !insight &&
-        !timelineEvent &&
-        !chartConfiguration &&
-        content && <Content content={content} />}
+      {!blockchainAddress && !insight && !timelineEvent && !chartConfiguration && content && (
+        <Content content={content} />
+      )}
     </div>
   )
 }
 
 const Content = ({ content }) => (
-  <div className={styles.content}>
-    {makeReadable(markdownToPlainText(content))}
-  </div>
+  <div className={styles.content}>{makeReadable(markdownToPlainText(content))}</div>
 )
 
 export default Conversation

@@ -2,7 +2,7 @@ import * as userActions from '../../actions/types'
 
 export const initialState = {
   isConnectWalletPending: false,
-  isConnectWalletFailed: false
+  isConnectWalletFailed: false,
 }
 
 export default (state = initialState, action) => {
@@ -11,13 +11,13 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isConnectWalletPending: true,
-        isConnectWalletFailed: false
+        isConnectWalletFailed: false,
       }
     case userActions.SETTINGS_CONNECT_NEW_WALLET_FAILED:
       return {
         ...state,
         isConnectWalletPending: false,
-        isConnectWalletFailed: true
+        isConnectWalletFailed: true,
       }
     default:
       return state

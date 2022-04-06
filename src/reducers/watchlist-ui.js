@@ -3,7 +3,7 @@ import * as actions from './../actions/types'
 export const initialState = {
   selectedId: null,
   editableAssetsInList: [],
-  editableWatchlists: []
+  editableWatchlists: [],
 }
 
 export default (state = initialState, action) => {
@@ -15,18 +15,17 @@ export default (state = initialState, action) => {
           ...state.editableAssetsInList,
           {
             projectId: action.payload.projectId,
-            assetsListId: action.payload.assetsListId
-          }
-        ]
+            assetsListId: action.payload.assetsListId,
+          },
+        ],
       }
     case actions.USER_REMOVED_ASSET_FROM_LIST_SUCCESS:
       return {
         ...state,
         editableAssetsInList: state.editableAssetsInList.filter(
           ({ projectId, assetsListId }) =>
-            projectId !== action.payload.projectId &&
-            assetsListId !== action.payload.assetsListId
-        )
+            projectId !== action.payload.projectId && assetsListId !== action.payload.assetsListId,
+        ),
       }
     case actions.USER_ADD_ASSET_TO_LIST:
       return {
@@ -35,33 +34,29 @@ export default (state = initialState, action) => {
           ...state.editableAssetsInList,
           {
             projectId: action.payload.projectId,
-            assetsListId: action.payload.assetsListId
-          }
-        ]
+            assetsListId: action.payload.assetsListId,
+          },
+        ],
       }
     case actions.USER_ADD_ASSET_TO_LIST_SUCCESS:
       return {
         ...state,
         editableAssetsInList: state.editableAssetsInList.filter(
           ({ projectId, assetsListId }) =>
-            projectId !== action.payload.projectId &&
-            assetsListId !== action.payload.assetsListId
-        )
+            projectId !== action.payload.projectId && assetsListId !== action.payload.assetsListId,
+        ),
       }
     case actions.USER_EDIT_ASSETS_IN_LIST:
       return {
         ...state,
-        editableWatchlists: [
-          ...state.editableWatchlists,
-          action.payload.assetsListId
-        ]
+        editableWatchlists: [...state.editableWatchlists, action.payload.assetsListId],
       }
     case actions.USER_EDIT_ASSETS_IN_LIST_SUCCESS:
       return {
         ...state,
         editableWatchlists: state.editableWatchlists.filter(
-          id => id !== action.payload.assetsListId
-        )
+          (id) => id !== action.payload.assetsListId,
+        ),
       }
     default:
       return state
