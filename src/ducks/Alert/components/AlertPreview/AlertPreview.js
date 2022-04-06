@@ -30,21 +30,16 @@ const filterPoints = (points, { settings: { metric } = {} }) => {
   }
 }
 
-const AlertPreview = ({
-  setIsPreview,
-  signal,
-  handleCloseDialog,
-  shouldDisableActions,
-}) => {
+const AlertPreview = ({ setIsPreview, signal, handleCloseDialog, shouldDisableActions }) => {
   const {
     id,
     title,
     settings: {
       target: { slug },
       target,
-      selector
+      selector,
     },
-    settings
+    settings,
   } = signal
 
   const currentSlug = settings.type === 'wallet_movement' ? selector.slug : slug
@@ -53,10 +48,10 @@ const AlertPreview = ({
   const {
     data: { historicalTriggerPoints: points = [] } = {},
     error,
-    loading
+    loading,
   } = useHistoricalTriggerPoints({
     ...signal,
-    skip: !shouldRenderChart
+    skip: !shouldRenderChart,
   })
 
   let children = null
@@ -76,9 +71,7 @@ const AlertPreview = ({
   }
 
   if (loading) {
-    chart = (
-      <PageLoader containerClass='row hv-center' className={styles.loader} />
-    )
+    chart = <PageLoader containerClass='row hv-center' className={styles.loader} />
   }
 
   if (settings && settings.type) {
@@ -88,15 +81,13 @@ const AlertPreview = ({
       <>
         <div className='row mrg--b mrg-xl'>
           <SignalTypeIcon type={type} metric={metric} />
-          <div className='btn c-black body-1 mrg--l mrg-l'>
-            {prepareAlertTitle(title)}
-          </div>
+          <div className='btn c-black body-1 mrg--l mrg-l'>{prepareAlertTitle(title)}</div>
         </div>
         <div
           className={cx(
             styles.chartWrapper,
             'row h-center mrg--b mrg-xl',
-            !shouldRenderChart && !loading && styles.noChartWrapper
+            !shouldRenderChart && !loading && styles.noChartWrapper,
           )}
         >
           {chart}
@@ -108,20 +99,16 @@ const AlertPreview = ({
             label='Copy to my alerts'
             onClose={handleCloseDialog}
             classes={{
-              copyBtn: cx(styles.copyBtn, shouldDisableActions && 'c-waterloo')
+              copyBtn: cx(styles.copyBtn, shouldDisableActions && 'c-waterloo'),
             }}
             as='div'
             btnParams={{
               variant: 'fill',
               accent: 'positive',
-              disabled: shouldDisableActions
+              disabled: shouldDisableActions,
             }}
           />
-          <Button
-            disabled={shouldDisableActions}
-            onClick={() => setIsPreview(false)}
-            border
-          >
+          <Button disabled={shouldDisableActions} onClick={() => setIsPreview(false)} border>
             Open alert
           </Button>
         </div>
@@ -131,12 +118,7 @@ const AlertPreview = ({
 
   if (!id) {
     children = (
-      <EmptySection
-        className={cx(
-          alertMasterFormStyles.notSignalInfo,
-          'column hv-center body-3'
-        )}
-      >
+      <EmptySection className={cx(alertMasterFormStyles.notSignalInfo, 'column hv-center body-3')}>
         Alert doesn't exist
         <br />
         or it's a private alert.
@@ -146,12 +128,7 @@ const AlertPreview = ({
 
   if (isUnsupported) {
     return (
-      <EmptySection
-        className={cx(
-          alertMasterFormStyles.notSignalInfo,
-          'column hv-center body-3'
-        )}
-      >
+      <EmptySection className={cx(alertMasterFormStyles.notSignalInfo, 'column hv-center body-3')}>
         This type of alerts is deprecated.
       </EmptySection>
     )

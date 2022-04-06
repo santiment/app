@@ -36,9 +36,7 @@ export default ({ className, metricValues, containerRef, onDialogClose, ...rest 
     <div ref={containerRef} className={cx(styles.wrapper, className)}>
       <div className={styles.header}>
         Create alert if:
-        <AlertModal
-          trigger={<span className={styles.manual}>Create alert manually</span>}
-        />
+        <AlertModal trigger={<span className={styles.manual}>Create alert manually</span>} />
       </div>
       <div className={styles.suggestions}>
         {suggestions.map(({ title, project, suggesters, ...values }) => {

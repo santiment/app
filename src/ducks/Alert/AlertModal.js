@@ -22,7 +22,7 @@ const AlertModal = ({
   signalData,
   isUserTheAuthor = true,
   shouldDisableActions,
-  isRecommendedSignal
+  isRecommendedSignal,
 }) => {
   const match = useRouteMatch('/alerts/:id')
   const history = useHistory()

@@ -17,7 +17,7 @@ const AlertModalForm = ({
   isEdited,
   isModalOpen,
   isSharedTrigger,
-  isRecommendedSignal
+  isRecommendedSignal,
 }) => {
   const {
     setSelectedType,

@@ -49,7 +49,7 @@ const AlertModalFormMaster = ({
   setIsPreview,
   shouldHideRestrictionMessage,
   shouldDisableActions,
-  isRecommendedSignal
+  isRecommendedSignal,
 }) => {
   const [formPreviousValues, setFormPreviousValues] = useState(initialValues)
   const [selectedType, setSelectedType] = useState(defaultType)
@@ -68,7 +68,7 @@ const AlertModalFormMaster = ({
     error,
   } = useSignal({
     id,
-    skip: !id || signalData
+    skip: !id || signalData,
   })
 
   const metric = formPreviousValues.settings.metric
@@ -81,9 +81,7 @@ const AlertModalFormMaster = ({
 
   const isSharedTrigger =
     (data && data.trigger && +data.trigger.authorId !== +user.id) ||
-    (signalData &&
-      signalData.trigger &&
-      +signalData.trigger.authorId !== +signalData.id)
+    (signalData && signalData.trigger && +signalData.trigger.authorId !== +signalData.id)
 
   useEffect(() => {
     if (id || signalData) {

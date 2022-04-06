@@ -20,7 +20,7 @@ const SignalCard = ({
   showStatus = true,
   isSharedTriggerForm = false,
   shouldDisableActions,
-  isRecommendedSignal
+  isRecommendedSignal,
 }) => {
   const isAwaiting = +id <= 0
   const { description = '', isPublic, settings, isFrozen } = signal

@@ -9,7 +9,7 @@ const OpenSignalLink = ({
   children,
   isUserTheAuthor,
   shouldDisableActions,
-  isRecommendedSignal
+  isRecommendedSignal,
 }) => {
   const { id, title, isFrozen } = signal
 
