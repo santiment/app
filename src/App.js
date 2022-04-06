@@ -11,6 +11,7 @@ import withSizes from 'react-sizes'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import nprogress from 'nprogress'
+import Dialogs from 'webkit/ui/Dialog/Dialogs.svelte'
 import { isListPath, PATHS } from './paths'
 import NotificationStack from './components/NotificationStack'
 import UrlModals from './components/Modal/UrlModals'
@@ -233,6 +234,17 @@ export const App = ({
   const [isWatchlistPage, setIsWatchlistPage] = useState(false)
 
   useSavedComment(isLoggedIn)
+
+  useEffect(() => {
+    if(pathname.includes(
+  PATHS.STUDIO
+    ) || pathname.includes(PATHS.CHARTS)) {
+      return
+    }
+
+    const svelte = new Dialogs({ target: document.body })
+    return () => svelte.$destroy()
+  }, [])
 
   useEffect(() => {
     if (isListPath(pathname)) {
