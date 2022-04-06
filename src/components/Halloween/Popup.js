@@ -18,23 +18,24 @@ const STEPS = [
       `You just saved ${name} from early market death 💀
 Dig 2 more graves to get a gift from Santiment!`,
     button: 'Keep digging  ⛏️',
-    img: Rocket
+    img: Rocket,
   },
   {
     title: 'One grave left!',
     description: () => `You've resurrected 2 coins - one more and the prize is yours!
 The night is getting darker...👻`,
     button: 'Go, go, go!',
-    img: Congrats
+    img: Congrats,
   },
   {
     title: 'Congratulations!',
-    description: () => `To celebrate Halloween, we’re gifting you a one-time discount code - "${DISCOUND_CODE}".
+    description:
+      () => `To celebrate Halloween, we’re gifting you a one-time discount code - "${DISCOUND_CODE}".
 Use the code during checkout and get ${PERCENT_DISCOUNT}%!🎁
 `,
     button: 'Copy code to clipboard',
-    img: Gift
-  }
+    img: Gift,
+  },
 ]
 
 const HalloweenPopup = ({ activeNumber, name }) => {
@@ -82,9 +83,7 @@ const HalloweenPopup = ({ activeNumber, name }) => {
           accent='positive'
           className={styles.btn}
         >
-          {activeNumber === 3 && isCopied
-            ? 'Copied!'
-            : STEPS[activeNumber - 1].button}
+          {activeNumber === 3 && isCopied ? 'Copied!' : STEPS[activeNumber - 1].button}
         </Button>
       </Panel>
     </Dialog>

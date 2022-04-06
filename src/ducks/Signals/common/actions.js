@@ -13,16 +13,16 @@ export const SIGNAL_REMOVE_BY_ID = '[signal] REMOVE_BY_ID'
 export const SIGNAL_REMOVE_BY_ID_SUCCESS = '[signal] REMOVE_BY_ID_SUCCESS'
 export const SIGNAL_REMOVE_BY_ID_FAILED = '[signal] REMOVE_BY_ID_FAILED'
 
-export const createTrigger = payload => mutateTrigger({ payload })
-export const updateTrigger = payload => mutateTrigger({ payload, isEdit: true })
+export const createTrigger = (payload) => mutateTrigger({ payload })
+export const updateTrigger = (payload) => mutateTrigger({ payload, isEdit: true })
 
 const mutateTrigger = ({ payload, isEdit }) => {
   return {
     type: isEdit ? SIGNAL_UPDATE : SIGNAL_CREATE,
     payload: {
       ...payload,
-      settings: JSON.stringify(payload.settings)
-    }
+      settings: JSON.stringify(payload.settings),
+    },
   }
 }
 
@@ -30,11 +30,11 @@ export const toggleTrigger = ({ id, isActive }) => ({
   type: SIGNAL_TOGGLE_BY_ID,
   payload: {
     id,
-    isActive: !isActive
-  }
+    isActive: !isActive,
+  },
 })
 
-export const removeTrigger = id => ({
+export const removeTrigger = (id) => ({
   type: SIGNAL_REMOVE_BY_ID,
-  payload: { id }
+  payload: { id },
 })

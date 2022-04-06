@@ -4,14 +4,9 @@ const BASE = window.location.origin + '/labs/balance?'
 const URL_FORMAT = { arrayFormat: 'bracket' }
 
 export const slugExtractor = ({ slug }) => slug
-export const assetConvertor = slug => ({ slug })
+export const assetConvertor = (slug) => ({ slug })
 
-export function generateSearchQuery (
-  settings,
-  chartAssets,
-  priceAssets,
-  isLog
-) {
+export function generateSearchQuery(settings, chartAssets, priceAssets, isLog) {
   const { address, from, to } = settings
   const assets = chartAssets.map(slugExtractor)
   const priceMetrics = priceAssets
@@ -23,25 +18,18 @@ export function generateSearchQuery (
       priceMetrics,
       from,
       to,
-      isLog
+      isLog,
     },
-    URL_FORMAT
+    URL_FORMAT,
   )
 }
 
-export function generateUrl (settings, chartAssets, priceAssets) {
+export function generateUrl(settings, chartAssets, priceAssets) {
   return BASE + generateSearchQuery(settings, chartAssets, priceAssets)
 }
 
-export function parseUrl (url) {
-  const {
-    address = '',
-    assets = [],
-    priceMetrics = [],
-    from,
-    to,
-    isLog
-  } = parse(url, URL_FORMAT)
+export function parseUrl(url) {
+  const { address = '', assets = [], priceMetrics = [], from, to, isLog } = parse(url, URL_FORMAT)
 
   const settings = { address }
 
@@ -55,6 +43,6 @@ export function parseUrl (url) {
     settings,
     chartAssets: assets.map(assetConvertor),
     priceAssets: priceMetrics,
-    isLog: isLog === 'true'
+    isLog: isLog === 'true',
   }
 }

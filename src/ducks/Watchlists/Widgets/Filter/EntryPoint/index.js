@@ -6,22 +6,13 @@ import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import { useMessage, useStateMetadata } from './hooks'
 import Item from './Item'
 import ResetButton from './ResetButton'
-import {
-  useFeaturedWatchlists,
-  useUserProjectWatchlists
-} from '../../../gql/lists/hooks'
-import {
-  makeHumanReadableState,
-  ALL_ASSETS_TEXT,
-  MAX_VISIBLE_SYMBOLS
-} from './utils'
+import { useFeaturedWatchlists, useUserProjectWatchlists } from '../../../gql/lists/hooks'
+import { makeHumanReadableState, ALL_ASSETS_TEXT, MAX_VISIBLE_SYMBOLS } from './utils'
 import { ALL_PROJECTS_WATCHLIST_SLUG } from '../../../utils'
 import styles from './index.module.scss'
 
 const EntryPoint = ({ baseProjects = [], setBaseProjects, isViewMode }) => {
-  const [state, setState] = useState(
-    baseProjects.length > 0 ? baseProjects : ALL_ASSETS_TEXT
-  )
+  const [state, setState] = useState(baseProjects.length > 0 ? baseProjects : ALL_ASSETS_TEXT)
   const [categories] = useFeaturedWatchlists()
   const [watchlists] = useUserProjectWatchlists()
   const { idNameMap, setIdNameMap } = useStateMetadata(state)
@@ -37,10 +28,7 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects, isViewMode }) => {
         setBaseProjects([])
       }
 
-      if (
-        state !== ALL_ASSETS_TEXT &&
-        JSON.stringify(state) !== JSON.stringify(baseProjects)
-      ) {
+      if (state !== ALL_ASSETS_TEXT && JSON.stringify(state) !== JSON.stringify(baseProjects)) {
         setBaseProjects(state)
       }
     }
@@ -49,35 +37,31 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects, isViewMode }) => {
   const filteredCategories = useMemo(
     () =>
       categories.filter(({ id, slug }) => {
-        const isInState =
-          Array.isArray(state) && state.some(item => item.watchlistId === +id)
+        const isInState = Array.isArray(state) && state.some((item) => item.watchlistId === +id)
 
         return slug !== ALL_PROJECTS_WATCHLIST_SLUG && !isInState
       }),
-    [state, categories]
+    [state, categories],
   )
 
   const filteredWatchlists = useMemo(
     () =>
       watchlists.filter(({ id }) => {
-        const isInState =
-          Array.isArray(state) && state.some(item => item.watchlistId === +id)
+        const isInState = Array.isArray(state) && state.some((item) => item.watchlistId === +id)
         return !isInState
       }),
-    [state, watchlists]
+    [state, watchlists],
   )
 
   const [inputState, shortInputState] = useMemo(() => {
     const text = makeHumanReadableState(state, idNameMap)
     return [
       text,
-      text.length > MAX_VISIBLE_SYMBOLS
-        ? text.slice(0, MAX_VISIBLE_SYMBOLS) + '...'
-        : text
+      text.length > MAX_VISIBLE_SYMBOLS ? text.slice(0, MAX_VISIBLE_SYMBOLS) + '...' : text,
     ]
   }, [state, idNameMap])
 
-  function addItemInState (item) {
+  function addItemInState(item) {
     setState(state === ALL_ASSETS_TEXT ? [item] : [...state, item])
   }
 
@@ -112,19 +96,12 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects, isViewMode }) => {
               <div className={styles.scroller}>
                 {state !== ALL_ASSETS_TEXT && (
                   <div className={styles.selected}>
-                    {state.map(item => {
-                      const name =
-                        idNameMap[item['watchlistId']] ||
-                        item['watchlistId'] ||
-                        item
+                    {state.map((item) => {
+                      const name = idNameMap[item['watchlistId']] || item['watchlistId'] || item
                       return (
                         <Item
                           key={name}
-                          onClick={() =>
-                            setState(
-                              state.filter(currItem => currItem !== item)
-                            )
-                          }
+                          onClick={() => setState(state.filter((currItem) => currItem !== item))}
                           isActive={true}
                           name={name}
                         />
@@ -133,12 +110,7 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects, isViewMode }) => {
                   </div>
                 )}
                 {message && (
-                  <Message
-                    variant='warn'
-                    icon='info-round'
-                    fill={false}
-                    className={styles.message}
-                  >
+                  <Message variant='warn' icon='info-round' fill={false} className={styles.message}>
                     {message}
                   </Message>
                 )}

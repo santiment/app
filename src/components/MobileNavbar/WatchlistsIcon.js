@@ -1,13 +1,7 @@
 import React from 'react'
 
-export default props => (
-  <svg
-    width='23'
-    height='18'
-    fill='none'
-    xmlns='http://www.w3.org/2000/svg'
-    {...props}
-  >
+export default (props) => (
+  <svg width='23' height='18' fill='none' xmlns='http://www.w3.org/2000/svg' {...props}>
     <path
       fillRule='evenodd'
       clipRule='evenodd'

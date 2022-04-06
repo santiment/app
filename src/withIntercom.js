@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === 'production') {
     app_id: 'cyjjko9u',
     email: user.email,
     name: user.username,
-    user_id: user.id
+    user_id: user.id,
   }
   window.Intercom('boot', settings)
   window.intercomSettings = settings
@@ -27,12 +27,9 @@ const withIntercom = (WrappedComponent, options = {}) => {
 
       if (iframe) {
         const intercomLauncher = iframe.contentDocument.querySelector(
-          '#intercom-container .intercom-launcher'
+          '#intercom-container .intercom-launcher',
         )
-        intercomLauncher.setAttribute(
-          'style',
-          'background: var(--jungle-green) !important;'
-        )
+        intercomLauncher.setAttribute('style', 'background: var(--jungle-green) !important;')
 
         iframe.setAttribute('style', 'background: var(--jungle-green);')
 
@@ -43,11 +40,11 @@ const withIntercom = (WrappedComponent, options = {}) => {
   }
 
   const HOC = class extends Component {
-    componentDidMount () {
+    componentDidMount() {
       updateIntercom()
     }
 
-    componentWillReceiveProps (nextProps) {
+    componentWillReceiveProps(nextProps) {
       const currentPage = this.props.location.pathname
       const nextPage = nextProps.location.pathname
 
@@ -56,7 +53,7 @@ const withIntercom = (WrappedComponent, options = {}) => {
       }
     }
 
-    render () {
+    render() {
       return <WrappedComponent {...this.props} />
     }
   }

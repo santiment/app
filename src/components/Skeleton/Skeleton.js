@@ -7,13 +7,7 @@ import styles from './Skeleton.module.scss'
 const Skeleton = ({ className, wrapperClassName, centered, show, repeat }) => {
   const elem = new Array(repeat).fill(0)
   return (
-    <div
-      className={cx(
-        styles.wrapper,
-        centered && styles.centered,
-        wrapperClassName
-      )}
-    >
+    <div className={cx(styles.wrapper, centered && styles.centered, wrapperClassName)}>
       <CSSTransition
         in={show}
         timeout={1000}
@@ -32,7 +26,7 @@ const Skeleton = ({ className, wrapperClassName, centered, show, repeat }) => {
 
 Skeleton.propTypes = {
   repeat: PropTypes.number.isRequired,
-  show: PropTypes.bool.isRequired
+  show: PropTypes.bool.isRequired,
 }
 
 export default Skeleton

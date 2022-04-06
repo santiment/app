@@ -17,17 +17,17 @@ const DEFAULT_DATES = [from, to]
 const DEFAULT_SORTED = [
   {
     id: 'value',
-    desc: true
-  }
+    desc: true,
+  },
 ]
 
-export function useProjectTopTransactions (slug, from, to) {
+export function useProjectTopTransactions(slug, from, to) {
   const { data, loading } = useQuery(TRANSACTIONS_QUERY, {
     variables: {
       slug,
       from,
-      to
-    }
+      to,
+    },
   })
 
   let result
@@ -42,21 +42,11 @@ export function useProjectTopTransactions (slug, from, to) {
 const Header = ({ dates, onCalendarChange, onCloseClick }) => (
   <div className={styles.header}>
     Top Token Transactions
-    <Calendar
-      className={styles.calendar}
-      selectRange
-      dates={dates}
-      onChange={onCalendarChange}
-    />
+    <Calendar className={styles.calendar} selectRange dates={dates} onChange={onCalendarChange} />
     <HelpPopup>
-      Hold "CTRL" or "CMD", click and move mouse on the chart to select a time
-      range
+      Hold "CTRL" or "CMD", click and move mouse on the chart to select a time range
     </HelpPopup>
-    <Icon
-      type='close-medium'
-      className={widgetStyles.close}
-      onClick={onCloseClick}
-    />
+    <Icon type='close-medium' className={widgetStyles.close} onClick={onCloseClick} />
   </div>
 )
 
@@ -66,8 +56,8 @@ const TopTransactionsTable = ({ settings: { slug }, ...rest }) => {
 
   const [transactions, loading] = useProjectTopTransactions(slug, from, to)
   const normalizedData = useMemo(
-    () => transactions.map(trx => normalizeTransactionData(slug, trx)),
-    [transactions]
+    () => transactions.map((trx) => normalizeTransactionData(slug, trx)),
+    [transactions],
   )
 
   return (
@@ -76,11 +66,7 @@ const TopTransactionsTable = ({ settings: { slug }, ...rest }) => {
       defaultPageSize={50}
       defaultSorted={DEFAULT_SORTED}
       header={
-        <Header
-          dates={dates}
-          onCalendarChange={onCalendarChange}
-          onCloseClick={onCloseClick}
-        />
+        <Header dates={dates} onCalendarChange={onCalendarChange} onCloseClick={onCloseClick} />
       }
       data={normalizedData}
       loading={loading}
@@ -89,10 +75,10 @@ const TopTransactionsTable = ({ settings: { slug }, ...rest }) => {
   )
 }
 
-TopTransactionsTable.new = props =>
+TopTransactionsTable.new = (props) =>
   newWidget(TopTransactionsTable, {
     datesRange: DEFAULT_DATES,
-    ...props
+    ...props,
   })
 
 export default TopTransactionsTable

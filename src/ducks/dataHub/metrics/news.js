@@ -14,13 +14,13 @@ const NEW_METRICS = [
   Metric.whale_transaction_count_100k_usd_to_inf,
   Metric.whale_transaction_count_1m_usd_to_inf,
   Metric.mvrv_usd_z_score,
-  Metric.holders_labeled_distribution_1_to_10
+  Metric.holders_labeled_distribution_1_to_10,
 ]
 export const NEW_METRIC_KEY_SET = new Set(NEW_METRICS.map(({ key }) => key))
 
 const NewSubmetricsByMetric = {}
 
-NEW_METRICS.forEach(metric => {
+NEW_METRICS.forEach((metric) => {
   const { parentMetric } = metric
   if (parentMetric) {
     const { key, category, group } = parentMetric
@@ -35,7 +35,7 @@ NEW_METRICS.forEach(metric => {
   }
 })
 
-function appendIfVisible (arr, metric, conditionProps) {
+function appendIfVisible(arr, metric, conditionProps) {
   if (localStorage.getItem(metric.key)) return
 
   const { checkIsVisible } = metric
@@ -44,7 +44,7 @@ function appendIfVisible (arr, metric, conditionProps) {
   }
 }
 
-export function getAssetNewMetrics (metricKeys, conditionProps) {
+export function getAssetNewMetrics(metricKeys, conditionProps) {
   const { length } = metricKeys
   const newMetrics = []
 
@@ -56,9 +56,7 @@ export function getAssetNewMetrics (metricKeys, conditionProps) {
     } else {
       const submetrics = NewSubmetricsByMetric[key]
       if (submetrics) {
-        submetrics.forEach(submetric =>
-          appendIfVisible(newMetrics, submetric, conditionProps)
-        )
+        submetrics.forEach((submetric) => appendIfVisible(newMetrics, submetric, conditionProps))
       }
     }
   }
@@ -77,7 +75,7 @@ export function getAssetNewMetrics (metricKeys, conditionProps) {
   return {
     NewMetric,
     NewMetricsCategory,
-    NewMetricsGroup
+    NewMetricsGroup,
   }
 }
 

@@ -48,24 +48,24 @@ const ARRAY = []
 export const TODAY = new Date().toLocaleDateString()
 export const YESTERDAY = addDays(new Date(), -1).toLocaleDateString()
 
-const normalizedSessions = sessions =>
+const normalizedSessions = (sessions) =>
   sessions
     .sort(sortBy('lastActiveAt'))
     .filter(({ hasExpired }) => !hasExpired)
     .slice(0, 5)
 
-const getPlatformIcon = platform => {
+const getPlatformIcon = (platform) => {
   if (platform.match(/Tablet|iPad/i)) return <Tablet />
   if (
     platform.match(
-      /Mobile|Windows Phone|Lumia|Android|webOS|iPhone|iPod|iOS|Blackberry|PlayBook|BB10|Opera Mini|\bCrMo\/|Opera Mobi/i
+      /Mobile|Windows Phone|Lumia|Android|webOS|iPhone|iPod|iOS|Blackberry|PlayBook|BB10|Opera Mini|\bCrMo\/|Opera Mobi/i,
     )
   ) {
     return <Mobile />
   } else return <Desktop />
 }
 
-const formatDate = date => {
+const formatDate = (date) => {
   const dateFormat = new Date(date)
   const { HH, mm } = getTimeFormats(dateFormat)
   const timeString = `at ${HH}:${mm}`
@@ -84,38 +84,34 @@ const formatDate = date => {
   }
 }
 
-export function useUserSessions () {
+export function useUserSessions() {
   const { data, loading, refetch } = useQuery(SESSIONS_QUERY)
 
   return useMemo(
     () => [
-      data && data.getAuthSessions
-        ? normalizedSessions(data.getAuthSessions)
-        : ARRAY,
+      data && data.getAuthSessions ? normalizedSessions(data.getAuthSessions) : ARRAY,
       loading,
-      refetch
+      refetch,
     ],
-    [data]
+    [data],
   )
 }
 
 const UNAUTHORIZED_MSG = 'Unauthorized'
 
-export function useRemoveSession (jti, isCurrent, refreshWidget) {
+export function useRemoveSession(jti, isCurrent, refreshWidget) {
   const [mutate, data] = useMutation(
-    isCurrent ? DESTROY_CURRENT_SESSION_QUERY : DESTROY_SESSION_QUERY
+    isCurrent ? DESTROY_CURRENT_SESSION_QUERY : DESTROY_SESSION_QUERY,
   )
 
-  function onRemove () {
+  function onRemove() {
     return mutate({ variables: { refreshTokenJti: jti } })
       .then(() => {
-        store.dispatch(
-          showNotification('Session has been revoked successfully')
-        )
+        store.dispatch(showNotification('Session has been revoked successfully'))
         setTimeout(() => isCurrent && window.location.reload(true), 500)
         refreshWidget(jti)
       })
-      .catch(err => {
+      .catch((err) => {
         if (err.message.includes('Unauthorized')) {
           return UNAUTHORIZED_MSG
         } else {
@@ -127,22 +123,15 @@ export function useRemoveSession (jti, isCurrent, refreshWidget) {
   return { onRemove, data }
 }
 
-const Session = ({
-  client,
-  platform,
-  isCurrent,
-  jti,
-  refreshWidget,
-  lastActiveAt
-}) => {
+const Session = ({ client, platform, isCurrent, jti, refreshWidget, lastActiveAt }) => {
   const {
     onRemove,
-    data: { loading }
+    data: { loading },
   } = useRemoveSession(jti, isCurrent, refreshWidget)
   const [error, setError] = useState(false)
 
-  function onClick () {
-    onRemove().then(msg => {
+  function onClick() {
+    onRemove().then((msg) => {
       if (msg === UNAUTHORIZED_MSG) {
         setError(true)
       }
@@ -151,25 +140,17 @@ const Session = ({
 
   return (
     <>
-      <Dialog
-        title='Action required'
-        size='s'
-        open={error}
-        onClose={() => setError(false)}
-      >
+      <Dialog title='Action required' size='s' open={error} onClose={() => setError(false)}>
         <Dialog.ScrollContent withPadding>
-          The authentification must have been done less than 10 minutes ago.
-          Please, relogin to revoke a session.
+          The authentification must have been done less than 10 minutes ago. Please, relogin to
+          revoke a session.
         </Dialog.ScrollContent>
 
         <Dialog.Actions>
           <Dialog.Approve accent='negative' as={Link} to='/logout'>
             Log out
           </Dialog.Approve>
-          <Dialog.Cancel
-            className={styles.closeDialog}
-            onClick={() => setError(false)}
-          >
+          <Dialog.Cancel className={styles.closeDialog} onClick={() => setError(false)}>
             Cancel
           </Dialog.Cancel>
         </Dialog.Actions>
@@ -181,17 +162,10 @@ const Session = ({
             {platform}, {client}
           </span>
           <span className={styles.time}>
-            {isCurrent
-              ? 'Current session'
-              : `Last active ${formatDate(lastActiveAt)}`}
+            {isCurrent ? 'Current session' : `Last active ${formatDate(lastActiveAt)}`}
           </span>
         </div>
-        <Button
-          accent='negative'
-          isLoading={loading}
-          className={styles.revoke}
-          onClick={onClick}
-        >
+        <Button accent='negative' isLoading={loading} className={styles.revoke} onClick={onClick}>
           Revoke
         </Button>
       </Settings.Row>
@@ -204,11 +178,7 @@ const SettingsSessions = () => {
 
   return sessions.length > 0 && !loading ? (
     <Settings id='sessions' header='Current authorized sessions'>
-      <Skeleton
-        className={styles.loader}
-        show={loading && sessions.length === 0}
-        repeat={1}
-      />
+      <Skeleton className={styles.loader} show={loading && sessions.length === 0} repeat={1} />
       {sessions.map((session, idx) => (
         <Session {...session} key={idx} refreshWidget={refetch} />
       ))}

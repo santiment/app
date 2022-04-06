@@ -2,11 +2,7 @@ import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 
 const DOMINANCE_QUERY = gql`
-  query allProjectsByFunction(
-    $metric: String!
-    $from: DateTime!
-    $to: DateTime!
-  ) {
+  query allProjectsByFunction($metric: String!, $from: DateTime!, $to: DateTime!) {
     allProjectsByFunction(
       function: "{\\"args\\":{\\"filters\\":[{\\"args\\":{\\"market_segments\\": [\\"Stablecoin\\"]},\\"name\\":\\"market_segments\\"}]},\\"name\\":\\"selector\\"}"
     ) {
@@ -16,12 +12,7 @@ const DOMINANCE_QUERY = gql`
       projects {
         slug
         ticker
-        value: aggregatedTimeseriesData(
-          metric: $metric
-          from: $from
-          to: $to
-          aggregation: SUM
-        )
+        value: aggregatedTimeseriesData(metric: $metric, from: $from, to: $to, aggregation: SUM)
       }
     }
   }
@@ -32,14 +23,14 @@ export const useAggregatedProjects = ({ metric, from, to }) => {
     variables: {
       metric,
       from,
-      to
-    }
+      to,
+    },
   })
 
   return {
     data: data ? data.allProjectsByFunction.projects : [],
     loading,
-    error
+    error,
   }
 }
 

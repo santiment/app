@@ -7,27 +7,24 @@ import styles from './SharePanel.module.scss'
 
 class ShareCopyBtn extends PureComponent {
   static propTypes = {
-    shareLink: PropTypes.string.isRequired
+    shareLink: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
-    label: 'Copy link'
+    label: 'Copy link',
   }
 
   state = {
-    notificationTimer: null
+    notificationTimer: null,
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     clearTimeout(this.state.notificationTimer)
   }
 
-  startNotification () {
+  startNotification() {
     this.setState({
-      notificationTimer: setTimeout(
-        () => this.setState({ notificationTimer: null }),
-        1000
-      )
+      notificationTimer: setTimeout(() => this.setState({ notificationTimer: null }), 1000),
     })
   }
 
@@ -36,7 +33,7 @@ class ShareCopyBtn extends PureComponent {
     this.startNotification()
   }
 
-  render () {
+  render() {
     const { label, disabled } = this.props
     return (
       <Button

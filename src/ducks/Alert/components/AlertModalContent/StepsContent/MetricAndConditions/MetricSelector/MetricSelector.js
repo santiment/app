@@ -14,45 +14,40 @@ const suggestedMetrics = {
     _: [
       {
         item: { category: 'Suggested', label: 'Price', key: 'price_usd' },
-        subitems: []
+        subitems: [],
       },
       {
         item: {
           category: 'Suggested',
           label: 'Daily Active Addresses',
-          key: 'daily_active_addresses'
+          key: 'daily_active_addresses',
         },
-        subitems: []
-      }
-    ]
-  }
+        subitems: [],
+      },
+    ],
+  },
 }
 
-function filterCategories (categories, searchTerm) {
+function filterCategories(categories, searchTerm) {
   return Object.keys(categories).reduce((acc, curr) => {
     const category = Object.keys(categories[curr]).reduce((catAcc, catCurr) => {
-      const arr = categories[curr][catCurr].reduce(
-        (arrItemAcc, arrItemCurr) => {
-          const hasItem = arrItemCurr.item.label
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase())
+      const arr = categories[curr][catCurr].reduce((arrItemAcc, arrItemCurr) => {
+        const hasItem = arrItemCurr.item.label.toLowerCase().includes(searchTerm.toLowerCase())
 
-          if (hasItem) {
-            return [
-              ...arrItemAcc,
-              {
-                ...arrItemCurr,
-                subitems: arrItemCurr.subitems.filter(subitem =>
-                  subitem.label.toLowerCase().includes(searchTerm.toLowerCase())
-                )
-              }
-            ]
-          }
+        if (hasItem) {
+          return [
+            ...arrItemAcc,
+            {
+              ...arrItemCurr,
+              subitems: arrItemCurr.subitems.filter((subitem) =>
+                subitem.label.toLowerCase().includes(searchTerm.toLowerCase()),
+              ),
+            },
+          ]
+        }
 
-          return arrItemAcc
-        },
-        []
-      )
+        return arrItemAcc
+      }, [])
 
       if (arr.length > 0) {
         return { ...catAcc, [catCurr]: arr }
@@ -78,18 +73,16 @@ const MetricSelector = ({ selectedMetric, metrics, target, onChange }) => {
 
   const allCategories = useMemo(
     () => filterCategories(categories, searchTerm),
-    [categories, searchTerm]
+    [categories, searchTerm],
   )
 
   const allMetrics = useMemo(
     () =>
       getByAvailable(
-        metrics.some(m => m.includes('nvt'))
-          ? metrics.concat('nvt_5min')
-          : metrics,
-        target
+        metrics.some((m) => m.includes('nvt')) ? metrics.concat('nvt_5min') : metrics,
+        target,
       ),
-    [metrics, target]
+    [metrics, target],
   )
 
   const allSubmetrics = useMergedTimeboundSubmetrics(metrics)
@@ -100,7 +93,7 @@ const MetricSelector = ({ selectedMetric, metrics, target, onChange }) => {
     setCategories({ ...suggestedMetrics, ...newCategories })
   }, [metrics, allMetrics, isBeta])
 
-  function handleSelectMetric (metric) {
+  function handleSelectMetric(metric) {
     setMetric(metric.key)
     onChange(metric)
   }
@@ -114,7 +107,7 @@ const MetricSelector = ({ selectedMetric, metrics, target, onChange }) => {
         className={styles.search}
         placeholder={'Search for metric'}
         value={searchTerm}
-        onChange={e => setSearchTerm(e.target.value)}
+        onChange={(e) => setSearchTerm(e.target.value)}
       />
       <MetricsList
         metricsList={allCategories}

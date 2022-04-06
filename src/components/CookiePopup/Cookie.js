@@ -1,12 +1,7 @@
 import React from 'react'
 
 const Cookie = ({ className }) => (
-  <svg
-    xmlns='http://www.w3.org/2000/svg'
-    className={className}
-    viewBox='0 0 102 128'
-    fill='none'
-  >
+  <svg xmlns='http://www.w3.org/2000/svg' className={className} viewBox='0 0 102 128' fill='none'>
     <path
       fill='var(--athens)'
       d='M16 43C-12.8 50.8.6 75.2 29.4 102.6c28.9 27.4 74.1 11.5 54.6-15-19.6-26.4 17.5-31.3 18-56.8.5-25.4-21.6-37.8-37.6-18.4S52.1 33 16 43z'
@@ -91,10 +86,7 @@ const Cookie = ({ className }) => (
       strokeWidth='1.5'
       d='M41.1 37.1c-5-.2-3.5 8.6 1.3 6.8 4.8-1.8 3.8-6.6-1.3-6.8zM41.9 16.6c-5.1-.2-3.6 9.6 1.2 7.6s3.9-7.4-1.2-7.6z'
     />
-    <path
-      fill='var(--porcelain)'
-      d='M27.5 79c5-4 7.5 3.5 3.5 7.5s-12 7-20 0S22.5 83 27.5 79z'
-    />
+    <path fill='var(--porcelain)' d='M27.5 79c5-4 7.5 3.5 3.5 7.5s-12 7-20 0S22.5 83 27.5 79z' />
     <path
       stroke='var(--waterloo)'
       strokeLinecap='round'

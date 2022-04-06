@@ -18,20 +18,10 @@ const StepsContent = ({ selectorSettings }) => {
       return <WalletAndConditionsSelector selectorSettings={selectorSettings} />
     }
     case 'Screener': {
-      return (
-        <WatchlistAndScreenerSelector
-          type='screener'
-          selectorSettings={selectorSettings}
-        />
-      )
+      return <WatchlistAndScreenerSelector type='screener' selectorSettings={selectorSettings} />
     }
     case 'Watchlist': {
-      return (
-        <WatchlistAndScreenerSelector
-          type='watchlist'
-          selectorSettings={selectorSettings}
-        />
-      )
+      return <WatchlistAndScreenerSelector type='watchlist' selectorSettings={selectorSettings} />
     }
     case 'Asset': {
       return <AssetSelector selectorSettings={selectorSettings} />

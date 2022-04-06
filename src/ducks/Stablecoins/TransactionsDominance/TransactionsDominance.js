@@ -7,24 +7,24 @@ import { millify } from '../../../utils/formatting'
 import styles from './TransactionsDominance.module.scss'
 
 const DEFAULT_SETTINGS = {
-  metric: 'transaction_volume'
+  metric: 'transaction_volume',
 }
 
-const calculatePercentValues = data => {
+const calculatePercentValues = (data) => {
   const sum = data.reduce((acc, { value }) => {
     return acc + value
   }, 0)
 
-  return data.map(item => ({
+  return data.map((item) => ({
     ...item,
-    value: (100 * item.value) / sum
+    value: (100 * item.value) / sum,
   }))
 }
 
 const TransactionsDominance = ({ settings }) => {
   const { data, loading } = useAggregatedProjects({
     ...DEFAULT_SETTINGS,
-    ...settings
+    ...settings,
   })
   const [isDominance, setIsDominance] = useState(false)
 
@@ -33,7 +33,7 @@ const TransactionsDominance = ({ settings }) => {
 
     const newData = isDominance ? calculatePercentValues(filtered) : filtered
 
-    return newData.sort(sortByValue).map(item => ({ ...item, key: item.slug }))
+    return newData.sort(sortByValue).map((item) => ({ ...item, key: item.slug }))
   }, [data, isDominance])
 
   return (
@@ -41,20 +41,14 @@ const TransactionsDominance = ({ settings }) => {
       {loading && <PageLoader />}
       {!loading && (
         <>
-          <div
-            className={styles.toggle}
-            onClick={() => setIsDominance(!isDominance)}
-          >
+          <div className={styles.toggle} onClick={() => setIsDominance(!isDominance)}>
             <Toggle isActive={isDominance} />
-            <div className={styles.toggleText}>
-              Switch to transaction dominance
-            </div>
+            <div className={styles.toggleText}>Switch to transaction dominance</div>
           </div>
           <ProjectsBarChartWrapper
             data={prepared}
             settings={{
-              valueFormatter: val =>
-                isDominance ? `${millify(val)} %` : `${millify(val)}`
+              valueFormatter: (val) => (isDominance ? `${millify(val)} %` : `${millify(val)}`),
             }}
           />
         </>

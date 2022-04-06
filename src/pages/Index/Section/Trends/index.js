@@ -14,7 +14,7 @@ const TRENDS_HIDDEN_COLUMNS = [Column.SOCIAL_VOLUME]
 
 const TabType = {
   SOCIAL_TOOL: 'Social Tool',
-  SOCIAL_TRENDS: 'Social Trends'
+  SOCIAL_TRENDS: 'Social Trends',
 }
 
 const TabTypeContent = {
@@ -24,31 +24,23 @@ const TabTypeContent = {
       <>
         <h4 className={styles.title}>{RECENT_SOCIAL_TOOL.title}</h4>
         <p className={styles.text}>{RECENT_SOCIAL_TOOL.description}</p>
-        <SocialGrid
-          className={styles.socialgrid}
-          topics={RECENT_SOCIAL_TOOL.topics}
-        />
+        <SocialGrid className={styles.socialgrid} topics={RECENT_SOCIAL_TOOL.topics} />
       </>
     ),
     description:
-      '‘Google Trends’ for crypto. Monitor the interest in any topic on dedicated cryptocurrency social channels, including 1000+ Telegram groups, crypto subreddits, Twitter accounts and more.'
+      '‘Google Trends’ for crypto. Monitor the interest in any topic on dedicated cryptocurrency social channels, including 1000+ Telegram groups, crypto subreddits, Twitter accounts and more.',
   },
 
   [TabType.SOCIAL_TRENDS]: {
     href: '/labs/trends/',
-    widget: (
-      <Santrends
-        className={styles.santrends}
-        hiddenColumnIds={TRENDS_HIDDEN_COLUMNS}
-      />
-    ),
+    widget: <Santrends className={styles.santrends} hiddenColumnIds={TRENDS_HIDDEN_COLUMNS} />,
     description: (
       <>
-        Track the top emerging topics on crypto social media, including Telegram
-        groups, crypto subreddits, Twitter and more
+        Track the top emerging topics on crypto social media, including Telegram groups, crypto
+        subreddits, Twitter and more
       </>
-    )
-  }
+    ),
+  },
 }
 
 const Tabs = ({ tabState }) => (
@@ -64,11 +56,7 @@ const Trends = () => {
   const { href, description, widget } = TabTypeContent[activeTab]
 
   return (
-    <Section
-      title={<Tabs tabState={tabState} />}
-      className={styles.wrapper}
-      id={SOCIAL_ANCHOR}
-    >
+    <Section title={<Tabs tabState={tabState} />} className={styles.wrapper} id={SOCIAL_ANCHOR}>
       <div className={styles.description}>{description}</div>
       <Link to={href} className={styles.link}>
         Start researching {activeTab}

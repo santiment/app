@@ -12,18 +12,18 @@ const ApiErrorsContext = React.createContext()
 export const ApiErrorsProvider = ({ children }) => {
   const [errorsForMetrics, setErrorsForMetrics] = useState(API_ERRORS_DATA)
 
-  function load () {
+  function load() {
     const controller = new AbortController()
     fetch(API_TEST_URL, {
-      signal: controller.signal
+      signal: controller.signal,
     })
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
           return {}
         }
         return response.json()
       })
-      .then(data => {
+      .then((data) => {
         setErrorsForMetrics(data)
         API_ERRORS_DATA = data
       })
@@ -42,13 +42,9 @@ export const ApiErrorsProvider = ({ children }) => {
     }
   }, [])
 
-  return (
-    <ApiErrorsContext.Provider value={errorsForMetrics}>
-      {children}
-    </ApiErrorsContext.Provider>
-  )
+  return <ApiErrorsContext.Provider value={errorsForMetrics}>{children}</ApiErrorsContext.Provider>
 }
 
-export function useApiErrors () {
+export function useApiErrors() {
   return React.useContext(ApiErrorsContext)
 }

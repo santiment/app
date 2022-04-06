@@ -6,7 +6,7 @@ import styles from './BtcStatistics.module.scss'
 
 const SETTINGS = {
   from: 'utc_now-1d',
-  to: 'utc_now'
+  to: 'utc_now',
 }
 
 const BtcStatistics = () => {

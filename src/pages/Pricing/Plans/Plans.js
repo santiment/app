@@ -18,7 +18,7 @@ const Billing = ({ selected, onClick }) => {
         className={cx(
           styles.billing__option,
           styles.billing__montly,
-          !isYearSelected && styles.billing__option_active
+          !isYearSelected && styles.billing__option_active,
         )}
       >
         Monthly
@@ -32,7 +32,7 @@ const Billing = ({ selected, onClick }) => {
         className={cx(
           styles.billing__option,
           styles.billing__option_year,
-          isYearSelected && styles.billing__option_active
+          isYearSelected && styles.billing__option_active,
         )}
         onClick={() => onClick('year')}
       >
@@ -60,13 +60,8 @@ const Plans = ({ id, classes = {} }) => {
       <div id={id} className={cx(styles.billing, classes.billing)}>
         <Billing selected={billing} onClick={setBilling} />
       </div>
-      <div
-        className={cx(
-          styles.cards,
-          showingPlans.length === 2 && styles.cards__two
-        )}
-      >
-        {showingPlans.map(plan => (
+      <div className={cx(styles.cards, showingPlans.length === 2 && styles.cards__two)}>
+        {showingPlans.map((plan) => (
           <PricingPlan
             key={plan.id}
             plan={plan}
@@ -78,11 +73,7 @@ const Plans = ({ id, classes = {} }) => {
         ))}
       </div>
 
-      <PlanDetails
-        plans={plans}
-        billing={billing}
-        subscription={subscription}
-      />
+      <PlanDetails plans={plans} billing={billing} subscription={subscription} />
     </>
   )
 }

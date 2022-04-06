@@ -4,7 +4,7 @@ import { ProjectsTreeMap } from '../../../ducks/Watchlists/Widgets/VolumeChart/P
 import {
   INFOGRAPHICS,
   PRICE_CHANGE_RANGES,
-  SOCIAL_VOLUME_CHANGE_RANGES
+  SOCIAL_VOLUME_CHANGE_RANGES,
 } from '../../../ducks/Watchlists/Widgets/VolumeChart/utils'
 import MakeProSubscriptionCard from '../../feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
 import ProjectsChart from '../../../ducks/Watchlists/Widgets/VolumeChart/ProjectsChart'
@@ -22,14 +22,9 @@ const Infographics = ({
   toggleAssetsFiltering,
   listId,
   type = 'Screener',
-  className
+  className,
 }) => {
-  const {
-    isPriceChartActive,
-    isMovement,
-    isPriceTreeMap,
-    isVolumeTreeMap
-  } = widgets
+  const { isPriceChartActive, isMovement, isPriceTreeMap, isVolumeTreeMap } = widgets
   const { priceTreeMap, socialVolumeTreeMap, priceBarChart } = widgets
 
   const { isPro } = useUserSubscriptionStatus()

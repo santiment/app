@@ -1,6 +1,6 @@
 import COLOR from '@santiment-network/ui/variables.scss'
 
-export function drawPaywall (chart, leftBoundaryDate, rightBoundaryDate) {
+export function drawPaywall(chart, leftBoundaryDate, rightBoundaryDate) {
   const { ctx, points, left, top, right, width, height } = chart
 
   const lastIndex = points.length - 1
@@ -45,7 +45,7 @@ export function drawPaywall (chart, leftBoundaryDate, rightBoundaryDate) {
   ctx.restore()
 }
 
-function getBoundaryX (chart, factor, target, firstDate) {
+function getBoundaryX(chart, factor, target, firstDate) {
   const { points } = chart
 
   const index = Math.round((target - firstDate) * factor)

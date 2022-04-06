@@ -3,7 +3,7 @@ import {
   HIDE_NOTIFICATION,
   APP_CHANGE_ONLINE_STATUS,
   USER_DIGEST_CHANGE,
-  APP_LAUNCHED
+  APP_LAUNCHED,
 } from './types'
 
 export const showNotification = (payload = { title: 'Empty message' }) => {
@@ -13,28 +13,28 @@ export const showNotification = (payload = { title: 'Empty message' }) => {
     type: SHOW_NOTIFICATION,
     payload: {
       ...newPayload,
-      id: Date.now()
-    }
+      id: Date.now(),
+    },
   }
 }
 
-export const hideNotification = id => ({
+export const hideNotification = (id) => ({
   type: HIDE_NOTIFICATION,
   payload: {
-    id
-  }
+    id,
+  },
 })
 
-export const changeNetworkStatus = newtworkStatus => ({
+export const changeNetworkStatus = (newtworkStatus) => ({
   type: APP_CHANGE_ONLINE_STATUS,
   payload: {
-    isOnline: newtworkStatus
-  }
+    isOnline: newtworkStatus,
+  },
 })
 
 export const changeDigestSubscription = (type = 'WEEKLY') => ({
   type: USER_DIGEST_CHANGE,
-  payload: type
+  payload: type,
 })
 
 export const launchApp = () => ({ type: APP_LAUNCHED })

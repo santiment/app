@@ -2,12 +2,7 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import styles from './IndexTab.module.scss'
 
-const IndexTab = ({
-  tabs,
-  initialTab = 0,
-  renderTopActions = [],
-  bottomActions = []
-}) => {
+const IndexTab = ({ tabs, initialTab = 0, renderTopActions = [], bottomActions = [] }) => {
   const [activeTab, setTab] = useState(initialTab)
 
   const tab = tabs[activeTab]
@@ -18,7 +13,7 @@ const IndexTab = ({
       <div className={styles.header}>
         {renderTopActions(activeTab)}
         <div className={styles.tabs}>
-          {tabs.map(item => {
+          {tabs.map((item) => {
             if (!item) {
               return null
             }

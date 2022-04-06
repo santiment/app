@@ -16,7 +16,7 @@ const TypeDropdown = ({
   onChange,
   showPercentFilters,
   isOnlyPercentFilters,
-  isDefaultOpen
+  isDefaultOpen,
 }) => {
   const [open, setOpen] = useState(!!isDefaultOpen)
 
@@ -25,11 +25,7 @@ const TypeDropdown = ({
       on='click'
       trigger={
         <Button variant='flat' border className={styles.trigger}>
-          <img
-            src={Filter[type].icon}
-            alt='filter type'
-            className={styles.img}
-          />
+          <img src={Filter[type].icon} alt='filter type' className={styles.img} />
         </Button>
       }
       position='bottom'
@@ -45,10 +41,7 @@ const TypeDropdown = ({
           const badge = Filter[key].badge
           let isShow = true
 
-          if (
-            (!showPercentFilters && showTimeRange) ||
-            (isOnlyPercentFilters && badge !== '%')
-          ) {
+          if ((!showPercentFilters && showTimeRange) || (isOnlyPercentFilters && badge !== '%')) {
             isShow = false
           }
 
@@ -56,15 +49,10 @@ const TypeDropdown = ({
             <Fragment key={key}>
               {key === METRIC_SEPARATOR && (
                 <div
-                  className={cx(
-                    styles.separator,
-                    isOnlyPercentFilters && styles.separator__first
-                  )}
+                  className={cx(styles.separator, isOnlyPercentFilters && styles.separator__first)}
                 >
                   <span className={styles.label}>Percentage change</span>
-                  <ProPopupWrapper type='screener'>
-                    {!isPro && <ProLabel />}
-                  </ProPopupWrapper>
+                  <ProPopupWrapper type='screener'>{!isPro && <ProLabel />}</ProPopupWrapper>
                 </div>
               )}
               {isDisabled && !isPro ? (

@@ -24,40 +24,40 @@ import styles from './StablecoinsPage.module.scss'
 const ANCHORS = {
   Overview: {
     label: 'Stablecoins Overview',
-    key: 'overview'
+    key: 'overview',
   },
   WhaleTrends: {
     label: 'Whale Trends',
-    key: 'whale-trends'
+    key: 'whale-trends',
   },
   FlowToExchanges: {
     label: 'Flow to Exchanges',
-    key: 'flow-to-exchanges'
+    key: 'flow-to-exchanges',
   },
   TopExchanges: {
     label: 'Top Exchanges',
-    key: 'top-exchanges'
+    key: 'top-exchanges',
   },
   NetExchangeFlow: {
     label: 'Stablecoin Net Exchange Flow',
-    key: 'net-exchange-flow'
+    key: 'net-exchange-flow',
   },
   LargestTransactions: {
     label: 'Largest Transactions to Exchanges',
-    key: 'largest-transactions'
+    key: 'largest-transactions',
   },
   HolderDistribution: {
     label: 'Holder Distribution',
-    key: 'holder-distribution'
+    key: 'holder-distribution',
   },
   TransactionDominance: {
     label: 'Transaction Activity',
-    key: 'transaction-activity'
+    key: 'transaction-activity',
   },
   NetworkActivity: {
     label: 'Network Activity',
-    key: 'network-activity'
-  }
+    key: 'network-activity',
+  },
 }
 
 const StablecoinsPage = ({ isDesktop }) => {
@@ -68,13 +68,13 @@ const StablecoinsPage = ({ isDesktop }) => {
         meta={[
           {
             property: 'og:title',
-            content: 'Stablecoin Hub | Sanbase'
+            content: 'Stablecoin Hub | Sanbase',
           },
           {
             property: 'og:description',
             content:
-              'Real-time information on the biggest stablecoins’ market size, whale behavior, speculative demand and more.'
-          }
+              'Real-time information on the biggest stablecoins’ market size, whale behavior, speculative demand and more.',
+          },
         ]}
       />
 
@@ -83,8 +83,8 @@ const StablecoinsPage = ({ isDesktop }) => {
           <div className={styles.pageDescription}>
             <h3 className={styles.title}>Stablecoin Financial</h3>
             <div className={styles.description}>
-              Real-time information on the biggest stablecoins’ market size,
-              whale behavior, speculative demand and more.
+              Real-time information on the biggest stablecoins’ market size, whale behavior,
+              speculative demand and more.
             </div>
 
             <SharePage />
@@ -127,16 +127,10 @@ const StablecoinsPage = ({ isDesktop }) => {
           </Block>
 
           <Block tag={ANCHORS.TopExchanges.key}>
-            <TopExchangesTable
-              isStablecoinPage
-              selector={{ watchlistId: isStage ? 1115 : 3985 }}
-            />
+            <TopExchangesTable isStablecoinPage selector={{ watchlistId: isStage ? 1115 : 3985 }} />
           </Block>
 
-          <Block
-            tag={ANCHORS.NetExchangeFlow.key}
-            title='Stablecoin Net Exchange Flow'
-          >
+          <Block tag={ANCHORS.NetExchangeFlow.key} title='Stablecoin Net Exchange Flow'>
             <NetExchangeFlow />
           </Block>
 

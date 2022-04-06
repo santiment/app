@@ -13,11 +13,7 @@ const SheetsTemplatePage = ({ history }) => {
   return (
     <div className={cx('page', styles.container)}>
       <MobileOnly>
-        <MobileHeader
-          showBack={true}
-          goBack={history.goBack}
-          classes={styles}
-        />
+        <MobileHeader showBack={true} goBack={history.goBack} classes={styles} />
       </MobileOnly>
 
       <div className={styles.chart}>

@@ -15,9 +15,7 @@ const WalletLink = ({ address, labels, isTx = false, ...rest }) => {
   if (!showDialog) {
     return (
       <SmoothDropdownItem
-        trigger={
-          <DefaultAssetLinkWithLabels address={address} labels={labels} />
-        }
+        trigger={<DefaultAssetLinkWithLabels address={address} labels={labels} />}
       >
         <ul className={styles.wrapper}>
           <li>{address}</li>
@@ -26,9 +24,7 @@ const WalletLink = ({ address, labels, isTx = false, ...rest }) => {
     )
   }
 
-  return (
-    <EthWalletLink address={address} labels={labels} isTx={isTx} {...rest} />
-  )
+  return <EthWalletLink address={address} labels={labels} isTx={isTx} {...rest} />
 }
 
 const EthWalletLink = ({
@@ -42,7 +38,7 @@ const EthWalletLink = ({
   isTx,
   address,
   className,
-  children
+  children,
 }) => {
   const trigger = inputTrigger || (
     <ActionLabels

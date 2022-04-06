@@ -7,11 +7,11 @@ import styles from './PlansDialog.module.scss'
 const PlansDialog = ({ subscription }) => {
   const [opened, setOpened] = useState(false)
 
-  function closeDialog () {
+  function closeDialog() {
     setOpened(false)
   }
 
-  function openDialog () {
+  function openDialog() {
     setOpened(true)
   }
 

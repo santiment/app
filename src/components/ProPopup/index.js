@@ -50,13 +50,13 @@ const ProPopup = ({ title, description, features, ...props }) => {
 ProPopup.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
-  features: PropTypes.array
+  features: PropTypes.array,
 }
 
 ProPopup.defaultProps = {
   title: '',
   description: '',
-  features: EMPTY_ARRAY
+  features: EMPTY_ARRAY,
 }
 
 export default ProPopup

@@ -1,9 +1,6 @@
 import React from 'react'
 import { formatNumber } from '../../../../utils/formatting'
-import {
-  percentageFormatter,
-  usdFormatter
-} from '../../../dataHub/metrics/formatters'
+import { percentageFormatter, usdFormatter } from '../../../dataHub/metrics/formatters'
 import WalletLink from '../../../../components/WalletLink/WalletLink'
 
 const AddressCell = ({ value, row: { original }, ...rest }) => {
@@ -15,27 +12,27 @@ export const COLUMNS = [
     Header: 'Address',
     accessor: 'address',
     disableSortBy: true,
-    Cell: AddressCell
+    Cell: AddressCell,
   },
   {
     Header: 'Value',
     accessor: 'value',
     Cell: ({ value }) => formatNumber(value),
-    disableSortBy: true
+    disableSortBy: true,
   },
   {
     Header: 'Value USD',
     accessor: 'valueUsd',
     Cell: ({ value }) => usdFormatter(value),
-    disableSortBy: true
+    disableSortBy: true,
   },
   {
     Header: 'Part Of Total',
     accessor: 'partOfTotal',
     Cell: ({ value }) =>
       percentageFormatter(100 * value, {
-        fractionDigits: 100 * value > 0.01 ? 2 : 6
+        fractionDigits: 100 * value > 0.01 ? 2 : 6,
       }),
-    disableSortBy: true
-  }
+    disableSortBy: true,
+  },
 ]

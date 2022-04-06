@@ -15,12 +15,12 @@ const NftInfluencersPage = () => {
         meta={[
           {
             property: 'og:title',
-            content: 'NFT Influencers Dashboard | Sanbase'
+            content: 'NFT Influencers Dashboard | Sanbase',
           },
           {
             property: 'og:description',
-            content: 'NFT Influencers Trx'
-          }
+            content: 'NFT Influencers Trx',
+          },
         ]}
       />
 

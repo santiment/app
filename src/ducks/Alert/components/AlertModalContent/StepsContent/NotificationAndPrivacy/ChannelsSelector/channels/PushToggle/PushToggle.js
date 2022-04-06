@@ -3,12 +3,7 @@ import SourceToggle from '../SourceToggle'
 import TriggerChannelSettings from '../../../../../../../../Signals/signalFormManager/signalCrudForm/formParts/channels/TriggerChannelSettings'
 import styles from '../../ChannelsSelector.module.scss'
 
-const PushToggle = ({
-  disabled,
-  checkPushAvailability,
-  isActive,
-  onChange
-}) => (
+const PushToggle = ({ disabled, checkPushAvailability, isActive, onChange }) => (
   <SourceToggle
     disabled={disabled}
     isActive={isActive}
@@ -19,11 +14,7 @@ const PushToggle = ({
         <TriggerChannelSettings
           showTrigger={disabled}
           recheckBrowserNotifications={checkPushAvailability}
-          trigger={
-            <div className={styles.channelSettingsTrigger}>
-              Enable notifications
-            </div>
-          }
+          trigger={<div className={styles.channelSettingsTrigger}>Enable notifications</div>}
         />
       </>
     }

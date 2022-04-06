@@ -1,11 +1,11 @@
-export const mapWithTimeseries = items =>
-  items.map(item => ({
+export const mapWithTimeseries = (items) =>
+  items.map((item) => ({
     ...item,
     datetime: +new Date(item.datetime),
-    index: item.datetime
+    index: item.datetime,
   }))
 
-export const mapWithMidnightTime = date => {
+export const mapWithMidnightTime = (date) => {
   const datetime = new Date(date)
   datetime.setUTCHours(0, 0, 0, 0)
   return +new Date(datetime)
@@ -15,18 +15,12 @@ export const mapWithTimeseriesAndYCoord = (
   triggered,
   triggersBy,
   timeseries,
-  toDayConversion = true
+  toDayConversion = true,
 ) => {
-  const {
-    key,
-    dataKey = key,
-    historicalTriggersDataKey: mappingKey = dataKey
-  } = triggersBy
+  const { key, dataKey = key, historicalTriggersDataKey: mappingKey = dataKey } = triggersBy
 
-  const mapped = triggered.map(point => {
-    const date = toDayConversion
-      ? mapWithMidnightTime(point.datetime)
-      : +new Date(point.datetime)
+  const mapped = triggered.map((point) => {
+    const date = toDayConversion ? mapWithMidnightTime(point.datetime) : +new Date(point.datetime)
     const item = timeseries.find(({ datetime }) => datetime === date)
 
     const fromTimeseries = item ? item[dataKey] || item[key] : undefined
@@ -39,7 +33,7 @@ export const mapWithTimeseriesAndYCoord = (
 }
 
 export const cleanByDatakeys = (timeseries, dataKey) => {
-  return timeseries.filter(item => item[dataKey] !== undefined)
+  return timeseries.filter((item) => item[dataKey] !== undefined)
 }
 
 export const makeSameRange = (points, base) => {
@@ -57,14 +51,11 @@ export const mapToRequestedMetrics = (metrics, settings) =>
     name,
     fetch,
     ...settings,
-    ...reqMeta
+    ...reqMeta,
   }))
 
-export const getAvailableCooldown = baseCooldown => {
-  if (
-    baseCooldown &&
-    (baseCooldown.indexOf('d') !== -1 || baseCooldown.indexOf('w') !== -1)
-  ) {
+export const getAvailableCooldown = (baseCooldown) => {
+  if (baseCooldown && (baseCooldown.indexOf('d') !== -1 || baseCooldown.indexOf('w') !== -1)) {
     return '1d'
   }
 

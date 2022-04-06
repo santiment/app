@@ -19,28 +19,28 @@ import styles from './ETH2Dashboard.module.scss'
 const ANCHORS = {
   StakingRoi: {
     label: 'Staking Roi',
-    key: 'staking-roi'
+    key: 'staking-roi',
   },
   TotalStaked: {
     label: 'Total Staked',
-    key: 'total-staked'
+    key: 'total-staked',
   },
   StakedAmount: {
     label: 'Staked amount by Label',
-    key: 'staked-by-label'
+    key: 'staked-by-label',
   },
   StakedAddresses: {
     label: 'Number of Staked Addresses by Label',
-    key: 'staked-addresses'
+    key: 'staked-addresses',
   },
   UnlabeledInflow: {
     label: 'Unlabeled Staker Inflow Sources',
-    key: 'unlabeled-inflow'
+    key: 'unlabeled-inflow',
   },
   TopStakers: {
     label: 'Top Stakers',
-    key: 'top-stakers'
-  }
+    key: 'top-stakers',
+  },
 }
 
 const ETH2Dashboard = () => {
@@ -51,24 +51,21 @@ const ETH2Dashboard = () => {
         meta={[
           {
             property: 'og:title',
-            content: 'ETH 2.0 Dashboard | Sanbase'
+            content: 'ETH 2.0 Dashboard | Sanbase',
           },
           {
             property: 'og:description',
-            content: 'ETH 2.0 Dashboard'
-          }
+            content: 'ETH 2.0 Dashboard',
+          },
         ]}
       />
 
       <div className={externalStyles.header}>
         <div className={cx(externalStyles.inner, externalStyles.content)}>
           <div className={externalStyles.pageDescription}>
-            <h3 className={externalStyles.title}>
-              Ethereum 2.0 Staking Analytics
-            </h3>
+            <h3 className={externalStyles.title}>Ethereum 2.0 Staking Analytics</h3>
             <div className={externalStyles.description}>
-              Information all about staking metrics and statistics for the new
-              Ethereum 2.0
+              Information all about staking metrics and statistics for the new Ethereum 2.0
             </div>
             <SharePage />
           </div>
@@ -89,31 +86,19 @@ const ETH2Dashboard = () => {
             <EthStakingRoi />
           </Block>
 
-          <Block
-            title={ANCHORS.TotalStaked.label}
-            tag={ANCHORS.TotalStaked.key}
-          >
+          <Block title={ANCHORS.TotalStaked.label} tag={ANCHORS.TotalStaked.key}>
             <EthTotalStaked />
           </Block>
 
-          <Block
-            title={ANCHORS.StakedAmount.label}
-            tag={ANCHORS.StakedAmount.key}
-          >
+          <Block title={ANCHORS.StakedAmount.label} tag={ANCHORS.StakedAmount.key}>
             <EthStakedAmountByLabel />
           </Block>
 
-          <Block
-            title={ANCHORS.StakedAddresses.label}
-            tag={ANCHORS.StakedAddresses.key}
-          >
+          <Block title={ANCHORS.StakedAddresses.label} tag={ANCHORS.StakedAddresses.key}>
             <EthStakedAddressesByLabel />
           </Block>
 
-          <Block
-            title={ANCHORS.UnlabeledInflow.label}
-            tag={ANCHORS.UnlabeledInflow.key}
-          >
+          <Block title={ANCHORS.UnlabeledInflow.label} tag={ANCHORS.UnlabeledInflow.key}>
             <EthUnlabeledStackerInflow />
           </Block>
 

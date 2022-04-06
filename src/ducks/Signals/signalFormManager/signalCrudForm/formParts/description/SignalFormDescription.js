@@ -9,11 +9,7 @@ const SignalFormDescription = ({ setFieldValue, description, className }) => {
   return (
     <>
       <div className={cx(styles.Field, styles.fieldFilled)}>
-        <FormikLabel
-          text={`Description (${
-            (description || '').length
-          }/${MAX_DESCR_LENGTH})`}
-        />
+        <FormikLabel text={`Description (${(description || '').length}/${MAX_DESCR_LENGTH})`} />
         <FormikTextarea
           placeholder='Description of the alert'
           name='description'

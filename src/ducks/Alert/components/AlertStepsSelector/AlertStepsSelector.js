@@ -15,13 +15,13 @@ const AlertStepsSelector = ({
     setVisitedSteps,
     finishedSteps,
     invalidStepsMemo,
-    setInvalidSteps
-  }
+    setInvalidSteps,
+  },
 }) => {
   const { values } = useFormikContext()
   const hasDisabledStep = items.length !== 3 && isMetricsDisabled
 
-  function handleStepClick (stepIndex) {
+  function handleStepClick(stepIndex) {
     setSelectedStep(stepIndex)
 
     if (stepIndex > 0) {
@@ -29,13 +29,13 @@ const AlertStepsSelector = ({
         values,
         type: selectedType,
         setInvalidSteps,
-        onlyValidate: true
+        onlyValidate: true,
       })
     }
 
     if (!visitedSteps.has(stepIndex)) {
       if (!(hasDisabledStep && stepIndex === 1)) {
-        setVisitedSteps(prev => [...prev, stepIndex])
+        setVisitedSteps((prev) => [...prev, stepIndex])
       }
     }
   }
@@ -85,8 +85,8 @@ const AlertStepsSelector = ({
       hasDisabledStep,
       finishedSteps,
       selectedStep,
-      invalidStepsMemo
-    ]
+      invalidStepsMemo,
+    ],
   )
 
   return (

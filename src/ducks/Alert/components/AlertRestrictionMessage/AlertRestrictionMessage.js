@@ -13,8 +13,8 @@ const AlertRestrictionMessage = ({ shouldHideRestrictionMessage }) => {
     <div className={cx(styles.wrapper, 'row v-center')}>
       <Icon type='alert' className={styles.icon} />
       <div className='body-2'>
-        <span className='txt-m'>Duration restriction!</span> Your Alert will be
-        valid for 30 days. To extend Alert please{' '}
+        <span className='txt-m'>Duration restriction!</span> Your Alert will be valid for 30 days.
+        To extend Alert please{' '}
         <Link to='/pricing' className={cx(styles.link, 'txt-m')}>
           Update your Plan.
         </Link>

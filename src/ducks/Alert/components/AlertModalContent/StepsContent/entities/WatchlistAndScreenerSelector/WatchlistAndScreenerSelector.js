@@ -7,24 +7,19 @@ import NextStep from '../../NextStep/NextStep'
 import WatchlistsAndScreenersList from './WatchlistsList/WatchlistsAndScreenersList'
 import {
   useProjectScreeners,
-  useProjectWatchlists
+  useProjectWatchlists,
 } from '../../../../../../Watchlists/gql/lists/hooks'
 import styles from './WatchlistAndScreenerSelector.module.scss'
 
 const WatchlistAndScreenerSelector = ({
-  selectorSettings: {
-    setSelectedStep,
-    selectedStep,
-    visitedSteps,
-    setVisitedSteps
-  },
+  selectorSettings: { setSelectedStep, selectedStep, visitedSteps, setVisitedSteps },
   type,
-  isSocial
+  isSocial,
 }) => {
   const [, { value }, { setValue }] = useField(
     type === 'watchlist'
       ? 'settings.target.watchlist_id'
-      : 'settings.operation.selector.watchlist_id'
+      : 'settings.operation.selector.watchlist_id',
   )
   const [, , { setValue: setMetric }] = useField('settings.metric')
   const [, , { setValue: setTimeWindow }] = useField('settings.time_window')
@@ -36,24 +31,22 @@ const WatchlistAndScreenerSelector = ({
   const filteredItems = useMemo(() => {
     if (type === 'watchlist') {
       return watchlists.filter(
-        watchlist => watchlist.name.toLowerCase().indexOf(searchTerm) !== -1
+        (watchlist) => watchlist.name.toLowerCase().indexOf(searchTerm) !== -1,
       )
     }
 
-    return screeners.filter(
-      screener => screener.name.toLowerCase().indexOf(searchTerm) !== -1
-    )
+    return screeners.filter((screener) => screener.name.toLowerCase().indexOf(searchTerm) !== -1)
   }, [screeners, watchlists, searchTerm])
 
-  function handleNextClick () {
+  function handleNextClick() {
     setSelectedStep(selectedStep + 1)
 
     if (!visitedSteps.has(selectedStep + 1)) {
-      setVisitedSteps(prev => [...prev, selectedStep + 1])
+      setVisitedSteps((prev) => [...prev, selectedStep + 1])
     }
   }
 
-  function handleSelectWatchlist (id) {
+  function handleSelectWatchlist(id) {
     if (value === id) {
       setValue('')
     } else {
@@ -71,16 +64,12 @@ const WatchlistAndScreenerSelector = ({
       {!isSocial && (
         <div className={styles.titleWrapper}>
           <StepTitle
-            title={
-              type === 'watchlist' ? 'Select Watchlist' : 'Select Screener'
-            }
+            title={type === 'watchlist' ? 'Select Watchlist' : 'Select Screener'}
             className={styles.title}
           />
           {value && (
             <NextStep
-              label={
-                type === 'watchlist' ? 'Choose Metric' : 'Notification settings'
-              }
+              label={type === 'watchlist' ? 'Choose Metric' : 'Notification settings'}
               onClick={handleNextClick}
             />
           )}
@@ -91,11 +80,9 @@ const WatchlistAndScreenerSelector = ({
         icon='search-small'
         iconPosition='left'
         className={styles.search}
-        placeholder={
-          type === 'watchlist' ? 'Search for watchlist' : 'Search for screener'
-        }
+        placeholder={type === 'watchlist' ? 'Search for watchlist' : 'Search for screener'}
         value={searchTerm}
-        onChange={e => setSearchTerm(e.target.value)}
+        onChange={(e) => setSearchTerm(e.target.value)}
       />
       <WatchlistsAndScreenersList
         isSocial={isSocial}
@@ -107,12 +94,7 @@ const WatchlistAndScreenerSelector = ({
   )
 
   if (watchlistsLoading || screenersLoading) {
-    children = (
-      <PageLoader
-        containerClass={styles.loaderWrapper}
-        className={styles.loader}
-      />
-    )
+    children = <PageLoader containerClass={styles.loaderWrapper} className={styles.loader} />
   }
 
   return <div className={styles.wrapper}>{children}</div>

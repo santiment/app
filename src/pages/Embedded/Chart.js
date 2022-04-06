@@ -8,15 +8,8 @@ import { globals } from 'studio/stores/globals'
 import { newWidget } from 'studio/stores/widgets'
 import { parseQueryString } from 'studio/ChartWidget/Controls/Embed/utils'
 
-const {
-  from,
-  to,
-  slug,
-  ticker,
-  isNightMode,
-  isWithMetricSettings,
-  ...widgetProps
-} = parseQueryString(window.location.search)
+const { from, to, slug, ticker, isNightMode, isWithMetricSettings, ...widgetProps } =
+  parseQueryString(window.location.search)
 
 studio.setProject({ from, to, slug, ticker })
 globals.toggle('isNightMode', isNightMode)
@@ -29,8 +22,8 @@ window.onload = () => {
     target: document.body,
     props: {
       isWithMetricSettings,
-      widget: newWidget(null, widgetProps)
-    }
+      widget: newWidget(null, widgetProps),
+    },
   })
 }
 

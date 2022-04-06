@@ -24,7 +24,7 @@ const TableTop = ({
   setOrderBy,
   activeColumns,
   updateActiveColumnsKeys,
-  toggleSelected
+  toggleSelected,
 }) => {
   const [refreshTimestamp, setRefreshTimestamp] = useState(Date.now)
   const disabledComparision = comparingAssets.length < 2
@@ -37,7 +37,7 @@ const TableTop = ({
           id={watchlist.id}
           watchlist={watchlist}
           assets={allItems}
-          onSave={onRefetchDone => refetchAssets(onRefetchDone)}
+          onSave={(onRefetchDone) => refetchAssets(onRefetchDone)}
           trigger={
             <Button border accent='positive' className={styles.addassets}>
               <Icon type='assets' className={styles.icon} />
@@ -49,17 +49,12 @@ const TableTop = ({
       <Refresh
         timestamp={refreshTimestamp}
         isLoading={isLoading}
-        onRefreshClick={() =>
-          setRefreshTimestamp(Date.now()) || refetchAssets()
-        }
+        onRefreshClick={() => setRefreshTimestamp(Date.now()) || refetchAssets()}
       />
       {comparingAssets && (
         <div className={styles.leftActions}>
           <div className={styles.compareAction}>
-            <CompareAction
-              assets={comparingAssets}
-              disabledComparision={disabledComparision}
-            />
+            <CompareAction assets={comparingAssets} disabledComparision={disabledComparision} />
           </div>
           {comparingAssets.length > 0 && (
             <CompareInfo

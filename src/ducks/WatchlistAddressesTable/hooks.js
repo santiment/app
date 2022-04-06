@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 
 const ARRAY = []
 
-const ADDRESS_HISTORICAL_BALANCE_QUERY = slug => gql`
+const ADDRESS_HISTORICAL_BALANCE_QUERY = (slug) => gql`
   query historicalBalance($address: String!) {
     historicalBalance(
       address: $address
@@ -17,9 +17,9 @@ const ADDRESS_HISTORICAL_BALANCE_QUERY = slug => gql`
   }
 `
 
-export function useAddressHistoricalBalance (address, slug) {
+export function useAddressHistoricalBalance(address, slug) {
   const { data } = useQuery(ADDRESS_HISTORICAL_BALANCE_QUERY(slug), {
-    variables: { address }
+    variables: { address },
   })
 
   return data ? data.historicalBalance : ARRAY

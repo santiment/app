@@ -31,7 +31,7 @@ const WatchlistTable = ({
   const [refreshTimestamp, setRefreshTimestamp] = useState(Date.now)
   const csvData = useMemo(() => normalizeCSVData(items), [items])
   const selectedItemsSet = useSelectedItemsSet(items)
-  const refreshList = onRefreshDone =>
+  const refreshList = (onRefreshDone) =>
     onRefreshClick(watchlist.id, () => {
       setRefreshTimestamp(Date.now())
       typeof onRefreshDone === 'function' && onRefreshDone()
@@ -62,17 +62,15 @@ const WatchlistTable = ({
                 onAdd={(watchlistId, _, onAddDone) =>
                   updateWatchlistShort({
                     id: watchlistId,
-                    listItems: items.map(a => mapAddressToAPIType(a))
+                    listItems: items.map((a) => mapAddressToAPIType(a)),
                   }).then(() => refreshList(onAddDone))
                 }
                 onRemove={(watchlistId, listItems, onRemoveDone) => {
-                  const addresses = listItems.map(l => l.address)
-                  const removeItems = items.filter(
-                    l => !addresses.includes(l.address)
-                  )
+                  const addresses = listItems.map((l) => l.address)
+                  const removeItems = items.filter((l) => !addresses.includes(l.address))
                   return updateWatchlistShort({
                     id: watchlistId,
-                    listItems: removeItems.map(a => mapAddressToAPIType(a))
+                    listItems: removeItems.map((a) => mapAddressToAPIType(a)),
                   }).then(() => refreshList(onRemoveDone))
                 }}
               />
@@ -86,11 +84,7 @@ const WatchlistTable = ({
               activeColumns={activeColumns}
               updateActiveColumnsKeys={updateActiveColumnsKeys}
             />
-            <DownloadCSV
-              type={BLOCKCHAIN_ADDRESS}
-              watchlist={watchlist}
-              data={csvData}
-            />
+            <DownloadCSV type={BLOCKCHAIN_ADDRESS} watchlist={watchlist} data={csvData} />
           </div>
         </div>
       </DesktopOnly>
@@ -140,7 +134,7 @@ const WatchlistTable = ({
   )
 }
 WatchlistTable.defaultProps = {
-  normalizeCSVData: _ => _
+  normalizeCSVData: (_) => _,
 }
 
 export default WatchlistTable

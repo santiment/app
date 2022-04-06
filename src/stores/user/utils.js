@@ -1,9 +1,9 @@
 import { client } from '../../apollo'
 
-export const buildRefetcher = query => () =>
+export const buildRefetcher = (query) => () =>
   client.query({
     query,
-    fetchPolicy: 'network-only'
+    fetchPolicy: 'network-only',
   })
 
 export const update = (prevState, updater) =>

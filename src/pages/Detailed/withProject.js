@@ -11,7 +11,7 @@ export default graphql(projectBySlugGQL, {
       project,
       isERC20,
       loading,
-      error
+      error,
     }
   },
   options: ({ slug }) => {
@@ -24,9 +24,9 @@ export default graphql(projectBySlugGQL, {
         from: from.toISOString(),
         to: to.toISOString(),
         fromOverTime: fromOverTime.toISOString(),
-        interval: '7d'
-      }
+        interval: '7d',
+      },
     }
   },
-  skip: ({ slug }) => !slug
+  skip: ({ slug }) => !slug,
 })

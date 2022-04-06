@@ -5,34 +5,25 @@ import FormDialogNewTemplate from './Dialog/NewTemplate'
 import styles from './index.module.scss'
 import btnStyles from './Button.module.scss'
 
-const SaveAction = ({
-  template,
-  isLoggedIn,
-  saveTemplate,
-  onNewTemplate,
-  ...props
-}) => {
+const SaveAction = ({ template, isLoggedIn, saveTemplate, onNewTemplate, ...props }) => {
   const [isDialogOpened, setIsDialogOpened] = useState(false)
 
   const onActionClick = template && isLoggedIn ? saveTemplate : openDialog
   const actionComponent = (
-    <span
-      className={cx(btnStyles.action, btnStyles.save)}
-      onClick={onActionClick}
-    >
+    <span className={cx(btnStyles.action, btnStyles.save)} onClick={onActionClick}>
       Save{template ? '' : ' as'}
     </span>
   )
 
-  function openDialog () {
+  function openDialog() {
     setIsDialogOpened(true)
   }
 
-  function closeDialog () {
+  function closeDialog() {
     setIsDialogOpened(false)
   }
 
-  function onNew (template) {
+  function onNew(template) {
     onNewTemplate(template)
     closeDialog()
   }
@@ -62,17 +53,10 @@ export default ({
   ...props
 }) => (
   <div className={btnStyles.btn} ref={forwardedRef}>
-    <SaveAction
-      {...props}
-      template={selectedTemplate}
-      onNewTemplate={onNewTemplate}
-    />
+    <SaveAction {...props} template={selectedTemplate} onNewTemplate={onNewTemplate} />
 
     <span className={btnStyles.action} onClick={openMenu}>
-      <Icon
-        type='arrow-down'
-        className={cx(btnStyles.arrow, isMenuOpened && styles.active)}
-      />
+      <Icon type='arrow-down' className={cx(btnStyles.arrow, isMenuOpened && styles.active)} />
     </span>
   </div>
 )

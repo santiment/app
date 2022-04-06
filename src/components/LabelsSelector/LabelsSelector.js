@@ -22,19 +22,15 @@ const LabelsSelector = ({ onChange }) => {
   const shortInputState = useMemo(() => {
     const text = state.map(({ label }) => label).join(', ')
 
-    return text.length > MAX_VISIBLE_SYMBOLS
-      ? text.slice(0, MAX_VISIBLE_SYMBOLS) + '...'
-      : text
+    return text.length > MAX_VISIBLE_SYMBOLS ? text.slice(0, MAX_VISIBLE_SYMBOLS) + '...' : text
   }, [state])
 
-  function addItemInState (item) {
+  function addItemInState(item) {
     setState([...state, item])
 
     const isInList = state.find(({ type }) => type === item.type)
 
-    setState(
-      isInList ? state.filter(a => a.type !== item.type) : [item, ...state]
-    )
+    setState(isInList ? state.filter((a) => a.type !== item.type) : [item, ...state])
   }
 
   return (
@@ -60,14 +56,12 @@ const LabelsSelector = ({ onChange }) => {
           <div className={styles.content}>
             <div className={styles.scroller}>
               <div className={styles.list}>
-                {HOLDERS_LABELS.map(item => {
+                {HOLDERS_LABELS.map((item) => {
                   const { label, type } = item
-                  const selected = state.find(
-                    ({ type: target }) => target === type
-                  )
+                  const selected = state.find(({ type: target }) => target === type)
 
                   const isDisabled = state.find(
-                    ({ type: target }) => DISABLED_PAIRS[target] === type
+                    ({ type: target }) => DISABLED_PAIRS[target] === type,
                   )
 
                   return (

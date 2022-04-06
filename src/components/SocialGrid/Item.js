@@ -15,23 +15,13 @@ import Chart from './Chart'
 import styles from './Item.module.scss'
 import NewLabel from '../NewLabel/NewLabel'
 
-const Item = ({
-  topic,
-  title,
-  link,
-  createdAt,
-  metrics,
-  show,
-  onLoad,
-  settings,
-  createSignal
-}) => {
+const Item = ({ topic, title, link, createdAt, metrics, show, onLoad, settings, createSignal }) => {
   const MetricSettingMap = useMemo(() => {
     const MetricSettingMap = new Map()
 
     MetricSettingMap.set(metrics[0], {
       selector: 'text',
-      slug: topic
+      slug: topic,
     })
 
     return MetricSettingMap
@@ -41,10 +31,7 @@ const Item = ({
     <article className={styles.wrapper}>
       <div className={styles.top}>
         <Link to={`/labs/trends/explore/${link}`} className={styles.text}>
-          {[
-            <NewLabel date={createdAt} className={styles.new} key='new' />,
-            title
-          ]}
+          {[<NewLabel date={createdAt} className={styles.new} key='new' />, title]}
         </Link>
         <div className={styles.actions}>
           <LoginPopup>
@@ -57,12 +44,7 @@ const Item = ({
             >
               <DarkTooltip
                 align='end'
-                trigger={
-                  <Icon
-                    type='signal'
-                    className={cx(styles.signal, styles.icon)}
-                  />
-                }
+                trigger={<Icon type='signal' className={cx(styles.signal, styles.icon)} />}
                 position='top'
               >
                 Create an alert if the phrase
@@ -80,12 +62,7 @@ const Item = ({
               trigger={
                 <Button variant='flat' className={styles.button}>
                   <DarkTooltip
-                    trigger={
-                      <Icon
-                        type='cloud-big'
-                        className={cx(styles.context, styles.icon)}
-                      />
-                    }
+                    trigger={<Icon type='cloud-big' className={cx(styles.context, styles.icon)} />}
                     position='top'
                     align='end'
                   >
@@ -111,10 +88,10 @@ const Item = ({
   ) : null
 }
 
-const mapDispatchToProps = dispatch => ({
-  createSignal: payload => {
+const mapDispatchToProps = (dispatch) => ({
+  createSignal: (payload) => {
     dispatch(createTrigger(payload))
-  }
+  },
 })
 
 export default connect(null, mapDispatchToProps)(Item)

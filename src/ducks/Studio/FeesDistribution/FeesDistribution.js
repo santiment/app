@@ -18,7 +18,7 @@ export const FEE_RANGES = [
   { value: '1h', label: '1h' },
   { value: '1d', label: '24h' },
   { value: '7d', label: '7d' },
-  { value: '30d', label: '30d' }
+  { value: '30d', label: '30d' },
 ]
 
 const FEES_DISTRIBUTION = gql`
@@ -39,16 +39,14 @@ const useFeeDistributions = ({ from, to }) => {
   const { data, loading, error } = useQuery(FEES_DISTRIBUTION, {
     variables: {
       from,
-      to
-    }
+      to,
+    },
   })
 
   return {
-    data: data
-      ? data.ethFeesDistribution.map(item => ({ ...item.project, ...item }))
-      : [],
+    data: data ? data.ethFeesDistribution.map((item) => ({ ...item.project, ...item })) : [],
     loading,
-    error
+    error,
   }
 }
 
@@ -56,7 +54,7 @@ const FeesDistribution = ({ onDisable, deleteWidget, widget }) => {
   const [interval, setInterval] = useState('1d')
   const [settings, setSettings] = useState(formIntervalSettings(interval))
 
-  function onCloseClick () {
+  function onCloseClick() {
     deleteWidget(widget)
   }
 
@@ -90,23 +88,18 @@ const FeesDistribution = ({ onDisable, deleteWidget, widget }) => {
   )
 }
 
-export const FeesDistributionChart = ({
-  className,
-  settings,
-  onDisable,
-  interval
-}) => {
+export const FeesDistributionChart = ({ className, settings, onDisable, interval }) => {
   const [selectedPeriod, setSelectedPeriod] = useState(null)
   const { data, loading, error } = useFeeDistributions(
-    selectedPeriod ? { ...settings, ...selectedPeriod } : { ...settings }
+    selectedPeriod ? { ...settings, ...selectedPeriod } : { ...settings },
   )
 
   const prepared = useMemo(() => {
-    return data.map(item => {
+    return data.map((item) => {
       return {
         ...item,
         key: item.slug || item.address,
-        clickable: !!item.slug
+        clickable: !!item.slug,
       }
     })
   }, [data])
@@ -122,7 +115,7 @@ export const FeesDistributionChart = ({
     return null
   }
 
-  function changeDay (date) {
+  function changeDay(date) {
     setSelectedPeriod(getTimePeriod(date))
   }
 
@@ -137,7 +130,7 @@ export const FeesDistributionChart = ({
         <ProjectsBarChartWrapper
           data={prepared}
           settings={{
-            valueFormatter: val => `${millify(val)}`
+            valueFormatter: (val) => `${millify(val)}`,
           }}
           dataKey='fees'
           layout='vertical'
@@ -147,14 +140,14 @@ export const FeesDistributionChart = ({
   )
 }
 
-FeesDistribution.new = props =>
+FeesDistribution.new = (props) =>
   ChartWidget.new(
     {
       mergedMetrics: [],
       metrics: [],
-      ...props
+      ...props,
     },
-    FeesDistribution
+    FeesDistribution,
   )
 
 export default FeesDistribution

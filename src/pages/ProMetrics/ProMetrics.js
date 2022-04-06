@@ -19,11 +19,7 @@ const ProMetrics = ({ history, isLoggedIn }) => {
     <div className={cx('page', styles.container)}>
       <div className={styles.inner}>
         <MobileOnly>
-          <MobileHeader
-            showBack={true}
-            goBack={history.goBack}
-            classes={styles}
-          />
+          <MobileHeader showBack={true} goBack={history.goBack} classes={styles} />
         </MobileOnly>
 
         <div className={styles.firstStep}>
@@ -32,14 +28,11 @@ const ProMetrics = ({ history, isLoggedIn }) => {
               <Icon type='crown' /> Pro Google Sheets templates
             </div>
 
-            <div className={styles.perksTitle}>
-              The Perks of Being a Pro Subscriber on Sanbase
-            </div>
+            <div className={styles.perksTitle}>The Perks of Being a Pro Subscriber on Sanbase</div>
 
             <div className={styles.description}>
-              Next to many other perks, Sanbase Pro subscribers get access to
-              exclusive templates, dynamic reports and market-beating indices
-              developed by the Santiment team.
+              Next to many other perks, Sanbase Pro subscribers get access to exclusive templates,
+              dynamic reports and market-beating indices developed by the Santiment team.
             </div>
 
             <div className={styles.description}>
@@ -59,7 +52,7 @@ const ProMetrics = ({ history, isLoggedIn }) => {
               metric={metric}
               key={index}
               classes={{
-                container: styles.firstGroup
+                container: styles.firstGroup,
               }}
             />
           ))}
@@ -67,13 +60,11 @@ const ProMetrics = ({ history, isLoggedIn }) => {
           <div
             className={cx(styles.ask, styles.bgSvg)}
             style={{
-              background: 'url(' + upgradeSvg + ') repeat-x bottom'
+              background: 'url(' + upgradeSvg + ') repeat-x bottom',
             }}
           >
             <div className={styles.askBlock}>
-              <div className={styles.askTitle}>
-                Convinced to upgrade already?
-              </div>
+              <div className={styles.askTitle}>Convinced to upgrade already?</div>
 
               <UpgradeBtn className={styles.askUpgradeBtn} />
             </div>
@@ -87,7 +78,7 @@ const ProMetrics = ({ history, isLoggedIn }) => {
                 key={index}
                 classes={{
                   container: styles.secondGroup,
-                  svg: styles.secondGroupSvg
+                  svg: styles.secondGroupSvg,
                 }}
               />
             ))}
@@ -103,7 +94,7 @@ const ProMetrics = ({ history, isLoggedIn }) => {
                 key={index}
                 classes={{
                   container: styles.thirdGroup,
-                  svg: styles.thirdGroupSvg
+                  svg: styles.thirdGroupSvg,
                 }}
               />
             ))}

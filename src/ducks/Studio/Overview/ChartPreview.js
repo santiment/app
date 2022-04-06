@@ -25,18 +25,12 @@ const ChartPreview = ({ widget, selectedMetrics, currentPhase, onClick }) => {
 
   useWidgetMessageEffect(widget, drawChart)
 
-  function drawChart () {
+  function drawChart() {
     const { current: widgetChart } = widget.chartRef
     if (!widgetChart || !chart) return
 
     clearCtx(chart)
-    chart.ctx.drawImage(
-      widgetChart.canvas,
-      0,
-      0,
-      chart.canvasWidth,
-      chart.canvasHeight + 25
-    )
+    chart.ctx.drawImage(widgetChart.canvas, 0, 0, chart.canvasWidth, chart.canvasHeight + 25)
   }
 
   return (
@@ -44,7 +38,7 @@ const ChartPreview = ({ widget, selectedMetrics, currentPhase, onClick }) => {
       className={cx(
         styles.item,
         styles[currentPhase],
-        currentPhase === Phase.MAPVIEW_SELECTION && isBlocked && styles.block
+        currentPhase === Phase.MAPVIEW_SELECTION && isBlocked && styles.block,
       )}
       onClick={() => onClick(widget)}
     >
@@ -53,7 +47,7 @@ const ChartPreview = ({ widget, selectedMetrics, currentPhase, onClick }) => {
         className={cx(
           styles.metrics,
           currentPhase === Phase.MAPVIEW_SELECTION && styles.metrics_visible,
-          isBlocked && styles.metrics_blocked
+          isBlocked && styles.metrics_blocked,
         )}
       >
         <div className={styles.metrics__list}>

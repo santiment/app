@@ -16,7 +16,7 @@ const FilterMetricSettings = ({
   onFirstThresholdChange,
   onSecondThresholdChange,
   onSuggestionClick,
-  settings: { firstThreshold, secondThreshold, timeRange, type }
+  settings: { firstThreshold, secondThreshold, timeRange, type },
 }) => {
   const inputRef = useRef(null)
   const isShowTimeRange = Filter[type].showTimeRange || metric.showTimeRange
@@ -36,7 +36,7 @@ const FilterMetricSettings = ({
         <TypeDropdown
           isPro={isPro}
           type={type}
-          onChange={props => {
+          onChange={(props) => {
             onFilterTypeChange(props)
 
             if (inputRef.current) {

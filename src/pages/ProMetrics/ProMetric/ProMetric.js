@@ -7,16 +7,10 @@ import styles from './ProMetric.module.scss'
 const ProMetric = ({
   classes = {},
   metric: { title, description, svg, isImage, isLeft, linkToTemplate },
-  isProSanbase
+  isProSanbase,
 }) => {
   return (
-    <div
-      className={cx(
-        styles.container,
-        classes.container,
-        isLeft && styles.isLeft
-      )}
-    >
+    <div className={cx(styles.container, classes.container, isLeft && styles.isLeft)}>
       <div className={styles.descriptions}>
         <div className={styles.title}>{title}</div>
         <div className={styles.description}>{description}</div>
@@ -54,8 +48,7 @@ const UpgradeToUse = ({ className }) => {
   return (
     <UpgradeBtn className={className} variant='flat' showCrownIcon={false}>
       <>
-        Upgrade to use{' '}
-        <Icon className={styles.upgradeIcon} type='pointer-right' />
+        Upgrade to use <Icon className={styles.upgradeIcon} type='pointer-right' />
       </>
     </UpgradeBtn>
   )

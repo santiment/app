@@ -9,43 +9,42 @@ export const ALERT_TYPES = [
       target: { slug: '' },
       channel: [],
       time_window: '',
-      operation: {}
+      operation: {},
     },
     steps: [
       {
         label: 'Select Asset',
-        description:
-          'You can create an alert for a specific asset. Choose one or multiple assets'
+        description: 'You can create an alert for a specific asset. Choose one or multiple assets',
       },
       {
         label: 'Choose Metric and Conditions',
         description:
-          'Depend on which asset you choose, there will be available metrics for it and the opposite...'
+          'Depend on which asset you choose, there will be available metrics for it and the opposite...',
       },
       {
         label: 'Set up Notifications and Privacy',
-        description: 'Choose one or multiple alert methods'
+        description: 'Choose one or multiple alert methods',
       },
       {
         label: 'Check name and description',
         description:
-          'Name and description are generated automatically, but you can change it at your will'
-      }
+          'Name and description are generated automatically, but you can change it at your will',
+      },
     ],
     subSteps: [
       {
-        label: 'Asset'
+        label: 'Asset',
       },
       {
-        label: 'Metric & Conditions'
+        label: 'Metric & Conditions',
       },
       {
-        label: 'Notification & Privacy settings'
+        label: 'Notification & Privacy settings',
       },
       {
-        label: 'Name & Description'
-      }
-    ]
+        label: 'Name & Description',
+      },
+    ],
   },
   {
     title: 'Watchlist',
@@ -57,42 +56,42 @@ export const ALERT_TYPES = [
       target: { watchlist_id: '' },
       channel: [],
       time_window: '',
-      operation: {}
+      operation: {},
     },
     steps: [
       {
         label: 'Select Watchlist',
-        description: 'You can choose any of your watchlists'
+        description: 'You can choose any of your watchlists',
       },
       {
         label: 'Choose Metric and Conditions',
         description:
-          'Depend on which watchlist you choose, there will be available metrics for it and the opposite...'
+          'Depend on which watchlist you choose, there will be available metrics for it and the opposite...',
       },
       {
         label: 'Set up Notifications and Privacy',
-        description: 'Choose one or multiple alert methods'
+        description: 'Choose one or multiple alert methods',
       },
       {
         label: 'Check name and description',
         description:
-          'Name and description are generated automatically, but you can change it at your will'
-      }
+          'Name and description are generated automatically, but you can change it at your will',
+      },
     ],
     subSteps: [
       {
-        label: 'Watchlist'
+        label: 'Watchlist',
       },
       {
-        label: 'Metric & Conditions'
+        label: 'Metric & Conditions',
       },
       {
-        label: 'Notification & Privacy settings'
+        label: 'Notification & Privacy settings',
       },
       {
-        label: 'Name & Description'
-      }
-    ]
+        label: 'Name & Description',
+      },
+    ],
   },
   {
     title: 'Screener',
@@ -102,39 +101,38 @@ export const ALERT_TYPES = [
       type: 'screener_signal',
       metric: 'social_volume_total',
       channel: [],
-      operation: { selector: { watchlist_id: '' } }
+      operation: { selector: { watchlist_id: '' } },
     },
     steps: [
       {
         label: 'Select Screener',
-        description: 'You can choose any of your screener'
+        description: 'You can choose any of your screener',
       },
       {
         label: 'Set up Notifications and Privacy',
-        description: 'Choose one or multiple alert methods'
+        description: 'Choose one or multiple alert methods',
       },
       {
         label: 'Check name and description',
         description:
-          'Name and description are generated automatically, but you can change it at your will'
-      }
+          'Name and description are generated automatically, but you can change it at your will',
+      },
     ],
     subSteps: [
       {
-        label: 'Screener'
+        label: 'Screener',
       },
       {
-        label: 'Notification & Privacy settings'
+        label: 'Notification & Privacy settings',
       },
       {
-        label: 'Name & Description'
-      }
-    ]
+        label: 'Name & Description',
+      },
+    ],
   },
   {
     title: 'Wallet address',
-    description:
-      'Create an alert for the specific asset inside a certain wallet',
+    description: 'Create an alert for the specific asset inside a certain wallet',
     iconType: 'wallet',
     settings: {
       type: 'wallet_movement',
@@ -142,71 +140,70 @@ export const ALERT_TYPES = [
       selector: { infrastructure: '', slug: '' },
       channel: [],
       time_window: '',
-      operation: {}
+      operation: {},
     },
     steps: [
       {
         label: 'Choose Wallet & Conditions',
-        description: 'You can choose any wallet'
+        description: 'You can choose any wallet',
       },
       {
         label: 'Set up Notifications and Privacy',
-        description: 'Choose one or multiple alert methods'
+        description: 'Choose one or multiple alert methods',
       },
       {
         label: 'Check name and description',
         description:
-          'Name and description are generated automatically, but you can change it at your will'
-      }
+          'Name and description are generated automatically, but you can change it at your will',
+      },
     ],
     subSteps: [
       {
-        label: 'Wallet & Conditions'
+        label: 'Wallet & Conditions',
       },
       {
-        label: 'Notification & Privacy settings'
+        label: 'Notification & Privacy settings',
       },
       {
-        label: 'Name & Description'
-      }
-    ]
+        label: 'Name & Description',
+      },
+    ],
   },
   {
     title: 'Social trends',
-    description:
-      'Create an alert for any of the social words, asset or watchlist',
+    description: 'Create an alert for any of the social words, asset or watchlist',
     iconType: 'social',
     settings: {
       type: 'trending_words',
       channel: [],
       target: { slug: '' },
-      operation: { trending_project: true }
+      operation: { trending_project: true },
     },
     steps: [
       {
         label: 'Choose Social trend',
-        description: 'You can choose any social word, asset or watchlist'
+        description: 'You can choose any social word, asset or watchlist',
       },
       {
         label: 'Set up Notifications and Privacy',
-        description: 'Choose one or multiple alert methods'
+        description: 'Choose one or multiple alert methods',
       },
       {
         label: 'Check name and description',
         description:
-          'Name and description are generated automatically, but you can change it at your will'
-      }
+          'Name and description are generated automatically, but you can change it at your will',
+      },
     ],
     subSteps: [
       {
-        label: 'Social trend'
+        label: 'Social trend',
       },
       {
-        label: 'Notification & Privacy settings'
+        label: 'Notification & Privacy settings',
       },
       {
-        label: 'Name & Description'
-      }
-    ]
-  }
+        label: 'Name & Description',
+      },
+    ],
+  },
 ]

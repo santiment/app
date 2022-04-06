@@ -2,11 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import cx from 'classnames'
 import { initChart, updateChartState } from '@santiment-network/chart'
 import { initTooltip } from '@santiment-network/chart/tooltip'
-import {
-  plotLines,
-  plotFilledLines,
-  plotGradientLine
-} from '@santiment-network/chart/lines'
+import { plotLines, plotFilledLines, plotGradientLine } from '@santiment-network/chart/lines'
 import { plotAreas } from '@santiment-network/chart/areas'
 import { plotAutoWidthBars, plotBars } from '@santiment-network/chart/bars'
 import { plotGreenRedBars } from '@santiment-network/chart/bars/greenRedBars'
@@ -20,7 +16,7 @@ import {
   CHART_PADDING,
   BRUSH_PADDING,
   DOUBLE_AXIS_PADDING,
-  buildPadding
+  buildPadding,
 } from './settings'
 import { ResizeListener, onResize } from './resize'
 import { clearCtx } from './utils'
@@ -71,7 +67,7 @@ const Chart = ({
   onBrushChangeEnd,
   children,
   xAxesTicks,
-  yAxesTicks
+  yAxesTicks,
 }) => {
   const { isNightMode } = useTheme()
   let [chart, setChart] = useState()
@@ -93,9 +89,9 @@ const Chart = ({
         buildPadding(
           chartPadding,
           isShowBrush && BRUSH_PADDING,
-          axesMetricKeys[1] && DOUBLE_AXIS_PADDING
-        )
-      )
+          axesMetricKeys[1] && DOUBLE_AXIS_PADDING,
+        ),
+      ),
     )
     chart.tooltipKey = tooltipKey
 
@@ -107,7 +103,7 @@ const Chart = ({
         dayBrushPaintConfig,
         plotBrushData,
         undefined,
-        onBrushChangeEnd
+        onBrushChangeEnd,
       )
       brush.canvas.classList.add(styles.brush)
       setBrush(brush)
@@ -152,7 +148,7 @@ const Chart = ({
     chart.hideWatermark = hideWatermark
     chart.isWatermarkVisible = !hideWatermark
     chart.syncTooltips = syncTooltips
-    chart.drawTooltip = point => plotTooltip(chart, marker, point)
+    chart.drawTooltip = (point) => plotTooltip(chart, marker, point)
     chart.xAxesTicks = xAxesTicks
     chart.yAxesTicks = yAxesTicks
   }
@@ -168,22 +164,15 @@ const Chart = ({
 
       const scale = length / (endTimestamp - startTimestamp)
 
-      if (
-        !brushData[startIndex] ||
-        fromTimestamp !== brushData[startIndex].datetime
-      ) {
+      if (!brushData[startIndex] || fromTimestamp !== brushData[startIndex].datetime) {
         startIndex = Math.trunc(scale * (fromTimestamp - startTimestamp))
       }
 
-      if (
-        !brushData[endIndex] ||
-        toTimestamp !== brushData[endIndex].datetime
-      ) {
+      if (!brushData[endIndex] || toTimestamp !== brushData[endIndex].datetime) {
         endIndex = Math.trunc(scale * (toTimestamp - startTimestamp))
       }
 
-      startIndex =
-        startIndex > 0 ? (startIndex < length ? startIndex : length - 1) : 0
+      startIndex = startIndex > 0 ? (startIndex < length ? startIndex : length - 1) : 0
       endIndex = endIndex > 0 ? (endIndex < length ? endIndex : length - 1) : 0
 
       if (endIndex - startIndex < 2) {
@@ -210,13 +199,7 @@ const Chart = ({
     if (data.length === 0) return
 
     clearCtx(chart)
-    updateChartState(
-      chart,
-      data,
-      joinedCategories,
-      domainModifier,
-      domainGroups
-    )
+    updateChartState(chart, data, joinedCategories, domainModifier, domainGroups)
     plotChart(data)
 
     if (!hideAxes) {
@@ -231,7 +214,7 @@ const Chart = ({
     isNightMode,
     isCartesianGridActive,
     isWatermarkLighter,
-    hideWatermark
+    hideWatermark,
   ])
 
   useEffect(() => {
@@ -243,7 +226,7 @@ const Chart = ({
 
   useEffect(handleResize, [...resizeDependencies, data])
 
-  function handleResize () {
+  function handleResize() {
     if (data.length === 0 || !chart) {
       return
     }
@@ -251,18 +234,12 @@ const Chart = ({
     const padding = buildPadding(
       chartPadding,
       isShowBrush && BRUSH_PADDING,
-      axesMetricKeys[1] && DOUBLE_AXIS_PADDING
+      axesMetricKeys[1] && DOUBLE_AXIS_PADDING,
     )
 
     onResize(chart, padding, brush, brushData, joinedCategories)
 
-    updateChartState(
-      chart,
-      data,
-      joinedCategories,
-      domainModifier,
-      domainGroups
-    )
+    updateChartState(chart, data, joinedCategories, domainModifier, domainGroups)
     plotChart(data)
 
     if (!hideAxes) {
@@ -270,7 +247,7 @@ const Chart = ({
     }
   }
 
-  function plotBrushData () {
+  function plotBrushData() {
     plotAutoWidthBars(brush, brushData, autoWidthBars, scale, MetricColor)
     plotGreenRedBars(brush, brushData, greenRedBars[0], scale)
     plotBars(brush, brushData, bars, scale, MetricColor)
@@ -279,7 +256,7 @@ const Chart = ({
     plotGradientLine(brush, brushData, gradientLines, scale, MetricColor)
   }
 
-  function plotChart (data) {
+  function plotChart(data) {
     if (!hideWatermark) {
       drawWatermark(chart, isNightMode, isWatermarkLighter)
     }
@@ -295,20 +272,15 @@ const Chart = ({
     plotLines(chart, data, lines, scale, MetricColor)
 
     if (isCartesianGridActive) {
-      drawCartesianGrid(
-        chart,
-        chart.axesColor,
-        xAxesTicks || 10,
-        yAxesTicks || 8
-      )
+      drawCartesianGrid(chart, chart.axesColor, xAxesTicks || 10, yAxesTicks || 8)
     }
 
     events.forEach(({ metric, key, datetime, value, color }) =>
-      drawReferenceDot(chart, metric, datetime, color, key, value)
+      drawReferenceDot(chart, metric, datetime, color, key, value),
     )
   }
 
-  function marker (ctx, key, value, x, y) {
+  function marker(ctx, key, value, x, y) {
     const { colors } = chart
 
     ctx.fillStyle = colors[key]
@@ -323,13 +295,13 @@ const Chart = ({
       {chart &&
         React.Children.map(
           children,
-          child =>
+          (child) =>
             child &&
             React.cloneElement(child, {
               chart,
               scale,
-              data
-            })
+              data,
+            }),
         )}
     </div>
   )
@@ -347,7 +319,7 @@ Chart.defaultProps = {
   autoWidthBars: [],
   greenRedBars: [],
   joinedCategories: [],
-  resizeDependencies: []
+  resizeDependencies: [],
 }
 
 export default Chart

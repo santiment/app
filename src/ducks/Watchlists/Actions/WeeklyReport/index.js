@@ -15,14 +15,13 @@ import styles from './index.module.scss'
 const NOTIFICATION = {
   connected: {
     title: 'You have email address connected',
-    description:
-      'You’ll receive reports to the email address connected with your account',
+    description: 'You’ll receive reports to the email address connected with your account',
     className: styles.notification,
     variant: 'info',
     classes: {
       title: styles.notificationTitle,
-      conent: styles.notificationDescription
-    }
+      conent: styles.notificationDescription,
+    },
   },
   notConnected: {
     title: 'Please connect your email address',
@@ -32,21 +31,21 @@ const NOTIFICATION = {
     variant: 'warning',
     classes: {
       title: styles.notificationTitle,
-      content: styles.notificationDescription
-    }
-  }
+      content: styles.notificationDescription,
+    },
+  },
 }
 
 const STATUSES = {
   loading: 'Email is verifying',
   success: 'Email is correct',
-  error: 'Error during typing email'
+  error: 'Error during typing email',
 }
 
 const WeeklyReport = ({ trigger, watchlist }) => {
   const { isMonitored: initialIsMonitored, name } = watchlist
   const {
-    settings: { isEmailConnected }
+    settings: { isEmailConnected },
   } = useUserSettings()
   const [isShown, setIsShown] = useState(false)
   const [isMonitored, toggleIsMonitored] = useState(initialIsMonitored)
@@ -65,14 +64,14 @@ const WeeklyReport = ({ trigger, watchlist }) => {
 
   const onSave = () => {
     if (isEmailConnected && initialIsMonitored !== isMonitored) {
-      updateWatchlist(watchlist, { isMonitored }).then(state => {
+      updateWatchlist(watchlist, { isMonitored }).then((state) => {
         toggleIsMonitored(state.isMonitored)
       })
     }
 
     if (!isEmailConnected && emailStatus === STATUSES.success) {
-      updateWatchlist(watchlist, { isMonitored }).then(state =>
-        toggleIsMonitored(state.isMonitored)
+      updateWatchlist(watchlist, { isMonitored }).then((state) =>
+        toggleIsMonitored(state.isMonitored),
       )
     }
 
@@ -93,9 +92,8 @@ const WeeklyReport = ({ trigger, watchlist }) => {
         <EmailImage className={styles.image} />
         <h4 className={styles.title}>Stay in touch with the latest events</h4>
         <p className={styles.description}>
-          Every Sunday, you'll receive a report to your inbox with insights from
-          the San family and people you follow, based on your monitored
-          watchlists.
+          Every Sunday, you'll receive a report to your inbox with insights from the San family and
+          people you follow, based on your monitored watchlists.
         </p>
         <Button
           variant='flat'
@@ -109,7 +107,7 @@ const WeeklyReport = ({ trigger, watchlist }) => {
           className={cx(
             styles.monitoredContent,
             !isEmailConnected && styles.monitoredContent__big,
-            !isMonitored && styles.monitoredContent__hide
+            !isMonitored && styles.monitoredContent__hide,
           )}
         >
           <Notification
@@ -131,9 +129,7 @@ const WeeklyReport = ({ trigger, watchlist }) => {
           variant='fill'
           accent='positive'
           isLoading={!isEmailConnected && emailStatus === STATUSES.loading}
-          disabled={
-            isMonitored && !isEmailConnected && emailStatus === STATUSES.error
-          }
+          disabled={isMonitored && !isEmailConnected && emailStatus === STATUSES.error}
         >
           Save preferences
         </Button>

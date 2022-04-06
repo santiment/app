@@ -13,7 +13,7 @@ export const useDeleteWatchlistItems = () => {
   const [removeWatchlistItems] = useMutation(DELETE_WATCHLIST_ITEMS_QUERY)
 
   return {
-    removeWatchlistItems
+    removeWatchlistItems,
   }
 }
 
@@ -29,6 +29,6 @@ export const useAddWatchlistItems = () => {
   const [addWatchlistItems] = useMutation(ADD_WATCHLIST_ITEMS_QUERY)
 
   return {
-    addWatchlistItems
+    addWatchlistItems,
   }
 }

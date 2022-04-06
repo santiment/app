@@ -3,11 +3,7 @@ import Dialog from '@santiment-network/ui/Dialog'
 import { useTrackEvents } from '../../../hooks/tracking'
 import PageLoader from '../../../components/Loader/PageLoader'
 import LoginPopup from '../../../components/banners/feature/PopupBanner'
-import {
-  NoSignal,
-  signalModalTrigger,
-  TriggerModalTitle
-} from './SignalDialogComponents'
+import { NoSignal, signalModalTrigger, TriggerModalTitle } from './SignalDialogComponents'
 import styles from './SignalMasterModalForm.module.scss'
 
 const SignalDialog = ({
@@ -29,7 +25,7 @@ const SignalDialog = ({
   metaFormSettings,
   buttonParams,
   SignalMaster,
-  noLoginPopupContainer
+  noLoginPopupContainer,
 }) => {
   const [dialogTitle, onSetDialogTitle] = useState('')
   const [isAnonWarning, setAnonWarning] = useState(false)
@@ -42,7 +38,7 @@ const SignalDialog = ({
     (warn = true) => {
       setAnonWarning(warn)
     },
-    [setAnonWarning]
+    [setAnonWarning],
   )
 
   useEffect(() => toggleAnon(!isLoggedIn), [isLoggedIn])
@@ -82,17 +78,14 @@ const SignalDialog = ({
           {
             category: 'user',
             action: 'alerts',
-            method: 'create_new_alert'
+            method: 'create_new_alert',
           },
-          ['ga', 'intercom', 'sanapi']
+          ['ga', 'intercom', 'sanapi'],
         )
         setDialogOpenState(true)
       }}
       onClose={onCloseMainModal}
-      trigger={
-        dialogTrigger ||
-        signalModalTrigger(enabled, label, variant, border, classes)
-      }
+      trigger={dialogTrigger || signalModalTrigger(enabled, label, variant, border, classes)}
       title={
         <TriggerModalTitle
           showSharedBtn={isShared && !isSharedPreview}

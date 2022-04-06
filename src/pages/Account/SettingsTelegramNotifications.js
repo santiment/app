@@ -2,15 +2,12 @@ import React from 'react'
 import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import Toggle from '@santiment-network/ui/Toggle'
-import {
-  useUpdateUserNotifications,
-  useUserSettings
-} from '../../stores/user/settings'
+import { useUpdateUserNotifications, useUserSettings } from '../../stores/user/settings'
 import styles from './AccountPage.module.scss'
 
 const SettingsTelegramNotifications = ({ classes = {}, description }) => {
   const {
-    settings: { alertNotifyTelegram, hasTelegramConnected }
+    settings: { alertNotifyTelegram, hasTelegramConnected },
   } = useUserSettings()
 
   const [update] = useUpdateUserNotifications()
@@ -26,7 +23,7 @@ const SettingsTelegramNotifications = ({ classes = {}, description }) => {
             isActive={alertNotifyTelegram}
             onClick={() =>
               update({
-                alertNotifyTelegram: !alertNotifyTelegram
+                alertNotifyTelegram: !alertNotifyTelegram,
               })
             }
           />

@@ -2,9 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import styles from './index.module.scss'
 
-const AUTH_LINK = (
-  process.env.REACT_APP_BACKEND_URL || window.location.hostname
-).includes('stage')
+const AUTH_LINK = (process.env.REACT_APP_BACKEND_URL || window.location.hostname).includes('stage')
   ? 'https://api-stage.santiment.net/auth/google'
   : 'https://api.santiment.net/auth/google'
 
@@ -24,10 +22,7 @@ const GOOGLE_ICON = (
       fill='#4285F4'
       d='M47 24.6c0-1.6-.2-3.1-.4-4.6H24v9h13c-.6 3-2.3 5.5-4.8 7.2l7.7 6c4.5-4.2 7-10.4 7-17.6z'
     />
-    <path
-      fill='#FBBC05'
-      d='M10.5 28.6a14.6 14.6 0 010-9.2l-8-6.2a24 24 0 000 21.6l8-6.2z'
-    />
+    <path fill='#FBBC05' d='M10.5 28.6a14.6 14.6 0 010-9.2l-8-6.2a24 24 0 000 21.6l8-6.2z' />
     <path
       fill='#34A853'
       d='M24 48c6.5 0 12-2.1 15.9-5.8l-7.7-6c-2.2 1.4-5 2.3-8.2 2.3-6.3 0-11.6-4.2-13.5-10l-8 6.3A24 24 0 0024 48z'
@@ -37,10 +32,7 @@ const GOOGLE_ICON = (
 )
 
 const LoginGoogleBtn = ({ signUp, className }) => (
-  <a
-    href={AUTH_LINK}
-    className={cx(styles.btn, styles.btn_email, styles.btn_google, className)}
-  >
+  <a href={AUTH_LINK} className={cx(styles.btn, styles.btn_email, styles.btn_google, className)}>
     {GOOGLE_ICON} Sign {signUp ? ' up ' : ' in '} with Google
   </a>
 )

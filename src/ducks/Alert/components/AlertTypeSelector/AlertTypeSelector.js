@@ -12,15 +12,15 @@ const AlertTypeSelector = ({ selectorSettings }) => {
     setFinishedSteps,
     initialState,
     setInitialState,
-    formPreviousValues
+    formPreviousValues,
   } = selectorSettings
 
-  function handleSelectType ({ type, isSelected }) {
+  function handleSelectType({ type, isSelected }) {
     setSelectedType(type)
     setSelectedStep(0)
 
     if (isSelected) {
-      setVisitedSteps(prev => [...prev, 0])
+      setVisitedSteps((prev) => [...prev, 0])
       setInitialState(formPreviousValues)
     } else {
       setFinishedSteps([])
@@ -33,7 +33,7 @@ const AlertTypeSelector = ({ selectorSettings }) => {
     <div className={styles.wrapper}>
       <div className={styles.title}>Choose type of alert bellow:</div>
       <div className={styles.typesWrapper}>
-        {ALERT_TYPES.map(type => {
+        {ALERT_TYPES.map((type) => {
           const isSelected = selectedType && selectedType.title === type.title
           return (
             <Type

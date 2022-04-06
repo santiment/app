@@ -6,9 +6,7 @@ import DarkTooltip from '../Tooltip/DarkTooltip'
 import styles from './NotificationBellBtn.module.scss'
 
 const NotificationBellBtn = ({ targetUserId, className }) => {
-  const { isNotificationDisabled, toggle, disabledBtn } = useNotificationToggle(
-    targetUserId
-  )
+  const { isNotificationDisabled, toggle, disabledBtn } = useNotificationToggle(targetUserId)
 
   const isInFollowersList = useIsInFollowers(targetUserId)
 
@@ -25,20 +23,12 @@ const NotificationBellBtn = ({ targetUserId, className }) => {
       trigger={
         <Icon
           type={isNotificationDisabled ? 'bell-off' : 'bell'}
-          onClick={() =>
-            !disabledBtn && toggle(targetUserId, !isNotificationDisabled)
-          }
-          className={cx(
-            styles.icon,
-            className,
-            disabledBtn && styles.icon__disabled
-          )}
+          onClick={() => !disabledBtn && toggle(targetUserId, !isNotificationDisabled)}
+          className={cx(styles.icon, className, disabledBtn && styles.icon__disabled)}
         />
       }
     >
-      {isNotificationDisabled
-        ? 'Enable notifications'
-        : 'Disable notifications'}
+      {isNotificationDisabled ? 'Enable notifications' : 'Disable notifications'}
     </DarkTooltip>
   )
 }

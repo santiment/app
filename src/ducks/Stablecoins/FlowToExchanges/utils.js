@@ -5,22 +5,19 @@ import { getTimerangePeriod } from '../../../utils/dates'
 export const EXCHANGE_INTERESTS = {
   high: 'Very High',
   normal: 'Normal',
-  low: 'Low'
+  low: 'Low',
 }
 
 export const EXCHANGES_DEFAULT_SETTINGS = {
   ...getTimerangePeriod('1d'),
-  interval: '1h'
+  interval: '1h',
 }
 
 const EXCHANGES_INFLOW_AGGREGATED_QUERY = gql`
   query allProjects($from: DateTime!, $to: DateTime!) {
     allProjects(
       selector: {
-        filters: {
-          name: "market_segments"
-          args: "{\\"market_segments\\": [\\"Stablecoin\\"]}"
-        }
+        filters: { name: "market_segments", args: "{\\"market_segments\\": [\\"Stablecoin\\"]}" }
       }
     ) {
       slug
@@ -46,12 +43,13 @@ const EXCHANGES_INFLOW_AGGREGATED_QUERY = gql`
 `
 
 export const useFlowToExchanges = ({ from, to }) => {
-  const { data: { allProjects } = {}, loading, error } = useQuery(
-    EXCHANGES_INFLOW_AGGREGATED_QUERY,
-    {
-      variables: { from, to }
-    }
-  )
+  const {
+    data: { allProjects } = {},
+    loading,
+    error,
+  } = useQuery(EXCHANGES_INFLOW_AGGREGATED_QUERY, {
+    variables: { from, to },
+  })
 
   return { data: allProjects || [], loading, error }
 }

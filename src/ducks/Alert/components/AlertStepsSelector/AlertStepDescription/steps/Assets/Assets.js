@@ -7,13 +7,13 @@ import styles from './Assets.module.scss'
 
 const Assets = ({ description, invalidStepsMemo, selected, isFinished }) => {
   const [projects, loading] = useAssets({
-    shouldSkipLoggedInState: false
+    shouldSkipLoggedInState: false,
   })
   const { values } = useFormikContext()
   const {
     settings: {
-      target: { slug }
-    }
+      target: { slug },
+    },
   } = values
 
   const isInvalid = invalidStepsMemo.has('asset')
@@ -34,17 +34,15 @@ const Assets = ({ description, invalidStepsMemo, selected, isFinished }) => {
     const shouldRenderTicker = slug.length > 1
     const assets =
       typeof slug === 'string'
-        ? projects.find(project => project.slug === slug)
-        : slug.map(item => projects.find(project => project.slug === item))
+        ? projects.find((project) => project.slug === slug)
+        : slug.map((item) => projects.find((project) => project.slug === item))
 
     children = (
       <div className={styles.wrapper}>
-        {assets.slice(0, 3).map(asset => (
+        {assets.slice(0, 3).map((asset) => (
           <div key={asset.id} className={styles.item}>
             <ProjectIcon size={16} slug={asset.slug} logoUrl={asset.logoUrl} />
-            <div className={styles.title}>
-              {shouldRenderTicker ? asset.ticker : asset.name}
-            </div>
+            <div className={styles.title}>{shouldRenderTicker ? asset.ticker : asset.name}</div>
           </div>
         ))}
         {assets.length > 3 && (
@@ -57,8 +55,8 @@ const Assets = ({ description, invalidStepsMemo, selected, isFinished }) => {
   } else if (slug.length !== 0 && !loading) {
     const assets =
       typeof slug === 'string'
-        ? projects.find(project => project.slug === slug)
-        : slug.map(item => projects.find(project => project.slug === item))
+        ? projects.find((project) => project.slug === slug)
+        : slug.map((item) => projects.find((project) => project.slug === item))
 
     children = (
       <div className={styles.wrapper}>
@@ -73,9 +71,7 @@ const Assets = ({ description, invalidStepsMemo, selected, isFinished }) => {
   return (
     <div className={styles.col}>
       {(selected || isFinished) && children}
-      {isInvalid && (
-        <AlertMessage className={styles.error} error text='Asset is required' />
-      )}
+      {isInvalid && <AlertMessage className={styles.error} error text='Asset is required' />}
     </div>
   )
 }

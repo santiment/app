@@ -10,9 +10,7 @@ import TopBar from '../../ducks/Watchlists/Widgets/TopBar/TopBar'
 import { BLOCKCHAIN_ADDRESS } from '../../ducks/Watchlists/detector'
 
 const WatchlistAddress = ({ match, isPhone, isDesktop }) => {
-  const { watchlist, isLoading } = useAddressWatchlist(
-    getIdFromSEOLink(match.params.nameId)
-  )
+  const { watchlist, isLoading } = useAddressWatchlist(getIdFromSEOLink(match.params.nameId))
 
   if (isLoading) return <PageLoader />
   if (!watchlist.id) return <Redirect to='/' />
@@ -24,11 +22,7 @@ const WatchlistAddress = ({ match, isPhone, isDesktop }) => {
           <TopBar entity={watchlist} type={BLOCKCHAIN_ADDRESS} />
         </>
       )}
-      <WatchlistAddressesTable
-        watchlist={watchlist}
-        isLoading={isLoading}
-        isDesktop={isDesktop}
-      />
+      <WatchlistAddressesTable watchlist={watchlist} isLoading={isLoading} isDesktop={isDesktop} />
     </>
   )
 }

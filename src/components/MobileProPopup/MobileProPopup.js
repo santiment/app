@@ -14,18 +14,14 @@ const MobileProPopup = () => {
       className={cx(
         styles.wrapper,
         !isShow && styles.closeAnimation,
-        isShow && styles.appearAnimation
+        isShow && styles.appearAnimation,
       )}
     >
       <Link to='/pricing' className={styles.link}>
         <Icon type='crown' className={styles.crown} />
         Go PRO and get more data
       </Link>
-      <Icon
-        type='close-medium'
-        onClick={() => setIsShow(false)}
-        className={styles.close}
-      />
+      <Icon type='close-medium' onClick={() => setIsShow(false)} className={styles.close} />
     </Button>
   )
 }

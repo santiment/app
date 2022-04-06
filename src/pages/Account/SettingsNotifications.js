@@ -5,10 +5,7 @@ import SettingsTelegramNotifications from './SettingsTelegramNotifications'
 import SettingsEmailNotifications from './SettingsEmailNotifications'
 import SettingsSonarWebPushNotifications from './SettingsSonarWebPushNotifications'
 import ShowIf from '../../components/ShowIf/ShowIf'
-import {
-  filterByChannels,
-  useSignals
-} from '../../ducks/Signals/common/getSignals'
+import { filterByChannels, useSignals } from '../../ducks/Signals/common/getSignals'
 import { CHANNEL_TYPES } from '../../ducks/Signals/utils/constants'
 import { useUserSettings } from '../../stores/user/settings'
 import SignalLimits from './limits/SignalLimits'
@@ -18,12 +15,7 @@ const channelByTypeLength = (signals, type) => {
   return filterByChannels(signals, type).length
 }
 
-const SignalsDescription = (
-  mappedCount,
-  allCount,
-  channel,
-  channelName = channel
-) => {
+const SignalsDescription = (mappedCount, allCount, channel, channelName = channel) => {
   if (mappedCount === 0) {
     return null
   }
@@ -46,30 +38,19 @@ const SettingsNotifications = () => {
   const allCount = signals.length
   const countWithEmail = channelByTypeLength(signals, CHANNEL_TYPES.Email)
   const countWithTelegram = channelByTypeLength(signals, CHANNEL_TYPES.Telegram)
-  const countWithBrowserPush = channelByTypeLength(
-    signals,
-    CHANNEL_TYPES.Browser
-  )
+  const countWithBrowserPush = channelByTypeLength(signals, CHANNEL_TYPES.Browser)
 
   return (
     <Settings id='notifications' header='Alert notifications'>
       <Settings.Row>
         <SettingsEmailNotifications
-          description={SignalsDescription(
-            countWithEmail,
-            allCount,
-            CHANNEL_TYPES.Email
-          )}
+          description={SignalsDescription(countWithEmail, allCount, CHANNEL_TYPES.Email)}
         />
       </Settings.Row>
 
       <Settings.Row>
         <SettingsTelegramNotifications
-          description={SignalsDescription(
-            countWithTelegram,
-            allCount,
-            CHANNEL_TYPES.Telegram
-          )}
+          description={SignalsDescription(countWithTelegram, allCount, CHANNEL_TYPES.Telegram)}
         />
       </Settings.Row>
 
@@ -80,7 +61,7 @@ const SettingsNotifications = () => {
               countWithBrowserPush,
               allCount,
               CHANNEL_TYPES.Browser,
-              'web push'
+              'web push',
             )}
           />
         </Settings.Row>

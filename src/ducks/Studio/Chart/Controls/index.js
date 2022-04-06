@@ -5,16 +5,9 @@ import { CursorType } from '../../../Chart/cursor'
 import styles from './index.module.scss'
 
 const CursorControl = ({ cursorType, toggleCursorType }) => (
-  <Button
-    stroke
-    isActive={cursorType === CursorType.FREE}
-    onClick={toggleCursorType}
-  >
+  <Button stroke isActive={cursorType === CursorType.FREE} onClick={toggleCursorType}>
     <svg width='18' height='18' xmlns='http://www.w3.org/2000/svg'>
-      <path
-        stroke='none'
-        d='M.5 8.5h6v1h-6zM11.5 8.5h6v1h-6zM9.5.5v6h-1v-6zM9.5 11.5v6h-1v-6z'
-      />
+      <path stroke='none' d='M.5 8.5h6v1h-6zM11.5 8.5h6v1h-6zM9.5.5v6h-1v-6zM9.5 11.5v6h-1v-6z' />
     </svg>
   </Button>
 )
@@ -44,7 +37,7 @@ const Controls = ({
   selectedLineState,
   isDrawingState,
   isNewDrawingState,
-  rerenderWidgets
+  rerenderWidgets,
 }) => {
   useEffect(rerenderWidgets, [isDrawingState[0]])
 
@@ -54,10 +47,7 @@ const Controls = ({
       <LineDrawControl isNewDrawingState={isNewDrawingState} />
 
       {selectedLineState[0] && (
-        <LineActions
-          chartRef={chartRef}
-          selectedLineState={selectedLineState}
-        />
+        <LineActions chartRef={chartRef} selectedLineState={selectedLineState} />
       )}
     </div>
   )

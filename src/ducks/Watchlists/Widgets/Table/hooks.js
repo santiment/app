@@ -5,19 +5,17 @@ import { DEFAULT_ORDER_BY, DIRECTIONS } from './Columns/defaults'
 const pageSize = 20
 const EMPTY_ARRAY = []
 
-export function useColumns (type) {
+export function useColumns(type) {
   const defaultPagination = { page: 1, pageSize: +pageSize }
   const [pagination, setPagination] = useState(defaultPagination)
   const [orderBy, setOrderBy] = useState(DEFAULT_ORDER_BY)
   const [activeColumnsKeys, setActiveColumnsKeys] = useState(EMPTY_ARRAY)
-  const activeColumns = useMemo(() => getColumns(activeColumnsKeys, type), [
-    activeColumnsKeys
-  ])
+  const activeColumns = useMemo(() => getColumns(activeColumnsKeys, type), [activeColumnsKeys])
 
   const fetchData = useCallback(
     ({ pageSize, sortBy }) => {
       const { id, desc } = sortBy[0]
-      const activeColumn = activeColumns.find(column => column.key === id)
+      const activeColumn = activeColumns.find((column) => column.key === id)
       if (!activeColumn) {
         setOrderBy(DEFAULT_ORDER_BY)
       } else {
@@ -28,12 +26,12 @@ export function useColumns (type) {
           aggregation,
           dynamicTo: 'now',
           dynamicFrom: timeRange,
-          direction: newDirection
+          direction: newDirection,
         })
       }
       setPagination({ ...pagination, pageSize: +pageSize })
     },
-    [activeColumns]
+    [activeColumns],
   )
 
   return {
@@ -43,6 +41,6 @@ export function useColumns (type) {
     setOrderBy,
     fetchData,
     activeColumns,
-    setActiveColumnsKeys
+    setActiveColumnsKeys,
   }
 }

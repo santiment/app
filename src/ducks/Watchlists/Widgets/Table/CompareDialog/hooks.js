@@ -4,17 +4,15 @@ import { addOrRemove } from './CompareDialog'
 export const useComparingAssets = () => {
   const [comparingAssets, setComparingAssets] = useState([])
   const addAsset = useCallback(
-    item => {
-      setComparingAssets(
-        addOrRemove(comparingAssets, item, ({ id }) => id === item.id)
-      )
+    (item) => {
+      setComparingAssets(addOrRemove(comparingAssets, item, ({ id }) => id === item.id))
     },
-    [comparingAssets, setComparingAssets]
+    [comparingAssets, setComparingAssets],
   )
 
   const updateAssets = useCallback(
-    items => {
-      const normalizedItems = items.map(item => {
+    (items) => {
+      const normalizedItems = items.map((item) => {
         const { name, ticker, id, slug, logoUrl, darkLogoUrl } = item.original
         return { name, ticker, id, slug, logoUrl, darkLogoUrl }
       })
@@ -22,7 +20,7 @@ export const useComparingAssets = () => {
         setComparingAssets(normalizedItems)
       }
     },
-    [comparingAssets, setComparingAssets]
+    [comparingAssets, setComparingAssets],
   )
 
   const cleanAll = useCallback(() => {
@@ -33,6 +31,6 @@ export const useComparingAssets = () => {
     comparingAssets,
     addAsset,
     updateAssets,
-    cleanAll
+    cleanAll,
   }
 }

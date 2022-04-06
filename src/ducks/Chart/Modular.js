@@ -1,9 +1,5 @@
 import React, { useRef, useEffect } from 'react'
-import {
-  initChart,
-  updateChartDimensions,
-  updateSize
-} from '@santiment-network/chart'
+import { initChart, updateChartDimensions, updateSize } from '@santiment-network/chart'
 import { withChartContext, useChart, useChartSetter } from './context'
 import { paintConfigs } from './paintConfigs'
 import { useTheme } from '../../stores/ui/theme'
@@ -11,14 +7,7 @@ import styles from './index.module.scss'
 
 const cx = (...classes) => classes.filter(Boolean).join(' ')
 
-export const Chart = ({
-  className,
-  width,
-  height,
-  padding,
-  chartRef,
-  children
-}) => {
+export const Chart = ({ className, width, height, padding, chartRef, children }) => {
   const chart = useChart()
   const setChart = useChartSetter()
   const canvasRef = useRef(null)

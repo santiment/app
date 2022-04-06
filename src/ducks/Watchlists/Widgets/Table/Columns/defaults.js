@@ -5,7 +5,7 @@ import { INDEX_COLUMN, PROJECT_COLUMN } from './columns'
 export const DEFAULT_TIME_RANGE = '1d'
 export const DIRECTIONS = {
   DESC: 'desc',
-  ASC: 'asc'
+  ASC: 'asc',
 }
 
 export const DEFAULT_ORDER_BY = {
@@ -13,7 +13,7 @@ export const DEFAULT_ORDER_BY = {
   dynamicFrom: DEFAULT_TIME_RANGE,
   dynamicTo: 'now',
   aggregation: AGGREGATIONS_LOWER.LAST,
-  direction: DIRECTIONS.DESC
+  direction: DIRECTIONS.DESC,
 }
 
 export const DEFAULT_COLUMNS = [INDEX_COLUMN, PROJECT_COLUMN]

@@ -16,7 +16,7 @@ const Actions = ({ children, childrenOffset, isActive }) => (
   <div
     className={cx(styles.settings, isActive && styles.settings_active)}
     style={{
-      '--items': children.length - childrenOffset
+      '--items': children.length - childrenOffset,
     }}
   >
     <div className={styles.settings__visible}>{children}</div>
@@ -80,7 +80,7 @@ const MetricButton = ({
         styles.btn,
         error && styles.btn_error,
         isWithSettings && styles.btn_settings,
-        className
+        className,
       )}
       aria-invalid={error}
     >
@@ -90,11 +90,7 @@ const MetricButton = ({
         isLoading ? (
           <div className={styles.loader} />
         ) : (
-          <MetricIcon
-            node={node}
-            color={colors[dataKey]}
-            className={styles.label}
-          />
+          <MetricIcon node={node} color={colors[dataKey]} className={styles.label} />
         )
       ) : null}
       {label}
@@ -105,31 +101,14 @@ const MetricButton = ({
       />
 
       {isRemovable && (
-        <Icon
-          type='close-small'
-          className={styles.icon}
-          onClick={() => toggleMetric(metric)}
-        />
+        <Icon type='close-small' className={styles.icon} onClick={() => toggleMetric(metric)} />
       )}
 
       {isWithSettings && (
-        <Actions
-          isActive={metricSettings === metric}
-          childrenOffset={1 - isLoggedIn}
-        >
+        <Actions isActive={metricSettings === metric} childrenOffset={1 - isLoggedIn}>
           <Customization metric={metric} onClick={onSettingsClick} />
-          <MetricLock
-            metrics={metrics}
-            metric={metric}
-            project={settings}
-            onClick={onLockClick}
-          />
-          {isLoggedIn && (
-            <MetricFavorite
-              metric={metric}
-              favoriteMetricSet={favoriteMetricSet}
-            />
-          )}
+          <MetricLock metrics={metrics} metric={metric} project={settings} onClick={onLockClick} />
+          {isLoggedIn && <MetricFavorite metric={metric} favoriteMetricSet={favoriteMetricSet} />}
         </Actions>
       )}
     </Button>
@@ -152,18 +131,15 @@ const ActiveMetrics = ({
   onMetricHover,
   onMetricHoverEnd,
   onSettingsClick,
-  settings
+  settings,
 }) => {
   const isMoreThanOneMetric = activeMetrics.length > 1 || !isSingleWidget
   const { favoriteMetrics } = useFavoriteMetrics()
-  const favoriteMetricSet = useMemo(() => new Set(favoriteMetrics), [
-    favoriteMetrics
-  ])
+  const favoriteMetricSet = useMemo(() => new Set(favoriteMetrics), [favoriteMetrics])
 
   const errorsForMetrics = useApiErrors()
 
-  const errors =
-    settings && errorsForMetrics ? errorsForMetrics[settings.slug] : {}
+  const errors = settings && errorsForMetrics ? errorsForMetrics[settings.slug] : {}
 
   return activeMetrics.map((metric, i) => (
     <MetricButton
@@ -181,7 +157,7 @@ const ActiveMetrics = ({
       isWithSettings={isWithSettings}
       toggleMetric={toggleMetric}
       onLockClick={onLockClick && (() => onLockClick(metric))}
-      onMouseEnter={onMetricHover && (e => onMetricHover(metric, e))}
+      onMouseEnter={onMetricHover && ((e) => onMetricHover(metric, e))}
       onMouseLeave={onMetricHoverEnd && (() => onMetricHoverEnd(metric))}
       onSettingsClick={onSettingsClick}
       errorsForMetrics={errors}
@@ -191,7 +167,7 @@ const ActiveMetrics = ({
   ))
 }
 
-export default props => {
+export default (props) => {
   return (
     <ApiErrorsProvider>
       <ActiveMetrics {...props} />

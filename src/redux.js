@@ -12,14 +12,10 @@ export const history = createBrowserHistory()
 const middleware = [
   createEpicMiddleware(epics, {
     dependencies: {
-      client
-    }
+      client,
+    },
   }),
-  routerMiddleware(history)
+  routerMiddleware(history),
 ]
 
-export const store = createStore(
-  reducers,
-  {},
-  composeWithDevTools(applyMiddleware(...middleware))
-)
+export const store = createStore(reducers, {}, composeWithDevTools(applyMiddleware(...middleware)))

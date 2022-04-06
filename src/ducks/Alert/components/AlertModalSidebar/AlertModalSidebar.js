@@ -12,7 +12,7 @@ const AlertModalSidebar = ({
   values,
   hasSignal,
   isSharedTrigger,
-  isEdited
+  isEdited,
 }) => {
   const { submitForm, isSubmitting } = useFormikContext()
 
@@ -22,18 +22,18 @@ const AlertModalSidebar = ({
     setSelectedStep,
     setFormPreviousValues,
     setInvalidSteps,
-    shouldHideRestrictionMessage
+    shouldHideRestrictionMessage,
   } = selectorSettings
 
   const shouldHideSubmitButton = id && !isSharedTrigger && !isEdited
 
-  function handleReturnBack () {
+  function handleReturnBack() {
     setSelectedStep(undefined)
     setFormPreviousValues(values)
     setInvalidSteps([])
   }
 
-  function handleSubmit () {
+  function handleSubmit() {
     if (isSubmitting) {
       submitForm()
     }
@@ -45,22 +45,15 @@ const AlertModalSidebar = ({
         styles.wrapper,
         !shouldHideSubmitButton && styles.submitPadding,
         !shouldHideRestrictionMessage && styles.wrapperResized,
-        'relative column justify fluid'
+        'relative column justify fluid',
       )}
     >
       <div>
         <div className={cx(styles.titleWrapper, 'row justify v-center')}>
           <div className='h4 c-black'>{selectedType.title}</div>
           {!hasSignal && (
-            <button
-              className={cx(styles.backButton, 'btn body-3')}
-              onClick={handleReturnBack}
-            >
-              <Icon
-                type='arrow-left'
-                className={cx(styles.backIcon, 'mrg--r mrg-s')}
-              />{' '}
-              Alert types
+            <button className={cx(styles.backButton, 'btn body-3')} onClick={handleReturnBack}>
+              <Icon type='arrow-left' className={cx(styles.backIcon, 'mrg--r mrg-s')} /> Alert types
             </button>
           )}
         </div>

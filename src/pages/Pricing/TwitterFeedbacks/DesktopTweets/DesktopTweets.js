@@ -7,10 +7,10 @@ import styles from './DesktopTweets.module.scss'
 const SETTINGS = {
   columnWidth: 370,
   height: 300,
-  gutterSize: 10
+  gutterSize: 10,
 }
 
-function getColumnsCount () {
+function getColumnsCount() {
   const { columnWidth, gutterSize } = SETTINGS
 
   const width = Math.min(window.innerWidth, 1140)
@@ -20,7 +20,7 @@ function getColumnsCount () {
 const DesktopTweets = () => {
   const [columnsCount, setColumnsCount] = useState(() => getColumnsCount())
 
-  function _calculateColumnCount () {
+  function _calculateColumnCount() {
     const newCount = getColumnsCount()
 
     if (newCount !== columnsCount) {

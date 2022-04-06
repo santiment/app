@@ -8,7 +8,7 @@ import {
   makeFeedVariables,
   getFeedAuthorType,
   getDefaultFilters,
-  isBaseLocation
+  isBaseLocation,
 } from './utils'
 import EmptyFeed from './EmptyFeed'
 import { TIMELINE_EVENTS_QUERY } from '../../../queries/FeedGQL'
@@ -25,17 +25,17 @@ import styles from './GeneralFeed.module.scss'
 const tabs = [
   {
     index: `${baseLocation}`,
-    content: 'General'
+    content: 'General',
   },
   {
     index: pulseLocation,
-    content: 'Pulse'
+    content: 'Pulse',
   },
   {
     index: personalLocation,
     content: 'My Feed',
-    requireLogin: true
-  }
+    requireLogin: true,
+  },
 ]
 
 const Header = ({
@@ -46,7 +46,7 @@ const Header = ({
   onChangeFilters,
   filters,
   isLoggedIn,
-  isPulse
+  isPulse,
 }) => (
   <div className={styles.header}>
     <div className={styles.title}>
@@ -59,25 +59,17 @@ const Header = ({
             filters={filters}
             enableAlertsInsights={isBaseLocation(tab)}
           />
-          <FeedSorters
-            className={styles.sort}
-            onChangeSort={onChangeSort}
-            sortType={sortType}
-          />
+          <FeedSorters className={styles.sort} onChangeSort={onChangeSort} sortType={sortType} />
         </>
       )}
     </div>
     <Tabs
-      options={
-        isLoggedIn ? tabs : tabs.filter(({ requiredLogin }) => !requiredLogin)
-      }
+      options={isLoggedIn ? tabs : tabs.filter(({ requiredLogin }) => !requiredLogin)}
       defaultSelectedIndex={tab}
       passSelectionIndexToItem
       className={styles.tabs}
       onSelect={onChangeTab}
-      as={({ selectionIndex, ...props }) => (
-        <Link {...props} to={selectionIndex} />
-      )}
+      as={({ selectionIndex, ...props }) => <Link {...props} to={selectionIndex} />}
     />
   </div>
 )
@@ -91,19 +83,19 @@ const GeneralFeed = ({ isLoggedIn, isUserLoading, location }) => {
   const [sortType, setSortType] = useState(DATETIME_SORT)
   const [filters, setFilters] = useState(getDefaultFilters(tab))
 
-  const onChangeTab = value => {
+  const onChangeTab = (value) => {
     setTab(value)
   }
 
   useEffect(() => {
     setFilters({
       ...filters,
-      author: getFeedAuthorType(tab)
+      author: getFeedAuthorType(tab),
     })
     setPulse(tab === pulseLocation)
   }, [tab])
 
-  const onChangeSort = value => {
+  const onChangeSort = (value) => {
     if (value) {
       setSortType(value)
     }
@@ -151,17 +143,13 @@ const GeneralFeed = ({ isLoggedIn, isUserLoading, location }) => {
             variables={makeFeedVariables({
               date: START_DATE,
               orderBy: sortType.type,
-              filterBy: filters
+              filterBy: filters,
             })}
             notifyOnNetworkStatusChange={true}
             fetchPolicy='network-only'
           >
-            {props => {
-              const {
-                data,
-                fetchMore: fetchMoreCommon,
-                loading: loadingEvents
-              } = props
+            {(props) => {
+              const { data, fetchMore: fetchMoreCommon, loading: loadingEvents } = props
 
               if (!data) {
                 return <EmptyFeed />
@@ -185,9 +173,9 @@ const GeneralFeed = ({ isLoggedIn, isUserLoading, location }) => {
   )
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoggedIn: checkIsLoggedIn(state),
-  isUserLoading: checkIsLoggedInPending(state)
+  isUserLoading: checkIsLoggedInPending(state),
 })
 
 export default connect(mapStateToProps)(GeneralFeed)

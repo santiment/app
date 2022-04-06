@@ -4,13 +4,9 @@ import {
   paintDrawings,
   paintDrawingAxes,
   relativeToAbsoluteCoordinates,
-  absoluteToRelativeCoordinates
+  absoluteToRelativeCoordinates,
 } from './helpers'
-import {
-  handleLineCreation,
-  handleLineHover,
-  handleLineMouseDown
-} from './events'
+import { handleLineCreation, handleLineHover, handleLineMouseDown } from './events'
 import { useChart, noop } from '../context'
 
 const Drawer = ({
@@ -19,13 +15,13 @@ const Drawer = ({
   data,
   selectedLineState,
   isDrawingState,
-  isNewDrawingState
+  isNewDrawingState,
 }) => {
   const chart = useChart()
   const [isNewDrawing, setIsNewDrawing] = isNewDrawingState
   const setSelectedLine = selectedLineState[1]
 
-  function setIsDrawing (state) {
+  function setIsDrawing(state) {
     chart.isDrawing = state
     isDrawingState[1](state)
   }
@@ -38,11 +34,7 @@ const Drawer = ({
     parentNode.insertBefore(drawer.canvas, nextElementSibling || canvas)
     drawer.drawings = drawings || []
     drawer.onLineHover = handleLineHover(chart)
-    drawer.onLineMouseDown = handleLineMouseDown(
-      chart,
-      setSelectedLine,
-      setIsDrawing
-    )
+    drawer.onLineMouseDown = handleLineMouseDown(chart, setSelectedLine, setIsDrawing)
     drawer.redraw = () => {
       paintDrawings(chart)
       paintDrawingAxes(chart)
@@ -50,7 +42,7 @@ const Drawer = ({
     drawer.recalcAbsCoor = () => {
       if (!chart.minMaxes) return
 
-      drawer.drawings.forEach(drawing => {
+      drawer.drawings.forEach((drawing) => {
         if (drawing.relCoor) {
           drawing.absCoor = relativeToAbsoluteCoordinates(chart, drawing)
         }
@@ -73,7 +65,7 @@ const Drawer = ({
     const { minMaxes, drawer } = chart
     if (!minMaxes) return
 
-    drawer.drawings.forEach(drawing => {
+    drawer.drawings.forEach((drawing) => {
       if (drawing.absCoor) {
         drawing.relCoor = absoluteToRelativeCoordinates(chart, drawing)
       }
@@ -86,12 +78,7 @@ const Drawer = ({
     const parent = chart.canvas.parentNode
 
     if (isNewDrawing) {
-      return handleLineCreation(
-        chart,
-        setSelectedLine,
-        setIsDrawing,
-        setIsNewDrawing
-      )
+      return handleLineCreation(chart, setSelectedLine, setIsDrawing, setIsNewDrawing)
     }
 
     const { onLineHover, onLineMouseDown } = chart.drawer

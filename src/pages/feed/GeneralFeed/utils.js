@@ -7,42 +7,40 @@ export const PULSE_MAX_LIMIT = 100
 
 export const CURSOR_TYPES = {
   before: 'BEFORE',
-  after: 'AFTER'
+  after: 'AFTER',
 }
 
-export const isBaseLocation = tab =>
-  tab === baseLocation || tab === pulseLocation
+export const isBaseLocation = (tab) => tab === baseLocation || tab === pulseLocation
 
 export const makeFeedVariables = ({
   date,
   isPulse,
   type = CURSOR_TYPES.before,
   orderBy = DATETIME_SORT.type,
-  filterBy
+  filterBy,
 }) => {
   return {
     limit: isPulse ? PULSE_MAX_LIMIT : MAX_TIMELINE_EVENTS_LIMIT,
     cursor: {
       type,
-      datetime: date
+      datetime: date,
     },
     orderBy,
     filterBy,
-    isPulse
+    isPulse,
   }
 }
 
-export const extractEventsFromData = data => {
+export const extractEventsFromData = (data) => {
   const { timelineEvents } = data
   const [first] = timelineEvents
   const { events } = first
   return events
 }
 
-export const isBottom = el =>
-  el.getBoundingClientRect().bottom <= 3 * window.innerHeight
+export const isBottom = (el) => el.getBoundingClientRect().bottom <= 3 * window.innerHeight
 
-export const getFeedAuthorType = tab => {
+export const getFeedAuthorType = (tab) => {
   if (isBaseLocation(tab) || !tab) {
     return AUTHOR_TYPES.ALL
   } else {
@@ -50,8 +48,8 @@ export const getFeedAuthorType = tab => {
   }
 }
 
-export const getDefaultFilters = tab => ({
+export const getDefaultFilters = (tab) => ({
   author: getFeedAuthorType(tab),
   watchlists: [],
-  assets: []
+  assets: [],
 })

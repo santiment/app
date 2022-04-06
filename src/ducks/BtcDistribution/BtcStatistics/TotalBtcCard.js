@@ -8,17 +8,13 @@ const TotalBtcCard = ({ settings }) => {
     {
       ...settings,
       selector: BTC_RELATED_SELECTOR,
-      aggregation: AGGREGATION_TYPES.SUM
+      aggregation: AGGREGATION_TYPES.SUM,
     },
-    'total_supply'
+    'total_supply',
   )
 
   return (
-    <DashboardCounter
-      value={data}
-      loadings={loading}
-      title='Bitcoin on Ethereum Total Supply'
-    />
+    <DashboardCounter value={data} loadings={loading} title='Bitcoin on Ethereum Total Supply' />
   )
 }
 

@@ -1,9 +1,6 @@
 import React, { useRef } from 'react'
 import Setting from './Setting'
-import {
-  useColorByMetric,
-  useMetricColorUpdater
-} from '../../Widget/ChartWidgetColorProvider'
+import { useColorByMetric, useMetricColorUpdater } from '../../Widget/ChartWidgetColorProvider'
 import { useDebounce } from '../../../../hooks/index'
 import styles from './index.module.scss'
 
@@ -13,11 +10,11 @@ const ColorSetting = ({ metric }) => {
   const updateMetricColor = useMetricColorUpdater()
   const debouncedColorUpdate = useDebounce(updateMetricColor, 500)
 
-  function onClick () {
+  function onClick() {
     inputRef.current.click()
   }
 
-  function onChange ({ target: { value } }) {
+  function onChange({ target: { value } }) {
     debouncedColorUpdate(metric.key, value)
   }
 

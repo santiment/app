@@ -12,28 +12,28 @@ const mediasToShare = [
   {
     icon: 'twitter',
     href: `https://twitter.com/home?status=${SECRET_TEXT_TAG}%0Alink%3A%20${SECRET_LINK_TAG}`,
-    className: styles.twitter
+    className: styles.twitter,
   },
   {
     icon: 'facebook',
     href: `https://www.facebook.com/sharer/sharer.php?u=${SECRET_LINK_TAG}`,
-    className: styles.facebook
+    className: styles.facebook,
   },
   {
     icon: 'linked-in',
     href: `https://www.linkedin.com/shareArticle?mini=true&title=${SECRET_TITLE_TAG}&summary=${SECRET_TEXT_TAG}&source=santiment.net&url=${SECRET_LINK_TAG}`,
-    className: styles.linkedin
+    className: styles.linkedin,
   },
   {
     icon: 'telegram',
     href: `https://telegram.me/share/url?text=${SECRET_TEXT_TAG}&url=${SECRET_LINK_TAG}`,
-    className: styles.telegram
+    className: styles.telegram,
   },
   {
     icon: 'reddit',
     href: `https://reddit.com/submit?title=${SECRET_TEXT_TAG}&url=${SECRET_LINK_TAG}`,
-    className: styles.reddit
-  }
+    className: styles.reddit,
+  },
 ]
 
 const ShareMedias = ({
@@ -42,7 +42,7 @@ const ShareMedias = ({
   shareText = '',
   showTitle = true,
   isDisabled,
-  classes = {}
+  classes = {},
 }) => {
   const encodedTitle = encodeURIComponent(shareTitle)
   const encodedText = encodeURIComponent(shareText)
@@ -66,10 +66,7 @@ const ShareMedias = ({
               .replace(SECRET_TEXT_TAG, encodedText)
               .replace(SECRET_TITLE_TAG, encodedTitle)}
           >
-            <Icon
-              type={icon}
-              className={cx(styles.icon, className, classes.mediaIcon)}
-            />
+            <Icon type={icon} className={cx(styles.icon, className, classes.mediaIcon)} />
           </Button>
         ))}
       </div>

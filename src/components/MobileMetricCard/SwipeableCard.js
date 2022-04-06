@@ -10,15 +10,14 @@ const FULL_HIDE_POSITION = -1000
 
 const SIDES = { RIGHT: 'right', LEFT: 'left' }
 
-const isSwipeEvent = ({ x, y, startX, startY }) =>
-  Math.abs(x - startX) > Math.abs(y - startY)
+const isSwipeEvent = ({ x, y, startX, startY }) => Math.abs(x - startX) > Math.abs(y - startY)
 
 const isDirectionChanged = (prev, curr) => {
   if (prev === 0 || curr === 0) return true
   return Boolean((prev > 0) ^ (curr > 0))
 }
 
-const detectSwipeDirection = offset => (offset <= 0 ? SIDES.RIGHT : SIDES.LEFT)
+const detectSwipeDirection = (offset) => (offset <= 0 ? SIDES.RIGHT : SIDES.LEFT)
 
 const SwipeableCard = ({
   children,
@@ -29,7 +28,7 @@ const SwipeableCard = ({
   hasRightAction = true,
   useInitialAnimation = true,
   isSelected,
-  width: containerWidth
+  width: containerWidth,
 }) => {
   const [startPos, setStartPos] = useState(0)
   const [offset, setOffset] = useState(0)
@@ -53,13 +52,7 @@ const SwipeableCard = ({
   }
 
   const onCardClick = () => {
-    if (
-      side === SIDES.LEFT ||
-      currentGesture ||
-      isSwipe ||
-      startPos ||
-      offset
-    ) {
+    if (side === SIDES.LEFT || currentGesture || isSwipe || startPos || offset) {
     } else {
       setSide(SIDES.RIGHT)
       setTimeout(() => {
@@ -74,25 +67,24 @@ const SwipeableCard = ({
     return offsetInPercents > PERCENTS_THRESHOLD
   }
 
-  const haveAction = side =>
-    (side === SIDES.RIGHT && hasRightAction) ||
-    (side === SIDES.LEFT && hasLeftAction)
+  const haveAction = (side) =>
+    (side === SIDES.RIGHT && hasRightAction) || (side === SIDES.LEFT && hasLeftAction)
 
   if (offset && startPos && isOuterEvent && !currentGesture) {
     setOffset(0)
   }
 
-  const onStart = evt => {
+  const onStart = (evt) => {
     const { pageX: x, pageY: y } = evt.touches[0]
     setCurrentGesture({
       startX: x,
       startY: y,
       prevX: x,
-      initialPos: startPos
+      initialPos: startPos,
     })
   }
 
-  const onMove = evt => {
+  const onMove = (evt) => {
     if (!currentGesture) {
       return
     }
@@ -167,23 +159,17 @@ const SwipeableCard = ({
         offset && styles.wrapper__action,
         offset === FULL_HIDE_POSITION && styles.wrapper__hide,
         isSelected && styles.wrapper__selected,
-        withAnimation && styles.wrapper__animation
+        withAnimation && styles.wrapper__animation,
       )}
       style={{ '--button-width': `${BUTTON_WIDTH}px` }}
     >
       {hasLeftAction && (
-        <button
-          className={cx(styles.button, styles.button__left)}
-          onClick={onLeftAction}
-        >
+        <button className={cx(styles.button, styles.button__left)} onClick={onLeftAction}>
           <Icon type='info-round' />
         </button>
       )}
       {hasRightAction && (
-        <button
-          className={cx(styles.button, styles.button__right)}
-          onClick={onRightAction}
-        >
+        <button className={cx(styles.button, styles.button__right)} onClick={onRightAction}>
           <Icon type={isSelected ? 'remove' : 'plus-round'} />
         </button>
       )}
@@ -196,7 +182,7 @@ const SwipeableCard = ({
         onClick={onCardClick}
         style={{
           transform: `translateX(${offset}px)`,
-          transition: `${currentGesture ? '' : `transform ease 0.7s`}`
+          transition: `${currentGesture ? '' : `transform ease 0.7s`}`,
         }}
       >
         {children}

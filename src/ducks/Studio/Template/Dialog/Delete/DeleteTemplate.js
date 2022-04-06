@@ -5,13 +5,7 @@ import Option from '../../TemplateContextMenu/Option'
 import { useDeleteTemplate } from '../../gql/hooks'
 import styles from './DeleteTemplate.module.scss'
 
-const DeleteTemplate = ({
-  isAuthor,
-  onDelete,
-  template,
-  closeMenu,
-  className
-}) => {
+const DeleteTemplate = ({ isAuthor, onDelete, template, closeMenu, className }) => {
   if (!isAuthor) {
     return null
   }

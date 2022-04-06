@@ -10,16 +10,10 @@ const MetricFavorite = ({ metric, favoriteMetricSet, onClick }) => {
 
   return (
     <ExplanationTooltip
-      text={
-        isActive ? 'Remove metric from favorites' : 'Add metric to favorites'
-      }
+      text={isActive ? 'Remove metric from favorites' : 'Add metric to favorites'}
     >
       <div
-        className={cx(
-          styles.settings__btn,
-          styles.favorite,
-          isActive && styles.favorite_active
-        )}
+        className={cx(styles.settings__btn, styles.favorite, isActive && styles.favorite_active)}
         onClick={() => toggleFavoriteMetric(base)}
       >
         <svg width='16' height='15' xmlns='http://www.w3.org/2000/svg'>

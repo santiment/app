@@ -8,16 +8,8 @@ const TriggerFormWatchlists = ({ values, setFieldValue }) => {
   const { targetWatchlist } = values
   const [watchlists, loading] = useUserProjectWatchlists()
 
-  if (
-    !loading &&
-    watchlists &&
-    watchlists.length > 0 &&
-    targetWatchlist &&
-    !targetWatchlist.id
-  ) {
-    const selectedWatchlist = watchlists.find(
-      ({ id }) => +id === targetWatchlist.value
-    )
+  if (!loading && watchlists && watchlists.length > 0 && targetWatchlist && !targetWatchlist.id) {
+    const selectedWatchlist = watchlists.find(({ id }) => +id === targetWatchlist.value)
     setFieldValue('targetWatchlist', selectedWatchlist)
   }
 

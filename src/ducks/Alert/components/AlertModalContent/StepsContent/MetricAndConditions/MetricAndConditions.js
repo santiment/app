@@ -11,30 +11,23 @@ import { getMetric } from '../../../../../Studio/Sidebar/utils'
 import styles from './MetricAndConditions.module.scss'
 
 const MetricAndConditions = ({
-  selectorSettings: {
-    setSelectedStep,
-    selectedStep,
-    visitedSteps,
-    setVisitedSteps
-  }
+  selectorSettings: { setSelectedStep, selectedStep, visitedSteps, setVisitedSteps },
 }) => {
   const { values } = useFormikContext()
   const { data, loading } = useAvailableMetrics(values.settings.target.slug)
-  const [selectedMetric, setSelectedMetric] = useState(
-    getMetric(values.settings.metric)
-  )
+  const [selectedMetric, setSelectedMetric] = useState(getMetric(values.settings.metric))
   const [isEditMode, setIsEditMode] = useState(false)
 
-  function handleSelectMetric (metric) {
+  function handleSelectMetric(metric) {
     setSelectedMetric(metric)
     setIsEditMode(false)
   }
 
-  function handleNextClick () {
+  function handleNextClick() {
     setSelectedStep(selectedStep + 1)
 
     if (!visitedSteps.has(selectedStep + 1)) {
-      setVisitedSteps(prev => [...prev, selectedStep + 1])
+      setVisitedSteps((prev) => [...prev, selectedStep + 1])
     }
   }
 
@@ -42,9 +35,7 @@ const MetricAndConditions = ({
     <>
       <div className={styles.titleWrapper}>
         <StepTitle title='Choose Metric' className={styles.title} />
-        {selectedMetric && (
-          <NextStep label='Conditions' onClick={() => setIsEditMode(false)} />
-        )}
+        {selectedMetric && <NextStep label='Conditions' onClick={() => setIsEditMode(false)} />}
       </div>
       <MetricSelector
         metrics={data.availableMetrics}
@@ -70,12 +61,7 @@ const MetricAndConditions = ({
   }
 
   if (loading) {
-    children = (
-      <PageLoader
-        containerClass={styles.loaderWrapper}
-        className={styles.loader}
-      />
-    )
+    children = <PageLoader containerClass={styles.loaderWrapper} className={styles.loader} />
   }
 
   return <div className={styles.wrapper}>{children}</div>

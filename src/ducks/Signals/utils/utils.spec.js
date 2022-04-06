@@ -1,10 +1,7 @@
 /* eslint-env jest */
 
 import { mapTriggerToFormProps, mapFormPropsToTrigger } from './utils'
-import {
-  PRICE_VOLUME_DIFFERENCE,
-  PRICE_VOLUME_DIFFERENCE_METRIC
-} from './constants'
+import { PRICE_VOLUME_DIFFERENCE, PRICE_VOLUME_DIFFERENCE_METRIC } from './constants'
 
 const TRIGGERS = [
   {
@@ -16,8 +13,8 @@ const TRIGGERS = [
       type: 'metric_signal',
       metric: 'price_usd',
       operation: {
-        percent_up: 5
-      }
+        percent_up: 5,
+      },
     },
     isPublic: false,
     isActive: false,
@@ -26,7 +23,7 @@ const TRIGGERS = [
     tags: [],
     title: undefined,
     description: '',
-    __typename: 'Trigger'
+    __typename: 'Trigger',
   },
   {
     __typename: 'Trigger',
@@ -42,10 +39,10 @@ const TRIGGERS = [
       operation: undefined,
       target: { slug: 'santiment' },
       time_window: '30m',
-      type: 'daily_metric_signal'
+      type: 'daily_metric_signal',
     },
     tags: [],
-    title: undefined
+    title: undefined,
   },
   {
     __typename: 'Trigger',
@@ -60,10 +57,10 @@ const TRIGGERS = [
       metric: 'price_volume_difference',
       target: { slug: 'santiment' },
       threshold: 0.002,
-      type: 'price_volume_difference'
+      type: 'price_volume_difference',
     },
     tags: [],
-    title: undefined
+    title: undefined,
   },
   {
     id: 1,
@@ -73,8 +70,8 @@ const TRIGGERS = [
       time_window: '1d',
       type: 'price_absolute_change',
       operation: {
-        above: 5
-      }
+        above: 5,
+      },
     },
     isPublic: false,
     isActive: false,
@@ -83,8 +80,8 @@ const TRIGGERS = [
     tags: [],
     title: 'Example',
     description: 'any',
-    __typename: 'Trigger'
-  }
+    __typename: 'Trigger',
+  },
 ]
 
 const FORM_PROPS = [
@@ -99,7 +96,7 @@ const FORM_PROPS = [
       availableTypes: ['h'],
       disabledMetrics: ['daily_active_addresses'],
       label: 'Hourly',
-      value: 'h'
+      value: 'h',
     },
     isActive: false,
     isPublic: false,
@@ -109,7 +106,7 @@ const FORM_PROPS = [
       value: 'price',
       description: 'Notify me when an asset’s price moves a certain way',
       type: 'metric_signal',
-      metric: 'price_usd'
+      metric: 'price_usd',
     },
     percentThreshold: 5,
     signalType: { label: 'Assets', value: 'assets' },
@@ -124,8 +121,8 @@ const FORM_PROPS = [
       filledField: true,
       label: 'Moving up %',
       metric: 'price_percent_change',
-      value: 'percent_up'
-    }
+      value: 'percent_up',
+    },
   },
   {
     channels: ['Telegram'],
@@ -138,18 +135,17 @@ const FORM_PROPS = [
       availableTypes: ['h'],
       disabledMetrics: ['daily_active_addresses'],
       label: 'Hourly',
-      value: 'h'
+      value: 'h',
     },
     isActive: false,
     isPublic: false,
     isRepeating: true,
     metric: {
-      description:
-        'Notify me of changes in the # of addresses transacting an asset on-chain',
+      description: 'Notify me of changes in the # of addresses transacting an asset on-chain',
       label: 'Daily Active Addresses',
       metric: 'daily_active_addresses',
       type: 'daily_metric_signal',
-      value: 'daily_active_addresses'
+      value: 'daily_active_addresses',
     },
     percentThreshold: 5,
     signalType: { label: 'Assets', value: 'assets' },
@@ -159,7 +155,7 @@ const FORM_PROPS = [
     timeWindow: 30,
     timeWindowUnit: { label: 'Minute(s)', value: 'm' },
     title: undefined,
-    type: { value: 'daily_metric_signal' }
+    type: { value: 'daily_metric_signal' },
   },
   {
     channels: ['Telegram'],
@@ -172,7 +168,7 @@ const FORM_PROPS = [
       availableTypes: ['h'],
       disabledMetrics: ['daily_active_addresses'],
       label: 'Hourly',
-      value: 'h'
+      value: 'h',
     },
     isActive: false,
     isPublic: false,
@@ -186,8 +182,8 @@ const FORM_PROPS = [
     timeWindow: '24',
     timeWindowUnit: { label: 'Day(s)', value: 'd' },
     title: undefined,
-    type: { value: PRICE_VOLUME_DIFFERENCE }
-  }
+    type: { value: PRICE_VOLUME_DIFFERENCE },
+  },
 ]
 
 describe('Mapping Trigger data should work', () => {
@@ -206,14 +202,8 @@ describe('Mapping Trigger data should work', () => {
 
 describe('Mapping Form to Trigger data should work', () => {
   it('it should transform form with price_volume_difference to trigger', () => {
-    expect(mapFormPropsToTrigger(FORM_PROPS[0], TRIGGERS[0])).toMatchObject(
-      TRIGGERS[0]
-    )
-    expect(mapFormPropsToTrigger(FORM_PROPS[1], TRIGGERS[1])).toMatchObject(
-      TRIGGERS[1]
-    )
-    expect(mapFormPropsToTrigger(FORM_PROPS[2], TRIGGERS[2])).toMatchObject(
-      TRIGGERS[2]
-    )
+    expect(mapFormPropsToTrigger(FORM_PROPS[0], TRIGGERS[0])).toMatchObject(TRIGGERS[0])
+    expect(mapFormPropsToTrigger(FORM_PROPS[1], TRIGGERS[1])).toMatchObject(TRIGGERS[1])
+    expect(mapFormPropsToTrigger(FORM_PROPS[2], TRIGGERS[2])).toMatchObject(TRIGGERS[2])
   })
 })

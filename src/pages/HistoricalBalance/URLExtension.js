@@ -1,17 +1,7 @@
 import { useEffect } from 'react'
-import {
-  parseUrl,
-  generateSearchQuery
-} from '../../ducks/HistoricalBalance/url'
+import { parseUrl, generateSearchQuery } from '../../ducks/HistoricalBalance/url'
 
-const URLExtension = ({
-  history,
-  settings,
-  chartAssets,
-  priceAssets,
-  isLog,
-  onAddressChange
-}) => {
+const URLExtension = ({ history, settings, chartAssets, priceAssets, isLog, onAddressChange }) => {
   const { search } = history.location
 
   useEffect(() => {
@@ -22,9 +12,7 @@ const URLExtension = ({
   }, [search])
 
   useEffect(() => {
-    history.replace(
-      '?' + generateSearchQuery(settings, chartAssets, priceAssets, isLog)
-    )
+    history.replace('?' + generateSearchQuery(settings, chartAssets, priceAssets, isLog))
   }, [settings, chartAssets, priceAssets, isLog])
 
   return null

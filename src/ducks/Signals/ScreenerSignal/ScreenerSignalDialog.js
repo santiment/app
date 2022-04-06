@@ -42,33 +42,24 @@ const getWachlistIdFromSignal = memoize((signal = {}, isProject) => {
     return watchlist_id
   }
 
-  const {
-    settings: { operation: { selector: { watchlist_id } = {} } = {} } = {}
-  } = signal
+  const { settings: { operation: { selector: { watchlist_id } = {} } = {} } = {} } = signal
   return watchlist_id
 })
 
-const getWatchlistSignal = memoize(
-  ({ signals, watchlist: { id }, isProject }) => {
-    return signals.find(signal => {
-      const wId = getWachlistIdFromSignal(signal, isProject)
-      return wId && +wId === +id
-    })
-  }
-)
+const getWatchlistSignal = memoize(({ signals, watchlist: { id }, isProject }) => {
+  return signals.find((signal) => {
+    const wId = getWachlistIdFromSignal(signal, isProject)
+    return wId && +wId === +id
+  })
+})
 
-const ScreenerSignalDialog = ({
-  trigger: ElTrigger,
-  signal,
-  watchlistId,
-  type
-}) => {
+const ScreenerSignalDialog = ({ trigger: ElTrigger, signal, watchlistId, type }) => {
   const isProject = type === PROJECT
   const { isLoggedIn } = useUser()
   const [stateSignal, setSignal] = useState(
     signal ||
       (type === SCREENER && SCREENER_DEFAULT_SIGNAL) ||
-      (isProject && WATCHLIST_DEFAULT_SIGNAL)
+      (isProject && WATCHLIST_DEFAULT_SIGNAL),
   )
 
   const targetId = watchlistId || getWachlistIdFromSignal(signal, isProject)
@@ -77,7 +68,7 @@ const ScreenerSignalDialog = ({
   const hasSignal = signal && signal.id > 0
 
   const { data: signals = [], loading: signalsLoading } = useSignals({
-    skip: hasSignal
+    skip: hasSignal,
   })
 
   useEffect(() => {
@@ -92,7 +83,7 @@ const ScreenerSignalDialog = ({
         let signalOfWatchlist = getWatchlistSignal({
           signals,
           watchlist,
-          isProject
+          isProject,
         })
         if (signalOfWatchlist) {
           setSignal(signalOfWatchlist)
@@ -103,14 +94,14 @@ const ScreenerSignalDialog = ({
       if (isProject) {
         const newSignal = {
           ...WATCHLIST_DEFAULT_SIGNAL,
-          title: `Alert for watchlist '${watchlist.name}'`
+          title: `Alert for watchlist '${watchlist.name}'`,
         }
         newSignal.settings.target = { watchlist_id: +watchlist.id }
         setSignal(newSignal)
       } else {
         const newSignal = {
           ...SCREENER_DEFAULT_SIGNAL,
-          title: `Alert for screener '${watchlist.name}'`
+          title: `Alert for screener '${watchlist.name}'`,
         }
         newSignal.settings.operation.selector = { watchlist_id: watchlist.id }
         setSignal(newSignal)

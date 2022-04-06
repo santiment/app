@@ -13,7 +13,7 @@ const defaultClasses = {
   shortLeft: styles.shortLeft,
   right: styles.right,
   searchBtn: styles.searchBtn,
-  isTitleLink: styles.isTitleLink
+  isTitleLink: styles.isTitleLink,
 }
 
 const MobileHeader = ({
@@ -26,7 +26,7 @@ const MobileHeader = ({
   classes: _classes = {},
   showBack = false,
   showSearch = true,
-  children
+  children,
 }) => {
   const classes = { ...defaultClasses, ..._classes }
   const Title = backRoute && !goBack ? Link : 'div'
@@ -35,22 +35,11 @@ const MobileHeader = ({
       <Title
         onClick={goBack && goBack}
         to={backRoute}
-        className={cx(
-          classes.left,
-          rightActions && classes.shortLeft,
-          _classes.back
-        )}
+        className={cx(classes.left, rightActions && classes.shortLeft, _classes.back)}
       >
-        {(backRoute || showBack) && (
-          <Icon className={classes.icon} type='arrow-left-big' />
-        )}
+        {(backRoute || showBack) && <Icon className={classes.icon} type='arrow-left-big' />}
         {title && (
-          <h1
-            className={cx(
-              classes.title,
-              (backRoute || showBack) && classes.isTitleLink
-            )}
-          >
+          <h1 className={cx(classes.title, (backRoute || showBack) && classes.isTitleLink)}>
             {title}
           </h1>
         )}
@@ -72,7 +61,7 @@ MobileHeader.propTypes = {
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   backRoute: PropTypes.string,
   rightActions: PropTypes.node,
-  goBack: PropTypes.func
+  goBack: PropTypes.func,
 }
 
 export default MobileHeader

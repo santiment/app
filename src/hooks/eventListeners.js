@@ -11,7 +11,7 @@ export const useEventListener = (eventName, handler, element = window) => {
     const isSupported = element && element.addEventListener
     if (!isSupported) return
 
-    const eventListener = event => savedHandler.current(event)
+    const eventListener = (event) => savedHandler.current(event)
 
     element.addEventListener(eventName, eventListener)
 
@@ -21,8 +21,8 @@ export const useEventListener = (eventName, handler, element = window) => {
   }, [eventName, element])
 }
 
-export const useCtrlSPress = callback => {
-  const listenHotkey = e => {
+export const useCtrlSPress = (callback) => {
+  const listenHotkey = (e) => {
     const { ctrlKey, metaKey, code } = e
 
     if ((metaKey || ctrlKey) && code === 'KeyS') {

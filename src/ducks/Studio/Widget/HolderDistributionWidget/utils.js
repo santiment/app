@@ -3,7 +3,7 @@ import { preTransform } from '../../timeseries/fetcher'
 import {
   removeLabelPostfix,
   percentFormatter,
-  axisPercentFormatter
+  axisPercentFormatter,
 } from '../../Chart/Sidepanel/HolderDistribution/utils'
 import { updateTooltipSetting } from '../../../dataHub/tooltipSettings'
 import { client } from '../../../../apollo'
@@ -11,22 +11,19 @@ import { client } from '../../../../apollo'
 export const MERGED_DIVIDER = '__MM__'
 const MergedTypePropsTuple = [
   [' coins'], // 0 === false
-  [' coins %', percentFormatter, axisPercentFormatter] // 1 === true
+  [' coins %', percentFormatter, axisPercentFormatter], // 1 === true
 ]
 
-const immutate = v => Object.assign({}, v)
+const immutate = (v) => Object.assign({}, v)
 const keyGetter = ({ key }) => key
-const labelGetter = ({ label }) =>
-  removeLabelPostfix(label.replace(' coins', ''))
+const labelGetter = ({ label }) => removeLabelPostfix(label.replace(' coins', ''))
 
 export const checkIfWasNotMerged = (newKey, mergedMetrics) =>
   mergedMetrics.every(({ key }) => key !== newKey)
 
-export function buildMergedMetric (baseMetrics) {
+export function buildMergedMetric(baseMetrics) {
   const isPercentMerge = baseMetrics[0].type === 'percent'
-  const [labelPostfix, formatter, axisFormatter] = MergedTypePropsTuple[
-    +isPercentMerge
-  ]
+  const [labelPostfix, formatter, axisFormatter] = MergedTypePropsTuple[+isPercentMerge]
 
   const metric = {
     fetch,
@@ -34,11 +31,8 @@ export function buildMergedMetric (baseMetrics) {
     formatter,
     axisFormatter,
     node: 'line',
-    key: baseMetrics
-      .map(keyGetter)
-      .sort()
-      .join(MERGED_DIVIDER),
-    label: baseMetrics.map(labelGetter).join(', ') + labelPostfix
+    key: baseMetrics.map(keyGetter).sort().join(MERGED_DIVIDER),
+    label: baseMetrics.map(labelGetter).join(', ') + labelPostfix,
   }
 
   updateTooltipSetting(metric)
@@ -46,16 +40,16 @@ export function buildMergedMetric (baseMetrics) {
   return metric
 }
 
-function fetch (metric, { slug, interval, from, to, labels }) {
+function fetch(metric, { slug, interval, from, to, labels }) {
   const { key, baseMetrics, type } = metric
   const isPercentMerge = type === 'percent'
 
   const queries = baseMetrics.map(({ key: metricKey, queryKey = metricKey }) =>
-    GET_METRIC({ key, queryKey })
+    GET_METRIC({ key, queryKey }),
   )
 
   return Promise.all(
-    queries.map(query =>
+    queries.map((query) =>
       client
         .query({
           query,
@@ -64,12 +58,12 @@ function fetch (metric, { slug, interval, from, to, labels }) {
             interval,
             from,
             to,
-            labels
-          }
+            labels,
+          },
         })
-        .then(preTransform)
-    )
-  ).then(allData => {
+        .then(preTransform),
+    ),
+  ).then((allData) => {
     const result = allData[0].map(immutate)
     const mergedAmount = allData.length
 

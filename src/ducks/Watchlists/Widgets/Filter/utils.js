@@ -1,7 +1,7 @@
 import { tableQuery } from '../../gql'
 import { DEFAULT_SCREENER_FN } from '../../../Screener/utils'
 
-export function getNewFunction (filter, baseProjects = []) {
+export function getNewFunction(filter, baseProjects = []) {
   const args = { filters: filter }
 
   if (baseProjects.length > 0) {
@@ -16,11 +16,11 @@ export function getNewFunction (filter, baseProjects = []) {
 // for screeners that created with old way
 // we still have some old-design screeners on prod
 // before delete need to migrate on backend first
-function reconstructFilters (filters) {
-  return filters.map(filter => ({ args: filter, name: 'metric' }))
+function reconstructFilters(filters) {
+  return filters.map((filter) => ({ args: filter, name: 'metric' }))
 }
 
-export function extractFilters ({ filters = [] }) {
+export function extractFilters({ filters = [] }) {
   if (filters.length === 0) {
     return filters
   }
@@ -32,7 +32,7 @@ export function extractFilters ({ filters = [] }) {
   }
 }
 
-export function filterMetricsBySearch (value = '', metrics) {
+export function filterMetricsBySearch(value = '', metrics) {
   if (!value) {
     return metrics
   }
@@ -40,10 +40,10 @@ export function filterMetricsBySearch (value = '', metrics) {
   const chars = value.toLowerCase().split('')
   const passedMetrics = []
 
-  metrics.forEach(metric => {
+  metrics.forEach((metric) => {
     const str = metric.label.toLowerCase()
 
-    const foundChars = chars.filter(char => str.includes(char))
+    const foundChars = chars.filter((char) => str.includes(char))
     if (foundChars.length === chars.length) {
       passedMetrics.push(metric)
     }
@@ -52,22 +52,17 @@ export function filterMetricsBySearch (value = '', metrics) {
   return passedMetrics
 }
 
-function buildFunction ({ fn, pagination, orderBy }) {
+function buildFunction({ fn, pagination, orderBy }) {
   if (fn.name === DEFAULT_SCREENER_FN.name) {
     return { args: { pagination, orderBy, filters: [] }, name: 'selector' }
   } else {
     return {
       ...fn,
-      args: { pagination, orderBy, ...fn.args }
+      args: { pagination, orderBy, ...fn.args },
     }
   }
 }
 
-export function buildFunctionQuery ({
-  fn,
-  pagination,
-  orderBy,
-  activeColumns
-}) {
+export function buildFunctionQuery({ fn, pagination, orderBy, activeColumns }) {
   return [buildFunction({ fn, pagination, orderBy }), tableQuery(activeColumns)]
 }

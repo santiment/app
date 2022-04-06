@@ -26,7 +26,7 @@ const UsernameChangeModal = ({ dispatchNewUsername }) => {
     setUsername,
     checkUsername,
     catchUsernameChangeError,
-    showUsernameChangedNotifiction
+    showUsernameChangedNotifiction,
   } = useUsernameChange()
 
   const saveUsernameButtonHandler = useCallback(() => {
@@ -43,7 +43,7 @@ const UsernameChangeModal = ({ dispatchNewUsername }) => {
     checkUsername,
     catchUsernameChangeError,
     changeUsername,
-    showUsernameChangedNotifiction
+    showUsernameChangedNotifiction,
   ])
 
   return (
@@ -56,11 +56,11 @@ const UsernameChangeModal = ({ dispatchNewUsername }) => {
           maxLength='25'
           autoComplete='off'
           placeholder='username'
-          onChange={e => {
+          onChange={(e) => {
             setUsername(e.target.value)
             setUsernameError()
           }}
-          onBlur={e => checkUsername(e.target.value)}
+          onBlur={(e) => checkUsername(e.target.value)}
           isError={!!usernameError}
           errorText={usernameError}
           className={styles.usernameInput}
@@ -123,12 +123,12 @@ const UsernamePage = ({ isDesktop, dispatchNewUsername }) => {
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  dispatchNewUsername: username =>
+const mapDispatchToProps = (dispatch) => ({
+  dispatchNewUsername: (username) =>
     dispatch({
       type: USER_USERNAME_CHANGE,
-      username
-    })
+      username,
+    }),
 })
 
 export default connect(null, mapDispatchToProps)(UsernamePage)

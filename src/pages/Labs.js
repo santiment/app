@@ -9,38 +9,35 @@ const cards = [
     title: 'Historical balance',
     description: (
       <div>
-        Look up any wallet’s history of Ethereum and ERC20 holdings. Choose up
-        to 5 assets for a detailed breakdown.
+        Look up any wallet’s history of Ethereum and ERC20 holdings. Choose up to 5 assets for a
+        detailed breakdown.
       </div>
     ),
     link: '/labs/balance',
     className: styles.historicalBalance,
-    bgClassName: styles.historicalBalanceBg
+    bgClassName: styles.historicalBalanceBg,
   },
   {
     title: 'Social trends',
     description: (
-      <div>
-        Explore the social volume of any word/phrase on crypto social media over
-        time.
-      </div>
+      <div>Explore the social volume of any word/phrase on crypto social media over time.</div>
     ),
     link: '/labs/trends',
     className: styles.trends,
-    bgClassName: styles.trendsBg
+    bgClassName: styles.trendsBg,
   },
   {
     title: 'Graphs',
     description: (
       <div>
-        Our advanced on-chain, social and development metrics for all crypto
-        projects in Santiment’s database.
+        Our advanced on-chain, social and development metrics for all crypto projects in Santiment’s
+        database.
       </div>
     ),
     href: 'https://graphs.santiment.net/',
     className: styles.dashboard,
-    bgClassName: styles.dashboardBg
-  }
+    bgClassName: styles.dashboardBg,
+  },
 ]
 
 const Labs = () => (
@@ -52,7 +49,7 @@ const Labs = () => (
       <MobileHeader title='Labs' />
     </MobileOnly>
     <div className={styles.flexRow}>
-      {cards.map(card => (
+      {cards.map((card) => (
         <Card key={card.title} {...card} />
       ))}
     </div>

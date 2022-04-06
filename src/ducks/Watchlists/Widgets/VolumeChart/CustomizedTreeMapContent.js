@@ -2,7 +2,7 @@ import React from 'react'
 import { getFontSize, getWordLength } from './utils'
 import { renderPercent } from '../../../../components/PercentChanges'
 
-const CustomizedTreeMapContent = props => {
+const CustomizedTreeMapContent = (props) => {
   const {
     x,
     y,
@@ -10,7 +10,7 @@ const CustomizedTreeMapContent = props => {
     height,
     index,
     dataKey,
-    root: { children }
+    root: { children },
   } = props
 
   if (!children) {
@@ -28,8 +28,7 @@ const CustomizedTreeMapContent = props => {
   const showTicker = tickerLength + 8 < width
 
   const valueLength = getWordLength(fontSize, value)
-  const showChange =
-    showTicker && valueLength + 6 < width && fontSize * 2 + 5 < height
+  const showChange = showTicker && valueLength + 6 < width && fontSize * 2 + 5 < height
 
   return (
     <g>
@@ -41,7 +40,7 @@ const CustomizedTreeMapContent = props => {
         style={{
           fill: color,
           stroke: 'var(--white)',
-          strokeWidth: 2
+          strokeWidth: 2,
         }}
       />
       {showTicker && (

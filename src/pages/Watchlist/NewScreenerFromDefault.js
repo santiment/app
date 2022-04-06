@@ -16,8 +16,8 @@ const NewScreener = ({ history }) => {
 
     if (!isScreenersLoading && checkIsDefaultScreener(screeners[0].href)) {
       if (!loading) {
-        createScreener({ name: 'My Screener', isPublic: false }).then(
-          screener => history.push(getScreenerLink(screener))
+        createScreener({ name: 'My Screener', isPublic: false }).then((screener) =>
+          history.push(getScreenerLink(screener)),
         )
       }
     } else {

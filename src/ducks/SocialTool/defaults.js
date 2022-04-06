@@ -14,16 +14,16 @@ export const DEFAULT_SETTINGS = {
   from: FROM.toISOString(),
   to: TO.toISOString(),
   timeRange: DEFAULT_TIME_RANGE,
-  ticker: 'BTC'
+  ticker: 'BTC',
 }
 
 export const DEFAULT_OPTIONS = {
   isSocialDominanceActive: getSavedToggle('isSocialDominanceActive'),
-  ...COMMON_CHART_OPTIONS
+  ...COMMON_CHART_OPTIONS,
 }
 
 export const DEFAULT_METRICS = [
   Metric.social_volume_total,
   Metric.price_usd,
-  getSavedToggle('isSocialDominanceActive') && Metric.social_dominance_total
+  getSavedToggle('isSocialDominanceActive') && Metric.social_dominance_total,
 ].filter(Boolean)

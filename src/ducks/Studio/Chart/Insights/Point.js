@@ -6,21 +6,12 @@ import Avatar from './Avatar'
 import styles from './Point.module.scss'
 import insightStyles from './Insight.module.scss'
 
-const Point = ({
-  index,
-  left,
-  top,
-  user,
-  isOpened,
-  isAnon,
-  setOpenedIndex,
-  ...props
-}) => {
-  function openInsight () {
+const Point = ({ index, left, top, user, isOpened, isAnon, setOpenedIndex, ...props }) => {
+  function openInsight() {
     setOpenedIndex(index)
   }
 
-  function closeInsight () {
+  function closeInsight() {
     setOpenedIndex()
   }
 
@@ -42,12 +33,7 @@ const Point = ({
       }
       className={styles.tooltip}
     >
-      <div
-        className={cx(
-          insightStyles.wrapper,
-          isAnon && insightStyles.wrapper_anon
-        )}
-      >
+      <div className={cx(insightStyles.wrapper, isAnon && insightStyles.wrapper_anon)}>
         {isOpened && <Insight {...props} user={user} />}
       </div>
     </ContextMenu>

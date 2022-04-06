@@ -16,9 +16,9 @@ const billingOptions = [
       <>
         Bill yearly <Label accent='waterloo'>(save 10%)</Label>
       </>
-    )
+    ),
   },
-  { index: 'month', content: 'Bill monthly' }
+  { index: 'month', content: 'Bill monthly' },
 ]
 
 const Plans = ({ id, onDialogClose, classes = {} }) => {
@@ -38,12 +38,12 @@ const Plans = ({ id, onDialogClose, classes = {} }) => {
           options={billingOptions}
           defaultSelectedIndex='year'
           labelOnRight
-          onSelect={res => setBilling(res)}
+          onSelect={(res) => setBilling(res)}
           className={styles.bill}
         />
       </div>
       <div className={cx(styles.cards, classes.cards)}>
-        {showingPlans.map(plan => (
+        {showingPlans.map((plan) => (
           <Plan
             key={plan.id}
             plan={plan}
@@ -54,7 +54,7 @@ const Plans = ({ id, onDialogClose, classes = {} }) => {
             isSubscriptionCanceled={isSubscriptionCanceled}
             onDialogClose={onDialogClose}
             btnProps={{
-              accent: 'orange'
+              accent: 'orange',
             }}
           />
         ))}

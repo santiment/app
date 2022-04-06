@@ -13,7 +13,7 @@ const Steps = ({
   selected,
   ...restProps
 }) => {
-  function onStepClick (next) {
+  function onStepClick(next) {
     if (onChange && current !== next) {
       onChange(next)
     }
@@ -30,7 +30,7 @@ const Steps = ({
           icons,
           onStepClick: onChange && onStepClick,
           selected,
-          ...child.props
+          ...child.props,
         }
 
         if (!child.props.status) {
@@ -55,7 +55,7 @@ Steps.Step = Step
 Steps.defaultProps = {
   initial: 0,
   current: 0,
-  size: ''
+  size: '',
 }
 
 export default Steps

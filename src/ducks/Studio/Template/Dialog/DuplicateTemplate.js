@@ -3,16 +3,11 @@ import DialogForm from './DialogForm'
 import { notifyDuplication } from '../notifications'
 import { useCreateTemplate } from '../gql/hooks'
 
-export default ({
-  onDuplicate,
-  template,
-  buttonLabel = 'Duplicate',
-  ...props
-}) => {
+export default ({ onDuplicate, template, buttonLabel = 'Duplicate', ...props }) => {
   const { title } = template
   const [createTemplate, { loading }] = useCreateTemplate()
 
-  function onSubmit ({ title, description }) {
+  function onSubmit({ title, description }) {
     const { metrics, project, options } = template
 
     createTemplate({
@@ -21,7 +16,7 @@ export default ({
       metrics,
       isPublic: false,
       projectId: +project.id,
-      options: options
+      options: options,
     })
       .then(onDuplicate)
       .then(notifyDuplication)

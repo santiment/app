@@ -5,7 +5,7 @@
   "scripts": {
     "prestart": "rm -f ./node_modules/webpack-dev-server/ssl/server.pem && cp -f .cert/server.pem ./node_modules/webpack-dev-server/ssl",
     "start": "node scripts && REACT_APP_VERSION=$(node -pe 'require(\"./package.json\").version')-$GIT_HEAD react-app-rewired start",
-    "format:js": "prettier-standard 'src/**/*.js'",
+    "format:js": "prettier --write --loglevel silent 'src/**/*.{js,svelte}'",
     "format:css": "stylelint src/*{sass,scss} --syntax scss --fix",
     "format": "npm run format:js && npm run format:css",
     "lint:css": "stylelint src/*{sass,scss} --syntax scss",
@@ -162,13 +162,13 @@
   },
   "lint-staged": {
     "linters": {
-      "src/**/*.js": [
-        "yarn format",
+      "src/**/*.{js,svelte}": [
+        "npm run format",
         "git add"
       ],
       "*.{sass,scss,css}": [
-        "yarn stylefmt",
-        "yarn stylelint src/*{sass,scss} --syntax scss --fix",
+        "npm run stylefmt",
+        "npm run stylelint src/*{sass,scss} --syntax scss --fix",
         "git add"
       ]
     }

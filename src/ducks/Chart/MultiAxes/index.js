@@ -17,7 +17,7 @@ const MultiAxes = buildPlotter(({ plotter }, { metrics, xTicks, yTicks }) => {
 
 MultiAxes.defaultProps = {
   xTicks: 10,
-  yTicks: 8
+  yTicks: 8,
 }
 
 export default MultiAxes

@@ -12,11 +12,7 @@ import styles from './index.module.scss'
 
 const hasMetamask = detectMetamask()
 
-const LoginMetamaskBtn = ({
-  loginError,
-  showErrorNotification,
-  requestAuth
-}) => {
+const LoginMetamaskBtn = ({ loginError, showErrorNotification, requestAuth }) => {
   const [trackEvent] = useTrackEvents()
 
   if (!hasMetamask) {
@@ -27,20 +23,16 @@ const LoginMetamaskBtn = ({
     showErrorNotification()
   }
 
-  function askAuth (consent) {
+  function askAuth(consent) {
     requestAuth(consent)
     trackEvent({
       category: 'User',
-      action: 'Choose an metamask provider'
+      action: 'Choose an metamask provider',
     })
   }
 
   return (
-    <Button
-      fluid
-      className={cx(styles.btn, styles.btn_metamask)}
-      onClick={askAuth}
-    >
+    <Button fluid className={cx(styles.btn, styles.btn_metamask)} onClick={askAuth}>
       <Icon type='metamask-monochrome' className={styles.btn__icon} />
       <span className={styles.metamask}>Log in with Metamask</span>
     </Button>
@@ -48,11 +40,11 @@ const LoginMetamaskBtn = ({
 }
 
 const mapStateToProps = ({ user }) => ({
-  loginError: user.error
+  loginError: user.error,
 })
 
-const mapDispatchToProps = dispatch => ({
-  requestAuth: consent => {
+const mapDispatchToProps = (dispatch) => ({
+  requestAuth: (consent) => {
     dispatch({ type: USER_ETH_LOGIN, payload: { consent: '' } })
   },
   showErrorNotification: () => {
@@ -61,10 +53,10 @@ const mapDispatchToProps = dispatch => ({
         variant: 'error',
         title: `Error occured during login process`,
         description: 'Please, try again later or use another login option',
-        dismissAfter: 8000
-      })
+        dismissAfter: 8000,
+      }),
     )
-  }
+  },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginMetamaskBtn)

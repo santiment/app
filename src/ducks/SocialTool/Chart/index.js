@@ -36,26 +36,26 @@ const Chart = ({
   const domainGroups = useDomainGroups(metrics)
   const mirrorDomainGroups = useMemo(
     () => extractMirrorMetricsDomainGroups(domainGroups),
-    [domainGroups]
+    [domainGroups],
   )
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState(
-    domainGroups && domainGroups.length > mirrorDomainGroups.length
+    domainGroups && domainGroups.length > mirrorDomainGroups.length,
   )
   const scale = options.isLogScale ? logScale : linearScale
   const detectedAsset = allDetectedAssets.get(settings.slug) || {}
 
-  function onMetricHover (metric) {
+  function onMetricHover(metric) {
     setFocusedMetric(metric)
   }
 
-  function onMetricHoverEnd () {
+  function onMetricHoverEnd() {
     setFocusedMetric()
   }
 
-  function onBrushChangeEnd (startIndex, endIndex) {
+  function onBrushChangeEnd(startIndex, endIndex) {
     props.changeTimePeriod(
       new Date(brushData[startIndex].datetime),
-      new Date(brushData[endIndex].datetime)
+      new Date(brushData[endIndex].datetime),
     )
   }
 
@@ -110,9 +110,7 @@ const Chart = ({
         brushData={brushData}
         options={options}
         settings={settings}
-        domainGroups={
-          isDomainGroupingActive ? domainGroups : mirrorDomainGroups
-        }
+        domainGroups={isDomainGroupingActive ? domainGroups : mirrorDomainGroups}
         categories={categories}
         metrics={metrics}
         colors={MetricColor}
@@ -169,9 +167,7 @@ const Chart = ({
               setSettings={setSettings}
               className={cx(styles.top, styles.detailed)}
             >
-              <h3 className={styles.title}>
-                {detectedAsset.ticker} own community charts
-              </h3>
+              <h3 className={styles.title}>{detectedAsset.ticker} own community charts</h3>
             </ChartHeader>
           </DetailedBlock>
         </>

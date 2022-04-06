@@ -7,10 +7,7 @@ import styles from '../InsightCardWithMarketcap/index.module.scss'
 const ReactInsightCard = toReact(SvelteInsightCard, {}, 'div')
 
 const InsightCard = ({ insight, className }) => (
-  <ReactInsightCard
-    insight={insight}
-    className={cx(styles.wrapper, className)}
-  />
+  <ReactInsightCard insight={insight} className={cx(styles.wrapper, className)} />
 )
 
 export default InsightCard

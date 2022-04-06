@@ -8,7 +8,7 @@ const NameSetting = ({ dispatchNewName, name }) => {
     changeFullname,
     showFullnameChangedNotifiction,
     catchFullnameChangeError,
-    checkFullname
+    checkFullname,
   } = useFullnameChange()
 
   return (
@@ -28,7 +28,7 @@ const NameSetting = ({ dispatchNewName, name }) => {
           catchFullnameChangeError(e)
           showFullnameChangedNotifiction({
             variant: 'error',
-            title: `Oops! Something went wrong, please try again`
+            title: `Oops! Something went wrong, please try again`,
           })
         }
       }}

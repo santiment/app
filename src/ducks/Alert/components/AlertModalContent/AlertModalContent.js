@@ -7,12 +7,7 @@ const AlertModalContent = ({ selectorSettings }) => {
   const { shouldHideRestrictionMessage } = selectorSettings
 
   return (
-    <div
-      className={cx(
-        styles.wrapper,
-        !shouldHideRestrictionMessage && styles.wrapperResized
-      )}
-    >
+    <div className={cx(styles.wrapper, !shouldHideRestrictionMessage && styles.wrapperResized)}>
       <StepsContent selectorSettings={selectorSettings} />
     </div>
   )

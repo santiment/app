@@ -18,30 +18,30 @@ const NAVBAR_LINKS = [
   {
     label: 'Feed',
     linkTo: '/feed',
-    Icon: FeedIcon
+    Icon: FeedIcon,
   },
   {
     label: 'Market',
     linkTo: '/assets',
-    Icon: AssetsIcon
+    Icon: AssetsIcon,
   },
   {
     label: 'Watchlists',
     linkTo: '/watchlists',
-    Icon: WatchlistsIcon
+    Icon: WatchlistsIcon,
   },
   {
     as: 'a',
     href: 'https://insights.santiment.net',
     label: 'Insights',
-    Icon: InsightsIcon
-  }
+    Icon: InsightsIcon,
+  },
 ]
 
 const MENU_LINKS = [
   { linkTo: '/alerts', label: 'Alerts' },
   { linkTo: '/labs/trends', label: 'Social trends' },
-  { linkTo: '/account', label: 'Account settings' }
+  { linkTo: '/account', label: 'Account settings' },
 ]
 
 const MobileNavbar = ({ history, activeLink }) => {
@@ -49,22 +49,18 @@ const MobileNavbar = ({ history, activeLink }) => {
   const [isOpened, setOpened] = useState(false)
 
   const toggleMenu = () => setOpened(!isOpened)
-  const handleNavigation = linkTo => {
+  const handleNavigation = (linkTo) => {
     isOpened && toggleMenu()
     history.push(linkTo)
   }
 
   if (window.Intercom) {
     window.Intercom('onShow', function () {
-      const intercomContainer = window.document.querySelector(
-        '#intercom-container'
-      )
+      const intercomContainer = window.document.querySelector('#intercom-container')
       if (intercomContainer) intercomContainer.style.display = 'block'
     })
     window.Intercom('onHide', function () {
-      const intercomContainer = window.document.querySelector(
-        '#intercom-container'
-      )
+      const intercomContainer = window.document.querySelector('#intercom-container')
       if (intercomContainer) intercomContainer.style.display = 'none'
     })
   }
@@ -72,9 +68,7 @@ const MobileNavbar = ({ history, activeLink }) => {
   return (
     <div className={cx({ [styles.overlay]: isOpened })}>
       <Helmet>
-        <body
-          style={isOpened ? { position: 'fixed', overflow: 'hidden' } : ''}
-        />
+        <body style={isOpened ? { position: 'fixed', overflow: 'hidden' } : ''} />
       </Helmet>
       <div className={styles.wrapper}>
         {NAVBAR_LINKS.map((props, index) => {
@@ -87,12 +81,7 @@ const MobileNavbar = ({ history, activeLink }) => {
             />
           )
         })}
-        <MobileNavbarAction
-          onClick={toggleMenu}
-          Icon={MenuIcon}
-          isActive={isOpened}
-          label='Menu'
-        />
+        <MobileNavbarAction onClick={toggleMenu} Icon={MenuIcon} isActive={isOpened} label='Menu' />
       </div>
       {isOpened && (
         <div className={styles.overlayContent}>
@@ -102,17 +91,11 @@ const MobileNavbar = ({ history, activeLink }) => {
             </div>
             <div onClick={toggleMenu} className={styles.navigationList}>
               {MENU_LINKS.map(({ linkTo, label }) => (
-                <Link
-                  key={linkTo}
-                  to={linkTo}
-                  className={styles.navigationList__link}
-                >
+                <Link key={linkTo} to={linkTo} className={styles.navigationList__link}>
                   {label}
                 </Link>
               ))}
-              <ContactUs className={styles.navigationList__link}>
-                Support
-              </ContactUs>
+              <ContactUs className={styles.navigationList__link}>Support</ContactUs>
             </div>
           </div>
           {!isLoggedIn && (

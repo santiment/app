@@ -21,19 +21,19 @@ describe('SignalMasterModalForm', () => {
             target: {
               value: {
                 value: asset,
-                label: asset
-              }
+                label: asset,
+              },
             },
             metric: {
-              value: { ...ETH_WALLET_METRIC }
+              value: { ...ETH_WALLET_METRIC },
             },
             type: {
-              value: { ...ETH_WALLET_METRIC }
+              value: { ...ETH_WALLET_METRIC },
             },
-            ethAddress: address
+            ethAddress: address,
           }}
         />
-      </Provider>
+      </Provider>,
     )
 
     expect(toJson(wrapper)).toMatchSnapshot()

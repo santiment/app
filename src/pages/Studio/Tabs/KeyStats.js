@@ -9,9 +9,7 @@ const KeyStatsTab = ({ settings }) => {
     setTarget(document.querySelector('.studio-screen'))
   }, [])
 
-  return target
-    ? ReactDOM.createPortal(<StudioTabsKeyStats slug={settings.slug} />, target)
-    : null
+  return target ? ReactDOM.createPortal(<StudioTabsKeyStats slug={settings.slug} />, target) : null
 }
 
 export default KeyStatsTab

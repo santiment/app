@@ -17,7 +17,7 @@ import styles from '../card/SignalCard.module.scss'
 const generateShareLink = (id, title) => {
   const { origin } = window.location
   return `${origin}/alert/${id}${mapStateToQS({
-    title
+    title,
   })}`
 }
 
@@ -31,7 +31,7 @@ const ShareSignal = ({
   isDialogOnly,
   isAlert,
   isPublic,
-  isUserTheAuthor
+  isUserTheAuthor,
 }) => {
   const link = generateShareLink(signalId, signalTitle)
   return (
@@ -50,7 +50,7 @@ const ShareSignal = ({
           <div
             className={cx(
               styles.messageWrapper,
-              (isPublic || !isUserTheAuthor) && styles.messageWrapper__hide
+              (isPublic || !isUserTheAuthor) && styles.messageWrapper__hide,
             )}
           >
             <Message variant='warn' className={styles.message}>
@@ -58,11 +58,7 @@ const ShareSignal = ({
             </Message>
           </div>
           {isUserTheAuthor && (
-            <UpdatePublicity
-              variant='flat'
-              signal={signal}
-              className={styles.toggle}
-            />
+            <UpdatePublicity variant='flat' signal={signal} className={styles.toggle} />
           )}
         </>
       </ShareModalTrigger>
@@ -72,7 +68,7 @@ const ShareSignal = ({
 
 const btnParams = { variant: 'flat' }
 const classes = {
-  copyBtn: styles.buttonWrapper__button
+  copyBtn: styles.buttonWrapper__button,
 }
 
 const MoreSignalActions = ({
@@ -84,7 +80,7 @@ const MoreSignalActions = ({
   editable = true,
   signal,
   userId,
-  shouldDisableActions
+  shouldDisableActions,
 }) => {
   const canShare = true
 
@@ -126,12 +122,7 @@ const MoreSignalActions = ({
   return (
     <Tooltip
       trigger={
-        <Button
-          className={cx(
-            styles.expandButton,
-            isFrozen && styles.frozenExpandButton
-          )}
-        >
+        <Button className={cx(styles.expandButton, isFrozen && styles.frozenExpandButton)}>
           <Icon type='dots' />
         </Button>
       }
@@ -188,11 +179,7 @@ const PublicSignalShareTrigger = ({ ...props }) => (
 )
 
 const SignalShareTrigger = ({ ...props }) => (
-  <Button
-    as='a'
-    {...props}
-    className={cx(styles.popupItem, styles.popupButton)}
-  >
+  <Button as='a' {...props} className={cx(styles.popupItem, styles.popupButton)}>
     <Icon type='share' />
     Share
   </Button>

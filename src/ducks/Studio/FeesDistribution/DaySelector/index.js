@@ -11,7 +11,7 @@ const DaysSelector = ({ onDayChange, className, daysClassName }) => {
   const [selectedDate, setSelectedDate] = useState([MAX_DATE])
   const [previousDays] = useState(getPreviousDays(7, MAX_DATE))
 
-  function onDateChange (date) {
+  function onDateChange(date) {
     const customDate = new Date(date)
     customDate.setHours(23, 59, 59, 59)
     setSelectedDate([customDate])

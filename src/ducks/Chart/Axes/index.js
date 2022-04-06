@@ -16,7 +16,7 @@ const Axes = buildPlotter(({ plotter }, { metrics, xTicks, yTicks }) => {
 
 Axes.defaultProps = {
   xTicks: 10,
-  yTicks: 8
+  yTicks: 8,
 }
 
 export default Axes

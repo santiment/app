@@ -7,11 +7,7 @@ import Search from '@santiment-network/ui/Search'
 import Tabs from '@santiment-network/ui/Tabs'
 import Icon from '@santiment-network/ui/Icon'
 import Template, { openTemplate } from './Template'
-import {
-  templateSorter,
-  useFeaturedTemplates,
-  usePublicProjectTemplates
-} from '../../gql/hooks'
+import { templateSorter, useFeaturedTemplates, usePublicProjectTemplates } from '../../gql/hooks'
 import TemplateDetailsDialog from '../../TemplateDetailsDialog/TemplateDetailsDialog'
 import NoChartLayouts from '../../NoChartLayouts/NoChartLayouts'
 import { prepareTemplateLink } from '../../utils'
@@ -19,7 +15,7 @@ import styles from './index.module.scss'
 
 const TABS = {
   PROJECT: 'Explore',
-  OWN: 'My library'
+  OWN: 'My library',
 }
 
 const TABS_FOR_USER = [TABS.OWN, TABS.PROJECT]
@@ -51,9 +47,7 @@ const LoadTemplate = ({
 
   const getUsageTemplates = useCallback(() => {
     if (tab === TABS.PROJECT) {
-      return projectTemplates.filter(
-        ({ user: { id } }) => +id !== +currentUserId
-      )
+      return projectTemplates.filter(({ user: { id } }) => +id !== +currentUserId)
     } else {
       return templates
     }
@@ -65,9 +59,7 @@ const LoadTemplate = ({
     const templates = getUsageTemplates()
 
     const filtered = lowerCaseValue
-      ? templates.filter(({ title }) =>
-          title.toLowerCase().includes(lowerCaseValue)
-        )
+      ? templates.filter(({ title }) => title.toLowerCase().includes(lowerCaseValue))
       : templates
     setFilteredTemplates(filtered)
   }, [searchTerm, getUsageTemplates, setFilteredTemplates])
@@ -83,15 +75,15 @@ const LoadTemplate = ({
   useEffect(search, [tab, searchTerm, templates.length])
 
   const rerenderTemplates = useCallback(() => {
-    setFilteredTemplates(state => state.slice())
+    setFilteredTemplates((state) => state.slice())
   }, [setFilteredTemplates])
 
   const onRename = useCallback(
-    template => {
+    (template) => {
       rerenderTemplates && rerenderTemplates()
       rerenderTemplate && rerenderTemplate(template)
     },
-    [rerenderTemplate, rerenderTemplates]
+    [rerenderTemplate, rerenderTemplates],
   )
 
   const onDelete = useCallback(() => {
@@ -103,8 +95,7 @@ const LoadTemplate = ({
       title={
         openedTemplate ? (
           <div onClick={() => setOpenedTemplate()} className={styles.header}>
-            <Icon type='arrow-left-big' className={styles.headerIcon} />{' '}
-            {openedTemplate.title}
+            <Icon type='arrow-left-big' className={styles.headerIcon} /> {openedTemplate.title}
           </div>
         ) : (
           'Load Chart Layout'
@@ -119,7 +110,7 @@ const LoadTemplate = ({
             <Tabs
               options={TABS_FOR_USER}
               defaultSelectedIndex={tab}
-              onSelect={tab => {
+              onSelect={(tab) => {
                 setTab(tab)
               }}
               className={styles.tabs}
@@ -141,12 +132,12 @@ const LoadTemplate = ({
             {filteredTemplates.length === 0 ? (
               <NoChartLayouts />
             ) : (
-              filteredTemplates.sort(templateSorter).map(template => (
+              filteredTemplates.sort(templateSorter).map((template) => (
                 <Template
                   key={template.id}
                   template={template}
                   selectedTemplate={selectedTemplate}
-                  selectTemplate={template => {
+                  selectTemplate={(template) => {
                     template && redirect(prepareTemplateLink(template))
                     selectTemplate && selectTemplate(template)
                   }}
@@ -167,7 +158,7 @@ const LoadTemplate = ({
           onRename={onRename}
           onDelete={onDelete}
           isDialog={false}
-          selectTemplate={data => {
+          selectTemplate={(data) => {
             selectTemplate
               ? selectTemplate(data)
               : openTemplate({ redirect, template: data, asProject })
@@ -178,17 +169,15 @@ const LoadTemplate = ({
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    currentUserId: state.user.data ? +state.user.data.id : null
+    currentUserId: state.user.data ? +state.user.data.id : null,
   }
 }
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   redirect: (path = '/') => {
     dispatch(push(path))
-  }
+  },
 })
 
-export default compose(connect(mapStateToProps, mapDispatchToProps))(
-  LoadTemplate
-)
+export default compose(connect(mapStateToProps, mapDispatchToProps))(LoadTemplate)

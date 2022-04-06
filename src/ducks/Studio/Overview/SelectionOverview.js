@@ -36,7 +36,7 @@ const SelectionOverview = ({
   onClose,
   onWidgetClick,
   onNewChartClick,
-  setWidgets
+  setWidgets,
 }) => (
   <Overview
     widgets={widgets}
@@ -50,17 +50,12 @@ const SelectionOverview = ({
     <div
       className={cx(
         styles.selection,
-        (selectedMetrics.length || selectedWidgets.length) &&
-          styles.selection_visible
+        (selectedMetrics.length || selectedWidgets.length) && styles.selection_visible,
       )}
     >
       <div className={styles.left}>
         {selectedMetrics.length ? (
-          <SelectionInfo
-            label='metric'
-            items={selectedMetrics}
-            onToggle={toggleMetric}
-          />
+          <SelectionInfo label='metric' items={selectedMetrics} onToggle={toggleMetric} />
         ) : null}
 
         {selectedWidgets.length ? (

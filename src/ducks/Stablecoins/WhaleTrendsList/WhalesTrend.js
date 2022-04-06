@@ -8,7 +8,7 @@ import PercentChanges from '../../../components/PercentChanges'
 import Skeleton from '../../../components/Skeleton/Skeleton'
 import {
   ChangeChartTemplate,
-  useAreaData
+  useAreaData,
 } from '../../Watchlists/Widgets/Table/PriceGraph/ChangeChart'
 import styles from './WhalesTrend.module.scss'
 
@@ -45,7 +45,7 @@ const WhalesTrend = ({ item: { slug } }) => {
                 <div
                   className={cx(
                     styles.status,
-                    isAccumulating ? styles.accumulating : styles.distributing
+                    isAccumulating ? styles.accumulating : styles.distributing,
                   )}
                 >
                   {isAccumulating ? 'Accumulating' : 'Distributing'}

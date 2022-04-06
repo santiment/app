@@ -41,13 +41,11 @@ const FormikInput = ({
               disabled={disabled}
               noValidate
               isError={validator ? !validator(field.value) : form.errors[name]}
-              onChange={value => {
+              onChange={(value) => {
                 const oldValue = value.target.value
 
                 const newValue =
-                  type === 'number' && oldValue.length > 0
-                    ? parseFloat(oldValue)
-                    : oldValue
+                  type === 'number' && oldValue.length > 0 ? parseFloat(oldValue) : oldValue
                 form.setFieldValue(name, newValue)
                 form.setFieldTouched(name, true)
                 onChange && onChange(newValue)
@@ -56,7 +54,7 @@ const FormikInput = ({
               {...rest}
             />
             <ErrorMessage name={name}>
-              {msg => <div className='error error-message'>{msg}</div>}
+              {(msg) => <div className='error error-message'>{msg}</div>}
             </ErrorMessage>
           </div>
         )

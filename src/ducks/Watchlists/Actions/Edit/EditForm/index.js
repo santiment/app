@@ -35,22 +35,13 @@ const EditForm = ({
   const placeholder = type === SCREENER ? 'Most price performance' : 'Favorites'
 
   useEffect(() => {
-    const comparingAssetsChangeHandler = ({ detail }) =>
-      setPreSelectedItems(detail)
-    window.addEventListener(
-      'comparingAssetsChanged',
-      comparingAssetsChangeHandler,
-      false
-    )
+    const comparingAssetsChangeHandler = ({ detail }) => setPreSelectedItems(detail)
+    window.addEventListener('comparingAssetsChanged', comparingAssetsChangeHandler, false)
     return () =>
-      window.removeEventListener(
-        'comparingAssetsChanged',
-        comparingAssetsChangeHandler,
-        false
-      )
+      window.removeEventListener('comparingAssetsChanged', comparingAssetsChangeHandler, false)
   }, [])
 
-  function onSubmit (evt) {
+  function onSubmit(evt) {
     evt.preventDefault()
     let err = ''
 
@@ -77,29 +68,27 @@ const EditForm = ({
     }
   }
 
-  function onInputChange ({ currentTarget: { value: name } }) {
-    setFormState(state => ({ ...state, name }))
+  function onInputChange({ currentTarget: { value: name } }) {
+    setFormState((state) => ({ ...state, name }))
     debouncedCheckName(name)
   }
 
-  function onTextareaChange ({ currentTarget: { value: description } }) {
-    setFormState(state => ({ ...state, description }))
+  function onTextareaChange({ currentTarget: { value: description } }) {
+    setFormState((state) => ({ ...state, description }))
   }
 
-  function onToggleClick (evt) {
+  function onToggleClick(evt) {
     evt.preventDefault()
-    setFormState(state => {
+    setFormState((state) => {
       const isPublic = !state.isPublic
       return { ...state, isPublic }
     })
   }
 
-  function checkName (name = '') {
+  function checkName(name = '') {
     let error = ''
     const comparedName = name.trim().toLowerCase()
-    const hasSameName = lists.filter(
-      list => list.name.toLowerCase() === comparedName
-    )
+    const hasSameName = lists.filter((list) => list.name.toLowerCase() === comparedName)
 
     if (!comparedName || comparedName.length < MIN_LENGTH) {
       error = SHORT_NAME_ERROR
@@ -109,14 +98,11 @@ const EditForm = ({
       error = BAD_SYMBOLS_ERROR
     }
 
-    if (
-      hasSameName.length > 0 &&
-      !(hasSameName.length === 1 && hasSameName[0].id === id)
-    ) {
+    if (hasSameName.length > 0 && !(hasSameName.length === 1 && hasSameName[0].id === id)) {
       error = NAME_EXISTS_ERROR
     }
 
-    setFormState(state => ({ ...state, error }))
+    setFormState((state) => ({ ...state, error }))
 
     return error
   }
@@ -126,16 +112,12 @@ const EditForm = ({
       open={isOpen}
       onClose={() => {
         toggleOpen(false)
-        window.dispatchEvent(
-          new CustomEvent('panelVisibilityChange', { detail: 'show' })
-        )
+        window.dispatchEvent(new CustomEvent('panelVisibilityChange', { detail: 'show' }))
       }}
       onOpen={() => {
         setFormState({ ...defaultSettings })
         toggleOpen(true)
-        window.dispatchEvent(
-          new CustomEvent('panelVisibilityChange', { detail: 'hide' })
-        )
+        window.dispatchEvent(new CustomEvent('panelVisibilityChange', { detail: 'hide' }))
       }}
       classes={styles}
       {...props}
@@ -150,15 +132,11 @@ const EditForm = ({
             maxLength='25'
             autoComplete='off'
             className={styles.input}
-            onChange={e => formState.error && onInputChange(e)}
+            onChange={(e) => formState.error && onInputChange(e)}
             onBlur={onInputChange}
             isError={formState.error}
             errorText={formState.error}
-            defaultValue={
-              DUPLICATE_LABELS.includes(buttonLabel)
-                ? undefined
-                : formState.name
-            }
+            defaultValue={DUPLICATE_LABELS.includes(buttonLabel) ? undefined : formState.name}
             placeholder={'For example, ' + placeholder}
           />
         )}
@@ -183,8 +161,8 @@ const EditForm = ({
           <Assets
             watchlist={watchlist}
             preSelectedItems={preSelectedItems}
-            onChange={listItems => {
-              setFormState(state => ({ ...state, listItems }))
+            onChange={(listItems) => {
+              setFormState((state) => ({ ...state, listItems }))
             }}
           />
         )}
@@ -217,7 +195,7 @@ export default ({ settings = {}, ...props }) => (
       description: '',
       isPublic: false,
       listItems: props.watchlist ? props.watchlist.listItems : [],
-      ...settings
+      ...settings,
     }}
   />
 )

@@ -16,12 +16,7 @@ import { useUser } from '../../stores/user'
 import { useUsernameChange } from '../../hooks/profileChange'
 import styles from './index.module.scss'
 
-const GdprDescription = ({
-  toggleGDPR,
-  isGDPR,
-  togglePrivacyPolicy,
-  dispatchNewUsername
-}) => {
+const GdprDescription = ({ toggleGDPR, isGDPR, togglePrivacyPolicy, dispatchNewUsername }) => {
   const [GDPRerror, setGDPRerror] = useState(false)
   const {
     changeUsername,
@@ -31,7 +26,7 @@ const GdprDescription = ({
     username,
     setUsername,
     checkUsername,
-    catchUsernameChangeError
+    catchUsernameChangeError,
   } = useUsernameChange()
 
   const continueButtonHandler = useCallback(() => {
@@ -45,32 +40,23 @@ const GdprDescription = ({
         togglePrivacyPolicy()
       })
       .catch(catchUsernameChangeError)
-  }, [
-    isGDPR,
-    username,
-    savingUsername,
-    checkUsername,
-    catchUsernameChangeError,
-    changeUsername
-  ])
+  }, [isGDPR, username, savingUsername, checkUsername, catchUsernameChangeError, changeUsername])
 
   return (
     <>
       <h3 className={styles.title}>Welcome to Sanbase</h3>
-      <p className={styles.description}>
-        Please type your username to access all features
-      </p>
+      <p className={styles.description}>Please type your username to access all features</p>
       <div className={styles.inputPrefix}>
         <Input
           name='username'
           maxLength='25'
           autoComplete='off'
           placeholder='username'
-          onChange={e => {
+          onChange={(e) => {
             setUsernameError()
             setUsername(e.target.value)
           }}
-          onBlur={e => checkUsername(e.target.value)}
+          onBlur={(e) => checkUsername(e.target.value)}
           isError={!!usernameError}
           errorText={usernameError}
           className={styles.usernameInput}
@@ -167,16 +153,16 @@ const GDPRPage = ({ togglePrivacyPolicy, dispatchNewUsername, isDesktop }) => {
   )
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     togglePrivacyPolicy: () => {
       dispatch({ type: actions.USER_TOGGLE_PRIVACY_POLICY })
     },
-    dispatchNewUsername: username =>
+    dispatchNewUsername: (username) =>
       dispatch({
         type: actions.USER_USERNAME_CHANGE,
-        username
-      })
+        username,
+      }),
   }
 }
 

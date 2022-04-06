@@ -6,9 +6,9 @@ const retryLink = new RetryLink({
     const max = maxAttempts || 10
     return !!error && count < max && isRetriable
   },
-  delay: count => {
+  delay: (count) => {
     return count * 1000 * Math.random()
-  }
+  },
 })
 
 export default retryLink

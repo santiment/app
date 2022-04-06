@@ -28,7 +28,7 @@ const NotificationActions = ({ data, className }) => {
         <Button
           className={cx(styles.expand, className)}
           variant='ghost'
-          onClick={e => {
+          onClick={(e) => {
             e.stopPropagation()
             openDialog()
           }}
@@ -49,11 +49,9 @@ const NotificationActions = ({ data, className }) => {
 
 const ToggleNotifications = ({ user }) => {
   const { username = 'this user', id } = user
-  const { isNotificationDisabled, toggle, disabledBtn } = useNotificationToggle(
-    id
-  )
+  const { isNotificationDisabled, toggle, disabledBtn } = useNotificationToggle(id)
 
-  const onClick = e => {
+  const onClick = (e) => {
     e.stopPropagation()
     toggle(id, !isNotificationDisabled)
   }

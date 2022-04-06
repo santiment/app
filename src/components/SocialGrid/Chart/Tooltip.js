@@ -1,15 +1,11 @@
 import { useEffect } from 'react'
-import {
-  initTooltip,
-  drawHoverLineX,
-  drawHoverLineY
-} from '@santiment-network/chart/tooltip'
+import { initTooltip, drawHoverLineX, drawHoverLineY } from '@santiment-network/chart/tooltip'
 import { handleMove as handlePointEvent } from '@santiment-network/chart/events'
 import { clearCtx } from '../../../ducks/Chart/utils'
 import { useChart } from '../../../ducks/Chart/context'
 import { drawAlertPlus } from '../../../ducks/Chart/Tooltip/alert'
 
-function plotTooltip (chart, point, setCurrentPoint) {
+function plotTooltip(chart, point, setCurrentPoint) {
   const { hoverLineColor } = chart
   const { x, value: datetime } = point
   const { y, value } = point.social_volume_total
@@ -20,7 +16,7 @@ function plotTooltip (chart, point, setCurrentPoint) {
 
   setCurrentPoint({
     datetime,
-    point: value
+    point: value,
   })
 }
 
@@ -31,7 +27,7 @@ const Tooltip = ({ setCurrentPoint }) => {
     const { tooltip } = initTooltip(chart)
     const { ctx, canvas } = tooltip
 
-    canvas.onmousemove = handlePointEvent(chart, point => {
+    canvas.onmousemove = handlePointEvent(chart, (point) => {
       if (!point) return
 
       clearCtx(chart, ctx)

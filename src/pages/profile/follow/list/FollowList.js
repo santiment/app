@@ -9,7 +9,7 @@ import FollowBtn from '../FollowBtn'
 import UserAvatar from '../../../Account/avatar/UserAvatar'
 import {
   updateCurrentUserFollowQueryCache,
-  useOldUserFollowersFollowing
+  useOldUserFollowersFollowing,
 } from '../../../../queries/ProfileGQL'
 import { useDialogState } from '../../../../hooks/dialog'
 import PageLoader from '../../../../components/Loader/PageLoader'
@@ -18,7 +18,7 @@ import styles from './FollowList.module.scss'
 
 const ARR = []
 
-const makeQueryVars = id => ({ userId: +id })
+const makeQueryVars = (id) => ({ userId: +id })
 
 const FollowList = ({
   title,
@@ -26,13 +26,13 @@ const FollowList = ({
   currentUserId,
   isCurrentUser,
   trigger,
-  isDesktop
+  isDesktop,
 }) => {
   const { isOpened, openDialog, closeDialog } = useDialogState()
 
   const {
     data: { following },
-    loading
+    loading,
   } = useOldUserFollowersFollowing(makeQueryVars(currentUserId))
 
   return (
@@ -61,22 +61,13 @@ const FollowList = ({
   )
 }
 
-const List = ({
-  users = ARR,
-  following,
-  currentUserId,
-  isCurrentUser,
-  isDesktop,
-  onClickItem
-}) => {
+const List = ({ users = ARR, following, currentUserId, isCurrentUser, isDesktop, onClickItem }) => {
   const [searchToken, setSearchToken] = useState()
   const [defaultUsers] = useState(users)
 
   const filteredUsers = useMemo(() => {
     return searchToken
-      ? defaultUsers.filter(
-          ({ username }) => username && username.indexOf(searchToken) !== -1
-        )
+      ? defaultUsers.filter(({ username }) => username && username.indexOf(searchToken) !== -1)
       : defaultUsers
   }, [searchToken, defaultUsers])
 
@@ -89,13 +80,13 @@ const List = ({
           placeholder='Search a user'
           options={users.map(({ username, ...rest }) => ({
             label: username,
-            ...rest
+            ...rest,
           }))}
-          onChange={val => setSearchToken(val)}
+          onChange={(val) => setSearchToken(val)}
         />
       )}
       <div className={styles.list}>
-        {filteredUsers.map(user =>
+        {filteredUsers.map((user) =>
           isCurrentUser && +user.id === +currentUserId ? null : (
             <FollowItem
               user={user}
@@ -105,7 +96,7 @@ const List = ({
               isDesktop={isDesktop}
               onClickItem={onClickItem}
             />
-          )
+          ),
         )}
       </div>
     </div>
@@ -127,7 +118,7 @@ const FollowItem = ({
   following = { users: ARR },
   currentUserId,
   isDesktop,
-  onClickItem
+  onClickItem,
 }) => {
   const updateCache = (cache, queryData) => {
     const queryVariables = makeQueryVars(currentUserId)
@@ -140,9 +131,9 @@ const FollowItem = ({
         id,
         avatarUrl,
         username,
-        __typename: 'PublicUser'
+        __typename: 'PublicUser',
       },
-      currentUserId
+      currentUserId,
     )
   }
 
@@ -151,16 +142,9 @@ const FollowItem = ({
   return (
     <div className={styles.row}>
       <div className={styles.user} onClick={onClickItem}>
-        <UserAvatar
-          userId={id}
-          classes={styles}
-          externalAvatarUrl={avatarUrl}
-        />
+        <UserAvatar userId={id} classes={styles} externalAvatarUrl={avatarUrl} />
 
-        <Link
-          to={'/profile/' + id}
-          className={cx(styles.name, !newUserName && styles.noName)}
-        >
+        <Link to={'/profile/' + id} className={cx(styles.name, !newUserName && styles.noName)}>
           {newUserName || 'No name'}
         </Link>
       </div>

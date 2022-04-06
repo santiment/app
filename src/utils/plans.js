@@ -5,16 +5,16 @@ export const PLANS = {
   BASIC: 'BASIC',
   PRO: 'PRO',
   PRO_PLUS: 'PRO_PLUS',
-  ENTERPRISE: 'ENTERPRISE'
+  ENTERPRISE: 'ENTERPRISE',
 }
 
 export const STATUSES = {
   ACTIVE: 'ACTIVE',
-  TRIALING: 'TRIALING'
+  TRIALING: 'TRIALING',
 }
 
 const NormalizedPlanName = {
-  'PRO+': PLANS.PRO_PLUS
+  'PRO+': PLANS.PRO_PLUS,
 }
 
 export const sanbaseProductId = '2'
@@ -22,16 +22,16 @@ export const neuroProductId = '1'
 
 export const ProductNameById = {
   [sanbaseProductId]: 'Sanbase',
-  [neuroProductId]: 'SanAPI'
+  [neuroProductId]: 'SanAPI',
 }
 
-export const calculateTrialDaysLeft = trialEnd =>
+export const calculateTrialDaysLeft = (trialEnd) =>
   Math.ceil((new Date(trialEnd) - Date.now()) / ONE_DAY_IN_MS)
 
 export const checkIsActiveSubscription = ({ status }) =>
   status === STATUSES.ACTIVE || status === STATUSES.TRIALING
 
-export const formatOnlyPrice = amount => `$${parseInt(amount / 100, 10)}`
+export const formatOnlyPrice = (amount) => `$${parseInt(amount / 100, 10)}`
 
 export const formatPrice = (price, name, billing) => {
   if (name === PLANS.FREE) return ['$0']
@@ -57,18 +57,17 @@ export const noEnterprisePlan = ({ name }) => name !== PLANS.ENTERPRISE
 
 const checkIsSanbaseSubscription = ({
   plan: {
-    product: { id }
-  }
+    product: { id },
+  },
 }) => id === sanbaseProductId
 
-export const getSanbaseSubscription = subscriptions =>
+export const getSanbaseSubscription = (subscriptions) =>
   subscriptions.find(
-    subscription =>
-      checkIsSanbaseSubscription(subscription) &&
-      checkIsActiveSubscription(subscription)
+    (subscription) =>
+      checkIsSanbaseSubscription(subscription) && checkIsActiveSubscription(subscription),
   )
 
-export const getCurrentSanbaseSubscription = user => {
+export const getCurrentSanbaseSubscription = (user) => {
   if (!user) return
   const { subscriptions: subs } = user
   if (!subs) return
@@ -81,16 +80,13 @@ export const getAlternativeBillingPlan = (plans, oldPlan) => {
   const oldName = (NormalizedPlanName[name.toUpperCase()] || name).toUpperCase()
   return plans
     .filter(({ isDeprecated }) => !isDeprecated)
-    .find(
-      ({ name, interval }) =>
-        name.toUpperCase() === oldName && interval !== oldInterval
-    )
+    .find(({ name, interval }) => name.toUpperCase() === oldName && interval !== oldInterval)
 }
 
 export const getTrialLabel = (trialEnd, status) =>
   trialEnd && status === STATUSES.TRIALING ? '(trial)' : ''
 
-export function getShowingPlans (plans, billing) {
+export function getShowingPlans(plans, billing) {
   return plans
     .filter(noFreePlan)
     .filter(noBasicPlan)
@@ -98,29 +94,19 @@ export function getShowingPlans (plans, billing) {
     .filter(({ name, interval }) => interval === billing || name === 'FREE')
 }
 
-export function hasInactiveTrial (subscription) {
+export function hasInactiveTrial(subscription) {
   if (!subscription) {
     return false
   }
 
   const { trialEnd, cancelAtPeriodEnd, status } = subscription
-  return (
-    subscription &&
-    trialEnd &&
-    cancelAtPeriodEnd &&
-    status === STATUSES.TRIALING
-  )
+  return subscription && trialEnd && cancelAtPeriodEnd && status === STATUSES.TRIALING
 }
-export function hasActiveTrial (subscription) {
+export function hasActiveTrial(subscription) {
   if (!subscription) {
     return false
   }
 
   const { trialEnd, cancelAtPeriodEnd, status } = subscription
-  return (
-    subscription &&
-    trialEnd &&
-    !cancelAtPeriodEnd &&
-    status === STATUSES.TRIALING
-  )
+  return subscription && trialEnd && !cancelAtPeriodEnd && status === STATUSES.TRIALING
 }

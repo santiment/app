@@ -23,7 +23,7 @@ const ScreenerAlertForm = ({
   isNew,
   watchlist,
   onCancel,
-  toggleSignalActive
+  toggleSignalActive,
 }) => {
   const { description, channels = [], isActive } = values
 
@@ -31,7 +31,7 @@ const ScreenerAlertForm = ({
 
   const { toggleSignalFrequency, cooldownInitial } = useAlertCooldown({
     values,
-    setInitialValues
+    setInitialValues,
   })
 
   return (
@@ -99,20 +99,12 @@ const ScreenerAlertForm = ({
         >
           {!isNew ? 'Save changes' : 'Create'}
         </Button>
-        <Button
-          disabled={isSubmitting}
-          border
-          className={styles.cancel}
-          onClick={onCancel}
-        >
+        <Button disabled={isSubmitting} border className={styles.cancel} onClick={onCancel}>
           Cancel
         </Button>
 
         {!isNew && (
-          <ToggleSignal
-            isActive={isActive}
-            toggleSignal={() => toggleSignalActive(values)}
-          />
+          <ToggleSignal isActive={isActive} toggleSignal={() => toggleSignalActive(values)} />
         )}
       </div>
     </Form>

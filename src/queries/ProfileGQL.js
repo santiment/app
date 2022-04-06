@@ -27,7 +27,7 @@ const SHARED_ACTIVITIES_FIELDS = `
   }
 `
 
-const getProfileActivitiesQuery = isCurrentUser => {
+const getProfileActivitiesQuery = (isCurrentUser) => {
   if (isCurrentUser) {
     return gql`
       query getUser {
@@ -57,9 +57,9 @@ export const useProfileActivities = (profileId, currentUserId) => {
     QUERY,
     !isCurrentUser && {
       variables: {
-        userId: +profileId
-      }
-    }
+        userId: +profileId,
+      },
+    },
   )
   const KEY = isCurrentUser ? 'currentUser' : 'getUser'
 
@@ -69,7 +69,7 @@ export const useProfileActivities = (profileId, currentUserId) => {
     return {
       data: data ? data[KEY] : {},
       loading,
-      error
+      error,
     }
   }, [query])
 }
@@ -150,8 +150,8 @@ export const useOldUserFollowersFollowing = ({ userId, username }) => {
     skip: !userId && !username,
     variables: {
       userId: +userId,
-      username
-    }
+      username,
+    },
   })
 
   return useMemo(() => {
@@ -160,7 +160,7 @@ export const useOldUserFollowersFollowing = ({ userId, username }) => {
     return {
       data: data ? data.followData : {},
       loading,
-      error
+      error,
     }
   }, [query])
 }
@@ -190,7 +190,7 @@ export const updateFollowingList = (usersList, userData) => {
   } else {
     users.push({
       __typename: 'User',
-      ...userData
+      ...userData,
     })
     usersList.users = [...users]
   }
@@ -205,40 +205,33 @@ export const updateCurrentUserFollowQueryCache = (
   queryVariables,
   userId,
   followingUser,
-  currentUserId
+  currentUserId,
 ) => {
   update({ queryVariables, follow, unfollow, cache, followingUser, userId })
 
   if (currentUserId) {
     update({
       queryVariables: {
-        userId: +currentUserId
+        userId: +currentUserId,
       },
       cache,
       followingUser: {
-        id: queryVariables.userId
-      }
+        id: queryVariables.userId,
+      },
     })
   }
 }
 
-const update = ({
-  queryVariables,
-  follow,
-  unfollow,
-  cache,
-  followingUser,
-  userId
-}) => {
+const update = ({ queryVariables, follow, unfollow, cache, followingUser, userId }) => {
   const data = cloneDeep(
     cache.readQuery({
       query: PUBLIC_USER_FOLLOWERS_DATA_QUERY,
-      variables: queryVariables
-    })
+      variables: queryVariables,
+    }),
   )
 
   const {
-    followData: { followers, following }
+    followData: { followers, following },
   } = data
 
   if (followingUser) {
@@ -250,6 +243,6 @@ const update = ({
   cache.writeQuery({
     query: PUBLIC_USER_FOLLOWERS_DATA_QUERY,
     variables: queryVariables,
-    data: { ...data }
+    data: { ...data },
   })
 }

@@ -6,11 +6,7 @@ import Skeleton from '../../../components/Skeleton/Skeleton'
 import styles from './SocialVolumeGraph.module.scss'
 
 export const TRENDING_WORDS_QUERY = gql`
-  query getTrendingWords(
-    $from: DateTime!
-    $to: DateTime!
-    $interval: interval
-  ) {
+  query getTrendingWords($from: DateTime!, $to: DateTime!, $interval: interval) {
     getTrendingWords(size: 100, from: $from, to: $to, interval: $interval) {
       datetime
       topWords {
@@ -26,8 +22,8 @@ const useTrendingWords = () => {
     variables: {
       from: 'utc_now-7d',
       to: 'utc_now',
-      interval: '1h'
-    }
+      interval: '1h',
+    },
   })
 
   return useMemo(() => {
@@ -36,7 +32,7 @@ const useTrendingWords = () => {
     return {
       words: data ? data.getTrendingWords : [],
       loading,
-      error
+      error,
     }
   }, [query])
 }
@@ -51,7 +47,7 @@ const SocialVolumeGraph = ({ word }) => {
       if (found) {
         acc.push({
           datetime,
-          value: found.score
+          value: found.score,
         })
       }
 
@@ -61,9 +57,7 @@ const SocialVolumeGraph = ({ word }) => {
 
   return (
     <>
-      {loading && (
-        <Skeleton centered show={true} repeat={1} className={styles.chart} />
-      )}
+      {loading && <Skeleton centered show={true} repeat={1} className={styles.chart} />}
       <div className={styles.chart}>
         <ChangeChart data={timeseries} width={120} color={'var(--malibu)'} />
       </div>

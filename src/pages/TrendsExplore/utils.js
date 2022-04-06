@@ -1,6 +1,6 @@
 import { parseIntervalString } from '../../utils/dates'
 
-export function getTimePeriod (date, interval = '1d') {
+export function getTimePeriod(date, interval = '1d') {
   const { amount, format } = parseIntervalString(interval)
   const from = new Date(date)
   const to = new Date(date)
@@ -14,6 +14,6 @@ export function getTimePeriod (date, interval = '1d') {
   return {
     from: from.toISOString(),
     to: to.toISOString(),
-    interval
+    interval,
   }
 }

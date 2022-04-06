@@ -5,7 +5,7 @@ import { Field } from 'formik'
 import FormikLabel from './FormikLabel'
 import styles from './FormikCheckbox.module.scss'
 
-const FormikCheckbox = props => {
+const FormikCheckbox = (props) => {
   const { name } = props
   return (
     <Field
@@ -25,7 +25,7 @@ export const CheckboxWrapper = ({
   required,
   label,
   className,
-  classes = {}
+  classes = {},
 }) => {
   const clickHandler = !disabled ? onClick : null
   return (
@@ -39,11 +39,7 @@ export const CheckboxWrapper = ({
       />
       <FormikLabel
         text={label}
-        className={cx(
-          styles.checkboxLabel,
-          required && styles.required,
-          classes.toggleLabel
-        )}
+        className={cx(styles.checkboxLabel, required && styles.required, classes.toggleLabel)}
         onClick={clickHandler}
       />
     </div>

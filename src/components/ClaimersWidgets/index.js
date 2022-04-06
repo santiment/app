@@ -11,9 +11,7 @@ const Widget = ({ title, description, children, showPro = false }) => (
   <div className={styles.item}>
     <h3 className={styles.subheading}>
       {title}
-      {description && (
-        <HelpPopup triggerClassName={styles.help} content={description} />
-      )}
+      {description && <HelpPopup triggerClassName={styles.help} content={description} />}
 
       {showPro && <ProLabel className={styles.pro} />}
     </h3>
@@ -28,12 +26,7 @@ export const ChartWidget = ({ metrics, syncDate, observeSyncDate, height }) => {
 
   return (
     <Widget title={metrics[0].label} description={metrics[0].description}>
-      <UniswapChart
-        chartRef={chartRef}
-        metrics={metrics}
-        syncTooltips={syncDate}
-        height={height}
-      />
+      <UniswapChart chartRef={chartRef} metrics={metrics} syncTooltips={syncDate} height={height} />
     </Widget>
   )
 }

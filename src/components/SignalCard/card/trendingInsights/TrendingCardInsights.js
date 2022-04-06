@@ -11,7 +11,7 @@ const TrendingCardInsights = ({ date }) => {
     <Query
       query={ALL_INSIGHTS_BY_TAG_QUERY}
       variables={{
-        tag: getInsightTrendTagByDate(date)
+        tag: getInsightTrendTagByDate(date),
       }}
     >
       {({ data: { allInsightsByTag = [] } = {} }) => {

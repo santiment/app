@@ -10,7 +10,7 @@ import {
   PUBLIC_USER_DATA_QUERY,
   PUBLIC_CURRENT_USER_DATA_QUERY,
   updateCurrentUserFollowQueryCache,
-  useOldUserFollowersFollowing
+  useOldUserFollowersFollowing,
 } from '../../queries/ProfileGQL'
 import { MobileOnly } from '../../components/Responsive'
 import { mapQSToState } from '../../utils/utils'
@@ -19,15 +19,13 @@ import styles from './ProfilePage.module.scss'
 
 export const usePublicUserData = (variables, currentUserId) => {
   const isCurrentUser = variables.userId === currentUserId
-  const QUERY = isCurrentUser
-    ? PUBLIC_CURRENT_USER_DATA_QUERY
-    : PUBLIC_USER_DATA_QUERY
+  const QUERY = isCurrentUser ? PUBLIC_CURRENT_USER_DATA_QUERY : PUBLIC_USER_DATA_QUERY
   const QUERY_FIELD = isCurrentUser ? 'currentUser' : 'getUser'
   const query = useQuery(
     QUERY,
     !isCurrentUser && {
-      variables: { ...variables }
-    }
+      variables: { ...variables },
+    },
   )
 
   return useMemo(() => {
@@ -36,18 +34,14 @@ export const usePublicUserData = (variables, currentUserId) => {
   }, [query])
 }
 
-const getQueryVariables = ({
-  currentUserId,
-  location,
-  match: { params: { id } = {} } = {}
-}) => {
+const getQueryVariables = ({ currentUserId, location, match: { params: { id } = {} } = {} }) => {
   let variables
   if (id) {
     variables = { userId: id }
   } else {
     const { username } = mapQSToState({ location })
     variables = {
-      username
+      username,
     }
   }
 
@@ -58,7 +52,7 @@ const getQueryVariables = ({
   return variables
 }
 
-const ProfilePage = props => {
+const ProfilePage = (props) => {
   const { user = {}, loading: isUserLoading, isLoggedIn } = useUser()
   const { history } = props
 
@@ -67,16 +61,13 @@ const ProfilePage = props => {
   const queryVars = useMemo(() => {
     const newProps = {
       ...props,
-      currentUserId
+      currentUserId,
     }
 
     return getQueryVariables(newProps)
   }, [props, currentUserId])
 
-  const { loading: isLoading, data: profile } = usePublicUserData(
-    queryVars,
-    currentUserId
-  )
+  const { loading: isLoading, data: profile } = usePublicUserData(queryVars, currentUserId)
 
   const { data: followData } = useOldUserFollowersFollowing(queryVars)
 
@@ -96,14 +87,14 @@ const ProfilePage = props => {
     }
   }
 
-  function updateCache (cache, queryData) {
+  function updateCache(cache, queryData) {
     updateCurrentUserFollowQueryCache(
       cache,
       queryData,
       queryVars,
       user && +user.id,
       undefined,
-      currentUserId
+      currentUserId,
     )
   }
 
@@ -120,11 +111,7 @@ const ProfilePage = props => {
         </div>
       </MobileOnly>
       {followData && (
-        <ProfileInfo
-          profile={profile}
-          updateCache={updateCache}
-          followData={followData}
-        />
+        <ProfileInfo profile={profile} updateCache={updateCache} followData={followData} />
       )}
       <ProfileActivities profileId={profile.id} currentUserId={currentUserId} />
     </div>

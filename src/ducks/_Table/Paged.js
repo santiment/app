@@ -9,13 +9,13 @@ import styles from './Paged.module.scss'
 
 const DROPDOWN_CLASSES = {
   wrapper: styles.dropdown,
-  options: styles.options
+  options: styles.options,
 }
 
-export const buildPageSizes = sizes =>
-  sizes.map(index => ({
+export const buildPageSizes = (sizes) =>
+  sizes.map((index) => ({
     index,
-    content: `${index} rows`
+    content: `${index} rows`,
   }))
 
 const PagedTable = ({
@@ -39,7 +39,7 @@ const PagedTable = ({
   const isPrevPageDisabled = page < 1
   const isNextPageDisabled = page >= maxPage - 1
 
-  function changePage (newPage) {
+  function changePage(newPage) {
     if (newPage > -1 && newPage < maxPage) {
       setPage(newPage)
       if (onPageChange) onPageChange(newPage)
@@ -55,13 +55,13 @@ const PagedTable = ({
             styles.controls,
             stickyPageControls && styles.stickyPageControls,
             padding && styles.padding,
-            controlsClassName
+            controlsClassName,
           )}
         >
           <Dropdown
             options={pageSizes}
             selected={pageSize}
-            onSelect={option => setPageSize(option.index)}
+            onSelect={(option) => setPageSize(option.index)}
             classes={DROPDOWN_CLASSES}
           />
           Page
@@ -101,7 +101,7 @@ PagedTable.defaultProps = {
   defaultPage: 0,
   defaultPageSize: 20,
   pageSizes: buildPageSizes([10, 20, 50, 100]),
-  items: []
+  items: [],
 }
 
 export default PagedTable

@@ -6,18 +6,14 @@ export const getShareSignalParams = (params = {}) => {
   const { search, hash } = window.location || {}
 
   const parsedSignalParams = qs.parse(search, {
-    arrayFormat: 'comma'
+    arrayFormat: 'comma',
   })
 
-  const isShared =
-    hash === '#shared' ||
-    (params.id && Object.keys(parsedSignalParams).length > 0)
+  const isShared = hash === '#shared' || (params.id && Object.keys(parsedSignalParams).length > 0)
 
   const triggerParams = { isShared, ...parsedSignalParams }
-  Object.keys(triggerParams).forEach(key =>
-    triggerParams[key] === undefined || triggerParams[key] === ''
-      ? delete triggerParams[key]
-      : ''
+  Object.keys(triggerParams).forEach((key) =>
+    triggerParams[key] === undefined || triggerParams[key] === '' ? delete triggerParams[key] : '',
   )
 
   return triggerParams
@@ -26,7 +22,7 @@ export const getShareSignalParams = (params = {}) => {
 export const useSignal = ({ triggerId, skip }) => {
   const { data, loading, error } = useQuery(TRIGGER_BY_ID_QUERY, {
     skip: skip || !triggerId,
-    variables: { id: +triggerId }
+    variables: { id: +triggerId },
   })
 
   return { data, loading, error }

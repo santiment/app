@@ -9,14 +9,10 @@ const VOLUME_KEY = 'volumeUsd'
 
 const Widget = ({ type, range, id, changeRange }) => {
   const { from, interval, value } = range
-  const {
-    loading,
-    data,
-    marketcap,
-    volume,
-    changeMarketcap,
-    changeVolume
-  } = useHistoryStats({ variables: { id, from, interval }, skip: !id })
+  const { loading, data, marketcap, volume, changeMarketcap, changeVolume } = useHistoryStats({
+    variables: { id, from, interval },
+    skip: !id,
+  })
 
   return (
     <div className={styles.wrapper}>

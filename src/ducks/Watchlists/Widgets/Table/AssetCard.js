@@ -9,7 +9,7 @@ import styles from './AssetCard.module.scss'
 
 const PRICE_RANGES = {
   '1d': 'percentChange24h',
-  '7d': 'percentChange7d'
+  '7d': 'percentChange7d',
 }
 
 const AssetCard = ({
@@ -30,11 +30,7 @@ const AssetCard = ({
   const graphKey = asset[`priceChart${priceRange}`]
 
   return (
-    <Link
-      className={cx(styles.wrapper, className)}
-      to={`/projects/${slug}`}
-      onClick={onAssetClick}
-    >
+    <Link className={cx(styles.wrapper, className)} to={`/projects/${slug}`} onClick={onAssetClick}>
       <div className={styles.left}>
         <div className={styles.icon}>
           <ProjectIcon size={20} slug={slug} logoUrl={logoUrl} />
@@ -53,7 +49,7 @@ const AssetCard = ({
           ? formatNumber(priceUsd, {
               currency: 'USD',
               minimumFractionDigits,
-              maximumFractionDigits
+              maximumFractionDigits,
             })
           : 'No data'}
         <PercentChanges

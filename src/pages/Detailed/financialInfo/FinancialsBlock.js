@@ -1,10 +1,6 @@
 import React, { Fragment } from 'react'
 import cx from 'classnames'
-import {
-  formatCryptoCurrency,
-  formatNumber,
-  millify
-} from '../../../utils/formatting'
+import { formatCryptoCurrency, formatNumber, millify } from '../../../utils/formatting'
 import WalletLink from '../../../components/WalletLink/WalletLink'
 import SmoothDropdown from '../../../components/SmoothDropdown/SmoothDropdown'
 import './FinancialsBlock.css'
@@ -23,7 +19,7 @@ const FinancialsBlock = ({
   btcBalance = null,
   ethAddresses = [],
   slug,
-  isERC20
+  isERC20,
 }) => (
   <div className='panel-container'>
     {fundsRaisedIcos && fundsRaisedIcos.length !== 0 && (
@@ -33,9 +29,7 @@ const FinancialsBlock = ({
           {fundsRaisedIcos
             ? fundsRaisedIcos.map((amountIco, index) => {
                 return (
-                  <div key={index}>
-                    {collectedField(amountIco.currencyCode, amountIco.amount)}
-                  </div>
+                  <div key={index}>{collectedField(amountIco.currencyCode, amountIco.amount)}</div>
                 )
               })
             : '-'}
@@ -48,7 +42,7 @@ const FinancialsBlock = ({
           <div
             className={cx({
               'row-info wallets': true,
-              'info-disabled': ethAddresses.length === 0
+              'info-disabled': ethAddresses.length === 0,
             })}
           >
             <div>Wallet Balances</div>
@@ -60,10 +54,7 @@ const FinancialsBlock = ({
               {ethAddresses.map((wallet, index) => (
                 <div key={index}>
                   <div className='wallets-addresses'>
-                    <WalletLink
-                      address={wallet.address}
-                      assets={[slug, 'ethereum']}
-                    />
+                    <WalletLink address={wallet.address} assets={[slug, 'ethereum']} />
                     <span>ETH {millify(wallet.balance, 2)}</span>
                   </div>
                 </div>
@@ -75,7 +66,7 @@ const FinancialsBlock = ({
           <div
             className={cx({
               'row-info': true,
-              'info-disabled': ethAddresses.length === 0
+              'info-disabled': ethAddresses.length === 0,
             })}
           >
             <div>Total Balance</div>
@@ -86,13 +77,11 @@ const FinancialsBlock = ({
           <div
             className={cx({
               'row-info': true,
-              'info-disabled': ethBalance === undefined
+              'info-disabled': ethBalance === undefined,
             })}
           >
             <div>ETH Spent 30d</div>
-            <div style={{ textAlign: 'right' }}>
-              {`ETH ${millify(ethSpent, 2)}`}
-            </div>
+            <div style={{ textAlign: 'right' }}>{`ETH ${millify(ethSpent, 2)}`}</div>
           </div>
         )}
       </Fragment>

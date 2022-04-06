@@ -6,7 +6,7 @@ import styles from './index.module.scss'
 
 const Components = {
   'Spent Coin Cost': PriceHistogram,
-  'Social Context': SocialContext
+  'Social Context': SocialContext,
 }
 
 export default ({ advancedView, toggleAdvancedView, ...rest }) => {

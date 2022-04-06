@@ -22,12 +22,12 @@ const CHANGE_NAME_MUTATION = gql`
 
 const TAKEN_MSG = 'has already been taken'
 
-export function useUsernameChange (_username) {
+export function useUsernameChange(_username) {
   const [username, setUsername] = useState(_username)
   const [usernameError, setUsernameError] = useState()
   const [mutate, { loading }] = useMutation(CHANGE_USERNAME_MUTATION)
 
-  function checkUsername (username) {
+  function checkUsername(username) {
     let error = undefined
     if (!username || username.length < 3) {
       error = 'Username should be at least 3 characters long'
@@ -38,7 +38,7 @@ export function useUsernameChange (_username) {
     return error
   }
 
-  function catchUsernameChangeError (e, _username) {
+  function catchUsernameChangeError(e, _username) {
     let error = 'Something went wrong, please try again later'
     if (e.graphQLErrors) {
       const { details, message } = e.graphQLErrors[0]
@@ -50,20 +50,18 @@ export function useUsernameChange (_username) {
     setUsernameError(error)
   }
 
-  const changeUsername = username =>
+  const changeUsername = (username) =>
     mutate({
       variables: {
-        username
-      }
+        username,
+      },
     })
 
   const showUsernameChangedNotifiction = (notification = null) => {
     if (notification) {
       store.dispatch(showNotification(notification))
     } else {
-      store.dispatch(
-        showNotification(`Username successfully changed to "${username}"`)
-      )
+      store.dispatch(showNotification(`Username successfully changed to "${username}"`))
     }
   }
 
@@ -76,16 +74,16 @@ export function useUsernameChange (_username) {
     setUsername,
     checkUsername,
     catchUsernameChangeError,
-    showUsernameChangedNotifiction
+    showUsernameChangedNotifiction,
   }
 }
 
-export function useFullnameChange (_fullname) {
+export function useFullnameChange(_fullname) {
   const [fullname, setFullname] = useState(_fullname)
   const [fullnameError, setFullnameError] = useState()
   const [mutate, { loading }] = useMutation(CHANGE_NAME_MUTATION)
 
-  function checkFullname (fullname) {
+  function checkFullname(fullname) {
     let error = undefined
     if (fullname && fullname.length < 3) {
       error = 'Full name should be at least 3 characters long'
@@ -94,7 +92,7 @@ export function useFullnameChange (_fullname) {
     return error
   }
 
-  function catchFullnameChangeError (e) {
+  function catchFullnameChangeError(e) {
     let error = 'Something went wrong, please try again later'
     if (e.graphQLErrors) {
       const { message } = e.graphQLErrors[0]
@@ -103,11 +101,11 @@ export function useFullnameChange (_fullname) {
     setFullnameError(error)
   }
 
-  const changeFullname = fullname =>
+  const changeFullname = (fullname) =>
     mutate({
       variables: {
-        fullname
-      }
+        fullname,
+      },
     })
 
   const showFullnameChangedNotifiction = (notification = null, _fullname) => {
@@ -115,9 +113,7 @@ export function useFullnameChange (_fullname) {
       store.dispatch(showNotification(notification))
     } else {
       store.dispatch(
-        showNotification(
-          `Full name successfully changed to "${_fullname || fullname}"`
-        )
+        showNotification(`Full name successfully changed to "${_fullname || fullname}"`),
       )
     }
   }
@@ -131,6 +127,6 @@ export function useFullnameChange (_fullname) {
     catchFullnameChangeError,
     changeFullname,
     showFullnameChangedNotifiction,
-    savingFullname: loading
+    savingFullname: loading,
   }
 }

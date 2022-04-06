@@ -18,10 +18,7 @@ import { isContainMetric } from './detector'
 import { useAvailableMetrics } from './hooks'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import { APP_STATES } from '../../../Updates/reducers'
-import {
-  notifyLoginForSave,
-  notifyOutdatedVersion
-} from '../TopPanel/notifications'
+import { notifyLoginForSave, notifyOutdatedVersion } from '../TopPanel/notifications'
 import styles from './index.module.scss'
 
 const Filter = ({
@@ -37,21 +34,16 @@ const Filter = ({
   isOpen,
   setIsOpen,
   updateWatchlistFunction,
-  closeClasses
+  closeClasses,
 }) => {
   if (!screenerFunction) {
     return null
   }
-  const isViewMode =
-    !isAuthor && !isAuthorLoading && (isLoggedIn || !isDefaultScreener)
-  const filters = useMemo(() => extractFilters(screenerFunction.args), [
-    screenerFunction
-  ])
+  const isViewMode = !isAuthor && !isAuthorLoading && (isLoggedIn || !isDefaultScreener)
+  const filters = useMemo(() => extractFilters(screenerFunction.args), [screenerFunction])
   const [currentSearch, setCurrentSearch] = useState('')
   const [filter, updateFilter] = useState(filters)
-  const [baseProjects, setBaseProjects] = useState(
-    screenerFunction.args.baseProjects
-  )
+  const [baseProjects, setBaseProjects] = useState(screenerFunction.args.baseProjects)
   const [isOutdatedVersion, setIsOutdatedVersion] = useState(false)
   const [isActiveFiltersOnly, setIsActiveFiltersOnly] = useState(false)
   const [isWereChanges, setIsWereChanges] = useState(false)
@@ -65,7 +57,7 @@ const Filter = ({
 
   const isNoFilters = useMemo(
     () => filters.length === 0 || screenerFunction.name === 'top_all_projects',
-    [filters, screenerFunction]
+    [filters, screenerFunction],
   )
 
   useEffect(() => {
@@ -100,7 +92,7 @@ const Filter = ({
     }
   }, [baseProjects])
 
-  function resetAll () {
+  function resetAll() {
     const func = getNewFunction([], baseProjects)
     updateFilter([])
 
@@ -112,7 +104,7 @@ const Filter = ({
     setCurrentSearch('')
   }
 
-  function updMetricInFilter (metric, key, alternativeKey = key) {
+  function updMetricInFilter(metric, key, alternativeKey = key) {
     if (isViewMode) {
       return
     }
@@ -120,9 +112,9 @@ const Filter = ({
     const filters = isNoFilters
       ? []
       : filter.filter(
-          item =>
+          (item) =>
             !isContainMetric(item.args.metric || item.name, key) &&
-            !isContainMetric(item.args.metric || item.name, alternativeKey)
+            !isContainMetric(item.args.metric || item.name, alternativeKey),
         )
     const newFilter = [...filters, metric]
 
@@ -141,22 +133,22 @@ const Filter = ({
     }
   }
 
-  function toggleMetricInFilter (metric, key, alternativeKey = key) {
+  function toggleMetricInFilter(metric, key, alternativeKey = key) {
     if (isViewMode) {
       return
     }
 
     const isMetricInList = filter.some(
-      item =>
+      (item) =>
         isContainMetric(item.args.metric || item.name, key) ||
-        isContainMetric(item.args.metric || item.name, alternativeKey)
+        isContainMetric(item.args.metric || item.name, alternativeKey),
     )
     let newFilter = []
     if (isMetricInList) {
       newFilter = filter.filter(
-        item =>
+        (item) =>
           !isContainMetric(item.args.metric || item.name, key) &&
-          !isContainMetric(item.args.metric || item.name, alternativeKey)
+          !isContainMetric(item.args.metric || item.name, alternativeKey),
       )
     } else {
       newFilter = [...filter, metric]
@@ -178,30 +170,22 @@ const Filter = ({
   }
 
   const activeBaseMetrics = getActiveBaseMetrics(filter)
-  const dynamicMetrics = metrics.filter(
-    metric => !metric.isStatic || metric.Widget
-  )
+  const dynamicMetrics = metrics.filter((metric) => !metric.isStatic || metric.Widget)
   const metricsSet = isActiveFiltersOnly ? activeBaseMetrics : dynamicMetrics
   const filteredMetrics = filterMetricsBySearch(currentSearch, metricsSet)
   const categories = getCategoryGraph(filteredMetrics)
 
-  activeBaseMetrics.forEach(metric => {
+  activeBaseMetrics.forEach((metric) => {
     if (metric === undefined && !isOutdatedVersion) {
       setIsOutdatedVersion(true)
     }
   })
 
-  const categoryActiveMetricsCounter = countCategoryActiveMetrics(
-    activeBaseMetrics
-  )
+  const categoryActiveMetricsCounter = countCategoryActiveMetrics(activeBaseMetrics)
 
   return (
     <>
-      <Trigger
-        isOpen={isOpen}
-        onClick={setIsOpen}
-        activeMetricsCount={activeBaseMetrics.length}
-      />
+      <Trigger isOpen={isOpen} onClick={setIsOpen} activeMetricsCount={activeBaseMetrics.length} />
       <section className={cx(styles.wrapper, isOpen && styles.active)}>
         <div
           className={cx(closeClasses.wrapper, 'btn row v-center border')}
@@ -212,13 +196,9 @@ const Filter = ({
         <div className={styles.inner}>
           <div className={styles.top}>
             <div className={styles.row}>
-              <span className={styles.count__assets}>
-                {projectsCount} assets
-              </span>
+              <span className={styles.count__assets}>{projectsCount} assets</span>
               {!loading && (
-                <span className={styles.count__filters}>{`${
-                  activeBaseMetrics.length
-                } filter${
+                <span className={styles.count__filters}>{`${activeBaseMetrics.length} filter${
                   activeBaseMetrics.length !== 1 ? 's' : ''
                 } activated`}</span>
               )}
@@ -227,7 +207,7 @@ const Filter = ({
             {!isViewMode && isOpen && (
               <Search
                 autoFocus
-                onChange={value => setCurrentSearch(value)}
+                onChange={(value) => setCurrentSearch(value)}
                 placeholder='Search metrics'
                 className={styles.search}
               />
@@ -248,11 +228,7 @@ const Filter = ({
               )}
             </div>
             {isViewMode && !loading && (
-              <Message
-                variant='warn'
-                icon='info-round'
-                className={styles.message}
-              >
+              <Message variant='warn' icon='info-round' className={styles.message}>
                 View only. You aren't the author of this screener
               </Message>
             )}
@@ -263,7 +239,7 @@ const Filter = ({
             />
           </div>
           <div className={styles.content}>
-            {Object.keys(categories).map(key => (
+            {Object.keys(categories).map((key) => (
               <Category
                 key={key}
                 title={key}
@@ -284,15 +260,13 @@ const Filter = ({
           </div>
         </div>
       </section>
-      {isOpen && (
-        <div className={styles.background} onClick={() => setIsOpen(false)} />
-      )}
+      {isOpen && <div className={styles.background} onClick={() => setIsOpen(false)} />}
     </>
   )
 }
 
 const mapStateToProps = ({ app }) => ({
-  appVersionState: app.appVersionState
+  appVersionState: app.appVersionState,
 })
 
 export default connect(mapStateToProps)(Filter)

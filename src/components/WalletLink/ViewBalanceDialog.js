@@ -10,7 +10,7 @@ import dialogStyles from './ViewBalanceDialog.module.scss'
 
 const SETTINGS = {
   ...formIntervalSettings('7d'),
-  timeRange: '7d'
+  timeRange: '7d',
 }
 
 const ViewBalanceDialog = ({ address, assets, trigger, priceMetrics }) => {
@@ -30,7 +30,7 @@ const ViewBalanceDialog = ({ address, assets, trigger, priceMetrics }) => {
           defaultChartAssets={assets.map(assetConvertor)}
           defaultSettings={{
             ...SETTINGS,
-            address
+            address,
           }}
         />
       </Dialog.ScrollContent>

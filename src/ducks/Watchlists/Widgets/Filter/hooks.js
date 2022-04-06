@@ -9,7 +9,7 @@ const AVAILABLE_METRICS_QUERY = gql`
   }
 `
 
-export function useAvailableMetrics () {
+export function useAvailableMetrics() {
   const { data, loading } = useQuery(AVAILABLE_METRICS_QUERY)
   return { availableMetrics: data ? data.getAvailableMetrics : ARRAY, loading }
 }

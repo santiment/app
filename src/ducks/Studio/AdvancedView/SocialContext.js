@@ -8,7 +8,7 @@ import { parseIntervalString, ONE_MONTH_IN_MS } from '../../../utils/dates'
 import TrendsTable from '../../../ducks/TrendsTable'
 import styles from './SocialContext.module.scss'
 
-function getTimePeriod (date, interval) {
+function getTimePeriod(date, interval) {
   const { amount, format } = parseIntervalString(interval)
   const from = new Date(date)
   const to = new Date(date)
@@ -22,7 +22,7 @@ function getTimePeriod (date, interval) {
   return {
     from: from.toISOString(),
     to: to.toISOString(),
-    interval: '1d'
+    interval: '1d',
   }
 }
 
@@ -42,12 +42,12 @@ const SocialContext = ({ interval, date, project: { slug } }) => {
     setTrendPeriod(period)
   }, [date, interval])
 
-  function onTrendCalendarChange (datetime) {
+  function onTrendCalendarChange(datetime) {
     setTrendDate([datetime])
     setTrendPeriod(getTimePeriod(datetime, constrainedInterval))
   }
 
-  function onContextCalendarChange (datetime) {
+  function onContextCalendarChange(datetime) {
     setContextDate([datetime])
     setContextPeriod(getTimePeriod(datetime, constrainedInterval))
   }
@@ -76,11 +76,7 @@ const SocialContext = ({ interval, date, project: { slug } }) => {
         </div>
 
         <div className={styles.trends}>
-          <TrendsTable
-            className={styles.table}
-            isCompact
-            period={trendPeriod}
-          />
+          <TrendsTable className={styles.table} isCompact period={trendPeriod} />
         </div>
       </div>
     </div>
@@ -93,8 +89,8 @@ SocialContext.defaultProps = {
   date: new Date(Date.now() - ONE_MONTH_IN_MS * 3),
   interval: '1d',
   project: {
-    slug: 'bitcoin'
-  }
+    slug: 'bitcoin',
+  },
 }
 
 export default SocialContext

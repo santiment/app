@@ -28,18 +28,18 @@ export const CreationInfo = toReact(
   CreationInfoComponent,
   {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
-  'div'
+  'div',
 )
 export const Comments = toReact(
   CommentsComponent,
   {
     height: '100%',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
-  'div'
+  'div',
 )
 
 const TopBar = ({
@@ -55,15 +55,7 @@ const TopBar = ({
 }) => {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false)
   const { user: currentUser, isLoggedIn } = useUser()
-  const {
-    user,
-    name: title,
-    id,
-    description,
-    commentsCount,
-    votes,
-    isPublic
-  } = entity
+  const { user, name: title, id, description, commentsCount, votes, isPublic } = entity
   const { data = {} } = usePublicUserData({ userId: isLoggedIn && user.id })
   const { isAuthor, isAuthorLoading } = useIsAuthor(entity)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
@@ -80,17 +72,17 @@ const TopBar = ({
     }
   }, [id])
 
-  function onVote () {
+  function onVote() {
     track.event('watchlist_like', { id })
   }
 
-  function closeFilter () {
+  function closeFilter() {
     if (isFilterOpen) {
       setIsFilterOpen(false)
     }
   }
 
-  function handleSavedWatchlistComment () {
+  function handleSavedWatchlistComment() {
     const node = document.querySelector(`textarea[name="comment"]`)
     if (node) {
       const comment = lookupSavedComment()
@@ -101,7 +93,7 @@ const TopBar = ({
     }
   }
 
-  const onEditApprove = props =>
+  const onEditApprove = (props) =>
     updateWatchlist(entity, { ...props }).then(() => {
       setIsEditFormOpened(false)
       notifyUpdate(title)
@@ -117,21 +109,19 @@ const TopBar = ({
         <CreationInfo
           id={id}
           type={
-            type === BLOCKCHAIN_ADDRESS
-              ? CreationType.AddressWatchlist
-              : CreationType.Watchlist
+            type === BLOCKCHAIN_ADDRESS ? CreationType.AddressWatchlist : CreationType.Watchlist
           }
           title={title}
           user={data}
           currentUser={currentUser}
-          onEditClick={() => setIsEditFormOpened(prev => !prev)}
+          onEditClick={() => setIsEditFormOpened((prev) => !prev)}
           comments={{
             count: commentsCount,
             active: isCommentsOpen,
             onClick: () => {
-              setIsCommentsOpen(prev => !prev)
+              setIsCommentsOpen((prev) => !prev)
               closeFilter()
-            }
+            },
           }}
           votes={votes}
           onVote={onVote}
@@ -146,17 +136,10 @@ const TopBar = ({
           toggleOpen={setIsEditFormOpened}
           title={'Edit ' + title}
           settings={{ name: title, description, isPublic }}
-          onFormSubmit={payload =>
-            onEditApprove(payload).then(() => setIsEditFormOpened(false))
-          }
+          onFormSubmit={(payload) => onEditApprove(payload).then(() => setIsEditFormOpened(false))}
         />
         {!isLoggedIn && type === SCREENER ? null : (
-          <div
-            className={cx(
-              styles.commentsWrapper,
-              isCommentsOpen && styles.active
-            )}
-          >
+          <div className={cx(styles.commentsWrapper, isCommentsOpen && styles.active)}>
             <div
               className={cx(styles.closeWrapper, 'btn row v-center border')}
               onClick={() => setIsCommentsOpen(false)}
@@ -164,14 +147,10 @@ const TopBar = ({
               <Icon type='sidebar' className={styles.closeIcon} />
             </div>
             <Comments
-              type={
-                type === BLOCKCHAIN_ADDRESS
-                  ? CommentsType.Address
-                  : CommentsType.Watchlist
-              }
+              type={type === BLOCKCHAIN_ADDRESS ? CommentsType.Address : CommentsType.Watchlist}
               commentsFor={{
                 ...entity,
-                id: +entity.id
+                id: +entity.id,
               }}
               currentUser={currentUser}
               onAnonComment={onAnonComment}
@@ -181,10 +160,7 @@ const TopBar = ({
           </div>
         )}
         {isCommentsOpen && (
-          <div
-            className={styles.background}
-            onClick={() => setIsCommentsOpen(false)}
-          />
+          <div className={styles.background} onClick={() => setIsCommentsOpen(false)} />
         )}
       </div>
       <div className={styles.actions}>
@@ -199,12 +175,7 @@ const TopBar = ({
         {widgets && type !== BLOCKCHAIN_ADDRESS && (
           <Widgets widgets={widgets} setWidgets={setWidgets} />
         )}
-        <div
-          className={cx(
-            styles.rightDivider,
-            isDefaultScreener && styles.defaultDivider
-          )}
-        />
+        <div className={cx(styles.rightDivider, isDefaultScreener && styles.defaultDivider)} />
         <Share watchlist={entity} isAuthor={isAuthor} />
         {(isAuthor || isDefaultScreener) && (
           <ScreenerSignalDialog watchlistId={entity.id} type={type} />
@@ -218,7 +189,7 @@ const TopBar = ({
             isAuthorLoading={isAuthorLoading}
             isLoggedIn={isLoggedIn}
             isDefaultScreener={isDefaultScreener}
-            setIsOpen={flag => {
+            setIsOpen={(flag) => {
               setIsFilterOpen(flag)
               setIsCommentsOpen(false)
             }}
@@ -226,7 +197,7 @@ const TopBar = ({
             updateWatchlistFunction={updateWatchlistFunction}
             closeClasses={{
               wrapper: styles.closeWrapper,
-              icon: styles.closeIcon
+              icon: styles.closeIcon,
             }}
             {...props}
           />

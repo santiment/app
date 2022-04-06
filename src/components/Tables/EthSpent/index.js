@@ -18,8 +18,7 @@ const EthSpentTable = () => {
           <PanelWithHeader
             header={
               <div className={styles.header}>
-                Ethereum spent overview{' '}
-                {loadingAll && <Loader className={styles.headerLoader} />}
+                Ethereum spent overview {loadingAll && <Loader className={styles.headerLoader} />}
               </div>
             }
             className={styles.wrapper}
@@ -31,23 +30,23 @@ const EthSpentTable = () => {
               options={{
                 loadingSettings: {
                   repeatLoading: 6,
-                  isLoading: loading && items.length === 0
+                  isLoading: loading && items.length === 0,
                 },
                 sortingSettings: {
                   defaultSorting: DEFAULT_SORTING,
-                  allowSort: true
+                  allowSort: true,
                 },
                 stickySettings: {
-                  isStickyHeader: true
+                  isStickyHeader: true,
                 },
                 paginationSettings: {
-                  pageSizeOptions: [10, 25, 50]
-                }
+                  pageSizeOptions: [10, 25, 50],
+                },
               }}
               className={styles.tableWrapper}
               classes={{
                 table: styles.table,
-                bodyRow: styles.tableRow
+                bodyRow: styles.tableRow,
               }}
             />
           </PanelWithHeader>

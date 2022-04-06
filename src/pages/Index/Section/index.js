@@ -17,5 +17,5 @@ export const Row = ({ className, As, ...props }) => (
   <As {...props} className={cx(styles.row, className)} />
 )
 Row.defaultProps = {
-  As: 'div'
+  As: 'div',
 }

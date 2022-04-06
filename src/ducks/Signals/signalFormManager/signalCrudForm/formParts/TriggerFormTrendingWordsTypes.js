@@ -8,7 +8,7 @@ import {
   isTrendingWordsByProjects,
   isTrendingWordsByWatchlist,
   isTrendingWordsByWords,
-  mapToAssets
+  mapToAssets,
 } from '../../../utils/utils'
 import GetProjects from '../../../common/projects/getProjects'
 import TriggerFormWatchlists from './TriggerFormWatchlists'
@@ -28,7 +28,7 @@ const getWords = (allProjects, trendingWordsWithWords) => {
 const TriggerFormTrendingWordsTypes = ({
   values: { type, trendingWordsWithWords, target },
   values,
-  setFieldValue
+  setFieldValue,
 }) => {
   const isProjects = isTrendingWordsByProjects(type)
   const isWords = isTrendingWordsByWords(type)
@@ -42,10 +42,8 @@ const TriggerFormTrendingWordsTypes = ({
           options={TRENDING_WORDS_TYPE_OPTIONS.map(({ value }) => value)}
           nameOptions={TRENDING_WORDS_TYPE_OPTIONS.map(({ label }) => label)}
           defaultSelected={type.value}
-          onSelectOption={selectedValue => {
-            const type = TRENDING_WORDS_TYPE_OPTIONS.find(
-              ({ value }) => value === selectedValue
-            )
+          onSelectOption={(selectedValue) => {
+            const type = TRENDING_WORDS_TYPE_OPTIONS.find(({ value }) => value === selectedValue)
 
             setFieldValue('type', type)
           }}
@@ -55,12 +53,7 @@ const TriggerFormTrendingWordsTypes = ({
 
       <div className={cx(styles.row, styles.rowBottom)}>
         <div className={cx(styles.Field, styles.fieldFilled)}>
-          {isWatchlist && (
-            <TriggerFormWatchlists
-              values={values}
-              setFieldValue={setFieldValue}
-            />
-          )}
+          {isWatchlist && <TriggerFormWatchlists values={values} setFieldValue={setFieldValue} />}
           {!isWatchlist && (
             <GetProjects
               render={({ isLoading, allProjects = [] }) => {
@@ -68,9 +61,7 @@ const TriggerFormTrendingWordsTypes = ({
                   return ''
                 }
 
-                const [words] = useState(
-                  getWords(allProjects, trendingWordsWithWords)
-                )
+                const [words] = useState(getWords(allProjects, trendingWordsWithWords))
 
                 return (
                   <>

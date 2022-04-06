@@ -4,17 +4,10 @@ import { Link } from 'react-router-dom'
 import styles from './Category.module.scss'
 
 // eslint-disable-next-line
-const Title = props => <h3 className={styles.title} {...props} />
+const Title = (props) => <h3 className={styles.title} {...props} />
 
 export const Button = ({ className, As = Link, isCursored, ...props }) => (
-  <As
-    {...props}
-    className={cx(
-      styles.button,
-      className,
-      isCursored && styles.button_cursored
-    )}
-  />
+  <As {...props} className={cx(styles.button, className, isCursored && styles.button_cursored)} />
 )
 
 const Category = ({
@@ -27,15 +20,15 @@ const Category = ({
   propsAccessor,
   isLoading,
   registerCursorColumn,
-  onSuggestionSelect
+  onSuggestionSelect,
 }) => {
   const isCursoredColumn = columnName === titleKey
 
   useEffect(() => registerCursorColumn(titleKey, items), [items])
   useEffect(() => () => registerCursorColumn(titleKey, []), [])
 
-  function buildItemMouseDownHandler (item) {
-    return e => {
+  function buildItemMouseDownHandler(item) {
+    return (e) => {
       e.preventDefault()
       onSuggestionSelect(e.currentTarget, item, titleKey)
     }

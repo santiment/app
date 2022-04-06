@@ -5,11 +5,7 @@ import DashPieChart from '../../../components/DashPieChart/DashPieChart'
 const ETH2_UNLABELED_STAKER_INFLOW_QUERY = gql`
   query getMetric($from: DateTime!) {
     getMetric(metric: "eth2_unlabeled_staker_inflow_sources") {
-      histogramData(
-        selector: { slug: "ethereum" }
-        from: $from
-        to: "utc_now"
-      ) {
+      histogramData(selector: { slug: "ethereum" }, from: $from, to: "utc_now") {
         values {
           ... on StringLabelFloatValueList {
             data {
@@ -23,8 +19,6 @@ const ETH2_UNLABELED_STAKER_INFLOW_QUERY = gql`
   }
 `
 
-const EthUnlabeledStackerInflow = () => (
-  <DashPieChart query={ETH2_UNLABELED_STAKER_INFLOW_QUERY} />
-)
+const EthUnlabeledStackerInflow = () => <DashPieChart query={ETH2_UNLABELED_STAKER_INFLOW_QUERY} />
 
 export default EthUnlabeledStackerInflow

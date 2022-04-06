@@ -21,27 +21,27 @@ export const stories = [
         image: email1,
         title: 'Want to know what hard data reveals about the crypto market?',
         description:
-          'We give the answers in our new Santiment Weekly Briefs - available only to Sanbase users!'
+          'We give the answers in our new Santiment Weekly Briefs - available only to Sanbase users!',
       },
       {
         image: email2,
         description:
-          'Each week, the Santiment team shares the most interesting market findings and analyses, using a combination of reliable on-chain, social and development data'
+          'Each week, the Santiment team shares the most interesting market findings and analyses, using a combination of reliable on-chain, social and development data',
       },
       {
         image: email3,
         description:
-          'The Weekly Brief is for anyone that wants to truly understand market behavior, and how Santiment tools can make you a better trader or an informed crypto participant'
+          'The Weekly Brief is for anyone that wants to truly understand market behavior, and how Santiment tools can make you a better trader or an informed crypto participant',
       },
       {
         image: weeklySetting,
         description:
           'Sign up to our Weekly Briefs in your Sanbase account settings by navigating to ‘Digest’ and selecting ‘Weekly’. See you in your inbox!',
         buttonLink: 'https://app.santiment.net/account#notifications',
-        buttonText: 'Turn on "Weekly Brief"'
-      }
+        buttonText: 'Turn on "Weekly Brief"',
+      },
     ],
-    createdAt: '2020-01-19T00:00:00Z'
+    createdAt: '2020-01-19T00:00:00Z',
   },
   {
     type: 'SLIDES',
@@ -53,18 +53,14 @@ export const stories = [
         description: (
           <>
             <div>
-              Santiment has over 120 different on-chain, social and development
-              indicators - many of them 100% custom-built. But how exactly can
-              you use them?
+              Santiment has over 120 different on-chain, social and development indicators - many of
+              them 100% custom-built. But how exactly can you use them?
             </div>
             <br />
-            <div>
-              Check out these use case articles, directly from the Santiment
-              team.
-            </div>
+            <div>Check out these use case articles, directly from the Santiment team.</div>
           </>
         ),
-        image: chartImg
+        image: chartImg,
       },
       {
         image: mvrvImg,
@@ -81,19 +77,18 @@ export const stories = [
                 {' '}
                 explained
               </a>{' '}
-              how our <b>MVRV Difference</b> metric may indicate an end of BTC’s
-              bear cycles.
+              how our <b>MVRV Difference</b> metric may indicate an end of BTC’s bear cycles.
             </div>
             <br />
             <i>
-              P.S. note the date - when this article was published, BTC trailed
-              at ~$5800. 1 week later, it skyrocketed to $8000
+              P.S. note the date - when this article was published, BTC trailed at ~$5800. 1 week
+              later, it skyrocketed to $8000
               <span role='img' aria-label='looking'>
                 👀
               </span>
             </i>
           </>
-        )
+        ),
       },
       {
         image: mmaImg,
@@ -108,10 +103,10 @@ export const stories = [
             >
               broke down
             </a>{' '}
-            one of our newly-developed metrics: <b>Maximal Mean Age</b> and what
-            it tells us about HODLer behavior.
+            one of our newly-developed metrics: <b>Maximal Mean Age</b> and what it tells us about
+            HODLer behavior.
           </>
-        )
+        ),
       },
       {
         image: distroImg,
@@ -126,11 +121,10 @@ export const stories = [
             >
               backtested
             </a>{' '}
-            our <b>Token Holder metrics</b> and found that distributed coins
-            tend to outperform centralized coins - and HODLers - across the
-            board.
+            our <b>Token Holder metrics</b> and found that distributed coins tend to outperform
+            centralized coins - and HODLers - across the board.
           </>
-        )
+        ),
       },
       {
         image: renTopsImg,
@@ -146,15 +140,14 @@ export const stories = [
             >
               wrote about
             </a>{' '}
-            <b>6 ways</b> that Sanbase metrics and tools could have helped you
-            identify REN’s summer tops, including anomalies in on-chain and
-            social, and a bit of detective work to identify REN’s market makers
-            🕵️‍
+            <b>6 ways</b> that Sanbase metrics and tools could have helped you identify REN’s summer
+            tops, including anomalies in on-chain and social, and a bit of detective work to
+            identify REN’s market makers 🕵️‍
             <span role='img' aria-label='looking'>
               ♂️
             </span>
           </>
-        )
+        ),
       },
       {
         image: btcTacImg,
@@ -170,18 +163,17 @@ export const stories = [
               >
                 warned
               </a>{' '}
-              that Bitcoin’s Token Age Consumed chart suggests intense
-              volatility is coming.
+              that Bitcoin’s Token Age Consumed chart suggests intense volatility is coming.
             </div>
 
             <br />
 
             <i>
-              Since then, BTC dumped more than 6% to $7500 on October 23rd,
-              before ballooning to $9850 just 3 days after.
+              Since then, BTC dumped more than 6% to $7500 on October 23rd, before ballooning to
+              $9850 just 3 days after.
             </i>
           </>
-        )
+        ),
       },
       {
         image: weeklyUpdatesImg,
@@ -189,21 +181,17 @@ export const stories = [
         description: (
           <>
             You can find regular use cases for Santiment metrics on our daily{' '}
-            <a
-              target='_blank'
-              rel='noopener noreferrer'
-              href='http://insights.santiment.net'
-            >
+            <a target='_blank' rel='noopener noreferrer' href='http://insights.santiment.net'>
               Community Insights
             </a>
-            , or signing up to our team’s Weekly Briefs, where we break down
-            recent market events with our data!
+            , or signing up to our team’s Weekly Briefs, where we break down recent market events
+            with our data!
           </>
         ),
         buttonLink: 'http://insights.santiment.net',
-        buttonText: 'Community Insights'
-      }
+        buttonText: 'Community Insights',
+      },
     ],
-    createdAt: '2020-01-19T00:00:00Z'
-  }
+    createdAt: '2020-01-19T00:00:00Z',
+  },
 ]
