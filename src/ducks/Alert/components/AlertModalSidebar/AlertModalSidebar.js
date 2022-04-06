@@ -11,7 +11,8 @@ const AlertModalSidebar = ({
   selectorSettings,
   values,
   hasSignal,
-  isSharedTrigger
+  isSharedTrigger,
+  isEdited
 }) => {
   const { submitForm, isSubmitting } = useFormikContext()
 
@@ -23,6 +24,8 @@ const AlertModalSidebar = ({
     setInvalidSteps,
     shouldHideRestrictionMessage
   } = selectorSettings
+
+  const shouldHideSubmitButton = id && !isSharedTrigger && !isEdited
 
   function handleReturnBack () {
     setSelectedStep(undefined)
@@ -40,16 +43,25 @@ const AlertModalSidebar = ({
     <div
       className={cx(
         styles.wrapper,
-        !shouldHideRestrictionMessage && styles.wrapperResized
+        !shouldHideSubmitButton && styles.submitPadding,
+        !shouldHideRestrictionMessage && styles.wrapperResized,
+        'relative column justify fluid'
       )}
     >
       <div>
-        <div className={styles.titleWrapper}>
-          <div className={styles.title}>{selectedType.title}</div>
+        <div className={cx(styles.titleWrapper, 'row justify v-center')}>
+          <div className='h4 c-black'>{selectedType.title}</div>
           {!hasSignal && (
-            <Button className={styles.backButton} onClick={handleReturnBack}>
-              <Icon type='arrow-left' className={styles.backIcon} /> Alert types
-            </Button>
+            <button
+              className={cx(styles.backButton, 'btn body-3')}
+              onClick={handleReturnBack}
+            >
+              <Icon
+                type='arrow-left'
+                className={cx(styles.backIcon, 'mrg--r mrg-s')}
+              />{' '}
+              Alert types
+            </button>
           )}
         </div>
         <div className={styles.divider} />
@@ -59,16 +71,20 @@ const AlertModalSidebar = ({
           isMetricsDisabled={isMetricsDisabled}
         />
       </div>
-      <Button
-        type='submit'
-        variant='fill'
-        border={false}
-        accent='positive'
-        className={styles.submit}
-        onClick={handleSubmit}
-      >
-        {id && !isSharedTrigger ? 'Apply changes' : 'Create alert'}
-      </Button>
+      {!shouldHideSubmitButton ? (
+        <div className={styles.submitWrapper}>
+          <Button
+            type='submit'
+            variant='fill'
+            border={false}
+            accent='positive'
+            className={cx(styles.submit, 'row h-center')}
+            onClick={handleSubmit}
+          >
+            {id && !isSharedTrigger ? 'Apply changes' : 'Create alert'}
+          </Button>
+        </div>
+      ) : null}
     </div>
   )
 }
