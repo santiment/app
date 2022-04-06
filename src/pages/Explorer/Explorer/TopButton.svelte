@@ -5,7 +5,7 @@
     export let onClick = () => {}
 </script>
 
-<button class:active={isActive} class="topicon" on:click={onClick}>
+<button class:active={isActive} class="topicon row hv-center body-3 txt-r c-waterloo" on:click={onClick}>
     {#if label===BUTTONS.NEW}
         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M23 16C23 19.866 19.866 23 16 23C12.134 23 9 19.866 9 16C9 12.134 12.134 9 16 9C19.866 9 23 12.134 23 16ZM24 16C24 20.4183 20.4183 24 16 24C11.5817 24 8 20.4183 8 16C8 11.5817 11.5817 8 16 8C20.4183 8 24 11.5817 24 16ZM16.5 12C16.5 11.7239 16.2761 11.5 16 11.5C15.7239 11.5 15.5 11.7239 15.5 12V16C15.5 16.2761 15.7239 16.5 16 16.5H20C20.2761 16.5 20.5 16.2761 20.5 16C20.5 15.7239 20.2761 15.5 20 15.5H16.5V12Z" />
@@ -24,21 +24,9 @@
 
 <style>
 .topicon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-family: 'Proxima Nova';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;    
-    color: #7A859E;
-
     padding: 12px 16px 12px 12px;
     height: 40px;
     border: 1px solid var(--mystic);
-    box-sizing: border-box;
     border-radius: 100px;
 }
 
@@ -47,14 +35,15 @@
 }
 
 .topicon:hover, .topicon.active {
-    border: 1px solid var(--jungle-green);
-    background: #EDF8F5;
-    color: var(--jungle-green);
+    border: 1px solid var(--green);
+    background: var(--green-light-1);
+    color: var(--green);
 }
 
 .topicon:hover svg, .topicon.active svg {
-    fill: var(--jungle-green);
+    fill: var(--green);
 }
+
 .topicon svg {
     fill: var(--waterloo);
 }

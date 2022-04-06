@@ -7,9 +7,9 @@
     const displayItems = items.slice(0, CUT_COUNT)
 </script>
 
-<div class="tags">
+<div class="row v-center caption txt-r">
     {#each displayItems as item, index}
-        <div key={index} class="tag">
+        <div key={index} class="tag c-waterloo">
             {item}
         </div>
     {/each}
@@ -21,19 +21,8 @@
 </div>
 
 <style>
-.tags {
-    font-family: 'Proxima Nova';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 16px;
-    display: flex;
-    align-items: center;
-}
-
 .tag {
     text-align: center;
-    color: var(--waterloo);
     background-color: var(--athens);
     padding: 4px 8px;
     border-radius: 12px;

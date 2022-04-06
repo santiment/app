@@ -6,6 +6,7 @@
     import EntityIcon from './EntityIcon'
 
     export let entity;
+    export let title = "Quick 'Coin Health' audit template"
 
     // TODO remove me
     const PROJECTS = [
@@ -54,61 +55,33 @@
     ]
 </script>
 
-<div class="row">
-  <div class="head">
-    <div class="title">
-      <h2>Quick 'Coin Health' audit template</h2>
+<div class="rowcomponent column fluid">
+  <div class="head row fluid justify v-center">
+    <div class="row v-center">
+      <h2 class="body-2 txt-r mrg-s mrg--r">{title}</h2>
       <ProjectIcons projects={PROJECTS} />
     </div>
     <EntityIcon type={entity} />
   </div>
-  <div class="footer">
+  <div class="fluid row justify v-center">
     <User />
     <Stat />
   </div>
 </div>
 
 <style>
-  .row {
-    display: flex;
-    flex-direction: column;
+  .rowcomponent {
     padding: 12px 24px;
-    width: 100%;
     border: 1px solid var(--porcelain);
     border-top: none;
     cursor: pointer;
   }
 
-  .row:hover {
+  .rowcomponent:hover {
     background-color: var(--athens);
   }
 
   .head {
-    width: 100%;
     margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .title {
-    display: flex;
-    align-items: center;
-  }
-
-  h2 {
-    font-family: "Proxima Nova";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-    margin-right: 8px;
-  }
-
-  .footer {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
   }
 </style>

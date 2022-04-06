@@ -8,28 +8,23 @@
 
 </script>
 
-<div class="projects">
+<div class="row v-center">
     {#each displayProjects as project, index}
         <img key={index} style="z-index: {4 - index}" src={project.logoUrl} alt={project.name || project.ticker} class="projectIcon holder" />
     {/each}
     {#if hasMore}
-        <div class="counter holder">
+        <div class="counter holder txt-r caption">
             +{moreCount}
         </div>
     {/if}
 </div>
 
 <style>
-.projects {
-    display: flex;
-    align-items: center;
-}
-
 .holder {
+    position: relative;
     width: 24px;
     border: none;
     border-radius: 50%;
-    position: relative;
 }
 
 .projectIcon:not(:first-child) {
@@ -38,11 +33,6 @@
 
 .counter {
     margin-left: -8px;
-    font-family: 'Proxima Nova';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 16px;
     color: var(--waterloo);
     text-align: center;
     background-color: var(--athens);
