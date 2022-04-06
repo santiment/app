@@ -13,7 +13,7 @@
         <img key={index} style="z-index: {4 - index}" src={project.logoUrl} alt={project.name || project.ticker} class="projectIcon holder" />
     {/each}
     {#if hasMore}
-        <div class="counter holder txt-r caption">
+        <div class="counter holder txt-r caption c-waterloo">
             +{moreCount}
         </div>
     {/if}
@@ -33,7 +33,6 @@
 
 .counter {
     margin-left: -8px;
-    color: var(--waterloo);
     text-align: center;
     background-color: var(--athens);
     padding: 4px 5.5px;
