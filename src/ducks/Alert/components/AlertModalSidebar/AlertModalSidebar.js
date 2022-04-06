@@ -49,10 +49,10 @@ const AlertModalSidebar = ({
       )}
     >
       <div>
-        <div className={cx(styles.titleWrapper, 'row justify')}>
+        <div className={cx(styles.titleWrapper, 'row justify v-center')}>
           <div className='h4 c-black'>{selectedType.title}</div>
           {!hasSignal && (
-            <Button
+            <button
               className={cx(styles.backButton, 'btn body-3')}
               onClick={handleReturnBack}
             >
@@ -61,7 +61,7 @@ const AlertModalSidebar = ({
                 className={cx(styles.backIcon, 'mrg--r mrg-s')}
               />{' '}
               Alert types
-            </Button>
+            </button>
           )}
         </div>
         <div className={styles.divider} />
