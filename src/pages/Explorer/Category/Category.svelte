@@ -1,14 +1,12 @@
 <script>
-
-  let className =''
-  export {className as class}
-  export let title 
+  let className = ''
+  export { className as class }
+  export let title
   export let items
   export let hasMore = true
   export let onMore
   export let small = false
   export let iconClass = ''
-
 </script>
 
 <div class="border {className}" class:small>
@@ -31,9 +29,7 @@
   {/each}
 
   {#if hasMore}
-    <div class="more btn row h-center c-accent" on:click={onMore}>
-      Show more
-    </div>
+    <div class="more btn row h-center c-accent" on:click={onMore}>Show more</div>
   {/if}
 </div>
 

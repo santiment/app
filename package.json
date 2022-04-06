@@ -131,6 +131,8 @@
     "postcss-import-11": "npm:postcss-import@11",
     "postcss-loader-2": "npm:postcss-loader@2",
     "postcss-modules": "1.4.1",
+    "prettier": "^2.6.2",
+    "prettier-plugin-svelte": "^2.6.0",
     "prettier-standard": "^16.4.1",
     "pug": "^3.0.1",
     "react-app-rewired": "^2.1.5",
@@ -161,7 +163,6 @@
   "lint-staged": {
     "linters": {
       "src/**/*.js": [
-        "yarn format",
         "git add"
       ],
       "*.{sass,scss,css}": [

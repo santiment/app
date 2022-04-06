@@ -5,7 +5,7 @@
   export let small = false
   export let item
 
-  $:({title, user, votes, comments}= item)
+  $: ({ title, user, votes, comments } = item)
 </script>
 
 <div class="row v-center nowrap">
@@ -16,10 +16,7 @@
   <slot />
 </div>
 
-<div
-  class="bottom row justify v-center c-waterloo mrg-s mrg--t"
-  class:caption={small}
->
+<div class="bottom row justify v-center c-waterloo mrg-s mrg--t" class:caption={small}>
   <Profile {user} class="author" />
 
   <div class="stats row v-center">
