@@ -13,7 +13,7 @@
         <img key={index} style="z-index: {maxCount + 1 - index}" src={project.logoUrl} alt={project.name || project.ticker} class="projectIcon chip" />
     {/each}
     {#if hasMore}
-        <div class="counter chip txt-r caption c-waterloo">
+        <div class="counter chip relative txt-r caption c-waterloo">
             +{moreCount}
         </div>
     {/if}
@@ -21,7 +21,6 @@
 
 <style>
 .chip {
-    position: relative;
     width: 24px;
     border: none;
     border-radius: 50%;

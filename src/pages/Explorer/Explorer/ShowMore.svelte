@@ -3,13 +3,12 @@
     export let onClick = () => {}
 </script>
 
-<div class="showMore fluid body-3 txt-r" onClick={onClick}>
+<div class="btn row h-center fluid" on:click={onClick}>
     {label}
 </div>
 
 <style>
-.showMore {
-    text-align: center;
+div {
     padding: 13.5px 0;
     border: 1px solid var(--porcelain);
     border-top: none;
@@ -17,9 +16,6 @@
     border-bottom-right-radius: 8px;
     color: var(--green);
     cursor: pointer;
-}
-
-.showMore:hover {
-    background-color: var(--athens);
+    --bg-hover: var(--athens);
 }
 </style>

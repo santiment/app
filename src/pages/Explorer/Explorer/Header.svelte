@@ -2,8 +2,8 @@
     export let title = "Explorer"
 </script>
 
-<div class="header fluid row justify v-center">
-    <h3 class="body-1 txt-r">{title}</h3>
+<div class="header row justify v-center">
+    <h3 class="body-1 c-black">{title}</h3>
     <div class="actions row h-center">
         <!-- TODO -->
         <div>All time</div>
@@ -18,10 +18,6 @@
     border: 1px solid var(--porcelain);
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
-}
-
-h3 {
-    color: var(--rhino);
 }
 
 .actions div:not(:last-child) {

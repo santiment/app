@@ -55,10 +55,10 @@
     ]
 </script>
 
-<div class="rowcomponent column fluid">
-  <div class="head row fluid justify v-center">
+<div class="item  column fluid btn">
+  <div class="mrg-s mrg--b row justify v-center">
     <div class="row v-center">
-      <h2 class="body-2 txt-r mrg-s mrg--r">{title}</h2>
+      <h2 class="body-2 mrg-s mrg--r">{title}</h2>
       <ProjectIcons projects={PROJECTS} />
     </div>
     <EntityIcon type={entity} />
@@ -70,18 +70,11 @@
 </div>
 
 <style>
-  .rowcomponent {
+  .item  {
     padding: 12px 24px;
     border: 1px solid var(--porcelain);
     border-top: none;
     cursor: pointer;
-  }
-
-  .rowcomponent:hover {
-    background-color: var(--athens);
-  }
-
-  .head {
-    margin-bottom: 10px;
+    --bg-hover: var(--athens);
   }
 </style>

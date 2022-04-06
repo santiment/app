@@ -10,8 +10,11 @@
 </script>
 
 <TopButtons activeButton={activeButton} setActiveButton={btn => activeButton = btn} />
+
 <Header />
+
 <Row entity={ENTITY_TYPES.ADDRESS}/>
+
 {#if showMore}
     <ShowMore />
 {/if}
