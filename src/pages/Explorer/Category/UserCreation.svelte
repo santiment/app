@@ -3,12 +3,7 @@
   import Profile from 'webkit/ui/Profile/svelte'
 
   export let small = false
-  export let item = {
-      title: 'Protocol - Fundamental comparison (TVL, User, Develel)',
-comments : 0,
-votes: 0,
-user : {username: 'test'}
-  }
+  export let item
 
   $:({title, user, votes, comments}= item)
 </script>

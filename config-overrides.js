@@ -2,6 +2,8 @@ const webpack = require('webpack')
 const path = require('path')
 const CircularDependencyPlugin = require('circular-dependency-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
+const sveltePreprocess = require('svelte-preprocess')
+const cssModules = require('svelte-preprocess-cssmodules')
 
 module.exports = function override(config, env) {
   config.resolve.extensions.push('.svelte')
@@ -35,6 +37,9 @@ module.exports = function override(config, env) {
     test: /\.svelte/,
     use: {
       loader: 'svelte-loader',
+      options: {
+        preprocess: [cssModules()]
+      }
     },
   })
 
