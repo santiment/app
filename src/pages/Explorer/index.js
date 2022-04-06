@@ -1,15 +1,15 @@
 import React from 'react'
 import toReact from 'svelte-adapter/react'
 import EventBanner from '../../components/EventBanner'
-import SvelteMain from './Main'
+import SveltePage from './index.svelte'
 
-export const Main = toReact(SvelteMain, {}, 'div')
+export const Page = toReact(SveltePage, {flex: 1, margin: '24px auto'}, 'div')
 
 const ExplorerPage = () => (
-  <div className='fluid' style={{ flex: '1' }}>
+  <>
     <EventBanner />
-    <Main />
-  </div>
+    <Page />
+  </>
 )
 
 export default ExplorerPage
