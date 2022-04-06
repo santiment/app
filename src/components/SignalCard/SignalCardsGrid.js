@@ -18,7 +18,8 @@ const SignalCardsGrid = ({
   removeSignal,
   deleteEnabled = true,
   classes = {},
-  shouldDisableActions
+  shouldDisableActions,
+  isRecommendedSignal = false
 }) => {
   const isAuthor = +userId === +ownerId
 
@@ -29,6 +30,7 @@ const SignalCardsGrid = ({
 
         return (
           <SignalCard
+            isRecommendedSignal={isRecommendedSignal}
             shouldDisableActions={shouldDisableActions}
             deleteEnabled={deleteEnabled}
             isUserTheAuthor={

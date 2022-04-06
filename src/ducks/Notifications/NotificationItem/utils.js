@@ -1,9 +1,9 @@
 import React from 'react'
 import Markdown from 'react-markdown'
 import Icon from '@santiment-network/ui/Icon'
-import { prepareAlertTitle } from '../../Signals/link/OpenSignalLink'
-import { makeLinkToInsight } from '../../../components/Insight/InsightCardInternals'
 import InsightTags from '../../../components/Insight/InsightTags'
+import { makeLinkToInsight } from '../../../components/Insight/InsightCardInternals'
+import { prepareAlertTitle } from '../../Signals/link/utils'
 import styles from './NotificationItem.module.scss'
 
 export const TRIGGER_FIRED = 'trigger_fired'

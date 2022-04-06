@@ -1,0 +1,32 @@
+.wrapper {
+  padding: 20px 24px;
+}
+
+.divider {
+  height: 1px;
+  width: calc(100% + 48px);
+  margin-left: -24px;
+  background-color: var(--porcelain);
+}
+
+.copyBtn {
+  margin: 0 8px 0 0 !important;
+}
+
+.chartWrapper {
+  height: 164px;
+  align-items: flex-end;
+}
+
+.noChart {
+  margin: 0;
+  padding: 0;
+}
+
+.noChartWrapper {
+  height: 180px;
+}
+
+.loader {
+  min-height: 164px;
+}

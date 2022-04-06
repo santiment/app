@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
+import cx from 'classnames'
 import { Formik } from 'formik'
 import { connect } from 'react-redux'
 import { useQuery } from 'react-apollo'
@@ -46,9 +47,9 @@ const AlertModalFormMaster = ({
   isModalOpen,
   isPreview,
   setIsPreview,
-  prepareAlertTitle,
   shouldHideRestrictionMessage,
-  shouldDisableActions
+  shouldDisableActions,
+  isRecommendedSignal
 }) => {
   const [formPreviousValues, setFormPreviousValues] = useState(initialValues)
   const [selectedType, setSelectedType] = useState(defaultType)
@@ -62,10 +63,11 @@ const AlertModalFormMaster = ({
   const finishedStepsMemo = useMemo(() => new Set(finishedSteps), [
     finishedSteps
   ])
+
   const { user } = useUser()
   const { data = {}, loading, error } = useSignal({
     id,
-    skip: !id
+    skip: !id || signalData
   })
 
   const metric = formPreviousValues.settings.metric
@@ -77,7 +79,10 @@ const AlertModalFormMaster = ({
   })
 
   const isSharedTrigger =
-    data && data.trigger && +data.trigger.authorId !== +user.id
+    (data && data.trigger && +data.trigger.authorId !== +user.id) ||
+    (signalData &&
+      signalData.trigger &&
+      +signalData.trigger.authorId !== +signalData.id)
 
   useEffect(() => {
     if (id || signalData) {
@@ -111,7 +116,7 @@ const AlertModalFormMaster = ({
       )
     }
 
-    if (id && !isSharedTrigger) {
+    if (id && !isSharedTrigger && !isRecommendedSignal) {
       updateAlert({
         id,
         ...triggerValues
@@ -182,7 +187,7 @@ const AlertModalFormMaster = ({
 
   if (error) {
     return (
-      <EmptySection className={styles.notSignalInfo}>
+      <EmptySection className={cx(styles.notSignalInfo, 'column hv-center')}>
         Alert doesn't exist
         <br />
         or it's a private alert.
@@ -195,8 +200,7 @@ const AlertModalFormMaster = ({
       <AlertPreview
         shouldDisableActions={shouldDisableActions}
         setIsPreview={setIsPreview}
-        signal={data.trigger.trigger}
-        prepareAlertTitle={prepareAlertTitle}
+        signal={signalData}
         handleCloseDialog={handleCloseDialog}
       />
     )
@@ -214,10 +218,11 @@ const AlertModalFormMaster = ({
     >
       {formik => (
         <AlertModalForm
+          isRecommendedSignal={isRecommendedSignal}
           signal={signalData || (data && data.trigger && data.trigger.trigger)}
           isModalOpen={isModalOpen}
           selectorSettings={selectorSettings}
-          hasSignal={!!id}
+          hasSignal={!!id || signalData}
           isEdited={isEdited}
           isSharedTrigger={isSharedTrigger}
           {...formik}
