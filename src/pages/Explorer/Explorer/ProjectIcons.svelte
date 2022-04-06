@@ -1,26 +1,26 @@
 <script>
     export let projects = []
+    export let maxCount = 3
 
-    const CUT_COUNT = 3
-    const hasMore = projects.length > CUT_COUNT
-    const moreCount = projects.length - CUT_COUNT
-    const displayProjects = projects.slice(0, CUT_COUNT)
+    const hasMore = projects.length > maxCount
+    const moreCount = projects.length - maxCount
+    const displayProjects = projects.slice(0, maxCount)
 
 </script>
 
 <div class="row v-center">
     {#each displayProjects as project, index}
-        <img key={index} style="z-index: {4 - index}" src={project.logoUrl} alt={project.name || project.ticker} class="projectIcon holder" />
+        <img key={index} style="z-index: {maxCount + 1 - index}" src={project.logoUrl} alt={project.name || project.ticker} class="projectIcon chip" />
     {/each}
     {#if hasMore}
-        <div class="counter holder txt-r caption c-waterloo">
+        <div class="counter chip txt-r caption c-waterloo">
             +{moreCount}
         </div>
     {/if}
 </div>
 
 <style>
-.holder {
+.chip {
     position: relative;
     width: 24px;
     border: none;

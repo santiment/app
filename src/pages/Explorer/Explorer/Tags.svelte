@@ -1,10 +1,10 @@
 <script>
     export let items = []
+    export let maxCount = 3
 
-    const CUT_COUNT = 3
-    const hasMore = items.length > CUT_COUNT
-    const moreCount = items.length - CUT_COUNT
-    const displayItems = items.slice(0, CUT_COUNT)
+    const hasMore = items.length > maxCount
+    const moreCount = items.length - maxCount
+    const displayItems = items.slice(0, maxCount)
 </script>
 
 <div class="row v-center caption txt-r">
