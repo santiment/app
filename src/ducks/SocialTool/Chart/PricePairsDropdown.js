@@ -5,17 +5,17 @@ import styles from './PricePairsDropdown.module.scss'
 const dropdownClasses = {
   wrapper: styles.dropdown,
   options: styles.dropdownOptions,
-  option: styles.dropdownOption
+  option: styles.dropdownOption,
 }
 
 const SEPARATOR = ' / '
 
 export const TICKER_SLUG_PAIRS = [
   ['BTC', 'bitcoin'],
-  ['ETH', 'ethereum']
+  ['ETH', 'ethereum'],
 ]
 
-const getPriceOptions = assets => {
+const getPriceOptions = (assets) => {
   const options = new Map(TICKER_SLUG_PAIRS)
 
   assets.map(([ticker, slug]) => options.set(ticker, slug))
@@ -23,15 +23,14 @@ const getPriceOptions = assets => {
   return options
 }
 
-const getLabels = options =>
-  options.map(([ticker]) => `${ticker}${SEPARATOR}USD`)
+const getLabels = (options) => options.map(([ticker]) => `${ticker}${SEPARATOR}USD`)
 
 const PricePairsDropdown = ({
   allDetectedAssets,
   settings,
   setSettings,
   setPriceAsset,
-  priceAsset
+  priceAsset,
 }) => {
   const { ticker, asset: slug } = settings
   const defaultPriceOptions = getPriceOptions([[ticker, slug]])
@@ -47,7 +46,7 @@ const PricePairsDropdown = ({
   useEffect(() => {
     if (allDetectedAssets.size > 0) {
       const pairs = []
-      allDetectedAssets.forEach(pair => {
+      allDetectedAssets.forEach((pair) => {
         if (pair) {
           pairs.push([pair.ticker, pair.slug])
         }
@@ -58,11 +57,11 @@ const PricePairsDropdown = ({
     }
   }, [allDetectedAssets])
 
-  function onChangePriceOption (selectedPair) {
+  function onChangePriceOption(selectedPair) {
     const ticker = selectedPair.split(SEPARATOR)[0]
     const slug = priceOptions.get(ticker)
     setPriceAsset({ slug, label: `${ticker}${SEPARATOR}USD` })
-    setSettings(state => ({ ...state, asset: slug, ticker }))
+    setSettings((state) => ({ ...state, asset: slug, ticker }))
   }
 
   return (

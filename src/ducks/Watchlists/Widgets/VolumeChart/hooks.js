@@ -1,8 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import {
-  useProjectPriceChanges,
-  useProjectsSocialVolumeChanges
-} from '../../../../hooks/project'
+import { useProjectPriceChanges, useProjectsSocialVolumeChanges } from '../../../../hooks/project'
 import { useWatchlistItems } from '../../gql/hooks'
 import { mapToColors } from './utils'
 
@@ -19,12 +16,10 @@ export const useWithColors = (data, key, sorter) => {
 
 const useChartInterval = ({ type, settings, ranges, onChangeSettings }) => {
   const defaultSelectedIndex =
-    settings && settings.interval
-      ? ranges.findIndex(({ label }) => label === settings.interval)
-      : 1
+    settings && settings.interval ? ranges.findIndex(({ label }) => label === settings.interval) : 1
 
   const [intervalIndex, setIntervalIndex] = useState(() =>
-    Math.min(ranges.length - 1, defaultSelectedIndex)
+    Math.min(ranges.length - 1, defaultSelectedIndex),
   )
 
   useEffect(() => {
@@ -34,7 +29,7 @@ const useChartInterval = ({ type, settings, ranges, onChangeSettings }) => {
   return {
     intervalIndex,
     setIntervalIndex,
-    rangeItem: ranges[intervalIndex]
+    rangeItem: ranges[intervalIndex],
   }
 }
 
@@ -43,7 +38,7 @@ const buildOrder = ({ interval, metric = 'marketcap_usd', desc = false }) => ({
   dynamic_from: interval,
   dynamic_to: 'now',
   aggregation: 'last',
-  direction: desc ? 'desc' : 'asc'
+  direction: desc ? 'desc' : 'asc',
 })
 
 export const useProjectRanges = ({
@@ -54,12 +49,12 @@ export const useProjectRanges = ({
   settings,
   onChangeSettings,
   type,
-  sortByMetric
+  sortByMetric,
 }) => {
   const {
     setIntervalIndex,
     intervalIndex,
-    rangeItem: { label, key, metric = key }
+    rangeItem: { label, key, metric = key },
   } = useChartInterval({ settings, type, ranges, onChangeSettings })
 
   const [slugs] = useWatchlistItems(listId)
@@ -69,11 +64,11 @@ export const useProjectRanges = ({
     orderBy: buildOrder({
       interval: label,
       metric: sortByMetric || metric,
-      desc
+      desc,
     }),
     metric,
     interval: label,
-    slugs
+    slugs,
   }
 
   const [data, loading] = isSocialVolume
@@ -90,6 +85,6 @@ export const useProjectRanges = ({
     intervalIndex,
     setIntervalIndex,
     label,
-    key: metric
+    key: metric,
   }
 }

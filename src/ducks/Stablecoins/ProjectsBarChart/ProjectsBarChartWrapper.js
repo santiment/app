@@ -8,7 +8,7 @@ import { PREDEFINED_COLORS } from './utils'
 
 const ProjectsBarChartWrapper = ({ data, layout = 'horizontal', ...rest }) => {
   const onProjectClick = useCallback(
-    e => {
+    (e) => {
       const { value, index } = e
       const { clickable = true } = index ? data[index] : e
 
@@ -18,12 +18,12 @@ const ProjectsBarChartWrapper = ({ data, layout = 'horizontal', ...rest }) => {
 
       window.open(`/projects/${value}`, '_blank')
     },
-    [data]
+    [data],
   )
 
   const metrics = useMemo(() => {
-    return data.map(item => ({
-      key: item.slug || item.address
+    return data.map((item) => ({
+      key: item.slug || item.address,
     }))
   }, [data])
   const MetricColor = useChartColors(metrics, PREDEFINED_COLORS)

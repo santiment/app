@@ -15,9 +15,7 @@ const CompareTooltip = ({ disabledComparision }) => {
         <div>
           <Button
             classes={{
-              btnIcon: disabledComparision
-                ? styles.compareIconDisabled
-                : styles.compareIcon
+              btnIcon: disabledComparision ? styles.compareIconDisabled : styles.compareIcon,
             }}
             icon='compare'
             border

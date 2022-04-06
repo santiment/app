@@ -7,22 +7,22 @@ import './FeedSortersCustom.scss'
 
 export const DATETIME_SORT = {
   label: 'Newest',
-  type: 'DATETIME'
+  type: 'DATETIME',
 }
 
 export const VOTES_SORT = {
   label: 'Popular',
-  type: 'VOTES'
+  type: 'VOTES',
 }
 
 export const COMMENTS_SORT = {
   label: 'Comments',
-  type: 'COMMENTS'
+  type: 'COMMENTS',
 }
 
 export const FILTER_OPTIONS = [
   DATETIME_SORT,
-  VOTES_SORT
+  VOTES_SORT,
   // COMMENTS_SORT, #GarageInc: temporary removed before backend San-7187
 ]
 
@@ -34,7 +34,7 @@ const FeedSorters = ({ sortType, onChangeSort, className }) => {
           clearable={false}
           value={sortType}
           options={FILTER_OPTIONS}
-          onChange={value => {
+          onChange={(value) => {
             onChangeSort && onChangeSort(value)
           }}
         />

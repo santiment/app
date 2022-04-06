@@ -1,28 +1,28 @@
 import React, { useState, useContext, useEffect } from 'react'
 
-function SizedRenderQueue (size) {
+function SizedRenderQueue(size) {
   const queue = []
   const loadingSet = new Set()
 
-  function renderNext () {
+  function renderNext() {
     const [ref, setIsRendered] = queue.shift()
 
     loadingSet.add(ref)
     setIsRendered(true)
   }
 
-  function onItemLoad (ref) {
+  function onItemLoad(ref) {
     loadingSet.delete(ref)
 
     if (queue.length) renderNext()
   }
 
-  function Ref () {
+  function Ref() {
     const ref = () => onItemLoad(ref)
     return ref
   }
 
-  function register (ref, setIsRendered) {
+  function register(ref, setIsRendered) {
     if (loadingSet.size < size) {
       loadingSet.add(ref)
       setIsRendered(true)
@@ -41,7 +41,7 @@ function SizedRenderQueue (size) {
     return { isRendered, onLoad: ref }
   }
 }
-export const newRenderQueue = size => () => SizedRenderQueue(size)
+export const newRenderQueue = (size) => () => SizedRenderQueue(size)
 
 const RenderQueueContext = React.createContext()
 export const useRenderQueueItem = () => useContext(RenderQueueContext)()
@@ -51,11 +51,9 @@ export const RenderQueueProvider = ({ children, RenderQueue }) => (
     {children}
   </RenderQueueContext.Provider>
 )
-export const withRenderQueueProvider = (
-  Component,
-  SizedRenderQueue
-) => props => (
-  <RenderQueueProvider RenderQueue={SizedRenderQueue}>
-    <Component {...props} />
-  </RenderQueueProvider>
-)
+export const withRenderQueueProvider = (Component, SizedRenderQueue) => (props) =>
+  (
+    <RenderQueueProvider RenderQueue={SizedRenderQueue}>
+      <Component {...props} />
+    </RenderQueueProvider>
+  )

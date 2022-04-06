@@ -8,17 +8,17 @@ import {
   getRecentAssets,
   getRecentWatchlists,
   getRecentScreeners,
-  getRecentTemplates
+  getRecentTemplates,
 } from '../../../../utils/recent'
 import styles from './Recents.module.scss'
 
 const RECENT_GETTERS = [
   getRecentAssets,
-  () => getRecentTemplates().map(id => +id),
+  () => getRecentTemplates().map((id) => +id),
   getRecentWatchlists,
-  getRecentScreeners
+  getRecentScreeners,
 ]
-const recentGetter = getter => getter()
+const recentGetter = (getter) => getter()
 const getRecents = () => RECENT_GETTERS.map(recentGetter)
 
 const ASSETS = 'Assets'
@@ -30,18 +30,14 @@ const ROW_HEIGHT = 53
 const HEADER_HEIGHT = 34
 
 const TAB_COMPONENT = {
-  [ASSETS]: ({ assets, setHeight }) => (
-    <Assets slugs={assets} setHeight={setHeight} />
-  ),
+  [ASSETS]: ({ assets, setHeight }) => <Assets slugs={assets} setHeight={setHeight} />,
   [CHART_LAYOUTS]: ({ chartLayouts, setHeight }) => (
     <ChartLayouts ids={chartLayouts} setHeight={setHeight} />
   ),
   [WATCHLISTS]: ({ watchlists, setHeight }) => (
     <Watchlists ids={watchlists} setHeight={setHeight} />
   ),
-  [SCREENERS]: ({ screeners, setHeight }) => (
-    <Watchlists ids={screeners} setHeight={setHeight} />
-  )
+  [SCREENERS]: ({ screeners, setHeight }) => <Watchlists ids={screeners} setHeight={setHeight} />,
 }
 
 const Recents = () => {
@@ -53,7 +49,7 @@ const Recents = () => {
       assets.length > 0 && ASSETS,
       chartLayouts.length > 0 && CHART_LAYOUTS,
       watchlists.length > 0 && WATCHLISTS,
-      screeners.length > 0 && SCREENERS
+      screeners.length > 0 && SCREENERS,
     ].filter(Boolean)
   }, [assets, chartLayouts, watchlists, screeners])
 
@@ -71,7 +67,7 @@ const Recents = () => {
         className={styles.tabs}
         options={availableTabs}
         defaultSelectedIndex={tab}
-        onSelect={tab => setTab(tab)}
+        onSelect={(tab) => setTab(tab)}
         classes={styles}
       />
 

@@ -8,7 +8,7 @@ import styles from './Actions.module.scss'
 const Delete = ({ selected, onRemove, selectedText }) => {
   const [loading, setLoading] = useState(false)
 
-  function onClick () {
+  function onClick() {
     if (loading) return
     setLoading(true)
     onRemove(selected, () => setLoading(false))

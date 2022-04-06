@@ -15,9 +15,8 @@ const FeedHelpPopup = () => (
     }
   >
     <div className={styles.container}>
-      This is a continuous stream of updates on cryptocurrency assets, your
-      personal watchlists and general market conditions, using various Santiment
-      metrics and tools
+      This is a continuous stream of updates on cryptocurrency assets, your personal watchlists and
+      general market conditions, using various Santiment metrics and tools
     </div>
   </Dialog>
 )

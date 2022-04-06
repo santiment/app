@@ -9,14 +9,13 @@ const WatchlistAndScreener = ({
   description,
   invalidStepsMemo,
   selected,
-  isFinished
+  isFinished,
 }) => {
   const { values } = useFormikContext()
   const { watchlist } = useWatchlistAndScreener({
     type: selectedType.title,
     settings: values.settings,
-    skip:
-      selectedType.title !== 'Screener' && selectedType.title !== 'Watchlist'
+    skip: selectedType.title !== 'Screener' && selectedType.title !== 'Watchlist',
   })
 
   const isInvalid = invalidStepsMemo.has('watchlist')
@@ -42,9 +41,7 @@ const WatchlistAndScreener = ({
         <AlertMessage
           className={styles.error}
           error
-          text={`${
-            selectedType.title === 'Screener' ? 'Screener' : 'Watchlist'
-          } is required`}
+          text={`${selectedType.title === 'Screener' ? 'Screener' : 'Watchlist'} is required`}
         />
       )}
     </div>

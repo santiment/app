@@ -10,20 +10,20 @@ import Option from '../../../../components/ToggleSetting'
 const RAW_INDICATORS = {
   MA: {
     type: 'moving_average',
-    bases: [7, 30, 50, 200]
-  }
+    bases: [7, 30, 50, 200],
+  },
 }
 
 export const Indicator = Object.keys(RAW_INDICATORS).reduce((acc, key) => {
   const { type, bases } = RAW_INDICATORS[key]
 
-  bases.forEach(base => {
+  bases.forEach((base) => {
     const indicatorKey = key + base
     acc[indicatorKey] = {
       base,
       type,
       key: indicatorKey,
-      label: `${key}(${base})`
+      label: `${key}(${base})`,
     }
   })
 
@@ -35,7 +35,7 @@ const INDICATORS = Object.values(Indicator)
 const labelExtractor = ({ label }) => label
 
 const IndicatorMetricCache = {}
-function getMetricCache ({ key }) {
+function getMetricCache({ key }) {
   let cache = IndicatorMetricCache[key]
   if (!cache) {
     cache = {}
@@ -44,14 +44,14 @@ function getMetricCache ({ key }) {
   return cache
 }
 
-export function cacheIndicator (metric, indicator) {
+export function cacheIndicator(metric, indicator) {
   const metricStore = getMetricCache(metric)
   const indicatorMetric = buildIndicatorMetric(metric, indicator)
   metricStore[indicator.key] = indicatorMetric
   return indicatorMetric
 }
 
-function removeCachedIndicator (metric, indicator) {
+function removeCachedIndicator(metric, indicator) {
   const metricStore = getMetricCache(metric)
   const indicatorMetric = metricStore[indicator.key]
 
@@ -59,7 +59,7 @@ function removeCachedIndicator (metric, indicator) {
   return indicatorMetric
 }
 
-export function buildIndicatorMetric (metric, indicator) {
+export function buildIndicatorMetric(metric, indicator) {
   const cached = getMetricCache(metric)[indicator.key]
   if (cached) return cached
 
@@ -73,9 +73,9 @@ export function buildIndicatorMetric (metric, indicator) {
     reqMeta: {
       transform: {
         type: indicator.type,
-        movingAverageBase: indicator.base
-      }
-    }
+        movingAverageBase: indicator.base,
+      },
+    },
   })
 
   updateTooltipSetting(indicatorMetric)
@@ -87,17 +87,17 @@ const IndicatorsSetting = ({ metric, widget, toggleMetric }) => {
   const { Dropdown } = useDropdown()
   const activeIndicators = useMemo(
     () => new Set(MetricIndicators[metric.key]),
-    [metric, MetricIndicators]
+    [metric, MetricIndicators],
   )
   const activeLabels = useMemo(
     () =>
-      INDICATORS.filter(indicator => activeIndicators.has(indicator))
+      INDICATORS.filter((indicator) => activeIndicators.has(indicator))
         .map(labelExtractor)
         .join(', '),
-    [activeIndicators]
+    [activeIndicators],
   )
 
-  function onToggle (indicator) {
+  function onToggle(indicator) {
     const indicatorMetric = activeIndicators.has(indicator)
       ? removeCachedIndicator(metric, indicator)
       : cacheIndicator(metric, indicator)
@@ -114,11 +114,8 @@ const IndicatorsSetting = ({ metric, widget, toggleMetric }) => {
   }
 
   return (
-    <Dropdown
-      align='start'
-      trigger={<Setting>Indicators: {activeLabels}</Setting>}
-    >
-      {INDICATORS.map(indicator => (
+    <Dropdown align='start' trigger={<Setting>Indicators: {activeLabels}</Setting>}>
+      {INDICATORS.map((indicator) => (
         <Option
           key={indicator.key}
           title={`Moving Average ${indicator.base}`}

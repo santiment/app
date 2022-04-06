@@ -4,11 +4,7 @@ import Dialog from '@santiment-network/ui/Dialog'
 import LigthVideoPlayBtn from '../VideoPlayBtn/VideoPlayBtn'
 import styles from './VideoModal.module.scss'
 
-const VideoModal = ({
-  videoId,
-  classes = {},
-  playBtn: PlayBtn = LigthVideoPlayBtn
-}) => {
+const VideoModal = ({ videoId, classes = {}, playBtn: PlayBtn = LigthVideoPlayBtn }) => {
   if (!videoId) {
     return null
   }
@@ -19,7 +15,7 @@ const VideoModal = ({
         <div
           className={cx(styles.video, classes.media)}
           style={{
-            backgroundImage: `url('https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg')`
+            backgroundImage: `url('https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg')`,
           }}
         >
           <PlayBtn className={classes.playBtn} />

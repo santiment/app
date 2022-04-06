@@ -27,7 +27,7 @@ const TOP_EXCHANGES = new Set([
   'bitstamp',
   'bittrex',
   'gemini',
-  'kraken'
+  'kraken',
 ])
 
 const sortExchanges = (a, b) => {
@@ -39,11 +39,11 @@ const sortExchanges = (a, b) => {
   } else return isTopB ? 1 : 0
 }
 
-export function useMarketExchanges () {
+export function useMarketExchanges() {
   const { data, loading } = useQuery(EXCHANGES_QUERY)
 
   return useMemo(
     () => [data ? data.getMarketExchanges.sort(sortExchanges) : ARRAY, loading],
-    [data]
+    [data],
   )
 }

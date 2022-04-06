@@ -9,22 +9,12 @@ import { mapAddressToAPIType } from '../../../ducks/Watchlists/utils'
 import styles from './index.module.scss'
 
 const CTAButton = ({ type = PROJECT, onClick }) => (
-  <Button
-    variant='fill'
-    accent='positive'
-    className={styles.emptyBtn}
-    onClick={onClick}
-  >
+  <Button variant='fill' accent='positive' className={styles.emptyBtn} onClick={onClick}>
     {type === PROJECT ? 'Create watchlist' : 'Add addresses'}
   </Button>
 )
 
-export const EmptySection = ({
-  className,
-  wrapperClassName,
-  type = PROJECT,
-  ...props
-}) => (
+export const EmptySection = ({ className, wrapperClassName, type = PROJECT, ...props }) => (
   <Section
     className={cx(styles.empty__row, wrapperClassName)}
     imgClassName={cx(styles.img, className)}

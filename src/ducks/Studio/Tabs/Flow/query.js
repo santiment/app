@@ -11,7 +11,7 @@ const DATA_CHUNK = `{timeseriesData(
       }}`
 
 const METRICS_CHUNK = METRICS.map((metric, i) =>
-  metric ? `_${i}: getMetric(metric: "${metric}")${DATA_CHUNK}` : ''
+  metric ? `_${i}: getMetric(metric: "${metric}")${DATA_CHUNK}` : '',
 ).join('')
 
 export const FLOW_QUERY = gql`

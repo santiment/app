@@ -32,20 +32,14 @@ const SocialVolumeChart = ({ trend, words }) => {
 const ConnectedWords = ({ trend, words }) => {
   const { data, isLoading } = useTrendWordContext(words, trend)
 
-  return (
-    <WordCloud
-      className={styles.cloud__words}
-      cloud={data}
-      isLoading={isLoading}
-    />
-  )
+  return <WordCloud className={styles.cloud__words} cloud={data} isLoading={isLoading} />
 }
 
 export const Column = {
   INDEX: INDEX_COLUMN.id,
   SOCIAL_VOLUME: 'Soc. vol., 24h',
   TRENDING_CHART: 'Trending chart, 7d',
-  CONNECTED_WORDS: 'Connected words'
+  CONNECTED_WORDS: 'Connected words',
 }
 
 export const COLUMNS = [INDEX_COLUMN].concat(
@@ -57,20 +51,16 @@ export const COLUMNS = [INDEX_COLUMN].concat(
         <Link className={styles.word__link} to={`/labs/trends/explore/${word}`}>
           {word}
         </Link>
-      )
+      ),
     },
     {
       title: Column.TRENDING_CHART,
-      render: (trend, { words }) => (
-        <SocialVolumeChart trend={trend} words={words} />
-      )
+      render: (trend, { words }) => <SocialVolumeChart trend={trend} words={words} />,
     },
     {
       title: Column.CONNECTED_WORDS,
       className: styles.cloud,
-      render: (trend, { words }) => (
-        <ConnectedWords trend={trend} words={words} />
-      )
-    }
-  ])
+      render: (trend, { words }) => <ConnectedWords trend={trend} words={words} />,
+    },
+  ]),
 )

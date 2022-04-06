@@ -31,8 +31,7 @@ const Watchlist = ({ name, isPublic, historicalStats }) => {
   const marketcapLast = lastData ? lastData.marketcap : 0
   const marketcapFirst = firstData ? firstData.marketcap : 0
 
-  const change =
-    marketcapFirst !== 0 ? (marketcapLast - marketcapFirst) / marketcapFirst : 0
+  const change = marketcapFirst !== 0 ? (marketcapLast - marketcapFirst) / marketcapFirst : 0
 
   return (
     <>
@@ -60,7 +59,7 @@ const Watchlists = ({ ids, setHeight }) => (
 )
 
 Watchlists.defaultProps = {
-  title: 'Watchlists'
+  title: 'Watchlists',
 }
 
 export default Watchlists

@@ -7,7 +7,7 @@ import { Metric } from '../../dataHub/metrics'
 import styles from './IcoPrice.module.scss'
 
 const PROJECT_ICO_PRICE_QUERY = gql`
-  query($slug: String!) {
+  query ($slug: String!) {
     project: projectBySlug(slug: $slug) {
       id
       icoPrice
@@ -19,24 +19,18 @@ const { formatter } = Metric.price_usd
 
 const DEFAULT_VALUE = {}
 
-export const IcoPrice = ({
-  chart,
-  slug,
-  className,
-  isICOPriceActive,
-  onResult
-}) => {
+export const IcoPrice = ({ chart, slug, className, isICOPriceActive, onResult }) => {
   const [{ top, price, isOnChart }, setValue] = useState(DEFAULT_VALUE)
   const { data, loading } = useQuery(PROJECT_ICO_PRICE_QUERY, {
     variables: {
-      slug
-    }
+      slug,
+    },
   })
 
   const {
     height,
     minMaxes,
-    padding: { left, right }
+    padding: { left, right },
   } = chart
   const priceMinMax = minMaxes && minMaxes.price_usd
 
@@ -59,7 +53,7 @@ export const IcoPrice = ({
     setValue({
       isOnChart,
       top: isOnChart ? chart.scale(chart, min, max)(icoPrice) : 0,
-      price: formatter(icoPrice)
+      price: formatter(icoPrice),
     })
     onResult(icoPrice)
   }, [data, priceMinMax, height])
@@ -78,10 +72,10 @@ export const IcoPrice = ({
 }
 
 IcoPrice.defaultProps = {
-  onResult: () => {}
+  onResult: () => {},
 }
 
-export default props => {
+export default (props) => {
   const chart = useChart()
   return <IcoPrice chart={chart} {...props} />
 }

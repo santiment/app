@@ -13,12 +13,10 @@ const TimeWindowSelector = () => {
 
   const timeWindowPeriod = useMemo(
     () => AVAILABLE_TIME_TYPES.find(({ value }) => value === timePeriod),
-    [timePeriod]
+    [timePeriod],
   )
   const [count, setCount] = useState((value && timeCount) || 1)
-  const [period, setPeriod] = useState(
-    (value && timeWindowPeriod) || AVAILABLE_TIME_TYPES[2]
-  )
+  const [period, setPeriod] = useState((value && timeWindowPeriod) || AVAILABLE_TIME_TYPES[2])
 
   useEffect(() => {
     if (period.value && count) {
@@ -26,7 +24,7 @@ const TimeWindowSelector = () => {
     }
   }, [period, count])
 
-  function handleChange (e) {
+  function handleChange(e) {
     const currentValue = parseInt(e.target.value)
     setCount(currentValue || 1)
   }
@@ -45,7 +43,7 @@ const TimeWindowSelector = () => {
         isSearchable={false}
         options={AVAILABLE_TIME_TYPES}
         value={period}
-        onChange={val => setPeriod(val)}
+        onChange={(val) => setPeriod(val)}
         className={styles.period}
       />
     </div>

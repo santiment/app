@@ -26,18 +26,16 @@ const UNISWAP_WHO_CLAIMED_QUERY = gql`
   }
 `
 
-export function useUniswapValueDistribution () {
+export function useUniswapValueDistribution() {
   const { data: { uniswapValueDistribution } = {}, loading } = useQuery(
-    UNISWAP_VALUE_DISTRIBUTION_QUERY
+    UNISWAP_VALUE_DISTRIBUTION_QUERY,
   )
 
   return [uniswapValueDistribution, loading]
 }
 
-export function useUniswapWhoMoved () {
-  const { data: { uniswapWhoClaimed } = {}, loading } = useQuery(
-    UNISWAP_WHO_CLAIMED_QUERY
-  )
+export function useUniswapWhoMoved() {
+  const { data: { uniswapWhoClaimed } = {}, loading } = useQuery(UNISWAP_WHO_CLAIMED_QUERY)
 
   return [uniswapWhoClaimed, loading]
 }

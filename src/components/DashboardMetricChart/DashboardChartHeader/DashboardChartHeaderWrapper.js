@@ -13,7 +13,7 @@ export const DashboardIntervals = ({ interval, setInterval, intervals }) => {
     <Tabs
       options={tabs}
       defaultSelectedIndex={interval.label}
-      onSelect={tab => {
+      onSelect={(tab) => {
         const target = intervals.find(({ label }) => label === tab)
         if (target) {
           setInterval(target)
@@ -28,7 +28,7 @@ export const DashboardIntervals = ({ interval, setInterval, intervals }) => {
 export const DashboardCalendar = ({ interval, setInterval, intervals }) => {
   const {
     requestParams: { from, to },
-    value
+    value,
   } = interval
 
   const onCalendarChange = ([from, to]) => {
@@ -37,12 +37,12 @@ export const DashboardCalendar = ({ interval, setInterval, intervals }) => {
       requestParams: {
         from,
         to,
-        interval
-      }
+        interval,
+      },
     })
   }
 
-  const onTimerangeChange = range => {
+  const onTimerangeChange = (range) => {
     const target = intervals.find(({ value }) => value === range)
     if (target) {
       setInterval(target)

@@ -14,31 +14,30 @@ const to = 'utc_now'
 export const RANGES = [
   { value: 7, label: '7d' },
   { value: 30, label: '30d' },
-  { value: 1, label: '24h' }
+  { value: 1, label: '24h' },
 ]
 
-function getBalance (balances = [], address) {
-  const { balanceEnd: balance = '' } =
-    balances.find(item => item.address === address) || {}
+function getBalance(balances = [], address) {
+  const { balanceEnd: balance = '' } = balances.find((item) => item.address === address) || {}
 
   return balance
 }
 
-function getVolumes (volumes = [], address) {
+function getVolumes(volumes = [], address) {
   const {
     transactionVolumeInflow: volumeInflow = '',
-    transactionVolumeOutflow: volumeOutflow = ''
-  } = volumes.find(item => item.address === address) || {}
+    transactionVolumeOutflow: volumeOutflow = '',
+  } = volumes.find((item) => item.address === address) || {}
 
   return { volumeInflow, volumeOutflow }
 }
 
-function makeData ({ items, balances, volumes }) {
+function makeData({ items, balances, volumes }) {
   return items.map(({ address, ...rest }) => ({
     address,
     ...rest,
     balance: getBalance(balances, address),
-    ...getVolumes(volumes, address)
+    ...getVolumes(volumes, address),
   }))
 }
 
@@ -46,14 +45,8 @@ export const TopClaimersTableTitle = ({ setInterval, loading, items }) => {
   return (
     <div className={styles.title}>
       <h3 className={styles.text}>Top Claimers</h3>
-      <IntervalsComponent
-        onChange={setInterval}
-        defaultIndex={0}
-        ranges={RANGES}
-      />
-      {loading && items.length > 0 && (
-        <Loader className={styles.headerLoader} />
-      )}
+      <IntervalsComponent onChange={setInterval} defaultIndex={0} ranges={RANGES} />
+      {loading && items.length > 0 && <Loader className={styles.headerLoader} />}
     </div>
   )
 }
@@ -68,20 +61,12 @@ const TopClaimers = ({ className }) => {
   const [balances] = useUNIBalances({ addresses, from, to })
   const [volumes] = useUNITransactionVolume({ addresses, from, to })
 
-  const data = useMemo(() => makeData({ items, balances, volumes }), [
-    items,
-    balances,
-    volumes
-  ])
+  const data = useMemo(() => makeData({ items, balances, volumes }), [items, balances, volumes])
   const columns = useMemo(() => COLUMNS, [])
 
   return (
     <>
-      <TopClaimersTableTitle
-        setInterval={setInterval}
-        loading={loading}
-        items={items}
-      />
+      <TopClaimersTableTitle setInterval={setInterval} loading={loading} items={items} />
       {!isPro ? (
         <MakeProSubscriptionCard classes={{ card: className }} />
       ) : (
@@ -91,23 +76,23 @@ const TopClaimers = ({ className }) => {
           options={{
             loadingSettings: {
               repeatLoading: 10,
-              isLoading: loading && items.length === 0
+              isLoading: loading && items.length === 0,
             },
             sortingSettings: {
               defaultSorting: DEFAULT_SORTING,
-              allowSort: true
+              allowSort: true,
             },
             stickySettings: {
               isStickyHeader: true,
               isStickyColumn: true,
-              stickyColumnIdx: 0
-            }
+              stickyColumnIdx: 0,
+            },
           }}
           className={cx(className, styles.tableWrapper)}
           classes={{
             table: styles.table,
             loader: styles.loadingWrapper,
-            loaderRow: styles.loadingRow
+            loaderRow: styles.loadingRow,
           }}
         />
       )}

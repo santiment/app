@@ -21,12 +21,12 @@ export const WATCHLIST_MARKETCAP_HISTORY_QUERY = gql`
 
 const NULL_MARKETCAP = '$ 0'
 const LOADING = {
-  isLoading: true
+  isLoading: true,
 }
 const DEFAULT = {
-  marketcap: NULL_MARKETCAP
+  marketcap: NULL_MARKETCAP,
 }
-export function useMarketcap (data, watchlist, onLoad, accessor) {
+export function useMarketcap(data, watchlist, onLoad, accessor) {
   return useMemo(() => {
     if (!data) return LOADING
     if (onLoad) onLoad()
@@ -48,15 +48,15 @@ export function useMarketcap (data, watchlist, onLoad, accessor) {
     return {
       data: historicalStats,
       marketcap: `$ ${millify(lastMarketcap)}`,
-      change: calcPercentageChange(firstMarketcap, lastMarketcap)
+      change: calcPercentageChange(firstMarketcap, lastMarketcap),
     }
   }, [data])
 }
 
-function useWatchlistMarketcap (variables, skip, onLoad) {
+function useWatchlistMarketcap(variables, skip, onLoad) {
   const { data } = useQuery(WATCHLIST_MARKETCAP_HISTORY_QUERY, {
     variables,
-    skip
+    skip,
   })
 
   return useMarketcap(data, variables, onLoad)
@@ -72,7 +72,7 @@ const ProjectCard = ({
   const { data, marketcap, change } = useWatchlistMarketcap(
     props.watchlist,
     skipMarketcap,
-    onMarketcapLoad
+    onMarketcapLoad,
   )
   const noMarketcap = marketcap === NULL_MARKETCAP
 
@@ -86,12 +86,7 @@ const ProjectCard = ({
           {noMarketcap ? (
             <img src={emptyChartSvg} alt='empty chart' />
           ) : (
-            <MiniChart
-              valueKey='marketcap'
-              data={data}
-              change={change}
-              width={chartWidth || 90}
-            />
+            <MiniChart valueKey='marketcap' data={data} change={change} width={chartWidth || 90} />
           )}
         </>
       }
@@ -110,7 +105,7 @@ const ProjectCard = ({
 }
 ProjectCard.defaultProps = {
   useWatchlistMarketcap,
-  path: '/watchlist/projects/'
+  path: '/watchlist/projects/',
 }
 
 export default ProjectCard

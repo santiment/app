@@ -35,7 +35,7 @@ const FeaturedScreeners = () => {
 
   const tabs = useMemo(
     () => featuredScreeners.map(({ name }) => name).slice(0, 4),
-    [featuredScreeners]
+    [featuredScreeners],
   )
 
   useEffect(() => {
@@ -46,7 +46,7 @@ const FeaturedScreeners = () => {
 
   useEffect(() => {
     if (tab) {
-      const item = featuredScreeners.find(screener => screener.name === tab)
+      const item = featuredScreeners.find((screener) => screener.name === tab)
       setActiveScreener(item)
     }
   }, [tab])
@@ -54,17 +54,13 @@ const FeaturedScreeners = () => {
   const link = activeScreener && getScreenerLink(activeScreener)
 
   return (
-    <Section
-      title='Explore screeners'
-      id={SCREENERS_ANCHOR}
-      className={styles.section}
-    >
+    <Section title='Explore screeners' id={SCREENERS_ANCHOR} className={styles.section}>
       {tab && (
         <Tabs
           className={styles.tabs}
           options={tabs}
           defaultSelectedIndex={tab}
-          onSelect={tab => setTab(tab)}
+          onSelect={(tab) => setTab(tab)}
           classes={styles}
         />
       )}
@@ -73,9 +69,7 @@ const FeaturedScreeners = () => {
           Start researching {tab}
         </Link>
       )}
-      <Container>
-        {activeScreener && <Table screener={activeScreener} />}
-      </Container>
+      <Container>{activeScreener && <Table screener={activeScreener} />}</Container>
     </Section>
   )
 }

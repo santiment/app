@@ -5,13 +5,9 @@ import { parseUrl } from '../Studio/sharing/parse'
 export default ({ parsedUrl, search }) => {
   const { widgets, settings, sidewidget } = useMemo(
     () => parsedUrl || parseUrl(search),
-    [parsedUrl, search]
+    [parsedUrl, search],
   )
   return (
-    <Studio
-      defaultWidgets={widgets}
-      defaultSettings={settings}
-      defaultSidewidget={sidewidget}
-    />
+    <Studio defaultWidgets={widgets} defaultSettings={settings} defaultSidewidget={sidewidget} />
   )
 }

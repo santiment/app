@@ -10,7 +10,7 @@ import styles from './index.module.scss'
 
 export const CATEGORIES = {
   ASSET: 'Asset columns',
-  GENERAL: 'General'
+  GENERAL: 'General',
 }
 
 const ADDRESS_COLUMN = {
@@ -27,16 +27,16 @@ const ADDRESS_COLUMN = {
     >
       {address}
     </a>
-  )
+  ),
 }
 
 export const DEFAULT_COLUMNS = [CHECKBOX_COLUMN, INDEX_COLUMN, ADDRESS_COLUMN]
 
 const balanceValue = new Intl.NumberFormat('en', {
-  maximumFractionDigits: 2
+  maximumFractionDigits: 2,
 })
 
-export const combineColumns = dynamicColumns =>
+export const combineColumns = (dynamicColumns) =>
   DEFAULT_COLUMNS.concat(prepareColumns(dynamicColumns))
 
 export const LABELS_COLUMN = {
@@ -45,7 +45,7 @@ export const LABELS_COLUMN = {
   category: CATEGORIES.GENERAL,
   key: 'labels',
   scheme: `labels { name origin }`,
-  render: Labels
+  render: Labels,
 }
 
 export const NOTE_COLUMN = {
@@ -53,15 +53,12 @@ export const NOTE_COLUMN = {
   category: CATEGORIES.GENERAL,
   label: 'Address note',
   key: 'notes',
-  render: Note
+  render: Note,
 }
 
-const ASSETS_DISTRIBUTION_CELL = obj =>
+const ASSETS_DISTRIBUTION_CELL = (obj) =>
   obj.address && (
-    <AssetsDistributionColumn
-      address={obj.address}
-      infrastructure={obj.infrastructure}
-    />
+    <AssetsDistributionColumn address={obj.address} infrastructure={obj.infrastructure} />
   )
 
 export const ASSETS_DISTRIBUTION_COLUMN = {
@@ -70,20 +67,14 @@ export const ASSETS_DISTRIBUTION_COLUMN = {
   label: 'Assets USD distribution',
   key: 'distribution',
   scheme: ' ',
-  render: ASSETS_DISTRIBUTION_CELL
+  render: ASSETS_DISTRIBUTION_CELL,
 }
 
-export const CURRENT_BALANCE_CELL = key => obj =>
+export const CURRENT_BALANCE_CELL = (key) => (obj) =>
   obj[key] && balanceValue.format(obj[key].balanceEnd)
 
-export const BALANCE_CHANGE_PERCENT_CELL = key => obj =>
+export const BALANCE_CHANGE_PERCENT_CELL = (key) => (obj) =>
   obj[key] && <ValueChange change={obj[key].balanceChangePercent} />
 
-export const BALANCE_CHANGE_CHART_CELL = (key, slug) => obj =>
-  obj[key] && (
-    <MiniChart
-      address={obj.address}
-      slug={slug}
-      change={obj[key].balanceChangePercent}
-    />
-  )
+export const BALANCE_CHANGE_CHART_CELL = (key, slug) => (obj) =>
+  obj[key] && <MiniChart address={obj.address} slug={slug} change={obj[key].balanceChangePercent} />

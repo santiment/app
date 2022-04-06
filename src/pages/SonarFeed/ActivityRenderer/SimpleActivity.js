@@ -6,10 +6,7 @@ import SignalCreator from '../../../components/SignalCard/card/creator/SignalCre
 import { DesktopOnly } from '../../../components/Responsive'
 import FeedCardDate from '../../feed/GeneralFeed/CardDate/FeedCardDate'
 import OpenSignalLink from '../../../ducks/Signals/link/OpenSignalLink'
-import {
-  getDefaultActivityContent,
-  LikesAndComments
-} from './ActivityWithBacktesting'
+import { getDefaultActivityContent, LikesAndComments } from './ActivityWithBacktesting'
 import styles from './ActivityRenderer.module.scss'
 
 const SimpleActivity = ({
@@ -17,12 +14,8 @@ const SimpleActivity = ({
   classes,
   user,
   activity,
-  activity: {
-    triggeredAt,
-    trigger,
-    trigger: { settings: { type, metric } } = {}
-  },
-  onLike
+  activity: { triggeredAt, trigger, trigger: { settings: { type, metric } } = {} },
+  onLike,
 }) => {
   return (
     <div className={styles.wrapper}>

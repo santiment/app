@@ -9,13 +9,7 @@ import { SvgNew } from '../../../components/Illustrations/NewCard'
 import styles from './Overview.module.scss'
 
 const SortableItem = SortableElement(
-  ({
-    widget,
-    currentPhase,
-    selectedMetrics,
-    onWidgetClick,
-    useWidgetMessage
-  }) => (
+  ({ widget, currentPhase, selectedMetrics, onWidgetClick, useWidgetMessage }) => (
     <ChartPreview
       key={widget.id}
       widget={widget}
@@ -24,39 +18,37 @@ const SortableItem = SortableElement(
       onClick={onWidgetClick}
       useWidgetMessage={useWidgetMessage}
     />
+  ),
+)
+
+const SortableList = SortableContainer(({ widgets, onNewChartClick, ...props }) => {
+  const isSelectionPhase = props.currentPhase === Phase.MAPVIEW_SELECTION
+
+  return (
+    <div className={styles.grid}>
+      {widgets.map((widget, index) => (
+        <SortableItem
+          {...props}
+          key={widget.id}
+          index={index}
+          disabled={isSelectionPhase}
+          widget={widget}
+        />
+      ))}
+
+      {isSelectionPhase && (
+        <div
+          className={cx(styles.item, styles.item_new, styles.idle)}
+          onClick={() => onNewChartClick()}
+          // NOTE: Not passing `onNewChartClick` as a reference since arguments will be mapped incorrectly [@vanguard | Aug  5, 2020]
+        >
+          <SvgNew className={styles.iconNew} />
+          Add new chart
+        </div>
+      )}
+    </div>
   )
-)
-
-const SortableList = SortableContainer(
-  ({ widgets, onNewChartClick, ...props }) => {
-    const isSelectionPhase = props.currentPhase === Phase.MAPVIEW_SELECTION
-
-    return (
-      <div className={styles.grid}>
-        {widgets.map((widget, index) => (
-          <SortableItem
-            {...props}
-            key={widget.id}
-            index={index}
-            disabled={isSelectionPhase}
-            widget={widget}
-          />
-        ))}
-
-        {isSelectionPhase && (
-          <div
-            className={cx(styles.item, styles.item_new, styles.idle)}
-            onClick={() => onNewChartClick()}
-            // NOTE: Not passing `onNewChartClick` as a reference since arguments will be mapped incorrectly [@vanguard | Aug  5, 2020]
-          >
-            <SvgNew className={styles.iconNew} />
-            Add new chart
-          </div>
-        )}
-      </div>
-    )
-  }
-)
+})
 
 const Overview = ({ widgets, children, onClose, setWidgets, ...props }) => {
   useKeyDown(onClose, 'Escape')
@@ -68,7 +60,7 @@ const Overview = ({ widgets, children, onClose, setWidgets, ...props }) => {
     }
   }, [])
 
-  function onSortEnd ({ newIndex, oldIndex }) {
+  function onSortEnd({ newIndex, oldIndex }) {
     if (newIndex === oldIndex) return
 
     const newWidgets = widgets.slice()

@@ -12,10 +12,9 @@ const UsernameSetting = ({ dispatchNewUsername, username, name }) => {
     usernameError,
     setUsernameError,
     checkUsername,
-    catchUsernameChangeError
+    catchUsernameChangeError,
   } = useUsernameChange()
-  const normalizedUsername =
-    username || (name && name.toLowerCase().replace(/ /g, '_'))
+  const normalizedUsername = username || (name && name.toLowerCase().replace(/ /g, '_'))
 
   return (
     <EditableInputSetting
@@ -32,13 +31,11 @@ const UsernameSetting = ({ dispatchNewUsername, username, name }) => {
         if (savingUsername) return
         changeUsername(value)
           .then(() => {
-            store.dispatch(
-              showNotification(`Username successfully changed to "${value}"`)
-            )
+            store.dispatch(showNotification(`Username successfully changed to "${value}"`))
             dispatchNewUsername(value)
             if (successCallback) successCallback()
           })
-          .catch(e => catchUsernameChangeError(e, value))
+          .catch((e) => catchUsernameChangeError(e, value))
       }}
     />
   )

@@ -10,13 +10,8 @@ const MyAlertsTab = ({ alertsRestrictions: { currentAmount, maxAmount } }) => (
     {maxAmount <= 20 && (
       <Tooltip
         trigger={
-          <div
-            className={cx(styles.badge, 'btn body-3 row hv-center c-waterloo')}
-          >
-            <span className={cx(styles.currentAmount, 'c-black')}>
-              {currentAmount}
-            </span>
-            /{maxAmount}
+          <div className={cx(styles.badge, 'btn body-3 row hv-center c-waterloo')}>
+            <span className={cx(styles.currentAmount, 'c-black')}>{currentAmount}</span>/{maxAmount}
           </div>
         }
         position='bottom'
@@ -24,8 +19,8 @@ const MyAlertsTab = ({ alertsRestrictions: { currentAmount, maxAmount } }) => (
       >
         <div className='relative column body-3'>
           <span>
-            <span className='txt-m'>{currentAmount} alerts</span> created out of{' '}
-            {maxAmount} available. To unlock more alerts please
+            <span className='txt-m'>{currentAmount} alerts</span> created out of {maxAmount}{' '}
+            available. To unlock more alerts please
           </span>
           <Link to='/pricing' className={cx(styles.link, 'txt-m')}>
             Update your Plan.

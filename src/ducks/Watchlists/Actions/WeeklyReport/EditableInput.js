@@ -22,7 +22,7 @@ class EditableInput extends PureComponent {
     this.setState({ value, error: this.props.validate(value) })
   }
 
-  render () {
+  render() {
     const { error } = this.state
     const { label, defaultValue, isEmailConnected } = this.props
     return (
@@ -31,10 +31,7 @@ class EditableInput extends PureComponent {
           icon='mail'
           iconPosition='left'
           className={styles.inputWrapper}
-          inputClassName={cx(
-            styles.input,
-            isEmailConnected && styles.inputDisabled
-          )}
+          inputClassName={cx(styles.input, isEmailConnected && styles.inputDisabled)}
           iconClassName={styles.inputIcon}
           placeholder={label}
           disabled={isEmailConnected}

@@ -24,12 +24,7 @@ const filterPoints = (points, { settings: { metric } = {} }) => {
   }
 }
 
-const SignalPreview = ({
-  type,
-  trigger = {},
-  showExpand = true,
-  showTitle = true
-}) => {
+const SignalPreview = ({ type, trigger = {}, showExpand = true, showTitle = true }) => {
   const { settings: { target, asset } = {}, cooldown } = trigger
 
   if (!target && !asset) {
@@ -42,12 +37,10 @@ const SignalPreview = ({
       skip={skipHistoricalPreview(trigger)}
       variables={{
         cooldown: getAvailableCooldown(cooldown),
-        settings: JSON.stringify(trigger.settings)
+        settings: JSON.stringify(trigger.settings),
       }}
     >
-      {({
-        data: { historicalTriggerPoints: points = [], error, loading } = {}
-      }) => {
+      {({ data: { historicalTriggerPoints: points = [], error, loading } = {} }) => {
         if (loading) {
           return PreviewLoader
         }

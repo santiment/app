@@ -15,11 +15,9 @@ const Category = ({
   totalCounter,
   ...rest
 }) => {
-  const [isCollapsed, setIsCollapsed] = useState(
-    isViewMode && !counter && totalCounter > 0
-  )
+  const [isCollapsed, setIsCollapsed] = useState(isViewMode && !counter && totalCounter > 0)
 
-  function onToggleClick () {
+  function onToggleClick() {
     setIsCollapsed(!isCollapsed)
   }
 
@@ -28,7 +26,7 @@ const Category = ({
       className={cx(
         styles.category,
         isCollapsed && styles.category__collapsed,
-        isActiveFiltersOnly && styles.category__onlyActive
+        isActiveFiltersOnly && styles.category__onlyActive,
       )}
     >
       <h3 className={styles.title} onClick={onToggleClick}>
@@ -38,18 +36,14 @@ const Category = ({
             <span className={styles.counter}>({counter})</span>
           )}
         </div>
-        {!isActiveFiltersOnly && (
-          <Icon type='arrow-right' className={styles.toggle} />
-        )}
+        {!isActiveFiltersOnly && <Icon type='arrow-right' className={styles.toggle} />}
       </h3>
       <div className={styles.metrics}>
         {groups &&
           isOpen &&
-          Object.keys(groups).map(group => (
+          Object.keys(groups).map((group) => (
             <div key={group} className={styles.group}>
-              {group !== NO_GROUP && (
-                <h3 className={styles.group__title}>{group}</h3>
-              )}
+              {group !== NO_GROUP && <h3 className={styles.group__title}>{group}</h3>}
               {groups[group].map(({ item: metric }) =>
                 metric.Widget ? (
                   <metric.Widget
@@ -65,7 +59,7 @@ const Category = ({
                     baseMetric={metric}
                     isViewMode={isViewMode}
                   />
-                )
+                ),
               )}
             </div>
           ))}

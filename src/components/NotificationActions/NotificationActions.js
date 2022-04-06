@@ -4,10 +4,7 @@ import cx from 'classnames'
 import styles from './NotificationActions.module.scss'
 
 const UndoTrigger = ({ onClick, isOpenLink }) => (
-  <div
-    onClick={onClick}
-    className={cx(styles.undo, isOpenLink && styles.margin)}
-  >
+  <div onClick={onClick} className={cx(styles.undo, isOpenLink && styles.margin)}>
     Undo
   </div>
 )
@@ -18,7 +15,7 @@ const NotificationActions = ({
   isOpenLink = true,
   isDialog = true,
   undoTrigger: ElUndo,
-  onClick
+  onClick,
 }) => {
   const [show, setShow] = useState(true)
 

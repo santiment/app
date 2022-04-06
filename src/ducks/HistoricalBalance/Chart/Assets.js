@@ -11,17 +11,17 @@ export const AddressSetting = ({
   walletAssets,
   chartAssets,
   isLoading,
-  setChartAssets
+  setChartAssets,
 }) => {
   const selectedSlugs = chartAssets.map(({ slug }) => slug)
   const options = useMemo(
     () =>
       walletAssets
-        .filter(item => !selectedSlugs.includes(item.slug))
-        .map(item => ({ label: item.slug, value: item })),
-    [walletAssets, selectedSlugs]
+        .filter((item) => !selectedSlugs.includes(item.slug))
+        .map((item) => ({ label: item.slug, value: item })),
+    [walletAssets, selectedSlugs],
   )
-  const value = chartAssets.map(item => ({ label: item.slug, value: item }))
+  const value = chartAssets.map((item) => ({ label: item.slug, value: item }))
 
   return (
     <Setting className={className} title={`Asset (maximum ${ASSETS_LIMIT})`}>
@@ -31,7 +31,7 @@ export const AddressSetting = ({
           isMulti
           placeholder='For example, Ethereum...'
           options={chartAssets.length < ASSETS_LIMIT ? options : []}
-          getOptionValue={val => val}
+          getOptionValue={(val) => val}
           value={value}
           optionRenderer={WalletBalanceOptionRenderer}
           onChange={setChartAssets}

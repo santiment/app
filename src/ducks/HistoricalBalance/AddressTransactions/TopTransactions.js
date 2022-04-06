@@ -27,14 +27,14 @@ const TopTransactions = ({ settings, walletAssets }) => {
     page + 1,
     false,
     project,
-    calendarSettings
+    calendarSettings,
   )
   const nextTransactions = useTopTransactions(
     settings,
     page + 2,
     isLoading || !project,
     project,
-    calendarSettings
+    calendarSettings,
   ).transactions
 
   const items = useMemo(() => {
@@ -48,25 +48,14 @@ const TopTransactions = ({ settings, walletAssets }) => {
     setProject(getProjectInfo(projects, slug))
   }, [distributions, projects])
 
-  const onChangeProject = useCallback(project => setProject(project), [
-    setProject
-  ])
-  const changeTimePeriod = useCallback(
-    (from, to) => setCalendarSettings({ from, to }),
-    []
-  )
-  const itemProps = useMemo(() => ({ ...settings, asset: project }), [
-    settings,
-    project
-  ])
+  const onChangeProject = useCallback((project) => setProject(project), [setProject])
+  const changeTimePeriod = useCallback((from, to) => setCalendarSettings({ from, to }), [])
+  const itemProps = useMemo(() => ({ ...settings, asset: project }), [settings, project])
 
   return (
     <>
       <div className={styles.header}>
-        <Calendar
-          settings={calendarSettings}
-          changeTimePeriod={changeTimePeriod}
-        />
+        <Calendar settings={calendarSettings} changeTimePeriod={changeTimePeriod} />
         {project && (
           <DashboardProjectSelector
             setAsset={onChangeProject}

@@ -5,21 +5,12 @@ import ProjectIcon from '../../ProjectIcon/ProjectIcon'
 import { usePressedModifier } from '../../../hooks/keyboard'
 import styles from './DashboardChartMetrics.module.scss'
 
-const DashboardMetricButton = ({
-  children,
-  isLoading,
-  isDisabled,
-  ...rest
-}) => {
+const DashboardMetricButton = ({ children, isLoading, isDisabled, ...rest }) => {
   return (
     <Button
       border
       isLoading={isLoading}
-      className={cx(
-        styles.assetBtn,
-        isDisabled && styles.disabled,
-        isLoading && styles.loading
-      )}
+      className={cx(styles.assetBtn, isDisabled && styles.disabled, isLoading && styles.loading)}
       {...rest}
     >
       {children}
@@ -33,12 +24,12 @@ const DashboardChartMetrics = ({
   disabledMetrics,
   toggleDisabled,
   colors,
-  dataKey = 'key'
+  dataKey = 'key',
 }) => {
   const PressedModifier = usePressedModifier()
 
   const onMetricClick = useCallback(
-    metric => {
+    (metric) => {
       const clickedKey = metric[dataKey]
 
       if (PressedModifier.cmdKey) {
@@ -62,13 +53,13 @@ const DashboardChartMetrics = ({
         toggleDisabled({ ...disabledMetrics })
       }
     },
-    [PressedModifier, toggleDisabled, disabledMetrics, dataKey]
+    [PressedModifier, toggleDisabled, disabledMetrics, dataKey],
   )
 
   return (
     <div className={styles.container}>
       {metrics &&
-        metrics.map(metric => {
+        metrics.map((metric) => {
           const { label } = metric
           const key = metric[dataKey]
           const color = colors[key]
@@ -100,11 +91,7 @@ const DashboardChartMetrics = ({
               <div className={styles.divider} />
 
               {dataKey === 'slug' && (
-                <ProjectIcon
-                  size={18}
-                  slug={key}
-                  className={styles.projectIcon}
-                />
+                <ProjectIcon size={18} slug={key} className={styles.projectIcon} />
               )}
 
               <div className={styles.btnInner}>{label}</div>

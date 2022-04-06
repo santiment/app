@@ -4,7 +4,7 @@ import styles from './Tabs.module.scss'
 
 export const Tab = {
   CEX: 'CEX',
-  DEX: 'DEX'
+  DEX: 'DEX',
 }
 const TABS = Object.values(Tab)
 
@@ -14,7 +14,7 @@ const Tabs = ({ activeTab, setActiveTab }) => (
     className={styles.tabs}
     classes={styles}
     defaultSelectedIndex={activeTab}
-    onSelect={tab => setActiveTab(tab)}
+    onSelect={(tab) => setActiveTab(tab)}
   />
 )
 

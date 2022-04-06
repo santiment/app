@@ -11,14 +11,12 @@ const TEXT_COLOR = { from: 'color', modifiers: [['darker', 1]] }
 
 const Chord = ({ ticker, matrix, isLoading, isEmpty, ...props }) => {
   const isLoaded = !isLoading
-  const formatter = useCallback(value => format(ticker, value), [ticker])
+  const formatter = useCallback((value) => format(ticker, value), [ticker])
 
   return (
     <div className={styles.chord}>
       {isLoading && <Loader className={styles.overlay} />}
-      {isLoaded && isEmpty && (
-        <div className={styles.overlay}>No data for this date</div>
-      )}
+      {isLoaded && isEmpty && <div className={styles.overlay}>No data for this date</div>}
 
       <NivoChord
         enableLabel
@@ -47,7 +45,7 @@ const Chord = ({ ticker, matrix, isLoading, isEmpty, ...props }) => {
 Chord.defaultProps = {
   width: 600,
   height: 600,
-  colors: { scheme: 'nivo' }
+  colors: { scheme: 'nivo' },
 }
 
 export default Chord

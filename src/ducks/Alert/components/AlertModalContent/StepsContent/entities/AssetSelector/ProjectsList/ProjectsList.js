@@ -8,7 +8,7 @@ import styles from './ProjectsList.module.scss'
 const ROW_HEIGHT = 36
 const listStyle = { overflowX: false, overflowY: false }
 
-function subExtractor (sections = [], index) {
+function subExtractor(sections = [], index) {
   let itemIndex = index
   for (let ii = 0; ii < sections.length; ii++) {
     const section = sections[ii]
@@ -18,16 +18,16 @@ function subExtractor (sections = [], index) {
     } else if (itemIndex === -1) {
       return {
         item: {
-          title: section.title
+          title: section.title,
         },
         index: index,
-        header: true
+        header: true,
       }
     } else {
       return {
         item: section.data[itemIndex],
         index: index,
-        header: false
+        header: false,
       }
     }
   }
@@ -35,7 +35,7 @@ function subExtractor (sections = [], index) {
 
 const cache = new CellMeasurerCache({
   fixedWidth: true,
-  defaultHeight: ROW_HEIGHT
+  defaultHeight: ROW_HEIGHT,
 })
 
 const ProjectsList = ({
@@ -46,7 +46,7 @@ const ProjectsList = ({
   sections,
   searchTerm,
   isSocial,
-  isWords
+  isWords,
 }) => {
   const rowRenderer = useCallback(
     ({ key, index, style, parent }) => {
@@ -64,11 +64,7 @@ const ProjectsList = ({
             rowIndex={itemIndex}
           >
             {({ registerChild }) => (
-              <div
-                ref={registerChild}
-                style={style}
-                className={styles.sectionTitle}
-              >
+              <div ref={registerChild} style={style} className={styles.sectionTitle}>
                 {item.title}
               </div>
             )}
@@ -80,13 +76,7 @@ const ProjectsList = ({
         const { name, ticker, slug, logoUrl } = item
 
         return (
-          <CellMeasurer
-            key={key}
-            cache={cache}
-            parent={parent}
-            columnIndex={0}
-            rowIndex={index}
-          >
+          <CellMeasurer key={key} cache={cache} parent={parent} columnIndex={0} rowIndex={index}>
             {({ registerChild }) => (
               <ProjectListItem
                 ref={registerChild}
@@ -107,11 +97,11 @@ const ProjectsList = ({
         )
       }
     },
-    [sections, listItemsIds, searchTerm]
+    [sections, listItemsIds, searchTerm],
   )
 
   const wrapperStyles = {
-    height: isWords ? '450px' : '443px'
+    height: isWords ? '450px' : '443px',
   }
 
   const getRowCount = () =>

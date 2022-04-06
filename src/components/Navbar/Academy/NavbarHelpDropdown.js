@@ -10,43 +10,40 @@ const Links = [
   {
     as: 'a',
     href: 'https://academy.santiment.net/for-traders/',
-    children: 'Getting started for traders'
+    children: 'Getting started for traders',
   },
   {
     as: 'a',
     href: 'https://academy.santiment.net/for-developers/',
-    children: 'Getting started for developers'
+    children: 'Getting started for developers',
   },
   {
     as: 'a',
     href: 'https://academy.santiment.net/education-and-use-cases/',
-    children: 'Education and Use cases'
+    children: 'Education and Use cases',
   },
   {
     as: 'a',
     href: 'https://academy.santiment.net/metrics/',
-    children: 'Metrics'
+    children: 'Metrics',
   },
   {
     as: 'a',
     href: 'https://academy.santiment.net/sanbase/keyboard-shortcuts',
-    children: 'Keyboard Shortcuts'
+    children: 'Keyboard Shortcuts',
   },
   {
     as: 'a',
     href: 'https://academy.santiment.net/changelog/',
-    children: 'Changelog'
-  }
+    children: 'Changelog',
+  },
 ]
 
 const NavbarHelpDropdown = ({ activeLink }) => (
   <div className={styles.wrapper}>
     <div className={styles.top}>
       <span>Help center</span>
-      <LinkWithArrow
-        to='https://academy.santiment.net/'
-        title='Go to Academy'
-      />
+      <LinkWithArrow to='https://academy.santiment.net/' title='Go to Academy' />
     </div>
     <div className={styles.list}>
       {Links.map((props, index) => (
@@ -60,15 +57,8 @@ const NavbarHelpDropdown = ({ activeLink }) => (
       ))}
     </div>
     <div className={styles.contact}>
-      <span className={styles.contact__title}>
-        Can’t find what you’re looking for?
-      </span>
-      <ContactUs
-        as='a'
-        variant='fill'
-        accent='positive'
-        className={styles.btn}
-      />
+      <span className={styles.contact__title}>Can’t find what you’re looking for?</span>
+      <ContactUs as='a' variant='fill' accent='positive' className={styles.btn} />
     </div>
   </div>
 )

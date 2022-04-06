@@ -8,11 +8,7 @@ import styles from './index.module.scss'
 
 const NftInfluencers = () => {
   return (
-    <Section
-      title='NFT Influencers Trx'
-      id={NFTINFLUENCERS_ANCHOR}
-      className={styles.section}
-    >
+    <Section title='NFT Influencers Trx' id={NFTINFLUENCERS_ANCHOR} className={styles.section}>
       <div className={styles.topLink}>
         Start researching{' '}
         <Link to={PATHS.NFT_INFLUENCERS_TRX} className={styles.link}>

@@ -2,15 +2,15 @@ import React from 'react'
 import styles from './index.module.scss'
 
 const Signal = ({ signal, setHovered, removeSignal }) => {
-  function onMouseEnter () {
+  function onMouseEnter() {
     setTimeout(() => setHovered(signal), 0)
   }
 
-  function onMouseLeave () {
+  function onMouseLeave() {
     setHovered()
   }
 
-  function onClick () {
+  function onClick() {
     removeSignal(signal.id)
     setHovered()
   }
@@ -19,7 +19,7 @@ const Signal = ({ signal, setHovered, removeSignal }) => {
     <div
       className={styles.signal}
       style={{
-        top: signal.y
+        top: signal.y,
       }}
       onClick={onClick}
       onMouseEnter={onMouseEnter}

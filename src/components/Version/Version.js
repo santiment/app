@@ -8,9 +8,7 @@ export const VersionLabel = ({ className }) => (
 
 const Version = ({ classes = {} }) => (
   <div className={styles.wrapper}>
-    <span className={cx(styles.versionDivider, classes.footerVersionDivider)}>
-      |
-    </span>
+    <span className={cx(styles.versionDivider, classes.footerVersionDivider)}>|</span>
     <span className={cx(styles.version, classes.version)}>
       Ver. <VersionLabel />
     </span>

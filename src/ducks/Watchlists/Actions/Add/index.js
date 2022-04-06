@@ -2,10 +2,7 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import Dialog from '@santiment-network/ui/Dialog'
 import Button from '@santiment-network/ui/Button'
-import {
-  USER_ADD_ASSET_TO_LIST,
-  USER_REMOVE_ASSET_FROM_LIST
-} from '../../../../actions/types'
+import { USER_ADD_ASSET_TO_LIST, USER_REMOVE_ASSET_FROM_LIST } from '../../../../actions/types'
 import { showNotification } from '../../../../actions/rootActions'
 import Watchlists from '../../Templates/Watchlists'
 import { hasAssetById } from '../../utils'
@@ -39,16 +36,16 @@ const WatchlistPopup = ({
     return <LoginPopup>{trigger}</LoginPopup>
   }
 
-  const lists = watchlists.map(list => ({
+  const lists = watchlists.map((list) => ({
     ...list,
-    listItems: list.listItems.map(assets => assets.project)
+    listItems: list.listItems.map((assets) => assets.project),
   }))
 
-  const addChange = change => {
+  const addChange = (change) => {
     const prevLength = changes.length
     const changesWithoutProjectAndList = changes.filter(
       ({ projectId, assetsListId }) =>
-        projectId !== change.projectId || assetsListId !== change.assetsListId
+        projectId !== change.projectId || assetsListId !== change.assetsListId,
     )
     const currLength = changesWithoutProjectAndList.length
     prevLength === currLength
@@ -66,7 +63,7 @@ const WatchlistPopup = ({
     if (!projectId) return
     const isAssetInList = hasAssetById({
       listItems: lists.find(({ id }) => id === assetsListId).listItems,
-      id: projectId
+      id: projectId,
     })
     addChange({ projectId, assetsListId, listItems, slug, isAssetInList })
   }
@@ -76,9 +73,7 @@ const WatchlistPopup = ({
     if (editableAssetsInList.length === 0) {
       const amount = changes.length
       if (amount !== 0) {
-        setNotification(
-          `${amount} watchlist${amount > 1 ? 's were' : ' was'} modified`
-        )
+        setNotification(`${amount} watchlist${amount > 1 ? 's were' : ' was'} modified`)
       }
       close()
     }
@@ -97,7 +92,7 @@ const WatchlistPopup = ({
     >
       <Dialog.ScrollContent withPadding className={styles.wrapper}>
         <Watchlists
-          onWatchlistClick={watchlist => toggleAssetInList(watchlist)}
+          onWatchlistClick={(watchlist) => toggleAssetInList(watchlist)}
           lists={lists}
           projectId={projectId}
           {...props}
@@ -121,22 +116,20 @@ const WatchlistPopup = ({
   )
 }
 
-const mapStateToProps = state => ({
-  watchlistUi: state.watchlistUi
+const mapStateToProps = (state) => ({
+  watchlistUi: state.watchlistUi,
 })
 
-const mapDispatchToProps = dispatch => ({
-  applyChanges: changes => {
+const mapDispatchToProps = (dispatch) => ({
+  applyChanges: (changes) => {
     changes.map(({ projectId, assetsListId, listItems, slug, isAssetInList }) =>
       dispatch({
-        type: isAssetInList
-          ? USER_REMOVE_ASSET_FROM_LIST
-          : USER_ADD_ASSET_TO_LIST,
-        payload: { projectId, assetsListId, listItems, slug }
-      })
+        type: isAssetInList ? USER_REMOVE_ASSET_FROM_LIST : USER_ADD_ASSET_TO_LIST,
+        payload: { projectId, assetsListId, listItems, slug },
+      }),
     )
   },
-  setNotification: message => dispatch(showNotification(message))
+  setNotification: (message) => dispatch(showNotification(message)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(WatchlistPopup)

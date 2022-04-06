@@ -1,11 +1,7 @@
 import gql from 'graphql-tag'
 
 export const COMMENTS_TIMELINE_EVENTS_QUERY = gql`
-  query comments(
-    $id: ID!
-    $cursor: CursorInput
-    $entityType: CommentEntityTypeEnum
-  ) {
+  query comments($id: ID!, $cursor: CursorInput, $entityType: CommentEntityTypeEnum) {
     comments(id: $id, cursor: $cursor, entityType: $entityType, limit: 50) {
       id
       content
@@ -29,12 +25,7 @@ export const CREATE_TIMELINE_EVENT_COMMENT_MUTATION = gql`
     $parentId: Int
     $entityType: CommentEntityTypeEnum
   ) {
-    createComment(
-      id: $id
-      content: $content
-      parentId: $parentId
-      entityType: $entityType
-    ) {
+    createComment(id: $id, content: $content, parentId: $parentId, entityType: $entityType) {
       id
     }
   }

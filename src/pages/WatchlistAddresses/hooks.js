@@ -6,31 +6,31 @@ import { constructAddressWatchlistQuery } from '../../ducks/WatchlistAddressesTa
 const OBJECT = {}
 const ARRAY = []
 
-export function useAddressWatchlist (id) {
+export function useAddressWatchlist(id) {
   const { data, loading } = useQuery(constructAddressWatchlistQuery(), {
-    variables: { id }
+    variables: { id },
   })
 
   return {
     watchlist: data ? data.watchlist || OBJECT : OBJECT,
-    isLoading: loading
+    isLoading: loading,
   }
 }
 
 const itemAccessor = ({ blockchainAddress }) => blockchainAddress
-export const useAddressWatchlistItems = watchlist => {
+export const useAddressWatchlistItems = (watchlist) => {
   const { listItems, id } = watchlist
   const { isAuthor } = useIsAuthor(watchlist)
 
   return useMemo(
     () =>
       listItems
-        ? listItems.map(item => ({
+        ? listItems.map((item) => ({
             isAuthor,
             watchlistId: id,
-            ...itemAccessor(item)
+            ...itemAccessor(item),
           }))
         : ARRAY,
-    [listItems, isAuthor]
+    [listItems, isAuthor],
   )
 }

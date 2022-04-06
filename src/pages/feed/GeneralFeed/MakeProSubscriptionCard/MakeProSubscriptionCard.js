@@ -12,26 +12,20 @@ export const ProUpgradeBanner = ({ classes }) => (
       <img src={proIcon} alt='pro-icon' className={styles.icon} />
 
       <div className={styles.content}>
-        <div className={cx(styles.title, classes.ProBannerTitle)}>
-          Go PRO and get more data
-        </div>
+        <div className={cx(styles.title, classes.ProBannerTitle)}>Go PRO and get more data</div>
         <div className={cx(styles.description, classes.ProBannerDescription)}>
-          Unlimited metrics, all types of alerts, handcrafted report and much
-          more
+          Unlimited metrics, all types of alerts, handcrafted report and much more
         </div>
       </div>
     </div>
 
     <div className={styles.right}>
-      <UpgradeBtn
-        className={cx(styles.upgrade, classes.ProBannerBtn)}
-        variant='fill'
-      />
+      <UpgradeBtn className={cx(styles.upgrade, classes.ProBannerBtn)} variant='fill' />
     </div>
   </Panel>
 )
 ProUpgradeBanner.defaultProps = {
-  classes: {}
+  classes: {},
 }
 
 const MakeProSubscriptionCard = ({ classes = {} }) => {

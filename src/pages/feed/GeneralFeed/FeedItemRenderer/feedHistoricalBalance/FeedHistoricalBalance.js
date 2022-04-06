@@ -5,9 +5,9 @@ import { formatNumber } from '../../../../../utils/formatting'
 import styles from './FeedHistoricalBalance.module.scss'
 import { getDateFormats, getTimeFormats } from '../../../../../utils/dates'
 
-const spliceLink = address => address.slice(0, 20) + '...'
+const spliceLink = (address) => address.slice(0, 20) + '...'
 
-const formatDate = since => {
+const formatDate = (since) => {
   const date = new Date(since)
   const { YYYY, MMM, DD } = getDateFormats(date)
   const { HH, mm } = getTimeFormats(date)
@@ -16,13 +16,7 @@ const formatDate = since => {
 }
 
 const FeedHistoricalBalance = ({ user_trigger_data }) => {
-  const {
-    historical_balance_link,
-    asset,
-    address,
-    balance_change,
-    since
-  } = user_trigger_data
+  const { historical_balance_link, asset, address, balance_change, since } = user_trigger_data
 
   return (
     <div className={styles.container}>
@@ -37,12 +31,7 @@ const FeedHistoricalBalance = ({ user_trigger_data }) => {
       </div>
 
       <div className={styles.actions}>
-        <Button
-          as='a'
-          href={historical_balance_link}
-          target='_blank'
-          className={styles.balanceBtn}
-        >
+        <Button as='a' href={historical_balance_link} target='_blank' className={styles.balanceBtn}>
           Historical balance change
         </Button>
       </div>

@@ -2,7 +2,7 @@ import memoize from 'lodash.memoize'
 import { formatNumber, millify } from '../../../../utils/formatting'
 import { getTreeMapColor } from './ColorsExplanation'
 
-export function getBarColor (val) {
+export function getBarColor(val) {
   return +val > 0 ? 'var(--jungle-green)' : 'var(--persimmon)'
 }
 
@@ -11,120 +11,119 @@ export const getTooltipLabels = memoize(({ key, label }) => {
     {
       key: key,
       label: label,
-      formatter: val => `${formatNumber(100 * val)} %`
+      formatter: (val) => `${formatNumber(100 * val)} %`,
     },
     {
       key: 'priceUsd',
       label: 'Price, USD',
-      formatter: val => `$ ${formatNumber(val)}`
+      formatter: (val) => `$ ${formatNumber(val)}`,
     },
     {
       key: 'marketcapUsd',
       label: 'Market Cap',
-      formatter: val => `$ ${millify(val)}`
-    }
+      formatter: (val) => `$ ${millify(val)}`,
+    },
   ]
 })
 
 export const INFOGRAPHIC_CURRENCIES = {
   USD: 'usd',
   ETH: 'eth',
-  BTC: 'btc'
+  BTC: 'btc',
 }
 
 export const INFOGRAPHICS = {
   SOCIAL_VOLUME_TREE_MAP: 'socialVolumeTreeMap',
   PRICE_TREE_MAP: 'priceTreeMap',
-  PRICE_BAR_CHART: 'priceBarChart'
+  PRICE_BAR_CHART: 'priceBarChart',
 }
 
 export const PRICE_CHANGE_RANGES = {
   [INFOGRAPHIC_CURRENCIES.USD]: [
     {
       label: '24h',
-      key: 'price_usd_change_1d'
+      key: 'price_usd_change_1d',
     },
     {
       label: '7d',
-      key: 'price_usd_change_7d'
+      key: 'price_usd_change_7d',
     },
     {
       label: '30d',
-      key: 'price_usd_change_30d'
-    }
+      key: 'price_usd_change_30d',
+    },
   ],
   [INFOGRAPHIC_CURRENCIES.BTC]: [
     {
       label: '24h',
-      key: 'price_btc_change_1d'
+      key: 'price_btc_change_1d',
     },
     {
       label: '7d',
-      key: 'price_btc_change_7d'
+      key: 'price_btc_change_7d',
     },
     {
       label: '30d',
-      key: 'price_btc_change_30d'
-    }
+      key: 'price_btc_change_30d',
+    },
   ],
   [INFOGRAPHIC_CURRENCIES.ETH]: [
     {
       label: '24h',
-      key: 'price_eth_change_1d'
+      key: 'price_eth_change_1d',
     },
     {
       label: '7d',
-      key: 'price_eth_change_7d'
+      key: 'price_eth_change_7d',
     },
     {
       label: '30d',
-      key: 'price_eth_change_30d'
-    }
-  ]
+      key: 'price_eth_change_30d',
+    },
+  ],
 }
 
 export const SOCIAL_VOLUME_CHANGE_RANGES = {
   [INFOGRAPHIC_CURRENCIES.USD]: [
     {
       label: '24h',
-      key: 'social_volume_total_change_1d'
+      key: 'social_volume_total_change_1d',
     },
     {
       label: '7d',
-      key: 'social_volume_total_change_7d'
+      key: 'social_volume_total_change_7d',
     },
     {
       label: '30d',
-      key: 'social_volume_total_change_30d'
-    }
-  ]
+      key: 'social_volume_total_change_30d',
+    },
+  ],
 }
 
 export const SORT_RANGES = [
   {
     label: 'Marketcap  ⬆️',
     key: 'marketcap_usd',
-    desc: false
+    desc: false,
   },
   {
     label: 'Marketcap  ⬇️',
     key: 'marketcap_usd',
-    desc: true
+    desc: true,
   },
   {
     label: `Price changes  ⬆️`,
     key: '',
-    desc: false
+    desc: false,
   },
   {
     label: 'Price changes  ⬇️',
     key: '',
-    desc: true
-  }
+    desc: true,
+  },
 ]
 
-export const getWordLength = (fontSize, word) =>
-  (fontSize - 3) * word.length + 8
+export const getWordLength = (fontSize, word) => (fontSize - 3) * word.length + 8
 
 export const getFontSize = (index, length) => {
   if (index < length * 0.05) {
@@ -139,24 +138,24 @@ export const getFontSize = (index, length) => {
 }
 
 export const mapToColors = (data, key) => {
-  return data.map(item => {
+  return data.map((item) => {
     const value = +item[key]
     const color = getTreeMapColor(100 * value)
     return {
       ...item,
-      color
+      color,
     }
   })
 }
 
-export const getBarValue = value => {
+export const getBarValue = (value) => {
   return Math.abs(value) < 1
     ? formatNumber(value, {
-        maximumFractionDigits: 2
+        maximumFractionDigits: 2,
       })
     : formatNumber(value, {
         maximumFractionDigits: 0,
-        minimumFractionDigits: 0
+        minimumFractionDigits: 0,
       })
 }
 

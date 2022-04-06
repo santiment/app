@@ -15,26 +15,20 @@ import styles from '../Dialog/LoadTemplate/Template.module.scss'
 const useMenuEffects = () => {
   const [isMenuOpened, setIsMenuOpened] = useState(false)
 
-  function openMenu (e) {
+  function openMenu(e) {
     e.stopPropagation()
 
     setIsMenuOpened(true)
   }
 
-  function closeMenu () {
+  function closeMenu() {
     setIsMenuOpened(false)
   }
 
   return [isMenuOpened, openMenu, closeMenu]
 }
 
-const TemplateContextMenu = ({
-  template,
-  onRename,
-  onDelete,
-  isAuthor,
-  classes = {}
-}) => {
+const TemplateContextMenu = ({ template, onRename, onDelete, isAuthor, classes = {} }) => {
   const [isMenuOpened, openMenu, closeMenu] = useMenuEffects()
 
   return (
@@ -44,11 +38,7 @@ const TemplateContextMenu = ({
       trigger={
         <Button
           variant='ghost'
-          className={cx(
-            styles.menu,
-            classes.menuBtn,
-            !isAuthor && styles.withUse
-          )}
+          className={cx(styles.menu, classes.menuBtn, !isAuthor && styles.withUse)}
           onClick={openMenu}
         >
           <Icon type='dots' className={styles.dots} />
@@ -63,17 +53,14 @@ const TemplateContextMenu = ({
           <DialogFormRenameTemplate
             trigger={<Option>Edit</Option>}
             template={template}
-            onRename={data => {
+            onRename={(data) => {
               onRename && onRename(data)
               closeMenu()
             }}
           />
         )}
 
-        <ShareTemplate
-          template={template}
-          className={cx(styles.option, styles.shareBtn)}
-        />
+        <ShareTemplate template={template} className={cx(styles.option, styles.shareBtn)} />
 
         <DeleteTemplate
           isAuthor={isAuthor}
@@ -87,7 +74,7 @@ const TemplateContextMenu = ({
 }
 
 const mapStateToProps = ({ user }, { template }) => ({
-  isAuthor: isUserAuthorOfTemplate(user, template)
+  isAuthor: isUserAuthorOfTemplate(user, template),
 })
 
 export default connect(mapStateToProps)(TemplateContextMenu)

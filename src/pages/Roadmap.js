@@ -3,11 +3,7 @@ import { Helmet } from 'react-helmet'
 import { getOrigin } from './../utils/utils'
 import './Roadmap.css'
 
-const StatusItemWithProgress = ({
-  text = '',
-  progress = 100,
-  child = false
-}) => (
+const StatusItemWithProgress = ({ text = '', progress = 100, child = false }) => (
   <li style={{ marginLeft: child ? 20 : 0 }}>
     <div className='status-row embedded' id='crypto-projects-item'>
       <span className='status-item'>{text}</span>
@@ -29,10 +25,7 @@ const Roadmap = () => (
     </Helmet>
     <div>
       <h1>Sanbase Roadmap</h1>
-      <p>
-        Please see our Sanbase roadmap below. It is a living document;
-        milestones may adjust.
-      </p>
+      <p>Please see our Sanbase roadmap below. It is a living document; milestones may adjust.</p>
     </div>
     <div className='panel'>
       <div className='fadeout'>
@@ -76,8 +69,7 @@ const Roadmap = () => (
                 <li>UI/UX. Overview and detailed view</li>
                 <li>Bring first data-feeds</li>
                 <li>
-                  First set of signals (delivered to the slack channel, later
-                  moved to discord)
+                  First set of signals (delivered to the slack channel, later moved to discord)
                 </li>
                 <li>Initial SAN token integration</li>
                 <li>First experiments with SAN rewards</li>
@@ -101,17 +93,11 @@ const Roadmap = () => (
               <ul>
                 <li>Data-feeds for all ERC-20 tokens</li>
                 <StatusItemWithProgress
-                  text={
-                    'Daily Active Addresses (DAA), TokenAging (Burn Rate), Transaction volume'
-                  }
+                  text={'Daily Active Addresses (DAA), TokenAging (Burn Rate), Transaction volume'}
                   progress={100}
                   child
                 />
-                <StatusItemWithProgress
-                  text={'In/Out exchanges'}
-                  progress={100}
-                  child
-                />
+                <StatusItemWithProgress text={'In/Out exchanges'} progress={100} child />
                 <StatusItemWithProgress
                   text={'ETH Genesis Address Activity'}
                   progress={100}
@@ -122,52 +108,20 @@ const Roadmap = () => (
                   progress={100}
                   child
                 />
-                <StatusItemWithProgress
-                  text={'Token Circulation'}
-                  progress={100}
-                  child
-                />
-                <StatusItemWithProgress
-                  text={'Transaction Volume'}
-                  progress={100}
-                  child
-                />
-                <StatusItemWithProgress
-                  text={'Velocity of Token'}
-                  progress={100}
-                  child
-                />
-                <StatusItemWithProgress
-                  text={'Top 100 Transactions'}
-                  progress={100}
-                  child
-                />
-                <StatusItemWithProgress
-                  text={'Network growth'}
-                  progress={100}
-                  child
-                />
+                <StatusItemWithProgress text={'Token Circulation'} progress={100} child />
+                <StatusItemWithProgress text={'Transaction Volume'} progress={100} child />
+                <StatusItemWithProgress text={'Velocity of Token'} progress={100} child />
+                <StatusItemWithProgress text={'Top 100 Transactions'} progress={100} child />
+                <StatusItemWithProgress text={'Network growth'} progress={100} child />
                 <li>Data-feeds for all EOS tokens</li>
-                <StatusItemWithProgress
-                  text={'Actions Volume'}
-                  progress={50}
-                  child
-                />
-                <StatusItemWithProgress
-                  text={'Number of Active Currencies'}
-                  progress={100}
-                  child
-                />
+                <StatusItemWithProgress text={'Actions Volume'} progress={50} child />
+                <StatusItemWithProgress text={'Number of Active Currencies'} progress={100} child />
                 <StatusItemWithProgress
                   text={'Transaction Volume of the Most Active Currencies'}
                   progress={100}
                   child
                 />
-                <StatusItemWithProgress
-                  text={'Transaction Volume of EOS'}
-                  progress={100}
-                  child
-                />
+                <StatusItemWithProgress text={'Transaction Volume of EOS'} progress={100} child />
                 <StatusItemWithProgress
                   text={'Daily Active Addresses of EOS'}
                   progress={100}
@@ -185,55 +139,22 @@ const Roadmap = () => (
                 <StatusItemWithProgress text={'VET'} child progress={10} />
                 <StatusItemWithProgress text={'NEO'} child progress={10} />
                 <li>Different interfaces to work with data</li>
-                <StatusItemWithProgress
-                  text={'API, SQL, Grafana'}
-                  child
-                  progress={100}
-                />
-                <StatusItemWithProgress
-                  text={'UI Components'}
-                  child
-                  progress={10}
-                />
+                <StatusItemWithProgress text={'API, SQL, Grafana'} child progress={100} />
+                <StatusItemWithProgress text={'UI Components'} child progress={10} />
                 <li>Social metrics</li>
-                <StatusItemWithProgress
-                  text={'Topic Search'}
-                  child
-                  progress={100}
-                />
-                <StatusItemWithProgress
-                  text={'Relative Social Dominance'}
-                  child
-                  progress={100}
-                />
-                <StatusItemWithProgress
-                  text={'Social Volume'}
-                  child
-                  progress={100}
-                />
-                <StatusItemWithProgress
-                  text={'Social Data feed'}
-                  child
-                  progress={100}
-                />
-                <StatusItemWithProgress
-                  text={'Development Activity'}
-                  progress={100}
-                />
+                <StatusItemWithProgress text={'Topic Search'} child progress={100} />
+                <StatusItemWithProgress text={'Relative Social Dominance'} child progress={100} />
+                <StatusItemWithProgress text={'Social Volume'} child progress={100} />
+                <StatusItemWithProgress text={'Social Data feed'} child progress={100} />
+                <StatusItemWithProgress text={'Development Activity'} progress={100} />
                 <StatusItemWithProgress
                   text={
                     'Base NLP models. Allows to build more complicated AI algorithms for social data'
                   }
                   progress={100}
                 />
-                <StatusItemWithProgress
-                  text={'Advanced AI/ML models'}
-                  progress={20}
-                />
-                <StatusItemWithProgress
-                  text={'Community “insights”'}
-                  progress={100}
-                />
+                <StatusItemWithProgress text={'Advanced AI/ML models'} progress={20} />
+                <StatusItemWithProgress text={'Community “insights”'} progress={100} />
                 <StatusItemWithProgress text={'Token economy'} progress={60} />
                 <li>Signals - ongoing process</li>
               </ul>
@@ -247,10 +168,7 @@ const Roadmap = () => (
               <p>Decentralization</p>
             </div>
             <div className='body'>
-              <p>
-                Product/community/network is self-sustaining, ready for general
-                availability.
-              </p>
+              <p>Product/community/network is self-sustaining, ready for general availability.</p>
               <ul>
                 <li>Social/Reputation systems</li>
                 <li>Self-publishing systems</li>

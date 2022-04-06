@@ -64,15 +64,14 @@ const LiveWidget = () => {
     }
   }, [isShow])
 
-  function initPlayer () {
+  function initPlayer() {
     if (initCounter >= MAX_INIT_ATTEMPTS) {
       Sentry.captureException("can't initialize youtube iframe api")
       return
     }
 
     if (
-      (typeof window.YT === 'undefined' ||
-        typeof window.YT.Player === 'undefined') &&
+      (typeof window.YT === 'undefined' || typeof window.YT.Player === 'undefined') &&
       initCounter < MAX_INIT_ATTEMPTS
     ) {
       initCounter++
@@ -81,8 +80,8 @@ const LiveWidget = () => {
       try {
         new window.YT.Player('live_stream', {
           events: {
-            onReady: evt => setPlayer(evt.target)
-          }
+            onReady: (evt) => setPlayer(evt.target),
+          },
         })
       } catch (e) {
         console.error(e)
@@ -109,17 +108,14 @@ const LiveWidget = () => {
     }
   }
 
-  function onWidgetClick () {
+  function onWidgetClick() {
     setIsHidden(true)
     hideWidget(videoId)
   }
 
   return (
     <div
-      className={cx(
-        styles.wrapper,
-        isShow && isStarted && !isHidden && styles.wrapper__visible
-      )}
+      className={cx(styles.wrapper, isShow && isStarted && !isHidden && styles.wrapper__visible)}
       onClick={onWidgetClick}
     >
       <div className={styles.close}>

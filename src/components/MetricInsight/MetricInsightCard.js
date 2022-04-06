@@ -10,13 +10,7 @@ import styles from './MetricInsightCard.module.scss'
 const MetricInsightCard = ({ insight, id: insightId }) => {
   if (!insight) {
     return (
-      <Panel
-        className={cx(
-          externalStyles.wrapper,
-          externalStyles.wrapper_withMc,
-          styles.card
-        )}
-      >
+      <Panel className={cx(externalStyles.wrapper, externalStyles.wrapper_withMc, styles.card)}>
         No insight with id {insightId}
       </Panel>
     )
@@ -25,25 +19,14 @@ const MetricInsightCard = ({ insight, id: insightId }) => {
   const {
     id,
     title,
-    user: { id: authorId, username: authorName }
+    user: { id: authorId, username: authorName },
   } = insight
 
   const linkToInsight = makeLinkToInsight(id, title)
 
   return (
-    <Panel
-      className={cx(
-        externalStyles.wrapper,
-        externalStyles.wrapper_withMc,
-        styles.card
-      )}
-    >
-      <a
-        href={linkToInsight}
-        className={styles.title}
-        target='_blank'
-        rel='noopener noreferrer'
-      >
+    <Panel className={cx(externalStyles.wrapper, externalStyles.wrapper_withMc, styles.card)}>
+      <a href={linkToInsight} className={styles.title} target='_blank' rel='noopener noreferrer'>
         <MultilineText maxLines={2} id='insightCardTitle' text={title} />
       </a>
 

@@ -27,7 +27,7 @@ const PremiumBanner = () => {
     return null
   }
 
-  function hide () {
+  function hide() {
     setShow(false)
     localStorage.setItem(WIDGET_KEY, true)
   }
@@ -38,13 +38,11 @@ const PremiumBanner = () => {
         <Icon type='crown' className={styles.crown} />
       </div>
       <div className={styles.content}>
-        <div className={styles.title}>
-          Get premium data and market insights with Sanbase PRO
-        </div>
+        <div className={styles.title}>Get premium data and market insights with Sanbase PRO</div>
 
         <div className={styles.description}>
-          Access all Santiment metrics, unlimited watchlists and alerts, Sanbase
-          Screener, daily market analysis and much more!
+          Access all Santiment metrics, unlimited watchlists and alerts, Sanbase Screener, daily
+          market analysis and much more!
         </div>
 
         <div className={styles.actions}>

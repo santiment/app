@@ -1,15 +1,12 @@
 import React, { useCallback } from 'react'
 import Input from '@santiment-network/ui/Input'
-import {
-  updateUserSettingsCache,
-  useUpdateUserSettings
-} from '../../../stores/user/settings'
+import { updateUserSettingsCache, useUpdateUserSettings } from '../../../stores/user/settings'
 import externalStyles from './../AccountPage.module.scss'
 import styles from './SignalLimits.module.scss'
 
 const VALIDATION_PROPS = {
   min: 0,
-  type: 'number'
+  type: 'number',
 }
 
 const SignalLimits = ({ alertsPerDayLimit }) => {
@@ -20,14 +17,14 @@ const SignalLimits = ({ alertsPerDayLimit }) => {
     (key, value) => {
       if (value) {
         const updates = {
-          alertsPerDayLimit: { ...alertsPerDayLimit, [key]: value }
+          alertsPerDayLimit: { ...alertsPerDayLimit, [key]: value },
         }
 
         updateUserSettings(updates)
         updateUserSettingsCache(updates)
       }
     },
-    [alertsPerDayLimit]
+    [alertsPerDayLimit],
   )
 
   return (
@@ -47,9 +44,7 @@ const SignalLimits = ({ alertsPerDayLimit }) => {
       </div>
 
       <div className={styles.limitBlock}>
-        <div className={externalStyles.setting__left}>
-          Telegram notifications
-        </div>
+        <div className={externalStyles.setting__left}>Telegram notifications</div>
         <div className={externalStyles.setting__right}>
           <Input
             value={telegram}

@@ -5,7 +5,7 @@ import PageLoader from '../../../components/Loader/PageLoader'
 
 const LoadableRelatedInsights = Loadable({
   loader: () => import('../../../ducks/Studio/RelatedInsights/RelatedInsights'),
-  loading: () => <PageLoader />
+  loading: () => <PageLoader />,
 })
 
 const InsightsTab = ({ settings }) => {
@@ -16,10 +16,7 @@ const InsightsTab = ({ settings }) => {
   }, [])
 
   return target
-    ? ReactDOM.createPortal(
-        <LoadableRelatedInsights settings={settings} />,
-        target
-      )
+    ? ReactDOM.createPortal(<LoadableRelatedInsights settings={settings} />, target)
     : null
 }
 

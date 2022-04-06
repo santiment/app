@@ -32,7 +32,7 @@ const MetricsList = ({
   availableMetrics = [],
   isBeta,
   selectedMetricSettingsMap,
-  setSelectedMetricSettingsMap = noop
+  setSelectedMetricSettingsMap = noop,
 }) => {
   const keys = useMemo(() => Object.keys(list), [list])
 
@@ -49,7 +49,7 @@ const MetricsList = ({
 
   const newMetricsProps = getAssetNewMetrics(availableMetrics, {
     slug: project ? project.slug : undefined,
-    isBeta
+    isBeta,
   })
 
   const { NewMetricsCategory } = newMetricsProps
@@ -61,14 +61,12 @@ const MetricsList = ({
         <div className={NewMetricsCategory[metrikKey] && styles.news}>
           {metrikKey}
 
-          {selectedCount > 0 && (
-            <span className={styles.counter}>({selectedCount})</span>
-          )}
+          {selectedCount > 0 && <span className={styles.counter}>({selectedCount})</span>}
         </div>
       }
     >
       <div className={styles.list}>
-        {keys.map(key => {
+        {keys.map((key) => {
           const items = list[key]
           return (
             <Group
@@ -99,12 +97,7 @@ const Group = ({ groupLabel, onSelect, group, project, selected, ...rest }) => {
   return (
     <>
       {groupLabel !== NO_GROUP && (
-        <div
-          className={cx(
-            styles.group,
-            NewMetricsGroup[groupLabel] && styles.news
-          )}
-        >
+        <div className={cx(styles.group, NewMetricsGroup[groupLabel] && styles.news)}>
           {groupLabel}
         </div>
       )}
@@ -116,7 +109,7 @@ const Group = ({ groupLabel, onSelect, group, project, selected, ...rest }) => {
         btnProps={{
           btnClassName: styles.metricBtn,
           infoClassName: styles.info,
-          tooltipPosition: 'top'
+          tooltipPosition: 'top',
         }}
         Button={MetricButton}
         {...rest}

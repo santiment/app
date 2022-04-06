@@ -3,7 +3,7 @@ import cx from 'classnames'
 import {
   distributionSorter,
   existingAssetsFilter,
-  CollapsedDistributions
+  CollapsedDistributions,
 } from './AssetsDistribution'
 import { useProjects, getProjectInfo } from '../../../stores/projects'
 import { millify } from '../../../utils/formatting'
@@ -12,7 +12,7 @@ import styles from './CurrentBalance.module.scss'
 const MAX_DISTRIBUTIONS = 5
 const intlFormatter = new Intl.NumberFormat('en-EN', {
   style: 'currency',
-  currency: 'USD'
+  currency: 'USD',
 })
 
 const Distribution = ({ ticker, balance }) =>
@@ -23,19 +23,15 @@ const Distribution = ({ ticker, balance }) =>
   ) : null
 
 const Distributions = ({ distributions }) =>
-  distributions.map((distribution, i) => (
-    <Distribution key={i} {...distribution} />
-  ))
+  distributions.map((distribution, i) => <Distribution key={i} {...distribution} />)
 
-function useCurrentBalance (walletAssets) {
+function useCurrentBalance(walletAssets) {
   const { projects } = useProjects()
 
   return useMemo(() => {
     if (projects.length === 0) return { distributions: [] }
 
-    const sortedAssets = walletAssets
-      .filter(existingAssetsFilter)
-      .sort(distributionSorter)
+    const sortedAssets = walletAssets.filter(existingAssetsFilter).sort(distributionSorter)
     const { length } = sortedAssets
     const distributions = new Array(length)
 
@@ -50,14 +46,14 @@ function useCurrentBalance (walletAssets) {
 
       distributions[i] = {
         ticker,
-        balance: '$' + millify(balanceUsd, balanceUsd < 1 ? 3 : 1)
+        balance: '$' + millify(balanceUsd, balanceUsd < 1 ? 3 : 1),
       }
     }
 
     return {
       usd: intlFormatter.format(totalBalance),
       totalBalance,
-      distributions
+      distributions,
     }
   }, [projects, walletAssets])
 }
@@ -70,7 +66,7 @@ const CurrentBalance = ({ walletAssets, className }) => {
   const hiddenProjects = distributions.slice(MAX_DISTRIBUTIONS)
   const biggestDistributions = distributions.slice(
     0,
-    MAX_DISTRIBUTIONS + (hiddenProjects.length === 1)
+    MAX_DISTRIBUTIONS + (hiddenProjects.length === 1),
   )
 
   return (
@@ -85,10 +81,7 @@ const CurrentBalance = ({ walletAssets, className }) => {
         <Distributions distributions={biggestDistributions} />
 
         {hiddenProjects.length > 1 && (
-          <CollapsedDistributions
-            distributions={hiddenProjects}
-            Items={Distributions}
-          />
+          <CollapsedDistributions distributions={hiddenProjects} Items={Distributions} />
         )}
       </div>
     </div>

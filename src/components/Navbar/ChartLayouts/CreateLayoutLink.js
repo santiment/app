@@ -5,12 +5,7 @@ import Button from '@santiment-network/ui/Button'
 import styles from './LayoutsEmptySection.module.scss'
 
 const CreateLayoutLink = ({ className }) => (
-  <Button
-    as={Link}
-    to='/charts/new'
-    border
-    className={cx(styles.createBtn, className)}
-  >
+  <Button as={Link} to='/charts/new' border className={cx(styles.createBtn, className)}>
     Create chart layout
   </Button>
 )

@@ -81,10 +81,7 @@ export const CREATE_TEMPLATE_MUTATION = gql`
 `
 
 export const UPDATE_TEMPLATE_MUTATION = gql`
-  mutation updateChartConfiguration(
-    $id: ID!
-    $settings: ProjectChartInputObject!
-  ) {
+  mutation updateChartConfiguration($id: ID!, $settings: ProjectChartInputObject!) {
     template: updateChartConfiguration(id: $id, settings: $settings) {
       ...templateCommon
     }

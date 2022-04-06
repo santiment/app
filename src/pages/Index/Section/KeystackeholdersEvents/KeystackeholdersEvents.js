@@ -1,14 +1,8 @@
 import React, { useState, useMemo, useEffect, Fragment } from 'react'
 import { HashLink } from 'react-router-hash-link'
-import {
-  TEMPORARY_HIDDEN_LABELS,
-  useGroupedBySlugs,
-  useRawSignals
-} from './hooks'
+import { TEMPORARY_HIDDEN_LABELS, useGroupedBySlugs, useRawSignals } from './hooks'
 import Accordion from '../../Accordion'
-import StackholderTitle, {
-  StakeholderProBanner
-} from './StackholderTitle/StackholderTitle'
+import StackholderTitle, { StakeholderProBanner } from './StackholderTitle/StackholderTitle'
 import Range from '../../../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistAnomalies/Range'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
 import { KEYSTACKHOLDERS_ANCHOR } from '../../Navigation/anchors'
@@ -20,7 +14,7 @@ import styles from './KeystackeholdersEvents.module.scss'
 
 const DEFAULT_SETTINGS = {
   from: 'utc_now-12h',
-  to: 'utc_now'
+  to: 'utc_now',
 }
 
 const RANGES = ['12h', '24h', '7d', '30d']
@@ -30,11 +24,10 @@ const READABLE_DAYS = {
   '12h': '12 hours',
   '24h': '1 day',
   '7d': '7 days',
-  '30d': '30 days'
+  '30d': '30 days',
 }
 
-const getCountSuffix = (source, count) =>
-  count + ' ' + (count === 1 ? `${source}` : `${source}s`)
+const getCountSuffix = (source, count) => count + ' ' + (count === 1 ? `${source}` : `${source}s`)
 
 const KeystackeholdersEvents = React.memo(() => {
   const [settings, setSettings] = useState(DEFAULT_SETTINGS)
@@ -44,23 +37,20 @@ const KeystackeholdersEvents = React.memo(() => {
   const { data: signals, loading } = useRawSignals(settings)
   const [hiddenLabels, setHiddenLabels] = useState(TEMPORARY_HIDDEN_LABELS)
 
-  const {
-    slugs,
-    projects,
-    visibleSlugs,
-    groups,
-    labels,
-    restrictedSignals
-  } = useGroupedBySlugs(signals, hiddenLabels, selectedAssets)
+  const { slugs, projects, visibleSlugs, groups, labels, restrictedSignals } = useGroupedBySlugs(
+    signals,
+    hiddenLabels,
+    selectedAssets,
+  )
 
   const signalsCount = useMemo(
     () => Object.values(groups).reduce((acc, { list }) => acc + list.length, 0),
-    [groups]
+    [groups],
   )
 
   const visibleRestrictedSignals = useMemo(
-    () => restrictedSignals.filter(signal => !hiddenLabels[signal]),
-    [restrictedSignals, hiddenLabels]
+    () => restrictedSignals.filter((signal) => !hiddenLabels[signal]),
+    [restrictedSignals, hiddenLabels],
   )
 
   useEffect(() => {
@@ -68,7 +58,7 @@ const KeystackeholdersEvents = React.memo(() => {
       signals.reduce((acc, { slug }) => {
         acc[slug] = true
         return acc
-      }, {})
+      }, {}),
     )
   }, [signals])
 
@@ -109,8 +99,7 @@ const KeystackeholdersEvents = React.memo(() => {
       </div>
 
       <div className={styles.description}>
-        Real-time signals for big changes in on-chain, social and development
-        activity
+        Real-time signals for big changes in on-chain, social and development activity
       </div>
 
       {!loading && (
@@ -123,9 +112,8 @@ const KeystackeholdersEvents = React.memo(() => {
       )}
 
       <div className={styles.count}>
-        Last {READABLE_DAYS[RANGES[intervalIndex]]}{' '}
-        {getCountSuffix('signal', signalsCount)} fired for{' '}
-        {getCountSuffix('asset', visibleSlugs.length)}
+        Last {READABLE_DAYS[RANGES[intervalIndex]]} {getCountSuffix('signal', signalsCount)} fired
+        for {getCountSuffix('asset', visibleSlugs.length)}
       </div>
 
       {loading && (
@@ -146,10 +134,9 @@ const KeystackeholdersEvents = React.memo(() => {
 
             return (
               <Fragment key={slug}>
-                {index === proBannerIdx &&
-                  visibleRestrictedSignals.length > 0 && (
-                    <StakeholderProBanner signals={visibleRestrictedSignals} />
-                  )}
+                {index === proBannerIdx && visibleRestrictedSignals.length > 0 && (
+                  <StakeholderProBanner signals={visibleRestrictedSignals} />
+                )}
                 <Accordion
                   title={
                     <StackholderTitle
@@ -163,7 +150,7 @@ const KeystackeholdersEvents = React.memo(() => {
                   classes={styles}
                 >
                   <div className={styles.list}>
-                    {list.map(item => (
+                    {list.map((item) => (
                       <StakeholderSignal
                         key={`${item.datetime}_${item.slug}_${item.signal}`}
                         data={item}
@@ -187,9 +174,7 @@ const KeystackeholdersEvents = React.memo(() => {
             <span className={styles.noDataTitle}>
               There are currently no signals matching your filters.
             </span>
-            <span>
-              Try a different filter to activate Key Stakeholder signals
-            </span>
+            <span>Try a different filter to activate Key Stakeholder signals</span>
           </div>
         </div>
       )}

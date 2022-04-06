@@ -12,33 +12,29 @@ const InsightsTrends = ({
   ...props
 }) => {
   return (
-    <Insights
-      title={title}
-      insights={allInsightsByTag.filter(filterInsightsNoDrafts)}
-      {...props}
-    />
+    <Insights title={title} insights={allInsightsByTag.filter(filterInsightsNoDrafts)} {...props} />
   )
 }
 
 export const getPast3DaysInsightsByTrendTag = () =>
-  [0, ONE_DAY_IN_MS, 2 * ONE_DAY_IN_MS].map(timestamp =>
+  [0, ONE_DAY_IN_MS, 2 * ONE_DAY_IN_MS].map((timestamp) =>
     graphql(ALL_INSIGHTS_BY_TAG_QUERY, {
       options: () => {
         return {
           variables: {
-            tag: getInsightTrendTagByDate(new Date(Date.now() - timestamp))
+            tag: getInsightTrendTagByDate(new Date(Date.now() - timestamp)),
           },
-          fetchPolicy: 'cache-and-network'
+          fetchPolicy: 'cache-and-network',
         }
       },
       props: ({
         data: { allInsightsByTag = [], loading },
-        ownProps: { allInsightsByTag: ownInsights = [], isLoadingInsights }
+        ownProps: { allInsightsByTag: ownInsights = [], isLoadingInsights },
       }) => ({
         isLoadingInsights: loading || isLoadingInsights,
-        allInsightsByTag: allInsightsByTag.concat(ownInsights)
-      })
-    })
+        allInsightsByTag: allInsightsByTag.concat(ownInsights),
+      }),
+    }),
   )
 
 export default compose(...getPast3DaysInsightsByTrendTag())(InsightsTrends)

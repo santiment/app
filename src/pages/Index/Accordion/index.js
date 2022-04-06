@@ -13,27 +13,22 @@ const Accordion = ({
   isOpenedDefault = false,
   classes = OBJ,
   animateOnMount,
-  showArrow = true
+  showArrow = true,
 }) => {
   const [isOpened, setIsOpened] = useState(isOpenedDefault)
 
-  function toggleOpen () {
+  function toggleOpen() {
     setIsOpened(!isOpened)
   }
 
   return (
     <Row className={cx(styles.wrapper, isOpened && styles.wrapper_opened)}>
-      <Row
-        className={cx(styles.header, classes.accordionTitle)}
-        onClick={toggleOpen}
-      >
+      <Row className={cx(styles.header, classes.accordionTitle)} onClick={toggleOpen}>
         {title}
         {showArrow && <Icon type='arrow-down-big' className={styles.toggle} />}
       </Row>
       <AccordionContent show={isOpened} animateOnMount={animateOnMount}>
-        <div className={cx(styles.content, classes.accordionContent)}>
-          {children}
-        </div>
+        <div className={cx(styles.content, classes.accordionContent)}>{children}</div>
       </AccordionContent>
     </Row>
   )

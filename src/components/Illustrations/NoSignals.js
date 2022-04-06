@@ -2,10 +2,7 @@ import React from 'react'
 
 const Image = ({ className }) => (
   <svg viewBox='0 0 356 180' className={className} fill='none'>
-    <path
-      fill='var(--athens)'
-      d='M153 48.63a49 49 0 11-98 .74 49 49 0 0198-.74z'
-    />
+    <path fill='var(--athens)' d='M153 48.63a49 49 0 11-98 .74 49 49 0 0198-.74z' />
     <path
       stroke='var(--white)'
       strokeLinecap='round'
@@ -51,10 +48,7 @@ const Image = ({ className }) => (
       rx='2.91'
       transform='rotate(-15.35 164.73 63.17)'
     />
-    <path
-      fill='var(--white)'
-      d='M178.3 89.11a3 3 0 11-5.98.44 3 3 0 015.99-.44z'
-    />
+    <path fill='var(--white)' d='M178.3 89.11a3 3 0 11-5.98.44 3 3 0 015.99-.44z' />
     <path
       fill='var(--porcelain)'
       d='M217.28 72.83a6.96 6.96 0 014.73-8.63l115.97-33.92a6.96 6.96 0 018.63 4.73l9.1 31.15A6.96 6.96 0 01351 74.8L235.02 108.7a6.96 6.96 0 01-8.64-4.73l-9.1-31.15z'

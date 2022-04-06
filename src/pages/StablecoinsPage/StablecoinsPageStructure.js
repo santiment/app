@@ -15,7 +15,7 @@ export const BlockHeader = ({
   defaultIndex,
   tag,
   className,
-  onCloseClick
+  onCloseClick,
 }) => {
   if (!title) {
     return null
@@ -26,19 +26,11 @@ export const BlockHeader = ({
       <div className={styles.subTitle} id={tag}>
         {title}
         {setInterval && (
-          <IntervalsComponent
-            onChange={setInterval}
-            defaultIndex={defaultIndex}
-            ranges={ranges}
-          />
+          <IntervalsComponent onChange={setInterval} defaultIndex={defaultIndex} ranges={ranges} />
         )}
 
         {onCloseClick && (
-          <Icon
-            type='close-medium'
-            className={widgetStyles.close}
-            onClick={onCloseClick}
-          />
+          <Icon type='close-medium' className={widgetStyles.close} onClick={onCloseClick} />
         )}
       </div>
       {description && <div className={styles.subDescr}>{description}</div>}
@@ -46,14 +38,7 @@ export const BlockHeader = ({
   )
 }
 
-export const Block = ({
-  title,
-  description,
-  children,
-  isPaywalActive = false,
-  tag,
-  className
-}) => {
+export const Block = ({ title, description, children, isPaywalActive = false, tag, className }) => {
   const El = useMemo(() => {
     return isPaywalActive ? CheckProPaywall : Fragment
   }, [isPaywalActive])
@@ -67,13 +52,7 @@ export const Block = ({
   )
 }
 
-export const ProOnlyBlock = ({
-  title,
-  description,
-  children,
-  tag,
-  className
-}) => {
+export const ProOnlyBlock = ({ title, description, children, tag, className }) => {
   return (
     <div className={cx(styles.block, className)} id={tag}>
       <BlockHeader title={title} description={description} />
@@ -88,19 +67,19 @@ export const BlockWithRanges = ({
   el: El,
   tag,
   checkPro = true,
-  className
+  className,
 }) => {
   const [interval, setInterval] = useState('1d')
   const [settings, setSettings] = useState({
     ...getNewTimerangePeriod(interval),
-    interval
+    interval,
   })
 
   useEffect(() => {
     setSettings({
       ...settings,
       ...getNewTimerangePeriod(interval),
-      interval
+      interval,
     })
   }, [interval])
 
@@ -108,11 +87,7 @@ export const BlockWithRanges = ({
 
   return (
     <div className={cx(styles.block, className)} id={tag}>
-      <BlockHeader
-        title={title}
-        description={description}
-        setInterval={setInterval}
-      />
+      <BlockHeader title={title} description={description} setInterval={setInterval} />
 
       <Wrapper>
         <El settings={settings} />

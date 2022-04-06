@@ -16,30 +16,26 @@ const Item = ({ onProjectClick, showChange, ...project }) => {
     <div className={styles.project} onClick={() => onProjectClick(project)}>
       <ProjectIcon slug={slug} size={20} {...urls} />
       {name && <Label className={styles.name}>{name}</Label>}
-      <Label className={cx(styles.ticker, !name && styles.tickerWithMargin)}>
-        {ticker}
-      </Label>
-      {showChange && (
-        <PercentChanges changes={change * 100} className={styles.changes} />
-      )}
+      <Label className={cx(styles.ticker, !name && styles.tickerWithMargin)}>{ticker}</Label>
+      {showChange && <PercentChanges changes={change * 100} className={styles.changes} />}
     </div>
   ) : null
 }
 
 const TYPES = {
   gainers: 'Top gainers',
-  losers: 'Top losers'
+  losers: 'Top losers',
 }
 
 const tabs = [
   {
     index: TYPES.gainers,
-    content: TYPES.gainers
+    content: TYPES.gainers,
   },
   {
     index: TYPES.losers,
-    content: TYPES.losers
-  }
+    content: TYPES.losers,
+  },
 ]
 
 const GainersLosersTabs = ({
@@ -48,11 +44,11 @@ const GainersLosersTabs = ({
   onProjectClick,
   className,
   titleClassName,
-  classes = {}
+  classes = {},
 }) => {
   let [selectedTab, setSelectedTab] = useState(tabs[0].index)
 
-  function handleSelectTab (tab) {
+  function handleSelectTab(tab) {
     if (tab !== selectedTab) {
       setSelectedTab(tab)
     }
@@ -62,9 +58,7 @@ const GainersLosersTabs = ({
 
   return gainers.length > 0 ? (
     <section className={className}>
-      <h2 className={cx(styles.title, titleClassName)}>
-        Social gainers and losers
-      </h2>
+      <h2 className={cx(styles.title, titleClassName)}>Social gainers and losers</h2>
       <Panel>
         <Tabs
           className={cx(styles.tabs, classes.tabs)}
@@ -96,8 +90,8 @@ const withGainersLosers = graphql(TOP_SOCIAL_GAINERS_LOSERS_QUERY, {
         from: from.toISOString(),
         to: to.toISOString(),
         timeWindow,
-        status: 'ALL'
-      }
+        status: 'ALL',
+      },
     }
   },
   props: ({ data: { topSocialGainersLosers = [], loading } }) => {
@@ -105,16 +99,14 @@ const withGainersLosers = graphql(TOP_SOCIAL_GAINERS_LOSERS_QUERY, {
     const gainers = []
     const losers = []
     if (length > 0) {
-      topSocialGainersLosers[length - 1].projects.forEach(
-        ({ project, status, change }) => {
-          if (status === 'GAINER') gainers.push({ ...project, change })
-          if (status === 'LOSER') losers.push({ ...project, change })
-        }
-      )
+      topSocialGainersLosers[length - 1].projects.forEach(({ project, status, change }) => {
+        if (status === 'GAINER') gainers.push({ ...project, change })
+        if (status === 'LOSER') losers.push({ ...project, change })
+      })
     }
 
     return { gainers, losers, isLoading: loading }
-  }
+  },
 })
 
 export default withGainersLosers(GainersLosersTabs)

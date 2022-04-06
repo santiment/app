@@ -12,7 +12,7 @@ import {
   getShortUrlHash,
   onAnonComment,
   handleSavedComment,
-  handleLayoutCommentLink
+  handleLayoutCommentLink,
 } from './utils'
 import { parseUrl } from './sharing/parse'
 import { parseTemplate } from './sharing/template'
@@ -21,10 +21,9 @@ import { getFullUrl } from '../../components/Share/utils'
 import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
 import PageLoader from '../../components/Loader/PageLoader'
 
-const parseLayout = layout =>
-  layout && queryLayout(+layout).then(selectedLayout.set)
+const parseLayout = (layout) => layout && queryLayout(+layout).then(selectedLayout.set)
 
-const Extensions = props => (
+const Extensions = (props) => (
   <>
     <URLExtension {...props} />
     <RecentAssetExtension settings={props.settings} />
@@ -43,7 +42,7 @@ export default ({ location }) => {
   const { pathname, search } = location
 
   useEffect(() => {
-    window.__onLinkClick = e => {
+    window.__onLinkClick = (e) => {
       e.preventDefault()
 
       const node = e.currentTarget
@@ -78,11 +77,11 @@ export default ({ location }) => {
 
       setPrevTemplateId(templateId)
       queryLayout(+templateId)
-        .then(layout => {
+        .then((layout) => {
           if (isRacing) return
           const parsedUrl = {
             settings: layout.project,
-            widgets: parseTemplate(layout)
+            widgets: parseTemplate(layout),
           }
           if (!parsedUrl.settings.slug) {
             parsedUrl.settings.slug = 'bitcoin'
@@ -115,7 +114,7 @@ export default ({ location }) => {
     if (shortUrlHash === prevShortUrlHash) return
 
     getFullUrl(shortUrlHash)
-      .then(fullUrl => {
+      .then((fullUrl) => {
         if (isRacing) return
 
         setShortUrlHash(shortUrlHash)

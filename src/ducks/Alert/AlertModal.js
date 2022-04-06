@@ -22,7 +22,7 @@ const AlertModal = ({
   signalData,
   isUserTheAuthor = true,
   prepareAlertTitle,
-  shouldDisableActions
+  shouldDisableActions,
 }) => {
   const match = useRouteMatch('/alerts/:id')
   const history = useHistory()
@@ -39,16 +39,13 @@ const AlertModal = ({
     return (
       <LoginPopup>
         {trigger || (
-          <AlertTriggerButton
-            disabled={disabled}
-            triggerButtonProps={triggerButtonProps}
-          />
+          <AlertTriggerButton disabled={disabled} triggerButtonProps={triggerButtonProps} />
         )}
       </LoginPopup>
     )
   }
 
-  function handleCloseDialog () {
+  function handleCloseDialog() {
     if (match && match.params.id) {
       history.push('/alerts')
     }
@@ -73,25 +70,16 @@ const AlertModal = ({
         }}
         trigger={
           trigger || (
-            <AlertTriggerButton
-              disabled={disabled}
-              triggerButtonProps={triggerButtonProps}
-            />
+            <AlertTriggerButton disabled={disabled} triggerButtonProps={triggerButtonProps} />
           )
         }
         classes={{
-          dialog: cx(
-            styles.dialog,
-            isClosing && styles.hidden,
-            isPreview && styles.preview
-          )
+          dialog: cx(styles.dialog, isClosing && styles.hidden, isPreview && styles.preview),
         }}
       >
         <>
           {!isPreview && (
-            <AlertRestrictionMessage
-              shouldHideRestrictionMessage={shouldHideRestrictionMessage}
-            />
+            <AlertRestrictionMessage shouldHideRestrictionMessage={shouldHideRestrictionMessage} />
           )}
           <AlertModalFormMaster
             shouldDisableActions={shouldDisableActions}
@@ -125,7 +113,7 @@ const AlertModal = ({
 AlertModal.defaultProps = {
   modalTitle: 'Create custom alerts',
   disabled: false,
-  defaultOpen: false
+  defaultOpen: false,
 }
 
 export default AlertModal

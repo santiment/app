@@ -9,84 +9,83 @@ import Version from '../../../components/Version/Version'
 const LEFT_LINKS = [
   {
     label: 'About us',
-    link: 'https://santiment.net/about/'
+    link: 'https://santiment.net/about/',
   },
   {
     label: 'Academy',
-    link: 'https://academy.santiment.net'
+    link: 'https://academy.santiment.net',
   },
   {
     label: 'Sanbase',
-    link: 'https://app.santiment.net'
+    link: 'https://app.santiment.net',
   },
 
   {
     label: 'Pricing',
-    link: 'https://santiment.net/pricing/'
+    link: 'https://santiment.net/pricing/',
   },
   {
     label: 'Insights',
-    link: 'https://insights.santiment.net'
+    link: 'https://insights.santiment.net',
   },
   {
     label: 'SanAPI',
-    link: 'https://api.santiment.net/'
+    link: 'https://api.santiment.net/',
   },
   {
     label: 'Team',
-    link: 'https://santiment.net/team/'
+    link: 'https://santiment.net/team/',
   },
   {
     label: 'Social Trends',
-    link: 'https://app.santiment.net/labs/trends'
+    link: 'https://app.santiment.net/labs/trends',
   },
   {
     label: 'Sansheets',
-    link: 'https://sheets.santiment.net'
+    link: 'https://sheets.santiment.net',
   },
 
   {
     label: 'Jobs',
-    link: 'https://santiment.net/jobs/'
+    link: 'https://santiment.net/jobs/',
   },
   {
     label: 'Historical balance',
-    link: 'https://app.santiment.net/labs/balance'
+    link: 'https://app.santiment.net/labs/balance',
   },
   {
     label: 'Contact us',
     link: 'mailto:support@santiment.net',
-    onClick: evt => {
+    onClick: (evt) => {
       if (window.Intercom) {
         evt.preventDefault()
         window.Intercom('showNewMessage', 'Hello! I have a question')
       }
-    }
+    },
   },
   {
     label: 'Buy SAN',
-    link: 'https://academy.santiment.net/san-tokens/how-to-buy-san/'
-  }
+    link: 'https://academy.santiment.net/san-tokens/how-to-buy-san/',
+  },
 ]
 
 const BOTTOM_LINKS = [
   {
     label: 'Terms',
-    link: 'https://santiment.net/terms/'
+    link: 'https://santiment.net/terms/',
   },
   {
     label: 'Privacy',
-    link: '/privacy-policy'
+    link: '/privacy-policy',
   },
   {
     label: 'Media Kit',
-    link:
-      'https://www.notion.so/santiment/Santiment-Media-ff72838a16164db4b7e90478e18c3776'
+    link: 'https://www.notion.so/santiment/Santiment-Media-ff72838a16164db4b7e90478e18c3776',
   },
   {
     label: 'Status',
-    link: 'https://status.santiment.net/'
-  }
+    link: 'https://status.santiment.net/',
+  },
 ]
 
 const CommonFooter = ({ className }) => {
@@ -107,10 +106,7 @@ const CommonFooter = ({ className }) => {
                 d='M43.0847 1.42919C43.0847 1.00567 43.2033 0.66184 43.4411 0.396956C43.6789 0.132073 43.9919 0 44.3792 0C44.7665 0 45.0876 0.128384 45.3431 0.383675C45.5979 0.639704 45.726 0.987963 45.726 1.42919C45.726 1.85271 45.5979 2.18326 45.3431 2.42158C45.0876 2.6599 44.7665 2.77869 44.3792 2.77869C43.9919 2.77869 43.6797 2.65547 43.4418 2.4083C43.204 2.16112 43.0847 1.835 43.0847 1.42919Z'
                 fill='var(--mirage)'
               />
-              <path
-                d='M45.3298 5.45114V18.6828H43.4286V5.45114H45.3298Z'
-                fill='var(--mirage)'
-              />
+              <path d='M45.3298 5.45114V18.6828H43.4286V5.45114H45.3298Z' fill='var(--mirage)' />
               <path
                 d='M36.1398 5.45112H34.5287V7.17102H36.1398V15.3219C36.1398 16.6102 36.329 17.5406 36.7075 18.1139C37.086 18.6872 37.7148 18.9742 38.5955 18.9742C39.1058 18.9742 39.594 18.9166 40.0608 18.8023C40.5277 18.6872 40.9548 18.533 41.3421 18.3389L40.9724 16.8308C40.6727 16.954 40.3951 17.0551 40.1404 17.1348C39.8848 17.2137 39.5815 17.2536 39.2295 17.2536C38.8076 17.2536 38.5035 17.0816 38.3186 16.7378C38.1338 16.394 38.041 15.834 38.041 15.0578V7.17176H40.8929V5.45186H38.041V2.22308L36.1398 2.8318V5.45112Z'
                 fill='var(--mirage)'
@@ -169,7 +165,7 @@ const CommonFooter = ({ className }) => {
                   <a
                     key={index}
                     href={link}
-                    onClick={evt => (onClick ? onClick(evt) : null)}
+                    onClick={(evt) => (onClick ? onClick(evt) : null)}
                     className={styles.link}
                     target='_blank'
                     rel='noopener noreferrer'
@@ -183,9 +179,7 @@ const CommonFooter = ({ className }) => {
 
           <div className={styles.rightLinks}>
             <div className={styles.subscription}>
-              <div className={styles.subcriptionTitle}>
-                Subscribe to the weekly Digest!
-              </div>
+              <div className={styles.subcriptionTitle}>Subscribe to the weekly Digest!</div>
               <SubscriptionForm
                 classes={styles}
                 hideCheckbox
@@ -210,8 +204,7 @@ const CommonFooter = ({ className }) => {
 
         <div className={styles.bottom}>
           <div className={styles.bottomLeft}>
-            © 2016—{new Date().getFullYear()} Santiment{' '}
-            <Version classes={styles} />
+            © 2016—{new Date().getFullYear()} Santiment <Version classes={styles} />
           </div>
 
           <div className={styles.bottomCenter}>

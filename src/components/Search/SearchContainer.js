@@ -9,7 +9,7 @@ import {
   getRecentAssets,
   addRecentAssets,
   removeRecentAssets,
-  clearRecentAssets
+  clearRecentAssets,
 } from '../../utils/recent'
 import styles from './SearchContainer.module.scss'
 
@@ -43,24 +43,24 @@ export const SearchContainer = ({
 
   Object.assign(inputProps, INPUT_ID_PROPS)
 
-  function addRecentAssetSuggestions (slug) {
+  function addRecentAssetSuggestions(slug) {
     setRecentAssetSuggestions(addRecentAssets(slug))
   }
 
-  function removeRecentAssetSuggestion (slug) {
+  function removeRecentAssetSuggestion(slug) {
     setRecentAssetSuggestions(removeRecentAssets(slug))
   }
 
-  function clearRecents () {
+  function clearRecents() {
     setRecentAssetSuggestions(clearRecentAssets())
   }
 
-  function onFocus () {
+  function onFocus() {
     if (isMobile) return
     setFocus(true)
   }
 
-  function onBlur () {
+  function onBlur() {
     if (isMobile) return
     setFocus(false)
   }
@@ -69,7 +69,7 @@ export const SearchContainer = ({
     const input = document.querySelector('#' + INPUT_ID)
     if (!input) return
 
-    function onKeyPress (e) {
+    function onKeyPress(e) {
       const { code, target } = e
       if (code === 'Slash' && !EDITABLE_TAGS.has(target.tagName)) {
         e.preventDefault()
@@ -111,25 +111,21 @@ export const SearchContainer = ({
                 title: (
                   <div className={styles.recents}>
                     Recently searched
-                    <Icon
-                      type='history-clear'
-                      className={styles.clear}
-                      onClick={clearRecents}
-                    />
+                    <Icon type='history-clear' className={styles.clear} onClick={clearRecents} />
                   </div>
                 ),
                 items: recentAssets,
                 classes: styles,
-                suggestionContent: suggestion => (
+                suggestionContent: (suggestion) => (
                   <Recent
                     text={suggestion}
-                    onRemove={e => {
+                    onRemove={(e) => {
                       e.stopPropagation()
                       removeRecentAssetSuggestion(suggestion)
                     }}
                   />
-                )
-              }
+                ),
+              },
             ]
       }
     />
@@ -143,7 +139,7 @@ export const SearchContainer = ({
 }
 
 SearchContainer.defaultProps = {
-  inputProps: INPUT_ID_PROPS
+  inputProps: INPUT_ID_PROPS,
 }
 
 export default withRouter(SearchContainer)

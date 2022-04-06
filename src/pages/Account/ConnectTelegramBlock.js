@@ -37,10 +37,10 @@ const ConnectTelegramBlock = ({
   connectTelegram,
   isTelegramConnecting,
   telegramDeepLink,
-  classes = {}
+  classes = {},
 }) => {
   const {
-    settings: { hasTelegramConnected }
+    settings: { hasTelegramConnected },
   } = useUserSettings()
 
   useEffect(() => {
@@ -55,9 +55,7 @@ const ConnectTelegramBlock = ({
           Connect the notification bot to your Telegram account
         </Label>
       </div>
-      {isTelegramConnecting && (
-        <Loader className={styles.connecting_telegram} />
-      )}
+      {isTelegramConnecting && <Loader className={styles.connecting_telegram} />}
       {telegramDeepLink && (
         <div className={styles.actions}>
           <TgButton
@@ -68,11 +66,7 @@ const ConnectTelegramBlock = ({
             telegramDeepLink={telegramDeepLink}
             connectTelegram={connectTelegram}
           >
-            {isTelegramConnecting
-              ? 'Connecting'
-              : hasTelegramConnected
-              ? 'Connected'
-              : 'Connect'}
+            {isTelegramConnecting ? 'Connecting' : hasTelegramConnected ? 'Connected' : 'Connect'}
           </TgButton>
 
           {hasTelegramConnected && (
@@ -98,19 +92,15 @@ const ConnectTelegramBlock = ({
 
 const mapStateToProps = ({
   user: {
-    data: { settings: { telegramDeepLink, isTelegramConnecting } = {} }
-  }
+    data: { settings: { telegramDeepLink, isTelegramConnecting } = {} },
+  },
 }) => ({
   telegramDeepLink,
-  isTelegramConnecting
+  isTelegramConnecting,
 })
 
-const mapDispatchToProps = dispatch => ({
-  generateTelegramDeepLink: () =>
-    dispatch({ type: actions.SETTINGS_GENERATE_TELEGRAM_DEEP_LINK })
+const mapDispatchToProps = (dispatch) => ({
+  generateTelegramDeepLink: () => dispatch({ type: actions.SETTINGS_GENERATE_TELEGRAM_DEEP_LINK }),
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ConnectTelegramBlock)
+export default connect(mapStateToProps, mapDispatchToProps)(ConnectTelegramBlock)

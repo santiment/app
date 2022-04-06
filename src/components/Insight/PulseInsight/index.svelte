@@ -8,4 +8,4 @@
   setContext('likeInsight', likeInsight)
 </script>
 
-<PulseInsight {insight} {transformLink} class="{className}" />
+<PulseInsight {insight} {transformLink} class={className} />

@@ -1,19 +1,18 @@
 import { Metric } from '../../ducks/dataHub/metrics'
 
-const buildKey = (metric, suffix) =>
-  `${metric.key}_${suffix.replace(/[^a-zA-Z0-9]+/g, '')}`
+const buildKey = (metric, suffix) => `${metric.key}_${suffix.replace(/[^a-zA-Z0-9]+/g, '')}`
 
-export function buildExploredMetric (text) {
+export function buildExploredMetric(text) {
   const key = buildKey(Metric.social_volume_total, text)
   return {
     ...Metric.social_volume_total,
     queryKey: Metric.social_volume_total.key,
     key,
-    text
+    text,
   }
 }
 
-export function calcAverage (metrics, data) {
+export function calcAverage(metrics, data) {
   const initialValue = {}
   const avg = []
 
@@ -39,7 +38,7 @@ export function calcAverage (metrics, data) {
   return avg
 }
 
-export function calcPercentage (total, number) {
+export function calcPercentage(total, number) {
   return ((number * 100) / total).toFixed(2)
 }
 
@@ -47,5 +46,5 @@ export const PERIODS = [
   { label: '7D', query: '7d', text: '7 days' },
   { label: '30D', query: '1m', text: '30 days' },
   { label: '3M', query: '3m', text: '3 months' },
-  { label: '6M', query: '6m', text: '6 months' }
+  { label: '6M', query: '6m', text: '6 months' },
 ]

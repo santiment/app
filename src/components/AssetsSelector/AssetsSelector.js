@@ -8,12 +8,7 @@ import { toggleByKey } from '../../pages/Index/Section/KeystackeholdersEvents/St
 import { useOnClickOutside } from '../../hooks/click'
 import styles from './AssetsSelector.module.scss'
 
-const ProjectItem = ({
-  project: targetProject,
-  slug,
-  addItemInState,
-  selected
-}) => {
+const ProjectItem = ({ project: targetProject, slug, addItemInState, selected }) => {
   const [project = targetProject] = useProject(!targetProject && slug)
   const { ticker, slug: targetSlug = slug, name = slug } = project || {}
 
@@ -38,21 +33,21 @@ const AssetsSelector = ({ onChange, selected, projects, slugs, className }) => {
   const ref = useRef()
   useOnClickOutside(ref, () => setShowPanel(false))
 
-  function onChangeSearch (e) {
+  function onChangeSearch(e) {
     setSearchTerm(e.target.value)
   }
 
-  function addItemInState (slug) {
+  function addItemInState(slug) {
     toggleByKey(slug, selected, onChange)
   }
 
-  function filterBySearch (list) {
+  function filterBySearch(list) {
     if (!searchTerm) {
       return list
     }
 
     const term = searchTerm.toLowerCase()
-    return list.filter(slug => slug.indexOf(term) !== -1)
+    return list.filter((slug) => slug.indexOf(term) !== -1)
   }
 
   const selectedAssets = useMemo(() => {
@@ -61,7 +56,7 @@ const AssetsSelector = ({ onChange, selected, projects, slugs, className }) => {
 
   const selectableAssets = useMemo(() => {
     const cache = new Set(selectedAssets)
-    return filterBySearch(slugs.filter(s => !cache.has(s)))
+    return filterBySearch(slugs.filter((s) => !cache.has(s)))
   }, [selectedAssets, slugs, searchTerm])
 
   const countSelected = selectedAssets.length
@@ -69,10 +64,7 @@ const AssetsSelector = ({ onChange, selected, projects, slugs, className }) => {
 
   return (
     <div className={styles.wrapper} ref={ref}>
-      <div
-        className={cx(styles.trigger, className)}
-        onClick={() => setShowPanel(old => !old)}
-      >
+      <div className={cx(styles.trigger, className)} onClick={() => setShowPanel((old) => !old)}>
         All assets
         {countSelected > 0 ? `: ${countSelected}` : ''}
       </div>
@@ -90,13 +82,8 @@ const AssetsSelector = ({ onChange, selected, projects, slugs, className }) => {
             {countSelected > 0 && (
               <>
                 <div className={styles.title}>Selected assets</div>
-                <div
-                  className={cx(
-                    styles.list,
-                    !isResetVisible && styles.noMargin
-                  )}
-                >
-                  {selectedAssets.map(slug => {
+                <div className={cx(styles.list, !isResetVisible && styles.noMargin)}>
+                  {selectedAssets.map((slug) => {
                     return (
                       <ProjectItem
                         key={slug}
@@ -115,7 +102,7 @@ const AssetsSelector = ({ onChange, selected, projects, slugs, className }) => {
               <>
                 <div className={styles.title}>Assets</div>
                 <div className={cx(styles.list, styles.noMargin)}>
-                  {selectableAssets.map(slug => {
+                  {selectableAssets.map((slug) => {
                     return (
                       <ProjectItem
                         key={slug}
@@ -141,7 +128,7 @@ const AssetsSelector = ({ onChange, selected, projects, slugs, className }) => {
                   acc[s] = true
 
                   return acc
-                }, {})
+                }, {}),
               )
             }}
           >

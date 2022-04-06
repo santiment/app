@@ -2,11 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { getSanSonarSW } from '../../../../../../pages/Account/SettingsSonarWebPushNotifications'
 import { CHANNEL_NAMES } from '../../../../utils/constants'
 
-export const getDisabled = ({
-  isEmailConnected,
-  isTelegramConnected,
-  isWebPushEnabled
-}) => {
+export const getDisabled = ({ isEmailConnected, isTelegramConnected, isWebPushEnabled }) => {
   const disabled = []
 
   if (!isEmailConnected) {
@@ -22,8 +18,8 @@ export const getDisabled = ({
   return disabled
 }
 
-export const findWebHook = channels => {
-  return channels.find(item => {
+export const findWebHook = (channels) => {
+  return channels.find((item) => {
     return isWebhookChannel(item)
   })
 }
@@ -34,12 +30,12 @@ export const isActiveInChannels = (channels, channel) => {
       return findWebHook(channels)
     }
     default: {
-      return channels.some(active => active === channel)
+      return channels.some((active) => active === channel)
     }
   }
 }
 
-export const isWebhookChannel = channel => {
+export const isWebhookChannel = (channel) => {
   return (
     typeof channel === 'object' &&
     (channel.hasOwnProperty('webhook') || Object.keys(channel).length === 0)
@@ -50,7 +46,7 @@ export const useDisabledChannels = ({
   channels,
   isTelegramConnected,
   isEmailConnected,
-  isBeta
+  isBeta,
 }) => {
   const [isWebPushEnabled, setWebPushEnabled] = useState(true)
   const [disabledChannels, setDisabledChannels] = useState([])
@@ -59,7 +55,7 @@ export const useDisabledChannels = ({
     const disabled = getDisabled({
       isTelegramConnected,
       isWebPushEnabled,
-      isEmailConnected
+      isEmailConnected,
     })
     setDisabledChannels(disabled)
   }, [isEmailConnected, isWebPushEnabled, isTelegramConnected])
@@ -67,7 +63,7 @@ export const useDisabledChannels = ({
   const recheckBrowserNotifications = useCallback(() => {
     navigator.serviceWorker &&
       navigator.serviceWorker.getRegistrations &&
-      navigator.serviceWorker.getRegistrations().then(registrations => {
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
         const sw = getSanSonarSW(registrations)
         const hasServiceWorker = !!sw
 
@@ -86,37 +82,33 @@ export const useDisabledChannels = ({
     recheckBrowserNotifications,
     isWebPushEnabled,
     disabledChannels,
-    calculateDisabledChannels
+    calculateDisabledChannels,
   }
 }
 
-export const useChannelTypes = ({
-  channels,
-  requiredChannels,
-  disabledChannels
-}) => {
+export const useChannelTypes = ({ channels, requiredChannels, disabledChannels }) => {
   const isActive = useCallback(
-    channel => {
+    (channel) => {
       return isActiveInChannels(channels, channel)
     },
-    [channels]
+    [channels],
   )
 
   const isRequired = useCallback(
-    channel => {
+    (channel) => {
       return (
-        requiredChannels.some(required => required === channel) ||
-        disabledChannels.some(disabled => disabled === channel)
+        requiredChannels.some((required) => required === channel) ||
+        disabledChannels.some((disabled) => disabled === channel)
       )
     },
-    [requiredChannels, disabledChannels]
+    [requiredChannels, disabledChannels],
   )
 
   const isDisabled = useCallback(
-    channel => {
-      return disabledChannels.some(disabled => disabled === channel)
+    (channel) => {
+      return disabledChannels.some((disabled) => disabled === channel)
     },
-    [disabledChannels]
+    [disabledChannels],
   )
 
   return { isActive, isRequired, isDisabled }

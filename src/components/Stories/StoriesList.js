@@ -16,14 +16,8 @@ const ScrollBtn = ({ isRight, show = true, onClick }) => {
   }
 
   return (
-    <div
-      className={cx(styles.scrollBtn, isRight && styles.btnRight)}
-      onClick={onClick}
-    >
-      <Icon
-        type={isRight ? 'arrow-right' : 'arrow-left'}
-        className={styles.scrollIcon}
-      />
+    <div className={cx(styles.scrollBtn, isRight && styles.btnRight)} onClick={onClick}>
+      <Icon type={isRight ? 'arrow-right' : 'arrow-left'} className={styles.scrollIcon} />
     </div>
   )
 }
@@ -37,15 +31,13 @@ const StoriesList = ({ classes = {}, showScrollBtns, showShadows = false }) => {
   const { isNightMode } = useTheme()
   const scrollRef = React.createRef()
 
-  const scroll = isRight => {
+  const scroll = (isRight) => {
     scrollRef.current.scrollLeft += (isRight ? 1 : -1) * SCROLL_OFFSET
     setTimeout(() => {
       if (scrollRef && scrollRef.current) {
         const current = scrollRef.current
         setLeft(current.scrollLeft > 0)
-        setRight(
-          current.scrollWidth - current.clientWidth - current.scrollLeft > 0
-        )
+        setRight(current.scrollWidth - current.clientWidth - current.scrollLeft > 0)
       }
     }, 500)
   }
@@ -56,16 +48,12 @@ const StoriesList = ({ classes = {}, showScrollBtns, showShadows = false }) => {
         styles.list,
         classes.stories,
         showShadows && showScrollBtns && canScrollLeft && styles.hideLeft,
-        showShadows && showScrollBtns && canScrollRight && styles.hideRight
+        showShadows && showScrollBtns && canScrollRight && styles.hideRight,
       )}
       style={{
         '--offset': '24px',
-        '--shadowFrom': isNightMode
-          ? 'rgba(24, 27, 43, 0)'
-          : 'rgba(255, 255, 255, 0)',
-        '--shadowTo': isNightMode
-          ? 'rgba(24, 27, 43, 0.9)'
-          : 'rgba(255, 255, 255, 0.9)'
+        '--shadowFrom': isNightMode ? 'rgba(24, 27, 43, 0)' : 'rgba(255, 255, 255, 0)',
+        '--shadowTo': isNightMode ? 'rgba(24, 27, 43, 0.9)' : 'rgba(255, 255, 255, 0.9)',
       }}
     >
       {showScrollBtns && canScrollLeft && (
@@ -80,14 +68,14 @@ const StoriesList = ({ classes = {}, showScrollBtns, showShadows = false }) => {
 
       <div className={styles.scrollableWrapper} ref={scrollRef}>
         <div className={cx(styles.scrollable, classes.storiesScrollable)}>
-          {stories.map(story => (
+          {stories.map((story) => (
             <StoryPreview
               className={cx(styles.item, classes.story)}
               key={story.previewTitle}
               onClick={() => {
                 GA.event({
                   category: 'Stories',
-                  action: `Opened "${story.previewTitle}" story `
+                  action: `Opened "${story.previewTitle}" story `,
                 })
                 setSelected(story)
               }}

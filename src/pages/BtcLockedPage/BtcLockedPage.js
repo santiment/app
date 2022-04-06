@@ -18,16 +18,16 @@ import styles from './BtcLockedPage.module.scss'
 const ANCHORS = {
   TotalSupply: {
     label: 'Total Supply',
-    key: 'total-supply'
+    key: 'total-supply',
   },
   Distribution: {
     label: 'Distribution of Bitcoin on Ethereum',
-    key: 'distribution-on-eth'
+    key: 'distribution-on-eth',
   },
   TotalBtcOnEth: {
     label: 'Total BTC on Ethereum',
-    key: 'total-on-eth'
-  }
+    key: 'total-on-eth',
+  },
 }
 
 const METRIC_BOUNDARIES_QUERY = gql`
@@ -50,12 +50,12 @@ const BtcLockedPage = () => {
         meta={[
           {
             property: 'og:title',
-            content: 'BTC Dashboard | Sanbase'
+            content: 'BTC Dashboard | Sanbase',
           },
           {
             property: 'og:description',
-            content: 'Bitcoin Locked on Ethereum'
-          }
+            content: 'Bitcoin Locked on Ethereum',
+          },
         ]}
       />
 
@@ -83,10 +83,7 @@ const BtcLockedPage = () => {
             <BtcStatistics />
           </Block>
 
-          <Block
-            title='Distribution of Bitcoin on Ethereum'
-            tag={ANCHORS.Distribution.key}
-          >
+          <Block title='Distribution of Bitcoin on Ethereum' tag={ANCHORS.Distribution.key}>
             <DistributionBtcOnEth />
           </Block>
 

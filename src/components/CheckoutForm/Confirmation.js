@@ -26,21 +26,17 @@ const CHECK_COUPON_QUERY = gql`
   }
 `
 
-const mapStateToProps = state => ({
-  hasSanDiscount: state.user.data.sanBalance >= 1000
+const mapStateToProps = (state) => ({
+  hasSanDiscount: state.user.data.sanBalance >= 1000,
 })
 
 const TotalPrice = connect(mapStateToProps)(
   ({ price, planWithBilling, percentOff, hasSanDiscount }) => {
     const resultPercentOff = percentOff || (hasSanDiscount && 20)
     const priceInt = +price.slice(1)
-    const amountOff = resultPercentOff
-      ? Math.floor(priceInt * (resultPercentOff / 100))
-      : 0
+    const amountOff = resultPercentOff ? Math.floor(priceInt * (resultPercentOff / 100)) : 0
 
-    const discountMsg = percentOff
-      ? 'Discount code'
-      : hasSanDiscount && 'SAN Holder discount'
+    const discountMsg = percentOff ? 'Discount code' : hasSanDiscount && 'SAN Holder discount'
 
     return (
       <div className={styles.check}>
@@ -60,7 +56,7 @@ const TotalPrice = connect(mapStateToProps)(
         </div>
       </div>
     )
-  }
+  },
 )
 
 const DiscountIcon = ({ isValid }) => {
@@ -75,7 +71,7 @@ const DiscountIcon = ({ isValid }) => {
 }
 
 const DiscountInput = ({ setCoupon, isValid }) => {
-  const setCouponDebounced = useDebounce(value => setCoupon(value), 500)
+  const setCouponDebounced = useDebounce((value) => setCoupon(value), 500)
 
   return (
     <label className={cx(styles.label, styles.label_card)}>
@@ -100,7 +96,7 @@ const Confirmation = ({
   price,
   loading,
   changeSelectedPlan,
-  subscription
+  subscription,
 }) => {
   const [plans] = usePlans()
   const [coupon, setCoupon] = useState('')
@@ -121,8 +117,7 @@ const Confirmation = ({
           />
           <div className={styles.plan__right}>
             <div>
-              <b className={styles.plan__year}>{formatOnlyPrice(price)}</b> /{' '}
-              {billing}
+              <b className={styles.plan__year}>{formatOnlyPrice(price)}</b> / {billing}
             </div>
           </div>
         </div>
@@ -137,10 +132,7 @@ const Confirmation = ({
             const { isValid, percentOff } = error ? {} : getCoupon || {}
             return (
               <>
-                <DiscountInput
-                  isValid={!error && isValid}
-                  setCoupon={setCoupon}
-                />
+                <DiscountInput isValid={!error && isValid} setCoupon={setCoupon} />
                 <div className={styles.hold}>
                   <Icon className={styles.hold__icon} type='info-round' />
                   Holding 1000 SAN tokens will result in a 20% discount.

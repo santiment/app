@@ -5,88 +5,76 @@ export default {
       data: [
         {
           name: 'API calls / minute',
-          texts: [
-            '100 API calls / min',
-            '100 API calls / min',
-            '300 API calls / min'
-          ]
+          texts: ['100 API calls / min', '100 API calls / min', '300 API calls / min'],
         },
         {
           name: 'API calls / hour',
-          texts: [
-            '500 API calls / hour',
-            '1000 API calls / hour',
-            '3000 API calls / hour'
-          ]
+          texts: ['500 API calls / hour', '1000 API calls / hour', '3000 API calls / hour'],
         },
         {
           name: 'API calls / month',
-          texts: [
-            '1K API calls / mo',
-            '5K API calls / mo',
-            '300K API calls / mo'
-          ]
+          texts: ['1K API calls / mo', '5K API calls / mo', '300K API calls / mo'],
         },
         {
           name: 'Browser Tabs',
-          texts: ['N/A', 'Up to 4', 'Unlimited']
-        }
-      ]
+          texts: ['N/A', 'Up to 4', 'Unlimited'],
+        },
+      ],
     },
     {
       group: { name: 'Support' },
       data: [
         {
           name: 'Priority support',
-          checks: [false, true, true]
+          checks: [false, true, true],
         },
         {
           name: 'Dedicated account manager',
-          checks: [false, false, true]
+          checks: [false, false, true],
         },
         {
           name: 'Custom onboarding & education',
-          checks: [false, false, true]
-        }
-      ]
+          checks: [false, false, true],
+        },
+      ],
     },
     {
       group: { name: 'Alerts' },
       data: [
         {
           name: 'Custom Alerts',
-          texts: ['3', '20', 'Unlimited']
+          texts: ['3', '20', 'Unlimited'],
         },
         {
           name: 'Alert durations',
-          texts: ['30 days', 'Unlimited', 'Unlimited']
+          texts: ['30 days', 'Unlimited', 'Unlimited'],
         },
         {
           name: 'Webhooks',
-          checks: [true, true, true]
-        }
-      ]
+          checks: [true, true, true],
+        },
+      ],
     },
     {
       group: { name: 'Integrations' },
       data: [
         {
           name: 'Google Sheets Plugin',
-          checks: [false, true, true]
+          checks: [false, true, true],
         },
         {
           name: 'CSV',
-          checks: [false, true, true]
+          checks: [false, true, true],
         },
         {
           name: 'Telegram',
-          checks: [true, true, true]
-        }
-      ]
+          checks: [true, true, true],
+        },
+      ],
     },
     {
       group: { name: 'Financial data' },
-      data: [{ name: 'Price' }, { name: 'Marketcap' }, { name: 'Volume' }]
+      data: [{ name: 'Price' }, { name: 'Marketcap' }, { name: 'Volume' }],
     },
     {
       group: { name: 'On-chain data' },
@@ -100,24 +88,20 @@ export default {
         { name: 'Top transactions dashboard' },
         { name: 'Velocity' },
         {
-          name:
-            'Circulation (1d, 7d, 30d, 60d, 90d, 180d, 365d, 2y, 3y, 5y, 10y)'
+          name: 'Circulation (1d, 7d, 30d, 60d, 90d, 180d, 365d, 2y, 3y, 5y, 10y)',
         },
         { name: 'Age consumed' },
         {
-          name:
-            'Dormant circulation (1d, 7d, 30d, 60d, 90d, 180d, 365d, 2y, 3y, 5y, 10y)'
+          name: 'Dormant circulation (1d, 7d, 30d, 60d, 90d, 180d, 365d, 2y, 3y, 5y, 10y)',
         },
         { name: 'Mean Coin Age' },
         { name: 'Mean Dollar Invested Age' },
         {
-          name:
-            'MVRV ratio (intraday, 1d, 7d, 30d, 60d, 90d, 180d, 365d, 2y, 3y, 5y, 10y)'
+          name: 'MVRV ratio (intraday, 1d, 7d, 30d, 60d, 90d, 180d, 365d, 2y, 3y, 5y, 10y)',
         },
         { name: 'MVRV Long/Short difference' },
         {
-          name:
-            'Realized cap (1d, 7d, 30d, 60d, 90d, 180d, 365d, 2y, 3y, 5y, 10y)'
+          name: 'Realized cap (1d, 7d, 30d, 60d, 90d, 180d, 365d, 2y, 3y, 5y, 10y)',
         },
         { name: 'Network realized profit/loss' },
         { name: 'NVT ratio (using transaction volume)' },
@@ -146,15 +130,12 @@ export default {
         { name: 'Decentralized exchanges (dex-specific volume)' },
         { name: 'Decentralized exchanges (total number of trades)' },
         { name: 'Decentralized exchanges (dex-specific number of trades)' },
-        { name: 'ETH spent over time (ETH and ERC-20 projects)' }
-      ]
+        { name: 'ETH spent over time (ETH and ERC-20 projects)' },
+      ],
     },
     {
       group: { name: 'Development metrics' },
-      data: [
-        { name: 'Development activity' },
-        { name: 'Development contributors count' }
-      ]
+      data: [{ name: 'Development activity' }, { name: 'Development contributors count' }],
     },
     {
       group: { name: 'Social metrics' },
@@ -168,9 +149,9 @@ export default {
         { name: 'Topic Search' },
         {
           name: 'Social Trends (Top 10 hyped trends right now)',
-          checks: [false, true, true]
-        }
-      ]
-    }
-  ]
+          checks: [false, true, true],
+        },
+      ],
+    },
+  ],
 }

@@ -20,7 +20,7 @@ const MobileFullscreenChart = ({
   timeRange,
   onChangeTimeRange,
   chartProps,
-  metricsToolProps
+  metricsToolProps,
 }) => {
   const [landscapeMode, setLandscapeMode] = useState(checkLandscapeMode())
 
@@ -33,7 +33,7 @@ const MobileFullscreenChart = ({
     }
   })
 
-  const toggleFullScreen = isOpen => {
+  const toggleFullScreen = (isOpen) => {
     toggleOpen(isOpen)
 
     if (document.body.requestFullscreen) {
@@ -47,7 +47,7 @@ const MobileFullscreenChart = ({
         if (landscapeMode) {
           window.screen.orientation.unlock()
         }
-        document.exitFullscreen().catch(err => console.log(err))
+        document.exitFullscreen().catch((err) => console.log(err))
       }
     } else {
       setOrientation()
@@ -78,10 +78,8 @@ const MobileFullscreenChart = ({
         classes={{ wrapper: styles.modal }}
         open={isOpen}
       >
-        {closeModal => (
-          <section
-            className={cx(styles.wrapper, !landscapeMode && styles.dark)}
-          >
+        {(closeModal) => (
+          <section className={cx(styles.wrapper, !landscapeMode && styles.dark)}>
             <div className={styles.top}>
               <Button
                 onClick={() => {
@@ -92,9 +90,7 @@ const MobileFullscreenChart = ({
               >
                 <Icon type='close-medium' />
               </Button>
-              {landscapeMode && (
-                <Title slug={project.name} ticker={project.ticker} />
-              )}
+              {landscapeMode && <Title slug={project.name} ticker={project.ticker} />}
             </div>
             {landscapeMode ? (
               <>
@@ -116,8 +112,7 @@ const MobileFullscreenChart = ({
               </>
             ) : (
               <span className={styles.message}>
-                Please, turn your phone horizontally and unlock rotation to see
-                a fullscreen chart
+                Please, turn your phone horizontally and unlock rotation to see a fullscreen chart
               </span>
             )}
           </section>

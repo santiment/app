@@ -4,10 +4,10 @@ import { Node } from '../../Chart/nodes'
 import {
   getIntervals,
   getValidInterval,
-  getCandlesMinInterval
+  getCandlesMinInterval,
 } from '../Chart/MetricSettings/hooks'
 
-export function useCandleMetricSettings (MetricSettingMap, { from, to }) {
+export function useCandleMetricSettings(MetricSettingMap, { from, to }) {
   return useMemo(() => {
     MetricSettingMap.forEach((MetricSettings, metric) => {
       if (MetricSettings.node !== Node.CANDLES) {
@@ -18,7 +18,7 @@ export function useCandleMetricSettings (MetricSettingMap, { from, to }) {
 
       const validInterval = getValidInterval(
         MetricSettings.interval,
-        getIntervals(getCandlesMinInterval(from, to))
+        getIntervals(getCandlesMinInterval(from, to)),
       )
 
       MetricSettings.query = PRICE_OHLC_QUERY

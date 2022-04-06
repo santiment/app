@@ -23,15 +23,13 @@ const WatchlistEdit = ({
   data: { allProjects },
   id,
   sendChanges,
-  watchlist
+  watchlist,
 }) => {
   const { isAuthor } = useIsAuthor(watchlist)
   const [isShown, setIsShown] = useState(false)
   const [isEditing, setEditing] = useState(false)
   const [listItems, setListItems] = useState(assets)
-  const [editWatchlistState, setEditWatchlistState] = useState(
-    editableWatchlists
-  )
+  const [editWatchlistState, setEditWatchlistState] = useState(editableWatchlists)
   const [cachedAssets, setCachedAssets] = useState()
 
   const close = () => {
@@ -49,9 +47,7 @@ const WatchlistEdit = ({
   const toggleAsset = ({ project, listItems, isAssetInList }) => {
     if (!isEditing) setEditing(true)
     setListItems(
-      isAssetInList
-        ? listItems.filter(({ id }) => id !== project.id)
-        : [...listItems, project]
+      isAssetInList ? listItems.filter(({ id }) => id !== project.id) : [...listItems, project],
     )
   }
 
@@ -73,8 +69,8 @@ const WatchlistEdit = ({
                   }}
                 />
               ),
-              dismissAfter: 8000
-            })
+              dismissAfter: 8000,
+            }),
           )
         })
       close()
@@ -88,13 +84,7 @@ const WatchlistEdit = ({
   }
 
   return (
-    <Dialog
-      title={`Edit "${name}"`}
-      trigger={trigger}
-      onOpen={open}
-      onClose={close}
-      open={isShown}
-    >
+    <Dialog title={`Edit "${name}"`} trigger={trigger} onOpen={open} onClose={close} open={isShown}>
       <Dialog.ScrollContent className={styles.wrapper}>
         <SearchProjects
           noTrends
@@ -105,7 +95,7 @@ const WatchlistEdit = ({
             toggleAsset({
               project,
               listItems,
-              isAssetInList: hasAssetById({ listItems, id: project.id })
+              isAssetInList: hasAssetById({ listItems, id: project.id }),
             })
           }
           inputProps={{ autoFocus: true }}
@@ -149,20 +139,20 @@ const WatchlistEdit = ({
 
 const mapStateToProps = ({ watchlistUi }) => ({ watchlistUi })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   sendChanges: ({ assetsListId, listItems }) =>
     dispatch({
       type: USER_EDIT_ASSETS_IN_LIST,
-      payload: { assetsListId, listItems, currentId: assetsListId }
-    })
+      payload: { assetsListId, listItems, currentId: assetsListId },
+    }),
 })
 
 export default compose(
   graphql(ALL_PROJECTS_FOR_SEARCH_QUERY, {
     options: () => ({
       context: { isRetriable: true },
-      variables: { minVolume: 0 }
-    })
+      variables: { minVolume: 0 },
+    }),
   }),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(WatchlistEdit)

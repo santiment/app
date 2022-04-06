@@ -42,24 +42,22 @@ const KeyStats = ({ slug, project, isERC20, loading }) => {
         )}
       </div>
 
-      {!loading &&
-        project.tokenTopTransactions &&
-        project.tokenTopTransactions.length > 0 && (
-          <>
+      {!loading && project.tokenTopTransactions && project.tokenTopTransactions.length > 0 && (
+        <>
+          <div className={styles.info}>
+            <DetailedTransactionsTable
+              project={project}
+              title={`Top ${ticker} transactions, 30d`}
+              show='tokenTopTransactions'
+            />
+          </div>
+          {isERC20 && (
             <div className={styles.info}>
-              <DetailedTransactionsTable
-                project={project}
-                title={`Top ${ticker} transactions, 30d`}
-                show='tokenTopTransactions'
-              />
+              <DetailedTransactionsTable project={project} />
             </div>
-            {isERC20 && (
-              <div className={styles.info}>
-                <DetailedTransactionsTable project={project} />
-              </div>
-            )}
-          </>
-        )}
+          )}
+        </>
+      )}
     </>
   )
 }

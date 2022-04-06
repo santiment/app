@@ -25,24 +25,20 @@ const Chart = ({
   togglePriceAsset,
   changeTimePeriod,
   setIsLog,
-  setChartAssets
+  setChartAssets,
 }) => {
   const metrics = useWalletMetrics(chartAssets, priceAssets)
   const axesTicks = useResponsiveTicks(isPhone)
   const sharePath = useMemo(
-    () =>
-      '/labs/balance?' +
-      generateSearchQuery(settings, chartAssets, priceAssets, isLog),
-    [settings, chartAssets, priceAssets, isLog]
+    () => '/labs/balance?' + generateSearchQuery(settings, chartAssets, priceAssets, isLog),
+    [settings, chartAssets, priceAssets, isLog],
   )
 
   return (
     <div className={cx(styles.wrapper, className)}>
       <div className={cx(styles.header, isPhone && styles.header_phone)}>
         <Assets
-          className={
-            isPhone ? styles.settings__assets_phone : styles.settings__assets
-          }
+          className={isPhone ? styles.settings__assets_phone : styles.settings__assets}
           walletAssets={walletAssets}
           chartAssets={chartAssets}
           isLoading={isLoading}
@@ -50,11 +46,7 @@ const Chart = ({
         />
 
         <div className={styles.right}>
-          <DatePicker
-            settings={settings}
-            isPhone={isPhone}
-            changeTimePeriod={changeTimePeriod}
-          />
+          <DatePicker settings={settings} isPhone={isPhone} changeTimePeriod={changeTimePeriod} />
           <ShareButton sharePath={sharePath} />
           <SettingsMenu
             isLog={isLog}

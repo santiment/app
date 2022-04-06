@@ -8,7 +8,7 @@ import { isEthStrictAddress } from '../../../utils/utils'
 import WalletLink from '../../../components/WalletLink/WalletLink'
 import styles from './ProjectsBarChart.module.scss'
 
-export const renderHorizontalLabel = props => {
+export const renderHorizontalLabel = (props) => {
   const { x, y, width, data, index, dataKey } = props
   const item = data[index]
   const value = item[dataKey]
@@ -26,14 +26,14 @@ export const renderHorizontalLabel = props => {
         fontWeight={500}
       >
         {tooltipValueFormatter({
-          value
+          value,
         })}
       </text>
     </g>
   )
 }
 
-export const renderVerticalLabel = props => {
+export const renderVerticalLabel = (props) => {
   const { x, y, width, data, index, dataKey, isDesktop } = props
   const item = data[index]
   const value = item[dataKey]
@@ -51,7 +51,7 @@ export const renderVerticalLabel = props => {
         fontWeight={500}
       >
         {tooltipValueFormatter({
-          value
+          value,
         })}
       </text>
     </g>
@@ -61,16 +61,16 @@ export const renderVerticalLabel = props => {
 export const PREDEFINED_COLORS = {
   tether: '#50AF95',
   'gemini-dollar': '#00DCFA',
-  'binance-usd': '#F0B90B'
+  'binance-usd': '#F0B90B',
 }
 
-export const HorizontalCategoryTick = props => {
+export const HorizontalCategoryTick = (props) => {
   const {
     x,
     y,
     payload: { value },
     data,
-    index
+    index,
   } = props
   const item = data[index] || {}
   const { logoUrl } = item
@@ -84,13 +84,13 @@ export const HorizontalCategoryTick = props => {
   )
 }
 
-export const VerticalCategoryTick = props => {
+export const VerticalCategoryTick = (props) => {
   const {
     x,
     y,
     payload: { value },
     data,
-    index
+    index,
   } = props
   const item = data[index] || {}
   const { logoUrl } = item
@@ -104,7 +104,7 @@ export const VerticalCategoryTick = props => {
   )
 }
 
-export function getProjectsMarkup ({
+export function getProjectsMarkup({
   dataKey,
   data,
   MetricColor,
@@ -113,18 +113,13 @@ export function getProjectsMarkup ({
   barSize,
   maxBarSize = 32,
   labelRenderer = renderHorizontalLabel,
-  isDesktop
+  isDesktop,
 }) {
   return (
-    <Bar
-      dataKey={dataKey}
-      radius={radius}
-      maxBarSize={maxBarSize}
-      barSize={barSize}
-    >
+    <Bar dataKey={dataKey} radius={radius} maxBarSize={maxBarSize} barSize={barSize}>
       <LabelList
         dataKey={dataKey}
-        content={props => labelRenderer({ ...props, data, dataKey, isDesktop })}
+        content={(props) => labelRenderer({ ...props, data, dataKey, isDesktop })}
       />
       {data.map((entry, index) => {
         return (

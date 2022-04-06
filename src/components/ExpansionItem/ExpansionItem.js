@@ -16,11 +16,7 @@ const ExpansionItem = ({ iconType, title, children, isOpen, classes = {} }) => {
       >
         {title}
         <Icon
-          className={cx(
-            styles.arrow,
-            isOpened && styles.arrowOpened,
-            classes.arrow
-          )}
+          className={cx(styles.arrow, isOpened && styles.arrowOpened, classes.arrow)}
           type={iconType || 'arrow-down-big'}
         />
       </div>

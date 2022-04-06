@@ -17,7 +17,7 @@ const Video = ({ url, imageUrl, title }) => {
     iframe.setAttribute('allow', 'autoplay')
     iframe.setAttribute(
       'src',
-      `https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding&showinfo=0&autoplay=1`
+      `https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding&showinfo=0&autoplay=1`,
     )
     videoRef.current.appendChild(iframe)
     setIsActivated(true)
@@ -32,9 +32,7 @@ const Video = ({ url, imageUrl, title }) => {
       <div className={styles.preview}>
         <img
           className={styles.preview__img}
-          src={
-            imageUrl || `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`
-          }
+          src={imageUrl || `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`}
           alt={title}
         />
         <YoutubeButton />

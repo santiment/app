@@ -1,9 +1,9 @@
-export function initHistory (chart) {
+export function initHistory(chart) {
   const { canvas, ctx } = chart
   const history = []
   let cursor = -1
 
-  function save () {
+  function save() {
     if (++cursor < history.length) {
       history.length = cursor
     }
@@ -11,7 +11,7 @@ export function initHistory (chart) {
     history.push(canvas.toDataURL())
   }
 
-  function undo () {
+  function undo() {
     if (cursor < 0) return
 
     redraw()
@@ -19,7 +19,7 @@ export function initHistory (chart) {
     cursor -= 1
   }
 
-  function redo () {
+  function redo() {
     if (cursor > history.length - 1) return
 
     redraw()
@@ -27,7 +27,7 @@ export function initHistory (chart) {
     cursor += 1
   }
 
-  function redraw () {
+  function redraw() {
     const savedCtx = new Image()
     savedCtx.src = history[cursor]
     savedCtx.onload = () => ctx.drawImage(savedCtx, 0, 0)
@@ -36,6 +36,6 @@ export function initHistory (chart) {
   return {
     save,
     undo,
-    redo
+    redo,
   }
 }

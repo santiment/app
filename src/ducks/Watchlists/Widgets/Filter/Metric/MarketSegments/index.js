@@ -18,7 +18,7 @@ import styles from './index.module.scss'
 const DEFAULT_SETTINGS = {
   market_segments: [],
   market_segments_combinator: 'and',
-  isActive: false
+  isActive: false,
 }
 
 const MarketSegments = ({
@@ -27,22 +27,17 @@ const MarketSegments = ({
   defaultSettings,
   isNoFilters,
   updMetricInFilter,
-  toggleMetricInFilter
+  toggleMetricInFilter,
 }) => {
   const [segments, loading] = useAvailableSegments()
-  const {
-    settings,
-    setSettings,
-    selectSuggest,
-    clickCheckbox
-  } = useMetricSettings(defaultSettings)
+  const { settings, setSettings, selectSuggest, clickCheckbox } = useMetricSettings(defaultSettings)
   const [search, setSearch] = useState('')
 
   const hasActiveSegments = settings.market_segments.length > 0
   const isANDCombinator = settings.market_segments_combinator === 'and'
   const filteredSegments = useMemo(
     () => filterValuesBySearch(search, segments, 'name'),
-    [search, segments]
+    [search, segments],
   )
 
   useEffect(() => {
@@ -58,7 +53,7 @@ const MarketSegments = ({
 
       const newFilter = {
         args: { market_segments_combinator, market_segments },
-        name: 'market_segments'
+        name: 'market_segments',
       }
 
       if (hasActiveSegments) {
@@ -75,20 +70,20 @@ const MarketSegments = ({
     }
   }, [settings])
 
-  function onToggleMode (combinator) {
-    setSettings(state => ({ ...state, market_segments_combinator: combinator }))
+  function onToggleMode(combinator) {
+    setSettings((state) => ({ ...state, market_segments_combinator: combinator }))
   }
 
-  function onToggleSegment (segment) {
+  function onToggleSegment(segment) {
     const selectedSegmentsSet = new Set(settings.market_segments)
 
     if (!selectedSegmentsSet.delete(segment)) {
       selectedSegmentsSet.add(segment)
     }
 
-    setSettings(state => ({
+    setSettings((state) => ({
       ...state,
-      market_segments: [...selectedSegmentsSet]
+      market_segments: [...selectedSegmentsSet],
     }))
   }
 
@@ -102,9 +97,7 @@ const MarketSegments = ({
         onCheckboxClicked={clickCheckbox}
         customStateText={
           settings.isActive && hasActiveSegments
-            ? `shows ${
-                isANDCombinator ? 'all' : 'at least one'
-              } of selected groups`
+            ? `shows ${isANDCombinator ? 'all' : 'at least one'} of selected groups`
             : ''
         }
       />
@@ -113,21 +106,14 @@ const MarketSegments = ({
           {settings.market_segments.map((name, idx) => (
             <Fragment key={idx}>
               <div
-                className={cx(
-                  styles.label,
-                  isViewMode && styles.label__viewMode
-                )}
+                className={cx(styles.label, isViewMode && styles.label__viewMode)}
                 onClick={() => onToggleSegment(name)}
               >
                 {name}
-                {!isViewMode && (
-                  <Icon type='close-small' className={styles.label__close} />
-                )}
+                {!isViewMode && <Icon type='close-small' className={styles.label__close} />}
               </div>
               {settings.market_segments.length !== idx + 1 && (
-                <span className={styles.operator}>
-                  {isANDCombinator ? 'and' : 'or'}
-                </span>
+                <span className={styles.operator}>{isANDCombinator ? 'and' : 'or'}</span>
               )}
             </Fragment>
           ))}
@@ -148,7 +134,7 @@ const MarketSegments = ({
                   icon='arrow-down'
                   iconPosition='right'
                   placeholder='Choose market segments'
-                  onChange={evt => {
+                  onChange={(evt) => {
                     const { value } = evt.currentTarget
                     setSearch(value)
                   }}
@@ -169,28 +155,19 @@ const MarketSegments = ({
                         <div>
                           <span className={styles.name}>{name}</span>
                         </div>
-                        <div className={cx(styles.action, styles.delete)}>
-                          Remove
-                        </div>
+                        <div className={cx(styles.action, styles.delete)}>Remove</div>
                       </Button>
                     ))}
                   </div>
                 )}
                 <div className={styles.list}>
-                  <Skeleton
-                    repeat={3}
-                    show={loading}
-                    className={styles.loader}
-                  />
+                  <Skeleton repeat={3} show={loading} className={styles.loader} />
                   {filteredSegments.map(({ name, count }, idx) => {
                     const isSelected = settings.market_segments.includes(name)
 
                     return (
                       <Button
-                        className={cx(
-                          styles.item,
-                          isSelected && styles.item__selected
-                        )}
+                        className={cx(styles.item, isSelected && styles.item__selected)}
                         fluid
                         variant='ghost'
                         key={idx}
@@ -200,29 +177,16 @@ const MarketSegments = ({
                           <span className={styles.name}>{name}</span>
                           <span className={styles.count}>({count})</span>
                         </div>
-                        <div
-                          className={cx(
-                            styles.action,
-                            isSelected && styles.selected
-                          )}
-                        >
-                          Add
-                        </div>
+                        <div className={cx(styles.action, isSelected && styles.selected)}>Add</div>
                       </Button>
                     )
                   })}
                 </div>
               </Panel>
             </ContextMenu>
-            <Combinators
-              onSelect={onToggleMode}
-              isANDCombinator={isANDCombinator}
-            />
+            <Combinators onSelect={onToggleMode} isANDCombinator={isANDCombinator} />
           </div>
-          <Suggestions
-            hints={baseMetric.hints}
-            onSuggestionClick={selectSuggest}
-          />
+          <Suggestions hints={baseMetric.hints} onSuggestionClick={selectSuggest} />
         </div>
       )}
     </>
@@ -239,7 +203,7 @@ export default ({ filters, baseMetric, ...props }) => {
       baseMetric={baseMetric}
       defaultSettings={{
         ...DEFAULT_SETTINGS,
-        ...settings
+        ...settings,
       }}
     />
   )

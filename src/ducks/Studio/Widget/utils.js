@@ -12,12 +12,12 @@ export const newWidget = (Widget, props) =>
     {
       Widget,
       id: newId(),
-      chartRef: { current: null }
+      chartRef: { current: null },
     },
-    props
+    props,
   )
 
-export const useMetricNodeOverwrite = MetricSettingMap =>
+export const useMetricNodeOverwrite = (MetricSettingMap) =>
   useMemo(() => {
     const metricNode = {}
 
@@ -33,19 +33,17 @@ export const useMetricNodeOverwrite = MetricSettingMap =>
     return metricNode
   }, [MetricSettingMap])
 
-export const useMirroredTransformer = metrics => {
+export const useMirroredTransformer = (metrics) => {
   const [MetricTransformer, setMetricTransformer] = useState({})
 
   useEffect(() => {
     const metricTransformer = Object.assign({}, MetricTransformer)
 
-    metrics.forEach(metric => {
+    metrics.forEach((metric) => {
       const mirrorOf = MirroredMetric[metric.key]
       if (mirrorOf) {
         const { key, preTransformer } = metric
-        const hasMirror = metrics.some(
-          ({ key: mirrorKey }) => mirrorKey === key
-        )
+        const hasMirror = metrics.some(({ key: mirrorKey }) => mirrorKey === key)
 
         if (hasMirror) {
           metricTransformer[key] = preTransformer
@@ -61,7 +59,7 @@ export const useMirroredTransformer = metrics => {
   return MetricTransformer
 }
 
-export function useWidgetProjectSettings (widget, settings) {
+export function useWidgetProjectSettings(widget, settings) {
   const { from, to } = settings
 
   return useMemo(() => {
@@ -73,12 +71,12 @@ export function useWidgetProjectSettings (widget, settings) {
   }, [from, to])
 }
 
-export function useWidgetMetricLabeling (chartRef, metrics, settings) {
+export function useWidgetMetricLabeling(chartRef, metrics, settings) {
   useEffect(() => {
     const chart = chartRef.current
     if (!chart) return
 
-    const freeMetrics = metrics.filter(m => !m.project)
+    const freeMetrics = metrics.filter((m) => !m.project)
     const oldLabels = new Array(freeMetrics.length)
 
     freeMetrics.forEach((metric, i) => {

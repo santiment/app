@@ -10,7 +10,7 @@ import styles from './OperationSelector.module.scss'
 
 export const ETH_WALLETS_OPERATIONS = {
   AMOUNT_DOWN: 'amount_down',
-  AMOUNT_UP: 'amount_up'
+  AMOUNT_UP: 'amount_up',
 }
 
 export const PRICE_CHANGE_TYPES = {
@@ -22,7 +22,7 @@ export const PRICE_CHANGE_TYPES = {
   ABOVE_OR_EQUAL: 'above_or_equal',
   BELOW_OR_EQUAL: 'below_or_equal',
   BELOW: 'below',
-  PERCENT_SOME_OF: 'some_of'
+  PERCENT_SOME_OF: 'some_of',
 }
 
 const METRIC_TO_SVG = {
@@ -36,7 +36,7 @@ const METRIC_TO_SVG = {
   [PRICE_CHANGE_TYPES.MOVING_DOWN]: movingDownSvg,
   [PRICE_CHANGE_TYPES.PERCENT_SOME_OF]: someOfSvg,
   [ETH_WALLETS_OPERATIONS.AMOUNT_UP]: aboveSvg,
-  [ETH_WALLETS_OPERATIONS.AMOUNT_DOWN]: belowSvg
+  [ETH_WALLETS_OPERATIONS.AMOUNT_DOWN]: belowSvg,
 }
 
 export const formatOptionLabel = ({ label, value }) => {

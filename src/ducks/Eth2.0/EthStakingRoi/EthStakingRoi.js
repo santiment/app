@@ -9,12 +9,7 @@ import styles from './EthStakingRoi.module.scss'
 const ETH2_STAKING_ROI_QUERY = gql`
   query getMetric($from: DateTime!) {
     getMetric(metric: "eth2_roi") {
-      timeseriesData(
-        selector: { slug: "ethereum" }
-        from: $from
-        to: "utc_now"
-        interval: "1d"
-      ) {
+      timeseriesData(selector: { slug: "ethereum" }, from: $from, to: "utc_now", interval: "1d") {
         datetime
         ROI: value
       }
@@ -27,20 +22,20 @@ const FROM = new Date('2020-11-03 00:00:00')
 export const useEthROI = () => {
   const { data, loading, error } = useQuery(ETH2_STAKING_ROI_QUERY, {
     variables: {
-      from: FROM
-    }
+      from: FROM,
+    },
   })
 
   return useMemo(() => {
     return {
       data: data ? data.getMetric.timeseriesData : [],
       loading,
-      error
+      error,
     }
   }, [data, loading, error])
 }
 
-const toPercents = value => (value * 100).toFixed(2)
+const toPercents = (value) => (value * 100).toFixed(2)
 
 const valueFormatter = ({ payload }) => {
   if (!payload || !payload.length) {

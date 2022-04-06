@@ -21,8 +21,8 @@ const Blocks = [
       <div className={styles.feature__link}>Custom crypto dashboards</div>,
       <div className={styles.feature__link}>Backtesting</div>,
       <div className={styles.feature__link}>Trading models</div>,
-      <div className={styles.feature__link}>Full access to our quant lab</div>
-    ]
+      <div className={styles.feature__link}>Full access to our quant lab</div>,
+    ],
   },
   {
     title: 'Education & Onboarding',
@@ -42,9 +42,9 @@ const Blocks = [
       <div className={styles.feature__link}>
         Personalized tutorials, metric use cases and demos
       </div>,
-      <div className={styles.feature__link}>Weekly educational calls</div>
-    ]
-  }
+      <div className={styles.feature__link}>Weekly educational calls</div>,
+    ],
+  },
 ]
 
 const PlanDescriptions = () => (

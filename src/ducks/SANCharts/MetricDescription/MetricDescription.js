@@ -8,8 +8,8 @@ const PROJECT_TICKER_REG = /\[Project Ticker\]/gi
 const getPrepared = (
   description,
   project = {
-    ticker: 'project'
-  }
+    ticker: 'project',
+  },
 ) => {
   if (!description) {
     return description

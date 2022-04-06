@@ -8,12 +8,7 @@ import { DYNAMIC_COLUMNS, pagination } from './utils'
 import styles from './index.module.scss'
 
 const Table = ({ screener }) => {
-  const {
-    orderBy,
-    setOrderBy,
-    activeColumns,
-    setActiveColumnsKeys
-  } = useColumns()
+  const { orderBy, setOrderBy, activeColumns, setActiveColumnsKeys } = useColumns()
 
   useEffect(() => {
     if (screener.tableConfiguration) {
@@ -28,18 +23,16 @@ const Table = ({ screener }) => {
       fn: screener.function,
       pagination,
       orderBy,
-      activeColumns
-    })
+      activeColumns,
+    }),
   )
 
   const defaultSorting = useMemo(
     () => [{ id: orderBy.metric, desc: orderBy.direction === 'desc' }],
-    [orderBy]
+    [orderBy],
   )
 
-  const shownColumns = useMemo(() => [...DEFAULT_COLUMNS, ...activeColumns], [
-    activeColumns
-  ])
+  const shownColumns = useMemo(() => [...DEFAULT_COLUMNS, ...activeColumns], [activeColumns])
 
   return (
     <ScreenerTable
@@ -49,13 +42,13 @@ const Table = ({ screener }) => {
       options={{
         sortingSettings: {
           defaultSorting,
-          allowSort: false
+          allowSort: false,
         },
         paginationSettings: {
           pageSize: assets.length,
           controlledPageCount: 1,
-          manualPagination: true
-        }
+          manualPagination: true,
+        },
       }}
     />
   )

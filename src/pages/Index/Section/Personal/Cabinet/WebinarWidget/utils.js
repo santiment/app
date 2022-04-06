@@ -1,4 +1,4 @@
-export const extractYoutubeId = link => {
+export const extractYoutubeId = (link) => {
   if (!link) {
     return null
   }

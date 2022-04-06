@@ -5,7 +5,7 @@ const RECENT_TRENDS = 'RECENT_TRENDS_SEARCH'
 const RECENT_TEMPLATES = 'RECENT_TEMPLATES'
 const RECENT_MOBILE_METRICS = 'RECENT_MOBILE_METRICS'
 
-const getRecent = type => {
+const getRecent = (type) => {
   const res = localStorage.getItem(type)
   return res ? res.split(',') : []
 }
@@ -38,25 +38,24 @@ export const getRecentTemplates = () => getRecent(RECENT_TEMPLATES)
 // metric keys array
 export const getRecentMetrics = () => getRecent(RECENT_MOBILE_METRICS)
 
-export const addRecentAssets = slug => addRecent(RECENT_ASSETS, slug)
-export const addRecentTrends = word => addRecent(RECENT_TRENDS, word)
-export const addRecentWatchlists = id => addRecent(RECENT_WATCHLISTS, id)
-export const addRecentScreeners = id => addRecent(RECENT_SCREENERS, id)
-export const addRecentTemplate = id =>
-  addRecent(RECENT_TEMPLATES, id.toString())
-export const addRecentMetric = key => addRecent(RECENT_MOBILE_METRICS, key, 6)
+export const addRecentAssets = (slug) => addRecent(RECENT_ASSETS, slug)
+export const addRecentTrends = (word) => addRecent(RECENT_TRENDS, word)
+export const addRecentWatchlists = (id) => addRecent(RECENT_WATCHLISTS, id)
+export const addRecentScreeners = (id) => addRecent(RECENT_SCREENERS, id)
+export const addRecentTemplate = (id) => addRecent(RECENT_TEMPLATES, id.toString())
+export const addRecentMetric = (key) => addRecent(RECENT_MOBILE_METRICS, key, 6)
 
-export const removeRecentWatchlists = id =>
+export const removeRecentWatchlists = (id) =>
   saveRecent(RECENT_WATCHLISTS, removeRecent(RECENT_WATCHLISTS, id))
-export const removeRecentScreeners = id =>
+export const removeRecentScreeners = (id) =>
   saveRecent(RECENT_SCREENERS, removeRecent(RECENT_SCREENERS, id))
-export const removeRecentTrends = word =>
+export const removeRecentTrends = (word) =>
   saveRecent(RECENT_TRENDS, removeRecent(RECENT_TRENDS, word))
-export const removeRecentAssets = asset =>
+export const removeRecentAssets = (asset) =>
   saveRecent(RECENT_ASSETS, removeRecent(RECENT_ASSETS, asset))
-export const removeRecentTemplate = id =>
+export const removeRecentTemplate = (id) =>
   saveRecent(RECENT_TEMPLATES, removeRecent(RECENT_TEMPLATES, id.toString()))
-export const removeRecentMetric = key =>
+export const removeRecentMetric = (key) =>
   saveRecent(RECENT_MOBILE_METRICS, removeRecent(RECENT_MOBILE_METRICS, key), 6)
 
 export const clearRecentTrends = () => saveRecent(RECENT_TRENDS, [])

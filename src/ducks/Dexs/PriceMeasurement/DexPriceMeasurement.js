@@ -7,13 +7,11 @@ export const DEX_BY_USD = { slug: 'multi-collateral-dai', label: 'USD' }
 export const DEX_PRICE_SELECTORS = [
   DEX_BY_USD,
   { slug: 'ethereum', label: 'ETH' },
-  { slug: 'bitcoin', label: 'BTC' }
+  { slug: 'bitcoin', label: 'BTC' },
 ]
 
-export const useDexMeasurement = defaultMeasurement => {
-  const [measurement, setMeasurement] = useState(
-    defaultMeasurement || DEX_BY_USD
-  )
+export const useDexMeasurement = (defaultMeasurement) => {
+  const [measurement, setMeasurement] = useState(defaultMeasurement || DEX_BY_USD)
 
   return { measurement, setMeasurement }
 }
@@ -22,7 +20,7 @@ const DexPriceMeasurement = ({
   ranges = DEX_PRICE_SELECTORS,
   onSelect,
   defaultSelected,
-  className
+  className,
 }) => {
   const defaultIndex = useMemo(() => {
     return ranges.findIndex(({ slug }) => slug === defaultSelected.slug)

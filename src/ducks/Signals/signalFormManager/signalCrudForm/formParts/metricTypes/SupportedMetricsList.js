@@ -13,10 +13,10 @@ import { METRIC } from '../../../../../Studio/Sidebar/Button/types'
 import { useMergedTimeboundSubmetrics } from '../../../../../dataHub/timebounds'
 import metricStyles from './TriggerFormMetricTypes.module.scss'
 
-export function filterOnlyMetrics (submetrics) {
+export function filterOnlyMetrics(submetrics) {
   const result = {}
 
-  Object.keys(submetrics).forEach(key => {
+  Object.keys(submetrics).forEach((key) => {
     result[key] = submetrics[key].filter(({ type }) => !type || type === METRIC)
   })
 
@@ -35,40 +35,35 @@ const getByAvailable = (availableMetrics = DEFAULT_METRICS, trigger) => {
   }
 }
 
-export function useAvailableMetrics (slug) {
+export function useAvailableMetrics(slug) {
   const { data, loading, error } = useQuery(PROJECT_METRICS_BY_SLUG_QUERY, {
     skip: !slug,
     variables: {
-      slug
-    }
+      slug,
+    },
   })
 
   return [
     data
       ? data.project
       : {
-          availableMetrics: DEFAULT_METRICS
+          availableMetrics: DEFAULT_METRICS,
         },
     loading,
-    error
+    error,
   ]
 }
 
-const SupportedMetricsList = ({
-  onSelectMetric,
-  availableMetrics,
-  trigger,
-  slug
-}) => {
+const SupportedMetricsList = ({ onSelectMetric, availableMetrics, trigger, slug }) => {
   const [categories, setCategories] = useState({})
   const isBeta = useIsBetaMode()
 
   const metrics = useMemo(() => {
     return getByAvailable(
-      availableMetrics.some(m => m.includes('nvt'))
+      availableMetrics.some((m) => m.includes('nvt'))
         ? availableMetrics.concat('nvt_5min')
         : availableMetrics,
-      trigger
+      trigger,
     )
   }, [availableMetrics, trigger])
   const AllSubmetrics = useMergedTimeboundSubmetrics(availableMetrics)
@@ -86,16 +81,14 @@ const SupportedMetricsList = ({
     categoriesKeys.length > 0 && (
       <>
         <div className={metricStyles.choose}>
-          <div className={metricStyles.chooseText}>
-            or choose from the group of metrics
-          </div>
+          <div className={metricStyles.chooseText}>or choose from the group of metrics</div>
           <div className={metricStyles.divider} />
         </div>
 
         <Search
           iconPosition='left'
           inputProps={{
-            placeholder: 'Search for a metric'
+            placeholder: 'Search for a metric',
           }}
           toggleMetric={onSelectMetric}
           className={metricStyles.search}
@@ -104,7 +97,7 @@ const SupportedMetricsList = ({
         />
 
         <div className={metricStyles.metrics}>
-          {categoriesKeys.map(key => (
+          {categoriesKeys.map((key) => (
             <MetricsList
               key={key}
               metrikKey={key}

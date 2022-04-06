@@ -8,7 +8,7 @@ export const TriggerModalTitle = ({
   showSharedBtn,
   isError,
   dialogTitle = 'Alert details',
-  isLoggedIn
+  isLoggedIn,
 }) => {
   if (isError) {
     return null
@@ -26,13 +26,7 @@ export const TriggerModalTitle = ({
   )
 }
 
-export const signalModalTrigger = (
-  enabled,
-  label,
-  variant = 'fill',
-  border = false,
-  classes
-) => (
+export const signalModalTrigger = (enabled, label, variant = 'fill', border = false, classes) => (
   <Button
     variant={variant}
     border={border}

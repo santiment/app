@@ -8,7 +8,7 @@ import {
   PRICE_ABSOLUTE_CHANGE,
   PRICE_PERCENT_CHANGE,
   PRICE_VOLUME_DIFFERENCE,
-  SIGNAL_METRIC_TYPES
+  SIGNAL_METRIC_TYPES,
 } from '../../../ducks/Signals/utils/constants'
 import styles from './SignalControls.module.scss'
 

@@ -6,12 +6,10 @@ import styles from './index.module.scss'
 const LineActions = ({ chartRef, selectedLineState }) => {
   const [selectedLine, setSelectedLine] = selectedLineState
 
-  function onDelete () {
+  function onDelete() {
     const { drawer } = chartRef.current
     drawer.selected = null
-    drawer.drawings = drawer.drawings.filter(
-      drawing => drawing !== selectedLine
-    )
+    drawer.drawings = drawer.drawings.filter((drawing) => drawing !== selectedLine)
     setSelectedLine()
     drawer.redraw()
   }

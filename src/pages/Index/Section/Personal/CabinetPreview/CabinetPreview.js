@@ -8,7 +8,7 @@ import styles from './CabinetPreview.module.scss'
 
 const TABS = {
   GUIDE: 0,
-  CABINET: 1
+  CABINET: 1,
 }
 
 const TOGGLE_KEY = 'CABINET-TOGGLE-KEY'
@@ -20,7 +20,7 @@ const CabinetPreview = () => {
 
   const [hidden, setHidden] = useState(updateState)
 
-  function toggle () {
+  function toggle() {
     const newValue = !hidden
     setHidden(newValue)
 

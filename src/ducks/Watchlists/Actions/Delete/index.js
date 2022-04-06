@@ -12,9 +12,9 @@ const WatchlistDeleteDialog = ({ type, ...props }) => {
   return <ConfirmDialog title={title} {...props} onApprove={onDelete} />
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    redirect: () => dispatch(push('/assets'))
+    redirect: () => dispatch(push('/assets')),
   }
 }
 

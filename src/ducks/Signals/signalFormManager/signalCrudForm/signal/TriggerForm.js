@@ -12,7 +12,7 @@ import {
   MIN_TITLE_LENGTH,
   MAX_TITLE_LENGTH,
   TRIGGER_FORM_STEPS,
-  COMMON_PROPS_FOR_METRIC
+  COMMON_PROPS_FOR_METRIC,
 } from '../../../utils/constants'
 import {
   couldShowChart,
@@ -21,16 +21,14 @@ import {
   getDefaultFormValues,
   titleMetricValuesHeader,
   getNewTitle,
-  getNewDescription
+  getNewDescription,
 } from '../../../utils/utils'
 import { TriggerFormMetricValues } from '../formParts/TriggerFormMetricValues'
 import TriggerFormMetricTypes from '../formParts/metricTypes/TriggerFormMetricTypes'
 import { TriggerFormFrequency } from '../formParts/TriggerFormFrequency'
 import SignalPreview from '../../../chart/preview/SignalPreview'
 import TriggerMetricTypesResolver from '../formParts/TriggerMetricTypesResolver'
-import TriggerFormBlock, {
-  TriggerFormBlockDivider
-} from '../formParts/block/TriggerFormBlock'
+import TriggerFormBlock, { TriggerFormBlockDivider } from '../formParts/block/TriggerFormBlock'
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
 import TriggerFormChannels from '../formParts/channels/TriggerFormChannels'
 import FormikCheckbox from '../../../../../components/formik-santiment-ui/FormikCheckbox'
@@ -52,7 +50,7 @@ const propTypes = {
   onSettingsChange: PropTypes.func.isRequired,
   settings: PropTypes.any,
   metaFormSettings: PropTypes.any,
-  triggerMeta: PropTypes.any
+  triggerMeta: PropTypes.any,
 }
 
 export const TriggerForm = ({
@@ -62,7 +60,7 @@ export const TriggerForm = ({
   metaFormSettings,
   formChangedCallback,
   isShared,
-  setTitle
+  setTitle,
 }) => {
   const isNew = !id
   const [initialValues, setInitialValues] = useState(settings)
@@ -92,16 +90,16 @@ export const TriggerForm = ({
   }, [initialValues.isPublic])
 
   const validateAndSetStep = useCallback(
-    newStep => {
+    (newStep) => {
       if (isNew) {
         newStep > step && setStep(newStep)
       }
     },
-    [isNew, step, setStep]
+    [isNew, step, setStep],
   )
 
   const {
-    settings: { isTelegramAllowAlerts, isEmailAllowAlerts }
+    settings: { isTelegramAllowAlerts, isEmailAllowAlerts },
   } = useUserSettings()
 
   return (
@@ -110,7 +108,7 @@ export const TriggerForm = ({
       isInitialValid={!isNew}
       enableReinitialize
       validate={validateTriggerForm}
-      onSubmit={values => {
+      onSubmit={(values) => {
         onSettingsChange(values)
       }}
     >
@@ -122,7 +120,7 @@ export const TriggerForm = ({
         handleBlur,
         setFieldValue,
         isValid,
-        validateForm
+        validateForm,
       }) => {
         const {
           metric,
@@ -135,17 +133,14 @@ export const TriggerForm = ({
           ethAddress,
           isPublic,
           description,
-          channels = []
+          channels = [],
         } = values
 
         const mappedTrigger = mapFormPropsToTrigger(values)
 
-        const showChart =
-          (target || targetWatchlist) && couldShowChart(mappedTrigger.settings)
+        const showChart = (target || targetWatchlist) && couldShowChart(mappedTrigger.settings)
 
-        const typeSelectors = metric.key
-          ? COMMON_PROPS_FOR_METRIC
-          : METRIC_TO_TYPES[metric.value]
+        const typeSelectors = metric.key ? COMMON_PROPS_FOR_METRIC : METRIC_TO_TYPES[metric.value]
 
         const showTypes = typeSelectors && typeSelectors.length > 1
 
@@ -157,12 +152,11 @@ export const TriggerForm = ({
           validateAndSetStep(TRIGGER_FORM_STEPS.DESCRIPTION)
         }
 
-        const isValidForm =
-          isValid || !errors || Object.keys(errors).length === 0
+        const isValidForm = isValid || !errors || Object.keys(errors).length === 0
 
         const showDivider = showTypes || metricValueBlocks
 
-        function toggleSignalPublic (isPublicTarget) {
+        function toggleSignalPublic(isPublicTarget) {
           if (isPublicTarget !== isPublic) {
             setFieldValue('isPublic', isPublicTarget)
           }
@@ -181,23 +175,18 @@ export const TriggerForm = ({
                     newValues.type.value !== prev.values.type.value
 
                   if (changedMetric) {
-                    setInitialValues(
-                      getDefaultFormValues(newValues, prev.values.metric)
-                    )
+                    setInitialValues(getDefaultFormValues(newValues, prev.values.metric))
                   }
 
                   validateForm()
 
                   if (isNew && !isShared) {
-                    !newValues.titleChangedByUser &&
-                      setFieldValue('title', getNewTitle(newValues))
+                    !newValues.titleChangedByUser && setFieldValue('title', getNewTitle(newValues))
                     !newValues.descriptionChangedByUser &&
                       setFieldValue('description', getNewDescription(newValues))
                   }
 
-                  canCallFormChangCallback &&
-                    formChangedCallback &&
-                    formChangedCallback(true)
+                  canCallFormChangCallback && formChangedCallback && formChangedCallback(true)
                 }
               }}
             />
@@ -241,16 +230,8 @@ export const TriggerForm = ({
                   {showChart && (
                     <>
                       {showDivider && <TriggerFormBlockDivider />}
-                      <div
-                        className={cx(
-                          styles.preview,
-                          showDivider && styles.previewWithDiviver
-                        )}
-                      >
-                        <SignalPreview
-                          trigger={mappedTrigger}
-                          type={metric.value}
-                        />
+                      <div className={cx(styles.preview, showDivider && styles.previewWithDiviver)}>
+                        <SignalPreview trigger={mappedTrigger} type={metric.value} />
                       </div>
                     </>
                   )}
@@ -305,11 +286,9 @@ export const TriggerForm = ({
                           <RadioBtns
                             options={['Public', 'Private']}
                             labelOnRight
-                            defaultSelectedIndex={
-                              isPublic ? 'Public' : 'Private'
-                            }
+                            defaultSelectedIndex={isPublic ? 'Public' : 'Private'}
                             passSelectionIndexToItem
-                            onSelect={value => {
+                            onSelect={(value) => {
                               toggleSignalPublic(value === 'Public')
                             }}
                             labelClassName={styles.checkboxLabel}
@@ -328,9 +307,7 @@ export const TriggerForm = ({
                         minLength={MIN_TITLE_LENGTH}
                         maxLength={MAX_TITLE_LENGTH}
                         placeholder='Name of the alert'
-                        onChange={() =>
-                          setFieldValue('titleChangedByUser', true)
-                        }
+                        onChange={() => setFieldValue('titleChangedByUser', true)}
                       />
                     </div>
                   </div>

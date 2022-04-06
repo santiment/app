@@ -6,20 +6,20 @@ import styles from './index.module.scss'
 
 const settings = {
   assets: ['uniswap'],
-  priceMetrics: ['uniswap']
+  priceMetrics: ['uniswap'],
 }
 
 const TrxAddressCell = ({
   value,
   row: {
-    original: { labels }
-  }
+    original: { labels },
+  },
 }) => {
-  const transformedLabels = labels.map(label => ({ name: label }))
+  const transformedLabels = labels.map((label) => ({ name: label }))
   return <WalletLink address={value} {...settings} labels={transformedLabels} />
 }
 
-function CellWithLoader ({ value = '' }) {
+function CellWithLoader({ value = '' }) {
   if (value === '') {
     return <Loader className={styles.loader} />
   } else {
@@ -30,8 +30,8 @@ function CellWithLoader ({ value = '' }) {
 export const DEFAULT_SORTING = [
   {
     id: 'value',
-    desc: true
-  }
+    desc: true,
+  },
 ]
 
 export const COLUMNS = [
@@ -39,26 +39,26 @@ export const COLUMNS = [
     Header: 'Address',
     accessor: 'address',
     Cell: TrxAddressCell,
-    disableSortBy: true
+    disableSortBy: true,
   },
   {
     Header: 'Claimed in interval',
     accessor: 'value',
-    Cell: ({ value }) => formatNumber(value)
+    Cell: ({ value }) => formatNumber(value),
   },
   {
     Header: 'Current balance',
     accessor: 'balance',
-    Cell: CellWithLoader
+    Cell: CellWithLoader,
   },
   {
     Header: 'Transaction Volume In',
     accessor: 'volumeInflow',
-    Cell: CellWithLoader
+    Cell: CellWithLoader,
   },
   {
     Header: 'Transaction Volume Out',
     accessor: 'volumeOutflow',
-    Cell: CellWithLoader
-  }
+    Cell: CellWithLoader,
+  },
 ]

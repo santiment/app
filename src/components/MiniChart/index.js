@@ -11,7 +11,7 @@ const MiniChart = ({
   height,
   gradientId,
   gradientColor,
-  gradientOpacity
+  gradientOpacity,
 }) => {
   const [linePoints, areaPoints] = useMemo(() => {
     const dataLength = data.length
@@ -20,7 +20,7 @@ const MiniChart = ({
     let min = data[0][valueKey]
     let max = data[0][valueKey]
 
-    data.forEach(item => {
+    data.forEach((item) => {
       const value = item[valueKey]
       if (value < min) {
         min = value
@@ -38,36 +38,24 @@ const MiniChart = ({
     const yAxisFactor = height / (max - min)
 
     const points = data.map(
-      (item, index) =>
-        `${index * xAxisFactor},${(max - item[valueKey]) * yAxisFactor}`
+      (item, index) => `${index * xAxisFactor},${(max - item[valueKey]) * yAxisFactor}`,
     )
     const [startX, startY] = points[0].split(',')
     const [lastX] = points[dataLength - 1].split(',')
 
     const linePoints = points.join(' ')
-    return [
-      linePoints,
-      `${linePoints} ${lastX},${height} ${startX},${height}, ${startX},${startY}`
-    ]
+    return [linePoints, `${linePoints} ${lastX},${height} ${startX},${height}, ${startX},${startY}`]
   }, [data])
 
   return (
     <svg
       viewBox={`0 0 ${width} ${height}`}
       height={height}
-      className={cx(
-        styles.chart,
-        change > 0 && styles.chart_positive,
-        className
-      )}
+      className={cx(styles.chart, change > 0 && styles.chart_positive, className)}
     >
       <defs>
         <linearGradient id={gradientId} x1='0' x2='0' y1='0' y2='2'>
-          <stop
-            offset='0%'
-            stopColor={`var(--${gradientColor})`}
-            stopOpacity={gradientOpacity}
-          />
+          <stop offset='0%' stopColor={`var(--${gradientColor})`} stopOpacity={gradientOpacity} />
           <stop offset='60%' stopColor='var(--white)' stopOpacity='0' />
         </linearGradient>
         <linearGradient id='positive-change' x1='0' x2='0' y1='0' y2='2'>
@@ -87,7 +75,7 @@ MiniChart.defaultProps = {
   height: 32,
   gradientId: 'negative-change',
   gradientColor: 'persimmon',
-  gradientOpacity: '0.3'
+  gradientOpacity: '0.3',
 }
 
 export default MiniChart

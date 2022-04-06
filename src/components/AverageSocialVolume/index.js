@@ -33,12 +33,9 @@ const AverageSocialVolume = ({ hasPremium, ...props }) => {
           align='end'
         >
           <Panel className={styles.panel}>
-            {PERIODS.map(item => (
+            {PERIODS.map((item) => (
               <span
-                className={cx(
-                  styles.period,
-                  item.label === period.label && styles.selected
-                )}
+                className={cx(styles.period, item.label === period.label && styles.selected)}
                 key={item.label}
                 onClick={() => setPeriod(item)}
               >

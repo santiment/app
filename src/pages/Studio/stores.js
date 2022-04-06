@@ -9,22 +9,22 @@ import { useTheme } from '../../stores/ui/theme'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 
 export const getSvelteContext = (cmp, ctx) => cmp && cmp.$$.context.get(ctx)
-export function useStore (store, immute = _ => _, setStoreRef) {
+export function useStore(store, immute = (_) => _, setStoreRef) {
   const [state, setState] = useState(() => (store ? get(store) : []))
   if (setStoreRef) setStoreRef.current = setState
 
   useEffect(
     () =>
       store &&
-      store.subscribe(value => {
+      store.subscribe((value) => {
         setState(immute(value))
       }),
-    [store]
+    [store],
   )
   return state
 }
 
-export function useGlobalsUpdater () {
+export function useGlobalsUpdater() {
   const theme = useTheme()
   const { isLoggedIn } = useUser()
   const userInfo = useUserSubscriptionStatus()
@@ -40,23 +40,21 @@ export function useGlobalsUpdater () {
   }, [userInfo, isLoggedIn, theme, isBeta])
 }
 
-const settingsImmute = store => Object.assign({}, store)
+const settingsImmute = (store) => Object.assign({}, store)
 export const useSettings = () => useStore(studio, settingsImmute)
-export const useLockedAssetStore = studio =>
-  getSvelteContext(studio, LOCKED_ASSET_CONTEXT)
-export const useLockedAsset = LockedAssetStore =>
-  useStore(LockedAssetStore, settingsImmute)
+export const useLockedAssetStore = (studio) => getSvelteContext(studio, LOCKED_ASSET_CONTEXT)
+export const useLockedAsset = (LockedAssetStore) => useStore(LockedAssetStore, settingsImmute)
 
-const widgetsImmute = store => store.slice()
-export const useWidgetsStore = studio => getSvelteContext(studio, 'widgets')
+const widgetsImmute = (store) => store.slice()
+export const useWidgetsStore = (studio) => getSvelteContext(studio, 'widgets')
 export const useWidgets = (studio, setWidgetsRef) =>
   useStore(useWidgetsStore(studio), widgetsImmute, setWidgetsRef) || []
 
-const flat = array =>
+const flat = (array) =>
   array.flat ? array.flat() : array.reduce((acc, val) => acc.concat(val), [])
 
 const noop = () => {}
-export function useStudioMetrics (studio) {
+export function useStudioMetrics(studio) {
   const widgets = useWidgets(studio)
   const [metrics, setMetrics] = useState([])
 
@@ -67,22 +65,22 @@ export function useStudioMetrics (studio) {
     widgets.forEach((widget, i) => {
       if (!widget.Metrics) return (unsubs[i] = noop)
 
-      unsubs[i] = widget.Metrics.subscribe(metrics => {
+      unsubs[i] = widget.Metrics.subscribe((metrics) => {
         WidgetMetric[widget.id] = metrics
         updateMetrics()
       })
     })
 
-    function updateMetrics () {
+    function updateMetrics() {
       const metrics = flat(Object.values(WidgetMetric))
       setMetrics(Array.from(new Set(metrics)))
     }
 
-    const unsubscribe = unsub => unsub()
+    const unsubscribe = (unsub) => unsub()
     return () => unsubs.forEach(unsubscribe)
   }, [widgets])
 
   return metrics
 }
 
-export const useHistory = studio => getSvelteContext(studio, HISTORY_CONTEXT)
+export const useHistory = (studio) => getSvelteContext(studio, HISTORY_CONTEXT)

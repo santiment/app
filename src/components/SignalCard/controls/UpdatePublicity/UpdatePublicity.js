@@ -12,7 +12,7 @@ const UpdatePublicity = ({ signal, updateAlert, ...props }) => {
         setActive(!isActive)
         updateAlert({
           ...signal,
-          isPublic: !isActive
+          isPublic: !isActive,
         })
       }}
       isActive={isActive}
@@ -21,10 +21,10 @@ const UpdatePublicity = ({ signal, updateAlert, ...props }) => {
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  updateAlert: payload => {
+const mapDispatchToProps = (dispatch) => ({
+  updateAlert: (payload) => {
     dispatch(updateTrigger(payload))
-  }
+  },
 })
 
 export default connect(null, mapDispatchToProps)(UpdatePublicity)

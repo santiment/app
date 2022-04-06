@@ -20,15 +20,9 @@ const FilterMetricState = ({
   metric,
   settings,
   customStateText = '',
-  isFinishedState
+  isFinishedState,
 }) => {
-  const {
-    key,
-    descriptionKey,
-    label,
-    isOnlyPercentFilters,
-    isDeprecated
-  } = metric
+  const { key, descriptionKey, label, isOnlyPercentFilters, isDeprecated } = metric
   const metricForDescription = Metric[descriptionKey || key] || EMPTY_OBJ
   const isPaywalled = isOnlyPercentFilters && !isPro
   const isDisabled = isViewMode && !isActive
@@ -43,7 +37,7 @@ const FilterMetricState = ({
           styles.toggle,
           isDisabled && styles.toggle__disabled,
           isPaywalled && !isViewMode && styles.toggle__disabled,
-          isViewMode && styles.toggle__notActive
+          isViewMode && styles.toggle__notActive,
         )}
       >
         <Checkbox
@@ -70,12 +64,7 @@ const FilterMetricState = ({
           )}
         </div>
       </div>
-      <MetricExplanation
-        on='click'
-        metric={metricForDescription}
-        position='bottom'
-        align='end'
-      >
+      <MetricExplanation on='click' metric={metricForDescription} position='bottom' align='end'>
         <Icon type='info-round' className={styles.info} />
       </MetricExplanation>
     </div>

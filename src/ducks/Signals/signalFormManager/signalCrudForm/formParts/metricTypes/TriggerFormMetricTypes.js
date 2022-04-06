@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
-import {
-  getNearestTypeByMetric,
-  getSlugFromSignalTarget
-} from '../../../../utils/utils'
+import { getNearestTypeByMetric, getSlugFromSignalTarget } from '../../../../utils/utils'
 import { METRICS_OPTIONS, TRENDING_WORDS } from '../../../../utils/constants'
 import MetricTypeRenderer from '../metricTypeRenderer/MetricTypeRenderer'
-import SupportedMetricsList, {
-  useAvailableMetrics
-} from './SupportedMetricsList'
+import SupportedMetricsList, { useAvailableMetrics } from './SupportedMetricsList'
 import { capitalizeStr } from '../../../../../../utils/utils'
 import { useDialogState } from '../../../../../../hooks/dialog'
 import { Metric } from '../../../../../dataHub/metrics'
@@ -21,19 +16,13 @@ const checkPossibleTarget = ({ metaFormSettings, setFieldValue, target }) => {
   }
 }
 
-const TriggerFormMetricTypes = ({
-  metric,
-  target,
-  setFieldValue,
-  metaFormSettings,
-  trigger
-}) => {
+const TriggerFormMetricTypes = ({ metric, target, setFieldValue, metaFormSettings, trigger }) => {
   const defaultMetric = metaFormSettings.metric
 
   const [error, showErrorAlert] = useState('')
   const { isOpened, openDialog, closeDialog } = useDialogState(false)
 
-  const onSelectMetric = newMetric => {
+  const onSelectMetric = (newMetric) => {
     metric &&
       newMetric &&
       newMetric.value !== metric.value &&
@@ -44,7 +33,7 @@ const TriggerFormMetricTypes = ({
         checkPossibleTarget({
           metaFormSettings,
           setFieldValue,
-          target
+          target,
         })
       }
     } else {
@@ -67,18 +56,11 @@ const TriggerFormMetricTypes = ({
       const checking = trigger.settings.metric
 
       const notAvailable = availableMetrics.indexOf(checking) === -1
-      const notDefined = !METRICS_OPTIONS.some(
-        ({ metric }) => metric === checking
-      )
+      const notDefined = !METRICS_OPTIONS.some(({ metric }) => metric === checking)
 
       if (notAvailable && notDefined) {
-        const nameOfMetric =
-          (Metric[checking] && Metric[checking].label) || checking
-        showErrorAlert(
-          `${capitalizeStr(
-            slug
-          )} does't support alerts with metric '${nameOfMetric}'`
-        )
+        const nameOfMetric = (Metric[checking] && Metric[checking].label) || checking
+        showErrorAlert(`${capitalizeStr(slug)} does't support alerts with metric '${nameOfMetric}'`)
       } else {
         showErrorAlert('')
       }
@@ -106,13 +88,9 @@ const TriggerFormMetricTypes = ({
             {error && <div className={metricStyles.error}>{error}</div>}
 
             <div className={metricStyles.baseTypes}>
-              {METRICS_OPTIONS.map(item => (
+              {METRICS_OPTIONS.map((item) => (
                 <div className={metricStyles.listItem} key={item.value}>
-                  <MetricTypeRenderer
-                    metric={item}
-                    onClick={onSelectMetric}
-                    showLabel={false}
-                  />
+                  <MetricTypeRenderer metric={item} onClick={onSelectMetric} showLabel={false} />
                 </div>
               ))}
             </div>

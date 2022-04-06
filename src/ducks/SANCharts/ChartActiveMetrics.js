@@ -13,13 +13,13 @@ const ChartActiveMetrics = ({
   activeMetrics,
   alwaysShowingMetrics = [],
   toggleMetric,
-  isWideChart
+  isWideChart,
 }) => {
   let newColorId = 0
   return (
     <>
       <section className={cx(styles.wrapper, isWideChart && styles.wideChart)}>
-        {activeMetrics.map(metric => {
+        {activeMetrics.map((metric) => {
           const { node, color, label } = metric
 
           const isAlwaysShowing = alwaysShowingMetrics.includes(metric.key)
@@ -43,16 +43,12 @@ const ChartActiveMetrics = ({
             </MetricExplanation>
           )
         })}
-        {activeEvents.map(event => {
+        {activeEvents.map((event) => {
           const { label } = event
           return (
             <MetricExplanation key={label} metric={event} withChildren>
               <Button border className={styles.btn}>
-                <Label
-                  className={styles.label}
-                  variant='circle'
-                  accent='persimmon'
-                />
+                <Label className={styles.label} variant='circle' accent='persimmon' />
                 {label}
                 <Icon
                   type='close-small'
@@ -73,7 +69,7 @@ const ChartActiveMetrics = ({
         rel='noopener noreferrer'
         style={{
           padding: '0 16px',
-          marginLeft: '20px'
+          marginLeft: '20px',
         }}
       >
         Feedback

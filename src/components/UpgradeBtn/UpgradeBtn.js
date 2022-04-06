@@ -23,9 +23,7 @@ const Trigger = ({
     accent='orange'
     {...props}
   >
-    {showCrownIcon && (
-      <Icon type='crown' className={cx(styles.icon, iconClassName)} />
-    )}
+    {showCrownIcon && <Icon type='crown' className={cx(styles.icon, iconClassName)} />}
     {children}
   </Button>
 )
@@ -55,9 +53,7 @@ const UpgradeBtn = ({
         subscription={subscription}
         label={
           <>
-            {showCrown && (
-              <Icon type='crown' className={cx(styles.icon, iconClassName)} />
-            )}
+            {showCrown && <Icon type='crown' className={cx(styles.icon, iconClassName)} />}
             Upgrade
           </>
         }
@@ -70,7 +66,7 @@ const UpgradeBtn = ({
           border: false,
           variant: variant,
           accent: accent,
-          className: cx(styles.btn, styles.fill, className)
+          className: cx(styles.btn, styles.fill, className),
         }}
       />
     )

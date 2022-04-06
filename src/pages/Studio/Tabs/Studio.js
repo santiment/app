@@ -59,7 +59,7 @@ const StudioTab = ({
   modRange,
   InsightsStore,
   prevFullUrlRef,
-  subwidgetsController
+  subwidgetsController,
 }) => {
   const History = useHistory(studio)
   const { subscription } = useUserSubscription()
@@ -97,7 +97,7 @@ const StudioTab = ({
       />
 
       {widgets.map(
-        widget =>
+        (widget) =>
           widget.container && (
             <Widget
               key={widget.id}
@@ -106,7 +106,7 @@ const StudioTab = ({
               settings={settings}
               InsightsStore={InsightsStore}
             />
-          )
+          ),
       )}
 
       {sidewidget && (

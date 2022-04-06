@@ -3,13 +3,7 @@ import cx from 'classnames'
 import styles from './PageLoader.module.scss'
 
 export const LoaderImage = () => (
-  <svg
-    width='44'
-    height='44'
-    viewBox='0 0 32 32'
-    fill='none'
-    className={styles.loader__img}
-  >
+  <svg width='44' height='44' viewBox='0 0 32 32' fill='none' className={styles.loader__img}>
     <path fill='#fff' d='M32 16a16 16 0 11-32 0 16 16 0 0132 0z' />
     <path
       fill='#181B2B'
@@ -22,11 +16,7 @@ export const LoaderImage = () => (
   </svg>
 )
 
-const PageLoader = ({
-  className,
-  text = 'Loading',
-  containerClass = 'page'
-}) => (
+const PageLoader = ({ className, text = 'Loading', containerClass = 'page' }) => (
   <div className={containerClass}>
     <div className={cx(styles.loader, className)}>
       <LoaderImage />

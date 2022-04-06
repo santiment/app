@@ -3,25 +3,25 @@ import { Metric } from '../dataHub/metrics'
 
 const IntervalFormatDividend = {
   h: 24,
-  m: 60 * 24
+  m: 60 * 24,
 }
 
 const METRIC_WIDGET_SET = new Set([
   Metric.price_daa_divergence,
-  Metric.adjusted_price_daa_divergence
+  Metric.adjusted_price_daa_divergence,
 ])
 
-export function mergeMetricSettingMap (oldMap, newMap) {
+export function mergeMetricSettingMap(oldMap, newMap) {
   const mergedMap = new Map(oldMap)
 
   newMap.forEach((newSettings, metric) =>
-    mergedMap.set(metric, Object.assign({}, oldMap.get(metric), newSettings))
+    mergedMap.set(metric, Object.assign({}, oldMap.get(metric), newSettings)),
   )
 
   return mergedMap
 }
 
-export function calculateMovingAverageFromInterval (interval) {
+export function calculateMovingAverageFromInterval(interval) {
   const { amount, format } = parseIntervalString(interval)
 
   const dividend = IntervalFormatDividend[format] || 1
@@ -29,17 +29,15 @@ export function calculateMovingAverageFromInterval (interval) {
   return (dividend / amount) * 7
 }
 
-export const checkIsMetricWidget = metric => METRIC_WIDGET_SET.has(metric)
+export const checkIsMetricWidget = (metric) => METRIC_WIDGET_SET.has(metric)
 
-export function extractIndicatorDomainGroups (MetricIndicators) {
+export function extractIndicatorDomainGroups(MetricIndicators) {
   const domainGroups = []
 
-  Object.keys(MetricIndicators).forEach(rootDomain => {
+  Object.keys(MetricIndicators).forEach((rootDomain) => {
     const indicators = MetricIndicators[rootDomain]
     if (indicators && indicators.size > 0) {
-      const indicatorKeys = [...indicators].map(
-        ({ key }) => key + '_' + rootDomain
-      )
+      const indicatorKeys = [...indicators].map(({ key }) => key + '_' + rootDomain)
       indicatorKeys.unshift(rootDomain)
       domainGroups.push(indicatorKeys)
     }
@@ -48,7 +46,7 @@ export function extractIndicatorDomainGroups (MetricIndicators) {
   return domainGroups
 }
 
-export function deduceItems (items, item) {
+export function deduceItems(items, item) {
   const newItems = new Set(items)
 
   if (newItems.has(item)) {
@@ -60,7 +58,7 @@ export function deduceItems (items, item) {
   return [...newItems]
 }
 
-export function getMetricSetting (MetricSettingMap, metric) {
+export function getMetricSetting(MetricSettingMap, metric) {
   const metricSetting = MetricSettingMap.get(metric)
   if (metricSetting) return metricSetting
 

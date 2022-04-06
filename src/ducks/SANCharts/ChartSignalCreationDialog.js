@@ -5,9 +5,9 @@ import AlertModal from '../Alert/AlertModal'
 import { prepareAlertTitle } from '../Signals/link/OpenSignalLink'
 import styles from './ChartSignalCreationDialog.module.scss'
 
-const ChartSignalCreationDialog = ({
-  trigger = DefaultSignalCreationTrigger
-}) => <AlertModal trigger={trigger} prepareAlertTitle={prepareAlertTitle} />
+const ChartSignalCreationDialog = ({ trigger = DefaultSignalCreationTrigger }) => (
+  <AlertModal trigger={trigger} prepareAlertTitle={prepareAlertTitle} />
+)
 
 const DefaultSignalCreationTrigger = (
   <Button variant='flat' className={styles.btn}>

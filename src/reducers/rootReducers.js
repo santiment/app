@@ -2,22 +2,12 @@ import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
 import user, { initialState as userState } from './user'
 import projects, { initialState as projectsState } from './projects'
-import signals, {
-  initialState as signalsState
-} from '../ducks/Signals/common/reducers'
+import signals, { initialState as signalsState } from '../ducks/Signals/common/reducers'
 import rootUi, { initialState as rootUiState } from './root-ui'
-import notification, {
-  initialState as initialNotificationState
-} from './notification'
-import watchlistUi, {
-  initialState as initialWatchlistUiState
-} from './watchlist-ui'
-import accountUi, {
-  initialState as initialAccountUiState
-} from '../pages/Account/reducers'
-import app, {
-  initialState as appUpdateState
-} from './../ducks/Updates/reducers'
+import notification, { initialState as initialNotificationState } from './notification'
+import watchlistUi, { initialState as initialWatchlistUiState } from './watchlist-ui'
+import accountUi, { initialState as initialAccountUiState } from '../pages/Account/reducers'
+import app, { initialState as appUpdateState } from './../ducks/Updates/reducers'
 
 export const intitialState = {
   user: userState,
@@ -28,7 +18,7 @@ export const intitialState = {
   notification: initialNotificationState,
   router: routerReducer,
   accountUi: initialAccountUiState,
-  app: appUpdateState
+  app: appUpdateState,
 }
 
 export default combineReducers({
@@ -39,5 +29,5 @@ export default combineReducers({
   watchlistUi,
   notification,
   accountUi,
-  app
+  app,
 })

@@ -5,16 +5,16 @@ import styles from './NotificationTypes.module.scss'
 const types = [
   {
     type: 'ALL',
-    label: 'all'
+    label: 'all',
   },
   {
     type: 'ALERT',
-    label: 'alerts'
+    label: 'alerts',
   },
   {
     type: 'INSIGHT',
-    label: 'insights'
-  }
+    label: 'insights',
+  },
 ]
 
 const NotificationTypes = ({ selected, onChange }) => {
@@ -23,10 +23,7 @@ const NotificationTypes = ({ selected, onChange }) => {
       {types.map(({ type, label }) => (
         <div
           key={type}
-          className={cx(
-            styles.label,
-            selected === type && styles.label__selected
-          )}
+          className={cx(styles.label, selected === type && styles.label__selected)}
           onClick={() => onChange(type)}
         >
           {label}

@@ -3,11 +3,7 @@ import { Query, Mutation } from 'react-apollo'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import Dialog from '@santiment-network/ui/Dialog'
-import {
-  formatPrice,
-  findSanbasePlan,
-  getAlternativeBillingPlan
-} from '../../utils/plans'
+import { formatPrice, findSanbasePlan, getAlternativeBillingPlan } from '../../utils/plans'
 import { getDateFormats } from '../../utils/dates'
 import { PLANS_QUERY, UPDATE_SUBSCRIPTION_MUTATION } from '../../queries/plans'
 import PLANS from '../Plans/list'
@@ -15,7 +11,7 @@ import styles from './BillingChangeDialog.module.scss'
 
 const ChangeBillingDialog = ({
   classes = {},
-  subscription: { id, currentPeriodEnd, plan: oldPlan }
+  subscription: { id, currentPeriodEnd, plan: oldPlan },
 }) => {
   const { amount, name: oldName, interval: oldInterval } = oldPlan
   const [oldPrice] = formatPrice(amount)
@@ -37,16 +33,15 @@ const ChangeBillingDialog = ({
 
             if (!loading) {
               const neuro = productsWithPlans.find(findSanbasePlan) || []
-              const { amount, interval, id: newId } = getAlternativeBillingPlan(
-                neuro.plans,
-                oldPlan
-              )
+              const {
+                amount,
+                interval,
+                id: newId,
+              } = getAlternativeBillingPlan(neuro.plans, oldPlan)
 
               newPlanId = newId
               newPrice = formatPrice(amount)[0]
-              yearBillSave = formatPrice(
-                Math.abs(monthToYear - amount * newAmountMul) / 12
-              )[0]
+              yearBillSave = formatPrice(Math.abs(monthToYear - amount * newAmountMul) / 12)[0]
               if (interval === 'month') {
                 monthToYearPrice = formatPrice(amount * newAmountMul)[0]
               }
@@ -62,7 +57,7 @@ const ChangeBillingDialog = ({
                 }
               >
                 <Dialog.ScrollContent className={styles.content}>
-                  {['month', 'year'].map(bill => (
+                  {['month', 'year'].map((bill) => (
                     <Panel key={bill} className={styles.card}>
                       <div className={styles.row}>
                         <h2 className={styles.billing}>{bill}ly billing</h2>
@@ -74,17 +69,12 @@ const ChangeBillingDialog = ({
                       <div className={styles.row}>
                         <div className={styles.desc}>
                           {PLANS[oldName].title} Plan is{' '}
-                          {bill === oldInterval ? oldPrice : newPrice} per{' '}
-                          {bill}.
+                          {bill === oldInterval ? oldPrice : newPrice} per {bill}.
                           <br />
                           You will{' '}
                           {bill === 'year' ? (
                             <>
-                              save{' '}
-                              <span className={styles.save}>
-                                {yearBillSave}
-                              </span>{' '}
-                              per month
+                              save <span className={styles.save}>{yearBillSave}</span> per month
                             </>
                           ) : (
                             `spend ${monthToYearPrice} per year.`
@@ -99,14 +89,12 @@ const ChangeBillingDialog = ({
                             updateSubscription({
                               variables: {
                                 subscriptionId: +id,
-                                planId: +newPlanId
-                              }
+                                planId: +newPlanId,
+                              },
                             })
                           }
                         >
-                          {oldInterval === bill
-                            ? 'Current plan'
-                            : `Change to ${bill}ly`}
+                          {oldInterval === bill ? 'Current plan' : `Change to ${bill}ly`}
                         </Button>
                       </div>
                     </Panel>

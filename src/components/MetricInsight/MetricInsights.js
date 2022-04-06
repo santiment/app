@@ -14,7 +14,7 @@ const MetricInsights = ({ insights = [] }) => {
     <>
       <div className={styles.usecases}>Use cases from Insights</div>
       <div className={styles.container}>
-        {insights.map(id => {
+        {insights.map((id) => {
           return (
             <Query query={INSIGHT_BY_ID_QUERY} variables={{ id }} key={id}>
               {({ data: { insight } = {}, loading }) => {

@@ -3,12 +3,7 @@ import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import { buildRefetcher, update } from './utils'
 import { client } from '../../apollo'
-import {
-  PLANS,
-  getSanbaseSubscription,
-  calculateTrialDaysLeft,
-  STATUSES
-} from '../../utils/plans'
+import { PLANS, getSanbaseSubscription, calculateTrialDaysLeft, STATUSES } from '../../utils/plans'
 
 const { PRO, PRO_PLUS } = PLANS
 
@@ -39,9 +34,9 @@ export const USER_SUBSCRIPTIONS_QUERY = gql`
 
 export const refetchUserSubscriptions = buildRefetcher(USER_SUBSCRIPTIONS_QUERY)
 
-export function updateUserSubscriptions (newUserSubscriptions) {
+export function updateUserSubscriptions(newUserSubscriptions) {
   const { currentUser } = client.readQuery({
-    query: USER_SUBSCRIPTIONS_QUERY
+    query: USER_SUBSCRIPTIONS_QUERY,
   })
 
   client.writeQuery({
@@ -50,13 +45,13 @@ export function updateUserSubscriptions (newUserSubscriptions) {
       currentUser:
         newUserSubscriptions &&
         Object.assign({}, currentUser, {
-          subscriptions: update(currentUser.subscriptions, newUserSubscriptions)
-        })
-    }
+          subscriptions: update(currentUser.subscriptions, newUserSubscriptions),
+        }),
+    },
   })
 }
 
-export function useUserSubscriptions () {
+export function useUserSubscriptions() {
   const query = useQuery(USER_SUBSCRIPTIONS_QUERY)
 
   return useMemo(() => {
@@ -65,12 +60,12 @@ export function useUserSubscriptions () {
       loading,
       isEligibleForSanbaseTrial:
         data && data.currentUser && data.currentUser.isEligibleForSanbaseTrial,
-      subscriptions: data && data.currentUser && data.currentUser.subscriptions
+      subscriptions: data && data.currentUser && data.currentUser.subscriptions,
     }
   }, [query])
 }
 
-export function useUserSubscription () {
+export function useUserSubscription() {
   const data = useUserSubscriptions()
 
   return useMemo(() => {
@@ -78,12 +73,12 @@ export function useUserSubscription () {
     return {
       loading,
       isEligibleForSanbaseTrial,
-      subscription: subscriptions && getSanbaseSubscription(subscriptions)
+      subscription: subscriptions && getSanbaseSubscription(subscriptions),
     }
   }, [data])
 }
 
-export function useUserSubscriptionStatus () {
+export function useUserSubscriptionStatus() {
   const data = useUserSubscription()
 
   return useMemo(() => {
@@ -98,10 +93,7 @@ export function useUserSubscriptionStatus () {
       const { trialEnd, plan, status } = subscription
       isProPlus = plan.name === PRO_PLUS
       isPro = isProPlus || plan.name === PRO
-      trialDaysLeft =
-        status === STATUSES.TRIALING &&
-        trialEnd &&
-        calculateTrialDaysLeft(trialEnd)
+      trialDaysLeft = status === STATUSES.TRIALING && trialEnd && calculateTrialDaysLeft(trialEnd)
       isTrial = trialDaysLeft > 0 && status === STATUSES.TRIALING
     }
 
@@ -111,7 +103,7 @@ export function useUserSubscriptionStatus () {
       isProPlus,
       isTrial,
       trialDaysLeft,
-      isEligibleForSanbaseTrial
+      isEligibleForSanbaseTrial,
     }
   }, [data])
 }

@@ -8,4 +8,4 @@
   setContext('likeInsight', likeInsight)
 </script>
 
-<InsightCard {insight} {transformLink} class="{className}" />
+<InsightCard {insight} {transformLink} class={className} />

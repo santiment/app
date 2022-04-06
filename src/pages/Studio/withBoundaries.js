@@ -6,21 +6,18 @@ import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
 import { checkHasPremium, checkIsLoggedIn } from '../UserSelectors'
 import paywallBoundaries from './paywallBoundaries'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoggedIn: checkIsLoggedIn(state),
-  hasPremium: checkHasPremium(state)
+  hasPremium: checkHasPremium(state),
 })
 
 export default compose(
   connect(mapStateToProps),
   graphql(USER_SUBSCRIPTIONS_QUERY, {
-    props: ({
-      data: { currentUser },
-      ownProps: { isLoggedIn, hasPremium }
-    }) => {
+    props: ({ data: { currentUser }, ownProps: { isLoggedIn, hasPremium } }) => {
       if (hasPremium) {
         return {
-          boundaries: paywallBoundaries.ENTERPRISE
+          boundaries: paywallBoundaries.ENTERPRISE,
         }
       }
 
@@ -29,8 +26,8 @@ export default compose(
       const boundaries = paywallBoundaries[isLoggedIn ? userPlan : 'ANON']
 
       return {
-        boundaries
+        boundaries,
       }
-    }
-  })
+    },
+  }),
 )

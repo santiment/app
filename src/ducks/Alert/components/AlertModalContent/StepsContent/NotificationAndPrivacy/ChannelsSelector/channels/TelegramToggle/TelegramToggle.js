@@ -14,11 +14,7 @@ const TelegramToggle = ({ disabled, isActive, onChange }) => {
           Telegram
           <TriggerChannelSettings
             showTrigger={disabled}
-            trigger={
-              <div className={styles.channelSettingsTrigger}>
-                Enable notifications
-              </div>
-            }
+            trigger={<div className={styles.channelSettingsTrigger}>Enable notifications</div>}
           />
         </>
       }

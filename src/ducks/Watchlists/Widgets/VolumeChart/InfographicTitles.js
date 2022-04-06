@@ -10,7 +10,7 @@ export const useInfographicRanges = ({
   type,
   onChangeSettings,
   ranges,
-  defaultCurrency = INFOGRAPHIC_CURRENCIES.USD
+  defaultCurrency = INFOGRAPHIC_CURRENCIES.USD,
 }) => {
   const [currency, setCurrency] = useState(defaultCurrency)
 
@@ -29,7 +29,7 @@ export const InfographicTitleRanges = ({
   type,
   label,
   intervalIndex,
-  ranges
+  ranges,
 }) => {
   return (
     <>
@@ -38,9 +38,7 @@ export const InfographicTitleRanges = ({
         className={styles.selector}
         range={label}
         changeRange={() => {
-          setIntervalIndex(
-            ranges.length === 1 ? 0 : (intervalIndex + 1) % ranges.length
-          )
+          setIntervalIndex(ranges.length === 1 ? 0 : (intervalIndex + 1) % ranges.length)
         }}
       />
     </>
@@ -56,7 +54,7 @@ export const PriceInfographicTitleRanges = ({
   intervalIndex,
   currency,
   setCurrency,
-  currencyRanges = CURRENCY_RANGES
+  currencyRanges = CURRENCY_RANGES,
 }) => {
   return (
     <>
@@ -75,8 +73,7 @@ export const PriceInfographicTitleRanges = ({
         disabled={currencyRanges.length === 1}
         changeRange={() => {
           const currentIndex = currencyRanges.indexOf(currency)
-          const target =
-            currencyRanges[(currentIndex + 1) % currencyRanges.length]
+          const target = currencyRanges[(currentIndex + 1) % currencyRanges.length]
 
           setCurrency(target)
         }}

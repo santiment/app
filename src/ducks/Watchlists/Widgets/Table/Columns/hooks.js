@@ -8,16 +8,12 @@ import { getCategoryGraph } from '../../../../Studio/Sidebar/utils'
 import {
   ASSETS_DISTRIBUTION_COLUMN,
   LABELS_COLUMN,
-  NOTE_COLUMN
+  NOTE_COLUMN,
 } from '../../../../WatchlistAddressesTable/columns'
 
-export function useCategories (type) {
+export function useCategories(type) {
   const { projects, isLoading: projectsLoading } = useProjects()
-  const {
-    allMetrics,
-    restrictedMetrics,
-    loading: metricsLoading
-  } = useRestrictedMetrics(type)
+  const { allMetrics, restrictedMetrics, loading: metricsLoading } = useRestrictedMetrics(type)
 
   const projectCategories = useMemo(() => {
     if (allMetrics.length !== 0 && type !== BLOCKCHAIN_ADDRESS) {
@@ -36,13 +32,11 @@ export function useCategories (type) {
 
       return {
         General: {
-          _: [LABELS_COLUMN, NOTE_COLUMN, ASSETS_DISTRIBUTION_COLUMN].map(
-            item => ({ item })
-          )
+          _: [LABELS_COLUMN, NOTE_COLUMN, ASSETS_DISTRIBUTION_COLUMN].map((item) => ({ item })),
         },
         Assets: {
-          _: allAssetColumns.map(item => ({ item }))
-        }
+          _: allAssetColumns.map((item) => ({ item })),
+        },
       }
     }
 
@@ -50,9 +44,8 @@ export function useCategories (type) {
   }, [projects])
 
   return {
-    categories:
-      type === BLOCKCHAIN_ADDRESS ? addressesCategories : projectCategories,
-    loading: type === BLOCKCHAIN_ADDRESS ? projectsLoading : metricsLoading
+    categories: type === BLOCKCHAIN_ADDRESS ? addressesCategories : projectCategories,
+    loading: type === BLOCKCHAIN_ADDRESS ? projectsLoading : metricsLoading,
   }
 }
 
@@ -61,14 +54,14 @@ export const useManipulateColumns = () => {
   const [activeKeys, setActiveKeys] = useState(null)
   const [currActiveKeys, setCurrActiveKeys] = useState(null)
 
-  function addKey (key) {
+  function addKey(key) {
     const index = currActiveKeys.indexOf(key)
     if (index === -1) {
       return [...activeKeys, key]
     } else {
       let wasAdded = false
       const newKeys = []
-      activeKeys.forEach(item => {
+      activeKeys.forEach((item) => {
         if (!wasAdded) {
           const itemIndex = currActiveKeys.indexOf(item)
           if (itemIndex === -1 || itemIndex > index) {
@@ -89,14 +82,14 @@ export const useManipulateColumns = () => {
     }
   }
 
-  function toggleColumn (columnKey, isActive) {
+  function toggleColumn(columnKey, isActive) {
     const newActiveKeys = isActive
       ? addKey(columnKey)
-      : activeKeys.filter(key => key !== columnKey)
+      : activeKeys.filter((key) => key !== columnKey)
     setActiveKeys(newActiveKeys)
   }
 
-  function reorderActiveKeys (keys, wasChanges) {
+  function reorderActiveKeys(keys, wasChanges) {
     setCurrActiveKeys(keys)
     setWasReorder(wasChanges)
     const newKeysOrder = Array.from(activeKeys)
@@ -112,6 +105,6 @@ export const useManipulateColumns = () => {
     currActiveKeys,
     setCurrActiveKeys,
     wasReorder,
-    setWasReorder
+    setWasReorder,
   }
 }

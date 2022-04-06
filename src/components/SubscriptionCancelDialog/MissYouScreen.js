@@ -15,17 +15,11 @@ import styles from './MissYouScreen.module.scss'
 
 const ARR = []
 
-const MissYouScreen = ({
-  closeDialog,
-  cancelSubscription,
-  addNot,
-  loading,
-  id
-}) => {
+const MissYouScreen = ({ closeDialog, cancelSubscription, addNot, loading, id }) => {
   const [selectedPoints, setSelectedPoints] = useState(ARR)
   const [feedback, setFeedback] = useState('')
 
-  function togglePoint (point) {
+  function togglePoint(point) {
     const points = new Set(selectedPoints)
 
     if (!points.delete(point)) {
@@ -36,11 +30,11 @@ const MissYouScreen = ({
     setSelectedPoints([...points])
   }
 
-  function saveFeedback (text) {
+  function saveFeedback(text) {
     setFeedback(text)
   }
 
-  function writeFeedback () {
+  function writeFeedback() {
     if (feedback) {
       track.event(Event.GiveFeedback, { feedback })
     }
@@ -55,21 +49,15 @@ const MissYouScreen = ({
         </h2>
         <section className={styles.section}>
           <p className={styles.text}>Help us understand why:</p>
-          {POINTS.map(point => (
-            <div
-              className={styles.point}
-              key={point}
-              onClick={() => togglePoint(point)}
-            >
+          {POINTS.map((point) => (
+            <div className={styles.point} key={point} onClick={() => togglePoint(point)}>
               <Checkbox isActive={selectedPoints.includes(point)} />
               <span className={styles.point__text}>{point}</span>
             </div>
           ))}
           <AccordionContent show={selectedPoints.length > 0}>
             <>
-              <p className={cx(styles.text, styles.text__last)}>
-                Just one last thing
-              </p>
+              <p className={cx(styles.text, styles.text__last)}>Just one last thing</p>
               <AutoresizeTextarea
                 blurOnEnter
                 rowsCount={3}
@@ -98,7 +86,7 @@ const MissYouScreen = ({
               disabled={!feedback}
               onClick={() =>
                 cancelSubscription({
-                  variables: { subscriptionId: +id }
+                  variables: { subscriptionId: +id },
                 })
                   .then(() => {
                     closeDialog()
@@ -106,17 +94,17 @@ const MissYouScreen = ({
                       variant: 'success',
                       title: `You have successfully canceled your subscription.`,
                       description: 'We will miss you!',
-                      dismissAfter: 5000
+                      dismissAfter: 5000,
                     })
                   })
-                  .catch(e =>
+                  .catch((e) =>
                     addNot({
                       variant: 'error',
                       title: `Error during the cancellation`,
                       description: formatError(e.message),
                       dismissAfter: 5000,
-                      actions: contactAction
-                    })
+                      actions: contactAction,
+                    }),
                   )
               }
             >

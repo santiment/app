@@ -22,7 +22,7 @@ const Group = ({
   const hasGroup = title !== NO_GROUP
   const [hidden, setHidden] = useState(hasGroup && !OpenedGroup[title])
 
-  function onToggleClick () {
+  function onToggleClick() {
     setHidden(!hidden)
   }
 
@@ -73,25 +73,15 @@ export const GroupNodes = ({
   const isBeta = useIsBetaMode()
 
   return (
-    <div
-      className={cx(styles.group__list, hidden && styles.group__list_hidden)}
-    >
+    <div className={cx(styles.group__list, hidden && styles.group__list_hidden)}>
       {nodes.map(({ item, subitems }, index) => {
         if (!item || item.hidden) {
           return null
         }
 
-        const {
-          showRoot = true,
-          label,
-          rootLabel = label,
-          checkIsVisible
-        } = item
+        const { showRoot = true, label, rootLabel = label, checkIsVisible } = item
 
-        if (
-          checkIsVisible &&
-          !checkIsVisible({ ...rest, ...project, isBeta })
-        ) {
+        if (checkIsVisible && !checkIsVisible({ ...rest, ...project, isBeta })) {
           return null
         }
 
@@ -113,18 +103,14 @@ export const GroupNodes = ({
               />
             )}
             {subitems &&
-              subitems.map(subitem => {
+              subitems.map((subitem) => {
                 const { checkIsVisible, checkIsActive } = subitem
-                if (
-                  checkIsVisible &&
-                  !checkIsVisible({ ...rest, ...project, isBeta })
-                ) {
+                if (checkIsVisible && !checkIsVisible({ ...rest, ...project, isBeta })) {
                   return null
                 }
 
                 const isActive =
-                  (checkIsActive && checkIsActive(rest)) ||
-                  activeMetrics.includes(subitem)
+                  (checkIsActive && checkIsActive(rest)) || activeMetrics.includes(subitem)
 
                 return (
                   <Button
@@ -152,7 +138,7 @@ export const GroupNodes = ({
 
 Group.defaultProps = {
   OpenedGroup: {},
-  Button: MetricButton
+  Button: MetricButton,
 }
 
 export default Group

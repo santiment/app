@@ -1,8 +1,4 @@
-import {
-  METRIC_CONNECTOR,
-  getMetricByKey,
-  getProjectMetricByKey
-} from '../metrics'
+import { METRIC_CONNECTOR, getMetricByKey, getProjectMetricByKey } from '../metrics'
 import ChartWidget from '../Widget/ChartWidget'
 import { COMPARE_CONNECTOR } from '../url/utils'
 import { parseSharedWidgets, translateMultiChartToWidgets } from '../url/parse'
@@ -17,7 +13,7 @@ export const getMetricKey = ({ key }) => key
 export const getTemplateSharePath = ({ id, title }) =>
   '/charts/' + getSEOLinkFromIdAndTitle(id, title || '')
 
-export function prepareTemplateLink (template, asProject) {
+export function prepareTemplateLink(template, asProject) {
   if (!template) {
     return ''
   }
@@ -26,8 +22,7 @@ export function prepareTemplateLink (template, asProject) {
   const templateId = asProject ? id + '@' + asProject : id
 
   return (
-    `${PATHS.CHARTS}/${getSEOLinkFromIdAndTitle(templateId, title || '')}` +
-    window.location.search
+    `${PATHS.CHARTS}/${getSEOLinkFromIdAndTitle(templateId, title || '')}` + window.location.search
   )
 }
 
@@ -60,13 +55,13 @@ export const extractTemplateProject = () => {
   return project
 }
 
-export const getTemplateShareLink = template => {
+export const getTemplateShareLink = (template) => {
   return window.location.origin + prepareTemplateLink(template)
 }
 
-export function parseTemplateMetrics (templateMetrics, project) {
+export function parseTemplateMetrics(templateMetrics, project) {
   return templateMetrics
-    .map(key => {
+    .map((key) => {
       if (key.includes(COMPARE_CONNECTOR)) {
         try {
           return getProjectMetricByKey(key, COMPARE_CONNECTOR)
@@ -84,10 +79,9 @@ export function parseTemplateMetrics (templateMetrics, project) {
     .filter(Boolean)
 }
 
-export const buildTemplateMetrics = ({ metrics }) =>
-  metrics && metrics.map(getMetricKey)
+export const buildTemplateMetrics = ({ metrics }) => metrics && metrics.map(getMetricKey)
 
-export function getAvailableTemplate (templates) {
+export function getAvailableTemplate(templates) {
   if (!availableDefaultTemplate()) {
     return undefined
   }
@@ -101,10 +95,9 @@ export function getAvailableTemplate (templates) {
   return templates[0]
 }
 
-const availableDefaultTemplate = () =>
-  window.location.pathname.indexOf(PATHS.CHARTS) === -1
+const availableDefaultTemplate = () => window.location.pathname.indexOf(PATHS.CHARTS) === -1
 
-export function getLastTemplate () {
+export function getLastTemplate() {
   if (!availableDefaultTemplate()) {
     return undefined
   }
@@ -113,7 +106,7 @@ export function getLastTemplate () {
   return savedTemplate ? JSON.parse(savedTemplate) : undefined
 }
 
-export function saveLastTemplate (template) {
+export function saveLastTemplate(template) {
   if (!template) return
 
   localStorage.setItem(LAST_USED_TEMPLATE, JSON.stringify(template))
@@ -122,24 +115,22 @@ export function saveLastTemplate (template) {
 const getTemplateMetrics = ({ metrics, project }) =>
   parseTemplateMetrics(metrics, project).map(({ label }) => label)
 
-export const getTemplateInfo = template => {
+export const getTemplateInfo = (template) => {
   const assets = getTemplateAssets(template)
   const metrics = getTemplateMetrics(template)
 
   return {
     assets: [...new Set(assets)],
-    metrics: [...new Set(metrics)]
+    metrics: [...new Set(metrics)],
   }
 }
 
 const getTemplateAssets = ({ metrics, project: { slug, name } }) => {
-  const hasRootAsset = metrics.some(
-    metric => metric.indexOf(COMPARE_CONNECTOR) === -1
-  )
+  const hasRootAsset = metrics.some((metric) => metric.indexOf(COMPARE_CONNECTOR) === -1)
 
   const assets = hasRootAsset ? [name || slug] : []
 
-  metrics.forEach(item => {
+  metrics.forEach((item) => {
     if (item.indexOf(COMPARE_CONNECTOR) !== -1) {
       const [slug] = item.split(COMPARE_CONNECTOR)
 
@@ -149,10 +140,10 @@ const getTemplateAssets = ({ metrics, project: { slug, name } }) => {
     }
   })
 
-  return assets.map(slug => capitalizeStr(slug))
+  return assets.map((slug) => capitalizeStr(slug))
 }
 
-export function getChartWidgetsFromTemplate (template) {
+export function getChartWidgetsFromTemplate(template) {
   const { project, options } = template
   const metrics = parseTemplateMetrics(template.metrics, project)
   let widgets
@@ -165,8 +156,8 @@ export function getChartWidgetsFromTemplate (template) {
     } else {
       widgets = [
         ChartWidget.new({
-          metrics
-        })
+          metrics,
+        }),
       ]
     }
   }

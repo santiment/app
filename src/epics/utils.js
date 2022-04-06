@@ -5,12 +5,11 @@ import { showNotification } from '../actions/rootActions'
 import { Link } from 'react-router-dom'
 import styles from './epic-items.module.scss'
 
-export const handleErrorAndTriggerAction = action => (error, data) => {
+export const handleErrorAndTriggerAction = (action) => (error, data) => {
   Sentry.captureException(error)
 
   const isSubscriptionError =
-    error.message.indexOf('subscription') !== -1 ||
-    error.message.indexOf('limit') !== -1
+    error.message.indexOf('subscription') !== -1 || error.message.indexOf('limit') !== -1
 
   if (isSubscriptionError) {
     return Observable.merge(
@@ -29,9 +28,9 @@ export const handleErrorAndTriggerAction = action => (error, data) => {
               </Link>
             </div>
           ),
-          dismissAfter: 8000
-        })
-      )
+          dismissAfter: 8000,
+        }),
+      ),
     )
   } else {
     return Observable.of({ type: action, payload: error, data })

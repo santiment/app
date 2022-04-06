@@ -4,7 +4,7 @@ import {
   ETH_WALLET,
   PRICE,
   PRICE_VOLUME_DIFFERENCE,
-  TRENDING_WORDS
+  TRENDING_WORDS,
 } from '../../../../utils/constants'
 
 const PriceSvg = ({ color }) => (

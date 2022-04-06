@@ -8,9 +8,7 @@ const Title = ({ name, watchlist, isDefaultScreener }) => {
     <>
       <h1 className={styles.name}>{title}</h1>
       {watchlist.description && (
-        <HelpPopup triggerClassName={styles.description}>
-          {watchlist.description}
-        </HelpPopup>
+        <HelpPopup triggerClassName={styles.description}>{watchlist.description}</HelpPopup>
       )}
     </>
   )

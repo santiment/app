@@ -21,11 +21,11 @@ const SHEETS_TEMPLATES_QUERY = gql`
   }
 `
 
-function useSheetsTemplates () {
+function useSheetsTemplates() {
   const { data, loading } = useQuery(SHEETS_TEMPLATES_QUERY)
   return {
     loading,
-    templates: data ? data.getSheetsTemplates : []
+    templates: data ? data.getSheetsTemplates : [],
   }
 }
 
@@ -35,7 +35,7 @@ const SheetsTemplates = () => {
 
   const list = useMemo(
     () => (templates.length > 0 ? templates : DEFAULT_SHEETS_TEMPLATES),
-    [templates]
+    [templates],
   )
 
   return (

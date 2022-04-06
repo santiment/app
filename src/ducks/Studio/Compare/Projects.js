@@ -11,7 +11,7 @@ const ROW_HEIGHT = 32
 const Key = {
   ENTER: 'Enter',
   ArrowUp: 'ArrowUp',
-  ArrowDown: 'ArrowDown'
+  ArrowDown: 'ArrowDown',
 }
 
 const ProjectsList = ({ projects, onSelect, className }) => {
@@ -19,9 +19,9 @@ const ProjectsList = ({ projects, onSelect, className }) => {
   const rowCount = projects.length
 
   useEffect(() => {
-    function onKeyDown (e) {
+    function onKeyDown(e) {
       const { key } = e
-      setCursor(cursor => {
+      setCursor((cursor) => {
         let newCursor = cursor
 
         switch (key) {
@@ -50,7 +50,7 @@ const ProjectsList = ({ projects, onSelect, className }) => {
     }
   }, [projects])
 
-  function rowRenderer ({ key, index, style }) {
+  function rowRenderer({ key, index, style }) {
     const project = projects[index]
     const { name, ticker, slug, logoUrl } = project
 
@@ -62,12 +62,7 @@ const ProjectsList = ({ projects, onSelect, className }) => {
         className={cx(styles.btn, cursor === index && styles.btn_cursored)}
         onClick={() => onSelect(project)}
       >
-        <ProjectIcon
-          className={styles.icon}
-          logoUrl={logoUrl}
-          size={16}
-          slug={slug}
-        />
+        <ProjectIcon className={styles.icon} logoUrl={logoUrl} size={16} slug={slug} />
         {name}
         <span className={styles.ticker}>{ticker}</span>
       </Button>

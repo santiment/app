@@ -3,11 +3,7 @@ import Chord from './Chord'
 import { getDateByDayIndex, getDaysAmount } from './utils'
 import { usePeriodMatrix, useDayMatrix, useAnimatedDayIndex } from './hooks'
 import Calendar from '../../AdvancedView/Calendar'
-import {
-  getTimeIntervalFromToday,
-  DAY,
-  ONE_DAY_IN_MS
-} from '../../../../utils/dates'
+import { getTimeIntervalFromToday, DAY, ONE_DAY_IN_MS } from '../../../../utils/dates'
 import styles from './index.module.scss'
 
 const DEFAULT_DAYS_AMOUNT = 7
@@ -21,7 +17,7 @@ const FlowBalances = ({ slug, ticker, defaultDates, defaultDaysAmount }) => {
   const [dayIndex] = useAnimatedDayIndex(daysAmount, isLoading)
   const { matrix, isEmpty } = useDayMatrix(periodMatrix, dayIndex)
 
-  function onCalendarChange (dates) {
+  function onCalendarChange(dates) {
     setDaysAmount(getDaysAmount(dates[0], dates[1]))
     setDayIndex(0)
     setDates(dates)
@@ -47,7 +43,7 @@ const FlowBalances = ({ slug, ticker, defaultDates, defaultDaysAmount }) => {
 
 FlowBalances.defaultProps = {
   defaultDates: DEFAULT_DATES,
-  defaultDaysAmount: DEFAULT_DAYS_AMOUNT
+  defaultDaysAmount: DEFAULT_DAYS_AMOUNT,
 }
 
 export default FlowBalances

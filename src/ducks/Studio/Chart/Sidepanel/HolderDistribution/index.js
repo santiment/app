@@ -7,14 +7,8 @@ import MetricIcon from '../../../../SANCharts/MetricIcon'
 import styles from './index.module.scss'
 import LabelsSelector from '../../../../../components/LabelsSelector/LabelsSelector'
 
-const Icon = props => (
-  <svg
-    {...props}
-    width='18'
-    height='14'
-    fill='none'
-    xmlns='http://www.w3.org/2000/svg'
-  >
+const Icon = (props) => (
+  <svg {...props} width='18' height='14' fill='none' xmlns='http://www.w3.org/2000/svg'>
     <path
       fillRule='evenodd'
       clipRule='evenodd'
@@ -33,15 +27,7 @@ const Button = ({ className, isChecked, ...props }) => (
   <UIButton fluid className={cx(styles.btn, className)} {...props} />
 )
 
-const ToggleButton = ({
-  className,
-  metric,
-  color,
-  isActive,
-  onClick,
-  onUnmerge,
-  ...props
-}) => (
+const ToggleButton = ({ className, metric, color, isActive, onClick, onUnmerge, ...props }) => (
   <Button
     className={cx(styles.toggle, className, isActive && styles.active)}
     onClick={() => onClick(metric)}
@@ -53,7 +39,7 @@ const ToggleButton = ({
       {onUnmerge && (
         <span
           className={styles.unmerge}
-          onClick={e => {
+          onClick={(e) => {
             e.stopPropagation()
             onUnmerge(metric)
           }}
@@ -66,11 +52,7 @@ const ToggleButton = ({
 )
 
 const CheckboxButton = ({ metric, isChecked, onClick, ...props }) => (
-  <Button
-    className={isChecked && styles.active}
-    onClick={() => onClick(metric)}
-    {...props}
-  >
+  <Button className={isChecked && styles.active} onClick={() => onClick(metric)} {...props}>
     <Checkbox className={styles.checkbox} isActive={isChecked} />
     {metric.label}
   </Button>
@@ -109,7 +91,7 @@ const HolderDistribution = ({
   onChangeLabels,
   onMergeClick,
   onMergeConfirmClick,
-  onUnmergeClick
+  onUnmergeClick,
 }) => {
   const [activeTab, setActiveTab] = useState(Tab.PERCENTS)
   const isIdlePhase = currentPhase === 'idle'
@@ -122,26 +104,19 @@ const HolderDistribution = ({
         {isIdlePhase ? (
           <Merge onClick={onMergeClick} />
         ) : (
-          <Confirm
-            checkedMetrics={checkedMetrics}
-            onClick={onMergeConfirmClick}
-          />
+          <Confirm checkedMetrics={checkedMetrics} onClick={onMergeConfirmClick} />
         )}
       </div>
 
       {isWithTabs && (
-        <Tabs
-          activeTab={activeTab}
-          isIdlePhase={isIdlePhase}
-          setActiveTab={setActiveTab}
-        />
+        <Tabs activeTab={activeTab} isIdlePhase={isIdlePhase} setActiveTab={setActiveTab} />
       )}
 
       {onChangeLabels && <LabelsSelector onChange={onChangeLabels} />}
 
       <div className={styles.metrics}>
         {isIdlePhase &&
-          mergedMetrics.map(metric => {
+          mergedMetrics.map((metric) => {
             const { key } = metric
             return (
               <MetricButton
@@ -155,7 +130,7 @@ const HolderDistribution = ({
             )
           })}
 
-        {TabMetrics[activeTab].map(metric => {
+        {TabMetrics[activeTab].map((metric) => {
           const { key } = metric
           return (
             <MetricButton
@@ -177,7 +152,7 @@ HolderDistribution.defaultProps = {
   TabMetrics,
   mergedMetrics: [],
   currentPhase: 'idle',
-  header: 'Supply Distribution'
+  header: 'Supply Distribution',
 }
 
 export default HolderDistribution

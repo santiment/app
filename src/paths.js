@@ -23,10 +23,10 @@ export const PATHS = {
   NFT_INFLUENCERS_TRX: '/nft-influencers-trx',
   ADDRESSES_WATCHLIST: '/watchlist/addresses',
   PROJECTS_WATCHLIST: '/watchlist/projects',
-  SCREENER: '/screener'
+  SCREENER: '/screener',
 }
 
-export const isListPath = path =>
+export const isListPath = (path) =>
   path.includes(PATHS.PROJECTS_WATCHLIST) ||
   path.includes(PATHS.ADDRESSES_WATCHLIST) ||
   path.includes(PATHS.SCREENER) ||

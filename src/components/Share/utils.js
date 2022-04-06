@@ -22,27 +22,27 @@ export const SHARE_PATH = '/s/'
 
 const urlExtractor = ({ data }) => data.ShortUrl.url
 
-export const getShortUrl = fullUrl =>
+export const getShortUrl = (fullUrl) =>
   client
     .mutate({
       mutation: SHORT_URL_MUTATION,
       variables: {
-        fullUrl
-      }
+        fullUrl,
+      },
     })
     .then(urlExtractor)
 
-export const getFullUrl = shortUrl =>
+export const getFullUrl = (shortUrl) =>
   client
     .query({
       query: FULL_URL_QUERY,
       variables: {
-        shortUrl
-      }
+        shortUrl,
+      },
     })
     .then(urlExtractor)
 
-export function redirectSharedLink () {
+export function redirectSharedLink() {
   const { pathname } = window.location
 
   if (pathname.startsWith(SHARE_PATH)) {
@@ -61,8 +61,8 @@ export function redirectSharedLink () {
     }
 
     getFullUrl(pathname.slice(hashStartIndex, hashEndIndex))
-      .then(fullPath => history.push(fullPath))
-      .catch(e => {
+      .then((fullPath) => history.push(fullPath))
+      .catch((e) => {
         console.error(e)
         history.push('/')
       })

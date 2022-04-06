@@ -7,13 +7,13 @@ import styles from './LeftPageNavigation.module.scss'
 
 const extractFirstAnchor = (list, hash, accessor) => {
   const matchAnchor = hash ? hash.slice(1) : hash
-  return list.find(item => item[accessor] === matchAnchor) || list[0]
+  return list.find((item) => item[accessor] === matchAnchor) || list[0]
 }
 
 export const useNavigationAnchor = (list, accessor = 'key') => {
   const history = useHistory()
   const [active, setActive] = useState(() =>
-    extractFirstAnchor(list, history.location.hash, accessor)
+    extractFirstAnchor(list, history.location.hash, accessor),
   )
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export const useNavigationAnchor = (list, accessor = 'key') => {
 
   return {
     setActive,
-    active
+    active,
   }
 }
 
@@ -46,7 +46,7 @@ const LeftPageNavigation = ({ anchors }) => {
       return {
         key,
         info: rect,
-        top: rect.top + window.scrollY + rect.height / 2
+        top: rect.top + window.scrollY + rect.height / 2,
       }
     })
 
@@ -74,24 +74,15 @@ const LeftPageNavigation = ({ anchors }) => {
           })}
         </>
       ) : (
-        <RenderList
-          list={preparedAnchors}
-          setActive={setActive}
-          active={active}
-        />
+        <RenderList list={preparedAnchors} setActive={setActive} active={active} />
       )}
     </div>
   )
 }
 
 const RenderList = ({ list, setActive, active }) =>
-  list.map(item => (
-    <NavigationItem
-      item={item}
-      key={item.key}
-      setActive={setActive}
-      active={active}
-    />
+  list.map((item) => (
+    <NavigationItem item={item} key={item.key} setActive={setActive} active={active} />
   ))
 
 const NavigationItem = ({ item, setActive, active }) => {

@@ -5,7 +5,7 @@ import styles from './ValueChange.module.scss'
 
 const Change = {
   true: ['lima', 'triangle-up'],
-  false: ['persimmon', 'triangle-down']
+  false: ['persimmon', 'triangle-down'],
 }
 
 const notChanged = ['texas-rose', 'lock-small']
@@ -20,10 +20,7 @@ const ValueChange = ({ className, suffix, change, render }) => {
       style={{ color: `var(--${accent})`, fill: `var(--${accent})` }}
     >
       {changed && (
-        <div
-          className={styles.triangle}
-          style={{ background: `var(--${accent}-light)` }}
-        >
+        <div className={styles.triangle} style={{ background: `var(--${accent}-light)` }}>
           <Icon type={triangle} />
         </div>
       )}
@@ -35,7 +32,7 @@ const ValueChange = ({ className, suffix, change, render }) => {
 
 ValueChange.defaultProps = {
   change: 0,
-  render: change => change
+  render: (change) => change,
 }
 
 export default ValueChange

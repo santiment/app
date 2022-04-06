@@ -7,7 +7,7 @@ import Calendar from '../../../components/Calendar/Calendar'
 import { getDateFormats } from '../../../utils/dates'
 import styles from './Calendar.module.scss'
 
-const getDateLabel = date => {
+const getDateLabel = (date) => {
   const { DD, MMM, YY } = getDateFormats(date)
   return `${DD} ${MMM} ${YY}`
 }
@@ -41,7 +41,7 @@ const AdvancedViewCalendar = ({ dates, className, ...rest }) => {
 }
 
 AdvancedViewCalendar.defaultProps = {
-  dates: [new Date()]
+  dates: [new Date()],
 }
 
 export default AdvancedViewCalendar

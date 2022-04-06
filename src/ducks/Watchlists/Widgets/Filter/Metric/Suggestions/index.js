@@ -15,10 +15,7 @@ const Suggestions = ({ hints, onSuggestionClick }) => {
             on='hover'
             className={styles.tooltip}
             trigger={
-              <span
-                className={styles.hint}
-                onClick={() => onSuggestionClick(props)}
-              >
+              <span className={styles.hint} onClick={() => onSuggestionClick(props)}>
                 {label}
               </span>
             }
@@ -26,14 +23,10 @@ const Suggestions = ({ hints, onSuggestionClick }) => {
             {description}
           </DarkTooltip>
         ) : (
-          <span
-            key={idx}
-            className={styles.hint}
-            onClick={() => onSuggestionClick(props)}
-          >
+          <span key={idx} className={styles.hint} onClick={() => onSuggestionClick(props)}>
             {label}
           </span>
-        )
+        ),
       )}
     </div>
   ) : null

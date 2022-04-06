@@ -5,16 +5,11 @@ import { getMetricByKey } from '../../../../../../Studio/metrics'
 import { getConditionsStr, parseOperation } from '../../../../../utils'
 import styles from './MetricsAndConditions.module.scss'
 
-const MetricsAndConditions = ({
-  description,
-  invalidStepsMemo,
-  isFinished,
-  selected
-}) => {
+const MetricsAndConditions = ({ description, invalidStepsMemo, isFinished, selected }) => {
   const {
     values: {
-      settings: { metric, time_window, operation }
-    }
+      settings: { metric, time_window, operation },
+    },
   } = useFormikContext()
 
   const isInvalid = invalidStepsMemo.has('metric')
@@ -33,13 +28,12 @@ const MetricsAndConditions = ({
     const metricLabel = selectedMetric ? selectedMetric.label : 'Metric'
     const hasPriceIcon =
       selectedMetric &&
-      (selectedMetric.label.includes('price') ||
-        selectedMetric.category === 'Financial')
+      (selectedMetric.label.includes('price') || selectedMetric.category === 'Financial')
     const conditionsStr = getConditionsStr({
       operation: selectedOperation,
       count: selectedCount,
       timeWindow: time_window,
-      hasPriceIcon: !!hasPriceIcon
+      hasPriceIcon: !!hasPriceIcon,
     })
 
     children = (
@@ -55,13 +49,7 @@ const MetricsAndConditions = ({
   return (
     <div className={styles.col}>
       {(selected || isFinished) && children}
-      {isInvalid && (
-        <AlertMessage
-          className={styles.error}
-          error
-          text='Metric is required'
-        />
-      )}
+      {isInvalid && <AlertMessage className={styles.error} error text='Metric is required' />}
     </div>
   )
 }

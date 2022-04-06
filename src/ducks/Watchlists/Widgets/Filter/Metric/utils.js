@@ -1,4 +1,4 @@
-export function filterValuesBySearch (value = '', values, key) {
+export function filterValuesBySearch(value = '', values, key) {
   if (!value) {
     return values
   }
@@ -6,9 +6,9 @@ export function filterValuesBySearch (value = '', values, key) {
   const chars = value.toLowerCase().split('')
   const passedValues = []
 
-  values.forEach(item => {
+  values.forEach((item) => {
     const str = item[key].toLowerCase()
-    const foundChars = chars.filter(char => str.includes(char))
+    const foundChars = chars.filter((char) => str.includes(char))
     if (foundChars.length === chars.length) {
       passedValues.push(item)
     }

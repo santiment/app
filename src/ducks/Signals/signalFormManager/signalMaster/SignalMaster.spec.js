@@ -13,13 +13,8 @@ describe('SignalMaster', () => {
 
     const wrapper = shallow(
       <Provider store={store}>
-        <SignalMaster
-          triggerId={247}
-          setTitle={() => {}}
-          onClose={() => {}}
-          canRedirect={true}
-        />
-      </Provider>
+        <SignalMaster triggerId={247} setTitle={() => {}} onClose={() => {}} canRedirect={true} />
+      </Provider>,
     )
 
     expect(shallowToJson(wrapper)).toMatchSnapshot()

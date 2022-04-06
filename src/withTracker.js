@@ -5,20 +5,20 @@ if (process.env.NODE_ENV === 'production') {
   initializeTracking()
 }
 
-const withTracker = WrappedComponent => {
-  const trackPage = page => {
+const withTracker = (WrappedComponent) => {
+  const trackPage = (page) => {
     if (process.env.NODE_ENV === 'production') {
       pageview(page)
     }
   }
 
   const HOC = class extends Component {
-    componentDidMount () {
+    componentDidMount() {
       const page = this.props.location.pathname
       trackPage(page)
     }
 
-    componentWillReceiveProps (nextProps) {
+    componentWillReceiveProps(nextProps) {
       const currentPage = this.props.location.pathname
       const nextPage = nextProps.location.pathname
 
@@ -27,7 +27,7 @@ const withTracker = WrappedComponent => {
       }
     }
 
-    render () {
+    render() {
       return <WrappedComponent {...this.props} />
     }
   }

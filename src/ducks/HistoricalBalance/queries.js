@@ -2,9 +2,7 @@ import gql from 'graphql-tag'
 
 export const WALLET_ASSETS_QUERY = gql`
   query assetsHeldByAddress($address: String!, $infrastructure: String!) {
-    assetsHeldByAddress(
-      selector: { address: $address, infrastructure: $infrastructure }
-    ) {
+    assetsHeldByAddress(selector: { address: $address, infrastructure: $infrastructure }) {
       slug
       balance
       balanceUsd
@@ -13,13 +11,8 @@ export const WALLET_ASSETS_QUERY = gql`
 `
 
 export const ADDRESS_QUERY = gql`
-  query blockchainAddress(
-    $address: binary_blockchain_address!
-    $infrastructure: String!
-  ) {
-    blockchainAddress(
-      selector: { address: $address, infrastructure: $infrastructure }
-    ) {
+  query blockchainAddress($address: binary_blockchain_address!, $infrastructure: String!) {
+    blockchainAddress(selector: { address: $address, infrastructure: $infrastructure }) {
       id
       commentsCount
       notes

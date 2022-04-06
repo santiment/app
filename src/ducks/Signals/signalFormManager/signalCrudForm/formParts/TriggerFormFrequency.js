@@ -6,12 +6,9 @@ import {
   getFrequencyTimeType,
   getFrequencyTimeValues,
   getNearestFrequencyTimeValue,
-  getNearestFrequencyTypeValue
+  getNearestFrequencyTypeValue,
 } from '../../../utils/utils'
-import {
-  FREQUENCY_TYPES_OPTIONS,
-  frequencyTymeValueBuilder
-} from '../../../utils/constants'
+import { FREQUENCY_TYPES_OPTIONS, frequencyTymeValueBuilder } from '../../../utils/constants'
 import styles from '../signal/TriggerForm.module.scss'
 import cx from 'classnames'
 
@@ -19,7 +16,7 @@ const propTypes = {
   metaFormSettings: PropTypes.any.isRequired,
   setFieldValue: PropTypes.func.isRequired,
   frequencyType: PropTypes.any,
-  frequencyTimeType: PropTypes.any
+  frequencyTimeType: PropTypes.any,
 }
 
 export const TriggerFormFrequency = ({
@@ -28,11 +25,11 @@ export const TriggerFormFrequency = ({
   metric,
   frequencyType,
   frequencyTimeType,
-  disabled = false
+  disabled = false,
 }) => {
   const defaultFrequencyType = metaFormSettings.frequencyType
 
-  const frequencyOptions = FREQUENCY_TYPES_OPTIONS.filter(item => {
+  const frequencyOptions = FREQUENCY_TYPES_OPTIONS.filter((item) => {
     return !item.disabledMetrics || item.disabledMetrics.indexOf(metric) === -1
   })
 
@@ -50,15 +47,10 @@ export const TriggerFormFrequency = ({
           isSearchable
           placeholder='Choose a frequency'
           options={frequencyOptions}
-          onChange={frequencyType => {
-            const newFrequencyTimeType = getNearestFrequencyTypeValue(
-              frequencyType
-            )
+          onChange={(frequencyType) => {
+            const newFrequencyTimeType = getNearestFrequencyTypeValue(frequencyType)
             setFieldValue('frequencyTimeType', newFrequencyTimeType)
-            setFieldValue(
-              'frequencyTimeValue',
-              getNearestFrequencyTimeValue(newFrequencyTimeType)
-            )
+            setFieldValue('frequencyTimeValue', getNearestFrequencyTimeValue(newFrequencyTimeType))
           }}
         />
       </div>
@@ -74,15 +66,11 @@ export const TriggerFormFrequency = ({
             options={getFrequencyTimeValues(frequencyTimeType)}
           />
           <FormikSelect
-            disabled={
-              disabled ||
-              !frequencyType ||
-              frequencyTimeTypeOptions.length === 1
-            }
+            disabled={disabled || !frequencyType || frequencyTimeTypeOptions.length === 1}
             className={styles.frequencyTimeType}
             name='frequencyTimeType'
             isClearable={false}
-            onChange={frequencyTimeType =>
+            onChange={(frequencyTimeType) =>
               setFieldValue('frequencyTimeValue', frequencyTymeValueBuilder(1))
             }
             options={frequencyTimeTypeOptions}

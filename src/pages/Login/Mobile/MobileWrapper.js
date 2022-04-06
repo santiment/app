@@ -14,13 +14,7 @@ const MobileWrapper = ({ isDesktop, children, onBack, className }) => {
   return (
     <div className={cx(styles.wrapper, className)}>
       <Panel padding className={styles.panel}>
-        {onBack && (
-          <Icon
-            type='close-medium'
-            className={styles.iconClose}
-            onClick={onBack}
-          />
-        )}
+        {onBack && <Icon type='close-medium' className={styles.iconClose} onClick={onBack} />}
         {children}
       </Panel>
     </div>

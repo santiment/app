@@ -58,7 +58,7 @@ const handleLaunch = (action$, store, { client }) =>
     mergeMap(() => {
       const queryPromise = client.query({
         options: { fetchPolicy: 'network-only' },
-        query: USER_EMAIL_LOGIN_QEURY
+        query: USER_EMAIL_LOGIN_QEURY,
       })
       return Observable.from(queryPromise)
         .map(({ data }) => {
@@ -66,31 +66,31 @@ const handleLaunch = (action$, store, { client }) =>
             return {
               type: actions.CHANGE_USER_DATA,
               user: data.currentUser,
-              hasMetamask: hasMetamask()
+              hasMetamask: hasMetamask(),
             }
           }
           client.cache.reset()
           return {
-            type: actions.APP_USER_HAS_INACTIVE_TOKEN
+            type: actions.APP_USER_HAS_INACTIVE_TOKEN,
           }
         })
-        .catch(error => {
+        .catch((error) => {
           Sentry.captureException(error)
           client.cache.reset()
           if (!/Network error/.test(error)) {
             return Observable.of({
               type: actions.APP_USER_HAS_INACTIVE_TOKEN,
               payload: {
-                error
-              }
+                error,
+              },
             })
           }
           return Observable.of({
-            type: '_'
+            type: '_',
           })
         })
         .takeUntil(action$.ofType(actions.USER_LOGIN_SUCCESS))
-    })
+    }),
   )
 
 export default handleLaunch

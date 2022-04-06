@@ -16,7 +16,7 @@ import styles from './SettingsSubscription.module.scss'
 
 const PERIOD_END_ACTION = {
   false: 'renew',
-  true: 'cancel'
+  true: 'cancel',
 }
 
 const PlanText = ({ subscription }) => {
@@ -26,7 +26,7 @@ const PlanText = ({ subscription }) => {
       cancelAtPeriodEnd,
       plan: { amount, name, interval, isDeprecated },
       trialEnd,
-      status
+      status,
     } = subscription
 
     const { MMMM, DD, YYYY } = getDateFormats(new Date(currentPeriodEnd))
@@ -37,24 +37,16 @@ const PlanText = ({ subscription }) => {
       <>
         <div className={styles.title}>
           {PLANS[name].title} Plan {getTrialLabel(trialEnd, status)}
-          {isDeprecated && (
-            <span className={styles.deprecated}>Deprecated</span>
-          )}
+          {isDeprecated && <span className={styles.deprecated}>Deprecated</span>}
         </div>
         {trialEnd ? null : (
           <div className={styles.desc}>
             {price} per {interval}.{' '}
-            {notCanceled && (
-              <ChangeBillingDialog
-                subscription={subscription}
-                classes={styles}
-              />
-            )}
+            {notCanceled && <ChangeBillingDialog subscription={subscription} classes={styles} />}
           </div>
         )}
         <div className={styles.desc}>
-          Will automatically{' '}
-          {PERIOD_END_ACTION[Boolean(trialEnd) || cancelAtPeriodEnd]} on {MMMM}{' '}
+          Will automatically {PERIOD_END_ACTION[Boolean(trialEnd) || cancelAtPeriodEnd]} on {MMMM}{' '}
           {DD}, {YYYY}
         </div>
       </>
@@ -97,8 +89,7 @@ const SubscriptionRenewButton = ({ subscription: { id } = {} }) => {
 const SettingsSubscription = () => {
   const { subscription } = useUserSubscription()
   const notCanceled = subscription && !subscription.cancelAtPeriodEnd
-  const PlanBtn =
-    !subscription || notCanceled ? PlansDialog : SubscriptionRenewButton
+  const PlanBtn = !subscription || notCanceled ? PlansDialog : SubscriptionRenewButton
 
   return (
     <Settings id='subscription' header='Subscription'>
@@ -116,8 +107,7 @@ const SettingsSubscription = () => {
             <div>Cancel subscription</div>
 
             <Label accent='waterloo'>
-              If you cancel your subscription, you will not be able to see the
-              most recent data
+              If you cancel your subscription, you will not be able to see the most recent data
             </Label>
           </div>
           <CancelSubscriptionDialog subscription={subscription} />

@@ -6,13 +6,8 @@ import styles from './TemplatesGrid.module.scss'
 const TemplatesGrid = ({ templates }) => {
   return (
     <>
-      {templates.sort(sortById).map(template => (
-        <Template
-          key={template.id}
-          template={template}
-          className={styles.card}
-          asLink
-        />
+      {templates.sort(sortById).map((template) => (
+        <Template key={template.id} template={template} className={styles.card} asLink />
       ))}
     </>
   )

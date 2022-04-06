@@ -7,7 +7,7 @@ import ConfirmDialog from '../../ConfirmDialog/ConfirmDialog'
 import { removeTrigger } from '../../../ducks/Signals/common/actions'
 import styles from './SignalControls.module.scss'
 
-const RemoveDescription = title => (
+const RemoveDescription = (title) => (
   <>
     Are you sure you want to delete <span>{title}</span> ?
   </>
@@ -24,7 +24,7 @@ const RemoveSignalButton = ({
     <Button variant='ghost' type='button' className={cx(className, styles.btn)}>
       <Icon type='remove' />
     </Button>
-  )
+  ),
 }) =>
   withConfirm ? (
     <ConfirmDialog
@@ -44,10 +44,10 @@ const RemoveSignalButton = ({
     <TriggerEl onClick={() => removeSignal(id)} />
   )
 
-const mapDispatchToProps = dispatch => ({
-  removeSignal: id => {
+const mapDispatchToProps = (dispatch) => ({
+  removeSignal: (id) => {
     dispatch(removeTrigger(id))
-  }
+  },
 })
 
 export default connect(null, mapDispatchToProps)(RemoveSignalButton)
