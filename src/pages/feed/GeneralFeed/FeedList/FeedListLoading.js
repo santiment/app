@@ -126,7 +126,7 @@ class FeedListLoading extends React.Component {
     }
   }
 
-sdEvents({ events }) {
+  getFilteredEvents({ events }) {
     return events.filter(({ post, payload, trigger }) => post || (trigger && payload))
   }
 
