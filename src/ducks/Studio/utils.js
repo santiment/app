@@ -11,7 +11,7 @@ const METRIC_WIDGET_SET = new Set([
   Metric.adjusted_price_daa_divergence,
 ])
 
-export function mergeMetricSettingMap (oldMap, newMap) {
+export function mergeMetricSettingMap(oldMap, newMap) {
   const mergedMap = new Map(oldMap)
 
   newMap.forEach((newSettings, metric) =>
@@ -21,7 +21,7 @@ export function mergeMetricSettingMap (oldMap, newMap) {
   return mergedMap
 }
 
-export function calculateMovingAverageFromInterval (interval) {
+export function calculateMovingAverageFromInterval(interval) {
   const { amount, format } = parseIntervalString(interval)
 
   const dividend = IntervalFormatDividend[format] || 1
@@ -31,7 +31,7 @@ export function calculateMovingAverageFromInterval (interval) {
 
 export const checkIsMetricWidget = (metric) => METRIC_WIDGET_SET.has(metric)
 
-export function extractIndicatorDomainGroups (MetricIndicators) {
+export function extractIndicatorDomainGroups(MetricIndicators) {
   const domainGroups = []
 
   Object.keys(MetricIndicators).forEach((rootDomain) => {
@@ -46,7 +46,7 @@ export function extractIndicatorDomainGroups (MetricIndicators) {
   return domainGroups
 }
 
-export function deduceItems (items, item) {
+export function deduceItems(items, item) {
   const newItems = new Set(items)
 
   if (newItems.has(item)) {
@@ -58,7 +58,7 @@ export function deduceItems (items, item) {
   return [...newItems]
 }
 
-export function getMetricSetting (MetricSettingMap, metric) {
+export function getMetricSetting(MetricSettingMap, metric) {
   const metricSetting = MetricSettingMap.get(metric)
   if (metricSetting) return metricSetting
 

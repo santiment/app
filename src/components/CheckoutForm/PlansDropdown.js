@@ -24,7 +24,7 @@ const PlansDropdown = ({ title, plan, altPlan, onBillingSelect }) => {
     }
   }, [isOpened])
 
-  function closeDropdown () {
+  function closeDropdown() {
     setIsOpened(false)
   }
 

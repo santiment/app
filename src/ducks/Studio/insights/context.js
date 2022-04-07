@@ -26,7 +26,7 @@ const InsightsToggleContext = React.createContext()
 const InsightsActiveToggleContext = React.createContext()
 const InsightsErrorContext = React.createContext()
 
-export function loadInsights (key, from, to) {
+export function loadInsights(key, from, to) {
   const loader = LoadInsights[key] || getTagInsights
   return loader(from, to, key)
 }
@@ -70,7 +70,7 @@ export const InsightsProvider = ({ children }) => {
     return () => (race = true)
   }, [toggle, from, to])
 
-  function toggleInsight (newToggle, newFrom, newTo) {
+  function toggleInsight(newToggle, newFrom, newTo) {
     if (newFrom !== from || newTo !== to) {
       setToggle([newToggle, newFrom, newTo])
     } else {
@@ -96,8 +96,17 @@ export const useToggleInsight = () => useContext(InsightsToggleContext)
 export const useInsightsErrorMsg = () => useContext(InsightsErrorContext)
 export const useActiveToggleInsight = () => useContext(InsightsActiveToggleContext)
 
+<<<<<<< HEAD
 export const withInsightsProvider = (Component) => (props) => (
   <InsightsProvider>
     <Component {...props} />
   </InsightsProvider>
 )
+=======
+export const withInsightsProvider = (Component) => (props) =>
+  (
+    <InsightsProvider>
+      <Component {...props} />
+    </InsightsProvider>
+  )
+>>>>>>> master

@@ -117,11 +117,19 @@ export const useRawSignals = ({ from, to }) => {
 const marketcapSorter = (groups) => (a, b) =>
   groups[b].project.marketcapUsd - groups[a].project.marketcapUsd
 
+<<<<<<< HEAD
 export function useGroupedBySlugs (signals, hiddenLabels, selectedAssets) {
   const filteredByAssets = useMemo(() => signals.filter(({ slug }) => selectedAssets[slug]), [
     signals,
     selectedAssets,
   ])
+=======
+export function useGroupedBySlugs(signals, hiddenLabels, selectedAssets) {
+  const filteredByAssets = useMemo(
+    () => signals.filter(({ slug }) => selectedAssets[slug]),
+    [signals, selectedAssets],
+  )
+>>>>>>> master
 
   const { slugs, projects } = useMemo(
     () => ({

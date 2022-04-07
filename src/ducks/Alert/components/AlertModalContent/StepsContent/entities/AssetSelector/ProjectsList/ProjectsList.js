@@ -8,7 +8,7 @@ import styles from './ProjectsList.module.scss'
 const ROW_HEIGHT = 36
 const listStyle = { overflowX: false, overflowY: false }
 
-function subExtractor (sections = [], index) {
+function subExtractor(sections = [], index) {
   let itemIndex = index
   for (let ii = 0; ii < sections.length; ii++) {
     const section = sections[ii]

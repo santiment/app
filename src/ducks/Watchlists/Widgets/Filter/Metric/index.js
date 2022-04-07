@@ -7,7 +7,7 @@ import MetricSettings from './MetricSettings'
 import { DEFAULT_SETTINGS } from '../defaults'
 import { getTimeRangesByMetric } from '../dataHub/metrics'
 
-function fakeFormatter (value) {
+function fakeFormatter(value) {
   return value
 }
 
@@ -110,7 +110,7 @@ const FilterMetric = ({
     }
   }, [settings])
 
-  function onFilterTypeChange (type) {
+  function onFilterTypeChange(type) {
     if (
       Filter[type].showTimeRange &&
       !percentTimeRanges.some((item) => item.type === settings.timeRange) &&
@@ -126,17 +126,21 @@ const FilterMetric = ({
     }
   }
 
-  function onFirstThresholdChange (value) {
+  function onFirstThresholdChange(value) {
     const newValue = isNaN(parseFloat(value)) ? '' : parseFloat(value)
     setSettings((state) => ({ ...state, firstThreshold: newValue }))
   }
 
-  function onSecondThresholdChange (value) {
+  function onSecondThresholdChange(value) {
     const newValue = isNaN(parseFloat(value)) ? '' : parseFloat(value)
     setSettings((state) => ({ ...state, secondThreshold: newValue }))
   }
 
+<<<<<<< HEAD
   function onTimeRangeChange (timeRange) {
+=======
+  function onTimeRangeChange(timeRange) {
+>>>>>>> master
     setSettings((state) => ({ ...state, timeRange }))
   }
 

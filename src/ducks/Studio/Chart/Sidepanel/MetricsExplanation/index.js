@@ -22,13 +22,13 @@ const dropdownClasses = {
   wrapper: styles.dropdown,
 }
 
-export function filterExplainableMetrics (metrics) {
+export function filterExplainableMetrics(metrics) {
   return metrics.filter(
     ({ key }) => Description[key] || Insights[key] || Explanation[key] || Frequences[key],
   )
 }
 
-function dedupMetrics (metrics) {
+function dedupMetrics(metrics) {
   const dups = new Set()
 
   return metrics.filter(({ key }) => {
@@ -38,7 +38,11 @@ function dedupMetrics (metrics) {
   })
 }
 
+<<<<<<< HEAD
 function buildOptions (metrics, colors) {
+=======
+function buildOptions(metrics, colors) {
+>>>>>>> master
   return dedupMetrics(filterExplainableMetrics(metrics)).map((metric) => ({
     index: metric.key,
     content: <Label metric={metric} colors={colors} />,

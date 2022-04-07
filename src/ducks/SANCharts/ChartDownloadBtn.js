@@ -23,12 +23,12 @@ const LEGEND_FONT = '15px Proxima Nova'
 const PNG_WIDTH = 1920
 const PNG_HEIGHT = 650
 
-function drawAndMeasureText (pngCtx, text, x, y) {
+function drawAndMeasureText(pngCtx, text, x, y) {
   pngCtx.fillText(text, x, y)
   return pngCtx.measureText(text).width
 }
 
-function drawLegend (pngChart, metrics, isNightMode) {
+function drawLegend(pngChart, metrics, isNightMode) {
   const { canvasWidth: width, canvasHeight: height, colors } = pngChart
   const pngCtx = pngChart.ctx
   pngCtx.font = LEGEND_FONT
@@ -54,7 +54,11 @@ function drawLegend (pngChart, metrics, isNightMode) {
   })
 }
 
+<<<<<<< HEAD
 function downloadChart ({ current: chart }, title, metrics, data, MetricNode, isNightMode) {
+=======
+function downloadChart({ current: chart }, title, metrics, data, MetricNode, isNightMode) {
+>>>>>>> master
   const { scale, colors, domainGroups, plotter, axesMetricKeys } = chart
   const { brushPaintConfig, ...rest } = paintConfigs[+isNightMode]
 

@@ -50,14 +50,14 @@ const UniswapFlowBalances = () => {
   const [dayIndex, setDayIndex] = useAnimatedDayIndex(DAYS_AMOUNT, isHovered || isLoading)
   const { matrix } = useDayMatrix(periodMatrix, dayIndex)
 
-  function onHover () {
+  function onHover() {
     setIsHovered(true)
   }
-  function onBlur () {
+  function onBlur() {
     setIsHovered(false)
   }
 
-  function onCalendarChange (newFrom) {
+  function onCalendarChange(newFrom) {
     setDayIndex(DAYS_AMOUNT - getDaysAmount(newFrom, TO))
   }
 

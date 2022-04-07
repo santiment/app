@@ -90,7 +90,7 @@ const Category = ({
 
   const isShowCategory = !currentSearch || (currentSearch && filteredColumns.length !== 0)
 
-  function onSortEnd ({ newIndex, oldIndex }) {
+  function onSortEnd({ newIndex, oldIndex }) {
     if (newIndex === oldIndex) return
 
     const newActiveColumns = Array.from(activeColumns)

@@ -41,7 +41,7 @@ const keyAccessor = ({ key }) => key
 
 let isInFlight = false
 
-export function useFavoriteMetrics () {
+export function useFavoriteMetrics() {
   const { data } = useQuery(USER_SETTINGS_QUERY)
 
   return useMemo(() => {
@@ -59,7 +59,7 @@ export function useFavoriteMetrics () {
   }, [data])
 }
 
-function updateFavoriteMetricsCache (_, { data }) {
+function updateFavoriteMetricsCache(_, { data }) {
   const { currentUser } = client.readQuery(QUERY)
 
   client.writeQuery({
@@ -80,7 +80,7 @@ export const mutateFavoriteMetrics = (metrics) =>
     update: updateFavoriteMetricsCache,
   })
 
-export function toggleFavoriteMetric (metric) {
+export function toggleFavoriteMetric(metric) {
   if (isInFlight) return
 
   isInFlight = true

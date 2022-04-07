@@ -19,7 +19,7 @@ const ProjectsList = ({ projects, onSelect, className }) => {
   const rowCount = projects.length
 
   useEffect(() => {
-    function onKeyDown (e) {
+    function onKeyDown(e) {
       const { key } = e
       setCursor((cursor) => {
         let newCursor = cursor
@@ -50,7 +50,7 @@ const ProjectsList = ({ projects, onSelect, className }) => {
     }
   }, [projects])
 
-  function rowRenderer ({ key, index, style }) {
+  function rowRenderer({ key, index, style }) {
     const project = projects[index]
     const { name, ticker, slug, logoUrl } = project
 

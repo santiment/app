@@ -50,7 +50,7 @@ const createActivitiesDB = () => {
   }
 }
 
-function getFirstValueFromTable (storeName, checkCallback) {
+function getFirstValueFromTable(storeName, checkCallback) {
   if (noDbOrStore(storeName)) {
     return
   }
@@ -76,11 +76,11 @@ function getFirstValueFromTable (storeName, checkCallback) {
   }
 }
 
-function noDbOrStore (storeName) {
+function noDbOrStore(storeName) {
   return !db || !db.objectStoreNames.contains(storeName)
 }
 
-function removeFromDb (storeName, checkCallback) {
+function removeFromDb(storeName, checkCallback) {
   if (noDbOrStore(storeName)) {
     setTimeout(() => {
       removeFromDb(storeName, checkCallback)
@@ -90,10 +90,7 @@ function removeFromDb (storeName, checkCallback) {
 
   createActivityChecksTable()
 
-  const request = db
-    .transaction([storeName], 'readwrite')
-    .objectStore(storeName)
-    .clear()
+  const request = db.transaction([storeName], 'readwrite').objectStore(storeName).clear()
 
   request.onsuccess = (event) => {
     checkCallback()
@@ -103,17 +100,14 @@ function removeFromDb (storeName, checkCallback) {
   }
 }
 
-function addToDb (storeName, data, checkCallback) {
+function addToDb(storeName, data, checkCallback) {
   if (noDbOrStore(storeName)) {
     return
   }
 
   createActivityChecksTable()
 
-  const request = db
-    .transaction([storeName], 'readwrite')
-    .objectStore(storeName)
-    .add(data)
+  const request = db.transaction([storeName], 'readwrite').objectStore(storeName).add(data)
 
   request.onsuccess = (event) => {
     checkCallback && checkCallback()
@@ -234,10 +228,22 @@ const loadAndCheckActivities = () => {
       const { data: { activities: { activity } = {} } = {} } = res
 
       if (activity) {
+<<<<<<< HEAD
         const filtered = activity.filter(({ trigger: { settings: { channel } } }) =>
           Array.isArray(channel)
             ? channel.indexOf(WEB_PUSH_CHANNEL) !== -1
             : channel === WEB_PUSH_CHANNEL,
+=======
+        const filtered = activity.filter(
+          ({
+            trigger: {
+              settings: { channel },
+            },
+          }) =>
+            Array.isArray(channel)
+              ? channel.indexOf(WEB_PUSH_CHANNEL) !== -1
+              : channel === WEB_PUSH_CHANNEL,
+>>>>>>> master
         )
 
         checkNewActivities(filtered)

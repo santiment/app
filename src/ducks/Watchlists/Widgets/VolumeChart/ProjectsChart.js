@@ -61,10 +61,15 @@ const renderCustomizedLabel = (props) => {
 }
 
 const ProjectsChart = ({ listId, redirect, settings, onChangeSettings, type }) => {
+<<<<<<< HEAD
   const {
     sorter: { sortBy = 'marketcapUsd', desc: sortDesc } = {},
     currency: defaultCurrency,
   } = settings
+=======
+  const { sorter: { sortBy = 'marketcapUsd', desc: sortDesc } = {}, currency: defaultCurrency } =
+    settings
+>>>>>>> master
   const defaultIndex = useMemo(() => {
     const index = SORT_RANGES.findIndex(({ key, desc }) => key === sortBy && desc === sortDesc)
     return index >= 0 ? index : 0

@@ -14,7 +14,7 @@ const KeyToSidewidget = {
   [SelectorNode.SOCIAL_CONTEXT.key]: SocialContext,
 }
 
-function mountSidewidget (Widget, target, setState) {
+function mountSidewidget(Widget, target, setState) {
   target.classList.add(styles.sidepanel)
   setState({
     Widget,

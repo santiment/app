@@ -29,7 +29,7 @@ const SocialTrendsSelector = ({
     },
   } = useFormikContext()
 
-  function handleNextClick () {
+  function handleNextClick() {
     setSelectedStep(selectedStep + 1)
 
     if (!visitedSteps.has(selectedStep + 1)) {
@@ -37,7 +37,7 @@ const SocialTrendsSelector = ({
     }
   }
 
-  function handleSelectTarget (target) {
+  function handleSelectTarget(target) {
     if (target === 'slug') {
       setTarget({ slug: '' })
       setOperation({ trending_project: true })

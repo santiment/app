@@ -61,7 +61,11 @@ const DEFAULT_STATE = {
   categories: getCategoryGraph(DEFAULT_METRICS),
 }
 
+<<<<<<< HEAD
 export function useProjectMetrics (slug, hiddenMetrics = DEFAULT_HIDDEN_METRICS, noMarketSegments) {
+=======
+export function useProjectMetrics(slug, hiddenMetrics = DEFAULT_HIDDEN_METRICS, noMarketSegments) {
+>>>>>>> master
   const isBeta = useIsBetaMode()
   const { data } = useQuery(PROJECT_METRICS_QUERIES_SEGMENTS_BY_SLUG_QUERY, {
     variables: { slug },

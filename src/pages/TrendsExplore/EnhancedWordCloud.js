@@ -26,7 +26,7 @@ const EnhancedWordCloud = ({ words, isDesktop, ...props }) => {
     }
   }, [words])
 
-  function onCalendarChange (datetime) {
+  function onCalendarChange(datetime) {
     setDate([datetime])
     setPeriod(getTimePeriod(datetime))
   }

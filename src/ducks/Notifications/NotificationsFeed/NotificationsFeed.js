@@ -40,11 +40,11 @@ const TABS_TO_FILTER_AUTHORS = {
   Following: 'FOLLOWED',
 }
 
-function isNew (event, date) {
+function isNew(event, date) {
   return date && new Date(event.insertedAt).getTime() > date.getTime()
 }
 
-function setToLsFirst (events) {
+function setToLsFirst(events) {
   const first = events[0]
 
   if (first) {
@@ -70,7 +70,11 @@ const NotificationsFeed = () => {
   const [canLoad, setCanLoad] = useState(true)
   const [lastLoadedDate, setLastViewedDate] = useState(getLastUpdated)
 
-  const { data: { events: chunk } = {}, loading, error } = useTimelineEvents({
+  const {
+    data: { events: chunk } = {},
+    loading,
+    error,
+  } = useTimelineEvents({
     to: settings.date,
     type: settings.type,
     author: settings.author,
@@ -92,7 +96,7 @@ const NotificationsFeed = () => {
     isOpened && setToLsFirst(events)
   }, [events, isOpened])
 
-  function loadMore () {
+  function loadMore() {
     if (!loading && canLoad && !error) {
       const last = events[events.length - 1]
       const targetDate =
@@ -110,7 +114,7 @@ const NotificationsFeed = () => {
     }
   }
 
-  function updateSettings (props) {
+  function updateSettings(props) {
     setEvents([])
     setSettings({
       ...settings,
@@ -119,13 +123,13 @@ const NotificationsFeed = () => {
     })
   }
 
-  function onChangeType (type) {
+  function onChangeType(type) {
     updateSettings({
       type,
     })
   }
 
-  function onClose () {
+  function onClose() {
     const event = setToLsFirst(events)
 
     if (event) {

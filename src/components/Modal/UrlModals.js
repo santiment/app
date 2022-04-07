@@ -8,7 +8,7 @@ const UrlModal = {
   LOGIN: 'login',
 }
 
-function useUrlModal () {
+function useUrlModal() {
   const [urlModal, setUrlModal] = useState()
 
   useEffect(() => {

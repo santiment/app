@@ -18,7 +18,7 @@ const useWalletQuery = (query, variables, skip) =>
     variables,
   })
 
-export function getWalletMetrics (walletAssets, priceAssets) {
+export function getWalletMetrics(walletAssets, priceAssets) {
   const walletMetrics = walletAssets.map(walletMetricBuilder)
   const priceMetrics = priceAssets.map(priceMetricBuilder)
   return walletMetrics.concat(priceMetrics)
@@ -27,7 +27,7 @@ export function getWalletMetrics (walletAssets, priceAssets) {
 export const useWalletMetrics = (walletAssets, priceAssets) =>
   useMemo(() => getWalletMetrics(walletAssets, priceAssets), [walletAssets, priceAssets])
 
-export function useBlockchainAddress (wallet) {
+export function useBlockchainAddress(wallet) {
   const { data } = useWalletQuery(ADDRESS_QUERY, wallet)
   return data ? data.blockchainAddress : DEFAULT_STATE
 }
@@ -35,7 +35,7 @@ export const useAddressLabels = (wallet) => useBlockchainAddress(wallet).labels 
 
 export const useAddressNote = (wallet) => useBlockchainAddress(wallet).notes || ''
 
-export function useWalletAssets (wallet) {
+export function useWalletAssets(wallet) {
   const { data, loading, error } = useWalletQuery(WALLET_ASSETS_QUERY, wallet)
 
   return {
@@ -45,7 +45,7 @@ export function useWalletAssets (wallet) {
   }
 }
 
-export function useRecentTransactions (wallet, page, skip) {
+export function useRecentTransactions(wallet, page, skip) {
   const query = RECENT_TRANSACTIONS_QUERY
   const variables = {
     page,
@@ -60,7 +60,7 @@ export function useRecentTransactions (wallet, page, skip) {
   }
 }
 
-export function useTopTransactions (wallet, page, skip, project, dates) {
+export function useTopTransactions(wallet, page, skip, project, dates) {
   const query = TOP_TRANSACTIONS_QUERY
   const variables = {
     page,
@@ -78,20 +78,24 @@ export function useTopTransactions (wallet, page, skip, project, dates) {
   }
 }
 
-export function useSettings (defaultSettings) {
+export function useSettings(defaultSettings) {
   const [settings, setSettings] = useState(defaultSettings)
   const { address } = settings
 
   useMemo(() => (settings.infrastructure = getAddressInfrastructure(address)), [address])
 
-  function onAddressChange (address) {
+  function onAddressChange(address) {
     setSettings({
       ...settings,
       address,
     })
   }
 
+<<<<<<< HEAD
   function changeTimePeriod (from, to, timeRange) {
+=======
+  function changeTimePeriod(from, to, timeRange) {
+>>>>>>> master
     setSettings((state) => ({
       ...state,
       timeRange,

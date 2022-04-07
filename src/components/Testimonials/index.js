@@ -8,23 +8,35 @@ const testimonials = [
     alias: 'JM',
     pic: 'default',
     position: 'Trader',
+<<<<<<< HEAD
     text:
       'I’ve been trading / investing / hodling for 3 years next week, and your website/app is REAL. i wish i had this a long time ago',
+=======
+    text: 'I’ve been trading / investing / hodling for 3 years next week, and your website/app is REAL. i wish i had this a long time ago',
+>>>>>>> master
   },
   {
     author: 'Peter Sikuda',
     pic: 'petersik',
     position: 'Investor',
+<<<<<<< HEAD
     text:
       'I’ve yet to find another site that lets me chart full historical data and indicators from 3 or 4 completely different sources on a single graph, and make it simple to find new correlations that I couldn’t see otherwise. If you want to get the full picture of the market, you need to tap into all information sources available, and that’s what Sanbase lets me do',
+=======
+    text: 'I’ve yet to find another site that lets me chart full historical data and indicators from 3 or 4 completely different sources on a single graph, and make it simple to find new correlations that I couldn’t see otherwise. If you want to get the full picture of the market, you need to tap into all information sources available, and that’s what Sanbase lets me do',
+>>>>>>> master
   },
   {
     author: 'Bagsy',
     alias: 'B',
     pic: 'default',
     position: 'Trader',
+<<<<<<< HEAD
     text:
       'I’ve yet to find another site that lets me chart full historical data and indicators from 3 or 4 completely different sources on a single graph, and make it simple to find new correlations.',
+=======
+    text: 'I’ve yet to find another site that lets me chart full historical data and indicators from 3 or 4 completely different sources on a single graph, and make it simple to find new correlations.',
+>>>>>>> master
   },
   {
     author: 'Panama_TJ',
@@ -37,8 +49,12 @@ const testimonials = [
     author: 'CRYPTO₿IRB',
     pic: 'cryptobirb',
     position: 'Certified Technical Analyst',
+<<<<<<< HEAD
     text:
       "Santiment is by far my favorite go-to place when I want to enrich my market analysis with on-chain insights. The platform itself shows an insane variety of tools and indicators that actually let me decide when to lock in profits before potential trend reversals come. I love it with all my analyst's heart!",
+=======
+    text: "Santiment is by far my favorite go-to place when I want to enrich my market analysis with on-chain insights. The platform itself shows an insane variety of tools and indicators that actually let me decide when to lock in profits before potential trend reversals come. I love it with all my analyst's heart!",
+>>>>>>> master
   },
 ]
 

@@ -16,7 +16,7 @@ const LOADING = {
 
 const wordAccessor = ({ word }) => word
 
-export function useTrendingWords (variables) {
+export function useTrendingWords(variables) {
   const { data, loading } = useQuery(TRENDING_WORDS_QUERY, { variables })
 
   return useMemo(() => {
@@ -38,7 +38,7 @@ export function useTrendingWords (variables) {
   }, [data])
 }
 
-function useTrendWordsData (query, words) {
+function useTrendWordsData(query, words) {
   const { data } = useQuery(query, {
     variables: {
       words,
@@ -59,7 +59,7 @@ function useTrendWordsData (query, words) {
   }, [data])
 }
 
-export function useTrendSocialVolumeChange (words, trend) {
+export function useTrendSocialVolumeChange(words, trend) {
   const data = useTrendWordsData(LAST_DAY_SOCIAL_VOLUME_QUERY, words)
 
   return useMemo(() => {
@@ -74,7 +74,7 @@ export function useTrendSocialVolumeChange (words, trend) {
   }, [data])
 }
 
-export function useTrendSocialVolume (words, trend) {
+export function useTrendSocialVolume(words, trend) {
   const data = useTrendWordsData(SOCIAL_VOLUME_QUERY, words)
 
   return useMemo(() => {
@@ -87,7 +87,7 @@ export function useTrendSocialVolume (words, trend) {
   }, [data])
 }
 
-export function useTrendWordContext (words, trend) {
+export function useTrendWordContext(words, trend) {
   const data = useTrendWordsData(TRENDING_WORDS_CONTEXT_QUERY, words)
 
   return useMemo(() => {

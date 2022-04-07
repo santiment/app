@@ -37,7 +37,7 @@ export const getPressedHandleType = (ctx, [handle1, handle2], x, y) =>
     ? HandleType.RIGHT
     : HandleType.MOVE
 
-export function getLineHandle (ctx, x, y, bgColor, strokeColor) {
+export function getLineHandle(ctx, x, y, bgColor, strokeColor) {
   const handle = new Path2D()
 
   ctx.lineWidth = LINE_WIDTH
@@ -48,7 +48,7 @@ export function getLineHandle (ctx, x, y, bgColor, strokeColor) {
   return handle
 }
 
-export function checkIsOnStrokeArea (ctx, shape, x, y) {
+export function checkIsOnStrokeArea(ctx, shape, x, y) {
   if (ctx.isPointInStroke(shape, x, y)) return true
 
   for (let i = 1; i < 8; i++) {
@@ -69,7 +69,7 @@ export const checkIsLineHovered = (ctx, { shape, handles }, x, y) =>
   ctx.isPointInPath(handles[0], x, y) ||
   ctx.isPointInPath(handles[1], x, y)
 
-function datetimeRelativeScaler (chart, width) {
+function datetimeRelativeScaler(chart, width) {
   const { data, left } = chart
   const firstDatetime = data[0].datetime
   const lastDatetime = data[data.length - 1].datetime
@@ -78,7 +78,7 @@ function datetimeRelativeScaler (chart, width) {
   return (x) => factor * (x - left) + firstDatetime
 }
 
-export function absoluteToRelativeCoordinates (chart, drawing) {
+export function absoluteToRelativeCoordinates(chart, drawing) {
   const { width, tooltipKey, minMaxes, scale } = chart
   const { min, max } = minMaxes[tooltipKey]
 
@@ -95,7 +95,7 @@ export function absoluteToRelativeCoordinates (chart, drawing) {
   ]
 }
 
-export function relativeToAbsoluteCoordinates (chart, drawing) {
+export function relativeToAbsoluteCoordinates(chart, drawing) {
   const { data, tooltipKey, minMaxes } = chart
   const { min, max } = minMaxes[tooltipKey]
 
@@ -107,7 +107,7 @@ export function relativeToAbsoluteCoordinates (chart, drawing) {
   return [scaleX(x1), scaleY(y1), scaleX(x2), scaleY(y2)]
 }
 
-export function paintDrawings (chart) {
+export function paintDrawings(chart) {
   const { drawer, right, bottom, left } = chart
   const { ctx, drawings, mouseover, selected } = drawer
 
@@ -150,7 +150,7 @@ export function paintDrawings (chart) {
   ctx.clearRect(0, bottom, right, 200)
 }
 
-function drawMetricValueBubble (chart, paintConfig, metricKey, y1, y2, offset) {
+function drawMetricValueBubble(chart, paintConfig, metricKey, y1, y2, offset) {
   const { drawer, scale, minMaxes } = chart
   const { ctx } = drawer
 
@@ -167,7 +167,7 @@ function drawMetricValueBubble (chart, paintConfig, metricKey, y1, y2, offset) {
   drawValueBubbleY(chart, ctx, formattedY2Value, y2, paintConfig, offset)
 }
 
-export function paintDrawingAxes (chart) {
+export function paintDrawingAxes(chart) {
   const { drawer, axesMetricKeys, bubblesPaintConfig, right, bottom } = chart
   const { ctx, selected: drawing } = drawer
   if (!drawing || !drawing.absCoor) return

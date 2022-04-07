@@ -10,16 +10,20 @@ class SmoothDropdownItem extends Component {
     trigger: PropTypes.element.isRequired,
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.mountTimer = setTimeout(() => this.forceUpdate(), 0) // VERY HACKY - NECESSARY TO UPDATE DROPDOWN IN DOM
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     clearTimeout(this.mountTimer)
     this.triggerRef = null
   }
 
+<<<<<<< HEAD
   render () {
+=======
+  render() {
+>>>>>>> master
     const { trigger, children, className = '', onOpen: propsOnOpen, onClose, ddParams } = this.props
     const {
       triggerRef: { current: ddTrigger },

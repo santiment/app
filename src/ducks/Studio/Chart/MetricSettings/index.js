@@ -18,7 +18,7 @@ const SettingToComponent = {
   labels: BlockchainLabelsSetting,
 }
 
-function isExchangeModifiable (metric) {
+function isExchangeModifiable(metric) {
   const { base = metric } = metric
   return (
     base === Metric.exchange_outflow ||

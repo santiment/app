@@ -35,7 +35,7 @@ NEW_METRICS.forEach((metric) => {
   }
 })
 
-function appendIfVisible (arr, metric, conditionProps) {
+function appendIfVisible(arr, metric, conditionProps) {
   if (localStorage.getItem(metric.key)) return
 
   const { checkIsVisible } = metric
@@ -44,7 +44,7 @@ function appendIfVisible (arr, metric, conditionProps) {
   }
 }
 
-export function getAssetNewMetrics (metricKeys, conditionProps) {
+export function getAssetNewMetrics(metricKeys, conditionProps) {
   const { length } = metricKeys
   const newMetrics = []
 

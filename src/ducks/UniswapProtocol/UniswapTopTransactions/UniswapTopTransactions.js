@@ -23,7 +23,7 @@ const { from, to } = getTimeIntervalFromToday(-30, DAY)
 const slug = 'uniswap'
 const TRANSACTIONS_COUNT = 25
 
-function useProjectTopTransactions (slug, from, to, limit, excludedAddresses) {
+function useProjectTopTransactions(slug, from, to, limit, excludedAddresses) {
   const { data, loading } = useQuery(TOP_TOKEN_TRANSACTIONS_QUERY, {
     variables: {
       slug,

@@ -1,4 +1,4 @@
-export function parseMetricGraphValue (graph, KnownMetric, metrics) {
+export function parseMetricGraphValue(graph, KnownMetric, metrics) {
   const MetricValue = {}
 
   if (!graph) return MetricValue

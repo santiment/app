@@ -28,7 +28,7 @@ const suggestedMetrics = {
   },
 }
 
-function filterCategories (categories, searchTerm) {
+function filterCategories(categories, searchTerm) {
   return Object.keys(categories).reduce((acc, curr) => {
     const category = Object.keys(categories[curr]).reduce((catAcc, catCurr) => {
       const arr = categories[curr][catCurr].reduce((arrItemAcc, arrItemCurr) => {
@@ -71,10 +71,17 @@ const MetricSelector = ({ selectedMetric, metrics, target, onChange }) => {
   const [categories, setCategories] = useState({})
   const [searchTerm, setSearchTerm] = useState('')
 
+<<<<<<< HEAD
   const allCategories = useMemo(() => filterCategories(categories, searchTerm), [
     categories,
     searchTerm,
   ])
+=======
+  const allCategories = useMemo(
+    () => filterCategories(categories, searchTerm),
+    [categories, searchTerm],
+  )
+>>>>>>> master
 
   const allMetrics = useMemo(
     () =>
@@ -93,7 +100,7 @@ const MetricSelector = ({ selectedMetric, metrics, target, onChange }) => {
     setCategories({ ...suggestedMetrics, ...newCategories })
   }, [metrics, allMetrics, isBeta])
 
-  function handleSelectMetric (metric) {
+  function handleSelectMetric(metric) {
     setMetric(metric.key)
     onChange(metric)
   }

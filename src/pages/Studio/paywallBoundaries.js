@@ -4,7 +4,7 @@ const ONE_DAY_IN_HOURS = 24
 const TWO_DAYS_IN_HOURS = ONE_DAY_IN_HOURS * 2
 const THREE_DAYS_IN_HOURS = ONE_DAY_IN_HOURS * 3
 
-function correctFromByHours (hours = TWO_DAYS_IN_HOURS) {
+function correctFromByHours(hours = TWO_DAYS_IN_HOURS) {
   const NEXT_DAY = new Date()
   NEXT_DAY.setHours(hours, 0, 0, 0)
   return { isUTC: true, from: NEXT_DAY }

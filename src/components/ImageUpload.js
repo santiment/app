@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
 export const UPLOAD_IMG_QUERY = gql`
-  mutation($images: [Upload!]!) {
+  mutation ($images: [Upload!]!) {
     uploadImage(images: $images) {
       contentHash
       fileName

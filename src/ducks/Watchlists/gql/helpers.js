@@ -6,7 +6,7 @@ const normalizeAddress = ({ blockchainAddress: { address, infrastructure, notes 
   blockchainAddress: { address, infrastructure, notes },
 })
 
-function normalizeProject (item) {
+function normalizeProject(item) {
   if (item.project) {
     return { projectId: +item.project.id }
   } else if (item.projectId) {
@@ -14,7 +14,7 @@ function normalizeProject (item) {
   }
 }
 
-export function normalizeItems (items = ARR, type) {
+export function normalizeItems(items = ARR, type) {
   switch (type) {
     case BLOCKCHAIN_ADDRESS:
       return items.map(normalizeAddress)
@@ -26,7 +26,7 @@ export function normalizeItems (items = ARR, type) {
   }
 }
 
-export function transformToServerType (type) {
+export function transformToServerType(type) {
   switch (type) {
     case BLOCKCHAIN_ADDRESS:
       return BLOCKCHAIN_ADDRESS

@@ -23,7 +23,7 @@ const NewWatchlist = ({ trigger, type, openOnSuccess = true }) => {
     return <LoginPopup>{trigger}</LoginPopup>
   }
 
-  function onSubmit (props) {
+  function onSubmit(props) {
     createWatchlist({ ...props, openOnSuccess }).then(closeDialog)
   }
 

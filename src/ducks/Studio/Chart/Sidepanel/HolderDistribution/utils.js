@@ -9,7 +9,7 @@ export const percentFormatter = (value) => {
   return Number.isFinite(+result) ? result + '%' : result
 }
 
-function normalizeAxisPercent (value) {
+function normalizeAxisPercent(value) {
   if (!Number.isFinite(+value)) return
 
   if (value >= 10) {

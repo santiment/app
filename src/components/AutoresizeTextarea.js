@@ -30,7 +30,7 @@ class AutoresizeTextarea extends Component {
 
   inputRef = React.createRef()
 
-  componentDidMount () {
+  componentDidMount() {
     const textarea = this.inputRef.current
     const textareaOneLineHeight = textarea.clientHeight
 
@@ -38,7 +38,7 @@ class AutoresizeTextarea extends Component {
     this.textareaOneLineHeight = textareaOneLineHeight
   }
 
-  componentDidUpdate (prevProps, prevState, snapshot) {
+  componentDidUpdate(prevProps, prevState, snapshot) {
     const { defaultValue: prevDefault } = prevProps
     const { defaultValue, value: propsValue = '', isFormik } = this.props
 
@@ -58,7 +58,7 @@ class AutoresizeTextarea extends Component {
     }
   }
 
-  getRowsCount (scrollHeight, textareaOneLineHeight) {
+  getRowsCount(scrollHeight, textareaOneLineHeight) {
     const newRowsCount = Math.ceil(scrollHeight / textareaOneLineHeight)
     const { rowsCount } = this.props
     return newRowsCount > rowsCount ? newRowsCount : rowsCount
@@ -91,7 +91,7 @@ class AutoresizeTextarea extends Component {
     }
   }
 
-  render () {
+  render() {
     const { value = '' } = this.state
     const { className, placeholder, readOnly, rowsCount, maxLength, name } = this.props
 

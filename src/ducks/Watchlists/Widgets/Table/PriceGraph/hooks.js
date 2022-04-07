@@ -27,7 +27,7 @@ const PRICE_RANGES = {
 
 const ARR = []
 
-export function usePriceGraph ({ slugs, range = '7d', skip = false }) {
+export function usePriceGraph({ slugs, range = '7d', skip = false }) {
   const { data = {}, loading } = useQuery(PRICE_GRAPH_QUERY, {
     skip: slugs.length === 0 || skip,
     variables: {

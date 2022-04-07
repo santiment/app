@@ -9,7 +9,7 @@ import { dayTicksPaintConfig, dayAxesColor, nightBubblesPaintConfig } from '../p
 import { isDayInterval, getDateDayMonthYear, getDateHoursMinutes, yBubbleFormatter } from '../utils'
 import { selectYFormatter } from '../Axes/helpers'
 
-function getLastMetricPoint (chart, domain) {
+function getLastMetricPoint(chart, domain) {
   const { points, axesMetricKeys } = chart
   const LastMetricPoint = {}
   let unfoundMetricKeys = axesMetricKeys.slice()
@@ -38,7 +38,7 @@ function getLastMetricPoint (chart, domain) {
   return LastMetricPoint
 }
 
-function getDomainObject (domainGroups) {
+function getDomainObject(domainGroups) {
   const domain = {}
 
   for (let i = domainGroups.length - 1; i >= 0; i--) {
@@ -52,7 +52,7 @@ function getDomainObject (domainGroups) {
 }
 
 // NOTE: http://stackoverflow.com/a/3943023/112731 [@vanguard | Mar  9, 2021]
-function getBubbleFontColorHex (bgColor, isNightMode) {
+function getBubbleFontColorHex(bgColor, isNightMode) {
   const r = parseInt(bgColor.slice(1, 3), 16)
   const g = parseInt(bgColor.slice(3, 5), 16)
   const b = parseInt(bgColor.slice(5, 7), 16)
@@ -62,7 +62,11 @@ function getBubbleFontColorHex (bgColor, isNightMode) {
   return r * 0.299 + g * 0.587 + b * 0.114 > threshold ? '#000000' : '#ffffff'
 }
 
+<<<<<<< HEAD
 function plotMetricLastValueBubble (chart, LastMetricPoint, metricKey, offset, bgColor) {
+=======
+function plotMetricLastValueBubble(chart, LastMetricPoint, metricKey, offset, bgColor) {
+>>>>>>> master
   const metricPoint = LastMetricPoint[metricKey]
   if (!metricPoint) return
 
@@ -78,7 +82,7 @@ function plotMetricLastValueBubble (chart, LastMetricPoint, metricKey, offset, b
   drawValueBubbleY(chart, ctx, yBubbleFormatter(value, metricKey), y, paintConfig, offset)
 }
 
-function plotXAxis (chart, formatter) {
+function plotXAxis(chart, formatter) {
   const { axesColor = dayAxesColor, xAxesTicks = 10, scale } = chart
 
   drawXAxisTicks(
@@ -90,7 +94,11 @@ function plotXAxis (chart, formatter) {
   drawAxes(chart, axesColor)
 }
 
+<<<<<<< HEAD
 function plotYAxes (chart, scale) {
+=======
+function plotYAxes(chart, scale) {
+>>>>>>> master
   const { ctx, top, right, bottom, colors, axesMetricKeys, domainGroups, yAxesTicks = 8 } = chart
   if (!axesMetricKeys) return
 
@@ -128,7 +136,7 @@ function plotYAxes (chart, scale) {
   })
 }
 
-export function plotAxes (chart, scale) {
+export function plotAxes(chart, scale) {
   const { ctx, ticksPaintConfig = dayTicksPaintConfig } = chart
 
   ctx.save()

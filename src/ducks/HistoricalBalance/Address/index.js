@@ -39,7 +39,7 @@ export const AddressSetting = ({
     return () => clearTimeout(timer)
   }, [value])
 
-  function onChange ({ target: { value } }) {
+  function onChange({ target: { value } }) {
     setValue(value)
   }
 

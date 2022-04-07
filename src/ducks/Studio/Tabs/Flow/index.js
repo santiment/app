@@ -17,7 +17,7 @@ const FlowBalances = ({ slug, ticker, defaultDates, defaultDaysAmount }) => {
   const [dayIndex] = useAnimatedDayIndex(daysAmount, isLoading)
   const { matrix, isEmpty } = useDayMatrix(periodMatrix, dayIndex)
 
-  function onCalendarChange (dates) {
+  function onCalendarChange(dates) {
     setDaysAmount(getDaysAmount(dates[0], dates[1]))
     setDayIndex(0)
     setDates(dates)

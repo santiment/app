@@ -56,6 +56,7 @@ Object.assign(Fetcher, {
   },
   ethSpentOverTime: {
     query: ETH_SPENT_OVER_TIME_QUERY,
+<<<<<<< HEAD
     preTransform: (key) => ({
       data: {
         ethSpentOverTime: { ethSpentOverTime },
@@ -65,6 +66,19 @@ Object.assign(Fetcher, {
         datetime,
         [key]: ethSpent,
       })),
+=======
+    preTransform:
+      (key) =>
+      ({
+        data: {
+          ethSpentOverTime: { ethSpentOverTime },
+        },
+      }) =>
+        ethSpentOverTime.map(({ datetime, ethSpent }) => ({
+          datetime,
+          [key]: ethSpent,
+        })),
+>>>>>>> master
   },
   social_active_users_telegram: {
     query: GET_METRIC(SOCIAL_ACTIVE_USERS_TELEGRAM),
@@ -122,7 +136,7 @@ export const fetchData = (query, variables, signal) =>
     },
   })
 
-export function getData (query, variables, signal) {
+export function getData(query, variables, signal) {
   const { metric, queryKey = metric, interval } = variables
 
   return getMetricMinInterval(queryKey).then((minInterval) => {

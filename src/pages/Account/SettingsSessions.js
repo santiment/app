@@ -84,7 +84,7 @@ const formatDate = (date) => {
   }
 }
 
-export function useUserSessions () {
+export function useUserSessions() {
   const { data, loading, refetch } = useQuery(SESSIONS_QUERY)
 
   return useMemo(
@@ -99,12 +99,12 @@ export function useUserSessions () {
 
 const UNAUTHORIZED_MSG = 'Unauthorized'
 
-export function useRemoveSession (jti, isCurrent, refreshWidget) {
+export function useRemoveSession(jti, isCurrent, refreshWidget) {
   const [mutate, data] = useMutation(
     isCurrent ? DESTROY_CURRENT_SESSION_QUERY : DESTROY_SESSION_QUERY,
   )
 
-  function onRemove () {
+  function onRemove() {
     return mutate({ variables: { refreshTokenJti: jti } })
       .then(() => {
         store.dispatch(showNotification('Session has been revoked successfully'))
@@ -130,7 +130,11 @@ const Session = ({ client, platform, isCurrent, jti, refreshWidget, lastActiveAt
   } = useRemoveSession(jti, isCurrent, refreshWidget)
   const [error, setError] = useState(false)
 
+<<<<<<< HEAD
   function onClick () {
+=======
+  function onClick() {
+>>>>>>> master
     onRemove().then((msg) => {
       if (msg === UNAUTHORIZED_MSG) {
         setError(true)

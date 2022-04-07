@@ -24,7 +24,7 @@ export const distributionSorter = ({ balanceUsd: a }, { balanceUsd: b }) => b - 
 const checkIsSmallDistribution = (percent) => percent < 0.5
 const smallDistributionFinder = ({ percent }) => checkIsSmallDistribution(percent)
 
-export function useDistributions (walletAssets) {
+export function useDistributions(walletAssets) {
   const { projects } = useProjects()
 
   return useMemo(() => {

@@ -15,13 +15,13 @@ import styles from '../Dialog/LoadTemplate/Template.module.scss'
 const useMenuEffects = () => {
   const [isMenuOpened, setIsMenuOpened] = useState(false)
 
-  function openMenu (e) {
+  function openMenu(e) {
     e.stopPropagation()
 
     setIsMenuOpened(true)
   }
 
-  function closeMenu () {
+  function closeMenu() {
     setIsMenuOpened(false)
   }
 

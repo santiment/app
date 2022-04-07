@@ -26,7 +26,7 @@ const INSIGHTS_BY_SEARCH_TERM_QUERY = gql`
 
 const insightsAccessor = ({ data: { insights } }) => insights
 
-function getInsights () {
+function getInsights() {
   return client
     .query({
       query: INSIGHTS_QUERY,
@@ -34,7 +34,7 @@ function getInsights () {
     .then(insightsAccessor)
 }
 
-function getInsightsBySearchTerm (searchTerm) {
+function getInsightsBySearchTerm(searchTerm) {
   return client
     .query({
       query: INSIGHTS_BY_SEARCH_TERM_QUERY,

@@ -2,7 +2,7 @@ import { Metric } from '../../ducks/dataHub/metrics'
 
 const buildKey = (metric, suffix) => `${metric.key}_${suffix.replace(/[^a-zA-Z0-9]+/g, '')}`
 
-export function buildExploredMetric (text) {
+export function buildExploredMetric(text) {
   const key = buildKey(Metric.social_volume_total, text)
   return {
     ...Metric.social_volume_total,
@@ -12,7 +12,7 @@ export function buildExploredMetric (text) {
   }
 }
 
-export function calcAverage (metrics, data) {
+export function calcAverage(metrics, data) {
   const initialValue = {}
   const avg = []
 
@@ -38,7 +38,7 @@ export function calcAverage (metrics, data) {
   return avg
 }
 
-export function calcPercentage (total, number) {
+export function calcPercentage(total, number) {
   return ((number * 100) / total).toFixed(2)
 }
 

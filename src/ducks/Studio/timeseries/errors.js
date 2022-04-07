@@ -10,7 +10,7 @@ const PROJECT_FETCH = {
 
 const ERRORS = [SUBSCRIPTION_INTERVAL, PROJECT_FETCH]
 
-export function substituteErrorMsg (backendMsg) {
+export function substituteErrorMsg(backendMsg) {
   const error = ERRORS.find(({ anchor }) => backendMsg.includes(anchor))
   if (error) {
     return error.msg

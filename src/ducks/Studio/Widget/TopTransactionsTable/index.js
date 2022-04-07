@@ -21,7 +21,7 @@ const DEFAULT_SORTED = [
   },
 ]
 
-export function useProjectTopTransactions (slug, from, to) {
+export function useProjectTopTransactions(slug, from, to) {
   const { data, loading } = useQuery(TRANSACTIONS_QUERY, {
     variables: {
       slug,

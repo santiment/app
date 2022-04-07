@@ -19,7 +19,7 @@ const Sidebar = ({ studio, settings, selectMetricRef, onSidebarProjectMountRef }
     return newProjectMetric(lockedAsset, node)
   }
 
-  function onLockProjectSelect (project) {
+  function onLockProjectSelect(project) {
     if (project && settings.slug !== project.slug) {
       track.event(Event.ChangeLockAsset, { asset: project.slug })
     }

@@ -18,7 +18,7 @@ const DashIntervalSettings = ({ metrics, updateInterval, settings }) => {
     return isAvailableInterval(interval, intervals) ? interval : intervals[0].key
   }, [settings, intervals, metric])
 
-  function onChange (newInterval) {
+  function onChange(newInterval) {
     updateInterval({
       interval: newInterval,
     })

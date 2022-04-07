@@ -7,20 +7,20 @@ import * as actions from '../../actions/types'
 class LogoutPage extends React.Component {
   static defaultProps = { to: '/' }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.logout()
     const { to = this.props.to } = qs.parse(this.props.location.search)
     this.timeout = setTimeout(() => this.props.redirect(to), 3000)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     if (this.timeout) {
       clearTimeout(this.timeout)
       this.timeout = 0
     }
   }
 
-  render () {
+  render() {
     return (
       <section className='page'>
         <h1>Goodbye...</h1>

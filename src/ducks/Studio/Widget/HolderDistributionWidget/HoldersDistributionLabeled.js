@@ -7,7 +7,11 @@ import { HOLDERS_DISTRIBUTION_LABELED_METRICS } from '../../Chart/Sidepanel/Hold
 import { TabLabeledHoldersMetrics } from '../../Chart/Sidepanel/HolderDistribution/Tabs'
 
 const HolderDistributionLabeledWidget = (props) => {
+<<<<<<< HEAD
   function onChangeLabels (labels, mergedMetrics) {
+=======
+  function onChangeLabels(labels, mergedMetrics) {
+>>>>>>> master
     const { widget, rerenderWidgets } = props
 
     widget.MetricSettingMap = new Map(widget.MetricSettingMap)

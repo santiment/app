@@ -22,15 +22,19 @@ import ProExpiredLabel from './PlanDialogLabels/ProExpiredLabel'
 import styles from './PlanPaymentDialog.module.scss'
 import sharedStyles from './Plans.module.scss'
 
-function useFormLoading () {
+function useFormLoading() {
   const [loading, setLoading] = useState(false)
+<<<<<<< HEAD
   function toggleLoading () {
+=======
+  function toggleLoading() {
+>>>>>>> master
     setLoading((state) => !state)
   }
   return [loading, toggleLoading]
 }
 
-function updateCache (cache, { data: { subscribe } }) {
+function updateCache(cache, { data: { subscribe } }) {
   const { currentUser } = cache.readQuery({ query: USER_SUBSCRIPTIONS_QUERY })
 
   let subscriptions = currentUser.subscriptions
@@ -120,17 +124,17 @@ const PlanPaymentDialog = ({
     })
   }, [id, name, amount, interval])
 
-  function changeSelectedPlan (interval) {
+  function changeSelectedPlan(interval) {
     if (selectedPlan.interval !== interval) {
       setSelectedPlan(getAlternativeBillingPlan(plans, selectedPlan))
     }
   }
 
-  function hidePayment () {
+  function hidePayment() {
     setPaymentVisiblity(false)
   }
 
-  function showPayment () {
+  function showPayment() {
     if (onOpen) onOpen()
     trackEvent({
       category: 'User',

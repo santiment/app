@@ -22,7 +22,7 @@ const ProjectSelectDialog = ({ activeSlug, projects, open, onSelect, onClose, ..
     searchProjects(lastSearchTerm)
   }, [allProjects])
 
-  function searchProjects (searchTerm) {
+  function searchProjects(searchTerm) {
     const lowerCase = searchTerm.toLowerCase()
 
     setSearchedProjects(
@@ -36,14 +36,14 @@ const ProjectSelectDialog = ({ activeSlug, projects, open, onSelect, onClose, ..
     setLastSearchTerm(searchTerm)
   }
 
-  function onDialogClose () {
+  function onDialogClose() {
     setSearchedProjects(allProjects)
     if (onClose) {
       onClose()
     }
   }
 
-  function onTabSelect (projects, isLoading) {
+  function onTabSelect(projects, isLoading) {
     if (!projects || isLoading) return
     setAllProjects(projects.filter(({ slug }) => slug !== activeSlug))
   }

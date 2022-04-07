@@ -49,7 +49,7 @@ class MultilineText extends React.PureComponent {
 
   textRef = React.createRef()
 
-  componentDidMount () {
+  componentDidMount() {
     const container = this.textRef.current.parentNode
     this.container = container
 
@@ -64,7 +64,7 @@ class MultilineText extends React.PureComponent {
     }
   }
 
-  updateRulerStyles () {
+  updateRulerStyles() {
     const containerStyles = window.getComputedStyle(this.container)
     const rulerStyles = this.ruler.style
 
@@ -78,7 +78,7 @@ class MultilineText extends React.PureComponent {
     rulerStyles.width = containerStyles.width
   }
 
-  getTextDimensions (text) {
+  getTextDimensions(text) {
     this.ruler.textContent = text
     return {
       width: this.ruler.offsetWidth,
@@ -86,7 +86,7 @@ class MultilineText extends React.PureComponent {
     }
   }
 
-  getTruncatedText () {
+  getTruncatedText() {
     const { text, maxLines } = this.props
 
     if (!this.container) {
@@ -108,7 +108,7 @@ class MultilineText extends React.PureComponent {
     return finalText ? finalText.slice(0, -3) + '...' : text
   }
 
-  render () {
+  render() {
     return (
       <Fragment>
         {this.getTruncatedText()}

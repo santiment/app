@@ -2,7 +2,11 @@ import { TypeToWidget } from './types'
 
 const getRawWidget = ({ Widget }) => Widget
 
+<<<<<<< HEAD
 export function mergeConnectedWidgetsWithSelected (connectedWidgets, selectedWidgets) {
+=======
+export function mergeConnectedWidgetsWithSelected(connectedWidgets, selectedWidgets) {
+>>>>>>> master
   const connectedSet = new Set(connectedWidgets.map(getRawWidget))
   const appliedWidgets = []
   const { length } = selectedWidgets

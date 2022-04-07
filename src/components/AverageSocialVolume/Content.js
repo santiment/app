@@ -9,7 +9,7 @@ import DetailsItem from './DetailsItem'
 import Column from './Column'
 import styles from './index.module.scss'
 
-function useSocialTimeseries (metrics, settings, MetricSettingMap) {
+function useSocialTimeseries(metrics, settings, MetricSettingMap) {
   const [activeMetrics, setMetrics] = useState([])
 
   useEffect(() => {
@@ -70,7 +70,7 @@ const Content = ({ topics: defaultTopics, range, linkedAssets }) => {
     rebuildMetricsMap()
   }, [metrics, linkedAssets])
 
-  function rebuildMetricsMap () {
+  function rebuildMetricsMap() {
     const newMetricSettingMap = new Map(new Map())
     metrics.forEach((metric) => {
       const topic = metric.text || '*'

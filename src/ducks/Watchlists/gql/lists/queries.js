@@ -49,15 +49,22 @@ export const FEATURED_SCREENERS_QUERY = gql`
 const ARRAY = []
 const CB = (_) => _
 
-export function useWatchlistsLoader (query, options, cb = CB, isUserLoading) {
+export function useWatchlistsLoader(query, options, cb = CB, isUserLoading) {
   const { data, loading } = useQuery(query, options)
+<<<<<<< HEAD
   return useMemo(() => [cb(data ? data.watchlists : ARRAY), loading || isUserLoading], [
     data,
     isUserLoading,
   ])
+=======
+  return useMemo(
+    () => [cb(data ? data.watchlists : ARRAY), loading || isUserLoading],
+    [data, isUserLoading],
+  )
+>>>>>>> master
 }
 
-export function useUserWatchlistsLoader (query, cb) {
+export function useUserWatchlistsLoader(query, cb) {
   const { isLoggedIn, loading } = useUser()
   return useWatchlistsLoader(query, { skip: !isLoggedIn }, cb, loading)
 }

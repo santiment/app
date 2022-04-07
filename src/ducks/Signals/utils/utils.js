@@ -448,9 +448,14 @@ export const mapTriggerToFormProps = (currentTrigger) => {
   const frequencyModels = getFrequencyFromCooldown(currentTrigger)
   const absolutePriceValues = getAbsolutePriceValues(currentTrigger)
 
+<<<<<<< HEAD
   const { target, signalType, ethAddress, targetWatchlist, textSelector } = getFormTriggerTarget(
     settings,
   )
+=======
+  const { target, signalType, ethAddress, targetWatchlist, textSelector } =
+    getFormTriggerTarget(settings)
+>>>>>>> master
   const newType = getFormTriggerType(settings)
 
   const trendingWordsParams = getFormTrendingWords(currentTrigger)
@@ -746,7 +751,7 @@ const getTimeWindow = ({ timeWindow, timeWindowUnit, metric }) => {
   return timeWindow && timeWindowUnit ? timeWindow + '' + timeWindowUnit.value : undefined
 }
 
-function getAlertType (key, type) {
+function getAlertType(key, type) {
   if (isDailyMetric(key)) {
     return METRIC_TYPES.DAILY_METRIC_SIGNAL
   }
@@ -1049,7 +1054,7 @@ export const getNearestTypeByMetric = (metric) => {
   }
 }
 
-export function getFrequencyTimeType (frequencyType) {
+export function getFrequencyTimeType(frequencyType) {
   if (frequencyType && frequencyType.availableTypes) {
     return FREQUENCY_VALUES.filter((item) => {
       return frequencyType.availableTypes.indexOf(item.value) !== -1
@@ -1059,16 +1064,20 @@ export function getFrequencyTimeType (frequencyType) {
   }
 }
 
+<<<<<<< HEAD
 export function getFrequencyTimeValues (frequencyTimeType) {
+=======
+export function getFrequencyTimeValues(frequencyTimeType) {
+>>>>>>> master
   return frequencyTimeType ? FREQUENCY_MAPPINGS[frequencyTimeType.value] : undefined
 }
 
-export function getNearestFrequencyTimeValue (frequencyTimeType) {
+export function getNearestFrequencyTimeValue(frequencyTimeType) {
   const timeValues = getFrequencyTimeValues(frequencyTimeType)
   return timeValues[0]
 }
 
-export function getNearestFrequencyTypeValue (frequencyType) {
+export function getNearestFrequencyTypeValue(frequencyType) {
   return getFrequencyTimeType(frequencyType)[0]
 }
 
@@ -1516,22 +1525,40 @@ export const titleMetricValuesHeader = (
       case PRICE_CHANGE_TYPES.MOVING_DOWN: {
         return buildFormBlock(
           priceCommonTitle,
+<<<<<<< HEAD
           `down ${percentThreshold ||
             0}% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`,
+=======
+          `down ${
+            percentThreshold || 0
+          }% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`,
+>>>>>>> master
         )
       }
       case PRICE_CHANGE_TYPES.MOVING_UP: {
         return buildFormBlock(
           priceCommonTitle,
+<<<<<<< HEAD
           `up ${percentThreshold ||
             0}% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`,
+=======
+          `up ${
+            percentThreshold || 0
+          }% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`,
+>>>>>>> master
         )
       }
       case PRICE_CHANGE_TYPES.PERCENT_SOME_OF: {
         return buildFormBlock(
           isPriceMetric ? `${titleTarget} ${ofTarget}` : addressesTitle,
+<<<<<<< HEAD
           `moving up ${percentThresholdLeft || 0}% or moving down ${percentThresholdRight ||
             0}% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`,
+=======
+          `moving up ${percentThresholdLeft || 0}% or moving down ${
+            percentThresholdRight || 0
+          }% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`,
+>>>>>>> master
         )
       }
       case PRICE_CHANGE_TYPES.ABOVE_OR_EQUAL: {

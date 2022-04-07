@@ -141,7 +141,11 @@ const LoginEmailForm = ({
   return (
     <Mutation mutation={EMAIL_LOGIN_MUTATION}>
       {(loginEmail, { loading, data: { emailLogin: { success } = {} } = {} }) => {
+<<<<<<< HEAD
         function login (data) {
+=======
+        function login(data) {
+>>>>>>> master
           loginEmail(data).catch(() => {
             store.dispatch(
               showNotification({

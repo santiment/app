@@ -13,7 +13,11 @@ import { USER_SUBSCRIPTIONS_QUERY, CANCEL_SUBSCRIPTION_MUTATION } from '../../qu
 import { updateUserSubscriptions } from '../../stores/user/subscriptions'
 
 const createCacheUpdate = (subsId) =>
+<<<<<<< HEAD
   function updateCache (cache, { data: { cancelSubscription } }) {
+=======
+  function updateCache(cache, { data: { cancelSubscription } }) {
+>>>>>>> master
     const { currentUser } = cache.readQuery({ query: USER_SUBSCRIPTIONS_QUERY })
 
     const canceled = currentUser.subscriptions.find(({ id }) => id === subsId)
@@ -47,20 +51,20 @@ const CancelPlanDialog = ({
   const { MMMM, DD, YYYY } = getDateFormats(new Date(currentPeriodEnd))
   const date = `${MMMM} ${DD}, ${YYYY}`
 
-  function closeDialog () {
+  function closeDialog() {
     setOpened(false)
   }
 
-  function openDialog () {
+  function openDialog() {
     setScreen(0)
     setOpened(true)
   }
 
-  function nextScreen () {
+  function nextScreen() {
     setScreen(screen + 1)
   }
 
-  function previousScreen () {
+  function previousScreen() {
     setScreen(screen - 1)
   }
 

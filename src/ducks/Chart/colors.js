@@ -46,7 +46,7 @@ export const MetricColor = {
   [Metric.mvrv_usd.key]: ORANGE,
 }
 
-function getUnusedColors (usedColorsSet) {
+function getUnusedColors(usedColorsSet) {
   const unusedColorsSet = new Set(COLORS_SET)
 
   usedColorsSet.forEach((color) => unusedColorsSet.delete(color))
@@ -54,7 +54,7 @@ function getUnusedColors (usedColorsSet) {
   return [...unusedColorsSet]
 }
 
-function preserveExistingMetricColor (metrics, PreviousColor) {
+function preserveExistingMetricColor(metrics, PreviousColor) {
   const PreservedColor = {}
   const uncoloredMetrics = []
   const { length } = metrics
@@ -74,7 +74,11 @@ function preserveExistingMetricColor (metrics, PreviousColor) {
   return [uncoloredMetrics, PreservedColor]
 }
 
+<<<<<<< HEAD
 export function getChartColors (metrics, PreviousColor = {}) {
+=======
+export function getChartColors(metrics, PreviousColor = {}) {
+>>>>>>> master
   const [uncoloredMetrics, Color] = preserveExistingMetricColor(metrics, PreviousColor)
   const unusedColors = getUnusedColors(Object.values(Color))
 
@@ -89,7 +93,7 @@ export function getChartColors (metrics, PreviousColor = {}) {
   return Color
 }
 
-export function highlightMetricColor (MetricColor, focusedMetricKey) {
+export function highlightMetricColor(MetricColor, focusedMetricKey) {
   if (!focusedMetricKey) {
     return MetricColor
   }
@@ -110,7 +114,7 @@ export function highlightMetricColor (MetricColor, focusedMetricKey) {
 }
 
 const INITIAL_STATE = {}
-export function useChartColors (metrics, initialState = INITIAL_STATE) {
+export function useChartColors(metrics, initialState = INITIAL_STATE) {
   const [ChartColor, setChartColors] = useState(initialState)
 
   useEffect(() => {
@@ -120,13 +124,21 @@ export function useChartColors (metrics, initialState = INITIAL_STATE) {
   return ChartColor
 }
 
+<<<<<<< HEAD
 export function useHighlightMetricColor (MetricColor, focusedMetricKey) {
   return useMemo(() => highlightMetricColor(MetricColor, focusedMetricKey), [
     MetricColor,
     focusedMetricKey,
   ])
+=======
+export function useHighlightMetricColor(MetricColor, focusedMetricKey) {
+  return useMemo(
+    () => highlightMetricColor(MetricColor, focusedMetricKey),
+    [MetricColor, focusedMetricKey],
+  )
+>>>>>>> master
 }
 
-export function useChartColorsWithHighlight (metrics, focusedMetricKey) {
+export function useChartColorsWithHighlight(metrics, focusedMetricKey) {
   return useHighlightMetricColor(useChartColors(metrics), focusedMetricKey)
 }

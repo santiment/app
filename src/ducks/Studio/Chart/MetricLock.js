@@ -31,11 +31,18 @@ const MetricLock = ({ metrics, metric, project, onClick }) => {
   const isLocked = metric.base
   const explanation = isLocked ? LOCKED_TEXT : UNLOCKED_TEXT + project.ticker
   const Icon = isLocked ? UnlockIcon : LockIcon
+<<<<<<< HEAD
   const isDisabled = useMemo(() => metrics.includes(convertBaseProjectMetric(metric, project)), [
     metrics,
     metric,
     project,
   ])
+=======
+  const isDisabled = useMemo(
+    () => metrics.includes(convertBaseProjectMetric(metric, project)),
+    [metrics, metric, project],
+  )
+>>>>>>> master
 
   return (
     <ExplanationTooltip text={explanation}>

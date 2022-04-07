@@ -54,7 +54,7 @@ const mapDispatchToProps = (dispatch) => {
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
   lifecycle({
-    componentDidMount () {
+    componentDidMount() {
       const payload = qs.parse(this.props.location.search)
       this.props.emailLogin(payload)
     },

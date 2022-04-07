@@ -19,7 +19,7 @@ const TrxAddressCell = ({
   return <WalletLink address={value} {...settings} labels={transformedLabels} />
 }
 
-function CellWithLoader ({ value = '' }) {
+function CellWithLoader({ value = '' }) {
   if (value === '') {
     return <Loader className={styles.loader} />
   } else {

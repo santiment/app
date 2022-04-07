@@ -34,7 +34,7 @@ export const USER_SUBSCRIPTIONS_QUERY = gql`
 
 export const refetchUserSubscriptions = buildRefetcher(USER_SUBSCRIPTIONS_QUERY)
 
-export function updateUserSubscriptions (newUserSubscriptions) {
+export function updateUserSubscriptions(newUserSubscriptions) {
   const { currentUser } = client.readQuery({
     query: USER_SUBSCRIPTIONS_QUERY,
   })
@@ -51,7 +51,7 @@ export function updateUserSubscriptions (newUserSubscriptions) {
   })
 }
 
-export function useUserSubscriptions () {
+export function useUserSubscriptions() {
   const query = useQuery(USER_SUBSCRIPTIONS_QUERY)
 
   return useMemo(() => {
@@ -65,7 +65,7 @@ export function useUserSubscriptions () {
   }, [query])
 }
 
-export function useUserSubscription () {
+export function useUserSubscription() {
   const data = useUserSubscriptions()
 
   return useMemo(() => {
@@ -78,7 +78,7 @@ export function useUserSubscription () {
   }, [data])
 }
 
-export function useUserSubscriptionStatus () {
+export function useUserSubscriptionStatus() {
   const data = useUserSubscription()
 
   return useMemo(() => {

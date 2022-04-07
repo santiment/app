@@ -57,7 +57,7 @@ export const UPDATE_WATCHLIST_TABLE_CONFIG_MUTATION = gql`
   }
 `
 
-function buildConfigsCacheUpdater (reducer) {
+function buildConfigsCacheUpdater(reducer) {
   return (cache, { data }) => {
     const variables = { userId: +store.getState().user.data.id }
 
@@ -87,12 +87,12 @@ const updateTableConfigsOnUpdate = buildConfigsCacheUpdater(
     configs.map((item) => (item.id === changedItem.id ? changedItem : item)),
 )
 
-export function useCreateTableConfig () {
+export function useCreateTableConfig() {
   const [mutate, data] = useMutation(CREATE_TABLE_CONFIG_MUTATION, {
     update: updateConfigsOnCreation,
   })
 
-  function createTableConfig ({ title, type, columns }) {
+  function createTableConfig({ title, type, columns }) {
     return mutate({
       variables: {
         type,
@@ -110,12 +110,12 @@ export function useCreateTableConfig () {
   return { createTableConfig, data }
 }
 
-export function useDeleteTableConfig () {
+export function useDeleteTableConfig() {
   const [mutate, { loading }] = useMutation(DELETE_TABLE_CONFIG_MUTATION, {
     update: updateConfigsOnDelete,
   })
 
-  function deleteTableConfig ({ title, id }) {
+  function deleteTableConfig({ title, id }) {
     return mutate({
       variables: {
         id: +id,
@@ -128,12 +128,12 @@ export function useDeleteTableConfig () {
   return { deleteTableConfig, loading }
 }
 
-export function useUpdateTableConfig () {
+export function useUpdateTableConfig() {
   const [mutate, data] = useMutation(UPDATE_TABLE_CONFIG_MUTATION, {
     update: updateTableConfigsOnUpdate,
   })
 
-  function updateTableConfig (oldConfig, newConfig) {
+  function updateTableConfig(oldConfig, newConfig) {
     const { id, title, columns } = oldConfig
 
     return mutate({
@@ -157,10 +157,10 @@ export function useUpdateTableConfig () {
 
 const EMPTY_OBJ = {}
 
-export function useUpdateWatchlistTableConfig () {
+export function useUpdateWatchlistTableConfig() {
   const [mutate, { data }] = useMutation(UPDATE_WATCHLIST_TABLE_CONFIG_MUTATION)
 
-  function updateWatchlistTableConfig (id, tableConfigurationId) {
+  function updateWatchlistTableConfig(id, tableConfigurationId) {
     return mutate({
       variables: {
         id: +id,

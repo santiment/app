@@ -35,7 +35,7 @@ const EditProfile = ({ onClose, dispatchNewUsername, dispatchNewName }) => {
     changeFullname,
   } = useFullnameChange(user.name)
 
-  async function saveButtonHandler (e) {
+  async function saveButtonHandler(e) {
     e.preventDefault()
     if (savingFullname || savingUsername || checkUsername(username) || checkFullname(fullname))
       return

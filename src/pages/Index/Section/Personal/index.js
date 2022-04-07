@@ -39,7 +39,7 @@ export const toggleVisibility = (tab) => {
 
 export const saveTab = (tab) => localStorage.setItem(LS_PERSONAL_TAB, tab || '')
 
-export function loadTab () {
+export function loadTab() {
   const hashTab = HashTab[window.location.hash]
   if (hashTab) {
     return hashTab

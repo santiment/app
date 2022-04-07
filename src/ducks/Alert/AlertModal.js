@@ -21,8 +21,13 @@ const AlertModal = ({
   defaultType,
   signalData,
   isUserTheAuthor = true,
+<<<<<<< HEAD
   prepareAlertTitle,
   shouldDisableActions,
+=======
+  shouldDisableActions,
+  isRecommendedSignal,
+>>>>>>> master
 }) => {
   const match = useRouteMatch('/alerts/:id')
   const history = useHistory()
@@ -45,7 +50,7 @@ const AlertModal = ({
     )
   }
 
-  function handleCloseDialog () {
+  function handleCloseDialog() {
     if (match && match.params.id) {
       history.push('/alerts')
     }
@@ -82,6 +87,7 @@ const AlertModal = ({
             <AlertRestrictionMessage shouldHideRestrictionMessage={shouldHideRestrictionMessage} />
           )}
           <AlertModalFormMaster
+            isRecommendedSignal={isRecommendedSignal}
             shouldDisableActions={shouldDisableActions}
             shouldHideRestrictionMessage={shouldHideRestrictionMessage}
             isPreview={isPreview}
@@ -94,7 +100,6 @@ const AlertModal = ({
             isEdited={isEdited}
             isModalOpen={isModalOpen}
             isUserTheAuthor={isUserTheAuthor}
-            prepareAlertTitle={prepareAlertTitle}
           />
         </>
       </Dialog>

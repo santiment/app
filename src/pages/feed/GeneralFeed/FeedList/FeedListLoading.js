@@ -74,16 +74,20 @@ class FeedListLoading extends React.Component {
     }
   })
 
-  componentDidMount () {
+  componentDidMount() {
     window.addEventListener('scroll', this.handleScroll, true)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.unmounted = true
     window.removeEventListener('scroll', this.handleScroll)
   }
 
+<<<<<<< HEAD
   componentWillReceiveProps (nextProps) {
+=======
+  componentWillReceiveProps(nextProps) {
+>>>>>>> master
     const { events: propEvents, sortType: propsSortType, filters: propFilters } = nextProps
     const { events: currentEvents, sortType: stateSortType, filters: stateFilters } = this.state
 
@@ -126,11 +130,15 @@ class FeedListLoading extends React.Component {
     }
   }
 
+<<<<<<< HEAD
   getFilteredEvents ({ events }) {
+=======
+  getFilteredEvents({ events }) {
+>>>>>>> master
     return events.filter(({ post, payload, trigger }) => post || (trigger && payload))
   }
 
-  render () {
+  render() {
     const { isLoading, showProfileExplanation } = this.props
     const { isNewEventsList, events } = this.state
     const filtered = this.getFilteredEvents({ events })

@@ -15,14 +15,14 @@ import { Indicator, cacheIndicator } from '../Chart/MetricSettings/IndicatorsSet
 import { HolderDistributionMetric } from '../Chart/Sidepanel/HolderDistribution/metrics'
 import { Metric } from '../../dataHub/metrics'
 
-function sanitize (array) {
+function sanitize(array) {
   if (!array) return
 
   const cleaned = array.filter(Boolean)
   return cleaned.length === 0 ? undefined : cleaned
 }
 
-function parseValue (value) {
+function parseValue(value) {
   if (value === 'true') {
     return true
   }
@@ -34,10 +34,7 @@ function parseValue (value) {
 }
 
 const convertKeysToMetrics = (keys, dict) =>
-  keys &&
-  toArray(keys)
-    .filter(Boolean)
-    .map(getMetricByKey)
+  keys && toArray(keys).filter(Boolean).map(getMetricByKey)
 
 export const reduceStateKeys = (State, Data) =>
   Object.keys(State).reduce((acc, key) => {
@@ -55,7 +52,7 @@ const parseConnectedWidget = ({ widget, from, to }) =>
 
 export const parseComparable = (key) => getProjectMetricByKey(key, COMPARE_CONNECTOR)
 
-function parseSharedComparables (keys) {
+function parseSharedComparables(keys) {
   const comparedKeys = keys ? toArray(keys) : []
   const comparables = []
   const SharedKeyComparable = {}
@@ -69,7 +66,7 @@ function parseSharedComparables (keys) {
   return [comparables, SharedKeyComparable]
 }
 
-function parseColors (
+function parseColors(
   colors = {},
   project,
   SharedKeyIndicator,
@@ -93,7 +90,11 @@ function parseColors (
   return Colors
 }
 
+<<<<<<< HEAD
 function parseMetricSetting (MetricSetting = {}, SharedKeyIndicator, SharedKeyComparable) {
+=======
+function parseMetricSetting(MetricSetting = {}, SharedKeyIndicator, SharedKeyComparable) {
+>>>>>>> master
   const MetricSettingMap = new Map()
 
   Object.keys(MetricSetting).forEach((key) => {
@@ -106,7 +107,7 @@ function parseMetricSetting (MetricSetting = {}, SharedKeyIndicator, SharedKeyCo
   return MetricSettingMap
 }
 
-function extractMergedMetrics (metrics) {
+function extractMergedMetrics(metrics) {
   const mergedMetrics = []
   const cleanedMetricKeys = []
   const SharedKeyMergedHolder = {}
@@ -136,7 +137,7 @@ function extractMergedMetrics (metrics) {
   return [mergedMetrics, cleanedMetricKeys, SharedKeyMergedHolder]
 }
 
-function parseMetricIndicators (indicators) {
+function parseMetricIndicators(indicators) {
   const MetricIndicators = {}
   const SharedKeyIndicator = {}
 
@@ -162,7 +163,7 @@ function parseMetricIndicators (indicators) {
   return [MetricIndicators, SharedKeyIndicator]
 }
 
-function parseMetric (key, ParsedKeyMetric, SharedKeyComparable) {
+function parseMetric(key, ParsedKeyMetric, SharedKeyComparable) {
   const metric = ParsedKeyMetric[key] || SharedKeyComparable[key]
   if (metric) return metric
 
@@ -173,7 +174,7 @@ function parseMetric (key, ParsedKeyMetric, SharedKeyComparable) {
   return getMetricByKey(key)
 }
 
-function parseAxesMetrics (
+function parseAxesMetrics(
   axesMetrics,
   metrics,
   SharedKeyIndicator,
@@ -196,7 +197,7 @@ function parseAxesMetrics (
   return [axesMetricSet, disabledAxesMetricSet]
 }
 
-export function parseSharedWidgets (sharedWidgets, project) {
+export function parseSharedWidgets(sharedWidgets, project) {
   return sharedWidgets.map(
     ({
       widget,
@@ -210,9 +211,14 @@ export function parseSharedWidgets (sharedWidgets, project) {
       axesMetrics,
     }) => {
       const [parsedMetricIndicators, SharedKeyIndicator] = parseMetricIndicators(indicators)
+<<<<<<< HEAD
       const [holderMetrics, cleanedMetricKeys, SharedKeyMergedHolder] = extractMergedMetrics(
         metrics,
       )
+=======
+      const [holderMetrics, cleanedMetricKeys, SharedKeyMergedHolder] =
+        extractMergedMetrics(metrics)
+>>>>>>> master
       const [comparedMetrics, SharedKeyComparable] = parseSharedComparables(comparables)
       const cleanedMetrics = cleanedMetricKeys.map((key) =>
         parseMetric(key, SharedKeyIndicator, SharedKeyComparable),
@@ -252,7 +258,7 @@ export function parseSharedWidgets (sharedWidgets, project) {
   )
 }
 
-export function parseWidgets (urlWidgets, project) {
+export function parseWidgets(urlWidgets, project) {
   try {
     return parseSharedWidgets(JSON.parse(urlWidgets), project)
   } catch (e) {
@@ -260,12 +266,12 @@ export function parseWidgets (urlWidgets, project) {
   }
 }
 
-export function parseSharedSidepanel (sidepanel) {
+export function parseSharedSidepanel(sidepanel) {
   const parsed = JSON.parse(sidepanel)
   return parsed.type
 }
 
-export function translateMultiChartToWidgets (metrics, comparables = []) {
+export function translateMultiChartToWidgets(metrics, comparables = []) {
   if (metrics.length + comparables.length < 2) {
     return [
       ChartWidget.new({
@@ -299,7 +305,7 @@ export function translateMultiChartToWidgets (metrics, comparables = []) {
     )
 }
 
-function translateV1ToV2 (v1Config) {
+function translateV1ToV2(v1Config) {
   const { metrics = [], comparables = [], settings, options } = v1Config
 
   let widgets
@@ -320,7 +326,11 @@ function translateV1ToV2 (v1Config) {
   }
 }
 
+<<<<<<< HEAD
 export function parseUrl (url, settings = DEFAULT_SETTINGS, options = DEFAULT_OPTIONS) {
+=======
+export function parseUrl(url, settings = DEFAULT_SETTINGS, options = DEFAULT_OPTIONS) {
+>>>>>>> master
   const data = parse(url, { arrayFormat: 'comma' })
 
   return {
@@ -331,7 +341,7 @@ export function parseUrl (url, settings = DEFAULT_SETTINGS, options = DEFAULT_OP
   }
 }
 
-export function parseUrlV2 (url) {
+export function parseUrlV2(url) {
   const { settings, widgets, sidepanel } = parse(url)
 
   if (!widgets) {

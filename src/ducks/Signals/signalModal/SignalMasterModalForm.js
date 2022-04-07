@@ -94,7 +94,11 @@ const SignalMasterModalForm = ({
     [setIsChanged],
   )
 
-  const { data = {}, loading: isLoading, error: isError } = useSignal({
+  const {
+    data = {},
+    loading: isLoading,
+    error: isError,
+  } = useSignal({
     triggerId,
     skip: !dialogOpenState,
   })

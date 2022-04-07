@@ -25,7 +25,7 @@ const ChartPreview = ({ widget, selectedMetrics, currentPhase, onClick }) => {
 
   useWidgetMessageEffect(widget, drawChart)
 
-  function drawChart () {
+  function drawChart() {
     const { current: widgetChart } = widget.chartRef
     if (!widgetChart || !chart) return
 

@@ -27,7 +27,7 @@ const PremiumBanner = () => {
     return null
   }
 
-  function hide () {
+  function hide() {
     setShow(false)
     localStorage.setItem(WIDGET_KEY, true)
   }

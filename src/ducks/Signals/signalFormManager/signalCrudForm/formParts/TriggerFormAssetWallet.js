@@ -50,7 +50,7 @@ const TriggerFormAssetWallet = ({
     }
   }, [options, defaultSelected])
 
-  function updateType (type) {
+  function updateType(type) {
     setFieldValue('signalType', type)
     if (isAsset(type)) {
       setFieldValue('target', target || defaultAsset.value)

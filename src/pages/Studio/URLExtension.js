@@ -11,7 +11,7 @@ import { getShortUrl } from '../../components/Share/utils'
 
 const checkIsNotAuthorError = ({ message }) => message.includes('another user')
 
-function getSharedUrl (shortUrlHash, settings, widgets, sidewidget, layout) {
+function getSharedUrl(shortUrlHash, settings, widgets, sidewidget, layout) {
   const path = shortUrlHash ? '/charts' : window.location.pathname
   return (
     path +
@@ -50,7 +50,7 @@ const URLExtension = ({
   useEffect(() => {
     const update = () => setSharedWidgets(getSharedWidgets(widgets))
     let updateTimer
-    function scheduleUpdate () {
+    function scheduleUpdate() {
       window.clearTimeout(updateTimer)
       updateTimer = window.setTimeout(update, 250)
     }
@@ -89,7 +89,7 @@ const URLExtension = ({
     let isRacing = false
 
     mutateShortUrl()
-    function mutateShortUrl () {
+    function mutateShortUrl() {
       const shortUrlPromise = shortUrlHash
         ? updateShortUrl(shortUrlHash, url)
         : getShortUrl(url).then((newShortUrlHash) => {

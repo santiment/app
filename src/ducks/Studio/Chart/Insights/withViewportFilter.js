@@ -34,6 +34,7 @@ const observeChartsInViewport = (() => {
   }
 })()
 
+<<<<<<< HEAD
 export const withViewportFilter = (Component) => ({ chart, insights }) => {
   const [isVisible, setIsVisible] = useState(false)
 
@@ -41,6 +42,17 @@ export const withViewportFilter = (Component) => ({ chart, insights }) => {
     const { canvas } = chart
     return observeChartsInViewport(canvas, (visibles) => setIsVisible(visibles.has(canvas)))
   }, [])
+=======
+export const withViewportFilter =
+  (Component) =>
+  ({ chart, insights }) => {
+    const [isVisible, setIsVisible] = useState(false)
 
-  return isVisible ? <Component chart={chart} insights={insights} /> : null
-}
+    useEffect(() => {
+      const { canvas } = chart
+      return observeChartsInViewport(canvas, (visibles) => setIsVisible(visibles.has(canvas)))
+    }, [])
+>>>>>>> master
+
+    return isVisible ? <Component chart={chart} insights={insights} /> : null
+  }

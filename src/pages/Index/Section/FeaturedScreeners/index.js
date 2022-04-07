@@ -33,9 +33,16 @@ const FeaturedScreeners = () => {
 
   buildColumns(metrics, DYNAMIC_COLUMNS)
 
+<<<<<<< HEAD
   const tabs = useMemo(() => featuredScreeners.map(({ name }) => name).slice(0, 4), [
     featuredScreeners,
   ])
+=======
+  const tabs = useMemo(
+    () => featuredScreeners.map(({ name }) => name).slice(0, 4),
+    [featuredScreeners],
+  )
+>>>>>>> master
 
   useEffect(() => {
     if (featuredScreeners.length !== 0) {

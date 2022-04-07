@@ -16,7 +16,7 @@ const SocialGrid = ({ className, onTopicClick, hasPremium, topics = TOPICS }) =>
   const [showCount, setShowCount] = useState(SHOW_STEP)
   const [loadedCount, setLoadedCount] = useState(0)
 
-  function onLoad () {
+  function onLoad() {
     const newCount = loadedCount + 1
     setLoadedCount(newCount)
 

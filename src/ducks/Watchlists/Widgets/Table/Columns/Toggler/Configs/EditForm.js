@@ -28,7 +28,7 @@ const EditForm = ({
   const [formState, setFormState] = useState({ name: defaultName })
   const debouncedCheckName = useDebounce(checkName, 300)
 
-  function onSubmit (evt) {
+  function onSubmit(evt) {
     evt.preventDefault()
 
     const { name, error } = formState
@@ -48,12 +48,16 @@ const EditForm = ({
     }
   }
 
+<<<<<<< HEAD
   function onInputChange ({ currentTarget: { value: name } }) {
+=======
+  function onInputChange({ currentTarget: { value: name } }) {
+>>>>>>> master
     setFormState((state) => ({ ...state, name }))
     debouncedCheckName(name)
   }
 
-  function checkName (name = '') {
+  function checkName(name = '') {
     let error = ''
     const hasSameName = sets.filter((set) => set.title.toLowerCase() === name.toLowerCase())
 

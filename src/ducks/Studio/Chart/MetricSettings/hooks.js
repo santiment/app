@@ -3,7 +3,7 @@ import { Node } from '../../../Chart/nodes'
 import { getMetricMinInterval } from '../../../dataHub/metrics/restrictions'
 import { dateDifference, DAY } from '../../../../utils/dates'
 
-function makeInterval (key, label) {
+function makeInterval(key, label) {
   intervalIndices.push(key)
   return { key, label }
 }
@@ -24,16 +24,14 @@ export const INTERVALS = [
   makeInterval('7d', '7 days'),
 ]
 
-export function useMetricMinInterval (
+export function useMetricMinInterval(
   { key, queryKey = key },
   getCustomMetricMinInterval = getMetricMinInterval,
 ) {
   const [minInterval, setMinInterval] = useState()
 
   useEffect(() => {
-    getCustomMetricMinInterval(queryKey)
-      .then(setMinInterval)
-      .catch(console.warn)
+    getCustomMetricMinInterval(queryKey).then(setMinInterval).catch(console.warn)
   }, [queryKey, getCustomMetricMinInterval])
 
   return minInterval
@@ -45,17 +43,17 @@ export const isAvailableInterval = (interval, intervals) =>
 export const getValidInterval = (interval, intervals) =>
   isAvailableInterval(interval, intervals) ? interval : intervals[0].key
 
-export function getIntervals (minInterval) {
+export function getIntervals(minInterval) {
   const index = intervalIndices.indexOf(minInterval)
   return index === -1 ? INTERVALS : INTERVALS.slice(index)
 }
 
-export function useMetricIntervals (metric, getCustomMetricMinInterval) {
+export function useMetricIntervals(metric, getCustomMetricMinInterval) {
   const minInterval = useMetricMinInterval(metric, getCustomMetricMinInterval)
   return useMemo(() => getIntervals(minInterval), [minInterval])
 }
 
-export function getCandlesMinInterval (from, to) {
+export function getCandlesMinInterval(from, to) {
   const { diff } = dateDifference({
     from: new Date(from),
     to: new Date(to),
@@ -81,7 +79,7 @@ export function getCandlesMinInterval (from, to) {
   return '7d'
 }
 
-export function useCandlesMinIntervalGetter (metricNode, from, to) {
+export function useCandlesMinIntervalGetter(metricNode, from, to) {
   return useMemo(() => {
     if (metricNode !== Node.CANDLES) return
     const minInterval = getCandlesMinInterval(from, to)

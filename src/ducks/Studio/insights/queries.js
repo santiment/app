@@ -109,7 +109,7 @@ const buildInsightsGetter = (query, variables) =>
 
 const allInsightsExtractor = ({ data: { insights } }) => insights
 
-export function getAllInsights (from, to) {
+export function getAllInsights(from, to) {
   return buildInsightsGetter(INSIGHTS_QUERY, {
     from,
     to,
@@ -117,7 +117,7 @@ export function getAllInsights (from, to) {
   }).then(allInsightsExtractor)
 }
 
-export function getProInsights (from, to) {
+export function getProInsights(from, to) {
   return buildInsightsGetter(INSIGHTS_QUERY, {
     from,
     to,
@@ -125,11 +125,15 @@ export function getProInsights (from, to) {
   }).then(allInsightsExtractor)
 }
 
+<<<<<<< HEAD
 export function getPulseInsights (from, to) {
+=======
+export function getPulseInsights(from, to) {
+>>>>>>> master
   return buildInsightsGetter(INSIGHTS_QUERY, { from, to, isPulse: true }).then(allInsightsExtractor)
 }
 
-export function getTagInsights (from, to, tag) {
+export function getTagInsights(from, to, tag) {
   return buildInsightsGetter(INSIGHTS_QUERY, {
     from,
     to,
@@ -137,7 +141,7 @@ export function getTagInsights (from, to, tag) {
   }).then(allInsightsExtractor)
 }
 
-export function getSANFAMInsights (from, to) {
+export function getSANFAMInsights(from, to) {
   return buildInsightsGetter(SANFAM_INSIGHTS_QUERY, {
     from,
     to,
@@ -146,13 +150,21 @@ export function getSANFAMInsights (from, to) {
   )
 }
 
+<<<<<<< HEAD
 export function getMyInsights () {
+=======
+export function getMyInsights() {
+>>>>>>> master
   return buildInsightsGetter(MY_INSIGHTS_QUERY).then(({ data: { currentUser } }) =>
     currentUser ? currentUser.insights.slice().sort(publishDateSorter) : [],
   )
 }
 
+<<<<<<< HEAD
 export function getFollowingsInsights () {
+=======
+export function getFollowingsInsights() {
+>>>>>>> master
   return buildInsightsGetter(FOLLOWINGS_INSIGHTS_QUERY).then(({ data: { currentUser } }) =>
     currentUser
       ? currentUser.following.users.flatMap(({ insights }) => insights).sort(publishDateSorter)
@@ -160,7 +172,7 @@ export function getFollowingsInsights () {
   )
 }
 
-export function getFollowingsCount () {
+export function getFollowingsCount() {
   return client
     .query({ query: FOLLOWINGS_COUNT_QUERY })
     .then(({ data: { currentUser } }) => (currentUser ? currentUser.following.count : 0))

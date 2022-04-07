@@ -56,20 +56,24 @@ export default ({
     )
   }, [selectedProject, selectedMetric])
 
-  function selectProject (project) {
+  function selectProject(project) {
     setSelectedProject(project)
     closeDialog()
   }
 
+<<<<<<< HEAD
   function removeComparable () {
+=======
+  function removeComparable() {
+>>>>>>> master
     setComparables((state) => state.filter((comp) => comp !== comparable))
   }
 
-  function closeDialog () {
+  function closeDialog() {
     setOpened(false)
   }
 
-  function openDialog () {
+  function openDialog() {
     setOpened(true)
   }
 

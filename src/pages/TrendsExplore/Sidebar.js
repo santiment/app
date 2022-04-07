@@ -28,7 +28,7 @@ const Sidebar = ({ topics, linkedAssets, isDesktop, isEmptySearch, ...props }) =
 
     const { offsetHeight } = header
 
-    function fixSidebar () {
+    function fixSidebar() {
       requestAnimationFrame(() => {
         const dif = offsetHeight - window.scrollY
         sidebar.classList.toggle(styles.fixed, dif < 0)
@@ -41,7 +41,7 @@ const Sidebar = ({ topics, linkedAssets, isDesktop, isEmptySearch, ...props }) =
     return () => window.removeEventListener('scroll', fixSidebar)
   }, [])
 
-  function onTrendCalendarChange (date) {
+  function onTrendCalendarChange(date) {
     setTrendDate([date])
     let period
     if (!checkIsToday(date)) {

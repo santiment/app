@@ -6,7 +6,7 @@ import styles from './SwipablePages.module.scss'
 export const useSwipeState = () => {
   const [active, setActive] = useState(0)
 
-  function onChange (value) {
+  function onChange(value) {
     setActive(value)
   }
 

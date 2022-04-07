@@ -7,11 +7,15 @@ import styles from './Point.module.scss'
 import insightStyles from './Insight.module.scss'
 
 const Point = ({ index, left, top, user, isOpened, isAnon, setOpenedIndex, ...props }) => {
+<<<<<<< HEAD
   function openInsight () {
+=======
+  function openInsight() {
+>>>>>>> master
     setOpenedIndex(index)
   }
 
-  function closeInsight () {
+  function closeInsight() {
     setOpenedIndex()
   }
 

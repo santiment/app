@@ -39,7 +39,7 @@ const WalletAndConditionsSelector = ({
     return projects.length > 0 && assets.length > 0 ? mapAssetsToProjects(projects, assets) : []
   }, [assets, projects])
 
-  function handleNextClick () {
+  function handleNextClick() {
     setSelectedStep(selectedStep + 1)
 
     if (!visitedSteps.has(selectedStep + 1)) {

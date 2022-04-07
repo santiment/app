@@ -4,7 +4,7 @@ import { useProjects } from '../../../../../stores/projects'
 const filterHelper = (filter, { ticker, name }) =>
   name.toLowerCase().includes(filter) || ticker.toLowerCase().includes(filter)
 
-function useFilteredItems (filter, items) {
+function useFilteredItems(filter, items) {
   return useMemo(() => {
     if (items.length > 0 && filter && filter.length > 0) {
       items = items.filter((item) => filterHelper(filter, item))
@@ -13,12 +13,16 @@ function useFilteredItems (filter, items) {
   }, [filter, items])
 }
 
-function useAllProjects (filter) {
+function useAllProjects(filter) {
   const { projects } = useProjects()
   return useFilteredItems(filter, projects)
 }
 
+<<<<<<< HEAD
 export function useEditAssets (filter, watchlist, onChange, preSelectedItems = []) {
+=======
+export function useEditAssets(filter, watchlist, onChange, preSelectedItems = []) {
+>>>>>>> master
   const allProjects = useAllProjects(filter)
   const [checkedItems, setCheckedItems] = useState(watchlist)
   const filteredWatchlist = useFilteredItems(filter, checkedItems)

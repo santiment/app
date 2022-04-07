@@ -4,7 +4,6 @@ import EmptySection from '../../components/EmptySection/EmptySection'
 import PageLoader from '../../components/Loader/PageLoader'
 import AlertModal from '../../ducks/Alert/AlertModal'
 import { useFeaturedUserTriggers } from '../../ducks/Signals/common/useFeaturedUserTriggers'
-import { prepareAlertTitle } from '../../ducks/Signals/link/OpenSignalLink'
 import styles from './SonarFeedRecommendations.module.scss'
 
 const SonarFeedRecommendations = ({
@@ -17,7 +16,6 @@ const SonarFeedRecommendations = ({
         <div className={styles.description}>{description}</div>
         {showButton && (
           <AlertModal
-            prepareAlertTitle={prepareAlertTitle}
             triggerButtonProps={{
               label: 'Add first alert',
               variant: 'fill',
@@ -53,6 +51,7 @@ export const RecommendedSignals = ({ showTitle = true, userId, shouldDisableActi
       <>
         {showTitle && <h4 className={styles.subtitle}>Recommended for you</h4>}
         <SignalCardsGrid
+          isRecommendedSignal
           userId={userId}
           signals={mapped}
           shouldDisableActions={shouldDisableActions}

@@ -11,10 +11,8 @@ const RenameTemplate = ({ template, onRename, isAuthor, ...props }) => {
   const { title, description } = template
   const [updateTemplate, { loading }] = useUpdateTemplate()
 
-  function onSubmit ({ title, description }) {
-    updateTemplate(template, { title, description })
-      .then(onRename)
-      .then(notifyRename)
+  function onSubmit({ title, description }) {
+    updateTemplate(template, { title, description }).then(onRename).then(notifyRename)
   }
 
   const { isPublic, toggleIsPublic } = usePublicTemplates(template)

@@ -3,7 +3,7 @@ import { showNotification } from '../../../actions/rootActions'
 
 const dispatchNotification = (payload) => store.dispatch(showNotification(payload))
 
-export function notifyCreation () {
+export function notifyCreation() {
   return dispatchNotification({
     variant: 'success',
     title: 'Chart Layout created',
@@ -11,14 +11,14 @@ export function notifyCreation () {
   })
 }
 
-export function notifyAnonCreation () {
+export function notifyAnonCreation() {
   return dispatchNotification({
     variant: 'info',
     title: 'Your chart was saved and will be created after sign up',
   })
 }
 
-export function notifyDuplication () {
+export function notifyDuplication() {
   return dispatchNotification({
     variant: 'success',
     title: 'Chart Layout duplicated',
@@ -26,7 +26,7 @@ export function notifyDuplication () {
   })
 }
 
-export function notifyRename () {
+export function notifyRename() {
   return dispatchNotification({
     variant: 'success',
     title: 'Template rename',
@@ -34,7 +34,7 @@ export function notifyRename () {
   })
 }
 
-export function notifySave () {
+export function notifySave() {
   return dispatchNotification({
     variant: 'success',
     title: 'Template saved',

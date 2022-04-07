@@ -41,7 +41,7 @@ const EditForm = ({
       window.removeEventListener('comparingAssetsChanged', comparingAssetsChangeHandler, false)
   }, [])
 
-  function onSubmit (evt) {
+  function onSubmit(evt) {
     evt.preventDefault()
     let err = ''
 
@@ -68,16 +68,24 @@ const EditForm = ({
     }
   }
 
+<<<<<<< HEAD
   function onInputChange ({ currentTarget: { value: name } }) {
+=======
+  function onInputChange({ currentTarget: { value: name } }) {
+>>>>>>> master
     setFormState((state) => ({ ...state, name }))
     debouncedCheckName(name)
   }
 
+<<<<<<< HEAD
   function onTextareaChange ({ currentTarget: { value: description } }) {
+=======
+  function onTextareaChange({ currentTarget: { value: description } }) {
+>>>>>>> master
     setFormState((state) => ({ ...state, description }))
   }
 
-  function onToggleClick (evt) {
+  function onToggleClick(evt) {
     evt.preventDefault()
     setFormState((state) => {
       const isPublic = !state.isPublic
@@ -85,7 +93,7 @@ const EditForm = ({
     })
   }
 
-  function checkName (name = '') {
+  function checkName(name = '') {
     let error = ''
     const comparedName = name.trim().toLowerCase()
     const hasSameName = lists.filter((list) => list.name.toLowerCase() === comparedName)

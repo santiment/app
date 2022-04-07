@@ -12,26 +12,28 @@ import styles from './LayoutForAsset.module.scss'
 
 export const EXPLANATION_TOOLTIP_MARK = '_ASSET_CHART_LAYOUTS_ROW'
 
-const RowTooltipBuilder = ({ onHide }) => ({ children }) => {
-  const [shown, setShown] = useState(true)
+const RowTooltipBuilder =
+  ({ onHide }) =>
+  ({ children }) => {
+    const [shown, setShown] = useState(true)
 
-  return (
-    <div className={styles.tooltipWrapper}>
-      <TooltipWithImg
-        shown={shown}
-        mark={EXPLANATION_TOOLTIP_MARK}
-        onHide={onHide}
-        img={layoutsTooltipImg}
-        className={styles.explanation}
-        tooltipEl={ForceClosableExplanationTooltip}
-        description='Choose from a list of existing chart layouts that you can apply for the selected asset. Use one of our community-made templates or create your own!'
-      >
-        <div />
-      </TooltipWithImg>
-      <div onClick={() => setShown(false)}>{children}</div>
-    </div>
-  )
-}
+    return (
+      <div className={styles.tooltipWrapper}>
+        <TooltipWithImg
+          shown={shown}
+          mark={EXPLANATION_TOOLTIP_MARK}
+          onHide={onHide}
+          img={layoutsTooltipImg}
+          className={styles.explanation}
+          tooltipEl={ForceClosableExplanationTooltip}
+          description='Choose from a list of existing chart layouts that you can apply for the selected asset. Use one of our community-made templates or create your own!'
+        >
+          <div />
+        </TooltipWithImg>
+        <div onClick={() => setShown(false)}>{children}</div>
+      </div>
+    )
+  }
 
 const IconTooltipWrapper = ({ children, className, index }) => {
   return (

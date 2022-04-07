@@ -8,7 +8,7 @@ import styles from './StakeholderLabels.module.scss'
 
 const MAX_COUNT = 6
 
-export function toggleByKey (label, hidden, onChange) {
+export function toggleByKey(label, hidden, onChange) {
   if (hidden[label]) {
     delete hidden[label]
     onChange({
@@ -40,7 +40,7 @@ const StakeholderLabels = ({ labels, restrictedSignals, hidden, setHidden }) => 
 
   const unvisibleLabels = useMemo(() => labels.slice(MAX_COUNT), [labels])
 
-  function toggle (label) {
+  function toggle(label) {
     if (hidden[label]) {
       delete hidden[label]
       setHidden({ ...hidden })

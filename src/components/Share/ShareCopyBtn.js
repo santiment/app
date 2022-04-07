@@ -18,11 +18,11 @@ class ShareCopyBtn extends PureComponent {
     notificationTimer: null,
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     clearTimeout(this.state.notificationTimer)
   }
 
-  startNotification () {
+  startNotification() {
     this.setState({
       notificationTimer: setTimeout(() => this.setState({ notificationTimer: null }), 1000),
     })
@@ -33,7 +33,7 @@ class ShareCopyBtn extends PureComponent {
     this.startNotification()
   }
 
-  render () {
+  render() {
     const { label, disabled } = this.props
     return (
       <Button

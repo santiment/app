@@ -19,7 +19,7 @@ const MissYouScreen = ({ closeDialog, cancelSubscription, addNot, loading, id })
   const [selectedPoints, setSelectedPoints] = useState(ARR)
   const [feedback, setFeedback] = useState('')
 
-  function togglePoint (point) {
+  function togglePoint(point) {
     const points = new Set(selectedPoints)
 
     if (!points.delete(point)) {
@@ -30,11 +30,11 @@ const MissYouScreen = ({ closeDialog, cancelSubscription, addNot, loading, id })
     setSelectedPoints([...points])
   }
 
-  function saveFeedback (text) {
+  function saveFeedback(text) {
     setFeedback(text)
   }
 
-  function writeFeedback () {
+  function writeFeedback() {
     if (feedback) {
       track.event(Event.GiveFeedback, { feedback })
     }

@@ -6,12 +6,12 @@ import styles from './Category.module.scss'
 
 const SEARCH_RECENTS = 'SEARCH_RECENTS'
 
-export function getRecents () {
+export function getRecents() {
   const savedRecents = localStorage.getItem(SEARCH_RECENTS)
   return savedRecents ? JSON.parse(savedRecents) : []
 }
 
-function saveRecents (items) {
+function saveRecents(items) {
   const recents = items.slice(0, 5)
   localStorage.setItem(SEARCH_RECENTS, JSON.stringify(items))
   return recents
@@ -22,7 +22,7 @@ const removeRecent = ({ key, type }) =>
 
 export const clearRecents = () => saveRecents([])
 
-export function addRecent (type, item) {
+export function addRecent(type, item) {
   if (type !== 'Assets') return
 
   const { key } = assetAccessor(item)

@@ -87,7 +87,7 @@ const ProfilePage = (props) => {
     }
   }
 
-  function updateCache (cache, queryData) {
+  function updateCache(cache, queryData) {
     updateCurrentUserFollowQueryCache(
       cache,
       queryData,

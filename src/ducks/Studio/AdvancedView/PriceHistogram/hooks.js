@@ -11,7 +11,7 @@ const Chart = {
   bottom: 50,
 }
 
-function formatHistogramData (data, price) {
+function formatHistogramData(data, price) {
   const { length } = data
 
   let max = 1
@@ -46,7 +46,7 @@ function formatHistogramData (data, price) {
     .reverse()
 }
 
-export function usePriceHistogramData ({ slug, from, to }) {
+export function usePriceHistogramData({ slug, from, to }) {
   const { data, loading, error } = useQuery(HISTOGRAM_DATA_QUERY, {
     skip: !from || !to,
     variables: {

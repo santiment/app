@@ -35,7 +35,7 @@ const INDICATORS = Object.values(Indicator)
 const labelExtractor = ({ label }) => label
 
 const IndicatorMetricCache = {}
-function getMetricCache ({ key }) {
+function getMetricCache({ key }) {
   let cache = IndicatorMetricCache[key]
   if (!cache) {
     cache = {}
@@ -44,14 +44,14 @@ function getMetricCache ({ key }) {
   return cache
 }
 
-export function cacheIndicator (metric, indicator) {
+export function cacheIndicator(metric, indicator) {
   const metricStore = getMetricCache(metric)
   const indicatorMetric = buildIndicatorMetric(metric, indicator)
   metricStore[indicator.key] = indicatorMetric
   return indicatorMetric
 }
 
-function removeCachedIndicator (metric, indicator) {
+function removeCachedIndicator(metric, indicator) {
   const metricStore = getMetricCache(metric)
   const indicatorMetric = metricStore[indicator.key]
 
@@ -59,7 +59,7 @@ function removeCachedIndicator (metric, indicator) {
   return indicatorMetric
 }
 
-export function buildIndicatorMetric (metric, indicator) {
+export function buildIndicatorMetric(metric, indicator) {
   const cached = getMetricCache(metric)[indicator.key]
   if (cached) return cached
 
@@ -85,10 +85,17 @@ export function buildIndicatorMetric (metric, indicator) {
 const IndicatorsSetting = ({ metric, widget, toggleMetric }) => {
   const { MetricIndicators } = widget
   const { Dropdown } = useDropdown()
+<<<<<<< HEAD
   const activeIndicators = useMemo(() => new Set(MetricIndicators[metric.key]), [
     metric,
     MetricIndicators,
   ])
+=======
+  const activeIndicators = useMemo(
+    () => new Set(MetricIndicators[metric.key]),
+    [metric, MetricIndicators],
+  )
+>>>>>>> master
   const activeLabels = useMemo(
     () =>
       INDICATORS.filter((indicator) => activeIndicators.has(indicator))
@@ -97,7 +104,7 @@ const IndicatorsSetting = ({ metric, widget, toggleMetric }) => {
     [activeIndicators],
   )
 
-  function onToggle (indicator) {
+  function onToggle(indicator) {
     const indicatorMetric = activeIndicators.has(indicator)
       ? removeCachedIndicator(metric, indicator)
       : cacheIndicator(metric, indicator)

@@ -25,7 +25,7 @@ const LabelsSelector = ({ onChange }) => {
     return text.length > MAX_VISIBLE_SYMBOLS ? text.slice(0, MAX_VISIBLE_SYMBOLS) + '...' : text
   }, [state])
 
-  function addItemInState (item) {
+  function addItemInState(item) {
     setState([...state, item])
 
     const isInList = state.find(({ type }) => type === item.type)

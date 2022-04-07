@@ -21,12 +21,12 @@ const propsAccessor = ({ id }) => ({
   to: '/profile/' + id,
 })
 
-function peoplePredicate (value) {
+function peoplePredicate(value) {
   const searchTerm = value.toLowerCase()
   return ({ username }) => username.toLowerCase().includes(searchTerm)
 }
 
-function usePeople () {
+function usePeople() {
   const { data } = useQuery(POPULAR_AUTHORS_QUERY)
   return data ? data.popularInsightAuthors : DEFAULT_SUGGESTIONS
 }
@@ -44,10 +44,17 @@ const Person = ({ avatarUrl, username }) => (
 
 const PeopleCategory = ({ searchTerm, ...props }) => {
   const people = usePeople()
+<<<<<<< HEAD
   const suggestions = useMemo(() => people.filter(peoplePredicate(searchTerm)).slice(0, 5), [
     searchTerm,
     people,
   ])
+=======
+  const suggestions = useMemo(
+    () => people.filter(peoplePredicate(searchTerm)).slice(0, 5),
+    [searchTerm, people],
+  )
+>>>>>>> master
 
   return suggestions.length ? (
     <Category

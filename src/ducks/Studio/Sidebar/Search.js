@@ -5,7 +5,7 @@ const ON_CHAIN_DEFAULT = []
 const suggestionContent = ({ label }) => label
 const contains = (root, target) => root && root.toUpperCase().includes(target)
 
-export function checkMatch (upperCaseSearchTerm, abbreviation, label) {
+export function checkMatch(upperCaseSearchTerm, abbreviation, label) {
   if (!upperCaseSearchTerm) {
     return true
   }
@@ -16,7 +16,7 @@ export function checkMatch (upperCaseSearchTerm, abbreviation, label) {
   )
 }
 
-function predicate (searchTerm) {
+function predicate(searchTerm) {
   const upperCaseSearchTerm = searchTerm ? searchTerm.toUpperCase() : ''
   return ({ label, abbreviation }) =>
     contains(abbreviation, upperCaseSearchTerm) || contains(label, upperCaseSearchTerm)

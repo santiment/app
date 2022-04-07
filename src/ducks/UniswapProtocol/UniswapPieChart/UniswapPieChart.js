@@ -37,7 +37,7 @@ const obj = {
   },
 }
 
-function transformData (data) {
+function transformData(data) {
   if (!data && !data.totalMinted) {
     return
   }
@@ -73,7 +73,7 @@ function transformData (data) {
   return { total, movedSum, notMoved, chartData }
 }
 
-function getPercentStr (value = 0, total = 0) {
+function getPercentStr(value = 0, total = 0) {
   if (total === 0) return ''
 
   return `(${((value * 100) / total).toFixed(2)}%)`

@@ -54,7 +54,7 @@ const TRANSACTION_VOLUME_PER_ADDRESS_QUERY = gql`
   }
 `
 
-export function useTopClaimers ({ from, to, slug }) {
+export function useTopClaimers({ from, to, slug }) {
   const { data = {}, loading } = useQuery(TOP_CLAIMERS_QUERY, {
     variables: { from, to },
   })
@@ -66,7 +66,7 @@ export function useTopClaimers ({ from, to, slug }) {
   return [[], loading]
 }
 
-export function useUNIBalances ({ from, to, addresses = [] }) {
+export function useUNIBalances({ from, to, addresses = [] }) {
   const { data: { addressHistoricalBalanceChange } = {}, loading } = useQuery(
     ADDRESS_BALANCE_CHANGE_QUERY,
     {
@@ -86,7 +86,7 @@ export function useUNIBalances ({ from, to, addresses = [] }) {
   return [addressHistoricalBalanceChange, loading]
 }
 
-export function useUNITransactionVolume ({ from, to, addresses = [] }) {
+export function useUNITransactionVolume({ from, to, addresses = [] }) {
   const { data: { transactionVolumePerAddress } = {}, loading } = useQuery(
     TRANSACTION_VOLUME_PER_ADDRESS_QUERY,
     {

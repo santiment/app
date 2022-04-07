@@ -2,7 +2,7 @@ export const ALL_ASSETS_TEXT = 'All assets'
 
 export const MAX_VISIBLE_SYMBOLS = 48
 
-export function makeHumanReadableState (state, idNameMap) {
+export function makeHumanReadableState(state, idNameMap) {
   if (!Array.isArray(state)) {
     return state
   } else {

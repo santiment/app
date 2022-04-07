@@ -27,7 +27,7 @@ export const buildCommentCreator = (entityType) => (id, content, parentId) =>
     },
   })
 
-export function deleteComment (id) {
+export function deleteComment(id) {
   return client.mutate({
     mutation: DELETE_COMMENT_MUTATION,
     variables: {
@@ -36,7 +36,7 @@ export function deleteComment (id) {
   })
 }
 
-export function editComment (id, content) {
+export function editComment(id, content) {
   return client.mutate({
     mutation: UPDATE_COMMENT_MUTATION,
     variables: {

@@ -2,7 +2,7 @@ import { Metric } from './index'
 import { INTERVAL_ALIAS } from '../../SANCharts/IntervalSelector'
 import { dateDifference, DAY } from '../../../utils/dates'
 
-function newCustomInterval (intervals, clb) {
+function newCustomInterval(intervals, clb) {
   const getter = (from, to) => {
     const interval = clb(
       dateDifference({

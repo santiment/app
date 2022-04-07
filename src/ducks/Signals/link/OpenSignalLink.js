@@ -1,8 +1,10 @@
 import React from 'react'
 import cx from 'classnames'
 import AlertModal from '../../Alert/AlertModal'
+import { prepareAlertTitle } from './utils'
 import styles from './OpenSignalLink.module.scss'
 
+<<<<<<< HEAD
 const PERCENT_REGEXP = new RegExp(
   '((0x)?[0-9a-fA-F]{40})|( {1}[-\\$]?\\d+[,.]?\\d{0,}[,.$%]?\\d{0,}[$%]?[^x| ])|( {1}[-\\$]?\\d+[,.$%]?\\d{0,}[$%]? )',
   'gi',
@@ -72,6 +74,15 @@ export const prepareAlertTitle = (title, isFrozen) => {
 }
 
 const OpenSignalLink = ({ signal, children, isUserTheAuthor, shouldDisableActions }) => {
+=======
+const OpenSignalLink = ({
+  signal,
+  children,
+  isUserTheAuthor,
+  shouldDisableActions,
+  isRecommendedSignal,
+}) => {
+>>>>>>> master
   const { id, title, isFrozen } = signal
 
   const trigger = (
@@ -85,11 +96,12 @@ const OpenSignalLink = ({ signal, children, isUserTheAuthor, shouldDisableAction
 
   return (
     <AlertModal
+      signalData={isRecommendedSignal && signal}
+      isRecommendedSignal={isRecommendedSignal}
       shouldDisableActions={shouldDisableActions}
       id={id}
       trigger={trigger}
       isUserTheAuthor={isUserTheAuthor}
-      prepareAlertTitle={prepareAlertTitle}
     />
   )
 }

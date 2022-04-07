@@ -10,7 +10,7 @@ const WriteLabel = ({ name = '' }) => {
   const [value, setValue] = useState(name)
   const [isFocused, setIsFocused] = useState()
 
-  function onInput ({ target }) {
+  function onInput({ target }) {
     setValue(target.textContent)
   }
 

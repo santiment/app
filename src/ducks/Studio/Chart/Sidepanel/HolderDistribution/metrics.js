@@ -50,7 +50,11 @@ const HOLDERS_LABELED_DISTRIBUTION_KEY = 'holders_labeled_distribution'
 
 const KEYS = Object.keys(HOLDER_DISTRIBUTION_TEMPLATE)
 
+<<<<<<< HEAD
 function buildMetrics (templateKey, type, labelPostfix = '', formatter, axisFormatter) {
+=======
+function buildMetrics(templateKey, type, labelPostfix = '', formatter, axisFormatter) {
+>>>>>>> master
   const Metric = {}
   KEYS.forEach((range) => {
     const key = templateKey + range

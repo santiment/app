@@ -33,7 +33,7 @@ export const tryMapToTimeboundMetric = (key) => {
   }
 }
 
-function getTimeboundMetrics (metricKeys) {
+function getTimeboundMetrics(metricKeys) {
   const NewTimebounds = Object.create(null)
   const { length } = metricKeys
 
@@ -80,7 +80,7 @@ function getTimeboundMetrics (metricKeys) {
   return NewTimebounds
 }
 
-export function getMergedTimeboundSubmetrics (metricKeys) {
+export function getMergedTimeboundSubmetrics(metricKeys) {
   const Timebounds = getTimeboundMetrics(metricKeys)
   const NewMerged = Object.create(null)
 
@@ -99,16 +99,20 @@ export function getMergedTimeboundSubmetrics (metricKeys) {
 export const useMergedTimeboundSubmetrics = (metricKeys) =>
   useMemo(() => getMergedTimeboundSubmetrics(metricKeys), [metricKeys])
 
-function getTimerange (timeboundKey) {
+function getTimerange(timeboundKey) {
   const timeRangeIndex = timeboundKey.lastIndexOf('_') + 1
   return timeboundKey.slice(timeRangeIndex)
 }
 
-function sortTimebounds (timebounds) {
+function sortTimebounds(timebounds) {
   return timebounds.sort(timeboundsSorter)
 }
 
+<<<<<<< HEAD
 function timeboundsSorter ({ key: aKey }, { key: bKey }) {
+=======
+function timeboundsSorter({ key: aKey }, { key: bKey }) {
+>>>>>>> master
   const { amount: aAmount, format: aFormat } = parseIntervalString(getTimerange(aKey))
   const { amount: bAmount, format: bFormat } = parseIntervalString(getTimerange(bKey))
 

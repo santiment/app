@@ -5,7 +5,7 @@ export const CursorType = {
   FREE: 1,
 }
 
-export function useChartCursorType (defaultCursor = CursorType.LOCKED) {
+export function useChartCursorType(defaultCursor = CursorType.LOCKED) {
   const [cursorType, setCursorType] = useState(defaultCursor)
 
   return {

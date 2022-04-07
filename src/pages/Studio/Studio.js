@@ -42,7 +42,7 @@ window.notifyLayoutEdit = notifySave
 window.notifyLayoutCreation = notifyCreation
 window.notifyLayoutAnonCreation = notifyAnonCreation
 
-function getScreen () {
+function getScreen() {
   const { pathname } = window.location
 
   let screen
@@ -134,11 +134,11 @@ const Studio = ({
     if (studio && defaultWidgets) widgetsStore.set(defaultWidgets)
   }, [studio, defaultSettings, defaultWidgets])
 
-  function onModRangeSelect (start, end, e) {
+  function onModRangeSelect(start, end, e) {
     setModRange([new Date(start.value), new Date(end.value)])
   }
 
-  function onProjectSelect (project) {
+  function onProjectSelect(project) {
     if (project) {
       const { slug } = project
 
@@ -162,7 +162,7 @@ const Studio = ({
     }
   }
 
-  function setProject ({ slug, ticker, name, id }) {
+  function setProject({ slug, ticker, name, id }) {
     settingsStore.setProject({
       slug,
       ticker,
@@ -171,7 +171,7 @@ const Studio = ({
     })
   }
 
-  function onMetricSelect (node) {
+  function onMetricSelect(node) {
     if (selectMetricRef.current) return selectMetricRef.current(node)
     return node
   }

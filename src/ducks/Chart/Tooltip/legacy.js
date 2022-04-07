@@ -16,7 +16,7 @@ import {
 } from '../utils'
 import { TooltipSetting } from '../../dataHub/tooltipSettings'
 
-export function setupTooltip (chart, marker, useCustomTooltip, onPlotTooltip) {
+export function setupTooltip(chart, marker, useCustomTooltip, onPlotTooltip) {
   const {
     tooltip: { canvas, ctx },
   } = chart
@@ -54,7 +54,7 @@ export function setupTooltip (chart, marker, useCustomTooltip, onPlotTooltip) {
 
     window.addEventListener('mouseup', onMouseUp)
 
-    function onMouseMove ({ pageX }) {
+    function onMouseMove({ pageX }) {
       const { left, right, top, height } = chart
 
       const isOutOfLeft = pageX < canvasPageLeft
@@ -74,7 +74,7 @@ export function setupTooltip (chart, marker, useCustomTooltip, onPlotTooltip) {
       ctx.restore()
     }
 
-    function onMouseUp ({ offsetX }) {
+    function onMouseUp({ offsetX }) {
       window.removeEventListener('mousemove', onMouseMove)
       window.removeEventListener('mouseup', onMouseUp)
 
@@ -106,7 +106,7 @@ export function setupTooltip (chart, marker, useCustomTooltip, onPlotTooltip) {
 
 const metricValueAccessor = ({ value }) => value || value === 0
 
-export function plotTooltip (chart, marker, point, options) {
+export function plotTooltip(chart, marker, point, options) {
   const {
     tooltip: { ctx },
     tooltipKey,

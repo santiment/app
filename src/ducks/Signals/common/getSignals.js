@@ -21,7 +21,7 @@ export const filterByIsActiveFlag = (signals, statusFilter) =>
 
 const DEFAULT_STATE = []
 
-export function useSignals ({ skip = false, filters, mapper } = {}) {
+export function useSignals({ skip = false, filters, mapper } = {}) {
   const { data, loading, error } = useQuery(TRIGGERS_QUERY, {
     skip: skip,
   })

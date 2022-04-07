@@ -14,7 +14,7 @@ export const TooltipSetting = {
   },
 }
 
-export function FORMATTER (value) {
+export function FORMATTER(value) {
   // NOTE: Handling float type 0's (e.g. "0.0000") [@vanguard | Sep  2, 2020]
   if (value === 0) {
     return 0
@@ -35,7 +35,7 @@ export function FORMATTER (value) {
   return Number.isInteger(value) ? value : value.toFixed(2)
 }
 
-export function updateTooltipSetting (metric) {
+export function updateTooltipSetting(metric) {
   const { key, dataKey, formatter = FORMATTER, label, axisFormatter } = metric
 
   metric.formatter = formatter
@@ -46,7 +46,7 @@ export function updateTooltipSetting (metric) {
   }
 }
 
-export function updateTooltipSettings (metrics) {
+export function updateTooltipSettings(metrics) {
   const { length } = metrics
 
   for (let i = 0; i < length; i++) {

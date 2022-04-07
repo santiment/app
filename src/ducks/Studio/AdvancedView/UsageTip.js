@@ -8,7 +8,7 @@ const USAGE_TIP_TOGGLE = 'IS_USAGE_TIP_OPENED'
 export default () => {
   const [isOpened, setIsOpened] = useState(getSavedToggle(USAGE_TIP_TOGGLE, true))
 
-  function close () {
+  function close() {
     setIsOpened(saveToggle(USAGE_TIP_TOGGLE, false))
   }
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-export function newModalController (name, Component) {
+export function newModalController(name, Component) {
   const controller = {
     open: () => controller.setIsOpened(true),
     close: () => controller.setIsOpened(false),
@@ -18,7 +18,7 @@ export function newModalController (name, Component) {
   return controller
 }
 
-export function useControlledModal (modalController, isOpenedDefault) {
+export function useControlledModal(modalController, isOpenedDefault) {
   const [isOpened, setIsOpened] = useState(isOpenedDefault)
   const controller = useState(modalController)[0]
 

@@ -13,7 +13,7 @@ import { useShortShareLink } from '../../../components/Share/hooks'
 import { SAN_HEADER_HEIGHT } from '../../../constants'
 import styles from './Settings.module.scss'
 
-function getBrowserUrl () {
+function getBrowserUrl() {
   const { origin, pathname } = window.location
   return Promise.resolve(origin + pathname)
 }
@@ -23,7 +23,7 @@ export const CopyLink = ({ shareLink, getShareLink, className }) => {
 
   useEffect(() => () => clearTimeout(timer), [timer])
 
-  function onClick () {
+  function onClick() {
     getShareLink().then(copy)
     setTimer(setTimeout(() => setTimer(), 2000))
     track.event(Event.CopyLink)
@@ -47,7 +47,7 @@ export const ShareButton = ({ sharePath, shortUrlHash, controller }) => {
     ? () => getShortShareLink(controller())
     : getShortShareLink
 
-  function onMouseDown () {
+  function onMouseDown() {
     getShareLink()
     track.event(Event.Share)
   }

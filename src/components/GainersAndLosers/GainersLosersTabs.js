@@ -48,7 +48,7 @@ const GainersLosersTabs = ({
 }) => {
   let [selectedTab, setSelectedTab] = useState(tabs[0].index)
 
-  function handleSelectTab (tab) {
+  function handleSelectTab(tab) {
     if (tab !== selectedTab) {
       setSelectedTab(tab)
     }

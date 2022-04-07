@@ -21,7 +21,7 @@ import {
   HOLDER_LABELED_DISTRIBUTION_NODE,
 } from '../../Studio/Sidebar/nodes'
 
-export function deriveMetric (baseMetric, newMetric) {
+export function deriveMetric(baseMetric, newMetric) {
   const { key, queryKey = key, domainGroup = key } = baseMetric
   const { reqMeta } = newMetric
 
@@ -35,7 +35,7 @@ export function deriveMetric (baseMetric, newMetric) {
   return Object.assign({}, baseMetric, newMetric)
 }
 
-function normalizeAxisPercent (value) {
+function normalizeAxisPercent(value) {
   const percent = value * 100
   const absPercent = Math.abs(percent)
 
@@ -693,8 +693,8 @@ export const Metric = {
   [HolderDistributionCombinedBalanceAbsoluteMetric.holders_distribution_combined_balance_1_to_10
     .key]: HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE,
 
-  [HoldersLabeledDistributionMetric.holders_labeled_distribution_1_to_10
-    .key]: HOLDER_LABELED_DISTRIBUTION_NODE,
+  [HoldersLabeledDistributionMetric.holders_labeled_distribution_1_to_10.key]:
+    HOLDER_LABELED_DISTRIBUTION_NODE,
   mcd_locked_token: {
     category: 'On-chain',
     group: METRIC_GROUPS.MAKERDAO_STATS,

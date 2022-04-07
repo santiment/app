@@ -4,7 +4,7 @@ export const useAssetsAnomalyToggler = () => {
   const [filteredItems, setFilteredItems] = useState(null)
   const [filterType, setFilterType] = useState(null)
 
-  function toggleAssetsFiltering (assets, type) {
+  function toggleAssetsFiltering(assets, type) {
     if (type === filterType) {
       setFilterType(null)
       setFilteredItems(null)
@@ -14,7 +14,7 @@ export const useAssetsAnomalyToggler = () => {
     }
   }
 
-  function clearFilters () {
+  function clearFilters() {
     setFilteredItems(null)
     setFilterType(null)
   }

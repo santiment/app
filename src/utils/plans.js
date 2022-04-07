@@ -86,7 +86,7 @@ export const getAlternativeBillingPlan = (plans, oldPlan) => {
 export const getTrialLabel = (trialEnd, status) =>
   trialEnd && status === STATUSES.TRIALING ? '(trial)' : ''
 
-export function getShowingPlans (plans, billing) {
+export function getShowingPlans(plans, billing) {
   return plans
     .filter(noFreePlan)
     .filter(noBasicPlan)
@@ -94,7 +94,7 @@ export function getShowingPlans (plans, billing) {
     .filter(({ name, interval }) => interval === billing || name === 'FREE')
 }
 
-export function hasInactiveTrial (subscription) {
+export function hasInactiveTrial(subscription) {
   if (!subscription) {
     return false
   }
@@ -102,7 +102,7 @@ export function hasInactiveTrial (subscription) {
   const { trialEnd, cancelAtPeriodEnd, status } = subscription
   return subscription && trialEnd && cancelAtPeriodEnd && status === STATUSES.TRIALING
 }
-export function hasActiveTrial (subscription) {
+export function hasActiveTrial(subscription) {
   if (!subscription) {
     return false
   }

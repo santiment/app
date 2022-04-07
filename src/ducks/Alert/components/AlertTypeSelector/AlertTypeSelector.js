@@ -15,7 +15,7 @@ const AlertTypeSelector = ({ selectorSettings }) => {
     formPreviousValues,
   } = selectorSettings
 
-  function handleSelectType ({ type, isSelected }) {
+  function handleSelectType({ type, isSelected }) {
     setSelectedType(type)
     setSelectedStep(0)
 

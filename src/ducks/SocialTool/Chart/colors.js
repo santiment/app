@@ -29,7 +29,7 @@ const MetricColor = {
 }
 
 const INITIAL_STATE = {}
-export function useChartColors (metrics, focusedMetric) {
+export function useChartColors(metrics, focusedMetric) {
   const [chartColors, setChartColors] = useState(INITIAL_STATE)
 
   useEffect(() => {

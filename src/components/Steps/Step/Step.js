@@ -19,7 +19,7 @@ const Step = ({
   selected,
   ...restProps
 }) => {
-  function handleClick (...args) {
+  function handleClick(...args) {
     if (onClick) {
       onClick(...args)
     }

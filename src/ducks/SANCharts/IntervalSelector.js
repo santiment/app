@@ -71,7 +71,7 @@ export const formIntervalSettings = (value) => {
   }
 }
 
-export function getValidInterval (from, to) {
+export function getValidInterval(from, to) {
   const interval = getNewInterval(from, to)
   return INTERVAL_ALIAS[interval] || interval
 }

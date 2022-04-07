@@ -59,7 +59,7 @@ const normalizeData = (data) => data.slice()
 
 const noop = (data) => data
 
-function getProjectsByCategory (category, fetchCustomCategory, modifyCategory) {
+function getProjectsByCategory(category, fetchCustomCategory, modifyCategory) {
   if (fetchCustomCategory) {
     return fetchCustomCategory().then(normalizeData)
   }
@@ -79,7 +79,11 @@ const ProjectsSelectTabs = ({
   onSelect,
   showTabs = true,
 }) => {
+<<<<<<< HEAD
   function onTabSelect (category) {
+=======
+  function onTabSelect(category) {
+>>>>>>> master
     getProjectsByCategory(category, CustomCategory[category], CategoryModifier[category]).then(
       onSelect,
     )

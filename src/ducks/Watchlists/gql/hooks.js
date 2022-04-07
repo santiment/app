@@ -12,7 +12,7 @@ import { stringifyFn } from '../../Screener/utils'
 const EMPTY_ARRAY = []
 const DEFAULT_WATCHLISTS = []
 
-export function useWatchlist ({ id, skip }) {
+export function useWatchlist({ id, skip }) {
   const { data, loading, error } = useQuery(PROJECTS_WATCHLIST_QUERY, {
     skip: !id || skip,
     variables: {
@@ -23,7 +23,7 @@ export function useWatchlist ({ id, skip }) {
   return [data ? data.watchlist : undefined, loading, error]
 }
 
-export function useWatchlistVoteMutation ({ id }) {
+export function useWatchlistVoteMutation({ id }) {
   const [vote, { data }] = useMutation(WATCHLIST_VOTES_MUTATION, {
     refetchQueries: [
       {
@@ -39,7 +39,7 @@ export function useWatchlistVoteMutation ({ id }) {
   }
 }
 
-export function useWatchlistItems (id) {
+export function useWatchlistItems(id) {
   const { data, loading, error } = useQuery(WATHLIST_ITEMS_QUERY, {
     skip: !id,
     variables: {
@@ -56,7 +56,7 @@ export function useWatchlistItems (id) {
   }, [data, loading, error])
 }
 
-export function useRecentWatchlists (watchlistsIDs) {
+export function useRecentWatchlists(watchlistsIDs) {
   const [currIDs, setCurrIDs] = useState(watchlistsIDs)
   const [recentWatchlists, setRecentWatchlists] = useState(DEFAULT_WATCHLISTS)
   const [isLoading, setIsLoading] = useState(true)
@@ -98,7 +98,7 @@ export function useRecentWatchlists (watchlistsIDs) {
   return [recentWatchlists, isLoading, isError]
 }
 
-export function getProjectsByFunction (func, query) {
+export function getProjectsByFunction(func, query) {
   const { data, loading, error } = useQuery(query, {
     skip: !func,
     fetchPolicy: 'network-only',

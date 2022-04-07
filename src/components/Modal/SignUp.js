@@ -26,7 +26,7 @@ export const DialogSignUp = ({ defaultRoute, trigger }) => {
     return () => clearTimeout(timer)
   }, [parent, route])
 
-  function onLinkClick (e) {
+  function onLinkClick(e) {
     e.preventDefault()
     setRoute(e.currentTarget.getAttribute('href'))
   }

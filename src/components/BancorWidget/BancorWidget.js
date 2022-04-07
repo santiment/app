@@ -4,7 +4,7 @@ import cx from 'classnames'
 const PRIMARY_COLOR = '#14c393'
 
 class BancorWidget extends PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     const script = document.createElement('script')
     script.setAttribute('src', 'https://widget-convert.bancor.network/v1')
     script.addEventListener('load', (evt) => {
@@ -21,7 +21,11 @@ class BancorWidget extends PureComponent {
     document.body.appendChild(script)
   }
 
+<<<<<<< HEAD
   render () {
+=======
+  render() {
+>>>>>>> master
     return <div className={cx('bancor-wc', this.props.className)} id='bancor-wc-san' />
   }
 }

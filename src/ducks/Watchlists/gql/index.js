@@ -22,7 +22,7 @@ export const getRecentWatchlist = (id) =>
     })
     .then(({ data = {} }) => data.watchlist)
 
-export function tableQuery (columns) {
+export function tableQuery(columns) {
   const staticColumns = []
   const dynamicColumns = columns.filter(({ isStatic, accessor, isRestricted, isChart }) => {
     if (isStatic) {

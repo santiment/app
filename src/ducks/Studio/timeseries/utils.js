@@ -5,6 +5,7 @@ const OLD_DATE = { datetime: 0 }
 const newDataMapper = (data) => Object.assign({}, data)
 
 // TODO: Remove this after moving to dynamic query aliasing instead of preTransform [@vanguard | March 4, 2020]
+<<<<<<< HEAD
 export const aliasTransform = (key, dataKey = key) => (alias) => (data) =>
   extractTimeseries(key)(data).map(({ datetime, ...value }) => ({
     datetime,
@@ -12,6 +13,21 @@ export const aliasTransform = (key, dataKey = key) => (alias) => (data) =>
   }))
 
 export const extractTimeseries = (name) => ({ data }) => data[name]
+=======
+export const aliasTransform =
+  (key, dataKey = key) =>
+  (alias) =>
+  (data) =>
+    extractTimeseries(key)(data).map(({ datetime, ...value }) => ({
+      datetime,
+      [alias]: value[dataKey],
+    }))
+
+export const extractTimeseries =
+  (name) =>
+  ({ data }) =>
+    data[name]
+>>>>>>> master
 
 export const normalizeDatetimes = (data) => ({
   ...data,
@@ -21,7 +37,7 @@ export const normalizeDatetimes = (data) => ({
 export const normalizeInterval = (interval, minInterval) =>
   getIntervalMilliseconds(interval) > getIntervalMilliseconds(minInterval) ? interval : minInterval
 
-function findDatetimeBorder (baseTs, cursor, targetDatetime) {
+function findDatetimeBorder(baseTs, cursor, targetDatetime) {
   const baseTsLength = baseTs.length
 
   do {
@@ -31,7 +47,7 @@ function findDatetimeBorder (baseTs, cursor, targetDatetime) {
   return cursor
 }
 
-export function mergeTimeseries (timeseries) {
+export function mergeTimeseries(timeseries) {
   const timeseriesAmount = timeseries.length
 
   if (timeseriesAmount === 1) {

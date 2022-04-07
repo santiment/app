@@ -29,11 +29,11 @@ export const useDropdown = () => {
     }
   }, [isOpened])
 
-  function open () {
+  function open() {
     setIsOpened(true)
   }
 
-  function close () {
+  function close() {
     setIsOpened(false)
   }
 

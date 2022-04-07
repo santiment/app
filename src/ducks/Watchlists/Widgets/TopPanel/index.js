@@ -37,7 +37,7 @@ const TopPanel = ({
     }
   }, [])
 
-  function closeFilter () {
+  function closeFilter() {
     if (isFilterOpen) {
       setIsFilterOpen(false)
     }

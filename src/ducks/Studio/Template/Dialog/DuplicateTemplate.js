@@ -7,7 +7,7 @@ export default ({ onDuplicate, template, buttonLabel = 'Duplicate', ...props }) 
   const { title } = template
   const [createTemplate, { loading }] = useCreateTemplate()
 
-  function onSubmit ({ title, description }) {
+  function onSubmit({ title, description }) {
     const { metrics, project, options } = template
 
     createTemplate({

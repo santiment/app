@@ -57,7 +57,7 @@ class SanEditor extends React.Component {
     }
   }
 
-  render () {
+  render() {
     const { editorState } = this.state
     const { placeholder = '', readOnly } = this.props
     return (

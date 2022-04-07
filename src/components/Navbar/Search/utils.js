@@ -1,4 +1,4 @@
-export function filterSearchableItems (checkItem, searchableItems, allItems) {
+export function filterSearchableItems(checkItem, searchableItems, allItems) {
   const filteredItems = []
   const filteredSearchables = []
   const { length } = allItems

@@ -6,6 +6,7 @@ import withSizes from 'react-sizes'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import nprogress from 'nprogress'
+import Dialogs from 'webkit/ui/Dialog/Dialogs.svelte'
 import { isListPath, PATHS } from './paths'
 import NotificationStack from './components/NotificationStack'
 import UrlModals from './components/Modal/UrlModals'
@@ -131,15 +132,15 @@ const LoadableFeedPage = LoadablePage(() => import('./pages/feed/Feed'))
 const LoadableAlertsPage = LoadablePage(() => import('./pages/Alerts/Alerts'))
 
 class Route extends React.Component {
-  componentWillMount () {
+  componentWillMount() {
     nprogress.start()
   }
 
-  componentDidMount () {
+  componentDidMount() {
     nprogress.done()
   }
 
-  render () {
+  render() {
     return <BasicRoute {...this.props} />
   }
 }
@@ -176,11 +177,11 @@ const ExternalRoutes = [
 ]
 
 class ExternalRedirect extends React.Component {
-  componentWillMount () {
+  componentWillMount() {
     window.location = this.props.to
   }
 
-  render () {
+  render() {
     return <section>Redirecting...</section>
   }
 }
@@ -198,6 +199,15 @@ export const App = ({
   const [isWatchlistPage, setIsWatchlistPage] = useState(false)
 
   useSavedComment(isLoggedIn)
+
+  useEffect(() => {
+    if (pathname.includes(PATHS.STUDIO) || pathname.includes(PATHS.CHARTS)) {
+      return
+    }
+
+    const svelte = new Dialogs({ target: document.body })
+    return () => svelte.$destroy()
+  }, [])
 
   useEffect(() => {
     if (isListPath(pathname)) {
@@ -502,7 +512,11 @@ export const App = ({
   )
 }
 
+<<<<<<< HEAD
 function isPathnameInPages (pathname, pages) {
+=======
+function isPathnameInPages(pathname, pages) {
+>>>>>>> master
   return pages.some((path) => !pathname.replace(path, '').includes('/'))
 }
 

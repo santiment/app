@@ -132,10 +132,17 @@ const AssetSelector = ({
     )
   }, [listItems, words, searchTerm])
 
+<<<<<<< HEAD
   const allProjects = useMemo(() => [...listItems, ...filteredWords, ...filteredProjects], [
     filteredProjects,
     filteredWords,
   ])
+=======
+  const allProjects = useMemo(
+    () => [...listItems, ...filteredWords, ...filteredProjects],
+    [filteredProjects, filteredWords],
+  )
+>>>>>>> master
 
   const filteredListItems = useMemo(
     () => listItems.filter((item) => item.name.toLowerCase().includes(searchTerm.toLowerCase())),
@@ -164,7 +171,7 @@ const AssetSelector = ({
     }
   }, [filteredProjects, filteredWords, filteredListItems, isWords])
 
-  function handleNextClick () {
+  function handleNextClick() {
     setSelectedStep(selectedStep + 1)
 
     if (!visitedSteps.has(selectedStep + 1)) {
@@ -172,7 +179,7 @@ const AssetSelector = ({
     }
   }
 
-  function handlePressEnter (e) {
+  function handlePressEnter(e) {
     if (e.key === 'Enter' && isWords) {
       e.preventDefault()
       toggleAsset({
@@ -189,7 +196,7 @@ const AssetSelector = ({
     }
   }
 
-  function onTabSelect (projects, isLoading) {
+  function onTabSelect(projects, isLoading) {
     if (!projects || isLoading) {
       return
     }

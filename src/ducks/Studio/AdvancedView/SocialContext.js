@@ -8,7 +8,7 @@ import { parseIntervalString, ONE_MONTH_IN_MS } from '../../../utils/dates'
 import TrendsTable from '../../../ducks/TrendsTable'
 import styles from './SocialContext.module.scss'
 
-function getTimePeriod (date, interval) {
+function getTimePeriod(date, interval) {
   const { amount, format } = parseIntervalString(interval)
   const from = new Date(date)
   const to = new Date(date)
@@ -42,12 +42,12 @@ const SocialContext = ({ interval, date, project: { slug } }) => {
     setTrendPeriod(period)
   }, [date, interval])
 
-  function onTrendCalendarChange (datetime) {
+  function onTrendCalendarChange(datetime) {
     setTrendDate([datetime])
     setTrendPeriod(getTimePeriod(datetime, constrainedInterval))
   }
 
-  function onContextCalendarChange (datetime) {
+  function onContextCalendarChange(datetime) {
     setContextDate([datetime])
     setContextPeriod(getTimePeriod(datetime, constrainedInterval))
   }

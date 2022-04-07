@@ -33,15 +33,15 @@ const AssetsSelector = ({ onChange, selected, projects, slugs, className }) => {
   const ref = useRef()
   useOnClickOutside(ref, () => setShowPanel(false))
 
-  function onChangeSearch (e) {
+  function onChangeSearch(e) {
     setSearchTerm(e.target.value)
   }
 
-  function addItemInState (slug) {
+  function addItemInState(slug) {
     toggleByKey(slug, selected, onChange)
   }
 
-  function filterBySearch (list) {
+  function filterBySearch(list) {
     if (!searchTerm) {
       return list
     }

@@ -76,7 +76,7 @@ export const Marketplace = ({ marketplace }) => (
   </>
 )
 
-export function getTwitterAccount (original) {
+export function getTwitterAccount(original) {
   const { to, toAddress, from, fromAddress } = getInfluencers(original)
   const address = to ? toAddress : from ? fromAddress : undefined
   if (!address) return null

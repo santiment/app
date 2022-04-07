@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react'
 
 const SET = new Set()
-export function useSelectedItemsSet (items) {
+export function useSelectedItemsSet(items) {
   const [selectedItemsSet, setSelectedItemsSet] = useState(SET)
 
-  function selectItem (item) {
+  function selectItem(item) {
     const newState = new Set(selectedItemsSet)
 
     if (newState.has(item)) {
@@ -16,7 +16,11 @@ export function useSelectedItemsSet (items) {
     setSelectedItemsSet(newState)
   }
 
+<<<<<<< HEAD
   function selectAll () {
+=======
+  function selectAll() {
+>>>>>>> master
     setSelectedItemsSet(selectedItemsSet.size === items.length ? SET : new Set(items))
   }
 
@@ -29,7 +33,7 @@ export function useSelectedItemsSet (items) {
 }
 
 const ARRAY = []
-export function useColumns (allColumns, hiddenColumnIds = ARRAY) {
+export function useColumns(allColumns, hiddenColumnIds = ARRAY) {
   return useMemo(() => {
     if (hiddenColumnIds.length === 0) return allColumns
 

@@ -17,7 +17,7 @@ const Category = ({
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(isViewMode && !counter && totalCounter > 0)
 
-  function onToggleClick () {
+  function onToggleClick() {
     setIsCollapsed(!isCollapsed)
   }
 

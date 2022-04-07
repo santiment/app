@@ -10,7 +10,7 @@ import styles from './FollowBtn.module.scss'
 const ARR = []
 const OBJ = {}
 
-export function isInFollowers (users, targetUserId, currentUserId) {
+export function isInFollowers(users, targetUserId, currentUserId) {
   if (currentUserId && users) {
     if (targetUserId) {
       return users.some(({ id }) => +id === +targetUserId)

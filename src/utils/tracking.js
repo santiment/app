@@ -9,11 +9,11 @@ export const hasDoNotTrack = () => {
 }
 
 // GA strings need to have trailing whitespace trimmed,
-function trim (s) {
+function trim(s) {
   return s.replace(/^\s+|\s+$/g, '')
 }
 
-function mixScript (src) {
+function mixScript(src) {
   const script = document.createElement('script')
   script.async = true
   script.type = 'text/javascript'
@@ -23,7 +23,7 @@ function mixScript (src) {
   head.appendChild(script)
 }
 
-function loadScript () {
+function loadScript() {
   mixScript('//www.googletagmanager.com/gtag/js?id=' + TRACKER_IDs[0])
 }
 
@@ -44,7 +44,11 @@ const initHotjar = () => {
 
 const initTwitterPixel = () => {
   mixScript('//static.ads-twitter.com/uwt.js')
+<<<<<<< HEAD
   window.twq = function twq () {
+=======
+  window.twq = function twq() {
+>>>>>>> master
     window.twq.exe ? window.twq.exe.apply(window.twq, arguments) : window.twq.queue.push(arguments)
   }
   window.twq.version = '1.1'
@@ -53,11 +57,11 @@ const initTwitterPixel = () => {
   window.twq('track', 'PageView')
 }
 
-export function initializeTracking (trackerIDs = TRACKER_IDs) {
+export function initializeTracking(trackerIDs = TRACKER_IDs) {
   if (isBrowser && isProdApp && !hasDoNotTrack()) {
     loadScript()
     window.dataLayer = window.dataLayer || []
-    function gtag () {
+    function gtag() {
       window.dataLayer.push(arguments)
     }
     window.gtag = gtag
@@ -140,7 +144,7 @@ export const event =
  * @param  {String} path - the current page e.g. '/about'
  * @param {Array} trackerIDs - (optional) a list of extra trackers to run the command on
  */
-export function pageview (rawPath, trackerIDs = TRACKER_IDs) {
+export function pageview(rawPath, trackerIDs = TRACKER_IDs) {
   if (!isBrowser || !isProdApp || hasDoNotTrack()) {
     return
   }

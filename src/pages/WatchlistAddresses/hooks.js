@@ -6,7 +6,7 @@ import { constructAddressWatchlistQuery } from '../../ducks/WatchlistAddressesTa
 const OBJECT = {}
 const ARRAY = []
 
-export function useAddressWatchlist (id) {
+export function useAddressWatchlist(id) {
   const { data, loading } = useQuery(constructAddressWatchlistQuery(), {
     variables: { id },
   })

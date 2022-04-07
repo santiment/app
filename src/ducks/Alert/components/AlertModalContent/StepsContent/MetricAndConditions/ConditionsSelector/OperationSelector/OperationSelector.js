@@ -14,7 +14,7 @@ import {
 import { formatOptionLabel } from './utils'
 import styles from './OperationSelector.module.scss'
 
-function getCountDefault (value) {
+function getCountDefault(value) {
   return MULTIPLE_VALUES_OPERATIONS.includes(value) ? [1, 1] : 1
 }
 
@@ -30,7 +30,7 @@ const OperationSelector = ({ metric, isWallet }) => {
   )
   const [count, setCount] = useState(selectedCount || getCountDefault(operation))
 
-  function handleChangeOperation ({ label, value }) {
+  function handleChangeOperation({ label, value }) {
     setOperation({ label, value })
     setCount(getCountDefault(value))
   }

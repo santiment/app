@@ -39,7 +39,7 @@ const PagedTable = ({
   const isPrevPageDisabled = page < 1
   const isNextPageDisabled = page >= maxPage - 1
 
-  function changePage (newPage) {
+  function changePage(newPage) {
     if (newPage > -1 && newPage < maxPage) {
       setPage(newPage)
       if (onPageChange) onPageChange(newPage)

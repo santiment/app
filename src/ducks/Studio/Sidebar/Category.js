@@ -13,7 +13,7 @@ const DEFAULT_OPENED_CATEGORY = {
 
 const Category = ({ title, groups, project, NewMetricsCategory, GroupNode, children, ...rest }) => {
   const [hidden, setHidden] = useState(!DEFAULT_OPENED_CATEGORY[title])
-  function onToggleClick () {
+  function onToggleClick() {
     setHidden(!hidden)
   }
 

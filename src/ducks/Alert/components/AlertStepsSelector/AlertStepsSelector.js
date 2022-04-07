@@ -21,7 +21,7 @@ const AlertStepsSelector = ({
   const { values } = useFormikContext()
   const hasDisabledStep = items.length !== 3 && isMetricsDisabled
 
-  function handleStepClick (stepIndex) {
+  function handleStepClick(stepIndex) {
     setSelectedStep(stepIndex)
 
     if (stepIndex > 0) {

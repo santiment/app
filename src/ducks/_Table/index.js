@@ -4,7 +4,11 @@ import { FluidSkeleton as Skeleton } from '../../components/Skeleton'
 import NoDataImage from '../../components/Illustrations/NoData'
 import styles from './index.module.scss'
 
+<<<<<<< HEAD
 export function prepareColumns (columns) {
+=======
+export function prepareColumns(columns) {
+>>>>>>> master
   columns.forEach((column) => {
     column.id = column.id || column.key || column.title
   })
@@ -12,7 +16,7 @@ export function prepareColumns (columns) {
   return columns
 }
 
-function minRowsPadding (minRows, columns, { length }) {
+function minRowsPadding(minRows, columns, { length }) {
   if (length >= minRows) return null
 
   const rowsToAdd = minRows - length

@@ -39,7 +39,7 @@ const CookiePopup = () => {
 
   const [trackEvent] = useTrackEvents()
 
-  function acceptCookies () {
+  function acceptCookies() {
     trackEvent({ category: 'User', action: 'Cookie policy accepted' })
     cookiesPolicies.forEach((item) => {
       localStorage.setItem(item.key, true)

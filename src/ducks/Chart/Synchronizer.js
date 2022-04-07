@@ -10,7 +10,7 @@ const METRIC_NODE = {}
 
 const allNodes = Object.values(Node).map((node) => node + 's')
 
-export function metricsToPlotCategories (metrics, MetricNode = METRIC_NODE) {
+export function metricsToPlotCategories(metrics, MetricNode = METRIC_NODE) {
   const requestedData = {
     joinedCategories: [],
     areas: [],
@@ -54,7 +54,7 @@ export const getSyncedColors = (metrics) => {
 
 const { price_usd } = Metric
 
-function colorTrend (position) {
+function colorTrend(position) {
   if (position < 4) {
     return COLOR.persimmon
   }
@@ -65,7 +65,7 @@ function colorTrend (position) {
   return COLOR['bright-sun']
 }
 
-export function prepareEvents (events) {
+export function prepareEvents(events) {
   return events.map(({ datetime, position }) => {
     const date = +new Date(datetime)
 
@@ -151,7 +151,7 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
       })
 }
 
-function getMetricKey ({ key, dataKey = key }) {
+function getMetricKey({ key, dataKey = key }) {
   return dataKey
 }
 

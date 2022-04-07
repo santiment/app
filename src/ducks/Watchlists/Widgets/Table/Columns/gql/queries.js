@@ -53,7 +53,7 @@ const ACCESS_RESTRICTIONS_QUERY = gql`
   }
 `
 
-export function useFeaturedTableConfigs (type) {
+export function useFeaturedTableConfigs(type) {
   const { data } = useQuery(FEATURED_TABLE_CONFIGS_QUERY)
 
   return useMemo(() => {
@@ -68,7 +68,7 @@ export function useFeaturedTableConfigs (type) {
   }, [data])
 }
 
-export function useUserTableConfigs (type) {
+export function useUserTableConfigs(type) {
   const { user } = useUser()
   const { id } = user || EMPTY_OBJ
   const { data } = useQuery(TABLE_CONFIGS_QUERY, {
@@ -90,7 +90,7 @@ export function useUserTableConfigs (type) {
   }, [data])
 }
 
-export function useTableConfig (id) {
+export function useTableConfig(id) {
   const { data, loading, error } = useQuery(TABLE_CONFIG_QUERY, {
     skip: !id,
     variables: { id },
@@ -98,7 +98,7 @@ export function useTableConfig (id) {
   return { tableConfig: data && data.tableConfiguration, loading, error }
 }
 
-export function useRestrictedMetrics (type) {
+export function useRestrictedMetrics(type) {
   const { data, loading } = useQuery(ACCESS_RESTRICTIONS_QUERY, {
     skip: type === BLOCKCHAIN_ADDRESS,
   })

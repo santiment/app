@@ -25,7 +25,7 @@ const CreateAlertTrigger = ({ className, assets, address, isWithIcon }) => (
 const Actions = ({ address, infrastructure, assets, note }) => {
   const { ActionsMenu, close } = useControlledActionsMenu()
 
-  function onCommentClick () {
+  function onCommentClick() {
     const $comment = document.querySelector('textarea[name="comment"]')
     if ($comment) {
       $comment.focus()

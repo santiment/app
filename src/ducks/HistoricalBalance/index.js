@@ -35,7 +35,7 @@ const HistoricalBalance = ({
     setPriceAssets([...priceAssetsSet])
   }, [chartAssets])
 
-  function togglePriceAsset (asset) {
+  function togglePriceAsset(asset) {
     const priceAssetsSet = new Set(priceAssets)
 
     if (priceAssetsSet.has(asset)) {
@@ -47,7 +47,7 @@ const HistoricalBalance = ({
     setPriceAssets([...priceAssetsSet])
   }
 
-  function updateChartAssets (asset) {
+  function updateChartAssets(asset) {
     if (Array.isArray(asset)) {
       setChartAssets(asset.map((item) => ({ ...item.value })))
     } else {

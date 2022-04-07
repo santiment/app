@@ -77,7 +77,7 @@ const TAG_GROUP_ITEMS = [
   },
 ]
 
-function buildGroups (ticker) {
+function buildGroups(ticker) {
   const item = {
     key: ticker,
     label: ticker.toUpperCase() + ' Insights',
@@ -128,7 +128,7 @@ const InsightAlertSelector = ({ widgets, categories = {}, slug, project, setting
     return toggleInsight
   }, [])
 
-  function onToggleClick (toggle) {
+  function onToggleClick(toggle) {
     toggleInsight(toggle, from, to)
   }
 

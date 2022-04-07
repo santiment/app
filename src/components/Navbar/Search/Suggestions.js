@@ -45,7 +45,7 @@ const Suggestions = ({ suggestionsRef, isOpened, isTablet, isLaptop, ...props })
     }
   }, [isOpened])
 
-  function onRecentsClear () {
+  function onRecentsClear() {
     clearRecents()
     setRecents(DEFAULT_RECENTS)
   }

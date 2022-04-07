@@ -3,7 +3,7 @@ import { isEthStrictAddress, isEthStrictHashTx } from '../../../utils/utils'
 
 const ETHEREUM = 'ethereum'
 
-export function normalizeTransactionData (
+export function normalizeTransactionData(
   slug,
   { datetime, trxValue, trxHash, fromAddress, toAddress },
 ) {

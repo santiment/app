@@ -39,7 +39,7 @@ const DEFAULT_STATS = {
 const setArticleIsRead = (tab) => localStorage.setItem(LS_ARTICLE_IS_READ, '+')
 const getArticleIsRead = (tab) => !!localStorage.getItem(LS_ARTICLE_IS_READ)
 
-function useIsArticleRead () {
+function useIsArticleRead() {
   const [isArticleRead, setIsArticleRead] = useState(getArticleIsRead)
 
   return {
@@ -48,7 +48,7 @@ function useIsArticleRead () {
   }
 }
 
-function useUserStats () {
+function useUserStats() {
   const { data } = useQuery(USER_QUERY, FETCH_POLICY)
 
   return useMemo(() => {

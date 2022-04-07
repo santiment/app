@@ -28,7 +28,7 @@ export const Infrastructure = {
   BCH: 'BCH',
 }
 
-export function getAddressInfrastructure (address) {
+export function getAddressInfrastructure(address) {
   if (isEthAddress(address)) {
     return Infrastructure.ETH
   }

@@ -15,12 +15,12 @@ let genTimer
 const SettingsAPIKeys = ({ apikeys = [], generateAPIKey, revokeAPIKey }) => {
   const [copiedShown, setCopiedShown] = useState(false)
 
-  function showCopiedTooltip () {
+  function showCopiedTooltip() {
     setCopiedShown(true)
     setTimeout(() => setCopiedShown(false), 1000)
   }
 
-  function onGenClick () {
+  function onGenClick() {
     clearTimeout(genTimer)
     genTimer = setTimeout(generateAPIKey, 300)
   }

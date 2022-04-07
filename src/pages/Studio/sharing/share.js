@@ -9,7 +9,7 @@ import TopExchangesTable from '../Widget/TopExchangesTable'
 const isEmptyObject = (obj) => Object.keys(obj).length === 0
 const keyAccessor = ({ key }) => key
 
-function getSortedObjectKeys (object) {
+function getSortedObjectKeys(object) {
   const result = {}
   Object.keys(object)
     .sort()
@@ -20,7 +20,7 @@ function getSortedObjectKeys (object) {
   return result
 }
 
-function shareMetricSettings (MetricSettings) {
+function shareMetricSettings(MetricSettings) {
   let result
   Object.entries(MetricSettings || {}).forEach(([key, _value]) => {
     const value = Object.assign({}, _value)
@@ -35,7 +35,7 @@ function shareMetricSettings (MetricSettings) {
 
 const shareMetrics = (metrics) => metrics.map(keyAccessor)
 
-function shareIndicators (MetricIndicators) {
+function shareIndicators(MetricIndicators) {
   let result
   Object.entries(MetricIndicators || {}).forEach(([key, value]) => {
     if (value.size === 0) return
@@ -47,7 +47,7 @@ function shareIndicators (MetricIndicators) {
 
 const shareAxesMetrics = (axesMetrics) => Array.from(axesMetrics || []).map(keyAccessor)
 
-function shareSubwidgets (subwidgets) {
+function shareSubwidgets(subwidgets) {
   if (subwidgets.length === 0) return
 
   return subwidgets.map(({ key, from, to }) => ({
@@ -57,12 +57,12 @@ function shareSubwidgets (subwidgets) {
   }))
 }
 
-function shareSignalMetrics (signalMetrics) {
+function shareSignalMetrics(signalMetrics) {
   const metrics = signalMetrics || []
   return metrics.length ? shareMetrics(metrics) : undefined
 }
 
-function shareCombinedMetrics (metrics) {
+function shareCombinedMetrics(metrics) {
   return metrics
     .filter(({ expression }) => expression)
     .map(({ key, expression, label, baseMetrics, base }) => ({
@@ -73,11 +73,11 @@ function shareCombinedMetrics (metrics) {
     }))
 }
 
-function shareHolderLabels (holderLabels) {
+function shareHolderLabels(holderLabels) {
   if (holderLabels && holderLabels.length) return holderLabels
 }
 
-function shareChartWidget (widget) {
+function shareChartWidget(widget) {
   const shared = {}
   shared.widget = WidgetToKeyMap.get(widget.Widget)
 
@@ -108,10 +108,10 @@ function shareChartWidget (widget) {
   return shared
 }
 
-export function shareWidgets (widgets) {
+export function shareWidgets(widgets) {
   return widgets.map(shareChartWidget)
 }
 
-export function shareSettings ({ slug, ticker, from, to }) {
+export function shareSettings({ slug, ticker, from, to }) {
   return { slug, ticker, from, to }
 }

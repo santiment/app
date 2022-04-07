@@ -37,7 +37,7 @@ const Conversation = ({ data, classname }) => {
 
   const link = getLink(data)
 
-  function openConversation () {
+  function openConversation() {
     if (link) {
       window.open(link, '_blank')
     }

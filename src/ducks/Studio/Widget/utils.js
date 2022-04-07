@@ -59,7 +59,7 @@ export const useMirroredTransformer = (metrics) => {
   return MetricTransformer
 }
 
-export function useWidgetProjectSettings (widget, settings) {
+export function useWidgetProjectSettings(widget, settings) {
   const { from, to } = settings
 
   return useMemo(() => {
@@ -71,7 +71,7 @@ export function useWidgetProjectSettings (widget, settings) {
   }, [from, to])
 }
 
-export function useWidgetMetricLabeling (chartRef, metrics, settings) {
+export function useWidgetMetricLabeling(chartRef, metrics, settings) {
   useEffect(() => {
     const chart = chartRef.current
     if (!chart) return

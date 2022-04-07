@@ -14,6 +14,6 @@ const alertMetricsFilter = (metric) =>
   !metric.indicator &&
   (ALERT_METRICS.has(metric.key) || (metric.base && ALERT_METRICS.has(metric.base.key)))
 
-export function useAlertMetrics (metrics) {
+export function useAlertMetrics(metrics) {
   return useMemo(() => metrics.filter(alertMetricsFilter), [metrics])
 }

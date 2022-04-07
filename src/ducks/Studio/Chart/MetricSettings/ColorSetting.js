@@ -10,11 +10,11 @@ const ColorSetting = ({ metric }) => {
   const updateMetricColor = useMetricColorUpdater()
   const debouncedColorUpdate = useDebounce(updateMetricColor, 500)
 
-  function onClick () {
+  function onClick() {
     inputRef.current.click()
   }
 
-  function onChange ({ target: { value } }) {
+  function onChange({ target: { value } }) {
     debouncedColorUpdate(metric.key, value)
   }
 

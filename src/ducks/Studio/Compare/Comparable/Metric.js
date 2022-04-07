@@ -60,7 +60,7 @@ export default ({ comparable, slug, colors, hiddenMetrics, onSelect, ...rest }) 
   const [isEditing, setEditing] = useState()
   const metricSelectorRef = useRef(null)
 
-  function onMetricSelect (metric) {
+  function onMetricSelect(metric) {
     if (comparable) {
       stopEditing()
     }
@@ -68,12 +68,12 @@ export default ({ comparable, slug, colors, hiddenMetrics, onSelect, ...rest }) 
     return onSelect(metric)
   }
 
-  function editMetric () {
+  function editMetric() {
     setEditing(true)
     metricSelectorRef.current.firstElementChild.firstElementChild.focus()
   }
 
-  function stopEditing () {
+  function stopEditing() {
     setEditing()
   }
 

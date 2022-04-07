@@ -16,7 +16,7 @@ class EditableInputSetting extends PureComponent {
 
   inputRef = React.createRef()
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     clearTimeout(this.timeout)
   }
 
@@ -49,7 +49,7 @@ class EditableInputSetting extends PureComponent {
     this.inputRef && this.inputRef.current.focus()
   }
 
-  onChange (value) {
+  onChange(value) {
     const error = this.props.validate(value)
     this.setState({ value, error })
   }
@@ -59,7 +59,7 @@ class EditableInputSetting extends PureComponent {
     this.timeout = setTimeout(() => this.onChange(value), 100)
   }
 
-  render () {
+  render() {
     const { editing, error, value } = this.state
     const {
       label,

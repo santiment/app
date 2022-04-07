@@ -26,7 +26,7 @@ const IntervalSetting = ({
     return getValidInterval(interval, intervals)
   }, [widget.MetricSettingMap, intervals, metric])
 
-  function onChange (newInterval) {
+  function onChange(newInterval) {
     if (newInterval === chartInterval) {
       const newMap = new Map(widget.MetricSettingMap)
       delete newMap.get(metric).interval

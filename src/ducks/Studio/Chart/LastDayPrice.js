@@ -9,7 +9,7 @@ const DAY_INTERVAL = ONE_DAY_IN_MS * 2
 const BOTTOM_MARGIN = 5
 const RIGHT_MARGIN = 7
 
-function drawLastDayPrice (chart, price) {
+function drawLastDayPrice(chart, price) {
   const { ctx, minMaxes, top, left, right, bottom, scale } = chart
   const priceMinMaxes = minMaxes.price_usd
 
@@ -39,7 +39,7 @@ function drawLastDayPrice (chart, price) {
   ctx.restore()
 }
 
-function getLastDayPrice (firstPoint, from, to) {
+function getLastDayPrice(firstPoint, from, to) {
   const price = firstPoint && firstPoint.price_usd
   return price && new Date(to) - new Date(from) <= DAY_INTERVAL && price
 }

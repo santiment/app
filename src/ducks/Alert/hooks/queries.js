@@ -53,3 +53,9 @@ export const GET_METRIC_MIN_INTERVAL = gql`
     }
   }
 `
+
+export const HISTORICAL_TRIGGER_POINTS_QUERY = gql`
+  query historicalTriggerPoints($cooldown: String, $settings: json!) {
+    historicalTriggerPoints(cooldown: $cooldown, settings: $settings)
+  }
+`

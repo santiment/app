@@ -3,7 +3,7 @@ import { waterloo } from '@santiment-network/ui/variables.scss'
 const ALERT_ADD_SIZE = 13
 const ALERT_ADD_HALF_SIZE = 7
 
-export function drawAlertPlus (chart, y, xOffset = 0) {
+export function drawAlertPlus(chart, y, xOffset = 0) {
   if (!chart.isAlertsActive) return
 
   const { ctx } = chart.tooltip

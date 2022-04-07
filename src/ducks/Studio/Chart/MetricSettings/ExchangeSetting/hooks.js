@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 import { SUPPORTED_BLOCKCHAIN_SLUGS } from './exchanges'
 
 export const PROJECT_QUERY = gql`
-  query($slug: String!) {
+  query ($slug: String!) {
     project: projectBySlug(slug: $slug) {
       id
       infrastructure
@@ -13,7 +13,7 @@ export const PROJECT_QUERY = gql`
 `
 
 const METRIC_EXCHANGES_QUERY = gql`
-  query($slug: String!, $isDex: Boolean) {
+  query ($slug: String!, $isDex: Boolean) {
     allExchanges(slug: $slug, isDex: $isDex)
   }
 `
@@ -21,7 +21,7 @@ const METRIC_EXCHANGES_QUERY = gql`
 export const DEFAULT_EXCHANGE = 'All (CEX+DEX)'
 const DEFAULT_EXCHANGES = [DEFAULT_EXCHANGE]
 
-function useIsERC20 (slug, skip) {
+function useIsERC20(slug, skip) {
   const { data } = useQuery(PROJECT_QUERY, {
     variables: {
       slug,
@@ -35,7 +35,7 @@ function useIsERC20 (slug, skip) {
   return mainContractAddress && infrastructure === 'ETH'
 }
 
-export function useMetricExchanges (slug, isDex) {
+export function useMetricExchanges(slug, isDex) {
   const isSupported = SUPPORTED_BLOCKCHAIN_SLUGS.has(slug)
   const isERC20 = useIsERC20(slug, isSupported)
 

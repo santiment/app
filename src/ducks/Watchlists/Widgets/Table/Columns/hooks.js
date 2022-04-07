@@ -11,7 +11,7 @@ import {
   NOTE_COLUMN,
 } from '../../../../WatchlistAddressesTable/columns'
 
-export function useCategories (type) {
+export function useCategories(type) {
   const { projects, isLoading: projectsLoading } = useProjects()
   const { allMetrics, restrictedMetrics, loading: metricsLoading } = useRestrictedMetrics(type)
 
@@ -54,7 +54,7 @@ export const useManipulateColumns = () => {
   const [activeKeys, setActiveKeys] = useState(null)
   const [currActiveKeys, setCurrActiveKeys] = useState(null)
 
-  function addKey (key) {
+  function addKey(key) {
     const index = currActiveKeys.indexOf(key)
     if (index === -1) {
       return [...activeKeys, key]
@@ -82,14 +82,14 @@ export const useManipulateColumns = () => {
     }
   }
 
-  function toggleColumn (columnKey, isActive) {
+  function toggleColumn(columnKey, isActive) {
     const newActiveKeys = isActive
       ? addKey(columnKey)
       : activeKeys.filter((key) => key !== columnKey)
     setActiveKeys(newActiveKeys)
   }
 
-  function reorderActiveKeys (keys, wasChanges) {
+  function reorderActiveKeys(keys, wasChanges) {
     setCurrActiveKeys(keys)
     setWasReorder(wasChanges)
     const newKeysOrder = Array.from(activeKeys)

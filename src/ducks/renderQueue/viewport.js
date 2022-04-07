@@ -1,19 +1,19 @@
 import React, { useState, useContext, useEffect } from 'react'
 
-function checkIsInViewport (container) {
+function checkIsInViewport(container) {
   const { y, height } = container.getBoundingClientRect()
   const shouldBeInViewport = height * 0.3
 
   return y > -shouldBeInViewport && y < shouldBeInViewport
 }
 
-function RenderQueue () {
+function RenderQueue() {
   const queue = []
   const ItemRenderMap = new Map()
   let isLookingForViewportItem = true
   let timer
 
-  function render () {
+  function render() {
     const item = queue.shift()
     const renderItem = ItemRenderMap.get(item)
 
@@ -22,7 +22,7 @@ function RenderQueue () {
     }
   }
 
-  function scheduleRender () {
+  function scheduleRender() {
     if (queue.length) {
       timer = setTimeout(render, 200)
     } else {
@@ -30,7 +30,7 @@ function RenderQueue () {
     }
   }
 
-  function register (item, render) {
+  function register(item, render) {
     clearTimeout(timer)
 
     ItemRenderMap.set(item, render)
@@ -67,8 +67,17 @@ export const RenderQueueProvider = ({ children }) => (
     {children}
   </RenderQueueContext.Provider>
 )
+<<<<<<< HEAD
 export const withRenderQueueProvider = (Component) => (props) => (
   <RenderQueueProvider>
     <Component {...props} />
   </RenderQueueProvider>
 )
+=======
+export const withRenderQueueProvider = (Component) => (props) =>
+  (
+    <RenderQueueProvider>
+      <Component {...props} />
+    </RenderQueueProvider>
+  )
+>>>>>>> master

@@ -5,13 +5,13 @@ import { refetchUserSettings, updateUserSettingsCache } from './settings'
 
 const setStoreData = ({ data }) => currentUser.set(data && data.currentUser)
 
-export function loginUser () {
+export function loginUser() {
   refetchUser().then(setStoreData)
   refetchUserSubscriptions()
   refetchUserSettings()
 }
 
-export function logoutUser () {
+export function logoutUser() {
   currentUser.set(null)
   updateUser(null)
   updateUserSettingsCache(null)

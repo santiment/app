@@ -1,5 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
-import Dialogs from 'webkit/ui/Dialog/Dialogs.svelte'
+import React, { useMemo } from 'react'
 import URLExtension from './URLExtension'
 import Page from '../../ducks/Page'
 import HistoricalBalance from '../../ducks/HistoricalBalance'
@@ -25,11 +24,6 @@ const HistoricalBalancePage = ({ history, isDesktop }) => {
     () => parseUrl(window.location.search),
     [],
   )
-
-  useEffect(() => {
-    const svelte = new Dialogs({ target: document.body })
-    return () => svelte.$destroy()
-  }, [])
 
   return (
     <Page title='Historical Balance' actions={<Help />}>

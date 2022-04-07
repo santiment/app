@@ -15,7 +15,6 @@ import AlertRestrictionMessage from './AlertRestrictionMessage/AlertRestrictionM
 import { useSignals } from '../../ducks/Signals/common/getSignals'
 import { useUser } from '../../stores/user'
 import { mapSizesToProps } from '../../utils/withSizes'
-import { prepareAlertTitle } from '../../ducks/Signals/link/OpenSignalLink'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import styles from './Alerts.module.scss'
 
@@ -24,7 +23,7 @@ const LoadableAlertsList = Loadable({
   loading: () => <PageLoader />,
 })
 
-function getAlertsRestrictions ({ signals, isPro, isProPlus }) {
+function getAlertsRestrictions({ signals, isPro, isProPlus }) {
   const maxAmount = isProPlus ? Infinity : isPro ? 20 : 3
   return {
     maxAmount,
@@ -148,7 +147,6 @@ const Alerts = ({ isDesktop, match }) => {
               defaultOpen={true}
               canRedirect={false}
               trigger={<></>}
-              prepareAlertTitle={prepareAlertTitle}
             />
           )}
         </div>

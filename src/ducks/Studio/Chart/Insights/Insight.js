@@ -51,7 +51,7 @@ const Insight = ({
       setLoading(false)
     })
 
-    function onKeyDown ({ target, key }) {
+    function onKeyDown({ target, key }) {
       if (target !== document.body) return
 
       // eslint-disable-next-line

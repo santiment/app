@@ -5,7 +5,7 @@ import { notifyError, notifySaveNote } from '../Watchlists/Widgets/TopPanel/noti
 import styles from './index.module.scss'
 
 const Note = ({ notes, address, infrastructure, watchlistId, isAuthor }) => {
-  function updateItem (notes) {
+  function updateItem(notes) {
     if (isAuthor) {
       updateWatchlistShort(
         {

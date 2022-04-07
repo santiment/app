@@ -45,7 +45,7 @@ const getItem = getWatchlist(gql`
   }
 `)
 
-export function useStateMetadata (state) {
+export function useStateMetadata(state) {
   const [idNameMap, setIdNameMap] = useState({})
   const watchlistIDs = Array.isArray(state)
     ? state.filter((item) => !!item.watchlistId).map((item) => item.watchlistId)

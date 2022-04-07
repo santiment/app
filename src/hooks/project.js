@@ -9,7 +9,7 @@ import {
 } from '../ducks/Watchlists/gql/allProjectsGQL'
 import { useUser } from '../stores/user'
 
-export function useAssets ({ shouldSkipLoggedInState = false }) {
+export function useAssets({ shouldSkipLoggedInState = false }) {
   const { isLoggedIn } = useUser()
   const query = useQuery(ALL_PROJECTS_FOR_SEARCH_QUERY, {
     skip: shouldSkipLoggedInState ? false : !isLoggedIn,
@@ -29,7 +29,7 @@ export function useAssets ({ shouldSkipLoggedInState = false }) {
   }, [query])
 }
 
-export function useProjectById (id) {
+export function useProjectById(id) {
   const { data, loading, error } = useQuery(PROJECT_BY_ID_QUERY, {
     skip: !id,
     variables: {
@@ -40,7 +40,7 @@ export function useProjectById (id) {
   return [data ? data.project : undefined, loading, error]
 }
 
-export function useProject (slug) {
+export function useProject(slug) {
   const { data, loading, error } = useQuery(PROJECT_WITH_SLUG_QUERY, {
     skip: !slug || typeof slug !== 'string',
     variables: {
@@ -69,11 +69,11 @@ const makeFn = ({ limit, slugs, orderBy }) => {
   })
 }
 
-function getLimit () {
+function getLimit() {
   return 100
 }
 
-export function useProjectsSocialVolumeChanges ({ orderBy, slugs }) {
+export function useProjectsSocialVolumeChanges({ orderBy, slugs }) {
   const query = useQuery(ALL_PROJECTS_SOCIAL_VOLUME_CHANGES_QUERY, {
     variables: {
       fn: makeFn({ slugs, limit: getLimit(), orderBy }),
@@ -88,7 +88,7 @@ export function useProjectsSocialVolumeChanges ({ orderBy, slugs }) {
   }, [query])
 }
 
-export function useProjectPriceChanges ({ metric, interval, orderBy, slugs }) {
+export function useProjectPriceChanges({ metric, interval, orderBy, slugs }) {
   const gqlQuery = buildInfographicQuery({ metric, interval })
   const query = useQuery(gqlQuery, {
     variables: {

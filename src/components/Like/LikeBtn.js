@@ -42,7 +42,7 @@ class LikeBtn extends Component {
 
   onAnimationEnd = () => this.setState({ isAnimation: false })
 
-  render () {
+  render() {
     const { liked, isAnimation, initialLikesNumber } = this.state
     const { liked: savedLike, disabled, likesNumber, className, useProps, align } = this.props
     const amount = useProps ? likesNumber : likesNumber + liked - savedLike

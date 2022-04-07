@@ -9,14 +9,14 @@ import UpgradeBtn from '../../../components/UpgradeBtn/UpgradeBtn'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import styles from './PaywallInfo.module.scss'
 
-function formatDate (date) {
+function formatDate(date) {
   const { DD, MMM, YY } = getDateFormats(new Date(date))
   return `${DD} ${MMM}, ${YY}`
 }
 
 const DEFAULT_INFOS = []
 
-function useRestrictedInfo (metrics) {
+function useRestrictedInfo(metrics) {
   const [infos, setInfos] = useState(DEFAULT_INFOS)
 
   useEffect(() => {

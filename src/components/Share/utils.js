@@ -42,7 +42,7 @@ export const getFullUrl = (shortUrl) =>
     })
     .then(urlExtractor)
 
-export function redirectSharedLink () {
+export function redirectSharedLink() {
   const { pathname } = window.location
 
   if (pathname.startsWith(SHARE_PATH)) {

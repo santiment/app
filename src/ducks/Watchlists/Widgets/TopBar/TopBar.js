@@ -31,8 +31,19 @@ export const CreationInfo = toReact(
     alignItems: 'center',
   },
   'div',
+<<<<<<< HEAD
+=======
 )
-export const Comments = toReact(CommentsComponent, {}, 'div')
+export const Comments = toReact(
+  CommentsComponent,
+  {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  'div',
+>>>>>>> master
+)
 
 const TopBar = ({
   entity,
@@ -64,17 +75,17 @@ const TopBar = ({
     }
   }, [id])
 
-  function onVote () {
+  function onVote() {
     track.event('watchlist_like', { id })
   }
 
-  function closeFilter () {
+  function closeFilter() {
     if (isFilterOpen) {
       setIsFilterOpen(false)
     }
   }
 
-  function handleSavedWatchlistComment () {
+  function handleSavedWatchlistComment() {
     const node = document.querySelector(`textarea[name="comment"]`)
     if (node) {
       const comment = lookupSavedComment()

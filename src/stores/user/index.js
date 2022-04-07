@@ -32,7 +32,7 @@ export const USER_QUERY = gql`
 
 export const refetchUser = buildRefetcher(USER_QUERY)
 
-export function updateUser (newUser) {
+export function updateUser(newUser) {
   const { currentUser } = client.readQuery({
     query: USER_QUERY,
   })
@@ -45,7 +45,7 @@ export function updateUser (newUser) {
   })
 }
 
-export function useUser () {
+export function useUser() {
   const query = useQuery(USER_QUERY)
 
   return useMemo(() => {

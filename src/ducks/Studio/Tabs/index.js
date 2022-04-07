@@ -21,7 +21,7 @@ const TABS = Object.values(Tab)
 
 const SUBPATHS = new Set(TABS.map(({ path }) => path))
 
-function getSubpath (path) {
+function getSubpath(path) {
   const slashPosition = path.lastIndexOf('/', path.length - 2)
   const subpath = path.slice(slashPosition, path.endsWith('/') ? -1 : undefined)
   return SUBPATHS.has(subpath) ? '' : subpath

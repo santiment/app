@@ -15,10 +15,10 @@ const ThemeContext = React.createContext()
 const ThemeUpdaterContext = React.createContext()
 let themeUpdater // TODO: Remove it after completle migrating from theme epic [@vanguard | Jul 11, 2020]
 
-function ThemeProvider ({ children }) {
+function ThemeProvider({ children }) {
   const [state, setState] = useState(DEFAULT_STATE)
 
-  function updateTheme (isNightMode) {
+  function updateTheme(isNightMode) {
     setState({
       isNightMode,
     })
@@ -58,15 +58,15 @@ function ThemeProvider ({ children }) {
   )
 }
 
-function useTheme () {
+function useTheme() {
   return React.useContext(ThemeContext)
 }
 
-function useThemeUpdater () {
+function useThemeUpdater() {
   return React.useContext(ThemeUpdaterContext)
 }
 
-function updateTheme (isNightMode) {
+function updateTheme(isNightMode) {
   if (themeUpdater) {
     themeUpdater(isNightMode)
   }

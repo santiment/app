@@ -2,7 +2,7 @@ import { Metric } from '../../dataHub/metrics'
 import { useMemo } from 'react'
 import { CHECKING_STABLECOINS } from './utils'
 
-function buildStablecoinMetrics (rootMetric) {
+function buildStablecoinMetrics(rootMetric) {
   const { key: queryKey, node } = rootMetric
 
   const metrics = CHECKING_STABLECOINS.filter((metric) =>

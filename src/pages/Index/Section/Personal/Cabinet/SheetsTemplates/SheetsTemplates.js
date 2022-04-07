@@ -21,7 +21,7 @@ const SHEETS_TEMPLATES_QUERY = gql`
   }
 `
 
-function useSheetsTemplates () {
+function useSheetsTemplates() {
   const { data, loading } = useQuery(SHEETS_TEMPLATES_QUERY)
   return {
     loading,
@@ -33,9 +33,16 @@ const SheetsTemplates = () => {
   const { loading, templates } = useSheetsTemplates()
   const { isPro } = useUserSubscriptionStatus()
 
+<<<<<<< HEAD
   const list = useMemo(() => (templates.length > 0 ? templates : DEFAULT_SHEETS_TEMPLATES), [
     templates,
   ])
+=======
+  const list = useMemo(
+    () => (templates.length > 0 ? templates : DEFAULT_SHEETS_TEMPLATES),
+    [templates],
+  )
+>>>>>>> master
 
   return (
     <div className={styles.wrapper}>

@@ -46,7 +46,7 @@ export const NOTIFICATIONS_ENABLE_MUTATION = gql`
   }
 `
 
-function buildCacheUpdater (reducer) {
+function buildCacheUpdater(reducer) {
   return (cache, { data }) => {
     const { currentUser } = cache.readQuery({
       query: NOTIFICATIONS_FOLLOWERS_QUERY,
@@ -70,13 +70,13 @@ const updateFollowersOnToggle = buildCacheUpdater(
   },
 )
 
-export function useEnableNotifications () {
+export function useEnableNotifications() {
   const [mutate, { loading }] = useMutation(NOTIFICATIONS_ENABLE_MUTATION, {
     update: updateFollowersOnToggle,
     notifyOnNetworkStatusChange: true,
   })
 
-  function toggle (id, on) {
+  function toggle(id, on) {
     return mutate({
       variables: {
         userId: +id,

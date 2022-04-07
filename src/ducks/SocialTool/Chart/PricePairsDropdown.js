@@ -57,7 +57,7 @@ const PricePairsDropdown = ({
     }
   }, [allDetectedAssets])
 
-  function onChangePriceOption (selectedPair) {
+  function onChangePriceOption(selectedPair) {
     const ticker = selectedPair.split(SEPARATOR)[0]
     const slug = priceOptions.get(ticker)
     setPriceAsset({ slug, label: `${ticker}${SEPARATOR}USD` })

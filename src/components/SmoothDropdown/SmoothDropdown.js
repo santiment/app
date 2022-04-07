@@ -54,14 +54,14 @@ class SmoothDropdown extends Component {
     closeAfterTimeout: 150,
   }
 
-  componentDidMount () {
+  componentDidMount() {
     modalRoot.appendChild(this.ddContainer)
 
     // GarageInc: HACK for IOS(IPAD and etc) which can't handle mouseLeave/touchCancel/blur events
     document.addEventListener('touchstart', this.handleTouchEvent)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     modalRoot.removeChild(this.ddContainer)
     this.ddContainer = null
     this.portalContainer = null
@@ -73,7 +73,7 @@ class SmoothDropdown extends Component {
     document.removeEventListener('touchstart', this.handleTouchEvent)
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.portalContainer = this.ddContainer.querySelector('.dd__list')
     this.bgNode = this.ddContainer.querySelector('.dd__bg')
     this.arrowNode = this.ddContainer.querySelector('.dd__arrow')
@@ -157,10 +157,15 @@ class SmoothDropdown extends Component {
       return
     }
 
+<<<<<<< HEAD
     const {
       height: ddWrapperHeight,
       top: ddWrapperTop,
     } = this.dropdownWrapperRef.current.getBoundingClientRect()
+=======
+    const { height: ddWrapperHeight, top: ddWrapperTop } =
+      this.dropdownWrapperRef.current.getBoundingClientRect()
+>>>>>>> master
 
     const {
       top: triggerTop,
@@ -225,7 +230,7 @@ class SmoothDropdown extends Component {
     }))
   }
 
-  getViewportOverflowCorrection (trigger, ddContent) {
+  getViewportOverflowCorrection(trigger, ddContent) {
     const { screenEdgeXOffset } = this.props
 
     const correction = { left: 0 }
@@ -243,7 +248,7 @@ class SmoothDropdown extends Component {
     return correction
   }
 
-  render () {
+  render() {
     const { children, className = '', showArrow } = this.props
 
     const { currentTrigger, dropdownStyles, ddFirstTime, arrowCorrectionX, ddItems } = this.state

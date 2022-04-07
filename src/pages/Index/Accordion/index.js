@@ -17,7 +17,7 @@ const Accordion = ({
 }) => {
   const [isOpened, setIsOpened] = useState(isOpenedDefault)
 
-  function toggleOpen () {
+  function toggleOpen() {
     setIsOpened(!isOpened)
   }
 

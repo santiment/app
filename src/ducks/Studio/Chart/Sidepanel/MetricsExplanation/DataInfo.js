@@ -13,7 +13,7 @@ const formatDataInfoDate = (value) => {
 }
 
 const DATA_INFO_QUERY = gql`
-  query($metric: String!, $slug: String) {
+  query ($metric: String!, $slug: String) {
     getMetric(metric: $metric) {
       availableSince(slug: $slug)
       lastDatetimeComputedAt(slug: $slug)

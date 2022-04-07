@@ -94,7 +94,7 @@ export const Chart = ({
     if (modified) rerenderWidgets()
   }, [metrics, settings.interval])
 
-  function toggleIndicatorMetric ({ indicator, base }) {
+  function toggleIndicatorMetric({ indicator, base }) {
     const { MetricIndicators } = widget
     let indicatorsSet = MetricIndicators[base.key]
 
@@ -111,7 +111,7 @@ export const Chart = ({
     widget.MetricIndicators = Object.assign({}, MetricIndicators)
   }
 
-  function toggleMetric (metric) {
+  function toggleMetric(metric) {
     if (metric.indicator) {
       toggleIndicatorMetric(metric)
     }
@@ -119,7 +119,7 @@ export const Chart = ({
     toggleWidgetMetric(widget, metric)
   }
 
-  function toggleMetricLock (metric) {
+  function toggleMetricLock(metric) {
     const newMetric = convertBaseProjectMetric(metric, settings)
 
     if (metrics.includes(newMetric)) return

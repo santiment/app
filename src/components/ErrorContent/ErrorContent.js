@@ -14,7 +14,7 @@ import styles from './ErrorContent.module.scss'
 const ErrorContent = ({ addNot, type = 'error' }) => {
   const history = useHistory()
 
-  function onErrorClick (e) {
+  function onErrorClick(e) {
     copy(e.target.innerText)
     addNot({
       variant: 'success',

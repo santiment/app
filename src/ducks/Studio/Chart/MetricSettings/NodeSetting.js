@@ -44,7 +44,7 @@ const NodeSetting = ({ metric, widget, rerenderWidgets }) => {
     return BARS.has(node) ? Node.AUTO_WIDTH_BAR : node
   }, [widget.MetricSettingMap, metric])
 
-  function onChange (newNode) {
+  function onChange(newNode) {
     const newMap = new Map(widget.MetricSettingMap)
     const metricSetting = getMetricSetting(newMap, metric)
 

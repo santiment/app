@@ -35,7 +35,7 @@ const Selector = ({ slug, name, logoUrl, onClick }) => (
 const ProjectSelector = ({ project: { slug, name, logoUrl }, onProjectSelect }) => {
   const { isOpened, closeDialog, openDialog } = useDialogState()
 
-  function onSelect (project) {
+  function onSelect(project) {
     onProjectSelect(project)
     closeDialog()
   }

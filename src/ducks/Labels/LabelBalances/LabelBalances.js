@@ -1,7 +1,7 @@
 import React from 'react'
 import DashboardProjectChart from '../../../components/DashboardMetricChart/DashboardProjectChart/DashboardProjectChart'
 
-function makeMetric (key, label) {
+function makeMetric(key, label) {
   return {
     key,
     label,

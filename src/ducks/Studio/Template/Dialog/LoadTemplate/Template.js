@@ -32,7 +32,7 @@ const Template = ({
   const { title } = template
   const { isPublic, toggleIsPublic } = usePublicTemplates(template)
 
-  function onTemplateClick () {
+  function onTemplateClick() {
     selectTemplate && selectTemplate(template)
 
     if (asLink) {

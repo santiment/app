@@ -9,7 +9,11 @@ import { useTheme } from '../../stores/ui/theme'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 
 export const getSvelteContext = (cmp, ctx) => cmp && cmp.$$.context.get(ctx)
+<<<<<<< HEAD
 export function useStore (store, immute = (_) => _, setStoreRef) {
+=======
+export function useStore(store, immute = (_) => _, setStoreRef) {
+>>>>>>> master
   const [state, setState] = useState(() => (store ? get(store) : []))
   if (setStoreRef) setStoreRef.current = setState
 
@@ -24,7 +28,7 @@ export function useStore (store, immute = (_) => _, setStoreRef) {
   return state
 }
 
-export function useGlobalsUpdater () {
+export function useGlobalsUpdater() {
   const theme = useTheme()
   const { isLoggedIn } = useUser()
   const userInfo = useUserSubscriptionStatus()
@@ -54,7 +58,7 @@ const flat = (array) =>
   array.flat ? array.flat() : array.reduce((acc, val) => acc.concat(val), [])
 
 const noop = () => {}
-export function useStudioMetrics (studio) {
+export function useStudioMetrics(studio) {
   const widgets = useWidgets(studio)
   const [metrics, setMetrics] = useState([])
 
@@ -71,7 +75,7 @@ export function useStudioMetrics (studio) {
       })
     })
 
-    function updateMetrics () {
+    function updateMetrics() {
       const metrics = flat(Object.values(WidgetMetric))
       setMetrics(Array.from(new Set(metrics)))
     }

@@ -12,7 +12,7 @@ import { usdFormatter } from '../../../../../ducks/dataHub/metrics/formatters'
 // import UsefulSuggestion from '../UsefulSuggestion'
 import styles from './StakeholderSignal.module.scss'
 
-function formatDate (date) {
+function formatDate(date) {
   const { DD, MM, YYYY } = getDateFormats(date)
   const { HH, mm } = getTimeFormats(date)
   return `${DD}.${MM}.${YYYY} ${HH}:${mm}`
@@ -44,7 +44,7 @@ const ExchangeLink = ({ exchange_name }) => {
   }
 }
 
-function isValueUsd (value, value_usd, signal) {
+function isValueUsd(value, value_usd, signal) {
   if (!value_usd) {
     switch (signal) {
       case 'ath':

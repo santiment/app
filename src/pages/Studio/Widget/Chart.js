@@ -33,7 +33,11 @@ const Settings = () => {
 }
 
 const metricsImmute = (metrics) => metrics.slice()
+<<<<<<< HEAD
 function useWidgetMetrics (widget) {
+=======
+function useWidgetMetrics(widget) {
+>>>>>>> master
   return useStore(widget.Metrics, metricsImmute)
 }
 

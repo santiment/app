@@ -62,7 +62,7 @@ class InsightsList extends React.Component {
     }
   })
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     const { insights } = nextProps
 
     const [insight] = insights
@@ -83,16 +83,16 @@ class InsightsList extends React.Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     window.addEventListener('scroll', this.handleScroll, true)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.unmounted = true
     window.removeEventListener('scroll', this.handleScroll)
   }
 
-  render () {
+  render() {
     const { list } = this.state
     const { isLoading } = this.props
 

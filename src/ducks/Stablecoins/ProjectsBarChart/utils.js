@@ -104,7 +104,7 @@ export const VerticalCategoryTick = (props) => {
   )
 }
 
-export function getProjectsMarkup ({
+export function getProjectsMarkup({
   dataKey,
   data,
   MetricColor,

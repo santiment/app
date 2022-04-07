@@ -156,7 +156,7 @@ export const TriggerForm = ({
 
         const showDivider = showTypes || metricValueBlocks
 
-        function toggleSignalPublic (isPublicTarget) {
+        function toggleSignalPublic(isPublicTarget) {
           if (isPublicTarget !== isPublic) {
             setFieldValue('isPublic', isPublicTarget)
           }

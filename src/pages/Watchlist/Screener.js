@@ -76,7 +76,7 @@ const Screener = ({ watchlist, isLoggedIn, isDefaultScreener, location, history,
     }
   }, [watchlist])
 
-  function updateWatchlistFunction (fn) {
+  function updateWatchlistFunction(fn) {
     if (watchlist.id) {
       updateWatchlist(watchlist, { function: fn })
     }

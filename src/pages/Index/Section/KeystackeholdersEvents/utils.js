@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { ReferenceDot, Line } from 'recharts'
 
-export function GetReferenceDots (signals, yAxisId) {
+export function GetReferenceDots(signals, yAxisId) {
   return signals.reduce((acc, { date, yCoord }, idx) => {
     return [
       ...acc,
@@ -48,7 +48,7 @@ export const useMinMaxValues = (data, key) => {
   }, [data, key])
 }
 
-export function getNearestPricePoint (timeseries, datetime) {
+export function getNearestPricePoint(timeseries, datetime) {
   let target = timeseries[0]
   const time = new Date(datetime).getTime()
 

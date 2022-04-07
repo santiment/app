@@ -12,7 +12,7 @@ const TopHoldersSetting = ({ metric, widget, rerenderWidgets }) => {
   }, [metric])
   const debouncedRerender = useDebounce(rerenderWidgets, 700)
 
-  function onChange (holdersCount) {
+  function onChange(holdersCount) {
     if (!holdersCount) return
 
     const newMap = new Map()

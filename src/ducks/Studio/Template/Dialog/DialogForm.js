@@ -23,7 +23,7 @@ const DialogForm = ({
 }) => {
   const [isOpen, setOpen] = useState(false)
 
-  function onSubmit (e) {
+  function onSubmit(e) {
     e.preventDefault()
     onFormSubmit({
       title: e.currentTarget.name.value,

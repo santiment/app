@@ -80,7 +80,7 @@ const Signals = ({
     return observer && observer.subscribe(buildSignals)
   }, [userSignals, slug])
 
-  function buildSignals () {
+  function buildSignals() {
     setSignals(
       getSlugPriceSignals(userSignals, slug)
         .map((signal) => makeSignalDrawable(signal, chart))
@@ -88,7 +88,11 @@ const Signals = ({
     )
   }
 
+<<<<<<< HEAD
   function onMouseMove ({ target, currentTarget, nativeEvent: { offsetY: y } }) {
+=======
+  function onMouseMove({ target, currentTarget, nativeEvent: { offsetY: y } }) {
+>>>>>>> master
     if (isHovered || data.length === 0 || target !== currentTarget) {
       return
     }
@@ -114,7 +118,7 @@ const Signals = ({
     ])
   }
 
-  function onClick ({ target, currentTarget, nativeEvent: { offsetY: y } }) {
+  function onClick({ target, currentTarget, nativeEvent: { offsetY: y } }) {
     if (isHovered || data.length === 0 || target !== currentTarget) {
       return
     }
@@ -140,12 +144,12 @@ const Signals = ({
     createSignal(newSignal.alert)
   }
 
-  function onMouseLeave () {
+  function onMouseLeave() {
     setHoverPoint()
     clearCtx(chart, chart.tooltip.ctx)
   }
 
-  function setHoveredSignal (signal) {
+  function setHoveredSignal(signal) {
     setIsHovered(signal)
     if (signal) {
       const { type, value, y } = signal

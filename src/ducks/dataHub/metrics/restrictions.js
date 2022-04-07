@@ -12,7 +12,7 @@ const newQuery = (data) => ({
   `,
 })
 
-function metricRestrictionsAccessor (data, cache) {
+function metricRestrictionsAccessor(data, cache) {
   if (cache.value) return cache.value
 
   const cacheValue = {}
@@ -27,7 +27,7 @@ function metricRestrictionsAccessor (data, cache) {
   return cacheValue
 }
 
-function newMetricRestrictions (query, accessor) {
+function newMetricRestrictions(query, accessor) {
   const cache = { value: undefined }
   const getMetricRestrictions = ({ data }) =>
     metricRestrictionsAccessor(data.getAccessRestrictions, cache)

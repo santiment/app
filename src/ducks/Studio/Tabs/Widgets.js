@@ -49,12 +49,16 @@ const Widgets = ({
   const allMetrics = useMemo(() => widgets.map(({ metrics }) => metrics).flat(), [widgets])
   const { syncDate, observeSyncDate } = useSyncDateObserver()
 
-  function changeDatesRange (from, to) {
+  function changeDatesRange(from, to) {
     setSelectedDate()
     setSelectedDatesRange([from, to])
   }
 
+<<<<<<< HEAD
   function onRangeSelected ({ x: x1, value: leftDate }, { x: x2, value: rightDate }) {
+=======
+  function onRangeSelected({ x: x1, value: leftDate }, { x: x2, value: rightDate }) {
+>>>>>>> master
     setIsSelectingRange(false)
     if (leftDate === rightDate) return
 
@@ -71,11 +75,11 @@ const Widgets = ({
     }
   }
 
-  function onRangeSelecting () {
+  function onRangeSelecting() {
     setIsSelectingRange(true)
   }
 
-  function onPointMouseUp ({ value }) {
+  function onPointMouseUp({ value }) {
     if (isSelectingRange) return
 
     setSelectedDate(new Date(value))

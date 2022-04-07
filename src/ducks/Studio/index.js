@@ -69,7 +69,7 @@ export const Studio = ({
     }
   }, [selectedMetrics.length])
 
-  function toggleOverview () {
+  function toggleOverview() {
     if (isOverviewOpened) {
       onOverviewClose()
     } else {
@@ -77,26 +77,30 @@ export const Studio = ({
     }
   }
 
-  function rerenderWidgets () {
+  function rerenderWidgets() {
     setWidgets(widgets.slice())
   }
 
-  function toggleSidepanel (key) {
+  function toggleSidepanel(key) {
     setSidepanel(sidepanel === key ? undefined : key)
   }
 
+<<<<<<< HEAD
   function deleteWidget (widget) {
+=======
+  function deleteWidget(widget) {
+>>>>>>> master
     setWidgets(widgets.filter((w) => w !== widget))
   }
 
-  function deleteConnectedWidget (connectedWidget, parentWidget) {
+  function deleteConnectedWidget(connectedWidget, parentWidget) {
     parentWidget.connectedWidgets = parentWidget.connectedWidgets.filter(
       (w) => w !== connectedWidget,
     )
     rerenderWidgets()
   }
 
-  function toggleWidgetMetric (widget, metric) {
+  function toggleWidgetMetric(widget, metric) {
     const isArray = Array.isArray(metric)
     const metrics = isArray ? metric : deduceItems(widget.metrics, metric)
     const { axesMetricSet, disabledAxesMetricSet, MetricSettingMap } = widget
@@ -126,7 +130,7 @@ export const Studio = ({
     }
   }
 
-  function toggleSelectionMetric (metric, project) {
+  function toggleSelectionMetric(metric, project) {
     const deducedMetric = deduceItems(
       selectedMetrics,
       !project || metric.base
@@ -139,7 +143,7 @@ export const Studio = ({
     return deducedMetric
   }
 
-  function toggleSelectionWidget (selectedWidget) {
+  function toggleSelectionWidget(selectedWidget) {
     const newSelectedWidgets = deduceItems(selectedWidgets, selectedWidget)
     const { requiredMetric } = selectedWidget
 
@@ -155,7 +159,7 @@ export const Studio = ({
     return newSelectedWidgets
   }
 
-  function changeTimePeriod (from, to, timeRange) {
+  function changeTimePeriod(from, to, timeRange) {
     const interval = getNewInterval(from, to)
 
     setSettings((state) => ({
@@ -167,7 +171,7 @@ export const Studio = ({
     }))
   }
 
-  function onSidebarItemClick (item, project) {
+  function onSidebarItemClick(item, project) {
     const { type, key } = item
     let appliedMetrics
     let appliedWidgets
@@ -229,7 +233,7 @@ export const Studio = ({
     }
   }
 
-  function onWidgetClick (
+  function onWidgetClick(
     widget,
     appliedMetrics = selectedMetrics,
     appliedWidgets = selectedWidgets,
@@ -264,7 +268,11 @@ export const Studio = ({
     resetSelecion()
   }
 
+<<<<<<< HEAD
   function onNewChartClick (appliedMetrics = selectedMetrics, scrollIntoViewOnMount) {
+=======
+  function onNewChartClick(appliedMetrics = selectedMetrics, scrollIntoViewOnMount) {
+>>>>>>> master
     const metricSet = new Set(appliedMetrics)
     let metrics = appliedMetrics
 
@@ -285,12 +293,12 @@ export const Studio = ({
     resetSelecion()
   }
 
-  function onOverviewClose () {
+  function onOverviewClose() {
     setPhase(Phase.IDLE)
     resetSelecion()
   }
 
-  function resetSelecion () {
+  function resetSelecion() {
     setSelectedWidgets([])
     setSelectedMetrics([])
     setSelectedMetricSettingsMap(new Map())

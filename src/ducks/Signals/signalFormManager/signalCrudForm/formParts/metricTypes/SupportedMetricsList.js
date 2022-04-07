@@ -13,7 +13,7 @@ import { METRIC } from '../../../../../Studio/Sidebar/Button/types'
 import { useMergedTimeboundSubmetrics } from '../../../../../dataHub/timebounds'
 import metricStyles from './TriggerFormMetricTypes.module.scss'
 
-export function filterOnlyMetrics (submetrics) {
+export function filterOnlyMetrics(submetrics) {
   const result = {}
 
   Object.keys(submetrics).forEach((key) => {
@@ -35,7 +35,7 @@ const getByAvailable = (availableMetrics = DEFAULT_METRICS, trigger) => {
   }
 }
 
-export function useAvailableMetrics (slug) {
+export function useAvailableMetrics(slug) {
   const { data, loading, error } = useQuery(PROJECT_METRICS_BY_SLUG_QUERY, {
     skip: !slug,
     variables: {

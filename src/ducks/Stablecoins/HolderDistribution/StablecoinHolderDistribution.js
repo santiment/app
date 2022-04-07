@@ -122,7 +122,7 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
     [metrics, setMetrics, currentPhase, checkMetric],
   )
 
-  function checkMetric (metric) {
+  function checkMetric(metric) {
     const newCheckedMetrics = new Set(checkedMetrics)
 
     if (checkedMetrics.has(metric)) {
@@ -134,11 +134,11 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
     setSelectedMetrics(newCheckedMetrics)
   }
 
-  function onMergeClick () {
+  function onMergeClick() {
     setPhase(Phase.MAPVIEW)
   }
 
-  function onMergeConfirmClick () {
+  function onMergeConfirmClick() {
     if (checkedMetrics.size > 1) {
       const metric = buildMergedMetric([...checkedMetrics])
 
@@ -151,7 +151,11 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
     setSelectedMetrics(DEFAULT_CHECKED_METRICS)
   }
 
+<<<<<<< HEAD
   function onUnmergeClick (metric) {
+=======
+  function onUnmergeClick(metric) {
+>>>>>>> master
     const metricFilter = (m) => m !== metric
     setMetrics(metrics.filter(metricFilter))
     setMergedMetrics(mergedMetrics.filter(metricFilter))

@@ -69,7 +69,7 @@ export const mountSankey = (id = 'sankey-graph') =>
     theme: 'light',
   })
 
-export function querySankey ({ address, inbound, outbound, detail, currency }) {
+export function querySankey({ address, inbound, outbound, detail, currency }) {
   const { address: currencyAddress, symbol } = currency
 
   return query.request({

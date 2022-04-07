@@ -1,18 +1,18 @@
 import { useMemo, useEffect } from 'react'
 import { clearCtx, findPointByDate } from './utils'
 
-function createSyncDateObserver () {
+function createSyncDateObserver() {
   let subscribers = new Set()
   let state
 
   const notify = (subscriber) => subscriber(state)
 
-  function syncDate (newState) {
+  function syncDate(newState) {
     state = newState
     subscribers.forEach(notify)
   }
 
-  function observeSyncDate (subscriber) {
+  function observeSyncDate(subscriber) {
     subscribers.add(subscriber)
     return () => subscribers.delete(subscriber)
   }
@@ -25,7 +25,7 @@ function createSyncDateObserver () {
 
 export const useSyncDateObserver = () => useMemo(createSyncDateObserver, [])
 
-export function useSyncDateEffect (chartRef, observeSyncDate) {
+export function useSyncDateEffect(chartRef, observeSyncDate) {
   useEffect(() => {
     const chart = chartRef.current
     return (

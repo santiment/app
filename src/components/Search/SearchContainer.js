@@ -43,24 +43,24 @@ export const SearchContainer = ({
 
   Object.assign(inputProps, INPUT_ID_PROPS)
 
-  function addRecentAssetSuggestions (slug) {
+  function addRecentAssetSuggestions(slug) {
     setRecentAssetSuggestions(addRecentAssets(slug))
   }
 
-  function removeRecentAssetSuggestion (slug) {
+  function removeRecentAssetSuggestion(slug) {
     setRecentAssetSuggestions(removeRecentAssets(slug))
   }
 
-  function clearRecents () {
+  function clearRecents() {
     setRecentAssetSuggestions(clearRecentAssets())
   }
 
-  function onFocus () {
+  function onFocus() {
     if (isMobile) return
     setFocus(true)
   }
 
-  function onBlur () {
+  function onBlur() {
     if (isMobile) return
     setFocus(false)
   }
@@ -69,7 +69,7 @@ export const SearchContainer = ({
     const input = document.querySelector('#' + INPUT_ID)
     if (!input) return
 
-    function onKeyPress (e) {
+    function onKeyPress(e) {
       const { code, target } = e
       if (code === 'Slash' && !EDITABLE_TAGS.has(target.tagName)) {
         e.preventDefault()

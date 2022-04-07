@@ -26,12 +26,16 @@ const propsAccessor = ({ word, key = word, As }) => ({
   to: TREND_LINK + word,
 })
 
-function trendingWordsPredicate (value) {
+function trendingWordsPredicate(value) {
   const searchTerm = value.toLowerCase()
   return ({ word }) => word.includes(searchTerm)
 }
 
+<<<<<<< HEAD
 export function useTrendingWords () {
+=======
+export function useTrendingWords() {
+>>>>>>> master
   const { data: { getTrendingWords = [] } = {} } = useQuery(TRENDING_WORDS_QUERY)
   return getTrendingWords[0] ? getTrendingWords[0].topWords : DEFAULT_SUGGESTIONS
 }

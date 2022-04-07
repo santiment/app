@@ -26,7 +26,7 @@ Object.keys(KeyToWidget).forEach((key) => {
   WidgetToKeyMap.set(KeyToWidget[key], key)
 })
 
-export function getWidgetByKey (key) {
+export function getWidgetByKey(key) {
   const Widget = KeyToWidget[key]
   return newWidget(Widget)
 }
@@ -35,11 +35,11 @@ const KeyToSubwidget = {
   [SelectorNode.TopTransactionsTable.key]: SelectorNode.TopTransactionsTable,
 }
 
-function getSubwidgetByKey (key) {
+function getSubwidgetByKey(key) {
   return KeyToSubwidget[key]
 }
 
-export function parseSubwidgets (_subwidgets) {
+export function parseSubwidgets(_subwidgets) {
   const subwidgets = _subwidgets || []
   const ParsedSubwidgets = {
     subwidgets: [],

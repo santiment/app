@@ -183,15 +183,15 @@ const Header = ({
     }
   }, [project])
 
-  function closeDialog () {
+  function closeDialog() {
     setIsOpened(false)
   }
 
-  function openDialog () {
+  function openDialog() {
     setIsOpened(true)
   }
 
-  function onProjectSelect (project) {
+  function onProjectSelect(project) {
     onSlugSelect(project)
     closeDialog()
   }

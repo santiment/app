@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
+import cx from 'classnames'
 import { Formik } from 'formik'
 import { connect } from 'react-redux'
 import { useQuery } from 'react-apollo'
@@ -46,9 +47,12 @@ const AlertModalFormMaster = ({
   isModalOpen,
   isPreview,
   setIsPreview,
-  prepareAlertTitle,
   shouldHideRestrictionMessage,
   shouldDisableActions,
+<<<<<<< HEAD
+=======
+  isRecommendedSignal,
+>>>>>>> master
 }) => {
   const [formPreviousValues, setFormPreviousValues] = useState(initialValues)
   const [selectedType, setSelectedType] = useState(defaultType)
@@ -61,9 +65,17 @@ const AlertModalFormMaster = ({
   const invalidStepsMemo = useMemo(() => new Set(invalidSteps), [invalidSteps])
   const finishedStepsMemo = useMemo(() => new Set(finishedSteps), [finishedSteps])
   const { user } = useUser()
-  const { data = {}, loading, error } = useSignal({
+  const {
+    data = {},
+    loading,
+    error,
+  } = useSignal({
     id,
+<<<<<<< HEAD
     skip: !id,
+=======
+    skip: !id || signalData,
+>>>>>>> master
   })
 
   const metric = formPreviousValues.settings.metric
@@ -74,7 +86,13 @@ const AlertModalFormMaster = ({
     skip: !metric,
   })
 
+<<<<<<< HEAD
   const isSharedTrigger = data && data.trigger && +data.trigger.authorId !== +user.id
+=======
+  const isSharedTrigger =
+    (data && data.trigger && +data.trigger.authorId !== +user.id) ||
+    (signalData && signalData.trigger && +signalData.trigger.authorId !== +signalData.id)
+>>>>>>> master
 
   useEffect(() => {
     if (id || signalData) {
@@ -94,7 +112,7 @@ const AlertModalFormMaster = ({
     }
   }, [formPreviousValues, isModalOpen])
 
-  async function submitFormValues ({ values, setSubmitting }) {
+  async function submitFormValues({ values, setSubmitting }) {
     const triggerValues = {
       ...values,
       settings: { ...values.settings, type: selectedType.settings.type },
@@ -106,7 +124,7 @@ const AlertModalFormMaster = ({
       triggerValues.settings.type = getMetricSignalKey(data.metric.metadata.minInterval)
     }
 
-    if (id && !isSharedTrigger) {
+    if (id && !isSharedTrigger && !isRecommendedSignal) {
       updateAlert({
         id,
         ...triggerValues,
@@ -118,7 +136,7 @@ const AlertModalFormMaster = ({
     handleCloseDialog()
   }
 
-  function handleSubmit (values, { setSubmitting }) {
+  function handleSubmit(values, { setSubmitting }) {
     validateFormSteps({
       type: selectedType,
       values,
@@ -172,7 +190,7 @@ const AlertModalFormMaster = ({
 
   if (error) {
     return (
-      <EmptySection className={styles.notSignalInfo}>
+      <EmptySection className={cx(styles.notSignalInfo, 'column hv-center')}>
         Alert doesn't exist
         <br />
         or it's a private alert.
@@ -185,8 +203,7 @@ const AlertModalFormMaster = ({
       <AlertPreview
         shouldDisableActions={shouldDisableActions}
         setIsPreview={setIsPreview}
-        signal={data.trigger.trigger}
-        prepareAlertTitle={prepareAlertTitle}
+        signal={signalData}
         handleCloseDialog={handleCloseDialog}
       />
     )
@@ -200,10 +217,11 @@ const AlertModalFormMaster = ({
     <Formik initialValues={initialState} onSubmit={handleSubmit} enableReinitialize={true}>
       {(formik) => (
         <AlertModalForm
+          isRecommendedSignal={isRecommendedSignal}
           signal={signalData || (data && data.trigger && data.trigger.trigger)}
           isModalOpen={isModalOpen}
           selectorSettings={selectorSettings}
-          hasSignal={!!id}
+          hasSignal={!!id || signalData}
           isEdited={isEdited}
           isSharedTrigger={isSharedTrigger}
           {...formik}

@@ -83,7 +83,7 @@ const Chart = ({
     setMetricSettings()
   }, [metrics])
 
-  function onMetricHover (metric, { currentTarget }) {
+  function onMetricHover(metric, { currentTarget }) {
     const { parentNode } = currentTarget
     // HACK: For some reason, fast pointer movement can trigger 'mouseenter' but not 'mouseleave'
     // Hence, a metric might be stucked in the highlighted state [@vanguard | Jun 14, 2020]
@@ -96,12 +96,12 @@ const Chart = ({
     )
   }
 
-  function onMetricHoverEnd () {
+  function onMetricHoverEnd() {
     clearTimeout(focusTimer)
     setFocusedMetricKey()
   }
 
-  function onBrushChangeEnd (startIndex, endIndex) {
+  function onBrushChangeEnd(startIndex, endIndex) {
     const start = allTimeData[startIndex]
     const end = allTimeData[endIndex]
     if (start && end) {
@@ -114,11 +114,11 @@ const Chart = ({
     }
   }
 
-  function onMetricSettingsClick (metric) {
+  function onMetricSettingsClick(metric) {
     setMetricSettings(metric === metricSettings ? undefined : metric)
   }
 
-  function onMetricRemove (metric) {
+  function onMetricRemove(metric) {
     if (metric === metricSettings) {
       setMetricSettings()
     }

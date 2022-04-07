@@ -29,8 +29,8 @@ const SharedTriggerForm = ({
     settings: originalSettings,
     settings: { target },
   } = originalTrigger
-  const showChart = target && couldShowChart(originalSettings)
 
+  const showChart = target && couldShowChart(originalSettings)
   const isUnsupportedTrigger = isStrictTrendingWords(originalSettings)
 
   if (isUnsupportedTrigger) {

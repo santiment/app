@@ -13,7 +13,7 @@ const OBJ = {}
 
 const getUniqueLabels = (labels) => [...new Set(labels)]
 
-function onLinkClick (e) {
+function onLinkClick(e) {
   e.stopPropagation()
 }
 

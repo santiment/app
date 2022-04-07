@@ -53,7 +53,7 @@ const HolderDistribution = ({
   const [checkedMetrics, setSelectedMetrics] = useState(DEFAULT_CHECKED_METRICS)
   const [mergedMetrics, setMergedMetrics] = useState(widget.mergedMetrics)
 
-  function toggleWidgetMetric (metric) {
+  function toggleWidgetMetric(metric) {
     if (currentPhase !== Phase.IDLE) {
       return checkMetric(metric)
     }
@@ -61,7 +61,7 @@ const HolderDistribution = ({
     props.toggleWidgetMetric(widget, PressedModifier.cmdKey ? [metric] : metric)
   }
 
-  function checkMetric (metric) {
+  function checkMetric(metric) {
     const newCheckedMetrics = new Set(checkedMetrics)
 
     if (checkedMetrics.has(metric)) {
@@ -73,16 +73,16 @@ const HolderDistribution = ({
     setSelectedMetrics(newCheckedMetrics)
   }
 
-  function toggleSidepane () {
+  function toggleSidepane() {
     setIsOpened(!isOpened)
     setPhase(Phase.IDLE)
   }
 
-  function onMergeClick () {
+  function onMergeClick() {
     setPhase(Phase.MAPVIEW)
   }
 
-  function onMergeConfirmClick () {
+  function onMergeConfirmClick() {
     if (checkedMetrics.size > 1) {
       const metric = buildMergedMetric([...checkedMetrics])
 
@@ -96,7 +96,11 @@ const HolderDistribution = ({
     props.rerenderWidgets()
   }
 
+<<<<<<< HEAD
   function onUnmergeClick (metric) {
+=======
+  function onUnmergeClick(metric) {
+>>>>>>> master
     const metricFilter = (m) => m !== metric
     widget.metrics = widget.metrics.filter(metricFilter)
     setMergedMetrics(mergedMetrics.filter(metricFilter))

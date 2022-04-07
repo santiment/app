@@ -7,7 +7,7 @@ const Labels = {
   holders_labeled_distribution_1_to_10: '[1 - 10) coins',
 }
 
-export function getMetricLabel ({ key, label: metricLabel, base }, project) {
+export function getMetricLabel({ key, label: metricLabel, base }, project) {
   let label = Labels[key] || metricLabel
 
   if (project && !base) {

@@ -41,7 +41,7 @@ const MetricSelector = ({ categories = {}, availableMetrics, setIsDraggingMetric
     rebuildDescriptions(Submetrics)
   }, [Submetrics])
 
-  function onDragEnd ({ oldIndex, newIndex }) {
+  function onDragEnd({ oldIndex, newIndex }) {
     const newFavoriteMetrics = favoriteMetrics.slice()
     newFavoriteMetrics.splice(oldIndex, 1)
     newFavoriteMetrics.splice(newIndex, 0, favoriteMetrics[oldIndex])

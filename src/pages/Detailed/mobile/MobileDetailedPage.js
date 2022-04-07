@@ -43,7 +43,7 @@ const MobileDetailedPage = ({ data: { project = {}, loading }, ...props }) => {
   const MetricColor = useChartColors(metrics)
   const [data, loadings, ErrorMsg] = useTimeseries(metrics, settings)
 
-  function toggleMetric (metric) {
+  function toggleMetric(metric) {
     const newMetrics = new Set(metrics)
 
     if (!newMetrics.delete(metric)) {
@@ -71,7 +71,7 @@ const MobileDetailedPage = ({ data: { project = {}, loading }, ...props }) => {
     setMetrics([...newMetrics])
   }
 
-  function onChangeTimeRange (timeRange) {
+  function onChangeTimeRange(timeRange) {
     const { from: FROM, to: TO } = getIntervalByTimeRange(timeRange)
     const interval = getNewInterval(FROM, TO, '1d', { isMobile: true })
     setSettings({

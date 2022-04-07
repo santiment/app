@@ -9,7 +9,7 @@ import { getIntervalByTimeRange } from '../../../utils/dates'
 window.AbortController =
   window.AbortController ||
   function () {
-    return { abort () {} }
+    return { abort() {} }
   }
 
 const DEFAULT_TS = []
@@ -33,7 +33,7 @@ export const cancelQuery = ([controller, id]) => {
   queryManager.stopQuery(id)
 }
 
-function abortRemovedMetrics (abortables, newMetrics, MetricSettingMap) {
+function abortRemovedMetrics(abortables, newMetrics, MetricSettingMap) {
   const toAbort = new Map(abortables)
   newMetrics.forEach((metric) => {
     const abortable = abortables.get(metric)
@@ -53,13 +53,13 @@ function abortRemovedMetrics (abortables, newMetrics, MetricSettingMap) {
   return reducedAbortables
 }
 
-function abortAllMetrics (abortables) {
+function abortAllMetrics(abortables) {
   return [...abortables.values()].forEach(cancelQuery)
 }
 
 const NO_DATA_MSG = 'No data for the requested period'
 
-export function useTimeseries (
+export function useTimeseries(
   metrics,
   settings,
   MetricSettingMap = DEFAULT_METRIC_SETTINGS_MAP,
@@ -138,7 +138,7 @@ export function useTimeseries (
       let attempt = 1
       getTimeseries()
 
-      function getTimeseries () {
+      function getTimeseries() {
         if (raceCondition) return
 
         const request = fetch
@@ -208,7 +208,7 @@ const DEFAULT_BRUSH_SETTINGS = {
   ...getIntervalByTimeRange('all'),
 }
 
-export function useAllTimeData (metrics, { slug }, MetricSettingMap) {
+export function useAllTimeData(metrics, { slug }, MetricSettingMap) {
   const brushSettings = useMemo(
     () => ({
       ...DEFAULT_BRUSH_SETTINGS,

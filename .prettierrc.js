@@ -7,6 +7,12 @@ module.exports = {
   endOfLine: 'lf',
   printWidth: 100,
 
+<<<<<<< HEAD
+=======
+  // jsx
+  jsxSingleQuote: true,
+
+>>>>>>> master
   // Svelte
   svelteBracketNewLine: false,
 }

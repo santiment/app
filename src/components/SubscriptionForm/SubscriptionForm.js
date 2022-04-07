@@ -20,13 +20,17 @@ class SubscriptionForm extends PureComponent {
     hasSubscribed: true,
   }
 
+<<<<<<< HEAD
   componentWillReceiveProps ({ hasSubscribed }) {
+=======
+  componentWillReceiveProps({ hasSubscribed }) {
+>>>>>>> master
     if (hasSubscribed !== undefined && hasSubscribed !== this.state.hasSubscribed) {
       this.setState({ ...this.state, hasSubscribed })
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     clearTimeout(this.timeout)
   }
 
@@ -86,7 +90,7 @@ class SubscriptionForm extends PureComponent {
     this.setState({ hasSubscribed: newValue })
   }
 
-  onEmailChange (email) {
+  onEmailChange(email) {
     let error
     if (!email) {
       error = 'Email is required'
@@ -102,7 +106,7 @@ class SubscriptionForm extends PureComponent {
     this.timeout = setTimeout(() => this.onEmailChange(value), 500)
   }
 
-  render () {
+  render() {
     const { error, waiting, email, hasSubscribed } = this.state
     const {
       hideCheckbox,

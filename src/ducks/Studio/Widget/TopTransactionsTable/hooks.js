@@ -19,13 +19,13 @@ export const useTableEffects = ({
     }
   }, [datesRange])
 
-  function onCalendarChange (newDates) {
+  function onCalendarChange(newDates) {
     widget.datesRange = newDates
     setDates(newDates)
     rerenderWidgets() // NOTE: Used to sync search query [@vanguard | Nov 2, 2020]
   }
 
-  function onCloseClick () {
+  function onCloseClick() {
     deleteConnectedWidget && parentWidget
       ? deleteConnectedWidget(widget, parentWidget)
       : deleteWidget(widget)

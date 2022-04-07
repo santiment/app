@@ -10,7 +10,7 @@ import { normalizeWidgets } from '../../url/generate'
 const NewTemplate = ({ onNew, projectId, widgets, saveWidgets = normalizeWidgets, ...props }) => {
   const [createTemplate, { loading }] = useCreateTemplate()
 
-  function onSubmit ({ title, description }) {
+  function onSubmit({ title, description }) {
     const metrics = widgets
       .map(({ metrics }) => metrics)
       .flat()

@@ -10,7 +10,7 @@ import { TooltipSetting } from '../../dataHub/tooltipSettings'
 import { mirroredMetrics } from '../../dataHub/metrics/mirrored'
 import { millify } from '../../../utils/formatting'
 
-function yFormatter (value) {
+function yFormatter(value) {
   const absValue = Math.abs(value)
 
   if (!value) {
@@ -45,7 +45,7 @@ export const selectYFormatter = (metricKey) =>
     ? (value) => yFormatter(Math.abs(value))
     : (TooltipSetting[metricKey] && TooltipSetting[metricKey].axisFormatter) || yFormatter
 
-export function plotAxes (chart, scale) {
+export function plotAxes(chart, scale) {
   const {
     axesMetricKeys = [],
     ticksPaintConfig = dayTicksPaintConfig,

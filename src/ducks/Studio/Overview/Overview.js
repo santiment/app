@@ -60,7 +60,7 @@ const Overview = ({ widgets, children, onClose, setWidgets, ...props }) => {
     }
   }, [])
 
-  function onSortEnd ({ newIndex, oldIndex }) {
+  function onSortEnd({ newIndex, oldIndex }) {
     if (newIndex === oldIndex) return
 
     const newWidgets = widgets.slice()

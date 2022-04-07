@@ -16,7 +16,7 @@ export const useAlertCooldown = ({ values, setInitialValues }) => {
     }
   }, [values])
 
-  function toggleSignalFrequency (val) {
+  function toggleSignalFrequency(val) {
     const item = SCREENER_FREQUENCES.find(({ label }) => label === val)
 
     if (item) {

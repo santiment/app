@@ -4,13 +4,13 @@ import { filterSearchableItems } from './utils'
 import { useProjects } from '../../../stores/projects'
 import styles from './Category.module.scss'
 
-function assetsFilterPredicate (value) {
+function assetsFilterPredicate(value) {
   const searchTerm = value.toLowerCase()
   return ({ name, ticker, slug }) =>
     name.includes(searchTerm) || ticker.includes(searchTerm) || slug.includes(searchTerm)
 }
 
-function assetsMatchPredicate (value) {
+function assetsMatchPredicate(value) {
   const searchTerm = value.toLowerCase()
   return ({ ticker }) => ticker === searchTerm
 }

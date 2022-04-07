@@ -25,12 +25,12 @@ import {
   UPDATE_WATCHLIST_MUTATION,
 } from './queries'
 
-export function useUpdateWatchlist (type) {
+export function useUpdateWatchlist(type) {
   const [mutate, data] = useMutation(UPDATE_WATCHLIST_MUTATION(type), {
     update: updateWatchlistOnEdit,
   })
 
-  function updateWatchlist (watchlist, newParams) {
+  function updateWatchlist(watchlist, newParams) {
     const { id, name, function: oldFn } = watchlist
     const description =
       newParams.description === undefined ? watchlist.description : newParams.description
@@ -83,12 +83,12 @@ export const updateWatchlistShort = (variables, action) =>
     },
   })
 
-export function useCreateWatchlist (type) {
+export function useCreateWatchlist(type) {
   const [mutate, data] = useMutation(CREATE_WATCHLIST_MUTATION(type), {
     update: updateWatchlistsOnCreation,
   })
 
-  function createWatchlist (props) {
+  function createWatchlist(props) {
     const { function: fn, listItems, name, description, isPublic } = props
     return mutate({
       variables: {
@@ -123,12 +123,12 @@ export function useCreateWatchlist (type) {
   return [createWatchlist, data]
 }
 
-export function useRemoveWatchlist (type) {
+export function useRemoveWatchlist(type) {
   const [mutate, data] = useMutation(REMOVE_WATCHLIST_MUTATION, {
     update: updateWatchlistsOnDelete,
   })
 
-  function onDelete (id, name) {
+  function onDelete(id, name) {
     return mutate({ variables: { id: +id } })
       .then(() => notifyDeletion(name))
       .catch((err) => {

@@ -17,7 +17,7 @@ const ADDRESS_HISTORICAL_BALANCE_QUERY = (slug) => gql`
   }
 `
 
-export function useAddressHistoricalBalance (address, slug) {
+export function useAddressHistoricalBalance(address, slug) {
   const { data } = useQuery(ADDRESS_HISTORICAL_BALANCE_QUERY(slug), {
     variables: { address },
   })

@@ -6,7 +6,7 @@ import { getAddressInfrastructure } from '../../utils/address'
 
 export const ALL_PROJECTS_WATCHLIST_SLUG = 'projects'
 
-export function getWatchlistId (search) {
+export function getWatchlistId(search) {
   const { name: str } = qs.parse(search) || {}
 
   if (str) {
@@ -15,12 +15,12 @@ export function getWatchlistId (search) {
   }
 }
 
-export function hasAssetById ({ id, listItems }) {
+export function hasAssetById({ id, listItems }) {
   if (!id || !listItems) return
   return listItems.some(({ id: projectId }) => projectId === id)
 }
 
-export function hasAddress (listItems, source) {
+export function hasAddress(listItems, source) {
   if (!source || !listItems) return
   return listItems.some(({ address: target }) => target === source.address)
 }

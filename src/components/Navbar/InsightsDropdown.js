@@ -44,7 +44,7 @@ const SubscriptionForm = () => (
   <Mutation mutation={EMAIL_LOGIN_MUTATION}>
     {(loginEmail, { loading, error, data: { emailLogin } = {} }) => {
       const [trackEvent] = useTrackEvents()
-      function onSubmit (e) {
+      function onSubmit(e) {
         e.stopPropagation()
         e.preventDefault()
 

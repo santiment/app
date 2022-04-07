@@ -10,7 +10,7 @@ import { brush as brushClassName } from './index.module.scss'
 const BRUSH_HEIGHT = 40
 const noop = () => {}
 
-function getBrushPlotItems ({ items }) {
+function getBrushPlotItems({ items }) {
   const brushItems = new Map(items)
 
   brushItems.delete('cartesianGrid')

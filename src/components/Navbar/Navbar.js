@@ -54,7 +54,11 @@ const HEADER_DD_PARAMS = (() => {
 const leftLinks = [
   {
     to: '/',
+<<<<<<< HEAD
     children: 'Explorer',
+=======
+    children: 'Home',
+>>>>>>> master
     as: Link,
   },
   {

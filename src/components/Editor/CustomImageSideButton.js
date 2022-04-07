@@ -11,7 +11,7 @@ import styles from './CustomImageSideButton.module.scss'
 const MAX_IMG_SIZE = 5000 // NOTE(vanguard): after uploading file with size than 5mb backend does not return imageUrl
 
 class CustomImageSideButton extends ImageSideButton {
-  onChange (e) {
+  onChange(e) {
     const file = e.target.files[0]
 
     if (!file) {
@@ -51,7 +51,7 @@ class CustomImageSideButton extends ImageSideButton {
     close()
   }
 
-  render () {
+  render() {
     return (
       <div className='md-sd-button'>
         <label className={styles.label} htmlFor='md-sd-img-button'>
@@ -70,7 +70,7 @@ class CustomImageSideButton extends ImageSideButton {
 }
 
 export default graphql(gql`
-  mutation($images: [Upload!]!) {
+  mutation ($images: [Upload!]!) {
     uploadImage(images: $images) {
       contentHash
       fileName

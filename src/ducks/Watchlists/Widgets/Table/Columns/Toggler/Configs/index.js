@@ -60,7 +60,7 @@ const ConfigsMenu = ({
     [hasUnsavedChanges, userTableConfigs, config],
   )
 
-  function onConfigSelect (id) {
+  function onConfigSelect(id) {
     changeConfig(id)
     setOpen(false)
   }

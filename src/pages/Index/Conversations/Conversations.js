@@ -25,7 +25,7 @@ const Conversations = () => {
     }
   }, [data])
 
-  function loadMore () {
+  function loadMore() {
     if (!loading && canLoad) {
       const last = conversations[conversations.length - 1]
 

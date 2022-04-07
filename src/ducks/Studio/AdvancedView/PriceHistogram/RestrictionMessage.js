@@ -6,7 +6,7 @@ import UpgradeBtn from '../../../../components/UpgradeBtn/UpgradeBtn'
 import { getDateFormats } from '../../../../utils/dates'
 import styles from './index.module.scss'
 
-function formatRestrictionDate (date) {
+function formatRestrictionDate(date) {
   const { DD, MMM, YYYY } = getDateFormats(new Date(date))
   return `${DD} ${MMM} ${YYYY}`
 }

@@ -57,7 +57,7 @@ export const TriggerProjectsSelector = ({
   }, [listItems])
 
   useEffect(() => {
-    function listenHotkey ({ target, ctrlKey, code }) {
+    function listenHotkey({ target, ctrlKey, code }) {
       if (target === document.body && ctrlKey && code === 'KeyK') {
         openDialog()
       }

@@ -29,7 +29,8 @@ The night is getting darker...👻`,
   },
   {
     title: 'Congratulations!',
-    description: () => `To celebrate Halloween, we’re gifting you a one-time discount code - "${DISCOUND_CODE}".
+    description:
+      () => `To celebrate Halloween, we’re gifting you a one-time discount code - "${DISCOUND_CODE}".
 Use the code during checkout and get ${PERCENT_DISCOUNT}%!🎁
 `,
     button: 'Copy code to clipboard',

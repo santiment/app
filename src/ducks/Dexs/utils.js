@@ -1,7 +1,11 @@
 import { useCallback } from 'react'
 import { Metric } from '../dataHub/metrics'
 
+<<<<<<< HEAD
 export function mapDEXMetrics ({ metrics, measurement, slug: priceSlug, ticker = priceSlug }) {
+=======
+export function mapDEXMetrics({ metrics, measurement, slug: priceSlug, ticker = priceSlug }) {
+>>>>>>> master
   const measurementSlug = measurement.slug.replace(/-/g, '_')
 
   const dexMetrics = metrics.map(({ key, label }) => {

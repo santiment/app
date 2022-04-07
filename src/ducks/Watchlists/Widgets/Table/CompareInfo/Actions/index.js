@@ -22,11 +22,11 @@ const Actions = ({ selected, watchlist, onAdd, onRemove, assets }) => {
     [selected],
   )
 
-  function addHandler (listItems, onAddDone = () => {}) {
+  function addHandler(listItems, onAddDone = () => {}) {
     onAdd(parseInt(watchlist.id), listItems, onAddDone).catch(reportError)
   }
 
-  function removeHandler (listItems, onRemoveDone = () => {}) {
+  function removeHandler(listItems, onRemoveDone = () => {}) {
     onRemove(parseInt(watchlist.id), listItems, () => {
       store.dispatch(
         showNotification({

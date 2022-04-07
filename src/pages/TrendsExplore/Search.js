@@ -11,7 +11,11 @@ import styles from './Search.module.scss'
 
 const MAX_VALUES = 5
 
+<<<<<<< HEAD
 function trimTopics (topics) {
+=======
+function trimTopics(topics) {
+>>>>>>> master
   return topics.map((topic) => topic.trim()).filter(Boolean)
 }
 
@@ -44,13 +48,13 @@ const Search = ({
     }
   }, [values])
 
-  function setFocus () {
+  function setFocus() {
     if (inputRef.current) {
       inputRef.current.focus()
     }
   }
 
-  function toggleLinkedAsset (text, asset, isActive) {
+  function toggleLinkedAsset(text, asset, isActive) {
     const newActiveLinkedAssets = new Map(activeLinkedAssets)
     if (isActive) {
       newActiveLinkedAssets.delete(text)

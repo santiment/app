@@ -19,7 +19,7 @@ const DESCRIPTION_TYPES = {
   WALLET: 'wallet',
 }
 
-function checkType (type) {
+function checkType(type) {
   switch (type) {
     case 'Check name and description':
     case 'Name & Description':

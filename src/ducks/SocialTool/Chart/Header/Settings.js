@@ -46,12 +46,12 @@ export default ({
 }) => {
   const { timeRange = '', from, to, slug } = settings
 
-  function onTimerangeChange (timeRange) {
+  function onTimerangeChange(timeRange) {
     const { from, to } = getIntervalByTimeRange(timeRange.toLowerCase())
     changeTimePeriod(from, to, timeRange)
   }
 
-  function onCalendarChange ([from, to]) {
+  function onCalendarChange([from, to]) {
     changeTimePeriod(from, to)
   }
 

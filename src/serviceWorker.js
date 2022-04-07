@@ -31,7 +31,7 @@ const canExecuteSw = () => {
   return publicUrl.origin === window.location.origin
 }
 
-export function register (config) {
+export function register(config) {
   if (
     (process.env.NODE_ENV === 'production' || isLocalhost) &&
     'serviceWorker' in navigator &&
@@ -41,7 +41,7 @@ export function register (config) {
   }
 }
 
-export function registerSonarActivitiesSw (config) {
+export function registerSonarActivitiesSw(config) {
   if ('serviceWorker' in navigator && canExecuteSw()) {
     console.log('Register sonar service worker')
     addSw(`${process.env.PUBLIC_URL}/san-sonar-service-worker.js`, config)
@@ -65,7 +65,7 @@ export const requestNotificationPermission = (success, reject) => {
   })
 }
 
-function registerValidSW (
+function registerValidSW(
   swUrl,
   { callback, hideRegistrationChecking, markAsLatestApp, onUpdate, onSuccess } = {},
 ) {
@@ -127,7 +127,7 @@ function registerValidSW (
     })
 }
 
-function checkValidServiceWorker (swUrl, config) {
+function checkValidServiceWorker(swUrl, config) {
   // Check if the service worker can be found. If it can't reload the page.
   fetch(swUrl)
     .then((response) => {
@@ -153,7 +153,7 @@ function checkValidServiceWorker (swUrl, config) {
     })
 }
 
-export function unregister () {
+export function unregister() {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready.then((registration) => {
       registration.unregister()

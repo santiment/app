@@ -7,7 +7,7 @@ import {
 
 export const NO_GROUP = '_'
 
-function makeSignalMetric (key, label, category, node = 'line', group) {
+function makeSignalMetric(key, label, category, node = 'line', group) {
   return {
     key,
     label,

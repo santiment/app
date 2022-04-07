@@ -13,12 +13,12 @@ const withTracker = (WrappedComponent) => {
   }
 
   const HOC = class extends Component {
-    componentDidMount () {
+    componentDidMount() {
       const page = this.props.location.pathname
       trackPage(page)
     }
 
-    componentWillReceiveProps (nextProps) {
+    componentWillReceiveProps(nextProps) {
       const currentPage = this.props.location.pathname
       const nextPage = nextProps.location.pathname
 
@@ -27,7 +27,7 @@ const withTracker = (WrappedComponent) => {
       }
     }
 
-    render () {
+    render() {
       return <WrappedComponent {...this.props} />
     }
   }

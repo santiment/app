@@ -40,11 +40,11 @@ const withIntercom = (WrappedComponent, options = {}) => {
   }
 
   const HOC = class extends Component {
-    componentDidMount () {
+    componentDidMount() {
       updateIntercom()
     }
 
-    componentWillReceiveProps (nextProps) {
+    componentWillReceiveProps(nextProps) {
       const currentPage = this.props.location.pathname
       const nextPage = nextProps.location.pathname
 
@@ -53,7 +53,7 @@ const withIntercom = (WrappedComponent, options = {}) => {
       }
     }
 
-    render () {
+    render() {
       return <WrappedComponent {...this.props} />
     }
   }

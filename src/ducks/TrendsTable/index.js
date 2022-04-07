@@ -13,7 +13,7 @@ const TrendsTable = ({ className, period, hiddenColumnIds, isCompact, ...props }
   const { trendingWords, words, isLoading } = useTrendingWords(period)
   const columns = useColumns(COLUMNS, isCompact ? COMPACT_HIDDEN_COLUMNS : hiddenColumnIds)
 
-  function onRowClick (_, { target, currentTarget }) {
+  function onRowClick(_, { target, currentTarget }) {
     if (!target.closest('a')) {
       currentTarget.querySelector(LINK_SELECTOR).click()
     }

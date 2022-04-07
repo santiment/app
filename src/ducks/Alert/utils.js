@@ -2,7 +2,11 @@ import { getMetric } from '../Studio/Sidebar/utils'
 import { capitalizeStr } from '../../utils/utils'
 import { parseIntervalString } from '../../utils/dates'
 
+<<<<<<< HEAD
 function formatFrequencyStr (cooldown) {
+=======
+function formatFrequencyStr(cooldown) {
+>>>>>>> master
   const { amount: cooldownCount, format: cooldownPeriod } = parseIntervalString(cooldown || '5m')
 
   switch (cooldownPeriod) {
@@ -19,7 +23,11 @@ function formatFrequencyStr (cooldown) {
   }
 }
 
+<<<<<<< HEAD
 export function getChannelsTitles (channels) {
+=======
+export function getChannelsTitles(channels) {
+>>>>>>> master
   return channels.map((item) => {
     if (typeof item === 'string') {
       return item
@@ -35,7 +43,11 @@ export function getChannelsTitles (channels) {
   })
 }
 
+<<<<<<< HEAD
 export function formatChannelsTitles (channels) {
+=======
+export function formatChannelsTitles(channels) {
+>>>>>>> master
   return channels.map((item) => {
     if (item === 'web_push') {
       return 'Push'
@@ -54,7 +66,7 @@ export function formatChannelsTitles (channels) {
   })
 }
 
-export function getDescriptionStr ({ cooldown, channels, isRepeating }) {
+export function getDescriptionStr({ cooldown, channels, isRepeating }) {
   const frequencyStr = formatFrequencyStr(cooldown)
   const channelsStr = channels.length > 0 ? ` via ${formatChannelsTitles(channels).join(', ')}` : ''
 
@@ -65,25 +77,29 @@ export function getDescriptionStr ({ cooldown, channels, isRepeating }) {
   return `Send me notifications every ${frequencyStr}${channelsStr}.`
 }
 
-export function getSelectedAssetMetricCardDescription (metric) {
+export function getSelectedAssetMetricCardDescription(metric) {
   return `Notify me when an asset’s ${metric.label.toLowerCase()} moves a certain way`
 }
 
-function getCountSomeOf (count) {
+function getCountSomeOf(count) {
   const left = count[0].percent_up
   const right = count[1].percent_down
 
   return [left, right]
 }
 
-export function parseOperation (value) {
+export function parseOperation(value) {
   const operation = Object.keys(value)[0]
   const count = operation === 'some_of' ? getCountSomeOf(value[operation]) : value[operation]
 
   return { selectedOperation: operation, selectedCount: count }
 }
 
+<<<<<<< HEAD
 export function getConditionsStr ({ operation, count, timeWindow, hasPriceIcon = true }) {
+=======
+export function getConditionsStr({ operation, count, timeWindow, hasPriceIcon = true }) {
+>>>>>>> master
   let condition = `moving down ${count} %`
 
   switch (operation) {
@@ -123,7 +139,11 @@ export function getConditionsStr ({ operation, count, timeWindow, hasPriceIcon =
   )} earlier`
 }
 
+<<<<<<< HEAD
 export function getTitleStr ({ watchlist, slug, metric, operation, timeWindow, onlyCondition }) {
+=======
+export function getTitleStr({ watchlist, slug, metric, operation, timeWindow, onlyCondition }) {
+>>>>>>> master
   const selectedMetric = getMetric(metric)
   const { selectedCount, selectedOperation } = parseOperation(operation)
   const conditionStr = getConditionsStr({
@@ -140,11 +160,17 @@ export function getTitleStr ({ watchlist, slug, metric, operation, timeWindow, o
     ? slug.map((item) => capitalizeStr(item)).join(', ')
     : capitalizeStr(slug)
 
+<<<<<<< HEAD
   return `${slugStr || capitalizeStr(watchlist)} ${(selectedMetric && selectedMetric.label) ||
     'Metric'} ${conditionStr}`
+=======
+  return `${slugStr || capitalizeStr(watchlist)} ${
+    (selectedMetric && selectedMetric.label) || 'Metric'
+  } ${conditionStr}`
+>>>>>>> master
 }
 
-export function clipText (text, maxLength) {
+export function clipText(text, maxLength) {
   if (text && maxLength) {
     const lengthBorder = maxLength - 3
     if (text.length > lengthBorder) {
@@ -155,14 +181,18 @@ export function clipText (text, maxLength) {
   return text
 }
 
-export function splitStr (str) {
+export function splitStr(str) {
   const firstWord = str.split(' ')[0]
   const rest = str.replace(`${firstWord} `, '')
 
   return { firstWord, rest }
 }
 
+<<<<<<< HEAD
 function validateNotificationsAndTitle ({ invalidSteps, settings, cooldown, title }) {
+=======
+function validateNotificationsAndTitle({ invalidSteps, settings, cooldown, title }) {
+>>>>>>> master
   if (!cooldown || settings.channel.length === 0) {
     invalidSteps.push('notifications')
   }
@@ -185,7 +215,7 @@ function validateNotificationsAndTitle ({ invalidSteps, settings, cooldown, titl
   }
 }
 
-function validateAssetStep ({ invalidSteps, settings, cooldown, title }) {
+function validateAssetStep({ invalidSteps, settings, cooldown, title }) {
   if (settings.target.slug.length === 0) {
     invalidSteps.push('asset')
   }
@@ -197,7 +227,7 @@ function validateAssetStep ({ invalidSteps, settings, cooldown, title }) {
   validateNotificationsAndTitle({ invalidSteps, settings, cooldown, title })
 }
 
-function validateWatchlistStep ({ invalidSteps, settings, cooldown, title }) {
+function validateWatchlistStep({ invalidSteps, settings, cooldown, title }) {
   if (!settings.target.watchlist_id) {
     invalidSteps.push('watchlist')
   }
@@ -209,7 +239,7 @@ function validateWatchlistStep ({ invalidSteps, settings, cooldown, title }) {
   validateNotificationsAndTitle({ invalidSteps, settings, cooldown, title })
 }
 
-function validateScreenerStep ({ invalidSteps, settings, cooldown, title }) {
+function validateScreenerStep({ invalidSteps, settings, cooldown, title }) {
   if (!settings.operation.selector.watchlist_id) {
     invalidSteps.push('watchlist')
   }
@@ -217,7 +247,7 @@ function validateScreenerStep ({ invalidSteps, settings, cooldown, title }) {
   validateNotificationsAndTitle({ invalidSteps, settings, cooldown, title })
 }
 
-function validateWalletStep ({ invalidSteps, settings, cooldown, title }) {
+function validateWalletStep({ invalidSteps, settings, cooldown, title }) {
   if (
     !settings.target.address ||
     !settings.selector.infrastructure ||
@@ -230,7 +260,11 @@ function validateWalletStep ({ invalidSteps, settings, cooldown, title }) {
   validateNotificationsAndTitle({ invalidSteps, settings, cooldown, title })
 }
 
+<<<<<<< HEAD
 function validateSocialTrendsStep ({ invalidSteps, settings, cooldown, title }) {
+=======
+function validateSocialTrendsStep({ invalidSteps, settings, cooldown, title }) {
+>>>>>>> master
   if ('slug' in settings.target && settings.target.slug.length === 0) {
     invalidSteps.push('trend')
   }
@@ -246,7 +280,11 @@ function validateSocialTrendsStep ({ invalidSteps, settings, cooldown, title }) 
   validateNotificationsAndTitle({ invalidSteps, settings, cooldown, title })
 }
 
+<<<<<<< HEAD
 export function validateFormSteps ({ type, values, setInvalidSteps, submitForm, onlyValidate }) {
+=======
+export function validateFormSteps({ type, values, setInvalidSteps, submitForm, onlyValidate }) {
+>>>>>>> master
   const { settings, cooldown, title } = values
 
   switch (type.title) {
@@ -333,7 +371,7 @@ export function validateFormSteps ({ type, values, setInvalidSteps, submitForm, 
     }
   }
 }
-function calcSeconds (amount, format) {
+function calcSeconds(amount, format) {
   let factor
   switch (format) {
     case 'm':
@@ -351,7 +389,7 @@ function calcSeconds (amount, format) {
   return +amount * factor
 }
 
-export function getMetricSignalKey (minInterval) {
+export function getMetricSignalKey(minInterval) {
   const condition = parseIntervalString('5m')
   const base = calcSeconds(condition.amount, condition.format)
   const { amount, format } = parseIntervalString(minInterval)

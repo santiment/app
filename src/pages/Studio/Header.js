@@ -30,7 +30,7 @@ const Header = ({ studio, settings, widgets, metrics, prevFullUrlRef }) => {
     }
   }, [studio])
 
-  function changeTimePeriod (start, end) {
+  function changeTimePeriod(start, end) {
     const { from, to } = settings
     const undo = () => settingsStore.setPeriod(new Date(from), new Date(to))
     const redo = () => settingsStore.setPeriod(start, end)
@@ -39,12 +39,12 @@ const Header = ({ studio, settings, widgets, metrics, prevFullUrlRef }) => {
     redo()
   }
 
-  function onShareClick () {
+  function onShareClick() {
     getShortShareLink(prevFullUrlRef.current)
     setIsShareOpened(true)
   }
 
-  function onCopyLinkClick () {
+  function onCopyLinkClick() {
     if (clearTimerRef.current) clearTimerRef.current()
 
     getShortShareLink(prevFullUrlRef.current).then((url) => {

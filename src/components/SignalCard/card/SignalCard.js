@@ -20,6 +20,10 @@ const SignalCard = ({
   showStatus = true,
   isSharedTriggerForm = false,
   shouldDisableActions,
+<<<<<<< HEAD
+=======
+  isRecommendedSignal,
+>>>>>>> master
 }) => {
   const isAwaiting = +id <= 0
   const { description = '', isPublic, settings, isFrozen } = signal
@@ -49,6 +53,7 @@ const SignalCard = ({
 
       <div className={styles.wrapper__right}>
         <OpenSignalLink
+          isRecommendedSignal={isRecommendedSignal}
           signal={signal}
           isUserTheAuthor={isUserTheAuthor}
           shouldDisableActions={shouldDisableActions}

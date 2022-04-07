@@ -35,14 +35,14 @@ export const ForceClosableExplanationTooltip = (props) => {
 
   const [timer, setTimer] = useState()
 
-  function hideTooltip () {
+  function hideTooltip() {
     localStorage.setItem(localStorageLabel, '+')
     setForceClosed(true) // HACK(vanguard): To immediatly hide tooltip and then back to not controlled state
     setTimeout(() => setShown(undefined), 0)
     onHide && onHide()
   }
 
-  function disableHelp () {
+  function disableHelp() {
     localStorage.setItem(localStorageLabel, '+')
     clearTimeout(timer)
     onHide && onHide()

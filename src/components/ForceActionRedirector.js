@@ -29,7 +29,7 @@ const ForceActionRedirector = ({ pathname }) => {
     }
   }, [showTabLimitModal])
 
-  function checkOpenTabs () {
+  function checkOpenTabs() {
     if (!socket || isProPlus || !shouldCheckPage(pathname)) {
       if (showTabLimitModal) {
         track.event('tab_limit_modal_closed')

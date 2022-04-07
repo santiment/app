@@ -1,6 +1,6 @@
 import { getWatchlistsShortQuery } from './lists/helpers'
 
-function visitWatchlistsCache (visitor) {
+function visitWatchlistsCache(visitor) {
   return (cache, { data }) => {
     const { type } = data.watchlist
     const query = getWatchlistsShortQuery(type)
@@ -13,7 +13,7 @@ function visitWatchlistsCache (visitor) {
   }
 }
 
-export function updateWatchlistOnEdit (cache, { data }) {
+export function updateWatchlistOnEdit(cache, { data }) {
   const updateWatchlist =
     data.updateWatchlist || data.addWatchlistItems || data.removeWatchlistItems
   const { type } = updateWatchlist

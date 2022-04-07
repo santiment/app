@@ -15,7 +15,7 @@ const Refresh = ({ onRefreshClick, timestamp, isLoading }) => {
   const [autoRefresh, setAutoRefresh] = useState(getSavedToggle(KEY))
   const [timer, setTimer] = useState(null)
 
-  function toggleAutoRefreshState () {
+  function toggleAutoRefreshState() {
     saveToggle(KEY, !autoRefresh)
     setAutoRefresh(!autoRefresh)
   }

@@ -20,7 +20,7 @@ const CONTROLLER = {
   newProjectMetric,
   getMetricByKey: (key) => Metric[key] || parseMergedMetric(key),
 }
-function getMetric (metricKey) {
+function getMetric(metricKey) {
   const isLegacyCompareMetric = metricKey.includes(COMPARE_CONNECTOR)
   if (checkIsProjectMetricKey(metricKey) || isLegacyCompareMetric) {
     const controller = Object.assign({ parseSlug: metricKey[0] === '_' }, CONTROLLER)
@@ -32,13 +32,13 @@ function getMetric (metricKey) {
   return Metric[metricKey] || parseMergedMetric(metricKey)
 }
 
-function parseMetric (metricKey, KnownMetric) {
+function parseMetric(metricKey, KnownMetric) {
   const metric = KnownMetric[metricKey] || getMetric(metricKey)
   KnownMetric[metricKey] = metric
   return metric
 }
 
-function parseAxesMetrics (metrics, KnownMetric) {
+function parseAxesMetrics(metrics, KnownMetric) {
   if (!metrics) return
 
   const disabledAxesMetrics = new Set(Object.values(KnownMetric))
@@ -53,7 +53,7 @@ function parseAxesMetrics (metrics, KnownMetric) {
   return { axesMetrics, disabledAxesMetrics }
 }
 
-function parseIndicators (indicators, KnownMetric, metrics) {
+function parseIndicators(indicators, KnownMetric, metrics) {
   const MetricIndicators = {}
 
   if (!indicators) return MetricIndicators
@@ -84,14 +84,14 @@ function parseIndicators (indicators, KnownMetric, metrics) {
   return MetricIndicators
 }
 
-function parseMergedMetric (metricKey) {
+function parseMergedMetric(metricKey) {
   const mergedMetricKeys = metricKey.split(MERGED_DIVIDER)
   if (mergedMetricKeys.length < 2) return
 
   return buildMergedMetric(mergedMetricKeys.map((key) => HolderDistributionMetric[key]))
 }
 
-function parseMergedMetrics (metrics, KnownMetric) {
+function parseMergedMetrics(metrics, KnownMetric) {
   const mergedMetrics = []
   metrics.forEach((metricKey) => {
     let metric
@@ -109,21 +109,21 @@ function parseMergedMetrics (metrics, KnownMetric) {
   return mergedMetrics
 }
 
-function parseMetrics (metrics, comparables = [], KnownMetric) {
+function parseMetrics(metrics, comparables = [], KnownMetric) {
   return metrics
     .concat(comparables)
     .map((key) => parseMetric(key, KnownMetric))
     .filter(Boolean)
 }
 
-function parseProjectCombinedMetrics (metric) {
+function parseProjectCombinedMetrics(metric) {
   return getProjectMetricByKey(metric.key, undefined, {
     getMetricByKey: () => metric,
     parseSlug: false,
   })
 }
 
-function parseCombinedMetrics (metrics, KnownMetric) {
+function parseCombinedMetrics(metrics, KnownMetric) {
   return (metrics || []).map(({ k, exp, l, bm }) => {
     let metric = newExpessionMetric(bm.map(getMetric), exp, l)
     metric.key = k
@@ -137,7 +137,7 @@ function parseCombinedMetrics (metrics, KnownMetric) {
   })
 }
 
-export function parseWidget (widget) {
+export function parseWidget(widget) {
   const newExternalWidget = ExternalWidgetCreator[widget.widget]
   if (newExternalWidget) return newExternalWidget()
 
@@ -163,11 +163,11 @@ export function parseWidget (widget) {
   return Widget
 }
 
-export function parseWidgets (widgets) {
+export function parseWidgets(widgets) {
   return widgets.map(parseWidget)
 }
 
-function tryParseWidgets (widgets) {
+function tryParseWidgets(widgets) {
   try {
     return parseWidgets(JSON.parse(widgets))
   } catch (e) {
@@ -175,7 +175,7 @@ function tryParseWidgets (widgets) {
   }
 }
 
-function tryParseSharedSidewidget (sidewidget) {
+function tryParseSharedSidewidget(sidewidget) {
   try {
     return parseSharedSidepanel(sidewidget)
   } catch (e) {
@@ -183,7 +183,7 @@ function tryParseSharedSidewidget (sidewidget) {
   }
 }
 
-function tryParseSettings (settings) {
+function tryParseSettings(settings) {
   try {
     return JSON.parse(settings)
   } catch (e) {
@@ -191,7 +191,11 @@ function tryParseSettings (settings) {
   }
 }
 
+<<<<<<< HEAD
 export function parseUrl (url) {
+=======
+export function parseUrl(url) {
+>>>>>>> master
   const { settings, widgets, sidepanel, layout } = parse(url.slice(url.indexOf('?')))
 
   return {
@@ -202,7 +206,7 @@ export function parseUrl (url) {
   }
 }
 
-export function useUrlParse (parsedUrl) {
+export function useUrlParse(parsedUrl) {
   return useMemo(() => {
     if (parsedUrl) return parsedUrl
     const { widgets, settings, sidewidget } = parseUrl(window.location.search)

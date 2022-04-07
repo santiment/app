@@ -226,7 +226,7 @@ const Chart = ({
 
   useEffect(handleResize, [...resizeDependencies, data])
 
-  function handleResize () {
+  function handleResize() {
     if (data.length === 0 || !chart) {
       return
     }
@@ -247,7 +247,7 @@ const Chart = ({
     }
   }
 
-  function plotBrushData () {
+  function plotBrushData() {
     plotAutoWidthBars(brush, brushData, autoWidthBars, scale, MetricColor)
     plotGreenRedBars(brush, brushData, greenRedBars[0], scale)
     plotBars(brush, brushData, bars, scale, MetricColor)
@@ -256,7 +256,7 @@ const Chart = ({
     plotGradientLine(brush, brushData, gradientLines, scale, MetricColor)
   }
 
-  function plotChart (data) {
+  function plotChart(data) {
     if (!hideWatermark) {
       drawWatermark(chart, isNightMode, isWatermarkLighter)
     }
@@ -280,7 +280,7 @@ const Chart = ({
     )
   }
 
-  function marker (ctx, key, value, x, y) {
+  function marker(ctx, key, value, x, y) {
     const { colors } = chart
 
     ctx.fillStyle = colors[key]

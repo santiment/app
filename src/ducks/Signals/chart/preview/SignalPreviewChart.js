@@ -64,10 +64,17 @@ const SignalPreviewChart = ({ target, type: oldSignalType, points, showTitle, tr
 
   const [data, loadings] = useTimeseries(requestedMetrics, settings)
 
+<<<<<<< HEAD
   const merged = useMemo(() => cleanByDatakeys(data, triggersBy.dataKey || triggersBy.key), [
     data,
     triggersBy,
   ])
+=======
+  const merged = useMemo(
+    () => cleanByDatakeys(data, triggersBy.dataKey || triggersBy.key),
+    [data, triggersBy],
+  )
+>>>>>>> master
 
   let triggeredSignals = useMemo(() => {
     const filtered = points.filter((point) => point['triggered?'])

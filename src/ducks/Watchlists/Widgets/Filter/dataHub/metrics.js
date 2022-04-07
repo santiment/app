@@ -714,7 +714,7 @@ export const MetricAlias = {
   age_destroyed: Metric.age_consumed,
 }
 
-export function getActiveBaseMetrics (filter) {
+export function getActiveBaseMetrics(filter) {
   const activeMetrics = new Set(
     filter.map(({ args: { metric }, name }) => {
       return metric ? getBaseMetric(metric) : Metric[name]
@@ -724,7 +724,7 @@ export function getActiveBaseMetrics (filter) {
   return [...activeMetrics]
 }
 
-export function getBaseMetric (metric) {
+export function getBaseMetric(metric) {
   const transformedMetricIndex = metric.indexOf(METRIC_PERCENT_SUFFIX)
   const baseMetricKey =
     transformedMetricIndex === -1 ? metric : metric.substring(0, transformedMetricIndex)
@@ -732,9 +732,16 @@ export function getBaseMetric (metric) {
   return Metric[baseMetricKey] || MetricAlias[baseMetricKey]
 }
 
+<<<<<<< HEAD
 export function getTimeRangesByMetric (baseMetric, availableMetrics = []) {
   const baseMetricKeyWithSuffix = `${baseMetric.percentMetricKey ||
     baseMetric.key}${METRIC_PERCENT_SUFFIX}`
+=======
+export function getTimeRangesByMetric(baseMetric, availableMetrics = []) {
+  const baseMetricKeyWithSuffix = `${
+    baseMetric.percentMetricKey || baseMetric.key
+  }${METRIC_PERCENT_SUFFIX}`
+>>>>>>> master
   const percentMetrics = availableMetrics.filter((metric) =>
     metric.includes(baseMetricKeyWithSuffix),
   )

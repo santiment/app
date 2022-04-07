@@ -18,7 +18,7 @@ const addItemToGraph = (graph, node, item) => {
   }
 }
 
-function sortCategoryGroups (category, Submetrics) {
+function sortCategoryGroups(category, Submetrics) {
   const sortedCategory = {
     [NO_GROUP]: [],
   }
@@ -39,7 +39,7 @@ function sortCategoryGroups (category, Submetrics) {
   return sortedCategory
 }
 
-export function getMetric (availableMetric) {
+export function getMetric(availableMetric) {
   const availableTimebounds = { ...AVAILABLE_TIMEBOUNDS }
 
   let metric = typeof availableMetric === 'object' ? availableMetric : Metric[availableMetric]
@@ -113,7 +113,7 @@ export const getCategoryGraph = (availableMetrics, hiddenMetrics = [], Submetric
 }
 
 const LS_IS_SIDEBAR_LOCKED = 'LS_IS_SIDEBAR_LOCKED'
-export function loadIsSidebarLocked () {
+export function loadIsSidebarLocked() {
   const state = localStorage.getItem(LS_IS_SIDEBAR_LOCKED)
   return state === null || !!state
 }

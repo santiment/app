@@ -17,7 +17,7 @@ const DEFAULT_CURSOR = {
 const cursoredClassSelector = '.' + styles.button_cursored
 const getCursoredNode = ({ current }) => current.querySelector(cursoredClassSelector)
 
-export function useCursorNavigation (isOpened, onSuggestionSelect) {
+export function useCursorNavigation(isOpened, onSuggestionSelect) {
   const [ColumnItems, setColumnItems] = useState(DEFAULT_COLUMN_ITEMS)
   const [cursor, setCursor] = useState(DEFAULT_CURSOR)
   const [availableColumns, setAvailableColumns] = useState(DEFAULT_COLUMNS)
@@ -25,7 +25,7 @@ export function useCursorNavigation (isOpened, onSuggestionSelect) {
 
   useEffect(() => (isOpened ? setCursorRowColumn(0, 0) : undefined), [isOpened, availableColumns])
 
-  function setCursorRowColumn (row, column = cursor.column) {
+  function setCursorRowColumn(row, column = cursor.column) {
     setCursor({
       row,
       column,
@@ -33,7 +33,11 @@ export function useCursorNavigation (isOpened, onSuggestionSelect) {
     })
   }
 
+<<<<<<< HEAD
   function registerCursorColumn (column, items) {
+=======
+  function registerCursorColumn(column, items) {
+>>>>>>> master
     setColumnItems((ColumnItems) => {
       const newColumnItems = { ...ColumnItems }
       newColumnItems[column] = items
@@ -47,7 +51,7 @@ export function useCursorNavigation (isOpened, onSuggestionSelect) {
     })
   }
 
-  function onKeyDown (e) {
+  function onKeyDown(e) {
     const { key } = e
     if (!NAV_KEYS.has(key)) return
 

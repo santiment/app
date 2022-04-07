@@ -22,7 +22,7 @@ class EditableInput extends PureComponent {
     this.setState({ value, error: this.props.validate(value) })
   }
 
-  render () {
+  render() {
     const { error } = this.state
     const { label, defaultValue, isEmailConnected } = this.props
     return (

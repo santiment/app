@@ -4,7 +4,7 @@ import { USER_SETTINGS_QUERY, updateUserSettingsCache } from '../user/settings'
 
 export const updateIsBetaMode = (isBetaMode) => updateUserSettingsCache({ isBetaMode })
 
-export function useIsBetaMode () {
+export function useIsBetaMode() {
   const query = useQuery(USER_SETTINGS_QUERY)
 
   return useMemo(() => {

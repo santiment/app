@@ -10,7 +10,7 @@ import styles from './NotificationAndPrivacy.module.scss'
 const NotificationAndPrivacy = ({
   selectorSettings: { setSelectedStep, selectedStep, visitedSteps, setVisitedSteps },
 }) => {
-  function handleNextClick () {
+  function handleNextClick() {
     setSelectedStep(selectedStep + 1)
 
     if (!visitedSteps.has(selectedStep + 1)) {

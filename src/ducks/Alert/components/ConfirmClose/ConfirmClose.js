@@ -1,6 +1,6 @@
 import React from 'react'
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog'
-import styles from './ConfirmClose.scss'
+import styles from './ConfirmClose.module.scss'
 
 const ConfirmClose = ({ isOpen, onCancel, onApprove }) => (
   <ConfirmDialog

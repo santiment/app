@@ -1,7 +1,7 @@
 import { useHistory } from 'react-router-dom'
 import { useDebounceEffect } from '../../hooks'
 
-function hashLinkScroll ({ location }) {
+function hashLinkScroll({ location }) {
   const { hash } = location
   if (hash !== '') {
     const elements = document.querySelectorAll(`a[href='/${hash}']`)

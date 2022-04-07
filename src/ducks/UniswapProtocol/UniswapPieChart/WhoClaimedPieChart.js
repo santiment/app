@@ -25,7 +25,7 @@ const obj = {
   },
 }
 
-function transformData (data) {
+function transformData(data) {
   if (!data && !data.otherAddresses) {
     return
   }

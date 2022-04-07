@@ -4,7 +4,7 @@ import { WidgetToTypeMap } from '../Widget/types'
 const keyExtractor = ({ key }) => key
 const getMetricsKeys = (metrics) => metrics.map(keyExtractor)
 
-function shareMetricSettings (MetricSettingMap) {
+function shareMetricSettings(MetricSettingMap) {
   const sharedMetricSettings = {}
 
   MetricSettingMap.forEach(({ node, interval }, { key }) => {
@@ -14,7 +14,7 @@ function shareMetricSettings (MetricSettingMap) {
   return sharedMetricSettings
 }
 
-function shareMetricIndicators (MetricIndicators) {
+function shareMetricIndicators(MetricIndicators) {
   const sharedMetricIndicators = {}
 
   Object.keys(MetricIndicators).forEach((metricKey) => {
@@ -35,7 +35,7 @@ export const normalizeDrawing = ({ color, relCoor }) => ({
   relCoor,
 })
 
-function shareDrawings (drawings, chart) {
+function shareDrawings(drawings, chart) {
   if (!chart || !chart.drawer || !chart.minMaxes) {
     return drawings && drawings.map(normalizeDrawing)
   }
@@ -67,7 +67,7 @@ export const normalizeWidget = ({
 export const normalizeWidgets = (widgets) => widgets.map(normalizeWidget)
 const normalizeSettings = ({ projectId, ticker, title, name, ...settings }) => settings
 
-export function buildShareConfig ({ settings, widgets, sidepanel }) {
+export function buildShareConfig({ settings, widgets, sidepanel }) {
   return {
     settings: JSON.stringify(normalizeSettings(settings)),
     widgets: JSON.stringify(normalizeWidgets(widgets)),
@@ -75,7 +75,11 @@ export function buildShareConfig ({ settings, widgets, sidepanel }) {
   }
 }
 
+<<<<<<< HEAD
 export function generateShareLink (settings, options, metrics = [], events = []) {
+=======
+export function generateShareLink(settings, options, metrics = [], events = []) {
+>>>>>>> master
   const Shareable = {
     ...settings,
     ...options,

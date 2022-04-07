@@ -15,15 +15,15 @@ const SaveAction = ({ template, isLoggedIn, saveTemplate, onNewTemplate, ...prop
     </span>
   )
 
-  function openDialog () {
+  function openDialog() {
     setIsDialogOpened(true)
   }
 
-  function closeDialog () {
+  function closeDialog() {
     setIsDialogOpened(false)
   }
 
-  function onNew (template) {
+  function onNew(template) {
     onNewTemplate(template)
     closeDialog()
   }

@@ -26,7 +26,7 @@ const UNISWAP_WHO_CLAIMED_QUERY = gql`
   }
 `
 
-export function useUniswapValueDistribution () {
+export function useUniswapValueDistribution() {
   const { data: { uniswapValueDistribution } = {}, loading } = useQuery(
     UNISWAP_VALUE_DISTRIBUTION_QUERY,
   )
@@ -34,7 +34,11 @@ export function useUniswapValueDistribution () {
   return [uniswapValueDistribution, loading]
 }
 
+<<<<<<< HEAD
 export function useUniswapWhoMoved () {
+=======
+export function useUniswapWhoMoved() {
+>>>>>>> master
   const { data: { uniswapWhoClaimed } = {}, loading } = useQuery(UNISWAP_WHO_CLAIMED_QUERY)
 
   return [uniswapWhoClaimed, loading]

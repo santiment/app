@@ -56,7 +56,7 @@ const Tooltip = ({
   }, [cursorType])
 
   useEffect(() => {
-    function marker (ctx, key, value, x, y) {
+    function marker(ctx, key, value, x, y) {
       ctx.fillStyle = chart.colors[key]
       ctx.fillRect(x, y, 8, 2)
     }

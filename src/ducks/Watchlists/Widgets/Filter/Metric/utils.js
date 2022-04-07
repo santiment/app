@@ -1,4 +1,4 @@
-export function filterValuesBySearch (value = '', values, key) {
+export function filterValuesBySearch(value = '', values, key) {
   if (!value) {
     return values
   }

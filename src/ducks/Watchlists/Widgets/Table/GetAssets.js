@@ -37,11 +37,11 @@ class GetAssets extends Component {
     return { type, listName, listId }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.fetchPreFirst()
   }
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     const { pathname, search } = this.props.location || {}
     if (
       pathname !== (prevProps.location || {}).pathname ||
@@ -51,7 +51,11 @@ class GetAssets extends Component {
     }
   }
 
+<<<<<<< HEAD
   componentWillReceiveProps (nextProps) {
+=======
+  componentWillReceiveProps(nextProps) {
+>>>>>>> master
     if (!nextProps.Assets.isLoading && nextProps.Assets.items.length === FIRST_LOAD_SIZE) {
       if (!this.state.callFetchAll) {
         this.fetchAll()
@@ -59,17 +63,17 @@ class GetAssets extends Component {
     }
   }
 
-  fetchAll () {
+  fetchAll() {
     this.setState({ ...this.state, callFetchAll: true })
     this.fetch(MAX_LOAD_SIZE)
   }
 
-  fetchPreFirst () {
+  fetchPreFirst() {
     this.setState({ ...this.state, callFetchAll: false })
     this.fetch(FIRST_LOAD_SIZE)
   }
 
-  fetch (pageSize) {
+  fetch(pageSize) {
     const { type, listName, listId } = this.getType()
     this.props.fetchAssets({
       type,
@@ -80,7 +84,7 @@ class GetAssets extends Component {
     })
   }
 
-  render () {
+  render() {
     const { children, render, Assets, sortBy: sortType } = this.props
     const typeInfo = this.getType()
     const { items } = Assets

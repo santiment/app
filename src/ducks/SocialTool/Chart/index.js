@@ -34,24 +34,31 @@ const Chart = ({
   const MetricColor = useChartColors(metrics, FocusedMetric)
   const categories = useMetricCategories(metrics)
   const domainGroups = useDomainGroups(metrics)
+<<<<<<< HEAD
   const mirrorDomainGroups = useMemo(() => extractMirrorMetricsDomainGroups(domainGroups), [
     domainGroups,
   ])
+=======
+  const mirrorDomainGroups = useMemo(
+    () => extractMirrorMetricsDomainGroups(domainGroups),
+    [domainGroups],
+  )
+>>>>>>> master
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState(
     domainGroups && domainGroups.length > mirrorDomainGroups.length,
   )
   const scale = options.isLogScale ? logScale : linearScale
   const detectedAsset = allDetectedAssets.get(settings.slug) || {}
 
-  function onMetricHover (metric) {
+  function onMetricHover(metric) {
     setFocusedMetric(metric)
   }
 
-  function onMetricHoverEnd () {
+  function onMetricHoverEnd() {
     setFocusedMetric()
   }
 
-  function onBrushChangeEnd (startIndex, endIndex) {
+  function onBrushChangeEnd(startIndex, endIndex) {
     props.changeTimePeriod(
       new Date(brushData[startIndex].datetime),
       new Date(brushData[endIndex].datetime),

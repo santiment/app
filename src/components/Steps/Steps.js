@@ -13,7 +13,7 @@ const Steps = ({
   selected,
   ...restProps
 }) => {
-  function onStepClick (next) {
+  function onStepClick(next) {
     if (onChange && current !== next) {
       onChange(next)
     }

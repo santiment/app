@@ -21,7 +21,7 @@ const labelGetter = ({ label }) => removeLabelPostfix(label.replace(' coins', ''
 export const checkIfWasNotMerged = (newKey, mergedMetrics) =>
   mergedMetrics.every(({ key }) => key !== newKey)
 
-export function buildMergedMetric (baseMetrics) {
+export function buildMergedMetric(baseMetrics) {
   const isPercentMerge = baseMetrics[0].type === 'percent'
   const [labelPostfix, formatter, axisFormatter] = MergedTypePropsTuple[+isPercentMerge]
 
@@ -31,10 +31,14 @@ export function buildMergedMetric (baseMetrics) {
     formatter,
     axisFormatter,
     node: 'line',
+<<<<<<< HEAD
     key: baseMetrics
       .map(keyGetter)
       .sort()
       .join(MERGED_DIVIDER),
+=======
+    key: baseMetrics.map(keyGetter).sort().join(MERGED_DIVIDER),
+>>>>>>> master
     label: baseMetrics.map(labelGetter).join(', ') + labelPostfix,
   }
 
@@ -43,7 +47,7 @@ export function buildMergedMetric (baseMetrics) {
   return metric
 }
 
-function fetch (metric, { slug, interval, from, to, labels }) {
+function fetch(metric, { slug, interval, from, to, labels }) {
   const { key, baseMetrics, type } = metric
   const isPercentMerge = type === 'percent'
 

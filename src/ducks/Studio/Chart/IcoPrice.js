@@ -7,7 +7,7 @@ import { Metric } from '../../dataHub/metrics'
 import styles from './IcoPrice.module.scss'
 
 const PROJECT_ICO_PRICE_QUERY = gql`
-  query($slug: String!) {
+  query ($slug: String!) {
     project: projectBySlug(slug: $slug) {
       id
       icoPrice

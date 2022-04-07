@@ -45,7 +45,7 @@ const TrendsExplore = ({ topic, addedTopics, history, isDesktop }) => {
     }
   }, [topic, addedTopics])
 
-  function updTopics (newTopics) {
+  function updTopics(newTopics) {
     if (newTopics !== topics) {
       const { origin } = window.location
       const addedTopics = newTopics.slice(1)

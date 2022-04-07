@@ -26,7 +26,7 @@ export const PROJECTS_QUERY = gql`
   ${projectBaseData}
 `
 
-export function useProjects (query = PROJECTS_QUERY, options = {}) {
+export function useProjects(query = PROJECTS_QUERY, options = {}) {
   const { data, loading } = useQuery(query, options)
 
   return useMemo(
@@ -40,7 +40,7 @@ export function useProjects (query = PROJECTS_QUERY, options = {}) {
 
 const SlugProjectInfoCache = new Map()
 const TickerProjectInfoCache = new Map()
-export function getProjectInfo (projects, slug, ticker) {
+export function getProjectInfo(projects, slug, ticker) {
   const normalizedSlug = (slug || '').toLowerCase()
   const normalizedTicker = (ticker || '').toUpperCase()
   const project =
@@ -57,7 +57,7 @@ export function getProjectInfo (projects, slug, ticker) {
   return SlugProjectInfoCache.get(normalizedSlug) || TickerProjectInfoCache.get(normalizedTicker)
 }
 
-export function useProjectInfo (slug, ticker) {
+export function useProjectInfo(slug, ticker) {
   const { projects, isLoading } = useProjects()
 
   return useMemo(

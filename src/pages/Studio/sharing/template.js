@@ -7,7 +7,7 @@ export const newChartWidget = (metrics) =>
     metrics,
   })
 
-export function parseTemplate (template) {
+export function parseTemplate(template) {
   const { options, metrics, comparables } = template
 
   if (options) {
@@ -19,7 +19,7 @@ export function parseTemplate (template) {
   return [newChartWidget(metrics)]
 }
 
-export function translateMultiChartToWidgets (metrics, comparables = []) {
+export function translateMultiChartToWidgets(metrics, comparables = []) {
   const allMetrics = metrics.concat(comparables)
   if (metrics.length + comparables.length < 2) {
     return [newChartWidget(allMetrics)]

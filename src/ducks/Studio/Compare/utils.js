@@ -19,7 +19,7 @@ export const makeComparableObject = ({ metric, project }) => ({
   project: project,
 })
 
-export function buildComparedMetric (Comparable) {
+export function buildComparedMetric(Comparable) {
   const hash = hashComparable(Comparable)
   const cached = comparedMetricsCache.get(hash)
 
@@ -47,13 +47,13 @@ export function buildComparedMetric (Comparable) {
   return comparedMetric
 }
 
-export function getProjectHiddenMetrics (map, project) {
+export function getProjectHiddenMetrics(map, project) {
   if (!project) return
 
   return map.get(project.slug) || [Metric.balance]
 }
 
-export function buildHiddenMetrics (comparables) {
+export function buildHiddenMetrics(comparables) {
   const hiddenMetricsMap = new Map()
   const { length } = comparables
 

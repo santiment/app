@@ -55,7 +55,7 @@ const PriceHistogram = ({ project: { title, slug, ticker }, date, datesRange }) 
     }
   }, [datesRange])
 
-  function onCalendarChange (newDates) {
+  function onCalendarChange(newDates) {
     setDates(newDates)
   }
 

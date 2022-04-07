@@ -60,7 +60,7 @@ const Story = ({ story = {}, open, onEnd }) => {
   )
 }
 
-export function useInterval (callback, delay, resetFlag) {
+export function useInterval(callback, delay, resetFlag) {
   const savedCallback = useRef()
 
   useEffect(() => {

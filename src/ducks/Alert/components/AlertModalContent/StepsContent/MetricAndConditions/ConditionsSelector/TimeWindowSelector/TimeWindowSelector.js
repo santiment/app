@@ -24,7 +24,7 @@ const TimeWindowSelector = () => {
     }
   }, [period, count])
 
-  function handleChange (e) {
+  function handleChange(e) {
     const currentValue = parseInt(e.target.value)
     setCount(currentValue || 1)
   }

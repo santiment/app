@@ -18,12 +18,12 @@ const MetricAndConditions = ({
   const [selectedMetric, setSelectedMetric] = useState(getMetric(values.settings.metric))
   const [isEditMode, setIsEditMode] = useState(false)
 
-  function handleSelectMetric (metric) {
+  function handleSelectMetric(metric) {
     setSelectedMetric(metric)
     setIsEditMode(false)
   }
 
-  function handleNextClick () {
+  function handleNextClick() {
     setSelectedStep(selectedStep + 1)
 
     if (!visitedSteps.has(selectedStep + 1)) {

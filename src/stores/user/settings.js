@@ -77,7 +77,7 @@ const getCurrentUser = () => {
   return currentUser
 }
 
-export function updateUserSettingsCache (newUserSettings) {
+export function updateUserSettingsCache(newUserSettings) {
   const currentUser = getCurrentUser()
 
   client.writeQuery({
@@ -96,7 +96,7 @@ export function updateUserSettingsCache (newUserSettings) {
   })
 }
 
-export function useUserSettings () {
+export function useUserSettings() {
   const query = useQuery(USER_SETTINGS_QUERY)
 
   return useMemo(() => {
@@ -121,14 +121,14 @@ export function useUserSettings () {
   }, [query])
 }
 
-export function useUpdateUserSettings () {
+export function useUpdateUserSettings() {
   const [mutate, data] = useMutation(UPDATE_USER_SETTINGS_MUTATION, {
     update: (proxy, { data: { updateUserSettings } }) => {
       updateUserSettingsCache(updateUserSettings)
     },
   })
 
-  function update (newSettings) {
+  function update(newSettings) {
     const currentUser = getCurrentUser()
 
     const merged = { ...currentUser.settings, ...newSettings }
@@ -150,14 +150,14 @@ export function useUpdateUserSettings () {
   return [update, data]
 }
 
-export function useUpdateUserNotifications () {
+export function useUpdateUserNotifications() {
   const [mutate, data] = useMutation(TOGGLE_CHANNEL_MUTATION, {
     update: (proxy, { data: { settingsToggleChannel } }) => {
       updateUserSettingsCache(settingsToggleChannel)
     },
   })
 
-  function update (variables) {
+  function update(variables) {
     return mutate({
       variables,
     })

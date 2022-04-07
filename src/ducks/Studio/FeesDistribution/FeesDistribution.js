@@ -54,7 +54,7 @@ const FeesDistribution = ({ onDisable, deleteWidget, widget }) => {
   const [interval, setInterval] = useState('1d')
   const [settings, setSettings] = useState(formIntervalSettings(interval))
 
-  function onCloseClick () {
+  function onCloseClick() {
     deleteWidget(widget)
   }
 
@@ -115,7 +115,7 @@ export const FeesDistributionChart = ({ className, settings, onDisable, interval
     return null
   }
 
-  function changeDay (date) {
+  function changeDay(date) {
     setSelectedPeriod(getTimePeriod(date))
   }
 

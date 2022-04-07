@@ -6,7 +6,7 @@ const getDaysInMonth = (year, month) => new Date(20 + year, month, 0).getDate()
 
 const shouldBreakOnChar = (char) => char === '/' || char === ' '
 
-export function getValidityMsg (dateSettings) {
+export function getValidityMsg(dateSettings) {
   if (!dateSettings) return ''
 
   const [day, fullMonth, year] = dateSettings
@@ -24,7 +24,7 @@ export function getValidityMsg (dateSettings) {
   return ''
 }
 
-export function fixDateRangeString (input) {
+export function fixDateRangeString(input) {
   const fixed = input.value
     .split(' - ')
     .map((str) =>
@@ -38,7 +38,7 @@ export function fixDateRangeString (input) {
   return fixed
 }
 
-function prevModifyableGroupIndex (caret) {
+function prevModifyableGroupIndex(caret) {
   for (let i = groupStartIndeces.length - 1; i > -1; i--) {
     if (groupStartIndeces[i] < caret) {
       return groupStartIndeces[i]
@@ -47,7 +47,7 @@ function prevModifyableGroupIndex (caret) {
   return groupStartIndeces[0]
 }
 
-function nextModifyableGroupIndex (caret) {
+function nextModifyableGroupIndex(caret) {
   for (let i = 0; i < groupStartIndeces.length; i++) {
     if (groupStartIndeces[i] > caret) {
       return groupStartIndeces[i]
@@ -56,13 +56,17 @@ function nextModifyableGroupIndex (caret) {
   return groupStartIndeces[groupStartIndeces.length - 1]
 }
 
+<<<<<<< HEAD
 export function selectNextGroup (el, toRight, caret = el.selectionStart) {
+=======
+export function selectNextGroup(el, toRight, caret = el.selectionStart) {
+>>>>>>> master
   const left = (toRight ? nextModifyableGroupIndex : prevModifyableGroupIndex)(caret)
   el.selectionStart = left
   el.selectionEnd = left + 2
 }
 
-export function extractGroupValue (str, index) {
+export function extractGroupValue(str, index) {
   let left = index
   let right = index + 1
   const { length } = str

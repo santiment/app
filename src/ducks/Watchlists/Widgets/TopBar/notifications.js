@@ -27,21 +27,21 @@ export const notifyDeletion = (name) =>
     title: `“${name}” have been deleted successfully`,
   })
 
-export function notifyUpdate (title) {
+export function notifyUpdate(title) {
   return dispatchNotification({
     variant: 'success',
     title: `Your ${title} has been updated successfully`,
   })
 }
 
-export function notifySaveNote () {
+export function notifySaveNote() {
   return dispatchNotification({
     variant: 'success',
     title: `Note has been saved successfully`,
   })
 }
 
-export function notifyLoginForSave () {
+export function notifyLoginForSave() {
   return dispatchNotification({
     variant: 'warning',
     title: `Log in to save your filter settings`,
@@ -60,7 +60,7 @@ export function notifyLoginForSave () {
   })
 }
 
-export function notifyOutdatedVersion () {
+export function notifyOutdatedVersion() {
   return dispatchNotification({
     variant: 'warning',
     title: `Some filters don't present in your app version`,
@@ -76,7 +76,7 @@ export function notifyOutdatedVersion () {
 }
 
 // NOTE: move to edit mutation [haritonasty 09.03.2021]
-export function notifyMonitoring ({ type = 'watchlist', name, isMonitored }) {
+export function notifyMonitoring({ type = 'watchlist', name, isMonitored }) {
   return dispatchNotification({
     variant: 'success',
     title: isMonitored

@@ -13,7 +13,7 @@ export const getMetricKey = ({ key }) => key
 export const getTemplateSharePath = ({ id, title }) =>
   '/charts/' + getSEOLinkFromIdAndTitle(id, title || '')
 
-export function prepareTemplateLink (template, asProject) {
+export function prepareTemplateLink(template, asProject) {
   if (!template) {
     return ''
   }
@@ -59,7 +59,7 @@ export const getTemplateShareLink = (template) => {
   return window.location.origin + prepareTemplateLink(template)
 }
 
-export function parseTemplateMetrics (templateMetrics, project) {
+export function parseTemplateMetrics(templateMetrics, project) {
   return templateMetrics
     .map((key) => {
       if (key.includes(COMPARE_CONNECTOR)) {
@@ -81,7 +81,7 @@ export function parseTemplateMetrics (templateMetrics, project) {
 
 export const buildTemplateMetrics = ({ metrics }) => metrics && metrics.map(getMetricKey)
 
-export function getAvailableTemplate (templates) {
+export function getAvailableTemplate(templates) {
   if (!availableDefaultTemplate()) {
     return undefined
   }
@@ -97,7 +97,7 @@ export function getAvailableTemplate (templates) {
 
 const availableDefaultTemplate = () => window.location.pathname.indexOf(PATHS.CHARTS) === -1
 
-export function getLastTemplate () {
+export function getLastTemplate() {
   if (!availableDefaultTemplate()) {
     return undefined
   }
@@ -106,7 +106,7 @@ export function getLastTemplate () {
   return savedTemplate ? JSON.parse(savedTemplate) : undefined
 }
 
-export function saveLastTemplate (template) {
+export function saveLastTemplate(template) {
   if (!template) return
 
   localStorage.setItem(LAST_USED_TEMPLATE, JSON.stringify(template))
@@ -143,7 +143,7 @@ const getTemplateAssets = ({ metrics, project: { slug, name } }) => {
   return assets.map((slug) => capitalizeStr(slug))
 }
 
-export function getChartWidgetsFromTemplate (template) {
+export function getChartWidgetsFromTemplate(template) {
   const { project, options } = template
   const metrics = parseTemplateMetrics(template.metrics, project)
   let widgets

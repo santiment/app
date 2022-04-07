@@ -33,14 +33,14 @@ const FrequencySelector = () => {
     }
   }, [period, count])
 
-  function handleChangeType (frequencyType) {
+  function handleChangeType(frequencyType) {
     setType(frequencyType)
     const periods = getFrequencyPeriods(frequencyType)
     setPeriod(periods[0])
     setCount(periods[0].counts.min)
   }
 
-  function handleIsRepeatingChange () {
+  function handleIsRepeatingChange() {
     setIsRepeating(!isRepeating)
     const frequencies = getFrequencyTypes(values.settings.metric)
     const periods = getFrequencyPeriods(frequencies[0])

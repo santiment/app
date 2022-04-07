@@ -18,7 +18,7 @@ const DEFAULT_RANGE_HOURS = [
   },
 ]
 
-function getPeriod (hours) {
+function getPeriod(hours) {
   const to = new Date()
   const from = new Date()
 
@@ -68,7 +68,7 @@ const MetricHighLow = ({
     offset = 100
   }
 
-  function cycleRange () {
+  function cycleRange() {
     const newIndex = (index + 1) % rangeHours.length
     setIndex(newIndex)
     if (onRangeChange) {

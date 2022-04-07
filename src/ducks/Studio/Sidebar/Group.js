@@ -22,7 +22,7 @@ const Group = ({
   const hasGroup = title !== NO_GROUP
   const [hidden, setHidden] = useState(hasGroup && !OpenedGroup[title])
 
-  function onToggleClick () {
+  function onToggleClick() {
     setHidden(!hidden)
   }
 

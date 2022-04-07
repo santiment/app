@@ -11,7 +11,6 @@ import AlertModal from '../../Alert/AlertModal'
 import { SCREENER_DEFAULT_SIGNAL, WATCHLIST_DEFAULT_SIGNAL } from './utils'
 import { ALERT_TYPES } from '../../Alert/constants'
 import { PROJECT, SCREENER } from '../../Watchlists/detector'
-import { prepareAlertTitle } from '../link/OpenSignalLink'
 import styles from './ScreenerSignalDialog.module.scss'
 
 export const EditSignalIcon = ({ className }) => (
@@ -144,7 +143,6 @@ const ScreenerSignalDialog = ({ trigger: ElTrigger, signal, watchlistId, type })
 
   return (
     <AlertModal
-      prepareAlertTitle={prepareAlertTitle}
       defaultType={defaultType}
       signalData={stateSignal}
       id={stateSignal.id}

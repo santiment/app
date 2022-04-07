@@ -6,7 +6,11 @@ import Button from '@santiment-network/ui/Button'
 import Dropdown from '@santiment-network/ui/Dropdown'
 import styles from './index.module.scss'
 
+<<<<<<< HEAD
 function prepareOptions (options) {
+=======
+function prepareOptions(options) {
+>>>>>>> master
   return options.map((option) => ({
     content: `${option} rows`,
     index: option,

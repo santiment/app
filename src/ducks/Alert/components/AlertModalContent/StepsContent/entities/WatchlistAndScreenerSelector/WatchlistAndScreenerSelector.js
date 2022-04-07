@@ -38,7 +38,7 @@ const WatchlistAndScreenerSelector = ({
     return screeners.filter((screener) => screener.name.toLowerCase().indexOf(searchTerm) !== -1)
   }, [screeners, watchlists, searchTerm])
 
-  function handleNextClick () {
+  function handleNextClick() {
     setSelectedStep(selectedStep + 1)
 
     if (!visitedSteps.has(selectedStep + 1)) {
@@ -46,7 +46,7 @@ const WatchlistAndScreenerSelector = ({
     }
   }
 
-  function handleSelectWatchlist (id) {
+  function handleSelectWatchlist(id) {
     if (value === id) {
       setValue('')
     } else {

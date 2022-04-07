@@ -24,7 +24,7 @@ const DOUBLE_AXIS_PADDING = {
   left: 48,
 }
 
-function getResponsiveTicks (isPhone) {
+function getResponsiveTicks(isPhone) {
   let xTicks
   let yTicks
 

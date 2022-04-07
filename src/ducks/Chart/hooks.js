@@ -13,7 +13,7 @@ const checkIndicators = (metricA, metricB) =>
     ? checkIfIsIndicatorOf(metricA, metricB)
     : checkIfIsIndicatorOf(metricB, metricA)
 
-export function useDomainGroups (metrics) {
+export function useDomainGroups(metrics) {
   return useMemo(() => {
     const Domain = Object.create(null)
     const { length } = metrics
@@ -47,7 +47,11 @@ export function useDomainGroups (metrics) {
   }, [metrics])
 }
 
+<<<<<<< HEAD
 export function useClosestValueData (rawData, metrics, isClosestValueActive = true, MetricNode) {
+=======
+export function useClosestValueData(rawData, metrics, isClosestValueActive = true, MetricNode) {
+>>>>>>> master
   return useMemo(() => {
     const lineMetrics = metrics.filter(({ key, node }) => {
       const newNode = MetricNode && MetricNode[key]
@@ -100,7 +104,7 @@ export function useClosestValueData (rawData, metrics, isClosestValueActive = tr
   }, [rawData, metrics, isClosestValueActive])
 }
 
-export function useTooltipMetricKey (metrics) {
+export function useTooltipMetricKey(metrics) {
   return useMemo(() => {
     const { length } = metrics
     let tooltipKey = metrics[0]
@@ -123,7 +127,7 @@ export function useTooltipMetricKey (metrics) {
   }, [metrics])
 }
 
-function getDomainDependencies (domainGroups) {
+function getDomainDependencies(domainGroups) {
   let domain = []
 
   const { length } = domainGroups
@@ -138,7 +142,11 @@ function getDomainDependencies (domainGroups) {
 }
 
 // TODO: Refactor [@vanguard | Feb 17, 2021]
+<<<<<<< HEAD
 export function useMultiAxesMetricKeys (widget, metrics, ErrorMsg = {}, domainGroups) {
+=======
+export function useMultiAxesMetricKeys(widget, metrics, ErrorMsg = {}, domainGroups) {
+>>>>>>> master
   const { axesMetricSet, disabledAxesMetricSet } = widget
 
   return useMemo(() => {
@@ -189,7 +197,7 @@ export function useMultiAxesMetricKeys (widget, metrics, ErrorMsg = {}, domainGr
   }, [axesMetricSet, metrics, ErrorMsg, domainGroups])
 }
 
-export function useAxesMetricsKey (metrics, isDomainGroupingActive) {
+export function useAxesMetricsKey(metrics, isDomainGroupingActive) {
   return useMemo(() => {
     let mainAxisMetric = metrics[0]
     let secondaryAxisMetric = metrics[1]
@@ -233,7 +241,7 @@ export function useAxesMetricsKey (metrics, isDomainGroupingActive) {
   }, [metrics, isDomainGroupingActive])
 }
 
-function adjustGapLengthByDataSize (size) {
+function adjustGapLengthByDataSize(size) {
   if (size < 70) return 1
 
   if (size < 130) return 2
@@ -247,7 +255,7 @@ function adjustGapLengthByDataSize (size) {
   return 15
 }
 
-export function useEdgeGaps (data) {
+export function useEdgeGaps(data) {
   return useMemo(() => {
     const { length } = data
     if (length < 2) return data

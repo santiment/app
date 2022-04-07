@@ -92,7 +92,7 @@ const Filter = ({
     }
   }, [baseProjects])
 
-  function resetAll () {
+  function resetAll() {
     const func = getNewFunction([], baseProjects)
     updateFilter([])
 
@@ -104,7 +104,7 @@ const Filter = ({
     setCurrentSearch('')
   }
 
-  function updMetricInFilter (metric, key, alternativeKey = key) {
+  function updMetricInFilter(metric, key, alternativeKey = key) {
     if (isViewMode) {
       return
     }
@@ -133,7 +133,7 @@ const Filter = ({
     }
   }
 
-  function toggleMetricInFilter (metric, key, alternativeKey = key) {
+  function toggleMetricInFilter(metric, key, alternativeKey = key) {
     if (isViewMode) {
       return
     }

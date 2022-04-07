@@ -21,7 +21,7 @@ export const ExternalWidgetCreator = {
     }),
 }
 
-export function getExternalWidget (node) {
+export function getExternalWidget(node) {
   const newWidget = ExternalWidgetCreator[node.key]
   if (newWidget) return newWidget()
 }

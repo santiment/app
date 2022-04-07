@@ -43,7 +43,7 @@ const Setting = ({ settings, metric, setMetricSettingMap, metricSettingsMap }) =
     }
   }, [value])
 
-  function onChange (data) {
+  function onChange(data) {
     if (!Component) {
       const { currentTarget } = data
       const { min, max } = constraints
@@ -63,14 +63,14 @@ const Setting = ({ settings, metric, setMetricSettingMap, metricSettingsMap }) =
     }
   }
 
-  function onBlur ({ currentTarget }) {
+  function onBlur({ currentTarget }) {
     if (!+currentTarget.value) {
       currentTarget.setCustomValidity('')
       setValue(lastValidValue)
     }
   }
 
-  function updateMetricSettings (value) {
+  function updateMetricSettings(value) {
     setLastValidValue(value)
     setMetricSettingMap((state) => {
       const prevSettings = state.get(metric) || {}
@@ -109,7 +109,7 @@ const Setting = ({ settings, metric, setMetricSettingMap, metricSettingsMap }) =
   )
 }
 
-function onAdjustmentClick (e) {
+function onAdjustmentClick(e) {
   e.stopPropagation()
 }
 

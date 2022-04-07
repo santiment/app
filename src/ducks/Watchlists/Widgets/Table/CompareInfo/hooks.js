@@ -5,7 +5,7 @@ import { cancelQuery } from '../../../../Studio/timeseries/hooks'
 
 const hashAssets = (assets) => assets.reduce((acc, { slug }) => acc + slug, '')
 
-function abortRemovedAssets (abortables, newAssets) {
+function abortRemovedAssets(abortables, newAssets) {
   const toAbort = new Map(abortables)
   newAssets.forEach((metric) => {
     const abortable = abortables.get(metric)
@@ -32,7 +32,7 @@ const DEFAULT_LOADINGS = []
 const getIntersection = (source, target) =>
   source.length > 0 ? source.filter((value) => target.includes(value)) : target
 
-export function useAvailableMetrics (assets) {
+export function useAvailableMetrics(assets) {
   const [availableMetrics, setAvailableMetrics] = useState(DEFAULT_METRICS)
   const [loadings, setLoadings] = useState(DEFAULT_LOADINGS)
   const [abortables, setAbortables] = useState(DEFAULT_ABORTABLES)

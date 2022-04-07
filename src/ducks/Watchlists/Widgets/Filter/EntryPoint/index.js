@@ -61,7 +61,7 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects, isViewMode }) => {
     ]
   }, [state, idNameMap])
 
-  function addItemInState (item) {
+  function addItemInState(item) {
     setState(state === ALL_ASSETS_TEXT ? [item] : [...state, item])
   }
 

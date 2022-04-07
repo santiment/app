@@ -19,7 +19,7 @@ const ExchangeSetting = ({ metric, widget, slug, rerenderWidgets }) => {
     return (settings && settings.owner) || DEFAULT_EXCHANGE
   }, [widget.MetricSettingMap, metric])
 
-  function onChange (newOwner) {
+  function onChange(newOwner) {
     const newMap = new Map()
     const isExchangeRemoved = newOwner === DEFAULT_EXCHANGE
 

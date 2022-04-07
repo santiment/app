@@ -56,7 +56,7 @@ const EditAddresses = ({
       listItems: listItems.map((a) => mapAddressToAPIType(a)),
     }).then(refreshList)
 
-  function notificationHanlder () {
+  function notificationHanlder() {
     store.dispatch(
       showNotification({
         variant: 'info',
@@ -67,7 +67,7 @@ const EditAddresses = ({
     )
   }
 
-  function apply () {
+  function apply() {
     updateWatchlist({
       id,
       listItems: items.map((a) => mapAddressToAPIType(a)),
@@ -81,7 +81,7 @@ const EditAddresses = ({
     setItems(isInList ? listItems.filter((a) => a.address !== item.address) : [item, ...listItems])
   }
 
-  function onAdd () {
+  function onAdd() {
     const newItem = {
       notes,
       infrastructure,

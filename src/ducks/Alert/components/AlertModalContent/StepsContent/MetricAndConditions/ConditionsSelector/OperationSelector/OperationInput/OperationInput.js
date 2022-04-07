@@ -3,7 +3,7 @@ import cx from 'classnames'
 import Input from '@santiment-network/ui/Input'
 import styles from './OperationInput.module.scss'
 
-function getValue (e) {
+function getValue(e) {
   const currentValue = e.target.value < 0 ? '' : Number(e.target.value)
 
   return e.target.value === '' ? '' : currentValue
@@ -17,7 +17,7 @@ const OperationInput = ({ count, hasIcon, iconType, setCount, operation, classNa
   }
 
   if (Array.isArray(count)) {
-    function handleChangeCount (e) {
+    function handleChangeCount(e) {
       const value = getValue(e)
 
       if (value > count[1] && operation !== 'some_of') {
@@ -27,7 +27,7 @@ const OperationInput = ({ count, hasIcon, iconType, setCount, operation, classNa
       }
     }
 
-    function handleChangeSecondCount (e) {
+    function handleChangeSecondCount(e) {
       const value = getValue(e)
 
       setCount([count[0], value])
@@ -58,7 +58,7 @@ const OperationInput = ({ count, hasIcon, iconType, setCount, operation, classNa
     )
   }
 
-  function handleChangeInput (e) {
+  function handleChangeInput(e) {
     const value = getValue(e)
 
     setCount(value)

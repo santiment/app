@@ -1,6 +1,10 @@
 const PriceGraphCache = new Map()
 
+<<<<<<< HEAD
 export function normalizeGraphData (graph, items = [], key = 'price_usd_chart_7d', loading) {
+=======
+export function normalizeGraphData(graph, items = [], key = 'price_usd_chart_7d', loading) {
+>>>>>>> master
   if (loading) {
     return items
   }

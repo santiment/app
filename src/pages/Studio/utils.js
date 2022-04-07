@@ -30,7 +30,7 @@ export const updateShortUrl = (shortUrl, fullUrl) =>
 
 export const getShortUrlHash = (url) => url.slice(url.lastIndexOf('/') + 1, SHORT_URL_RIGHT_INDEX)
 
-export function onAnonComment () {
+export function onAnonComment() {
   store.dispatch(
     showNotification({
       title: 'Your comment was saved and will be posted after sign up',
@@ -39,7 +39,7 @@ export function onAnonComment () {
   return store.dispatch(push('/login'))
 }
 
-export function onCommentError () {
+export function onCommentError() {
   store.dispatch(
     showNotification({
       title: "Couldn't post the comment. Please, contact our support",
@@ -47,7 +47,7 @@ export function onCommentError () {
   )
 }
 
-export function handleSavedComment (settings) {
+export function handleSavedComment(settings) {
   window.onCommentsLoaded = () => {
     delete window.onCommentsLoaded
     const node = document.querySelector(`textarea[name="comment"]`)
@@ -62,7 +62,7 @@ export function handleSavedComment (settings) {
   settings.sidewidget = SidewidgetType.LAYOUT_COMMENTS
 }
 
-export function handleLayoutCommentLink (settings, search) {
+export function handleLayoutCommentLink(settings, search) {
   const { comment } = parse(search)
   if (!comment) return
 

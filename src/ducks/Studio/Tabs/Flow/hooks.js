@@ -14,16 +14,23 @@ const DEFAULT_DAY_MATRIX = [
 ]
 
 const valueAccessor = ({ value }) => value
+<<<<<<< HEAD
 const buildDataAccessor = (emptyValues) => ({ data }) => {
   const result = new Array(METRICS_AMOUNT)
+=======
+const buildDataAccessor =
+  (emptyValues) =>
+  ({ data }) => {
+    const result = new Array(METRICS_AMOUNT)
 
-  for (let i = 0; i < METRICS_AMOUNT; i++) {
-    const period = data['_' + i]
-    result[i] = period ? period.timeseriesData.map(valueAccessor) : emptyValues
+    for (let i = 0; i < METRICS_AMOUNT; i++) {
+      const period = data['_' + i]
+      result[i] = period ? period.timeseriesData.map(valueAccessor) : emptyValues
+    }
+>>>>>>> master
+
+    return result
   }
-
-  return result
-}
 
 const getPeriodFlow = (variables, emptyValues) =>
   client
@@ -33,7 +40,7 @@ const getPeriodFlow = (variables, emptyValues) =>
     })
     .then(buildDataAccessor(emptyValues))
 
-export function usePeriodMatrix (slug, [from, to], daysAmount) {
+export function usePeriodMatrix(slug, [from, to], daysAmount) {
   const [periodMatrix, setPeriodMatrix] = useState(DEFAULT_STATE)
   const [isLoading, setIsLoading] = useState(true)
 
@@ -72,7 +79,7 @@ export const useDayMatrix = (periodMatrix, dayIndex = 0) =>
     }
   }, [periodMatrix, dayIndex])
 
-export function useAnimatedDayIndex (daysAmount, shouldStop) {
+export function useAnimatedDayIndex(daysAmount, shouldStop) {
   const [dayIndex, setDayIndex] = useState(0)
 
   useEffect(() => {

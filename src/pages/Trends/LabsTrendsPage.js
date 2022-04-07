@@ -26,7 +26,7 @@ const TrendsHeader = () => {
   )
 }
 
-function formatDate (dateStr) {
+function formatDate(dateStr) {
   const date = new Date(dateStr)
   const { DD, MMM, YY } = getDateFormats(date)
   const { HH, mm } = getTimeFormats(date)

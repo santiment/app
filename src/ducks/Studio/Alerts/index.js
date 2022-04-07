@@ -3,11 +3,10 @@ import cx from 'classnames'
 import { useSuggestions } from './suggestions/hooks'
 import LoginPopup from '../../../components/banners/feature/PopupBanner'
 import AlertModal from '../../Alert/AlertModal'
-import { prepareAlertTitle } from '../../Signals/link/OpenSignalLink'
 import styles from './index.module.scss'
 
 const Alert = ({ alert, render, createAlert }) => {
-  function onClick () {
+  function onClick() {
     createAlert(alert)
   }
 
@@ -20,7 +19,7 @@ const Alert = ({ alert, render, createAlert }) => {
   )
 }
 
-function getHeader (title, project) {
+function getHeader(title, project) {
   let header = title
 
   if (project) {
@@ -37,10 +36,7 @@ export default ({ className, metricValues, containerRef, onDialogClose, ...rest 
     <div ref={containerRef} className={cx(styles.wrapper, className)}>
       <div className={styles.header}>
         Create alert if:
-        <AlertModal
-          trigger={<span className={styles.manual}>Create alert manually</span>}
-          prepareAlertTitle={prepareAlertTitle}
-        />
+        <AlertModal trigger={<span className={styles.manual}>Create alert manually</span>} />
       </div>
       <div className={styles.suggestions}>
         {suggestions.map(({ title, project, suggesters, ...values }) => {

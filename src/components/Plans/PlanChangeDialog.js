@@ -36,11 +36,11 @@ const ChangePlanDialog = ({
   const { MMMM, DD, YYYY } = getDateFormats(new Date(currentPeriodEnd))
   const date = `${MMMM} ${DD}, ${YYYY}`
 
-  function hideDialog () {
+  function hideDialog() {
     setDialogVisiblity(false)
   }
 
-  function showDialog () {
+  function showDialog() {
     setDialogVisiblity(true)
   }
 

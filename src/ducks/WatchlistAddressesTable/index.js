@@ -13,7 +13,7 @@ const normalizeLabel = ({ name }) => name
 const normalizeBalance = (value) => value && value.balanceEnd
 const normalizeBalanceChange = (value) => value && value.balanceChangePercent
 
-function normalizeCSVItem ({ address, labels, notes, __typename, ...columns }) {
+function normalizeCSVItem({ address, labels, notes, __typename, ...columns }) {
   const filteredColumnObj = {}
   const columnKeys = typeof columns === 'object' ? Object.keys(columns) : ARRAY
   const filteredColumnKeys = columnKeys.filter(

@@ -5,6 +5,7 @@ import ChartWidget, { Chart } from '../ChartWidget'
 import { Metric } from '../../../dataHub/metrics'
 import styles from './index.module.scss'
 
+<<<<<<< HEAD
 export const buildTitle = (title) => ({ onDeleteChartClick, settings }) => (
   <div className={styles.title}>
     {title} ({settings.ticker})
@@ -13,6 +14,19 @@ export const buildTitle = (title) => ({ onDeleteChartClick, settings }) => (
     )}
   </div>
 )
+=======
+export const buildTitle =
+  (title) =>
+  ({ onDeleteChartClick, settings }) =>
+    (
+      <div className={styles.title}>
+        {title} ({settings.ticker})
+        {onDeleteChartClick && (
+          <Icon type='close-small' onClick={onDeleteChartClick} className={styles.delete} />
+        )}
+      </div>
+    )
+>>>>>>> master
 
 const Title = buildTitle('Price DAA Divergence')
 

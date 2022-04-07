@@ -12,7 +12,7 @@ const Grave = ({ knockNumber, setKnockNumber, slug, name }) => {
   const initialGraves = getCheckedGraves()
   const [trackEvent] = useTrackEvents()
 
-  function onGraveZoneClick () {
+  function onGraveZoneClick() {
     const newNumber = knockNumber + 1
     setKnockNumber(newNumber)
 

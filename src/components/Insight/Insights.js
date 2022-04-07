@@ -36,7 +36,7 @@ class Insights extends Component {
     })
   }
 
-  render () {
+  render() {
     const { view } = this.state
     const { title, insights, className } = this.props
 

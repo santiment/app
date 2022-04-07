@@ -18,7 +18,7 @@ export class TrendsSearchForm extends Component {
     topic: this.props.defaultTopic || '',
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.props.defaultTopic !== prevProps.defaultTopic) {
       this.setState({ topic: this.props.defaultTopic })
     }
@@ -33,7 +33,7 @@ export class TrendsSearchForm extends Component {
     this.setState({ topic: evt.currentTarget.value })
   }
 
-  render () {
+  render() {
     const {
       classes: { wrapper: className, input: inputClassName },
       withButton,

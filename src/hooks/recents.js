@@ -3,7 +3,7 @@ import { getRecentAsset, getRecentTemplate } from '../queries/recents'
 
 const EMPTY_ARRAY = []
 
-export function useRecentAssets (slugs) {
+export function useRecentAssets(slugs) {
   const [currSlugs, setCurrSlugs] = useState(slugs)
   const [recentAssets, setRecentAssets] = useState(EMPTY_ARRAY)
   const [isLoading, setIsLoading] = useState(true)
@@ -41,7 +41,7 @@ export function useRecentAssets (slugs) {
   return [recentAssets, isLoading, isError]
 }
 
-export function useRecentTemplates (templatesIDs) {
+export function useRecentTemplates(templatesIDs) {
   const [currIDs, setCurrIDs] = useState(templatesIDs)
   const [recentTemplates, setRecentTemplates] = useState(EMPTY_ARRAY)
   const [isLoading, setIsLoading] = useState(true)

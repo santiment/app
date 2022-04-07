@@ -18,7 +18,7 @@ import {
 import { CursorType } from '../cursor'
 import { TooltipSetting } from '../../dataHub/tooltipSettings'
 
-export function setupTooltip (chart, marker) {
+export function setupTooltip(chart, marker) {
   const { canvas, ctx } = chart.tooltip
 
   canvas.onmousemove = handlePointEvent(chart, (point, e) => {
@@ -46,7 +46,7 @@ export function setupTooltip (chart, marker) {
       window.addEventListener('mousemove', onMouseMove)
     }
 
-    function onMouseMove ({ pageX }) {
+    function onMouseMove({ pageX }) {
       if (chart.isDrawing) {
         return window.removeEventListener('mousemove', onMouseMove)
       }
@@ -69,7 +69,7 @@ export function setupTooltip (chart, marker) {
       }
     }
 
-    function onMouseUp ({ offsetX }) {
+    function onMouseUp({ offsetX }) {
       window.removeEventListener('mousemove', onMouseMove)
       window.removeEventListener('mouseup', onMouseUp)
 
@@ -98,7 +98,7 @@ export function setupTooltip (chart, marker) {
 
 const checkIsValidMetricPoint = (metricPoint) => metricPoint && Number.isFinite(metricPoint.y)
 
-export function plotTooltip (chart, marker, point, event) {
+export function plotTooltip(chart, marker, point, event) {
   const {
     tooltip: { ctx },
     scale,
@@ -163,7 +163,7 @@ export function plotTooltip (chart, marker, point, event) {
   drawValueBubbleX(chart, ctx, xValueFormatted, x, bubblesPaintConfig)
 }
 
-function plotRangeSelection (chart, left, width) {
+function plotRangeSelection(chart, left, width) {
   const { tooltip, top, height } = chart
   const { ctx } = tooltip
 

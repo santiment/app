@@ -21,7 +21,7 @@ const Drawer = ({
   const [isNewDrawing, setIsNewDrawing] = isNewDrawingState
   const setSelectedLine = selectedLineState[1]
 
-  function setIsDrawing (state) {
+  function setIsDrawing(state) {
     chart.isDrawing = state
     isDrawingState[1](state)
   }

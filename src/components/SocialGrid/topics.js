@@ -85,7 +85,7 @@ export const SETTINGS = {
 const EXCLUDED_WORDS = ['OR', 'AND']
 const ALLOWED_SYMBOLS = /[^a-zA-Z]+/g
 
-export function dividePhraseInWords (phrase) {
+export function dividePhraseInWords(phrase) {
   const words = new Set(
     phrase
       .split(' ')

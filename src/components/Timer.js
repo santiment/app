@@ -12,11 +12,11 @@ class Timer extends Component {
     syncRef: undefined,
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.intervalID = setInterval(() => this.forceUpdate(), this.props.interval)
   }
 
-  componentDidUpdate ({ syncRef }) {
+  componentDidUpdate({ syncRef }) {
     if (syncRef === this.props.syncRef) {
       return
     }
@@ -25,11 +25,11 @@ class Timer extends Component {
     this.intervalID = setInterval(() => this.forceUpdate(), this.props.interval)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     clearInterval(this.intervalID)
   }
 
-  render () {
+  render() {
     return this.props.children()
   }
 }

@@ -12,7 +12,7 @@ const DASH_CONNECTOR_REGEX = new RegExp(DASH_CONNECTOR, 'g')
 export const METRIC_CONNECTOR = '_MC_'
 export const checkIsProjectMetricKey = (key) => key.includes(METRIC_CONNECTOR)
 
-function searchFromSubmetrics (key) {
+function searchFromSubmetrics(key) {
   for (let list of Object.values(Submetrics)) {
     const found = list.find(({ key: subMetricKey }) => subMetricKey === key)
     if (found) return found
@@ -32,13 +32,13 @@ const parseNormalizedSlug = (normalizedSlug) =>
 const buildKey = (slug, ticker, metricKey) =>
   `${normalizeSlug(slug)}${METRIC_CONNECTOR}${ticker}${METRIC_CONNECTOR}${metricKey}`
 
-export function buildProjectMetricKey (project, metric) {
+export function buildProjectMetricKey(project, metric) {
   const { slug, ticker } = project
 
   return buildKey(slug, ticker, metric.key)
 }
 
-export function newProjectMetric (project, baseMetric, projectMetricKey) {
+export function newProjectMetric(project, baseMetric, projectMetricKey) {
   const key = projectMetricKey || buildProjectMetricKey(project, baseMetric)
   const cached = ProjectMetricCache.get(key)
 
@@ -67,7 +67,11 @@ const DEFAULT_CONTROLLER = {
   parseSlug: true,
 }
 const getController = (controller) => Object.assign({}, DEFAULT_CONTROLLER, controller)
+<<<<<<< HEAD
 export function getProjectMetricByKey (key, connector = METRIC_CONNECTOR, controller) {
+=======
+export function getProjectMetricByKey(key, connector = METRIC_CONNECTOR, controller) {
+>>>>>>> master
   const { getMetricByKey, newProjectMetric, parseSlug } = getController(controller)
   let [slug, ticker, metricKey] = key.split(connector)
   const metric = getMetricByKey(metricKey)
@@ -86,7 +90,7 @@ export function getProjectMetricByKey (key, connector = METRIC_CONNECTOR, contro
   )
 }
 
-export function convertBaseProjectMetric (metric, project) {
+export function convertBaseProjectMetric(metric, project) {
   if (metric.project) {
     const { base } = metric
     return metric.indicator ? cacheIndicator(base.base, metric.indicator) : base

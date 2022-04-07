@@ -5,7 +5,7 @@ import { clearCtx } from '../../../ducks/Chart/utils'
 import { useChart } from '../../../ducks/Chart/context'
 import { drawAlertPlus } from '../../../ducks/Chart/Tooltip/alert'
 
-function plotTooltip (chart, point, setCurrentPoint) {
+function plotTooltip(chart, point, setCurrentPoint) {
   const { hoverLineColor } = chart
   const { x, value: datetime } = point
   const { y, value } = point.social_volume_total

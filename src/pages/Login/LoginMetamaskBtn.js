@@ -23,7 +23,7 @@ const LoginMetamaskBtn = ({ loginError, showErrorNotification, requestAuth }) =>
     showErrorNotification()
   }
 
-  function askAuth (consent) {
+  function askAuth(consent) {
     requestAuth(consent)
     trackEvent({
       category: 'User',

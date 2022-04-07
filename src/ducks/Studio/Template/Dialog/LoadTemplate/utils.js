@@ -12,7 +12,7 @@ export const isUserAuthorOfTemplate = (user, template) => {
 export const usePublicTemplates = (template) => {
   const [updateTemplate] = useUpdateTemplate()
   const [isPublic, setIsPublic] = useState(template.isPublic)
-  function toggleIsPublic (e) {
+  function toggleIsPublic(e) {
     e.stopPropagation()
 
     setIsPublic((state) => {

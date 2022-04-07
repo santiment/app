@@ -3,7 +3,15 @@ import { useQuery } from '@apollo/react-hooks'
 export const DEFAULT_INSIGHTS_PER_PAGE = 10
 
 export const useInsightsBy = (variables, query) => {
+<<<<<<< HEAD
   const { data = {}, loading, error } = useQuery(query, {
+=======
+  const {
+    data = {},
+    loading,
+    error,
+  } = useQuery(query, {
+>>>>>>> master
     variables,
   })
 

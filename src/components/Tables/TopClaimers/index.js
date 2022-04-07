@@ -17,13 +17,17 @@ export const RANGES = [
   { value: 1, label: '24h' },
 ]
 
+<<<<<<< HEAD
 function getBalance (balances = [], address) {
+=======
+function getBalance(balances = [], address) {
+>>>>>>> master
   const { balanceEnd: balance = '' } = balances.find((item) => item.address === address) || {}
 
   return balance
 }
 
-function getVolumes (volumes = [], address) {
+function getVolumes(volumes = [], address) {
   const {
     transactionVolumeInflow: volumeInflow = '',
     transactionVolumeOutflow: volumeOutflow = '',
@@ -32,7 +36,7 @@ function getVolumes (volumes = [], address) {
   return { volumeInflow, volumeOutflow }
 }
 
-function makeData ({ items, balances, volumes }) {
+function makeData({ items, balances, volumes }) {
   return items.map(({ address, ...rest }) => ({
     address,
     ...rest,

@@ -20,7 +20,7 @@ const CabinetPreview = () => {
 
   const [hidden, setHidden] = useState(updateState)
 
-  function toggle () {
+  function toggle() {
     const newValue = !hidden
     setHidden(newValue)
 

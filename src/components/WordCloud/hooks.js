@@ -17,7 +17,7 @@ const useIsoTime = ({ from, to }) => {
   }, [from, to])
 }
 
-export function useWordCloud ({ size = 25, word, from, to, onLoad }) {
+export function useWordCloud({ size = 25, word, from, to, onLoad }) {
   const { toIso, fromIso } = useIsoTime({ from, to })
 
   const query = useQuery(WORD_CLOUD_QUERY, {

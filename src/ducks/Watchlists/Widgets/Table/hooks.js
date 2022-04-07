@@ -5,7 +5,7 @@ import { DEFAULT_ORDER_BY, DIRECTIONS } from './Columns/defaults'
 const pageSize = 20
 const EMPTY_ARRAY = []
 
-export function useColumns (type) {
+export function useColumns(type) {
   const defaultPagination = { page: 1, pageSize: +pageSize }
   const [pagination, setPagination] = useState(defaultPagination)
   const [orderBy, setOrderBy] = useState(DEFAULT_ORDER_BY)

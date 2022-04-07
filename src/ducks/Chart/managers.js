@@ -1,9 +1,9 @@
 export const Plotter = () => ({
   items: new Map(),
-  delete (id) {
+  delete(id) {
     this.items.delete(id)
   },
-  register (id, clb) {
+  register(id, clb) {
     this.items.set(id, clb)
   },
 })
@@ -13,10 +13,10 @@ export const Observer = () => {
   const envoke = (subscriber) => subscriber()
 
   return {
-    emit () {
+    emit() {
       subscribers.forEach(envoke)
     },
-    subscribe (subscriber) {
+    subscribe(subscriber) {
       subscribers.add(subscriber)
 
       return () => {

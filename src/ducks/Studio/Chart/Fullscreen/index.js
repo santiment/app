@@ -70,7 +70,7 @@ const FullscreenChart = ({
     setMetricTransformer(metricTransformer)
   }, [metrics])
 
-  function changeTimePeriod (fromDate, toDate) {
+  function changeTimePeriod(fromDate, toDate) {
     const interval = getNewInterval(fromDate, toDate)
 
     setSettings((state) => ({
@@ -81,7 +81,7 @@ const FullscreenChart = ({
     }))
   }
 
-  function onBrushChangeEnd (startIndex, endIndex) {
+  function onBrushChangeEnd(startIndex, endIndex) {
     const start = brushData[startIndex]
     const end = brushData[endIndex]
     if (start && end) {
@@ -89,7 +89,7 @@ const FullscreenChart = ({
     }
   }
 
-  function onRangeSelect ({ value: leftDate }, { value: rightDate }) {
+  function onRangeSelect({ value: leftDate }, { value: rightDate }) {
     if (leftDate === rightDate) return
 
     const dates = leftDate < rightDate ? [leftDate, rightDate] : [rightDate, leftDate]

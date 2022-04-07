@@ -64,7 +64,7 @@ const LiveWidget = () => {
     }
   }, [isShow])
 
-  function initPlayer () {
+  function initPlayer() {
     if (initCounter >= MAX_INIT_ATTEMPTS) {
       Sentry.captureException("can't initialize youtube iframe api")
       return
@@ -108,7 +108,7 @@ const LiveWidget = () => {
     }
   }
 
-  function onWidgetClick () {
+  function onWidgetClick() {
     setIsHidden(true)
     hideWidget(videoId)
   }

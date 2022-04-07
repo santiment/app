@@ -2,7 +2,7 @@ import memoize from 'lodash.memoize'
 import { formatNumber, millify } from '../../../../utils/formatting'
 import { getTreeMapColor } from './ColorsExplanation'
 
-export function getBarColor (val) {
+export function getBarColor(val) {
   return +val > 0 ? 'var(--jungle-green)' : 'var(--persimmon)'
 }
 

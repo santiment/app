@@ -7,14 +7,14 @@ import styles from './index.module.scss'
 
 const trxValueFormatter = new Intl.NumberFormat('en')
 
-function formatValue (value, ticker, isSending) {
+function formatValue(value, ticker, isSending) {
   const formattedValue = trxValueFormatter.format(
     +(value < 1 ? value.toFixed(6) : value.toFixed(2)),
   )
   return `${isSending ? '-' : '+'} ${formattedValue} ${ticker || 'unknown asset'}`
 }
 
-function getDatetime (datetime) {
+function getDatetime(datetime) {
   const date = new Date(datetime)
   const { YYYY, MMM, DD } = getDateFormats(date)
   const { HH, mm, ss } = getTimeFormats(date)

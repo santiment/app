@@ -26,7 +26,7 @@ const LOADING = {
 const DEFAULT = {
   marketcap: NULL_MARKETCAP,
 }
-export function useMarketcap (data, watchlist, onLoad, accessor) {
+export function useMarketcap(data, watchlist, onLoad, accessor) {
   return useMemo(() => {
     if (!data) return LOADING
     if (onLoad) onLoad()
@@ -53,7 +53,7 @@ export function useMarketcap (data, watchlist, onLoad, accessor) {
   }, [data])
 }
 
-function useWatchlistMarketcap (variables, skip, onLoad) {
+function useWatchlistMarketcap(variables, skip, onLoad) {
   const { data } = useQuery(WATCHLIST_MARKETCAP_HISTORY_QUERY, {
     variables,
     skip,

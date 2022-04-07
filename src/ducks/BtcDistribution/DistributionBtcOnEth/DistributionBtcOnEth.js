@@ -6,7 +6,7 @@ import {
 } from '../../../components/DashboardMetricChart/utils'
 import { Metric } from '../../dataHub/metrics'
 
-function makeMetric (slug) {
+function makeMetric(slug) {
   return {
     key: `total_supply_${slug.replaceAll('-', '_')}`,
     queryKey: 'total_supply',

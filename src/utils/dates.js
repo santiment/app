@@ -272,7 +272,7 @@ export const getUTCTimeFormats = (date) => {
   }
 }
 
-export function parseIntervalString (range) {
+export function parseIntervalString(range) {
   const amount = parseInt(range, 10)
   return {
     amount,
@@ -280,7 +280,7 @@ export function parseIntervalString (range) {
   }
 }
 
-export function getIntervalMilliseconds (interval) {
+export function getIntervalMilliseconds(interval) {
   const { amount, format } = parseIntervalString(interval)
   const formatMs = FormatToTimestamp[format === MONTH ? MINUTE : format]
   return amount * formatMs
@@ -292,7 +292,7 @@ export const getNewTimerangePeriod = (timerange) => ({
 })
 
 // TODO: Replace 'getIntervalByTimeRange' with this function [@vanguard | Oct 20, 2020]
-export function getTimerangePeriod (timerange) {
+export function getTimerangePeriod(timerange) {
   const to = new Date()
   to.setHours(to.getHours(), 59, 59, 999)
 
@@ -427,11 +427,11 @@ export const convertToReadableInterval = memoize((timebound) => {
   return `${amount} ${FormatToString[format]}${plural}`
 })
 
-export function startOfMonth (date) {
+export function startOfMonth(date) {
   return new Date(date.getFullYear(), date.getMonth(), 1)
 }
 
-export function checkIsToday (targetDate) {
+export function checkIsToday(targetDate) {
   const today = new Date()
   return (
     targetDate.getDate() === today.getDate() &&

@@ -28,7 +28,7 @@ const Search = () => {
     const input = inputRef.current
     if (!input) return
 
-    function onKeyPress (e) {
+    function onKeyPress(e) {
       const { code, target } = e
 
       if (code === 'Slash' && !EDITABLE_TAGS.has(target.tagName) && !target.isContentEditable) {
@@ -42,15 +42,15 @@ const Search = () => {
     return () => window.removeEventListener('keypress', onKeyPress)
   }, [])
 
-  function openSuggestions () {
+  function openSuggestions() {
     setIsOpened(true)
   }
 
-  function closeSuggestions () {
+  function closeSuggestions() {
     setIsOpened(false)
   }
 
-  function onSuggestionSelect (node, item, category) {
+  function onSuggestionSelect(node, item, category) {
     const href = node.getAttribute('href')
 
     addRecent(category, item)
