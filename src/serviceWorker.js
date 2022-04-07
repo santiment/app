@@ -3,9 +3,7 @@ const isLocalhost = Boolean(
     // [::1] is the IPv6 localhost address.
     window.location.hostname === '[::1]' ||
     // 127.0.0.1/8 is considered localhost for IPv4.
-    window.location.hostname.match(
-      /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
-    )
+    window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/),
 )
 
 const addSw = (swUrl, config) => {
@@ -57,7 +55,7 @@ export const requestNotificationPermission = (success, reject) => {
   // default: user has dismissed the notification permission popup by clicking on x
   // denied: user has denied the request.
 
-  permission.then(p => {
+  permission.then((p) => {
     if (p !== 'granted') {
       console.warn('Permission not granted for Notification')
       reject && reject()
@@ -69,17 +67,11 @@ export const requestNotificationPermission = (success, reject) => {
 
 function registerValidSW (
   swUrl,
-  {
-    callback,
-    hideRegistrationChecking,
-    markAsLatestApp,
-    onUpdate,
-    onSuccess
-  } = {}
+  { callback, hideRegistrationChecking, markAsLatestApp, onUpdate, onSuccess } = {},
 ) {
   navigator.serviceWorker
     .register(swUrl)
-    .then(registration => {
+    .then((registration) => {
       if (!hideRegistrationChecking) {
         registration.onupdatefound = () => {
           const installingWorker = registration.installing
@@ -96,7 +88,7 @@ function registerValidSW (
                 // content until all client tabs are closed.
                 console.log(
                   'New content is available and will be used when all ' +
-                    'tabs for this page are closed. See https://bit.ly/CRA-PWA.'
+                    'tabs for this page are closed. See https://bit.ly/CRA-PWA.',
                 )
 
                 registration.needUpdates = true
@@ -130,7 +122,7 @@ function registerValidSW (
         callback && callback()
       }
     })
-    .catch(error => {
+    .catch((error) => {
       console.error('Error during service worker registration:', error)
     })
 }
@@ -138,7 +130,7 @@ function registerValidSW (
 function checkValidServiceWorker (swUrl, config) {
   // Check if the service worker can be found. If it can't reload the page.
   fetch(swUrl)
-    .then(response => {
+    .then((response) => {
       // Ensure service worker exists, and that we really are getting a JS file.
       const contentType = response.headers.get('content-type')
       if (
@@ -146,7 +138,7 @@ function checkValidServiceWorker (swUrl, config) {
         (contentType != null && contentType.indexOf('javascript') === -1)
       ) {
         // No service worker found. Probably a different app. Reload the page.
-        navigator.serviceWorker.ready.then(registration => {
+        navigator.serviceWorker.ready.then((registration) => {
           registration.unregister().then(() => {
             window.location.reload()
           })
@@ -157,15 +149,13 @@ function checkValidServiceWorker (swUrl, config) {
       }
     })
     .catch(() => {
-      console.log(
-        'No internet connection found. App is running in offline mode.'
-      )
+      console.log('No internet connection found. App is running in offline mode.')
     })
 }
 
 export function unregister () {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.ready.then(registration => {
+    navigator.serviceWorker.ready.then((registration) => {
       registration.unregister()
     })
   }

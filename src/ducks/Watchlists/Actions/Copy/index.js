@@ -22,7 +22,7 @@ const WatchlistCopyPopup = ({
   sendChanges,
   setNotification,
   checkedAssets = new Set(),
-  type
+  type,
 }) => {
   const { isLoggedIn } = useUser()
   const [watchlists, isWatchlistsLoading] = useUserWatchlists(type)
@@ -31,9 +31,7 @@ const WatchlistCopyPopup = ({
   const [warning, setWarning] = useState(false)
   const [assetsToCopy, setAssetsToCopy] = useState()
   const [watchlistsToCopy, setWatchlistsToCopy] = useState(new Set())
-  const [editWatchlistState, setEditWatchlistState] = useState(
-    editableWatchlists
-  )
+  const [editWatchlistState, setEditWatchlistState] = useState(editableWatchlists)
   const { addWatchlistItems } = useAddWatchlistItems()
 
   if (!isLoggedIn) return <LoginPopup>{trigger}</LoginPopup>
@@ -43,28 +41,23 @@ const WatchlistCopyPopup = ({
     setAssetsToCopy(new Set())
     setEditing(false)
     setIsShown(false)
-    window.dispatchEvent(
-      new CustomEvent('panelVisibilityChange', { detail: 'show' })
-    )
+    window.dispatchEvent(new CustomEvent('panelVisibilityChange', { detail: 'show' }))
   }
 
   const open = () => {
     setIsShown(true)
     setAssetsToCopy(checkedAssets)
-    window.dispatchEvent(
-      new CustomEvent('panelVisibilityChange', { detail: 'hide' })
-    )
+    window.dispatchEvent(new CustomEvent('panelVisibilityChange', { detail: 'hide' }))
   }
 
-  const normalizeListItems = items =>
-    items ? items.map(({ project: { id } }) => id) : []
+  const normalizeListItems = (items) => (items ? items.map(({ project: { id } }) => id) : [])
 
   const checkRemainingAssets = (listId, assets) => {
     const list = lists.find(({ id }) => listId === id)
     const listItems = list ? list.listItems : []
 
-    const remainingAssets = [...assets].filter(id => {
-      const assetInList = listItems.some(itemId => itemId === id)
+    const remainingAssets = [...assets].filter((id) => {
+      const assetInList = listItems.some((itemId) => itemId === id)
       return !assetInList
     })
 
@@ -77,7 +70,7 @@ const WatchlistCopyPopup = ({
     .reverse()
     .map(({ listItems, ...rest }) => ({
       ...rest,
-      listItems: normalizeListItems(listItems)
+      listItems: normalizeListItems(listItems),
     }))
 
   if (editableWatchlists.length !== editWatchlistState.length) {
@@ -86,7 +79,7 @@ const WatchlistCopyPopup = ({
       setNotification({
         description: 'Copying completed successfully',
         title: 'Success',
-        variant: 'success'
+        variant: 'success',
       })
       close()
     }
@@ -97,12 +90,10 @@ const WatchlistCopyPopup = ({
       if (isEditing) setEditing(false)
       if (warning) setWarning(false)
     } else if (assets.size > 0 && watchlists.size > 0) {
-      const hasWatchlistWithoutSelectedAssets = [...watchlists].some(
-        assetsListId => {
-          const remainingAssets = checkRemainingAssets(assetsListId, assets)
-          return remainingAssets.length > 0
-        }
-      )
+      const hasWatchlistWithoutSelectedAssets = [...watchlists].some((assetsListId) => {
+        const remainingAssets = checkRemainingAssets(assetsListId, assets)
+        return remainingAssets.length > 0
+      })
       if (hasWatchlistWithoutSelectedAssets !== isEditing) {
         setEditing(hasWatchlistWithoutSelectedAssets)
       }
@@ -120,7 +111,7 @@ const WatchlistCopyPopup = ({
     return listCopy
   }
 
-  const onAssetClick = id => {
+  const onAssetClick = (id) => {
     const assets = toggleItem(assetsToCopy, id)
     setAssetsToCopy(assets)
     checkEditingState(assets, watchlistsToCopy)
@@ -133,35 +124,31 @@ const WatchlistCopyPopup = ({
   }
 
   const applyChanges = () => {
-    watchlistsToCopy.forEach(assetsListId => {
+    watchlistsToCopy.forEach((assetsListId) => {
       const remainingAssets = checkRemainingAssets(assetsListId, assetsToCopy)
       if (remainingAssets.length > 0) {
         const list = lists.find(({ id }) => assetsListId === id)
         const changes = {
           assetsListId,
           currentId,
-          listItems: [...list.listItems, ...remainingAssets].map(id => ({
-            id
-          }))
+          listItems: [...list.listItems, ...remainingAssets].map((id) => ({
+            id,
+          })),
         }
         if (type === BLOCKCHAIN_ADDRESS) {
           const listItems = assets
-            .filter(asset =>
-              remainingAssets.includes(asset.blockchainAddress.address)
-            )
-            .map(({ blockchainAddress }) =>
-              mapAddressToAPIType(blockchainAddress)
-            )
+            .filter((asset) => remainingAssets.includes(asset.blockchainAddress.address))
+            .map(({ blockchainAddress }) => mapAddressToAPIType(blockchainAddress))
           addWatchlistItems({
             variables: {
               id: +assetsListId,
-              listItems
-            }
+              listItems,
+            },
           }).then(() => {
             setNotification({
               description: 'Copying completed successfully',
               title: 'Success',
-              variant: 'success'
+              variant: 'success',
             })
             close()
           })
@@ -223,17 +210,17 @@ const WatchlistCopyPopup = ({
   )
 }
 
-const mapStateToProps = state => ({
-  watchlistUi: state.watchlistUi
+const mapStateToProps = (state) => ({
+  watchlistUi: state.watchlistUi,
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   sendChanges: ({ assetsListId, listItems, currentId }) =>
     dispatch({
       type: USER_EDIT_ASSETS_IN_LIST,
-      payload: { assetsListId, listItems, currentId }
+      payload: { assetsListId, listItems, currentId },
     }),
-  setNotification: message => dispatch(showNotification(message))
+  setNotification: (message) => dispatch(showNotification(message)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(WatchlistCopyPopup)

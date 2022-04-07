@@ -6,7 +6,7 @@ import tableStyles from '../../AssetsTable.module.scss'
 import styles from './Actions.module.scss'
 
 const Copy = ({ selectedText, watchlist, assets, selected }) => {
-  const checkedAssetsMap = s =>
+  const checkedAssetsMap = (s) =>
     watchlist.type === 'BLOCKCHAIN_ADDRESS' ? s.address : s.id.toString()
   return (
     <div>

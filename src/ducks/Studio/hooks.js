@@ -33,14 +33,10 @@ export function useKeyboardCmdShortcut (key, clb, target = window) {
   }, [clb, target])
 }
 
-export function useMetricSettingsAdjuster (
-  MetricSettingMap,
-  settings,
-  metrics
-) {
+export function useMetricSettingsAdjuster (MetricSettingMap, settings, metrics) {
   const { from, to } = settings
   useMemo(() => {
-    metrics.forEach(metric => {
+    metrics.forEach((metric) => {
       const intervalGetter = MetricIntervalGetter[metric.key]
       if (!intervalGetter) return
 

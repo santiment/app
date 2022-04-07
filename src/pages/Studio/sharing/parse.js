@@ -4,14 +4,8 @@ import { parse } from 'query-string'
 import { Metric } from 'studio/metrics'
 import { HolderDistributionMetric } from 'studio/metrics/_onchain/holderDistributions'
 import { newProjectMetric } from 'studio/metrics/utils'
-import {
-  MERGED_DIVIDER,
-  buildMergedMetric
-} from 'studio/HolderDistributionWidget/utils'
-import {
-  cacheIndicator,
-  Indicator
-} from 'studio/ChartWidget/MetricSettings/IndicatorSetting/utils'
+import { MERGED_DIVIDER, buildMergedMetric } from 'studio/HolderDistributionWidget/utils'
+import { cacheIndicator, Indicator } from 'studio/ChartWidget/MetricSettings/IndicatorSetting/utils'
 import { newExpessionMetric } from 'studio/CombineDialog/utils'
 import { parseMetricGraphValue } from './settings'
 import { getWidgetByKey, parseSubwidgets } from './widgets'
@@ -19,23 +13,17 @@ import { parseDrawings } from './drawings'
 import { parseChartAddons } from './addons'
 import { ExternalWidgetCreator } from '../Widget'
 import { parseSharedSidepanel } from '../../../ducks/Studio/url/parse'
-import {
-  getProjectMetricByKey,
-  checkIsProjectMetricKey
-} from '../../../ducks/Studio/metrics'
+import { getProjectMetricByKey, checkIsProjectMetricKey } from '../../../ducks/Studio/metrics'
 import { COMPARE_CONNECTOR } from '../../../ducks/Studio/url/utils'
 
 const CONTROLLER = {
   newProjectMetric,
-  getMetricByKey: key => Metric[key] || parseMergedMetric(key)
+  getMetricByKey: (key) => Metric[key] || parseMergedMetric(key),
 }
 function getMetric (metricKey) {
   const isLegacyCompareMetric = metricKey.includes(COMPARE_CONNECTOR)
   if (checkIsProjectMetricKey(metricKey) || isLegacyCompareMetric) {
-    const controller = Object.assign(
-      { parseSlug: metricKey[0] === '_' },
-      CONTROLLER
-    )
+    const controller = Object.assign({ parseSlug: metricKey[0] === '_' }, CONTROLLER)
 
     const connector = isLegacyCompareMetric ? COMPARE_CONNECTOR : undefined
     return getProjectMetricByKey(metricKey, connector, controller)
@@ -55,7 +43,7 @@ function parseAxesMetrics (metrics, KnownMetric) {
 
   const disabledAxesMetrics = new Set(Object.values(KnownMetric))
   const axesMetrics = new Set()
-  metrics.forEach(metricKey => {
+  metrics.forEach((metricKey) => {
     const metric = KnownMetric[metricKey]
     if (metric) {
       axesMetrics.add(metric)
@@ -70,7 +58,7 @@ function parseIndicators (indicators, KnownMetric, metrics) {
 
   if (!indicators) return MetricIndicators
 
-  metrics.forEach(metricKey => {
+  metrics.forEach((metricKey) => {
     if (!indicators[metricKey]) {
       // HACK(vanguard): forcing indicator parse from metric key
       metricKey = metricKey.slice(metricKey.indexOf('_') + 1)
@@ -100,14 +88,12 @@ function parseMergedMetric (metricKey) {
   const mergedMetricKeys = metricKey.split(MERGED_DIVIDER)
   if (mergedMetricKeys.length < 2) return
 
-  return buildMergedMetric(
-    mergedMetricKeys.map(key => HolderDistributionMetric[key])
-  )
+  return buildMergedMetric(mergedMetricKeys.map((key) => HolderDistributionMetric[key]))
 }
 
 function parseMergedMetrics (metrics, KnownMetric) {
   const mergedMetrics = []
-  metrics.forEach(metricKey => {
+  metrics.forEach((metricKey) => {
     let metric
     try {
       metric = parseMergedMetric(metricKey)
@@ -126,14 +112,14 @@ function parseMergedMetrics (metrics, KnownMetric) {
 function parseMetrics (metrics, comparables = [], KnownMetric) {
   return metrics
     .concat(comparables)
-    .map(key => parseMetric(key, KnownMetric))
+    .map((key) => parseMetric(key, KnownMetric))
     .filter(Boolean)
 }
 
 function parseProjectCombinedMetrics (metric) {
   return getProjectMetricByKey(metric.key, undefined, {
     getMetricByKey: () => metric,
-    parseSlug: false
+    parseSlug: false,
   })
 }
 
@@ -206,15 +192,13 @@ function tryParseSettings (settings) {
 }
 
 export function parseUrl (url) {
-  const { settings, widgets, sidepanel, layout } = parse(
-    url.slice(url.indexOf('?'))
-  )
+  const { settings, widgets, sidepanel, layout } = parse(url.slice(url.indexOf('?')))
 
   return {
     settings: settings && tryParseSettings(settings),
     widgets: widgets && tryParseWidgets(widgets),
     sidewidget: sidepanel && tryParseSharedSidewidget(sidepanel),
-    layout
+    layout,
   }
 }
 
@@ -226,7 +210,7 @@ export function useUrlParse (parsedUrl) {
     return {
       settings,
       widgets,
-      sidewidget
+      sidewidget,
     }
   }, [])
 }

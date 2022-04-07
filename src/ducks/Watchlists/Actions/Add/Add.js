@@ -21,12 +21,7 @@ const Watchlist = ({ watchlist, isActive, onClick }) => {
   )
 }
 
-const Watchlists = ({
-  selections,
-  onLoaded,
-  onWatchlistClick,
-  getWatchlists
-}) => {
+const Watchlists = ({ selections, onLoaded, onWatchlistClick, getWatchlists }) => {
   const [watchlists, isLoading] = getWatchlists()
 
   useEffect(() => {
@@ -38,7 +33,7 @@ const Watchlists = ({
       <div className={styles.watchlists}>
         {isLoading && <Loader className={styles.loader} />}
         {isLoading || watchlists.length
-          ? watchlists.map(watchlist => (
+          ? watchlists.map((watchlist) => (
               <Watchlist
                 key={watchlist.id}
                 watchlist={watchlist}
@@ -64,7 +59,7 @@ const AddToWatchlistDialog = ({
   trigger,
   getWatchlists,
   checkIsWatchlistSelected,
-  onChangesApply
+  onChangesApply,
 }) => {
   const [isOpened, setIsOpened] = useState(false)
   const [initialSelections, setInitialSelections] = useState(SET)
@@ -115,7 +110,7 @@ const AddToWatchlistDialog = ({
     const removedFromSet = new Set(initialSelections)
     const addedToSet = new Set(selections)
 
-    removedFromSet.forEach(watchlist => {
+    removedFromSet.forEach((watchlist) => {
       if (addedToSet.has(watchlist)) {
         addedToSet.delete(watchlist)
         removedFromSet.delete(watchlist)
@@ -130,10 +125,8 @@ const AddToWatchlistDialog = ({
       setIsOpened(false)
       store.dispatch(
         showNotification(
-          `${amountModified} watchlist${
-            amountModified > 1 ? 's were' : ' was'
-          } modified`
-        )
+          `${amountModified} watchlist${amountModified > 1 ? 's were' : ' was'} modified`,
+        ),
       )
     })
   }

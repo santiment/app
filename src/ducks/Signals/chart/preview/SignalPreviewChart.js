@@ -5,7 +5,7 @@ import {
   getOldMetricsByType,
   getSlugFromSignalTarget,
   getTimeRangeForChart,
-  isNewTypeSignal
+  isNewTypeSignal,
 } from '../../utils/utils'
 import { DAILY_ACTIVE_ADDRESSES } from '../../utils/constants'
 import {
@@ -13,7 +13,7 @@ import {
   makeSameRange,
   mapToRequestedMetrics,
   mapWithTimeseriesAndYCoord,
-  getAvailableCooldown
+  getAvailableCooldown,
 } from './utils'
 import VisualBacktestChart, { GetReferenceDots } from '../VisualBacktestChart'
 import { getMetricYAxisId } from '../../../SANCharts/utils'
@@ -21,17 +21,8 @@ import { useTimeseries } from '../../../Studio/timeseries/hooks'
 import { Skeleton } from '../../../../components/Skeleton'
 import styles from './SignalPreviewChart.module.scss'
 
-const SignalPreviewChart = ({
-  target,
-  type: oldSignalType,
-  points,
-  showTitle,
-  trigger
-}) => {
-  const { label, from, to } = useMemo(
-    () => getTimeRangeForChart(oldSignalType),
-    [oldSignalType]
-  )
+const SignalPreviewChart = ({ target, type: oldSignalType, points, showTitle, trigger }) => {
+  const { label, from, to } = useMemo(() => getTimeRangeForChart(oldSignalType), [oldSignalType])
 
   useEffect(() => clearCache, [])
 
@@ -59,38 +50,33 @@ const SignalPreviewChart = ({
       slug,
       address,
       from,
-      to
+      to,
     }
   }, [metricsInterval, slug, address, from, to])
 
   const requestedMetrics = useMemo(() => {
     return mapToRequestedMetrics(metrics, {
       reqMeta: {
-        infrastructure
-      }
+        infrastructure,
+      },
     })
   }, [infrastructure, metrics])
 
   const [data, loadings] = useTimeseries(requestedMetrics, settings)
 
-  const merged = useMemo(
-    () => cleanByDatakeys(data, triggersBy.dataKey || triggersBy.key),
-    [data, triggersBy]
-  )
+  const merged = useMemo(() => cleanByDatakeys(data, triggersBy.dataKey || triggersBy.key), [
+    data,
+    triggersBy,
+  ])
 
   let triggeredSignals = useMemo(() => {
-    const filtered = points.filter(point => point['triggered?'])
+    const filtered = points.filter((point) => point['triggered?'])
 
     return makeSameRange(filtered, merged)
   }, [points, merged])
 
   const alertPoints = useMemo(() => {
-    return mapWithTimeseriesAndYCoord(
-      triggeredSignals,
-      triggersBy,
-      merged,
-      isStrongDaily
-    )
+    return mapWithTimeseriesAndYCoord(triggeredSignals, triggersBy, merged, isStrongDaily)
   }, [triggeredSignals, triggersBy, merged, isStrongDaily])
 
   const referenceDots = useMemo(
@@ -98,7 +84,7 @@ const SignalPreviewChart = ({
       triggeredSignals.length > 0 && triggersBy
         ? GetReferenceDots(alertPoints, getMetricYAxisId(triggersBy))
         : null,
-    [alertPoints, triggersBy, triggeredSignals]
+    [alertPoints, triggersBy, triggeredSignals],
   )
 
   if (!slug) {

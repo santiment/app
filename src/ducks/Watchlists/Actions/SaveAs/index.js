@@ -29,7 +29,7 @@ const SaveAs = ({ watchlist, trigger, type, prefix = 'Duplicate' }) => {
       ...props,
       listItems: props.listItems || listItems,
       function: fn,
-      openOnSuccess: true
+      openOnSuccess: true,
     }).then(closeDialog)
   }
 

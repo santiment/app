@@ -34,14 +34,14 @@ export const refetchUser = buildRefetcher(USER_QUERY)
 
 export function updateUser (newUser) {
   const { currentUser } = client.readQuery({
-    query: USER_QUERY
+    query: USER_QUERY,
   })
 
   client.writeQuery({
     query: USER_QUERY,
     data: {
-      currentUser: newUser && Object.assign({}, currentUser, newUser)
-    }
+      currentUser: newUser && Object.assign({}, currentUser, newUser),
+    },
   })
 }
 
@@ -55,7 +55,7 @@ export function useUser () {
     return {
       loading,
       user,
-      isLoggedIn: !!user
+      isLoggedIn: !!user,
     }
   }, [query])
 }

@@ -12,7 +12,7 @@ const ValueInput = ({ onChange, type, metric, ...props }) => {
     badge = ''
   }
 
-  const onChangeDebounced = useDebounce(value => {
+  const onChangeDebounced = useDebounce((value) => {
     let transformedValue = value
     if (Filter[type].onlyPositiveNumbers) {
       transformedValue = Math.abs(value)

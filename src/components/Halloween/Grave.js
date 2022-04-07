@@ -1,11 +1,7 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import { useTheme } from '../../stores/ui/theme'
-import {
-  isShowHalloween,
-  addGrave,
-  getCheckedGraves
-} from '../../utils/halloween'
+import { isShowHalloween, addGrave, getCheckedGraves } from '../../utils/halloween'
 import HalloweenPopup from './Popup'
 import { useTrackEvents } from '../../hooks/tracking'
 import styles from './index.module.scss'
@@ -24,7 +20,7 @@ const Grave = ({ knockNumber, setKnockNumber, slug, name }) => {
       const graves = addGrave(slug)
       trackEvent({
         category: 'Halloween',
-        action: `Halloween grave click on ${slug} page`
+        action: `Halloween grave click on ${slug} page`,
       })
       setCheckedGraves(graves)
     }

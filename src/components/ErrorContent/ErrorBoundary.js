@@ -4,7 +4,7 @@ import ErrorContent from './ErrorContent'
 
 class ErrorBoundary extends Component {
   state = {
-    error: null
+    error: null,
   }
 
   setError (error) {

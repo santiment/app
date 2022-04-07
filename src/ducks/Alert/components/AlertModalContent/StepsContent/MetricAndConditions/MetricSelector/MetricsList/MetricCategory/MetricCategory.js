@@ -8,24 +8,15 @@ const buttonProps = {
   tooltipPosition: 'top',
   btnClassName: styles.button,
   addIconClassName: styles.addIcon,
-  infoClassName: styles.infoIcon
+  infoClassName: styles.infoIcon,
 }
 
-const MetricCategory = ({
-  category,
-  metricsList,
-  project,
-  onSelect,
-  defaultOpen
-}) => {
-  const categoryKeys = useMemo(() => Object.keys(metricsList[category]), [
-    metricsList,
-    category
-  ])
+const MetricCategory = ({ category, metricsList, project, onSelect, defaultOpen }) => {
+  const categoryKeys = useMemo(() => Object.keys(metricsList[category]), [metricsList, category])
   const metrics = metricsList[category]
 
   const renderMetrics = useCallback(
-    categories =>
+    (categories) =>
       categories.map(({ item, subitems }) => {
         const children = (
           <MetricButton
@@ -43,7 +34,7 @@ const MetricCategory = ({
             <div key={item.key}>
               {children}
               <div className={styles.subitemsWrapper}>
-                {subitems.map(subitem => (
+                {subitems.map((subitem) => (
                   <MetricButton
                     metric={subitem}
                     key={subitem.key}
@@ -61,12 +52,12 @@ const MetricCategory = ({
 
         return <div key={item.key}>{children}</div>
       }),
-    [project]
+    [project],
   )
 
   const renderCategories = useCallback(
     () =>
-      categoryKeys.map(categoryTitle => {
+      categoryKeys.map((categoryTitle) => {
         if (categoryTitle === NO_GROUP) {
           return renderMetrics(metrics[categoryTitle])
         }
@@ -78,7 +69,7 @@ const MetricCategory = ({
           </div>
         )
       }),
-    [categoryKeys, metrics]
+    [categoryKeys, metrics],
   )
 
   return (
@@ -89,7 +80,7 @@ const MetricCategory = ({
         expansion: styles.expansionContainer,
         title: styles.expansionTitle,
         opened: styles.expansionOpened,
-        arrow: styles.expansionIcon
+        arrow: styles.expansionIcon,
       }}
       iconType='arrow-down'
     >

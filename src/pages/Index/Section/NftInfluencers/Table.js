@@ -12,7 +12,7 @@ import {
   Marketplace,
   getTwitterAccount,
   Transaction,
-  TRXhash
+  TRXhash,
 } from './utils'
 import styles from './index.module.scss'
 
@@ -26,7 +26,7 @@ const Table = ({ isHome = true }) => {
 
   const index = isHome ? HOME_INDEX : PAGE_INDEX
 
-  const columns = index.map(idx => ({
+  const columns = index.map((idx) => ({
     Header: idx,
     accessor: idx,
     collapse: false,
@@ -58,11 +58,11 @@ const Table = ({ isHome = true }) => {
           return <TRXhash hash={row.original.trxHash} />
         case 'When':
           return dateDifferenceInWords({
-            from: new Date(row.original.datetime)
+            from: new Date(row.original.datetime),
           })
         case 'Price':
-          return `${parseFloat(row.original.amount.toFixed(3))} ${row.original
-            .currencyProject && row.original.currencyProject.ticker}`
+          return `${parseFloat(row.original.amount.toFixed(3))} ${row.original.currencyProject &&
+            row.original.currencyProject.ticker}`
         case 'Quantity':
           return row.original.quantity
         case 'Marketplace':
@@ -70,7 +70,7 @@ const Table = ({ isHome = true }) => {
         default:
           return null
       }
-    }
+    },
   }))
 
   const fetchData = ({ pageSize, sortBy }) => {
@@ -94,11 +94,11 @@ const Table = ({ isHome = true }) => {
       fetchData={fetchData}
       options={{
         loadingSettings: {
-          isLoading: loading
+          isLoading: loading,
         },
         sortingSettings: {
           defaultSorting: DEFAULT_SORTING,
-          allowSort: true
+          allowSort: true,
         },
         paginationSettings: !isHome && {
           pageSize,
@@ -106,8 +106,8 @@ const Table = ({ isHome = true }) => {
           onChangePage: setPageIndex,
           pageSizeOptions: PAGE_SIZE_OPTIONS,
           controlledPageCount: Math.ceil(maxAmount / pageSize),
-          manualPagination: true
-        }
+          manualPagination: true,
+        },
       }}
     />
   )

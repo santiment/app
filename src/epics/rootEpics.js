@@ -2,14 +2,8 @@ import 'rxjs'
 import { combineEpics } from 'redux-observable'
 import handleLauched from './handleLaunch'
 import handleLogout from './handleLogout'
-import handleEmailLogin, {
-  digestSubscriptionEpic,
-  handleLoginSuccess
-} from './handleEmailLogin'
-import handleEthLogin, {
-  connectNewWallet,
-  removeConnectedWallet
-} from './handleEthLogin'
+import handleEmailLogin, { digestSubscriptionEpic, handleLoginSuccess } from './handleEmailLogin'
+import handleEthLogin, { connectNewWallet, removeConnectedWallet } from './handleEthLogin'
 import logoutEpic from './../pages/Logout/LogoutEpic'
 import handleGDPR from './handleGDPR'
 import apikeyGenerateEpic from './apikeyGenerateEpic'
@@ -17,30 +11,27 @@ import apikeyRevokeEpic from './apikeyRevokeEpic'
 import {
   removeAssetFromWatchlistEpic,
   addAssetToWatchlistEpic,
-  editAssetsInWatchlistEpic
+  editAssetsInWatchlistEpic,
 } from '../ducks/Watchlists/Actions/Edit/editAssetsInWatchlistEpic'
-import {
-  fetchAssetsFromListEpic,
-  fetchAssetsFromListWithEditEpic
-} from './fetchAssetsEpic'
+import { fetchAssetsFromListEpic, fetchAssetsFromListWithEditEpic } from './fetchAssetsEpic'
 import {
   createSignalEpic,
   removeSignalEpic,
   toggleSignalEpic,
-  updateSignalEpic
+  updateSignalEpic,
 } from '../ducks/Signals/epics'
 import handleNightModeToggle, {
   saveNightModeAfterLaunch,
-  sendNightModeIfDiff
+  sendNightModeIfDiff,
 } from './handleNightModeToggle'
 import handleBetaModeToggle, {
   sendBetaModeIfDiff,
-  saveBetaModeAfterLaunch
+  saveBetaModeAfterLaunch,
 } from './handleBetaModeToggle'
 import {
   connectTelegramEpic,
   generateTelegramDeepLinkEpic,
-  revokeTelegramDeepLinkEpic
+  revokeTelegramDeepLinkEpic,
 } from '../pages/Account/epics'
 import { insightslikesEpic } from '../components/Like/insightslikesEpic'
 import { feedEventlikesEpic } from '../components/Like/feedEventlikesEpic'
@@ -83,5 +74,5 @@ export default combineEpics(
   removeSignalEpic,
   // likes
   insightslikesEpic,
-  feedEventlikesEpic
+  feedEventlikesEpic,
 )

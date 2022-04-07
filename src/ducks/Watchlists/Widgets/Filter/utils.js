@@ -17,7 +17,7 @@ export function getNewFunction (filter, baseProjects = []) {
 // we still have some old-design screeners on prod
 // before delete need to migrate on backend first
 function reconstructFilters (filters) {
-  return filters.map(filter => ({ args: filter, name: 'metric' }))
+  return filters.map((filter) => ({ args: filter, name: 'metric' }))
 }
 
 export function extractFilters ({ filters = [] }) {
@@ -40,10 +40,10 @@ export function filterMetricsBySearch (value = '', metrics) {
   const chars = value.toLowerCase().split('')
   const passedMetrics = []
 
-  metrics.forEach(metric => {
+  metrics.forEach((metric) => {
     const str = metric.label.toLowerCase()
 
-    const foundChars = chars.filter(char => str.includes(char))
+    const foundChars = chars.filter((char) => str.includes(char))
     if (foundChars.length === chars.length) {
       passedMetrics.push(metric)
     }
@@ -58,16 +58,11 @@ function buildFunction ({ fn, pagination, orderBy }) {
   } else {
     return {
       ...fn,
-      args: { pagination, orderBy, ...fn.args }
+      args: { pagination, orderBy, ...fn.args },
     }
   }
 }
 
-export function buildFunctionQuery ({
-  fn,
-  pagination,
-  orderBy,
-  activeColumns
-}) {
+export function buildFunctionQuery ({ fn, pagination, orderBy, activeColumns }) {
   return [buildFunction({ fn, pagination, orderBy }), tableQuery(activeColumns)]
 }

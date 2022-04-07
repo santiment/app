@@ -19,9 +19,7 @@ const AddressTransactions = ({ settings, walletAssets }) => {
 
   return (
     <Section title={<Tabs tabState={tabState} />} className={styles.container}>
-      {activeTab === TabType.LATEST_TRANSACTIONS && (
-        <RecentTransactions settings={settings} />
-      )}
+      {activeTab === TabType.LATEST_TRANSACTIONS && <RecentTransactions settings={settings} />}
       {activeTab === TabType.TOP_TRANSACTIONS && (
         <TopTransactions settings={settings} walletAssets={walletAssets} />
       )}

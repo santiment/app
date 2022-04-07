@@ -12,13 +12,7 @@ import stylesTooltip from '../../components/HelpPopup/HelpPopup.module.scss'
 
 const MAX_DATE = new Date()
 
-const Sidebar = ({
-  topics,
-  linkedAssets,
-  isDesktop,
-  isEmptySearch,
-  ...props
-}) => {
+const Sidebar = ({ topics, linkedAssets, isDesktop, isEmptySearch, ...props }) => {
   const asideRef = useRef(null)
   const [trendDate, setTrendDate] = useState([MAX_DATE])
   const [trendPeriod, setTrendPeriod] = useState()
@@ -61,11 +55,7 @@ const Sidebar = ({
     <aside className={styles.sidebar} ref={asideRef}>
       {!isEmptySearch && (
         <>
-          <AverageSocialVolume
-            {...props}
-            topics={topics}
-            linkedAssets={linkedAssets}
-          />
+          <AverageSocialVolume {...props} topics={topics} linkedAssets={linkedAssets} />
           <EnhancedWordCloud words={topics} isDesktop={isDesktop} />
         </>
       )}
@@ -74,8 +64,7 @@ const Sidebar = ({
           <h3 className={styles.trend}>Trending words top 10</h3>
           <HelpPopup>
             <h4 className={stylesTooltip.title}>Trending words</h4>
-            Top 10 words with the highest spike in mentions on crypto social
-            media for a given day.
+            Top 10 words with the highest spike in mentions on crypto social media for a given day.
           </HelpPopup>
           {isDesktop && (
             <Calendar

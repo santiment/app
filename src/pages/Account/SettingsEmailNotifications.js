@@ -3,16 +3,13 @@ import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import Toggle from '@santiment-network/ui/Toggle'
 import { useUser } from '../../stores/user'
-import {
-  useUpdateUserNotifications,
-  useUserSettings
-} from '../../stores/user/settings'
+import { useUpdateUserNotifications, useUserSettings } from '../../stores/user/settings'
 import styles from './AccountPage.module.scss'
 
 const SettingsEmailNotifications = ({ classes = {}, description }) => {
   const { user } = useUser()
   const {
-    settings: { alertNotifyEmail }
+    settings: { alertNotifyEmail },
   } = useUserSettings()
 
   const [update] = useUpdateUserNotifications()

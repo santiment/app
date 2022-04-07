@@ -16,7 +16,7 @@ const DESCRIPTION_TYPES = {
   ASSETS: 'assets',
   WATCHLISTS: 'watchlists',
   SCREENERS: 'screeners',
-  WALLET: 'wallet'
+  WALLET: 'wallet',
 }
 
 function checkType (type) {
@@ -54,10 +54,10 @@ const AlertStepDescription = ({
   selectedType,
   invalidStepsMemo,
   selected,
-  isFinished
+  isFinished,
 }) => {
   const {
-    values: { settings }
+    values: { settings },
   } = useFormikContext()
   const currentType = checkType(type)
 
@@ -66,9 +66,7 @@ const AlertStepDescription = ({
   useEffect(() => {
     if (
       settings.target &&
-      (settings.target.slug ||
-        settings.target.word ||
-        settings.target.watchlist_id) &&
+      (settings.target.slug || settings.target.word || settings.target.watchlist_id) &&
       isInvalid
     ) {
       invalidStepsMemo.delete('trend')
@@ -145,11 +143,7 @@ const AlertStepDescription = ({
         <div className={styles.wrapper}>
           {(selected || isFinished) && (description || '')}
           {isInvalid && (
-            <AlertMessage
-              className={styles.error}
-              error
-              text='Social trend is required'
-            />
+            <AlertMessage className={styles.error} error text='Social trend is required' />
           )}
         </div>
       )

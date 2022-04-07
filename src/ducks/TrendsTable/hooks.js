@@ -4,14 +4,14 @@ import {
   TRENDING_WORDS_QUERY,
   TRENDING_WORDS_CONTEXT_QUERY,
   SOCIAL_VOLUME_QUERY,
-  LAST_DAY_SOCIAL_VOLUME_QUERY
+  LAST_DAY_SOCIAL_VOLUME_QUERY,
 } from './queries'
 import { calcPercentageChange } from '../../utils/utils'
 
 const ARRAY = []
 const LOADING = {
   data: ARRAY,
-  isLoading: true
+  isLoading: true,
 }
 
 const wordAccessor = ({ word }) => word
@@ -33,7 +33,7 @@ export function useTrendingWords (variables) {
     return {
       trendingWords,
       words: trendingWords.map(wordAccessor),
-      isLoading: loading
+      isLoading: loading,
     }
   }, [data])
 }
@@ -41,8 +41,8 @@ export function useTrendingWords (variables) {
 function useTrendWordsData (query, words) {
   const { data } = useQuery(query, {
     variables: {
-      words
-    }
+      words,
+    },
   })
 
   return useMemo(() => {
@@ -69,7 +69,7 @@ export function useTrendSocialVolumeChange (words, trend) {
 
     return {
       value: Math.round(newValue),
-      change: calcPercentageChange(oldValue, newValue)
+      change: calcPercentageChange(oldValue, newValue),
     }
   }, [data])
 }
@@ -82,7 +82,7 @@ export function useTrendSocialVolume (words, trend) {
 
     return {
       data: data[trend.word].slice(0, -1),
-      isLoading: false
+      isLoading: false,
     }
   }, [data])
 }
@@ -95,7 +95,7 @@ export function useTrendWordContext (words, trend) {
 
     return {
       data: data[trend.word],
-      isLoading: false
+      isLoading: false,
     }
   }, [data])
 }

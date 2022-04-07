@@ -7,7 +7,7 @@ export const projectSorter = ({ rank: a }, { rank: b }) => a - b
 
 export const hashComparable = ({ project, metric }) => project.slug + metric.key
 
-export const normalizeQueryAlias = queryKey => queryKey.replace(/-/g, '')
+export const normalizeQueryAlias = (queryKey) => queryKey.replace(/-/g, '')
 
 export const buildCompareKey = (metric, project) =>
   `${metric.key}_${normalizeQueryAlias(project.slug)}`
@@ -16,7 +16,7 @@ export const COMPARE_CONNECTOR = '-CC-'
 export const makeComparableObject = ({ metric, project }) => ({
   key: buildCompareKey(metric, project),
   metric: metric,
-  project: project
+  project: project,
 })
 
 export function buildComparedMetric (Comparable) {
@@ -37,8 +37,8 @@ export function buildComparedMetric (Comparable) {
     comparedTicker: ticker,
     domainGroup: metricKey,
     reqMeta: {
-      slug
-    }
+      slug,
+    },
   })
 
   updateTooltipSetting(comparedMetric)
@@ -60,7 +60,7 @@ export function buildHiddenMetrics (comparables) {
   for (let i = 0; i < length; i++) {
     const {
       project: { slug },
-      metric
+      metric,
     } = comparables[i]
     const hiddens = hiddenMetricsMap.get(slug)
 

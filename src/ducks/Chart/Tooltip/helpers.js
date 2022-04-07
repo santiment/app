@@ -3,24 +3,17 @@ import {
   drawHoverLineY,
   drawTooltip,
   drawValueBubbleY,
-  drawValueBubbleX
+  drawValueBubbleX,
 } from '@santiment-network/chart/tooltip'
-import {
-  handleMove as handlePointEvent,
-  getHoveredIndex
-} from '@santiment-network/chart/events'
-import {
-  logScale,
-  valueByY,
-  valueByLogY
-} from '@santiment-network/chart/scales'
+import { handleMove as handlePointEvent, getHoveredIndex } from '@santiment-network/chart/events'
+import { logScale, valueByY, valueByLogY } from '@santiment-network/chart/scales'
 import { drawAlertPlus } from './alert'
 import {
   clearCtx,
   getDateDayMonthYear,
   getDateHoursMinutes,
   yBubbleFormatter,
-  isDayInterval
+  isDayInterval,
 } from '../utils'
 import { CursorType } from '../cursor'
 import { TooltipSetting } from '../../dataHub/tooltipSettings'
@@ -35,16 +28,13 @@ export function setupTooltip (chart, marker) {
     plotTooltip(chart, marker, point, e)
   })
 
-  canvas.onmousedown = handlePointEvent(chart, point => {
+  canvas.onmousedown = handlePointEvent(chart, (point) => {
     if (!point) return
 
     if (chart.isDrawing) return
 
     const { left, right, points, pointWidth } = chart
-    const {
-      left: canvasPageLeft,
-      right: canvasPageRight
-    } = canvas.getBoundingClientRect()
+    const { left: canvasPageLeft, right: canvasPageRight } = canvas.getBoundingClientRect()
     const { x } = point
 
     let moved = false
@@ -63,11 +53,7 @@ export function setupTooltip (chart, marker) {
 
       const isOutOfLeft = pageX < canvasPageLeft
       const isOutOfRight = pageX > canvasPageRight
-      const relativeX = isOutOfLeft
-        ? left
-        : isOutOfRight
-        ? right
-        : pageX - canvasPageLeft
+      const relativeX = isOutOfLeft ? left : isOutOfRight ? right : pageX - canvasPageLeft
 
       moved = true
 
@@ -110,8 +96,7 @@ export function setupTooltip (chart, marker) {
   }
 }
 
-const checkIsValidMetricPoint = metricPoint =>
-  metricPoint && Number.isFinite(metricPoint.y)
+const checkIsValidMetricPoint = (metricPoint) => metricPoint && Number.isFinite(metricPoint.y)
 
 export function plotTooltip (chart, marker, point, event) {
   const {
@@ -123,11 +108,11 @@ export function plotTooltip (chart, marker, point, event) {
     axesMetricKeys,
     hoverLineColor,
     tooltipPaintConfig,
-    bubblesPaintConfig
+    bubblesPaintConfig,
   } = chart
   let metricPoint = point[tooltipKey]
   if (!checkIsValidMetricPoint(metricPoint)) {
-    axesMetricKeys.some(key => {
+    axesMetricKeys.some((key) => {
       metricPoint = point[key]
       return checkIsValidMetricPoint(metricPoint)
     })
@@ -147,9 +132,7 @@ export function plotTooltip (chart, marker, point, event) {
     y = offsetY < top ? top : offsetY > bottom ? bottom : offsetY
   }
 
-  const xBubbleFormatter = isDayInterval(chart)
-    ? getDateHoursMinutes
-    : getDateDayMonthYear
+  const xBubbleFormatter = isDayInterval(chart) ? getDateHoursMinutes : getDateDayMonthYear
 
   drawHoverLineX(chart, x, hoverLineColor, 5)
   drawHoverLineY(chart, y, hoverLineColor, 0, 20)
@@ -171,7 +154,7 @@ export function plotTooltip (chart, marker, point, event) {
       yBubbleFormatter(value, metricKey),
       y,
       bubblesPaintConfig,
-      i === 0 && chart.isAlertsActive ? 5 : offset
+      i === 0 && chart.isAlertsActive ? 5 : offset,
     )
     offset += 50
   })

@@ -22,7 +22,7 @@ const CompareContent = ({
   removeMetric,
   onClear,
   metrics,
-  assets
+  assets,
 }) => {
   const isBeta = useIsBetaMode()
   const { availableMetrics, loadings } = useAvailableMetrics(assets)
@@ -31,27 +31,20 @@ const CompareContent = ({
   const categoriesKeys = Object.keys(categories)
 
   const AllSubmetrics = useMergedTimeboundSubmetrics(availableMetrics)
-  const [selectedMetricSettingsMap, setSelectedMetricSettingsMap] = useState(
-    new Map()
-  )
+  const [selectedMetricSettingsMap, setSelectedMetricSettingsMap] = useState(new Map())
 
   useEffect(() => {
     const submetrics = filterOnlyMetrics(AllSubmetrics)
-    const newCategories = getCategoryGraph(
-      availableMetrics,
-      [],
-      submetrics,
-      isBeta
-    )
+    const newCategories = getCategoryGraph(availableMetrics, [], submetrics, isBeta)
 
     setCategories(newCategories)
   }, [availableMetrics])
 
   const onCompare = useCallback(() => {
     const MetricSettingMap = new Map()
-    const widgets = assets.map(asset =>
+    const widgets = assets.map((asset) =>
       ChartWidget.new({
-        metrics: metrics.map(metric => {
+        metrics: metrics.map((metric) => {
           const projectMetric = newProjectMetric(asset, metric)
           const metricSettings = selectedMetricSettingsMap.get(metric)
 
@@ -61,13 +54,13 @@ const CompareContent = ({
 
           return projectMetric
         }),
-        MetricSettingMap
-      })
+        MetricSettingMap,
+      }),
     )
 
     const url = `${PATHS.STUDIO}?${generateUrlV2({
       widgets,
-      settings: {}
+      settings: {},
     })}`
 
     window.open(url, '_blank')
@@ -80,14 +73,14 @@ const CompareContent = ({
     <>
       <Dialog.ScrollContent className={styles.panel}>
         <div className={styles.info}>
-          Compare <SelectedAssets assets={assets} /> on a single chart. Each row
-          contains one selected metric and N selected assets
+          Compare <SelectedAssets assets={assets} /> on a single chart. Each row contains one
+          selected metric and N selected assets
         </div>
 
         <Search
           iconPosition='left'
           inputProps={{
-            placeholder: 'Search for a metric'
+            placeholder: 'Search for a metric',
           }}
           toggleMetric={onSelectMetric}
           className={styles.search}
@@ -96,11 +89,7 @@ const CompareContent = ({
         />
 
         <div className={styles.metricBtns}>
-          <MetricBtns
-            onClear={onClear}
-            metrics={metrics}
-            removeMetric={removeMetric}
-          />
+          <MetricBtns onClear={onClear} metrics={metrics} removeMetric={removeMetric} />
         </div>
 
         <div className={styles.metrics}>

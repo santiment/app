@@ -29,15 +29,15 @@ class LogoutPage extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   logout: () => {
     dispatch({
-      type: actions.USER_LOGOUT
+      type: actions.USER_LOGOUT,
     })
   },
   redirect: (path = '/') => {
     dispatch(push(path))
-  }
+  },
 })
 
 export default connect(null, mapDispatchToProps)(LogoutPage)

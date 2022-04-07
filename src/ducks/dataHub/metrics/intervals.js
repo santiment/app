@@ -8,8 +8,8 @@ function newCustomInterval (intervals, clb) {
       dateDifference({
         from: new Date(from),
         to: new Date(to),
-        format: DAY
-      }).diff
+        format: DAY,
+      }).diff,
     )
     return INTERVAL_ALIAS[interval] || interval
   }
@@ -17,13 +17,13 @@ function newCustomInterval (intervals, clb) {
   return getter
 }
 
-const getWeightedSocialIntervals = newCustomInterval(['1h', '1d'], diff =>
-  diff < 33 ? '1h' : '1d'
+const getWeightedSocialIntervals = newCustomInterval(['1h', '1d'], (diff) =>
+  diff < 33 ? '1h' : '1d',
 )
 
 export const MetricIntervalGetter = {
   [Metric.sentiment_volume_consumed_total.key]: getWeightedSocialIntervals,
   [Metric.sentiment_volume_consumed_telegram.key]: getWeightedSocialIntervals,
   [Metric.sentiment_volume_consumed_reddit.key]: getWeightedSocialIntervals,
-  [Metric.sentiment_volume_consumed_twitter.key]: getWeightedSocialIntervals
+  [Metric.sentiment_volume_consumed_twitter.key]: getWeightedSocialIntervals,
 }

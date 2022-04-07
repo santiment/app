@@ -28,20 +28,14 @@ export const useFollowers = () => {
     return {
       data: data && data.currentUser ? data.currentUser : undefined,
       loading,
-      error
+      error,
     }
   }, [query])
 }
 
 export const NOTIFICATIONS_ENABLE_MUTATION = gql`
-  mutation followingToggleNotification(
-    $userId: ID!
-    $disableNotifications: Boolean
-  ) {
-    followingToggleNotification(
-      userId: $userId
-      disableNotifications: $disableNotifications
-    ) {
+  mutation followingToggleNotification($userId: ID!, $disableNotifications: Boolean) {
+    followingToggleNotification(userId: $userId, disableNotifications: $disableNotifications) {
       following2 {
         users {
           userId
@@ -55,7 +49,7 @@ export const NOTIFICATIONS_ENABLE_MUTATION = gql`
 function buildCacheUpdater (reducer) {
   return (cache, { data }) => {
     const { currentUser } = cache.readQuery({
-      query: NOTIFICATIONS_FOLLOWERS_QUERY
+      query: NOTIFICATIONS_FOLLOWERS_QUERY,
     })
 
     cache.writeQuery({
@@ -63,9 +57,9 @@ function buildCacheUpdater (reducer) {
       data: {
         currentUser: {
           ...currentUser,
-          ...reducer(data)
-        }
-      }
+          ...reducer(data),
+        },
+      },
     })
   }
 }
@@ -73,36 +67,34 @@ function buildCacheUpdater (reducer) {
 const updateFollowersOnToggle = buildCacheUpdater(
   ({ followingToggleNotification: { following2 } }) => {
     return { following2 }
-  }
+  },
 )
 
 export function useEnableNotifications () {
   const [mutate, { loading }] = useMutation(NOTIFICATIONS_ENABLE_MUTATION, {
     update: updateFollowersOnToggle,
-    notifyOnNetworkStatusChange: true
+    notifyOnNetworkStatusChange: true,
   })
 
   function toggle (id, on) {
     return mutate({
       variables: {
         userId: +id,
-        disableNotifications: on
-      }
+        disableNotifications: on,
+      },
     })
   }
 
   return { toggle, loading }
 }
 
-export const useNotificationToggle = targetUserId => {
+export const useNotificationToggle = (targetUserId) => {
   const { data, loading } = useFollowers()
 
   const followingInfo = useMemo(() => {
     return (
       data &&
-      data.following2.users.find(
-        ({ userId, isNotificationDisabled }) => +userId === +targetUserId
-      )
+      data.following2.users.find(({ userId, isNotificationDisabled }) => +userId === +targetUserId)
     )
   }, [data])
 
@@ -114,12 +106,12 @@ export const useNotificationToggle = targetUserId => {
   return { toggle, isNotificationDisabled, disabledBtn }
 }
 
-export const useIsInFollowers = targetUserId => {
+export const useIsInFollowers = (targetUserId) => {
   const { user: currentUser } = useUser()
   const {
-    data: { following }
+    data: { following },
   } = useOldUserFollowersFollowing({
-    userId: currentUser && currentUser.id
+    userId: currentUser && currentUser.id,
   })
 
   const usersList = useMemo(() => {

@@ -45,7 +45,7 @@ const EnhancedWordCloud = ({ words, isDesktop, ...props }) => {
           align='end'
         >
           <Panel className={styles.panel}>
-            {words.map(item => (
+            {words.map((item) => (
               <span
                 className={cx(styles.word, item === word && styles.selected)}
                 key={item}

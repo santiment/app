@@ -9,7 +9,7 @@ import {
   findMetricLastValue,
   makeSignalDrawable,
   checkPriceMetric,
-  AlertBuilder
+  AlertBuilder,
 } from './helpers'
 import { useAlertMetrics } from './hooks'
 import { useChart } from '../context'
@@ -27,10 +27,7 @@ const TEXT_SIGNAL = 'Alert '
 const TEXT_ACTION = 'Click to create an alert '
 const SHORT_TEXT_ACTION = 'Create an alert '
 const TEXT_IFS = {
-  daily_active_addresses: [
-    'if DAA count goes below ',
-    'if DAA count goes above '
-  ]
+  daily_active_addresses: ['if DAA count goes below ', 'if DAA count goes above '],
 }
 
 const MOVING_TEXT_BY_SIGN = [' drops below ', ' rises above ']
@@ -64,7 +61,7 @@ const Signals = ({
   createSignal,
   removeSignal,
   metrics,
-  useShortRecord
+  useShortRecord,
 }) => {
   const [isHovered, setIsHovered] = useState()
   const [hoverPoint, setHoverPoint] = useState()
@@ -86,31 +83,25 @@ const Signals = ({
   function buildSignals () {
     setSignals(
       getSlugPriceSignals(userSignals, slug)
-        .map(signal => makeSignalDrawable(signal, chart))
-        .filter(Boolean)
+        .map((signal) => makeSignalDrawable(signal, chart))
+        .filter(Boolean),
     )
   }
 
-  function onMouseMove ({
-    target,
-    currentTarget,
-    nativeEvent: { offsetY: y }
-  }) {
+  function onMouseMove ({ target, currentTarget, nativeEvent: { offsetY: y } }) {
     if (isHovered || data.length === 0 || target !== currentTarget) {
       return
     }
 
-    const metricValues = metrics.map(metric => ({
+    const metricValues = metrics.map((metric) => ({
       key: metric.base ? metric.base.key : metric.key,
       project: metric.project,
       value: findMetricValueByY(chart, metric, y),
-      lastValue: findMetricLastValue(data, metric)
+      lastValue: findMetricLastValue(data, metric),
     }))
 
     const priceIndex = metrics.findIndex(checkPriceMetric)
-    const { key, value, lastValue } = metricValues[
-      priceIndex === -1 ? 0 : priceIndex
-    ]
+    const { key, value, lastValue } = metricValues[priceIndex === -1 ? 0 : priceIndex]
 
     if (value === undefined) return
 
@@ -119,7 +110,7 @@ const Signals = ({
     drawHoveredSignal(chart, y, [
       useShortRecord ? SHORT_TEXT_ACTION : TEXT_ACTION,
       getTextIf(Metric[key], +(value > lastValue), useShortRecord),
-      TooltipSetting[key].formatter(value)
+      TooltipSetting[key].formatter(value),
     ])
   }
 
@@ -143,7 +134,7 @@ const Signals = ({
       value,
       lastValue,
       metric,
-      slug: alertSlug
+      slug: alertSlug,
     })
 
     createSignal(newSignal.alert)
@@ -160,9 +151,8 @@ const Signals = ({
       const { type, value, y } = signal
 
       drawHoveredSignal(chart, y, [
-        TEXT_SIGNAL +
-          getTextIf(Metric.price_usd, +(type === SIGNAL_ABOVE), useShortRecord),
-        priceFormatter(value)
+        TEXT_SIGNAL + getTextIf(Metric.price_usd, +(type === SIGNAL_ABOVE), useShortRecord),
+        priceFormatter(value),
       ])
     }
   }
@@ -175,10 +165,10 @@ const Signals = ({
       className={styles.wrapper}
       style={{
         width: width || chart.padding.right - (chart.rightAxisMargin || 0),
-        height: chart.height + chart.top
+        height: chart.height + chart.top,
       }}
     >
-      {signals.map(signal => (
+      {signals.map((signal) => (
         <Signal
           key={signal.id}
           signal={signal}
@@ -202,14 +192,14 @@ const Signals = ({
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  createSignal: payload => dispatch(createTrigger(payload)),
-  removeSignal: id => dispatch(removeTrigger(id))
+const mapDispatchToProps = (dispatch) => ({
+  createSignal: (payload) => dispatch(createTrigger(payload)),
+  removeSignal: (id) => dispatch(removeTrigger(id)),
 })
 
 export default connect(
   null,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(({ metrics, ...props }) => {
   const chart = props.chart || useChart()
   const alertMetrics = useAlertMetrics(metrics)

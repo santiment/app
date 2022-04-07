@@ -9,25 +9,25 @@ const PercentOfEthMarketcap = ({ settings }) => {
     {
       ...settings,
       selector: BTC_RELATED_SELECTOR,
-      aggregation: AGGREGATION_TYPES.SUM
+      aggregation: AGGREGATION_TYPES.SUM,
     },
-    'total_supply'
+    'total_supply',
   )
   const { data: avgPriceData, loading: avgPriceLoading } = useMetric(
     {
       ...settings,
       selector: BTC_SELECTOR,
-      aggregation: AGGREGATION_TYPES.LAST
+      aggregation: AGGREGATION_TYPES.LAST,
     },
-    'daily_avg_price_usd'
+    'daily_avg_price_usd',
   )
   const { data: marketCapData, loading: marketCapLoading } = useMetric(
     {
       ...settings,
       selector: ETH_SELECTOR,
-      aggregation: AGGREGATION_TYPES.LAST
+      aggregation: AGGREGATION_TYPES.LAST,
     },
-    'daily_avg_marketcap_usd'
+    'daily_avg_marketcap_usd',
   )
 
   const percent = (100 * avgPriceData * totalData) / marketCapData

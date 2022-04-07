@@ -11,11 +11,11 @@ export const DEFAULT_TEXT = 'Enter a word or a phrase...'
 
 export class TrendsSearchForm extends Component {
   static defaultProps = {
-    classes: {}
+    classes: {},
   }
 
   state = {
-    topic: this.props.defaultTopic || ''
+    topic: this.props.defaultTopic || '',
   }
 
   componentDidUpdate (prevProps) {
@@ -24,32 +24,25 @@ export class TrendsSearchForm extends Component {
     }
   }
 
-  handleSubmit = evt => {
+  handleSubmit = (evt) => {
     evt.preventDefault()
     this.props.gotoExplore(this.state.topic)
   }
 
-  handleChange = evt => {
+  handleChange = (evt) => {
     this.setState({ topic: evt.currentTarget.value })
   }
 
   render () {
     const {
       classes: { wrapper: className, input: inputClassName },
-      withButton
+      withButton,
     } = this.props
 
     return (
-      <form
-        onSubmit={this.handleSubmit}
-        className={cx(styles.wrapper, className)}
-      >
+      <form onSubmit={this.handleSubmit} className={cx(styles.wrapper, className)}>
         <Input
-          className={cx(
-            styles.input,
-            inputClassName,
-            withButton && styles.withButton
-          )}
+          className={cx(styles.input, inputClassName, withButton && styles.withButton)}
           placeholder={DEFAULT_TEXT}
           value={this.state.topic}
           onChange={this.handleChange}
@@ -57,12 +50,7 @@ export class TrendsSearchForm extends Component {
         {withButton && (
           <>
             {this.state.topic ? (
-              <Button
-                type='submit'
-                variant='fill'
-                accent='positive'
-                className={styles.button}
-              >
+              <Button type='submit' variant='fill' accent='positive' className={styles.button}>
                 Go
               </Button>
             ) : (

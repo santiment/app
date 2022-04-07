@@ -15,46 +15,46 @@ import styles from './NavbarChartsDropdown.module.scss'
 const DASHBOARDS = [
   {
     name: 'Social Tool',
-    to: PATHS.SOCIAL_TOOl
+    to: PATHS.SOCIAL_TOOl,
   },
   {
     name: 'Social Trends',
-    to: PATHS.SOCIAL_TRENDS
+    to: PATHS.SOCIAL_TRENDS,
   },
   {
     name: 'ETH Token Trading Analysis',
     to: '/eth-analysis',
-    createdAt: '2021-02-16T00:00:00Z'
+    createdAt: '2021-02-16T00:00:00Z',
   },
   {
     name: 'Ethereum 2.0 Staking Analytics',
     to: '/eth2',
-    createdAt: '2021-01-20T00:00:00Z'
+    createdAt: '2021-01-20T00:00:00Z',
   },
   {
     name: 'Stablecoins',
     to: '/stablecoins',
-    createdAt: '2020-10-01T00:00:00Z'
+    createdAt: '2020-10-01T00:00:00Z',
   },
   {
     name: 'Uniswap Protocol',
     to: '/uniswap-protocol',
-    createdAt: '2020-11-01T00:00:00Z'
+    createdAt: '2020-11-01T00:00:00Z',
   },
   {
     name: 'Decentralized Exchanges',
     to: '/decentralized-exchanges',
-    createdAt: '2020-11-03T00:00:00Z'
+    createdAt: '2020-11-03T00:00:00Z',
   },
   {
     name: 'Bitcoin Locked on Ethereum',
     to: '/bitcoin-locked-on-ethereum',
-    createdAt: '2020-11-04T00:00:00Z'
+    createdAt: '2020-11-04T00:00:00Z',
   },
   {
     name: 'NFT Influencers Trx',
-    to: '/nft-influencers-trx'
-  }
+    to: '/nft-influencers-trx',
+  },
 ]
 
 const NavbarChartsDropdown = ({ activeLink }) => {
@@ -83,13 +83,8 @@ const NavbarChartsDropdown = ({ activeLink }) => {
                   className={styles.btn}
                 >
                   {[
-                    <NewLabel
-                      className={styles.new}
-                      date={createdAt}
-                      limitDays={14}
-                      key='new'
-                    />,
-                    name
+                    <NewLabel className={styles.new} date={createdAt} limitDays={14} key='new' />,
+                    name,
                   ]}
                 </Button>
               )
@@ -100,7 +95,7 @@ const NavbarChartsDropdown = ({ activeLink }) => {
           <h3 className={styles.title}>Explore chart layouts</h3>
           <div className={styles.listWrapper}>
             <div className={styles.scroll}>
-              {layouts.map(template => {
+              {layouts.map((template) => {
                 const link = prepareTemplateLink(template)
 
                 const { title, id } = template
@@ -128,10 +123,7 @@ const NavbarChartsDropdown = ({ activeLink }) => {
               <h3 className={styles.title}>Recently viewed chart layouts</h3>
               <div
                 className={styles.listWrapper}
-                style={getLayoutsStyles(
-                  recentTemplates,
-                  recentTemplates.length
-                )}
+                style={getLayoutsStyles(recentTemplates, recentTemplates.length)}
               >
                 <div className={styles.recentList}>
                   {recentTemplates.map((template, idx) => {

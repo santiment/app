@@ -5,13 +5,8 @@ import Button from '@santiment-network/ui/Button'
 import Dialog from '@santiment-network/ui/Dialog'
 import TemplateContextMenu from '../TemplateContextMenu/TemplateContextMenu'
 import UseTemplateBtn from '../UseTemplateBtn/UseTemplateBtn'
-import {
-  isUserAuthorOfTemplate,
-  usePublicTemplates
-} from '../Dialog/LoadTemplate/utils'
-import TemplateStatus, {
-  TemplateStatusToggle
-} from '../TemplateStatus/TemplateStatus'
+import { isUserAuthorOfTemplate, usePublicTemplates } from '../Dialog/LoadTemplate/utils'
+import TemplateStatus, { TemplateStatusToggle } from '../TemplateStatus/TemplateStatus'
 import TemplateInfo from './TemplateInfo'
 import externalStyles from '../Dialog/LoadTemplate/Template.module.scss'
 import styles from './TemplateDetailsDialog.module.scss'
@@ -19,7 +14,7 @@ import styles from './TemplateDetailsDialog.module.scss'
 export const TemplateInfoTrigger = ({ onClick, classes = {}, ...rest }) => (
   <Button
     {...rest}
-    onClick={e => {
+    onClick={(e) => {
       e.stopPropagation()
       onClick(e)
     }}
@@ -36,7 +31,7 @@ const TemplateDetailsDialog = ({
   isDialog = true,
   onRename,
   onDelete,
-  selectTemplate
+  selectTemplate,
 }) => {
   const { isPublic, toggleIsPublic } = usePublicTemplates(template)
 
@@ -61,15 +56,12 @@ const TemplateDetailsDialog = ({
       <div className={styles.container}>
         <div className={styles.actions}>
           {!isAuthor && (
-            <UseTemplateBtn
-              template={template}
-              onClick={() => selectTemplate(template)}
-            />
+            <UseTemplateBtn template={template} onClick={() => selectTemplate(template)} />
           )}
 
           <TemplateContextMenu
             template={template}
-            onRename={data => {
+            onRename={(data) => {
               setOpen(false)
               onRename(data)
             }}
@@ -84,11 +76,7 @@ const TemplateDetailsDialog = ({
               toggleIsPublic={toggleIsPublic}
             />
           ) : (
-            <TemplateStatus
-              isAuthor={isAuthor}
-              isPublic={isPublic}
-              classes={styles}
-            />
+            <TemplateStatus isAuthor={isAuthor} isPublic={isPublic} classes={styles} />
           )}
         </div>
 
@@ -99,7 +87,7 @@ const TemplateDetailsDialog = ({
 }
 
 const mapStateToProps = ({ user }, { template }) => ({
-  isAuthor: isUserAuthorOfTemplate(user, template)
+  isAuthor: isUserAuthorOfTemplate(user, template),
 })
 
 export default connect(mapStateToProps)(TemplateDetailsDialog)

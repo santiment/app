@@ -16,30 +16,20 @@ const Trigger = ({ activeMetricsCount, isOpen, onClick }) => {
         className={styles.tooltip}
         withArrow={false}
         trigger={
-          <Button
-            className={styles.button}
-            onClick={() => onClick(!isOpen)}
-            border
-          >
+          <Button className={styles.button} onClick={() => onClick(!isOpen)} border>
             <Icon className={styles.icon} type='filter' />
             <span className={cx(styles.text, styles.text__active)}>Filter</span>
           </Button>
         }
       >
-        {`${activeMetricsCount} filter${
-          activeMetricsCount > 1 ? 's' : ''
-        } applied`}
+        {`${activeMetricsCount} filter${activeMetricsCount > 1 ? 's' : ''} applied`}
       </Tooltip>
     )
   }
 
   if (activeMetricsCount > 0 && isOpen) {
     return (
-      <Button
-        className={cx(styles.button, styles.active)}
-        border
-        onClick={() => onClick(!isOpen)}
-      >
+      <Button className={cx(styles.button, styles.active)} border onClick={() => onClick(!isOpen)}>
         <Icon className={styles.icon} type='filter' />
         <span className={cx(styles.text, styles.text__active)}>Filter</span>
       </Button>
@@ -64,12 +54,7 @@ const Trigger = ({ activeMetricsCount, isOpen, onClick }) => {
           onClick={() => onClick(!isOpen)}
         >
           <Icon className={styles.icon} type='filter' />
-          <span
-            className={cx(
-              styles.text,
-              activeMetricsCount > 0 && styles.text__active
-            )}
-          >
+          <span className={cx(styles.text, activeMetricsCount > 0 && styles.text__active)}>
             Filter
           </span>
         </Button>

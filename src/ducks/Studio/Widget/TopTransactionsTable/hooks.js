@@ -6,7 +6,7 @@ export const useTableEffects = ({
   deleteConnectedWidget,
   deleteWidget,
   widget,
-  parentWidget
+  parentWidget,
 }) => {
   const [dates, setDates] = useState(widget.datesRange)
 
@@ -34,6 +34,6 @@ export const useTableEffects = ({
   return {
     dates,
     onCalendarChange,
-    onCloseClick
+    onCloseClick,
   }
 }

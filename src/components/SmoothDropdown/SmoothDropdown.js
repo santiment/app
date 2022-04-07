@@ -15,7 +15,7 @@ if (modalRoot) {
 export const SmoothDropdownContext = React.createContext({
   handleMouseEnter: () => {},
   handleMouseLeave: () => {},
-  setupDropdownContent: () => {}
+  setupDropdownContent: () => {},
 })
 
 class SmoothDropdown extends Component {
@@ -34,7 +34,7 @@ class SmoothDropdown extends Component {
     ddFirstTime: false,
     arrowCorrectionX: 0,
     dropdownStyles: {},
-    ddItems: new Map()
+    ddItems: new Map(),
   }
 
   static propTypes = {
@@ -43,7 +43,7 @@ class SmoothDropdown extends Component {
     verticalMotion: PropTypes.bool,
     verticalOffset: PropTypes.number,
     screenEdgeXOffset: PropTypes.number,
-    closeAfterTimeout: PropTypes.number
+    closeAfterTimeout: PropTypes.number,
   }
 
   static defaultProps = {
@@ -51,7 +51,7 @@ class SmoothDropdown extends Component {
     showArrow: true,
     verticalOffset: 10,
     screenEdgeXOffset: 10,
-    closeAfterTimeout: 150
+    closeAfterTimeout: 150,
   }
 
   componentDidMount () {
@@ -79,20 +79,14 @@ class SmoothDropdown extends Component {
     this.arrowNode = this.ddContainer.querySelector('.dd__arrow')
   }
 
-  handleTouchEvent = evt => {
-    if (
-      this.dropdownWrapperRef &&
-      !this.dropdownWrapperRef.current.contains(evt.target)
-    ) {
+  handleTouchEvent = (evt) => {
+    if (this.dropdownWrapperRef && !this.dropdownWrapperRef.current.contains(evt.target)) {
       this.handleMouseLeave()
     }
   }
 
   startCloseTimeout = () => {
-    this.dropdownTimer = setTimeout(
-      () => this.closeDropdown(),
-      this.props.closeAfterTimeout
-    )
+    this.dropdownTimer = setTimeout(() => this.closeDropdown(), this.props.closeAfterTimeout)
   }
 
   stopCloseTimeout = () => clearTimeout(this.dropdownTimer)
@@ -104,7 +98,7 @@ class SmoothDropdown extends Component {
 
   handleMouseLeave = () => this.startCloseTimeout()
 
-  isCurrentDropdown = ddItem => {
+  isCurrentDropdown = (ddItem) => {
     const { currentDropdown } = this.state
     const dropdownItem = this.ddItemsRef.get(ddItem).current
     return currentDropdown !== dropdownItem.querySelector('.dd__content')
@@ -115,16 +109,16 @@ class SmoothDropdown extends Component {
       if (!this.ddItemsRef.has(ddItem)) {
         this.ddItemsRef.set(ddItem, React.createRef())
         this.ddItemsStyles.set(ddItem, ddStyles)
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
           ...prevState,
-          ddItems: new Map([...prevState.ddItems, [ddItem, ddContent]])
+          ddItems: new Map([...prevState.ddItems, [ddItem, ddContent]]),
         }))
       }
 
       const dropdownItem = this.ddItemsRef.get(ddItem).current
       const {
         currentDropdown,
-        dropdownStyles: { width: widthPx, height: heightPx }
+        dropdownStyles: { width: widthPx, height: heightPx },
       } = this.state
 
       if (!dropdownItem || this.isCurrentDropdown(ddItem)) {
@@ -136,20 +130,20 @@ class SmoothDropdown extends Component {
         currentDropdown.clientWidth !== parseInt(widthPx, 10)
       ) {
         if (this.ddContainer) {
-          this.setState(prevState => ({
+          this.setState((prevState) => ({
             ...prevState,
             dropdownStyles: {
               ...prevState.dropdownStyles,
               width: currentDropdown.clientWidth + 'px',
-              height: currentDropdown.clientHeight + 'px'
-            }
+              height: currentDropdown.clientHeight + 'px',
+            },
           }))
         }
       }
     }, 0)
   }
 
-  makePx = value => value + 'px'
+  makePx = (value) => value + 'px'
 
   openDropdown = (ddItem, trigger) => {
     let dropdownItem = this.ddItemsRef ? this.ddItemsRef.get(ddItem) : undefined
@@ -165,27 +159,24 @@ class SmoothDropdown extends Component {
 
     const {
       height: ddWrapperHeight,
-      top: ddWrapperTop
+      top: ddWrapperTop,
     } = this.dropdownWrapperRef.current.getBoundingClientRect()
 
     const {
       top: triggerTop,
       left: triggerLeft,
-      height: triggerHeight
+      height: triggerHeight,
     } = trigger.getBoundingClientRect()
 
-    const leftOffset =
-      triggerLeft - (ddContent.clientWidth - trigger.clientWidth) / 2
+    const leftOffset = triggerLeft - (ddContent.clientWidth - trigger.clientWidth) / 2
 
     const topOffset =
-      (verticalMotion
-        ? triggerTop + triggerHeight
-        : ddWrapperTop + ddWrapperHeight) + window.scrollY
+      (verticalMotion ? triggerTop + triggerHeight : ddWrapperTop + ddWrapperHeight) +
+      window.scrollY
 
     const correction = this.getViewportOverflowCorrection(trigger, ddContent)
 
-    const { offsetX = 0, offsetY = 0, position } =
-      this.ddItemsStyles.get(ddItem) || {}
+    const { offsetX = 0, offsetY = 0, position } = this.ddItemsStyles.get(ddItem) || {}
 
     let left = this.makePx(leftOffset - correction.left)
     let top = this.makePx(topOffset + verticalOffset)
@@ -201,7 +192,7 @@ class SmoothDropdown extends Component {
       left,
       top,
       width,
-      height
+      height,
     }
 
     if (this.state.currentTrigger) {
@@ -212,13 +203,13 @@ class SmoothDropdown extends Component {
       ddItem.triggerRef.current.classList.add('active')
     }
 
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       ...prevState,
       currentTrigger: ddItem,
       currentDropdown: ddContent,
       ddFirstTime: prevState.currentTrigger === null,
       dropdownStyles,
-      arrowCorrectionX: correction.left
+      arrowCorrectionX: correction.left,
     }))
   }
 
@@ -227,10 +218,10 @@ class SmoothDropdown extends Component {
       this.state.currentTrigger.triggerRef.current.classList.remove('active')
     }
 
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       ...prevState,
       currentTrigger: null,
-      currentDropdown: null
+      currentDropdown: null,
     }))
   }
 
@@ -240,8 +231,7 @@ class SmoothDropdown extends Component {
     const correction = { left: 0 }
     const triggerViewport = trigger.getBoundingClientRect()
 
-    const ddLeftCornerX =
-      triggerViewport.left - (ddContent.clientWidth - triggerViewport.width) / 2
+    const ddLeftCornerX = triggerViewport.left - (ddContent.clientWidth - triggerViewport.width) / 2
     const ddRightCornerX = ddLeftCornerX + ddContent.clientWidth
 
     if (ddRightCornerX > window.innerWidth) {
@@ -256,20 +246,11 @@ class SmoothDropdown extends Component {
   render () {
     const { children, className = '', showArrow } = this.props
 
-    const {
-      currentTrigger,
-      dropdownStyles,
-      ddFirstTime,
-      arrowCorrectionX,
-      ddItems
-    } = this.state
+    const { currentTrigger, dropdownStyles, ddFirstTime, arrowCorrectionX, ddItems } = this.state
 
     const { handleMouseEnter, handleMouseLeave, setupDropdownContent } = this
 
-    this.ddContainer.classList.toggle(
-      'has-dropdown-active',
-      currentTrigger !== null
-    )
+    this.ddContainer.classList.toggle('has-dropdown-active', currentTrigger !== null)
     this.ddContainer.classList.toggle('dd-first-time', ddFirstTime)
     Object.assign(this.ddContainer.style, dropdownStyles)
     this.arrowNode.style.left = `calc(50% + ${arrowCorrectionX}px)`
@@ -281,7 +262,7 @@ class SmoothDropdown extends Component {
           value={{
             handleMouseEnter,
             handleMouseLeave,
-            setupDropdownContent
+            setupDropdownContent,
           }}
         >
           {children}
@@ -293,7 +274,7 @@ class SmoothDropdown extends Component {
                 key={i}
                 className={cx({
                   dd__item: true,
-                  active: ddItem === currentTrigger
+                  active: ddItem === currentTrigger,
                 })}
                 ref={this.ddItemsRef.get(ddItem)}
               >
@@ -312,7 +293,7 @@ class SmoothDropdown extends Component {
               </div>
             )
           }),
-          this.portalContainer
+          this.portalContainer,
         )}
       </div>
     )

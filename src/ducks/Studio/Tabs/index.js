@@ -6,16 +6,16 @@ import styles from './index.module.scss'
 export const Tab = {
   index: {
     path: '',
-    label: 'Studio'
+    label: 'Studio',
   },
   stats: {
     path: '/stats',
-    label: 'Key Stats'
+    label: 'Key Stats',
   },
   insights: {
     path: '/related-insights',
-    labelFormatter: name => (name ? `${name} Insights` : 'Insights')
-  }
+    labelFormatter: (name) => (name ? `${name} Insights` : 'Insights'),
+  },
 }
 const TABS = Object.values(Tab)
 
@@ -31,7 +31,7 @@ const Tabs = ({
   className,
   location: { pathname },
   match: { path: base },
-  settings: { name, slug }
+  settings: { name, slug },
 }) => {
   const subpath = getSubpath(pathname.slice(base.length))
   const search = window.location.search

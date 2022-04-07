@@ -7,7 +7,7 @@ import { client } from '../../apollo'
 const NIGHTMODE = 'nightmode'
 export const THEMES = ['default', NIGHTMODE]
 const DEFAULT_STATE = {
-  isNightMode: isShowHalloween() || loadKeyState('isNightMode') || false
+  isNightMode: isShowHalloween() || loadKeyState('isNightMode') || false,
 }
 const WATCH_QUERY = { query: USER_SETTINGS_QUERY }
 
@@ -20,30 +20,28 @@ function ThemeProvider ({ children }) {
 
   function updateTheme (isNightMode) {
     setState({
-      isNightMode
+      isNightMode,
     })
   }
 
   // NOTE: Watching for saved account theme [@vanguard | Jul 11, 2020]
   useEffect(() => {
-    const subscription = client
-      .watchQuery(WATCH_QUERY)
-      .subscribe(({ data }) => {
-        if (!(data && data.currentUser)) return
+    const subscription = client.watchQuery(WATCH_QUERY).subscribe(({ data }) => {
+      if (!(data && data.currentUser)) return
 
-        const isAccountNightMode = data.currentUser.settings.theme === NIGHTMODE
+      const isAccountNightMode = data.currentUser.settings.theme === NIGHTMODE
 
-        setState(state => {
-          const { isNightMode } = state
-          return isNightMode === isAccountNightMode
-            ? state
-            : {
-                isNightMode: isNightMode || isAccountNightMode
-              }
-        })
-
-        subscription.unsubscribe()
+      setState((state) => {
+        const { isNightMode } = state
+        return isNightMode === isAccountNightMode
+          ? state
+          : {
+              isNightMode: isNightMode || isAccountNightMode,
+            }
       })
+
+      subscription.unsubscribe()
+    })
 
     return () => subscription.unsubscribe()
   }, [])
@@ -55,9 +53,7 @@ function ThemeProvider ({ children }) {
 
   return (
     <ThemeContext.Provider value={state}>
-      <ThemeUpdaterContext.Provider value={updateTheme}>
-        {children}
-      </ThemeUpdaterContext.Provider>
+      <ThemeUpdaterContext.Provider value={updateTheme}>{children}</ThemeUpdaterContext.Provider>
     </ThemeContext.Provider>
   )
 }

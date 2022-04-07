@@ -9,7 +9,7 @@ import styles from './SonarFeedRecommendations.module.scss'
 
 const SonarFeedRecommendations = ({
   showButton,
-  description = 'Start to add alerts you want to track or just interested in'
+  description = 'Start to add alerts you want to track or just interested in',
 }) => {
   return (
     <div className={styles.wrapper}>
@@ -21,7 +21,7 @@ const SonarFeedRecommendations = ({
             triggerButtonProps={{
               label: 'Add first alert',
               variant: 'fill',
-              border: false
+              border: false,
             }}
           />
         )}
@@ -30,11 +30,7 @@ const SonarFeedRecommendations = ({
   )
 }
 
-export const RecommendedSignals = ({
-  showTitle = true,
-  userId,
-  shouldDisableActions
-}) => {
+export const RecommendedSignals = ({ showTitle = true, userId, shouldDisableActions }) => {
   const [signals, loading] = useFeaturedUserTriggers()
 
   if (!signals) {
@@ -47,7 +43,7 @@ export const RecommendedSignals = ({
 
   const mapped = signals.map(({ trigger, userId }) => ({
     ...trigger,
-    userId: userId
+    userId: userId,
   }))
 
   const hasSignals = mapped && mapped.length > 0

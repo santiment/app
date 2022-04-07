@@ -13,7 +13,7 @@ import styles from './Main.module.scss'
 
 const LoadableRelatedInsights = Loadable({
   loader: () => import('./RelatedInsights/RelatedInsights'),
-  loading: () => <PageLoader />
+  loading: () => <PageLoader />,
 })
 
 const Main = ({

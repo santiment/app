@@ -18,12 +18,8 @@ export function useRecentAssets (slugs) {
     let assets = []
     let race = false
 
-    Promise.all(
-      slugs.map((id, i) =>
-        getRecentAsset(id).then(asset => (assets[i] = asset))
-      )
-    )
-      .then(data => {
+    Promise.all(slugs.map((id, i) => getRecentAsset(id).then((asset) => (assets[i] = asset))))
+      .then((data) => {
         if (race) return
 
         assets = assets.filter(Boolean)
@@ -32,7 +28,7 @@ export function useRecentAssets (slugs) {
         setIsLoading(false)
         setIsError(false)
       })
-      .catch(e => {
+      .catch((e) => {
         if (race) return
 
         setIsLoading(false)
@@ -62,10 +58,10 @@ export function useRecentTemplates (templatesIDs) {
 
     Promise.all(
       templatesIDs.map((id, i) =>
-        getRecentTemplate(id).then(template => (templates[i] = template))
-      )
+        getRecentTemplate(id).then((template) => (templates[i] = template)),
+      ),
     )
-      .then(data => {
+      .then((data) => {
         if (race) return
 
         templates = templates.filter(Boolean)
@@ -74,7 +70,7 @@ export function useRecentTemplates (templatesIDs) {
         setIsLoading(false)
         setIsError(false)
       })
-      .catch(e => {
+      .catch((e) => {
         if (race) return
 
         setIsLoading(false)

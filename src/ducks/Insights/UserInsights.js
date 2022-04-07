@@ -1,8 +1,6 @@
 import React, { useMemo } from 'react'
 import { DEFAULT_INSIGHTS_PER_PAGE } from '../../hooks/insights'
-import ScrollableInsightsList, {
-  useScrollabelPages
-} from './ScrollableInsightsList'
+import ScrollableInsightsList, { useScrollabelPages } from './ScrollableInsightsList'
 import { ALL_INSIGHTS_BY_USER } from '../../queries/InsightsGQL'
 
 const useInsightsByUserSettings = ({ userId }) => {
@@ -12,7 +10,7 @@ const useInsightsByUserSettings = ({ userId }) => {
     return {
       userId: +userId,
       page: page,
-      pageSize: DEFAULT_INSIGHTS_PER_PAGE
+      pageSize: DEFAULT_INSIGHTS_PER_PAGE,
     }
   }, [userId, page])
 
@@ -22,9 +20,9 @@ const useInsightsByUserSettings = ({ userId }) => {
 const UserInsights = ({ userId }) => {
   const settings = useMemo(
     () => ({
-      userId
+      userId,
     }),
-    [userId]
+    [userId],
   )
 
   const { variables, page, setPage } = useInsightsByUserSettings(settings)

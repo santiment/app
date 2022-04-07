@@ -41,7 +41,7 @@ function SizedRenderQueue (size) {
     return { isRendered, onLoad: ref }
   }
 }
-export const newRenderQueue = size => () => SizedRenderQueue(size)
+export const newRenderQueue = (size) => () => SizedRenderQueue(size)
 
 const RenderQueueContext = React.createContext()
 export const useRenderQueueItem = () => useContext(RenderQueueContext)()
@@ -51,10 +51,7 @@ export const RenderQueueProvider = ({ children, RenderQueue }) => (
     {children}
   </RenderQueueContext.Provider>
 )
-export const withRenderQueueProvider = (
-  Component,
-  SizedRenderQueue
-) => props => (
+export const withRenderQueueProvider = (Component, SizedRenderQueue) => (props) => (
   <RenderQueueProvider RenderQueue={SizedRenderQueue}>
     <Component {...props} />
   </RenderQueueProvider>

@@ -1,11 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import PLANS from '../../../components/Plans/list'
-import {
-  getAltPrice,
-  isSameAsUserPlan,
-  PlanBtn
-} from '../../../components/Plans/Plan'
+import { getAltPrice, isSameAsUserPlan, PlanBtn } from '../../../components/Plans/Plan'
 import { formatPrice } from '../../../utils/plans'
 import styles from './PlanDetails.module.scss'
 
@@ -16,7 +12,7 @@ export const PlanCard = ({
   userPlan,
   billing,
   as: El = 'div',
-  classes = {}
+  classes = {},
 }) => {
   const { id, name, amount } = plan
   const card = PLANS[name]
@@ -49,7 +45,7 @@ export const PlanCard = ({
         billing={billing}
         id={id}
         btnProps={{
-          accent: 'orange'
+          accent: 'orange',
         }}
         className={classes.planBtn}
         showCreditMsg={!isFree}

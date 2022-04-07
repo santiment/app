@@ -47,7 +47,7 @@ const Input = ({ defaultValue, onChange, ...props }) => {
 }
 
 Input.defaultProps = {
-  defaultValue: 0
+  defaultValue: 0,
 }
 
 export default Input

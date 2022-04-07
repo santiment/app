@@ -2,12 +2,12 @@ import { useState, useCallback } from 'react'
 import gql from 'graphql-tag'
 import { client } from '../../../../../apollo'
 
-export const useMessage = state => {
+export const useMessage = (state) => {
   const [message, setMessage] = useState('')
 
   const updateMessage = useCallback(() => {
     if (Array.isArray(state)) {
-      const watchlistIDs = state.filter(item => item['watchlistId'])
+      const watchlistIDs = state.filter((item) => item['watchlistId'])
       if (watchlistIDs.length >= 3 && !message) {
         setMessage('You can select up to 3 watchlists only')
       } else if (message) {
@@ -20,18 +20,18 @@ export const useMessage = state => {
 
   return {
     message,
-    updateMessage
+    updateMessage,
   }
 }
 
 const getData = ({ data }) => data.item
-const getWatchlist = query => id =>
+const getWatchlist = (query) => (id) =>
   client
     .query({
       query,
       variables: {
-        id
-      }
+        id,
+      },
     })
     .then(getData)
     .catch(console.warn)
@@ -48,16 +48,16 @@ const getItem = getWatchlist(gql`
 export function useStateMetadata (state) {
   const [idNameMap, setIdNameMap] = useState({})
   const watchlistIDs = Array.isArray(state)
-    ? state.filter(item => !!item.watchlistId).map(item => item.watchlistId)
+    ? state.filter((item) => !!item.watchlistId).map((item) => item.watchlistId)
     : []
-  const missingIDs = watchlistIDs.filter(id => !idNameMap[id])
+  const missingIDs = watchlistIDs.filter((id) => !idNameMap[id])
 
-  Promise.all(missingIDs.map(getItem)).then(items =>
-    items.forEach(item => {
+  Promise.all(missingIDs.map(getItem)).then((items) =>
+    items.forEach((item) => {
       if (item) {
         setIdNameMap({ ...idNameMap, [+item.id]: item.name })
       }
-    })
+    }),
   )
 
   return { idNameMap, setIdNameMap }

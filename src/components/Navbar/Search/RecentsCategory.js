@@ -18,9 +18,7 @@ function saveRecents (items) {
 }
 
 const removeRecent = ({ key, type }) =>
-  getRecents().filter(
-    ({ type: itemType, key: itemKey }) => type !== itemType || key !== itemKey
-  )
+  getRecents().filter(({ type: itemType, key: itemKey }) => type !== itemType || key !== itemKey)
 
 export const clearRecents = () => saveRecents([])
 

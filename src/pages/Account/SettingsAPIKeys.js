@@ -30,8 +30,7 @@ const SettingsAPIKeys = ({ apikeys = [], generateAPIKey, revokeAPIKey }) => {
       <Settings.Row>
         <div className={styles.setting__left}>
           <Label className={styles.setting__description} accent='waterloo'>
-            The api key can only be used to fetch data and not to execute
-            graphql mutations.
+            The api key can only be used to fetch data and not to execute graphql mutations.
             <br />
             <br />
             You can try out queries through our{' '}
@@ -58,16 +57,10 @@ const SettingsAPIKeys = ({ apikeys = [], generateAPIKey, revokeAPIKey }) => {
         <div>
           <div className={styles.wrapper}>
             {apikeys.length > 0 ? (
-              apikeys.map(apikey => (
+              apikeys.map((apikey) => (
                 <div key={apikey} className={styles.keyContainer}>
-                  <div
-                    className={cx(styles.apikey, copiedShown && styles.copied)}
-                  >
-                    <input
-                      className={styles.apikey__input}
-                      defaultValue={apikey}
-                      readOnly
-                    />
+                  <div className={cx(styles.apikey, copiedShown && styles.copied)}>
+                    <input className={styles.apikey__input} defaultValue={apikey} readOnly />
                     <Icon
                       onClick={() => {
                         copy(apikey)
@@ -103,22 +96,22 @@ const SettingsAPIKeys = ({ apikeys = [], generateAPIKey, revokeAPIKey }) => {
 
 const mapStateToProps = ({
   user: {
-    data: { apikeys = [] }
-  }
+    data: { apikeys = [] },
+  },
 }) => ({
-  apikeys
+  apikeys,
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   generateAPIKey: () =>
     dispatch({
-      type: actions.USER_APIKEY_GENERATE
+      type: actions.USER_APIKEY_GENERATE,
     }),
-  revokeAPIKey: apikey =>
+  revokeAPIKey: (apikey) =>
     dispatch({
       type: actions.USER_APIKEY_REVOKE,
-      apikey
-    })
+      apikey,
+    }),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsAPIKeys)

@@ -33,7 +33,7 @@ export const Button = ({ className, disabled, ...props }) => (
 export const ShareButton = ({ shareLink, onMouseDown }) => (
   <ShareChart
     shareLink={shareLink}
-    trigger={props => (
+    trigger={(props) => (
       <UIButton fluid variant='ghost' {...props} onMouseDown={onMouseDown}>
         <Icon type='share' />
         Share chart
@@ -89,7 +89,7 @@ const ChartSettingsContextMenu = ({
   onWatermarkVisibilityChange,
   isWatermarkVisible,
   MetricNode,
-  children
+  children,
 }) => {
   const { isPro, isProPlus } = useUserSubscriptionStatus()
   const isFree = !isPro
@@ -99,10 +99,7 @@ const ChartSettingsContextMenu = ({
   return (
     <ContextMenu
       trigger={
-        <UIButton
-          variant='flat'
-          className={cx(classes.settingsBtn, styles.settingsBtn)}
-        >
+        <UIButton variant='flat' className={cx(classes.settingsBtn, styles.settingsBtn)}>
           <UIIcon type='settings' />
         </UIButton>
       }
@@ -120,10 +117,7 @@ const ChartSettingsContextMenu = ({
         {onCartesianGridChange && (
           <Button onClick={onCartesianGridChange}>
             Cartesian grid
-            <Toggle
-              isActive={isCartesianGridActive}
-              className={styles.context__toggle}
-            />
+            <Toggle isActive={isCartesianGridActive} className={styles.context__toggle} />
           </Button>
         )}
         {onClosestDataChange && (
@@ -132,10 +126,7 @@ const ChartSettingsContextMenu = ({
             className={cx(styles.context__btn, styles.context__btn_big)}
           >
             Show closest data on hover
-            <Toggle
-              isActive={isClosestDataActive}
-              className={styles.context__toggle}
-            />
+            <Toggle isActive={isClosestDataActive} className={styles.context__toggle} />
           </Button>
         )}
         {showWatermarkSettings && (
@@ -147,10 +138,7 @@ const ChartSettingsContextMenu = ({
             >
               Make watermark less visible
               {isPro ? (
-                <Toggle
-                  isActive={isWatermarkLighter}
-                  className={styles.context__toggle}
-                />
+                <Toggle isActive={isWatermarkLighter} className={styles.context__toggle} />
               ) : (
                 <ProLabel />
               )}
@@ -163,10 +151,7 @@ const ChartSettingsContextMenu = ({
             >
               Hide watermark
               {isProPlus ? (
-                <Toggle
-                  isActive={!isWatermarkVisible}
-                  className={styles.context__toggle}
-                />
+                <Toggle isActive={!isWatermarkVisible} className={styles.context__toggle} />
               ) : (
                 <ProLabel isPlus />
               )}

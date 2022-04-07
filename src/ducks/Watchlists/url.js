@@ -1,15 +1,10 @@
 import { getSEOLinkFromIdAndTitle } from '../../utils/url'
-import {
-  BLOCKCHAIN_ADDRESS,
-  PROJECT,
-  SCREENER,
-  detectWatchlistType
-} from './detector'
+import { BLOCKCHAIN_ADDRESS, PROJECT, SCREENER, detectWatchlistType } from './detector'
 
 export const LIST_PATH = {
   PROJECT: '/watchlist/projects/',
   BLOCKCHAIN_ADDRESS: '/watchlist/addresses/',
-  SCREENER: '/screener/'
+  SCREENER: '/screener/',
 }
 
 export const getAddressesWatchlistLink = ({ id, name }) =>

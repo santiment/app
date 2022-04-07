@@ -27,19 +27,18 @@ startResponsiveController()
 
 const EmbeddedWidgetPage = Loadable({
   loader: () => import('./pages/Embedded'),
-  loading: () => 'Loading'
+  loading: () => 'Loading',
 })
 
 const EmbeddedChartPage = Loadable({
   loader: () => import('./pages/Embedded/Chart'),
-  loading: () => 'Loading'
+  loading: () => 'Loading',
 })
 
 redirectSharedLink()
 
 const stripeKey =
-  process.env.NODE_ENV === 'development' ||
-  window.location.host.includes('-stage')
+  process.env.NODE_ENV === 'development' || window.location.host.includes('-stage')
     ? 'pk_test_gy9lndGDPXEFslDp8mJ24C3p'
     : 'pk_live_t7lOPOW79IIVcxjPPK5QfESD'
 
@@ -55,11 +54,7 @@ if (typeof Node === 'function' && Node.prototype) {
   Node.prototype.removeChild = function (child) {
     if (child.parentNode !== this) {
       if (console) {
-        console.error(
-          'Cannot remove a child from a different parent',
-          child,
-          this
-        )
+        console.error('Cannot remove a child from a different parent', child, this)
       }
       return child
     }
@@ -73,7 +68,7 @@ if (typeof Node === 'function' && Node.prototype) {
         console.error(
           'Cannot insert before a reference node from a different parent',
           referenceNode,
-          this
+          this,
         )
       }
       return newNode
@@ -96,7 +91,7 @@ const main = () => {
   store.subscribe(
     throttle(() => {
       saveState(store.getState().user)
-    }, 1000)
+    }, 1000),
   )
 
   store.dispatch(launchApp())
@@ -112,7 +107,7 @@ const main = () => {
       },
       markAsLatestApp: () => {
         store.dispatch(markAsLatestApp())
-      }
+      },
     })
   } else {
     unregister()
@@ -126,11 +121,7 @@ const main = () => {
             <Provider store={store}>
               <Router history={history}>
                 <Switch>
-                  <Route
-                    exact
-                    path='/__embedded'
-                    component={EmbeddedWidgetPage}
-                  />
+                  <Route exact path='/__embedded' component={EmbeddedWidgetPage} />
                   <Route exact path='/__chart' component={EmbeddedChartPage} />
                   <Route path='/' component={App} history={history} />
                 </Switch>
@@ -140,7 +131,7 @@ const main = () => {
         </ThemeProvider>
       </ApolloProvider>
     </StripeProvider>,
-    document.getElementById('root')
+    document.getElementById('root'),
   )
 }
 

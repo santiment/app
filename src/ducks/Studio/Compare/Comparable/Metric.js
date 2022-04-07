@@ -13,10 +13,10 @@ const DEFAULT_COLOR = '#9faac4'
 const CustomProjectCategories = {
   gold: getCategoryGraph(['price_usd']),
   's-and-p-500': getCategoryGraph(['price_usd']),
-  'crude-oil': getCategoryGraph(['price_usd'])
+  'crude-oil': getCategoryGraph(['price_usd']),
 }
 
-export const SEARCH_PREDICATE_ONLY_METRICS = searchTerm => {
+export const SEARCH_PREDICATE_ONLY_METRICS = (searchTerm) => {
   const upperCaseSearchTerm = searchTerm ? searchTerm.toUpperCase() : ''
   return ({ label, abbreviation, type }) => {
     if (type && type !== METRIC) {
@@ -27,23 +27,21 @@ export const SEARCH_PREDICATE_ONLY_METRICS = searchTerm => {
   }
 }
 
-const MetricSearch = withMetrics(
-  ({ slug, categories, loading, className, ...rest }) => (
-    <Search
-      {...rest}
-      searchPredicate={SEARCH_PREDICATE_ONLY_METRICS}
-      className={cx(className, loading && styles.loading)}
-      categories={CustomProjectCategories[slug] || categories}
-      emptySuggestions={getMetricSuggestions(
-        CustomProjectCategories[slug] || categories,
-        SEARCH_PREDICATE_ONLY_METRICS
-      )}
-      inputProps={{
-        placeholder: 'Type to search metrics...'
-      }}
-    />
-  )
-)
+const MetricSearch = withMetrics(({ slug, categories, loading, className, ...rest }) => (
+  <Search
+    {...rest}
+    searchPredicate={SEARCH_PREDICATE_ONLY_METRICS}
+    className={cx(className, loading && styles.loading)}
+    categories={CustomProjectCategories[slug] || categories}
+    emptySuggestions={getMetricSuggestions(
+      CustomProjectCategories[slug] || categories,
+      SEARCH_PREDICATE_ONLY_METRICS,
+    )}
+    inputProps={{
+      placeholder: 'Type to search metrics...',
+    }}
+  />
+))
 
 const Label = ({ comparable, editMetric, colors }) => {
   const { node, label } = comparable.metric
@@ -51,25 +49,14 @@ const Label = ({ comparable, editMetric, colors }) => {
 
   return (
     <div className={styles.selected} onClick={editMetric}>
-      <MetricIcon
-        node={node}
-        color={color || DEFAULT_COLOR}
-        className={styles.label}
-      />
+      <MetricIcon node={node} color={color || DEFAULT_COLOR} className={styles.label} />
       {label}
       <Icon type='edit-small' className={styles.edit} />
     </div>
   )
 }
 
-export default ({
-  comparable,
-  slug,
-  colors,
-  hiddenMetrics,
-  onSelect,
-  ...rest
-}) => {
+export default ({ comparable, slug, colors, hiddenMetrics, onSelect, ...rest }) => {
   const [isEditing, setEditing] = useState()
   const metricSelectorRef = useRef(null)
 
@@ -101,12 +88,7 @@ export default ({
       />
       {isEditing ||
         (comparable && (
-          <Label
-            {...rest}
-            comparable={comparable}
-            editMetric={editMetric}
-            colors={colors}
-          />
+          <Label {...rest} comparable={comparable} editMetric={editMetric} colors={colors} />
         ))}
     </div>
   )

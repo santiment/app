@@ -9,27 +9,25 @@ const ManageCookiesDialog = ({ cookiesPolicies, basePolicy }) => {
   const [activePolicies, setActivePolicies] = useState(['BASIC_COOKIES'])
 
   useEffect(() => {
-    cookiesPolicies.forEach(item => {
+    cookiesPolicies.forEach((item) => {
       if (localStorage.getItem(item.key)) {
-        setActivePolicies(prev => [...prev, item.key])
+        setActivePolicies((prev) => [...prev, item.key])
       }
     })
   }, [])
 
-  const activePoliciesSet = useMemo(() => new Set(activePolicies), [
-    activePolicies
-  ])
+  const activePoliciesSet = useMemo(() => new Set(activePolicies), [activePolicies])
 
   function handleChange (key) {
     if (activePoliciesSet.has(key)) {
-      setActivePolicies(prev => prev.filter(item => item !== key))
+      setActivePolicies((prev) => prev.filter((item) => item !== key))
     } else {
-      setActivePolicies(prev => [...prev, key])
+      setActivePolicies((prev) => [...prev, key])
     }
   }
 
   function handleSaveCookies () {
-    activePoliciesSet.forEach(item => {
+    activePoliciesSet.forEach((item) => {
       localStorage.setItem(item, true)
     })
     localStorage.setItem(basePolicy, true)
@@ -38,7 +36,7 @@ const ManageCookiesDialog = ({ cookiesPolicies, basePolicy }) => {
   }
 
   function handleAllowAll () {
-    cookiesPolicies.forEach(item => {
+    cookiesPolicies.forEach((item) => {
       localStorage.setItem(item.key, true)
     })
     localStorage.setItem(basePolicy, true)
@@ -55,20 +53,18 @@ const ManageCookiesDialog = ({ cookiesPolicies, basePolicy }) => {
       trigger={null}
       classes={{
         dialog: styles.dialog,
-        title: styles.dialogTitle
+        title: styles.dialogTitle,
       }}
     >
       <div className={styles.wrapper}>
         <div className={styles.content}>
           <div className={styles.info}>
-            When you visit our website, we may store cookies on your browser for
-            your security and to help us better understand user behavior and
-            inform us about which parts of our website you have visited. The
-            information does not usually directly identify you, but it can give
-            you a safe and more personalized web experience. Because we respect
-            your right to privacy, you can choose not to allow some types of
-            cookies. Blocking some types of cookies may impact your experience
-            on the site.{' '}
+            When you visit our website, we may store cookies on your browser for your security and
+            to help us better understand user behavior and inform us about which parts of our
+            website you have visited. The information does not usually directly identify you, but it
+            can give you a safe and more personalized web experience. Because we respect your right
+            to privacy, you can choose not to allow some types of cookies. Blocking some types of
+            cookies may impact your experience on the site.{' '}
             <a
               href='https://santiment.net/cookies/'
               target='_blank'
@@ -78,7 +74,7 @@ const ManageCookiesDialog = ({ cookiesPolicies, basePolicy }) => {
               Learn more
             </a>
           </div>
-          {cookiesPolicies.map(item => (
+          {cookiesPolicies.map((item) => (
             <CookieCheckbox
               isActive={activePoliciesSet.has(item.key)}
               onChange={() => handleChange(item.key)}

@@ -12,17 +12,13 @@ const DashboardLayout = ({
   showResearchers = true,
   classes = {},
   showMobileHeader = true,
-  children
+  children,
 }) => {
   return (
     <div className={cx('page', styles.container)}>
       {showMobileHeader && (
         <MobileOnly>
-          <MobileHeader
-            showBack={true}
-            goBack={history.goBack}
-            classes={styles}
-          />
+          <MobileHeader showBack={true} goBack={history.goBack} classes={styles} />
         </MobileOnly>
       )}
 

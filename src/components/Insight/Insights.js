@@ -7,34 +7,32 @@ import styles from './Insights.module.scss'
 
 const View = {
   RECENT: 'Recent',
-  POPULAR: 'Popular'
+  POPULAR: 'Popular',
 }
 
 const sortByRecent = ({ createdAt: aCreatedAt }, { createdAt: bCreatedAt }) =>
   new Date(aCreatedAt) < new Date(bCreatedAt) ? 1 : -1
 
-const sortByPopularity = (
-  { votes: { totalVotes: aVotes } },
-  { votes: { totalVotes: bVotes } }
-) => (aVotes < bVotes ? 1 : -1)
+const sortByPopularity = ({ votes: { totalVotes: aVotes } }, { votes: { totalVotes: bVotes } }) =>
+  aVotes < bVotes ? 1 : -1
 
 class Insights extends Component {
   static defaultProps = {
     insights: [],
     title: 'Insights',
-    className: ''
+    className: '',
   }
 
   state = {
-    view: View.RECENT
+    view: View.RECENT,
   }
 
-  onViewSelect = newView => {
+  onViewSelect = (newView) => {
     const { view } = this.state
     if (newView === view) return
 
     this.setState({
-      view: newView
+      view: newView,
     })
   }
 
@@ -67,9 +65,7 @@ class Insights extends Component {
         </div>
         <InsightsWrap
           withAuthorPic={true}
-          insights={insights.sort(
-            view === View.RECENT ? sortByRecent : sortByPopularity
-          )}
+          insights={insights.sort(view === View.RECENT ? sortByRecent : sortByPopularity)}
         />
       </div>
     )

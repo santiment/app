@@ -7,9 +7,7 @@ import styles from './Category.module.scss'
 function assetsFilterPredicate (value) {
   const searchTerm = value.toLowerCase()
   return ({ name, ticker, slug }) =>
-    name.includes(searchTerm) ||
-    ticker.includes(searchTerm) ||
-    slug.includes(searchTerm)
+    name.includes(searchTerm) || ticker.includes(searchTerm) || slug.includes(searchTerm)
 }
 
 function assetsMatchPredicate (value) {
@@ -17,7 +15,7 @@ function assetsMatchPredicate (value) {
   return ({ ticker }) => ticker === searchTerm
 }
 
-const useSearchableAssets = assets =>
+const useSearchableAssets = (assets) =>
   useMemo(() => {
     const { length } = assets
     const searchableAssets = new Array(length)
@@ -26,7 +24,7 @@ const useSearchableAssets = assets =>
       searchableAssets[i] = {
         name: name.toLowerCase(),
         ticker: ticker.toLowerCase(),
-        slug: slug.toLowerCase()
+        slug: slug.toLowerCase(),
       }
     }
     return searchableAssets
@@ -34,7 +32,7 @@ const useSearchableAssets = assets =>
 
 export const propsAccessor = ({ slug }) => ({
   key: slug,
-  to: '/charts?slug=' + slug
+  to: '/charts?slug=' + slug,
 })
 
 export const Asset = ({ name, ticker }) => (
@@ -54,12 +52,10 @@ const AssetsCategory = ({ searchTerm, ...props }) => {
     const { filteredItems, filteredSearchables } = filterSearchableItems(
       assetsFilterPredicate(searchTerm),
       searchableAssets,
-      assets
+      assets,
     )
     const displayedItems = filteredItems.slice(0, 5)
-    const matchedIndex = filteredSearchables.findIndex(
-      assetsMatchPredicate(searchTerm)
-    )
+    const matchedIndex = filteredSearchables.findIndex(assetsMatchPredicate(searchTerm))
 
     if (matchedIndex === -1) {
       return displayedItems

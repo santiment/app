@@ -10,7 +10,7 @@ const SettingsGetTokens = () => (
       style={{
         flexDirection: 'column',
         alignItems: 'flex-start',
-        position: 'relative'
+        position: 'relative',
       }}
     >
       <span className={styles.getTokens}>Get SAN tokens</span>

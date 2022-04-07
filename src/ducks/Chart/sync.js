@@ -5,7 +5,7 @@ function createSyncDateObserver () {
   let subscribers = new Set()
   let state
 
-  const notify = subscriber => subscriber(state)
+  const notify = (subscriber) => subscriber(state)
 
   function syncDate (newState) {
     state = newState
@@ -19,7 +19,7 @@ function createSyncDateObserver () {
 
   return {
     syncDate,
-    observeSyncDate
+    observeSyncDate,
   }
 }
 
@@ -30,7 +30,7 @@ export function useSyncDateEffect (chartRef, observeSyncDate) {
     const chart = chartRef.current
     return (
       observeSyncDate &&
-      observeSyncDate(syncedDate => {
+      observeSyncDate((syncedDate) => {
         if (chart.points.length === 0) return
         if (syncedDate) {
           const point = findPointByDate(chart.points, syncedDate)

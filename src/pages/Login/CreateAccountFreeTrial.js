@@ -16,13 +16,7 @@ import externalStyles from './index.module.scss'
 import styles from './CreateAccountFreeTrial.module.scss'
 
 const ICON = (
-  <svg
-    width='16'
-    height='16'
-    viewBox='0 0 16 16'
-    fill='none'
-    xmlns='http://www.w3.org/2000/svg'
-  >
+  <svg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
     <path
       d='M13.0353 3.38779C10.2241 2.23771 7.22207 3.75141 6.31104 6.53357C6.28502 6.60968 6.11147 7.05787 6.02471 7.29465C5.9553 7.28619 5.89457 7.27773 5.86854 7.27773C5.8078 7.26927 5.78178 7.27774 5.76443 7.28619C5.86854 7.33693 5.91192 7.35385 5.89457 7.35385C5.86854 7.33693 5.82516 7.32001 5.76443 7.29465C5.52149 7.21008 5.06162 7.01559 5.01824 6.99868C4.73192 6.88029 4.4456 6.77035 4.1506 6.65196C2.07694 5.8486 0.064016 7.86123 0.00328114 9.7301C-0.126865 13.3579 3.63871 15.8103 7.01383 15.9878C10.9703 16.1992 13.8855 13.6285 15.4213 10.2798C16.6273 7.6329 16.0026 4.60551 13.0353 3.38779Z'
       fill='var(--jungle-green-light-3)'
@@ -38,17 +32,14 @@ const ICON = (
 
 const TRIAL_DESCRIPTIONS = [
   {
-    text:
-      'Full historical and present data for 30+ on-chain, social & development metrics'
+    text: 'Full historical and present data for 30+ on-chain, social & development metrics',
   },
   {
-    text:
-      'Exclusive End-of-Month market & network reports from the Santiment team'
+    text: 'Exclusive End-of-Month market & network reports from the Santiment team',
   },
   {
-    text:
-      'Complete access to our Spreadsheets plugin and our internal market templates'
-  }
+    text: 'Complete access to our Spreadsheets plugin and our internal market templates',
+  },
 ]
 
 // eslint-disable-next-line
@@ -109,37 +100,27 @@ const SignupDescription = ({ loading, loginEmail, setEmail }) => {
   )
 }
 
-export const LoginDivider = () => (
-  <div className={externalStyles.verticalDivider} />
-)
+export const LoginDivider = () => <div className={externalStyles.verticalDivider} />
 
-export const PrepareState = props => {
+export const PrepareState = (props) => {
   const { isDesktop, loading, loginEmail, setEmail, history } = props
 
   if (isDesktop) {
     return (
       <div className={styles.container}>
-        <SignupDescription
-          loading={loading}
-          loginEmail={loginEmail}
-          setEmail={setEmail}
-        />
+        <SignupDescription loading={loading} loginEmail={loginEmail} setEmail={setEmail} />
       </div>
     )
   }
 
   return (
     <MobileWrapper onBack={history.goBack}>
-      <SignupDescription
-        loading={loading}
-        loginEmail={loginEmail}
-        setEmail={setEmail}
-      />
+      <SignupDescription loading={loading} loginEmail={loginEmail} setEmail={setEmail} />
     </MobileWrapper>
   )
 }
 
-const CreateAccountFreeTrial = props => {
+const CreateAccountFreeTrial = (props) => {
   if (props.isLoggedIn) {
     return <Redirect to='/' />
   }

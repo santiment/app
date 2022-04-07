@@ -30,13 +30,7 @@ function getHeader (title, project) {
   return header
 }
 
-export default ({
-  className,
-  metricValues,
-  containerRef,
-  onDialogClose,
-  ...rest
-}) => {
+export default ({ className, metricValues, containerRef, onDialogClose, ...rest }) => {
   const suggestions = useSuggestions(metricValues)
 
   return (
@@ -55,11 +49,7 @@ export default ({
             <div key={header} className={styles.suggestion}>
               <div className={styles.title}>{header}</div>
               {suggesters.map((suggest, i) => (
-                <Alert
-                  key={i}
-                  {...rest}
-                  {...suggest({ ...rest, ...values, ...project })}
-                />
+                <Alert key={i} {...rest} {...suggest({ ...rest, ...values, ...project })} />
               ))}
             </div>
           )

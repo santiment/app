@@ -43,27 +43,18 @@ const GET_NFT_TRADES_QUERY = gql`
 
 const GET_NFT_TRADES_COUNT = gql`
   {
-    getNftTradesCount(
-      labelKey: NFT_INFLUENCER
-      from: "utc_now-30d"
-      to: "utc_now"
-    )
+    getNftTradesCount(labelKey: NFT_INFLUENCER, from: "utc_now-30d", to: "utc_now")
   }
 `
 
-export const useNftQuery = (
-  page = 0,
-  pageSize = 6,
-  orderBy = 'DATETIME',
-  direction = 'DESC'
-) => {
+export const useNftQuery = (page = 0, pageSize = 6, orderBy = 'DATETIME', direction = 'DESC') => {
   const { data, loading, error } = useQuery(GET_NFT_TRADES_QUERY, {
     variables: {
       page: page + 1,
       pageSize,
       orderBy,
-      direction
-    }
+      direction,
+    },
   })
   return { data: data ? data.getNftTrades : [], loading, error }
 }

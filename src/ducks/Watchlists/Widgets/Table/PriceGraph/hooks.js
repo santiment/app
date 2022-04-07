@@ -8,12 +8,7 @@ const PRICE_GRAPH_QUERY = gql`
     $interval: interval
   ) {
     getMetric(metric: "price_usd") {
-      timeseriesDataPerSlug(
-        selector: $selector
-        from: $from
-        to: "utc_now"
-        interval: $interval
-      ) {
+      timeseriesDataPerSlug(selector: $selector, from: $from, to: "utc_now", interval: $interval) {
         datetime
         data {
           slug
@@ -27,7 +22,7 @@ const PRICE_GRAPH_QUERY = gql`
 const PRICE_RANGES = {
   '1d': '40m',
   '7d': '5h',
-  '30d': '24h'
+  '30d': '24h',
 }
 
 const ARR = []
@@ -38,8 +33,8 @@ export function usePriceGraph ({ slugs, range = '7d', skip = false }) {
     variables: {
       selector: { slugs },
       from: `utc_now-${range}`,
-      interval: PRICE_RANGES[range]
-    }
+      interval: PRICE_RANGES[range],
+    },
   })
 
   if (

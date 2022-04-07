@@ -40,11 +40,11 @@ export const READABLE_NAMES = {
   anomaly_supply_on_exchanges: 'Anomaly (supply on exchanges)',
   anomaly_transaction_count: 'Anomaly (transaction count)',
   anomaly_transaction_volume: 'Anomaly (transaction volume)',
-  anomaly_velocity: 'Anomaly (velocity)'
+  anomaly_velocity: 'Anomaly (velocity)',
 }
 
 export const READABLE_EXCHANGE_NAMES = {
-  ftx_exchange: 'FTX Exchange'
+  ftx_exchange: 'FTX Exchange',
 }
 
 const RAW_SIGNALS_QUERY = gql`
@@ -91,13 +91,13 @@ export const TEMPORARY_HIDDEN_LABELS = {
   anomaly_supply_on_exchanges: true,
   anomaly_transaction_count: true,
   anomaly_transaction_volume: true,
-  anomaly_velocity: true
+  anomaly_velocity: true,
 }
 
 export const useRawSignals = ({ from, to }) => {
   const [isLoading, setIsLoading] = useState(true)
   const { data, loading } = useQuery(RAW_SIGNALS_QUERY, {
-    variables: { from, to }
+    variables: { from, to },
   })
 
   return useMemo(() => {
@@ -107,23 +107,21 @@ export const useRawSignals = ({ from, to }) => {
 
     return {
       data: data
-        ? data.getRawSignals.filter(
-            signal => signal && (!!signal.project || signal.isHidden)
-          )
+        ? data.getRawSignals.filter((signal) => signal && (!!signal.project || signal.isHidden))
         : ARRAY,
-      loading: loading || isLoading
+      loading: loading || isLoading,
     }
   }, [data, loading, isLoading])
 }
 
-const marketcapSorter = groups => (a, b) =>
+const marketcapSorter = (groups) => (a, b) =>
   groups[b].project.marketcapUsd - groups[a].project.marketcapUsd
 
 export function useGroupedBySlugs (signals, hiddenLabels, selectedAssets) {
-  const filteredByAssets = useMemo(
-    () => signals.filter(({ slug }) => selectedAssets[slug]),
-    [signals, selectedAssets]
-  )
+  const filteredByAssets = useMemo(() => signals.filter(({ slug }) => selectedAssets[slug]), [
+    signals,
+    selectedAssets,
+  ])
 
   const { slugs, projects } = useMemo(
     () => ({
@@ -131,22 +129,18 @@ export function useGroupedBySlugs (signals, hiddenLabels, selectedAssets) {
       projects: signals.reduce((acc, item) => {
         acc[item.slug] = item.project
         return acc
-      }, {})
+      }, {}),
     }),
-    [signals]
+    [signals],
   )
 
   const restrictedSignals = useMemo(
-    () =>
-      signals.filter(({ isHidden }) => isHidden).map(({ signal }) => signal),
-    [signals]
+    () => signals.filter(({ isHidden }) => isHidden).map(({ signal }) => signal),
+    [signals],
   )
 
   const labels = useMemo(() => {
-    const signalNames = [
-      ...filteredByAssets.map(({ signal }) => signal),
-      ...restrictedSignals
-    ]
+    const signalNames = [...filteredByAssets.map(({ signal }) => signal), ...restrictedSignals]
     return [...new Set(signalNames)].sort().reverse()
   }, [filteredByAssets, restrictedSignals])
 
@@ -168,7 +162,7 @@ export function useGroupedBySlugs (signals, hiddenLabels, selectedAssets) {
     }, {})
 
     const visibleSlugs = Object.keys(groups)
-      .filter(slug => !!groups[slug].project)
+      .filter((slug) => !!groups[slug].project)
       .sort(marketcapSorter(groups))
 
     return { groups, visibleSlugs }

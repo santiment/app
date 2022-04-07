@@ -6,11 +6,7 @@ import styles from './MobilePopularMetrics.module.scss'
 
 const LS_LABEL = 'TOOLTIP_MOBILE_METRICS_SWIPES'
 
-const MobilePopularMetrics = ({
-  metrics: activeMetrics = [],
-  onToggleMetric,
-  ...rest
-}) => {
+const MobilePopularMetrics = ({ metrics: activeMetrics = [], onToggleMetric, ...rest }) => {
   const [isShow, setIsShow] = useState(false)
   const [wasShown] = useState(localStorage.getItem(LS_LABEL))
   const [savedMetrics] = useState(activeMetrics)
@@ -26,9 +22,7 @@ const MobilePopularMetrics = ({
     }
   }, [])
 
-  const metrics = POPULAR_METRICS.filter(
-    metric => !activeMetrics.includes(metric)
-  )
+  const metrics = POPULAR_METRICS.filter((metric) => !activeMetrics.includes(metric))
 
   return metrics.length > 0 ? (
     <>
@@ -36,21 +30,15 @@ const MobilePopularMetrics = ({
       {isShow && (
         <div className={styles.tooltip}>
           <span className={styles.text}>
-            Swipe left to add or remove a metric. Swipe right to learn more
-            about the selected metric.
+            Swipe left to add or remove a metric. Swipe right to learn more about the selected
+            metric.
           </span>
-          <Icon
-            type='close-medium'
-            className={styles.close}
-            onClick={hideTooltip}
-          />
+          <Icon type='close-medium' className={styles.close} onClick={hideTooltip} />
         </div>
       )}
-      {metrics.map(metric => (
+      {metrics.map((metric) => (
         <MobileMetricCard
-          useInitialAnimation={
-            activeMetrics.length > 0 || savedMetrics !== activeMetrics
-          }
+          useInitialAnimation={activeMetrics.length > 0 || savedMetrics !== activeMetrics}
           metric={metric}
           onToggleMetric={() => {
             onToggleMetric(metric)

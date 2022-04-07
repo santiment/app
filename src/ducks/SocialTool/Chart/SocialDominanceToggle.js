@@ -9,12 +9,12 @@ const SocialDominanceToggle = ({ className, options = {}, setOptions }) => {
   const isActive = options.isSocialDominanceActive
 
   function toggle () {
-    setOptions(state => ({
+    setOptions((state) => ({
       ...state,
       isSocialDominanceActive: saveToggle(
         'isSocialDominanceActive',
-        !state.isSocialDominanceActive
-      )
+        !state.isSocialDominanceActive,
+      ),
     }))
   }
 

@@ -33,10 +33,7 @@ const PlansDropdown = ({ title, plan, altPlan, onBillingSelect }) => {
       <div className={styles.holder} onClick={() => setIsOpened(true)}>
         <div className={styles.title}>{title}</div>
         <div className={styles.icon}>
-          <Icon
-            type='arrow-down'
-            className={cx(isOpened && styles.icon_active)}
-          />
+          <Icon type='arrow-down' className={cx(isOpened && styles.icon_active)} />
         </div>
 
         {isOpened && (
@@ -45,15 +42,13 @@ const PlansDropdown = ({ title, plan, altPlan, onBillingSelect }) => {
               className={cx(styles.option, !isYearBilling && styles.active)}
               onClick={() => onBillingSelect('month')}
             >
-              Bill monthly -{' '}
-              <span className={styles.price}>{monthPlanPrice}/mo</span>
+              Bill monthly - <span className={styles.price}>{monthPlanPrice}/mo</span>
             </div>
             <div
               className={cx(styles.option, isYearBilling && styles.active)}
               onClick={() => onBillingSelect('year')}
             >
-              Bill yearly -{' '}
-              <span className={styles.price}>{yearPlanPrice}/mo</span>
+              Bill yearly - <span className={styles.price}>{yearPlanPrice}/mo</span>
               <span className={cx(styles.save, styles.save_drop)}>
                 Save 10%{' '}
                 <span role='img' aria-label='nice'>
@@ -64,9 +59,7 @@ const PlansDropdown = ({ title, plan, altPlan, onBillingSelect }) => {
           </div>
         )}
       </div>
-      <span className={styles.save}>
-        Save 10% {isYearBilling ? '🎉' : 'with yearly billing'}
-      </span>
+      <span className={styles.save}>Save 10% {isYearBilling ? '🎉' : 'with yearly billing'}</span>
     </div>
   )
 }

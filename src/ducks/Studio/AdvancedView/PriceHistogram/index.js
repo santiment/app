@@ -16,17 +16,9 @@ import styles from './index.module.scss'
 
 const INTERVAL_ERROR_TEXT = 'allowed interval'
 
-const formatRange = ([left, right]) =>
-  `${usdFormatter(left)} - ${usdFormatter(right)}`
+const formatRange = ([left, right]) => `${usdFormatter(left)} - ${usdFormatter(right)}`
 
-const Bucket = ({
-  range,
-  value,
-  ticker,
-  width,
-  price,
-  isRangeAfterCurrentPrice
-}) => (
+const Bucket = ({ range, value, ticker, width, price, isRangeAfterCurrentPrice }) => (
   <div className={styles.frame}>
     <div
       className={cx(styles.bar, isRangeAfterCurrentPrice && styles.red)}
@@ -35,18 +27,12 @@ const Bucket = ({
     <div className={styles.info}>
       <span className={styles.range}>{formatRange(range)}: </span>
       {millify(value, 1)} {ticker}
-      {price && (
-        <div className={styles.price}>Price: {usdFormatter(price)}</div>
-      )}
+      {price && <div className={styles.price}>Price: {usdFormatter(price)}</div>}
     </div>
   </div>
 )
 
-const PriceHistogram = ({
-  project: { title, slug, ticker },
-  date,
-  datesRange
-}) => {
+const PriceHistogram = ({ project: { title, slug, ticker }, date, datesRange }) => {
   const [dates, setDates] = useState([date])
   const [from, to] = dates
   const [data, loading, error] = usePriceHistogramData({ slug, from, to })
@@ -86,12 +72,11 @@ const PriceHistogram = ({
       </h2>
 
       <div className={styles.description}>
-        It shows at what price the tokens that were transacted today were last
-        moved.
+        It shows at what price the tokens that were transacted today were last moved.
         <MoreInfoLink href='https://academy.santiment.net/metrics/spent-coin-cost/' />
         <MetricFrequence
           metric={{
-            key: SPENT_COINT_COST
+            key: SPENT_COINT_COST,
           }}
           classes={styles}
         />
@@ -112,10 +97,10 @@ const PriceHistogram = ({
               <>
                 <div>Example</div>
                 <div className={styles.description}>
-                  Today's on-chain volume of Santiment is 100,000 SAN tokens and
-                  the average price for today is $1. If 50,000 of those tokens
-                  were moved when the price was $1.5 and the other 50,000 where
-                  moved when the price was $0.5 the histogram could look like:
+                  Today's on-chain volume of Santiment is 100,000 SAN tokens and the average price
+                  for today is $1. If 50,000 of those tokens were moved when the price was $1.5 and
+                  the other 50,000 where moved when the price was $0.5 the histogram could look
+                  like:
                   <br />
                   $0-$1 - 50,000
                   <br />
@@ -123,12 +108,7 @@ const PriceHistogram = ({
                 </div>
 
                 {data.map(({ index, distribution, ...rest }) => (
-                  <Bucket
-                    key={index}
-                    {...distribution}
-                    {...rest}
-                    ticker={ticker}
-                  />
+                  <Bucket key={index} {...distribution} {...rest} ticker={ticker} />
                 ))}
               </>
             )}
@@ -145,7 +125,7 @@ PriceHistogram.Icon = 'H'
 
 PriceHistogram.defaultProps = {
   project: {},
-  date: new Date(Date.now() - ONE_MONTH_IN_MS * 3)
+  date: new Date(Date.now() - ONE_MONTH_IN_MS * 3),
 }
 
 export default PriceHistogram

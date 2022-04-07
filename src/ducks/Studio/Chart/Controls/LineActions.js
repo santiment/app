@@ -9,9 +9,7 @@ const LineActions = ({ chartRef, selectedLineState }) => {
   function onDelete () {
     const { drawer } = chartRef.current
     drawer.selected = null
-    drawer.drawings = drawer.drawings.filter(
-      drawing => drawing !== selectedLine
-    )
+    drawer.drawings = drawer.drawings.filter((drawing) => drawing !== selectedLine)
     setSelectedLine()
     drawer.redraw()
   }

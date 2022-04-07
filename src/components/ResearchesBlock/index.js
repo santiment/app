@@ -11,9 +11,8 @@ const ResearchesBlock = ({ className }) => (
       <div className={styles.block}>
         <h4 className={styles.heading}>Researchers</h4>
         <p className={styles.desc}>
-          Need data to support your crypto market analysis? Tap into on-chain,
-          social media and development indicators on over 1000 cryptocurrencies
-          via our{' '}
+          Need data to support your crypto market analysis? Tap into on-chain, social media and
+          development indicators on over 1000 cryptocurrencies via our{' '}
           <a
             href='https://sheets.santiment.net/'
             target='_blank'
@@ -47,9 +46,9 @@ const ResearchesBlock = ({ className }) => (
       <div className={styles.block}>
         <h4 className={styles.heading}>Reporters</h4>
         <p className={styles.desc}>
-          Want to give more context about crypto market events to your audience?
-          We help content creators big and small elevate their market coverage
-          with hard data and explore new, untapped market storylines.
+          Want to give more context about crypto market events to your audience? We help content
+          creators big and small elevate their market coverage with hard data and explore new,
+          untapped market storylines.
         </p>
         <ContactUs border className={styles.button} />
       </div>

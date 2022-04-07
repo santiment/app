@@ -6,19 +6,19 @@ describe('Actions', () => {
   describe('Notification', () => {
     const expectedAction = {
       payload: {
-        title: 'Any message'
+        title: 'Any message',
       },
-      type: SHOW_NOTIFICATION
+      type: SHOW_NOTIFICATION,
     }
 
-    const checkExpectedAction = newAction => {
+    const checkExpectedAction = (newAction) => {
       expect(newAction.payload.title).toBe(expectedAction.payload.title)
       expect(newAction.type).toBe(SHOW_NOTIFICATION)
     }
 
     it('Action can be made by the object with options', () => {
       const newAction = showNotification({
-        title: 'Any message'
+        title: 'Any message',
       })
       checkExpectedAction(newAction)
     })

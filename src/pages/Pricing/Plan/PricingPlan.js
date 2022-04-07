@@ -9,7 +9,7 @@ const PLAN_CLASSES = {
   price: styles.card__price,
   feature: styles.feature,
   feature__icon: styles.feature__icon,
-  popular: styles.card__popular
+  popular: styles.card__popular,
 }
 
 const PricingPlan = ({ ...props }) => (

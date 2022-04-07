@@ -6,7 +6,7 @@ export const useAlertCooldown = ({ values, setInitialValues }) => {
     const { cooldown } = values
 
     const found = SCREENER_FREQUENCES.find(
-      ({ cooldown: targerCooldown }) => targerCooldown === cooldown
+      ({ cooldown: targerCooldown }) => targerCooldown === cooldown,
     )
 
     if (found) {
@@ -27,6 +27,6 @@ export const useAlertCooldown = ({ values, setInitialValues }) => {
 
   return {
     cooldownInitial,
-    toggleSignalFrequency
+    toggleSignalFrequency,
   }
 }

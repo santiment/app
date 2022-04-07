@@ -12,13 +12,13 @@ import OpenSignalLink from '../../../ducks/Signals/link/OpenSignalLink'
 import { isEthStrictAddress } from '../../../utils/utils'
 import FeedHistoricalBalance from '../../feed/GeneralFeed/FeedItemRenderer/feedHistoricalBalance/FeedHistoricalBalance'
 import FeedSignalCardWithMarkdown, {
-  MoreInfoAlert
+  MoreInfoAlert,
 } from '../../feed/GeneralFeed/FeedItemRenderer/feedSignalCardWithMarkdown/FeedSignalCardWithMarkdown'
 import SidecarExplanationTooltip from '../../../ducks/SANCharts/SidecarExplanationTooltip'
 import TimelineEventComments from '../../../components/TimelineEventComments/TimelineEventComments'
 import styles from './ActivityRenderer.module.scss'
 
-export const getUserTriggerData = activityData => {
+export const getUserTriggerData = (activityData) => {
   if (activityData) {
     const { user_trigger_data } = activityData
     const firstKey = Object.keys(user_trigger_data)[0]
@@ -29,11 +29,7 @@ export const getUserTriggerData = activityData => {
   }
 }
 
-export const getDefaultActivityContent = (
-  classes,
-  activity,
-  showMarkdown = true
-) => {
+export const getDefaultActivityContent = (classes, activity, showMarkdown = true) => {
   const { payload, data: activityData, trigger = {} } = activity
 
   const data = getUserTriggerData(activityData)
@@ -42,12 +38,7 @@ export const getDefaultActivityContent = (
     if (isEthStrictAddress(data.address)) {
       return <FeedHistoricalBalance user_trigger_data={data} />
     } else if (trigger && showMarkdown) {
-      return (
-        <FeedSignalCardWithMarkdown
-          trigger={trigger}
-          user_trigger_data={data}
-        />
-      )
+      return <FeedSignalCardWithMarkdown trigger={trigger} user_trigger_data={data} />
     }
   }
 
@@ -57,14 +48,12 @@ export const getDefaultActivityContent = (
         source={validateMarkdown(Object.values(payload)[0])}
         className={classes.activityMarkdown}
       />
-      {data && data.project_slug && (
-        <MoreInfoAlert slug={data.project_slug} type={data.type} />
-      )}
+      {data && data.project_slug && <MoreInfoAlert slug={data.project_slug} type={data.type} />}
     </>
   )
 }
 
-const validateMarkdown = text => text.replace('not implemented', 'changed')
+const validateMarkdown = (text) => text.replace('not implemented', 'changed')
 
 const ActivityWithBacktesting = ({
   date,
@@ -73,10 +62,10 @@ const ActivityWithBacktesting = ({
   activity,
   activity: { index, triggeredAt, trigger = {} },
   onLike,
-  showProfileExplanation
+  showProfileExplanation,
 }) => {
   const {
-    settings: { type, metric }
+    settings: { type, metric },
   } = trigger
 
   return (
@@ -86,13 +75,7 @@ const ActivityWithBacktesting = ({
       </DesktopOnly>
       <div className={styles.container}>
         <div className={styles.info}>
-          <div
-            className={cx(
-              styles.description,
-              styles.activityCustom,
-              styles.activityBacktest
-            )}
-          >
+          <div className={cx(styles.description, styles.activityCustom, styles.activityBacktest)}>
             <div className={styles.center}>
               <MobileOnly>
                 <FeedCardDate date={triggeredAt || date} />
@@ -125,12 +108,7 @@ const ActivityWithBacktesting = ({
             <DesktopOnly>
               <FeedCardDate date={triggeredAt || date} />
             </DesktopOnly>
-            <SignalPreview
-              trigger={trigger}
-              type={type}
-              showExpand={false}
-              showTitle={false}
-            />
+            <SignalPreview trigger={trigger} type={type} showExpand={false} showTitle={false} />
           </div>
         </div>
 
@@ -143,18 +121,11 @@ const ActivityWithBacktesting = ({
   )
 }
 
-export const LikesAndComments = ({
-  onLike,
-  activity: { votes, user, id, commentsCount }
-}) => {
+export const LikesAndComments = ({ onLike, activity: { votes, user, id, commentsCount } }) => {
   return (
     <div className={styles.actions}>
       {onLike && <LikeBtnWrapper onLike={onLike} votes={votes} user={user} />}
-      <TimelineEventComments
-        id={id}
-        authorId={user.id}
-        commentsCount={commentsCount}
-      />
+      <TimelineEventComments id={id} authorId={user.id} commentsCount={commentsCount} />
     </div>
   )
 }

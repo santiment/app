@@ -29,8 +29,8 @@ window.onload = () => {
     target: document.body,
     props: {
       isWithMetricSettings,
-      widget: newWidget(null, widgetProps)
-    }
+      widget: newWidget(null, widgetProps),
+    },
   })
 }
 

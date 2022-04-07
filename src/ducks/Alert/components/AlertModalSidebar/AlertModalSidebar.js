@@ -11,7 +11,7 @@ const AlertModalSidebar = ({
   selectorSettings,
   values,
   hasSignal,
-  isSharedTrigger
+  isSharedTrigger,
 }) => {
   const { submitForm, isSubmitting } = useFormikContext()
 
@@ -21,7 +21,7 @@ const AlertModalSidebar = ({
     setSelectedStep,
     setFormPreviousValues,
     setInvalidSteps,
-    shouldHideRestrictionMessage
+    shouldHideRestrictionMessage,
   } = selectorSettings
 
   function handleReturnBack () {
@@ -37,12 +37,7 @@ const AlertModalSidebar = ({
   }
 
   return (
-    <div
-      className={cx(
-        styles.wrapper,
-        !shouldHideRestrictionMessage && styles.wrapperResized
-      )}
-    >
+    <div className={cx(styles.wrapper, !shouldHideRestrictionMessage && styles.wrapperResized)}>
       <div>
         <div className={styles.titleWrapper}>
           <div className={styles.title}>{selectedType.title}</div>

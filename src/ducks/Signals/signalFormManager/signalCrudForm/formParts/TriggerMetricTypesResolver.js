@@ -8,7 +8,7 @@ import { getTargetsHeader } from '../../../utils/utils'
 
 const mapToComponents = {
   [TRENDING_WORDS]: TriggerFormTrendingWordsTypes,
-  [ETH_WALLET]: TriggerFormHistoricalBalance
+  [ETH_WALLET]: TriggerFormHistoricalBalance,
 }
 
 const TriggerMetricTypesResolver = ({
@@ -17,7 +17,7 @@ const TriggerMetricTypesResolver = ({
   values: { metric },
   metaFormSettings,
   setFieldValue,
-  isNewSignal
+  isNewSignal,
 }) => {
   const TypeComponent = mapToComponents[metric.value] || TriggerFormAssetWallet
 

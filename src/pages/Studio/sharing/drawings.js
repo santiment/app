@@ -7,20 +7,13 @@ export function shareDrawings (drawings = []) {
     id,
     rc: relCoor,
     s: size,
-    txt: text
+    txt: text,
   }))
 }
 
 export function parseDrawings (drawings = []) {
   return drawings.map(
-    ({
-      t: type = 'line',
-      id,
-      relCoor: oldCoor,
-      rc: relCoor = oldCoor,
-      s: size,
-      txt: text
-    }) => {
+    ({ t: type = 'line', id, relCoor: oldCoor, rc: relCoor = oldCoor, s: size, txt: text }) => {
       const drawing = { type, relCoor }
 
       if (type === 'emoji') {
@@ -31,6 +24,6 @@ export function parseDrawings (drawings = []) {
       }
 
       return newDrawing(drawing)
-    }
+    },
   )
 }

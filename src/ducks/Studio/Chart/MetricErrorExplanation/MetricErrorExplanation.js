@@ -32,14 +32,9 @@ const MetricErrorExplanation = ({ errorsForMetrics, metric, settings }) => {
           {[
             text,
             ' If Intercom is not activated or exist, send a email to ',
-            <Button
-              as='a'
-              key='link'
-              className={styles.link}
-              href='mailto:support@santiment.net'
-            >
+            <Button as='a' key='link' className={styles.link} href='mailto:support@santiment.net'>
               support@santiment.net
-            </Button>
+            </Button>,
           ]}
         </div>
 

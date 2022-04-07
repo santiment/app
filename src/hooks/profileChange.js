@@ -50,20 +50,18 @@ export function useUsernameChange (_username) {
     setUsernameError(error)
   }
 
-  const changeUsername = username =>
+  const changeUsername = (username) =>
     mutate({
       variables: {
-        username
-      }
+        username,
+      },
     })
 
   const showUsernameChangedNotifiction = (notification = null) => {
     if (notification) {
       store.dispatch(showNotification(notification))
     } else {
-      store.dispatch(
-        showNotification(`Username successfully changed to "${username}"`)
-      )
+      store.dispatch(showNotification(`Username successfully changed to "${username}"`))
     }
   }
 
@@ -76,7 +74,7 @@ export function useUsernameChange (_username) {
     setUsername,
     checkUsername,
     catchUsernameChangeError,
-    showUsernameChangedNotifiction
+    showUsernameChangedNotifiction,
   }
 }
 
@@ -103,11 +101,11 @@ export function useFullnameChange (_fullname) {
     setFullnameError(error)
   }
 
-  const changeFullname = fullname =>
+  const changeFullname = (fullname) =>
     mutate({
       variables: {
-        fullname
-      }
+        fullname,
+      },
     })
 
   const showFullnameChangedNotifiction = (notification = null, _fullname) => {
@@ -115,9 +113,7 @@ export function useFullnameChange (_fullname) {
       store.dispatch(showNotification(notification))
     } else {
       store.dispatch(
-        showNotification(
-          `Full name successfully changed to "${_fullname || fullname}"`
-        )
+        showNotification(`Full name successfully changed to "${_fullname || fullname}"`),
       )
     }
   }
@@ -131,6 +127,6 @@ export function useFullnameChange (_fullname) {
     catchFullnameChangeError,
     changeFullname,
     showFullnameChangedNotifiction,
-    savingFullname: loading
+    savingFullname: loading,
   }
 }

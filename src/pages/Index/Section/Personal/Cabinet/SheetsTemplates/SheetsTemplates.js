@@ -25,7 +25,7 @@ function useSheetsTemplates () {
   const { data, loading } = useQuery(SHEETS_TEMPLATES_QUERY)
   return {
     loading,
-    templates: data ? data.getSheetsTemplates : []
+    templates: data ? data.getSheetsTemplates : [],
   }
 }
 
@@ -33,10 +33,9 @@ const SheetsTemplates = () => {
   const { loading, templates } = useSheetsTemplates()
   const { isPro } = useUserSubscriptionStatus()
 
-  const list = useMemo(
-    () => (templates.length > 0 ? templates : DEFAULT_SHEETS_TEMPLATES),
-    [templates]
-  )
+  const list = useMemo(() => (templates.length > 0 ? templates : DEFAULT_SHEETS_TEMPLATES), [
+    templates,
+  ])
 
   return (
     <div className={styles.wrapper}>

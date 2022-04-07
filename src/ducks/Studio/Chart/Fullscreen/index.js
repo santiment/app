@@ -5,15 +5,8 @@ import ChartCanvas from '../Canvas'
 import { useTimeseries } from '../../timeseries/hooks'
 import { extractMirrorMetricsDomainGroups } from '../../../Chart/utils'
 import { MirroredMetric } from '../../../dataHub/metrics/mirrored'
-import {
-  useEdgeGaps,
-  useClosestValueData,
-  useDomainGroups
-} from '../../../Chart/hooks'
-import {
-  getNewInterval,
-  INTERVAL_ALIAS
-} from '../../../SANCharts/IntervalSelector'
+import { useEdgeGaps, useClosestValueData, useDomainGroups } from '../../../Chart/hooks'
+import { getNewInterval, INTERVAL_ALIAS } from '../../../SANCharts/IntervalSelector'
 import { ONE_HOUR_IN_MS } from '../../../../utils/dates'
 import FullscreenDialogBtn from '../../../../components/FullscreenDialogBtn'
 import styles from './index.module.scss'
@@ -36,25 +29,15 @@ const FullscreenChart = ({
   isDrawingState,
   isNewDrawingState,
   setIsICOPriceDisabled,
-  cursorType
+  cursorType,
 }) => {
   const [settings, setSettings] = useState(studioSettings)
   const [options, setOptions] = useState(studioOptions)
   const [isDomainGroupingActive] = useState()
   const [MetricTransformer, setMetricTransformer] = useState({})
-  const [rawData] = useTimeseries(
-    metrics,
-    settings,
-    widget.MetricSettingMap,
-    MetricTransformer
-  )
+  const [rawData] = useTimeseries(metrics, settings, widget.MetricSettingMap, MetricTransformer)
   const data = useEdgeGaps(
-    useClosestValueData(
-      rawData,
-      metrics,
-      options.isClosestDataActive,
-      MetricNode
-    )
+    useClosestValueData(rawData, metrics, options.isClosestDataActive, MetricNode),
   )
   const domainGroups = useDomainGroups(metrics)
   const chartRef = useRef(null)
@@ -65,13 +48,13 @@ const FullscreenChart = ({
       const { drawer } = widget.chartRef.current
       return drawer && drawer.recalcAbsCoor()
     },
-    []
+    [],
   )
 
   useEffect(() => {
     const metricTransformer = Object.assign({}, MetricTransformer)
 
-    metrics.forEach(metric => {
+    metrics.forEach((metric) => {
       const mirrorOf = MirroredMetric[metric.key]
       if (mirrorOf) {
         const { key, preTransformer } = metric
@@ -90,11 +73,11 @@ const FullscreenChart = ({
   function changeTimePeriod (fromDate, toDate) {
     const interval = getNewInterval(fromDate, toDate)
 
-    setSettings(state => ({
+    setSettings((state) => ({
       ...state,
       interval: INTERVAL_ALIAS[interval] || interval,
       from: fromDate.toISOString(),
-      to: toDate.toISOString()
+      to: toDate.toISOString(),
     }))
   }
 
@@ -109,8 +92,7 @@ const FullscreenChart = ({
   function onRangeSelect ({ value: leftDate }, { value: rightDate }) {
     if (leftDate === rightDate) return
 
-    const dates =
-      leftDate < rightDate ? [leftDate, rightDate] : [rightDate, leftDate]
+    const dates = leftDate < rightDate ? [leftDate, rightDate] : [rightDate, leftDate]
 
     const from = new Date(dates[0])
     const to = new Date(dates[1])
@@ -149,9 +131,7 @@ const FullscreenChart = ({
         brushData={brushData}
         drawings={drawings}
         ErrorMsg={ErrorMsg}
-        domainGroups={
-          isDomainGroupingActive ? domainGroups : mirrorDomainGroups
-        }
+        domainGroups={isDomainGroupingActive ? domainGroups : mirrorDomainGroups}
         selectedLineState={selectedLineState}
         cursorType={cursorType}
         isDrawingState={isDrawingState}
@@ -167,7 +147,7 @@ const FullscreenChart = ({
   )
 }
 
-export default props => (
+export default (props) => (
   <FullscreenDialogBtn
     title={props.settings.title}
     className={styles.btn}

@@ -9,7 +9,7 @@ import {
   getRecentAssets,
   addRecentAssets,
   removeRecentAssets,
-  clearRecentAssets
+  clearRecentAssets,
 } from '../../utils/recent'
 import styles from './SearchContainer.module.scss'
 
@@ -111,25 +111,21 @@ export const SearchContainer = ({
                 title: (
                   <div className={styles.recents}>
                     Recently searched
-                    <Icon
-                      type='history-clear'
-                      className={styles.clear}
-                      onClick={clearRecents}
-                    />
+                    <Icon type='history-clear' className={styles.clear} onClick={clearRecents} />
                   </div>
                 ),
                 items: recentAssets,
                 classes: styles,
-                suggestionContent: suggestion => (
+                suggestionContent: (suggestion) => (
                   <Recent
                     text={suggestion}
-                    onRemove={e => {
+                    onRemove={(e) => {
                       e.stopPropagation()
                       removeRecentAssetSuggestion(suggestion)
                     }}
                   />
-                )
-              }
+                ),
+              },
             ]
       }
     />
@@ -143,7 +139,7 @@ export const SearchContainer = ({
 }
 
 SearchContainer.defaultProps = {
-  inputProps: INPUT_ID_PROPS
+  inputProps: INPUT_ID_PROPS,
 }
 
 export default withRouter(SearchContainer)

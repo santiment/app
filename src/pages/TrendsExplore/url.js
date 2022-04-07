@@ -18,6 +18,6 @@ export function updTopicsInUrl (topics) {
   const WithNewTopics = { ...data, addedTopics: topics }
 
   return stringify(WithNewTopics, {
-    arrayFormat: 'comma'
+    arrayFormat: 'comma',
   })
 }

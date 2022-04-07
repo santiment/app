@@ -11,16 +11,9 @@ import ChartSelector from './MobileAssetChartSelector'
 import MobilePopularMetrics from './MobilePopularMetrics'
 import { useTimeseries } from '../../../ducks/Studio/timeseries/hooks'
 import ChartMetricsTool from '../../../ducks/SANCharts/ChartMetricsTool'
-import {
-  getNewInterval,
-  INTERVAL_ALIAS
-} from '../../../ducks/SANCharts/IntervalSelector'
+import { getNewInterval, INTERVAL_ALIAS } from '../../../ducks/SANCharts/IntervalSelector'
 import { Metric } from '../../../ducks/dataHub/metrics'
-import {
-  PriceMetric,
-  DEFAULT_SETTINGS,
-  MAX_METRICS_PER_CHART
-} from './defaults'
+import { PriceMetric, DEFAULT_SETTINGS, MAX_METRICS_PER_CHART } from './defaults'
 import PageLoader from '../../../components/Loader/PageLoader'
 import MobileHeader from '../../../components/MobileHeader/MobileHeader'
 import MobileMetricCard from '../../../components/MobileMetricCard/MobileMetricCard'
@@ -59,12 +52,12 @@ const MobileDetailedPage = ({ data: { project = {}, loading }, ...props }) => {
 
       trackEvent({
         category: 'Chart',
-        action: `Showing "${metric.label} on mobile"`
+        action: `Showing "${metric.label} on mobile"`,
       })
     } else {
       trackEvent({
         category: 'Chart',
-        action: `Removing "${metric.label} on mobile"`
+        action: `Removing "${metric.label} on mobile"`,
       })
     }
     // NOTE: +1 because we don't count price metric
@@ -86,7 +79,7 @@ const MobileDetailedPage = ({ data: { project = {}, loading }, ...props }) => {
       timeRange,
       interval: INTERVAL_ALIAS[interval] || interval,
       from: FROM.toISOString(),
-      to: TO.toISOString()
+      to: TO.toISOString(),
     })
   }
 
@@ -95,7 +88,7 @@ const MobileDetailedPage = ({ data: { project = {}, loading }, ...props }) => {
     isLoading: loadings.length > 0,
     slug,
     data,
-    metrics
+    metrics,
   }
 
   const commonMetricsToolProps = {
@@ -104,16 +97,12 @@ const MobileDetailedPage = ({ data: { project = {}, loading }, ...props }) => {
     showLimitMessage: isLimitReached,
     activeMetrics: metrics.slice(1),
     hiddenMetrics: [PriceCurrency],
-    isMobile: true
+    isMobile: true,
   }
 
   return loading ? (
     <div className={cx('page', styles.wrapper)}>
-      <MobileHeader
-        showBack
-        title={<Title slug={slug} />}
-        goBack={props.history.goBack}
-      />
+      <MobileHeader showBack title={<Title slug={slug} />} goBack={props.history.goBack} />
       <PageLoader />
     </div>
   ) : (
@@ -128,7 +117,7 @@ const MobileDetailedPage = ({ data: { project = {}, loading }, ...props }) => {
         onTouchStart={() => setIsOuterEvent(true)}
         onTouchCancel={() => setIsOuterEvent(false)}
         onTouchEnd={() => setIsOuterEvent(false)}
-        ref={el => {
+        ref={(el) => {
           if (!el) return
           if (!width) {
             setWidth(el.getBoundingClientRect().width)
@@ -147,7 +136,7 @@ const MobileDetailedPage = ({ data: { project = {}, loading }, ...props }) => {
         <div className={styles.bottom}>
           {!fullscreen && (
             <ChartSelector
-              onChangeTimeRange={value => {
+              onChangeTimeRange={(value) => {
                 onChangeTimeRange(value)
                 setIcoPricePos(null)
               }}
@@ -172,13 +161,11 @@ const MobileDetailedPage = ({ data: { project = {}, loading }, ...props }) => {
           className={styles.metricsPopup}
           {...commonMetricsToolProps}
         />
-        <div
-          className={cx(styles.selected, metrics.length === 0 && styles.hide)}
-        >
+        <div className={cx(styles.selected, metrics.length === 0 && styles.hide)}>
           {metrics.length > 1 && (
             <>
               <h3 className={styles.heading}>Selected Metrics</h3>
-              {metrics.map(metric =>
+              {metrics.map((metric) =>
                 metric.key === PriceCurrency.key ? null : (
                   <MobileMetricCard
                     metric={metric}
@@ -194,15 +181,13 @@ const MobileDetailedPage = ({ data: { project = {}, loading }, ...props }) => {
                     slug={slug}
                     isOuterEvent={isOuterEvent}
                   />
-                )
+                ),
               )}
             </>
           )}
         </div>
         {isLimitReached && (
-          <div className={styles.limit}>
-            To add a new metric, please de-select another one
-          </div>
+          <div className={styles.limit}>To add a new metric, please de-select another one</div>
         )}
         <RecentlyUsedMetrics
           slug={slug}
@@ -231,5 +216,5 @@ const MobileDetailedPage = ({ data: { project = {}, loading }, ...props }) => {
 
 export default graphql(PROJECT_BY_SLUG_MOBILE_QUERY, {
   skip: ({ match }) => !match.params.slug,
-  options: ({ match }) => ({ variables: { slug: match.params.slug } })
+  options: ({ match }) => ({ variables: { slug: match.params.slug } }),
 })(MobileDetailedPage)

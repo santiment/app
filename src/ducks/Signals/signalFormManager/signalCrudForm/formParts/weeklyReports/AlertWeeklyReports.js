@@ -12,7 +12,7 @@ const AlertWeeklyReports = ({ watchlist }) => {
   const [updateWatchlist] = useUpdateWatchlist(watchlist.type)
 
   const {
-    settings: { isEmailConnected }
+    settings: { isEmailConnected },
   } = useUserSettings()
 
   useEffect(() => {
@@ -23,8 +23,8 @@ const AlertWeeklyReports = ({ watchlist }) => {
     const { name } = watchlist
     const newVal = !isMonitored
 
-    updateWatchlist(watchlist, { isMonitored: newVal }).then(state =>
-      setMonitored(state.isMonitored)
+    updateWatchlist(watchlist, { isMonitored: newVal }).then((state) =>
+      setMonitored(state.isMonitored),
     )
     notifyMonitoring({ name, isMonitored: newVal, type: 'screener' })
   }, [watchlist, initialMonitoring, isMonitored])
@@ -50,8 +50,8 @@ const AlertWeeklyReports = ({ watchlist }) => {
           )}
         </div>
         <div className={styles.description}>
-          Every Sunday, you'll receive a report to your inbox with insights from
-          the San family, based on your monitored screener.
+          Every Sunday, you'll receive a report to your inbox with insights from the San family,
+          based on your monitored screener.
         </div>
       </div>
     </div>

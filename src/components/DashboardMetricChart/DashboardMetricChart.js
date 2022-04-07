@@ -2,12 +2,9 @@ import React, { useRef, useCallback, useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
 import { useRenderQueueItem } from '../../ducks/renderQueue/viewport'
 import { Skeleton } from '../Skeleton'
-import {
-  useAllTimeData,
-  useTimeseries
-} from '../../ducks/Studio/timeseries/hooks'
+import { useAllTimeData, useTimeseries } from '../../ducks/Studio/timeseries/hooks'
 import DashboardChartHeaderWrapper, {
-  DashboardCalendar
+  DashboardCalendar,
 } from './DashboardChartHeader/DashboardChartHeaderWrapper'
 import SharedAxisToggle from '../../ducks/Studio/Chart/SharedAxisToggle'
 import { DesktopOnly, MobileOnly } from '../Responsive'
@@ -17,10 +14,7 @@ import { DEFAULT_INTERVAL_SELECTORS, INTERVAL_30_DAYS } from './utils'
 import DashboardChartMetrics from './DashboardChartMetrics/DashboardChartMetrics'
 import DashboardMetricChartWrapper from './DashboardMetricChartWrapper'
 import DashboardMetricSelectors from './DashboardMetricSelectors/DashboardMetricSelectors'
-import {
-  getNewInterval,
-  INTERVAL_ALIAS
-} from '../../ducks/SANCharts/IntervalSelector'
+import { getNewInterval, INTERVAL_ALIAS } from '../../ducks/SANCharts/IntervalSelector'
 import { useMirroredTransformer } from '../../ducks/Studio/Widget/utils'
 import { useDomainGroups } from '../../ducks/Chart/hooks'
 import { extractMirrorMetricsDomainGroups } from '../../ducks/Chart/utils'
@@ -33,7 +27,7 @@ import styles from './DashboardMetricChart.module.scss'
 
 const useBrush = ({ data, settings, setSettings, metrics, slug }) => {
   const [allTimeData, allTimeDataLoadings] = useAllTimeData(metrics, {
-    slug
+    slug,
   })
 
   const onBrushChangeEnd = useCallback(
@@ -47,34 +41,34 @@ const useBrush = ({ data, settings, setSettings, metrics, slug }) => {
         ...settings,
         from,
         to,
-        interval: INTERVAL_ALIAS[interval] || interval
+        interval: INTERVAL_ALIAS[interval] || interval,
       })
     },
-    [data, setSettings, settings, allTimeData]
+    [data, setSettings, settings, allTimeData],
   )
 
   return {
     allTimeData,
     allTimeDataLoadings,
-    onBrushChangeEnd
+    onBrushChangeEnd,
   }
 }
 
-export const useChartSettings = defaultInterval => {
+export const useChartSettings = (defaultInterval) => {
   const [settings, setSettings] = useState({
-    ...defaultInterval.requestParams
+    ...defaultInterval.requestParams,
   })
 
   const [intervalSelector, setIntervalSelector] = useState(defaultInterval)
 
   const onChangeInterval = useCallback(
-    value => {
-      setSettings(data => {
+    (value) => {
+      setSettings((data) => {
         return { ...data, ...value.requestParams }
       })
       setIntervalSelector(value)
     },
-    [setSettings, setIntervalSelector]
+    [setSettings, setIntervalSelector],
   )
 
   return { settings, intervalSelector, setSettings, onChangeInterval }
@@ -93,48 +87,44 @@ const DashboardMetricChart = ({
   sliceMetricsCount = 1,
   onLoad,
   projectSelector,
-  canvasSettings
+  canvasSettings,
 }) => {
   const MetricTransformer = useMirroredTransformer(metrics)
   const [MetricSettingsMap] = useState(new Map())
   const [options, setOptions] = useState(DEFAULT_OPTIONS)
   const chartRef = useRef(null)
   const domainGroups = useDomainGroups(metrics)
-  const mirrorDomainGroups = useMemo(
-    () => extractMirrorMetricsDomainGroups(domainGroups),
-    [domainGroups]
-  )
+  const mirrorDomainGroups = useMemo(() => extractMirrorMetricsDomainGroups(domainGroups), [
+    domainGroups,
+  ])
 
   useEffect(() => {
     updateTooltipSettings(metrics)
   }, [metrics])
 
-  const {
-    intervalSelector,
-    settings,
-    setSettings,
-    onChangeInterval
-  } = useChartSettings(defaultInterval)
+  const { intervalSelector, settings, setSettings, onChangeInterval } = useChartSettings(
+    defaultInterval,
+  )
 
   function updateSettingsMap ({ interval } = {}) {
     setSettings({
       ...settings,
-      interval: interval || settings.interval
+      interval: interval || settings.interval,
     })
   }
 
   const [disabledMetrics, setDisabledMetrics] = useState({})
 
-  const activeMetrics = useMemo(
-    () => metrics.filter(({ key }) => !disabledMetrics[key]),
-    [metrics, disabledMetrics]
-  )
+  const activeMetrics = useMemo(() => metrics.filter(({ key }) => !disabledMetrics[key]), [
+    metrics,
+    disabledMetrics,
+  ])
 
   const [data, loadings] = useTimeseries(
     activeMetrics,
     settings,
     MetricSettingsMap,
-    MetricTransformer
+    MetricTransformer,
   )
 
   const { allTimeData, allTimeDataLoadings, onBrushChangeEnd } = useBrush({
@@ -142,11 +132,11 @@ const DashboardMetricChart = ({
     setSettings,
     data,
     metrics,
-    slug: metrics[0].reqMeta.slug
+    slug: metrics[0].reqMeta.slug,
   })
 
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState(
-    domainGroups && domainGroups.length > mirrorDomainGroups.length
+    domainGroups && domainGroups.length > mirrorDomainGroups.length,
   )
 
   const MetricColor = useChartColors(activeMetrics, metricsColor)
@@ -205,7 +195,7 @@ const DashboardMetricChart = ({
             activeMetrics={activeMetrics}
             chartRef={chartRef}
             classses={{
-              settingsBtn: styles.settingsBtn
+              settingsBtn: styles.settingsBtn,
             }}
             title='Export'
           />

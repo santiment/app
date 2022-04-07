@@ -23,9 +23,7 @@ const Feed = ({ component: El, data, dateKey }) => {
     return (
       <Fragment key={id}>
         {isNotSameAsLastDate && (
-          <h4 className={styles.date}>
-            {makeDateLabel(new Date(item[dateKey]))}
-          </h4>
+          <h4 className={styles.date}>{makeDateLabel(new Date(item[dateKey]))}</h4>
         )}
         <El className={styles.signal} {...item} />
       </Fragment>

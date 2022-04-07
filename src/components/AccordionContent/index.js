@@ -8,7 +8,7 @@ const transitionStyles = {
   enter: styles.contentEnter,
   enterActive: styles.contentEnterActive,
   exit: styles.contentExit,
-  exitActive: styles.contentExitActive
+  exitActive: styles.contentExitActive,
 }
 
 const AccordionContent = ({ children, show, animateOnMount = false }) => {
@@ -56,16 +56,12 @@ const AccordionContent = ({ children, show, animateOnMount = false }) => {
     const elem = containerRef.current
 
     if (height > 0) {
-      elem.style.transition = `max-height ${calculateTime(
-        height
-      )}ms ease-in-out`
+      elem.style.transition = `max-height ${calculateTime(height)}ms ease-in-out`
       elem.style.maxHeight = height + 'px'
     }
 
     if (height === 0) {
-      elem.style.transition = `max-height ${calculateExitTime(
-        elem.scrollHeight
-      )}ms ease`
+      elem.style.transition = `max-height ${calculateExitTime(elem.scrollHeight)}ms ease`
       elem.style.maxHeight = 0
     }
   }, [height])

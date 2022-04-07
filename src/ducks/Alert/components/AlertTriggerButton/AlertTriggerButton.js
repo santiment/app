@@ -2,13 +2,7 @@ import React from 'react'
 import Button from '@santiment-network/ui/Button'
 
 const AlertTriggerButton = ({ triggerButtonProps, disabled, ...rest }) => {
-  const {
-    variant,
-    border,
-    classes,
-    label,
-    ...restTriggerButtonProps
-  } = triggerButtonProps
+  const { variant, border, classes, label, ...restTriggerButtonProps } = triggerButtonProps
 
   return (
     <Button
@@ -29,8 +23,8 @@ AlertTriggerButton.defaultProps = {
   triggerButtonProps: {
     label: 'Create alert',
     variant: 'fill',
-    border: false
-  }
+    border: false,
+  },
 }
 
 export default AlertTriggerButton

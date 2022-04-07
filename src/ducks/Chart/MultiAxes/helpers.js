@@ -2,20 +2,11 @@ import {
   drawAxes,
   drawXAxisTicks,
   drawAxisLine,
-  drawYAxisTicks
+  drawYAxisTicks,
 } from '@santiment-network/chart/axes'
 import { drawValueBubbleY } from '@santiment-network/chart/tooltip'
-import {
-  dayTicksPaintConfig,
-  dayAxesColor,
-  nightBubblesPaintConfig
-} from '../paintConfigs'
-import {
-  isDayInterval,
-  getDateDayMonthYear,
-  getDateHoursMinutes,
-  yBubbleFormatter
-} from '../utils'
+import { dayTicksPaintConfig, dayAxesColor, nightBubblesPaintConfig } from '../paintConfigs'
+import { isDayInterval, getDateDayMonthYear, getDateHoursMinutes, yBubbleFormatter } from '../utils'
 import { selectYFormatter } from '../Axes/helpers'
 
 function getLastMetricPoint (chart, domain) {
@@ -71,13 +62,7 @@ function getBubbleFontColorHex (bgColor, isNightMode) {
   return r * 0.299 + g * 0.587 + b * 0.114 > threshold ? '#000000' : '#ffffff'
 }
 
-function plotMetricLastValueBubble (
-  chart,
-  LastMetricPoint,
-  metricKey,
-  offset,
-  bgColor
-) {
+function plotMetricLastValueBubble (chart, LastMetricPoint, metricKey, offset, bgColor) {
   const metricPoint = LastMetricPoint[metricKey]
   if (!metricPoint) return
 
@@ -85,22 +70,12 @@ function plotMetricLastValueBubble (
   const { ctx, bubblesPaintConfig } = chart
   const paintConfig = Object.assign({}, bubblesPaintConfig, {
     bgColor,
-    textColor: getBubbleFontColorHex(
-      bgColor,
-      bubblesPaintConfig === nightBubblesPaintConfig
-    )
+    textColor: getBubbleFontColorHex(bgColor, bubblesPaintConfig === nightBubblesPaintConfig),
   })
 
   value = value.close || value
 
-  drawValueBubbleY(
-    chart,
-    ctx,
-    yBubbleFormatter(value, metricKey),
-    y,
-    paintConfig,
-    offset
-  )
+  drawValueBubbleY(chart, ctx, yBubbleFormatter(value, metricKey), y, paintConfig, offset)
 }
 
 function plotXAxis (chart, formatter) {
@@ -110,22 +85,13 @@ function plotXAxis (chart, formatter) {
     chart,
     isDayInterval(chart) ? getDateHoursMinutes : getDateDayMonthYear,
     scale,
-    xAxesTicks
+    xAxesTicks,
   )
   drawAxes(chart, axesColor)
 }
 
 function plotYAxes (chart, scale) {
-  const {
-    ctx,
-    top,
-    right,
-    bottom,
-    colors,
-    axesMetricKeys,
-    domainGroups,
-    yAxesTicks = 8
-  } = chart
+  const { ctx, top, right, bottom, colors, axesMetricKeys, domainGroups, yAxesTicks = 8 } = chart
   if (!axesMetricKeys) return
 
   const domain = getDomainObject(domainGroups)
@@ -135,7 +101,7 @@ function plotYAxes (chart, scale) {
 
   const LastMetricPoint = getLastMetricPoint(chart, domain)
 
-  axesMetricKeys.forEach(metricKey => {
+  axesMetricKeys.forEach((metricKey) => {
     const color = colors[metricKey]
     drawAxisLine(ctx, color, offset, top, offset, bottom)
 
@@ -143,38 +109,19 @@ function plotYAxes (chart, scale) {
     if (domainDependencies) {
       let domainOffset = 2
 
-      domainDependencies.forEach(domainMetricKey => {
+      domainDependencies.forEach((domainMetricKey) => {
         const resultOffset = offset + domainOffset
         const color = colors[domainMetricKey]
 
         drawAxisLine(ctx, color, resultOffset, top, resultOffset, bottom)
-        plotMetricLastValueBubble(
-          chart,
-          LastMetricPoint,
-          domainMetricKey,
-          lastValueOffset,
-          color
-        )
+        plotMetricLastValueBubble(chart, LastMetricPoint, domainMetricKey, lastValueOffset, color)
 
         domainOffset += 2
       })
     }
 
-    drawYAxisTicks(
-      chart,
-      metricKey,
-      selectYFormatter(metricKey),
-      scale,
-      offset + 6,
-      yAxesTicks
-    )
-    plotMetricLastValueBubble(
-      chart,
-      LastMetricPoint,
-      metricKey,
-      lastValueOffset,
-      color
-    )
+    drawYAxisTicks(chart, metricKey, selectYFormatter(metricKey), scale, offset + 6, yAxesTicks)
+    plotMetricLastValueBubble(chart, LastMetricPoint, metricKey, lastValueOffset, color)
 
     offset += 50
     lastValueOffset += 50

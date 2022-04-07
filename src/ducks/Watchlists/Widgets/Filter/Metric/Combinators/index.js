@@ -19,7 +19,7 @@ const TABS = [
         </svg>
         All
       </>
-    )
+    ),
   },
   {
     index: 'or',
@@ -38,8 +38,8 @@ const TABS = [
         </svg>
         Any
       </>
-    )
-  }
+    ),
+  },
 ]
 
 const Combinators = ({ onSelect, isANDCombinator }) => (

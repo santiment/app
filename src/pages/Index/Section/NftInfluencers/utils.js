@@ -12,7 +12,7 @@ export const HOME_INDEX = [
   'Activity',
   'When',
   'Price',
-  'Marketplace'
+  'Marketplace',
 ]
 
 export const PAGE_INDEX = [
@@ -25,21 +25,21 @@ export const PAGE_INDEX = [
   'When',
   'Price',
   'Quantity',
-  'Marketplace'
+  'Marketplace',
 ]
 
 export const DEFAULT_SORTING = [
   {
     id: '#',
-    desc: false
-  }
+    desc: false,
+  },
 ]
 
-const getInfluencers = original => ({
+const getInfluencers = (original) => ({
   to: original.toAddress.labelKey === 'NFT_INFLUENCER',
   toAddress: original.toAddress.address,
   from: original.fromAddress.labelKey === 'NFT_INFLUENCER',
-  fromAddress: original.fromAddress.address
+  fromAddress: original.fromAddress.address,
 })
 
 export const Activity = ({ original }) => {
@@ -56,8 +56,7 @@ export const Activity = ({ original }) => {
   if (from && !to) {
     return (
       <div>
-        <Icon type='sell' className={cx(styles.icon, styles.mr, styles.sell)} />{' '}
-        sell
+        <Icon type='sell' className={cx(styles.icon, styles.mr, styles.sell)} /> sell
       </div>
     )
   }
@@ -65,7 +64,7 @@ export const Activity = ({ original }) => {
   return null
 }
 
-const capitalizeFirstLetter = string =>
+const capitalizeFirstLetter = (string) =>
   string.charAt(0).toUpperCase() + string.toLowerCase().slice(1)
 
 export const Marketplace = ({ marketplace }) => (
@@ -81,19 +80,13 @@ export function getTwitterAccount (original) {
   const { to, toAddress, from, fromAddress } = getInfluencers(original)
   const address = to ? toAddress : from ? fromAddress : undefined
   if (!address) return null
-  return accounts.find(
-    _account => _account.Address.toUpperCase() === address.toUpperCase()
-  )
+  return accounts.find((_account) => _account.Address.toUpperCase() === address.toUpperCase())
 }
 
-const truncate = address => `${address.substring(0, 5)}...`
+const truncate = (address) => `${address.substring(0, 5)}...`
 
 const Address = ({ address }) => (
-  <a
-    href={`/labs/balance?address=${address}`}
-    className={styles.address}
-    title={address}
-  >
+  <a href={`/labs/balance?address=${address}`} className={styles.address} title={address}>
     {truncate(address)}
   </a>
 )

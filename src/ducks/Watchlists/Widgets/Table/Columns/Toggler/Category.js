@@ -1,11 +1,7 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import cx from 'classnames'
 import isEqual from 'lodash.isequal'
-import {
-  SortableContainer,
-  SortableElement,
-  sortableHandle
-} from 'react-sortable-hoc'
+import { SortableContainer, SortableElement, sortableHandle } from 'react-sortable-hoc'
 import { NO_GROUP } from '../../../../../Studio/Sidebar/utils'
 import Column from './Columns/Column'
 import AssetsList from './AssetsList'
@@ -13,12 +9,7 @@ import styles from './Category.module.scss'
 
 const DragHandle = sortableHandle(() => (
   <div className={styles.draggable}>
-    <svg
-      xmlns='http://www.w3.org/2000/svg'
-      width='11'
-      height='12'
-      viewBox='0 0 16 12'
-    >
+    <svg xmlns='http://www.w3.org/2000/svg' width='11' height='12' viewBox='0 0 16 12'>
       <path
         fillRule='evenodd'
         d='M0 .5zC0 .22.23 0 .5 0h15a.5.5 0 110 1H.5A.5.5 0 010 .5zM0 6c0-.28.23-.5.5-.5h15a.5.5 0 110 1H.5A.5.5 0 010 6zm.5 5a.5.5 0 000 1H15.5a.5.5 0 100-1H.5z'
@@ -41,14 +32,10 @@ const SortableItem = SortableElement(
         DragHandle={DragHandle}
         onColumnToggle={onColumnToggle}
         isActive={true}
-        className={cx(
-          styles.column,
-          styles.column__active,
-          currentSearch && styles.searchedColumn
-        )}
+        className={cx(styles.column, styles.column__active, currentSearch && styles.searchedColumn)}
       />
     )
-  }
+  },
 )
 
 const SortableList = SortableContainer(({ columns, ...props }) => (
@@ -72,7 +59,7 @@ const Category = ({
   onColumnToggle,
   activeKeys,
   currentSearch,
-  reorder
+  reorder,
 }) => {
   const [activeColumns, setActiveColumns] = useState(columns)
 
@@ -83,7 +70,7 @@ const Category = ({
             .flat()
             .map(({ item }) => item)
         : columns,
-    [columns, groups]
+    [columns, groups],
   )
 
   const filteredColumns = useMemo(() => {
@@ -92,7 +79,7 @@ const Category = ({
       .filter(
         ({ label, shortLabel = label }) =>
           label.toLowerCase().includes(searchInput) ||
-          shortLabel.toLowerCase().includes(searchInput)
+          shortLabel.toLowerCase().includes(searchInput),
       )
       .map(({ key }) => key)
   }, [currentSearch])
@@ -101,8 +88,7 @@ const Category = ({
     setActiveColumns(columns)
   }, [columns])
 
-  const isShowCategory =
-    !currentSearch || (currentSearch && filteredColumns.length !== 0)
+  const isShowCategory = !currentSearch || (currentSearch && filteredColumns.length !== 0)
 
   function onSortEnd ({ newIndex, oldIndex }) {
     if (newIndex === oldIndex) return
@@ -116,9 +102,9 @@ const Category = ({
       () =>
         reorder(
           newActiveColumns.map(({ key }) => key),
-          !isEqual(columns, newActiveColumns)
+          !isEqual(columns, newActiveColumns),
         ),
-      200
+      200,
     )
   }
 
@@ -127,18 +113,13 @@ const Category = ({
       <h3 className={styles.title}>{title}</h3>
       {groups ? (
         <>
-          {Object.keys(groups).map(group => (
-            <div
-              key={group}
-              className={cx(styles.group, currentSearch && styles.flatGroup)}
-            >
+          {Object.keys(groups).map((group) => (
+            <div key={group} className={cx(styles.group, currentSearch && styles.flatGroup)}>
               {group !== NO_GROUP && !currentSearch && (
                 <h3 className={styles.group__title}>{group}</h3>
               )}
               {groups[group].length > 0 && (
-                <div
-                  className={cx(styles.columns, currentSearch && styles.flat)}
-                >
+                <div className={cx(styles.columns, currentSearch && styles.flat)}>
                   {title === 'Assets' ? (
                     <AssetsList
                       items={groups[group]}
@@ -151,19 +132,14 @@ const Category = ({
                     groups[group].map(({ item }) => {
                       const { key } = item
                       const isActive = activeKeys && activeKeys.includes(key)
-                      const isHide =
-                        isActive ||
-                        (currentSearch && !filteredColumns.includes(key))
+                      const isHide = isActive || (currentSearch && !filteredColumns.includes(key))
                       return isHide ? null : (
                         <Column
                           key={key}
                           column={item}
                           onColumnToggle={onColumnToggle}
                           isActive={false}
-                          className={cx(
-                            styles.column,
-                            currentSearch && styles.searchedColumn
-                          )}
+                          className={cx(styles.column, currentSearch && styles.searchedColumn)}
                         />
                       )
                     })

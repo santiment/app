@@ -27,23 +27,20 @@ export const TRIAL_SUBSCRIPTION_MUTATION = gql`
   }
 `
 
-const updateCache = (
-  cache,
-  { data: { createPromoSubscription: subscriptions } }
-) => {
+const updateCache = (cache, { data: { createPromoSubscription: subscriptions } }) => {
   const { currentUser = {} } = cache.readQuery({
-    query: USER_SUBSCRIPTIONS_QUERY
+    query: USER_SUBSCRIPTIONS_QUERY,
   })
 
   currentUser.subscriptions = subscriptions
 
   cache.writeQuery({
     query: USER_SUBSCRIPTIONS_QUERY,
-    data: { currentUser: { ...currentUser } }
+    data: { currentUser: { ...currentUser } },
   })
 }
 
-const getTrial$ = client => {
+const getTrial$ = (client) => {
   const coupon = getCoupon()
 
   if (!coupon) return Observable.empty()
@@ -52,14 +49,10 @@ const getTrial$ = client => {
     client.mutate({
       mutation: TRIAL_SUBSCRIPTION_MUTATION,
       variables: { coupon },
-      update: updateCache
-    })
+      update: updateCache,
+    }),
   )
-    .mergeMap(() =>
-      Observable.of(
-        showNotification('Your trial account will be valid for 14 days')
-      )
-    )
+    .mergeMap(() => Observable.of(showNotification('Your trial account will be valid for 14 days')))
     .catch(Sentry.captureException)
 }
 
@@ -72,9 +65,7 @@ export const trialSubscriptionEpic = (action$, store, { client }) =>
         ? getTrial$(client)
         : action$
             .ofType(actions.USER_SETTING_GDPR)
-            .filter(
-              ({ payload: { privacyPolicyAccepted } }) => privacyPolicyAccepted
-            )
+            .filter(({ payload: { privacyPolicyAccepted } }) => privacyPolicyAccepted)
             .switchMap(() => getTrial$(client))
     })
     .take(1)

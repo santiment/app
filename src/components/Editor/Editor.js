@@ -2,12 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import nprogress from 'nprogress'
 import Icon from '@santiment-network/ui/Icon'
-import {
-  BLOCK_BUTTONS,
-  INLINE_BUTTONS,
-  Editor,
-  createEditorState
-} from 'medium-draft'
+import { BLOCK_BUTTONS, INLINE_BUTTONS, Editor, createEditorState } from 'medium-draft'
 import CustomImageSideButton from './CustomImageSideButton'
 import './Editor.scss'
 
@@ -23,36 +18,36 @@ BLOCK_BUTTONS.push({
   label: <Icon type='text-big' />,
   style: 'header-one',
   icon: 'header',
-  description: 'Heading 1'
+  description: 'Heading 1',
 })
 BLOCK_BUTTONS.push({
   label: <Icon type='text-small' />,
   style: 'header-two',
   icon: 'header',
-  description: 'Heading 2'
+  description: 'Heading 2',
 })
 
 class SanEditor extends React.Component {
   static propTypes = {
     onChange: PropTypes.func,
-    readOnly: PropTypes.bool
+    readOnly: PropTypes.bool,
   }
 
   static defaultProps = {
     defaultEditorContent: undefined,
     onChange: () => {},
-    readOnly: false
+    readOnly: false,
   }
 
   state = {
-    editorState: createEditorState(this.props.defaultEditorContent)
+    editorState: createEditorState(this.props.defaultEditorContent),
   }
 
-  onChange = editorState => {
+  onChange = (editorState) => {
     this.setState({ editorState }, () => this.props.onChange(editorState))
   }
 
-  onImgLoad = state => {
+  onImgLoad = (state) => {
     switch (state) {
       case 'start':
         return nprogress.start()
@@ -76,18 +71,13 @@ class SanEditor extends React.Component {
             title: 'Image',
             component: CustomImageSideButton,
             props: {
-              onImgLoad: this.onImgLoad
-            }
-          }
+              onImgLoad: this.onImgLoad,
+            },
+          },
         ]}
         toolbarConfig={{
-          block: [
-            'blockquote',
-            'unordered-list-item',
-            'header-one',
-            'header-two'
-          ],
-          inline: ['hyperlink', 'BOLD', 'UNDERLINE', 'ITALIC']
+          block: ['blockquote', 'unordered-list-item', 'header-one', 'header-two'],
+          inline: ['hyperlink', 'BOLD', 'UNDERLINE', 'ITALIC'],
         }}
       />
     )

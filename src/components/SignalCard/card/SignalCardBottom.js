@@ -26,7 +26,7 @@ const SignalCardBottom = ({
   showMoreActions,
   showStatus = true,
   editable = true,
-  shouldDisableActions
+  shouldDisableActions,
 }) => {
   const { isActive, isPublic, isFrozen, title } = signal
   return (
@@ -89,12 +89,7 @@ const SignalCardBottom = ({
           </div>
         )}
         {isFrozen && (
-          <div
-            className={cx(
-              styles.frozenAlert,
-              'btn-2 btn--s body-3 row hv-center mrg--l mrg-a'
-            )}
-          >
+          <div className={cx(styles.frozenAlert, 'btn-2 btn--s body-3 row hv-center mrg--l mrg-a')}>
             <Icon type='frozen' className='mrg-s mrg--r' />
             Frozen alert
           </div>

@@ -21,17 +21,13 @@ const CopySignal = ({
   label = 'Copy alert',
   doneLabel = 'Copied to my alerts',
   classes = {},
-  btnParams
+  btnParams,
 }) => {
   const [isCreation, setCreation] = useState(false)
 
   if (isCreated && isCreation) {
     return (
-      <Button
-        as={as}
-        className={cx(styles.copyBtn, styles.copiedBtn)}
-        {...btnParams}
-      >
+      <Button as={as} className={cx(styles.copyBtn, styles.copiedBtn)} {...btnParams}>
         {doneLabel}
         <Icon className={styles.copyBtnIcon} type='success-round' />
       </Button>
@@ -77,10 +73,10 @@ const CopySignal = ({
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  createTrigger: payload => {
+const mapDispatchToProps = (dispatch) => ({
+  createTrigger: (payload) => {
     dispatch(createTrigger(payload))
-  }
+  },
 })
 
 const mapStateToProps = (state, { creatorId, signal }) => {
@@ -95,10 +91,10 @@ const mapStateToProps = (state, { creatorId, signal }) => {
       (state &&
         state.signals.all &&
         state.signals.all.some(
-          item =>
+          (item) =>
             item.title === signal.title &&
-            isEqual(signal.settings.operation, item.settings.operation)
-        ))
+            isEqual(signal.settings.operation, item.settings.operation),
+        )),
   }
 }
 

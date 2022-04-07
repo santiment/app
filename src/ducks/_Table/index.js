@@ -5,7 +5,7 @@ import NoDataImage from '../../components/Illustrations/NoData'
 import styles from './index.module.scss'
 
 export function prepareColumns (columns) {
-  columns.forEach(column => {
+  columns.forEach((column) => {
     column.id = column.id || column.key || column.title
   })
 
@@ -41,7 +41,7 @@ const Table = ({
   getItemKey,
   onRowClick,
   isWithColumnTitles = true,
-  emptySection
+  emptySection,
 }) => (
   <table className={cx(styles.wrapper, className)}>
     {isWithColumnTitles && (
@@ -59,7 +59,7 @@ const Table = ({
         return (
           <tr
             key={getItemKey ? getItemKey(item) : item[itemKeyProperty]}
-            onClick={onRowClick && (e => onRowClick(item, e))}
+            onClick={onRowClick && ((e) => onRowClick(item, e))}
           >
             {columns.map(({ id, render, className }) => (
               <td key={id} className={className}>
@@ -85,7 +85,7 @@ Table.defaultProps = {
   itemProps: {},
   itemKeyProperty: 'id',
   minRows: 0,
-  offset: 0
+  offset: 0,
 }
 
 export default Table

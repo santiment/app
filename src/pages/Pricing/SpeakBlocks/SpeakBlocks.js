@@ -9,8 +9,7 @@ import styles from './SpeakBlocks.module.scss'
 const Blocks = [
   {
     title: 'Let the platform speak for itself',
-    description:
-      'Add your credit card to try all Sanbase Pro features FREE for 2 weeks',
+    description: 'Add your credit card to try all Sanbase Pro features FREE for 2 weeks',
     btn: (
       <Button
         variant='ghost'
@@ -21,23 +20,18 @@ const Blocks = [
       >
         Start your free trial
       </Button>
-    )
+    ),
   },
   {
     title: 'Talk to one of our experts',
     description:
       'Request a demo to have one of our product specialists walk you through the platform',
     btn: (
-      <ContactUs
-        variant='ghost'
-        accent='blue'
-        className={styles.btn}
-        message='Talk with expert.'
-      >
+      <ContactUs variant='ghost' accent='blue' className={styles.btn} message='Talk with expert.'>
         Request a demo
       </ContactUs>
-    )
-  }
+    ),
+  },
 ]
 
 const SpeakBlocks = () => {

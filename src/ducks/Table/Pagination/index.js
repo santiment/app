@@ -7,9 +7,9 @@ import Dropdown from '@santiment-network/ui/Dropdown'
 import styles from './index.module.scss'
 
 function prepareOptions (options) {
-  return options.map(option => ({
+  return options.map((option) => ({
     content: `${option} rows`,
-    index: option
+    index: option,
   }))
 }
 
@@ -25,22 +25,20 @@ const Pagination = ({
   nextPage: onNextPage,
   onChangePage,
   pageSizeOptions,
-  className
+  className,
 }) => {
   const [selected, setSelected] = useState({
     index: pageSize,
-    content: `${pageSize} rows`
+    content: `${pageSize} rows`,
   })
-  const preparedOptions = useMemo(() => prepareOptions(pageSizeOptions), [
-    pageSizeOptions
-  ])
+  const preparedOptions = useMemo(() => prepareOptions(pageSizeOptions), [pageSizeOptions])
 
   return (
     <div className={cx(styles.wrapper, className)}>
       <Dropdown
         options={preparedOptions}
         selected={selected}
-        onSelect={option => {
+        onSelect={(option) => {
           setSelected(option)
           setPageSize(option.index)
         }}
@@ -53,7 +51,7 @@ const Pagination = ({
           className={styles.input}
           style={{ '--width': `${(pageIndex + 1).toString().length}ch` }}
           value={pageIndex + 1}
-          onChange={evt => {
+          onChange={(evt) => {
             const newPage = evt.target.value ? Number(evt.target.value) - 1 : 0
             onChangePage ? onChangePage(newPage) : onGotoPage(newPage)
           }}
@@ -63,9 +61,7 @@ const Pagination = ({
       <div className={styles.buttons}>
         <Button
           border
-          onClick={evt =>
-            onChangePage ? onChangePage(pageIndex - 1) : onPreviousPage(evt)
-          }
+          onClick={(evt) => (onChangePage ? onChangePage(pageIndex - 1) : onPreviousPage(evt))}
           disabled={!canPreviousPage}
           className={styles.button}
         >
@@ -74,9 +70,7 @@ const Pagination = ({
         </Button>
         <Button
           border
-          onClick={evt =>
-            onChangePage ? onChangePage(pageIndex + 1) : onNextPage(evt)
-          }
+          onClick={(evt) => (onChangePage ? onChangePage(pageIndex + 1) : onNextPage(evt))}
           disabled={!canNextPage}
           className={styles.button}
         >

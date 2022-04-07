@@ -15,18 +15,12 @@ const ToggleMetricButton = ({
   label,
   ...props
 }) => {
-  const isComplexityError =
-    error.includes('complexity') || error.includes('outside')
+  const isComplexityError = error.includes('complexity') || error.includes('outside')
   const noData = error && !isComplexityError
 
   return isMobile ? (
     <Button className={styles.mobileButton} {...props}>
-      <span
-        className={cx(
-          styles.mobileButton__text,
-          isActive && styles.mobileButton__text_active
-        )}
-      >
+      <span className={cx(styles.mobileButton__text, isActive && styles.mobileButton__text_active)}>
         {label}
       </span>
       <Icon type={isActive ? 'remove' : 'plus-round'} />
@@ -53,7 +47,7 @@ const ToggleMetricButton = ({
             <div
               className={cx(
                 styles.btn__action,
-                isActive ? styles.btn__action_remove : styles.btn__action_add
+                isActive ? styles.btn__action_remove : styles.btn__action_add,
               )}
             >
               <Icon type={isActive ? 'close-small' : 'plus-small'} />

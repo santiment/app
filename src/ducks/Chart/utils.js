@@ -1,11 +1,7 @@
 import { Metric } from '../dataHub/metrics'
 import { TooltipSetting } from '../dataHub/tooltipSettings'
 import { MirroredMetric } from '../dataHub/metrics/mirrored'
-import {
-  getDateFormats,
-  getTimeFormats,
-  ONE_DAY_IN_MS
-} from '../../utils/dates'
+import { getDateFormats, getTimeFormats, ONE_DAY_IN_MS } from '../../utils/dates'
 import { millify } from '../../utils/formatting'
 
 const DAY_INTERVAL = ONE_DAY_IN_MS * 2
@@ -20,9 +16,7 @@ export function isDayInterval (chart) {
 }
 
 export function getValidTooltipKey (tooltipKey, joinedCategories) {
-  return joinedCategories.includes(tooltipKey)
-    ? tooltipKey
-    : joinedCategories[0]
+  return joinedCategories.includes(tooltipKey) ? tooltipKey : joinedCategories[0]
 }
 
 export function clearCtx (chart, ctx = chart.ctx) {
@@ -65,7 +59,7 @@ export function yBubbleFormatter (value, metricKey) {
   return millify(value)
 }
 
-export const findTooltipMetric = metrics =>
+export const findTooltipMetric = (metrics) =>
   (metrics.includes(Metric.price_usd) && Metric.price_usd) ||
   metrics.find(({ node }) => node === 'line') ||
   metrics[0]
@@ -137,5 +131,5 @@ export function linearDatetimeScale (chart) {
   const max = data[data.length - 1].datetime
   const xFactor = width / (max - min)
 
-  return value => left + (value - min) * xFactor
+  return (value) => left + (value - min) * xFactor
 }

@@ -20,7 +20,7 @@ const WriteLabel = ({ name = '' }) => {
         styles.label,
         styles.write,
         isFocused && styles.write_focused,
-        !value && styles.empty
+        !value && styles.empty,
       )}
     >
       <div
@@ -49,18 +49,14 @@ export const Label = ({ name, origin, className, forwardedRef, ...props }) => (
   <div
     {...props}
     key={name}
-    className={cx(
-      styles.label,
-      className,
-      origin === 'santiment' && styles.san
-    )}
+    className={cx(styles.label, className, origin === 'santiment' && styles.san)}
     ref={forwardedRef}
   >
     {name}
   </div>
 )
 
-export const CollapsedTooltip = props => (
+export const CollapsedTooltip = (props) => (
   <Tooltip {...props} on='click' className={styles.collapsed__tooltip} />
 )
 
@@ -68,13 +64,7 @@ export const CollapsedLabels = ({ labels, el: El = Label }) => (
   <CollapsedTooltip
     on='click'
     className={styles.collapsed__tooltip}
-    trigger={
-      <El
-        className={styles.collapsed}
-        name={`+${labels.length}`}
-        origin='santiment'
-      />
-    }
+    trigger={<El className={styles.collapsed} name={`+${labels.length}`} origin='santiment' />}
   >
     {labels.map(El)}
   </CollapsedTooltip>

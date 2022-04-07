@@ -7,22 +7,16 @@ import styles from './SidecarExplanationTooltip.module.scss'
 const LS_SIDECAR_TOOLTIP_SHOWN = 'LS_SIDECAR_TOOLTIP_SHOWN'
 const TOOLTIP_DELAY_IN_MS = 10000
 
-export const markedAsShowed = localStorageSuffix => {
+export const markedAsShowed = (localStorageSuffix) => {
   return localStorage.getItem(LS_SIDECAR_TOOLTIP_SHOWN + localStorageSuffix)
 }
 
-const SidecarExplanationTooltip = props => {
+const SidecarExplanationTooltip = (props) => {
   const [shown, setShown] = useState(false)
-  return (
-    <ForceClosableExplanationTooltip
-      {...props}
-      shown={shown}
-      setShown={setShown}
-    />
-  )
+  return <ForceClosableExplanationTooltip {...props} shown={shown} setShown={setShown} />
 }
 
-export const ForceClosableExplanationTooltip = props => {
+export const ForceClosableExplanationTooltip = (props) => {
   const {
     localStorageSuffix = '',
     dismissOnTouch = false,
@@ -31,7 +25,7 @@ export const ForceClosableExplanationTooltip = props => {
     setShown = () => {},
     shown,
     onHide,
-    forceClose
+    forceClose,
   } = props
   const [forceClosed, setForceClosed] = useState(false)
 
@@ -87,7 +81,7 @@ export const ForceClosableExplanationTooltip = props => {
   )
 }
 
-export const ExplanationTooltipWrapper = props => {
+export const ExplanationTooltipWrapper = (props) => {
   const {
     dismissOnTouch = false,
     shown = true,
@@ -100,7 +94,7 @@ export const ExplanationTooltipWrapper = props => {
     closable = true,
     classes = {},
     closeEl: CloseIcon = CloseTrigger,
-    as = 'div'
+    as = 'div',
   } = props
 
   return (
@@ -129,7 +123,7 @@ const Content = ({
   title = 'Explore assets',
   description = 'Quick navigation through your assets',
   isNew,
-  content
+  content,
 }) => {
   if (content) {
     return content
@@ -144,7 +138,7 @@ const Content = ({
               New!
             </span>
           ),
-          <span key='title'>{title}</span>
+          <span key='title'>{title}</span>,
         ]}
       </div>
       {description && <div className={styles.text}>{description}</div>}
@@ -153,11 +147,7 @@ const Content = ({
 }
 
 const CloseTrigger = ({ classes = {}, onClick }) => (
-  <Icon
-    type='close-small'
-    className={cx(styles.btn, classes.tooltipClose)}
-    onClick={onClick}
-  />
+  <Icon type='close-small' className={cx(styles.btn, classes.tooltipClose)} onClick={onClick} />
 )
 
 export default SidecarExplanationTooltip

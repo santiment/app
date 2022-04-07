@@ -48,25 +48,17 @@ const IconTooltipWrapper = ({ children, className, index }) => {
         className={styles.tooltipContainer}
         trigger={children}
       >
-        <div className={cx(styles.iconTooltip, styles.tooltip)}>
-          Click to apply chart layout
-        </div>
+        <div className={cx(styles.iconTooltip, styles.tooltip)}>Click to apply chart layout</div>
       </DarkTooltip>
     </div>
   )
 }
 
-const Trigger = ({
-  markedAsNew,
-  hideMarkedAsNew,
-  counter,
-  className,
-  ...rest
-}) => {
+const Trigger = ({ markedAsNew, hideMarkedAsNew, counter, className, ...rest }) => {
   let Wrapper = useMemo(() => {
     return markedAsNew
       ? RowTooltipBuilder({
-          onHide: () => markedAsNew && hideMarkedAsNew(false)
+          onHide: () => markedAsNew && hideMarkedAsNew(false),
         })
       : IconTooltipWrapper
   }, [markedAsNew, hideMarkedAsNew])
@@ -78,7 +70,7 @@ const Trigger = ({
         className={cx(
           styles.counterContainer,
           markedAsNew && styles.hovered,
-          'assets-table-row-tooltip'
+          'assets-table-row-tooltip',
         )}
       >
         <Icon type='chart-layout' className={styles.icon} />
@@ -88,13 +80,7 @@ const Trigger = ({
   )
 }
 
-const LayoutForAsset = ({
-  item: { id },
-  hide,
-  markedAsNew,
-  index,
-  className
-}) => {
+const LayoutForAsset = ({ item: { id }, hide, markedAsNew, index, className }) => {
   const { user } = useUser()
   const [templates] = useUserTemplates(user ? user.id : undefined)
 

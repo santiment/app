@@ -24,7 +24,7 @@ const ShareModalTrigger = ({
         window.navigator.share({
           title: shareTitle,
           text: shareText,
-          url: shareLink
+          url: shareLink,
         })
       }}
     />
@@ -50,12 +50,12 @@ const ShareModalTrigger = ({
 ShareModalTrigger.propTypes = {
   shareLink: PropTypes.string.isRequired,
   shareTitle: PropTypes.string,
-  shareText: PropTypes.string
+  shareText: PropTypes.string,
 }
 
 ShareModalTrigger.defaultProps = {
   shareTitle: 'Sanbase',
-  shareText: 'Hey! Look what I have found at the app.santiment.net!'
+  shareText: 'Hey! Look what I have found at the app.santiment.net!',
 }
 
 export default ShareModalTrigger

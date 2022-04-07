@@ -12,7 +12,7 @@ export const useSwipeState = () => {
 
   return {
     onChange,
-    active
+    active,
   }
 }
 
@@ -26,7 +26,7 @@ const SwipablePages = ({ pages }) => {
         swipeOptions={{
           callback: onChange,
           continuous: false,
-          startSlide: active
+          startSlide: active,
         }}
       >
         {pages.map((ElWrapper, index) => {

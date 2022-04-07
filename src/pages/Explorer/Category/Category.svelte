@@ -9,7 +9,7 @@
   export let iconClass = ''
 </script>
 
-<div class="border {className}" class:small>
+<div class="border mrg--b mrg-xl {className}" class:small>
   <div class="header row v-center">
     {#if $$slots.icon}
       <div class="icon row hv-center mrg-s mrg--r {iconClass}">
@@ -19,7 +19,11 @@
 
     <h2 class="{small ? 'body-2' : 'body-1'} txt-m">{title}</h2>
 
-    <slot name="header" />
+    {#if $$slots.header}
+      <div class="mrg-a mrg--l">
+        <slot name="header" />
+      </div>
+    {/if}
   </div>
 
   {#each items as item (item.id)}

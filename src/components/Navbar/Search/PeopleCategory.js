@@ -18,7 +18,7 @@ const POPULAR_AUTHORS_QUERY = gql`
 
 const propsAccessor = ({ id }) => ({
   key: id,
-  to: '/profile/' + id
+  to: '/profile/' + id,
 })
 
 function peoplePredicate (value) {
@@ -44,10 +44,10 @@ const Person = ({ avatarUrl, username }) => (
 
 const PeopleCategory = ({ searchTerm, ...props }) => {
   const people = usePeople()
-  const suggestions = useMemo(
-    () => people.filter(peoplePredicate(searchTerm)).slice(0, 5),
-    [searchTerm, people]
-  )
+  const suggestions = useMemo(() => people.filter(peoplePredicate(searchTerm)).slice(0, 5), [
+    searchTerm,
+    people,
+  ])
 
   return suggestions.length ? (
     <Category

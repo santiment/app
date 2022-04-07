@@ -5,13 +5,13 @@ const LARGE_NUMBER_THRESHOLD = 99999
 
 export const TooltipSetting = {
   datetime: {
-    formatter: value => {
+    formatter: (value) => {
       const date = new Date(value)
       const { HH, mm } = getTimeFormats(date)
       const { MMMM, DD, YYYY } = getDateFormats(date)
       return `${HH}:${mm}, ${MMMM} ${DD}, ${YYYY}`
-    }
-  }
+    },
+  },
 }
 
 export function FORMATTER (value) {
@@ -42,7 +42,7 @@ export function updateTooltipSetting (metric) {
   TooltipSetting[dataKey || key] = {
     label,
     formatter,
-    axisFormatter
+    axisFormatter,
   }
 }
 

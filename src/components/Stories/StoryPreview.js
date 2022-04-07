@@ -35,9 +35,7 @@ const StoryPreview = ({
               NEW
             </Label>
           )}
-          <span className={cx(styles.title, isNew && styles.newTitle)}>
-            {previewTitle}
-          </span>
+          <span className={cx(styles.title, isNew && styles.newTitle)}>{previewTitle}</span>
         </h4>
       </div>
       <div className={styles.image}>

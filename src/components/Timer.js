@@ -5,11 +5,11 @@ class Timer extends Component {
   static propTypes = {
     interval: PropTypes.number.isRequired,
     children: PropTypes.func.isRequired,
-    syncRef: PropTypes.any
+    syncRef: PropTypes.any,
   }
 
   static defaultProps = {
-    syncRef: undefined
+    syncRef: undefined,
   }
 
   componentDidMount () {

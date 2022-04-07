@@ -10,11 +10,7 @@ const EmailToggle = ({ disabled, email, isActive, onChange }) => (
         Email
         <TriggerChannelSettings
           showTrigger={disabled}
-          trigger={
-            <div className={styles.channelSettingsTrigger}>
-              Enable notifications
-            </div>
-          }
+          trigger={<div className={styles.channelSettingsTrigger}>Enable notifications</div>}
         />
       </>
     }

@@ -8,16 +8,8 @@ import styles from './WatchlistsAnon.module.scss'
 
 const LoginBlock = () => (
   <div className={styles.bottom}>
-    <p className={cx(styles.desc, styles.login)}>
-      Please, log in to use this feature
-    </p>
-    <Button
-      variant='fill'
-      accent='positive'
-      className={styles.btn}
-      as={Link}
-      to={'/login'}
-    >
+    <p className={cx(styles.desc, styles.login)}>Please, log in to use this feature</p>
+    <Button variant='fill' accent='positive' className={styles.btn} as={Link} to={'/login'}>
       Log in
     </Button>
   </div>
@@ -25,9 +17,7 @@ const LoginBlock = () => (
 
 const WrapperType = ({ children, className, isFullScreen }) =>
   isFullScreen ? (
-    <Panel className={cx(styles.fullScreen, styles.wrapper, className)}>
-      {children}
-    </Panel>
+    <Panel className={cx(styles.fullScreen, styles.wrapper, className)}>{children}</Panel>
   ) : (
     <div className={cx(styles.wrapper, className)}>{children}</div>
   )
@@ -48,10 +38,7 @@ const WatchlistsAnon = ({ isFullScreen, className, wrapperClassName }) => (
 
 export const ChartLayoutsAnon = ({ isFullScreen, className }) => (
   <WrapperType isFullScreen={isFullScreen}>
-    <EmptySection
-      className={className}
-      imgClassName={cx(styles.hide, isFullScreen && styles.img)}
-    >
+    <EmptySection className={className} imgClassName={cx(styles.hide, isFullScreen && styles.img)}>
       <p className={styles.title}>Make your own Chart Layouts</p>
       <p className={styles.desc}>Create, load and save</p>
       <p className={styles.desc}>your personal chart views</p>

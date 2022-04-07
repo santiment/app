@@ -27,11 +27,7 @@ export const ShowAxisSetting = ({ metric, widget, rerenderWidgets }) => {
   return (
     <Setting isDropdown={false} onClick={onClick}>
       Show axis
-      <Checkbox
-        isActive={isActive}
-        disabled={isDisabled}
-        className={styles.arrow}
-      />
+      <Checkbox isActive={isActive} disabled={isDisabled} className={styles.arrow} />
     </Setting>
   )
 }

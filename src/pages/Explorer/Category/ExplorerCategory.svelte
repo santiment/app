@@ -3,7 +3,7 @@
   import Tootlip from 'webkit/ui/Tooltip/svelte'
   import Checkbox from 'webkit/ui/Checkbox.svelte'
   import Category from './Category.svelte'
-  import ChartLayoutItem from './ChartLayoutItem.svelte'
+  import ChartLayoutItem from '../Layouts/ChartLayoutItem.svelte'
 
   export let items = [
     {

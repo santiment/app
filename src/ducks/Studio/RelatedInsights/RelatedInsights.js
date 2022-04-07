@@ -1,9 +1,7 @@
 import React, { useMemo } from 'react'
 import { DEFAULT_INSIGHTS_PER_PAGE } from '../../../hooks/insights'
 import { ALL_INSIGHTS_QUERY } from '../../../queries/InsightsGQL'
-import ScrollableInsightsList, {
-  useScrollabelPages
-} from '../../Insights/ScrollableInsightsList'
+import ScrollableInsightsList, { useScrollabelPages } from '../../Insights/ScrollableInsightsList'
 import styles from './RelatedInsights.module.scss'
 
 const useInsightsByTagSettings = ({ ticker }) => {
@@ -13,7 +11,7 @@ const useInsightsByTagSettings = ({ ticker }) => {
     return {
       tags: [ticker],
       page: page,
-      pageSize: DEFAULT_INSIGHTS_PER_PAGE
+      pageSize: DEFAULT_INSIGHTS_PER_PAGE,
     }
   }, [ticker, page])
 

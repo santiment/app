@@ -8,5 +8,5 @@ export const DEFAULT_SETTINGS = {
   type: DEFAULT_FILTER.key,
   firstThreshold: '',
   secondThreshold: '',
-  timeRange: DEFAULT_TIMERANGES[0].type
+  timeRange: DEFAULT_TIMERANGES[0].type,
 }

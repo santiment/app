@@ -32,11 +32,7 @@ const Header = ({ trialDaysLeft }) => (
 
       <h2 className={styles.description}>
         Choose the plan which fits your needs and enjoy our premium metrics
-        {trialDaysLeft && (
-          <div className={styles.trial}>
-            ({trialDaysLeft} in your free trial)
-          </div>
-        )}
+        {trialDaysLeft && <div className={styles.trial}>({trialDaysLeft} in your free trial)</div>}
       </h2>
     </div>
     <div className={styles.img} />
@@ -56,11 +52,7 @@ const Page = () => {
         {showConversion && (
           <>
             <Companies
-              header={
-                <div className={styles.companiesHeader}>
-                  You are in good company
-                </div>
-              }
+              header={<div className={styles.companiesHeader}>You are in good company</div>}
             />
             <Testimonials slice={3} wrapperClass={styles.testimonials} />
             <TwitterFeed />

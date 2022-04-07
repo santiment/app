@@ -15,15 +15,15 @@ export const ApiErrorsProvider = ({ children }) => {
   function load () {
     const controller = new AbortController()
     fetch(API_TEST_URL, {
-      signal: controller.signal
+      signal: controller.signal,
     })
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
           return {}
         }
         return response.json()
       })
-      .then(data => {
+      .then((data) => {
         setErrorsForMetrics(data)
         API_ERRORS_DATA = data
       })
@@ -42,11 +42,7 @@ export const ApiErrorsProvider = ({ children }) => {
     }
   }, [])
 
-  return (
-    <ApiErrorsContext.Provider value={errorsForMetrics}>
-      {children}
-    </ApiErrorsContext.Provider>
-  )
+  return <ApiErrorsContext.Provider value={errorsForMetrics}>{children}</ApiErrorsContext.Provider>
 }
 
 export function useApiErrors () {

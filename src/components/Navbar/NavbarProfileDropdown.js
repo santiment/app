@@ -11,15 +11,12 @@ import {
   calculateTrialDaysLeft,
   checkIsActiveSubscription,
   ProductNameById,
-  STATUSES
+  STATUSES,
 } from '../../utils/plans'
 import UpgradeBtn from '../UpgradeBtn/UpgradeBtn'
 import { useTheme } from '../../stores/ui/theme'
 import { useUser } from '../../stores/user'
-import {
-  useUserSubscriptions,
-  useUserSubscriptionStatus
-} from '../../stores/user/subscriptions'
+import { useUserSubscriptions, useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import { VersionLabel } from '../Version/Version'
 import { APP_STATES } from '../../ducks/Updates/reducers'
 import { isHalloweenDay } from '../../utils/halloween'
@@ -36,13 +33,11 @@ const personalLinks = [
   {
     as: 'a',
     href: 'https://insights.santiment.net/my',
-    children: 'My insights'
-  }
+    children: 'My insights',
+  },
 ]
 
-const LOGGED_IN_LINKS_1 = [
-  { to: '/account', children: 'Account settings', as: Link }
-]
+const LOGGED_IN_LINKS_1 = [{ to: '/account', children: 'Account settings', as: Link }]
 
 const LOGGED_IN_LINKS_2 = [
   {
@@ -53,8 +48,8 @@ const LOGGED_IN_LINKS_2 = [
       <>
         <Icon type='logout' className={styles.logout__icon} /> Log out
       </>
-    )
-  }
+    ),
+  },
 ]
 
 const LinkBuilder = (props, index) => {
@@ -75,14 +70,11 @@ const ProductSubscription = ({
   status,
   plan: {
     name,
-    product: { id }
-  }
+    product: { id },
+  },
 }) => {
-  const daysLeft =
-    status === STATUSES.TRIALING && trialEnd && calculateTrialDaysLeft(trialEnd)
-  const trial =
-    daysLeft &&
-    ` (trial - ${daysLeft === 1 ? 'last day' : `${daysLeft} days left`})`
+  const daysLeft = status === STATUSES.TRIALING && trialEnd && calculateTrialDaysLeft(trialEnd)
+  const trial = daysLeft && ` (trial - ${daysLeft === 1 ? 'last day' : `${daysLeft} days left`})`
 
   return (
     <div>
@@ -97,9 +89,8 @@ const SubscriptionsList = () => {
   const { loading, subscriptions } = useUserSubscriptions()
 
   const activeSubscriptions = useMemo(
-    () =>
-      subscriptions ? subscriptions.filter(checkIsActiveSubscription) : [],
-    [subscriptions]
+    () => (subscriptions ? subscriptions.filter(checkIsActiveSubscription) : []),
+    [subscriptions],
   )
 
   if (activeSubscriptions && activeSubscriptions.length === 0) {
@@ -110,23 +101,19 @@ const SubscriptionsList = () => {
     <div className={styles.plan}>
       {loading
         ? 'Loading...'
-        : activeSubscriptions.map(subscription => (
+        : activeSubscriptions.map((subscription) => (
             <ProductSubscription key={subscription.id} {...subscription} />
           ))}
     </div>
   )
 }
 
-export const NavbarProfileDropdown = ({
-  activeLink,
-  toggleNightMode,
-  appVersionState
-}) => {
+export const NavbarProfileDropdown = ({ activeLink, toggleNightMode, appVersionState }) => {
   const { user } = useUser()
   const { isPro } = useUserSubscriptionStatus()
   const { isNightMode } = useTheme()
 
-  const trimString = str =>
+  const trimString = (str) =>
     str.length < MAX_STR_LENGTH ? str : str.substring(0, MAX_STR_LENGTH) + '...'
 
   return (
@@ -145,20 +132,12 @@ export const NavbarProfileDropdown = ({
                 {user.name ? trimString(user.name) : 'No full name'}
               </div>
               <div className={styles.username}>
-                {user.username
-                  ? trimString(`@${user.username}`)
-                  : 'No username'}
+                {user.username ? trimString(`@${user.username}`) : 'No username'}
               </div>
             </div>
           </Link>
           <SubscriptionsList />
-          {isPro || (
-            <UpgradeBtn
-              variant='flat'
-              accent='orange'
-              className={styles.upgrade}
-            />
-          )}
+          {isPro || <UpgradeBtn variant='flat' accent='orange' className={styles.upgrade} />}
         </div>
       )}
 
@@ -214,17 +193,10 @@ export const NavbarProfileDropdown = ({
           className={cx(styles.setting, dropdownStyles.item, styles.nightMode)}
           onClick={toggleNightMode}
         >
-          {isHalloweenDay() ? 'Halloween ' : 'Night '} mode{' '}
-          <Toggle isActive={isNightMode} />
+          {isHalloweenDay() ? 'Halloween ' : 'Night '} mode <Toggle isActive={isNightMode} />
         </Button>
 
-        <Button
-          variant='ghost'
-          fluid
-          className={dropdownStyles.item}
-          to='/labs'
-          as={Link}
-        >
+        <Button variant='ghost' fluid className={dropdownStyles.item} to='/labs' as={Link}>
           Labs
         </Button>
 
@@ -253,17 +225,14 @@ export const NavbarProfileDropdown = ({
 
 const mapStateToProps = ({ rootUi, app }) => ({
   status: rootUi.isOnline ? 'online' : 'offline',
-  appVersionState: app.appVersionState
+  appVersionState: app.appVersionState,
 })
 
-const mapDispatchToProps = dispatch => ({
-  toggleNightMode: evt => {
+const mapDispatchToProps = (dispatch) => ({
+  toggleNightMode: (evt) => {
     evt.stopPropagation()
     dispatch({ type: actions.USER_TOGGLE_NIGHT_MODE })
-  }
+  },
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NavbarProfileDropdown)
+export default connect(mapStateToProps, mapDispatchToProps)(NavbarProfileDropdown)

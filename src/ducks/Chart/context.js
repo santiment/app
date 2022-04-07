@@ -11,17 +11,10 @@ export const noop = () => {}
 const ChartContext = React.createContext()
 const ChartSetterContext = React.createContext()
 
-export const ChartProvider = ({
-  data,
-  scale,
-  colors,
-  categories,
-  domainGroups,
-  children
-}) => {
+export const ChartProvider = ({ data, scale, colors, categories, domainGroups, children }) => {
   const [chart, _setChart] = useState()
   const [isAwaitingRedraw, redrawChart] = useRedrawer()
-  const setChart = useCallback(chart => {
+  const setChart = useCallback((chart) => {
     chart.data = data
     chart.categories = {}
     chart.scale = scale
@@ -54,10 +47,10 @@ export const ChartProvider = ({
       categories.joinedCategories,
       domainModifier,
       domainGroups,
-      new Set(categories.candles)
+      new Set(categories.candles),
     )
 
-    chart.plotter.items.forEach(plot => {
+    chart.plotter.items.forEach((plot) => {
       plot(chart, scale, data, colors, categories)
     })
     chart.observer.emit()
@@ -72,12 +65,12 @@ export const ChartProvider = ({
 
 ChartProvider.defaultProps = {
   scale: linearScale,
-  data: []
+  data: [],
 }
 
 export const useChart = () => useContext(ChartContext)
 export const useChartSetter = () => useContext(ChartSetterContext)
-export const buildPlotter = plotter => props => {
+export const buildPlotter = (plotter) => (props) => {
   plotter(useChart(), props)
   return null
 }
@@ -91,7 +84,7 @@ export function usePlotterRemove (chart, id) {
   }, [])
 }
 
-export const withChartContext = Component => ({
+export const withChartContext = (Component) => ({
   data,
   scale,
   colors,

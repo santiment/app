@@ -8,14 +8,14 @@ export const RANGES = [
   { value: '7d', label: '7d' },
   { value: '30d', label: '1m' },
   { value: '183d', label: '6m' },
-  { value: '1y', label: '1y' }
+  { value: '1y', label: '1y' },
 ]
 
 const IntervalsComponent = ({
   className,
   onChange = () => {},
   defaultIndex = 0,
-  ranges = RANGES
+  ranges = RANGES,
 }) => {
   const [sortedByIndex, setSortedByIndex] = useState(defaultIndex)
   const { value, label } = ranges[sortedByIndex]

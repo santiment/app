@@ -1,7 +1,7 @@
 import { SHOW_NOTIFICATION, HIDE_NOTIFICATION } from './../actions/types.js'
 
 export const initialState = {
-  notifications: []
+  notifications: [],
 }
 
 export default (state = initialState, action) => {
@@ -13,16 +13,14 @@ export default (state = initialState, action) => {
           {
             variant: 'info',
             dismissAfter: 4000,
-            ...action.payload
-          }
-        ]
+            ...action.payload,
+          },
+        ],
       }
 
     case HIDE_NOTIFICATION:
       return {
-        notifications: state.notifications.filter(
-          ({ id }) => id !== action.payload.id
-        )
+        notifications: state.notifications.filter(({ id }) => id !== action.payload.id),
       }
 
     default:

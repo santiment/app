@@ -1,7 +1,4 @@
-import {
-  query as fetchGql,
-  address_sankey as AddressSankey
-} from '@bitquery/graph/src/index.js'
+import { query as fetchGql, address_sankey as AddressSankey } from '@bitquery/graph/src/index.js'
 
 const query = new fetchGql(`
 query ($network: EthereumNetwork!, $address: String!, $inboundDepth: Int!, $outboundDepth: Int!, $limit: Int!, $currency: String!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
@@ -69,7 +66,7 @@ query.JSCode = true
 
 export const mountSankey = (id = 'sankey-graph') =>
   new AddressSankey('#' + id, query, {
-    theme: 'light'
+    theme: 'light',
   })
 
 export function querySankey ({ address, inbound, outbound, detail, currency }) {
@@ -85,6 +82,6 @@ export function querySankey ({ address, inbound, outbound, detail, currency }) {
     currency: currencyAddress !== '-' ? currencyAddress : symbol,
     from: null,
     till: null,
-    dateFormat: '%Y-%m'
+    dateFormat: '%Y-%m',
   })
 }

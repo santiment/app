@@ -11,7 +11,7 @@ import styles from './index.module.scss'
 
 const LS_ARTICLE_IS_READ = 'LS_ARTICLE_IS_READ'
 const FETCH_POLICY = {
-  fetchPolicy: 'cache-and-network'
+  fetchPolicy: 'cache-and-network',
 }
 export const USER_QUERY = gql`
   {
@@ -33,18 +33,18 @@ export const USER_QUERY = gql`
 `
 
 const DEFAULT_STATS = {
-  loginHref: '/login'
+  loginHref: '/login',
 }
 
-const setArticleIsRead = tab => localStorage.setItem(LS_ARTICLE_IS_READ, '+')
-const getArticleIsRead = tab => !!localStorage.getItem(LS_ARTICLE_IS_READ)
+const setArticleIsRead = (tab) => localStorage.setItem(LS_ARTICLE_IS_READ, '+')
+const getArticleIsRead = (tab) => !!localStorage.getItem(LS_ARTICLE_IS_READ)
 
 function useIsArticleRead () {
   const [isArticleRead, setIsArticleRead] = useState(getArticleIsRead)
 
   return {
     isArticleRead,
-    readArticle: () => setIsArticleRead(true) || setArticleIsRead()
+    readArticle: () => setIsArticleRead(true) || setArticleIsRead(),
   }
 }
 
@@ -54,19 +54,13 @@ function useUserStats () {
   return useMemo(() => {
     if (!data || !data.currentUser) return DEFAULT_STATS
 
-    const {
-      email,
-      username,
-      settings,
-      watchlists,
-      chartConfigurations
-    } = data.currentUser
+    const { email, username, settings, watchlists, chartConfigurations } = data.currentUser
 
     return {
       personalInfo: !!(email && username),
       telegram: settings.hasTelegramConnected,
       watchlists: !!watchlists.length,
-      charts: !!chartConfigurations.length
+      charts: !!chartConfigurations.length,
     }
   }, [data])
 }
@@ -86,13 +80,7 @@ const Row = ({ title, isActive, onClick, ...props }) => (
 )
 
 const StartGuide = () => {
-  const {
-    personalInfo,
-    telegram,
-    watchlists,
-    charts,
-    loginHref
-  } = useUserStats()
+  const { personalInfo, telegram, watchlists, charts, loginHref } = useUserStats()
   const { isArticleRead, readArticle } = useIsArticleRead()
 
   return (
@@ -107,18 +95,8 @@ const StartGuide = () => {
         onClick={readArticle}
       />
 
-      <Row
-        title='Add name and profile photo'
-        to='/account'
-        As={Link}
-        isActive={personalInfo}
-      />
-      <Row
-        title='Connect with Telegram'
-        to='/account'
-        As={Link}
-        isActive={telegram}
-      />
+      <Row title='Add name and profile photo' to='/account' As={Link} isActive={personalInfo} />
+      <Row title='Connect with Telegram' to='/account' As={Link} isActive={telegram} />
       <Row
         title='Create your first Chart Layout'
         to={loginHref || '/studio'}

@@ -1,26 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react'
 import cx from 'classnames'
-import {
-  selectNextGroup,
-  fixDateRangeString,
-  getValidityMsg,
-  extractGroupValue
-} from './utils'
+import { selectNextGroup, fixDateRangeString, getValidityMsg, extractGroupValue } from './utils'
 import styles from './index.module.scss'
 
 const TO_RIGHT = true
 
 const BlockingNeighbourChar = {
   ' ': true,
-  '-': true
+  '-': true,
 }
 
 const NavigationChar = {
   ArrowLeft: true,
-  ArrowRight: true
+  ArrowRight: true,
 }
 
-const canModifyChar = char => !Number.isNaN(parseInt(char, 10))
+const canModifyChar = (char) => !Number.isNaN(parseInt(char, 10))
 
 const Input = ({ value, onCalendarChange }) => {
   const [input, setInput] = useState(value)
@@ -67,11 +62,9 @@ const Input = ({ value, onCalendarChange }) => {
   }
 
   function validateInput (input) {
-    const dateSettings = input.split(' - ').map(item => item.split('/'))
+    const dateSettings = input.split(' - ').map((item) => item.split('/'))
 
-    const dates = dateSettings.map(
-      ([day, month, year]) => new Date(`${month}/${day}/20${year}`)
-    )
+    const dates = dateSettings.map(([day, month, year]) => new Date(`${month}/${day}/20${year}`))
 
     let [from, to] = dates
 
@@ -128,8 +121,7 @@ const Input = ({ value, onCalendarChange }) => {
       selectNextGroup(target, key === 'ArrowRight', beforeCaretIndex + 1)
     } else if (
       canModifyChar(key) ^
-      (BlockingNeighbourChar[charBeforeCaret] &&
-        BlockingNeighbourChar[charAfterCaret])
+      (BlockingNeighbourChar[charBeforeCaret] && BlockingNeighbourChar[charAfterCaret])
     ) {
       return
     }

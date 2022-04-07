@@ -2,11 +2,7 @@ import React from 'react'
 import withSizes from 'react-sizes'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import { useMetricCategories } from '../../ducks/Chart/Synchronizer'
-import {
-  useAxesMetricsKey,
-  useClosestValueData,
-  useEdgeGaps
-} from '../../ducks/Chart/hooks'
+import { useAxesMetricsKey, useClosestValueData, useEdgeGaps } from '../../ducks/Chart/hooks'
 import { mapSizesToProps } from '../../utils/withSizes'
 import SANChart from '../../ducks/Chart/Modular'
 import Areas from '../../ducks/Chart/Areas'
@@ -23,13 +19,13 @@ const CHART_PADDING_DESKTOP = {
   top: 16,
   right: 40,
   bottom: 73,
-  left: 0
+  left: 0,
 }
 const CHART_PADDING_MOBILE = {
   top: 0,
   right: 0,
   bottom: 0,
-  left: 0
+  left: 0,
 }
 
 const DashboardMetricChartWrapper = ({
@@ -48,19 +44,14 @@ const DashboardMetricChartWrapper = ({
   sliceMetricsCount = 1,
   chartRef,
   options,
-  canvasSettings
+  canvasSettings,
 }) => {
   const categories = useMetricCategories(metrics)
 
   const axesMetricKeys =
     axesMetricKeysDefault ||
-    useAxesMetricsKey(metrics, isDomainGroupingActive).slice(
-      0,
-      sliceMetricsCount
-    )
-  const data = useEdgeGaps(
-    useClosestValueData(rawData, metrics, options.isClosestDataActive)
-  )
+    useAxesMetricsKey(metrics, isDomainGroupingActive).slice(0, sliceMetricsCount)
+  const data = useEdgeGaps(useClosestValueData(rawData, metrics, options.isClosestDataActive))
 
   return (
     <Canvas
@@ -87,7 +78,7 @@ const DashboardMetricChartWrapper = ({
 }
 
 const DEFAULT_CANVAS_SETTING = {
-  height: 400
+  height: 400,
 }
 
 const Canvas = ({
@@ -102,11 +93,7 @@ const Canvas = ({
   ...props
 }) => {
   const { from, to } = settings
-  const {
-    isWatermarkVisible,
-    isWatermarkLighter,
-    isCartesianGridActive
-  } = options
+  const { isWatermarkVisible, isWatermarkLighter, isCartesianGridActive } = options
 
   return (
     <SANChart height={height} {...props}>
@@ -119,13 +106,7 @@ const Canvas = ({
       <Axes metrics={axesMetricKeys} />
       <Tooltip metric={axesMetricKeys[0]} />
 
-      <Brush
-        {...props}
-        data={brushData}
-        from={from}
-        to={to}
-        onChangeEnd={onBrushChangeEnd}
-      />
+      <Brush {...props} data={brushData} from={from} to={to} onChangeEnd={onBrushChangeEnd} />
     </SANChart>
   )
 }

@@ -14,7 +14,7 @@ const PADDING = {
   left: 3,
   right: 3,
   top: 20,
-  bottom: 3
+  bottom: 3,
 }
 
 const Chart = ({ metrics, settings, MetricColor }) => {

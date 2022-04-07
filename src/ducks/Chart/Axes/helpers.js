@@ -2,13 +2,9 @@ import {
   drawAxes,
   drawAxesTicks,
   drawLeftAxis,
-  drawLeftAxisTicks
+  drawLeftAxisTicks,
 } from '@santiment-network/chart/axes'
-import {
-  isDayInterval,
-  getDateDayMonthYear,
-  getDateHoursMinutes
-} from '../utils'
+import { isDayInterval, getDateDayMonthYear, getDateHoursMinutes } from '../utils'
 import { dayTicksPaintConfig, dayAxesColor } from '../paintConfigs'
 import { TooltipSetting } from '../../dataHub/tooltipSettings'
 import { mirroredMetrics } from '../../dataHub/metrics/mirrored'
@@ -44,11 +40,10 @@ function yFormatter (value) {
   return Math.trunc(value)
 }
 
-export const selectYFormatter = metricKey =>
+export const selectYFormatter = (metricKey) =>
   mirroredMetrics.includes(metricKey)
-    ? value => yFormatter(Math.abs(value))
-    : (TooltipSetting[metricKey] && TooltipSetting[metricKey].axisFormatter) ||
-      yFormatter
+    ? (value) => yFormatter(Math.abs(value))
+    : (TooltipSetting[metricKey] && TooltipSetting[metricKey].axisFormatter) || yFormatter
 
 export function plotAxes (chart, scale) {
   const {
@@ -56,7 +51,7 @@ export function plotAxes (chart, scale) {
     ticksPaintConfig = dayTicksPaintConfig,
     axesColor = dayAxesColor,
     xAxesTicks = 10,
-    yAxesTicks = 8
+    yAxesTicks = 8,
   } = chart
 
   const [mainAxisMetric, secondaryAxisMetric] = axesMetricKeys
@@ -72,7 +67,7 @@ export function plotAxes (chart, scale) {
       ticksPaintConfig,
       scale,
       xAxesTicks,
-      yAxesTicks
+      yAxesTicks,
     )
   }
 
@@ -84,7 +79,7 @@ export function plotAxes (chart, scale) {
       selectYFormatter(secondaryAxisMetric),
       ticksPaintConfig,
       scale,
-      8
+      8,
     )
   }
 }

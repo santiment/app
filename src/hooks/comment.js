@@ -35,10 +35,10 @@ export function useSavedComment (isLoggedIn) {
             onClick: (_, close) => {
               store.dispatch(push(getPath(comment)))
               close()
-            }
-          }
-        ]
-      })
+            },
+          },
+        ],
+      }),
     )
   }, [isLoggedIn])
 }

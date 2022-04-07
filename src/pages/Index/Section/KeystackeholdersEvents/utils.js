@@ -28,7 +28,7 @@ export function GetReferenceDots (signals, yAxisId) {
         stroke='var(--persimmon)'
         strokeWidth='2px'
         fill='var(--white)'
-      />
+      />,
     ]
   }, [])
 }

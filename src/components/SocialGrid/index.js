@@ -12,12 +12,7 @@ const SHOW_STEP = 6
 
 const metrics = [Metric.social_volume_total]
 
-const SocialGrid = ({
-  className,
-  onTopicClick,
-  hasPremium,
-  topics = TOPICS
-}) => {
+const SocialGrid = ({ className, onTopicClick, hasPremium, topics = TOPICS }) => {
   const [showCount, setShowCount] = useState(SHOW_STEP)
   const [loadedCount, setLoadedCount] = useState(0)
 
@@ -30,7 +25,7 @@ const SocialGrid = ({
     }
   }
 
-  const items = topics.filter(topic => {
+  const items = topics.filter((topic) => {
     if (topic.type) {
       if (topic.type === 'PRO') {
         return hasPremium
@@ -66,8 +61,8 @@ const SocialGrid = ({
   )
 }
 
-const mapStateToProps = state => ({
-  hasPremium: checkHasPremium(state)
+const mapStateToProps = (state) => ({
+  hasPremium: checkHasPremium(state),
 })
 
 export default connect(mapStateToProps)(SocialGrid)

@@ -8,8 +8,7 @@ import { useUser } from '../../../../stores/user'
 
 const POINT_MARGIN = 13
 
-const newPoint = (insight, top, left) =>
-  Object.assign({}, insight, { top, left })
+const newPoint = (insight, top, left) => Object.assign({}, insight, { top, left })
 
 function getStackOffset (stack, x) {
   const offset = stack[x] || 0
@@ -37,13 +36,13 @@ const Insights = ({ chart, insights }) => {
   const isAnon = !useUser().isLoggedIn
   const activeInsightType = useActiveToggleInsight()
   const isPulseInsights = activeInsightType && activeInsightType.key === 'pulse'
-  const points = useMemo(
-    () => (chart.points.length ? buildInsightPoints(chart, insights) : []),
-    [chart.points, insights]
-  )
+  const points = useMemo(() => (chart.points.length ? buildInsightPoints(chart, insights) : []), [
+    chart.points,
+    insights,
+  ])
   const [openedIndex, setOpenedIndex] = useState()
-  const onPrevClick = useCallback(() => setOpenedIndex(i => i - 1), [])
-  const onNextClick = useCallback(() => setOpenedIndex(i => i + 1), [])
+  const onPrevClick = useCallback(() => setOpenedIndex((i) => i - 1), [])
+  const onNextClick = useCallback(() => setOpenedIndex((i) => i + 1), [])
   const lastIndex = points.length - 1
 
   return points.map((point, i) => (
@@ -63,12 +62,10 @@ const Insights = ({ chart, insights }) => {
   ))
 }
 
-const withOnlyIfInsights = Component => props => {
+const withOnlyIfInsights = (Component) => (props) => {
   const chart = props.chart || useChart()
   const insights = props.insights || useInsights()
-  return insights.length ? (
-    <Component {...props} chart={chart} insights={insights} />
-  ) : null
+  return insights.length ? <Component {...props} chart={chart} insights={insights} /> : null
 }
 
 export default withOnlyIfInsights(withViewportFilter(Insights))

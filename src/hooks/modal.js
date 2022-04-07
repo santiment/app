@@ -4,7 +4,7 @@ export function newModalController (name, Component) {
   const controller = {
     open: () => controller.setIsOpened(true),
     close: () => controller.setIsOpened(false),
-    [name]: props => (
+    [name]: (props) => (
       <Component
         position='bottom'
         on='click'
@@ -13,7 +13,7 @@ export function newModalController (name, Component) {
         onOpen={controller.open}
         onClose={controller.close}
       />
-    )
+    ),
   }
   return controller
 }

@@ -1,10 +1,6 @@
 import COLOR from '@santiment-network/ui/variables.scss'
 import { getTextWidth } from '@santiment-network/chart/utils'
-import {
-  valueByY,
-  valueByLogY,
-  logScale
-} from '@santiment-network/chart/scales'
+import { valueByY, valueByLogY, logScale } from '@santiment-network/chart/scales'
 import { clearCtx } from '../utils'
 import { Metric } from '../../dataHub/metrics'
 import { dailyActiveAddressesSuggesters } from '../../Studio/Alerts/suggestions/dailyActiveAddresses'
@@ -30,16 +26,11 @@ function alignY (y) {
 function drawTextBubble (chart, y, width) {
   const {
     left,
-    tooltip: { ctx }
+    tooltip: { ctx },
   } = chart
 
   ctx.fillStyle = COLOR.rhino
-  ctx.fillRect(
-    left + MARGIN_LEFT,
-    y - BUBBLE_MARGIN_BOTTOM,
-    width + PADDINGS,
-    HEIGHT
-  )
+  ctx.fillRect(left + MARGIN_LEFT, y - BUBBLE_MARGIN_BOTTOM, width + PADDINGS, HEIGHT)
 }
 
 function drawTexts (ctx, texts, x, y) {
@@ -88,7 +79,7 @@ export function drawHoveredSignal (chart, y, texts) {
     left,
     right,
     rightAxisMargin = 0,
-    tooltip: { ctx }
+    tooltip: { ctx },
   } = chart
 
   ctx.save()
@@ -125,15 +116,15 @@ export function makeSignalDrawable ({ id, settings: { operation } }, chart) {
     id,
     value,
     type: below ? SIGNAL_BELOW : SIGNAL_ABOVE,
-    y: scale(chart, min, max)(value)
+    y: scale(chart, min, max)(value),
   }
 }
 
-export const checkPriceMetric = metric =>
+export const checkPriceMetric = (metric) =>
   metric === Metric.price_usd || metric.base === Metric.price_usd
 
 export const AlertBuilder = {
   daily_active_addresses: () => {
     return dailyActiveAddressesSuggesters[0]
-  }
+  },
 }

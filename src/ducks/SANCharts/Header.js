@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {
-  createSkeletonElement,
-  createSkeletonProvider
-} from '@trainline/react-skeletor'
+import { createSkeletonElement, createSkeletonProvider } from '@trainline/react-skeletor'
 import { graphql } from 'react-apollo'
 import withSizes from 'react-sizes'
 import { compose } from 'recompose'
@@ -29,21 +26,16 @@ const H1 = createSkeletonElement('h1')
 
 const ProjectInfo = createSkeletonProvider(
   {
-    name: '_______'
+    name: '_______',
   },
   ({ name }) => name === undefined,
   () => ({
     color: 'var(--mystic)',
-    backgroundColor: 'var(--mystic)'
-  })
+    backgroundColor: 'var(--mystic)',
+  }),
 )(({ name, ticker, slug, description, logoUrl, darkLogoUrl, onClick }) => (
   <div className={styles.selector} onClick={onClick}>
-    <ProjectIcon
-      size={40}
-      slug={slug}
-      logoUrl={logoUrl}
-      darkLogoUrl={darkLogoUrl}
-    />
+    <ProjectIcon size={40} slug={slug} logoUrl={logoUrl} darkLogoUrl={darkLogoUrl} />
     <div className={styles.project}>
       <div className={styles.project__top}>
         <H1 className={styles.project__name}>
@@ -62,12 +54,11 @@ export const ProjectSelector = ({
   slug,
   project,
   onChange,
-  trigger = () => <ProjectInfo {...project} slug={slug} />
+  trigger = () => <ProjectInfo {...project} slug={slug} />,
 }) => (
   <GetProjects
     render={({ allProjects, isLoading }) => {
-      const array =
-        allProjects && allProjects.length === 0 ? ALL_PROJECTS : allProjects
+      const array = allProjects && allProjects.length === 0 ? ALL_PROJECTS : allProjects
 
       return (
         <TriggerProjectsSelector
@@ -92,11 +83,11 @@ const PriceWithChanges = ({
   ticker,
   slug,
   minmax,
-  totalSupply
+  totalSupply,
 }) => {
   const RANGES = [
     { range: '24h', value: percentChange24h },
-    { range: '7d', value: percentChange7d }
+    { range: '7d', value: percentChange7d },
   ]
 
   let [activeRange, setActiveRange] = useState(0)
@@ -127,18 +118,14 @@ const PriceWithChanges = ({
             </Range>
           )}
           <div>
-            <span className={styles.totalSupply}>
-              {formatNumber(totalSupply)}
-            </span>
+            <span className={styles.totalSupply}>{formatNumber(totalSupply)}</span>
             <span className={styles.currency}>{ticker}</span>
           </div>
         </div>
         {!(isTablet || isLaptop) && (
           <>
             <div className={styles.column}>
-              <span
-                className={cx(styles.changesLabel, styles.changesLabel__first)}
-              >
+              <span className={cx(styles.changesLabel, styles.changesLabel__first)}>
                 {RANGES[activeRange].range} change
               </span>
               <PercentChanges
@@ -171,7 +158,7 @@ const Header = ({
   onSlugSelect,
   isTablet,
   isLaptop,
-  className
+  className,
 }) => {
   const [isOpened, setIsOpened] = useState()
   const [knockNumber, setKnockNumber] = useState(0)
@@ -183,7 +170,7 @@ const Header = ({
     totalSupply = 0,
     priceUsd = 0,
     percentChange24h = 0,
-    percentChange7d = 0
+    percentChange7d = 0,
   } = dataProject
 
   useEffect(() => {
@@ -220,9 +207,7 @@ const Header = ({
               onOpen={openDialog}
               onClose={closeDialog}
               onSelect={onProjectSelect}
-              trigger={
-                <ProjectInfo {...project} slug={slug} onClick={openDialog} />
-              }
+              trigger={<ProjectInfo {...project} slug={slug} onClick={openDialog} />}
             />
             <Grave
               knockNumber={knockNumber}
@@ -275,7 +260,7 @@ const Header = ({
 export default compose(
   graphql(PROJECT_BY_SLUG_QUERY, {
     skip: ({ slug }) => !slug,
-    options: ({ slug }) => ({ variables: { slug } })
+    options: ({ slug }) => ({ variables: { slug } }),
   }),
-  withSizes(mapSizesToProps)
+  withSizes(mapSizesToProps),
 )(Header)

@@ -16,7 +16,7 @@ const TriggerChannelSettings = ({
   trigger = DefaultTrigger,
   showTrigger = true,
   showWebPush = true,
-  showTelegram = true
+  showTelegram = true,
 }) => {
   const { closeDialog, openDialog, isOpened } = useDialogState()
 

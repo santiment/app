@@ -12,12 +12,12 @@ export function toggleByKey (label, hidden, onChange) {
   if (hidden[label]) {
     delete hidden[label]
     onChange({
-      ...hidden
+      ...hidden,
     })
   } else {
     onChange({
       ...hidden,
-      [label]: true
+      [label]: true,
     })
   }
 }
@@ -35,12 +35,7 @@ const Label = ({ label, hidden, toggle, proLabels }) => {
   )
 }
 
-const StakeholderLabels = ({
-  labels,
-  restrictedSignals,
-  hidden,
-  setHidden
-}) => {
+const StakeholderLabels = ({ labels, restrictedSignals, hidden, setHidden }) => {
   const visibleLabels = useMemo(() => labels.slice(0, MAX_COUNT), [labels])
 
   const unvisibleLabels = useMemo(() => labels.slice(MAX_COUNT), [labels])
@@ -60,7 +55,7 @@ const StakeholderLabels = ({
 
   return (
     <div className={styles.container}>
-      {visibleLabels.map(label => (
+      {visibleLabels.map((label) => (
         <Label
           key={label}
           hidden={hidden}
@@ -77,13 +72,11 @@ const StakeholderLabels = ({
           align='start'
           className={styles.dropdown}
           trigger={
-            <div className={cx(styles.label, styles.label__hidden)}>
-              +{unvisibleLabels.length}
-            </div>
+            <div className={cx(styles.label, styles.label__hidden)}>+{unvisibleLabels.length}</div>
           }
         >
           <Panel className={styles.panel}>
-            {unvisibleLabels.map(label => (
+            {unvisibleLabels.map((label) => (
               <Label
                 key={label}
                 hidden={hidden}
@@ -101,7 +94,7 @@ const StakeholderLabels = ({
                     labels.reduce((acc, l) => {
                       acc[l] = true
                       return acc
-                    }, {})
+                    }, {}),
                   )
                 }
               >

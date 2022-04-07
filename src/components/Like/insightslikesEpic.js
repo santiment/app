@@ -10,13 +10,11 @@ export const insightslikesEpic = (action$, store, { client }) =>
     .mergeMap(({ payload: { id, shouldLike } }) => {
       return Observable.from(
         client.mutate({
-          mutation: shouldLike
-            ? LIKE_INSIGHT_MUTATION
-            : UNLIKE_INSIGHT_MUTATION,
+          mutation: shouldLike ? LIKE_INSIGHT_MUTATION : UNLIKE_INSIGHT_MUTATION,
           variables: {
-            id: +id
-          }
-        })
+            id: +id,
+          },
+        }),
       )
         .switchMap(() => Observable.empty())
         .catch(handleErrorAndTriggerAction(actions.INSIGHT_LIKE_FAIL))

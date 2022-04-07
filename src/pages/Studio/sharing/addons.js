@@ -9,5 +9,5 @@ export function shareChartAddons (chartAddons) {
 
 export function parseChartAddons (chartAddons) {
   const items = chartAddons || []
-  return items.map(key => SelectorNode[key]).filter(Boolean)
+  return items.map((key) => SelectorNode[key]).filter(Boolean)
 }

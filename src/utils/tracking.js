@@ -4,8 +4,7 @@ const APP_NAME = 'Sanbase'
 export const isBrowser = typeof window !== 'undefined'
 export const isProdApp = window.location.origin === 'https://app.santiment.net'
 export const hasDoNotTrack = () => {
-  const dnt =
-    navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack
+  const dnt = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack
   return dnt === '1' || dnt === 'yes'
 }
 
@@ -31,7 +30,7 @@ function loadScript () {
 const initHotjar = () => {
   const settings = {
     hjid: 1829649,
-    hjsv: 6
+    hjsv: 6,
   }
   window.hj =
     window.hj ||
@@ -40,20 +39,13 @@ const initHotjar = () => {
     }
   window._hjSettings = settings
 
-  mixScript(
-    'https://static.hotjar.com/c/hotjar-' +
-      settings.hjid +
-      '.js?sv=' +
-      settings.hjsv
-  )
+  mixScript('https://static.hotjar.com/c/hotjar-' + settings.hjid + '.js?sv=' + settings.hjsv)
 }
 
 const initTwitterPixel = () => {
   mixScript('//static.ads-twitter.com/uwt.js')
   window.twq = function twq () {
-    window.twq.exe
-      ? window.twq.exe.apply(window.twq, arguments)
-      : window.twq.queue.push(arguments)
+    window.twq.exe ? window.twq.exe.apply(window.twq, arguments) : window.twq.queue.push(arguments)
   }
   window.twq.version = '1.1'
   window.twq.queue = []
@@ -82,13 +74,13 @@ export function initializeTracking (trackerIDs = TRACKER_IDs) {
 
 export const update =
   isBrowser && isProdApp && !hasDoNotTrack()
-    ? user => {
+    ? (user) => {
         window.gtag('set', {
-          user_id: user.id
+          user_id: user.id,
         })
         window.gtag('event', 'screen_view', {
           app_name: APP_NAME,
-          app_version: process.env.REACT_APP_VERSION
+          app_version: process.env.REACT_APP_VERSION,
         })
         window.Intercom('update', {
           name: user.username,
@@ -96,7 +88,7 @@ export const update =
           email: user.email,
           ethAccounts: user.ethAccounts,
           nightmode: (user.settings || {}).theme,
-          app_version: process.env.REACT_APP_VERSION
+          app_version: process.env.REACT_APP_VERSION,
         })
       }
     : () => {}
@@ -122,21 +114,21 @@ export const event =
           window.gtag('event', action, {
             event_category: category,
             event_label: label,
-            ...values
+            ...values,
           })
         }
         if (type.includes('intercom')) {
           window.Intercom('trackEvent', action, {
             event_category: category,
             event_label: label,
-            ...values
+            ...values,
           })
         }
         if (type.includes('twitter')) {
           window.twq('track', action, {
             content_type: category,
             content_name: label,
-            ...values
+            ...values,
           })
         }
       }
@@ -179,5 +171,5 @@ export default {
   initializeTracking,
   event,
   pageview,
-  update
+  update,
 }

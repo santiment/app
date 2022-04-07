@@ -11,7 +11,7 @@ class EditableInputSetting extends PureComponent {
   state = {
     value: '',
     editing: false,
-    error: ''
+    error: '',
   }
 
   inputRef = React.createRef()
@@ -20,7 +20,7 @@ class EditableInputSetting extends PureComponent {
     clearTimeout(this.timeout)
   }
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault()
     e.stopPropagation()
 
@@ -68,11 +68,11 @@ class EditableInputSetting extends PureComponent {
       prefix,
       tooltip,
       saving = false,
-      submitError
+      submitError,
     } = this.props
 
     if (submitError) {
-      this.setState(state => ({ ...state, error: submitError }))
+      this.setState((state) => ({ ...state, error: submitError }))
     }
 
     return (
@@ -81,7 +81,7 @@ class EditableInputSetting extends PureComponent {
           styles.setting,
           styles.form,
           classes.inputContainer,
-          error && styles.form_error
+          error && styles.form_error,
         )}
         onSubmit={this.onSubmit}
       >
@@ -90,7 +90,7 @@ class EditableInputSetting extends PureComponent {
             styles.setting__left,
             styles.inputBlock,
             classes.inputContainerLeft,
-            editing && styles.setting__left_form
+            editing && styles.setting__left_form,
           )}
         >
           {!editing && (
@@ -100,11 +100,7 @@ class EditableInputSetting extends PureComponent {
                   <DarkTooltip
                     trigger={
                       <div>
-                        {label}{' '}
-                        <Icon
-                          type='info-round'
-                          className={styles.labelTooltip}
-                        />
+                        {label} <Icon type='info-round' className={styles.labelTooltip} />
                       </div>
                     }
                     position='top'
@@ -117,10 +113,7 @@ class EditableInputSetting extends PureComponent {
                 )}
               </Label>
               <Label
-                className={cx(
-                  styles.setting__description,
-                  classes.inputContainerLabel
-                )}
+                className={cx(styles.setting__description, classes.inputContainerLabel)}
                 accent='waterloo'
               >
                 {(defaultValue && `${prefix || ''}${defaultValue}`) ||
@@ -134,7 +127,7 @@ class EditableInputSetting extends PureComponent {
             className={cx(
               styles.form__input,
               editing && styles.form__input_edit,
-              !!prefix && styles.form__input_prefix
+              !!prefix && styles.form__input_prefix,
             )}
             defaultValue={defaultValue}
             value={value}
@@ -167,11 +160,7 @@ class EditableInputSetting extends PureComponent {
               </Button>
             </div>
           ) : (
-            <Label
-              className={styles.form__action}
-              accent='jungle-green'
-              onClick={this.onEditClick}
-            >
+            <Label className={styles.form__action} accent='jungle-green' onClick={this.onEditClick}>
               {defaultValue ? 'Edit' : 'Add'} {label.toLowerCase()}
             </Label>
           )}

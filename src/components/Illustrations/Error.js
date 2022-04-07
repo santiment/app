@@ -1,13 +1,7 @@
 import React from 'react'
 
 export default ({ className }) => (
-  <svg
-    className={className}
-    viewBox='0 0 600 440'
-    width='600'
-    height='440'
-    fill='none'
-  >
+  <svg className={className} viewBox='0 0 600 440' width='600' height='440' fill='none'>
     <path
       fill='var(--texas-rose-light)'
       d='M472.4 257.03c-96.78-16.87 54.76 149.49-25.89 153.7-80.65 4.22-279.87-113.26-266.38-265.72 13.48-152.46 279.12-82.25 347.03 0 67.92 82.25 42.02 128.89-54.76 112.02z'

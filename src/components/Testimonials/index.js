@@ -9,14 +9,14 @@ const testimonials = [
     pic: 'default',
     position: 'Trader',
     text:
-      'I’ve been trading / investing / hodling for 3 years next week, and your website/app is REAL. i wish i had this a long time ago'
+      'I’ve been trading / investing / hodling for 3 years next week, and your website/app is REAL. i wish i had this a long time ago',
   },
   {
     author: 'Peter Sikuda',
     pic: 'petersik',
     position: 'Investor',
     text:
-      'I’ve yet to find another site that lets me chart full historical data and indicators from 3 or 4 completely different sources on a single graph, and make it simple to find new correlations that I couldn’t see otherwise. If you want to get the full picture of the market, you need to tap into all information sources available, and that’s what Sanbase lets me do'
+      'I’ve yet to find another site that lets me chart full historical data and indicators from 3 or 4 completely different sources on a single graph, and make it simple to find new correlations that I couldn’t see otherwise. If you want to get the full picture of the market, you need to tap into all information sources available, and that’s what Sanbase lets me do',
   },
   {
     author: 'Bagsy',
@@ -24,23 +24,22 @@ const testimonials = [
     pic: 'default',
     position: 'Trader',
     text:
-      'I’ve yet to find another site that lets me chart full historical data and indicators from 3 or 4 completely different sources on a single graph, and make it simple to find new correlations.'
+      'I’ve yet to find another site that lets me chart full historical data and indicators from 3 or 4 completely different sources on a single graph, and make it simple to find new correlations.',
   },
   {
     author: 'Panama_TJ',
     alias: 'PC',
     pic: 'panama_crypto',
     position: 'Trader',
-    text:
-      'Santiment is definitely the data source I use for all of the on-chain analytics I need.'
+    text: 'Santiment is definitely the data source I use for all of the on-chain analytics I need.',
   },
   {
     author: 'CRYPTO₿IRB',
     pic: 'cryptobirb',
     position: 'Certified Technical Analyst',
     text:
-      "Santiment is by far my favorite go-to place when I want to enrich my market analysis with on-chain insights. The platform itself shows an insane variety of tools and indicators that actually let me decide when to lock in profits before potential trend reversals come. I love it with all my analyst's heart!"
-  }
+      "Santiment is by far my favorite go-to place when I want to enrich my market analysis with on-chain insights. The platform itself shows an insane variety of tools and indicators that actually let me decide when to lock in profits before potential trend reversals come. I love it with all my analyst's heart!",
+  },
 ]
 
 const BgImage = (
@@ -60,15 +59,12 @@ const BgImage = (
 )
 
 const Testimonials = ({ slice, wrapperClass }) => {
-  const normalizedTestimonials = slice
-    ? testimonials.slice(0, slice)
-    : testimonials
+  const normalizedTestimonials = slice ? testimonials.slice(0, slice) : testimonials
   return (
     <section className={cx(styles.wrapper, wrapperClass && wrapperClass)}>
       <h2 className={styles.title}>Testimonials</h2>
       <div className={styles.description}>
-        Our users send us bunch of smiles with our services, just read some of
-        the reviews!
+        Our users send us bunch of smiles with our services, just read some of the reviews!
       </div>
 
       <div className={styles.list}>
@@ -89,11 +85,7 @@ const Testimonial = ({ item }) => {
 
       <div className={styles.bottom}>
         <div
-          className={cx(
-            styles.pic,
-            styles[`pic_${pic}`],
-            pic === 'default' && styles.pic__default
-          )}
+          className={cx(styles.pic, styles[`pic_${pic}`], pic === 'default' && styles.pic__default)}
         >
           {pic === 'default' && alias}
         </div>

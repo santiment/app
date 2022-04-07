@@ -20,7 +20,7 @@ export const DialogSignUp = ({ defaultRoute, trigger }) => {
     if (!parent) return
 
     const timer = setTimeout(() =>
-      parent.querySelectorAll('a').forEach(link => (link.onclick = onLinkClick))
+      parent.querySelectorAll('a').forEach((link) => (link.onclick = onLinkClick)),
     )
 
     return () => clearTimeout(timer)
@@ -32,12 +32,7 @@ export const DialogSignUp = ({ defaultRoute, trigger }) => {
   }
 
   return (
-    <Modal
-      defaultOpen
-      classes={styles}
-      trigger={trigger}
-      modalProps={{ ref: wrapperRef }}
-    >
+    <Modal defaultOpen classes={styles} trigger={trigger} modalProps={{ ref: wrapperRef }}>
       <Switch case={route}>
         <Case of='/login'>
           <LoginDescription />
@@ -46,11 +41,7 @@ export const DialogSignUp = ({ defaultRoute, trigger }) => {
           <LoginEmailForm isDesktop showBack={false} />
         </Case>
         <Case of='/sign-up'>
-          <LoginEmailForm
-            isDesktop
-            prepareState={PrepareState}
-            showBack={false}
-          />
+          <LoginEmailForm isDesktop prepareState={PrepareState} showBack={false} />
         </Case>
       </Switch>
     </Modal>
@@ -58,14 +49,14 @@ export const DialogSignUp = ({ defaultRoute, trigger }) => {
 }
 
 DialogSignUp.defaultProps = {
-  defaultRoute: '/sign-up'
+  defaultRoute: '/sign-up',
 }
 
 const mapStateToProps = ({ user: { isLoading, data } }) => ({
   isLoading,
-  isLoggedIn: !!data.id
+  isLoggedIn: !!data.id,
 })
 
 export default connect(mapStateToProps)(({ isLoggedIn, isLoading, ...props }) =>
-  isLoading || isLoggedIn ? null : <DialogSignUp {...props} />
+  isLoading || isLoggedIn ? null : <DialogSignUp {...props} />,
 )

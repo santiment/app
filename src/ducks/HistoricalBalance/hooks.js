@@ -5,7 +5,7 @@ import {
   WALLET_ASSETS_QUERY,
   ADDRESS_QUERY,
   RECENT_TRANSACTIONS_QUERY,
-  TOP_TRANSACTIONS_QUERY
+  TOP_TRANSACTIONS_QUERY,
 } from './queries'
 import { getAddressInfrastructure } from '../../utils/address'
 import { getValidInterval } from '../SANCharts/IntervalSelector'
@@ -15,7 +15,7 @@ const DEFAULT_STATE = []
 const useWalletQuery = (query, variables, skip) =>
   useQuery(query, {
     skip: !variables.infrastructure || skip,
-    variables
+    variables,
   })
 
 export function getWalletMetrics (walletAssets, priceAssets) {
@@ -25,19 +25,15 @@ export function getWalletMetrics (walletAssets, priceAssets) {
 }
 
 export const useWalletMetrics = (walletAssets, priceAssets) =>
-  useMemo(() => getWalletMetrics(walletAssets, priceAssets), [
-    walletAssets,
-    priceAssets
-  ])
+  useMemo(() => getWalletMetrics(walletAssets, priceAssets), [walletAssets, priceAssets])
 
 export function useBlockchainAddress (wallet) {
   const { data } = useWalletQuery(ADDRESS_QUERY, wallet)
   return data ? data.blockchainAddress : DEFAULT_STATE
 }
-export const useAddressLabels = wallet =>
-  useBlockchainAddress(wallet).labels || DEFAULT_STATE
+export const useAddressLabels = (wallet) => useBlockchainAddress(wallet).labels || DEFAULT_STATE
 
-export const useAddressNote = wallet => useBlockchainAddress(wallet).notes || ''
+export const useAddressNote = (wallet) => useBlockchainAddress(wallet).notes || ''
 
 export function useWalletAssets (wallet) {
   const { data, loading, error } = useWalletQuery(WALLET_ASSETS_QUERY, wallet)
@@ -45,7 +41,7 @@ export function useWalletAssets (wallet) {
   return {
     walletAssets: data ? data.assetsHeldByAddress : DEFAULT_STATE,
     isLoading: loading,
-    isError: error
+    isError: error,
   }
 }
 
@@ -54,13 +50,13 @@ export function useRecentTransactions (wallet, page, skip) {
   const variables = {
     page,
     address: wallet.address,
-    infrastructure: wallet.infrastructure
+    infrastructure: wallet.infrastructure,
   }
   const { data, loading } = useWalletQuery(query, variables, skip)
 
   return {
     transactions: data ? data.transactions : DEFAULT_STATE,
-    isLoading: loading
+    isLoading: loading,
   }
 }
 
@@ -72,13 +68,13 @@ export function useTopTransactions (wallet, page, skip, project, dates) {
     to: dates.to,
     from: dates.from,
     infrastructure: wallet.infrastructure,
-    addressSelector: { address: wallet.address, transactionType: 'ALL' }
+    addressSelector: { address: wallet.address, transactionType: 'ALL' },
   }
   const { data, loading, error } = useWalletQuery(query, variables, skip)
 
   return {
     transactions: data && !error ? data.transactions : DEFAULT_STATE,
-    isLoading: loading
+    isLoading: loading,
   }
 }
 
@@ -86,30 +82,28 @@ export function useSettings (defaultSettings) {
   const [settings, setSettings] = useState(defaultSettings)
   const { address } = settings
 
-  useMemo(() => (settings.infrastructure = getAddressInfrastructure(address)), [
-    address
-  ])
+  useMemo(() => (settings.infrastructure = getAddressInfrastructure(address)), [address])
 
   function onAddressChange (address) {
     setSettings({
       ...settings,
-      address
+      address,
     })
   }
 
   function changeTimePeriod (from, to, timeRange) {
-    setSettings(state => ({
+    setSettings((state) => ({
       ...state,
       timeRange,
       interval: getValidInterval(from, to),
       from: from.toISOString(),
-      to: to.toISOString()
+      to: to.toISOString(),
     }))
   }
 
   return {
     settings,
     changeTimePeriod,
-    onAddressChange
+    onAddressChange,
   }
 }

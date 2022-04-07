@@ -1,12 +1,7 @@
 import React from 'react'
 
 const Avatar = ({ className }) => (
-  <svg
-    viewBox='0 0 12 12'
-    fill='none'
-    xmlns='http://www.w3.org/2000/svg'
-    className={className}
-  >
+  <svg viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg' className={className}>
     <path
       fillRule='evenodd'
       clipRule='evenodd'

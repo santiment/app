@@ -17,17 +17,14 @@ export function useSelectedItemsSet (items) {
   }
 
   function selectAll () {
-    setSelectedItemsSet(
-      selectedItemsSet.size === items.length ? SET : new Set(items)
-    )
+    setSelectedItemsSet(selectedItemsSet.size === items.length ? SET : new Set(items))
   }
 
   return {
     selectedItemsSet,
     selectItem,
     selectAll,
-    isAllItemSelected:
-      items.length > 0 && selectedItemsSet.size === items.length
+    isAllItemSelected: items.length > 0 && selectedItemsSet.size === items.length,
   }
 }
 

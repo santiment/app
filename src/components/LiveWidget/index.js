@@ -71,8 +71,7 @@ const LiveWidget = () => {
     }
 
     if (
-      (typeof window.YT === 'undefined' ||
-        typeof window.YT.Player === 'undefined') &&
+      (typeof window.YT === 'undefined' || typeof window.YT.Player === 'undefined') &&
       initCounter < MAX_INIT_ATTEMPTS
     ) {
       initCounter++
@@ -81,8 +80,8 @@ const LiveWidget = () => {
       try {
         new window.YT.Player('live_stream', {
           events: {
-            onReady: evt => setPlayer(evt.target)
-          }
+            onReady: (evt) => setPlayer(evt.target),
+          },
         })
       } catch (e) {
         console.error(e)
@@ -116,10 +115,7 @@ const LiveWidget = () => {
 
   return (
     <div
-      className={cx(
-        styles.wrapper,
-        isShow && isStarted && !isHidden && styles.wrapper__visible
-      )}
+      className={cx(styles.wrapper, isShow && isStarted && !isHidden && styles.wrapper__visible)}
       onClick={onWidgetClick}
     >
       <div className={styles.close}>

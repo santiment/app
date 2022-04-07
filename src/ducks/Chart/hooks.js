@@ -3,12 +3,11 @@ import { LINES } from './nodes'
 import { Metric } from '../dataHub/metrics'
 import { checkIfAreMirrored } from '../dataHub/metrics/mirrored'
 
-const splitByComma = str => str.split(',')
-const lineMetricsFilter = node => LINES.has(node)
+const splitByComma = (str) => str.split(',')
+const lineMetricsFilter = (node) => LINES.has(node)
 const getKey = ({ key }) => key
 const getDomainGroup = ({ key, domainGroup = key }) => domainGroup
-const checkIfIsIndicatorOf = ({ key }, { indicator, queryKey }) =>
-  indicator && key === queryKey
+const checkIfIsIndicatorOf = ({ key }, { indicator, queryKey }) => indicator && key === queryKey
 const checkIndicators = (metricA, metricB) =>
   metricB.indicator
     ? checkIfIsIndicatorOf(metricA, metricB)
@@ -27,9 +26,7 @@ export function useDomainGroups (metrics) {
       if (Domain[domainGroup]) {
         Domain[domainGroup] += `,${key}`
       } else {
-        Domain[domainGroup] = metrics.includes(Metric[domainGroup])
-          ? `${domainGroup},${key}`
-          : key
+        Domain[domainGroup] = metrics.includes(Metric[domainGroup]) ? `${domainGroup},${key}` : key
       }
     }
 
@@ -50,12 +47,7 @@ export function useDomainGroups (metrics) {
   }, [metrics])
 }
 
-export function useClosestValueData (
-  rawData,
-  metrics,
-  isClosestValueActive = true,
-  MetricNode
-) {
+export function useClosestValueData (rawData, metrics, isClosestValueActive = true, MetricNode) {
   return useMemo(() => {
     const lineMetrics = metrics.filter(({ key, node }) => {
       const newNode = MetricNode && MetricNode[key]
@@ -146,12 +138,7 @@ function getDomainDependencies (domainGroups) {
 }
 
 // TODO: Refactor [@vanguard | Feb 17, 2021]
-export function useMultiAxesMetricKeys (
-  widget,
-  metrics,
-  ErrorMsg = {},
-  domainGroups
-) {
+export function useMultiAxesMetricKeys (widget, metrics, ErrorMsg = {}, domainGroups) {
   const { axesMetricSet, disabledAxesMetricSet } = widget
 
   return useMemo(() => {
@@ -176,10 +163,10 @@ export function useMultiAxesMetricKeys (
 
     const metricSet = new Set(axesMetrics)
 
-    metricSet.forEach(metric => {
+    metricSet.forEach((metric) => {
       if (ErrorMsg[metric.key]) metricSet.delete(metric)
     })
-    disabledAxesMetricSet.forEach(disabledMetric => {
+    disabledAxesMetricSet.forEach((disabledMetric) => {
       metricSet.delete(disabledMetric)
     })
 
@@ -193,14 +180,11 @@ export function useMultiAxesMetricKeys (
     }
 
     if (result.length !== axesMetricSet.size && axesMetricSet.size < 3) {
-      result.forEach(metric => axesMetricSet.add(metric))
+      result.forEach((metric) => axesMetricSet.add(metric))
     }
 
     return result
-      .filter(
-        metric =>
-          axesMetricSet.has(metric) && !domainDependencies.has(metric.key)
-      )
+      .filter((metric) => axesMetricSet.has(metric) && !domainDependencies.has(metric.key))
       .map(getKey)
   }, [axesMetricSet, metrics, ErrorMsg, domainGroups])
 }
@@ -245,9 +229,7 @@ export function useAxesMetricsKey (metrics, isDomainGroupingActive) {
       }
     }
 
-    return hasSameDomain
-      ? [mainAxisMetric.key]
-      : [mainAxisMetric.key, secondaryAxisMetric.key]
+    return hasSameDomain ? [mainAxisMetric.key] : [mainAxisMetric.key, secondaryAxisMetric.key]
   }, [metrics, isDomainGroupingActive])
 }
 
@@ -279,7 +261,7 @@ export function useEdgeGaps (data) {
 
     for (let i = 0; i < gapLength; i++, gapDatetime += datetimeDiff) {
       gapData[i] = {
-        datetime: gapDatetime
+        datetime: gapDatetime,
       }
     }
 

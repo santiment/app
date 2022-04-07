@@ -9,9 +9,9 @@ const logoutEpic = (action$, store, { client }) =>
       .concatMap(({ data: { logout: { success } } }) =>
         success
           ? Observable.of({ type: actions.USER_LOGOUT_SUCCESS })
-          : Observable.of({ type: actions.USER_LOGOUT_ERROR })
+          : Observable.of({ type: actions.USER_LOGOUT_ERROR }),
       )
-      .catch(handleErrorAndTriggerAction(actions.USER_LOGOUT_ERROR))
+      .catch(handleErrorAndTriggerAction(actions.USER_LOGOUT_ERROR)),
   )
 
 export default logoutEpic

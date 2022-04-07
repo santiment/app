@@ -4,54 +4,54 @@ import Category from '../Category'
 import {
   useToggleInsight,
   useActiveToggleInsight,
-  useInsightsErrorMsg
+  useInsightsErrorMsg,
 } from '../../insights/context'
 import { getFollowingsCount, getMyInsights } from '../../insights/queries'
 
 const OPENED_GROUP = {
-  Tags: true
+  Tags: true,
 }
 
 const NO_GROUP_ITEMS = [
   {
     item: {
       key: 'all',
-      label: 'Recent 100 Insights'
-    }
+      label: 'Recent 100 Insights',
+    },
   },
   {
     item: {
       key: 'pro',
       label: 'PRO Insights',
-      isPro: true
-    }
+      isPro: true,
+    },
   },
   {
     item: {
       key: 'pulse',
-      label: 'Pulse Insights'
-    }
+      label: 'Pulse Insights',
+    },
   },
   {
     item: {
       key: 'sanfam',
-      label: 'Sanfam Insights'
-    }
+      label: 'Sanfam Insights',
+    },
   },
   {
     item: {
       key: 'my',
       label: 'My Insights',
-      checkIsVisible: ({ hasMyInsights }) => hasMyInsights
-    }
+      checkIsVisible: ({ hasMyInsights }) => hasMyInsights,
+    },
   },
   {
     item: {
       key: 'followings',
       label: 'My Followings',
-      checkIsVisible: ({ hasFollowings }) => hasFollowings
-    }
-  }
+      checkIsVisible: ({ hasFollowings }) => hasFollowings,
+    },
+  },
 ]
 
 const TAG_GROUP_ITEMS = [
@@ -59,50 +59,44 @@ const TAG_GROUP_ITEMS = [
     item: {
       key: 'eth',
       label: 'ETH Insights',
-      checkIsVisible: ({ slug }) => slug !== 'ethereum'
-    }
+      checkIsVisible: ({ slug }) => slug !== 'ethereum',
+    },
   },
   {
     item: {
       key: 'btc',
       label: 'BTC Insights',
-      checkIsVisible: ({ slug }) => slug !== 'bitcoin'
-    }
+      checkIsVisible: ({ slug }) => slug !== 'bitcoin',
+    },
   },
   {
     item: {
       key: 'defi',
-      label: 'DEFI Insights'
-    }
-  }
+      label: 'DEFI Insights',
+    },
+  },
 ]
 
 function buildGroups (ticker) {
   const item = {
     key: ticker,
     label: ticker.toUpperCase() + ' Insights',
-    type: 'project'
+    type: 'project',
   }
   const groups = {
     [NO_GROUP]: NO_GROUP_ITEMS,
     Tags: [
       {
-        item
+        item,
       },
-      ...TAG_GROUP_ITEMS
-    ]
+      ...TAG_GROUP_ITEMS,
+    ],
   }
 
   return { groups, toggle: item }
 }
 
-const InsightAlertSelector = ({
-  widgets,
-  categories = {},
-  slug,
-  project,
-  settings
-}) => {
+const InsightAlertSelector = ({ widgets, categories = {}, slug, project, settings }) => {
   const { from, to } = settings
   const { ticker } = project
   const toggleInsight = useToggleInsight()
@@ -118,10 +112,7 @@ const InsightAlertSelector = ({
     }
   }, [ticker])
 
-  useEffect(
-    () => (activeToggle ? toggleInsight(activeToggle, from, to) : undefined),
-    [from, to]
-  )
+  useEffect(() => (activeToggle ? toggleInsight(activeToggle, from, to) : undefined), [from, to])
 
   useEffect(() => {
     const widget = widgets[0]
@@ -131,8 +122,8 @@ const InsightAlertSelector = ({
       widget.chartRef.current.canvas.scrollIntoView({ block: 'center' })
     }
 
-    getMyInsights().then(insights => setHasMyInsights(!!insights.length))
-    getFollowingsCount().then(count => setHasFollowings(!!count))
+    getMyInsights().then((insights) => setHasMyInsights(!!insights.length))
+    getFollowingsCount().then((count) => setHasFollowings(!!count))
 
     return toggleInsight
   }, [])

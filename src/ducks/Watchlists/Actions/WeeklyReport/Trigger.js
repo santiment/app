@@ -5,10 +5,7 @@ import Button from '@santiment-network/ui/Button'
 import styles from './Trigger.module.scss'
 
 const Trigger = ({ isMonitored }) => (
-  <Button
-    border={false}
-    className={cx(styles.trigger, isMonitored && styles.trigger__active)}
-  >
+  <Button border={false} className={cx(styles.trigger, isMonitored && styles.trigger__active)}>
     <Icon type='report' className={styles.icon} />
     {isMonitored && <span className={styles.active} />}
     {!isMonitored && <span className={styles.text}>Enable report</span>}

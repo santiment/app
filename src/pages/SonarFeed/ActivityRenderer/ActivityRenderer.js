@@ -13,12 +13,11 @@ const ActivityRenderer = ({
   index,
   classes = {},
   onLike,
-  showProfileExplanation
+  showProfileExplanation,
 }) => {
   const { id: signalId, settings } = trigger
   const { target } = settings
-  const showChart =
-    target && couldShowChart(settings, POSSIBLE_METRICS_ACTIVITIES)
+  const showChart = target && couldShowChart(settings, POSSIBLE_METRICS_ACTIVITIES)
 
   const triggerDate = triggeredAt || date
 
@@ -28,12 +27,10 @@ const ActivityRenderer = ({
       className={cx(
         styles.activityItem,
         classes.activityItem,
-        index === 0 ? classes.firstActivity : ''
+        index === 0 ? classes.firstActivity : '',
       )}
     >
-      <div
-        className={cx(styles.content, showChart && styles.activityItemBacktest)}
-      >
+      <div className={cx(styles.content, showChart && styles.activityItemBacktest)}>
         {showChart ? (
           <ActivityWithBacktesting
             classes={classes}

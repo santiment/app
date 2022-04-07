@@ -50,7 +50,7 @@ export const DEFAULT_METRICS = [
   'percent_of_total_supply_on_exchanges',
   'velocity',
   'social_dominance_total',
-  'social_volume_total'
+  'social_volume_total',
 ]
 
 const DEFAULT_HIDDEN_METRICS = []
@@ -58,17 +58,13 @@ const DEFAULT_HIDDEN_METRICS = []
 const DEFAULT_STATE = {
   Submetrics: [],
   availableMetrics: [],
-  categories: getCategoryGraph(DEFAULT_METRICS)
+  categories: getCategoryGraph(DEFAULT_METRICS),
 }
 
-export function useProjectMetrics (
-  slug,
-  hiddenMetrics = DEFAULT_HIDDEN_METRICS,
-  noMarketSegments
-) {
+export function useProjectMetrics (slug, hiddenMetrics = DEFAULT_HIDDEN_METRICS, noMarketSegments) {
   const isBeta = useIsBetaMode()
   const { data } = useQuery(PROJECT_METRICS_QUERIES_SEGMENTS_BY_SLUG_QUERY, {
-    variables: { slug }
+    variables: { slug },
   })
 
   return useMemo(() => {
@@ -83,24 +79,20 @@ export function useProjectMetrics (
         .concat(noMarketSegments ? [] : marketSegments.map(getMarketSegment)),
       hiddenMetrics,
       Submetrics,
-      isBeta
+      isBeta,
     )
 
     return {
       categories,
       Submetrics,
       availableMetrics,
-      ...getAssetNewMetrics(availableMetrics, { slug, isBeta })
+      ...getAssetNewMetrics(availableMetrics, { slug, isBeta }),
     }
   }, [data, isBeta, hiddenMetrics, noMarketSegments])
 }
 
-export default Component => props => {
+export default (Component) => (props) => {
   const { slug, hiddenMetrics, noMarketSegments } = props
-  const projectMetrics = useProjectMetrics(
-    slug,
-    hiddenMetrics,
-    noMarketSegments
-  )
+  const projectMetrics = useProjectMetrics(slug, hiddenMetrics, noMarketSegments)
   return <Component {...props} {...projectMetrics} />
 }

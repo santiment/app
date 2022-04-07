@@ -4,17 +4,16 @@ import { showNotification } from '../../../../actions/rootActions'
 
 const SCHEDULED_COMMENT = 'SCHEDULED_COMMENT'
 
-const dispatchNotification = payload =>
-  store.dispatch(showNotification(payload))
+const dispatchNotification = (payload) => store.dispatch(showNotification(payload))
 
 export function saveComment (insightId, content) {
   localStorage.setItem(
     SCHEDULED_COMMENT,
-    `https://insights.santiment.net/read/${insightId}?comment=${content}&_wc=1#comments`
+    `https://insights.santiment.net/read/${insightId}?comment=${content}&_wc=1#comments`,
   )
 
   dispatchNotification({
-    title: 'Your comment was saved and will be posted after sign up'
+    title: 'Your comment was saved and will be posted after sign up',
   })
 
   return store.dispatch(push('/login'))
@@ -38,8 +37,8 @@ export function lookupSavedComment () {
         onClick: () => {
           clearSavedComment()
           window.location.href = href
-        }
-      }
-    ]
+        },
+      },
+    ],
   })
 }

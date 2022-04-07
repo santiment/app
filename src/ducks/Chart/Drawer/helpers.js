@@ -1,13 +1,5 @@
-import {
-  linearScale,
-  logScale,
-  valueByY,
-  valueByLogY
-} from '@santiment-network/chart/scales'
-import {
-  drawValueBubbleY,
-  drawValueBubbleX
-} from '@santiment-network/chart/tooltip'
+import { linearScale, logScale, valueByY, valueByLogY } from '@santiment-network/chart/scales'
+import { drawValueBubbleY, drawValueBubbleX } from '@santiment-network/chart/tooltip'
 import COLOR from '@santiment-network/ui/variables.scss'
 import {
   clearCtx,
@@ -15,7 +7,7 @@ import {
   getDateHoursMinutes,
   yBubbleFormatter,
   isDayInterval,
-  linearDatetimeScale
+  linearDatetimeScale,
 } from '../utils'
 import { dayBubblesPaintConfig, nightBubblesPaintConfig } from '../paintConfigs'
 
@@ -23,19 +15,19 @@ const LINE_WIDTH = 2
 export const HandleType = {
   LEFT: 1,
   RIGHT: 2,
-  MOVE: 3
+  MOVE: 3,
 }
 
 const DAY_PAINT_CONFIG = Object.assign({}, dayBubblesPaintConfig, {
-  bgColor: COLOR.casper
+  bgColor: COLOR.casper,
 })
 const NIGHT_PAINT_CONFIG = Object.assign({}, nightBubblesPaintConfig, {
-  bgColor: COLOR['cloud-burst']
+  bgColor: COLOR['cloud-burst'],
 })
 
 export const newLine = (x, y) => ({
   color: COLOR['bali-hai'],
-  absCoor: [x, y, x, y]
+  absCoor: [x, y, x, y],
 })
 
 export const getPressedHandleType = (ctx, [handle1, handle2], x, y) =>
@@ -83,7 +75,7 @@ function datetimeRelativeScaler (chart, width) {
   const lastDatetime = data[data.length - 1].datetime
   const factor = (lastDatetime - firstDatetime) / width
 
-  return x => factor * (x - left) + firstDatetime
+  return (x) => factor * (x - left) + firstDatetime
 }
 
 export function absoluteToRelativeCoordinates (chart, drawing) {
@@ -99,7 +91,7 @@ export function absoluteToRelativeCoordinates (chart, drawing) {
     Math.floor(scaleDatetime(x1)),
     scaleValue(chart, y1, min, max),
     Math.floor(scaleDatetime(x2)),
-    scaleValue(chart, y2, min, max)
+    scaleValue(chart, y2, min, max),
   ]
 }
 
@@ -168,14 +160,8 @@ function drawMetricValueBubble (chart, paintConfig, metricKey, y1, y2, offset) {
   const { min, max } = minMax
   const scaleValue = scale === logScale ? valueByLogY : valueByY
 
-  const formattedY1Value = yBubbleFormatter(
-    scaleValue(chart, y1, min, max),
-    metricKey
-  )
-  const formattedY2Value = yBubbleFormatter(
-    scaleValue(chart, y2, min, max),
-    metricKey
-  )
+  const formattedY1Value = yBubbleFormatter(scaleValue(chart, y1, min, max), metricKey)
+  const formattedY2Value = yBubbleFormatter(scaleValue(chart, y2, min, max), metricKey)
 
   drawValueBubbleY(chart, ctx, formattedY1Value, y1, paintConfig, offset)
   drawValueBubbleY(chart, ctx, formattedY2Value, y2, paintConfig, offset)
@@ -188,14 +174,10 @@ export function paintDrawingAxes (chart) {
 
   const [x1, y1, x2, y2] = drawing.absCoor
 
-  const xBubbleFormatter = isDayInterval(chart)
-    ? getDateHoursMinutes
-    : getDateDayMonthYear
+  const xBubbleFormatter = isDayInterval(chart) ? getDateHoursMinutes : getDateDayMonthYear
 
   const paintConfig =
-    bubblesPaintConfig === nightBubblesPaintConfig
-      ? NIGHT_PAINT_CONFIG
-      : DAY_PAINT_CONFIG
+    bubblesPaintConfig === nightBubblesPaintConfig ? NIGHT_PAINT_CONFIG : DAY_PAINT_CONFIG
 
   // eslint-disable-next-line
   const [x1Date, _, x2Date, __] = absoluteToRelativeCoordinates(chart, drawing)
@@ -206,7 +188,7 @@ export function paintDrawingAxes (chart) {
   drawValueBubbleX(chart, ctx, xBubbleFormatter(x2Date), x2, paintConfig)
 
   let offset = 0
-  axesMetricKeys.forEach(metricKey => {
+  axesMetricKeys.forEach((metricKey) => {
     drawMetricValueBubble(chart, paintConfig, metricKey, y1, y2, offset)
     offset += 50
   })

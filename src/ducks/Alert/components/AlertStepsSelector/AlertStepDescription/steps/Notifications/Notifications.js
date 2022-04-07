@@ -5,17 +5,11 @@ import AlertMessage from '../../../../../../../components/Alert/AlertMessage'
 import { formatChannelsTitles } from '../../../../../utils'
 import styles from './Notifications.module.scss'
 
-const Notifications = ({
-  description,
-  status,
-  invalidStepsMemo,
-  isFinished,
-  selected
-}) => {
+const Notifications = ({ description, status, invalidStepsMemo, isFinished, selected }) => {
   const { values } = useFormikContext()
   const {
     isPublic,
-    settings: { channel }
+    settings: { channel },
   } = values
 
   const isInvalid = invalidStepsMemo.has('notifications')
@@ -49,9 +43,7 @@ const Notifications = ({
               </>
             )}
           </div>
-          {channel.length > 0 && (
-            <div className={styles.item}>{channels.join(', ')}</div>
-          )}
+          {channel.length > 0 && <div className={styles.item}>{channels.join(', ')}</div>}
         </div>
       </>
     )
@@ -60,13 +52,7 @@ const Notifications = ({
   return (
     <div className={styles.col}>
       {(selected || isFinished) && children}
-      {isInvalid && (
-        <AlertMessage
-          className={styles.error}
-          error
-          text='Channel is required'
-        />
-      )}
+      {isInvalid && <AlertMessage className={styles.error} error text='Channel is required' />}
     </div>
   )
 }

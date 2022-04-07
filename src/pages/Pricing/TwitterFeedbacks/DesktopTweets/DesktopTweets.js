@@ -7,7 +7,7 @@ import styles from './DesktopTweets.module.scss'
 const SETTINGS = {
   columnWidth: 370,
   height: 300,
-  gutterSize: 10
+  gutterSize: 10,
 }
 
 function getColumnsCount () {

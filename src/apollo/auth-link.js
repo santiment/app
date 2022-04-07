@@ -12,8 +12,8 @@ const AuthLink = setContext((_, { headers }) => {
     headers: {
       ...headers,
       ...authHeaders,
-      origin
-    }
+      origin,
+    },
   }
 })
 

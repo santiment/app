@@ -6,7 +6,7 @@ import styles from './DashboardProjectChart.module.scss'
 
 const DEFAULT_PROJECT = {
   slug: 'maker',
-  ticker: 'Maker'
+  ticker: 'Maker',
 }
 
 const DashboardProjectChart = ({
@@ -18,10 +18,10 @@ const DashboardProjectChart = ({
   const [targetProject, setProject] = useState(defaultProject)
 
   const onChange = useCallback(
-    project => {
+    (project) => {
       setProject(project)
     },
-    [setProject]
+    [setProject],
   )
 
   const [project = {}] = useProject(targetProject.slug)

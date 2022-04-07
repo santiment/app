@@ -3,9 +3,7 @@ import { capitalizeStr } from '../../utils/utils'
 import { parseIntervalString } from '../../utils/dates'
 
 function formatFrequencyStr (cooldown) {
-  const { amount: cooldownCount, format: cooldownPeriod } = parseIntervalString(
-    cooldown || '5m'
-  )
+  const { amount: cooldownCount, format: cooldownPeriod } = parseIntervalString(cooldown || '5m')
 
   switch (cooldownPeriod) {
     case 'm':
@@ -22,7 +20,7 @@ function formatFrequencyStr (cooldown) {
 }
 
 export function getChannelsTitles (channels) {
-  return channels.map(item => {
+  return channels.map((item) => {
     if (typeof item === 'string') {
       return item
     }
@@ -38,7 +36,7 @@ export function getChannelsTitles (channels) {
 }
 
 export function formatChannelsTitles (channels) {
-  return channels.map(item => {
+  return channels.map((item) => {
     if (item === 'web_push') {
       return 'Push'
     }
@@ -58,10 +56,7 @@ export function formatChannelsTitles (channels) {
 
 export function getDescriptionStr ({ cooldown, channels, isRepeating }) {
   const frequencyStr = formatFrequencyStr(cooldown)
-  const channelsStr =
-    channels.length > 0
-      ? ` via ${formatChannelsTitles(channels).join(', ')}`
-      : ''
+  const channelsStr = channels.length > 0 ? ` via ${formatChannelsTitles(channels).join(', ')}` : ''
 
   if (!isRepeating) {
     return `Send me notifications once${channelsStr}.`
@@ -83,20 +78,12 @@ function getCountSomeOf (count) {
 
 export function parseOperation (value) {
   const operation = Object.keys(value)[0]
-  const count =
-    operation === 'some_of'
-      ? getCountSomeOf(value[operation])
-      : value[operation]
+  const count = operation === 'some_of' ? getCountSomeOf(value[operation]) : value[operation]
 
   return { selectedOperation: operation, selectedCount: count }
 }
 
-export function getConditionsStr ({
-  operation,
-  count,
-  timeWindow,
-  hasPriceIcon = true
-}) {
+export function getConditionsStr ({ operation, count, timeWindow, hasPriceIcon = true }) {
   let condition = `moving down ${count} %`
 
   switch (operation) {
@@ -131,25 +118,18 @@ export function getConditionsStr ({
       break
   }
 
-  return `${
-    hasPriceIcon ? condition : condition.replace('$', '')
-  } compared to ${formatFrequencyStr(timeWindow)} earlier`
+  return `${hasPriceIcon ? condition : condition.replace('$', '')} compared to ${formatFrequencyStr(
+    timeWindow,
+  )} earlier`
 }
 
-export function getTitleStr ({
-  watchlist,
-  slug,
-  metric,
-  operation,
-  timeWindow,
-  onlyCondition
-}) {
+export function getTitleStr ({ watchlist, slug, metric, operation, timeWindow, onlyCondition }) {
   const selectedMetric = getMetric(metric)
   const { selectedCount, selectedOperation } = parseOperation(operation)
   const conditionStr = getConditionsStr({
     operation: selectedOperation,
     count: selectedCount,
-    timeWindow
+    timeWindow,
   })
 
   if (onlyCondition) {
@@ -157,11 +137,10 @@ export function getTitleStr ({
   }
 
   const slugStr = Array.isArray(slug)
-    ? slug.map(item => capitalizeStr(item)).join(', ')
+    ? slug.map((item) => capitalizeStr(item)).join(', ')
     : capitalizeStr(slug)
 
-  return `${slugStr || capitalizeStr(watchlist)} ${(selectedMetric &&
-    selectedMetric.label) ||
+  return `${slugStr || capitalizeStr(watchlist)} ${(selectedMetric && selectedMetric.label) ||
     'Metric'} ${conditionStr}`
 }
 
@@ -183,29 +162,19 @@ export function splitStr (str) {
   return { firstWord, rest }
 }
 
-function validateNotificationsAndTitle ({
-  invalidSteps,
-  settings,
-  cooldown,
-  title
-}) {
+function validateNotificationsAndTitle ({ invalidSteps, settings, cooldown, title }) {
   if (!cooldown || settings.channel.length === 0) {
     invalidSteps.push('notifications')
   }
 
-  if (
-    settings.channel.length > 0 &&
-    settings.channel.some(item => typeof item !== 'string')
-  ) {
+  if (settings.channel.length > 0 && settings.channel.some((item) => typeof item !== 'string')) {
     const telegramChannel = settings.channel.find(
-      item => typeof item !== 'string' && 'telegram_channel' in item
+      (item) => typeof item !== 'string' && 'telegram_channel' in item,
     )
     if (telegramChannel && !telegramChannel.telegram_channel) {
       invalidSteps.push('notifications')
     }
-    const webhook = settings.channel.find(
-      item => typeof item !== 'string' && 'webhook' in item
-    )
+    const webhook = settings.channel.find((item) => typeof item !== 'string' && 'webhook' in item)
     if (webhook && !webhook.webhook) {
       invalidSteps.push('notifications')
     }
@@ -221,11 +190,7 @@ function validateAssetStep ({ invalidSteps, settings, cooldown, title }) {
     invalidSteps.push('asset')
   }
 
-  if (
-    !settings.metric ||
-    Object.keys(settings.operation).length === 0 ||
-    !settings.time_window
-  ) {
+  if (!settings.metric || Object.keys(settings.operation).length === 0 || !settings.time_window) {
     invalidSteps.push('metric')
   }
 
@@ -237,11 +202,7 @@ function validateWatchlistStep ({ invalidSteps, settings, cooldown, title }) {
     invalidSteps.push('watchlist')
   }
 
-  if (
-    !settings.metric ||
-    Object.keys(settings.operation).length === 0 ||
-    !settings.time_window
-  ) {
+  if (!settings.metric || Object.keys(settings.operation).length === 0 || !settings.time_window) {
     invalidSteps.push('metric')
   }
 
@@ -269,12 +230,7 @@ function validateWalletStep ({ invalidSteps, settings, cooldown, title }) {
   validateNotificationsAndTitle({ invalidSteps, settings, cooldown, title })
 }
 
-function validateSocialTrendsStep ({
-  invalidSteps,
-  settings,
-  cooldown,
-  title
-}) {
+function validateSocialTrendsStep ({ invalidSteps, settings, cooldown, title }) {
   if ('slug' in settings.target && settings.target.slug.length === 0) {
     invalidSteps.push('trend')
   }
@@ -290,13 +246,7 @@ function validateSocialTrendsStep ({
   validateNotificationsAndTitle({ invalidSteps, settings, cooldown, title })
 }
 
-export function validateFormSteps ({
-  type,
-  values,
-  setInvalidSteps,
-  submitForm,
-  onlyValidate
-}) {
+export function validateFormSteps ({ type, values, setInvalidSteps, submitForm, onlyValidate }) {
   const { settings, cooldown, title } = values
 
   switch (type.title) {

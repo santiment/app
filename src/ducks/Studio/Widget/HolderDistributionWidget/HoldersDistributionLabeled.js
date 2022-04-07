@@ -1,32 +1,32 @@
 import React from 'react'
 import HolderDistributionWidget, {
   holderDistributionBuilder,
-  HoldersDistributionTitle
+  HoldersDistributionTitle,
 } from './index'
 import { HOLDERS_DISTRIBUTION_LABELED_METRICS } from '../../Chart/Sidepanel/HolderDistribution/metrics'
 import { TabLabeledHoldersMetrics } from '../../Chart/Sidepanel/HolderDistribution/Tabs'
 
-const HolderDistributionLabeledWidget = props => {
+const HolderDistributionLabeledWidget = (props) => {
   function onChangeLabels (labels, mergedMetrics) {
     const { widget, rerenderWidgets } = props
 
     widget.MetricSettingMap = new Map(widget.MetricSettingMap)
 
-    widget.metrics.forEach(m => {
+    widget.metrics.forEach((m) => {
       const prevSettings = widget.MetricSettingMap.get(m)
       widget.MetricSettingMap.set(m, {
         ...prevSettings,
         labels: labels,
-        interval: '1d'
+        interval: '1d',
       })
     })
 
-    mergedMetrics.forEach(m => {
+    mergedMetrics.forEach((m) => {
       const prevSettings = widget.MetricSettingMap.get(m)
       widget.MetricSettingMap.set(m, {
         ...prevSettings,
         labels: labels,
-        interval: '1d'
+        interval: '1d',
       })
     })
 
@@ -50,7 +50,7 @@ const HolderDistributionLabeledWidget = props => {
 
 HolderDistributionLabeledWidget.new = holderDistributionBuilder(
   HolderDistributionLabeledWidget,
-  HOLDERS_DISTRIBUTION_LABELED_METRICS
+  HOLDERS_DISTRIBUTION_LABELED_METRICS,
 )
 
 export default HolderDistributionLabeledWidget

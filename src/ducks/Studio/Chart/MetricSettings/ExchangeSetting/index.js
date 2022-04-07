@@ -26,13 +26,10 @@ const ExchangeSetting = ({ metric, widget, slug, rerenderWidgets }) => {
     // NOTE: Inflow/Outflow requires queryKey change [@vanguard | Sep  2, 2020]
     newMap.set(metric, {
       queryKey: isExchangeRemoved ? undefined : metric.key + '_per_exchange',
-      owner: isExchangeRemoved ? undefined : newOwner
+      owner: isExchangeRemoved ? undefined : newOwner,
     })
 
-    widget.MetricSettingMap = mergeMetricSettingMap(
-      widget.MetricSettingMap,
-      newMap
-    )
+    widget.MetricSettingMap = mergeMetricSettingMap(widget.MetricSettingMap, newMap)
 
     close()
     rerenderWidgets()
@@ -43,7 +40,7 @@ const ExchangeSetting = ({ metric, widget, slug, rerenderWidgets }) => {
       <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
       <div className={styles.exchanges}>
         {exchanges &&
-          exchanges.map(exchange => (
+          exchanges.map((exchange) => (
             <Button
               key={exchange}
               variant='ghost'

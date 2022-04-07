@@ -9,7 +9,7 @@ class LikeBtn extends Component {
   state = {
     liked: this.props.liked,
     isAnimation: false,
-    initialLikesNumber: this.props.likesNumber
+    initialLikesNumber: this.props.likesNumber,
   }
 
   static propTypes = {
@@ -18,7 +18,7 @@ class LikeBtn extends Component {
     likesNumber: PropTypes.number,
     onClick: PropTypes.func,
     useProps: PropTypes.bool,
-    align: PropTypes.oneOf(['right', 'left'])
+    align: PropTypes.oneOf(['right', 'left']),
   }
 
   static defaultProps = {
@@ -28,13 +28,13 @@ class LikeBtn extends Component {
     disabled: false,
     onClick: () => {},
     useProps: false,
-    align: 'right'
+    align: 'right',
   }
 
   onClick = () => {
     const {
       state: { liked },
-      props: { onClick }
+      props: { onClick },
     } = this
 
     this.setState({ liked: !liked, isAnimation: true }, () => onClick(!liked))
@@ -44,14 +44,7 @@ class LikeBtn extends Component {
 
   render () {
     const { liked, isAnimation, initialLikesNumber } = this.state
-    const {
-      liked: savedLike,
-      disabled,
-      likesNumber,
-      className,
-      useProps,
-      align
-    } = this.props
+    const { liked: savedLike, disabled, likesNumber, className, useProps, align } = this.props
     const amount = useProps ? likesNumber : likesNumber + liked - savedLike
 
     return (
@@ -62,21 +55,18 @@ class LikeBtn extends Component {
             [`${styles[align]}`]: true,
             [styles.active]: !disabled,
             [styles.disabled]: disabled,
-            [styles.liked]: useProps ? savedLike : liked
+            [styles.liked]: useProps ? savedLike : liked,
           },
-          className
+          className,
         )}
         onClick={disabled ? undefined : this.onClick}
         onAnimationEnd={this.onAnimationEnd}
       >
-        <Icon
-          className={cx(styles.icon, isAnimation && styles.animated)}
-          type='like'
-        />
+        <Icon className={cx(styles.icon, isAnimation && styles.animated)} type='like' />
         <span
           className={styles.text}
           style={{
-            '--digits-number': `${initialLikesNumber.toString().length}`
+            '--digits-number': `${initialLikesNumber.toString().length}`,
           }}
         >
           {amount}
@@ -89,7 +79,7 @@ class LikeBtn extends Component {
 const mapStateToProps = ({ user: { data } }, props) => {
   const hasUser = data && !!data.id
   return {
-    disabled: props.disabled || !hasUser
+    disabled: props.disabled || !hasUser,
   }
 }
 

@@ -13,10 +13,7 @@ export function isHalloweenDay () {
   const currentMonth = currentDate.getMonth()
   const currentDay = currentDate.getDate()
 
-  return (
-    (currentMonth === 9 && currentDay > 24) ||
-    (currentMonth === 10 && currentDay < 2)
-  )
+  return (currentMonth === 9 && currentDay > 24) || (currentMonth === 10 && currentDay < 2)
 }
 
 export function getCheckedGraves () {

@@ -7,10 +7,7 @@ import * as actions from '../../../actions/types'
 import ImageEditor from './editor/ImageEditor'
 import { store } from '../../../redux'
 import { showNotification } from '../../../actions/rootActions'
-import {
-  extractUploadedImageUrl,
-  UPLOAD_IMG_QUERY
-} from '../../../components/ImageUpload'
+import { extractUploadedImageUrl, UPLOAD_IMG_QUERY } from '../../../components/ImageUpload'
 import styles from './AvatarSettings.module.scss'
 
 const CHANGE_AVATAR_MUTATION = gql`
@@ -28,7 +25,7 @@ const AvatarEditor = ({
   avatarUrl,
   withRemove = true,
   withRemoveButton = false,
-  children
+  children,
 }) => {
   const [isOpen, setOpen] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -38,12 +35,10 @@ const AvatarEditor = ({
     return mutateChangeAvatar({ variables: { value: url } })
       .then(() => {
         dispatchAvatarChanged(url)
-        store.dispatch(
-          showNotification(`Avatar successfully ${url ? 'changed' : 'removed'}`)
-        )
+        store.dispatch(showNotification(`Avatar successfully ${url ? 'changed' : 'removed'}`))
         forceClose && setOpen(false)
       })
-      .catch(error => {
+      .catch((error) => {
         showNotification('Error was caused during changing avatar')
         setOpen(false)
       })
@@ -61,10 +56,10 @@ const AvatarEditor = ({
         title={avatarUrl ? 'Change avatar' : 'Create avatar'}
         withRemoveButton={withRemoveButton}
         saving={saving}
-        onChange={file => {
+        onChange={(file) => {
           let newFile = new File([file], new Date().getTime() + '.jpeg', {
             type: 'image/jpeg',
-            lastModified: Date.now()
+            lastModified: Date.now(),
           })
           setSaving(true)
           mutateUploadImage({ variables: { images: [newFile] } })
@@ -79,9 +74,7 @@ const AvatarEditor = ({
         }}
       >
         {children || (
-          <div className={styles.addPhoto}>
-            {avatarUrl ? 'Change photo' : 'Add photo'}
-          </div>
+          <div className={styles.addPhoto}>{avatarUrl ? 'Change photo' : 'Add photo'}</div>
         )}
       </ImageEditor>
       {withRemove && avatarUrl && (
@@ -93,18 +86,18 @@ const AvatarEditor = ({
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  dispatchAvatarChanged: avatarUrl =>
+const mapDispatchToProps = (dispatch) => ({
+  dispatchAvatarChanged: (avatarUrl) =>
     dispatch({
       type: actions.USER_AVATAR_CHANGE,
-      avatarUrl
-    })
+      avatarUrl,
+    }),
 })
 
 const enhance = compose(
   connect(null, mapDispatchToProps),
   graphql(CHANGE_AVATAR_MUTATION, { name: 'mutateChangeAvatar' }),
-  graphql(UPLOAD_IMG_QUERY, { name: 'mutateUploadImage' })
+  graphql(UPLOAD_IMG_QUERY, { name: 'mutateUploadImage' }),
 )
 
 export default enhance(AvatarEditor)

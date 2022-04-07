@@ -2,18 +2,14 @@ import React from 'react'
 import Button from '@santiment-network/ui/Button'
 import styles from './DashboardMetricSelectors.module.scss'
 
-const DashboardMetricSelectors = ({
-  metricSelectors,
-  rootMetric,
-  setRootMetric
-}) => {
+const DashboardMetricSelectors = ({ metricSelectors, rootMetric, setRootMetric }) => {
   if (!metricSelectors) {
     return null
   }
 
   return (
     <div className={styles.metrics}>
-      {metricSelectors.map(metric => {
+      {metricSelectors.map((metric) => {
         const { label, key } = metric
         const isActive = rootMetric.key === key
         return (

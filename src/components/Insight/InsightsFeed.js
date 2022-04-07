@@ -11,11 +11,7 @@ const Insight = ({ className, ...insight }) => {
 }
 
 const InsightsFeed = ({ insights, dateKey = 'publishedAt' }) => (
-  <Feed
-    data={insights.sort(publishDateSorter)}
-    dateKey={dateKey}
-    component={Insight}
-  />
+  <Feed data={insights.sort(publishDateSorter)} dateKey={dateKey} component={Insight} />
 )
 
 export default InsightsFeed

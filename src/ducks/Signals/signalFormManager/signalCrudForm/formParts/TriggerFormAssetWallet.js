@@ -6,7 +6,7 @@ import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSe
 import {
   METRIC_TARGET_OPTIONS,
   METRIC_KEYS_WITH_TEXT_SELECTOR,
-  METRIC_TARGET_TEXT
+  METRIC_TARGET_TEXT,
 } from '../../../utils/constants'
 import { getRecentTrends } from '../../../../../utils/recent'
 import GetProjects from '../../../common/projects/getProjects'
@@ -16,7 +16,7 @@ import { TriggerProjectsSelector } from './projectsSelector/TriggerProjectsSelec
 import styles from '../signal/TriggerForm.module.scss'
 
 const propTypes = {
-  metaFormSettings: PropTypes.any
+  metaFormSettings: PropTypes.any,
 }
 
 const findCurrentSelector = (options, selector) => {
@@ -27,23 +27,21 @@ const TriggerFormAssetWallet = ({
   metaFormSettings: { target: defaultAsset, signalType: defaultSignalType },
   setFieldValue,
   values,
-  metric
+  metric,
 }) => {
   const { signalType, target } = values
   const [trendsOptions] = useState(() =>
-    getRecentTrends().map(text => ({ label: text, value: text }))
+    getRecentTrends().map((text) => ({ label: text, value: text })),
   )
 
-  const defaultSelected = signalType
-    ? signalType.value
-    : defaultSignalType.value.value
+  const defaultSelected = signalType ? signalType.value : defaultSignalType.value.value
 
   const isTextSelectors = METRIC_KEYS_WITH_TEXT_SELECTOR.includes(metric.key)
 
   const options = useMemo(() => {
     return isTextSelectors
       ? METRIC_TARGET_OPTIONS
-      : METRIC_TARGET_OPTIONS.filter(option => option !== METRIC_TARGET_TEXT)
+      : METRIC_TARGET_OPTIONS.filter((option) => option !== METRIC_TARGET_TEXT)
   }, [metric, isTextSelectors])
 
   useEffect(() => {
@@ -67,7 +65,7 @@ const TriggerFormAssetWallet = ({
           options={options.map(({ value }) => value)}
           nameOptions={options.map(({ label }) => label)}
           defaultSelected={defaultSelected}
-          onSelectOption={selectedValue => {
+          onSelectOption={(selectedValue) => {
             const type = findCurrentSelector(options, selectedValue)
 
             updateType(type)
@@ -93,10 +91,7 @@ const TriggerFormAssetWallet = ({
             />
           )}
           {isWatchlist(signalType) && (
-            <TriggerFormWatchlists
-              values={values}
-              setFieldValue={setFieldValue}
-            />
+            <TriggerFormWatchlists values={values} setFieldValue={setFieldValue} />
           )}
           {isText(signalType) && (
             <FormikSelect

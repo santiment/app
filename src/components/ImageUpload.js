@@ -13,11 +13,11 @@ export const UPLOAD_IMG_QUERY = gql`
   }
 `
 
-export const extractUploadedImageUrl = data => {
+export const extractUploadedImageUrl = (data) => {
   const [first] = data
   if (first) {
     const {
-      data: { uploadImage }
+      data: { uploadImage },
     } = first
 
     const [image] = uploadImage
@@ -29,7 +29,7 @@ export const extractUploadedImageUrl = data => {
   }
 }
 
-const ImageUploadTrigger = props => <input type='file' required {...props} />
+const ImageUploadTrigger = (props) => <input type='file' required {...props} />
 
 export default graphql(UPLOAD_IMG_QUERY)(
   ({ mutate, trigger: El = ImageUploadTrigger, onUploaded, className }) => {
@@ -41,5 +41,5 @@ export default graphql(UPLOAD_IMG_QUERY)(
     }
 
     return <El onChange={onChange} className={className} />
-  }
+  },
 )

@@ -7,25 +7,10 @@ import SaveAsAction from '../../../Actions/SaveAs'
 import { useUserWatchlists } from '../../../gql/lists/hooks'
 import { useUpdateWatchlist } from '../../../gql/list/mutations'
 import { getTitleByWatchlistType, SCREENER } from '../../../detector'
-import {
-  Delete,
-  New,
-  SaveAs,
-  Edit,
-  NonAuthorTrigger,
-  Trigger,
-  Copy
-} from './Items'
+import { Delete, New, SaveAs, Edit, NonAuthorTrigger, Trigger, Copy } from './Items'
 import styles from './index.module.scss'
 
-const Actions = ({
-  watchlist,
-  type,
-  onClick,
-  isAuthor,
-  isAuthorLoading,
-  refetchAssets
-}) => {
+const Actions = ({ watchlist, type, onClick, isAuthor, isAuthorLoading, refetchAssets }) => {
   const [lists] = useUserWatchlists(type)
   const [updateWatchlist, { loading }] = useUpdateWatchlist(type)
   const [isMenuOpened, setIsMenuOpened] = useState(false)
@@ -37,17 +22,8 @@ const Actions = ({
       if (!isShowPanel) setShowPanel(isShowPanel)
       setIsMenuOpened(!isShowPanel)
     }
-    window.addEventListener(
-      'panelVisibilityChange',
-      panelVisibilityChange,
-      false
-    )
-    return () =>
-      window.removeEventListener(
-        'panelVisibilityChange',
-        panelVisibilityChange,
-        false
-      )
+    window.addEventListener('panelVisibilityChange', panelVisibilityChange, false)
+    return () => window.removeEventListener('panelVisibilityChange', panelVisibilityChange, false)
   }, [])
 
   if ((!watchlist.id && type !== SCREENER) || isAuthorLoading) {
@@ -57,11 +33,7 @@ const Actions = ({
   if (!isAuthor) {
     return (
       <div onClick={onClick} className={styles.container}>
-        <SaveAsAction
-          type={type}
-          watchlist={watchlist}
-          trigger={<NonAuthorTrigger />}
-        />
+        <SaveAsAction type={type} watchlist={watchlist} trigger={<NonAuthorTrigger />} />
       </div>
     )
   }
@@ -70,7 +42,7 @@ const Actions = ({
   const title = getTitleByWatchlistType(type)
   const showDelete = isAuthor && (type !== SCREENER || lists.length > 1)
 
-  const onEditApprove = props =>
+  const onEditApprove = (props) =>
     updateWatchlist(watchlist, { ...props }).then(() => {
       setIsMenuOpened(false)
       notifyUpdate(title)
@@ -99,10 +71,7 @@ const Actions = ({
         passOpenStateAs='isActive'
         onClose={() => setIsMenuOpened(false)}
       >
-        <Panel
-          variant='modal'
-          className={showPanel ? styles.wrapper : styles.hidePanel}
-        >
+        <Panel variant='modal' className={showPanel ? styles.wrapper : styles.hidePanel}>
           <New type={type} />
           <SaveAs type={type} watchlist={watchlist} />
           {type === 'PROJECT' && <Copy watchlist={watchlist} />}
@@ -123,12 +92,12 @@ const Actions = ({
 Actions.propTypes = {
   onClick: PropTypes.func,
   isAuthor: PropTypes.bool.isRequired,
-  isAuthorLoading: PropTypes.bool.isRequired
+  isAuthorLoading: PropTypes.bool.isRequired,
 }
 
 Actions.defaultProps = {
   watchlist: {},
-  onClick: _ => _
+  onClick: (_) => _,
 }
 
 export default Actions

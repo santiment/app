@@ -4,11 +4,11 @@ export const initialState = {
   isLoading: true,
   error: false,
   filters: {
-    minVolume: 0
+    minVolume: 0,
   },
   items: [],
   trendingAssets: [],
-  isCurrentUserTheAuthor: false
+  isCurrentUserTheAuthor: false,
 }
 
 export default (state = initialState, action) => {
@@ -18,7 +18,7 @@ export default (state = initialState, action) => {
         ...state,
         isLoading: true,
         error: false,
-        trendingAssets: []
+        trendingAssets: [],
       }
     case actions.ASSETS_FETCH_SUCCESS:
       return {
@@ -30,7 +30,7 @@ export default (state = initialState, action) => {
         trendingAssets: [],
         isPublicWatchlist: false,
         ...action.payload,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       }
     default:
       return state

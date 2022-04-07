@@ -7,12 +7,12 @@ import { observePressedModifier } from '../../../hooks/keyboard'
 
 const CursorTypeStyle = {
   [CursorType.FREE]: 'crosshair',
-  [CursorType.LOCKED]: ''
+  [CursorType.LOCKED]: '',
 }
 
 const FlippedCursorTypeStyle = {
   [CursorType.FREE]: '',
-  [CursorType.LOCKED]: 'crosshair'
+  [CursorType.LOCKED]: 'crosshair',
 }
 
 const Tooltip = ({
@@ -23,7 +23,7 @@ const Tooltip = ({
   onPointMouseDown,
   onPointMouseUp,
   onRangeSelecting,
-  onRangeSelected
+  onRangeSelected,
 }) => {
   const chart = useChart()
 
@@ -43,9 +43,7 @@ const Tooltip = ({
     const { canvas } = tooltip
 
     return observePressedModifier(({ altKey }) => {
-      const cursor = (altKey ? FlippedCursorTypeStyle : CursorTypeStyle)[
-        chart.cursorType
-      ]
+      const cursor = (altKey ? FlippedCursorTypeStyle : CursorTypeStyle)[chart.cursorType]
 
       tooltip.cursor = cursor
       canvas.style.cursor = cursor
@@ -63,7 +61,7 @@ const Tooltip = ({
       ctx.fillRect(x, y, 8, 2)
     }
 
-    chart.drawTooltip = point => plotTooltip(chart, marker, point)
+    chart.drawTooltip = (point) => plotTooltip(chart, marker, point)
 
     setupTooltip(chart, marker)
   }, [metric])
@@ -75,7 +73,7 @@ Tooltip.defaultProps = {
   cursorType: CursorType.LOCKED,
   syncTooltips: noop,
   onPointMouseDown: noop,
-  onPointMouseUp: noop
+  onPointMouseUp: noop,
 }
 
 export default Tooltip

@@ -49,15 +49,13 @@ const EditForm = ({
   }
 
   function onInputChange ({ currentTarget: { value: name } }) {
-    setFormState(state => ({ ...state, name }))
+    setFormState((state) => ({ ...state, name }))
     debouncedCheckName(name)
   }
 
   function checkName (name = '') {
     let error = ''
-    const hasSameName = sets.filter(
-      set => set.title.toLowerCase() === name.toLowerCase()
-    )
+    const hasSameName = sets.filter((set) => set.title.toLowerCase() === name.toLowerCase())
 
     if (!name || name.length < MIN_LENGTH) {
       error = SHORT_NAME_ERROR
@@ -67,14 +65,11 @@ const EditForm = ({
       error = BAD_SYMBOLS_ERROR
     }
 
-    if (
-      hasSameName.length > 0 &&
-      !(hasSameName.length === 1 && hasSameName[0].id === id)
-    ) {
+    if (hasSameName.length > 0 && !(hasSameName.length === 1 && hasSameName[0].id === id)) {
       error = NAME_EXISTS_ERROR
     }
 
-    setFormState(state => ({ ...state, error }))
+    setFormState((state) => ({ ...state, error }))
   }
 
   return (
@@ -102,7 +97,7 @@ const EditForm = ({
           placeholder='For example, Social movements'
           maxLength='25'
           defaultValue={formState.name}
-          onChange={e => formState.error && onInputChange(e)}
+          onChange={(e) => formState.error && onInputChange(e)}
           onBlur={onInputChange}
           isError={formState.error}
           errorText={formState.error}
@@ -131,7 +126,7 @@ const EditForm = ({
 
 EditForm.defaultProps = {
   name: '',
-  sets: EMPTY_ARRAY
+  sets: EMPTY_ARRAY,
 }
 
 export default EditForm

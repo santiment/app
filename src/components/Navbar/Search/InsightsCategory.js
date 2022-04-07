@@ -29,7 +29,7 @@ const insightsAccessor = ({ data: { insights } }) => insights
 function getInsights () {
   return client
     .query({
-      query: INSIGHTS_QUERY
+      query: INSIGHTS_QUERY,
     })
     .then(insightsAccessor)
 }
@@ -38,7 +38,7 @@ function getInsightsBySearchTerm (searchTerm) {
   return client
     .query({
       query: INSIGHTS_BY_SEARCH_TERM_QUERY,
-      variables: { searchTerm }
+      variables: { searchTerm },
     })
     .then(insightsAccessor)
 }
@@ -46,7 +46,7 @@ function getInsightsBySearchTerm (searchTerm) {
 const propsAccessor = ({ id, href }) => ({
   key: id,
   href: href || 'https://insights.santiment.net/read/' + id,
-  As: 'a'
+  As: 'a',
 })
 
 const Insight = ({ title }) => title
@@ -60,9 +60,7 @@ const InsightsCategory = ({ searchTerm, ...props }) => {
       return insights.slice(0, 4).concat({
         id: 'show more',
         title: 'Show more results',
-        href:
-          'https://insights.santiment.net/search?t=' +
-          encodeURIComponent(searchTerm)
+        href: 'https://insights.santiment.net/search?t=' + encodeURIComponent(searchTerm),
       })
     }
     return insights.slice(0, 5)
@@ -82,11 +80,11 @@ const InsightsCategory = ({ searchTerm, ...props }) => {
     setIsLoading(true)
     const timer = setTimeout(
       () =>
-        getInsightsBySearchTerm(searchTerm).then(insights => {
+        getInsightsBySearchTerm(searchTerm).then((insights) => {
           setInsights(insights)
           setIsLoading(false)
         }),
-      250
+      250,
     )
 
     return () => clearTimeout(timer)

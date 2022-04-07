@@ -29,11 +29,7 @@ const DefaultTrigger = ({ labels, ...rest }) => (
   </div>
 )
 
-const BlockchainLabelsSelector = ({
-  onChange,
-  value,
-  trigger: Trigger = DefaultTrigger
-}) => {
+const BlockchainLabelsSelector = ({ onChange, value, trigger: Trigger = DefaultTrigger }) => {
   const { data: labels, loading } = useBlockchainLabels()
 
   const [searchTerm, setSearchTerm] = useState('')
@@ -43,9 +39,9 @@ const BlockchainLabelsSelector = ({
   }
 
   function addItemInState (label) {
-    const found = value.find(l => l === label)
+    const found = value.find((l) => l === label)
     if (found) {
-      onChange(value.filter(l => l !== label))
+      onChange(value.filter((l) => l !== label))
     } else {
       onChange([...value, label])
     }
@@ -58,9 +54,8 @@ const BlockchainLabelsSelector = ({
 
     const term = searchTerm.toLowerCase()
     return list.filter(
-      label =>
-        label.indexOf(term) !== -1 ||
-        getBlockchainLabelReadable(label).indexOf(term) !== -1
+      (label) =>
+        label.indexOf(term) !== -1 || getBlockchainLabelReadable(label).indexOf(term) !== -1,
     )
   }
 
@@ -70,7 +65,7 @@ const BlockchainLabelsSelector = ({
 
   const selectableLabels = useMemo(() => {
     const cache = new Set(selectedLabels)
-    return filterBySearch(labels.filter(s => !cache.has(s)))
+    return filterBySearch(labels.filter((s) => !cache.has(s)))
   }, [selectedLabels, labels, searchTerm])
 
   const countSelected = selectedLabels.length
@@ -107,7 +102,7 @@ const BlockchainLabelsSelector = ({
                 <>
                   <div className={styles.title}>Active labels</div>
                   <div className={cx(styles.list, styles.noMargin)}>
-                    {selectedLabels.map(l => {
+                    {selectedLabels.map((l) => {
                       return (
                         <LabelItem
                           key={l}
@@ -125,7 +120,7 @@ const BlockchainLabelsSelector = ({
                 <>
                   <div className={styles.title}>Choose more labels</div>
                   <div className={cx(styles.list, styles.noMargin)}>
-                    {selectableLabels.map(l => {
+                    {selectableLabels.map((l) => {
                       return (
                         <LabelItem
                           key={l}

@@ -5,7 +5,7 @@ import styles from './OpenSignalLink.module.scss'
 
 const PERCENT_REGEXP = new RegExp(
   '((0x)?[0-9a-fA-F]{40})|( {1}[-\\$]?\\d+[,.]?\\d{0,}[,.$%]?\\d{0,}[$%]?[^x| ])|( {1}[-\\$]?\\d+[,.$%]?\\d{0,}[$%]? )',
-  'gi'
+  'gi',
 )
 
 const NEGATIVE_WORDS = ['down', 'below', 'decreases']
@@ -37,26 +37,19 @@ export const prepareAlertTitle = (title, isFrozen) => {
 
         result.push(first)
 
-        const isForceNegative =
-          first && NEGATIVE_WORDS.some(word => first.indexOf(word) !== -1)
+        const isForceNegative = first && NEGATIVE_WORDS.some((word) => first.indexOf(word) !== -1)
 
         if (item[0] === '-' || isForceNegative) {
           result.push(
-            <span
-              key={i}
-              className={cx(styles.down, isFrozen && styles.frozenDown)}
-            >
+            <span key={i} className={cx(styles.down, isFrozen && styles.frozenDown)}>
               {item}
-            </span>
+            </span>,
           )
         } else {
           result.push(
-            <span
-              key={i}
-              className={cx(styles.up, isFrozen && styles.frozenUp)}
-            >
+            <span key={i} className={cx(styles.up, isFrozen && styles.frozenUp)}>
               {item}
-            </span>
+            </span>,
           )
         }
 
@@ -78,12 +71,7 @@ export const prepareAlertTitle = (title, isFrozen) => {
   return checkingTitle
 }
 
-const OpenSignalLink = ({
-  signal,
-  children,
-  isUserTheAuthor,
-  shouldDisableActions
-}) => {
+const OpenSignalLink = ({ signal, children, isUserTheAuthor, shouldDisableActions }) => {
   const { id, title, isFrozen } = signal
 
   const trigger = (

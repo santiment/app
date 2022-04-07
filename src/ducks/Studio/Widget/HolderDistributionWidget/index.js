@@ -9,7 +9,7 @@ import ChartActiveMetrics from '../../Chart/ActiveMetrics'
 import { TOP_HOLDERS_PANE } from '../../Chart/Sidepanel/panes'
 import {
   HolderDistributionMetric,
-  HOLDER_DISTRIBUTION_ABSOLUTE_METRICS
+  HOLDER_DISTRIBUTION_ABSOLUTE_METRICS,
 } from '../../Chart/Sidepanel/HolderDistribution/metrics'
 import { useRenderQueueItem } from '../../../renderQueue/sized'
 import { useChartColors } from '../../../Chart/colors'
@@ -21,7 +21,7 @@ const DEFAULT_CHECKED_METRICS = new Set()
 const Title = ({ activeMetrics, ...props }) => (
   <ChartActiveMetrics
     activeMetrics={activeMetrics.filter(
-      ({ key, baseMetrics }) => !(HolderDistributionMetric[key] || baseMetrics)
+      ({ key, baseMetrics }) => !(HolderDistributionMetric[key] || baseMetrics),
     )}
     {...props}
   />
@@ -97,7 +97,7 @@ const HolderDistribution = ({
   }
 
   function onUnmergeClick (metric) {
-    const metricFilter = m => m !== metric
+    const metricFilter = (m) => m !== metric
     widget.metrics = widget.metrics.filter(metricFilter)
     setMergedMetrics(mergedMetrics.filter(metricFilter))
     props.rerenderWidgets()
@@ -105,12 +105,7 @@ const HolderDistribution = ({
 
   return (
     <>
-      <Chart
-        {...props}
-        widget={widget}
-        settings={settings}
-        TopLeftComponent={Title}
-      />
+      <Chart {...props} widget={widget} settings={settings} TopLeftComponent={Title} />
       {isOpened ? (
         <Sidepanel
           className={styles.sidepanel}
@@ -132,9 +127,7 @@ const HolderDistribution = ({
           TabMetrics={TabMetrics}
           isWithTabs={isWithTabs}
           onChangeLabels={
-            onChangeLabels
-              ? labels => onChangeLabels(labels, mergedMetrics)
-              : undefined
+            onChangeLabels ? (labels) => onChangeLabels(labels, mergedMetrics) : undefined
           }
           toggleMetric={toggleWidgetMetric}
           toggleChartSidepane={toggleSidepane}
@@ -149,7 +142,7 @@ const HolderDistribution = ({
   )
 }
 
-const HolderDistributionWidget = props => {
+const HolderDistributionWidget = (props) => {
   const [isOpened, setIsOpened] = useState(true)
   const { isRendered, onLoad } = useRenderQueueItem()
 
@@ -167,19 +160,19 @@ const HolderDistributionWidget = props => {
   )
 }
 
-export const holderDistributionBuilder = (widget, metrics) => props =>
+export const holderDistributionBuilder = (widget, metrics) => (props) =>
   ChartWidget.new(
     {
       mergedMetrics: [],
       metrics,
-      ...props
+      ...props,
     },
-    widget
+    widget,
   )
 
 HolderDistributionWidget.new = holderDistributionBuilder(
   HolderDistributionWidget,
-  HOLDER_DISTRIBUTION_ABSOLUTE_METRICS
+  HOLDER_DISTRIBUTION_ABSOLUTE_METRICS,
 )
 
 export default HolderDistributionWidget

@@ -1,10 +1,7 @@
 import { useEffect } from 'react'
 import { useUser } from '../../../../stores/user'
 import { BLOCKCHAIN_ADDRESS, PROJECT, SCREENER } from '../../detector'
-import {
-  addRecentScreeners,
-  addRecentWatchlists
-} from '../../../../utils/recent'
+import { addRecentScreeners, addRecentWatchlists } from '../../../../utils/recent'
 
 export function useIsAuthor (watchlist) {
   const { user, loading } = useUser()

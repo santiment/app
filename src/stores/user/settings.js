@@ -14,7 +14,7 @@ export const DEFAULT_SETTINGS = {
   pageSize: 20,
   theme: 'default',
   newsletterSubscription: 'OFF',
-  alertsPerDayLimit: {}
+  alertsPerDayLimit: {},
 }
 
 export const USER_SETTINGS_FRAGMENT = gql`
@@ -32,10 +32,7 @@ export const USER_SETTINGS_FRAGMENT = gql`
 `
 
 const TOGGLE_CHANNEL_MUTATION = gql`
-  mutation settingsToggleChannel(
-    $alertNotifyEmail: Boolean
-    $alertNotifyTelegram: Boolean
-  ) {
+  mutation settingsToggleChannel($alertNotifyEmail: Boolean, $alertNotifyTelegram: Boolean) {
     settingsToggleChannel(
       alertNotifyEmail: $alertNotifyEmail
       alertNotifyTelegram: $alertNotifyTelegram
@@ -74,7 +71,7 @@ export const refetchUserSettings = buildRefetcher(USER_SETTINGS_QUERY)
 
 const getCurrentUser = () => {
   const { currentUser } = client.readQuery({
-    query: USER_SETTINGS_QUERY
+    query: USER_SETTINGS_QUERY,
   })
 
   return currentUser
@@ -92,10 +89,10 @@ export function updateUserSettingsCache (newUserSettings) {
           settings: Object.assign(
             {},
             currentUser.settings,
-            update(currentUser.settings, newUserSettings)
-          )
-        })
-    }
+            update(currentUser.settings, newUserSettings),
+          ),
+        }),
+    },
   })
 }
 
@@ -117,10 +114,9 @@ export function useUserSettings () {
               isEmailConnected: !!data.currentUser.email,
 
               isEmailAllowAlerts:
-                data.currentUser.settings.alertNotifyEmail &&
-                data.currentUser.email
+                data.currentUser.settings.alertNotifyEmail && data.currentUser.email,
             }
-          : DEFAULT_SETTINGS
+          : DEFAULT_SETTINGS,
     }
   }, [query])
 }
@@ -129,7 +125,7 @@ export function useUpdateUserSettings () {
   const [mutate, data] = useMutation(UPDATE_USER_SETTINGS_MUTATION, {
     update: (proxy, { data: { updateUserSettings } }) => {
       updateUserSettingsCache(updateUserSettings)
-    }
+    },
   })
 
   function update (newSettings) {
@@ -146,8 +142,8 @@ export function useUpdateUserSettings () {
 
     return mutate({
       variables: {
-        settings: merged
-      }
+        settings: merged,
+      },
     })
   }
 
@@ -158,12 +154,12 @@ export function useUpdateUserNotifications () {
   const [mutate, data] = useMutation(TOGGLE_CHANNEL_MUTATION, {
     update: (proxy, { data: { settingsToggleChannel } }) => {
       updateUserSettingsCache(settingsToggleChannel)
-    }
+    },
   })
 
   function update (variables) {
     return mutate({
-      variables
+      variables,
     })
   }
 

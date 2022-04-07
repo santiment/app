@@ -7,12 +7,7 @@ const Button = ({ className, stroke, isActive, ...props }) => (
   <UIButton
     {...props}
     variant='ghost'
-    className={cx(
-      styles.btn,
-      stroke && styles.stroke,
-      className,
-      isActive && styles.btn_active
-    )}
+    className={cx(styles.btn, stroke && styles.stroke, className, isActive && styles.btn_active)}
   />
 )
 

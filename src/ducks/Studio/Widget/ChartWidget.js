@@ -5,7 +5,7 @@ import {
   newWidget,
   useMetricNodeOverwrite,
   useMirroredTransformer,
-  useWidgetMetricLabeling
+  useWidgetMetricLabeling,
 } from './utils'
 import StudioChart from '../Chart'
 import { dispatchWidgetMessage } from '../widgetMessage'
@@ -34,11 +34,7 @@ export const Chart = ({
 }) => {
   const { metrics, chartRef } = widget
   const [options, setOptions] = useState(DEFAULT_OPTIONS)
-  const MetricSettingMap = useMetricSettingsAdjuster(
-    widget.MetricSettingMap,
-    settings,
-    metrics
-  )
+  const MetricSettingMap = useMetricSettingsAdjuster(widget.MetricSettingMap, settings, metrics)
   const MetricTransformer = useMirroredTransformer(metrics)
   const MetricNode = useMetricNodeOverwrite(MetricSettingMap)
 
@@ -46,15 +42,10 @@ export const Chart = ({
     metrics,
     settings,
     MetricSettingMap,
-    MetricTransformer
+    MetricTransformer,
   )
   const data = useEdgeGaps(
-    useClosestValueData(
-      rawData,
-      metrics,
-      options.isClosestDataActive,
-      MetricNode
-    )
+    useClosestValueData(rawData, metrics, options.isClosestDataActive, MetricNode),
   )
 
   // TODO: Solve the webpack circular dependency issue to share singular chart [@vanguard | Jul 1, 2020]
@@ -85,7 +76,7 @@ export const Chart = ({
 
   useEffect(() => {
     let modified = false
-    metrics.forEach(metric => {
+    metrics.forEach((metric) => {
       if ((metric.base || metric) !== Metric.dev_activity) return
 
       const newMap = new Map(widget.MetricSettingMap)
@@ -93,7 +84,7 @@ export const Chart = ({
 
       metricSetting.transform = {
         type: 'moving_average',
-        movingAverageBase: calculateMovingAverageFromInterval(settings.interval)
+        movingAverageBase: calculateMovingAverageFromInterval(settings.interval),
       }
 
       widget.MetricSettingMap = newMap
@@ -189,12 +180,10 @@ export const Chart = ({
   )
 }
 
-const ChartWidget = props => {
+const ChartWidget = (props) => {
   const { isRendered, onLoad } = useRenderQueueItem()
 
-  return (
-    <Widget> {isRendered ? <Chart {...props} onLoad={onLoad} /> : null}</Widget>
-  )
+  return <Widget> {isRendered ? <Chart {...props} onLoad={onLoad} /> : null}</Widget>
 }
 
 const newChartWidget = (props, widget = ChartWidget) =>
@@ -208,7 +197,7 @@ const newChartWidget = (props, widget = ChartWidget) =>
     MetricColor: {},
     connectedWidgets: [],
     drawings: [],
-    ...props
+    ...props,
   })
 
 ChartWidget.new = newChartWidget

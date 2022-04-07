@@ -5,18 +5,11 @@ import { MobileOnly } from '../../Responsive'
 import MoreSignalActions from '../controls/MoreSignalActions'
 import styles from './SignalCard.module.scss'
 
-const SignalCardHeader = ({
-  deleteEnabled,
-  isUserTheAuthor,
-  isPublic,
-  signal
-}) => {
+const SignalCardHeader = ({ deleteEnabled, isUserTheAuthor, isPublic, signal }) => {
   const { id, title, settings: { type, metric } = {}, isFrozen } = signal
 
   return (
-    <div
-      className={cx(styles.wrapper__left, styles.wrapper__left_subscription)}
-    >
+    <div className={cx(styles.wrapper__left, styles.wrapper__left_subscription)}>
       <SignalTypeIcon type={type} metric={metric} isFrozen={isFrozen} />
 
       <MobileOnly>

@@ -13,7 +13,7 @@ const CHART_PADDING = {
   top: 10,
   left: 65,
   right: 65,
-  bottom: 75
+  bottom: 75,
 }
 const LEGEND_RECT_SIZE = 9
 const LEGEND_RECT_RIGHT_MARGIN = 5
@@ -36,11 +36,8 @@ function drawLegend (pngChart, metrics, isNightMode) {
   const textWidth =
     metrics.reduce(
       (acc, { label }) =>
-        acc +
-        LEGEND_RECT_SIZE +
-        LEGEND_RECT_RIGHT_MARGIN +
-        pngCtx.measureText(label).width,
-      0
+        acc + LEGEND_RECT_SIZE + LEGEND_RECT_RIGHT_MARGIN + pngCtx.measureText(label).width,
+      0,
     ) +
     TEXT_RIGHT_MARGIN * (metrics.length - 1)
 
@@ -50,26 +47,14 @@ function drawLegend (pngChart, metrics, isNightMode) {
 
   metrics.forEach(({ key, label }) => {
     pngCtx.fillStyle = colors[key]
-    pngCtx.fillRect(
-      textX,
-      textY - LEGEND_RECT_SIZE,
-      LEGEND_RECT_SIZE,
-      LEGEND_RECT_SIZE
-    )
+    pngCtx.fillRect(textX, textY - LEGEND_RECT_SIZE, LEGEND_RECT_SIZE, LEGEND_RECT_SIZE)
     pngCtx.fillStyle = textColor
     textX += LEGEND_RECT_SIZE + LEGEND_RECT_RIGHT_MARGIN
     textX += drawAndMeasureText(pngCtx, label, textX, textY) + TEXT_RIGHT_MARGIN
   })
 }
 
-function downloadChart (
-  { current: chart },
-  title,
-  metrics,
-  data,
-  MetricNode,
-  isNightMode
-) {
+function downloadChart ({ current: chart }, title, metrics, data, MetricNode, isNightMode) {
   const { scale, colors, domainGroups, plotter, axesMetricKeys } = chart
   const { brushPaintConfig, ...rest } = paintConfigs[+isNightMode]
 
@@ -83,7 +68,7 @@ function downloadChart (
     pngCanvas,
     PNG_WIDTH,
     PNG_HEIGHT,
-    chart.isMultiAxes ? getMultiAxesChartPadding(axesMetricKeys) : CHART_PADDING
+    chart.isMultiAxes ? getMultiAxesChartPadding(axesMetricKeys) : CHART_PADDING,
   )
   window.devicePixelRatio = dpr
 
@@ -93,7 +78,7 @@ function downloadChart (
   pngChart.colors = chart.colors
   pngChart.ticksPaintConfig = {
     ...pngChart.ticksPaintConfig,
-    font: '14px Proxima Nova'
+    font: '14px Proxima Nova',
   }
 
   updateChartState(
@@ -102,10 +87,10 @@ function downloadChart (
     joinedCategories,
     domainModifier,
     domainGroups,
-    new Set(categories.candles)
+    new Set(categories.candles),
   )
 
-  plotter.items.forEach(plot => {
+  plotter.items.forEach((plot) => {
     plot(pngChart, scale, data, colors, categories)
   })
 
@@ -127,14 +112,7 @@ function downloadChart (
   pngCanvas.remove()
 }
 
-const ChartDownloadBtn = ({
-  chartRef,
-  metrics,
-  title = 'Chart',
-  data,
-  MetricNode,
-  ...props
-}) => {
+const ChartDownloadBtn = ({ chartRef, metrics, title = 'Chart', data, MetricNode, ...props }) => {
   const { isNightMode } = useTheme()
 
   return (

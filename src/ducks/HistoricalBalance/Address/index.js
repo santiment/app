@@ -6,10 +6,7 @@ import Actions from './Actions'
 import AssetsDistribution from './AssetsDistribution'
 import CurrentBalance from './CurrentBalance'
 import Setting from '../Setting'
-import {
-  Infrastructure,
-  getAddressInfrastructure
-} from '../../../utils/address'
+import { Infrastructure, getAddressInfrastructure } from '../../../utils/address'
 import { useAddressNote } from '../hooks'
 import { DesktopOnly } from '../../../components/Responsive'
 import HelpPopup from '../../../components/HelpPopup/HelpPopup'
@@ -22,7 +19,7 @@ export const AddressSetting = ({
   walletAssets,
   chartAssets,
   isError,
-  onAddressChange
+  onAddressChange,
 }) => {
   const { address } = settings
   const [value, setValue] = useState(address)
@@ -78,23 +75,12 @@ export const AddressSetting = ({
         </div>
       </Setting>
 
-      <Actions
-        address={address}
-        infrastructure={infrastructure}
-        assets={chartAssets}
-        note={note}
-      />
+      <Actions address={address} infrastructure={infrastructure} assets={chartAssets} note={note} />
 
       <DesktopOnly>
         <div className={styles.widgets}>
-          <AssetsDistribution
-            walletAssets={walletAssets}
-            className={styles.widget}
-          />
-          <CurrentBalance
-            walletAssets={walletAssets}
-            className={styles.widget}
-          />
+          <AssetsDistribution walletAssets={walletAssets} className={styles.widget} />
+          <CurrentBalance walletAssets={walletAssets} className={styles.widget} />
         </div>
       </DesktopOnly>
     </div>

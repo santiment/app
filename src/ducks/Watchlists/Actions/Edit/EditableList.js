@@ -11,15 +11,7 @@ import Labels from '../../../HistoricalBalance/Address/Labels'
 
 const ROW_HEIGHT = 32
 
-const rowAssetsRenderer = ({
-  key,
-  index,
-  style,
-  listItems,
-  items,
-  isContained,
-  onToggle
-}) => {
+const rowAssetsRenderer = ({ key, index, style, listItems, items, isContained, onToggle }) => {
   const { name, ticker, id } = items[index]
   const isAssetInList = hasAssetById({ listItems, id })
   return (
@@ -36,7 +28,7 @@ const rowAssetsRenderer = ({
           onToggle({
             project: items[index],
             listItems,
-            isAssetInList
+            isAssetInList,
           })
         }
       >
@@ -53,7 +45,7 @@ export const rowAddressRenderer = ({
   listItems,
   items,
   isContained,
-  onToggle
+  onToggle,
 }) => {
   const source = items[index]
   const { address } = source
@@ -75,7 +67,7 @@ export const rowAddressRenderer = ({
           onToggle({
             item: source,
             listItems,
-            isInList
+            isInList,
           })
         }
       >
@@ -92,11 +84,11 @@ const EditableList = ({
   onToggle,
   height,
   rowHeight = ROW_HEIGHT,
-  rowRenderer = rowAssetsRenderer
+  rowRenderer = rowAssetsRenderer,
 }) => {
   const wrapperStyles = {
     height: height || (items.length > 4 ? '145px' : `${32 * items.length}px`),
-    paddingRight: items.length > 4 ? '0' : `5px`
+    paddingRight: items.length > 4 ? '0' : `5px`,
   }
 
   return (
@@ -110,7 +102,7 @@ const EditableList = ({
             rowHeight={rowHeight}
             rowCount={items.length}
             overscanRowCount={5}
-            rowRenderer={props =>
+            rowRenderer={(props) =>
               rowRenderer({ ...props, listItems, items, isContained, onToggle })
             }
           />

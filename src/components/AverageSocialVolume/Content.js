@@ -19,11 +19,7 @@ function useSocialTimeseries (metrics, settings, MetricSettingMap) {
   }, [metrics])
 
   useEffect(() => {
-    if (
-      activeMetrics.length === 0 &&
-      metrics.length !== 0 &&
-      MetricSettingMap.size > 0
-    ) {
+    if (activeMetrics.length === 0 && metrics.length !== 0 && MetricSettingMap.size > 0) {
       setMetrics(metrics)
     }
   }, [MetricSettingMap])
@@ -38,18 +34,14 @@ const Content = ({ topics: defaultTopics, range, linkedAssets }) => {
   const [MetricSettingMap, setMetricSettingMap] = useState(new Map())
   const [settings, setSettings] = useState({ interval: '1d' })
 
-  const [data, loadings] = useSocialTimeseries(
-    metrics,
-    settings,
-    MetricSettingMap
-  )
+  const [data, loadings] = useSocialTimeseries(metrics, settings, MetricSettingMap)
 
   useEffect(() => {
     const { from: FROM, to: TO } = getIntervalByTimeRange(range)
     setSettings({
       ...settings,
       from: FROM.toISOString(),
-      to: TO.toISOString()
+      to: TO.toISOString(),
     })
   }, [range])
 
@@ -66,7 +58,7 @@ const Content = ({ topics: defaultTopics, range, linkedAssets }) => {
         return
       }
 
-      let newMetrics = defaultTopics.map(topic => buildExploredMetric(topic))
+      let newMetrics = defaultTopics.map((topic) => buildExploredMetric(topic))
       newMetrics = [Metric.social_volume_total, ...newMetrics]
       setTopics(defaultTopics)
       setMetrics(newMetrics)
@@ -80,12 +72,12 @@ const Content = ({ topics: defaultTopics, range, linkedAssets }) => {
 
   function rebuildMetricsMap () {
     const newMetricSettingMap = new Map(new Map())
-    metrics.forEach(metric => {
+    metrics.forEach((metric) => {
       const topic = metric.text || '*'
       const detectedAsset = linkedAssets.get(topic)
       newMetricSettingMap.set(metric, {
         selector: detectedAsset ? 'slug' : 'text',
-        slug: detectedAsset ? detectedAsset.slug : topic
+        slug: detectedAsset ? detectedAsset.slug : topic,
       })
     })
 

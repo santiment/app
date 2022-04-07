@@ -12,22 +12,10 @@ const FeatureAnonBanner = ({ className, title, description }) => {
         <div className={styles.description}>{description}</div>
       </div>
       <div className={styles.buttons}>
-        <Button
-          variant='fill'
-          accent='positive'
-          as={Link}
-          to='/login'
-          className={styles.btn}
-        >
+        <Button variant='fill' accent='positive' as={Link} to='/login' className={styles.btn}>
           Log in
         </Button>
-        <Button
-          variant='flat'
-          as={Link}
-          to='/sign-up'
-          border
-          className={styles.btn}
-        >
+        <Button variant='flat' as={Link} to='/sign-up' border className={styles.btn}>
           Create an account
         </Button>
       </div>

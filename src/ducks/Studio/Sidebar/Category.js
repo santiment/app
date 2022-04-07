@@ -8,18 +8,10 @@ const DEFAULT_OPENED_CATEGORY = {
   Favorites: true,
   Financial: true,
   'Santiment Insights': true,
-  'Santiment Alerts': true
+  'Santiment Alerts': true,
 }
 
-const Category = ({
-  title,
-  groups,
-  project,
-  NewMetricsCategory,
-  GroupNode,
-  children,
-  ...rest
-}) => {
+const Category = ({ title, groups, project, NewMetricsCategory, GroupNode, children, ...rest }) => {
   const [hidden, setHidden] = useState(!DEFAULT_OPENED_CATEGORY[title])
   function onToggleClick () {
     setHidden(!hidden)
@@ -35,14 +27,8 @@ const Category = ({
         {title}
       </h3>
       <div className={styles.metrics}>
-        {Object.keys(groups).map(group => (
-          <GroupNode
-            key={group}
-            title={group}
-            nodes={groups[group]}
-            project={project}
-            {...rest}
-          />
+        {Object.keys(groups).map((group) => (
+          <GroupNode key={group} title={group} nodes={groups[group]} project={project} {...rest} />
         ))}
         {children}
       </div>
@@ -54,7 +40,7 @@ Category.defaultProps = {
   NewMetricsCategory: {},
   NewMetricsGroup: {},
   NewMetric: {},
-  GroupNode: Group
+  GroupNode: Group,
 }
 
 export default Category

@@ -18,13 +18,10 @@ const TopHoldersSetting = ({ metric, widget, rerenderWidgets }) => {
     const newMap = new Map()
 
     newMap.set(metric, {
-      holdersCount
+      holdersCount,
     })
 
-    widget.MetricSettingMap = mergeMetricSettingMap(
-      widget.MetricSettingMap,
-      newMap
-    )
+    widget.MetricSettingMap = mergeMetricSettingMap(widget.MetricSettingMap, newMap)
 
     debouncedRerender()
   }

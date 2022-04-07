@@ -11,7 +11,7 @@ const WatchlistPriceWidget = ({
   listId,
   toggleAssetsFiltering,
   trendingAssets,
-  items
+  items,
 }) => {
   const [pointer, setPointer] = useState(1)
   const [range, setRange] = useState(RANGES[pointer])

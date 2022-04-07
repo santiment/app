@@ -9,7 +9,7 @@ const MetricsList = ({ metricsList, project, onSelect, selectedMetric }) => {
   return (
     <div className={styles.wrapper}>
       {selectedMetric && <SelectedMetric metric={selectedMetric} />}
-      {listKeys.map(category => (
+      {listKeys.map((category) => (
         <MetricCategory
           defaultOpen={category === listKeys[0]}
           key={category}

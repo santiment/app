@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {
-  getFilterType,
-  extractParams,
-  extractFilterByMetricType
-} from '../detector'
+import { getFilterType, extractParams, extractFilterByMetricType } from '../detector'
 import MetricState from './MetricState'
 import { Filter } from '../dataHub/types'
 import { useMetricSettings } from './hooks'
@@ -23,20 +19,15 @@ const FilterMetric = ({
   isViewMode,
   availableMetrics,
   toggleMetricInFilter,
-  isPro
+  isPro,
 }) => {
   if (!defaultSettings.isActive && baseMetric.isDeprecated) {
     return null
   }
 
-  const {
-    settings,
-    setSettings,
-    selectSuggest,
-    clickCheckbox
-  } = useMetricSettings(defaultSettings)
+  const { settings, setSettings, selectSuggest, clickCheckbox } = useMetricSettings(defaultSettings)
   const [percentTimeRanges, setPercentTimeRanges] = useState(
-    getTimeRangesByMetric(baseMetric, availableMetrics)
+    getTimeRangesByMetric(baseMetric, availableMetrics),
   )
 
   const shouldIncludeSecondInput = Filter[settings.type].showSecondInput
@@ -57,34 +48,24 @@ const FilterMetric = ({
 
       if (
         Filter[settings.type].showTimeRange &&
-        !timeRanges.some(item => item.type === settings.timeRange) &&
+        !timeRanges.some((item) => item.type === settings.timeRange) &&
         timeRanges[0]
       ) {
-        setSettings(state => ({ ...state, timeRange: timeRanges[0].type }))
+        setSettings((state) => ({ ...state, timeRange: timeRanges[0].type }))
       }
     }
   }, [availableMetrics])
 
   useEffect(() => {
     if (settings !== defaultSettings) {
-      const {
-        firstThreshold,
-        secondThreshold,
-        type,
-        timeRange,
-        isActive
-      } = settings
+      const { firstThreshold, secondThreshold, type, timeRange, isActive } = settings
       const { isActive: previousIsActive } = defaultSettings
 
       // dynamicFrom
-      const dynamicFrom =
-        Filter[type].showTimeRange || baseMetric.showTimeRange
-          ? timeRange
-          : '1d'
+      const dynamicFrom = Filter[type].showTimeRange || baseMetric.showTimeRange ? timeRange : '1d'
 
       // aggregation
-      const aggregation =
-        Filter[type].aggregation || baseMetric.aggregation || 'last'
+      const aggregation = Filter[type].aggregation || baseMetric.aggregation || 'last'
 
       // metric
       const metric = Filter[type].showTimeRange
@@ -96,9 +77,7 @@ const FilterMetric = ({
 
       // formatter
       const formatter =
-        Filter[type].serverValueFormatter ||
-        baseMetric.serverValueFormatter ||
-        fakeFormatter
+        Filter[type].serverValueFormatter || baseMetric.serverValueFormatter || fakeFormatter
 
       // threshold
       const threshold = shouldIncludeSecondInput
@@ -112,33 +91,21 @@ const FilterMetric = ({
           dynamicTo: 'now',
           metric,
           operator,
-          threshold
+          threshold,
         },
-        name: 'metric'
+        name: 'metric',
       }
 
       if (isFinishedState) {
         if (previousIsActive !== isActive) {
-          toggleMetricInFilter(
-            newFilter,
-            baseMetric.key,
-            baseMetric.percentMetricKey
-          )
+          toggleMetricInFilter(newFilter, baseMetric.key, baseMetric.percentMetricKey)
         } else {
-          updMetricInFilter(
-            newFilter,
-            baseMetric.key,
-            baseMetric.percentMetricKey
-          )
+          updMetricInFilter(newFilter, baseMetric.key, baseMetric.percentMetricKey)
         }
       }
 
       if (!isFinishedState && isActive && defaultSettings.isActive) {
-        toggleMetricInFilter(
-          newFilter,
-          baseMetric.key,
-          baseMetric.percentMetricKey
-        )
+        toggleMetricInFilter(newFilter, baseMetric.key, baseMetric.percentMetricKey)
       }
     }
   }, [settings])
@@ -146,31 +113,31 @@ const FilterMetric = ({
   function onFilterTypeChange (type) {
     if (
       Filter[type].showTimeRange &&
-      !percentTimeRanges.some(item => item.type === settings.timeRange) &&
+      !percentTimeRanges.some((item) => item.type === settings.timeRange) &&
       percentTimeRanges[0]
     ) {
-      setSettings(state => ({
+      setSettings((state) => ({
         ...state,
         type,
-        timeRange: percentTimeRanges[0].type
+        timeRange: percentTimeRanges[0].type,
       }))
     } else {
-      setSettings(state => ({ ...state, type }))
+      setSettings((state) => ({ ...state, type }))
     }
   }
 
   function onFirstThresholdChange (value) {
     const newValue = isNaN(parseFloat(value)) ? '' : parseFloat(value)
-    setSettings(state => ({ ...state, firstThreshold: newValue }))
+    setSettings((state) => ({ ...state, firstThreshold: newValue }))
   }
 
   function onSecondThresholdChange (value) {
     const newValue = isNaN(parseFloat(value)) ? '' : parseFloat(value)
-    setSettings(state => ({ ...state, secondThreshold: newValue }))
+    setSettings((state) => ({ ...state, secondThreshold: newValue }))
   }
 
   function onTimeRangeChange (timeRange) {
-    setSettings(state => ({ ...state, timeRange }))
+    setSettings((state) => ({ ...state, timeRange }))
   }
 
   return (
@@ -215,7 +182,7 @@ export default ({ filters, baseMetric, ...props }) => {
         ...DEFAULT_SETTINGS,
         timeRange: baseMetric.defaultTimeRange || DEFAULT_SETTINGS.timeRange,
         ...settings,
-        type: filterType.key
+        type: filterType.key,
       }}
     />
   )

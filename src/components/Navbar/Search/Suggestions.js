@@ -13,13 +13,7 @@ import styles from './Suggestions.module.scss'
 
 const DEFAULT_RECENTS = []
 
-const Suggestions = ({
-  suggestionsRef,
-  isOpened,
-  isTablet,
-  isLaptop,
-  ...props
-}) => {
+const Suggestions = ({ suggestionsRef, isOpened, isTablet, isLaptop, ...props }) => {
   const isNotSearched = !props.searchTerm
   const [recents, setRecents] = useState(DEFAULT_RECENTS)
 
@@ -40,17 +34,14 @@ const Suggestions = ({
 
       const dropdownWidth = dropdown.offsetWidth
       const availableWidth =
-        parentNode.clientWidth +
-        parseFloat(getComputedStyle(parentNode).marginLeft)
+        parentNode.clientWidth + parseFloat(getComputedStyle(parentNode).marginLeft)
 
       dropdown.style.minWidth =
         (dropdownWidth > availableWidth ? dropdownWidth : availableWidth) + 'px'
 
       const isSmallScreen = isTablet || isLaptop
 
-      dropdown.style.right = isSmallScreen
-        ? availableWidth + 40 + 'px'
-        : availableWidth / 2 + 'px'
+      dropdown.style.right = isSmallScreen ? availableWidth + 40 + 'px' : availableWidth / 2 + 'px'
     }
   }, [isOpened])
 
@@ -61,10 +52,7 @@ const Suggestions = ({
 
   return (
     <CSSTransition in={isOpened} timeout={500} classNames={styles}>
-      <div
-        ref={suggestionsRef}
-        className={cx(styles.dropdown, styles.exitDone)}
-      >
+      <div ref={suggestionsRef} className={cx(styles.dropdown, styles.exitDone)}>
         <RecentsCategory {...props} items={recents} onClear={onRecentsClear} />
         <AssetsCategory {...props} />
         <WalletsCategory {...props} />

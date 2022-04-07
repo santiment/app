@@ -1,19 +1,19 @@
 const formatCryptoCurrency = (currency, amount) => `${currency} ${amount}`
 
-const formatBTC = price => {
+const formatBTC = (price) => {
   price = parseFloat(price)
   const precision = price >= 1 ? 2 : 8
 
   return parseFloat(price.toFixed(precision))
 }
 
-const formatSAN = price => {
+const formatSAN = (price) => {
   const value = price / 10000000000
 
   return value % 1 === 0 ? `${value}.000` : `${value}`
 }
 
-const roundNumber = value => {
+const roundNumber = (value) => {
   const maximumFractionDigits = Math.abs(value) >= 2 ? 2 : 6
   const fractionsLimit = Math.pow(10, maximumFractionDigits)
   return Math.round(value * fractionsLimit) / fractionsLimit
@@ -27,7 +27,7 @@ const formatNumber = (amount, options = {}) => {
     style: options.currency ? 'currency' : 'decimal',
     maximumFractionDigits,
     minimumFractionDigits: 2,
-    ...options
+    ...options,
   }).format(amount)
 
   // Include positive +
@@ -58,10 +58,10 @@ const millify = (value, precision = 1) => {
 
 const MILLIFY_BORDER = 1000
 
-const formatTokensCount = balance =>
+const formatTokensCount = (balance) =>
   balance > MILLIFY_BORDER ? millify(balance) : formatNumber(balance)
 
-const upperCaseFirstLetter = str => str.charAt(0).toUpperCase() + str.slice(1)
+const upperCaseFirstLetter = (str) => str.charAt(0).toUpperCase() + str.slice(1)
 
 export {
   formatCryptoCurrency,
@@ -71,5 +71,5 @@ export {
   roundNumber,
   millify,
   formatTokensCount,
-  upperCaseFirstLetter
+  upperCaseFirstLetter,
 }

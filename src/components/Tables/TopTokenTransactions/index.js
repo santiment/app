@@ -7,14 +7,7 @@ import Table from '../../../ducks/Table'
 import { COLUMNS, DEFAULT_SORTING } from './columns'
 import styles from './index.module.scss'
 
-const TransactionTable = ({
-  header,
-  data,
-  slug,
-  className,
-  tableClassName,
-  loading
-}) => {
+const TransactionTable = ({ header, data, slug, className, tableClassName, loading }) => {
   const El = useMemo(() => {
     return header ? PanelWithHeader : Panel
   }, [header])
@@ -28,11 +21,7 @@ const TransactionTable = ({
   }, [data, slug])
 
   return (
-    <El
-      header={header}
-      className={cx(styles.wrapper, className)}
-      contentClassName={styles.panel}
-    >
+    <El header={header} className={cx(styles.wrapper, className)} contentClassName={styles.panel}>
       <SmoothDropdown verticalMotion>
         <Table
           data={data}
@@ -40,10 +29,10 @@ const TransactionTable = ({
           options={{
             sortingSettings: {
               defaultSorting: DEFAULT_SORTING,
-              allowSort: true
+              allowSort: true,
             },
             stickySettings: { isStickyHeader: true },
-            loadingSettings: { isLoading: loading, repeatLoading: 6 }
+            loadingSettings: { isLoading: loading, repeatLoading: 6 },
           }}
           className={cx(className, tableClassName)}
         />

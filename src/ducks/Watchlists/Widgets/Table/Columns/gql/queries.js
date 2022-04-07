@@ -59,10 +59,8 @@ export function useFeaturedTableConfigs (type) {
   return useMemo(() => {
     if (data) {
       return data.featuredTableConfigurations
-        .filter(config =>
-          type === BLOCKCHAIN_ADDRESS
-            ? config.type === type
-            : config.type !== BLOCKCHAIN_ADDRESS
+        .filter((config) =>
+          type === BLOCKCHAIN_ADDRESS ? config.type === type : config.type !== BLOCKCHAIN_ADDRESS,
         )
         .slice()
         .sort(SORTER)
@@ -76,17 +74,15 @@ export function useUserTableConfigs (type) {
   const { data } = useQuery(TABLE_CONFIGS_QUERY, {
     skip: !id,
     variables: {
-      userId: +id
-    }
+      userId: +id,
+    },
   })
 
   return useMemo(() => {
     if (data) {
       return data.tableConfigurations
-        .filter(config =>
-          type === BLOCKCHAIN_ADDRESS
-            ? config.type === type
-            : config.type !== BLOCKCHAIN_ADDRESS
+        .filter((config) =>
+          type === BLOCKCHAIN_ADDRESS ? config.type === type : config.type !== BLOCKCHAIN_ADDRESS,
         )
         .slice()
         .sort(SORTER)
@@ -97,14 +93,14 @@ export function useUserTableConfigs (type) {
 export function useTableConfig (id) {
   const { data, loading, error } = useQuery(TABLE_CONFIG_QUERY, {
     skip: !id,
-    variables: { id }
+    variables: { id },
   })
   return { tableConfig: data && data.tableConfiguration, loading, error }
 }
 
 export function useRestrictedMetrics (type) {
   const { data, loading } = useQuery(ACCESS_RESTRICTIONS_QUERY, {
-    skip: type === BLOCKCHAIN_ADDRESS
+    skip: type === BLOCKCHAIN_ADDRESS,
   })
 
   return useMemo(() => {
@@ -123,7 +119,7 @@ export function useRestrictedMetrics (type) {
       return {
         restrictedMetrics: EMPTY_ARRAY,
         allMetrics: EMPTY_ARRAY,
-        loading
+        loading,
       }
     }
   }, [data])

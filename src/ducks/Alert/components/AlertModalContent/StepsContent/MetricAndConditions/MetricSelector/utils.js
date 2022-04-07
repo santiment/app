@@ -5,7 +5,7 @@ import { SIGNAL_SUPPORTED_METRICS } from './constants'
 export function filterOnlyMetrics (submetrics) {
   const result = {}
 
-  Object.keys(submetrics).forEach(key => {
+  Object.keys(submetrics).forEach((key) => {
     result[key] = submetrics[key].filter(({ type }) => !type || type === METRIC)
   })
 

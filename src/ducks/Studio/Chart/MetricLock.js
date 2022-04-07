@@ -7,7 +7,7 @@ import styles from './ActiveMetrics.module.scss'
 const LOCKED_TEXT = 'Unlock metric'
 const UNLOCKED_TEXT = 'Lock metric to '
 
-const LockIcon = props => (
+const LockIcon = (props) => (
   <svg width='16' height='17' xmlns='http://www.w3.org/2000/svg' {...props}>
     <path
       fillRule='evenodd'
@@ -17,7 +17,7 @@ const LockIcon = props => (
   </svg>
 )
 
-const UnlockIcon = props => (
+const UnlockIcon = (props) => (
   <svg width='16' height='18' xmlns='http://www.w3.org/2000/svg' {...props}>
     <path
       fillRule='evenodd'
@@ -31,10 +31,11 @@ const MetricLock = ({ metrics, metric, project, onClick }) => {
   const isLocked = metric.base
   const explanation = isLocked ? LOCKED_TEXT : UNLOCKED_TEXT + project.ticker
   const Icon = isLocked ? UnlockIcon : LockIcon
-  const isDisabled = useMemo(
-    () => metrics.includes(convertBaseProjectMetric(metric, project)),
-    [metrics, metric, project]
-  )
+  const isDisabled = useMemo(() => metrics.includes(convertBaseProjectMetric(metric, project)), [
+    metrics,
+    metric,
+    project,
+  ])
 
   return (
     <ExplanationTooltip text={explanation}>

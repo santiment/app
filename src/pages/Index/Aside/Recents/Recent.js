@@ -5,29 +5,21 @@ import { FluidSkeleton as Skeleton } from '../../../../components/Skeleton'
 import styles from './Recent.module.scss'
 
 const getData = ({ data }) => data.item
-export const getItemBuilder = query => id =>
+export const getItemBuilder = (query) => (id) =>
   client
     .query({
       query,
       variables: {
-        id
-      }
+        id,
+      },
     })
     .then(getData)
     .catch(console.warn)
 
-const Row = props => <Link {...props} className={styles.row} />
-export const Column = props => <div {...props} className={styles.column} />
+const Row = (props) => <Link {...props} className={styles.row} />
+export const Column = (props) => <div {...props} className={styles.column} />
 
-const Recent = ({
-  title,
-  rightHeader,
-  ids,
-  getItem,
-  getLink,
-  Item,
-  setHeight
-}) => {
+const Recent = ({ title, rightHeader, ids, getItem, getLink, Item, setHeight }) => {
   const [items, setItems] = useState(ids)
   const [isLoading, setIsLoading] = useState(true)
 
@@ -38,7 +30,7 @@ const Recent = ({
   }, [items, isLoading])
 
   useEffect(() => {
-    Promise.all(ids.map(getItem)).then(items => {
+    Promise.all(ids.map(getItem)).then((items) => {
       setItems(items.flat().filter(Boolean))
       setIsLoading(false)
     })

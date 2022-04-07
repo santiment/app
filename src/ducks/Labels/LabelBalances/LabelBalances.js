@@ -4,7 +4,7 @@ import DashboardProjectChart from '../../../components/DashboardMetricChart/Dash
 function makeMetric (key, label) {
   return {
     key,
-    label
+    label,
   }
 }
 
@@ -22,23 +22,21 @@ const SUPPORTED_METRICS = [
   makeMetric('proxy_balance', 'Proxies'),
   makeMetric('whale_balance', 'Whales'),
   makeMetric('makerdao_bite_keeper_balance', 'MakerDAO Bite Keepers'),
-  makeMetric('makerdao_cdp_owner_balance', 'MakerDAO CDP Owners')
+  makeMetric('makerdao_cdp_owner_balance', 'MakerDAO CDP Owners'),
 ]
 
 const metricsBuilder = ({ slug }) => {
-  return SUPPORTED_METRICS.map(item => {
+  return SUPPORTED_METRICS.map((item) => {
     return {
       ...item,
       node: 'area',
       reqMeta: {
-        slug
-      }
+        slug,
+      },
     }
   })
 }
 
-const LabelBalances = () => (
-  <DashboardProjectChart metricsBuilder={metricsBuilder} />
-)
+const LabelBalances = () => <DashboardProjectChart metricsBuilder={metricsBuilder} />
 
 export default LabelBalances

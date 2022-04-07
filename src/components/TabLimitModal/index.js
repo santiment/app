@@ -16,19 +16,16 @@ const TabLimitModal = ({ maxTabsCount, isPro, onOpen }) => {
   const { subscription } = useUserSubscription()
   const [plans] = usePlans()
   const PLAN_KEY = isPro ? 'PRO_PLUS' : 'PRO'
-  const PLAN = plans.find(
-    ({ interval, name }) => interval === INTERVAL && name === PLAN_KEY
-  )
+  const PLAN = plans.find(({ interval, name }) => interval === INTERVAL && name === PLAN_KEY)
 
   return (
-    <div onContextMenu={e => e.preventDefault()}>
+    <div onContextMenu={(e) => e.preventDefault()}>
       <Dialog autoFocus open showCloseBtn={false} classes={styles}>
         <HeaderImage />
         <p className={styles.descTop}>Browser Tabs Restriction</p>
         <p className={styles.descBottom}>
-          Dear user, your current plan allows you to use up to {maxTabsCount}{' '}
-          Browser Tabs for Charts and Screeners. If you want to use more, please
-          upgrade
+          Dear user, your current plan allows you to use up to {maxTabsCount} Browser Tabs for
+          Charts and Screeners. If you want to use more, please upgrade
         </p>
         <div className={styles.buttons} id='tabLimitModalButtons'>
           {PLAN && (
@@ -41,7 +38,7 @@ const TabLimitModal = ({ maxTabsCount, isPro, onOpen }) => {
                 accent: 'orange',
                 border: undefined,
                 fluid: undefined,
-                className: undefined
+                className: undefined,
               }}
               amount={PLAN.amount}
               id={PLAN.id}

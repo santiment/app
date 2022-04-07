@@ -4,11 +4,7 @@ import { useFormikContext } from 'formik'
 import SignalPreview from '../../../../../../../Signals/chart/preview/SignalPreview'
 import { useLastPrice } from '../../../../../../hooks/useLastPrice'
 import { useProject } from '../../../../../../../../hooks/project'
-import {
-  getConditionsStr,
-  parseOperation,
-  splitStr
-} from '../../../../../../utils'
+import { getConditionsStr, parseOperation, splitStr } from '../../../../../../utils'
 import { formatNumber } from '../../../../../../../../utils/formatting'
 import styles from './ChartPreview.module.scss'
 
@@ -20,9 +16,9 @@ const ChartPreview = ({ isWallet, metric }) => {
         target: { slug },
         time_window,
         operation,
-        selector
-      }
-    }
+        selector,
+      },
+    },
   } = useFormikContext()
   const currentSlug = isWallet ? selector.slug : slug
   const { data, loading } = useLastPrice(currentSlug)
@@ -31,13 +27,12 @@ const ChartPreview = ({ isWallet, metric }) => {
   const shouldRenderChart = currentSlug && typeof currentSlug === 'string'
   const shouldRenderPrice = currentSlug && !Array.isArray(currentSlug) && data
   const { selectedCount, selectedOperation } = parseOperation(operation)
-  const hasPriceIcon =
-    metric.category === 'Financial' || metric.key === 'price_usd'
+  const hasPriceIcon = metric.category === 'Financial' || metric.key === 'price_usd'
   const conditionsStr = getConditionsStr({
     operation: selectedOperation,
     count: selectedCount,
     timeWindow: time_window,
-    hasPriceIcon
+    hasPriceIcon,
   })
 
   const { firstWord, rest } = splitStr(conditionsStr)
@@ -53,20 +48,13 @@ const ChartPreview = ({ isWallet, metric }) => {
           {!loading &&
             shouldRenderPrice &&
             `1 ${project && project.ticker} = ${formatNumber(data, {
-              currency: 'USD'
+              currency: 'USD',
             })}`}
         </div>
       </div>
 
-      <div
-        className={cx(
-          styles.chartWrapper,
-          !shouldRenderChart && styles.noChart
-        )}
-      >
-        {shouldRenderChart && (
-          <SignalPreview type={values.type} trigger={values} />
-        )}
+      <div className={cx(styles.chartWrapper, !shouldRenderChart && styles.noChart)}>
+        {shouldRenderChart && <SignalPreview type={values.type} trigger={values} />}
       </div>
     </div>
   )

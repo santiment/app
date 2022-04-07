@@ -11,21 +11,14 @@ import {
   getInsightComments,
   createInsightComment,
   deleteComment,
-  editComment
+  editComment,
 } from '../../../../components/Insight/comments/utils'
 import styles from './Insight.module.scss'
 
 const DEFAULT_COMMENTS = []
 
 const Action = ({ type, isDisabled, ...props }) => (
-  <div
-    {...props}
-    className={cx(
-      styles.action,
-      styles[type],
-      isDisabled && styles.action_disabled
-    )}
-  >
+  <div {...props} className={cx(styles.action, styles[type], isDisabled && styles.action_disabled)}>
     <Icon type='arrow-right-big' />
   </div>
 )
@@ -38,7 +31,7 @@ const Insight = ({
   isFirst,
   isLast,
   onPrevClick,
-  onNextClick
+  onNextClick,
 }) => {
   const [comments, setComments] = useState(DEFAULT_COMMENTS)
   const [loading, setLoading] = useState()
@@ -81,10 +74,7 @@ const Insight = ({
     <>
       <div className={styles.header}>
         <div className={styles.top}>
-          <a
-            className={styles.title}
-            href={`https://insights.santiment.net/read/${id}`}
-          >
+          <a className={styles.title} href={`https://insights.santiment.net/read/${id}`}>
             {title}
           </a>
           <div className={styles.actions}>

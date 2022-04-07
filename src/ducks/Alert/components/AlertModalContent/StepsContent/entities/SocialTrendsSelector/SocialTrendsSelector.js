@@ -15,27 +15,25 @@ const SocialTrendsSelector = ({
     selectedStep,
     visitedSteps,
     setVisitedSteps,
-    shouldHideRestrictionMessage
+    shouldHideRestrictionMessage,
   },
-  selectorSettings
+  selectorSettings,
 }) => {
-  const [, { value: target }, { setValue: setTarget }] = useField(
-    'settings.target'
-  )
+  const [, { value: target }, { setValue: setTarget }] = useField('settings.target')
   const [, , { setValue: setOperation }] = useField('settings.operation')
   const {
     values: {
       settings: {
-        target: { slug, watchlist_id, word }
-      }
-    }
+        target: { slug, watchlist_id, word },
+      },
+    },
   } = useFormikContext()
 
   function handleNextClick () {
     setSelectedStep(selectedStep + 1)
 
     if (!visitedSteps.has(selectedStep + 1)) {
-      setVisitedSteps(prev => [...prev, selectedStep + 1])
+      setVisitedSteps((prev) => [...prev, selectedStep + 1])
     }
   }
 
@@ -65,23 +63,12 @@ const SocialTrendsSelector = ({
   }
 
   if (defaultSelector === 'word') {
-    children = (
-      <AssetSelector
-        key='word'
-        isSocial
-        isWords
-        selectorSettings={selectorSettings}
-      />
-    )
+    children = <AssetSelector key='word' isSocial isWords selectorSettings={selectorSettings} />
   }
 
   if (defaultSelector === 'watchlist_id') {
     children = (
-      <WatchlistAndScreenerSelector
-        type='watchlist'
-        isSocial
-        selectorSettings={selectorSettings}
-      />
+      <WatchlistAndScreenerSelector type='watchlist' isSocial selectorSettings={selectorSettings} />
     )
   }
 
@@ -101,12 +88,7 @@ const SocialTrendsSelector = ({
         onSelectOption={handleSelectTarget}
         variant='border'
       />
-      <div
-        className={cx(
-          styles.content,
-          !shouldHideRestrictionMessage && styles.contentResized
-        )}
-      >
+      <div className={cx(styles.content, !shouldHideRestrictionMessage && styles.contentResized)}>
         {children}
       </div>
     </div>

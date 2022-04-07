@@ -9,19 +9,17 @@ export function validURL (str) {
     '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
     '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
       '(\\#[-a-z\\d_]*)?$',
-    'i'
+    'i',
   ) // fragment locator
   return !!pattern.test(str)
 }
 
-const InputLink = props => {
+const InputLink = (props) => {
   const { value, disabled } = props
 
   const isError = value && !disabled && !validURL(value)
 
-  return (
-    <Input type='text' {...props} isError={isError} placeholder='https://' />
-  )
+  return <Input type='text' {...props} isError={isError} placeholder='https://' />
 }
 
 export default InputLink

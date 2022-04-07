@@ -5,9 +5,7 @@ import Project from '../Cells/Project'
 
 const ETHEREUM = 'ethereum'
 
-const TrxAddressCell = ({ wallet, assets }) => (
-  <WalletLink {...wallet} assets={assets} />
-)
+const TrxAddressCell = ({ wallet, assets }) => <WalletLink {...wallet} assets={assets} />
 
 const EthCell = ({ value, sign = 'Ξ' }) =>
   value ? <div>{`${sign}${millify(value, 2)}`}</div> : <div>No data</div>
@@ -15,8 +13,8 @@ const EthCell = ({ value, sign = 'Ξ' }) =>
 export const DEFAULT_SORTING = [
   {
     id: 'ethSpent',
-    desc: true
-  }
+    desc: true,
+  },
 ]
 
 export const COLUMNS = [
@@ -24,24 +22,22 @@ export const COLUMNS = [
     Header: 'Project',
     accessor: 'project',
     disableSortBy: true,
-    Cell: ({ row: { original } }) => (
-      <Project {...original} to={`/projects/${original.slug}`} />
-    )
+    Cell: ({ row: { original } }) => <Project {...original} to={`/projects/${original.slug}`} />,
   },
   {
     Header: 'Funds Collected',
     accessor: 'fundsRaisedUsdIcoEndPrice',
-    Cell: ({ value }) => EthCell({ value, sign: '$' })
+    Cell: ({ value }) => EthCell({ value, sign: '$' }),
   },
   {
     Header: 'ETH spent, 30d',
     accessor: 'ethSpent',
-    Cell: EthCell
+    Cell: EthCell,
   },
   {
     Header: 'ETH balance',
     accessor: 'ethBalance',
-    Cell: EthCell
+    Cell: EthCell,
   },
   {
     Header: 'Wallets',
@@ -54,15 +50,11 @@ export const COLUMNS = [
               <TrxAddressCell
                 key={index}
                 wallet={wallet}
-                assets={
-                  original.slug === ETHEREUM
-                    ? [original.slug]
-                    : [original.slug, ETHEREUM]
-                }
+                assets={original.slug === ETHEREUM ? [original.slug] : [original.slug, ETHEREUM]}
               />
             ))
           : 'No data'}
       </>
-    )
-  }
+    ),
+  },
 ]

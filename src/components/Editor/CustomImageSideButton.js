@@ -17,13 +17,7 @@ class CustomImageSideButton extends ImageSideButton {
     if (!file) {
       return
     }
-    const {
-      mutate,
-      setEditorState,
-      getEditorState,
-      close,
-      onImgLoad
-    } = this.props
+    const { mutate, setEditorState, getEditorState, close, onImgLoad } = this.props
     if (file.type.indexOf('image/') === 0) {
       if (file.size / 1024 > MAX_IMG_SIZE) {
         store.dispatch(showNotification('Image size is too large'))
@@ -45,11 +39,11 @@ class CustomImageSideButton extends ImageSideButton {
 
           setEditorState(
             addNewBlock(getEditorState(), Block.IMAGE, {
-              src: uploadImageUrl
-            })
+              src: uploadImageUrl,
+            }),
           )
         })
-        .catch(error => {
+        .catch((error) => {
           store.dispatch(showNotification('Upload image error'))
           Sentry.captureException(error)
         })

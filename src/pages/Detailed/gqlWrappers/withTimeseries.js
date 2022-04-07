@@ -4,36 +4,34 @@ import { graphql } from 'react-apollo'
 const makeDataset = (dataset = {}, data = []) => {
   return {
     ...dataset,
-    data: data.map(item => {
+    data: data.map((item) => {
       return {
         x: item.datetime,
-        y: item.followersCount
+        y: item.followersCount,
       }
-    })
+    }),
   }
 }
 
-const makeProps = (name, chartjs = {}) => props => {
+const makeProps = (name, chartjs = {}) => (props) => {
   const Data = props[name] || {}
   return {
     [name]: {
-      dataset: chartjs.dataset
-        ? makeDataset(chartjs.dataset, Data[name])
-        : undefined,
+      dataset: chartjs.dataset ? makeDataset(chartjs.dataset, Data[name]) : undefined,
       scale: chartjs.scale || undefined,
       loading: Data.loading || false,
       error: Data.error || false,
       errorMessage: Data.error ? Data.error.message : '',
       items: Data[name] || [],
-      ...Data
-    }
+      ...Data,
+    },
   }
 }
 
-const makeOptions = (name, options) => props => {
+const makeOptions = (name, options) => (props) => {
   return {
     skip: !props.chartVars.ticker,
-    variables: options(props).variables
+    variables: options(props).variables,
   }
 }
 
@@ -41,15 +39,15 @@ const makeRequestFromTimeSeries = ({ query, name, options, chartjs }) => {
   return graphql(query, {
     name,
     props: makeProps(name, chartjs),
-    options: makeOptions(name, options)
+    options: makeOptions(name, options),
   })
 }
 
-const withTimeseries = (...timeseries) => WrappedComponent => {
+const withTimeseries = (...timeseries) => (WrappedComponent) => {
   return compose(
     ...timeseries.reduce((acc, item) => {
       return [makeRequestFromTimeSeries(item), ...acc]
-    }, [])
+    }, []),
   )(WrappedComponent)
 }
 

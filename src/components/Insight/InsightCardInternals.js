@@ -13,10 +13,7 @@ import Comments from './comments/Comments'
 import styles from './InsightCard.module.scss'
 
 export const makeLinkToInsight = (id, title) => {
-  return `https://insights.santiment.net/read/${getSEOLinkFromIdAndTitle(
-    id,
-    title
-  )}`
+  return `https://insights.santiment.net/read/${getSEOLinkFromIdAndTitle(id, title)}`
 }
 
 const InsightCardInternals = ({
@@ -37,7 +34,7 @@ const InsightCardInternals = ({
   showIcon = false,
   showDate = false,
   isPaywallRequired,
-  children
+  children,
 }) => {
   const linkToInsight = makeLinkToInsight(id, title)
 
@@ -55,11 +52,7 @@ const InsightCardInternals = ({
           <div className={styles.top}>
             {showDate && (
               <MobileOnly>
-                <InsightDate
-                  date={date}
-                  state={state}
-                  className={styles.date}
-                />
+                <InsightDate date={date} state={state} className={styles.date} />
               </MobileOnly>
             )}
             <a href={linkToInsight} className={styles.title}>
@@ -109,7 +102,7 @@ InsightCardInternals.defaultProps = {
   votes: {},
   tags: [],
   commentsCount: 0,
-  withAuthorPic: true
+  withAuthorPic: true,
 }
 
 export default InsightCardInternals

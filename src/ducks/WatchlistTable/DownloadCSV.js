@@ -11,21 +11,17 @@ import styles from './index.module.scss'
 const cb = () => {}
 
 export const DownloadCSVButton = () => (
-  <ExplanationTooltip
-    text='Download .csv'
-    offsetY={10}
-    className={styles.explanation}
-  >
+  <ExplanationTooltip text='Download .csv' offsetY={10} className={styles.explanation}>
     <Icon type='save' />
   </ExplanationTooltip>
 )
 
 function renameFields (assets, activeColumns) {
   const labels = {}
-  activeColumns.forEach(column => (labels[column.key] = column.label))
+  activeColumns.forEach((column) => (labels[column.key] = column.label))
   assets.forEach((asset, index) => {
     const keys = Object.keys(asset)
-    keys.forEach(key => {
+    keys.forEach((key) => {
       const label = labels[key]
       if (label) {
         const value = assets[index][key]
@@ -41,7 +37,7 @@ const AsyncButton = ({ watchlist, downloadData, activeColumns, ...props }) => {
   const [data, setData] = useState([])
 
   const fetchData = () => {
-    downloadData().then(data => {
+    downloadData().then((data) => {
       renameFields(data.assets, activeColumns)
       setData(data.assets)
       csvEl.current.link.click()
@@ -50,11 +46,7 @@ const AsyncButton = ({ watchlist, downloadData, activeColumns, ...props }) => {
 
   return (
     <>
-      <Button
-        className={cx(styles.action, styles.action_csv)}
-        onClick={fetchData}
-        {...props}
-      />
+      <Button className={cx(styles.action, styles.action_csv)} onClick={fetchData} {...props} />
       <CSVLink filename={`${watchlist.name}.csv`} data={data} ref={csvEl} />
     </>
   )
@@ -64,20 +56,10 @@ export const DownloadCSV = ({ watchlist, data, downloadData, ...props }) => {
   const { isPro } = useUserSubscriptionStatus()
 
   if (!isPro) {
-    return (
-      <Button
-        className={cx(styles.action, styles.action_csv)}
-        {...props}
-        onClick={cb}
-      />
-    )
+    return <Button className={cx(styles.action, styles.action_csv)} {...props} onClick={cb} />
   } else {
     return downloadData ? (
-      <AsyncButton
-        watchlist={watchlist}
-        downloadData={downloadData}
-        {...props}
-      />
+      <AsyncButton watchlist={watchlist} downloadData={downloadData} {...props} />
     ) : (
       <Button
         filename={`${watchlist.name}.csv`}
@@ -93,7 +75,7 @@ export const DownloadCSV = ({ watchlist, data, downloadData, ...props }) => {
 }
 
 DownloadCSV.defaultProps = {
-  data: []
+  data: [],
 }
 
 const DownloadCSVTrigger = ({ type, ...props }) => (

@@ -10,9 +10,6 @@ export const VisibilityIndicator = ({ isPublic, offset = 7, className }) => (
     className={styles.explanation}
     offsetY={offset}
   >
-    <Icon
-      type={isPublic ? 'eye' : 'eye-disabled'}
-      className={cx(styles.icon, className)}
-    />
+    <Icon type={isPublic ? 'eye' : 'eye-disabled'} className={cx(styles.icon, className)} />
   </ExplanationTooltip>
 )

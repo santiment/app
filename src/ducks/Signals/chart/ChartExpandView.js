@@ -12,11 +12,7 @@ export const ChartExpandView = ({ children, classes = {} }) => {
       title='Smart Chart'
       classes={styles}
       trigger={
-        <Button
-          className={cx(styles.btn, classes.expanderButton)}
-          type='button'
-          variant='ghost'
-        >
+        <Button className={cx(styles.btn, classes.expanderButton)} type='button' variant='ghost'>
           <ExplanationTooltip
             position='top'
             offsetY={5}

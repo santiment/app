@@ -10,11 +10,8 @@ const isBetaMode = loadKeyState('isBetaMode')
 const isBetaModeDeprecated = loadKeyState('isBetaModeEnabled')
 
 const isNightModeEnabled =
-  isShowHalloween() ||
-  (isNightMode !== undefined ? isNightMode : isNightModeDeprecated) ||
-  false
-const isBetaModeEnabled =
-  isBetaMode !== undefined ? isBetaMode : isBetaModeDeprecated || false
+  isShowHalloween() || (isNightMode !== undefined ? isNightMode : isNightModeDeprecated) || false
+const isBetaModeEnabled = isBetaMode !== undefined ? isBetaMode : isBetaModeDeprecated || false
 
 if (isNightModeEnabled) {
   document.body.classList.add('night-mode')
@@ -25,7 +22,7 @@ export const initialState = {
   loginSuccess: false,
   loginError: false,
   isNightModeEnabled: isNightModeEnabled,
-  isBetaModeEnabled: isBetaModeEnabled
+  isBetaModeEnabled: isBetaModeEnabled,
 }
 
 export default (state = initialState, action) => {
@@ -33,18 +30,18 @@ export default (state = initialState, action) => {
     case actions.APP_CHANGE_ONLINE_STATUS:
       return {
         ...state,
-        isOnline: action.payload.isOnline
+        isOnline: action.payload.isOnline,
       }
     case actions.USER_LOGIN_SUCCESS:
       return {
         ...state,
-        loginSuccess: true
+        loginSuccess: true,
       }
     case actions.USER_LOGIN_FAILED:
       return {
         ...state,
         loginSuccess: false,
-        loginError: true
+        loginError: true,
       }
     case actions.APP_USER_HAS_INACTIVE_TOKEN:
       return { ...state }
@@ -52,13 +49,13 @@ export default (state = initialState, action) => {
       updateTheme(action.payload)
       return {
         ...state,
-        isNightModeEnabled: action.payload
+        isNightModeEnabled: action.payload,
       }
     case actions.APP_USER_BETA_MODE_SAVE:
       updateIsBetaMode(action.payload)
       return {
         ...state,
-        isBetaModeEnabled: action.payload
+        isBetaModeEnabled: action.payload,
       }
     default:
       return state

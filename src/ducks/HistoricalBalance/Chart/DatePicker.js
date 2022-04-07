@@ -40,10 +40,7 @@ const DatePicker = ({ settings, isPhone, changeTimePeriod }) => {
   }
 
   return isPhone ? (
-    <TimeRanges
-      timeRange={settings.timeRange}
-      onTimerangeChange={onTimerangeChange}
-    />
+    <TimeRanges timeRange={settings.timeRange} onTimerangeChange={onTimerangeChange} />
   ) : (
     <Calendar
       className={styles.calendar}

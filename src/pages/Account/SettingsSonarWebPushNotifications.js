@@ -2,17 +2,14 @@ import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import Toggle from '@santiment-network/ui/Toggle'
-import {
-  registerSonarActivitiesSw,
-  requestNotificationPermission
-} from '../../serviceWorker'
+import { registerSonarActivitiesSw, requestNotificationPermission } from '../../serviceWorker'
 import SidecarExplanationTooltip from '../../ducks/SANCharts/SidecarExplanationTooltip'
 import { getAPIUrl, getOrigin } from '../../utils/utils'
 import styles from './AccountPage.module.scss'
 
 const SERVICE_WORKER_NAME = 'san-sonar-service-worker.js'
 
-export const getSanSonarSW = registrations => {
+export const getSanSonarSW = (registrations) => {
   return registrations
     ? registrations
         .filter(({ active }) => !!active)
@@ -33,12 +30,8 @@ export const getSanSonarSW = registrations => {
     : undefined
 }
 
-const postMessage = data => {
-  if (
-    navigator &&
-    navigator.serviceWorker &&
-    navigator.serviceWorker.controller
-  ) {
+const postMessage = (data) => {
+  if (navigator && navigator.serviceWorker && navigator.serviceWorker.controller) {
     navigator.serviceWorker.controller.postMessage(data)
   } else {
     setTimeout(() => {
@@ -54,10 +47,10 @@ export const sendParams = () => {
         type: 'SONAR_FEED_PARAMS_START',
         data: {
           PUBLIC_API_ROUTE: getAPIUrl(),
-          PUBLIC_FRONTEND_ROUTE: getOrigin()
-        }
+          PUBLIC_FRONTEND_ROUTE: getOrigin(),
+        },
       },
-      1000
+      1000,
     )
   })
 }
@@ -66,12 +59,12 @@ const SettingsSonarWebPushNotifications = ({
   classes = {},
   className,
   recheckBrowserNotifications,
-  description
+  description,
 }) => {
   const [isActive, setIsActive] = useState(false)
   const [isPermissionsGranted, setPermissionsGranted] = useState(true)
 
-  const toggle = value => {
+  const toggle = (value) => {
     setIsActive(value)
     value &&
       requestNotificationPermission(() => {
@@ -86,7 +79,7 @@ const SettingsSonarWebPushNotifications = ({
 
   useEffect(() => {
     if (navigator.serviceWorker && navigator.serviceWorker.getRegistrations) {
-      navigator.serviceWorker.getRegistrations().then(registrations => {
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
         const sanServiceRegistration = getSanSonarSW(registrations)
         if (sanServiceRegistration) {
           toggle(true)
@@ -99,16 +92,16 @@ const SettingsSonarWebPushNotifications = ({
 
   const unRegisterSw = () => {
     postMessage({
-      type: 'SONAR_FEED_ACTIVITY_STOP'
+      type: 'SONAR_FEED_ACTIVITY_STOP',
     })
 
     setTimeout(() => {
       navigator.serviceWorker &&
         navigator.serviceWorker.getRegistrations &&
-        navigator.serviceWorker.getRegistrations().then(registrations => {
+        navigator.serviceWorker.getRegistrations().then((registrations) => {
           const sw = getSanSonarSW(registrations)
           if (sw) {
-            sw.unregister().then(data => {
+            sw.unregister().then((data) => {
               toggle(false)
             })
           } else {
@@ -119,13 +112,13 @@ const SettingsSonarWebPushNotifications = ({
     })
   }
 
-  const preToggle = enable => {
+  const preToggle = (enable) => {
     if (!enable) {
       unRegisterSw()
     } else {
       navigator.serviceWorker &&
         navigator.serviceWorker.getRegistrations &&
-        navigator.serviceWorker.getRegistrations().then(registrations => {
+        navigator.serviceWorker.getRegistrations().then((registrations) => {
           const sw = getSanSonarSW(registrations)
 
           if (!sw) {
@@ -137,7 +130,7 @@ const SettingsSonarWebPushNotifications = ({
                 sendParams()
                 recheckBrowserNotifications && recheckBrowserNotifications()
                 toggle(true)
-              }
+              },
             })
             toggle(true)
           } else {
@@ -153,12 +146,9 @@ const SettingsSonarWebPushNotifications = ({
       <div className={classes.left}>
         <div>Push notifications</div>
         {!isPermissionsGranted && (
-          <Label
-            className={cx(styles.description, styles.warning)}
-            accent='waterloo'
-          >
-            Notification permissions denied in browser settings. Please, check
-            your browser notification settings.
+          <Label className={cx(styles.description, styles.warning)} accent='waterloo'>
+            Notification permissions denied in browser settings. Please, check your browser
+            notification settings.
           </Label>
         )}
       </div>

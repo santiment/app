@@ -25,8 +25,8 @@ export function useWordCloud ({ size = 25, word, from, to, onLoad }) {
       from: fromIso,
       to: toIso,
       size,
-      word
-    }
+      word,
+    },
   })
 
   return useMemo(() => {
@@ -37,7 +37,7 @@ export function useWordCloud ({ size = 25, word, from, to, onLoad }) {
     return {
       cloud: data && data.wordContext ? data.wordContext : [],
       loading,
-      error
+      error,
     }
   }, [query])
 }

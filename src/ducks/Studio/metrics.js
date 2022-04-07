@@ -10,7 +10,7 @@ const ProjectMetricCache = new Map()
 const DASH_CONNECTOR = '_DS_'
 const DASH_CONNECTOR_REGEX = new RegExp(DASH_CONNECTOR, 'g')
 export const METRIC_CONNECTOR = '_MC_'
-export const checkIsProjectMetricKey = key => key.includes(METRIC_CONNECTOR)
+export const checkIsProjectMetricKey = (key) => key.includes(METRIC_CONNECTOR)
 
 function searchFromSubmetrics (key) {
   for (let list of Object.values(Submetrics)) {
@@ -19,20 +19,18 @@ function searchFromSubmetrics (key) {
   }
 }
 
-export const getMetricByKey = key =>
+export const getMetricByKey = (key) =>
   Metric[key] ||
   CompatibleMetric[key] ||
   searchFromSubmetrics(key) ||
   tryMapToTimeboundMetric(key) ||
   HolderDistributionMetric[key]
 
-const normalizeSlug = slug => '_' + slug.replace(/-/g, DASH_CONNECTOR)
-const parseNormalizedSlug = normalizedSlug =>
+const normalizeSlug = (slug) => '_' + slug.replace(/-/g, DASH_CONNECTOR)
+const parseNormalizedSlug = (normalizedSlug) =>
   normalizedSlug.slice(1).replace(DASH_CONNECTOR_REGEX, '-')
 const buildKey = (slug, ticker, metricKey) =>
-  `${normalizeSlug(
-    slug
-  )}${METRIC_CONNECTOR}${ticker}${METRIC_CONNECTOR}${metricKey}`
+  `${normalizeSlug(slug)}${METRIC_CONNECTOR}${ticker}${METRIC_CONNECTOR}${metricKey}`
 
 export function buildProjectMetricKey (project, metric) {
   const { slug, ticker } = project
@@ -53,8 +51,8 @@ export function newProjectMetric (project, baseMetric, projectMetricKey) {
     base: baseMetric,
     label: `${baseMetric.label} (${ticker})`,
     reqMeta: {
-      slug
-    }
+      slug,
+    },
   })
 
   updateTooltipSetting(metric)
@@ -66,18 +64,11 @@ export function newProjectMetric (project, baseMetric, projectMetricKey) {
 const DEFAULT_CONTROLLER = {
   getMetricByKey,
   newProjectMetric,
-  parseSlug: true
+  parseSlug: true,
 }
-const getController = controller =>
-  Object.assign({}, DEFAULT_CONTROLLER, controller)
-export function getProjectMetricByKey (
-  key,
-  connector = METRIC_CONNECTOR,
-  controller
-) {
-  const { getMetricByKey, newProjectMetric, parseSlug } = getController(
-    controller
-  )
+const getController = (controller) => Object.assign({}, DEFAULT_CONTROLLER, controller)
+export function getProjectMetricByKey (key, connector = METRIC_CONNECTOR, controller) {
+  const { getMetricByKey, newProjectMetric, parseSlug } = getController(controller)
   let [slug, ticker, metricKey] = key.split(connector)
   const metric = getMetricByKey(metricKey)
   if (!metric) return
@@ -91,7 +82,7 @@ export function getProjectMetricByKey (
   return newProjectMetric(
     { slug, ticker },
     metric,
-    isProjectMetricConnector ? key : buildKey(slug, ticker, metricKey)
+    isProjectMetricConnector ? key : buildKey(slug, ticker, metricKey),
   )
 }
 
@@ -102,10 +93,7 @@ export function convertBaseProjectMetric (metric, project) {
   }
 
   if (metric.indicator) {
-    return cacheIndicator(
-      newProjectMetric(project, metric.base),
-      metric.indicator
-    )
+    return cacheIndicator(newProjectMetric(project, metric.base), metric.indicator)
   }
 
   return newProjectMetric(project, metric)

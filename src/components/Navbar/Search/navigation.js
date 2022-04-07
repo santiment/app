@@ -1,21 +1,8 @@
 import { useRef, useState, useEffect } from 'react'
 import styles from './Category.module.scss'
 
-const NAV_KEYS = new Set([
-  'ArrowUp',
-  'ArrowDown',
-  'ArrowLeft',
-  'ArrowRight',
-  'Enter'
-])
-const COLUMNS = [
-  'Recently searched',
-  'Assets',
-  'Wallets',
-  'Trending words',
-  'Insights',
-  'People'
-]
+const NAV_KEYS = new Set(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Enter'])
+const COLUMNS = ['Recently searched', 'Assets', 'Wallets', 'Trending words', 'Insights', 'People']
 const DEFAULT_COLUMNS = []
 const DEFAULT_COLUMN_ITEMS = COLUMNS.reduce((acc, column) => {
   acc[column] = []
@@ -24,12 +11,11 @@ const DEFAULT_COLUMN_ITEMS = COLUMNS.reduce((acc, column) => {
 const DEFAULT_CURSOR = {
   row: 0,
   column: 0,
-  columnName: undefined
+  columnName: undefined,
 }
 
 const cursoredClassSelector = '.' + styles.button_cursored
-const getCursoredNode = ({ current }) =>
-  current.querySelector(cursoredClassSelector)
+const getCursoredNode = ({ current }) => current.querySelector(cursoredClassSelector)
 
 export function useCursorNavigation (isOpened, onSuggestionSelect) {
   const [ColumnItems, setColumnItems] = useState(DEFAULT_COLUMN_ITEMS)
@@ -37,26 +23,23 @@ export function useCursorNavigation (isOpened, onSuggestionSelect) {
   const [availableColumns, setAvailableColumns] = useState(DEFAULT_COLUMNS)
   const suggestionsRef = useRef()
 
-  useEffect(() => (isOpened ? setCursorRowColumn(0, 0) : undefined), [
-    isOpened,
-    availableColumns
-  ])
+  useEffect(() => (isOpened ? setCursorRowColumn(0, 0) : undefined), [isOpened, availableColumns])
 
   function setCursorRowColumn (row, column = cursor.column) {
     setCursor({
       row,
       column,
-      columnName: availableColumns[column]
+      columnName: availableColumns[column],
     })
   }
 
   function registerCursorColumn (column, items) {
-    setColumnItems(ColumnItems => {
+    setColumnItems((ColumnItems) => {
       const newColumnItems = { ...ColumnItems }
       newColumnItems[column] = items
 
       const newAvailableColumns = Object.keys(ColumnItems).filter(
-        column => newColumnItems[column].length
+        (column) => newColumnItems[column].length,
       )
 
       setAvailableColumns(newAvailableColumns)
@@ -88,7 +71,7 @@ export function useCursorNavigation (isOpened, onSuggestionSelect) {
       return onSuggestionSelect(
         getCursoredNode(suggestionsRef),
         ColumnItems[columnName][row],
-        columnName
+        columnName,
       )
     }
 
@@ -103,6 +86,6 @@ export function useCursorNavigation (isOpened, onSuggestionSelect) {
     suggestionsRef,
     cursor,
     registerCursorColumn,
-    onKeyDown
+    onKeyDown,
   }
 }

@@ -5,12 +5,12 @@ export const Plotter = () => ({
   },
   register (id, clb) {
     this.items.set(id, clb)
-  }
+  },
 })
 
 export const Observer = () => {
   const subscribers = new Set()
-  const envoke = subscriber => subscriber()
+  const envoke = (subscriber) => subscriber()
 
   return {
     emit () {
@@ -22,6 +22,6 @@ export const Observer = () => {
       return () => {
         subscribers.delete(subscriber)
       }
-    }
+    },
   }
 }

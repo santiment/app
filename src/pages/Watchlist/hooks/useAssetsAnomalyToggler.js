@@ -23,6 +23,6 @@ export const useAssetsAnomalyToggler = () => {
     toggleAssetsFiltering,
     filteredItems,
     clearFilters,
-    filterType
+    filterType,
   }
 }

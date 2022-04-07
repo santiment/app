@@ -8,10 +8,7 @@ export function useTrackEvents () {
 
   const [mutate] = useMutation(TRACK_EVENTS_MUTATION, { skip: !isLoggedIn })
 
-  function trackEvent (
-    { action, category, label, ...values },
-    service = ['ga', 'sanapi']
-  ) {
+  function trackEvent ({ action, category, label, ...values }, service = ['ga', 'sanapi']) {
     if (!isBrowser || !isProdApp || hasDoNotTrack()) {
       return null
     }
@@ -22,21 +19,21 @@ export function useTrackEvents () {
       window.gtag('event', action, {
         event_category: category,
         event_label: label,
-        ...values
+        ...values,
       })
     }
     if (service.includes('intercom')) {
       window.Intercom('trackEvent', action, {
         event_category: category,
         event_label: label,
-        ...values
+        ...values,
       })
     }
     if (service.includes('twitter')) {
       window.twq('track', action, {
         content_type: category,
         content_name: label,
-        ...values
+        ...values,
       })
     }
 
@@ -47,11 +44,11 @@ export function useTrackEvents () {
             {
               event_name: action,
               metadata: { category, label, ...values },
-              created_at
-            }
-          ])
-        }
-      }).catch(err => console.error(err))
+              created_at,
+            },
+          ]),
+        },
+      }).catch((err) => console.error(err))
     }
   }
 

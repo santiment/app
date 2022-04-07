@@ -32,6 +32,6 @@ export const getAddressWatchlist = (id, columns, fetchPolicy) =>
     .query({
       fetchPolicy,
       query: constructAddressWatchlistQuery(columns),
-      variables: { id }
+      variables: { id },
     })
     .then(watchlistAccessor)

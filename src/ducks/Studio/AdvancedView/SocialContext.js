@@ -22,7 +22,7 @@ function getTimePeriod (date, interval) {
   return {
     from: from.toISOString(),
     to: to.toISOString(),
-    interval: '1d'
+    interval: '1d',
   }
 }
 
@@ -76,11 +76,7 @@ const SocialContext = ({ interval, date, project: { slug } }) => {
         </div>
 
         <div className={styles.trends}>
-          <TrendsTable
-            className={styles.table}
-            isCompact
-            period={trendPeriod}
-          />
+          <TrendsTable className={styles.table} isCompact period={trendPeriod} />
         </div>
       </div>
     </div>
@@ -93,8 +89,8 @@ SocialContext.defaultProps = {
   date: new Date(Date.now() - ONE_MONTH_IN_MS * 3),
   interval: '1d',
   project: {
-    slug: 'bitcoin'
-  }
+    slug: 'bitcoin',
+  },
 }
 
 export default SocialContext

@@ -7,13 +7,7 @@ import { buildTemplateMetrics } from '../utils'
 import { useCreateTemplate } from '../gql/hooks'
 import { normalizeWidgets } from '../../url/generate'
 
-const NewTemplate = ({
-  onNew,
-  projectId,
-  widgets,
-  saveWidgets = normalizeWidgets,
-  ...props
-}) => {
+const NewTemplate = ({ onNew, projectId, widgets, saveWidgets = normalizeWidgets, ...props }) => {
   const [createTemplate, { loading }] = useCreateTemplate()
 
   function onSubmit ({ title, description }) {
@@ -27,7 +21,7 @@ const NewTemplate = ({
       .filter(Boolean)
 
     const options = {
-      widgets: saveWidgets(widgets)
+      widgets: saveWidgets(widgets),
     }
 
     createTemplate({
@@ -35,9 +29,9 @@ const NewTemplate = ({
       description,
       options,
       metrics: buildTemplateMetrics({ metrics, comparables }),
-      projectId: +projectId
+      projectId: +projectId,
     })
-      .then(template => {
+      .then((template) => {
         track.event(Event.NewLayout, { id: template.id })
         return onNew(template)
       })

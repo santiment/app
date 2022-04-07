@@ -3,27 +3,25 @@ import { Formik } from 'formik'
 import {
   mapFormPropsToScreenerTrigger,
   mapTriggerToFormProps,
-  validateChannels
+  validateChannels,
 } from '../utils/utils'
 import ScreenerAlertForm from './ScreenerAlertForm'
 
 export const SreenerSignal = ({ signal, watchlist, onCancel, onSubmit }) => {
   const { id = 0 } = signal
   const isNew = !(id > 0)
-  const [initialValues, setInitialValues] = useState(
-    mapTriggerToFormProps(signal)
-  )
+  const [initialValues, setInitialValues] = useState(mapTriggerToFormProps(signal))
 
   useEffect(() => {
     setInitialValues(mapTriggerToFormProps(signal))
   }, [signal])
 
   const toggleSignalActive = useCallback(
-    values => {
+    (values) => {
       const newValues = { ...values, isActive: !values.isActive }
       setInitialValues(newValues)
     },
-    [setInitialValues]
+    [setInitialValues],
   )
 
   return (
@@ -31,11 +29,11 @@ export const SreenerSignal = ({ signal, watchlist, onCancel, onSubmit }) => {
       initialValues={initialValues}
       enableReinitialize
       validate={validateChannels}
-      onSubmit={formProps => {
+      onSubmit={(formProps) => {
         onSubmit(mapFormPropsToScreenerTrigger({ formProps, signal }))
       }}
     >
-      {props => (
+      {(props) => (
         <ScreenerAlertForm
           toggleSignalActive={toggleSignalActive}
           watchlist={watchlist}

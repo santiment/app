@@ -5,19 +5,13 @@ import {
   checkIsProjectMetricKey,
   getProjectMetricByKey,
   getMetricByKey,
-  buildProjectMetricKey
+  buildProjectMetricKey,
 } from '../metrics'
 import { buildCompareKey } from '../Compare/utils'
 import ChartWidget from '../Widget/ChartWidget'
 import { TypeToWidget } from '../Widget/types'
-import {
-  buildMergedMetric,
-  MERGED_DIVIDER
-} from '../Widget/HolderDistributionWidget/utils'
-import {
-  Indicator,
-  cacheIndicator
-} from '../Chart/MetricSettings/IndicatorsSetting'
+import { buildMergedMetric, MERGED_DIVIDER } from '../Widget/HolderDistributionWidget/utils'
+import { Indicator, cacheIndicator } from '../Chart/MetricSettings/IndicatorsSetting'
 import { HolderDistributionMetric } from '../Chart/Sidepanel/HolderDistribution/metrics'
 import { Metric } from '../../dataHub/metrics'
 
@@ -56,11 +50,10 @@ export const reduceStateKeys = (State, Data) =>
 
 const parseConnectedWidget = ({ widget, from, to }) =>
   TypeToWidget[widget].new({
-    datesRange: from && to ? [new Date(from), new Date(to)] : undefined
+    datesRange: from && to ? [new Date(from), new Date(to)] : undefined,
   })
 
-export const parseComparable = key =>
-  getProjectMetricByKey(key, COMPARE_CONNECTOR)
+export const parseComparable = (key) => getProjectMetricByKey(key, COMPARE_CONNECTOR)
 
 function parseSharedComparables (keys) {
   const comparedKeys = keys ? toArray(keys) : []
@@ -81,23 +74,17 @@ function parseColors (
   project,
   SharedKeyIndicator,
   SharedKeyComparable,
-  SharedKeyMergedHolder
+  SharedKeyMergedHolder,
 ) {
   const Colors = {}
 
-  Object.keys(colors).forEach(key => {
-    let metricKey = checkIsProjectMetricKey(key)
-      ? key
-      : getMetricByKey(key) && key
+  Object.keys(colors).forEach((key) => {
+    let metricKey = checkIsProjectMetricKey(key) ? key : getMetricByKey(key) && key
 
     if (!metricKey) {
       const sharedMetric =
-        SharedKeyIndicator[key] ||
-        SharedKeyComparable[key] ||
-        SharedKeyMergedHolder[key]
-      metricKey = sharedMetric
-        ? sharedMetric.key
-        : buildProjectMetricKey(project, { key })
+        SharedKeyIndicator[key] || SharedKeyComparable[key] || SharedKeyMergedHolder[key]
+      metricKey = sharedMetric ? sharedMetric.key : buildProjectMetricKey(project, { key })
     }
 
     Colors[metricKey] = colors[key]
@@ -106,14 +93,10 @@ function parseColors (
   return Colors
 }
 
-function parseMetricSetting (
-  MetricSetting = {},
-  SharedKeyIndicator,
-  SharedKeyComparable
-) {
+function parseMetricSetting (MetricSetting = {}, SharedKeyIndicator, SharedKeyComparable) {
   const MetricSettingMap = new Map()
 
-  Object.keys(MetricSetting).forEach(key => {
+  Object.keys(MetricSetting).forEach((key) => {
     const metric = parseMetric(key, SharedKeyIndicator, SharedKeyComparable)
     if (!metric) return
 
@@ -144,7 +127,7 @@ function extractMergedMetrics (metrics) {
     }
 
     const mergedMetric = buildMergedMetric(
-      mergedMetricKeys.map(key => HolderDistributionMetric[key])
+      mergedMetricKeys.map((key) => HolderDistributionMetric[key]),
     )
     mergedMetrics.push(mergedMetric)
     SharedKeyMergedHolder[metric] = mergedMetric
@@ -157,13 +140,13 @@ function parseMetricIndicators (indicators) {
   const MetricIndicators = {}
   const SharedKeyIndicator = {}
 
-  Object.keys(indicators || {}).forEach(metricKey => {
+  Object.keys(indicators || {}).forEach((metricKey) => {
     const metric = checkIsProjectMetricKey(metricKey)
       ? getProjectMetricByKey(metricKey)
       : getMetricByKey(metricKey)
 
     MetricIndicators[metric.key] = new Set(
-      indicators[metricKey].map(indicatorKey => {
+      indicators[metricKey].map((indicatorKey) => {
         const indicator = Indicator[indicatorKey]
 
         if (metric) {
@@ -172,7 +155,7 @@ function parseMetricIndicators (indicators) {
         }
 
         return indicator
-      })
+      }),
     )
   })
 
@@ -195,17 +178,16 @@ function parseAxesMetrics (
   metrics,
   SharedKeyIndicator,
   SharedKeyComparable,
-  SharedKeyMergedHolder
+  SharedKeyMergedHolder,
 ) {
   if (!axesMetrics) return [new Set(), new Set()]
 
   const axesMetricSet = new Set()
   const disabledAxesMetricSet = new Set(metrics)
 
-  axesMetrics.forEach(key => {
+  axesMetrics.forEach((key) => {
     const metric =
-      parseMetric(key, SharedKeyIndicator, SharedKeyComparable) ||
-      SharedKeyMergedHolder[key]
+      parseMetric(key, SharedKeyIndicator, SharedKeyComparable) || SharedKeyMergedHolder[key]
 
     disabledAxesMetricSet.delete(metric)
     axesMetricSet.add(metric)
@@ -225,22 +207,15 @@ export function parseSharedWidgets (sharedWidgets, project) {
       settings,
       indicators,
       drawings,
-      axesMetrics
+      axesMetrics,
     }) => {
-      const [
-        parsedMetricIndicators,
-        SharedKeyIndicator
-      ] = parseMetricIndicators(indicators)
-      const [
-        holderMetrics,
-        cleanedMetricKeys,
-        SharedKeyMergedHolder
-      ] = extractMergedMetrics(metrics)
-      const [comparedMetrics, SharedKeyComparable] = parseSharedComparables(
-        comparables
+      const [parsedMetricIndicators, SharedKeyIndicator] = parseMetricIndicators(indicators)
+      const [holderMetrics, cleanedMetricKeys, SharedKeyMergedHolder] = extractMergedMetrics(
+        metrics,
       )
-      const cleanedMetrics = cleanedMetricKeys.map(key =>
-        parseMetric(key, SharedKeyIndicator, SharedKeyComparable)
+      const [comparedMetrics, SharedKeyComparable] = parseSharedComparables(comparables)
+      const cleanedMetrics = cleanedMetricKeys.map((key) =>
+        parseMetric(key, SharedKeyIndicator, SharedKeyComparable),
       )
 
       const parsedMetrics = cleanedMetrics
@@ -253,7 +228,7 @@ export function parseSharedWidgets (sharedWidgets, project) {
         parsedMetrics,
         SharedKeyIndicator,
         SharedKeyComparable,
-        SharedKeyMergedHolder
+        SharedKeyMergedHolder,
       )
 
       return TypeToWidget[widget].new({
@@ -262,24 +237,18 @@ export function parseSharedWidgets (sharedWidgets, project) {
         disabledAxesMetricSet,
         mergedMetrics: holderMetrics,
         metrics: parsedMetrics,
-        connectedWidgets: connectedWidgets
-          ? connectedWidgets.map(parseConnectedWidget)
-          : [],
+        connectedWidgets: connectedWidgets ? connectedWidgets.map(parseConnectedWidget) : [],
         MetricColor: parseColors(
           colors,
           project,
           SharedKeyIndicator,
           SharedKeyComparable,
-          SharedKeyMergedHolder
+          SharedKeyMergedHolder,
         ),
-        MetricSettingMap: parseMetricSetting(
-          settings,
-          SharedKeyIndicator,
-          SharedKeyComparable
-        ),
-        MetricIndicators: parsedMetricIndicators
+        MetricSettingMap: parseMetricSetting(settings, SharedKeyIndicator, SharedKeyComparable),
+        MetricIndicators: parsedMetricIndicators,
       })
-    }
+    },
   )
 }
 
@@ -301,13 +270,13 @@ export function translateMultiChartToWidgets (metrics, comparables = []) {
     return [
       ChartWidget.new({
         metrics,
-        comparables
-      })
+        comparables,
+      }),
     ]
   }
 
   let priceMetric
-  const noPriceMetrics = metrics.filter(metric => {
+  const noPriceMetrics = metrics.filter((metric) => {
     if (metric.queryKey !== Metric.price_usd.key) return true
 
     priceMetric = metric
@@ -315,18 +284,18 @@ export function translateMultiChartToWidgets (metrics, comparables = []) {
   })
 
   return noPriceMetrics
-    .map(metric =>
+    .map((metric) =>
       ChartWidget.new({
-        metrics: priceMetric ? [priceMetric, metric] : [metric]
-      })
+        metrics: priceMetric ? [priceMetric, metric] : [metric],
+      }),
     )
     .concat(
-      comparables.map(comparable =>
+      comparables.map((comparable) =>
         ChartWidget.new({
           metrics: priceMetric ? [Metric.price_usd] : [],
-          comparables: [comparable]
-        })
-      )
+          comparables: [comparable],
+        }),
+      ),
     )
 }
 
@@ -340,29 +309,25 @@ function translateV1ToV2 (v1Config) {
     widgets = [
       ChartWidget.new({
         comparables,
-        metrics
-      })
+        metrics,
+      }),
     ]
   }
 
   return {
     settings,
-    widgets
+    widgets,
   }
 }
 
-export function parseUrl (
-  url,
-  settings = DEFAULT_SETTINGS,
-  options = DEFAULT_OPTIONS
-) {
+export function parseUrl (url, settings = DEFAULT_SETTINGS, options = DEFAULT_OPTIONS) {
   const data = parse(url, { arrayFormat: 'comma' })
 
   return {
     settings: reduceStateKeys(settings, data),
     options: reduceStateKeys(options, data),
     metrics: sanitize(convertKeysToMetrics(data.metrics)),
-    comparables: sanitize(parseSharedComparables(data.comparables)[0])
+    comparables: sanitize(parseSharedComparables(data.comparables)[0]),
   }
 }
 
@@ -379,6 +344,6 @@ export function parseUrlV2 (url) {
   return {
     settings: parsedSettings,
     widgets: widgets && parseWidgets(widgets, parsedSettings),
-    sidepanel: sidepanel && parseSharedSidepanel(sidepanel)
+    sidepanel: sidepanel && parseSharedSidepanel(sidepanel),
   }
 }

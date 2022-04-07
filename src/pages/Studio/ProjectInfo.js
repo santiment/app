@@ -49,17 +49,14 @@ const ProjectInfo = ({ studio, settings }) => {
           <ChartSignalCreationDialog
             slug={slug}
             trigger={
-              <Button
-                border
-                className={cx(styles.btn, styles.signal, 'mrg-s mrg--l')}
-              >
+              <Button border className={cx(styles.btn, styles.signal, 'mrg-s mrg--l')}>
                 <Icon type='signal' className={styles.btn__icon} />
                 Add alert
               </Button>
             }
           />
         </>,
-        actionsNode
+        actionsNode,
       )}
     </>
   ) : null

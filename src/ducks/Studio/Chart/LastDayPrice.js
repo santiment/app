@@ -20,9 +20,7 @@ function drawLastDayPrice (chart, price) {
 
   if (y > bottom || y < top) return
 
-  const text = `Last day price ${TooltipSetting.price_usd.formatter(
-    price.open || price
-  )}`
+  const text = `Last day price ${TooltipSetting.price_usd.formatter(price.open || price)}`
 
   ctx.save()
   ctx.beginPath()
@@ -36,11 +34,7 @@ function drawLastDayPrice (chart, price) {
   ctx.stroke()
 
   ctx.fillStyle = COLOR.casper
-  ctx.fillText(
-    text,
-    right - getTextWidth(ctx, text) - RIGHT_MARGIN,
-    y - BOTTOM_MARGIN
-  )
+  ctx.fillText(text, right - getTextWidth(ctx, text) - RIGHT_MARGIN, y - BOTTOM_MARGIN)
 
   ctx.restore()
 }
@@ -58,7 +52,7 @@ const LastDayPrice = ({ data, from, to }) => {
 
     chart.plotter.register(
       'lastDayPrice',
-      lastDayPrice ? () => drawLastDayPrice(chart, lastDayPrice) : noop
+      lastDayPrice ? () => drawLastDayPrice(chart, lastDayPrice) : noop,
     )
   }, [data, from, to])
 

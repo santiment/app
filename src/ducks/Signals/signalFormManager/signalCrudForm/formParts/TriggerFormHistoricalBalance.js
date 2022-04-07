@@ -19,7 +19,7 @@ const isInAssetsList = (heldAssets, target) => {
   let checking = Array.isArray(target) ? target : [target]
 
   return checking.every(({ value: chValue, slug: chSlug }) =>
-    heldAssets.some(({ slug }) => slug === chSlug || slug === chValue)
+    heldAssets.some(({ slug }) => slug === chSlug || slug === chValue),
   )
 }
 
@@ -28,7 +28,7 @@ const ETHEREUM = {
   slug: 'ethereum',
   ticker: 'ETH',
   infrastructure: 'ETH',
-  name: 'ethereum'
+  name: 'ethereum',
 }
 
 const isErc20Assets = (target, allErc20Projects) =>
@@ -38,9 +38,7 @@ const isErc20Assets = (target, allErc20Projects) =>
 
 const mapAssetsToAllProjects = (all, heldAssets) =>
   heldAssets.reduce((acc, { slug: itemSlug, value: itemValue, balance }) => {
-    const foundInAll = all.find(
-      ({ slug }) => slug === itemSlug || slug === itemValue
-    )
+    const foundInAll = all.find(({ slug }) => slug === itemSlug || slug === itemValue)
     if (foundInAll) {
       foundInAll.balance = balance
       acc.push(foundInAll)
@@ -54,15 +52,13 @@ const propTypes = {
   target: PropTypes.any,
   setFieldValue: PropTypes.func.isRequired,
   byAddress: PropTypes.any,
-  assets: PropTypes.array
+  assets: PropTypes.array,
 }
 
 const getFromAll = (all, { value, slug }) =>
-  all.find(
-    ({ slug: currentSlug }) => currentSlug === value || currentSlug === slug
-  )
+  all.find(({ slug: currentSlug }) => currentSlug === value || currentSlug === slug)
 
-const isEthAddress = data => {
+const isEthAddress = (data) => {
   if (Array.isArray(data)) {
     return data.every(({ value }) => isValidHBAddress(value))
   } else {
@@ -70,20 +66,18 @@ const isEthAddress = data => {
   }
 }
 
-const useHeldAssets = byAddress => {
+const useHeldAssets = (byAddress) => {
   const address = Array.isArray(byAddress)
     ? byAddress.length > 0
       ? byAddress[0].value
       : undefined
     : byAddress
 
-  const infrastructure = useMemo(() => getAddressInfrastructure(address), [
-    address
-  ])
+  const infrastructure = useMemo(() => getAddressInfrastructure(address), [address])
 
   const { walletAssets: heldAssets, isLoading } = useWalletAssets({
     address,
-    infrastructure
+    infrastructure,
   })
 
   return { heldAssets, isLoading }
@@ -94,38 +88,33 @@ const TriggerFormHistoricalBalance = ({
   setFieldValue,
   values: { target, ethAddress },
   isNewSignal,
-  byAddress
+  byAddress,
 }) => {
   const { heldAssets, isLoading: heldLoading } = useHeldAssets(byAddress)
   const { projects: allProjects, isLoading: loading } = useProjects()
 
-  const allLoading = useMemo(() => loading || heldLoading, [
-    loading,
-    heldLoading
-  ])
+  const allLoading = useMemo(() => loading || heldLoading, [loading, heldLoading])
 
   const metaMappedToAll = useMemo(() => {
     return allProjects.length
       ? mapAssetsToAllProjects(
           allProjects,
-          Array.isArray(metaTarget.value)
-            ? metaTarget.value
-            : [metaTarget.value]
+          Array.isArray(metaTarget.value) ? metaTarget.value : [metaTarget.value],
         )
       : []
   }, [allProjects, metaTarget])
 
   const setTarget = useCallback(
-    newTarget => {
+    (newTarget) => {
       if (newTarget !== target) {
         setFieldValue('target', newTarget)
       }
     },
-    [setFieldValue, target]
+    [setFieldValue, target],
   )
 
   const validateTarget = useCallback(
-    newTarget => {
+    (newTarget) => {
       let asset
 
       if (newTarget) {
@@ -142,14 +131,14 @@ const TriggerFormHistoricalBalance = ({
         setTarget(asset)
       }
     },
-    [allProjects, setFieldValue, ethAddress]
+    [allProjects, setFieldValue, ethAddress],
   )
 
   const setAddress = useCallback(
-    address => {
+    (address) => {
       setFieldValue('ethAddress', address)
     },
-    [setFieldValue]
+    [setFieldValue],
   )
 
   const disabledWalletField =
@@ -157,7 +146,7 @@ const TriggerFormHistoricalBalance = ({
     (allProjects.length > 0 && !isErc20Assets(target, allProjects))
 
   const validateAddressField = useCallback(
-    inputAssets => {
+    (inputAssets) => {
       if (allProjects.length && !isErc20Assets(inputAssets, allProjects)) {
         setAddress('')
         return
@@ -183,14 +172,7 @@ const TriggerFormHistoricalBalance = ({
         setAddress('')
       }
     },
-    [
-      setAddress,
-      allProjects,
-      setAddress,
-      disabledWalletField,
-      metaEthAddress,
-      ethAddress
-    ]
+    [setAddress, allProjects, setAddress, disabledWalletField, metaEthAddress, ethAddress],
   )
 
   useEffect(() => {
@@ -206,15 +188,9 @@ const TriggerFormHistoricalBalance = ({
   }, [target, ethAddress, allProjects])
 
   useEffect(() => {
-    const showError =
-      allProjects &&
-      allProjects.length > 0 &&
-      isErc20Assets(target, allProjects)
+    const showError = allProjects && allProjects.length > 0 && isErc20Assets(target, allProjects)
 
-    setFieldValue(
-      'isHbAddressError',
-      showError ? !hasHBAddresses(ethAddress) : false
-    )
+    setFieldValue('isHbAddressError', showError ? !hasHBAddresses(ethAddress) : false)
   }, [target, ethAddress, allProjects.length])
 
   useEffect(() => {
@@ -234,10 +210,7 @@ const TriggerFormHistoricalBalance = ({
   }, [ethAddress])
 
   const selectableProjects = useMemo(() => {
-    return hasHBAddresses(ethAddress) &&
-      !disabledWalletField &&
-      heldAssets &&
-      heldAssets.length > 0
+    return hasHBAddresses(ethAddress) && !disabledWalletField && heldAssets && heldAssets.length > 0
       ? mapAssetsToAllProjects(allProjects, heldAssets)
       : allProjects
   }, [hasHBAddresses, disabledWalletField, heldAssets, allProjects])
@@ -252,14 +225,12 @@ const TriggerFormHistoricalBalance = ({
             isCreatable
             multi
             name='ethAddress'
-            validator={value => {
+            validator={(value) => {
               return disabledWalletField || isEthAddress(value)
             }}
             notificationText={NOT_VALID_HB_ADDRESS}
             placeholder={
-              disabledWalletField
-                ? 'Only for single ETH and ERC20 asset'
-                : 'Wallet address'
+              disabledWalletField ? 'Only for single ETH and ERC20 asset' : 'Wallet address'
             }
           />
         </div>

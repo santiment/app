@@ -5,7 +5,7 @@ import Loader from '@santiment-network/ui/Loader/Loader'
 import { getDateFormats, getTimeFormats } from '../../../../../utils/dates'
 import styles from './index.module.scss'
 
-const formatDataInfoDate = value => {
+const formatDataInfoDate = (value) => {
   const date = new Date(value)
   const { HH, mm } = getTimeFormats(date)
   const { MMMM, DD, YYYY } = getDateFormats(date)
@@ -22,23 +22,17 @@ const DATA_INFO_QUERY = gql`
 `
 
 const Value = ({ value }) => {
-  return value ? (
-    formatDataInfoDate(value)
-  ) : (
-    <Loader className={styles.loader} />
-  )
+  return value ? formatDataInfoDate(value) : <Loader className={styles.loader} />
 }
 
 const DataInfo = ({ metric, slug, titleClassName, textClassName }) => {
   const { data, loading, error } = useQuery(DATA_INFO_QUERY, {
-    variables: { slug, metric: metric.key }
+    variables: { slug, metric: metric.key },
   })
 
   if (error) return null
 
-  const { availableSince, lastDatetimeComputedAt } = loading
-    ? {}
-    : data.getMetric
+  const { availableSince, lastDatetimeComputedAt } = loading ? {} : data.getMetric
 
   return (
     <>

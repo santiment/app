@@ -27,14 +27,11 @@ const Step = ({
     onStepClick(stepIndex)
   }
 
-  const classString = cx(
-    selected && styles.selected,
-    getClassString(styles, disabled, status)
-  )
+  const classString = cx(selected && styles.selected, getClassString(styles, disabled, status))
 
   const accessibilityProps = {
     role: 'button',
-    tabIndex: 0
+    tabIndex: 0,
   }
   if (!disabled) {
     if (onStepClick) {
@@ -49,12 +46,7 @@ const Step = ({
       <div {...accessibilityProps} className={styles.container}>
         <div className={styles.tail} />
         <div className={styles.contentWrapper}>
-          <StepIcon
-            disabled={disabled}
-            stepNumber={stepNumber}
-            icons={icons}
-            status={status}
-          />
+          <StepIcon disabled={disabled} stepNumber={stepNumber} icons={icons} status={status} />
           <div className={styles.content}>
             <div className={styles.title}>{title}</div>
             <div className={styles.description}>{description || null}</div>

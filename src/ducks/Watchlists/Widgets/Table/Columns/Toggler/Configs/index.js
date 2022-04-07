@@ -9,7 +9,7 @@ import { useFeaturedTableConfigs, useUserTableConfigs } from '../../gql/queries'
 import {
   useCreateTableConfig,
   useDeleteTableConfig,
-  useUpdateTableConfig
+  useUpdateTableConfig,
 } from '../../gql/mutations'
 import UpdateConfig from './UpdateConfig'
 import { DEFAULT_ORDER_BY } from '../../defaults'
@@ -26,7 +26,7 @@ const ConfigsMenu = ({
   config,
   sorting,
   savedActiveColumnKeys = EMPTY_ARRAY,
-  isLoading
+  isLoading,
 }) => {
   const featuredTableConfigurations = useFeaturedTableConfigs(type)
   const userTableConfigs = useUserTableConfigs(type)
@@ -44,27 +44,20 @@ const ConfigsMenu = ({
 
   const hasUnsavedChanges = useMemo(() => {
     const comparedSorting =
-      config && config.columns.sorting
-        ? config.columns.sorting
-        : DEFAULT_ORDER_BY
-    const isUnsavedSorting =
-      type !== BLOCKCHAIN_ADDRESS && !isEqual(sorting, comparedSorting)
+      config && config.columns.sorting ? config.columns.sorting : DEFAULT_ORDER_BY
+    const isUnsavedSorting = type !== BLOCKCHAIN_ADDRESS && !isEqual(sorting, comparedSorting)
 
     return (
       savedActiveColumnKeys &&
       config &&
       !isLoading &&
-      (!isEqual(config.columns.metrics, savedActiveColumnKeys) ||
-        isUnsavedSorting)
+      (!isEqual(config.columns.metrics, savedActiveColumnKeys) || isUnsavedSorting)
     )
   }, [savedActiveColumnKeys, sorting, config])
 
   const transformedTrigger = useMemo(
-    () =>
-      config &&
-      hasUnsavedChanges &&
-      !userTableConfigs.some(({ id }) => id === config.id),
-    [hasUnsavedChanges, userTableConfigs, config]
+    () => config && hasUnsavedChanges && !userTableConfigs.some(({ id }) => id === config.id),
+    [hasUnsavedChanges, userTableConfigs, config],
   )
 
   function onConfigSelect (id) {
@@ -81,10 +74,7 @@ const ConfigsMenu = ({
   return (
     <ContextMenu
       trigger={
-        <Button
-          variant='flat'
-          className={cx(styles.trigger, open && styles.isOpened)}
-        >
+        <Button variant='flat' className={cx(styles.trigger, open && styles.isOpened)}>
           <span className={cx(hasUnsavedChanges && styles.circle)}>
             {transformedTrigger ? 'Save as set' : title}
           </span>
@@ -100,11 +90,11 @@ const ConfigsMenu = ({
       <Panel variant='modal' className={styles.wrapper}>
         <UpdateConfig
           sets={userTableConfigs}
-          onChange={title =>
+          onChange={(title) =>
             createTableConfig({
               title,
               type,
-              columns: { metrics: savedActiveColumnKeys, sorting }
+              columns: { metrics: savedActiveColumnKeys, sorting },
             }).then(({ id }) => {
               changeConfig(id)
               setOpen(false)
@@ -116,14 +106,9 @@ const ConfigsMenu = ({
           {featuredTableConfigurations.map(({ title, id }) => (
             <Button
               variant='ghost'
-              className={cx(
-                styles.buttonConfig,
-                id === selectedId && styles.buttonConfig__active
-              )}
+              className={cx(styles.buttonConfig, id === selectedId && styles.buttonConfig__active)}
               key={id}
-              onClick={() =>
-                id !== selectedId ? onConfigSelect(id) : setOpen(false)
-              }
+              onClick={() => (id !== selectedId ? onConfigSelect(id) : setOpen(false))}
             >
               {title}
             </Button>
@@ -131,46 +116,38 @@ const ConfigsMenu = ({
           {userTableConfigs.length > 0 && (
             <>
               <h3 className={styles.title}>Personal sets</h3>
-              {userTableConfigs.map(config => {
+              {userTableConfigs.map((config) => {
                 const { id, title } = config
                 return (
                   <Button
                     variant='ghost'
                     className={cx(
                       styles.buttonConfig,
-                      id === selectedId && styles.buttonConfig__active
+                      id === selectedId && styles.buttonConfig__active,
                     )}
                     key={id}
                     onClick={() => onConfigSelect(id)}
                   >
                     {title}
-                    {hasUnsavedChanges && (
-                      <span className={styles.tooltip}>Unsaved set</span>
-                    )}
-                    <div
-                      className={styles.actions}
-                      onClick={evt => evt.stopPropagation()}
-                    >
+                    {hasUnsavedChanges && <span className={styles.tooltip}>Unsaved set</span>}
+                    <div className={styles.actions} onClick={(evt) => evt.stopPropagation()}>
                       <Icon
                         type='disk-small'
                         onClick={() =>
                           updateTableConfig(config, {
-                            columns: { metrics: savedActiveColumnKeys, sorting }
+                            columns: { metrics: savedActiveColumnKeys, sorting },
                           })
                         }
                       />
                       <UpdateConfig
                         sets={userTableConfigs}
-                        onChange={title => updateTableConfig(config, { title })}
+                        onChange={(title) => updateTableConfig(config, { title })}
                         title='Rename'
                         name={title}
                         buttonLabel='Save'
                         trigger={<Icon type='edit-small' />}
                       />
-                      <Icon
-                        type='remove-small'
-                        onClick={() => deleteTableConfig({ id, title })}
-                      />
+                      <Icon type='remove-small' onClick={() => deleteTableConfig({ id, title })} />
                     </div>
                   </Button>
                 )

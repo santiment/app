@@ -7,17 +7,13 @@ import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import TemplateButton from './Button'
 import TemplateTitle from './Title'
-import {
-  buildTemplateMetrics,
-  extractTemplateProject,
-  getChartWidgetsFromTemplate
-} from './utils'
+import { buildTemplateMetrics, extractTemplateProject, getChartWidgetsFromTemplate } from './utils'
 import { notifySave } from './notifications'
 import {
   useUserTemplates,
   useUpdateTemplate,
   useSelectedTemplate,
-  useCreateTemplate
+  useCreateTemplate,
 } from './gql/hooks'
 import DialogFormNewTemplate from './Dialog/NewTemplate'
 import DialogFormRenameTemplate from './Dialog/RenameTemplate'
@@ -34,7 +30,7 @@ import { useCtrlSPress } from '../../../hooks/eventListeners'
 import { addRecentTemplate } from '../../../utils/recent'
 import styles from './index.module.scss'
 
-const Action = props => <Button {...props} fluid variant='ghost' />
+const Action = (props) => <Button {...props} fluid variant='ghost' />
 
 const isMac = /(Mac|iPhone|iPod|iPad)/i.test(window.navigator.platform)
 
@@ -58,12 +54,12 @@ const Template = ({
   const projectFromUrl = extractTemplateProject()
   const [urlProject] = useProjectById(projectFromUrl)
 
-  window.selectLayout = layout => {
+  window.selectLayout = (layout) => {
     setSelectedTemplate(layout)
     addRecentTemplate(layout.id)
   }
 
-  const selectTemplate = template => {
+  const selectTemplate = (template) => {
     setSelectedTemplate(template)
 
     if (!template) return
@@ -83,7 +79,7 @@ const Template = ({
 
   const [selectedTemplate, setSelectedTemplate, loading] = useSelectedTemplate(
     templates,
-    selectTemplate
+    selectTemplate,
   )
 
   const toggleLoadDialog = useCallback(() => {
@@ -128,12 +124,12 @@ const Template = ({
   }, [setIsMenuOpened, closeLoadDialog])
 
   const rerenderTemplate = useCallback(
-    template => {
+    (template) => {
       if (selectedTemplate && selectedTemplate.id === template.id) {
         setSelectedTemplate(template)
       }
     },
-    [selectedTemplate, setSelectedTemplate]
+    [selectedTemplate, setSelectedTemplate],
   )
 
   const saveTemplate = useCallback(() => {
@@ -152,7 +148,7 @@ const Template = ({
       .filter(Boolean)
 
     const options = {
-      widgets: saveWidgets(widgets)
+      widgets: saveWidgets(widgets),
     }
 
     const future = isCurrentUser
@@ -160,22 +156,20 @@ const Template = ({
           metrics,
           comparables,
           projectId,
-          options
+          options,
         })
       : createTemplate({
           title,
           description,
           metrics: buildTemplateMetrics({ metrics, comparables }),
           projectId: +projectId,
-          options
+          options,
         })
 
     future
-      .then(template => {
+      .then((template) => {
         track.event(Event.SaveLayout, { id: template.id })
-        return (souldReloadOnSave ? selectTemplate : setSelectedTemplate)(
-          template
-        )
+        return (souldReloadOnSave ? selectTemplate : setSelectedTemplate)(template)
       })
       .then(closeMenu)
       .then(notifySave)
@@ -188,15 +182,15 @@ const Template = ({
     createTemplate,
     selectTemplate,
     closeMenu,
-    notifySave
+    notifySave,
   ])
 
   const onTemplateSelect = useCallback(
-    template => {
+    (template) => {
       selectTemplate(template)
       closeMenu()
     },
-    [selectTemplate, closeMenu]
+    [selectTemplate, closeMenu],
   )
 
   const onDelete = useCallback(() => {
@@ -237,10 +231,7 @@ const Template = ({
             <div className={styles.group}>
               {user && (
                 <Action onClick={saveTemplate}>
-                  Save{' '}
-                  <span className={styles.copyAction}>
-                    {isMac ? 'Cmd + S' : 'Ctrl + S'}
-                  </span>
+                  Save <span className={styles.copyAction}>{isMac ? 'Cmd + S' : 'Ctrl + S'}</span>
                 </Action>
               )}
 

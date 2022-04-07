@@ -9,13 +9,7 @@ import ProjectsList from './ProjectsList'
 import { useDialogState } from '../../../../../../hooks/dialog'
 import styles from './TriggerProjectsSelector.module.scss'
 
-const validateTarget = ({
-  force,
-  listItems,
-  projects,
-  setSelectedAssets,
-  target
-}) => {
+const validateTarget = ({ force, listItems, projects, setSelectedAssets, target }) => {
   const hasSelectedItems = listItems.length > 0
   if (force || !hasSelectedItems) {
     const targetAssets = Array.isArray(target) ? target : [target]
@@ -23,8 +17,7 @@ const validateTarget = ({
     if (targetAssets.length > 0 && projects.length > 0) {
       const preSelected = projects.filter(({ slug: projectSlug }) => {
         return targetAssets.some(
-          ({ value, slug } = {}) =>
-            value === projectSlug || slug === projectSlug
+          ({ value, slug } = {}) => value === projectSlug || slug === projectSlug,
         )
       })
       setSelectedAssets(preSelected)
@@ -50,7 +43,7 @@ export const TriggerProjectsSelector = ({
   trigger: Trigger = ProjectsSelectorTrigger,
   title = 'Select assets',
   isSingle = false,
-  isLoading = false
+  isLoading = false,
 }) => {
   if (isLoading) {
     return <Loader className={styles.loader} />
@@ -83,15 +76,12 @@ export const TriggerProjectsSelector = ({
         closeDialog()
       }
     },
-    [setFieldValue, onChange, closeDialog]
+    [setFieldValue, onChange, closeDialog],
   )
 
   const setSelectedAssets = useCallback(
-    selected => {
-      const newItems =
-        isSingle && selected.length > 0
-          ? [selected[selected.length - 1]]
-          : selected
+    (selected) => {
+      const newItems = isSingle && selected.length > 0 ? [selected[selected.length - 1]] : selected
 
       if (isSingle || listItems.length !== newItems.length) {
         setListItems(newItems)
@@ -99,20 +89,20 @@ export const TriggerProjectsSelector = ({
 
       approve(newItems, isSingle)
     },
-    [isSingle, setListItems, listItems, approve]
+    [isSingle, setListItems, listItems, approve],
   )
 
   const validate = useCallback(
-    force => {
+    (force) => {
       return validateTarget({
         force,
         listItems,
         projects,
         setSelectedAssets,
-        target
+        target,
       })
     },
-    [listItems, projects, setSelectedAssets, target]
+    [listItems, projects, setSelectedAssets, target],
   )
 
   useEffect(() => {
@@ -127,7 +117,7 @@ export const TriggerProjectsSelector = ({
         setSelectedAssets([...items, project])
       }
     },
-    [setSelectedAssets]
+    [setSelectedAssets],
   )
 
   const cancel = useCallback(() => {
@@ -136,30 +126,28 @@ export const TriggerProjectsSelector = ({
   }, [validate, closeDialog])
 
   const onSuggestionSelect = useCallback(
-    project => {
+    (project) => {
       if (project) {
         const target = project.item ? project.item : project
         toggleAsset({
           project: target,
           listItems,
-          isAssetInList: hasAssetById({ listItems, id: target.id })
+          isAssetInList: hasAssetById({ listItems, id: target.id }),
         })
       }
     },
-    [toggleAsset, listItems]
+    [toggleAsset, listItems],
   )
 
   const onRemove = useCallback(
-    project => {
+    (project) => {
       toggleAsset({ project, listItems, isAssetInList: true })
     },
-    [toggleAsset, listItems]
+    [toggleAsset, listItems],
   )
 
   const sortedProjects = useMemo(() => {
-    return projects
-      .slice()
-      .sort(({ rank: a }, { rank: b }) => (a || Infinity) - (b || Infinity))
+    return projects.slice().sort(({ rank: a }, { rank: b }) => (a || Infinity) - (b || Infinity))
   }, [projects])
 
   return (
@@ -231,24 +219,18 @@ export const ProjectsSelectorTrigger = ({ listItems, onRemove }) => (
     <div className={styles.assetsSelect}>
       <AssetsListDescription assets={listItems} onRemove={onRemove} />
     </div>
-    {listItems.length === 0 && (
-      <div className='error error-message'>Please, pick an asset(s)</div>
-    )}
+    {listItems.length === 0 && <div className='error error-message'>Please, pick an asset(s)</div>}
   </div>
 )
 
-const AssetsListDescription = ({
-  assets,
-  label = 'Pick an asset(s)',
-  onRemove
-}) => {
+const AssetsListDescription = ({ assets, label = 'Pick an asset(s)', onRemove }) => {
   if (!assets || !assets.length) {
     return <div className={styles.label}>{label}</div>
   }
 
   return (
     <div className={styles.assetGroup}>
-      {assets.map(asset => {
+      {assets.map((asset) => {
         const { id, name, slug, label } = asset
 
         return (
@@ -257,7 +239,7 @@ const AssetsListDescription = ({
             <Button
               type='button'
               className={styles.close}
-              onClick={e => {
+              onClick={(e) => {
                 e.stopPropagation()
                 onRemove(asset)
               }}

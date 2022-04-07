@@ -3,14 +3,11 @@ import { getAddressInfrastructure } from '../../../utils/address'
 import { useWalletAssets as useWalletAssetsHook } from '../../HistoricalBalance/hooks'
 
 export const useWalletAssets = ({ walletAddress }) => {
-  const infrastructure = useMemo(
-    () => getAddressInfrastructure(walletAddress),
-    [walletAddress]
-  )
+  const infrastructure = useMemo(() => getAddressInfrastructure(walletAddress), [walletAddress])
 
   const { walletAssets, isLoading } = useWalletAssetsHook({
     address: walletAddress,
-    infrastructure
+    infrastructure,
   })
 
   return { assets: walletAssets, isLoading, infrastructure }

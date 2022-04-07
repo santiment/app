@@ -20,22 +20,10 @@ const getDefaultValue = (metric, settings, metricSettingsMap) => {
 }
 
 // TODO: If query throws an error, metric will be disabled and settings will be collapsed [@vanguard | May 6, 2020]
-const Setting = ({
-  settings,
-  metric,
-  setMetricSettingMap,
-  metricSettingsMap
-}) => {
-  const {
-    key,
-    label,
-    constraints,
-    component: Component,
-    preTransformer
-  } = settings
+const Setting = ({ settings, metric, setMetricSettingMap, metricSettingsMap }) => {
+  const { key, label, constraints, component: Component, preTransformer } = settings
 
-  const stateUpdater = () =>
-    getDefaultValue(metric, settings, metricSettingsMap)
+  const stateUpdater = () => getDefaultValue(metric, settings, metricSettingsMap)
 
   const [value, setValue] = useState(stateUpdater)
   const [lastValidValue, setLastValidValue] = useState(stateUpdater)
@@ -64,7 +52,7 @@ const Setting = ({
       const isInvalid = newValue < min || newValue > max
 
       currentTarget.setCustomValidity(
-        isInvalid ? `${label} value should be between ${min} and ${max}` : ''
+        isInvalid ? `${label} value should be between ${min} and ${max}` : '',
       )
       currentTarget.reportValidity()
 
@@ -84,14 +72,14 @@ const Setting = ({
 
   function updateMetricSettings (value) {
     setLastValidValue(value)
-    setMetricSettingMap(state => {
+    setMetricSettingMap((state) => {
       const prevSettings = state.get(metric) || {}
       const newState = new Map(state)
       newState.set(
         metric,
         Object.assign(prevSettings, {
-          [key]: value
-        })
+          [key]: value,
+        }),
       )
 
       return newState
@@ -128,7 +116,7 @@ function onAdjustmentClick (e) {
 const Settings = ({ settings, ...props }) => {
   return (
     <div className={styles.settings} onClick={onAdjustmentClick}>
-      {settings.map(settings => (
+      {settings.map((settings) => (
         <Setting key={settings.key} settings={settings} {...props} />
       ))}
     </div>

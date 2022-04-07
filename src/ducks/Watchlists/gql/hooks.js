@@ -5,7 +5,7 @@ import { getRecentWatchlist } from './index'
 import {
   PROJECTS_WATCHLIST_QUERY,
   WATCHLIST_VOTES_MUTATION,
-  WATHLIST_ITEMS_QUERY
+  WATHLIST_ITEMS_QUERY,
 } from '../../../queries/WatchlistGQL'
 import { stringifyFn } from '../../Screener/utils'
 
@@ -16,8 +16,8 @@ export function useWatchlist ({ id, skip }) {
   const { data, loading, error } = useQuery(PROJECTS_WATCHLIST_QUERY, {
     skip: !id || skip,
     variables: {
-      id: +id
-    }
+      id: +id,
+    },
   })
 
   return [data ? data.watchlist : undefined, loading, error]
@@ -28,14 +28,14 @@ export function useWatchlistVoteMutation ({ id }) {
     refetchQueries: [
       {
         query: PROJECTS_WATCHLIST_QUERY,
-        variables: { id: +id }
-      }
-    ]
+        variables: { id: +id },
+      },
+    ],
   })
 
   return {
     vote,
-    data
+    data,
   }
 }
 
@@ -43,17 +43,15 @@ export function useWatchlistItems (id) {
   const { data, loading, error } = useQuery(WATHLIST_ITEMS_QUERY, {
     skip: !id,
     variables: {
-      id: +id
-    }
+      id: +id,
+    },
   })
 
   return useMemo(() => {
     return [
-      data
-        ? data.watchlist.listItems.map(({ project: { slug } }) => slug)
-        : undefined,
+      data ? data.watchlist.listItems.map(({ project: { slug } }) => slug) : undefined,
       loading,
-      error
+      error,
     ]
   }, [data, loading, error])
 }
@@ -75,10 +73,10 @@ export function useRecentWatchlists (watchlistsIDs) {
 
     Promise.all(
       watchlistsIDs.map((id, i) =>
-        getRecentWatchlist(id).then(watchlist => (watchlists[i] = watchlist))
-      )
+        getRecentWatchlist(id).then((watchlist) => (watchlists[i] = watchlist)),
+      ),
     )
-      .then(data => {
+      .then((data) => {
         if (race) return
 
         watchlists = watchlists.filter(Boolean)
@@ -87,7 +85,7 @@ export function useRecentWatchlists (watchlistsIDs) {
         setIsLoading(false)
         setIsError(false)
       })
-      .catch(e => {
+      .catch((e) => {
         if (race) return
 
         setIsLoading(false)
@@ -105,24 +103,22 @@ export function getProjectsByFunction (func, query) {
     skip: !func,
     fetchPolicy: 'network-only',
     variables: {
-      fn: JSON.stringify(func)
-    }
+      fn: JSON.stringify(func),
+    },
   })
 
   return {
     assets: data ? data.allProjectsByFunction.projects : EMPTY_ARRAY,
-    projectsCount: data
-      ? data.allProjectsByFunction.stats.projectsCount
-      : undefined,
+    projectsCount: data ? data.allProjectsByFunction.stats.projectsCount : undefined,
     loading,
-    error
+    error,
   }
 }
 
 const extractData = ({ data }) => {
   return {
     assets: data ? data.allProjectsByFunction.projects : EMPTY_ARRAY,
-    projectsCount: data && data.allProjectsByFunction.stats.projectsCount
+    projectsCount: data && data.allProjectsByFunction.stats.projectsCount,
   }
 }
 
@@ -131,6 +127,6 @@ export const getAssetsByFunction = (fn, query) =>
     .query({
       fetchPolicy: 'network-only',
       query,
-      variables: { fn: stringifyFn(fn) }
+      variables: { fn: stringifyFn(fn) },
     })
     .then(extractData)

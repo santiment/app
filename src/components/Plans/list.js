@@ -8,11 +8,7 @@ import styles from './Plans.module.scss'
 const PlanActionDialog = ({ subscription, ...rest }) => {
   if (subscription) {
     return subscription.trialEnd ? (
-      <PlanPaymentDialog
-        subscription={subscription}
-        {...rest}
-        label={`Upgrade to ${rest.title}`}
-      />
+      <PlanPaymentDialog subscription={subscription} {...rest} label={`Upgrade to ${rest.title}`} />
     ) : (
       <PlanChangeDialog subscription={subscription} {...rest} />
     )
@@ -40,8 +36,8 @@ export default {
       'Personalized asset watchlists',
       'Access to Sanbase Screener (minus PRO filters and saves)',
       'Access to basic coin alerts',
-      'Up to 10 active coin alerts'
-    ]
+      'Up to 10 active coin alerts',
+    ],
   },
   PRO: {
     title: 'Pro',
@@ -54,8 +50,8 @@ export default {
       'Full access to Santiment Screener',
       'Daily market insights',
       'Exclusive weekly Pro reports',
-      'Market segment dashboards - stablecoins, defi, dexes and more'
-    ]
+      'Market segment dashboards - stablecoins, defi, dexes and more',
+    ],
   },
   PRO_PLUS: {
     title: 'Pro+',
@@ -68,8 +64,8 @@ export default {
       'Dedicated Account Manager',
       'Google Sheets / Excel Plugin',
       'Closed chat with Santiment analytics',
-      'Tailored market reports and token analysis'
-    ]
+      'Tailored market reports and token analysis',
+    ],
   },
   BASIC: {
     title: 'Basic',
@@ -81,15 +77,15 @@ export default {
       'Up to 10 active alerts at a time',
       'Sanbase metrics - 2 years of historical data',
       'Sanbase metrics - up to last 7 days of data',
-      'Exclusive market reports'
-    ]
+      'Exclusive market reports',
+    ],
   },
   ENTERPRISE: {
     title: 'Custom',
     desc: 'For organizations that need advanced data and support',
     discount: 'Based on your needs',
     link: 'Contact us',
-    Component: props => (
+    Component: (props) => (
       <PlanPipedriveDialog
         {...props}
         title='EmergencyPlan plan Pipedrive form'
@@ -101,21 +97,21 @@ export default {
       'Unlimited active alerts',
       'Sanbase metrics - 3 years of historical data',
       'Sanbase metrics - including present-day data',
-      'Exclusive market reports'
-    ]
+      'Exclusive market reports',
+    ],
   },
   EMERGENCY: {
     title: 'Emergency Plan',
     desc: 'Need access to Sanbase just for a few trades?',
     discount: '9$ / 5 days',
     link: 'Get access now',
-    Component: props => (
+    Component: (props) => (
       <PlanPipedriveDialog
         {...props}
         title='EmergencyPlan plan Pipedrive form'
         src='https://pipedrivewebforms.com/form/0527db4d781f7c4c0760b7bc7a58549c4144829'
       />
     ),
-    features: ['No automatic renewal', 'Simple upgrade options']
-  }
+    features: ['No automatic renewal', 'Simple upgrade options'],
+  },
 }

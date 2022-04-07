@@ -9,14 +9,7 @@ function getValue (e) {
   return e.target.value === '' ? '' : currentValue
 }
 
-const OperationInput = ({
-  count,
-  hasIcon,
-  iconType,
-  setCount,
-  operation,
-  className
-}) => {
+const OperationInput = ({ count, hasIcon, iconType, setCount, operation, className }) => {
   let prefix = '$'
 
   if (iconType === 'percent') {

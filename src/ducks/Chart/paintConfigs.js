@@ -8,22 +8,22 @@ export const nightHoverLineColor = COLOR.rhino
 
 export const dayTicksPaintConfig = {
   color: COLOR.casper,
-  font: '10px sans-serif'
+  font: '10px sans-serif',
 }
 export const nightTicksPaintConfig = {
   color: COLOR.waterloo,
-  font: '10px sans-serif'
+  font: '10px sans-serif',
 }
 
 export const dayBubblesPaintConfig = {
   font: '10px sans-serif',
   bgColor: COLOR.waterloo,
-  textColor: COLOR.porcelain
+  textColor: COLOR.porcelain,
 }
 export const nightBubblesPaintConfig = {
   font: '10px sans-serif',
   bgColor: COLOR.rhino,
-  textColor: '#8b93b6'
+  textColor: '#8b93b6',
 }
 
 export const dayTooltipPaintConfig = {
@@ -33,7 +33,7 @@ export const dayTooltipPaintConfig = {
   contentFill: '#fff',
   headerColor: COLOR.waterloo,
   valueColor: COLOR.waterloo,
-  labelColor: COLOR.mirage
+  labelColor: COLOR.mirage,
 }
 export const nightTooltipPaintConfig = {
   font: '12px sans-serif',
@@ -42,18 +42,18 @@ export const nightTooltipPaintConfig = {
   contentFill: COLOR.mirage,
   headerColor: '#8b93b6',
   valueColor: '#8b93b6',
-  labelColor: '#fff'
+  labelColor: '#fff',
 }
 
 export const dayBrushPaintConfig = {
   bgColor: COLOR.porcelain,
   fadeColor: COLOR.mystic,
-  handleColor: COLOR.waterloo
+  handleColor: COLOR.waterloo,
 }
 export const nightBrushPaintConfig = {
   bgColor: '#222639',
   fadeColor: COLOR.rhino,
-  handleColor: COLOR['bali-hai']
+  handleColor: COLOR['bali-hai'],
 }
 
 export const paintConfigs = [
@@ -64,7 +64,7 @@ export const paintConfigs = [
     ticksPaintConfig: dayTicksPaintConfig,
     bubblesPaintConfig: dayBubblesPaintConfig,
     tooltipPaintConfig: dayTooltipPaintConfig,
-    brushPaintConfig: dayBrushPaintConfig
+    brushPaintConfig: dayBrushPaintConfig,
   },
   {
     bgColor: COLOR.mirage,
@@ -73,6 +73,6 @@ export const paintConfigs = [
     ticksPaintConfig: nightTicksPaintConfig,
     bubblesPaintConfig: nightBubblesPaintConfig,
     tooltipPaintConfig: nightTooltipPaintConfig,
-    brushPaintConfig: nightBrushPaintConfig
-  }
+    brushPaintConfig: nightBrushPaintConfig,
+  },
 ]

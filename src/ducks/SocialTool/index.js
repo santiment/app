@@ -15,10 +15,9 @@ function useSocialTimeseries (activeMetrics, settings, MetricSettingMap) {
   const [metrics, setMetrics] = useState([])
 
   // NOTE(haritonasty): prevent new fetch when not assigned label and map
-  const shouldUpdate = useMemo(
-    () => MetricSettingMap && activeMetrics[1].label !== 'Price',
-    [activeMetrics]
-  )
+  const shouldUpdate = useMemo(() => MetricSettingMap && activeMetrics[1].label !== 'Price', [
+    activeMetrics,
+  ])
 
   useEffect(() => {
     if (shouldUpdate) {
@@ -26,11 +25,7 @@ function useSocialTimeseries (activeMetrics, settings, MetricSettingMap) {
     }
   }, [activeMetrics])
 
-  return useTimeseries(
-    shouldUpdate ? activeMetrics : metrics,
-    settings,
-    MetricSettingMap
-  )
+  return useTimeseries(shouldUpdate ? activeMetrics : metrics, settings, MetricSettingMap)
 }
 
 const SocialTool = ({
@@ -44,9 +39,7 @@ const SocialTool = ({
 }) => {
   const defaultTopics = [defaultSettings.slug, ...defaultSettings.addedTopics]
   const defaultActiveMetrics =
-    defaultTopics.length > 1
-      ? buildMetrics(defaultMetrics, defaultTopics)
-      : defaultMetrics
+    defaultTopics.length > 1 ? buildMetrics(defaultMetrics, defaultTopics) : defaultMetrics
 
   const [settings, setSettings] = useState(defaultSettings)
   const [options, setOptions] = useState(defaultOptions)
@@ -54,18 +47,10 @@ const SocialTool = ({
   const [activeMetrics, setActiveMetrics] = useState(defaultActiveMetrics)
   const [MetricSettingMap, setMetricSettingMap] = useState()
   const [priceAsset, setPriceAsset] = useState()
-  const [rawData, loadings] = useSocialTimeseries(
-    activeMetrics,
-    settings,
-    MetricSettingMap
-  )
+  const [rawData, loadings] = useSocialTimeseries(activeMetrics, settings, MetricSettingMap)
 
   const data = useEdgeGaps(rawData)
-  const [allTimeData] = useAllTimeData(
-    activeMetrics,
-    settings,
-    MetricSettingMap
-  )
+  const [allTimeData] = useAllTimeData(activeMetrics, settings, MetricSettingMap)
 
   const [shareLink, setShareLink] = useState('')
   const chartRef = useRef(null)
@@ -73,18 +58,14 @@ const SocialTool = ({
   useEffect(() => {
     const { slug, addedTopics } = defaultSettings
 
-    if (
-      slug === settings.slug &&
-      addedTopics.length === settings.addedTopics.length
-    ) {
+    if (slug === settings.slug && addedTopics.length === settings.addedTopics.length) {
       return
     }
 
-    setSettings(state => ({ ...state, slug, addedTopics }))
+    setSettings((state) => ({ ...state, slug, addedTopics }))
 
     const topics = [slug, ...addedTopics]
-    const newMetrics =
-      topics.length > 1 ? buildMetrics(metrics, topics) : metrics
+    const newMetrics = topics.length > 1 ? buildMetrics(metrics, topics) : metrics
 
     setActiveMetrics(newMetrics)
     rebuildMetricSettingMap(newMetrics)
@@ -97,8 +78,7 @@ const SocialTool = ({
   useEffect(() => {
     const { slug, addedTopics } = settings
     const topics = [slug, ...addedTopics]
-    const newMetrics =
-      topics.length > 1 ? buildMetrics(metrics, topics) : metrics
+    const newMetrics = topics.length > 1 ? buildMetrics(metrics, topics) : metrics
 
     setActiveMetrics(newMetrics)
     rebuildMetricSettingMap(newMetrics)
@@ -109,7 +89,7 @@ const SocialTool = ({
       const newPriceMetric = {
         ...Metric.price_usd,
         label: priceAsset.label,
-        reqMeta: { slug: priceAsset.slug }
+        reqMeta: { slug: priceAsset.slug },
       }
       metrics[1] = newPriceMetric
       setMetrics([...metrics])
@@ -141,16 +121,12 @@ const SocialTool = ({
 
   function rebuildMetricSettingMap (metrics) {
     const newMetricSettingMap = new Map(MetricSettingMap)
-    metrics.forEach(metric => {
-      const detectedAsset = linkedAssets.get(
-        metric.text || defaultSettings.slug
-      )
+    metrics.forEach((metric) => {
+      const detectedAsset = linkedAssets.get(metric.text || defaultSettings.slug)
       if (metric.key !== Metric.price_usd.key) {
         newMetricSettingMap.set(metric, {
           selector: detectedAsset ? 'slug' : 'text',
-          slug: detectedAsset
-            ? detectedAsset.slug
-            : metric.text || defaultSettings.slug
+          slug: detectedAsset ? detectedAsset.slug : metric.text || defaultSettings.slug,
         })
       }
     })
@@ -161,12 +137,12 @@ const SocialTool = ({
   function changeTimePeriod (from, to, timeRange) {
     const interval = getNewInterval(from, to)
 
-    setSettings(state => ({
+    setSettings((state) => ({
       ...state,
       timeRange,
       interval: INTERVAL_ALIAS[interval] || interval,
       from: from.toISOString(),
-      to: to.toISOString()
+      to: to.toISOString(),
     }))
   }
 

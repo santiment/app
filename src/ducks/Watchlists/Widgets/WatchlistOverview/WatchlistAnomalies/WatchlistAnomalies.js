@@ -16,7 +16,7 @@ const WatchlistAnomalies = ({
   type,
   toggleOpenAnomalies,
   isOpen,
-  isDesktop = true
+  isDesktop = true,
 }) => {
   const isTrendsFilter = type === filteringTypes.TRENDS
   const totalAnomalies = useMemo(() => {
@@ -25,17 +25,14 @@ const WatchlistAnomalies = ({
   return trends.length > 0 ? (
     <div className={styles.wrapper}>
       <div className={styles.layout}>
-        <div
-          className={styles.top}
-          onClick={isDesktop ? null : toggleOpenAnomalies}
-        >
+        <div className={styles.top} onClick={isDesktop ? null : toggleOpenAnomalies}>
           <Icon type='flash-filled' className={styles.icon} />
           {isDesktop || isOpen ? (
             <Range
               className={styles.range}
               label='Anomalies'
               range={value}
-              changeRange={event => {
+              changeRange={(event) => {
                 event.stopPropagation()
                 changeRange()
               }}
@@ -46,16 +43,11 @@ const WatchlistAnomalies = ({
               values={[
                 `${totalAnomalies.size} asset${
                   totalAnomalies.size > 1 ? 's' : ''
-                } / ${assetsAmount}`
+                } / ${assetsAmount}`,
               ]}
             />
           )}
-          {!isDesktop && (
-            <Icon
-              type={`arrow-${isOpen ? 'up' : 'down'}`}
-              className={styles.arrow}
-            />
-          )}
+          {!isDesktop && <Icon type={`arrow-${isOpen ? 'up' : 'down'}`} className={styles.arrow} />}
         </div>
         {(isDesktop || isOpen) && (
           <div className={styles.bottom}>
@@ -63,9 +55,7 @@ const WatchlistAnomalies = ({
               variant='flat'
               border
               className={cx(styles.button, isTrendsFilter && styles.active)}
-              onClick={() =>
-                onFilterAssets && onFilterAssets(trends, filteringTypes.TRENDS)
-              }
+              onClick={() => onFilterAssets && onFilterAssets(trends, filteringTypes.TRENDS)}
             >
               <Stat
                 name='Trending assets:'
@@ -77,9 +67,7 @@ const WatchlistAnomalies = ({
         )}
       </div>
       {!isDesktop && type && (
-        <div className={styles.filterDescription}>
-          Showed based on {type} anomalies
-        </div>
+        <div className={styles.filterDescription}>Showed based on {type} anomalies</div>
       )}
     </div>
   ) : null

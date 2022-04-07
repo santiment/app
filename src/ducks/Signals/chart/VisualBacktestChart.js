@@ -1,12 +1,5 @@
 import React, { useMemo } from 'react'
-import {
-  ResponsiveContainer,
-  ComposedChart,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ReferenceDot
-} from 'recharts'
+import { ResponsiveContainer, ComposedChart, XAxis, YAxis, Tooltip, ReferenceDot } from 'recharts'
 import cx from 'classnames'
 import Gradients from '../../../components/Gradients'
 import { generateMetricsMarkup } from '../../SANCharts/utils'
@@ -41,7 +34,7 @@ const RenderChart = ({
   referenceDots,
   classes,
   gradientParams = {},
-  height
+  height,
 }) => {
   return (
     <ResponsiveContainer width='100%' height={height}>
@@ -59,12 +52,7 @@ const RenderChart = ({
           domain={['dataMin', 'dataMax']}
           hide
         />
-        <YAxis
-          hide
-          domain={['auto', 'dataMax']}
-          dataKey={dataKey}
-          interval='preserveStartEnd'
-        />
+        <YAxis hide domain={['auto', 'dataMax']} dataKey={dataKey} interval='preserveStartEnd' />
 
         {markup}
 
@@ -94,7 +82,7 @@ const VisualBacktestChart = ({
   metricsColor,
   activeDotColor,
   gradientParams = {},
-  activeEl = ActiveDot
+  activeEl = ActiveDot,
 }) => {
   const colors = useChartColors(metrics, metricsColor)
   const markup = useMemo(
@@ -103,13 +91,12 @@ const VisualBacktestChart = ({
         syncedColors: colors,
         activeDotEl: activeEl,
         hideYAxis: true,
-        activeDotColor
+        activeDotColor,
       }),
-    [metrics, colors, activeEl]
+    [metrics, colors, activeEl],
   )
 
-  const titleEnabled =
-    showTitle && triggeredSignals && triggeredSignals.length > 0
+  const titleEnabled = showTitle && triggeredSignals && triggeredSignals.length > 0
 
   return (
     <div className={styles.preview}>
@@ -129,7 +116,7 @@ const VisualBacktestChart = ({
                 chartStyles.wrapper,
                 sharedStyles.chart,
                 styles.wrapper,
-                !titleEnabled && styles.noTitle
+                !titleEnabled && styles.noTitle,
               )}
             >
               <RenderChart

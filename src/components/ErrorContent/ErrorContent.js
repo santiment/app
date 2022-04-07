@@ -18,49 +18,46 @@ const ErrorContent = ({ addNot, type = 'error' }) => {
     copy(e.target.innerText)
     addNot({
       variant: 'success',
-      title: 'Successfully copied on clipboard!'
+      title: 'Successfully copied on clipboard!',
     })
   }
 
   const errorsTypes = {
     error: {
       title: 'Something went wrong',
-      description:
-        'Our team has been notified, but you can send us more details.',
+      description: 'Our team has been notified, but you can send us more details.',
       addAction: onErrorClick,
       btnParams: {
         title: 'Send report',
         action: () => {
           Sentry.showReportDialog()
-        }
+        },
       },
-      img: <ErrorSvg className={styles.img} />
+      img: <ErrorSvg className={styles.img} />,
     },
     incorrectRoute: {
       title: 'Looks like you get lost',
-      description:
-        'This page is missing or you assembled the link incorrectly.',
+      description: 'This page is missing or you assembled the link incorrectly.',
       btnParams: {
         title: 'Back to home page',
         action: () => {
           history.push('/')
-        }
+        },
       },
       img: <IncorrectRoute className={styles.img} />,
-      containerStyles: styles.bigImgContainer
+      containerStyles: styles.bigImgContainer,
     },
     noUser: {
       title: 'No such user here',
-      description:
-        "This page seems to be missing or the link you've entered is incorrect",
+      description: "This page seems to be missing or the link you've entered is incorrect",
       btnParams: {
         title: 'Back to home page',
         action: () => {
           history.push('/')
-        }
+        },
       },
-      img: <NoUser className={styles.img} />
-    }
+      img: <NoUser className={styles.img} />,
+    },
   }
 
   const error = errorsTypes[type]
@@ -98,8 +95,8 @@ const ErrorContent = ({ addNot, type = 'error' }) => {
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  addNot: message => dispatch(showNotification(message))
+const mapDispatchToProps = (dispatch) => ({
+  addNot: (message) => dispatch(showNotification(message)),
 })
 
 export default connect(null, mapDispatchToProps)(ErrorContent)

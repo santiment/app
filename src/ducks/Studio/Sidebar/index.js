@@ -11,7 +11,7 @@ import Search from './Search'
 import {
   HOLDER_DISTRIBUTION_NODE,
   HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE,
-  HOLDER_LABELED_DISTRIBUTION_NODE
+  HOLDER_LABELED_DISTRIBUTION_NODE,
 } from './nodes'
 import { useProjectMetrics } from '../withMetrics'
 import styles from './index.module.scss'
@@ -19,13 +19,13 @@ import styles from './index.module.scss'
 const TRANSITION_CLASSES = {
   enter: cx(styles.wrapper_opened, styles.wrapper_transition),
   enterDone: styles.wrapper_opened,
-  exit: styles.wrapper_transition
+  exit: styles.wrapper_transition,
 }
 
 const ON_CHAIN_DEFAULT = [
   HOLDER_DISTRIBUTION_NODE,
   HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE,
-  HOLDER_LABELED_DISTRIBUTION_NODE
+  HOLDER_LABELED_DISTRIBUTION_NODE,
 ]
 
 const TABS = ['Metrics', 'Insights']
@@ -33,7 +33,7 @@ const DEFAULT_TAB = TABS[0]
 
 const TabToComponent = {
   [TABS[0]]: MetricSelector,
-  [TABS[1]]: InsightAlertSelector
+  [TABS[1]]: InsightAlertSelector,
 }
 
 const Header = ({
@@ -51,15 +51,10 @@ const Header = ({
       classes={styles}
       defaultSelectedIndex={activeTab}
       // NOTE: Not passed as a reference, since more than 1 argument is passed to a callback [@vanguard | Aug  4, 2020]
-      onSelect={tab => setActiveTab(tab)}
+      onSelect={(tab) => setActiveTab(tab)}
     />
     <ProjectSelector project={project} onProjectSelect={onProjectSelect} />
-    <Search
-      onChainDefault={ON_CHAIN_DEFAULT}
-      {...props}
-      {...ProjectMetrics}
-      project={project}
-    />
+    <Search onChainDefault={ON_CHAIN_DEFAULT} {...props} {...ProjectMetrics} project={project} />
   </div>
 )
 
@@ -86,11 +81,7 @@ const Sidebar = ({
   const [activeTab, setActiveTab] = useState(DEFAULT_TAB)
   const [metricProject, setMetricProject] = useState(settings)
   const [isDraggingMetric, setIsDraggingMetric] = useState(false)
-  const ProjectMetrics = useProjectMetrics(
-    metricProject.slug,
-    hiddenMetrics,
-    noMarketSegments
-  )
+  const ProjectMetrics = useProjectMetrics(metricProject.slug, hiddenMetrics, noMarketSegments)
 
   const isOpened = isPeeked || isDraggingMetric
   const TabComponent = TabToComponent[activeTab]
@@ -104,7 +95,7 @@ const Sidebar = ({
         className={cx(
           styles.wrapper,
           isOpened && styles.wrapper_opened,
-          (isLocked || isOverviewOpened) && styles.wrapper_locked
+          (isLocked || isOverviewOpened) && styles.wrapper_locked,
         )}
         onMouseEnter={() => setIsPeeked(true)}
         onMouseLeave={() => setIsPeeked(false)}
@@ -126,10 +117,7 @@ const Sidebar = ({
               setIsDraggingMetric={setIsDraggingMetric}
             />
           </div>
-          <CloseButton
-            isLocked={isLocked}
-            onClick={() => setIsLocked(!isLocked)}
-          />
+          <CloseButton isLocked={isLocked} onClick={() => setIsLocked(!isLocked)} />
         </div>
       </aside>
     </CSSTransition>

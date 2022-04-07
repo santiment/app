@@ -8,7 +8,7 @@ window.onload = () => {
   document.body.innerHTML = ''
   document.body.style.height = '100vh'
   new EmbeddableChartWidget({
-    target: document.body
+    target: document.body,
   })
 }
 

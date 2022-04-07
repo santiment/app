@@ -13,9 +13,7 @@ function formatRestrictionDate (date) {
 
 const DEFAULT_PERIOD = 'from 29 Dec 2019 to 26 Mar 2020'
 export default () => {
-  const [availablePeriodLabel, setAvailablePeriodLabel] = useState(
-    DEFAULT_PERIOD
-  )
+  const [availablePeriodLabel, setAvailablePeriodLabel] = useState(DEFAULT_PERIOD)
   const { data } = useQuery(HISTOGRAM_USER_PERIOD_RESTRICTIONS_QUERY)
 
   useEffect(() => {
@@ -31,10 +29,7 @@ export default () => {
   return (
     <Message variant='warn' className={styles.msg}>
       <p>Selected date is outside of the allowed interval.</p>
-      <p>
-        Your current subscription plan allows you to see data only{' '}
-        {availablePeriodLabel}.
-      </p>
+      <p>Your current subscription plan allows you to see data only {availablePeriodLabel}.</p>
       <UpgradeBtn className={styles.upgrade} variant='fill' />
     </Message>
   )

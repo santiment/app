@@ -27,8 +27,7 @@ export default ({ id, authorId, count, createComment, getComments }) => {
     <Modal
       trigger={
         <div className={cx(sharedStyles.stat, sharedStyles.stat_comments)}>
-          <Icon type='comment' className={sharedStyles.commentIcon} />{' '}
-          {commentsCount}
+          <Icon type='comment' className={sharedStyles.commentIcon} /> {commentsCount}
         </div>
       }
       onClose={loadComments}
@@ -36,7 +35,7 @@ export default ({ id, authorId, count, createComment, getComments }) => {
       as={Panel}
       classes={{
         wrapper: styles.wrapper,
-        modal: cx(styles.modal, loading && 'loading')
+        modal: cx(styles.modal, loading && 'loading'),
       }}
     >
       {loading ? null : (

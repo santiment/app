@@ -1,9 +1,6 @@
 import { currentUser } from 'studio/stores/user'
 import { refetchUser, updateUser } from './index.js'
-import {
-  refetchUserSubscriptions,
-  updateUserSubscriptions
-} from './subscriptions'
+import { refetchUserSubscriptions, updateUserSubscriptions } from './subscriptions'
 import { refetchUserSettings, updateUserSettingsCache } from './settings'
 
 const setStoreData = ({ data }) => currentUser.set(data && data.currentUser)

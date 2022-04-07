@@ -1,11 +1,6 @@
 import { AGGREGATIONS_LOWER } from '../../Filter/dataHub/aggregations'
 import { formatterWithBadge } from '../../Filter/formatters'
-import {
-  PRO_CELL,
-  BASIC_CELL,
-  CHART_LINE_CELL,
-  PERCENT_CHANGES_CELL
-} from './columns'
+import { PRO_CELL, BASIC_CELL, CHART_LINE_CELL, PERCENT_CHANGES_CELL } from './columns'
 import {
   CURRENT_BALANCE_CELL,
   BALANCE_CHANGE_CHART_CELL,
@@ -13,7 +8,7 @@ import {
   CATEGORIES,
   NOTE_COLUMN,
   LABELS_COLUMN,
-  ASSETS_DISTRIBUTION_COLUMN
+  ASSETS_DISTRIBUTION_COLUMN,
 } from '../../../../WatchlistAddressesTable/columns'
 import { BLOCKCHAIN_ADDRESS } from '../../../detector'
 
@@ -26,18 +21,18 @@ export const Column = {}
 export const AddressColumn = {
   labels: LABELS_COLUMN,
   notes: NOTE_COLUMN,
-  distribution: ASSETS_DISTRIBUTION_COLUMN
+  distribution: ASSETS_DISTRIBUTION_COLUMN,
 }
 
 export const SUFFIX = {
   CURR_BALANCE: 'balance',
   BALANCE_PERCENT: 'balanceChange7d',
-  BALANCE_CHART: 'balanceChart'
+  BALANCE_CHART: 'balanceChart',
 }
 
 const sortByTimeRanges = (a, b) => parseInt(a.timeRange) - parseInt(b.timeRange)
 
-export const buildAssetColumns = projects => {
+export const buildAssetColumns = (projects) => {
   return projects.map(({ ticker, name, slug }) => {
     const transformedSlug = `_${slug.replace(/-/g, '_')}_`
 
@@ -54,7 +49,7 @@ export const buildAssetColumns = projects => {
           selector: { slug: "${slug}" }
         ) {
           balanceEnd
-        }`
+        }`,
     }
 
     const balanceChangePercentColumn = {
@@ -62,9 +57,7 @@ export const buildAssetColumns = projects => {
       key: slug + SUFFIX.BALANCE_PERCENT,
       label: `${ticker} balance, 7d %`,
       shortLabel: `${name} ${slug}`, // for search
-      render: BALANCE_CHANGE_PERCENT_CELL(
-        transformedSlug + SUFFIX.BALANCE_PERCENT
-      ),
+      render: BALANCE_CHANGE_PERCENT_CELL(transformedSlug + SUFFIX.BALANCE_PERCENT),
       category: CATEGORIES.ASSET,
       scheme: `${transformedSlug + SUFFIX.BALANCE_PERCENT}: balanceChange(
           to: "utc_now"
@@ -72,7 +65,7 @@ export const buildAssetColumns = projects => {
           selector: { slug: "${slug}" }
         ) {
           balanceChangePercent
-        }`
+        }`,
     }
 
     const balanceChangeChartColumn = {
@@ -80,10 +73,7 @@ export const buildAssetColumns = projects => {
       key: slug + SUFFIX.BALANCE_CHART,
       label: `${ticker} balance, 7d chart`,
       shortLabel: `${name} ${slug}`, // for search
-      render: BALANCE_CHANGE_CHART_CELL(
-        transformedSlug + SUFFIX.BALANCE_CHART,
-        slug
-      ),
+      render: BALANCE_CHANGE_CHART_CELL(transformedSlug + SUFFIX.BALANCE_CHART, slug),
       category: CATEGORIES.ASSET,
       scheme: `${transformedSlug + SUFFIX.BALANCE_CHART}: balanceChange(
           to: "utc_now"
@@ -91,18 +81,14 @@ export const buildAssetColumns = projects => {
           selector: { slug: "${slug}" }
         ) {
           balanceChangePercent
-        }`
+        }`,
     }
 
     AddressColumn[slug + SUFFIX.CURR_BALANCE] = balanceEndColumn
     AddressColumn[slug + SUFFIX.BALANCE_PERCENT] = balanceChangePercentColumn
     AddressColumn[slug + SUFFIX.BALANCE_CHART] = balanceChangeChartColumn
 
-    return [
-      balanceEndColumn,
-      balanceChangePercentColumn,
-      balanceChangeChartColumn
-    ]
+    return [balanceEndColumn, balanceChangePercentColumn, balanceChangeChartColumn]
   })
 }
 
@@ -119,7 +105,7 @@ const addByChart = ({ interval, key, group, category, shortLabel, label }) => {
     disableSortBy: true,
     Cell: CHART_LINE_CELL,
     label: `${label} chart, ${interval}`,
-    Header: `${shortLabel} chart, ${interval}`
+    Header: `${shortLabel} chart, ${interval}`,
   }
 }
 
@@ -127,7 +113,7 @@ export const buildColumns = (baseMetrics, allMetrics, restrictedMetrics) => {
   const allMetricsSet = new Set(allMetrics)
   const restrictedMetricsSet = new Set(restrictedMetrics)
 
-  baseMetrics.forEach(baseMetric => {
+  baseMetrics.forEach((baseMetric) => {
     if (baseMetric.isDeprecated) {
       return
     }
@@ -138,12 +124,7 @@ export const buildColumns = (baseMetrics, allMetrics, restrictedMetrics) => {
       Column[key] = { ...baseMetric, disableSortBy: true, Header: label }
       return
     }
-    const {
-      shortLabel = label,
-      percentMetricKey = key,
-      category,
-      group
-    } = baseMetric
+    const { shortLabel = label, percentMetricKey = key, category, group } = baseMetric
 
     if (!isOnlyPercentFilters) {
       const {
@@ -153,11 +134,10 @@ export const buildColumns = (baseMetrics, allMetrics, restrictedMetrics) => {
         defaultTimeRange,
         valueFormatter,
         tableColumnFormatter,
-        aggregation = LAST_AGG
+        aggregation = LAST_AGG,
       } = baseMetric
       const visualTimeRange = defaultTimeRange ? `, ${defaultTimeRange}` : ''
-      const formatter =
-        tableColumnFormatter || formatterWithBadge(badge, valueFormatter)
+      const formatter = tableColumnFormatter || formatterWithBadge(badge, valueFormatter)
       const isRestricted = restrictedMetricsSet.has(key)
 
       Column[key] = {
@@ -173,7 +153,7 @@ export const buildColumns = (baseMetrics, allMetrics, restrictedMetrics) => {
         disableSortBy: isRestricted,
         timeRange: defaultTimeRange || '1d',
         label: `${label}${visualTimeRange}`,
-        Header: `${shortLabel}${visualTimeRange}`
+        Header: `${shortLabel}${visualTimeRange}`,
       }
 
       if (withChart) {
@@ -186,7 +166,7 @@ export const buildColumns = (baseMetrics, allMetrics, restrictedMetrics) => {
     const keyWithSuffix = `${percentMetricKey}${PERCENT_SUFFIX}`
     const percentMetrics = []
 
-    allMetricsSet.forEach(key => {
+    allMetricsSet.forEach((key) => {
       const timeRange = key.replace(keyWithSuffix, EMPTY_STR)
       if (timeRange !== key && TIMERANGES.has(timeRange)) {
         const isRestricted = restrictedMetricsSet.has(key)
@@ -204,20 +184,16 @@ export const buildColumns = (baseMetrics, allMetrics, restrictedMetrics) => {
           Cell: isRestricted ? PRO_CELL : PERCENT_CHANGES_CELL,
           disableSortBy: isRestricted,
           label: `${label}, ${timeRange} %`,
-          Header: `${shortLabel}, ${timeRange} %`
+          Header: `${shortLabel}, ${timeRange} %`,
         })
       }
     })
 
-    percentMetrics
-      .sort(sortByTimeRanges)
-      .forEach(item => (Column[item.key] = item))
+    percentMetrics.sort(sortByTimeRanges).forEach((item) => (Column[item.key] = item))
   })
 }
 
 export const getColumns = (columnsKeys, type) =>
   columnsKeys
-    .map(key =>
-      type === BLOCKCHAIN_ADDRESS ? AddressColumn[key] : Column[key]
-    )
+    .map((key) => (type === BLOCKCHAIN_ADDRESS ? AddressColumn[key] : Column[key]))
     .filter(Boolean)

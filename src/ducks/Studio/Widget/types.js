@@ -19,9 +19,7 @@ export const TypeToWidget = {
   HolderDistributionCombinedBalanceWidget,
   HolderDistributionLabeledWidget,
   PriceDAADivergenceWidget,
-  AdjustedPriceDAADivergenceWidget
+  AdjustedPriceDAADivergenceWidget,
 }
 
-export const WidgetToTypeMap = new Map(
-  Object.entries(TypeToWidget).map(reverseKeyValue)
-)
+export const WidgetToTypeMap = new Map(Object.entries(TypeToWidget).map(reverseKeyValue))

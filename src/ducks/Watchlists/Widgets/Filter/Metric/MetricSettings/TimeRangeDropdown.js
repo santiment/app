@@ -8,7 +8,7 @@ import styles from './TimeRangeDropdown.module.scss'
 
 const TimeRangeDropdown = ({ timeRange, timeRanges, withInput, onChange }) => {
   const [open, setOpen] = useState(false)
-  const onChangeDebounced = useDebounce(value => onChange(value), 500)
+  const onChangeDebounced = useDebounce((value) => onChange(value), 500)
 
   return (
     <ContextMenu
@@ -26,7 +26,7 @@ const TimeRangeDropdown = ({ timeRange, timeRanges, withInput, onChange }) => {
       className={styles.tooltip}
     >
       <Panel className={styles.panel}>
-        {timeRanges.map(item => (
+        {timeRanges.map((item) => (
           <Button
             key={item.type}
             variant='ghost'
@@ -45,9 +45,7 @@ const TimeRangeDropdown = ({ timeRange, timeRanges, withInput, onChange }) => {
             <Input
               className={styles.input}
               onChange={({ currentTarget: { value } }) => {
-                const transformedValue = isNaN(parseInt(value))
-                  ? `1d`
-                  : `${parseInt(value)}d`
+                const transformedValue = isNaN(parseInt(value)) ? `1d` : `${parseInt(value)}d`
                 onChangeDebounced(transformedValue)
               }}
             />

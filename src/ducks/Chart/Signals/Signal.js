@@ -19,7 +19,7 @@ const Signal = ({ signal, setHovered, removeSignal }) => {
     <div
       className={styles.signal}
       style={{
-        top: signal.y
+        top: signal.y,
       }}
       onClick={onClick}
       onMouseEnter={onMouseEnter}

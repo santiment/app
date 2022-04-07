@@ -18,34 +18,25 @@ const ProjectListItem = forwardRef(
       logoUrl,
       name,
       ticker,
-      isWords
+      isWords,
     },
-    ref
+    ref,
   ) => (
-    <div
-      ref={ref}
-      style={style}
-      className={cx(isSelectedItem && styles.selectedItem)}
-    >
+    <div ref={ref} style={style} className={cx(isSelectedItem && styles.selectedItem)}>
       <div
         className={styles.project}
         onClick={() => {
           onToggleProject({
             project: item,
             listItems,
-            isAssetInList
+            isAssetInList,
           })
         }}
       >
         <Checkbox isActive={isAssetInList} />
         <div className={styles.asset}>
           {!isWords && (
-            <ProjectIcon
-              className={styles.icon}
-              size={16}
-              slug={slug}
-              logoUrl={logoUrl}
-            />
+            <ProjectIcon className={styles.icon} size={16} slug={slug} logoUrl={logoUrl} />
           )}
           <span className={styles.name}>{isWords ? slug : name}</span>
           {!isWords && (
@@ -56,7 +47,7 @@ const ProjectListItem = forwardRef(
         </div>
       </div>
     </div>
-  )
+  ),
 )
 
 export default ProjectListItem

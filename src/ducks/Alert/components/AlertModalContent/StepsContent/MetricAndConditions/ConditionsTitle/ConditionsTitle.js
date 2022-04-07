@@ -16,9 +16,7 @@ const ConditionsTitle = ({ metric, onClick, handleNextClick }) => (
         {metric.label}
         <Icon type='edit' className={styles.icon} />
       </div>
-      <div className={styles.description}>
-        {getSelectedAssetMetricCardDescription(metric)}
-      </div>
+      <div className={styles.description}>{getSelectedAssetMetricCardDescription(metric)}</div>
     </div>
   </div>
 )

@@ -9,18 +9,9 @@ import styles from './index.module.scss'
 const LINK_SELECTOR = `.${styles.word}`
 const COMPACT_HIDDEN_COLUMNS = [Column.TRENDING_CHART, Column.CONNECTED_WORDS]
 
-const TrendsTable = ({
-  className,
-  period,
-  hiddenColumnIds,
-  isCompact,
-  ...props
-}) => {
+const TrendsTable = ({ className, period, hiddenColumnIds, isCompact, ...props }) => {
   const { trendingWords, words, isLoading } = useTrendingWords(period)
-  const columns = useColumns(
-    COLUMNS,
-    isCompact ? COMPACT_HIDDEN_COLUMNS : hiddenColumnIds
-  )
+  const columns = useColumns(COLUMNS, isCompact ? COMPACT_HIDDEN_COLUMNS : hiddenColumnIds)
 
   function onRowClick (_, { target, currentTarget }) {
     if (!target.closest('a')) {

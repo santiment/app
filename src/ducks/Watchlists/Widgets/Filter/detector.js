@@ -7,7 +7,7 @@ export const isContainMetric = (item, key) =>
 
 export function extractFilterByMetricType (filters = [], metric) {
   return filters
-    .filter(item => {
+    .filter((item) => {
       const filterMetric = item.name === 'metric' ? item.args.metric : item.name
 
       return (
@@ -70,7 +70,7 @@ export function getFilterType (filter = [], metric) {
 function checkIsPercentMetric (filter = []) {
   const { length: totalNumber } = filter
   const { length: percentMetricsNumber } = filter.filter(({ metric }) =>
-    metric.includes(METRIC_PERCENT_SUFFIX)
+    metric.includes(METRIC_PERCENT_SUFFIX),
   )
 
   if (percentMetricsNumber !== 0 && totalNumber === percentMetricsNumber) {
@@ -82,7 +82,7 @@ function checkIsPercentMetric (filter = []) {
   }
 
   console.error(
-    `Error in ${filter[0].metric} type: ${totalNumber} metrics and ${percentMetricsNumber} with percent type`
+    `Error in ${filter[0].metric} type: ${totalNumber} metrics and ${percentMetricsNumber} with percent type`,
   )
 }
 
@@ -94,7 +94,7 @@ export function extractParams (filter = [], filterType, baseMetric) {
         type: filterType.key,
         firstThreshold: extractThreshold(filter, filterType, baseMetric, 1),
         secondThreshold: extractThreshold(filter, filterType, baseMetric, 2),
-        timeRange: extractTimeRange(filter)
+        timeRange: extractTimeRange(filter),
       }
 }
 
@@ -105,9 +105,7 @@ function extractTimeRange (filter = []) {
 function extractThreshold (filter = [], filterType, metric, position) {
   const thresholds = filter.map(({ threshold }) => threshold)
   const withSecondInput = filterType.showSecondInput
-  const threshold = withSecondInput
-    ? thresholds[0][position - 1]
-    : thresholds[0]
+  const threshold = withSecondInput ? thresholds[0][position - 1] : thresholds[0]
 
   const formatter = filterType.valueFormatter || metric.valueFormatter
 

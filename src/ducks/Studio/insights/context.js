@@ -6,7 +6,7 @@ import {
   getSANFAMInsights,
   getMyInsights,
   getProInsights,
-  getFollowingsInsights
+  getFollowingsInsights,
 } from './queries'
 
 const DEFAULT_STATE = []
@@ -18,7 +18,7 @@ const LoadInsights = {
   pulse: getPulseInsights,
   my: getMyInsights,
   followings: getFollowingsInsights,
-  sanfam: getSANFAMInsights
+  sanfam: getSANFAMInsights,
 }
 
 const InsightsContext = React.createContext()
@@ -51,7 +51,7 @@ export const InsightsProvider = ({ children }) => {
     const loadInsights = LoadInsights[key] || getTagInsights
 
     loadInsights(from, to, key)
-      .then(insights => {
+      .then((insights) => {
         if (race) return
 
         if (!insights.length) {
@@ -63,7 +63,7 @@ export const InsightsProvider = ({ children }) => {
       .catch(({ message }) => {
         if (race) return
 
-        setErrorMsg(state => ({ ...state, [key]: message }))
+        setErrorMsg((state) => ({ ...state, [key]: message }))
         setState(DEFAULT_STATE)
       })
 
@@ -94,10 +94,9 @@ export const InsightsProvider = ({ children }) => {
 export const useInsights = () => useContext(InsightsContext)
 export const useToggleInsight = () => useContext(InsightsToggleContext)
 export const useInsightsErrorMsg = () => useContext(InsightsErrorContext)
-export const useActiveToggleInsight = () =>
-  useContext(InsightsActiveToggleContext)
+export const useActiveToggleInsight = () => useContext(InsightsActiveToggleContext)
 
-export const withInsightsProvider = Component => props => (
+export const withInsightsProvider = (Component) => (props) => (
   <InsightsProvider>
     <Component {...props} />
   </InsightsProvider>

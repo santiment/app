@@ -22,10 +22,7 @@ const getSentimentBalanceDescr = (channel = 'all channels') => {
   )
 }
 
-const getSentimentPositiveNegativeDescr = (
-  channel = 'all channels',
-  isPositive = true
-) => {
+const getSentimentPositiveNegativeDescr = (channel = 'all channels', isPositive = true) => {
   const type = isPositive ? 'positive (bullish)' : 'negative (bearish)'
   return (
     'Shows the ' +
@@ -108,8 +105,7 @@ export const Description = {
 
   [Metric.topHoldersPercentOfTotalSupply.key]:
     'Shows the combined balance of the top 10 addresses overall, as a percentage of the coin’s total circulating supply',
-  [Metric.amount_in_top_holders.key]:
-    'Shows the combined balance of the top N addresses overall',
+  [Metric.amount_in_top_holders.key]: 'Shows the combined balance of the top N addresses overall',
   [Metric.amount_in_exchange_top_holders.key]:
     'Shows the combined balance of the top N addresses belonging to exchanges',
   [Metric.amount_in_non_exchange_top_holders.key]:
@@ -148,34 +144,26 @@ export const Description = {
     'Shows the amount of all incoming and outgoing transactions involving [Project Ticker] withdrawal addresses. Withdrawal addresses are used to withdraw cryptocurrencies from centralized exchanges. Spikes in this metric may indicate a short-term accumulation trend',
   [Metric.mvrv_long_short_diff_usd.key]: (
     <>
-      Shows the difference between the 365-day MVRV ratio and 60-day MVRV ratio,
-      respectively. For certain coins, this indicator tends to bottom at the
-      lowest point of its bear market and peak at the top of its bull cycle.
-      Negative values mean that short-term holders are going to realize higher
-      profits than long-term holders if they sell at price at this moment.
-      Positive values show the opposite.
+      Shows the difference between the 365-day MVRV ratio and 60-day MVRV ratio, respectively. For
+      certain coins, this indicator tends to bottom at the lowest point of its bear market and peak
+      at the top of its bull cycle. Negative values mean that short-term holders are going to
+      realize higher profits than long-term holders if they sell at price at this moment. Positive
+      values show the opposite.
       <br />
-      This an oscillating indicator, which reaches extreme negative values at
-      the bottom of the large bear cycles and extreme positive values at the top
-      of the bull markets. The intuition is that at the top of the bull runs the
-      long term holders are at large profit and this puts large sell pressure.
-      At the bottom of the bear markets, the long term holders are at large loss
-      and are not willing to sell. Compared to the individual MVRVs, this
-      indicator is going to give negative values when both long and short term
-      holders are at the same profit and loss, thus indicating that the current
-      price is not the long term top/bottom, but more of a short term move.
+      This an oscillating indicator, which reaches extreme negative values at the bottom of the
+      large bear cycles and extreme positive values at the top of the bull markets. The intuition is
+      that at the top of the bull runs the long term holders are at large profit and this puts large
+      sell pressure. At the bottom of the bear markets, the long term holders are at large loss and
+      are not willing to sell. Compared to the individual MVRVs, this indicator is going to give
+      negative values when both long and short term holders are at the same profit and loss, thus
+      indicating that the current price is not the long term top/bottom, but more of a short term
+      move.
     </>
   ),
   [Metric.sentiment_volume_consumed_total.key]: getSentimentVolumeDescr(),
-  [Metric.sentiment_volume_consumed_telegram.key]: getSentimentVolumeDescr(
-    'Telegram'
-  ),
-  [Metric.sentiment_volume_consumed_reddit.key]: getSentimentVolumeDescr(
-    'Reddit'
-  ),
-  [Metric.sentiment_volume_consumed_twitter.key]: getSentimentVolumeDescr(
-    'Twitter'
-  ),
+  [Metric.sentiment_volume_consumed_telegram.key]: getSentimentVolumeDescr('Telegram'),
+  [Metric.sentiment_volume_consumed_reddit.key]: getSentimentVolumeDescr('Reddit'),
+  [Metric.sentiment_volume_consumed_twitter.key]: getSentimentVolumeDescr('Twitter'),
 
   [Metric.sentiment_balance_total.key]: getSentimentBalanceDescr(),
   [Metric.sentiment_balance_telegram.key]: getSentimentBalanceDescr('Telegram'),
@@ -183,29 +171,14 @@ export const Description = {
   [Metric.sentiment_balance_twitter.key]: getSentimentBalanceDescr('Twitter'),
 
   [Metric.sentiment_positive_total.key]: getSentimentPositiveNegativeDescr(),
-  [Metric.sentiment_positive_telegram.key]: getSentimentPositiveNegativeDescr(
-    'Telegram'
-  ),
-  [Metric.sentiment_positive_reddit.key]: getSentimentPositiveNegativeDescr(
-    'Reddit'
-  ),
-  [Metric.sentiment_positive_twitter.key]: getSentimentPositiveNegativeDescr(
-    'Twitter'
-  ),
+  [Metric.sentiment_positive_telegram.key]: getSentimentPositiveNegativeDescr('Telegram'),
+  [Metric.sentiment_positive_reddit.key]: getSentimentPositiveNegativeDescr('Reddit'),
+  [Metric.sentiment_positive_twitter.key]: getSentimentPositiveNegativeDescr('Twitter'),
 
   [Metric.sentiment_negative_total.key]: getSentimentPositiveNegativeDescr(),
-  [Metric.sentiment_negative_telegram.key]: getSentimentPositiveNegativeDescr(
-    'Telegram',
-    false
-  ),
-  [Metric.sentiment_negative_reddit.key]: getSentimentPositiveNegativeDescr(
-    'Reddit',
-    false
-  ),
-  [Metric.sentiment_negative_twitter.key]: getSentimentPositiveNegativeDescr(
-    'Twitter',
-    false
-  ),
+  [Metric.sentiment_negative_telegram.key]: getSentimentPositiveNegativeDescr('Telegram', false),
+  [Metric.sentiment_negative_reddit.key]: getSentimentPositiveNegativeDescr('Reddit', false),
+  [Metric.sentiment_negative_twitter.key]: getSentimentPositiveNegativeDescr('Twitter', false),
   [Metric.bitmex_perpetual_basis.key]:
     'Shows the difference between BitMEX perpetual contract’s price of [Project Ticker] and BitMEX index (spot) price for [Project Ticker]',
   [Metric.bitmex_perpetual_funding_rate.key]:
@@ -217,18 +190,15 @@ export const Description = {
   SOCIAL_VOLUME: SOCIAL_CONTEXT_DESCRIPTION,
   [Metric.dormant_circulation
     .key]: `Shows how many coins/tokens that have not been moved for more than ${convertToReadableInterval(
-    '365d'
+    '365d',
   )} were transacted during a day. This is useful for spotting when really old Bitcoins move. `,
   [Metric.stock_to_flow.key]: (
     <>
-      Stock To Flow ratio model is a measure of scarcity/abundance of particular
-      resource. It shows how much supply enters yearly relative to the total
-      supply of the resource. We measure Stock To Flow ratio for a given asset
-      as the ratio between{' '}
-      <Link href='https://academy.santiment.net/metrics/circulation/'>
-        Total Circulation
-      </Link>{' '}
-      of the asset and the daily minted coins multiplied by days in one year.{' '}
+      Stock To Flow ratio model is a measure of scarcity/abundance of particular resource. It shows
+      how much supply enters yearly relative to the total supply of the resource. We measure Stock
+      To Flow ratio for a given asset as the ratio between{' '}
+      <Link href='https://academy.santiment.net/metrics/circulation/'>Total Circulation</Link> of
+      the asset and the daily minted coins multiplied by days in one year.{' '}
     </>
   ),
   [Metric.defi_total_value_locked_usd.key]:
@@ -242,12 +212,12 @@ export const Description = {
 
   [Metric.network_profit_loss.key]: (
     <>
-      Network Profit/Loss (NPL for short) computes the average profit or loss of
-      all coins that change addresses daily.
+      Network Profit/Loss (NPL for short) computes the average profit or loss of all coins that
+      change addresses daily.
       <br />
-      For each coin that moves on-chain, NPL takes the price at which it was
-      last moved and assumes this to be its acquisition price. Once it changes
-      addresses again, NPL assumes the coin was sold.
+      For each coin that moves on-chain, NPL takes the price at which it was last moved and assumes
+      this to be its acquisition price. Once it changes addresses again, NPL assumes the coin was
+      sold.
     </>
   ),
   [Metric.whale_transaction_count_100k_usd_to_inf.key]:
@@ -255,16 +225,16 @@ export const Description = {
   [Metric.whale_transaction_count_1m_usd_to_inf.key]:
     'Number of Transactions Transferring More Than 1M USD"',
   [Metric.mvrv_usd_z_score.key]:
-    'Shows the ratio between the difference of market cap and realized cap, and the standard deviation of market cap'
+    'Shows the ratio between the difference of market cap and realized cap, and the standard deviation of market cap',
 }
 
-export const rebuildDescriptions = Submetrics => {
-  Object.keys(Submetrics).forEach(key => {
+export const rebuildDescriptions = (Submetrics) => {
+  Object.keys(Submetrics).forEach((key) => {
     const list = Submetrics[key]
 
     switch (key) {
       case Metric.social_active_users.key: {
-        list.forEach(metric => {
+        list.forEach((metric) => {
           Description[
             metric.key
           ] = `Shows the amount of daily active users on crypto-related ${metric.channel}. An active user has sent at least one message during the day.`
@@ -272,59 +242,59 @@ export const rebuildDescriptions = Submetrics => {
         break
       }
       case Metric.dormant_circulation.key: {
-        list.forEach(metric => {
+        list.forEach((metric) => {
           Description[
             metric.key
           ] = `Shows how many coins/tokens that have not been moved for more than ${convertToReadableInterval(
-            metric.replacements.timebound
+            metric.replacements.timebound,
           )} were transacted during a day. This is useful for spotting when really old Bitcoins move. `
         })
         break
       }
       case Metric.twitter_followers.key: {
-        list.forEach(metric => {
+        list.forEach((metric) => {
           Description[metric.key] = `Shows the ${convertToReadableInterval(
-            metric.replacements.timebound
+            metric.replacements.timebound,
           )} change in the amount of followers of the project’s official Twitter account`
         })
         break
       }
       case Metric.circulation.key: {
-        list.forEach(metric => {
+        list.forEach((metric) => {
           Description[
             metric.key
           ] = `Shows only the number of unique [Project Ticker] tokens transacted in the past ${convertToReadableInterval(
-            metric.replacements.timebound
+            metric.replacements.timebound,
           )} . `
         })
         break
       }
       case Metric.mvrv_usd.key: {
-        list.forEach(metric => {
+        list.forEach((metric) => {
           Description[
             metric.key
           ] = `Shows the average profit or loss of those holding [Project ticker] tokens which moved in the last ${convertToReadableInterval(
-            metric.replacements.timebound
+            metric.replacements.timebound,
           )}, based on the price when each token last moved. Example: if MVRV = 2, then these holders are, on average, currently 2x on their initial investment. `
         })
         break
       }
       case Metric.mvrv_usd_intraday.key: {
-        list.forEach(metric => {
+        list.forEach((metric) => {
           Description[
             metric.key
           ] = `Shows the average intraday profit or loss of those holding [Project ticker] tokens which moved in the last ${convertToReadableInterval(
-            metric.replacements.timebound
+            metric.replacements.timebound,
           )}, based on the price when each token last moved. Example: if MVRV = 2, then these holders are, on average, currently 2x on their initial investment. `
         })
         break
       }
       case Metric.realized_value_usd.key: {
-        list.forEach(metric => {
+        list.forEach((metric) => {
           Description[
             metric.key
           ] = `Shows the total amount spent on [Project Ticker] tokens that moved in the last ${convertToReadableInterval(
-            metric.replacements.timebound
+            metric.replacements.timebound,
           )}. Realized cap is calculated by multiplying the [Project Ticker] supply by the price of each [Project Ticker] token when it last moved on-chain`
         })
         break

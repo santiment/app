@@ -8,7 +8,7 @@ function visitWatchlistsCache (visitor) {
 
     cache.writeQuery({
       query: query,
-      data: { watchlists: visitor(data, watchlists) }
+      data: { watchlists: visitor(data, watchlists) },
     })
   }
 }
@@ -19,18 +19,16 @@ export function updateWatchlistOnEdit (cache, { data }) {
   const { type } = updateWatchlist
   const query = getWatchlistsShortQuery(type)
   const store = cache.readQuery({ query: query })
-  const index = store.watchlists.findIndex(
-    ({ id }) => id === updateWatchlist.id
-  )
+  const index = store.watchlists.findIndex(({ id }) => id === updateWatchlist.id)
   store.watchlists[index] = { ...store.watchlists[index], ...updateWatchlist }
 
   cache.writeQuery({ query: query, data: store })
 }
 
-export const updateWatchlistsOnCreation = visitWatchlistsCache(
-  ({ watchlist }, lists) => lists.concat([watchlist])
+export const updateWatchlistsOnCreation = visitWatchlistsCache(({ watchlist }, lists) =>
+  lists.concat([watchlist]),
 )
 
-export const updateWatchlistsOnDelete = visitWatchlistsCache(
-  ({ watchlist }, lists) => lists.filter(({ id }) => +id !== +watchlist.id)
+export const updateWatchlistsOnDelete = visitWatchlistsCache(({ watchlist }, lists) =>
+  lists.filter(({ id }) => +id !== +watchlist.id),
 )

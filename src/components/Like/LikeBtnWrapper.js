@@ -21,7 +21,7 @@ const mapStateToProps = (state, { votes, user: { id: authorId } = {} }) => {
   const userId = state.user.data && state.user.data.id ? +state.user.data.id : 0
   return {
     isLiked: !!userId && votes.some(({ userId: id }) => userId === id) === true,
-    disabled: !canLike(state, authorId)
+    disabled: !canLike(state, authorId),
   }
 }
 

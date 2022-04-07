@@ -9,20 +9,14 @@ import CheckoutForm from '../CheckoutForm/CheckoutForm'
 import IconLock from './IconLock'
 import IconDollar from './IconDollar'
 import { showNotification } from '../../actions/rootActions'
-import {
-  USER_SUBSCRIPTIONS_QUERY,
-  SUBSCRIBE_MUTATION
-} from '../../queries/plans'
+import { USER_SUBSCRIPTIONS_QUERY, SUBSCRIBE_MUTATION } from '../../queries/plans'
 import { formatError, contactAction } from '../../utils/notifications'
 import { getDateFormats } from '../../utils/dates'
 import { getAlternativeBillingPlan, hasInactiveTrial } from '../../utils/plans'
 import { usePlans } from '../../ducks/Plans/hooks'
 import { useTrackEvents } from '../../hooks/tracking'
 import { USER_SUBSCRIPTION_CHANGE } from '../../actions/types'
-import {
-  updateUserSubscriptions,
-  useUserSubscriptionStatus
-} from '../../stores/user/subscriptions'
+import { updateUserSubscriptions, useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import FreeTrialLabel from './PlanDialogLabels/FreeTrialLabel'
 import ProExpiredLabel from './PlanDialogLabels/ProExpiredLabel'
 import styles from './PlanPaymentDialog.module.scss'
@@ -31,7 +25,7 @@ import sharedStyles from './Plans.module.scss'
 function useFormLoading () {
   const [loading, setLoading] = useState(false)
   function toggleLoading () {
-    setLoading(state => !state)
+    setLoading((state) => !state)
   }
   return [loading, toggleLoading]
 }
@@ -47,13 +41,13 @@ function updateCache (cache, { data: { subscribe } }) {
 
   cache.writeQuery({
     query: USER_SUBSCRIPTIONS_QUERY,
-    data: { currentUser: { ...currentUser, subscriptions } }
+    data: { currentUser: { ...currentUser, subscriptions } },
   })
 }
 
-const Form = props => <Panel as='form' {...props} />
+const Form = (props) => <Panel as='form' {...props} />
 
-const getTokenDataByForm = form => {
+const getTokenDataByForm = (form) => {
   const res = {}
   new FormData(form).forEach((value, key) => {
     if (key === 'coupon') {
@@ -66,9 +60,8 @@ const getTokenDataByForm = form => {
 
 const NEXT_DATE_GET_SET_MONTH = ['setMonth', 'getMonth']
 const NEXT_DATE_GET_SET_YEAR = ['setFullYear', 'getFullYear']
-const getNextPaymentDates = billing => {
-  const [setter, getter] =
-    billing === 'year' ? NEXT_DATE_GET_SET_YEAR : NEXT_DATE_GET_SET_MONTH
+const getNextPaymentDates = (billing) => {
+  const [setter, getter] = billing === 'year' ? NEXT_DATE_GET_SET_YEAR : NEXT_DATE_GET_SET_MONTH
 
   const date = new Date()
   date[setter](date[getter]() + 1)
@@ -78,7 +71,7 @@ const getNextPaymentDates = billing => {
   return `${DD}/${MM}/${YY}`
 }
 
-const getFreeTrialEnd = trialDate => {
+const getFreeTrialEnd = (trialDate) => {
   let date = new Date(trialDate)
 
   if (!Number.isFinite(+date)) {
@@ -107,31 +100,23 @@ const PlanPaymentDialog = ({
   updateSubscription,
   subscription,
   Trigger = Button,
-  onOpen
+  onOpen,
 }) => {
   const [plans] = usePlans()
   const [loading, toggleLoading] = useFormLoading()
   const [paymentVisible, setPaymentVisiblity] = useState(false)
   const [selectedPlan, setSelectedPlan] = useState({})
   const [trackEvent] = useTrackEvents()
-  const {
-    trialDaysLeft,
-    isEligibleForSanbaseTrial
-  } = useUserSubscriptionStatus()
+  const { trialDaysLeft, isEligibleForSanbaseTrial } = useUserSubscriptionStatus()
 
-  const {
-    id: planId,
-    name: title,
-    interval: billing,
-    amount: price
-  } = selectedPlan
+  const { id: planId, name: title, interval: billing, amount: price } = selectedPlan
 
   useEffect(() => {
     setSelectedPlan({
       id,
       name,
       interval,
-      amount
+      amount,
     })
   }, [id, name, amount, interval])
 
@@ -149,7 +134,7 @@ const PlanPaymentDialog = ({
     if (onOpen) onOpen()
     trackEvent({
       category: 'User',
-      action: 'Payment form opened'
+      action: 'Payment form opened',
     })
     setPaymentVisiblity(true)
   }
@@ -181,7 +166,7 @@ const PlanPaymentDialog = ({
               onClose={hidePayment}
               as={Form}
               modalProps={{
-                onSubmit: e => {
+                onSubmit: (e) => {
                   e.preventDefault()
 
                   if (loading) return
@@ -189,13 +174,12 @@ const PlanPaymentDialog = ({
 
                   trackEvent({
                     category: 'User',
-                    action: 'Payment form submitted'
+                    action: 'Payment form submitted',
                   })
 
                   const form = e.currentTarget
                   const formCoupon = form.coupon
-                  const coupon =
-                    formCoupon.dataset.isValid === 'true' && formCoupon.value
+                  const coupon = formCoupon.dataset.isValid === 'true' && formCoupon.value
 
                   stripe
                     .createToken(getTokenDataByForm(form))
@@ -210,13 +194,13 @@ const PlanPaymentDialog = ({
                       }
 
                       return subscribe({
-                        variables
+                        variables,
                       })
                     })
                     .then(({ data: { subscribe } }) => {
                       addNot({
                         variant: 'success',
-                        title: `You have successfully upgraded to the "${title}" plan!`
+                        title: `You have successfully upgraded to the "${title}" plan!`,
                       })
                       updateSubscription(subscribe)
 
@@ -224,28 +208,26 @@ const PlanPaymentDialog = ({
 
                       trackEvent({
                         category: 'User',
-                        action: 'Payment success'
+                        action: 'Payment success',
                       })
                     })
-                    .catch(e => {
+                    .catch((e) => {
                       addNot({
                         variant: 'error',
                         title: `Error during the payment`,
                         description: formatError(e.message),
-                        actions: contactAction
+                        actions: contactAction,
                       })
                       toggleLoading()
                     })
-                }
+                },
               }}
             >
               <Dialog.ScrollContent className={styles.content}>
                 {isEligibleForSanbaseTrial ? (
                   <FreeTrialLabel
                     price={price}
-                    trialEndData={getFreeTrialEnd(
-                      subscription && subscription.trialEnd
-                    )}
+                    trialEndData={getFreeTrialEnd(subscription && subscription.trialEnd)}
                   />
                 ) : (
                   <ProExpiredLabel
@@ -283,18 +265,14 @@ const PlanPaymentDialog = ({
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  addNot: message => dispatch(showNotification(message)),
-  updateSubscription: payload =>
-    dispatch({ type: USER_SUBSCRIPTION_CHANGE, payload })
+const mapDispatchToProps = (dispatch) => ({
+  addNot: (message) => dispatch(showNotification(message)),
+  updateSubscription: (payload) => dispatch({ type: USER_SUBSCRIPTION_CHANGE, payload }),
 })
 
-const InjectedForm = connect(
-  null,
-  mapDispatchToProps
-)(injectStripe(PlanPaymentDialog))
+const InjectedForm = connect(null, mapDispatchToProps)(injectStripe(PlanPaymentDialog))
 
-export default props => (
+export default (props) => (
   <Elements>
     <InjectedForm {...props} />
   </Elements>

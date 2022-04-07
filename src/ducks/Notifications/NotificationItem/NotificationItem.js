@@ -39,7 +39,7 @@ const NotificationItem = ({
   className,
   timeoutIndex,
   closeDropdown,
-  isNew: isNewInput
+  isNew: isNewInput,
 }) => {
   const { insertedAt, user } = data
   const { user: currentUser } = useUser()
@@ -63,14 +63,13 @@ const NotificationItem = ({
 
   const title = useMemo(() => getTitle(data), [data])
   const linkTo = useMemo(() => getLink(data), [data])
-  const types = useMemo(
-    () => getTypes(data, currentUser && currentUser.id === user.id),
-    [data, currentUser, user]
-  )
+  const types = useMemo(() => getTypes(data, currentUser && currentUser.id === user.id), [
+    data,
+    currentUser,
+    user,
+  ])
   const isAlertAuthor =
-    data.eventType === TRIGGER_FIRED &&
-    currentUser &&
-    currentUser.id === user.id
+    data.eventType === TRIGGER_FIRED && currentUser && currentUser.id === user.id
 
   function onClick () {
     if (linkTo) {
@@ -96,19 +95,13 @@ const NotificationItem = ({
       onClick={onClick}
       onMouseEnter={mouseEnter}
       onMouseLeave={mouseLeave}
-      className={cx(
-        styles.container,
-        className,
-        isNew && styles.container__unread
-      )}
+      className={cx(styles.container, className, isNew && styles.container__unread)}
     >
       <div className={styles.header}>
         <div className={styles.title}>{title}</div>
         <div className={styles.actions}>
           {isNewInput && <NewLabelTemplate className={styles.new} />}
-          {isHover && (
-            <NotificationActions data={data} className={styles.action} />
-          )}
+          {isHover && <NotificationActions data={data} className={styles.action} />}
         </div>
       </div>
 

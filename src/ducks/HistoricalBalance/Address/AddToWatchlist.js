@@ -7,8 +7,7 @@ import { useAddressWatchlists } from '../../Watchlists/gql/lists/hooks'
 import { updateWatchlistShort } from '../../Watchlists/gql/list/mutations'
 import styles from './index.module.scss'
 
-const updateWatchlist = ({ id, listItems }) =>
-  updateWatchlistShort({ id: +id, listItems })
+const updateWatchlist = ({ id, listItems }) => updateWatchlistShort({ id: +id, listItems })
 
 const AddToWatchlist = ({ address, infrastructure, note }) => {
   function checkIsListItemTheAddress ({ blockchainAddress }) {
@@ -25,29 +24,24 @@ const AddToWatchlist = ({ address, infrastructure, note }) => {
         address,
         infrastructure,
         notes: note,
-        __typename: 'BlockchainAddress'
+        __typename: 'BlockchainAddress',
       },
-      __typename: 'ListItem'
+      __typename: 'ListItem',
     }
 
     removeFromWatchlists.forEach(({ listItems }) =>
-      listItems.splice(listItems.findIndex(checkIsListItemTheAddress), 1)
+      listItems.splice(listItems.findIndex(checkIsListItemTheAddress), 1),
     )
 
     addToWatchlists.forEach(({ listItems }) => listItems.push(newListItem))
 
-    return Promise.all(
-      addToWatchlists.concat(removeFromWatchlists).map(updateWatchlist)
-    )
+    return Promise.all(addToWatchlists.concat(removeFromWatchlists).map(updateWatchlist))
   }
 
   return (
     <AddToWatchlistDialog
       trigger={
-        <Button
-          className={styles.btn}
-          disabled={infrastructure !== Infrastructure.ETH}
-        >
+        <Button className={styles.btn} disabled={infrastructure !== Infrastructure.ETH}>
           <Icon type='plus-round' className={styles.btn__icon} />
           Add to Watchlist
         </Button>

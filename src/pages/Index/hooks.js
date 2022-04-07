@@ -7,7 +7,7 @@ function hashLinkScroll ({ location }) {
     const elements = document.querySelectorAll(`a[href='/${hash}']`)
     if (elements && elements.length > 0) {
       elements[0].scrollIntoView({
-        behavior: 'smooth'
+        behavior: 'smooth',
       })
     }
   }
@@ -23,6 +23,6 @@ export const useAnchorLoading = (deps, scrollAnchors) => {
       }
     },
     0,
-    [history.location, scrollAnchors, ...deps]
+    [history.location, scrollAnchors, ...deps],
   )
 }

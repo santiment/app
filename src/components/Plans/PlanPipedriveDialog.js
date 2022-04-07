@@ -8,7 +8,7 @@ import styles from './PlanPipedriveDialog.module.scss'
 function useFormLoading () {
   const [loading, setLoading] = useState(true)
   function toggleLoading (newSt) {
-    setLoading(state => newSt)
+    setLoading((state) => newSt)
   }
   return [loading, toggleLoading]
 }
@@ -24,23 +24,14 @@ const PipedriveBtn = ({ title, label, src, className }) => {
       title='Contact Information'
       classes={{ dialog: styles.dialog }}
       trigger={
-        <Button
-          className={cx(styles.link, className)}
-          accent='positive'
-          variant='fill'
-        >
+        <Button className={cx(styles.link, className)} accent='positive' variant='fill'>
           {label}
         </Button>
       }
       onOpen={startLoading}
     >
       <div className={styles.dialog__content}>
-        <div
-          className={cx(
-            styles.dialog__loading,
-            !loading && styles.dialog__loading_end
-          )}
-        >
+        <div className={cx(styles.dialog__loading, !loading && styles.dialog__loading_end)}>
           {loading && <Loader />}
         </div>
         <iframe

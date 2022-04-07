@@ -36,6 +36,6 @@ export function initHistory (chart) {
   return {
     save,
     undo,
-    redo
+    redo,
   }
 }

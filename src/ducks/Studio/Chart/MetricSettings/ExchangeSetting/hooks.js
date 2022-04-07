@@ -24,9 +24,9 @@ const DEFAULT_EXCHANGES = [DEFAULT_EXCHANGE]
 function useIsERC20 (slug, skip) {
   const { data } = useQuery(PROJECT_QUERY, {
     variables: {
-      slug
+      slug,
     },
-    skip
+    skip,
   })
 
   if (!data) return false
@@ -42,15 +42,13 @@ export function useMetricExchanges (slug, isDex) {
   const { data, loading } = useQuery(METRIC_EXCHANGES_QUERY, {
     variables: {
       slug: isSupported ? slug : 'ethereum',
-      isDex
+      isDex,
     },
-    skip: !isSupported && !isERC20
+    skip: !isSupported && !isERC20,
   })
 
   return {
-    exchanges: data
-      ? DEFAULT_EXCHANGES.concat(data.allExchanges)
-      : DEFAULT_EXCHANGES,
-    loading
+    exchanges: data ? DEFAULT_EXCHANGES.concat(data.allExchanges) : DEFAULT_EXCHANGES,
+    loading,
   }
 }

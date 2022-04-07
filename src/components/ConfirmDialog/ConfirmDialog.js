@@ -9,7 +9,7 @@ class ConfirmDialog extends PureComponent {
     title: 'Do you want to delete this watchlist?',
     description: 'Are you sure? This action cannot be undone.',
     confirmLabel: 'Delete',
-    classes: {}
+    classes: {},
   }
 
   static getDerivedStateFromProps (nextProps, prevState) {
@@ -20,7 +20,7 @@ class ConfirmDialog extends PureComponent {
     }
 
     return {
-      open: isOpen
+      open: isOpen,
     }
   }
 
@@ -48,14 +48,7 @@ class ConfirmDialog extends PureComponent {
   }
 
   render () {
-    const {
-      title,
-      description,
-      trigger,
-      classes,
-      confirmLabel,
-      isLoading
-    } = this.props
+    const { title, description, trigger, classes, confirmLabel, isLoading } = this.props
 
     const mergedClasses = { ...styles, ...classes }
 
@@ -69,19 +62,13 @@ class ConfirmDialog extends PureComponent {
       >
         <Dialog.ScrollContent withPadding>
           {title && <div className={styles.title}>{title}</div>}
-          {description && (
-            <div className={styles.description}>{description}</div>
-          )}
+          {description && <div className={styles.description}>{description}</div>}
         </Dialog.ScrollContent>
         <Dialog.Actions className={styles.actions}>
           <Dialog.Approve onClick={this.onDeleteClick} isLoading={isLoading}>
             {confirmLabel}
           </Dialog.Approve>
-          <Dialog.Cancel
-            onClick={this.onClose}
-            className={styles.cancel}
-            isLoading={isLoading}
-          >
+          <Dialog.Cancel onClick={this.onClose} className={styles.cancel} isLoading={isLoading}>
             Cancel
           </Dialog.Cancel>
         </Dialog.Actions>

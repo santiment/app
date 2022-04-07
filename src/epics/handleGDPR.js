@@ -33,7 +33,7 @@ const getVariablesByType = ({ user, type }) => {
       : user.data.privacyPolicyAccepted
   return {
     marketingAccepted,
-    privacyPolicyAccepted
+    privacyPolicyAccepted,
   }
 }
 
@@ -46,41 +46,38 @@ const privacyGQLHelper = (user, type) => {
       updateTermsAndConditions: {
         __typename: 'User',
         id: user.data.id,
-        ...variables
-      }
+        ...variables,
+      },
     },
     update: (proxy, newData) => {
       try {
         let data = proxy.readQuery({ query: USER_EMAIL_LOGIN_QEURY })
         data.currentUser.privacyPolicyAccepted =
           newData.data.updateTermsAndConditions.privacyPolicyAccepted
-        data.currentUser.marketingAccepted =
-          newData.data.updateTermsAndConditions.marketingAccepted
+        data.currentUser.marketingAccepted = newData.data.updateTermsAndConditions.marketingAccepted
         proxy.writeQuery({ query: USER_EMAIL_LOGIN_QEURY, data })
       } catch (e) {
-        Sentry.captureException(
-          'Updating GDPR apollo cache error: ' + JSON.stringify(e)
-        )
+        Sentry.captureException('Updating GDPR apollo cache error: ' + JSON.stringify(e))
       }
-    }
+    },
   }
 }
 
 const handleGDPR = (action$, store, { client }) =>
   action$
     .ofType(actions.USER_TOGGLE_PRIVACY_POLICY, actions.USER_TOGGLE_MARKETING)
-    .switchMap(action => {
+    .switchMap((action) => {
       const user = store.getState().user
       const mutationPromise = client.mutate({
         mutation: PRIVACY_QUERY,
-        ...privacyGQLHelper(user, action.type)
+        ...privacyGQLHelper(user, action.type),
       })
       return Observable.from(mutationPromise)
         .mergeMap(({ data: { updateTermsAndConditions = {} } }) => {
           const { id, __typename, ...payload } = updateTermsAndConditions
           return Observable.merge(
             Observable.of({ type: actions.USER_SETTING_GDPR, payload }),
-            Observable.of(showNotification('Privacy settings is changed'))
+            Observable.of(showNotification('Privacy settings is changed')),
           )
         })
         .catch(handleErrorAndTriggerAction(actions.APP_GDPR_FAILED))

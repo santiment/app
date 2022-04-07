@@ -3,13 +3,13 @@ import {
   newLine,
   checkIsLineHovered,
   getPressedHandleType,
-  absoluteToRelativeCoordinates
+  absoluteToRelativeCoordinates,
 } from './helpers'
 
 const LineLockType = {
   FREE: 0,
   X: 1,
-  Y: 2
+  Y: 2,
 }
 
 function getEventCoordinates (e) {
@@ -22,12 +22,7 @@ const getDprCoordinates = ({ dpr }, [x, y]) => [x * dpr, y * dpr]
 const getLineLockType = (x1, y1, x2, y2) =>
   Math.abs(x2 - x1) < Math.abs(y2 - y1) ? LineLockType.X : LineLockType.Y
 
-export function handleLineCreation (
-  chart,
-  setSelectedLine,
-  setIsDrawing,
-  setIsNewDrawing
-) {
+export function handleLineCreation (chart, setSelectedLine, setIsDrawing, setIsNewDrawing) {
   const parent = chart.canvas.parentNode
   parent.addEventListener('mousedown', onMouseDown)
 
@@ -72,7 +67,7 @@ export function handleLineCreation (
 }
 
 export function handleLineHover (chart) {
-  return e => {
+  return (e) => {
     const { isDrawing, drawer, tooltip } = chart
     if (isDrawing) return
 
@@ -115,7 +110,7 @@ function handleLineDelete (drawer, setSelectedLine, setIsDrawing) {
     const { selected, drawings, onLineDelete } = drawer
 
     drawer.selected = null
-    drawer.drawings = drawings.filter(drawing => drawing !== selected)
+    drawer.drawings = drawings.filter((drawing) => drawing !== selected)
     drawer.redraw()
 
     setSelectedLine()
@@ -138,7 +133,7 @@ function handleLineDrag (chart, drawing, coordinates) {
   const isRightHandleDrag = pressedHandle & HandleType.RIGHT
   const isNotLineDrag = pressedHandle !== HandleType.MOVE
 
-  return e => {
+  return (e) => {
     const [moveX, moveY] = getEventCoordinates(e)
     const diffX = moveX - startX
     const diffY = moveY - startY
@@ -170,7 +165,7 @@ function handleLineDrag (chart, drawing, coordinates) {
 }
 
 export function handleLineMouseDown (chart, setSelectedLine, setIsDrawing) {
-  return e => {
+  return (e) => {
     const { drawer } = chart
     const drawing = drawer.mouseover
 
@@ -187,11 +182,7 @@ export function handleLineMouseDown (chart, setSelectedLine, setIsDrawing) {
     const parent = chart.canvas.parentNode
     const startCoordinates = getEventCoordinates(e)
 
-    drawer.onLineDelete = handleLineDelete(
-      drawer,
-      setSelectedLine,
-      setIsDrawing
-    )
+    drawer.onLineDelete = handleLineDelete(drawer, setSelectedLine, setIsDrawing)
     const onDrag = handleLineDrag(chart, drawing, startCoordinates)
 
     window.addEventListener('keydown', drawer.onLineDelete)

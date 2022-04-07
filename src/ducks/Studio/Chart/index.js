@@ -52,7 +52,7 @@ const Chart = ({
   onRangeSelected,
   onRangeSelecting,
   onDeleteChartClick,
-  syncTooltips
+  syncTooltips,
 }) => {
   const { isLoggedIn } = useUser()
   const chartCursor = useChartCursorType(CursorType.FREE)
@@ -65,22 +65,13 @@ const Chart = ({
   const [focusTimer, setFocusTimer] = useState()
   const [metricSettings, setMetricSettings] = useState()
   const MetricColor = useMetricColor()
-  const HighlightedMetricColor = useHighlightMetricColor(
-    MetricColor,
-    focusedMetricKey
-  )
+  const HighlightedMetricColor = useHighlightMetricColor(MetricColor, focusedMetricKey)
   const domainGroups = useDomainGroups(metrics)
   const mirrorDomainGroups = useMemo(() => {
     const mirrorDomains = extractMirrorMetricsDomainGroups(domainGroups) || []
-    return mirrorDomains.concat(
-      extractIndicatorDomainGroups(widget.MetricIndicators)
-    )
+    return mirrorDomains.concat(extractIndicatorDomainGroups(widget.MetricIndicators))
   }, [domainGroups])
-  const [allTimeData] = useAllTimeData(
-    metrics,
-    settings,
-    widget.MetricSettingMap
-  )
+  const [allTimeData] = useAllTimeData(metrics, settings, widget.MetricSettingMap)
   const isBlurred = !isLoggedIn && index > 1
   const scale = options.isLogScale ? logScale : linearScale
 
@@ -101,7 +92,7 @@ const Chart = ({
         if (parentNode.querySelector(':hover')) {
           setFocusedMetricKey(metric.key)
         }
-      }, 60)
+      }, 60),
     )
   }
 
@@ -245,9 +236,7 @@ const Chart = ({
         options={options}
         cursorType={chartCursor.cursorType}
         drawings={widget.drawings}
-        domainGroups={
-          isDomainGroupingActive ? domainGroups : mirrorDomainGroups
-        }
+        domainGroups={isDomainGroupingActive ? domainGroups : mirrorDomainGroups}
         selectedLineState={selectedLineState}
         isDrawingState={isDrawingState}
         isNewDrawingState={isNewDrawingState}

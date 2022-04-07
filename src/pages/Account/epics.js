@@ -30,12 +30,12 @@ const TELEGRAM_DEEP_LINK_REVOKE_QUERY = gql`
 export const TIMEOUT_DELAY = 25000
 
 export const connectTelegramEpic = (action$, store, { client }) =>
-  action$.ofType(actions.SETTINGS_CONNECT_TELEGRAM).mergeMap(action => {
+  action$.ofType(actions.SETTINGS_CONNECT_TELEGRAM).mergeMap((action) => {
     const telegramConnection$ = Observable.from(
       client.watchQuery({
         query: USER_SETTINGS_TELEGRAM_QUERY,
-        pollInterval: 2000
-      })
+        pollInterval: 2000,
+      }),
     )
       .takeUntil(action$.ofType(actions.SETTINGS_CONNECT_TELEGRAM_CANCEL))
       .filter(({ data }) => {
@@ -44,7 +44,7 @@ export const connectTelegramEpic = (action$, store, { client }) =>
       .mergeMap(({ data }) => {
         return Observable.merge(
           Observable.of({ type: actions.SETTINGS_CONNECT_TELEGRAM_SUCCESS }),
-          Observable.of(showNotification('Telegram is connected'))
+          Observable.of(showNotification('Telegram is connected')),
         )
       })
       .take(1)
@@ -55,44 +55,38 @@ export const connectTelegramEpic = (action$, store, { client }) =>
   })
 
 export const revokeTelegramDeepLinkEpic = (action$, store, { client }) =>
-  action$
-    .ofType(actions.SETTINGS_REVOKE_TELEGRAM_DEEP_LINK)
-    .switchMap(action => {
-      return Observable.from(
-        client.mutate({
-          mutation: TELEGRAM_DEEP_LINK_REVOKE_QUERY,
-          context: { isRetriable: true }
-        })
-      ).mergeMap(({ data }) => {
-        return Observable.merge(
-          Observable.of({
-            type: actions.SETTINGS_REVOKE_TELEGRAM_DEEP_LINK_SUCCESS
-          }),
-          Observable.of(showNotification('Telegram deep link is revoked'))
-        )
-      })
+  action$.ofType(actions.SETTINGS_REVOKE_TELEGRAM_DEEP_LINK).switchMap((action) => {
+    return Observable.from(
+      client.mutate({
+        mutation: TELEGRAM_DEEP_LINK_REVOKE_QUERY,
+        context: { isRetriable: true },
+      }),
+    ).mergeMap(({ data }) => {
+      return Observable.merge(
+        Observable.of({
+          type: actions.SETTINGS_REVOKE_TELEGRAM_DEEP_LINK_SUCCESS,
+        }),
+        Observable.of(showNotification('Telegram deep link is revoked')),
+      )
     })
+  })
 
 export const generateTelegramDeepLinkEpic = (action$, store, { client }) =>
-  action$
-    .ofType(actions.SETTINGS_GENERATE_TELEGRAM_DEEP_LINK)
-    .switchMap(action => {
-      const getTelegramDeepLink = client.query({
-        query: TELEGRAM_DEEP_LINK_QUERY,
-        context: { isRetriable: true }
-      })
-      return Observable.from(getTelegramDeepLink)
-        .mergeMap(({ data }) => {
-          return Observable.of({
-            type: actions.SETTINGS_GENERATE_TELEGRAM_DEEP_LINK_SUCCESS,
-            payload: {
-              link: data.getTelegramDeepLink
-            }
-          })
-        })
-        .catch(error => {
-          handleErrorAndTriggerAction(
-            actions.SETTINGS_GENERATE_TELEGRAM_DEEP_LINK_FAILED
-          )
-        })
+  action$.ofType(actions.SETTINGS_GENERATE_TELEGRAM_DEEP_LINK).switchMap((action) => {
+    const getTelegramDeepLink = client.query({
+      query: TELEGRAM_DEEP_LINK_QUERY,
+      context: { isRetriable: true },
     })
+    return Observable.from(getTelegramDeepLink)
+      .mergeMap(({ data }) => {
+        return Observable.of({
+          type: actions.SETTINGS_GENERATE_TELEGRAM_DEEP_LINK_SUCCESS,
+          payload: {
+            link: data.getTelegramDeepLink,
+          },
+        })
+      })
+      .catch((error) => {
+        handleErrorAndTriggerAction(actions.SETTINGS_GENERATE_TELEGRAM_DEEP_LINK_FAILED)
+      })
+  })

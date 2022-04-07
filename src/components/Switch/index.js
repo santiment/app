@@ -1,7 +1,6 @@
 import React from 'react'
 
-export const Case = ({ render: El, children, ...props }) =>
-  El ? <El {...props} /> : children
+export const Case = ({ render: El, children, ...props }) => (El ? <El {...props} /> : children)
 
 const Switch = ({ case: id, children }) => {
   const childrenArray = React.Children.toArray(children)
@@ -13,8 +12,8 @@ const Switch = ({ case: id, children }) => {
     if (process.env.NODE_ENV === 'development') {
       if (child.type !== Case) {
         throw new Error(
-          `<Switch> should contain only <Case> elements as children, but you passed a <${child
-            .type.name || child.type}>`
+          `<Switch> should contain only <Case> elements as children, but you passed a <${child.type
+            .name || child.type}>`,
         )
       }
     }

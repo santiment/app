@@ -6,7 +6,7 @@ import Input from './Input'
 import { getDateFormats } from '../../utils/dates'
 import styles from './index.module.scss'
 
-const getDateLabel = date => {
+const getDateLabel = (date) => {
   const { DD, MM, YY } = getDateFormats(date)
   return `${DD}/${MM}/${YY}`
 }
@@ -16,15 +16,7 @@ const checkSameDates = (from, to) =>
   from.getMonth() === to.getMonth() &&
   from.getFullYear() === to.getFullYear()
 
-const Trigger = ({
-  from,
-  to,
-  isActive,
-  className,
-  forwardedRef,
-  onClick,
-  onCalendarChange
-}) => {
+const Trigger = ({ from, to, isActive, className, forwardedRef, onClick, onCalendarChange }) => {
   return (
     <div
       className={cx(styles.wrapper, isActive && styles.active, className)}
@@ -45,10 +37,5 @@ const Trigger = ({
 }
 
 export default ({ className, ...props }) => {
-  return (
-    <AdvancedCalendarPopup
-      {...props}
-      trigger={<Trigger {...props} className={className} />}
-    />
-  )
+  return <AdvancedCalendarPopup {...props} trigger={<Trigger {...props} className={className} />} />
 }

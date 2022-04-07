@@ -32,7 +32,7 @@ export const HARDCODED_EXCHANGE_LINKS = {
   huobi: 'https://www.huobi.com/',
   'crypto.com': 'https://crypto.com/',
   coinbase: 'https://www.coinbase.com/',
-  kucoin: 'https://www.kucoin.com/'
+  kucoin: 'https://www.kucoin.com/',
 }
 
 const LabelWrapper = ({ metadata, ref, ...rest }) => {
@@ -52,9 +52,7 @@ const LabelWrapper = ({ metadata, ref, ...rest }) => {
 
   const { owner } = decoded
 
-  const linkRef = owner
-    ? HARDCODED_EXCHANGE_LINKS[owner.toLowerCase()]
-    : undefined
+  const linkRef = owner ? HARDCODED_EXCHANGE_LINKS[owner.toLowerCase()] : undefined
 
   if (linkRef) {
     return (
@@ -63,7 +61,7 @@ const LabelWrapper = ({ metadata, ref, ...rest }) => {
         target='_blank'
         rel='noopener noreferrer'
         href={linkRef}
-        onClick={e => {
+        onClick={(e) => {
           e.stopPropagation()
         }}
       >
@@ -88,55 +86,24 @@ const LabelRenderer = ({ name, metadata, forwardedRef, ...rest }) => {
 
   switch (name.toLowerCase()) {
     case 'decentralized_exchange': {
-      return (
-        <LabelWrapper
-          key={name}
-          metadata={metadata}
-          ref={forwardedRef}
-          {...rest}
-        />
-      )
+      return <LabelWrapper key={name} metadata={metadata} ref={forwardedRef} {...rest} />
     }
     case 'centralized_exchange': {
-      return (
-        <LabelWrapper
-          key={name}
-          metadata={metadata}
-          ref={forwardedRef}
-          {...rest}
-        />
-      )
+      return <LabelWrapper key={name} metadata={metadata} ref={forwardedRef} {...rest} />
     }
     case 'defi': {
-      return (
-        <LabelWrapper
-          key={name}
-          metadata={metadata}
-          ref={forwardedRef}
-          {...rest}
-        />
-      )
+      return <LabelWrapper key={name} metadata={metadata} ref={forwardedRef} {...rest} />
     }
     case 'withdrawal': {
       return (
-        <div
-          key={name}
-          ref={forwardedRef}
-          {...rest}
-          className={cx(styles.label, className)}
-        >
+        <div key={name} ref={forwardedRef} {...rest} className={cx(styles.label, className)}>
           CEX trader
         </div>
       )
     }
     default: {
       return (
-        <div
-          key={name}
-          ref={forwardedRef}
-          {...rest}
-          className={cx(styles.label, className)}
-        >
+        <div key={name} ref={forwardedRef} {...rest} className={cx(styles.label, className)}>
           {name}
         </div>
       )
@@ -151,9 +118,7 @@ const TransactionTableLabels = ({ labels, className }) => {
   return (
     <div className={cx(styles.labels, className)}>
       {visibleLabels.map(LabelRenderer)}
-      {!!hiddenLabels.length && (
-        <CollapsedLabels labels={hiddenLabels} el={LabelRenderer} />
-      )}
+      {!!hiddenLabels.length && <CollapsedLabels labels={hiddenLabels} el={LabelRenderer} />}
     </div>
   )
 }

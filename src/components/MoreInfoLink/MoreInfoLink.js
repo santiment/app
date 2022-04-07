@@ -5,12 +5,7 @@ const MoreInfoLink = ({ href }) => {
   return (
     <span className={styles.wrapper}>
       More info{' '}
-      <a
-        target='_blank'
-        rel='noopener noreferrer'
-        href={href}
-        className={styles.link}
-      >
+      <a target='_blank' rel='noopener noreferrer' href={href} className={styles.link}>
         here
       </a>
     </span>

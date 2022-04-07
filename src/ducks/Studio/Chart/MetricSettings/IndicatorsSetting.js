@@ -10,20 +10,20 @@ import Option from '../../../../components/ToggleSetting'
 const RAW_INDICATORS = {
   MA: {
     type: 'moving_average',
-    bases: [7, 30, 50, 200]
-  }
+    bases: [7, 30, 50, 200],
+  },
 }
 
 export const Indicator = Object.keys(RAW_INDICATORS).reduce((acc, key) => {
   const { type, bases } = RAW_INDICATORS[key]
 
-  bases.forEach(base => {
+  bases.forEach((base) => {
     const indicatorKey = key + base
     acc[indicatorKey] = {
       base,
       type,
       key: indicatorKey,
-      label: `${key}(${base})`
+      label: `${key}(${base})`,
     }
   })
 
@@ -73,9 +73,9 @@ export function buildIndicatorMetric (metric, indicator) {
     reqMeta: {
       transform: {
         type: indicator.type,
-        movingAverageBase: indicator.base
-      }
-    }
+        movingAverageBase: indicator.base,
+      },
+    },
   })
 
   updateTooltipSetting(indicatorMetric)
@@ -85,16 +85,16 @@ export function buildIndicatorMetric (metric, indicator) {
 const IndicatorsSetting = ({ metric, widget, toggleMetric }) => {
   const { MetricIndicators } = widget
   const { Dropdown } = useDropdown()
-  const activeIndicators = useMemo(
-    () => new Set(MetricIndicators[metric.key]),
-    [metric, MetricIndicators]
-  )
+  const activeIndicators = useMemo(() => new Set(MetricIndicators[metric.key]), [
+    metric,
+    MetricIndicators,
+  ])
   const activeLabels = useMemo(
     () =>
-      INDICATORS.filter(indicator => activeIndicators.has(indicator))
+      INDICATORS.filter((indicator) => activeIndicators.has(indicator))
         .map(labelExtractor)
         .join(', '),
-    [activeIndicators]
+    [activeIndicators],
   )
 
   function onToggle (indicator) {
@@ -114,11 +114,8 @@ const IndicatorsSetting = ({ metric, widget, toggleMetric }) => {
   }
 
   return (
-    <Dropdown
-      align='start'
-      trigger={<Setting>Indicators: {activeLabels}</Setting>}
-    >
-      {INDICATORS.map(indicator => (
+    <Dropdown align='start' trigger={<Setting>Indicators: {activeLabels}</Setting>}>
+      {INDICATORS.map((indicator) => (
         <Option
           key={indicator.key}
           title={`Moving Average ${indicator.base}`}

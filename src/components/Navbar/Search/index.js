@@ -15,18 +15,12 @@ const Search = () => {
   const inputRef = useRef()
   const [isOpened, setIsOpened] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
-  const { onKeyDown, ...props } = useCursorNavigation(
-    isOpened,
-    onSuggestionSelect
-  )
+  const { onKeyDown, ...props } = useCursorNavigation(isOpened, onSuggestionSelect)
 
   useEffect(() => {
     if (!searchTerm) return
 
-    const timer = setTimeout(
-      () => track.event('navbar_search', { value: searchTerm }),
-      500
-    )
+    const timer = setTimeout(() => track.event('navbar_search', { value: searchTerm }), 500)
     return () => clearTimeout(timer)
   }, [searchTerm])
 
@@ -37,11 +31,7 @@ const Search = () => {
     function onKeyPress (e) {
       const { code, target } = e
 
-      if (
-        code === 'Slash' &&
-        !EDITABLE_TAGS.has(target.tagName) &&
-        !target.isContentEditable
-      ) {
+      if (code === 'Slash' && !EDITABLE_TAGS.has(target.tagName) && !target.isContentEditable) {
         e.preventDefault()
         openSuggestions()
         input.focus()
@@ -80,7 +70,7 @@ const Search = () => {
       forwardedRef={inputRef}
       placeholder='Search for assets, trends, etc...'
       autoComplete='off'
-      onChange={v => setSearchTerm(v)}
+      onChange={(v) => setSearchTerm(v)}
       onClick={openSuggestions}
       onBlur={closeSuggestions}
       onKeyDown={onKeyDown}

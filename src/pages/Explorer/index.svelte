@@ -1,7 +1,7 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
   import ExplorerCategory from './Category/ExplorerCategory.svelte'
-  import RecentChartLayoutsCategory from './Category/RecentChartLayoutsCategory.svelte'
+  import Widgets from './Widgets.svelte'
 </script>
 
 <div class="row mrg-a mrg--l mrg--r">
@@ -19,19 +19,12 @@
     <ExplorerCategory />
   </main>
 
-  <aside>
-    <RecentChartLayoutsCategory />
-  </aside>
+  <Widgets />
 </div>
 
 <style>
   main {
     width: 640px;
-  }
-
-  aside {
-    width: 320px;
-    margin-left: 48px;
   }
 
   .btn-2 {

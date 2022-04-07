@@ -24,14 +24,14 @@ const Toggler = ({
   sorting,
   setOrderBy,
   type,
-  flexible = true
+  flexible = true,
 }) => {
   const { isNightMode } = useTheme()
   const { isAuthor } = useIsAuthor(watchlist)
   const [open, setOpen] = useState(false)
 
   const [selectedConfigId, setSelectedConfigId] = useState(
-    watchlist && watchlist.tableConfiguration && watchlist.tableConfiguration.id
+    watchlist && watchlist.tableConfiguration && watchlist.tableConfiguration.id,
   )
   const { categories, loading } = useCategories(type)
   const [currentSearch, setCurrentSearch] = useState('')
@@ -44,22 +44,17 @@ const Toggler = ({
     currActiveKeys,
     setCurrActiveKeys,
     wasReorder,
-    setWasReorder
+    setWasReorder,
   } = useManipulateColumns()
 
   const {
     updateWatchlistTableConfig,
-    updatedWatchlistTableConfigId
+    updatedWatchlistTableConfigId,
   } = useUpdateWatchlistTableConfig()
-  const { tableConfig, loading: configLoading } = useTableConfig(
-    selectedConfigId
-  )
+  const { tableConfig, loading: configLoading } = useTableConfig(selectedConfigId)
   const isLoading = configLoading || loading
 
-  const savedActiveColumnKeys = useMemo(
-    () => activeColumns.map(({ key }) => key),
-    [activeColumns]
-  )
+  const savedActiveColumnKeys = useMemo(() => activeColumns.map(({ key }) => key), [activeColumns])
 
   const config = useMemo(() => {
     if (
@@ -114,22 +109,19 @@ const Toggler = ({
     }
   }, [open])
 
-  const hasChanges = useMemo(
-    () => !isEqual(currActiveKeys, activeKeys) || wasReorder,
-    [activeKeys, currActiveKeys, wasReorder]
-  )
+  const hasChanges = useMemo(() => !isEqual(currActiveKeys, activeKeys) || wasReorder, [
+    activeKeys,
+    currActiveKeys,
+    wasReorder,
+  ])
 
   useEffect(() => {
     if (
       selectedConfigId &&
-      (!watchlist.tableConfiguration ||
-        watchlist.tableConfiguration.id !== selectedConfigId) &&
+      (!watchlist.tableConfiguration || watchlist.tableConfiguration.id !== selectedConfigId) &&
       isAuthor
     ) {
-      if (
-        !updatedWatchlistTableConfigId ||
-        updatedWatchlistTableConfigId !== selectedConfigId
-      ) {
+      if (!updatedWatchlistTableConfigId || updatedWatchlistTableConfigId !== selectedConfigId) {
         updateWatchlistTableConfig(watchlist.id, selectedConfigId)
       }
     }
@@ -143,11 +135,7 @@ const Toggler = ({
     <div className={styles.container}>
       <ContextMenu
         trigger={
-          <Button
-            fluid
-            variant='flat'
-            className={cx(styles.button, styles.button__withLine)}
-          >
+          <Button fluid variant='flat' className={cx(styles.button, styles.button__withLine)}>
             <Icon type='columns' />
           </Button>
         }
@@ -175,7 +163,7 @@ const Toggler = ({
             Discard changes
           </Button>
           <Search
-            onChange={value => setCurrentSearch(value)}
+            onChange={(value) => setCurrentSearch(value)}
             placeholder='Type to search'
             className={styles.search}
           />
@@ -189,7 +177,7 @@ const Toggler = ({
               currentSearch={currentSearch}
               reorder={reorderActiveKeys}
             />
-            {Object.keys(categories).map(key => (
+            {Object.keys(categories).map((key) => (
               <Category
                 currentSearch={currentSearch}
                 key={key}
@@ -216,6 +204,4 @@ const Toggler = ({
   )
 }
 
-export default ({ type, ...props }) => (
-  <Toggler {...props} type={transformToServerType(type)} />
-)
+export default ({ type, ...props }) => <Toggler {...props} type={transformToServerType(type)} />

@@ -15,7 +15,7 @@ const NoDataTemplate = ({ title, desc, className }) => (
 
 NoDataTemplate.defaultProps = {
   title: '',
-  desc: ''
+  desc: '',
 }
 
 export default NoDataTemplate

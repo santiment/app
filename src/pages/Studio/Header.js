@@ -47,7 +47,7 @@ const Header = ({ studio, settings, widgets, metrics, prevFullUrlRef }) => {
   function onCopyLinkClick () {
     if (clearTimerRef.current) clearTimerRef.current()
 
-    getShortShareLink(prevFullUrlRef.current).then(url => {
+    getShortShareLink(prevFullUrlRef.current).then((url) => {
       const node = document.querySelector('.copy .link')
       const clb = () => node && (node.ariaLabel = 'Copy link')
 
@@ -60,7 +60,7 @@ const Header = ({ studio, settings, widgets, metrics, prevFullUrlRef }) => {
     <>
       {ReactDOM.createPortal(
         <Calendar settings={settings} changeTimePeriod={changeTimePeriod} />,
-        calendarTarget
+        calendarTarget,
       )}
 
       <ShareModalTrigger

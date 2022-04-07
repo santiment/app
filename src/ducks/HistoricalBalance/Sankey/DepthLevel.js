@@ -23,10 +23,7 @@ const DepthLevel = ({ name, value, className, onChange }) => {
         >
           –
         </div>
-        <div
-          className={styles.depth__value}
-          style={{ width: depth.toString().length + 'ch' }}
-        >
+        <div className={styles.depth__value} style={{ width: depth.toString().length + 'ch' }}>
           {depth}
         </div>
         <div

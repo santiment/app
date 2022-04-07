@@ -2,14 +2,10 @@ import { useMemo } from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import { useUser } from '../../../../stores/user'
-import {
-  getStats,
-  SHORT_WATCHLIST_FRAGMENT,
-  getListItemsShortFragment
-} from '../fragments'
+import { getStats, SHORT_WATCHLIST_FRAGMENT, getListItemsShortFragment } from '../fragments'
 import { PROJECT } from '../../detector'
 
-export const USER_SHORT_WATCHLISTS_QUERY = type => gql`
+export const USER_SHORT_WATCHLISTS_QUERY = (type) => gql`
   query fetchWatchlists {
     watchlists: fetchWatchlists(type: ${type}) {
       ...generalFragment
@@ -19,7 +15,7 @@ export const USER_SHORT_WATCHLISTS_QUERY = type => gql`
   ${SHORT_WATCHLIST_FRAGMENT}
 `
 
-export const USER_WATCHLISTS_QUERY = type => gql`
+export const USER_WATCHLISTS_QUERY = (type) => gql`
     query fetchWatchlists {
       watchlists: fetchWatchlists(type: ${type}) {
         ...generalFragment
@@ -51,14 +47,14 @@ export const FEATURED_SCREENERS_QUERY = gql`
 `
 
 const ARRAY = []
-const CB = _ => _
+const CB = (_) => _
 
 export function useWatchlistsLoader (query, options, cb = CB, isUserLoading) {
   const { data, loading } = useQuery(query, options)
-  return useMemo(
-    () => [cb(data ? data.watchlists : ARRAY), loading || isUserLoading],
-    [data, isUserLoading]
-  )
+  return useMemo(() => [cb(data ? data.watchlists : ARRAY), loading || isUserLoading], [
+    data,
+    isUserLoading,
+  ])
 }
 
 export function useUserWatchlistsLoader (query, cb) {

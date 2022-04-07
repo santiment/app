@@ -49,15 +49,11 @@ const TopPanel = ({
         styles.wrapper,
         isFilterOpen && styles.open,
         type !== SCREENER && styles.light,
-        className
+        className,
       )}
     >
       <div className={styles.row}>
-        <Title
-          name={name}
-          watchlist={watchlist}
-          isDefaultScreener={isDefaultScreener}
-        />
+        <Title name={name} watchlist={watchlist} isDefaultScreener={isDefaultScreener} />
         <BaseActions
           type={type}
           watchlist={watchlist}
@@ -66,9 +62,7 @@ const TopPanel = ({
           isAuthorLoading={isAuthorLoading}
           refetchAssets={refetchAssets}
         />
-        {isUpdatingWatchlist && (
-          <span className={styles.saving}>Saving...</span>
-        )}
+        {isUpdatingWatchlist && <span className={styles.saving}>Saving...</span>}
         <Grave
           knockNumber={knockNumber}
           setKnockNumber={setKnockNumber}
@@ -110,9 +104,7 @@ const TopPanel = ({
         <div className={styles.row}>
           {widgets && <Widgets widgets={widgets} setWidgets={setWidgets} />}
           {watchlist && <Share watchlist={watchlist} isAuthor={isAuthor} />}
-          {isAuthor && type === PROJECT && (
-            <WeeklyReport watchlist={watchlist} />
-          )}
+          {isAuthor && type === PROJECT && <WeeklyReport watchlist={watchlist} />}
         </div>
       )}
     </section>

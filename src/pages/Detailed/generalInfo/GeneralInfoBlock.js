@@ -21,7 +21,7 @@ const GeneralInfoBlock = ({
   volumeUsd,
   ticker,
   roiUsd,
-  loading
+  loading,
 }) => (
   <div>
     <p>
@@ -37,32 +37,32 @@ const GeneralInfoBlock = ({
     <Row
       loading={loading}
       value={marketcapUsd}
-      format={value => formatNumber(value, { currency: 'USD' })}
+      format={(value) => formatNumber(value, { currency: 'USD' })}
       title='Market Cap'
     />
     <Row
       loading={loading}
       value={priceUsd}
-      format={value => formatNumber(value, { currency: 'USD' })}
+      format={(value) => formatNumber(value, { currency: 'USD' })}
       title='Price (USD)'
     />
     <Row
       loading={loading}
       value={volumeUsd}
-      format={value => formatNumber(value, { currency: 'USD' })}
+      format={(value) => formatNumber(value, { currency: 'USD' })}
       title='Volume (USD)'
     />
     <Row
       loading={loading}
       value={totalSupply}
-      format={value => formatCryptoCurrency(ticker, formatNumber(totalSupply))}
+      format={(value) => formatCryptoCurrency(ticker, formatNumber(totalSupply))}
       title='Total supply'
     />
-    <Row loading={loading} value={rank} format={value => value} title='Rank' />
+    <Row loading={loading} value={rank} format={(value) => value} title='Rank' />
     <Row
       loading={loading}
       value={roiUsd}
-      format={value => parseFloat(value).toFixed(2)}
+      format={(value) => parseFloat(value).toFixed(2)}
       title={
         <span>
           ROI since ICO{' '}
@@ -87,12 +87,9 @@ const GithubLinks = ({ links }) => {
   }
 
   return (
-    <Tooltip
-      trigger={<div className={styles.socialLink}>Github</div>}
-      position='bottom'
-    >
+    <Tooltip trigger={<div className={styles.socialLink}>Github</div>} position='bottom'>
       <div className={styles.tooltip}>
-        {links.map(link => (
+        {links.map((link) => (
           <SocialLink key={link} link={link} text={link} />
         ))}
       </div>
@@ -107,28 +104,15 @@ const SocialLink = ({ link, text = '' }) => (
     rel='noopener noreferrer'
     href={link || ''}
   >
-    {text || (
-      <Icon type='link' fill={link ? 'var(--shark)' : 'var(--porcelain)'} />
-    )}
+    {text || <Icon type='link' fill={link ? 'var(--shark)' : 'var(--porcelain)'} />}
   </a>
 )
 
 const Row = ({ title, value, format, loading }) => (
-  <div
-    className={cx(
-      'row-info',
-      value === undefined || (!value && styles.disabled)
-    )}
-  >
+  <div className={cx('row-info', value === undefined || (!value && styles.disabled))}>
     <div>{title}</div>
     <div className={styles.value}>
-      {loading ? (
-        <Loader className={styles.loader} />
-      ) : value ? (
-        format(value)
-      ) : (
-        'No data'
-      )}
+      {loading ? <Loader className={styles.loader} /> : value ? format(value) : 'No data'}
     </div>
   </div>
 )

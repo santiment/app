@@ -24,7 +24,7 @@ const ConnectMetamaskBlock = ({
   connectNewWallet,
   removeConnectedWallet,
   isConnectWalletPending,
-  classes = {}
+  classes = {},
 }) => {
   return (
     <div className={cx(styles.metamask)}>
@@ -51,23 +51,18 @@ const ConnectMetamaskBlock = ({
 
 const mapStateToProps = ({
   user: {
-    data: { ethAccounts = [] }
+    data: { ethAccounts = [] },
   },
-  accountUi: { isConnectWalletPending, isConnectWalletFailed }
+  accountUi: { isConnectWalletPending, isConnectWalletFailed },
 }) => ({
   address: ethAccounts.length > 0 && ethAccounts[0].address,
   isConnectWalletPending,
-  isConnectWalletFailed
+  isConnectWalletFailed,
 })
 
-const mapDispatchToProps = dispatch => ({
-  removeConnectedWallet: () =>
-    dispatch({ type: actions.SETTINGS_REMOVE_CONNECTED_WALLET }),
-  connectNewWallet: () =>
-    dispatch({ type: actions.SETTINGS_CONNECT_NEW_WALLET })
+const mapDispatchToProps = (dispatch) => ({
+  removeConnectedWallet: () => dispatch({ type: actions.SETTINGS_REMOVE_CONNECTED_WALLET }),
+  connectNewWallet: () => dispatch({ type: actions.SETTINGS_CONNECT_NEW_WALLET }),
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ConnectMetamaskBlock)
+export default connect(mapStateToProps, mapDispatchToProps)(ConnectMetamaskBlock)

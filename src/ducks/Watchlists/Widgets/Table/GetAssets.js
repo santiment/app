@@ -10,12 +10,12 @@ export const FIRST_LOAD_SIZE = 10
 
 class GetAssets extends Component {
   state = {
-    callFetchAll: false
+    callFetchAll: false,
   }
 
   static defaultProps = {
     sortBy: 'marketcapUsd',
-    Assets: { items: [] }
+    Assets: { items: [] },
   }
 
   getInfoFromListname = (listname = '') => {
@@ -29,8 +29,8 @@ class GetAssets extends Component {
     const { id, name } = this.props.watchlist || {}
     const { listName = name, listId = id } = compose(
       this.getInfoFromListname,
-      parsed => parsed.name,
-      qs.parse
+      (parsed) => parsed.name,
+      qs.parse,
     )(search)
 
     const type = this.props.type || qs.parse(search)
@@ -52,10 +52,7 @@ class GetAssets extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (
-      !nextProps.Assets.isLoading &&
-      nextProps.Assets.items.length === FIRST_LOAD_SIZE
-    ) {
+    if (!nextProps.Assets.isLoading && nextProps.Assets.items.length === FIRST_LOAD_SIZE) {
       if (!this.state.callFetchAll) {
         this.fetchAll()
       }
@@ -79,7 +76,7 @@ class GetAssets extends Component {
       list: { name: listName, id: listId },
       minVolume: this.props.minVolume,
       page: 1,
-      pageSize
+      pageSize,
     })
   }
 
@@ -91,36 +88,34 @@ class GetAssets extends Component {
     const childProps = {
       ...Assets,
       typeInfo,
-      items: items.sort(sortBy(sortType))
+      items: items.sort(sortBy(sortType)),
     }
 
     childProps.isLoading = this.state.callFetchAll ? false : Assets.isLoading
     childProps.loadingAll = this.state.callFetchAll && Assets.isLoading
 
-    return typeof children === 'function'
-      ? children(childProps)
-      : render(childProps)
+    return typeof children === 'function' ? children(childProps) : render(childProps)
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     Assets: state.projects,
-    minVolume: state.projects.filters.minVolume
+    minVolume: state.projects.filters.minVolume,
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchAssets: ({ type, list, minVolume, page, pageSize = MAX_LOAD_SIZE }) => {
     return dispatch({
       type: actions.ASSETS_FETCH,
       payload: {
         type,
         list,
-        filters: { minVolume, pageSize, page }
-      }
+        filters: { minVolume, pageSize, page },
+      },
     })
-  }
+  },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(GetAssets)

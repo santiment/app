@@ -10,7 +10,7 @@ import CustomizedTreeMapContent from './CustomizedTreeMapContent'
 import {
   InfographicTitleRanges,
   PriceInfographicTitleRanges,
-  useInfographicRanges
+  useInfographicRanges,
 } from './InfographicTitles'
 import styles from './ProjectsChart.module.scss'
 
@@ -22,33 +22,26 @@ export const ProjectsTreeMap = ({
   settings,
   onChangeSettings,
   sortByMetric,
-  type
+  type,
 }) => {
   const { currency: defaultCurrency } = settings
   const { currentRanges, currency, setCurrency } = useInfographicRanges({
     onChangeSettings,
     type,
     ranges,
-    defaultCurrency
+    defaultCurrency,
   })
 
   const isSocialVolume = type === INFOGRAPHICS.SOCIAL_VOLUME_TREE_MAP
 
-  const {
-    data,
-    loading,
-    intervalIndex,
-    setIntervalIndex,
-    label,
-    key
-  } = useProjectRanges({
+  const { data, loading, intervalIndex, setIntervalIndex, label, key } = useProjectRanges({
     listId,
     ranges: currentRanges,
     isSocialVolume,
     settings,
     onChangeSettings,
     sortByMetric,
-    type
+    type,
   })
   const noData = !loading && data.length === 0
   const colored = useWithColors(data, key)
@@ -82,16 +75,8 @@ export const ProjectsTreeMap = ({
       {/* NOTE(@haritonasty) 14.12.2020: check on loading because of firefox bug with skeleton in block */}
       {loading && (
         <>
-          <Skeleton
-            className={styles.treeMap__skeletonTop}
-            show={loading}
-            repeat={1}
-          />
-          <Skeleton
-            className={styles.treeMap__skeletonBottom}
-            show={loading}
-            repeat={1}
-          />
+          <Skeleton className={styles.treeMap__skeletonTop} show={loading} repeat={1} />
+          <Skeleton className={styles.treeMap__skeletonBottom} show={loading} repeat={1} />
         </>
       )}
       {noData ? (
@@ -112,7 +97,7 @@ export const ProjectsTreeMap = ({
                 offset={5}
                 allowEscapeViewBox={{
                   x: false,
-                  y: true
+                  y: true,
                 }}
                 content={
                   <ProjectsChartTooltip

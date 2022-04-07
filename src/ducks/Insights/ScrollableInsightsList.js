@@ -12,14 +12,7 @@ export const useScrollabelPages = () => {
   return { page, setPage }
 }
 
-export const ScrollableInsightsList = ({
-  variables,
-  query,
-  setPage,
-  page,
-  settings,
-  target
-}) => {
+export const ScrollableInsightsList = ({ variables, query, setPage, page, settings, target }) => {
   const [insights, setInsights] = useState([])
   const [canLoad, setCanLoad] = useState(true)
 
@@ -35,10 +28,7 @@ export const ScrollableInsightsList = ({
       setInsights([...insights, ...data])
     }
 
-    if (
-      !isLoading &&
-      (data.length === 0 || data.length < DEFAULT_INSIGHTS_PER_PAGE)
-    ) {
+    if (!isLoading && (data.length === 0 || data.length < DEFAULT_INSIGHTS_PER_PAGE)) {
       setCanLoad(false)
     }
   }, [data])
@@ -51,17 +41,13 @@ export const ScrollableInsightsList = ({
 
   return (
     <>
-      {!isLoading && insights.length === 0 && data.length === 0 && (
-        <NoInsights target={target} />
-      )}
+      {!isLoading && insights.length === 0 && data.length === 0 && <NoInsights target={target} />}
 
       <InfiniteScroll
         pageStart={0}
         loadMore={loadMore}
         hasMore={!isLoading && canLoad}
-        loader={
-          <Skeleton show={isLoading} key='loader' className={styles.skeleton} />
-        }
+        loader={<Skeleton show={isLoading} key='loader' className={styles.skeleton} />}
         threshold={0}
       >
         <InsightsFeed key='feed' insights={insights} classes={styles} />

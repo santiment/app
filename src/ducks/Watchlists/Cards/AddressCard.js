@@ -2,7 +2,7 @@ import React from 'react'
 import Card from './Card'
 import styles from './AddressCard.module.scss'
 
-const AddressCard = props => {
+const AddressCard = (props) => {
   const { stats } = props.watchlist
   const { blockchainAddressesCount } = stats
 
@@ -14,9 +14,7 @@ const AddressCard = props => {
         blockchainAddressesCount ? (
           <>
             {blockchainAddressesCount}
-            <div className={styles.address}>
-              address{blockchainAddressesCount > 1 && 'es'}
-            </div>
+            <div className={styles.address}>address{blockchainAddressesCount > 1 && 'es'}</div>
           </>
         ) : (
           <div className={styles.address}>No addresses</div>
@@ -26,7 +24,7 @@ const AddressCard = props => {
   )
 }
 AddressCard.defaultProps = {
-  path: '/watchlist/addresses/'
+  path: '/watchlist/addresses/',
 }
 
 export default AddressCard

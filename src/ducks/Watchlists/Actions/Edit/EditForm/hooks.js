@@ -7,7 +7,7 @@ const filterHelper = (filter, { ticker, name }) =>
 function useFilteredItems (filter, items) {
   return useMemo(() => {
     if (items.length > 0 && filter && filter.length > 0) {
-      items = items.filter(item => filterHelper(filter, item))
+      items = items.filter((item) => filterHelper(filter, item))
     }
     return items
   }, [filter, items])
@@ -18,29 +18,24 @@ function useAllProjects (filter) {
   return useFilteredItems(filter, projects)
 }
 
-export function useEditAssets (
-  filter,
-  watchlist,
-  onChange,
-  preSelectedItems = []
-) {
+export function useEditAssets (filter, watchlist, onChange, preSelectedItems = []) {
   const allProjects = useAllProjects(filter)
   const [checkedItems, setCheckedItems] = useState(watchlist)
   const filteredWatchlist = useFilteredItems(filter, checkedItems)
   const unusedProjects = useMemo(() => {
-    const checkedItemsIDs = new Set(checkedItems.map(i => i.id))
-    return allProjects.filter(item => !checkedItemsIDs.has(item.id))
+    const checkedItemsIDs = new Set(checkedItems.map((i) => i.id))
+    return allProjects.filter((item) => !checkedItemsIDs.has(item.id))
   }, [allProjects, checkedItems])
 
   useEffect(() => {
     if (preSelectedItems.length > 0) {
       setCheckedItems(preSelectedItems)
-      onChange(preSelectedItems.map(l => ({ projectId: parseInt(l.id) })))
+      onChange(preSelectedItems.map((l) => ({ projectId: parseInt(l.id) })))
     }
   }, [preSelectedItems])
 
-  const toggleWatchlistProject = item =>
-    setCheckedItems(old => {
+  const toggleWatchlistProject = (item) =>
+    setCheckedItems((old) => {
       let items = new Set(old)
       if (!items.has(item)) {
         items.add(item)
@@ -48,7 +43,7 @@ export function useEditAssets (
         items.delete(item)
       }
       items = Array.from(items)
-      if (onChange) onChange(items.map(l => ({ projectId: parseInt(l.id) })))
+      if (onChange) onChange(items.map((l) => ({ projectId: parseInt(l.id) })))
       return items
     })
 
@@ -56,6 +51,6 @@ export function useEditAssets (
     checkedItems,
     filteredWatchlist,
     toggleWatchlistProject,
-    unusedProjects
+    unusedProjects,
   }
 }

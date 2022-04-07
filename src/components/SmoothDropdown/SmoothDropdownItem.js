@@ -7,7 +7,7 @@ class SmoothDropdownItem extends Component {
 
   static propTypes = {
     children: PropTypes.any.isRequired,
-    trigger: PropTypes.element.isRequired
+    trigger: PropTypes.element.isRequired,
   }
 
   componentDidMount () {
@@ -20,16 +20,9 @@ class SmoothDropdownItem extends Component {
   }
 
   render () {
+    const { trigger, children, className = '', onOpen: propsOnOpen, onClose, ddParams } = this.props
     const {
-      trigger,
-      children,
-      className = '',
-      onOpen: propsOnOpen,
-      onClose,
-      ddParams
-    } = this.props
-    const {
-      triggerRef: { current: ddTrigger }
+      triggerRef: { current: ddTrigger },
     } = this
     if (!trigger) {
       return null

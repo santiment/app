@@ -1,9 +1,5 @@
 import { useState, useEffect } from 'react'
-import {
-  initBrush,
-  updateBrushState,
-  updateBrushDimensions
-} from '@santiment-network/chart/brush'
+import { initBrush, updateBrushState, updateBrushDimensions } from '@santiment-network/chart/brush'
 import { useChart } from './context'
 import { dayBrushPaintConfig, nightBrushPaintConfig } from './paintConfigs'
 import { clearCtx } from './utils'
@@ -27,16 +23,7 @@ function getBrushPlotItems ({ items }) {
   return brushItems
 }
 
-const Brush = ({
-  data,
-  categories,
-  scale,
-  colors,
-  domainGroups,
-  from,
-  to,
-  onChangeEnd
-}) => {
+const Brush = ({ data, categories, scale, colors, domainGroups, from, to, onChangeEnd }) => {
   const chart = useChart()
   const { isNightMode } = useTheme()
   const [brush, setBrush] = useState()
@@ -54,7 +41,7 @@ const Brush = ({
 
     brush.plotBrushData = noop
     brush.redraw = noop
-    brush.updateWidth = width => {
+    brush.updateWidth = (width) => {
       updateBrushDimensions(brush, width, BRUSH_HEIGHT)
       brush.redraw()
     }
@@ -83,8 +70,7 @@ const Brush = ({
         endIndex = Math.trunc(scale * (toTimestamp - startTimestamp))
       }
 
-      startIndex =
-        startIndex > 0 ? (startIndex < length ? startIndex : lastIndex) : 0
+      startIndex = startIndex > 0 ? (startIndex < length ? startIndex : lastIndex) : 0
       endIndex = endIndex > 0 ? (endIndex < length ? endIndex : lastIndex) : 0
 
       if (endIndex - startIndex < 2) {
@@ -106,9 +92,7 @@ const Brush = ({
     if (!brush) return
 
     clearCtx(brush)
-    brush.paintConfig = isNightMode
-      ? nightBrushPaintConfig
-      : dayBrushPaintConfig
+    brush.paintConfig = isNightMode ? nightBrushPaintConfig : dayBrushPaintConfig
 
     if (data.length === 0) return
 
@@ -116,11 +100,10 @@ const Brush = ({
     brushCategories.lines = [...categories.lines, ...categories.candles]
 
     brush.plotBrushData = () =>
-      getBrushPlotItems(chart.plotter).forEach(plot => {
+      getBrushPlotItems(chart.plotter).forEach((plot) => {
         plot(brush, scale, data, colors, brushCategories)
       })
-    brush.redraw = () =>
-      updateBrushState(brush, data, categories.joinedCategories)
+    brush.redraw = () => updateBrushState(brush, data, categories.joinedCategories)
 
     brush.redraw()
   }, [brush, data, colors, domainGroups, isNightMode, isAwaitingRedraw])

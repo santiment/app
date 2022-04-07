@@ -8,44 +8,35 @@ import { normalizeItems, transformToServerType } from '../helpers'
 import {
   updateWatchlistsOnCreation,
   updateWatchlistOnEdit,
-  updateWatchlistsOnDelete
+  updateWatchlistsOnDelete,
 } from '../cache'
 import {
   BLOCKCHAIN_ADDRESS,
   detectWatchlistType,
   getTitleByWatchlistType,
   PROJECT,
-  SCREENER
+  SCREENER,
 } from '../../detector'
-import {
-  notifyCreation,
-  notifyDeletion,
-  notifyError
-} from '../../Widgets/TopPanel/notifications'
+import { notifyCreation, notifyDeletion, notifyError } from '../../Widgets/TopPanel/notifications'
 import { getMutationByAction } from './helpers'
 import {
   CREATE_WATCHLIST_MUTATION,
   REMOVE_WATCHLIST_MUTATION,
-  UPDATE_WATCHLIST_MUTATION
+  UPDATE_WATCHLIST_MUTATION,
 } from './queries'
 
 export function useUpdateWatchlist (type) {
   const [mutate, data] = useMutation(UPDATE_WATCHLIST_MUTATION(type), {
-    update: updateWatchlistOnEdit
+    update: updateWatchlistOnEdit,
   })
 
   function updateWatchlist (watchlist, newParams) {
     const { id, name, function: oldFn } = watchlist
     const description =
-      newParams.description === undefined
-        ? watchlist.description
-        : newParams.description
-    const isPublic =
-      newParams.isPublic === undefined ? watchlist.isPublic : newParams.isPublic
+      newParams.description === undefined ? watchlist.description : newParams.description
+    const isPublic = newParams.isPublic === undefined ? watchlist.isPublic : newParams.isPublic
     const isMonitored =
-      newParams.isMonitored === undefined
-        ? watchlist.isMonitored
-        : newParams.isMonitored
+      newParams.isMonitored === undefined ? watchlist.isMonitored : newParams.isMonitored
 
     let listItems = []
     if (type === PROJECT) {
@@ -55,8 +46,8 @@ export function useUpdateWatchlist (type) {
         listItems = watchlist.listItems
       }
 
-      listItems = listItems.map(item => ({
-        projectId: item.project ? +item.project.id : +item.projectId
+      listItems = listItems.map((item) => ({
+        projectId: item.project ? +item.project.id : +item.projectId,
       }))
     }
 
@@ -68,11 +59,11 @@ export function useUpdateWatchlist (type) {
         description,
         listItems,
         name: newParams.name || name,
-        function: stringifyFn(newParams.function || oldFn)
-      }
+        function: stringifyFn(newParams.function || oldFn),
+      },
     })
       .then(({ data }) => ({ ...watchlist, ...data.updateWatchlist }))
-      .catch(err => {
+      .catch((err) => {
         const type = detectWatchlistType(watchlist)
         Sentry.captureException(err)
         notifyError(getTitleByWatchlistType(type), 'update')
@@ -88,13 +79,13 @@ export const updateWatchlistShort = (variables, action) =>
     update: updateWatchlistOnEdit,
     variables: {
       ...variables,
-      listItems: normalizeItems(variables.listItems, BLOCKCHAIN_ADDRESS)
-    }
+      listItems: normalizeItems(variables.listItems, BLOCKCHAIN_ADDRESS),
+    },
   })
 
 export function useCreateWatchlist (type) {
   const [mutate, data] = useMutation(CREATE_WATCHLIST_MUTATION(type), {
-    update: updateWatchlistsOnCreation
+    update: updateWatchlistsOnCreation,
   })
 
   function createWatchlist (props) {
@@ -107,8 +98,8 @@ export function useCreateWatchlist (type) {
         description,
         isScreener: type === SCREENER,
         function: type === SCREENER ? stringifyFn(fn) : undefined,
-        listItems: normalizeItems(listItems, type)
-      }
+        listItems: normalizeItems(listItems, type),
+      },
     })
       .then(({ data: { watchlist } }) => {
         const link = getWatchlistLink(watchlist)
@@ -123,7 +114,7 @@ export function useCreateWatchlist (type) {
 
         return watchlist
       })
-      .catch(err => {
+      .catch((err) => {
         Sentry.captureException(err)
         notifyError(getTitleByWatchlistType(type), 'create')
       })
@@ -134,13 +125,13 @@ export function useCreateWatchlist (type) {
 
 export function useRemoveWatchlist (type) {
   const [mutate, data] = useMutation(REMOVE_WATCHLIST_MUTATION, {
-    update: updateWatchlistsOnDelete
+    update: updateWatchlistsOnDelete,
   })
 
   function onDelete (id, name) {
     return mutate({ variables: { id: +id } })
       .then(() => notifyDeletion(name))
-      .catch(err => {
+      .catch((err) => {
         Sentry.captureException(err)
         notifyError(getTitleByWatchlistType(type), 'delete')
       })
@@ -151,5 +142,4 @@ export function useRemoveWatchlist (type) {
 
 export const useCreateProjectWatchlist = () => useCreateWatchlist(PROJECT)
 export const useCreateScreener = () => useCreateWatchlist(SCREENER)
-export const useCreateAddressesWatchlist = () =>
-  useCreateWatchlist(BLOCKCHAIN_ADDRESS)
+export const useCreateAddressesWatchlist = () => useCreateWatchlist(BLOCKCHAIN_ADDRESS)

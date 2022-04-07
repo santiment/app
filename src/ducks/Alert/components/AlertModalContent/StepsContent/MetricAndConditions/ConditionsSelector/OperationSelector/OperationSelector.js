@@ -9,7 +9,7 @@ import {
   AVAILABLE_OPERATIONS,
   ETH_WALLETS_OPERATIONS,
   MULTIPLE_VALUES_OPERATIONS,
-  PERCENT_OPERATIONS
+  PERCENT_OPERATIONS,
 } from './constants'
 import { formatOptionLabel } from './utils'
 import styles from './OperationSelector.module.scss'
@@ -24,13 +24,11 @@ const OperationSelector = ({ metric, isWallet }) => {
   const [operation, setOperation] = useState(
     (selectedOperation &&
       AVAILABLE_OPERATIONS.concat(isWallet ? ETH_WALLETS_OPERATIONS : []).find(
-        op => op.value === selectedOperation
+        (op) => op.value === selectedOperation,
       )) ||
-      AVAILABLE_OPERATIONS[0]
+      AVAILABLE_OPERATIONS[0],
   )
-  const [count, setCount] = useState(
-    selectedCount || getCountDefault(operation)
-  )
+  const [count, setCount] = useState(selectedCount || getCountDefault(operation))
 
   function handleChangeOperation ({ label, value }) {
     setOperation({ label, value })
@@ -40,18 +38,14 @@ const OperationSelector = ({ metric, isWallet }) => {
   useEffect(() => {
     if (operation.value === 'some_of') {
       setValue({
-        [operation.value]: [
-          { percent_up: count[0] },
-          { percent_down: count[1] }
-        ]
+        [operation.value]: [{ percent_up: count[0] }, { percent_down: count[1] }],
       })
     } else {
       setValue({ [operation.value]: count })
     }
   }, [operation, count])
 
-  const hasPriceIcon =
-    metric.category === 'Financial' || metric.key === 'price_usd'
+  const hasPriceIcon = metric.category === 'Financial' || metric.key === 'price_usd'
   const isPercentIcon = PERCENT_OPERATIONS.includes(operation.value)
   const isMultipleValues = MULTIPLE_VALUES_OPERATIONS.includes(operation.value)
 
@@ -61,9 +55,7 @@ const OperationSelector = ({ metric, isWallet }) => {
         isClearable={false}
         isSearchable={false}
         className={styles.operation}
-        options={AVAILABLE_OPERATIONS.concat(
-          isWallet ? ETH_WALLETS_OPERATIONS : []
-        )}
+        options={AVAILABLE_OPERATIONS.concat(isWallet ? ETH_WALLETS_OPERATIONS : [])}
         formatOptionLabel={formatOptionLabel}
         value={operation}
         onChange={handleChangeOperation}

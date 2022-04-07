@@ -5,8 +5,8 @@ if (process.env.NODE_ENV === 'production') {
   initializeTracking()
 }
 
-const withTracker = WrappedComponent => {
-  const trackPage = page => {
+const withTracker = (WrappedComponent) => {
+  const trackPage = (page) => {
     if (process.env.NODE_ENV === 'production') {
       pageview(page)
     }

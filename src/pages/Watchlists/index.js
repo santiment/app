@@ -13,20 +13,16 @@ import NewWatchlistCard from '../../ducks/Watchlists/Cards/NewCard'
 import {
   newRenderQueue,
   withRenderQueueProvider,
-  useRenderQueueItem
+  useRenderQueueItem,
 } from '../../ducks/renderQueue/sized'
 import MobileAnonBanner from '../../ducks/Watchlists/Templates/Anon/WatchlistsAnon'
 import InlineBanner from '../../components/banners/feature/InlineBanner'
-import {
-  BLOCKCHAIN_ADDRESS,
-  PROJECT,
-  SCREENER
-} from '../../ducks/Watchlists/detector'
+import { BLOCKCHAIN_ADDRESS, PROJECT, SCREENER } from '../../ducks/Watchlists/detector'
 import EmptySection from './EmptySection'
 import {
   useUserAddressWatchlists,
   useUserProjectWatchlists,
-  useUserScreeners
+  useUserScreeners,
 } from '../../ducks/Watchlists/gql/lists/hooks'
 import styles from './index.module.scss'
 
@@ -41,26 +37,15 @@ const LoginBanner = ({ isDesktop }) =>
     <MobileAnonBanner isFullScreen wrapperClassName={styles.login} />
   )
 
-const QueuedProjectCard = props => {
+const QueuedProjectCard = (props) => {
   const { isRendered, onLoad } = useRenderQueueItem()
 
-  return (
-    <WatchlistCard
-      {...props}
-      skipMarketcap={!isRendered}
-      onMarketcapLoad={onLoad}
-    />
-  )
+  return <WatchlistCard {...props} skipMarketcap={!isRendered} onMarketcapLoad={onLoad} />
 }
 
 const Cards = ({ watchlists, path, Card = QueuedProjectCard, type }) => (
   <>
-    <WatchlistCards
-      className={styles.card}
-      Card={Card}
-      watchlists={watchlists}
-      path={path}
-    />
+    <WatchlistCards className={styles.card} Card={Card} watchlists={watchlists} path={path} />
 
     <DesktopOnly>
       <NewWatchlistCard type={type} />
@@ -77,10 +62,7 @@ const MyWatchlists = ({ data, addressesData, isDesktop }) => {
   if (watchlists.length === 0 && addressesWatchlists.length === 0) {
     return (
       <Content>
-        <EmptySection
-          wrapperClassName={styles.empty}
-          className={styles.empty__img}
-        />
+        <EmptySection wrapperClassName={styles.empty} className={styles.empty__img} />
       </Content>
     )
   }

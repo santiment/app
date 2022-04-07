@@ -19,7 +19,7 @@ import styles from './AccountPage.module.scss'
 
 export const ACCOUNT_PAGE_HASHES = {
   subscription: '#subscription',
-  affiliate: '#affiliate'
+  affiliate: '#affiliate',
 }
 
 const tabs = [
@@ -29,7 +29,7 @@ const tabs = [
       <Link className={styles.tab} to='#general'>
         General
       </Link>
-    )
+    ),
   },
   {
     index: 2,
@@ -37,7 +37,7 @@ const tabs = [
       <Link className={styles.tab} to={ACCOUNT_PAGE_HASHES.affiliate}>
         Affiliate
       </Link>
-    )
+    ),
   },
   {
     index: 3,
@@ -45,7 +45,7 @@ const tabs = [
       <Link className={styles.tab} to='#connections'>
         Connections
       </Link>
-    )
+    ),
   },
   {
     index: 4,
@@ -53,7 +53,7 @@ const tabs = [
       <Link className={styles.tab} to='#notifications'>
         Alert notifications
       </Link>
-    )
+    ),
   },
   {
     index: 5,
@@ -61,7 +61,7 @@ const tabs = [
       <Link className={styles.tab} to='#get-tokens'>
         Get tokens
       </Link>
-    )
+    ),
   },
   {
     index: 6,
@@ -69,7 +69,7 @@ const tabs = [
       <Link className={styles.tab} to='#api-keys'>
         API keys
       </Link>
-    )
+    ),
   },
   {
     index: 7,
@@ -77,7 +77,7 @@ const tabs = [
       <Link className={styles.tab} to='#sessions'>
         Sessions
       </Link>
-    )
+    ),
   },
   {
     index: 8,
@@ -85,7 +85,7 @@ const tabs = [
       <Link className={styles.tab} to={ACCOUNT_PAGE_HASHES.subscription}>
         Subscription
       </Link>
-    )
+    ),
   },
   {
     index: 9,
@@ -93,8 +93,8 @@ const tabs = [
       <Link className={styles.tab} to='#plans'>
         Plans
       </Link>
-    )
-  }
+    ),
+  },
 ]
 
 const AccountPage = ({ history, location }) => {
@@ -121,11 +121,7 @@ const AccountPage = ({ history, location }) => {
       <MobileOnly>
         <MobileHeader title='Account settings' />
       </MobileOnly>
-      <Tabs
-        className={styles.tabs}
-        options={tabs}
-        defaultSelectedIndex={selectedIndex}
-      />
+      <Tabs className={styles.tabs} options={tabs} defaultSelectedIndex={selectedIndex} />
       <div className={styles.container}>
         <SettingsGeneral {...user} />
         <SettingsAffiliate />
@@ -149,9 +145,7 @@ const AccountPage = ({ history, location }) => {
             Log out
           </Button>
         </div>
-        <div className={styles.version}>
-          ver. {process.env.REACT_APP_VERSION}
-        </div>
+        <div className={styles.version}>ver. {process.env.REACT_APP_VERSION}</div>
       </MobileOnly>
     </div>
   )

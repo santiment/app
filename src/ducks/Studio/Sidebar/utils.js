@@ -4,8 +4,8 @@ export const NO_GROUP = '_'
 
 export const AVAILABLE_TIMEBOUNDS = {
   dormant_circulation_: {
-    base: Metric.dormant_circulation
-  }
+    base: Metric.dormant_circulation,
+  },
 }
 
 const addItemToGraph = (graph, node, item) => {
@@ -20,7 +20,7 @@ const addItemToGraph = (graph, node, item) => {
 
 function sortCategoryGroups (category, Submetrics) {
   const sortedCategory = {
-    [NO_GROUP]: []
+    [NO_GROUP]: [],
   }
 
   const GroupSubmetricsLength = Object.keys(Submetrics).reduce((acc, key) => {
@@ -32,23 +32,20 @@ function sortCategoryGroups (category, Submetrics) {
   const groups = Object.keys(category).sort(
     (leftGroup, rightGroup) =>
       (category[leftGroup].length + GroupSubmetricsLength[leftGroup] || 0) -
-      (category[rightGroup].length + GroupSubmetricsLength[rightGroup] || 0)
+      (category[rightGroup].length + GroupSubmetricsLength[rightGroup] || 0),
   )
 
-  groups.forEach(group => (sortedCategory[group] = category[group]))
+  groups.forEach((group) => (sortedCategory[group] = category[group]))
   return sortedCategory
 }
 
 export function getMetric (availableMetric) {
   const availableTimebounds = { ...AVAILABLE_TIMEBOUNDS }
 
-  let metric =
-    typeof availableMetric === 'object'
-      ? availableMetric
-      : Metric[availableMetric]
+  let metric = typeof availableMetric === 'object' ? availableMetric : Metric[availableMetric]
 
   if (!metric) {
-    const availableTimeboundKey = Object.keys(availableTimebounds).find(key => {
+    const availableTimeboundKey = Object.keys(availableTimebounds).find((key) => {
       return availableMetric.indexOf(key) !== -1
     })
 
@@ -61,12 +58,7 @@ export function getMetric (availableMetric) {
   return metric
 }
 
-export const getCategoryGraph = (
-  availableMetrics,
-  hiddenMetrics = [],
-  Submetrics = {},
-  isBeta
-) => {
+export const getCategoryGraph = (availableMetrics, hiddenMetrics = [], Submetrics = {}, isBeta) => {
   if (availableMetrics.length === 0) {
     return {}
   }
@@ -75,7 +67,7 @@ export const getCategoryGraph = (
     Financial: undefined,
     Social: undefined,
     Development: undefined,
-    Derivatives: undefined
+    Derivatives: undefined,
   }
   const { length } = availableMetrics
 
@@ -94,13 +86,13 @@ export const getCategoryGraph = (
       if (!isBetaMetric || isBeta) {
         addItemToGraph(categories, metric.category, {
           item: metric,
-          subitems: Submetrics[metric.key] || []
+          subitems: Submetrics[metric.key] || [],
         })
       }
     }
   }
 
-  Object.keys(categories).forEach(key => {
+  Object.keys(categories).forEach((key) => {
     if (!categories[key]) {
       return delete categories[key]
     }
@@ -111,7 +103,7 @@ export const getCategoryGraph = (
         addItemToGraph(acc, group, value)
         return acc
       },
-      { [NO_GROUP]: [] }
+      { [NO_GROUP]: [] },
     )
 
     categories[key] = sortCategoryGroups(category, Submetrics)
@@ -125,5 +117,5 @@ export function loadIsSidebarLocked () {
   const state = localStorage.getItem(LS_IS_SIDEBAR_LOCKED)
   return state === null || !!state
 }
-export const saveIsSidebarLocked = state =>
+export const saveIsSidebarLocked = (state) =>
   localStorage.setItem(LS_IS_SIDEBAR_LOCKED, state ? '+' : '')

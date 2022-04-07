@@ -24,18 +24,18 @@ const UPDATE_USER_FAVORIT_METRICS_MUTATION = gql`
 `
 
 const QUERY = {
-  query: USER_SETTINGS_QUERY
+  query: USER_SETTINGS_QUERY,
 }
 
 const ARRAY = []
 const DEFAULT = {
   favoriteMetrics: ARRAY,
-  isLoading: true
+  isLoading: true,
 }
 
 const DEFAULT_LOADED = {
   favoriteMetrics: ARRAY,
-  isLoading: false
+  isLoading: false,
 }
 const keyAccessor = ({ key }) => key
 
@@ -54,7 +54,7 @@ export function useFavoriteMetrics () {
 
     return {
       favoriteMetrics: favoriteMetrics.map(getMetricByKey),
-      isLoading: false
+      isLoading: false,
     }
   }, [data])
 }
@@ -67,17 +67,17 @@ function updateFavoriteMetricsCache (_, { data }) {
     data: {
       currentUser: {
         ...currentUser,
-        settings: data.updateUserSettings
-      }
-    }
+        settings: data.updateUserSettings,
+      },
+    },
   })
 }
 
-export const mutateFavoriteMetrics = metrics =>
+export const mutateFavoriteMetrics = (metrics) =>
   client.mutate({
     mutation: UPDATE_USER_FAVORIT_METRICS_MUTATION,
     variables: { metrics: metrics.map(keyAccessor) },
-    update: updateFavoriteMetricsCache
+    update: updateFavoriteMetricsCache,
   })
 
 export function toggleFavoriteMetric (metric) {
@@ -90,9 +90,7 @@ export function toggleFavoriteMetric (metric) {
     .then(({ data: { currentUser } }) => {
       if (!currentUser) return
 
-      const favoriteMetricsSet = new Set(
-        currentUser.settings.favoriteMetrics.map(getMetricByKey)
-      )
+      const favoriteMetricsSet = new Set(currentUser.settings.favoriteMetrics.map(getMetricByKey))
 
       if (favoriteMetricsSet.has(metric)) {
         favoriteMetricsSet.delete(metric)

@@ -39,7 +39,7 @@ function RenderQueue () {
     return () => clearTimeout(timer)
   }
 
-  return ref => {
+  return (ref) => {
     const [isRendered, setIsRendered] = useState(false)
 
     useEffect(() => {
@@ -60,14 +60,14 @@ function RenderQueue () {
 }
 
 const RenderQueueContext = React.createContext()
-export const useRenderQueueItem = ref => useContext(RenderQueueContext)(ref)
+export const useRenderQueueItem = (ref) => useContext(RenderQueueContext)(ref)
 
 export const RenderQueueProvider = ({ children }) => (
   <RenderQueueContext.Provider value={useState(RenderQueue)[0]}>
     {children}
   </RenderQueueContext.Provider>
 )
-export const withRenderQueueProvider = Component => props => (
+export const withRenderQueueProvider = (Component) => (props) => (
   <RenderQueueProvider>
     <Component {...props} />
   </RenderQueueProvider>

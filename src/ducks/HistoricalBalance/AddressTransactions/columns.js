@@ -9,10 +9,9 @@ const trxValueFormatter = new Intl.NumberFormat('en')
 
 function formatValue (value, ticker, isSending) {
   const formattedValue = trxValueFormatter.format(
-    +(value < 1 ? value.toFixed(6) : value.toFixed(2))
+    +(value < 1 ? value.toFixed(6) : value.toFixed(2)),
   )
-  return `${isSending ? '-' : '+'} ${formattedValue} ${ticker ||
-    'unknown asset'}`
+  return `${isSending ? '-' : '+'} ${formattedValue} ${ticker || 'unknown asset'}`
 }
 
 function getDatetime (datetime) {
@@ -25,14 +24,7 @@ function getDatetime (datetime) {
 
 const checkIsSending = (address, fromAddress) => address === fromAddress.address
 
-const Values = ({
-  address,
-  project,
-  toAddress,
-  fromAddress,
-  trxValue,
-  asset
-}) => {
+const Values = ({ address, project, toAddress, fromAddress, trxValue, asset }) => {
   const { logoUrl, darkLogoUrl, ticker } = asset || project || {}
   const isSending = checkIsSending(address, fromAddress)
   const anotherAddress = isSending ? toAddress.address : fromAddress.address
@@ -40,11 +32,7 @@ const Values = ({
   return (
     <>
       <div className={styles.asset}>
-        <ProjectIcon
-          darkLogoUrl={darkLogoUrl}
-          logoUrl={logoUrl}
-          className={styles.logo}
-        />{' '}
+        <ProjectIcon darkLogoUrl={darkLogoUrl} logoUrl={logoUrl} className={styles.logo} />{' '}
         {formatValue(trxValue, ticker, isSending)}
       </div>
       <div className={styles.actor}>
@@ -72,26 +60,24 @@ const AddressLabels = ({ address, toAddress, fromAddress }) => {
 export const COLUMNS = prepareColumns([
   {
     title: 'Time',
-    render: ({ datetime }) => getDatetime(datetime)
+    render: ({ datetime }) => getDatetime(datetime),
   },
   {
     title: 'Kind of TX',
     render: ({ fromAddress }, { address }) =>
-      checkIsSending(address, fromAddress) ? 'Send' : 'Receive'
+      checkIsSending(address, fromAddress) ? 'Send' : 'Receive',
   },
   {
     title: 'Values',
     className: styles.values,
     render: (transaction, { address, asset }) => (
       <Values {...transaction} address={address} asset={asset} />
-    )
+    ),
   },
   {
     title: 'Labels',
     className: styles.values,
-    render: (transaction, { address }) => (
-      <AddressLabels {...transaction} address={address} />
-    )
+    render: (transaction, { address }) => <AddressLabels {...transaction} address={address} />,
   },
   {
     title: 'Tx hash',
@@ -105,6 +91,6 @@ export const COLUMNS = prepareColumns([
       >
         {trxHash}
       </a>
-    )
-  }
+    ),
+  },
 ])

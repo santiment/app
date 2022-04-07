@@ -4,7 +4,7 @@ const groupStartIndeces = [0, 3, 6, 11, 14, 17]
 
 const getDaysInMonth = (year, month) => new Date(20 + year, month, 0).getDate()
 
-const shouldBreakOnChar = char => char === '/' || char === ' '
+const shouldBreakOnChar = (char) => char === '/' || char === ' '
 
 export function getValidityMsg (dateSettings) {
   if (!dateSettings) return ''
@@ -27,11 +27,11 @@ export function getValidityMsg (dateSettings) {
 export function fixDateRangeString (input) {
   const fixed = input.value
     .split(' - ')
-    .map(str =>
+    .map((str) =>
       str
         .split('/')
-        .map(value => value.padStart(2, '0'))
-        .join('/')
+        .map((value) => value.padStart(2, '0'))
+        .join('/'),
     )
     .join(' - ')
   input.value = fixed
@@ -57,9 +57,7 @@ function nextModifyableGroupIndex (caret) {
 }
 
 export function selectNextGroup (el, toRight, caret = el.selectionStart) {
-  const left = (toRight ? nextModifyableGroupIndex : prevModifyableGroupIndex)(
-    caret
-  )
+  const left = (toRight ? nextModifyableGroupIndex : prevModifyableGroupIndex)(caret)
   el.selectionStart = left
   el.selectionEnd = left + 2
 }

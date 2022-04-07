@@ -4,7 +4,7 @@ import { TRIGGERS_QUERY } from './queries'
 
 export const filterByChannels = (signals, type) =>
   signals.filter(({ settings: { channel } }) =>
-    Array.isArray(channel) ? channel.indexOf(type) !== -1 : channel === type
+    Array.isArray(channel) ? channel.indexOf(type) !== -1 : channel === type,
   )
 
 export const filterByIsActiveFlag = (signals, statusFilter) =>
@@ -23,7 +23,7 @@ const DEFAULT_STATE = []
 
 export function useSignals ({ skip = false, filters, mapper } = {}) {
   const { data, loading, error } = useQuery(TRIGGERS_QUERY, {
-    skip: skip
+    skip: skip,
   })
 
   const alerts = useMemo(() => {
@@ -45,6 +45,6 @@ export function useSignals ({ skip = false, filters, mapper } = {}) {
   return {
     data: alerts,
     loading,
-    error
+    error,
   }
 }

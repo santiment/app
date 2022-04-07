@@ -8,7 +8,7 @@ import { useDialogState } from '../../../../hooks/dialog'
 import styles from './index.module.scss'
 
 const CUSTOM_CATEGORY = {
-  Fiat: () => Promise.resolve(FIAT_MARKET_ASSETS)
+  Fiat: () => Promise.resolve(FIAT_MARKET_ASSETS),
 }
 
 const CUSTOM_TABS = DEFAULT_TABS.concat(Object.keys(CUSTOM_CATEGORY))
@@ -16,31 +16,23 @@ const CUSTOM_TABS = DEFAULT_TABS.concat(Object.keys(CUSTOM_CATEGORY))
 const ALL_STABLECOINS = {
   slug: 'stablecoins',
   name: 'Stablecoins',
-  ticker: 'Stablecoins'
+  ticker: 'Stablecoins',
 }
 const STABLECOINS_ASSETS = [ALL_STABLECOINS]
 const CategoryModifier = {
-  All: assets => assets.concat(STABLECOINS_ASSETS).concat(FIAT_MARKET_ASSETS),
-  Stablecoins: assets => STABLECOINS_ASSETS.concat(assets)
+  All: (assets) => assets.concat(STABLECOINS_ASSETS).concat(FIAT_MARKET_ASSETS),
+  Stablecoins: (assets) => STABLECOINS_ASSETS.concat(assets),
 }
 
 const Selector = ({ slug, name, logoUrl, onClick }) => (
   <div className={styles.selector} onClick={onClick}>
-    <ProjectIcon
-      size={20}
-      slug={slug}
-      logoUrl={logoUrl}
-      className={styles.icon}
-    />
+    <ProjectIcon size={20} slug={slug} logoUrl={logoUrl} className={styles.icon} />
     {name}
     <Icon type='arrow-down' className={styles.arrow} />
   </div>
 )
 
-const ProjectSelector = ({
-  project: { slug, name, logoUrl },
-  onProjectSelect
-}) => {
+const ProjectSelector = ({ project: { slug, name, logoUrl }, onProjectSelect }) => {
   const { isOpened, closeDialog, openDialog } = useDialogState()
 
   function onSelect (project) {
@@ -55,14 +47,7 @@ const ProjectSelector = ({
       onOpen={openDialog}
       onClose={closeDialog}
       onSelect={onSelect}
-      trigger={
-        <Selector
-          slug={slug}
-          logoUrl={logoUrl}
-          name={name}
-          onClick={openDialog}
-        />
-      }
+      trigger={<Selector slug={slug} logoUrl={logoUrl} name={name} onClick={openDialog} />}
       customTabs={CUSTOM_TABS}
       CustomCategory={CUSTOM_CATEGORY}
       CategoryModifier={CategoryModifier}

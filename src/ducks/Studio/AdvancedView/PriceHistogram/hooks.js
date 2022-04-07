@@ -8,7 +8,7 @@ const DEFAULT_STATE = []
 const Chart = {
   height: 50,
   top: 0,
-  bottom: 50
+  bottom: 50,
 }
 
 function formatHistogramData (data, price) {
@@ -29,8 +29,7 @@ function formatHistogramData (data, price) {
   return data
     .map((distribution, index) => {
       const { range, value } = distribution
-      const isCurrentPriceInRange =
-        !isPriceRangeFound && price > range[0] && price < range[1]
+      const isCurrentPriceInRange = !isPriceRangeFound && price > range[0] && price < range[1]
 
       if (isCurrentPriceInRange) {
         isPriceRangeFound = true
@@ -41,7 +40,7 @@ function formatHistogramData (data, price) {
         distribution,
         width: scaler(value) + 'px',
         price: isCurrentPriceInRange && price,
-        isRangeAfterCurrentPrice: isPriceRangeFound && !isCurrentPriceInRange
+        isRangeAfterCurrentPrice: isPriceRangeFound && !isCurrentPriceInRange,
       }
     })
     .reverse()
@@ -53,19 +52,16 @@ export function usePriceHistogramData ({ slug, from, to }) {
     variables: {
       slug,
       from,
-      to
-    }
+      to,
+    },
   })
 
   const histogramData = useMemo(
     () =>
       data
-        ? formatHistogramData(
-            data.histogramQuery.histogramData.values.data,
-            data.priceQuery.price
-          )
+        ? formatHistogramData(data.histogramQuery.histogramData.values.data, data.priceQuery.price)
         : DEFAULT_STATE,
-    [data]
+    [data],
   )
 
   return [histogramData, loading, error]

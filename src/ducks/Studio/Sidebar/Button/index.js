@@ -21,17 +21,12 @@ const MetricButton = ({
   onClick,
   metricSettingsMap,
   setMetricSettingMap,
-  btnProps = {}
+  btnProps = {},
 }) => {
   const settings = isActive && metric && MetricSettings[metric.key]
   const isPro = metric && metric.isPro
 
-  const {
-    btnClassName,
-    infoClassName,
-    tooltipPosition = 'right',
-    addIconClassName
-  } = btnProps
+  const { btnClassName, infoClassName, tooltipPosition = 'right', addIconClassName } = btnProps
 
   return (
     <Button
@@ -42,7 +37,7 @@ const MetricButton = ({
         btnClassName,
         isPro && styles.pro,
         (isError || isDisabled) && styles.disabled,
-        settings && settingsStyles.adjustable
+        settings && settingsStyles.adjustable,
       )}
       isActive={isActive}
       onClick={onClick}
@@ -54,31 +49,18 @@ const MetricButton = ({
         ) : (
           <Icon
             type='plus-small'
-            className={cx(
-              styles.plus,
-              isActive && styles.active,
-              addIconClassName
-            )}
+            className={cx(styles.plus, isActive && styles.active, addIconClassName)}
           />
         )}
         {label}
 
         {metric && isNew && <div className={styles.new}>NEW</div>}
 
-        {metric && metric.isBeta && showBetaLabel && (
-          <div className={styles.beta}>BETA</div>
-        )}
+        {metric && metric.isBeta && showBetaLabel && <div className={styles.beta}>BETA</div>}
 
         {metric && (
-          <MetricExplanation
-            metric={metric}
-            project={project}
-            position={tooltipPosition}
-          >
-            <Icon
-              type='info-round'
-              className={cx(styles.info, infoClassName)}
-            />
+          <MetricExplanation metric={metric} project={project} position={tooltipPosition}>
+            <Icon type='info-round' className={cx(styles.info, infoClassName)} />
           </MetricExplanation>
         )}
       </div>

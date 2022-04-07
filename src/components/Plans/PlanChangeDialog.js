@@ -16,22 +16,18 @@ const PlanToTitle = {
   FREE: 'Free',
   BASIC: 'Basic',
   PRO: 'Pro',
-  ENTERPRISE: 'Custom'
+  ENTERPRISE: 'Custom',
 }
 
 const ChangePlanDialog = ({
-  subscription: {
-    id,
-    currentPeriodEnd,
-    plan: { amount, name, interval } = {}
-  } = {},
+  subscription: { id, currentPeriodEnd, plan: { amount, name, interval } = {} } = {},
   title,
   price,
   billing,
   planId,
   btnProps,
   addNot,
-  changeSubscription
+  changeSubscription,
 }) => {
   const [dialogVisible, setDialogVisiblity] = useState(false)
 
@@ -69,11 +65,9 @@ const ChangePlanDialog = ({
           title='Plan change'
         >
           <Dialog.ScrollContent withPadding>
-            Your current plan ({PlanToTitle[name]} {oldPrice}/{interval}) is
-            active until {date}.
+            Your current plan ({PlanToTitle[name]} {oldPrice}/{interval}) is active until {date}.
             <br />
-            Are you sure you want to change to the {title} plan ({newPrice}/
-            {billing}) on {date}?
+            Are you sure you want to change to the {title} plan ({newPrice}/{billing}) on {date}?
           </Dialog.ScrollContent>
           <Dialog.Actions>
             <Dialog.Cancel className={dialogStyles.cancel} onClick={hideDialog}>
@@ -84,23 +78,23 @@ const ChangePlanDialog = ({
               isLoading={loading}
               onClick={() =>
                 updateSubscription({
-                  variables: { subscriptionId: +id, planId: +planId }
+                  variables: { subscriptionId: +id, planId: +planId },
                 })
                   .then(({ data: { updateSubscription } }) => {
                     changeSubscription(updateSubscription)
                     addNot({
                       variant: 'success',
-                      title: `You have successfully upgraded to the "${title}" plan!`
+                      title: `You have successfully upgraded to the "${title}" plan!`,
                     })
                   })
                   .then(hideDialog)
-                  .catch(e =>
+                  .catch((e) =>
                     addNot({
                       variant: 'error',
                       title: `Error during the plan change`,
                       description: formatError(e.message),
-                      actions: contactAction
-                    })
+                      actions: contactAction,
+                    }),
                   )
               }
             >
@@ -113,10 +107,9 @@ const ChangePlanDialog = ({
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  addNot: message => dispatch(showNotification(message)),
-  changeSubscription: payload =>
-    dispatch({ type: USER_SUBSCRIPTION_CHANGE, payload })
+const mapDispatchToProps = (dispatch) => ({
+  addNot: (message) => dispatch(showNotification(message)),
+  changeSubscription: (payload) => dispatch({ type: USER_SUBSCRIPTION_CHANGE, payload }),
 })
 
 export default connect(null, mapDispatchToProps)(ChangePlanDialog)

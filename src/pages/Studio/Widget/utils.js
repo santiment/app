@@ -6,10 +6,10 @@ export const newExternalWidget = (Widget, props) =>
   newWidget(Widget, {
     isExternal: true,
     scrollAlign: 'start',
-    ...props
+    ...props,
   })
 
-export const withExternal = Component => ({ target, ...props }) => {
+export const withExternal = (Component) => ({ target, ...props }) => {
   if (target) {
     target.classList.remove('widget')
     target.classList.remove('border')

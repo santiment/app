@@ -1,15 +1,13 @@
 import React, { useEffect } from 'react'
 import Icon from '@santiment-network/ui/Icon'
 import Filter from '../../../components/Filter/Filter'
-import AlertsAndInsightsFilter, {
-  AUTHOR_TYPES
-} from './AlertsAndInsightsFilter'
+import AlertsAndInsightsFilter, { AUTHOR_TYPES } from './AlertsAndInsightsFilter'
 import FeedWatchlistsFilter from './FeedWatchlistsFilter'
 import FeedAssetsFilter from './FeedAssetsFilter'
 import { getDefaultFilters } from '../GeneralFeed/utils'
 import styles from './FeedFilters.module.scss'
 
-const FeedFilters = props => {
+const FeedFilters = (props) => {
   return (
     <Filter dialogTitle='Feed filters'>
       <FeedContentWrapper {...props} />
@@ -17,27 +15,23 @@ const FeedFilters = props => {
   )
 }
 
-const FeedContentWrapper = ({
-  filters,
-  handleFiltersChange,
-  enableAlertsInsights
-}) => {
-  const onUpdateAuthor = author => {
+const FeedContentWrapper = ({ filters, handleFiltersChange, enableAlertsInsights }) => {
+  const onUpdateAuthor = (author) => {
     handleFiltersChange({
       ...filters,
-      author
+      author,
     })
   }
-  const onUpdateWatchlists = watchlists => {
+  const onUpdateWatchlists = (watchlists) => {
     handleFiltersChange({
       ...filters,
-      watchlists
+      watchlists,
     })
   }
-  const onUpdateAssets = assets => {
+  const onUpdateAssets = (assets) => {
     handleFiltersChange({
       ...filters,
-      assets
+      assets,
     })
   }
 
@@ -49,10 +43,7 @@ const FeedContentWrapper = ({
     <div className={styles.dialogContent}>
       <div className={styles.header}>
         <div className={styles.filterBy}>Filter by</div>
-        <div
-          className={styles.resetBlock}
-          onClick={() => handleFiltersChange(getDefaultFilters())}
-        >
+        <div className={styles.resetBlock} onClick={() => handleFiltersChange(getDefaultFilters())}>
           <Icon type='close-medium' className={styles.resetIcon} />
           Reset filter
         </div>
@@ -60,16 +51,10 @@ const FeedContentWrapper = ({
 
       <FeedAssetsFilter ids={filters.assets} onUpdate={onUpdateAssets} />
 
-      <FeedWatchlistsFilter
-        ids={filters.watchlists}
-        onUpdate={onUpdateWatchlists}
-      />
+      <FeedWatchlistsFilter ids={filters.watchlists} onUpdate={onUpdateWatchlists} />
 
       {enableAlertsInsights && (
-        <AlertsAndInsightsFilter
-          selected={filters.author}
-          onUpdate={onUpdateAuthor}
-        />
+        <AlertsAndInsightsFilter selected={filters.author} onUpdate={onUpdateAuthor} />
       )}
     </div>
   )

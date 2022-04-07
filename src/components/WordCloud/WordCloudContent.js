@@ -10,18 +10,18 @@ const MEDIUM_LIMIT = 9
 const WORD_BIG = {
   color: 'var(--dodger-blue)',
   fontSize: 18,
-  fontWeight: 600
+  fontWeight: 600,
 }
 
 const WORD_MEDIUM = {
   color: 'var(--rhino)',
-  fontSize: 16
+  fontSize: 16,
 }
 
 const WORD_SMALL = {
   fontSize: 12,
   fontWeight: 500,
-  color: 'var(--casper)'
+  color: 'var(--casper)',
 }
 
 const getWordStyles = (index, bigLimit, mediumLimit) => {
@@ -37,20 +37,14 @@ const getWordStyles = (index, bigLimit, mediumLimit) => {
 }
 
 const WordCloudContent = React.memo(
-  ({
-    cloud,
-    showBadge = true,
-    bigLimit = BIG_LIMIT,
-    mediumLimit = MEDIUM_LIMIT,
-    padding = 15
-  }) => {
+  ({ cloud, showBadge = true, bigLimit = BIG_LIMIT, mediumLimit = MEDIUM_LIMIT, padding = 15 }) => {
     return (
       <TagCloud
         style={{
           width: '100%',
           height: '100%',
           padding: padding,
-          marginTop: 0
+          marginTop: 0,
         }}
       >
         {cloud.map(({ word, score }, index) => (
@@ -70,7 +64,7 @@ const WordCloudContent = React.memo(
         ))}
       </TagCloud>
     )
-  }
+  },
 )
 
 export default WordCloudContent

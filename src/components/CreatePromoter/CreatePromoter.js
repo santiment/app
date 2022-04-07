@@ -13,10 +13,7 @@ const CreatePromoter = ({ userData, showAlert, setData }) => {
     <div className={styles.container}>
       <Mutation mutation={PROMOTER_MUTATION}>
         {(createPromoter, data) => {
-          const {
-            loading,
-            data: { createPromoter: createPromoterData } = {}
-          } = data
+          const { loading, data: { createPromoter: createPromoterData } = {} } = data
 
           if (createPromoterData) {
             setData && setData(createPromoterData)
@@ -40,20 +37,20 @@ const CreatePromoter = ({ userData, showAlert, setData }) => {
 
 const mapStateToProps = ({ user: { data = {} } }) => {
   return {
-    userData: data
+    userData: data,
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     showAlert: () => {
       dispatch(
         showNotification({
           variant: 'error',
-          title: 'You need to have valid email address'
-        })
+          title: 'You need to have valid email address',
+        }),
       )
-    }
+    },
   }
 }
 

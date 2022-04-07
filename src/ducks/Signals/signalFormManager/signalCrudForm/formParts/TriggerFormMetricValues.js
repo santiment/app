@@ -6,26 +6,16 @@ import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLab
 import { TIME_WINDOW_UNITS } from '../../../utils/constants'
 import { LastPriceComponent } from './TriggerLastPrice'
 import MetricOptionsRenderer from './metricOptions/MetricOptionsRenderer'
-import {
-  isPriceMetric,
-  mapTargetObject,
-  targetMapper
-} from '../../../utils/utils'
+import { isPriceMetric, mapTargetObject, targetMapper } from '../../../utils/utils'
 import { isDailyMetric } from './metricTypes/metrics'
 import styles from '../signal/TriggerForm.module.scss'
 
 export const TriggerFormMetricValues = ({
-  values: {
-    type,
-    metric,
-    absoluteBorderRight = 0,
-    absoluteBorderLeft = 0,
-    target
-  },
+  values: { type, metric, absoluteBorderRight = 0, absoluteBorderLeft = 0, target },
   blocks = [],
   showTypes,
   metaFormSettings,
-  typeSelectors
+  typeSelectors,
 }) => {
   const { key } = metric
   const isPrice = isPriceMetric(metric)
@@ -52,7 +42,7 @@ export const TriggerFormMetricValues = ({
               placeholder='Choose a type'
               options={typeSelectors}
               optionRenderer={MetricOptionsRenderer}
-              isOptionDisabled={option => !option.value}
+              isOptionDisabled={(option) => !option.value}
             />
           </div>
 
@@ -86,26 +76,16 @@ export const TriggerFormMetricValues = ({
         <PercentThreshold isPriceMetric={isPrice} slugName={slugName} />
       )}
 
-      {type &&
-        blocks.includes('percentThresholdLeft') &&
-        blocks.includes('percentThresholdRight') && (
-          <div className={styles.flexRow}>
-            <PercentThresholdByBorders
-              isPriceMetric={isPrice}
-              slugName={slugName}
-            />
-          </div>
-        )}
+      {type && blocks.includes('percentThresholdLeft') && blocks.includes('percentThresholdRight') && (
+        <div className={styles.flexRow}>
+          <PercentThresholdByBorders isPriceMetric={isPrice} slugName={slugName} />
+        </div>
+      )}
 
       {type && blocks.includes('threshold') && (
         <div className={styles.Field}>
           <FormikLabel text='Threshold' inner />
-          <FormikInput
-            name='threshold'
-            step={0.001}
-            type='number'
-            placeholder='Threshold'
-          />
+          <FormikInput name='threshold' step={0.001} type='number' placeholder='Threshold' />
         </div>
       )}
 
@@ -119,12 +99,7 @@ const TimeWindow = () => (
     <FormikLabel text='Time window' />
     <div className={styles.timeWindow}>
       <div className={styles.timeWindowInput}>
-        <FormikInput
-          name='timeWindow'
-          type='number'
-          min={0}
-          placeholder='Time window'
-        />
+        <FormikInput name='timeWindow' type='number' min={0} placeholder='Time window' />
       </div>
       <div className={styles.timeWindowUnit}>
         <FormikSelect
@@ -159,34 +134,19 @@ const PercentThresholdByBorders = ({ isPriceMetric, slugName }) => {
     <>
       <div className={styles.Field}>
         <FormikLabel text='Moving up %' />
-        <FormikInput
-          name='percentThresholdLeft'
-          type='number'
-          prefix='%'
-          placeholder='%'
-        />
+        <FormikInput name='percentThresholdLeft' type='number' prefix='%' placeholder='%' />
         {isPriceMetric && <LastPriceComponent slugTitle={slugName} />}
       </div>
       <span className={styles.or}>or</span>
       <div className={styles.Field}>
         <FormikLabel text='Moving down %' />
-        <FormikInput
-          name='percentThresholdRight'
-          type='number'
-          prefix='%'
-          placeholder='%'
-        />
+        <FormikInput name='percentThresholdRight' type='number' prefix='%' placeholder='%' />
       </div>
     </>
   )
 }
 
-const AbsoluteBorders = ({
-  isPriceMetric,
-  absoluteBorderRight,
-  absoluteBorderLeft,
-  slugName
-}) => {
+const AbsoluteBorders = ({ isPriceMetric, absoluteBorderRight, absoluteBorderLeft, slugName }) => {
   return (
     <>
       <div className={styles.Field}>

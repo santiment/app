@@ -1,10 +1,5 @@
 /* eslint-env jest */
-import {
-  simpleSort,
-  simpleSortStrings,
-  sortDate,
-  sortBalances
-} from './sortMethods'
+import { simpleSort, simpleSortStrings, sortDate, sortBalances } from './sortMethods'
 
 describe('Sort date method', () => {
   it('simpleSort', () => {
@@ -24,26 +19,17 @@ describe('Sort strings method', () => {
 
 describe('Sort date method', () => {
   it('more', () => {
-    const res = sortDate(
-      '2017-12-06T14:08:31.000000Z',
-      '2017-12-06T16:08:31.000000Z'
-    )
+    const res = sortDate('2017-12-06T14:08:31.000000Z', '2017-12-06T16:08:31.000000Z')
     expect(res).toEqual(1)
   })
 
   it('less', () => {
-    const res = sortDate(
-      '2017-12-06T20:08:31.000000Z',
-      '2017-12-06T14:08:31.000000Z'
-    )
+    const res = sortDate('2017-12-06T20:08:31.000000Z', '2017-12-06T14:08:31.000000Z')
     expect(res).toEqual(-1)
   })
 
   it('equal', () => {
-    const res = sortDate(
-      '2017-12-06T20:08:31.000000Z',
-      '2017-12-06T20:08:31.000000Z'
-    )
+    const res = sortDate('2017-12-06T20:08:31.000000Z', '2017-12-06T20:08:31.000000Z')
     expect(res).toEqual(0)
   })
 
@@ -62,31 +48,31 @@ describe('Sort multi wallets balance', () => {
       ethPrice: 1,
       wallets: [
         {
-          balance: '0.00'
+          balance: '0.00',
         },
         {
-          balance: '0.03'
-        }
-      ]
+          balance: '0.03',
+        },
+      ],
     }
     const b = {
       ethPrice: 1,
       wallets: [
         {
-          balance: '487.08'
+          balance: '487.08',
         },
         {
-          balance: '1.01'
-        }
-      ]
+          balance: '1.01',
+        },
+      ],
     }
     const c = {
       ethPrice: 1,
       wallets: [
         {
-          balance: '0.00'
-        }
-      ]
+          balance: '0.00',
+        },
+      ],
     }
     expect(sortBalances(a, b)).toEqual(1)
     expect(sortBalances(b, a)).toEqual(-1)

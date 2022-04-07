@@ -5,12 +5,12 @@ import {
   getAmPm,
   getDateFormats,
   getTimeFormats,
-  make12Hours
+  make12Hours,
 } from '../../../../utils/dates'
 import { TODAY, YESTERDAY } from '../FeedList/dates'
 import styles from './FeedCardDate.module.scss'
 
-const makeDateLabel = date => {
+const makeDateLabel = (date) => {
   switch (date.toLocaleDateString()) {
     case TODAY: {
       return dateDifferenceInWordsString(date)
@@ -28,11 +28,7 @@ const makeDateLabel = date => {
 }
 
 const FeedCardDate = ({ date, className }) => {
-  return (
-    <div className={cx(styles.date, className)}>
-      {makeDateLabel(new Date(date))}
-    </div>
-  )
+  return <div className={cx(styles.date, className)}>{makeDateLabel(new Date(date))}</div>
 }
 
 export default FeedCardDate

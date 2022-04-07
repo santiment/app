@@ -3,7 +3,7 @@ export function parseMetricGraphValue (graph, KnownMetric, metrics) {
 
   if (!graph) return MetricValue
 
-  metrics.forEach(metricKey => {
+  metrics.forEach((metricKey) => {
     if (!graph[metricKey]) return
 
     const metric = KnownMetric[metricKey]

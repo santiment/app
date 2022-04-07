@@ -8,12 +8,12 @@ const Category = {
   All: 'All',
   ERC20: 'ERC20',
   Stablecoins: 'Stablecoins',
-  DeFi: 'DeFi'
+  DeFi: 'DeFi',
 }
 
 export const DEFAULT_TABS = Object.keys(Category)
 
-const GET_WATCHLIST_QUERY = slug => gql`
+const GET_WATCHLIST_QUERY = (slug) => gql`
   query watchlistBySlug {
     watchlist: watchlistBySlug(slug: "${slug}") {
       id
@@ -40,7 +40,7 @@ export const CategoryQuery = {
   [Category.All]: PROJECTS_QUERY,
   [Category.ERC20]: ERC20_PROJECTS_QUERY,
   [Category.Stablecoins]: GET_WATCHLIST_QUERY('stablecoins'),
-  [Category.DeFi]: GET_WATCHLIST_QUERY('defi')
+  [Category.DeFi]: GET_WATCHLIST_QUERY('defi'),
 }
 
 const projectsExtracter = ({ data: { projects } }) => projects
@@ -52,12 +52,12 @@ export const CategoryDataExtracter = {
   [Category.All]: projectsExtracter,
   [Category.ERC20]: projectsExtracter,
   [Category.Stablecoins]: watchlistProjectsExtracter,
-  [Category.DeFi]: watchlistProjectsExtracter
+  [Category.DeFi]: watchlistProjectsExtracter,
 }
 
-const normalizeData = data => data.slice()
+const normalizeData = (data) => data.slice()
 
-const noop = data => data
+const noop = (data) => data
 
 function getProjectsByCategory (category, fetchCustomCategory, modifyCategory) {
   if (fetchCustomCategory) {
@@ -77,14 +77,12 @@ const ProjectsSelectTabs = ({
   CustomCategory,
   CategoryModifier,
   onSelect,
-  showTabs = true
+  showTabs = true,
 }) => {
   function onTabSelect (category) {
-    getProjectsByCategory(
-      category,
-      CustomCategory[category],
-      CategoryModifier[category]
-    ).then(onSelect)
+    getProjectsByCategory(category, CustomCategory[category], CategoryModifier[category]).then(
+      onSelect,
+    )
 
     onSelect(null, true) // projects, isLoading
   }
@@ -108,7 +106,7 @@ const ProjectsSelectTabs = ({
 ProjectsSelectTabs.defaultProps = {
   customTabs: DEFAULT_TABS,
   CustomCategory: {},
-  CategoryModifier: {}
+  CategoryModifier: {},
 }
 
 export default ProjectsSelectTabs

@@ -16,12 +16,12 @@ const CHART_PADDING = {
   top: 25,
   bottom: 25,
   right: 48,
-  left: 15
+  left: 15,
 }
 
 const DOUBLE_AXIS_PADDING = {
   ...CHART_PADDING,
-  left: 48
+  left: 48,
 }
 
 function getResponsiveTicks (isPhone) {
@@ -35,12 +35,11 @@ function getResponsiveTicks (isPhone) {
 
   return {
     xTicks,
-    yTicks
+    yTicks,
   }
 }
 
-export const useResponsiveTicks = isPhone =>
-  useMemo(() => getResponsiveTicks(isPhone), [isPhone])
+export const useResponsiveTicks = (isPhone) => useMemo(() => getResponsiveTicks(isPhone), [isPhone])
 
 const Canvas = ({ metrics, settings, axesTicks, ...props }) => {
   const [rawData, loadings] = useTimeseries(metrics, settings)
@@ -67,8 +66,8 @@ const Canvas = ({ metrics, settings, axesTicks, ...props }) => {
 
       {metrics.length === 0 && (
         <div className={styles.description}>
-          Please paste the wallet address and choose supported assets in the
-          forms above to see the historical data
+          Please paste the wallet address and choose supported assets in the forms above to see the
+          historical data
         </div>
       )}
     </SANChart>

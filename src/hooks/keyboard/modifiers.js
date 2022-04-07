@@ -6,7 +6,7 @@ const DEFAULT_PRESSED_MODIFIER = {
   metaKey: false,
   ctrlKey: false,
   // NOTE: cmdKey is the "command" on macOS and the "ctrl" on Windows  [@vanguard | Jul  9, 2020]
-  cmdKey: false
+  cmdKey: false,
 }
 
 // NOTE: This pattern will guarantee to have only 0..N listeners during app lifetime [@vanguard | Aug  6, 2020]
@@ -14,7 +14,7 @@ export const observePressedModifier = (() => {
   let subscribers = new Set()
   let state = DEFAULT_PRESSED_MODIFIER
 
-  const notify = subscriber => subscriber(state)
+  const notify = (subscriber) => subscriber(state)
   function update (newState) {
     state = newState
     subscribers.forEach(notify)
@@ -32,15 +32,14 @@ export const observePressedModifier = (() => {
         shiftKey,
         metaKey,
         ctrlKey,
-        cmdKey: metaKey || ctrlKey
+        cmdKey: metaKey || ctrlKey,
       })
     }
   }
 
-  const onBlur = () =>
-    state !== DEFAULT_PRESSED_MODIFIER && update(DEFAULT_PRESSED_MODIFIER)
+  const onBlur = () => state !== DEFAULT_PRESSED_MODIFIER && update(DEFAULT_PRESSED_MODIFIER)
 
-  return subscriber => {
+  return (subscriber) => {
     if (subscribers.size === 0) {
       window.addEventListener('keydown', onKeyEvent)
       window.addEventListener('keyup', onKeyEvent)
@@ -62,9 +61,7 @@ export const observePressedModifier = (() => {
 })()
 
 export function usePressedModifier () {
-  const [PressedModifier, setPressedModifier] = useState(
-    DEFAULT_PRESSED_MODIFIER
-  )
+  const [PressedModifier, setPressedModifier] = useState(DEFAULT_PRESSED_MODIFIER)
   useEffect(() => observePressedModifier(setPressedModifier), [])
   return PressedModifier
 }

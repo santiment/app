@@ -2,10 +2,7 @@ import React, { useState, useMemo } from 'react'
 import StudioHeader from '../Header'
 import Sidepanel from '../Chart/Sidepanel'
 import { useSyncDateObserver } from '../../Chart/sync'
-import {
-  newRenderQueue,
-  withRenderQueueProvider
-} from '../../renderQueue/sized'
+import { newRenderQueue, withRenderQueueProvider } from '../../renderQueue/sized'
 import { ONE_HOUR_IN_MS } from '../../../utils/dates'
 import { usePressedModifier } from '../../../hooks/keyboard'
 import styles from './Widgets.module.scss'
@@ -17,7 +14,7 @@ const Widget = ({ widget, index, datesRange, ...props }) => {
     <>
       <widget.Widget {...props} widget={widget} index={index} />
 
-      {widget.connectedWidgets.map(connectedWidget => (
+      {widget.connectedWidgets.map((connectedWidget) => (
         <connectedWidget.Widget
           {...props}
           key={connectedWidget.id}
@@ -49,10 +46,7 @@ const Widgets = ({
   const PressedModifier = usePressedModifier()
   const isSingleWidget = widgets.length === 1
   const onWidgetPointClick = sidepanel ? onPointMouseUp : undefined
-  const allMetrics = useMemo(
-    () => widgets.map(({ metrics }) => metrics).flat(),
-    [widgets]
-  )
+  const allMetrics = useMemo(() => widgets.map(({ metrics }) => metrics).flat(), [widgets])
   const { syncDate, observeSyncDate } = useSyncDateObserver()
 
   function changeDatesRange (from, to) {
@@ -60,15 +54,11 @@ const Widgets = ({
     setSelectedDatesRange([from, to])
   }
 
-  function onRangeSelected (
-    { x: x1, value: leftDate },
-    { x: x2, value: rightDate }
-  ) {
+  function onRangeSelected ({ x: x1, value: leftDate }, { x: x2, value: rightDate }) {
     setIsSelectingRange(false)
     if (leftDate === rightDate) return
 
-    const dates =
-      leftDate < rightDate ? [leftDate, rightDate] : [rightDate, leftDate]
+    const dates = leftDate < rightDate ? [leftDate, rightDate] : [rightDate, leftDate]
     const from = new Date(dates[0])
     const to = new Date(dates[1])
 
@@ -76,10 +66,7 @@ const Widgets = ({
       return changeDatesRange(from, to)
     }
 
-    if (
-      Math.abs(x2 - x1) > RANGE_SELECT_SENSITIVITY &&
-      to - from >= ONE_HOUR_IN_MS
-    ) {
+    if (Math.abs(x2 - x1) > RANGE_SELECT_SENSITIVITY && to - from >= ONE_HOUR_IN_MS) {
       changeTimePeriod(from, to)
     }
   }

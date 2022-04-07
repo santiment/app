@@ -21,12 +21,12 @@ export const INTERVALS = [
   makeInterval('12h', '12 hours'),
   makeInterval('1d', '1 day'),
   makeInterval('5d', '5 days'),
-  makeInterval('7d', '7 days')
+  makeInterval('7d', '7 days'),
 ]
 
 export function useMetricMinInterval (
   { key, queryKey = key },
-  getCustomMetricMinInterval = getMetricMinInterval
+  getCustomMetricMinInterval = getMetricMinInterval,
 ) {
   const [minInterval, setMinInterval] = useState()
 
@@ -59,7 +59,7 @@ export function getCandlesMinInterval (from, to) {
   const { diff } = dateDifference({
     from: new Date(from),
     to: new Date(to),
-    format: DAY
+    format: DAY,
   })
 
   if (diff < 2) {

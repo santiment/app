@@ -7,7 +7,7 @@ export const HOLDER_DISTRIBUTION_NODE = {
   abbreviation: 'hd',
   group: 'Supply distribution',
   category: 'On-chain',
-  node: 'line'
+  node: 'line',
 }
 export const HOLDER_LABELED_DISTRIBUTION_NODE = {
   key: 'holder_labeled_distribution',
@@ -17,7 +17,7 @@ export const HOLDER_LABELED_DISTRIBUTION_NODE = {
   group: 'Supply distribution',
   category: 'On-chain',
   node: 'line',
-  isBeta: true
+  isBeta: true,
 }
 
 export const HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE = {
@@ -27,5 +27,5 @@ export const HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE = {
   abbreviation: 'hdcb',
   group: 'Supply distribution',
   category: 'On-chain',
-  node: 'line'
+  node: 'line',
 }

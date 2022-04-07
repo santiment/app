@@ -8,10 +8,8 @@ const Toggle = ({ isActive, className, ...rest }) => (
   <UIToggle
     isActive={isActive}
     className={cx(styles.toggle, className)}
-    IconActive={({ className }) => (
-      <Icon type='eye-small' className={cx(className, styles.icon)} />
-    )}
-    IconNotActive={props => <Icon type='eye-disabled-small' {...props} />}
+    IconActive={({ className }) => <Icon type='eye-small' className={cx(className, styles.icon)} />}
+    IconNotActive={(props) => <Icon type='eye-disabled-small' {...props} />}
     {...rest}
   />
 )

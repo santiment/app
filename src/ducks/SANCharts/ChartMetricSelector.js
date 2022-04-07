@@ -15,14 +15,14 @@ import styles from './ChartMetricSelector.module.scss'
 
 export const NO_GROUP = '_'
 
-const predicate = searchTerm => {
+const predicate = (searchTerm) => {
   const upperCaseSearchTerm = searchTerm.toUpperCase()
   return ({ label }) => label.toUpperCase().includes(upperCaseSearchTerm)
 }
 
 const suggestionContent = ({ label }) => label
 
-const getMetricSuggestions = categories => {
+const getMetricSuggestions = (categories) => {
   const suggestions = []
   for (const categoryKey in categories) {
     const category = categories[categoryKey]
@@ -34,7 +34,7 @@ const getMetricSuggestions = categories => {
       suggestionContent,
       items,
       title: categoryKey,
-      predicate: predicate
+      predicate: predicate,
     })
   }
   return suggestions
@@ -69,13 +69,13 @@ const ChartMetricSelector = ({
   const [activeCategory, setCategory] = useState('Financial')
   const [trackEvent] = useTrackEvents()
 
-  const changeCategory = category => {
+  const changeCategory = (category) => {
     if (category === activeCategory) {
       setCategory(null)
     } else {
       trackEvent({
         category: 'Chart',
-        action: `Selecting category ${category}`
+        action: `Selecting category ${category}`,
       })
       setCategory(category)
     }
@@ -84,14 +84,12 @@ const ChartMetricSelector = ({
   const actives = [...activeEvents, ...activeMetrics]
   const categoryActiveMetricsCounter = countCategoryActiveMetrics(actives)
 
-  const isActiveCategory = category => category === activeCategory
-  const isActiveMetric = metric => actives.includes(metric)
+  const isActiveCategory = (category) => category === activeCategory
+  const isActiveMetric = (metric) => actives.includes(metric)
 
   return (
     <Panel {...props} className={styles.panel}>
-      <Panel.Title className={styles.header}>
-        Select up to {isMobile ? 3 : 5} metrics
-      </Panel.Title>
+      <Panel.Title className={styles.header}>Select up to {isMobile ? 3 : 5} metrics</Panel.Title>
       {!isMobile && (
         <div className={styles.search}>
           <SearchWithSuggestions
@@ -106,57 +104,46 @@ const ChartMetricSelector = ({
         {loading && <Loader className={styles.loader} />}
         {isMobile ? (
           <div className={cx(styles.column, styles.categories)}>
-            {Object.keys(categories).map(category => {
+            {Object.keys(categories).map((category) => {
               const counter = categoryActiveMetricsCounter[category]
               const isActive = isActiveCategory(category)
               return (
                 <div key={category} className={styles.category}>
-                  <Button
-                    onClick={() => changeCategory(category)}
-                    className={styles.mobileButton}
-                  >
+                  <Button onClick={() => changeCategory(category)} className={styles.mobileButton}>
                     <div className={styles.mobileCategory}>
                       {category}
-                      {counter > 0 && (
-                        <span className={styles.mobileCounter}>
-                          ({counter})
-                        </span>
-                      )}
+                      {counter > 0 && <span className={styles.mobileCounter}>({counter})</span>}
                     </div>
                     <Icon
                       type='arrow-right-big'
                       className={cx(
                         styles.mobileButton__arrow,
-                        isActive && styles.mobileButton__arrow_active
+                        isActive && styles.mobileButton__arrow_active,
                       )}
                     />
                   </Button>
                   {isActive && (
                     <div className={cx(styles.metrics)}>
                       {categories[activeCategory] &&
-                        Object.keys(categories[activeCategory]).map(group => (
+                        Object.keys(categories[activeCategory]).map((group) => (
                           <div key={group} className={styles.mobileGroup}>
-                            {group !== NO_GROUP && (
-                              <h3 className={styles.group__title}>{group}</h3>
-                            )}
-                            {categories[activeCategory][group].map(
-                              ({ item: metric }) => {
-                                if (metric.hidden) {
-                                  return null
-                                }
-
-                                return (
-                                  <ToggleMetricButton
-                                    key={metric.label}
-                                    metric={metric}
-                                    onClick={() => toggleMetric(metric)}
-                                    isActive={isActiveMetric(metric)}
-                                    isMobile={true}
-                                    label={metric.label}
-                                  />
-                                )
+                            {group !== NO_GROUP && <h3 className={styles.group__title}>{group}</h3>}
+                            {categories[activeCategory][group].map(({ item: metric }) => {
+                              if (metric.hidden) {
+                                return null
                               }
-                            )}
+
+                              return (
+                                <ToggleMetricButton
+                                  key={metric.label}
+                                  metric={metric}
+                                  onClick={() => toggleMetric(metric)}
+                                  isActive={isActiveMetric(metric)}
+                                  isMobile={true}
+                                  label={metric.label}
+                                />
+                              )
+                            })}
                           </div>
                         ))}
                     </div>
@@ -168,7 +155,7 @@ const ChartMetricSelector = ({
         ) : (
           <>
             <div className={cx(styles.column, styles.categories)}>
-              {Object.keys(categories).map(category => {
+              {Object.keys(categories).map((category) => {
                 const counter = categoryActiveMetricsCounter[category]
                 return (
                   <div key={category} className={styles.category}>
@@ -192,12 +179,10 @@ const ChartMetricSelector = ({
               <div className={styles.visible}>
                 <div className={styles.visible__scroll}>
                   {categories[activeCategory] &&
-                    Object.keys(categories[activeCategory]).map(group => (
+                    Object.keys(categories[activeCategory]).map((group) => (
                       <div key={group} className={styles.group}>
-                        {group !== NO_GROUP && (
-                          <h3 className={styles.group__title}>{group}</h3>
-                        )}
-                        {categories[activeCategory][group].map(metric => {
+                        {group !== NO_GROUP && <h3 className={styles.group__title}>{group}</h3>}
+                        {categories[activeCategory][group].map((metric) => {
                           const error = disabledMetrics[metric.key]
 
                           if (metric.hidden) {
@@ -208,9 +193,7 @@ const ChartMetricSelector = ({
                             <ToggleMetricButton
                               key={metric.label}
                               metric={metric}
-                              onClick={
-                                error ? undefined : () => toggleMetric(metric)
-                              }
+                              onClick={error ? undefined : () => toggleMetric(metric)}
                               isActive={isActiveMetric(metric)}
                               error={error}
                               label={metric.label}
@@ -228,16 +211,9 @@ const ChartMetricSelector = ({
       {isMobile && (
         <div className={styles.save}>
           {showLimitMessage && (
-            <span className={styles.limit}>
-              Delete one metric to add a new one
-            </span>
+            <span className={styles.limit}>Delete one metric to add a new one</span>
           )}
-          <Button
-            onClick={onSave}
-            variant='fill'
-            accent='positive'
-            disabled={loading}
-          >
+          <Button onClick={onSave} variant='fill' accent='positive' disabled={loading}>
             Save changes
           </Button>
         </div>
@@ -250,29 +226,23 @@ export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
   props: ({
     data: {
       loading,
-      project: {
-        availableMetrics = [],
-        availableQueries = [],
-        marketSegments = []
-      } = {}
+      project: { availableMetrics = [], availableQueries = [], marketSegments = [] } = {},
     },
-    ownProps: { hiddenMetrics, isBeta }
+    ownProps: { hiddenMetrics, isBeta },
   }) => {
     const categories = getCategoryGraph(
-      availableQueries
-        .concat(availableMetrics)
-        .concat(marketSegments.map(getMarketSegment)),
+      availableQueries.concat(availableMetrics).concat(marketSegments.map(getMarketSegment)),
       hiddenMetrics,
       {},
-      isBeta
+      isBeta,
     )
 
     return {
       loading,
-      categories
+      categories,
     }
   },
   options: ({ slug }) => {
     return { variables: { slug } }
-  }
+  },
 })(ChartMetricSelector)

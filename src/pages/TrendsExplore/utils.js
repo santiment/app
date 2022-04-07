@@ -14,6 +14,6 @@ export function getTimePeriod (date, interval = '1d') {
   return {
     from: from.toISOString(),
     to: to.toISOString(),
-    interval
+    interval,
   }
 }

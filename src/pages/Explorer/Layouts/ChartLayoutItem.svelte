@@ -1,7 +1,7 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
   import ProjectIcon from 'webkit/ui/ProjectIcon.svelte'
-  import UserCreation from './UserCreation.svelte'
+  import UserCreation from '../Category/UserCreation.svelte'
 
   export let small = false
   export let item

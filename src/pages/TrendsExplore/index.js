@@ -30,9 +30,7 @@ const TrendsExplore = ({ topic, addedTopics, history, isDesktop }) => {
     if (projects.length === 0) return EMPTY_MAP
 
     const newLinkedAssets = new Map()
-    topics.forEach(topic =>
-      newLinkedAssets.set(topic, getProjectInfo(projects, topic, topic))
-    )
+    topics.forEach((topic) => newLinkedAssets.set(topic, getProjectInfo(projects, topic, topic)))
     return newLinkedAssets
   }, [topics, projects])
 
@@ -75,7 +73,7 @@ const TrendsExplore = ({ topic, addedTopics, history, isDesktop }) => {
         title={pageTitle}
         meta={[
           { property: 'og:title', content: pageTitle },
-          { property: 'og:description', content: pageDescription }
+          { property: 'og:description', content: pageDescription },
         ]}
       />
       <div className={styles.layout}>
@@ -95,7 +93,7 @@ const TrendsExplore = ({ topic, addedTopics, history, isDesktop }) => {
               classes={{
                 wrapper: styles.mobileHeader,
                 left: styles.mobileHeader__left,
-                searchBtn: styles.mobileHeader__search
+                searchBtn: styles.mobileHeader__search,
               }}
               title='Social context'
             />
@@ -135,9 +133,5 @@ const TrendsExplore = ({ topic, addedTopics, history, isDesktop }) => {
 }
 
 export default ({ match: { params = {} } = {}, ...rest }) => (
-  <TrendsExplore
-    topic={safeDecode(params.word)}
-    addedTopics={getTopicsFromUrl()}
-    {...rest}
-  />
+  <TrendsExplore topic={safeDecode(params.word)} addedTopics={getTopicsFromUrl()} {...rest} />
 )

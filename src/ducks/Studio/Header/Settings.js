@@ -6,9 +6,7 @@ import copy from 'copy-to-clipboard'
 import { track } from 'webkit/analytics'
 import { Event } from 'studio/analytics'
 import Calendar from './Calendar'
-import MetricsExplanation, {
-  filterExplainableMetrics
-} from '../Chart/Sidepanel/MetricsExplanation'
+import MetricsExplanation, { filterExplainableMetrics } from '../Chart/Sidepanel/MetricsExplanation'
 import { METRICS_EXPLANATION_PANE } from '../Chart/Sidepanel/panes'
 import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
 import { useShortShareLink } from '../../../components/Share/hooks'
@@ -57,13 +55,8 @@ export const ShareButton = ({ sharePath, shortUrlHash, controller }) => {
   return (
     <>
       <ShareModalTrigger
-        trigger={props => (
-          <Button
-            {...props}
-            border
-            onMouseDown={onMouseDown}
-            className={styles.share}
-          >
+        trigger={(props) => (
+          <Button {...props} border onMouseDown={onMouseDown} className={styles.share}>
             <Icon type='share' className={styles.share__icon} />
             Share
           </Button>
@@ -88,12 +81,9 @@ export default ({
   isOverviewOpened,
   changeTimePeriod,
   toggleSidepanel,
-  toggleOverview
+  toggleOverview,
 }) => {
-  const hasExplanaibles = useMemo(
-    () => filterExplainableMetrics(metrics).length > 0,
-    [metrics]
-  )
+  const hasExplanaibles = useMemo(() => filterExplainableMetrics(metrics).length > 0, [metrics])
 
   useEffect(() => {
     const { current: header } = headerRef
@@ -120,23 +110,16 @@ export default ({
           onClick={() => toggleSidepanel(METRICS_EXPLANATION_PANE)}
           className={cx(
             styles.explain,
-            sidepanel === METRICS_EXPLANATION_PANE && styles.explain_active
+            sidepanel === METRICS_EXPLANATION_PANE && styles.explain_active,
           )}
         />
       )}
 
-      <ShareButton
-        shortUrlHash={shortUrlHash}
-        sharePath={sharePath}
-        controller={controller}
-      />
+      <ShareButton shortUrlHash={shortUrlHash} sharePath={sharePath} controller={controller} />
 
       <Button
         border
-        className={cx(
-          styles.mapview,
-          isOverviewOpened && styles.mapview_active
-        )}
+        className={cx(styles.mapview, isOverviewOpened && styles.mapview_active)}
         onClick={toggleOverview}
       >
         {isOverviewOpened ? 'Close' : 'Open'} Mapview

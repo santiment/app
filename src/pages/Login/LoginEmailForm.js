@@ -22,27 +22,27 @@ export const EmailForm = ({
   setEmail,
   placeholder = 'Your email',
   label = 'Continue',
-  className
+  className,
 }) => {
   const [trackEvent] = useTrackEvents()
   return (
     <Formik
       initialValues={{
-        email: ''
+        email: '',
       }}
       onSubmit={({ email }) => {
         setEmail && setEmail(email)
 
         trackEvent({
           category: 'User',
-          action: 'Choose an email provider'
+          action: 'Choose an email provider',
         })
 
         loginEmail({
           variables: {
             email: email,
-            consent: ''
-          }
+            consent: '',
+          },
         })
       }}
     >
@@ -89,20 +89,14 @@ export const EmailForm = ({
 const SuccessState = ({ email, isDesktop, history, showBack = true }) => {
   const child = (
     <div className={cx(styles.emailSuccess)}>
-      <h2 className={cx(styles.title, styles.email__title)}>
-        Email Confirmation
-      </h2>
+      <h2 className={cx(styles.title, styles.email__title)}>Email Confirmation</h2>
       <h3 className={cx(styles.email__subtitle, styles.email__subtitleSuccess)}>
-        We just sent an email to{' '}
-        <span className={styles.emailCheck}>{email}</span>. Please check your
-        inbox and click on the confirmation link.
+        We just sent an email to <span className={styles.emailCheck}>{email}</span>. Please check
+        your inbox and click on the confirmation link.
       </h3>
 
       {showBack && (
-        <Link
-          to={PATHS.LOGIN}
-          className={cx(styles.email__link, styles.email__linkSuccess)}
-        >
+        <Link to={PATHS.LOGIN} className={cx(styles.email__link, styles.email__linkSuccess)}>
           Back to{' '}
           <Link to={PATHS.LOGIN} className={styles.loginLink}>
             log in options
@@ -112,33 +106,18 @@ const SuccessState = ({ email, isDesktop, history, showBack = true }) => {
     </div>
   )
 
-  return isDesktop ? (
-    child
-  ) : (
-    <MobileWrapper onBack={history.goBack}>{child}</MobileWrapper>
-  )
+  return isDesktop ? child : <MobileWrapper onBack={history.goBack}>{child}</MobileWrapper>
 }
 
-const PrepareState = ({
-  loading,
-  loginEmail,
-  setEmail,
-  isDesktop,
-  history
-}) => {
+const PrepareState = ({ loading, loginEmail, setEmail, isDesktop, history }) => {
   const child = (
     <div className={styles.loginViaEmail}>
       <h2 className={cx(styles.title, styles.email__title)}>Welcome back</h2>
 
       <h3 className={styles.email__subtitle}>
-        Log in to your Sanbase account to access additional features of our
-        platform
+        Log in to your Sanbase account to access additional features of our platform
       </h3>
-      <EmailForm
-        loading={loading}
-        loginEmail={loginEmail}
-        setEmail={setEmail}
-      />
+      <EmailForm loading={loading} loginEmail={loginEmail} setEmail={setEmail} />
       <Link to={PATHS.LOGIN} className={styles.email__link}>
         Or choose{' '}
         <Link to={PATHS.LOGIN} className={styles.loginLink}>
@@ -148,46 +127,34 @@ const PrepareState = ({
     </div>
   )
 
-  return isDesktop ? (
-    child
-  ) : (
-    <MobileWrapper onBack={history.goBack}>{child}</MobileWrapper>
-  )
+  return isDesktop ? child : <MobileWrapper onBack={history.goBack}>{child}</MobileWrapper>
 }
 
 const LoginEmailForm = ({
   isDesktop,
   history,
   prepareState: PrepareStateEl = PrepareState,
-  showBack = true
+  showBack = true,
 }) => {
   const [email, setEmail] = useState('')
 
   return (
     <Mutation mutation={EMAIL_LOGIN_MUTATION}>
-      {(
-        loginEmail,
-        { loading, data: { emailLogin: { success } = {} } = {} }
-      ) => {
+      {(loginEmail, { loading, data: { emailLogin: { success } = {} } = {} }) => {
         function login (data) {
           loginEmail(data).catch(() => {
             store.dispatch(
               showNotification({
                 variant: 'error',
                 title: 'Too many login attempts',
-                description: 'Please try again after a few minutes'
-              })
+                description: 'Please try again after a few minutes',
+              }),
             )
           })
         }
 
         return success ? (
-          <SuccessState
-            email={email}
-            isDesktop={isDesktop}
-            history={history}
-            showBack={showBack}
-          />
+          <SuccessState email={email} isDesktop={isDesktop} history={history} showBack={showBack} />
         ) : (
           <PrepareStateEl
             loading={loading}

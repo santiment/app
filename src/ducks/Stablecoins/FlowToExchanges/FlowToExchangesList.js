@@ -8,7 +8,7 @@ import styles from './FlowToExchangesList.module.scss'
 
 const GROUPS = {
   'Centralized Exchanges': { key: 'exchange_inflow_centralized' },
-  'Decentralized Exchanges': { key: 'exchange_inflow_decentralized' }
+  'Decentralized Exchanges': { key: 'exchange_inflow_decentralized' },
 }
 
 const TABS = Object.keys(GROUPS)
@@ -24,10 +24,10 @@ const FlowToExchangesList = () => {
 
   const prepared = useMemo(() => {
     return data
-      .filter(item => item[key] !== null)
-      .map(item => ({
+      .filter((item) => item[key] !== null)
+      .map((item) => ({
         ...item,
-        value: item[key]
+        value: item[key],
       }))
       .sort(sortByValue)
   }, [data, key])
@@ -38,7 +38,7 @@ const FlowToExchangesList = () => {
         className={styles.tabs}
         options={TABS}
         defaultSelectedIndex={tab}
-        onSelect={tab => setTab(tab)}
+        onSelect={(tab) => setTab(tab)}
         classes={styles}
       />
 

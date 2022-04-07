@@ -31,10 +31,7 @@ class EditableInput extends PureComponent {
           icon='mail'
           iconPosition='left'
           className={styles.inputWrapper}
-          inputClassName={cx(
-            styles.input,
-            isEmailConnected && styles.inputDisabled
-          )}
+          inputClassName={cx(styles.input, isEmailConnected && styles.inputDisabled)}
           iconClassName={styles.inputIcon}
           placeholder={label}
           disabled={isEmailConnected}

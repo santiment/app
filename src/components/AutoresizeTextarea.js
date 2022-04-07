@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-const cb = _ => _
+const cb = (_) => _
 
 class AutoresizeTextarea extends Component {
   static propTypes = {
@@ -11,7 +11,7 @@ class AutoresizeTextarea extends Component {
     className: PropTypes.string,
     placeholder: PropTypes.string,
     readOnly: PropTypes.bool,
-    blurOnEnter: PropTypes.bool
+    blurOnEnter: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -21,11 +21,11 @@ class AutoresizeTextarea extends Component {
     className: '',
     placeholder: '',
     readOnly: false,
-    rowsCount: 1
+    rowsCount: 1,
   }
 
   state = {
-    value: (this.props.value || this.props.defaultValue).trim()
+    value: (this.props.value || this.props.defaultValue).trim(),
   }
 
   inputRef = React.createRef()
@@ -34,10 +34,7 @@ class AutoresizeTextarea extends Component {
     const textarea = this.inputRef.current
     const textareaOneLineHeight = textarea.clientHeight
 
-    textarea.rows = this.getRowsCount(
-      textarea.scrollHeight,
-      textareaOneLineHeight
-    )
+    textarea.rows = this.getRowsCount(textarea.scrollHeight, textareaOneLineHeight)
     this.textareaOneLineHeight = textareaOneLineHeight
   }
 
@@ -48,13 +45,13 @@ class AutoresizeTextarea extends Component {
     if (isFormik) {
       if (defaultValue && defaultValue !== prevDefault) {
         this.setState({
-          value: propsValue || defaultValue
+          value: propsValue || defaultValue,
         })
       } else {
         const { value: currentValue = '' } = this.state
         if (currentValue !== propsValue && !propsValue) {
           this.setState({
-            value: propsValue
+            value: propsValue,
           })
         }
       }
@@ -68,18 +65,15 @@ class AutoresizeTextarea extends Component {
   }
 
   onChange = ({ currentTarget }) => {
-    currentTarget.rows = this.getRowsCount(
-      currentTarget.scrollHeight,
-      this.textareaOneLineHeight
-    )
+    currentTarget.rows = this.getRowsCount(currentTarget.scrollHeight, this.textareaOneLineHeight)
 
     const { value } = currentTarget
 
     this.setState(
       {
-        value
+        value,
       },
-      () => this.props.onChange(value)
+      () => this.props.onChange(value),
     )
   }
 
@@ -87,7 +81,7 @@ class AutoresizeTextarea extends Component {
     this.props.onBlur(currentTarget.value)
   }
 
-  onKeyDown = e => {
+  onKeyDown = (e) => {
     if (e.key === 'Enter' && this.props.blurOnEnter) {
       e.stopPropagation()
       e.preventDefault()
@@ -99,14 +93,7 @@ class AutoresizeTextarea extends Component {
 
   render () {
     const { value = '' } = this.state
-    const {
-      className,
-      placeholder,
-      readOnly,
-      rowsCount,
-      maxLength,
-      name
-    } = this.props
+    const { className, placeholder, readOnly, rowsCount, maxLength, name } = this.props
 
     return (
       <textarea

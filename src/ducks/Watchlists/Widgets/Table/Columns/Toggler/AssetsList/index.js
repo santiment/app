@@ -7,20 +7,13 @@ import styles from '../Category.module.scss'
 
 const ROW_HEIGHT = 32
 
-const AssetsList = ({
-  items,
-  activeKeys,
-  currentSearch,
-  filteredColumns,
-  onColumnToggle
-}) => {
+const AssetsList = ({ items, activeKeys, currentSearch, filteredColumns, onColumnToggle }) => {
   const [filteredItems, filterItems] = useState(items)
 
   useEffect(() => {
     const filtered = items.filter(({ item: { key } }) => {
       const isActive = activeKeys && activeKeys.includes(key)
-      const isHide =
-        isActive || (currentSearch && !filteredColumns.includes(key))
+      const isHide = isActive || (currentSearch && !filteredColumns.includes(key))
 
       return !isHide
     })

@@ -9,7 +9,7 @@ const TREEMAP_COLORS = [
   'var(--mystic)',
   'var(--persimmon-light)',
   'var(--persimmon-light-2)',
-  'var(--persimmon)'
+  'var(--persimmon)',
 ]
 
 export const COLOR_MAPS = {
@@ -19,10 +19,10 @@ export const COLOR_MAPS = {
   '0': TREEMAP_COLORS[3],
   '-1': TREEMAP_COLORS[4],
   '-5': TREEMAP_COLORS[5],
-  '-10': TREEMAP_COLORS[6]
+  '-10': TREEMAP_COLORS[6],
 }
 
-export const getTreeMapColor = value => {
+export const getTreeMapColor = (value) => {
   if (value > 10) {
     return COLOR_MAPS['10']
   } else if (value > 5) {
@@ -45,7 +45,7 @@ const COLORS = ['-10', '-5', '-1', '0', '1', '5', '10']
 const DATE_MAPS = {
   '24h': "today's",
   '7d': "week's",
-  '1h': "hour's"
+  '1h': "hour's",
 }
 
 const ColorsExplanation = ({ colorMaps, range }) => {
@@ -53,17 +53,12 @@ const ColorsExplanation = ({ colorMaps, range }) => {
     <div className={styles.container}>
       <div className={styles.explanation}>
         <Icon type='info-round' className={styles.iconRound} />
-        Color indicates {DATE_MAPS[range]} asset perfomance in percent. Size
-        represents market cap.
+        Color indicates {DATE_MAPS[range]} asset perfomance in percent. Size represents market cap.
       </div>
       <div className={styles.colors}>
-        {COLORS.map(key => {
+        {COLORS.map((key) => {
           return (
-            <div
-              key={key}
-              className={styles.card}
-              style={{ backgroundColor: colorMaps[key] }}
-            >
+            <div key={key} className={styles.card} style={{ backgroundColor: colorMaps[key] }}>
               {key}%
             </div>
           )

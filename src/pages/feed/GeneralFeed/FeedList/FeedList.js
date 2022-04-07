@@ -16,7 +16,7 @@ import feedItemStyles from './../FeedItemRenderer/FeedItemRenderer.module.scss'
 const getEventDate = ({ insertedAt, publishedAt }) =>
   insertedAt ? new Date(insertedAt) : new Date(publishedAt)
 
-export const makeDateLabel = date => {
+export const makeDateLabel = (date) => {
   switch (date.toLocaleDateString()) {
     case TODAY: {
       return 'Today'
@@ -45,7 +45,7 @@ const checkItemWithIndex = (group, item, index) => {
   group.items.push(item)
 }
 
-export const groupByDates = events => {
+export const groupByDates = (events) => {
   const groups = []
 
   for (let i = 0; i < events.length; ) {
@@ -55,7 +55,7 @@ export const groupByDates = events => {
     const group = {
       date: date,
       items: [],
-      label: makeDateLabel(date)
+      label: makeDateLabel(date),
     }
     checkItemWithIndex(group, item, i)
 
@@ -72,12 +72,7 @@ export const groupByDates = events => {
   return groups
 }
 
-const FeedList = ({
-  events,
-  isLoading,
-  isNewEventsList,
-  showProfileExplanation
-}) => {
+const FeedList = ({ events, isLoading, isNewEventsList, showProfileExplanation }) => {
   if (isNewEventsList && isLoading) {
     return (
       <div className={externalStyles.scrollable}>
@@ -92,10 +87,7 @@ const FeedList = ({
   return (
     <>
       {hasData ? (
-        <RenderFeedGroups
-          groups={groups}
-          showProfileExplanation={showProfileExplanation}
-        />
+        <RenderFeedGroups groups={groups} showProfileExplanation={showProfileExplanation} />
       ) : (
         <SonarFeedRecommendations description='There are not any activities yet' />
       )}
@@ -107,15 +99,13 @@ const FeedList = ({
 export const RenderFeedGroups = ({
   groups,
   showProfileExplanation,
-  groupRenderer: GroupRenderer = RenderFeedGroupItems
+  groupRenderer: GroupRenderer = RenderFeedGroupItems,
 }) => {
   return groups.map((item, index) => {
     const { label, items } = item
     return (
       <Fragment key={index}>
-        <div className={cx(styles.date, index !== 0 && styles.next)}>
-          {label}
-        </div>
+        <div className={cx(styles.date, index !== 0 && styles.next)}>{label}</div>
         <GroupRenderer
           groupIndex={index}
           items={items}
@@ -126,11 +116,7 @@ export const RenderFeedGroups = ({
   })
 }
 
-export const RenderFeedGroupItems = ({
-  items,
-  groupIndex,
-  showProfileExplanation
-}) => {
+export const RenderFeedGroupItems = ({ items, groupIndex, showProfileExplanation }) => {
   const { isPro } = useUserSubscriptionStatus()
 
   return (
@@ -143,9 +129,7 @@ export const RenderFeedGroupItems = ({
               index={groupIndex}
               showProfileExplanation={showProfileExplanation}
             />
-            {!isPro && item.addProCard && (
-              <MakeProSubscriptionCard classes={feedItemStyles} />
-            )}
+            {!isPro && item.addProCard && <MakeProSubscriptionCard classes={feedItemStyles} />}
           </div>
 
           {item.addStories && <StoriesList classes={styles} showScrollBtns />}

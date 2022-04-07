@@ -6,17 +6,16 @@ import FeesDistribution from '../Widget/FeesDistribution'
 import HoldersDistributionTable from '../Widget/HoldersDistributionTable'
 import TopExchangesTable from '../Widget/TopExchangesTable'
 
-const isEmptyObject = obj => Object.keys(obj).length === 0
+const isEmptyObject = (obj) => Object.keys(obj).length === 0
 const keyAccessor = ({ key }) => key
 
 function getSortedObjectKeys (object) {
   const result = {}
   Object.keys(object)
     .sort()
-    .forEach(key => {
+    .forEach((key) => {
       const value = object[key]
-      result[key] =
-        typeof value === 'object' ? getSortedObjectKeys(value) : value
+      result[key] = typeof value === 'object' ? getSortedObjectKeys(value) : value
     })
   return result
 }
@@ -34,7 +33,7 @@ function shareMetricSettings (MetricSettings) {
   return result
 }
 
-const shareMetrics = metrics => metrics.map(keyAccessor)
+const shareMetrics = (metrics) => metrics.map(keyAccessor)
 
 function shareIndicators (MetricIndicators) {
   let result
@@ -46,8 +45,7 @@ function shareIndicators (MetricIndicators) {
   return result
 }
 
-const shareAxesMetrics = axesMetrics =>
-  Array.from(axesMetrics || []).map(keyAccessor)
+const shareAxesMetrics = (axesMetrics) => Array.from(axesMetrics || []).map(keyAccessor)
 
 function shareSubwidgets (subwidgets) {
   if (subwidgets.length === 0) return
@@ -55,7 +53,7 @@ function shareSubwidgets (subwidgets) {
   return subwidgets.map(({ key, from, to }) => ({
     widget: key,
     from,
-    to
+    to,
   }))
 }
 
@@ -71,7 +69,7 @@ function shareCombinedMetrics (metrics) {
       k: key,
       exp: expression,
       l: base ? base.label : label,
-      bm: shareMetrics(baseMetrics)
+      bm: shareMetrics(baseMetrics),
     }))
 }
 

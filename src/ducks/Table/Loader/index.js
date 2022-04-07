@@ -5,11 +5,7 @@ import styles from './index.module.scss'
 
 const Loader = ({ isLoading, classes = {}, repeat }) => (
   <div className={cx(styles.loader, classes.wrapper)}>
-    <Skeleton
-      className={cx(styles.skeleton, classes.row)}
-      show={isLoading}
-      repeat={repeat}
-    />
+    <Skeleton className={cx(styles.skeleton, classes.row)} show={isLoading} repeat={repeat} />
   </div>
 )
 

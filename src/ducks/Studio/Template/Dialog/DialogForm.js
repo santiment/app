@@ -10,7 +10,7 @@ import styles from './DialogForm.module.scss'
 const DialogForm = ({
   placeholders = {
     title: 'Name of the template...',
-    description: 'Description'
+    description: 'Description',
   },
   buttonLabel,
   defaultValue,
@@ -27,7 +27,7 @@ const DialogForm = ({
     e.preventDefault()
     onFormSubmit({
       title: e.currentTarget.name.value,
-      description: e.currentTarget.description.value
+      description: e.currentTarget.description.value,
     })
   }
 
@@ -63,11 +63,7 @@ const DialogForm = ({
         />
 
         <div className={styles.actions}>
-          <Dialog.Approve
-            className={styles.btn}
-            accent='positive'
-            isLoading={isLoading}
-          >
+          <Dialog.Approve className={styles.btn} accent='positive' isLoading={isLoading}>
             {buttonLabel}
           </Dialog.Approve>
           {actions}
@@ -77,8 +73,8 @@ const DialogForm = ({
   )
 }
 
-const mapStateToProps = state => ({
-  isLoggedIn: checkIsLoggedIn(state)
+const mapStateToProps = (state) => ({
+  isLoggedIn: checkIsLoggedIn(state),
 })
 
 export default connect(mapStateToProps)(DialogForm)

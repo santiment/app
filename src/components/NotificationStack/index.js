@@ -12,7 +12,7 @@ class NotificationStack extends Component {
   timerHandles = {}
 
   componentWillUnmount () {
-    Object.keys(this.timerHandles).forEach(timerName => {
+    Object.keys(this.timerHandles).forEach((timerName) => {
       if (this.timerHandles[timerName]) {
         clearTimeout(this.timerHandles[timerName])
       }
@@ -21,9 +21,7 @@ class NotificationStack extends Component {
 
   componentDidUpdate ({ notifications }) {
     if (notifications.length < this.props.notifications.length) {
-      const { id, dismissAfter } = this.props.notifications[
-        this.props.notifications.length - 1
-      ]
+      const { id, dismissAfter } = this.props.notifications[this.props.notifications.length - 1]
 
       this.timerHandles[id] = setTimeout(() => {
         this.closeNotification(id)
@@ -32,7 +30,7 @@ class NotificationStack extends Component {
     }
   }
 
-  closeNotification = id => {
+  closeNotification = (id) => {
     this.props.hideNotification(id)
   }
 
@@ -61,15 +59,15 @@ class NotificationStack extends Component {
 }
 
 const mapStateToProps = ({ notification }) => ({
-  notifications: notification.notifications
+  notifications: notification.notifications,
 })
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      hideNotification: actions.hideNotification
+      hideNotification: actions.hideNotification,
     },
-    dispatch
+    dispatch,
   )
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotificationStack)

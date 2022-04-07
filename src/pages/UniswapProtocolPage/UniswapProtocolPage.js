@@ -26,52 +26,52 @@ const BALANCE_CHART_PADDING = {
   top: 16,
   right: 45,
   bottom: 18,
-  left: 45
+  left: 45,
 }
 
 const BALANCE_CHART_TICKS = {
   xTicks: 6,
-  yTicks: 6
+  yTicks: 6,
 }
 
 const ANCHORS = {
   TopExchanges: {
     label: 'Top Exchanges',
-    key: 'top-exchanges'
+    key: 'top-exchanges',
   },
   FlowBalances: {
     label: 'UNI Flow Balances',
-    key: 'flow-balances'
+    key: 'flow-balances',
   },
   TopTransactions: {
     label: 'Top Token Transactions',
-    key: 'top-transactions'
+    key: 'top-transactions',
   },
   MetricsChart: {
     label: 'UNI Price, Age Consumed, Active Addresses (24h)',
-    key: 'metrics'
+    key: 'metrics',
   },
 
   TopClaimers: {
     label: 'Top Claimers',
-    key: 'top-claimers'
+    key: 'top-claimers',
   },
   Claimers: {
     label: 'UNI Token Claims',
-    key: 'claimers'
+    key: 'claimers',
   },
   Overview: {
     label: 'Token Distributor',
-    key: 'token-distributor'
+    key: 'token-distributor',
   },
   ClaimersWidgets: {
     label: 'UNI Claims: Overview',
-    key: 'claimers-widgets'
+    key: 'claimers-widgets',
   },
   WhoClaimed: {
     label: 'Who claimed UNI?',
-    key: 'who-claimed'
-  }
+    key: 'who-claimed',
+  },
 }
 
 const ANCHORS_TREE = [
@@ -81,8 +81,8 @@ const ANCHORS_TREE = [
       ANCHORS.TopExchanges,
       ANCHORS.FlowBalances,
       ANCHORS.TopTransactions,
-      ANCHORS.MetricsChart
-    ]
+      ANCHORS.MetricsChart,
+    ],
   },
   {
     title: 'Initial Distribution',
@@ -91,9 +91,9 @@ const ANCHORS_TREE = [
       ANCHORS.Overview,
       ANCHORS.TopClaimers,
       ANCHORS.ClaimersWidgets,
-      ANCHORS.WhoClaimed
-    ]
-  }
+      ANCHORS.WhoClaimed,
+    ],
+  },
 ]
 
 const UniswapProtocolPage = () => {
@@ -107,13 +107,13 @@ const UniswapProtocolPage = () => {
         meta={[
           {
             property: 'og:title',
-            content: 'Uniswap (UNI) Token Dashboard | Sanbase'
+            content: 'Uniswap (UNI) Token Dashboard | Sanbase',
           },
           {
             property: 'og:description',
             content:
-              'Real-time data on Uniswap (UNI) token distribution, amount claimed, post-claim activity, top UNI transactions and more.'
-          }
+              'Real-time data on Uniswap (UNI) token distribution, amount claimed, post-claim activity, top UNI transactions and more.',
+          },
         ]}
       />
 
@@ -122,9 +122,8 @@ const UniswapProtocolPage = () => {
           <div className={externalStyles.pageDescription}>
             <h3 className={externalStyles.title}>Uniswap Protocol Dashboard</h3>
             <div className={externalStyles.description}>
-              Real-time data on UNI token distribution, total amount of UNI
-              claimed, amount of UNI on centralized and decentralized exchange,
-              top UNI transactions and more.
+              Real-time data on UNI token distribution, total amount of UNI claimed, amount of UNI
+              on centralized and decentralized exchange, top UNI transactions and more.
             </div>
             <SharePage />
           </div>
@@ -143,11 +142,7 @@ const UniswapProtocolPage = () => {
           >
             <TopExchangesTable slug='uniswap' />
           </Block>
-          <Block
-            title='UNI Flow Balances'
-            tag={ANCHORS.FlowBalances.key}
-            isPaywalActive={!isPro}
-          >
+          <Block title='UNI Flow Balances' tag={ANCHORS.FlowBalances.key} isPaywalActive={!isPro}>
             <UniswapFlowBalances />
           </Block>
           <Block tag={ANCHORS.TopTransactions.key}>
@@ -183,17 +178,11 @@ const UniswapProtocolPage = () => {
               />
               <ChartWidget
                 height={448}
-                metrics={[
-                  Metric.uniswap_total_claims_amount,
-                  Metric.uniswap_total_claims_percent
-                ]}
+                metrics={[Metric.uniswap_total_claims_amount, Metric.uniswap_total_claims_percent]}
               />
             </div>
           </Block>
-          <Block
-            tag={ANCHORS.TopClaimers.key}
-            isPaywalActive={areClaimsRestricted}
-          >
+          <Block tag={ANCHORS.TopClaimers.key} isPaywalActive={areClaimsRestricted}>
             <TopClaimersTable />
           </Block>
           <Block

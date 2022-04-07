@@ -6,30 +6,22 @@ import TriggerChannelSettings from './TriggerChannelSettings'
 import FormikCheckbox from '../../../../../../components/formik-santiment-ui/FormikCheckbox'
 import { CHANNEL_NAMES } from '../../../../utils/constants'
 import InputLink from '../../../../../../components/InputLink/InputLink'
-import {
-  findWebHook,
-  isWebhookChannel,
-  useChannelTypes,
-  useDisabledChannels
-} from './hooks'
+import { findWebHook, isWebhookChannel, useChannelTypes, useDisabledChannels } from './hooks'
 import { useIsBetaMode } from '../../../../../../stores/ui'
-import {
-  refetchUserSettings,
-  useUserSettings
-} from '../../../../../../stores/user/settings'
+import { refetchUserSettings, useUserSettings } from '../../../../../../stores/user/settings'
 import styles from '../../signal/TriggerForm.module.scss'
 
 const CHANNELS = [
   CHANNEL_NAMES.Email,
   CHANNEL_NAMES.Telegram,
   CHANNEL_NAMES.Browser,
-  CHANNEL_NAMES.Webhook
+  CHANNEL_NAMES.Webhook,
 ]
 
 const REFETCH_TELEGRAM_TIMEOUT = 2000
 
 const checkAndAdd = (required, channels, flag, chType) => {
-  if (!flag && channels.some(type => type === chType)) {
+  if (!flag && channels.some((type) => type === chType)) {
     required.push(chType)
   }
 
@@ -38,7 +30,7 @@ const checkAndAdd = (required, channels, flag, chType) => {
 
 const checkIn = (channels, flag, chType) => {
   if (!flag) {
-    return channels.filter(item => item !== chType)
+    return channels.filter((item) => item !== chType)
   }
 
   return channels
@@ -49,8 +41,8 @@ const TriggerFormChannels = ({ channels, errors, setFieldValue, isNew }) => {
     settings: {
       isTelegramAllowAlerts: isTelegramConnected,
       isEmailAllowAlerts: isEmailConnected,
-      hasTelegramConnected
-    }
+      hasTelegramConnected,
+    },
   } = useUserSettings()
 
   const [webhook, setWebhook] = useState('')
@@ -63,32 +55,28 @@ const TriggerFormChannels = ({ channels, errors, setFieldValue, isNew }) => {
     disabledChannels,
     calculateDisabledChannels,
     recheckBrowserNotifications,
-    isWebPushEnabled
+    isWebPushEnabled,
   } = useDisabledChannels({
     channels,
     isBeta,
     isTelegramConnected,
-    isEmailConnected
+    isEmailConnected,
   })
 
   const { isActive, isDisabled, isRequired } = useChannelTypes({
     channels,
     disabledChannels,
-    requiredChannels
+    requiredChannels,
   })
 
   useEffect(() => {
     let newChannels = channels
     if (isNew) {
-      newChannels = checkIn(
-        newChannels,
-        isTelegramConnected,
-        CHANNEL_NAMES.Telegram
-      )
+      newChannels = checkIn(newChannels, isTelegramConnected, CHANNEL_NAMES.Telegram)
       newChannels = checkIn(newChannels, isEmailConnected, CHANNEL_NAMES.Email)
     }
 
-    const active = newChannels.filter(channel => !isDisabled(channel))
+    const active = newChannels.filter((channel) => !isDisabled(channel))
 
     setFieldValue('channels', active)
   }, [isTelegramConnected, isEmailConnected])
@@ -97,30 +85,15 @@ const TriggerFormChannels = ({ channels, errors, setFieldValue, isNew }) => {
     calculateDisabledChannels()
     let required = []
 
-    required = checkAndAdd(
-      required,
-      channels,
-      isTelegramConnected,
-      CHANNEL_NAMES.Telegram
-    )
-    required = checkAndAdd(
-      required,
-      channels,
-      isEmailConnected,
-      CHANNEL_NAMES.Email
-    )
-    required = checkAndAdd(
-      required,
-      channels,
-      isWebPushEnabled,
-      CHANNEL_NAMES.Browser
-    )
+    required = checkAndAdd(required, channels, isTelegramConnected, CHANNEL_NAMES.Telegram)
+    required = checkAndAdd(required, channels, isEmailConnected, CHANNEL_NAMES.Email)
+    required = checkAndAdd(required, channels, isWebPushEnabled, CHANNEL_NAMES.Browser)
 
     setRequiredChannels(required)
   }, [isTelegramConnected, isEmailConnected, isWebPushEnabled])
 
   const onWebhookChange = useCallback(
-    e => {
+    (e) => {
       const channel = findWebHook(channels)
 
       const val = e.target.value
@@ -132,14 +105,14 @@ const TriggerFormChannels = ({ channels, errors, setFieldValue, isNew }) => {
         setFieldValue('channels', [
           ...channels,
           {
-            webhook: val
-          }
+            webhook: val,
+          },
         ])
       }
 
       setWebhook(val)
     },
-    [channels, setFieldValue]
+    [channels, setFieldValue],
   )
 
   const addOrRemove = useCallback(
@@ -157,14 +130,14 @@ const TriggerFormChannels = ({ channels, errors, setFieldValue, isNew }) => {
       let newChannels = []
 
       if (enabled) {
-        newChannels = channels.filter(item => item !== channel)
+        newChannels = channels.filter((item) => item !== channel)
       } else {
         newChannels = [...channels, channel]
       }
 
       setFieldValue('channels', newChannels)
     },
-    [channels, setFieldValue]
+    [channels, setFieldValue],
   )
 
   const toggleChannel = useCallback(
@@ -177,11 +150,11 @@ const TriggerFormChannels = ({ channels, errors, setFieldValue, isNew }) => {
             newChannels = [
               ...channels,
               {
-                webhook
-              }
+                webhook,
+              },
             ]
           } else {
-            newChannels = channels.filter(item => !isWebhookChannel(item))
+            newChannels = channels.filter((item) => !isWebhookChannel(item))
           }
           setFieldValue('channels', newChannels)
           break
@@ -192,7 +165,7 @@ const TriggerFormChannels = ({ channels, errors, setFieldValue, isNew }) => {
         }
       }
     },
-    [channels, setFieldValue, addOrRemove]
+    [channels, setFieldValue, addOrRemove],
   )
 
   useEffect(() => {
@@ -207,9 +180,9 @@ const TriggerFormChannels = ({ channels, errors, setFieldValue, isNew }) => {
       }
     }
 
-    const active = channels.filter(channel => !isDisabled(channel))
+    const active = channels.filter((channel) => !isDisabled(channel))
 
-    if (!channels.some(channel => active.indexOf(channel) !== -1)) {
+    if (!channels.some((channel) => active.indexOf(channel) !== -1)) {
       setFieldValue('channels', active)
     }
   }, [channels])
@@ -242,7 +215,7 @@ const TriggerFormChannels = ({ channels, errors, setFieldValue, isNew }) => {
     <div className={cx(styles.row, styles.rowSingle)}>
       <div className={cx(styles.Field, styles.fieldFilled)}>
         <div className={styles.notifyBlock}>
-          {CHANNELS.map(channel => {
+          {CHANNELS.map((channel) => {
             if (channel === CHANNEL_NAMES.Browser && !isBeta) {
               return null
             }
@@ -250,10 +223,7 @@ const TriggerFormChannels = ({ channels, errors, setFieldValue, isNew }) => {
             const isWebhook = channel === CHANNEL_NAMES.Webhook
 
             return (
-              <div
-                className={cx(styles.channel, isWebhook && styles.webhook)}
-                key={channel}
-              >
+              <div className={cx(styles.channel, isWebhook && styles.webhook)} key={channel}>
                 <ChannelCheckbox
                   channel={channel}
                   isActive={isActive}
@@ -289,7 +259,7 @@ const ChannelCheckbox = ({
   isDisabled,
   isRequired,
   recheckBrowserNotifications,
-  isConnectable = true
+  isConnectable = true,
 }) => {
   return (
     <div className={styles.checkbox}>
@@ -307,11 +277,7 @@ const ChannelCheckbox = ({
         <TriggerChannelSettings
           showTrigger={isRequired}
           recheckBrowserNotifications={recheckBrowserNotifications}
-          trigger={
-            <div className={styles.requiredChannelExplanation}>
-              Enable {channel} alerts
-            </div>
-          }
+          trigger={<div className={styles.requiredChannelExplanation}>Enable {channel} alerts</div>}
         />
       )}
     </div>

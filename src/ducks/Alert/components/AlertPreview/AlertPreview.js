@@ -6,7 +6,7 @@ const AlertPreview = ({
   signal,
   prepareAlertTitle,
   handleCloseDialog,
-  shouldDisableActions
+  shouldDisableActions,
 }) => {
   return (
     <SharedTriggerForm

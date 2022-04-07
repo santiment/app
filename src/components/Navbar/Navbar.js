@@ -37,17 +37,17 @@ const ExternalLink = ({ children, className, ...rest }) => (
 const HEADER_DD_PARAMS = (() => {
   const { isLaptop, isTablet } = mapSizesToProps({
     width: window.innerWidth,
-    height: window.innerHeight
+    height: window.innerHeight,
   })
 
   if (isLaptop || isTablet) {
     return {
-      offsetX: -180
+      offsetX: -180,
     }
   }
 
   return {
-    position: 'start'
+    position: 'start',
   }
 })()
 
@@ -55,29 +55,29 @@ const leftLinks = [
   {
     to: '/',
     children: 'Explorer',
-    as: Link
+    as: Link,
   },
   {
     to: '/charts',
     children: 'Charts',
     as: Link,
     Dropdown: NavbarChartsDropdown,
-    ddParams: HEADER_DD_PARAMS
+    ddParams: HEADER_DD_PARAMS,
   },
   {
     href: 'https://insights.santiment.net/',
     children: 'Insights',
     as: ExternalLink,
     Dropdown: InsightsDropdown,
-    ddParams: HEADER_DD_PARAMS
+    ddParams: HEADER_DD_PARAMS,
   },
   {
     to: '/watchlists',
     children: 'Watchlists',
     as: Link,
     Dropdown: MarketDropdown,
-    ddParams: HEADER_DD_PARAMS
-  }
+    ddParams: HEADER_DD_PARAMS,
+  },
 ]
 
 const leftLinksV2 = [
@@ -87,14 +87,14 @@ const leftLinksV2 = [
     as: Link,
     Dropdown: ScreenerDropdown,
     ddParams: {
-      position: 'start'
-    }
+      position: 'start',
+    },
   },
   {
     to: '/alerts',
     children: 'Alerts',
-    as: Link
-  }
+    as: Link,
+  },
 ]
 
 const rightLinks = [
@@ -103,14 +103,14 @@ const rightLinks = [
     children: 'Academy',
     as: ExternalLink,
     Dropdown: NavbarHelpDropdown,
-    className: styles.academyBtn
+    className: styles.academyBtn,
   },
   {
     to: '/pricing',
     children: 'Pricing',
     as: Link,
-    className: styles.pricingBtn
-  }
+    className: styles.pricingBtn,
+  },
 ]
 
 const NavbarMoreItem = ({ links, activeLink }) => {
@@ -128,7 +128,7 @@ const NavbarMoreItem = ({ links, activeLink }) => {
         Dropdown: () => <NavbarMore links={links} activeLink={activeLink} />,
         ddParams: { position: 'center' },
         onClose: closeDialog,
-        onOpen: openDialog
+        onOpen: openDialog,
       }}
       activeLink={activeLink}
     />
@@ -153,27 +153,16 @@ const Navbar = ({ activeLink = '/', isLaptop, isTablet }) => {
         <Logo />
         {!showMore && <ProductsNav />}
         {leftLinks.map((item, index) => (
-          <NavbarItem
-            key={'left' + index}
-            item={item}
-            activeLink={activeLink}
-          />
+          <NavbarItem key={'left' + index} item={item} activeLink={activeLink} />
         ))}
 
         {!showMore &&
           leftLinksV2.map((item, index) => (
-            <NavbarItem
-              key={'leftV2' + index}
-              item={item}
-              activeLink={activeLink}
-            />
+            <NavbarItem key={'leftV2' + index} item={item} activeLink={activeLink} />
           ))}
 
         {showMore && (
-          <NavbarMoreItem
-            activeLink={activeLink}
-            links={[...leftLinksV2, ...rightLinks]}
-          />
+          <NavbarMoreItem activeLink={activeLink} links={[...leftLinksV2, ...rightLinks]} />
         )}
 
         <Search />
@@ -187,11 +176,7 @@ const Navbar = ({ activeLink = '/', isLaptop, isTablet }) => {
                 key={index}
                 variant='flat'
                 isActive={isActive}
-                className={cx(
-                  Dropdown || styles.rightLink,
-                  styles.btn,
-                  className
-                )}
+                className={cx(Dropdown || styles.rightLink, styles.btn, className)}
                 {...rest}
               />
             )
@@ -217,11 +202,7 @@ const Navbar = ({ activeLink = '/', isLaptop, isTablet }) => {
                 variant='flat'
                 className={cx(styles.btn, styles.rightBtns, styles.accountBtn)}
               >
-                <UserAvatar
-                  userId={id}
-                  avatarUrl={avatarUrl}
-                  classes={styles}
-                />
+                <UserAvatar userId={id} avatarUrl={avatarUrl} classes={styles} />
               </Button>
             }
           >

@@ -10,14 +10,14 @@ const BtcCirculationSupply = ({ settings }) => {
     {
       ...settings,
       selector: BTC_RELATED_SELECTOR,
-      aggregation: AGGREGATION_TYPES.SUM
+      aggregation: AGGREGATION_TYPES.SUM,
     },
-    'total_supply'
+    'total_supply',
   )
 
   const { data: totalData, loading: btcLoading } = useMetric(
     { ...settings, selector: BTC_SELECTOR, aggregation: AGGREGATION_TYPES.MAX },
-    Metric.circulation.key
+    Metric.circulation.key,
   )
 
   const percent = (100 * btcAssetsData) / totalData

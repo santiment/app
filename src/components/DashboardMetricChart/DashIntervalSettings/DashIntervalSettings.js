@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { useDropdown } from '../../../ducks/Studio/Chart/MetricSettings/Dropdown'
 import {
   isAvailableInterval,
-  useMetricIntervals
+  useMetricIntervals,
 } from '../../../ducks/Studio/Chart/MetricSettings/hooks'
 import { IntervalSettingsTemplate } from '../../../ducks/Studio/Chart/MetricSettings/IntervalSetting'
 import styles from './DashIntervalSettings.module.scss'
@@ -15,14 +15,12 @@ const DashIntervalSettings = ({ metrics, updateInterval, settings }) => {
 
   const interval = useMemo(() => {
     const { interval } = settings || {}
-    return isAvailableInterval(interval, intervals)
-      ? interval
-      : intervals[0].key
+    return isAvailableInterval(interval, intervals) ? interval : intervals[0].key
   }, [settings, intervals, metric])
 
   function onChange (newInterval) {
     updateInterval({
-      interval: newInterval
+      interval: newInterval,
     })
 
     close()
