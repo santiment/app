@@ -46,6 +46,7 @@ const OperationSelector = ({ metric, isWallet }) => {
   }, [operation, count])
 
   const hasPriceIcon = metric.category === 'Financial' || metric.key === 'price_usd'
+  const isPositiveMetric = metric.key !== 'exchange_balance'
   const isPercentIcon = PERCENT_OPERATIONS.includes(operation.value)
   const isMultipleValues = MULTIPLE_VALUES_OPERATIONS.includes(operation.value)
 
@@ -68,6 +69,7 @@ const OperationSelector = ({ metric, isWallet }) => {
         hasIcon={hasPriceIcon || isPercentIcon}
         iconType={isPercentIcon && 'percent'}
         className={styles.inputs}
+        isPositiveMetric={isPositiveMetric}
       />
     </div>
   )
