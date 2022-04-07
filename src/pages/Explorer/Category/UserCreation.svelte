@@ -1,9 +1,12 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
   import Profile from 'webkit/ui/Profile/svelte'
+  import Tooltip from 'webkit/ui/Tooltip/svelte'
+  import Info from 'webkit/ui/Profile/Info.svelte'
 
   export let small = false
   export let item
+  export let currentUser = null
 
   $: ({ title, user, votes, comments } = item)
 </script>
@@ -17,7 +20,16 @@
 </div>
 
 <div class="bottom row justify v-center c-waterloo mrg-s mrg--t" class:caption={small}>
-  <Profile {user} class="author" />
+  
+  <Tooltip openDelay={110}>
+    <svelte:fragment slot="trigger">
+      <Profile {user} class="author" />
+    </svelte:fragment>
+
+    <svelte:fragment slot="tooltip">
+      <Info {user} {currentUser} />
+    </svelte:fragment>
+  </Tooltip>
 
   <div class="stats row v-center">
     <div class="row v-center">
