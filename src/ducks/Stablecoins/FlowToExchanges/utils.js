@@ -43,14 +43,6 @@ const EXCHANGES_INFLOW_AGGREGATED_QUERY = gql`
 `
 
 export const useFlowToExchanges = ({ from, to }) => {
-<<<<<<< HEAD
-  const { data: { allProjects } = {}, loading, error } = useQuery(
-    EXCHANGES_INFLOW_AGGREGATED_QUERY,
-    {
-      variables: { from, to },
-    },
-  )
-=======
   const {
     data: { allProjects } = {},
     loading,
@@ -58,7 +50,6 @@ export const useFlowToExchanges = ({ from, to }) => {
   } = useQuery(EXCHANGES_INFLOW_AGGREGATED_QUERY, {
     variables: { from, to },
   })
->>>>>>> master
 
   return { data: allProjects || [], loading, error }
 }

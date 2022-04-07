@@ -62,11 +62,7 @@ function getBubbleFontColorHex(bgColor, isNightMode) {
   return r * 0.299 + g * 0.587 + b * 0.114 > threshold ? '#000000' : '#ffffff'
 }
 
-<<<<<<< HEAD
-function plotMetricLastValueBubble (chart, LastMetricPoint, metricKey, offset, bgColor) {
-=======
 function plotMetricLastValueBubble(chart, LastMetricPoint, metricKey, offset, bgColor) {
->>>>>>> master
   const metricPoint = LastMetricPoint[metricKey]
   if (!metricPoint) return
 
@@ -94,11 +90,7 @@ function plotXAxis(chart, formatter) {
   drawAxes(chart, axesColor)
 }
 
-<<<<<<< HEAD
-function plotYAxes (chart, scale) {
-=======
 function plotYAxes(chart, scale) {
->>>>>>> master
   const { ctx, top, right, bottom, colors, axesMetricKeys, domainGroups, yAxesTicks = 8 } = chart
   if (!axesMetricKeys) return
 

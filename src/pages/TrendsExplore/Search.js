@@ -11,11 +11,7 @@ import styles from './Search.module.scss'
 
 const MAX_VALUES = 5
 
-<<<<<<< HEAD
-function trimTopics (topics) {
-=======
 function trimTopics(topics) {
->>>>>>> master
   return topics.map((topic) => topic.trim()).filter(Boolean)
 }
 

@@ -34,11 +34,7 @@ export function useUniswapValueDistribution() {
   return [uniswapValueDistribution, loading]
 }
 
-<<<<<<< HEAD
-export function useUniswapWhoMoved () {
-=======
 export function useUniswapWhoMoved() {
->>>>>>> master
   const { data: { uniswapWhoClaimed } = {}, loading } = useQuery(UNISWAP_WHO_CLAIMED_QUERY)
 
   return [uniswapWhoClaimed, loading]

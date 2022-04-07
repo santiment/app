@@ -732,16 +732,10 @@ export function getBaseMetric(metric) {
   return Metric[baseMetricKey] || MetricAlias[baseMetricKey]
 }
 
-<<<<<<< HEAD
-export function getTimeRangesByMetric (baseMetric, availableMetrics = []) {
-  const baseMetricKeyWithSuffix = `${baseMetric.percentMetricKey ||
-    baseMetric.key}${METRIC_PERCENT_SUFFIX}`
-=======
 export function getTimeRangesByMetric(baseMetric, availableMetrics = []) {
   const baseMetricKeyWithSuffix = `${
     baseMetric.percentMetricKey || baseMetric.key
   }${METRIC_PERCENT_SUFFIX}`
->>>>>>> master
   const percentMetrics = availableMetrics.filter((metric) =>
     metric.includes(baseMetricKeyWithSuffix),
   )

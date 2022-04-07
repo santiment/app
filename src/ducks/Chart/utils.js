@@ -15,11 +15,7 @@ export function isDayInterval(chart) {
   return lastDate - firstDate < DAY_INTERVAL
 }
 
-<<<<<<< HEAD
-export function getValidTooltipKey (tooltipKey, joinedCategories) {
-=======
 export function getValidTooltipKey(tooltipKey, joinedCategories) {
->>>>>>> master
   return joinedCategories.includes(tooltipKey) ? tooltipKey : joinedCategories[0]
 }
 

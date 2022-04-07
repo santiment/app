@@ -26,11 +26,7 @@ const ManageCookiesDialog = ({ cookiesPolicies, basePolicy }) => {
     }
   }
 
-<<<<<<< HEAD
-  function handleSaveCookies () {
-=======
   function handleSaveCookies() {
->>>>>>> master
     activePoliciesSet.forEach((item) => {
       localStorage.setItem(item, true)
     })
@@ -39,11 +35,7 @@ const ManageCookiesDialog = ({ cookiesPolicies, basePolicy }) => {
     setIsModalOpen(false)
   }
 
-<<<<<<< HEAD
-  function handleAllowAll () {
-=======
   function handleAllowAll() {
->>>>>>> master
     cookiesPolicies.forEach((item) => {
       localStorage.setItem(item.key, true)
     })

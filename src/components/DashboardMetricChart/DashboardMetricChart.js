@@ -94,29 +94,17 @@ const DashboardMetricChart = ({
   const [options, setOptions] = useState(DEFAULT_OPTIONS)
   const chartRef = useRef(null)
   const domainGroups = useDomainGroups(metrics)
-<<<<<<< HEAD
-  const mirrorDomainGroups = useMemo(() => extractMirrorMetricsDomainGroups(domainGroups), [
-    domainGroups,
-  ])
-=======
   const mirrorDomainGroups = useMemo(
     () => extractMirrorMetricsDomainGroups(domainGroups),
     [domainGroups],
   )
->>>>>>> master
 
   useEffect(() => {
     updateTooltipSettings(metrics)
   }, [metrics])
 
-<<<<<<< HEAD
-  const { intervalSelector, settings, setSettings, onChangeInterval } = useChartSettings(
-    defaultInterval,
-  )
-=======
   const { intervalSelector, settings, setSettings, onChangeInterval } =
     useChartSettings(defaultInterval)
->>>>>>> master
 
   function updateSettingsMap({ interval } = {}) {
     setSettings({
@@ -127,17 +115,10 @@ const DashboardMetricChart = ({
 
   const [disabledMetrics, setDisabledMetrics] = useState({})
 
-<<<<<<< HEAD
-  const activeMetrics = useMemo(() => metrics.filter(({ key }) => !disabledMetrics[key]), [
-    metrics,
-    disabledMetrics,
-  ])
-=======
   const activeMetrics = useMemo(
     () => metrics.filter(({ key }) => !disabledMetrics[key]),
     [metrics, disabledMetrics],
   )
->>>>>>> master
 
   const [data, loadings] = useTimeseries(
     activeMetrics,

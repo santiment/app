@@ -96,17 +96,9 @@ export const useToggleInsight = () => useContext(InsightsToggleContext)
 export const useInsightsErrorMsg = () => useContext(InsightsErrorContext)
 export const useActiveToggleInsight = () => useContext(InsightsActiveToggleContext)
 
-<<<<<<< HEAD
-export const withInsightsProvider = (Component) => (props) => (
-  <InsightsProvider>
-    <Component {...props} />
-  </InsightsProvider>
-)
-=======
 export const withInsightsProvider = (Component) => (props) =>
   (
     <InsightsProvider>
       <Component {...props} />
     </InsightsProvider>
   )
->>>>>>> master

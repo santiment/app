@@ -448,14 +448,8 @@ export const mapTriggerToFormProps = (currentTrigger) => {
   const frequencyModels = getFrequencyFromCooldown(currentTrigger)
   const absolutePriceValues = getAbsolutePriceValues(currentTrigger)
 
-<<<<<<< HEAD
-  const { target, signalType, ethAddress, targetWatchlist, textSelector } = getFormTriggerTarget(
-    settings,
-  )
-=======
   const { target, signalType, ethAddress, targetWatchlist, textSelector } =
     getFormTriggerTarget(settings)
->>>>>>> master
   const newType = getFormTriggerType(settings)
 
   const trendingWordsParams = getFormTrendingWords(currentTrigger)
@@ -1064,11 +1058,7 @@ export function getFrequencyTimeType(frequencyType) {
   }
 }
 
-<<<<<<< HEAD
-export function getFrequencyTimeValues (frequencyTimeType) {
-=======
 export function getFrequencyTimeValues(frequencyTimeType) {
->>>>>>> master
   return frequencyTimeType ? FREQUENCY_MAPPINGS[frequencyTimeType.value] : undefined
 }
 
@@ -1525,40 +1515,25 @@ export const titleMetricValuesHeader = (
       case PRICE_CHANGE_TYPES.MOVING_DOWN: {
         return buildFormBlock(
           priceCommonTitle,
-<<<<<<< HEAD
-          `down ${percentThreshold ||
-            0}% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`,
-=======
           `down ${
             percentThreshold || 0
           }% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`,
->>>>>>> master
         )
       }
       case PRICE_CHANGE_TYPES.MOVING_UP: {
         return buildFormBlock(
           priceCommonTitle,
-<<<<<<< HEAD
-          `up ${percentThreshold ||
-            0}% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`,
-=======
           `up ${
             percentThreshold || 0
           }% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`,
->>>>>>> master
         )
       }
       case PRICE_CHANGE_TYPES.PERCENT_SOME_OF: {
         return buildFormBlock(
           isPriceMetric ? `${titleTarget} ${ofTarget}` : addressesTitle,
-<<<<<<< HEAD
-          `moving up ${percentThresholdLeft || 0}% or moving down ${percentThresholdRight ||
-            0}% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`,
-=======
           `moving up ${percentThresholdLeft || 0}% or moving down ${
             percentThresholdRight || 0
           }% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`,
->>>>>>> master
         )
       }
       case PRICE_CHANGE_TYPES.ABOVE_OR_EQUAL: {

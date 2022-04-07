@@ -17,11 +17,7 @@ export const RANGES = [
   { value: 1, label: '24h' },
 ]
 
-<<<<<<< HEAD
-function getBalance (balances = [], address) {
-=======
 function getBalance(balances = [], address) {
->>>>>>> master
   const { balanceEnd: balance = '' } = balances.find((item) => item.address === address) || {}
 
   return balance

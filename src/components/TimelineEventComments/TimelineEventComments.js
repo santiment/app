@@ -7,11 +7,7 @@ import {
   CREATE_TIMELINE_EVENT_COMMENT_MUTATION,
 } from '../../queries/timelineEventComments'
 
-<<<<<<< HEAD
-function getTimelineComments (id, cursor, entityType = CommentTypes.TIMELINE_EVENT) {
-=======
 function getTimelineComments(id, cursor, entityType = CommentTypes.TIMELINE_EVENT) {
->>>>>>> master
   return client.query({
     query: COMMENTS_TIMELINE_EVENTS_QUERY,
     variables: {
@@ -23,11 +19,7 @@ function getTimelineComments(id, cursor, entityType = CommentTypes.TIMELINE_EVEN
   })
 }
 
-<<<<<<< HEAD
-function createTimelineComment (id, content, parentId, entityType = CommentTypes.TIMELINE_EVENT) {
-=======
 function createTimelineComment(id, content, parentId, entityType = CommentTypes.TIMELINE_EVENT) {
->>>>>>> master
   return client.mutate({
     mutation: CREATE_TIMELINE_EVENT_COMMENT_MUTATION,
     variables: {

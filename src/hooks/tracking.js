@@ -8,11 +8,7 @@ export function useTrackEvents() {
 
   const [mutate] = useMutation(TRACK_EVENTS_MUTATION, { skip: !isLoggedIn })
 
-<<<<<<< HEAD
-  function trackEvent ({ action, category, label, ...values }, service = ['ga', 'sanapi']) {
-=======
   function trackEvent({ action, category, label, ...values }, service = ['ga', 'sanapi']) {
->>>>>>> master
     if (!isBrowser || !isProdApp || hasDoNotTrack()) {
       return null
     }

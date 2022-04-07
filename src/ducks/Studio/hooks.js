@@ -33,11 +33,7 @@ export function useKeyboardCmdShortcut(key, clb, target = window) {
   }, [clb, target])
 }
 
-<<<<<<< HEAD
-export function useMetricSettingsAdjuster (MetricSettingMap, settings, metrics) {
-=======
 export function useMetricSettingsAdjuster(MetricSettingMap, settings, metrics) {
->>>>>>> master
   const { from, to } = settings
   useMemo(() => {
     metrics.forEach((metric) => {

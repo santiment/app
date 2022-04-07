@@ -13,11 +13,7 @@ import { USER_SUBSCRIPTIONS_QUERY, CANCEL_SUBSCRIPTION_MUTATION } from '../../qu
 import { updateUserSubscriptions } from '../../stores/user/subscriptions'
 
 const createCacheUpdate = (subsId) =>
-<<<<<<< HEAD
-  function updateCache (cache, { data: { cancelSubscription } }) {
-=======
   function updateCache(cache, { data: { cancelSubscription } }) {
->>>>>>> master
     const { currentUser } = cache.readQuery({ query: USER_SUBSCRIPTIONS_QUERY })
 
     const canceled = currentUser.subscriptions.find(({ id }) => id === subsId)

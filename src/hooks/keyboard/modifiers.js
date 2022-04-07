@@ -15,11 +15,7 @@ export const observePressedModifier = (() => {
   let state = DEFAULT_PRESSED_MODIFIER
 
   const notify = (subscriber) => subscriber(state)
-<<<<<<< HEAD
-  function update (newState) {
-=======
   function update(newState) {
->>>>>>> master
     state = newState
     subscribers.forEach(notify)
   }
@@ -64,11 +60,7 @@ export const observePressedModifier = (() => {
   }
 })()
 
-<<<<<<< HEAD
-export function usePressedModifier () {
-=======
 export function usePressedModifier() {
->>>>>>> master
   const [PressedModifier, setPressedModifier] = useState(DEFAULT_PRESSED_MODIFIER)
   useEffect(() => observePressedModifier(setPressedModifier), [])
   return PressedModifier

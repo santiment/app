@@ -19,11 +19,7 @@ class SmoothDropdownItem extends Component {
     this.triggerRef = null
   }
 
-<<<<<<< HEAD
-  render () {
-=======
   render() {
->>>>>>> master
     const { trigger, children, className = '', onOpen: propsOnOpen, onClose, ddParams } = this.props
     const {
       triggerRef: { current: ddTrigger },

@@ -61,14 +61,9 @@ const Table = ({ isHome = true }) => {
             from: new Date(row.original.datetime),
           })
         case 'Price':
-<<<<<<< HEAD
-          return `${parseFloat(row.original.amount.toFixed(3))} ${row.original.currencyProject &&
-            row.original.currencyProject.ticker}`
-=======
           return `${parseFloat(row.original.amount.toFixed(3))} ${
             row.original.currencyProject && row.original.currencyProject.ticker
           }`
->>>>>>> master
         case 'Quantity':
           return row.original.quantity
         case 'Marketplace':

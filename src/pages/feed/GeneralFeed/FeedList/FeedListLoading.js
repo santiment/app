@@ -83,11 +83,7 @@ class FeedListLoading extends React.Component {
     window.removeEventListener('scroll', this.handleScroll)
   }
 
-<<<<<<< HEAD
-  componentWillReceiveProps (nextProps) {
-=======
   componentWillReceiveProps(nextProps) {
->>>>>>> master
     const { events: propEvents, sortType: propsSortType, filters: propFilters } = nextProps
     const { events: currentEvents, sortType: stateSortType, filters: stateFilters } = this.state
 
@@ -130,11 +126,7 @@ class FeedListLoading extends React.Component {
     }
   }
 
-<<<<<<< HEAD
-  getFilteredEvents ({ events }) {
-=======
-  getFilteredEvents({ events }) {
->>>>>>> master
+sdEvents({ events }) {
     return events.filter(({ post, payload, trigger }) => post || (trigger && payload))
   }
 

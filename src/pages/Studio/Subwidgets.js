@@ -23,11 +23,7 @@ export function useSubwidgetsController() {
     setSubwidgets((subwidgets) => [...subwidgets, Subwidget])
 
     const filter = (widget) => widget !== Subwidget
-<<<<<<< HEAD
-    function deleteWidget () {
-=======
     function deleteWidget() {
->>>>>>> master
       setSubwidgets((subwidgets) => subwidgets.filter(filter))
       parentWidget.subwidgets = parentWidget.subwidgets.filter((w) => w !== subwidgetNode)
     }

@@ -33,18 +33,11 @@ const ChangeBillingDialog = ({
 
             if (!loading) {
               const neuro = productsWithPlans.find(findSanbasePlan) || []
-<<<<<<< HEAD
-              const { amount, interval, id: newId } = getAlternativeBillingPlan(
-                neuro.plans,
-                oldPlan,
-              )
-=======
               const {
                 amount,
                 interval,
                 id: newId,
               } = getAlternativeBillingPlan(neuro.plans, oldPlan)
->>>>>>> master
 
               newPlanId = newId
               newPrice = formatPrice(amount)[0]

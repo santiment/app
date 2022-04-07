@@ -38,11 +38,7 @@ const BlockchainLabelsSelector = ({ onChange, value, trigger: Trigger = DefaultT
     setSearchTerm(e.target.value)
   }
 
-<<<<<<< HEAD
-  function addItemInState (label) {
-=======
   function addItemInState(label) {
->>>>>>> master
     const found = value.find((l) => l === label)
     if (found) {
       onChange(value.filter((l) => l !== label))

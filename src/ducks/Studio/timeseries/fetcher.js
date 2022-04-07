@@ -56,17 +56,6 @@ Object.assign(Fetcher, {
   },
   ethSpentOverTime: {
     query: ETH_SPENT_OVER_TIME_QUERY,
-<<<<<<< HEAD
-    preTransform: (key) => ({
-      data: {
-        ethSpentOverTime: { ethSpentOverTime },
-      },
-    }) =>
-      ethSpentOverTime.map(({ datetime, ethSpent }) => ({
-        datetime,
-        [key]: ethSpent,
-      })),
-=======
     preTransform:
       (key) =>
       ({
@@ -78,7 +67,6 @@ Object.assign(Fetcher, {
           datetime,
           [key]: ethSpent,
         })),
->>>>>>> master
   },
   social_active_users_telegram: {
     query: GET_METRIC(SOCIAL_ACTIVE_USERS_TELEGRAM),

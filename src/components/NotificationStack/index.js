@@ -11,11 +11,7 @@ const notifyDuration = +styles.notifyduration
 class NotificationStack extends Component {
   timerHandles = {}
 
-<<<<<<< HEAD
-  componentWillUnmount () {
-=======
   componentWillUnmount() {
->>>>>>> master
     Object.keys(this.timerHandles).forEach((timerName) => {
       if (this.timerHandles[timerName]) {
         clearTimeout(this.timerHandles[timerName])

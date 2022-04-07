@@ -108,11 +108,7 @@ function sortTimebounds(timebounds) {
   return timebounds.sort(timeboundsSorter)
 }
 
-<<<<<<< HEAD
-function timeboundsSorter ({ key: aKey }, { key: bKey }) {
-=======
 function timeboundsSorter({ key: aKey }, { key: bKey }) {
->>>>>>> master
   const { amount: aAmount, format: aFormat } = parseIntervalString(getTimerange(aKey))
   const { amount: bAmount, format: bFormat } = parseIntervalString(getTimerange(bKey))
 

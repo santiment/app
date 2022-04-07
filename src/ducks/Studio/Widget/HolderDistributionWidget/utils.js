@@ -31,14 +31,7 @@ export function buildMergedMetric(baseMetrics) {
     formatter,
     axisFormatter,
     node: 'line',
-<<<<<<< HEAD
-    key: baseMetrics
-      .map(keyGetter)
-      .sort()
-      .join(MERGED_DIVIDER),
-=======
     key: baseMetrics.map(keyGetter).sort().join(MERGED_DIVIDER),
->>>>>>> master
     label: baseMetrics.map(labelGetter).join(', ') + labelPostfix,
   }
 

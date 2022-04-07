@@ -73,14 +73,9 @@ export const useUpdateNameAndDescription = ({
             })
 
             setTitle(
-<<<<<<< HEAD
-              `${assets || ''} ${metricLabel ? metricLabel.toLowerCase() : ''} ${conditionsStr ||
-                ''}`,
-=======
               `${assets || ''} ${metricLabel ? metricLabel.toLowerCase() : ''} ${
                 conditionsStr || ''
               }`,
->>>>>>> master
             )
 
             if (cooldown && channel.length > 0) {
@@ -91,14 +86,9 @@ export const useUpdateNameAndDescription = ({
               })
 
               setDescription(
-<<<<<<< HEAD
-                `Notify me when the ${metricLabel ? metricLabel.toLowerCase() : ''} of ${assets ||
-                  ''} ${conditionsStr || ''}. ${notificationsStr}`,
-=======
                 `Notify me when the ${metricLabel ? metricLabel.toLowerCase() : ''} of ${
                   assets || ''
                 } ${conditionsStr || ''}. ${notificationsStr}`,
->>>>>>> master
               )
             }
           } else {
@@ -143,15 +133,9 @@ export const useUpdateNameAndDescription = ({
               })
 
               setDescription(
-<<<<<<< HEAD
-                `Notify me when the ${
-                  metricLabel ? metricLabel.toLowerCase() : ''
-                } of ${watchlistName || ''} ${conditionsStr || ''}. ${notificationsStr}`,
-=======
                 `Notify me when the ${metricLabel ? metricLabel.toLowerCase() : ''} of ${
                   watchlistName || ''
                 } ${conditionsStr || ''}. ${notificationsStr}`,
->>>>>>> master
               )
             }
           } else {
@@ -231,14 +215,9 @@ export const useUpdateNameAndDescription = ({
               })
 
               setDescription(
-<<<<<<< HEAD
-                `Notify me when the balance of ${slugTicker.toLowerCase()} wallet ${address ||
-                  ''} ${conditionsStr || ''}. ${notificationsStr}`,
-=======
                 `Notify me when the balance of ${slugTicker.toLowerCase()} wallet ${
                   address || ''
                 } ${conditionsStr || ''}. ${notificationsStr}`,
->>>>>>> master
               )
             }
           } else {

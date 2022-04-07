@@ -1,26 +1,4 @@
 import React from 'react'
-<<<<<<< HEAD
-import SharedTriggerForm from '../../../Signals/signalFormManager/sharedForm/SharedTriggerForm'
-
-const AlertPreview = ({
-  setIsPreview,
-  signal,
-  prepareAlertTitle,
-  handleCloseDialog,
-  shouldDisableActions,
-}) => {
-  return (
-    <SharedTriggerForm
-      shouldDisableActions={shouldDisableActions}
-      trigger={signal}
-      originalTrigger={signal}
-      settings={signal.settings}
-      prepareAlertTitle={prepareAlertTitle}
-      setIsPreview={setIsPreview}
-      onClose={handleCloseDialog}
-    />
-  )
-=======
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import NoSignalPreview from '../../../Signals/chart/preview/NoSignalPreview'
@@ -157,7 +135,6 @@ const AlertPreview = ({ setIsPreview, signal, handleCloseDialog, shouldDisableAc
   }
 
   return <div className={cx(styles.wrapper, 'column')}>{children}</div>
->>>>>>> master
 }
 
 export default AlertPreview

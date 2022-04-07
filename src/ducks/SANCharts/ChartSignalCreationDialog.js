@@ -5,11 +5,7 @@ import AlertModal from '../Alert/AlertModal'
 import styles from './ChartSignalCreationDialog.module.scss'
 
 const ChartSignalCreationDialog = ({ trigger = DefaultSignalCreationTrigger }) => (
-<<<<<<< HEAD
-  <AlertModal trigger={trigger} prepareAlertTitle={prepareAlertTitle} />
-=======
   <AlertModal trigger={trigger} />
->>>>>>> master
 )
 
 const DefaultSignalCreationTrigger = (

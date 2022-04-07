@@ -31,8 +31,6 @@ export const CreationInfo = toReact(
     alignItems: 'center',
   },
   'div',
-<<<<<<< HEAD
-=======
 )
 export const Comments = toReact(
   CommentsComponent,
@@ -42,7 +40,6 @@ export const Comments = toReact(
     flexDirection: 'column',
   },
   'div',
->>>>>>> master
 )
 
 const TopBar = ({

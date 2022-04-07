@@ -85,11 +85,7 @@ export const Studio = ({
     setSidepanel(sidepanel === key ? undefined : key)
   }
 
-<<<<<<< HEAD
-  function deleteWidget (widget) {
-=======
   function deleteWidget(widget) {
->>>>>>> master
     setWidgets(widgets.filter((w) => w !== widget))
   }
 
@@ -268,11 +264,7 @@ export const Studio = ({
     resetSelecion()
   }
 
-<<<<<<< HEAD
-  function onNewChartClick (appliedMetrics = selectedMetrics, scrollIntoViewOnMount) {
-=======
   function onNewChartClick(appliedMetrics = selectedMetrics, scrollIntoViewOnMount) {
->>>>>>> master
     const metricSet = new Set(appliedMetrics)
     let metrics = appliedMetrics
 

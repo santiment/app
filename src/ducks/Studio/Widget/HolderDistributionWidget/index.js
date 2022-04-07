@@ -96,11 +96,7 @@ const HolderDistribution = ({
     props.rerenderWidgets()
   }
 
-<<<<<<< HEAD
-  function onUnmergeClick (metric) {
-=======
   function onUnmergeClick(metric) {
->>>>>>> master
     const metricFilter = (m) => m !== metric
     widget.metrics = widget.metrics.filter(metricFilter)
     setMergedMetrics(mergedMetrics.filter(metricFilter))

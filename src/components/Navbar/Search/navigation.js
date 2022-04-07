@@ -33,11 +33,7 @@ export function useCursorNavigation(isOpened, onSuggestionSelect) {
     })
   }
 
-<<<<<<< HEAD
-  function registerCursorColumn (column, items) {
-=======
   function registerCursorColumn(column, items) {
->>>>>>> master
     setColumnItems((ColumnItems) => {
       const newColumnItems = { ...ColumnItems }
       newColumnItems[column] = items

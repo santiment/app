@@ -34,16 +34,10 @@ const Chart = ({
   const MetricColor = useChartColors(metrics, FocusedMetric)
   const categories = useMetricCategories(metrics)
   const domainGroups = useDomainGroups(metrics)
-<<<<<<< HEAD
-  const mirrorDomainGroups = useMemo(() => extractMirrorMetricsDomainGroups(domainGroups), [
-    domainGroups,
-  ])
-=======
   const mirrorDomainGroups = useMemo(
     () => extractMirrorMetricsDomainGroups(domainGroups),
     [domainGroups],
   )
->>>>>>> master
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState(
     domainGroups && domainGroups.length > mirrorDomainGroups.length,
   )

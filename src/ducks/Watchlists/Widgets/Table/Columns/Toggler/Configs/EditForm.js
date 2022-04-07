@@ -48,11 +48,7 @@ const EditForm = ({
     }
   }
 
-<<<<<<< HEAD
-  function onInputChange ({ currentTarget: { value: name } }) {
-=======
   function onInputChange({ currentTarget: { value: name } }) {
->>>>>>> master
     setFormState((state) => ({ ...state, name }))
     debouncedCheckName(name)
   }

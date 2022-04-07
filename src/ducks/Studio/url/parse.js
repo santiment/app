@@ -90,11 +90,7 @@ function parseColors(
   return Colors
 }
 
-<<<<<<< HEAD
-function parseMetricSetting (MetricSetting = {}, SharedKeyIndicator, SharedKeyComparable) {
-=======
 function parseMetricSetting(MetricSetting = {}, SharedKeyIndicator, SharedKeyComparable) {
->>>>>>> master
   const MetricSettingMap = new Map()
 
   Object.keys(MetricSetting).forEach((key) => {
@@ -211,14 +207,8 @@ export function parseSharedWidgets(sharedWidgets, project) {
       axesMetrics,
     }) => {
       const [parsedMetricIndicators, SharedKeyIndicator] = parseMetricIndicators(indicators)
-<<<<<<< HEAD
-      const [holderMetrics, cleanedMetricKeys, SharedKeyMergedHolder] = extractMergedMetrics(
-        metrics,
-      )
-=======
       const [holderMetrics, cleanedMetricKeys, SharedKeyMergedHolder] =
         extractMergedMetrics(metrics)
->>>>>>> master
       const [comparedMetrics, SharedKeyComparable] = parseSharedComparables(comparables)
       const cleanedMetrics = cleanedMetricKeys.map((key) =>
         parseMetric(key, SharedKeyIndicator, SharedKeyComparable),
@@ -326,11 +316,7 @@ function translateV1ToV2(v1Config) {
   }
 }
 
-<<<<<<< HEAD
-export function parseUrl (url, settings = DEFAULT_SETTINGS, options = DEFAULT_OPTIONS) {
-=======
 export function parseUrl(url, settings = DEFAULT_SETTINGS, options = DEFAULT_OPTIONS) {
->>>>>>> master
   const data = parse(url, { arrayFormat: 'comma' })
 
   return {

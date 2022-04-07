@@ -67,17 +67,9 @@ export const RenderQueueProvider = ({ children }) => (
     {children}
   </RenderQueueContext.Provider>
 )
-<<<<<<< HEAD
-export const withRenderQueueProvider = (Component) => (props) => (
-  <RenderQueueProvider>
-    <Component {...props} />
-  </RenderQueueProvider>
-)
-=======
 export const withRenderQueueProvider = (Component) => (props) =>
   (
     <RenderQueueProvider>
       <Component {...props} />
     </RenderQueueProvider>
   )
->>>>>>> master

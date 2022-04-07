@@ -51,11 +51,7 @@ class GetAssets extends Component {
     }
   }
 
-<<<<<<< HEAD
-  componentWillReceiveProps (nextProps) {
-=======
   componentWillReceiveProps(nextProps) {
->>>>>>> master
     if (!nextProps.Assets.isLoading && nextProps.Assets.items.length === FIRST_LOAD_SIZE) {
       if (!this.state.callFetchAll) {
         this.fetchAll()

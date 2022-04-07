@@ -12,11 +12,7 @@ export function useShortShareLink(staticPath) {
   const [shortShareLink, setShortShareLink] = useState('')
   const cache = useRef({}).current
 
-<<<<<<< HEAD
-  function getShortShareLink (path) {
-=======
   function getShortShareLink(path) {
->>>>>>> master
     const currentPath = typeof path === 'string' ? path : staticPath || getCurrentPath()
     const cachedLink = cache[currentPath]
 

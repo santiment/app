@@ -54,11 +54,7 @@ const Widgets = ({
     setSelectedDatesRange([from, to])
   }
 
-<<<<<<< HEAD
-  function onRangeSelected ({ x: x1, value: leftDate }, { x: x2, value: rightDate }) {
-=======
   function onRangeSelected({ x: x1, value: leftDate }, { x: x2, value: rightDate }) {
->>>>>>> master
     setIsSelectingRange(false)
     if (leftDate === rightDate) return
 

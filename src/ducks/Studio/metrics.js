@@ -67,11 +67,7 @@ const DEFAULT_CONTROLLER = {
   parseSlug: true,
 }
 const getController = (controller) => Object.assign({}, DEFAULT_CONTROLLER, controller)
-<<<<<<< HEAD
-export function getProjectMetricByKey (key, connector = METRIC_CONNECTOR, controller) {
-=======
 export function getProjectMetricByKey(key, connector = METRIC_CONNECTOR, controller) {
->>>>>>> master
   const { getMetricByKey, newProjectMetric, parseSlug } = getController(controller)
   let [slug, ticker, metricKey] = key.split(connector)
   const metric = getMetricByKey(metricKey)

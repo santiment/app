@@ -6,11 +6,7 @@ import styles from './NoSignalPreview.module.scss'
 
 const NoSignalPreview = ({ className }) => {
   return (
-<<<<<<< HEAD
-    <div className={styles.container}>
-=======
     <div className={cx(styles.container, className)}>
->>>>>>> master
       <img className={styles.noDataImg} src={noDataImg} alt='no_signal_preview' />
       <div className={styles.explanation}>
         <span className={styles.label}>No chart available</span>

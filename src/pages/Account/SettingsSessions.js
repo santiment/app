@@ -130,11 +130,7 @@ const Session = ({ client, platform, isCurrent, jti, refreshWidget, lastActiveAt
   } = useRemoveSession(jti, isCurrent, refreshWidget)
   const [error, setError] = useState(false)
 
-<<<<<<< HEAD
-  function onClick () {
-=======
   function onClick() {
->>>>>>> master
     onRemove().then((msg) => {
       if (msg === UNAUTHORIZED_MSG) {
         setError(true)

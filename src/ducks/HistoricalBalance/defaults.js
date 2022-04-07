@@ -14,16 +14,10 @@ const SETTINGS = {
   timeRange: DEFAULT_TIME_RANGE.toUpperCase(),
 }
 
-<<<<<<< HEAD
-export const withDefaults = (Component) => ({ defaultSettings, ...props }) => (
-  <Component {...props} defaultSettings={Object.assign({}, SETTINGS, defaultSettings)} />
-)
-=======
 export const withDefaults =
   (Component) =>
   ({ defaultSettings, ...props }) =>
     <Component {...props} defaultSettings={Object.assign({}, SETTINGS, defaultSettings)} />
->>>>>>> master
 
 export const TabType = {
   LATEST_TRANSACTIONS: 'Latest transactions',

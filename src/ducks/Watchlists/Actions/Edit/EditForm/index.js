@@ -68,20 +68,12 @@ const EditForm = ({
     }
   }
 
-<<<<<<< HEAD
-  function onInputChange ({ currentTarget: { value: name } }) {
-=======
   function onInputChange({ currentTarget: { value: name } }) {
->>>>>>> master
     setFormState((state) => ({ ...state, name }))
     debouncedCheckName(name)
   }
 
-<<<<<<< HEAD
-  function onTextareaChange ({ currentTarget: { value: description } }) {
-=======
   function onTextareaChange({ currentTarget: { value: description } }) {
->>>>>>> master
     setFormState((state) => ({ ...state, description }))
   }
 

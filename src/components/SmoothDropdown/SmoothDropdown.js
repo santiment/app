@@ -157,15 +157,8 @@ class SmoothDropdown extends Component {
       return
     }
 
-<<<<<<< HEAD
-    const {
-      height: ddWrapperHeight,
-      top: ddWrapperTop,
-    } = this.dropdownWrapperRef.current.getBoundingClientRect()
-=======
     const { height: ddWrapperHeight, top: ddWrapperTop } =
       this.dropdownWrapperRef.current.getBoundingClientRect()
->>>>>>> master
 
     const {
       top: triggerTop,

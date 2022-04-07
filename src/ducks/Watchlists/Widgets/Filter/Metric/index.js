@@ -136,11 +136,7 @@ const FilterMetric = ({
     setSettings((state) => ({ ...state, secondThreshold: newValue }))
   }
 
-<<<<<<< HEAD
-  function onTimeRangeChange (timeRange) {
-=======
   function onTimeRangeChange(timeRange) {
->>>>>>> master
     setSettings((state) => ({ ...state, timeRange }))
   }
 

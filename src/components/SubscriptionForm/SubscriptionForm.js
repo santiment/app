@@ -20,11 +20,7 @@ class SubscriptionForm extends PureComponent {
     hasSubscribed: true,
   }
 
-<<<<<<< HEAD
-  componentWillReceiveProps ({ hasSubscribed }) {
-=======
   componentWillReceiveProps({ hasSubscribed }) {
->>>>>>> master
     if (hasSubscribed !== undefined && hasSubscribed !== this.state.hasSubscribed) {
       this.setState({ ...this.state, hasSubscribed })
     }

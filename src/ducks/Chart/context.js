@@ -84,26 +84,6 @@ export function usePlotterRemove(chart, id) {
   }, [])
 }
 
-<<<<<<< HEAD
-export const withChartContext = (Component) => ({
-  data,
-  scale,
-  colors,
-  categories,
-  domainGroups,
-  ...props
-}) => (
-  <ChartProvider
-    data={data}
-    scale={scale}
-    colors={colors}
-    categories={categories}
-    domainGroups={domainGroups}
-  >
-    <Component {...props} />
-  </ChartProvider>
-)
-=======
 export const withChartContext =
   (Component) =>
   ({ data, scale, colors, categories, domainGroups, ...props }) =>
@@ -118,4 +98,3 @@ export const withChartContext =
         <Component {...props} />
       </ChartProvider>
     )
->>>>>>> master

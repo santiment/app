@@ -9,11 +9,7 @@ import { useTheme } from '../../stores/ui/theme'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 
 export const getSvelteContext = (cmp, ctx) => cmp && cmp.$$.context.get(ctx)
-<<<<<<< HEAD
-export function useStore (store, immute = (_) => _, setStoreRef) {
-=======
 export function useStore(store, immute = (_) => _, setStoreRef) {
->>>>>>> master
   const [state, setState] = useState(() => (store ? get(store) : []))
   if (setStoreRef) setStoreRef.current = setState
 

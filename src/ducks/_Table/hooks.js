@@ -16,11 +16,7 @@ export function useSelectedItemsSet(items) {
     setSelectedItemsSet(newState)
   }
 
-<<<<<<< HEAD
-  function selectAll () {
-=======
   function selectAll() {
->>>>>>> master
     setSelectedItemsSet(selectedItemsSet.size === items.length ? SET : new Set(items))
   }
 

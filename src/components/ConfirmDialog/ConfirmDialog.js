@@ -47,11 +47,7 @@ class ConfirmDialog extends PureComponent {
     }
   }
 
-<<<<<<< HEAD
-  render () {
-=======
   render() {
->>>>>>> master
     const { title, description, trigger, classes, confirmLabel, isLoading } = this.props
 
     const mergedClasses = { ...styles, ...classes }

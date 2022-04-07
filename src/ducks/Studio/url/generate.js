@@ -75,11 +75,7 @@ export function buildShareConfig({ settings, widgets, sidepanel }) {
   }
 }
 
-<<<<<<< HEAD
-export function generateShareLink (settings, options, metrics = [], events = []) {
-=======
 export function generateShareLink(settings, options, metrics = [], events = []) {
->>>>>>> master
   const Shareable = {
     ...settings,
     ...options,

@@ -15,16 +15,10 @@ function useSocialTimeseries(activeMetrics, settings, MetricSettingMap) {
   const [metrics, setMetrics] = useState([])
 
   // NOTE(haritonasty): prevent new fetch when not assigned label and map
-<<<<<<< HEAD
-  const shouldUpdate = useMemo(() => MetricSettingMap && activeMetrics[1].label !== 'Price', [
-    activeMetrics,
-  ])
-=======
   const shouldUpdate = useMemo(
     () => MetricSettingMap && activeMetrics[1].label !== 'Price',
     [activeMetrics],
   )
->>>>>>> master
 
   useEffect(() => {
     if (shouldUpdate) {

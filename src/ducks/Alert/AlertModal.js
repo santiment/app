@@ -21,13 +21,8 @@ const AlertModal = ({
   defaultType,
   signalData,
   isUserTheAuthor = true,
-<<<<<<< HEAD
-  prepareAlertTitle,
-  shouldDisableActions,
-=======
   shouldDisableActions,
   isRecommendedSignal,
->>>>>>> master
 }) => {
   const match = useRouteMatch('/alerts/:id')
   const history = useHistory()

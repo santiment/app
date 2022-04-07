@@ -4,11 +4,7 @@ import { FluidSkeleton as Skeleton } from '../../components/Skeleton'
 import NoDataImage from '../../components/Illustrations/NoData'
 import styles from './index.module.scss'
 
-<<<<<<< HEAD
-export function prepareColumns (columns) {
-=======
 export function prepareColumns(columns) {
->>>>>>> master
   columns.forEach((column) => {
     column.id = column.id || column.key || column.title
   })

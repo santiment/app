@@ -85,17 +85,10 @@ export function buildIndicatorMetric(metric, indicator) {
 const IndicatorsSetting = ({ metric, widget, toggleMetric }) => {
   const { MetricIndicators } = widget
   const { Dropdown } = useDropdown()
-<<<<<<< HEAD
-  const activeIndicators = useMemo(() => new Set(MetricIndicators[metric.key]), [
-    metric,
-    MetricIndicators,
-  ])
-=======
   const activeIndicators = useMemo(
     () => new Set(MetricIndicators[metric.key]),
     [metric, MetricIndicators],
   )
->>>>>>> master
   const activeLabels = useMemo(
     () =>
       INDICATORS.filter((indicator) => activeIndicators.has(indicator))

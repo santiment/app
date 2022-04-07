@@ -10,11 +10,7 @@ export const percentServerValueMirrorFormatter = (value) => [-value / 100, value
 export const mvrvFormatter = (value) => percentValueFormatter(value - 1).toFixed(2)
 export const mvrvServerFormatter = (value) => percentServerValueFormatter(value) + 1
 
-<<<<<<< HEAD
-export function defaultFormatter (value, precision = 2) {
-=======
 export function defaultFormatter(value, precision = 2) {
->>>>>>> master
   return millify(value, precision)
 }
 
@@ -38,15 +34,6 @@ function withBadgePosition(badge, formatted) {
   }
 }
 
-<<<<<<< HEAD
-export const formatterWithBadge = (badge = '', formatter = defaultFormatter) => (value) => {
-  if (badge === '₿') {
-    const formatted = defaultFormatter(value, 6)
-    return withBadgePosition(badge, formatted)
-  } else {
-    const formatted = formatter(value)
-    return withBadgePosition(badge, formatted)
-=======
 export const formatterWithBadge =
   (badge = '', formatter = defaultFormatter) =>
   (value) => {
@@ -57,5 +44,4 @@ export const formatterWithBadge =
       const formatted = formatter(value)
       return withBadgePosition(badge, formatted)
     }
->>>>>>> master
   }

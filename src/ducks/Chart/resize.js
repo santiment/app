@@ -25,11 +25,7 @@ export const ResizeListener = ({ onResize }) => {
   return <iframe title='resizer' ref={iframeRef} frameBorder='0' style={iframeStyles} />
 }
 
-<<<<<<< HEAD
-export function onResize (chart, chartPadding, brush, brushData, joinedCategories) {
-=======
 export function onResize(chart, chartPadding, brush, brushData, joinedCategories) {
->>>>>>> master
   const parentWidth = chart.canvas.parentNode.offsetWidth
   const chartHeight = chart.canvas.parentNode.offsetHeight
 

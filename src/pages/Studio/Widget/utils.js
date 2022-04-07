@@ -9,13 +9,6 @@ export const newExternalWidget = (Widget, props) =>
     ...props,
   })
 
-<<<<<<< HEAD
-export const withExternal = (Component) => ({ target, ...props }) => {
-  if (target) {
-    target.classList.remove('widget')
-    target.classList.remove('border')
-  }
-=======
 export const withExternal =
   (Component) =>
   ({ target, ...props }) => {
@@ -23,7 +16,6 @@ export const withExternal =
       target.classList.remove('widget')
       target.classList.remove('border')
     }
->>>>>>> master
 
     return target ? ReactDOM.createPortal(<Component {...props} />, target) : null
   }

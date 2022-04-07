@@ -79,11 +79,7 @@ const ProjectsSelectTabs = ({
   onSelect,
   showTabs = true,
 }) => {
-<<<<<<< HEAD
-  function onTabSelect (category) {
-=======
   function onTabSelect(category) {
->>>>>>> master
     getProjectsByCategory(category, CustomCategory[category], CategoryModifier[category]).then(
       onSelect,
     )

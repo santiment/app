@@ -61,11 +61,7 @@ const Input = ({ value, onCalendarChange }) => {
     }
   }
 
-<<<<<<< HEAD
-  function validateInput (input) {
-=======
   function validateInput(input) {
->>>>>>> master
     const dateSettings = input.split(' - ').map((item) => item.split('/'))
 
     const dates = dateSettings.map(([day, month, year]) => new Date(`${month}/${day}/20${year}`))

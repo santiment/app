@@ -91,11 +91,7 @@ export function useSettings(defaultSettings) {
     })
   }
 
-<<<<<<< HEAD
-  function changeTimePeriod (from, to, timeRange) {
-=======
   function changeTimePeriod(from, to, timeRange) {
->>>>>>> master
     setSettings((state) => ({
       ...state,
       timeRange,

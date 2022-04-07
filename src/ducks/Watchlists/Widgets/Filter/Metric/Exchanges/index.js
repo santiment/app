@@ -35,17 +35,10 @@ const Exchanges = ({
 
   const hasActiveExchanges = settings.exchanges.length > 0
   const isANDCombinator = settings.exchanges_combinator === 'and'
-<<<<<<< HEAD
-  const filteredExchanges = useMemo(() => filterValuesBySearch(search, exchanges, 'exchange'), [
-    search,
-    exchanges,
-  ])
-=======
   const filteredExchanges = useMemo(
     () => filterValuesBySearch(search, exchanges, 'exchange'),
     [search, exchanges],
   )
->>>>>>> master
 
   useEffect(() => {
     if (isNoFilters) {
@@ -77,11 +70,7 @@ const Exchanges = ({
     }
   }, [settings])
 
-<<<<<<< HEAD
-  function onToggleMode (combinator) {
-=======
   function onToggleMode(combinator) {
->>>>>>> master
     setSettings((state) => ({
       ...state,
       exchanges_combinator: combinator,

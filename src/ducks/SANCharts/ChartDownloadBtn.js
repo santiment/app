@@ -54,11 +54,7 @@ function drawLegend(pngChart, metrics, isNightMode) {
   })
 }
 
-<<<<<<< HEAD
-function downloadChart ({ current: chart }, title, metrics, data, MetricNode, isNightMode) {
-=======
 function downloadChart({ current: chart }, title, metrics, data, MetricNode, isNightMode) {
->>>>>>> master
   const { scale, colors, domainGroups, plotter, axesMetricKeys } = chart
   const { brushPaintConfig, ...rest } = paintConfigs[+isNightMode]
 

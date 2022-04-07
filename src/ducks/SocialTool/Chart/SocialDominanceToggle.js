@@ -8,11 +8,7 @@ import styles from './SocialDominanceToggle.module.scss'
 const SocialDominanceToggle = ({ className, options = {}, setOptions }) => {
   const isActive = options.isSocialDominanceActive
 
-<<<<<<< HEAD
-  function toggle () {
-=======
   function toggle() {
->>>>>>> master
     setOptions((state) => ({
       ...state,
       isSocialDominanceActive: saveToggle(

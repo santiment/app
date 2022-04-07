@@ -47,11 +47,7 @@ export function useDomainGroups(metrics) {
   }, [metrics])
 }
 
-<<<<<<< HEAD
-export function useClosestValueData (rawData, metrics, isClosestValueActive = true, MetricNode) {
-=======
 export function useClosestValueData(rawData, metrics, isClosestValueActive = true, MetricNode) {
->>>>>>> master
   return useMemo(() => {
     const lineMetrics = metrics.filter(({ key, node }) => {
       const newNode = MetricNode && MetricNode[key]
@@ -142,11 +138,7 @@ function getDomainDependencies(domainGroups) {
 }
 
 // TODO: Refactor [@vanguard | Feb 17, 2021]
-<<<<<<< HEAD
-export function useMultiAxesMetricKeys (widget, metrics, ErrorMsg = {}, domainGroups) {
-=======
 export function useMultiAxesMetricKeys(widget, metrics, ErrorMsg = {}, domainGroups) {
->>>>>>> master
   const { axesMetricSet, disabledAxesMetricSet } = widget
 
   return useMemo(() => {

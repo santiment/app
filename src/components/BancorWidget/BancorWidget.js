@@ -21,11 +21,7 @@ class BancorWidget extends PureComponent {
     document.body.appendChild(script)
   }
 
-<<<<<<< HEAD
-  render () {
-=======
   render() {
->>>>>>> master
     return <div className={cx('bancor-wc', this.props.className)} id='bancor-wc-san' />
   }
 }

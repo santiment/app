@@ -71,17 +71,10 @@ const MetricSelector = ({ selectedMetric, metrics, target, onChange }) => {
   const [categories, setCategories] = useState({})
   const [searchTerm, setSearchTerm] = useState('')
 
-<<<<<<< HEAD
-  const allCategories = useMemo(() => filterCategories(categories, searchTerm), [
-    categories,
-    searchTerm,
-  ])
-=======
   const allCategories = useMemo(
     () => filterCategories(categories, searchTerm),
     [categories, searchTerm],
   )
->>>>>>> master
 
   const allMetrics = useMemo(
     () =>

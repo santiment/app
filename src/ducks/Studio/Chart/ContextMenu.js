@@ -7,55 +7,35 @@ import styles from './ContextMenu.module.scss'
 
 export default ({ MetricNode, setOptions, onDeleteChartClick, ...props }) => {
   const { activeMetrics, data, title, chartRef } = props
-<<<<<<< HEAD
-  function toggleScale () {
-=======
   function toggleScale() {
->>>>>>> master
     setOptions((state) => ({
       ...state,
       isLogScale: !state.isLogScale,
     }))
   }
 
-<<<<<<< HEAD
-  function toggleCartesianGrid () {
-=======
   function toggleCartesianGrid() {
->>>>>>> master
     setOptions((state) => ({
       ...state,
       isCartesianGridActive: saveToggle('isCartesianGridActive', !state.isCartesianGridActive),
     }))
   }
 
-<<<<<<< HEAD
-  function toggleClosestData () {
-=======
   function toggleClosestData() {
->>>>>>> master
     setOptions((state) => ({
       ...state,
       isClosestDataActive: saveToggle('isClosestDataActive', !state.isClosestDataActive),
     }))
   }
 
-<<<<<<< HEAD
-  function toggleWatermarkLighter () {
-=======
   function toggleWatermarkLighter() {
->>>>>>> master
     setOptions((state) => ({
       ...state,
       isWatermarkLighter: saveToggle('isWatermarkLighter', !state.isWatermarkLighter),
     }))
   }
 
-<<<<<<< HEAD
-  function toggleWatermarkVisibility () {
-=======
   function toggleWatermarkVisibility() {
->>>>>>> master
     setOptions((state) => ({
       ...state,
       isWatermarkVisible: saveToggle('isWatermarkVisible', !state.isWatermarkVisible),

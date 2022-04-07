@@ -42,14 +42,8 @@ const sortExchanges = (a, b) => {
 export function useMarketExchanges() {
   const { data, loading } = useQuery(EXCHANGES_QUERY)
 
-<<<<<<< HEAD
-  return useMemo(() => [data ? data.getMarketExchanges.sort(sortExchanges) : ARRAY, loading], [
-    data,
-  ])
-=======
   return useMemo(
     () => [data ? data.getMarketExchanges.sort(sortExchanges) : ARRAY, loading],
     [data],
   )
->>>>>>> master
 }

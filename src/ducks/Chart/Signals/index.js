@@ -88,11 +88,7 @@ const Signals = ({
     )
   }
 
-<<<<<<< HEAD
-  function onMouseMove ({ target, currentTarget, nativeEvent: { offsetY: y } }) {
-=======
   function onMouseMove({ target, currentTarget, nativeEvent: { offsetY: y } }) {
->>>>>>> master
     if (isHovered || data.length === 0 || target !== currentTarget) {
       return
     }

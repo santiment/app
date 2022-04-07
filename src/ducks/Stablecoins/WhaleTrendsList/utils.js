@@ -34,15 +34,11 @@ const WHALE_TRENDS_QUERY = gql`
 `
 
 export const useWhaleTrends = ({ slug, from, to, interval }) => {
-<<<<<<< HEAD
-  const { data: { getMetric } = {}, loading, error } = useQuery(WHALE_TRENDS_QUERY, {
-=======
   const {
     data: { getMetric } = {},
     loading,
     error,
   } = useQuery(WHALE_TRENDS_QUERY, {
->>>>>>> master
     variables: { slug, from, to, interval },
   })
 

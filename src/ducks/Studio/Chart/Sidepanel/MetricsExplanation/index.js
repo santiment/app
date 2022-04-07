@@ -38,11 +38,7 @@ function dedupMetrics(metrics) {
   })
 }
 
-<<<<<<< HEAD
-function buildOptions (metrics, colors) {
-=======
 function buildOptions(metrics, colors) {
->>>>>>> master
   return dedupMetrics(filterExplainableMetrics(metrics)).map((metric) => ({
     index: metric.key,
     content: <Label metric={metric} colors={colors} />,

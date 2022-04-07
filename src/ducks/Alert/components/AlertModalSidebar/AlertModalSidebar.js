@@ -12,11 +12,8 @@ const AlertModalSidebar = ({
   values,
   hasSignal,
   isSharedTrigger,
-<<<<<<< HEAD
-=======
   isEdited,
   isRecommendedSignal,
->>>>>>> master
 }) => {
   const { submitForm, isSubmitting } = useFormikContext()
 
@@ -44,9 +41,6 @@ const AlertModalSidebar = ({
   }
 
   return (
-<<<<<<< HEAD
-    <div className={cx(styles.wrapper, !shouldHideRestrictionMessage && styles.wrapperResized)}>
-=======
     <div
       className={cx(
         styles.wrapper,
@@ -55,7 +49,6 @@ const AlertModalSidebar = ({
         'relative column justify fluid',
       )}
     >
->>>>>>> master
       <div>
         <div className={cx(styles.titleWrapper, 'row justify v-center')}>
           <div className='h4 c-black'>{selectedType.title}</div>

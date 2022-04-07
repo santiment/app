@@ -228,12 +228,6 @@ const loadAndCheckActivities = () => {
       const { data: { activities: { activity } = {} } = {} } = res
 
       if (activity) {
-<<<<<<< HEAD
-        const filtered = activity.filter(({ trigger: { settings: { channel } } }) =>
-          Array.isArray(channel)
-            ? channel.indexOf(WEB_PUSH_CHANNEL) !== -1
-            : channel === WEB_PUSH_CHANNEL,
-=======
         const filtered = activity.filter(
           ({
             trigger: {
@@ -243,7 +237,6 @@ const loadAndCheckActivities = () => {
             Array.isArray(channel)
               ? channel.indexOf(WEB_PUSH_CHANNEL) !== -1
               : channel === WEB_PUSH_CHANNEL,
->>>>>>> master
         )
 
         checkNewActivities(filtered)

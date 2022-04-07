@@ -151,11 +151,7 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
     setSelectedMetrics(DEFAULT_CHECKED_METRICS)
   }
 
-<<<<<<< HEAD
-  function onUnmergeClick (metric) {
-=======
   function onUnmergeClick(metric) {
->>>>>>> master
     const metricFilter = (m) => m !== metric
     setMetrics(metrics.filter(metricFilter))
     setMergedMetrics(mergedMetrics.filter(metricFilter))

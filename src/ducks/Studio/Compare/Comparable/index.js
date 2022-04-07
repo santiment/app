@@ -61,11 +61,7 @@ export default ({
     closeDialog()
   }
 
-<<<<<<< HEAD
-  function removeComparable () {
-=======
   function removeComparable() {
->>>>>>> master
     setComparables((state) => state.filter((comp) => comp !== comparable))
   }
 

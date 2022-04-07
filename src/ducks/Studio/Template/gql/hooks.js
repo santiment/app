@@ -50,11 +50,7 @@ const updateTemplatesOnCreation = buildTemplatesCacheUpdater(({ template }, temp
 )
 
 export const templateSorter = (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
-<<<<<<< HEAD
-function sortTemplates (templates) {
-=======
 function sortTemplates(templates) {
->>>>>>> master
   return templates ? templates.sort(templateSorter) : []
 }
 

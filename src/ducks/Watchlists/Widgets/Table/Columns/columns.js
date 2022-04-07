@@ -78,15 +78,10 @@ export const RANK_CELL = ({ value }) =>
 export const ETH_SPENT_CELL = ({ value }) =>
   isValid(value) ? `Ξ${defaultFormatter(value)}` : NO_DATA
 
-<<<<<<< HEAD
-export const BASIC_CELL = (formatter) => ({ value }) =>
-  isValid(value) ? formatter(value) : noValueFormatter(value)
-=======
 export const BASIC_CELL =
   (formatter) =>
   ({ value }) =>
     isValid(value) ? formatter(value) : noValueFormatter(value)
->>>>>>> master
 
 export const PERCENT_CHANGES_CELL = ({ value }) =>
   isValid(value) ? (

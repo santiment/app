@@ -512,11 +512,7 @@ export const App = ({
   )
 }
 
-<<<<<<< HEAD
-function isPathnameInPages (pathname, pages) {
-=======
 function isPathnameInPages(pathname, pages) {
->>>>>>> master
   return pages.some((path) => !pathname.replace(path, '').includes('/'))
 }
 

@@ -16,16 +16,10 @@ const getItem = getItemBuilder(gql`
 const ChartLayout = ({ title }) => (title ? <Column>{title}</Column> : null)
 
 const ChartLayouts = ({ ids, setHeight }) => {
-<<<<<<< HEAD
-  const idsArray = useMemo(() => ids.map((obj) => (typeof obj === 'string' ? +obj : +obj.id)), [
-    ids,
-  ])
-=======
   const idsArray = useMemo(
     () => ids.map((obj) => (typeof obj === 'string' ? +obj : +obj.id)),
     [ids],
   )
->>>>>>> master
 
   return (
     <Recent

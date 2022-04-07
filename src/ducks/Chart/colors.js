@@ -74,11 +74,7 @@ function preserveExistingMetricColor(metrics, PreviousColor) {
   return [uncoloredMetrics, PreservedColor]
 }
 
-<<<<<<< HEAD
-export function getChartColors (metrics, PreviousColor = {}) {
-=======
 export function getChartColors(metrics, PreviousColor = {}) {
->>>>>>> master
   const [uncoloredMetrics, Color] = preserveExistingMetricColor(metrics, PreviousColor)
   const unusedColors = getUnusedColors(Object.values(Color))
 
@@ -124,19 +120,11 @@ export function useChartColors(metrics, initialState = INITIAL_STATE) {
   return ChartColor
 }
 
-<<<<<<< HEAD
-export function useHighlightMetricColor (MetricColor, focusedMetricKey) {
-  return useMemo(() => highlightMetricColor(MetricColor, focusedMetricKey), [
-    MetricColor,
-    focusedMetricKey,
-  ])
-=======
 export function useHighlightMetricColor(MetricColor, focusedMetricKey) {
   return useMemo(
     () => highlightMetricColor(MetricColor, focusedMetricKey),
     [MetricColor, focusedMetricKey],
   )
->>>>>>> master
 }
 
 export function useChartColorsWithHighlight(metrics, focusedMetricKey) {

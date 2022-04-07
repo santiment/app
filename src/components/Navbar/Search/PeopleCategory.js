@@ -44,17 +44,10 @@ const Person = ({ avatarUrl, username }) => (
 
 const PeopleCategory = ({ searchTerm, ...props }) => {
   const people = usePeople()
-<<<<<<< HEAD
-  const suggestions = useMemo(() => people.filter(peoplePredicate(searchTerm)).slice(0, 5), [
-    searchTerm,
-    people,
-  ])
-=======
   const suggestions = useMemo(
     () => people.filter(peoplePredicate(searchTerm)).slice(0, 5),
     [searchTerm, people],
   )
->>>>>>> master
 
   return suggestions.length ? (
     <Category

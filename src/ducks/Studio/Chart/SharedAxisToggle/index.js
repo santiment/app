@@ -4,11 +4,7 @@ import Toggle from '@santiment-network/ui/Toggle'
 import styles from './index.module.scss'
 
 export default ({ className, isDomainGroupingActive, setIsDomainGroupingActive }) => {
-<<<<<<< HEAD
-  function toggleDomainGrouping () {
-=======
   function toggleDomainGrouping() {
->>>>>>> master
     setIsDomainGroupingActive((state) => !state)
   }
 

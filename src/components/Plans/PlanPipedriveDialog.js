@@ -7,11 +7,7 @@ import styles from './PlanPipedriveDialog.module.scss'
 
 function useFormLoading() {
   const [loading, setLoading] = useState(true)
-<<<<<<< HEAD
-  function toggleLoading (newSt) {
-=======
   function toggleLoading(newSt) {
->>>>>>> master
     setLoading((state) => newSt)
   }
   return [loading, toggleLoading]

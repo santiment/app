@@ -44,11 +44,7 @@ const initHotjar = () => {
 
 const initTwitterPixel = () => {
   mixScript('//static.ads-twitter.com/uwt.js')
-<<<<<<< HEAD
-  window.twq = function twq () {
-=======
   window.twq = function twq() {
->>>>>>> master
     window.twq.exe ? window.twq.exe.apply(window.twq, arguments) : window.twq.queue.push(arguments)
   }
   window.twq.version = '1.1'

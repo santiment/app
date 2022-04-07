@@ -63,18 +63,10 @@ const NotificationItem = ({
 
   const title = useMemo(() => getTitle(data), [data])
   const linkTo = useMemo(() => getLink(data), [data])
-<<<<<<< HEAD
-  const types = useMemo(() => getTypes(data, currentUser && currentUser.id === user.id), [
-    data,
-    currentUser,
-    user,
-  ])
-=======
   const types = useMemo(
     () => getTypes(data, currentUser && currentUser.id === user.id),
     [data, currentUser, user],
   )
->>>>>>> master
   const isAlertAuthor =
     data.eventType === TRIGGER_FIRED && currentUser && currentUser.id === user.id
 

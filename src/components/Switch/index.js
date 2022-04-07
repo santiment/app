@@ -12,14 +12,9 @@ const Switch = ({ case: id, children }) => {
     if (process.env.NODE_ENV === 'development') {
       if (child.type !== Case) {
         throw new Error(
-<<<<<<< HEAD
-          `<Switch> should contain only <Case> elements as children, but you passed a <${child.type
-            .name || child.type}>`,
-=======
           `<Switch> should contain only <Case> elements as children, but you passed a <${
             child.type.name || child.type
           }>`,
->>>>>>> master
         )
       }
     }

@@ -14,10 +14,6 @@ const DEFAULT_DAY_MATRIX = [
 ]
 
 const valueAccessor = ({ value }) => value
-<<<<<<< HEAD
-const buildDataAccessor = (emptyValues) => ({ data }) => {
-  const result = new Array(METRICS_AMOUNT)
-=======
 const buildDataAccessor =
   (emptyValues) =>
   ({ data }) => {
@@ -27,7 +23,6 @@ const buildDataAccessor =
       const period = data['_' + i]
       result[i] = period ? period.timeseriesData.map(valueAccessor) : emptyValues
     }
->>>>>>> master
 
     return result
   }

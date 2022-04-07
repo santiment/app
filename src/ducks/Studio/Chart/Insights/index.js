@@ -36,17 +36,10 @@ const Insights = ({ chart, insights }) => {
   const isAnon = !useUser().isLoggedIn
   const activeInsightType = useActiveToggleInsight()
   const isPulseInsights = activeInsightType && activeInsightType.key === 'pulse'
-<<<<<<< HEAD
-  const points = useMemo(() => (chart.points.length ? buildInsightPoints(chart, insights) : []), [
-    chart.points,
-    insights,
-  ])
-=======
   const points = useMemo(
     () => (chart.points.length ? buildInsightPoints(chart, insights) : []),
     [chart.points, insights],
   )
->>>>>>> master
   const [openedIndex, setOpenedIndex] = useState()
   const onPrevClick = useCallback(() => setOpenedIndex((i) => i - 1), [])
   const onNextClick = useCallback(() => setOpenedIndex((i) => i + 1), [])

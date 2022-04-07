@@ -56,11 +56,7 @@ function nextModifyableGroupIndex(caret) {
   return groupStartIndeces[groupStartIndeces.length - 1]
 }
 
-<<<<<<< HEAD
-export function selectNextGroup (el, toRight, caret = el.selectionStart) {
-=======
 export function selectNextGroup(el, toRight, caret = el.selectionStart) {
->>>>>>> master
   const left = (toRight ? nextModifyableGroupIndex : prevModifyableGroupIndex)(caret)
   el.selectionStart = left
   el.selectionEnd = left + 2

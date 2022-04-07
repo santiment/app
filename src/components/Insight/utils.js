@@ -40,16 +40,5 @@ export const getSEOLinkFromIdAndTitle = (id, title) => {
     return id
   }
 
-<<<<<<< HEAD
-  return encodeURIComponent(
-    encodeURIComponent(
-      `${title
-        .toLowerCase()
-        .split(' ')
-        .join('-')}-${id}`,
-    ),
-  )
-=======
   return encodeURIComponent(encodeURIComponent(`${title.toLowerCase().split(' ').join('-')}-${id}`))
->>>>>>> master
 }

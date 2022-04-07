@@ -5,11 +5,7 @@ import { checkIsProjectMetricKey, getMetricByKey, getProjectMetricByKey } from '
 
 const DEFAULT_DOMAIN_METRIC_KEYS = [Metric.twitter_followers.key, Metric.miners_balance.key]
 
-<<<<<<< HEAD
-export function domainModifier (metricKey, minMax) {
-=======
 export function domainModifier(metricKey, minMax) {
->>>>>>> master
   if (DEFAULT_DOMAIN_METRIC_KEYS.some((key) => metricKey.startsWith(key))) {
     return
   }

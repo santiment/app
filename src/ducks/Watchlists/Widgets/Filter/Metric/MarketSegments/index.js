@@ -35,17 +35,10 @@ const MarketSegments = ({
 
   const hasActiveSegments = settings.market_segments.length > 0
   const isANDCombinator = settings.market_segments_combinator === 'and'
-<<<<<<< HEAD
-  const filteredSegments = useMemo(() => filterValuesBySearch(search, segments, 'name'), [
-    search,
-    segments,
-  ])
-=======
   const filteredSegments = useMemo(
     () => filterValuesBySearch(search, segments, 'name'),
     [search, segments],
   )
->>>>>>> master
 
   useEffect(() => {
     if (isNoFilters) {
@@ -77,11 +70,7 @@ const MarketSegments = ({
     }
   }, [settings])
 
-<<<<<<< HEAD
-  function onToggleMode (combinator) {
-=======
   function onToggleMode(combinator) {
->>>>>>> master
     setSettings((state) => ({ ...state, market_segments_combinator: combinator }))
   }
 

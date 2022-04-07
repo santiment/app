@@ -24,11 +24,7 @@ import sharedStyles from './Plans.module.scss'
 
 function useFormLoading() {
   const [loading, setLoading] = useState(false)
-<<<<<<< HEAD
-  function toggleLoading () {
-=======
   function toggleLoading() {
->>>>>>> master
     setLoading((state) => !state)
   }
   return [loading, toggleLoading]

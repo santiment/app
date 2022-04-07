@@ -13,20 +13,6 @@ const makeDataset = (dataset = {}, data = []) => {
   }
 }
 
-<<<<<<< HEAD
-const makeProps = (name, chartjs = {}) => (props) => {
-  const Data = props[name] || {}
-  return {
-    [name]: {
-      dataset: chartjs.dataset ? makeDataset(chartjs.dataset, Data[name]) : undefined,
-      scale: chartjs.scale || undefined,
-      loading: Data.loading || false,
-      error: Data.error || false,
-      errorMessage: Data.error ? Data.error.message : '',
-      items: Data[name] || [],
-      ...Data,
-    },
-=======
 const makeProps =
   (name, chartjs = {}) =>
   (props) => {
@@ -42,7 +28,6 @@ const makeProps =
         ...Data,
       },
     }
->>>>>>> master
   }
 
 const makeOptions = (name, options) => (props) => {
@@ -60,15 +45,6 @@ const makeRequestFromTimeSeries = ({ query, name, options, chartjs }) => {
   })
 }
 
-<<<<<<< HEAD
-const withTimeseries = (...timeseries) => (WrappedComponent) => {
-  return compose(
-    ...timeseries.reduce((acc, item) => {
-      return [makeRequestFromTimeSeries(item), ...acc]
-    }, []),
-  )(WrappedComponent)
-}
-=======
 const withTimeseries =
   (...timeseries) =>
   (WrappedComponent) => {
@@ -78,6 +54,5 @@ const withTimeseries =
       }, []),
     )(WrappedComponent)
   }
->>>>>>> master
 
 export default withTimeseries

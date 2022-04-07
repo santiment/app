@@ -47,15 +47,8 @@ const Toggler = ({
     setWasReorder,
   } = useManipulateColumns()
 
-<<<<<<< HEAD
-  const {
-    updateWatchlistTableConfig,
-    updatedWatchlistTableConfigId,
-  } = useUpdateWatchlistTableConfig()
-=======
   const { updateWatchlistTableConfig, updatedWatchlistTableConfigId } =
     useUpdateWatchlistTableConfig()
->>>>>>> master
   const { tableConfig, loading: configLoading } = useTableConfig(selectedConfigId)
   const isLoading = configLoading || loading
 
@@ -114,18 +107,10 @@ const Toggler = ({
     }
   }, [open])
 
-<<<<<<< HEAD
-  const hasChanges = useMemo(() => !isEqual(currActiveKeys, activeKeys) || wasReorder, [
-    activeKeys,
-    currActiveKeys,
-    wasReorder,
-  ])
-=======
   const hasChanges = useMemo(
     () => !isEqual(currActiveKeys, activeKeys) || wasReorder,
     [activeKeys, currActiveKeys, wasReorder],
   )
->>>>>>> master
 
   useEffect(() => {
     if (

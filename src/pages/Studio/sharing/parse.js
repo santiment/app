@@ -191,11 +191,7 @@ function tryParseSettings(settings) {
   }
 }
 
-<<<<<<< HEAD
-export function parseUrl (url) {
-=======
 export function parseUrl(url) {
->>>>>>> master
   const { settings, widgets, sidepanel, layout } = parse(url.slice(url.indexOf('?')))
 
   return {

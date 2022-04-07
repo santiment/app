@@ -132,17 +132,10 @@ const AssetSelector = ({
     )
   }, [listItems, words, searchTerm])
 
-<<<<<<< HEAD
-  const allProjects = useMemo(() => [...listItems, ...filteredWords, ...filteredProjects], [
-    filteredProjects,
-    filteredWords,
-  ])
-=======
   const allProjects = useMemo(
     () => [...listItems, ...filteredWords, ...filteredProjects],
     [filteredProjects, filteredWords],
   )
->>>>>>> master
 
   const filteredListItems = useMemo(
     () => listItems.filter((item) => item.name.toLowerCase().includes(searchTerm.toLowerCase())),
