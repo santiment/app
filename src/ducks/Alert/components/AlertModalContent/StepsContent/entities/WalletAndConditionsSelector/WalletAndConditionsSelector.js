@@ -61,12 +61,12 @@ const WalletAndConditionsSelector = ({
         <div className={styles.label}>Wallet address</div>
         {address && infrastructure === Infrastructure.ETH && (
           <a
-            href={`https://etherscan.io/address/${address}`}
+            href={`https://app.santiment.net/labs/balance?address=${address}`}
             target='_blank'
             rel='noopener noreferrer'
             className={styles.link}
           >
-            Open Etherscan
+            Open Sanbase
           </a>
         )}
       </div>
