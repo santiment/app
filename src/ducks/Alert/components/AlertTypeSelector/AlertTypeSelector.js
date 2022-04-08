@@ -40,7 +40,6 @@ const AlertTypeSelector = ({ selectorSettings }) => {
               key={type.title}
               {...type}
               onClick={() => handleSelectType({ type, isSelected })}
-              isSelected={isSelected}
             />
           )
         })}

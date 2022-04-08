@@ -10,9 +10,9 @@ const IndexTab = ({ tabs, initialTab = 0, renderTopActions = [], bottomActions =
 
   return (
     <>
-      <div className={styles.header}>
+      <div className='row justify mrg--b mrg-xxl'>
         {renderTopActions(activeTab)}
-        <div className={styles.tabs}>
+        <div className={cx(styles.tabs, 'row')}>
           {tabs.map((item) => {
             if (!item) {
               return null
@@ -23,7 +23,11 @@ const IndexTab = ({ tabs, initialTab = 0, renderTopActions = [], bottomActions =
             return (
               <div
                 key={id}
-                className={cx(styles.title, id === activeTab && styles.active)}
+                className={cx(
+                  styles.title,
+                  'btn mrg--l mrg-xxl  h4 txt-m',
+                  id === activeTab && styles.active,
+                )}
                 onClick={() => setTab(id)}
               >
                 {title}
@@ -31,7 +35,7 @@ const IndexTab = ({ tabs, initialTab = 0, renderTopActions = [], bottomActions =
             )
           })}
         </div>
-        <div className={styles.actions}>
+        <div className={cx(styles.actions, 'row v-center')}>
           {bottomActions
             .filter(({ showOnTabs, hide, component }) => {
               if (!component) {

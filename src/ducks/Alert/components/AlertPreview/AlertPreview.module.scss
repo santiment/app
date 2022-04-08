@@ -10,7 +10,11 @@
 }
 
 .copyBtn {
-  margin: 0 8px 0 0 !important;
+  --color-hover: #fff;
+}
+
+.actions {
+  gap: 8px;
 }
 
 .chartWrapper {
