@@ -1,14 +1,7 @@
 @import "~@santiment-network/ui/mixins";
 
-.selected {
-  --type-border: var(--mystic);
-  --type-background: var(--whale);
-}
-
 .wrapper {
   width: 277px;
-  display: flex;
-  flex-direction: column;
   gap: 12px;
   padding: 20px 32px 32px;
   border: 1px solid var(--type-border, var(--porcelain));
@@ -17,24 +10,17 @@
   cursor: pointer;
 
   &:hover {
-    --type-border: var(--jungle-green-hover);
-    --type-title: var(--jungle-green-hover);
+    --type-border: var(--mystic);
+    --type-background: var(--whale);
   }
 }
 
 .title {
-  display: flex;
-  align-items: center;
   gap: 12px;
-  color: var(--type-title, var(--rhino));
-
-  @include text("body-1");
 }
 
 .description {
   color: var(--fiord);
-
-  @include text("body-3");
 }
 
 .icon {

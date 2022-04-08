@@ -33,11 +33,7 @@
 }
 
 .description {
-  margin-bottom: 20px;
-
-  @include responsive("phone", "phone-xs") {
-    margin-bottom: 0;
-  }
+  text-align: center;
 }
 
 .btn {
