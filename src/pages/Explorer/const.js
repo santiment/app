@@ -8,26 +8,26 @@ export const EntityType = {
     ALERT: {
         label: 'Alerts',
         icon: 'alert',
-        color: '#FF6363',
+        color: 'var(--red)',
     },
     ADDRESSE: {
         label: 'Addresses',
         icon: 'wallet',
-        color: '#8358FF',
+        color: 'var(--purple)',
     },
     CHART: {
         label: 'Charts',
         icon: 'chart',
-        color: '#14C393',
+        color: 'var(--green)',
     },
     SCREENER: {
         label: 'Screeners',
         icon: 'screener',
-        color: '#5275FF',
+        color: 'var(--blue)',
     },
     WATCHLIST: {
         label: 'Watchlists',
         icon: 'watchlist',
-        color: '#FFAD4D',
+        color: 'var(--orange)',
     },
 }

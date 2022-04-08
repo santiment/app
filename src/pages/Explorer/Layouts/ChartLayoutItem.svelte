@@ -2,14 +2,17 @@
   import Svg from 'webkit/ui/Svg/svelte'
   import ProjectIcon from 'webkit/ui/ProjectIcon.svelte'
   import UserCreation from '../Category/UserCreation.svelte'
+  import { EntityType } from '../const' 
 
   export let small = false
   export let item
+  export let type = "ALERT"
+  export let showActions = false;
 
   $: ({ assets } = item)
 </script>
 
-<UserCreation {item} {small}>
+<UserCreation {item} {small} {showActions} >
   {#if !small}
     <div class="assets row mrg-l mrg--r">
       {#each assets.slice(0, 3) as { slug }, i}
@@ -18,12 +21,12 @@
         </span>
       {/each}
       {#if assets.length > 3}
-        <div class="expand row hv-center caption c-waterloo">+4</div>
+        <div class="expand row hv-center caption c-waterloo">+{assets.length - 3}</div>
       {/if}
     </div>
 
-    <div class="type row v-center mrg-a mrg--l">
-      <Svg id="alert" w="16" />
+    <div class="type row v-center mrg-a mrg--l" style="fill: {EntityType[type].color}">
+      <Svg id={EntityType[type].icon} w="16" />
     </div>
   {/if}
 </UserCreation>

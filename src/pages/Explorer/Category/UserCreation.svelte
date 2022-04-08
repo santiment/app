@@ -8,14 +8,18 @@
   export let small = false
   export let item
   export let currentUser = null
+  export let showActions = false;
+
+  console.log({showActions})
 
   $: ({ title, user, votes, comments } = item)
 </script>
 
 <div class="usercreation">
   <div class="row v-center nowrap relative">
-    <Actions class="$style.actions" />
-
+    {#if showActions}
+      <Actions class="$style.actions" />
+    {/if}
     <h3 class="mrg-l mrg--r" class:body-2={!small}>
       {title}
     </h3>

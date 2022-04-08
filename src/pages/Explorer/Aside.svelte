@@ -4,13 +4,13 @@
 </script>
 
 <aside>
-    <Widget title="Recent Chart Layouts" headerLeftIcon="chart" />
-    <Widget title="Insights" headerLeftIcon="insight" bgColor="var(--orange-light-1)" fill="var(--orange)">
+    <Widget title="Recent Chart Layouts" icon="chart" />
+    <Widget title="Insights" icon="insight" color="orange" iconWidth=14>
         <div slot="header">
             <ExternalLink href="/" />
         </div>
     </Widget>
-    <Widget title="Social trends" headerLeftIcon="social-trend" bgColor="var(--blue-light-1)" fill="var(--blue)" type="social" items={[
+    <Widget title="Social trends" icon="social-trend" color="blue" type="social" items={[
         {
           id: 0,
           type: 'social',
@@ -24,7 +24,7 @@
             <ExternalLink href="/" />
         </div>
     </Widget> 
-    <Widget title="Weekly Reports" headerLeftIcon="report" bgColor="var(--blue-light-1)" fill="var(--blue)" type="weekly_report" items={[
+    <Widget title="Weekly Reports" icon="report" color="blue" type="weekly_report" items={[
         {
             id: 0,
             type: 'weekly_report',
@@ -37,7 +37,7 @@
             PRO
         </div>
     </Widget> 
-    <Widget title="Sheets Templates" headerLeftIcon="social-trend" type="sheets_templates" items={[
+    <Widget title="Sheets Templates" icon="social-trend" type="sheets_templates" items={[
         {
             id: 0,
             type: 'sheets_templates',

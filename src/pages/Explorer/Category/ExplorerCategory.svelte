@@ -23,11 +23,16 @@
     },
   ]
 
-  let types = Object.keys(EntityType)
+  let types = new Set(Object.values(EntityType))
+
   const toggleType = type => {
-    types.includes(type) ? types = types.filter(t => t !== type) : types = [...types, type]
+    if (types.has(type)) {
+      types.delete(type)
+    } else {
+      types.add(type)
+    }
+    types = types
   }
-  
 </script>
 
 <Category title="Explorer" {items}>
@@ -37,15 +42,15 @@
 
     <!-- TODO: move to Types.svelte -->
     <Tootlip on="click" activeClass="$style.active" align="end">
-      <div slot="trigger" class="btn-2 btn--s">Types: {types.length}</div>
+      <div slot="trigger" class="btn-2 btn--s">Types: {types.size}</div>
 
       <div slot="tooltip" class="tooltip">
         <div class="caption txt-m mrg-s mrg--l mrg--b c-waterloo">Types</div>
-        {#each Object.keys(EntityType) as type, index}
-          <div class="btn-ghost row v-center" key={index} on:click={() => toggleType(type)} style="fill: {EntityType[type].color}">
-            <Svg id={EntityType[type].icon} w="16" style="fill: {EntityType[type].color}" class="mrg-s mrg--r" />
-            {EntityType[type].label}
-            <Checkbox isActive={types.includes(type)} class="mrg-a mrg--l" />
+        {#each Object.values(EntityType) as type, index (index)}
+          <div class="btn-ghost row v-center" on:click={() => toggleType(type)} style="fill: {type.color}">
+            <Svg id={type.icon} w="16" class="mrg-s mrg--r" />
+            {type.label}
+            <Checkbox isActive={types.has(type)} class="mrg-a mrg--l" />
           </div>
         {/each}
       </div>
@@ -54,7 +59,7 @@
 
   <svelte:fragment let:item>
     {#if item.type === 'chart'}
-      <ChartLayoutItem {item} />
+      <ChartLayoutItem {item} showActions={true} />
     {/if}
   </svelte:fragment>
 </Category>

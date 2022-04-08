@@ -7,9 +7,9 @@
   import SheetsTemplate from '../Layouts/SheetsTemplate.svelte'
 
   export let title = 'Recent Chart Layouts'
-  export let headerLeftIcon = 'info'
-  export let bgColor = 'var(--green-light-1)';
-  export let fill = 'var(--green)';
+  export let icon = 'info'
+  export let color = 'green';
+  export let iconWidth = 16
   export let type
   export let items = [
     {
@@ -30,8 +30,8 @@
 </script>
 
 <Category {title} small {items}>
-  <div slot="icon" style="background-color: {bgColor}; fill: {fill}" class="$style.icon">
-    <Svg id={headerLeftIcon} w="16" />
+  <div slot="icon" style="fill:var(--{color}); background:var(--{color}-light-1)" class="$style.icon row hv-center">
+    <Svg id={icon} w={iconWidth} />
   </div>
 
   <svelte:fragment let:item>
@@ -51,7 +51,8 @@
 
 <style>
   .icon {
+    width: 32px;
+    height: 32px;
     border-radius: 6px;
-    padding: 7px 9px 8px 9px;
   }
 </style>
