@@ -113,6 +113,17 @@
   &:not(:first-of-type) {
     width: 352px;
   }
+
+  :global(.phone-xs) &,
+  :global(.phone) & {
+    &:first-of-type {
+      width: 100%;
+    }
+
+    &:not(:first-of-type) {
+      width: 100%;
+    }
+  }
 }
 
 .title {

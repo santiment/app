@@ -1,7 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
-import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Tooltip from '@santiment-network/ui/Tooltip'
