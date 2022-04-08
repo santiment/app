@@ -1,40 +1,49 @@
 <script>
     import Svg from 'webkit/ui/Svg/svelte'
+
     export let item;
+
     let isOpen = false;
 </script>
 
-<div class="column" on:click={() => isOpen = !isOpen}>
+<div class="{isOpen ? 'open' : 'close'}" on:click={() => isOpen = !isOpen}>
     <div class="row justify v-center">
-        <h5 class="body-3">{item.title}</h5>
-        <Svg id='arrow' w="16" />
+        <h5>{item.title}</h5>
+        <Svg id='arrow-down' w="10" class="$style.arrow" />
     </div>
     {#if isOpen}
-        <div class="row column mrg-l mrg--t mrg--b desc">
-            <p class="body-3 mrg-s mrg--b">
+        <div class="mrg-l mrg--t mrg--b description">
+            <p class="mrg-s mrg--b">
                 {item.desc}
             </p>
-            <a href={item.url} target="_blank" class="row v-center c-white body-3">
+            <a href={item.url} target="_blank" class="btn-1 btn--s row v-center c-white">
                 <div class="mrg-s mrg--r">Open template</div>
-                <Svg id='arrow' w="12" />
+                <Svg id='external-link' w="12" class="$style.link" />
             </a>
         </div>
     {/if}
 </div>
 
 <style>
-.desc {
+.description {
     padding: 12px 16px;
-    background-color: var(--athens);
+    background: var(--athens);
     border-radius: 4px;
 }
-p {
-    color: var(--rhino);
-}
+
 a {
-    background-color: var(--green);
-    border-radius: 6px;
-    padding: 6px 12px;
     width: 141px;
 }
+
+.close svg.arrow {
+    transform: rotate(0);
+}
+.open svg.arrow {
+    transform: rotate(180deg);
+}
+
+.link {
+    fill: var(--white);
+}
+
 </style>

@@ -58,17 +58,17 @@
     border-radius: 6px;
   }
 
-  .item {
+  .item, .more {
     border-radius: 0;
     border-top: 1px solid var(--porcelain);
-    padding: 12px var(--padding);
     --bg-hover: var(--athens);
+  }
+  
+  .item {
+    padding: 12px var(--padding);
   }
 
   .more {
-    border-radius: 0;
-    border-top: 1px solid var(--porcelain);
     padding: 13.5px 0;
-    --bg-hover: var(--athens);
   }
 </style>

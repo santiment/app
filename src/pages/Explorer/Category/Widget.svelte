@@ -8,6 +8,8 @@
 
   export let title = 'Recent Chart Layouts'
   export let headerLeftIcon = 'info'
+  export let bgColor = 'var(--green-light-1)';
+  export let fill = 'var(--green)';
   export let type
   export let items = [
     {
@@ -27,10 +29,10 @@
   ]
 </script>
 
-<Category {title} small iconClass="$style.icon" {items}>
-  <svelte:fragment slot="icon">
+<Category {title} small {items}>
+  <div slot="icon" style="background-color: {bgColor}; fill: {fill}" class="$style.icon">
     <Svg id={headerLeftIcon} w="16" />
-  </svelte:fragment>
+  </div>
 
   <svelte:fragment let:item>
     {#if type === 'social'}
@@ -44,14 +46,12 @@
     {/if}
   </svelte:fragment>
 
-  <svelte:fragment slot="header">
-    <slot name="right" />
-  </svelte:fragment>
+  <slot slot="header" name="header" />
 </Category>
 
 <style>
   .icon {
-    background: var(--green-light-1);
-    fill: var(--green);
+    border-radius: 6px;
+    padding: 7px 9px 8px 9px;
   }
 </style>

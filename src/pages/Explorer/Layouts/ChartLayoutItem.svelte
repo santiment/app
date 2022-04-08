@@ -23,7 +23,7 @@
     </div>
 
     <div class="type row v-center mrg-a mrg--l">
-      <Svg id="info" w="16" />
+      <Svg id="alert" w="16" />
     </div>
   {/if}
 </UserCreation>

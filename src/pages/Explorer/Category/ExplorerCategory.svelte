@@ -4,6 +4,7 @@
   import Checkbox from 'webkit/ui/Checkbox.svelte'
   import Category from './Category.svelte'
   import ChartLayoutItem from '../Layouts/ChartLayoutItem.svelte'
+  import { EntityType } from '../const'
 
   export let items = [
     {
@@ -21,6 +22,12 @@
       ],
     },
   ]
+
+  let types = Object.keys(EntityType)
+  const toggleType = type => {
+    types.includes(type) ? types = types.filter(t => t !== type) : types = [...types, type]
+  }
+  
 </script>
 
 <Category title="Explorer" {items}>
@@ -30,15 +37,17 @@
 
     <!-- TODO: move to Types.svelte -->
     <Tootlip on="click" activeClass="$style.active" align="end">
-      <div slot="trigger" class="btn-2 btn--s">Types: 5</div>
+      <div slot="trigger" class="btn-2 btn--s">Types: {types.length}</div>
 
       <div slot="tooltip" class="tooltip">
         <div class="caption txt-m mrg-s mrg--l mrg--b c-waterloo">Types</div>
-        <div class="btn-ghost row v-center">
-          <Svg id="info" w="16" class="$style.charts mrg-s mrg--r" />
-          Charts
-          <Checkbox isActive={false} class="mrg-a mrg--l" />
-        </div>
+        {#each Object.keys(EntityType) as type, index}
+          <div class="btn-ghost row v-center" key={index} on:click={() => toggleType(type)} style="fill: {EntityType[type].color}">
+            <Svg id={EntityType[type].icon} w="16" style="fill: {EntityType[type].color}" class="mrg-s mrg--r" />
+            {EntityType[type].label}
+            <Checkbox isActive={types.includes(type)} class="mrg-a mrg--l" />
+          </div>
+        {/each}
       </div>
     </Tootlip>
   </div>
@@ -63,9 +72,5 @@
   .btn-ghost {
     --color: var(--waterloo);
     --color-hover: var(--black);
-  }
-
-  .charts {
-    fill: var(--green);
   }
 </style>

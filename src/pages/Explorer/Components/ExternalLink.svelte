@@ -1,25 +1,16 @@
 <script>
     import Svg from 'webkit/ui/Svg/svelte'
-
     export let href;
-    export let icon = "rocket";
 </script>
 
-<div class="row hv-center border">
-    <a {href} target="_blank" class="row hv-center">
-        <Svg id={icon} w="12" h="12" />
-     </a>
-</div>
+<a {href} target="_blank" class="btn row hv-center border">
+    <Svg id="external-link" w="12" />
+</a>
 
 <style>
-    div {
+    a { 
         width: 32px;
         height: 32px;
         border-radius: 6px;
-        cursor: pointer;
-    }
-    a { 
-        width: 100%;
-        height: 100%;
     }
 </style>

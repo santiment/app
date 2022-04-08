@@ -2,24 +2,24 @@
     export let item;
 </script>
 
-<div class="row column">
+<div>
     <div class="social row justify v-center mrg--b">
         <h5>{item.name}</h5>
-        <h6>{item.volume} volume</h6>
+        <h6 class="caption">{item.volume} volume</h6>
     </div>
-    <ul class="row v-center">
-       {#each item.tags.slice(0, 5) as item, index}
-            <li key={index} class="c-waterloo mrg-xs mrg--r caption">{item}</li>
+    <ul class="row v-center c-waterloo caption">
+       {#each item.tags.slice(0, 5) as item}
+            <li class="mrg-xs mrg--r ">{item}</li>
        {/each} 
        {#if item.tags.length > 5}
-        <li class="c-waterloo mrg-xs caption">+3</li>
+            <li>+3</li>
        {/if}
     </ul>
 </div>
 
 <style>
 .social {
-    --margin: 10px
+    --margin: 8px
 }
 li {
     min-width: 14px;

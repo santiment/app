@@ -4,13 +4,13 @@
 </script>
 
 <aside>
-    <Widget title="Recent Chart Layouts" headerLeftIcon="info" />
-    <Widget title="Insights" headerLeftIcon="info">
-        <div slot="right">
+    <Widget title="Recent Chart Layouts" headerLeftIcon="chart" />
+    <Widget title="Insights" headerLeftIcon="insight" bgColor="var(--orange-light-1)" fill="var(--orange)">
+        <div slot="header">
             <ExternalLink href="/" />
         </div>
     </Widget>
-    <Widget title="Social trends" type="social" items={[
+    <Widget title="Social trends" headerLeftIcon="social-trend" bgColor="var(--blue-light-1)" fill="var(--blue)" type="social" items={[
         {
           id: 0,
           type: 'social',
@@ -20,11 +20,11 @@
           user: { username: 'test' },
         },
       ]}>
-        <div slot="right">
+        <div slot="header">
             <ExternalLink href="/" />
         </div>
     </Widget> 
-    <Widget title="Weekly Reports" type="weekly_report" items={[
+    <Widget title="Weekly Reports" headerLeftIcon="report" bgColor="var(--blue-light-1)" fill="var(--blue)" type="weekly_report" items={[
         {
             id: 0,
             type: 'weekly_report',
@@ -33,11 +33,11 @@
             url: '/'
         }
     ]}>
-        <div slot="right" class="pro row hv-center c-white caption">
+        <div slot="header" class="pro row hv-center c-white caption">
             PRO
         </div>
     </Widget> 
-    <Widget title="Sheets Templates" type="sheets_templates" items={[
+    <Widget title="Sheets Templates" headerLeftIcon="social-trend" type="sheets_templates" items={[
         {
             id: 0,
             type: 'sheets_templates',
@@ -46,7 +46,7 @@
             url: '/'
         }
     ]}>
-        <div slot="right" class="pro row hv-center c-white caption">
+        <div slot="header" class="pro row hv-center c-white caption">
             PRO
         </div>
     </Widget> 
