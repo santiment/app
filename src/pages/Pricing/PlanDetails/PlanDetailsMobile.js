@@ -77,6 +77,8 @@ const PlanDetailsMobile = ({ showingPlans, userPlan, subscription, plans, billin
               </tr>
               {row.data.map(({ name, checks, texts }) => {
                 const checkboxes = !texts ? checks || all : undefined
+                const activePlan = checkboxes && checkboxes.length === 2 ? active : active + 1
+
                 return (
                   <tr key={name} className={externalStyles.row}>
                     <td className={cx(externalStyles.cell, externalStyles.feature__title)}>
@@ -87,10 +89,10 @@ const PlanDetailsMobile = ({ showingPlans, userPlan, subscription, plans, billin
                         className={cx(
                           externalStyles.cell,
                           externalStyles.feature__cell,
-                          !checkboxes[active] && externalStyles.feature__check__grey,
+                          !checkboxes[activePlan] && externalStyles.feature__check__grey,
                         )}
                       >
-                        {checkboxes[active] && (
+                        {checkboxes[activePlan] && (
                           <MarkIcon
                             className={cx(
                               externalStyles.feature__check,
@@ -102,7 +104,7 @@ const PlanDetailsMobile = ({ showingPlans, userPlan, subscription, plans, billin
                     )}
                     {texts && (
                       <td className={cx(externalStyles.cell, externalStyles.feature__cell)}>
-                        {texts[active]}
+                        {texts[activePlan]}
                       </td>
                     )}
                   </tr>
