@@ -10,8 +10,6 @@
   export let currentUser = null
   export let showActions = false
 
-  console.log({ showActions })
-
   $: ({ title, user, votes, comments } = item)
 </script>
 
