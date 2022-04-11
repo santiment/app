@@ -6,7 +6,7 @@
   import { MenuItem } from './const'
 
   let activeMenu = MenuItem.NEW
-  let count = 1
+  let count = 10
 </script>
 
 <div class="row mrg-a mrg--l mrg--r">
