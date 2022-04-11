@@ -25,7 +25,7 @@
 
   let types = new Set(Object.values(EntityType))
 
-  const toggleType = type => {
+  const toggleType = (type) => {
     if (types.has(type)) {
       types.delete(type)
     } else {
@@ -47,7 +47,11 @@
       <div slot="tooltip" class="tooltip">
         <div class="caption txt-m mrg-s mrg--l mrg--b c-waterloo">Types</div>
         {#each Object.values(EntityType) as type, index (index)}
-          <div class="btn-ghost row v-center" on:click={() => toggleType(type)} style="fill: {type.color}">
+          <div
+            class="btn-ghost row v-center"
+            on:click={() => toggleType(type)}
+            style="fill: {type.color}"
+          >
             <Svg id={type.icon} w="16" class="mrg-s mrg--r" />
             {type.label}
             <Checkbox isActive={types.has(type)} class="mrg-a mrg--l" />

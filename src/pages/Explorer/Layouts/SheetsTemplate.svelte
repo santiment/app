@@ -1,44 +1,44 @@
 <script>
-    import Svg from 'webkit/ui/Svg/svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
 
-    export let item;
+  export let item
 
-    let isOpen = false;
+  let isOpen = false
 </script>
 
-<div class="{isOpen ? 'open' : 'close'}" on:click={() => isOpen = !isOpen}>
-    <div class="row justify v-center">
-        <h5>{item.title}</h5>
-        <Svg id='arrow-down' w="10" height="5.5" class="$style.arrow" />
+<div class={isOpen ? 'open' : 'close'} on:click={() => (isOpen = !isOpen)}>
+  <div class="row justify v-center">
+    <h5>{item.title}</h5>
+    <Svg id="arrow-down" w="10" height="5.5" class="$style.arrow" />
+  </div>
+  {#if isOpen}
+    <div class="mrg-l mrg--t mrg--b description">
+      <p class="mrg-s mrg--b">
+        {item.desc}
+      </p>
+      <a href={item.url} target="_blank" class="btn-1 btn--s row v-center">
+        <div class="mrg-s mrg--r">Open template</div>
+        <Svg id="external-link" w="12" />
+      </a>
     </div>
-    {#if isOpen}
-        <div class="mrg-l mrg--t mrg--b description">
-            <p class="mrg-s mrg--b">
-                {item.desc}
-            </p>
-            <a href={item.url} target="_blank" class="btn-1 btn--s row v-center">
-                <div class="mrg-s mrg--r">Open template</div>
-                <Svg id='external-link' w="12" />
-            </a>
-        </div>
-    {/if}
+  {/if}
 </div>
 
 <style>
-.description {
+  .description {
     padding: 12px 16px;
     background: var(--athens);
     border-radius: 4px;
-}
+  }
 
-a {
+  a {
     width: 141px;
-}
+  }
 
-.close svg.arrow {
+  .close svg.arrow {
     transform: rotate(0);
-}
-.open svg.arrow {
+  }
+  .open svg.arrow {
     transform: rotate(180deg);
-}
+  }
 </style>
