@@ -40,7 +40,7 @@
     </div>
 
     {#if count == 0}
-      <div class="emptyitems row hv-center fluid mrg--t">
+      <div class="empty row hv-center fluid mrg--t">
         {#if activeMenu == MenuItem.LIKES}
           <EmptyCreations id="rocket" action="like" title="No liked" />
         {:else if activeMenu == MenuItem.MY_CREATIONS}
@@ -72,7 +72,7 @@
     --bg: var(--green-light-1);
   }
 
-  .emptyitems {
+  .empty {
     --margin: 120px;
   }
 </style>

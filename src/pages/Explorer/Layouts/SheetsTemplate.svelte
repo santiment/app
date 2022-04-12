@@ -6,10 +6,10 @@
   let isOpen = false
 </script>
 
-<div class={isOpen ? 'open' : 'close'} on:click={() => (isOpen = !isOpen)}>
+<div on:click={() => (isOpen = !isOpen)}>
   <div class="row justify v-center">
     <h5>{item.title}</h5>
-    <Svg id="arrow-down" w="10" height="5.5" class="$style.arrow" />
+    <Svg id="arrow-down" w="10" height="5.5" class="$style.arrow {isOpen && '$style.open'}" />
   </div>
   {#if isOpen}
     <div class="mrg-l mrg--t mrg--b description">
@@ -35,10 +35,7 @@
     width: 141px;
   }
 
-  .close svg.arrow {
-    transform: rotate(0);
-  }
-  .open svg.arrow {
+  .open {
     transform: rotate(180deg);
   }
 </style>

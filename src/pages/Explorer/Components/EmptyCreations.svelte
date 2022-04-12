@@ -6,8 +6,8 @@
   export let action = 'like'
 </script>
 
-<div class="hv-center">
-  <Svg illus={true} {id} class="mrg--b mrg-xl" />
-  <h6 class="mrg--b mrg-xs txt-b body-2 text-center">{title} creations yet</h6>
+<div class="column hv-center">
+  <Svg illus {id} class="mrg-xl mrg--b" />
+  <h6 class="mrg-xs mrg--b txt-b body-2 text-center">{title} creations yet</h6>
   <h6>Creations you {action} will show up here</h6>
 </div>

@@ -3,7 +3,7 @@
   export let href
 </script>
 
-<a {href} target="_blank" class="btn btn-3 border">
+<a {href} target="_blank" class="btn-3 border">
   <Svg id="external-link" w="12" />
 </a>
 

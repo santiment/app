@@ -2,14 +2,14 @@
   export let tags = []
 </script>
 
-<div class="row v-center">
-  {#each tags.slice(0, 3) as tag, index (index)}
-    <div class="tag mrg-xs mrg--r c-waterloo">
+<div class="row v-center c-waterloo">
+  {#each tags.slice(0, 3) as tag}
+    <div class="tag mrg-xs mrg--r">
       {tag}
     </div>
   {/each}
   {#if tags.length > 3}
-    <div class="tag c-waterloo">
+    <div class="tag">
       +{tags.length - 3}
     </div>
   {/if}
