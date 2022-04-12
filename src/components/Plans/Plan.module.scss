@@ -11,6 +11,11 @@
   transition: transform 200ms;
   width: 400px;
 
+  :global(.phone-xs) &,
+  :global(.phone) & {
+    width: 100%;
+  }
+
   @include responsive('desktop', 'laptop') {
     &:nth-of-type(2n) {
       margin: 0 -1px;

@@ -1,14 +1,8 @@
-@import "~@santiment-network/ui/mixins";
+@import '~@santiment-network/ui/mixins';
 
 .title {
-  cursor: pointer;
-  color: var(--casper);
-  margin-left: 32px;
-  user-select: none;
-
-  &:hover {
-    color: var(--jungle-green);
-  }
+  --color: var(--casper);
+  --color-hover: var(--fiord);
 
   &:first-child {
     margin-left: 0;
@@ -16,17 +10,8 @@
 }
 
 .active {
-  --color: var(--rhino);
-  color: var(--rhino);
-}
-
-.header {
-  display: flex;
-  margin-bottom: 32px;
-  color: var(--rhino);
-  justify-content: space-between;
-
-  @include text("h4", "m");
+  --color: var(--black);
+  --color-hover: var(--black);
 }
 
 :global(.phone-xs) .header,
@@ -36,7 +21,6 @@
 }
 
 .tabs {
-  display: flex;
   flex: 1 1 100%;
 }
 
@@ -48,8 +32,6 @@
 }
 
 .actions {
-  display: flex;
   justify-content: flex-end;
-  align-items: center;
   flex: 1 1 100%;
 }

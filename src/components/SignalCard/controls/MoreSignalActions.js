@@ -1,7 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
-import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Tooltip from '@santiment-network/ui/Tooltip'
@@ -66,11 +65,6 @@ const ShareSignal = ({
   )
 }
 
-const btnParams = { variant: 'flat' }
-const classes = {
-  copyBtn: styles.buttonWrapper__button,
-}
-
 const MoreSignalActions = ({
   signalId,
   signalTitle,
@@ -96,7 +90,7 @@ const MoreSignalActions = ({
             className={styles.shareBtn}
             signalId={signalId}
             signalTitle={signalTitle}
-            shareBtnClassName={styles.shareSingle}
+            shareBtnClassName={cx(styles.popupItem, styles.publicShare, 'row v-center btn body-3')}
             trigger={PublicSignalShareTrigger}
             isUserTheAuthor={isUserTheAuthor}
             userId={userId}
@@ -104,13 +98,7 @@ const MoreSignalActions = ({
         )}
         {!shouldDisableActions && (
           <DesktopOnly>
-            <CopySignal
-              signal={signal}
-              label='Copy to my alerts'
-              as='div'
-              classes={classes}
-              btnParams={btnParams}
-            />
+            <CopySignal signal={signal} label='Copy to my alerts' />
           </DesktopOnly>
         )}
       </div>
@@ -122,9 +110,15 @@ const MoreSignalActions = ({
   return (
     <Tooltip
       trigger={
-        <Button className={cx(styles.expandButton, isFrozen && styles.frozenExpandButton)}>
+        <button
+          className={cx(
+            styles.expandButton,
+            'btn mrg--r mrg-xl',
+            isFrozen && styles.frozenExpandButton,
+          )}
+        >
           <Icon type='dots' />
-        </Button>
+        </button>
       }
       position='bottom'
       align='start'
@@ -133,7 +127,7 @@ const MoreSignalActions = ({
         {editable && (
           <Link
             to={`/alerts/${signalId}${window.location.search}`}
-            className={cx(styles.popupItem, styles.popupButton)}
+            className={cx(styles.popupItem, 'row v-center btn-ghost body-3')}
           >
             <Icon type='edit' />
             Edit
@@ -159,10 +153,10 @@ const MoreSignalActions = ({
             id={signalId}
             signalTitle={signalTitle}
             trigger={() => (
-              <div className={cx(styles.popupItem, styles.popupButton)}>
+              <button className={cx(styles.popupItem, 'row v-center btn-ghost body-3')}>
                 <Icon type='remove' />
                 Delete
-              </div>
+              </button>
             )}
           />
         )}
@@ -172,17 +166,17 @@ const MoreSignalActions = ({
 }
 
 const PublicSignalShareTrigger = ({ ...props }) => (
-  <Button as='a' className={styles.share} {...props}>
-    <Icon className={styles.shareIcon} type='share' />
+  <button {...props}>
+    <Icon type='share' />
     Share alert
-  </Button>
+  </button>
 )
 
 const SignalShareTrigger = ({ ...props }) => (
-  <Button as='a' {...props} className={cx(styles.popupItem, styles.popupButton)}>
+  <button {...props} className={cx(styles.popupItem, 'row v-center btn-ghost body-3')}>
     <Icon type='share' />
     Share
-  </Button>
+  </button>
 )
 
 export default MoreSignalActions

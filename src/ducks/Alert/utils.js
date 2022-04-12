@@ -118,9 +118,9 @@ export function getConditionsStr({ operation, count, timeWindow, hasPriceIcon = 
       break
   }
 
-  return `${hasPriceIcon ? condition : condition.replace('$', '')} compared to ${formatFrequencyStr(
-    timeWindow,
-  )} earlier`
+  return `${
+    hasPriceIcon ? condition : condition.replaceAll('$', '')
+  } compared to ${formatFrequencyStr(timeWindow)} earlier`
 }
 
 export function getTitleStr({ watchlist, slug, metric, operation, timeWindow, onlyCondition }) {

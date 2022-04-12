@@ -93,18 +93,15 @@ const AlertPreview = ({ setIsPreview, signal, handleCloseDialog, shouldDisableAc
           {chart}
         </div>
         <div className={cx(styles.divider, 'mrg--b mrg-xl')} />
-        <div className='row'>
+        <div className={cx(styles.actions, 'row')}>
           <CopySignal
             signal={signal}
             label='Copy to my alerts'
             onClose={handleCloseDialog}
             classes={{
-              copyBtn: cx(styles.copyBtn, shouldDisableActions && 'c-waterloo'),
+              copyBtn: cx('btn-1 btn--green', styles.copyBtn, shouldDisableActions && 'c-waterloo'),
             }}
-            as='div'
             btnParams={{
-              variant: 'fill',
-              accent: 'positive',
               disabled: shouldDisableActions,
             }}
           />

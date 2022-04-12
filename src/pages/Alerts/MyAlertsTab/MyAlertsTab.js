@@ -6,7 +6,7 @@ import styles from './MyAlertsTab.module.scss'
 
 const MyAlertsTab = ({ alertsRestrictions: { currentAmount, maxAmount } }) => (
   <div className='row hv-center'>
-    <div className={cx(styles.tab, 'btn c-casper')}>My Alerts</div>
+    <div className={cx(styles.tab, 'btn c-casper h4 txt-m')}>My Alerts</div>
     {maxAmount <= 20 && (
       <Tooltip
         trigger={
