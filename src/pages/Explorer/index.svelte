@@ -2,30 +2,54 @@
   import Svg from 'webkit/ui/Svg/svelte'
   import ExplorerCategory from './Category/ExplorerCategory.svelte'
   import Aside from './Aside.svelte'
+  import EmptyCreations from './Components/EmptyCreations.svelte'
   import { MenuItem } from './const'
 
   let activeMenu = MenuItem.NEW
+  let count = 10
 </script>
 
 <div class="row mrg-a mrg--l mrg--r">
   <main>
     <div class="row v-center mrg-xl mrg--b">
-      <div class="btn-2 row v-center" class:active={activeMenu == MenuItem.NEW} on:click={() => activeMenu = MenuItem.NEW}>
+      <div
+        class="btn-2 row v-center"
+        class:active={activeMenu == MenuItem.NEW}
+        on:click={() => (activeMenu = MenuItem.NEW)}
+      >
         <Svg id="time" w="16" class="mrg-s mrg--r" />
         New
       </div>
-      <div class="btn-2 row v-center mrg-s mrg--l" class:active={activeMenu == MenuItem.LIKES} on:click={() => activeMenu = MenuItem.LIKES}>
+      <div
+        class="btn-2 row v-center mrg-s mrg--l"
+        class:active={activeMenu == MenuItem.LIKES}
+        on:click={() => (activeMenu = MenuItem.LIKES)}
+      >
         <Svg id="rocket" w="16" class="mrg-s mrg--r" />
         Likes
       </div>
 
-      <div class="btn-2 row v-center mrg-a mrg--l" class:active={activeMenu == MenuItem.MY_CREATIONS} on:click={() => activeMenu = MenuItem.MY_CREATIONS}>
+      <div
+        class="btn-2 row v-center mrg-a mrg--l"
+        class:active={activeMenu == MenuItem.MY_CREATIONS}
+        on:click={() => (activeMenu = MenuItem.MY_CREATIONS)}
+      >
         <Svg id="user" w="16" class="mrg-s mrg--r" />
         My creations
       </div>
     </div>
 
-    <ExplorerCategory />
+    {#if count == 0}
+      <div class="empty row hv-center fluid mrg--t">
+        {#if activeMenu == MenuItem.LIKES}
+          <EmptyCreations id="rocket" action="like" title="No liked" />
+        {:else if activeMenu == MenuItem.MY_CREATIONS}
+          <EmptyCreations id="browser" action="make" title="No" />
+        {/if}
+      </div>
+    {:else}
+      <ExplorerCategory />
+    {/if}
   </main>
 
   <Aside />
@@ -46,5 +70,9 @@
     --color: var(--green);
     --border: var(--green);
     --bg: var(--green-light-1);
+  }
+
+  .empty {
+    --margin: 120px;
   }
 </style>

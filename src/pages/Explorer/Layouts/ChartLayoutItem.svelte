@@ -1,30 +1,26 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
-  import ProjectIcon from 'webkit/ui/ProjectIcon.svelte'
   import UserCreation from '../Category/UserCreation.svelte'
-  import { EntityType } from '../const' 
+  import AssetIcons from '../Components/AssetIcons.svelte'
+  import AssetTags from '../Components/AssetTags.svelte'
+  import { EntityType } from '../const'
 
   export let small = false
   export let item
-  export let type = "ALERT"
-  export let showActions = false;
+  export let type = 'ALERT'
+  export let showActions = false
+  export let hasIcons = false
 
   $: ({ assets } = item)
 </script>
 
-<UserCreation {item} {small} {showActions} >
+<UserCreation {item} {small} {showActions}>
   {#if !small}
-    <div class="assets row mrg-l mrg--r">
-      {#each assets.slice(0, 3) as { slug }, i}
-        <span style="z-index:{5 - i}">
-          <ProjectIcon {slug} size={24} />
-        </span>
-      {/each}
-      {#if assets.length > 3}
-        <div class="expand row hv-center caption c-waterloo">+{assets.length - 3}</div>
-      {/if}
-    </div>
-
+    {#if hasIcons}
+      <AssetIcons {assets} />
+    {:else}
+      <AssetTags tags={['Exchange', 'Binance', 'DEFI', 'A', 'B', 'C']} />
+    {/if}
     <div class="type row v-center mrg-a mrg--l" style="fill: {EntityType[type].color}">
       <Svg id={EntityType[type].icon} w="16" />
     </div>
@@ -34,15 +30,5 @@
 <style>
   .type {
     fill: var(--green);
-  }
-
-  .assets > :global(*) {
-    margin-left: -8px;
-  }
-
-  .expand {
-    padding: 4px 5.5px;
-    border-radius: 20px;
-    background: var(--athens);
   }
 </style>

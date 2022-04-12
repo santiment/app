@@ -58,12 +58,13 @@
     border-radius: 6px;
   }
 
-  .item, .more {
+  .item,
+  .more {
     border-radius: 0;
     border-top: 1px solid var(--porcelain);
     --bg-hover: var(--athens);
   }
-  
+
   .item {
     padding: 12px var(--padding);
   }

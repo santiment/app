@@ -8,9 +8,7 @@
   export let small = false
   export let item
   export let currentUser = null
-  export let showActions = false;
-
-  console.log({showActions})
+  export let showActions = false
 
   $: ({ title, user, votes, comments } = item)
 </script>
@@ -28,7 +26,6 @@
   </div>
 
   <div class="bottom row justify v-center c-waterloo mrg-s mrg--t" class:caption={small}>
-    
     <Tooltip openDelay={110}>
       <svelte:fragment slot="trigger">
         <Profile {user} class="author" />
@@ -52,6 +49,7 @@
     </div>
   </div>
 </div>
+
 <style>
   h3 {
     min-width: 0;

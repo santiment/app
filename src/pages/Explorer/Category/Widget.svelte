@@ -8,7 +8,7 @@
 
   export let title = 'Recent Chart Layouts'
   export let icon = 'info'
-  export let color = 'green';
+  export let color = 'green'
   export let iconWidth = 16
   export let type
   export let items = [
@@ -30,7 +30,11 @@
 </script>
 
 <Category {title} small {items}>
-  <div slot="icon" style="fill:var(--{color}); background:var(--{color}-light-1)" class="$style.icon row hv-center">
+  <div
+    slot="icon"
+    style="fill:var(--{color}); background:var(--{color}-light-1)"
+    class="$style.icon row hv-center"
+  >
     <Svg id={icon} w={iconWidth} />
   </div>
 
