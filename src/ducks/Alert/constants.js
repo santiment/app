@@ -49,7 +49,7 @@ export const ALERT_TYPES = [
   {
     title: 'Watchlist',
     description: 'Create an alert for the specific watchlist of yours',
-    iconType: 'view-option',
+    iconType: 'watchlist',
     settings: {
       type: 'metric_signal',
       metric: '',

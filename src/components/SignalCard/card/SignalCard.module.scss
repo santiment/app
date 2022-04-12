@@ -109,21 +109,16 @@
 }
 
 .popupItem {
-  display: flex;
-  align-items: center;
   gap: 8px;
   width: 128px;
   height: 32px;
   border-radius: 4px;
-  padding: 6px 8px;
+  --fill: var(--waterloo);
+  --fill-hover: var(--green);
+}
 
-  @include text("body-3");
-
-  &:hover {
-    background: var(--athens);
-    fill: var(--jungle-green-hover);
-    color: var(--jungle-green-hover);
-  }
+.publicShare {
+  --color-hover: var(--green);
 }
 
 .sharePanelBtn {
@@ -141,8 +136,8 @@
 }
 
 .expandButton {
-  background-color: transparent;
-  margin-right: 20px;
+  --color: var(--waterloo);
+  --color-hover: var(--green);
   padding-left: 0;
 
   @include responsive("phone", "phone-xs") {
@@ -181,13 +176,6 @@
 
 .shareSingle {
   padding: 0;
-}
-
-.popupButton {
-  cursor: pointer;
-  align-items: center;
-
-  @include text("body-3");
 }
 
 .awaitingBlock {

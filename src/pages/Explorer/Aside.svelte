@@ -1,13 +1,16 @@
 <script>
   import Widget from './Category/Widget.svelte'
   import ExternalLink from './Components/ExternalLink.svelte'
+
+  let className = ''
+  export { className as class }
 </script>
 
-<aside>
+<aside class={className}>
   <Widget title="Recent Chart Layouts" icon="chart" />
   <Widget title="Insights" icon="insight" color="orange" iconWidth="14">
     <div slot="header">
-      <ExternalLink href="/" />
+      <ExternalLink href="https://insights.santiment.net/" />
     </div>
   </Widget>
   <Widget
@@ -27,7 +30,7 @@
     ]}
   >
     <div slot="header">
-      <ExternalLink href="/" />
+      <ExternalLink href="https://app.santiment.net/labs/trends/" />
     </div>
   </Widget>
   <Widget

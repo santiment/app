@@ -5,6 +5,7 @@
   import Range from 'webkit/ui/Range.svelte'
   import Category from './Category.svelte'
   import ChartLayoutItem from '../Layouts/ChartLayoutItem.svelte'
+  import AssetSelector from '../Components/AssetSelector.svelte'
   import { EntityType } from '../const'
 
   export let items = [
@@ -30,8 +31,8 @@
     '1m': '30d',
     '6m': '183d',
     '1y': '1y',
-    'All time': 'all'
-  } 
+    'All time': 'all',
+  }
 
   let types = new Set(Object.values(EntityType))
 
@@ -48,10 +49,9 @@
 <Category title="Explorer" {items}>
   <div slot="header" class="controls row mrg-a mrg--l">
     <!-- TODDO add `onChange` prop -->
-    <Range items={Object.keys(RANGES)} selectedIndex=5 />
-  
-    <!-- TODO replace with asset selector -->
-    <div class="btn-2 btn--s mrg-s mrg--l mrg--r">Assets: All</div>
+    <Range items={Object.keys(RANGES)} selectedIndex="5" />
+
+    <AssetSelector />
 
     <!-- TODO: move to Types.svelte -->
     <Tootlip on="click" activeClass="$style.active" align="end">
