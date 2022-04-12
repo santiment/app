@@ -24,9 +24,10 @@
   }
 
   const deselectAll = () => {
+    searchKey = ''
     selectedProjects = new Set()
     unselectedProjects = allProjects
-    searchKey = ''
+    onChange([])
   }
 
   const filter = (project, search) =>
