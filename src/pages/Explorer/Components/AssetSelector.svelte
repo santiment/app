@@ -79,7 +79,7 @@
         {#if selectedProjects.length}
           <h6 class="caption c-waterloo mrg-xs mrg--b">Selected assets</h6>
           <div class="selections visible mrg-s mrg--b">
-            {#each selectedProjects as project}
+            {#each selectedProjects as project (project.slug)}
               <AssetItem {project} on:click={() => toggleProject(project)} isActive />
             {/each}
           </div>
