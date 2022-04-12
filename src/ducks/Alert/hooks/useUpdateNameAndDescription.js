@@ -5,6 +5,10 @@ import { getConditionsStr, getDescriptionStr, parseOperation } from '../utils'
 import { useAssets } from '../../../hooks/project'
 import { useWatchlistAndScreener } from './useWatchlistAndScreener'
 import { capitalizeStr } from '../../../utils/utils'
+import {
+  PERCENT_METRICS,
+  USD_METRICS,
+} from '../components/AlertModalContent/StepsContent/MetricAndConditions/constants'
 
 export const useUpdateNameAndDescription = ({
   selectedType,
@@ -66,10 +70,14 @@ export const useUpdateNameAndDescription = ({
             const { selectedCount, selectedOperation } = parseOperation(operation)
             const selectedMetric = getMetricByKey(metric)
             const metricLabel = selectedMetric ? selectedMetric.label : 'metric'
+            const hasPriceIcon = USD_METRICS.includes(metric)
+            const isPercentIcon = PERCENT_METRICS.includes(metric)
             const conditionsStr = getConditionsStr({
               operation: selectedOperation,
               count: selectedCount,
               timeWindow: time_window,
+              hasPriceIcon,
+              isPercentIcon,
             })
 
             setTitle(
@@ -112,10 +120,14 @@ export const useUpdateNameAndDescription = ({
           const { selectedCount, selectedOperation } = parseOperation(operation)
           const selectedMetric = getMetricByKey(metric)
           const metricLabel = selectedMetric ? selectedMetric.label : 'metric'
+          const hasPriceIcon = USD_METRICS.includes(metric)
+          const isPercentIcon = PERCENT_METRICS.includes(metric)
           const conditionsStr = getConditionsStr({
             operation: selectedOperation,
             count: selectedCount,
             timeWindow: time_window,
+            hasPriceIcon,
+            isPercentIcon,
           })
 
           if (operation && metric && time_window && hasWatchlist) {

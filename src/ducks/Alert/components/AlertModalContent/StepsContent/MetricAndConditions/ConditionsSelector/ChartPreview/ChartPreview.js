@@ -6,6 +6,7 @@ import { useLastPrice } from '../../../../../../hooks/useLastPrice'
 import { useProject } from '../../../../../../../../hooks/project'
 import { getConditionsStr, parseOperation, splitStr } from '../../../../../../utils'
 import { formatNumber } from '../../../../../../../../utils/formatting'
+import { PERCENT_METRICS, USD_METRICS } from '../../constants'
 import styles from './ChartPreview.module.scss'
 
 const ChartPreview = ({ isWallet, metric }) => {
@@ -27,12 +28,14 @@ const ChartPreview = ({ isWallet, metric }) => {
   const shouldRenderChart = currentSlug && typeof currentSlug === 'string'
   const shouldRenderPrice = currentSlug && !Array.isArray(currentSlug) && data
   const { selectedCount, selectedOperation } = parseOperation(operation)
-  const hasPriceIcon = metric.category === 'Financial' || metric.key === 'price_usd'
+  const hasPriceIcon = USD_METRICS.includes(metric.key)
+  const isPercentIcon = PERCENT_METRICS.includes(metric.key)
   const conditionsStr = getConditionsStr({
     operation: selectedOperation,
     count: selectedCount,
     timeWindow: time_window,
     hasPriceIcon,
+    isPercentIcon,
   })
 
   const { firstWord, rest } = splitStr(conditionsStr)
