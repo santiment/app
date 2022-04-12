@@ -5,7 +5,7 @@
   export let project = {}
 </script>
 
-<div on:click class="row v-center mrg-l mrg--b btn">
+<div on:click class="btn-ghost row v-center">
   <Checkbox {isActive} class="mrg-m mrg--r" />
-  <div>{project.name} <span class="c-waterloo">{project.ticker}</span></div>
+  {project.name} <span class="c-waterloo mrg-xs mrg--l">{project.ticker}</span>
 </div>
