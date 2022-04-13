@@ -1,5 +1,4 @@
 <script>
-  import { onMount } from 'svelte'
   import Range from 'webkit/ui/Range.svelte'
   import Category from './Category.svelte'
   import LayoutItem from '../Layouts/LayoutItem.svelte'
@@ -18,11 +17,9 @@
   function fetch() {
     const voted = activeMenu === MenuItem.LIKES
     const currentUserDataOnly = activeMenu === MenuItem.MY_CREATIONS
-    const args = { voted, range, page, currentUserDataOnly }
-    getItems(args).then((res) => (items = res))
+    getItems({ voted, range, page, currentUserDataOnly }).then((res) => (items = res))
   }
 
-  onMount(fetch)
   $: activeMenu, range, assets, types, page, fetch()
 </script>
 
@@ -34,7 +31,8 @@
       <Range
         items={Object.keys(RANGES)}
         selectedIndex={4}
-        onChange={(newRange) => (range = newRange)} />
+        onChange={(newRange) => (range = newRange)}
+      />
       <AssetSelector onChange={(newAssets) => (assets = newAssets)} />
       <TypeSelector onChange={(newTypes) => (types = newTypes)} {types} />
     </div>
@@ -43,17 +41,19 @@
       {#if item.chartConfiguration}
         <LayoutItem
           item={item.chartConfiguration}
-          showActions={true}
+          showActions
           type="CHART"
           hasIcons
-          assets={[item.chartConfiguration.project]} />
+          assets={[item.chartConfiguration.project]}
+        />
       {:else if item.screener}
         <LayoutItem
           item={item.screener}
-          showActions={true}
+          showActions
           type="SCREENER"
           hasIcons
-          assets={item.screener.listItems.map((i) => i.project)} />
+          assets={item.screener.listItems.map((i) => i.project)}
+        />
       {/if}
     </svelte:fragment>
   </Category>

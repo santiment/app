@@ -23,11 +23,12 @@
 
   <div slot="tooltip" class="tooltip">
     <div class="caption txt-m mrg-s mrg--l mrg--b c-waterloo">Types</div>
-    {#each Object.values(EntityType) as type, index (index)}
+    {#each Object.values(EntityType) as type}
       <div
         class="btn-ghost row v-center"
         on:click={() => toggleType(type)}
-        style="fill: {type.color}">
+        style="fill: {type.color}"
+      >
         <Svg id={type.icon} w="16" class="mrg-s mrg--r" />
         {type.label}
         <Checkbox isActive={types.has(type)} class="mrg-a mrg--l" />

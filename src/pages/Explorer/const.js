@@ -42,7 +42,14 @@ export const RANGES = {
   'All time': '',
 }
 
-export const getItems = ({ types = 'WATCHLIST, SCREENER, CHART_CONFIGURATION', range, voted = false, currentUserDataOnly = false, page = 1, pageSize = 20 } = {}) => {
+export const getItems = ({
+  types = 'WATCHLIST, SCREENER, CHART_CONFIGURATION',
+  range,
+  voted = false,
+  currentUserDataOnly = false,
+  page = 1,
+  pageSize = 20,
+} = {}) => {
   const QUERYKEY = `getMost${voted ? 'Voted' : 'Recent'}`
   const CURSOR = range ? `cursor: { type: AFTER, datetime: "utc_now-${range}" }` : ''
 
@@ -111,5 +118,5 @@ export const getItems = ({ types = 'WATCHLIST, SCREENER, CHART_CONFIGURATION', r
       }
     }
   `
-  return query(QUERY).then(res => res[QUERYKEY])
+  return query(QUERY).then((res) => res[QUERYKEY])
 }
