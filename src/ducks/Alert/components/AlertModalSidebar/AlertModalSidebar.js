@@ -4,6 +4,7 @@ import { useFormikContext } from 'formik'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import AlertStepsSelector from '../AlertStepsSelector/AlertStepsSelector'
+import AlertRestrictionMessageTooltip from '../AlertRestrictionMessage/AlertRestrictionMessageTooltip'
 import styles from './AlertModalSidebar.module.scss'
 
 const AlertModalSidebar = ({
@@ -14,6 +15,7 @@ const AlertModalSidebar = ({
   isSharedTrigger,
   isEdited,
   isRecommendedSignal,
+  isRestrictedMessageClosed,
 }) => {
   const { submitForm, isSubmitting } = useFormikContext()
 
@@ -52,10 +54,15 @@ const AlertModalSidebar = ({
       <div>
         <div className={cx(styles.titleWrapper, 'row justify v-center')}>
           <div className='h4 c-black'>{selectedType.title}</div>
-          {!hasSignal && (
+          {!hasSignal ? (
             <button className={cx(styles.backButton, 'btn body-3')} onClick={handleReturnBack}>
               <Icon type='arrow-left' className={cx(styles.backIcon, 'mrg--r mrg-s')} /> Alert types
             </button>
+          ) : (
+            <AlertRestrictionMessageTooltip
+              shouldHideRestrictionMessage={shouldHideRestrictionMessage}
+              isRestrictedMessageClosed={isRestrictedMessageClosed}
+            />
           )}
         </div>
         <div className={styles.divider} />

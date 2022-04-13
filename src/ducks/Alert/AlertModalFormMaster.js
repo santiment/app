@@ -50,6 +50,7 @@ const AlertModalFormMaster = ({
   shouldHideRestrictionMessage,
   shouldDisableActions,
   isRecommendedSignal,
+  isRestrictedMessageClosed,
 }) => {
   const [formPreviousValues, setFormPreviousValues] = useState(initialValues)
   const [selectedType, setSelectedType] = useState(defaultType)
@@ -199,13 +200,19 @@ const AlertModalFormMaster = ({
   }
 
   if (selectedStep === undefined) {
-    return <AlertTypeSelector selectorSettings={selectorSettings} />
+    return (
+      <AlertTypeSelector
+        selectorSettings={selectorSettings}
+        isRestrictedMessageClosed={isRestrictedMessageClosed}
+      />
+    )
   }
 
   return (
     <Formik initialValues={initialState} onSubmit={handleSubmit} enableReinitialize={true}>
       {(formik) => (
         <AlertModalForm
+          isRestrictedMessageClosed={isRestrictedMessageClosed}
           isRecommendedSignal={isRecommendedSignal}
           signal={signalData || (data && data.trigger && data.trigger.trigger)}
           isModalOpen={isModalOpen}

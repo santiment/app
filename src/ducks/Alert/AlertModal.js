@@ -27,6 +27,7 @@ const AlertModal = ({
   const match = useRouteMatch('/alerts/:id')
   const history = useHistory()
   const { isLoggedIn } = useUser()
+  const [isRestrictedMessageClosed, setIsRestrictedMessageClosed] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(defaultOpen)
   const [isClosing, setIsClosing] = useState(false)
   const [isEdited, setIsEdited] = useState(false)
@@ -75,13 +76,19 @@ const AlertModal = ({
         }
         classes={{
           dialog: cx(styles.dialog, isClosing && styles.hidden, isPreview && styles.preview),
+          title: styles.dialogTitle,
         }}
       >
         <>
           {!isPreview && (
-            <AlertRestrictionMessage shouldHideRestrictionMessage={shouldHideRestrictionMessage} />
+            <AlertRestrictionMessage
+              shouldHideRestrictionMessage={shouldHideRestrictionMessage}
+              isRestrictedMessageClosed={isRestrictedMessageClosed}
+              setIsRestrictedMessageClosed={setIsRestrictedMessageClosed}
+            />
           )}
           <AlertModalFormMaster
+            isRestrictedMessageClosed={isRestrictedMessageClosed}
             isRecommendedSignal={isRecommendedSignal}
             shouldDisableActions={shouldDisableActions}
             shouldHideRestrictionMessage={shouldHideRestrictionMessage}
