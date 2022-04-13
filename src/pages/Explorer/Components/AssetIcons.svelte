@@ -2,6 +2,7 @@
   import ProjectIcon from 'webkit/ui/ProjectIcon.svelte'
 
   export let assets = []
+  console.log(assets)
 </script>
 
 <div class="assets row mrg-l mrg--r">

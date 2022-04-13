@@ -1,7 +1,7 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
   import Category from './Category.svelte'
-  import ChartLayoutItem from '../Layouts/ChartLayoutItem.svelte'
+  import LayoutItem from '../Layouts/LayoutItem.svelte'
   import SocialTrend from '../Layouts/SocialTrend.svelte'
   import WeeklyReport from '../Layouts/WeeklyReport.svelte'
   import SheetsTemplate from '../Layouts/SheetsTemplate.svelte'
@@ -46,7 +46,7 @@
     {:else if type === 'sheets_templates'}
       <SheetsTemplate {item} />
     {:else}
-      <ChartLayoutItem small {item} />
+      <LayoutItem small {item} />
     {/if}
   </svelte:fragment>
 
