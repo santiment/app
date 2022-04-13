@@ -70,8 +70,8 @@ export const useUpdateNameAndDescription = ({
             const { selectedCount, selectedOperation } = parseOperation(operation)
             const selectedMetric = getMetricByKey(metric)
             const metricLabel = selectedMetric ? selectedMetric.label : 'metric'
-            const hasPriceIcon = USD_METRICS.includes(metric)
-            const isPercentIcon = PERCENT_METRICS.includes(metric)
+            const hasPriceIcon = USD_METRICS.has(metric)
+            const isPercentIcon = PERCENT_METRICS.has(metric)
             const conditionsStr = getConditionsStr({
               operation: selectedOperation,
               count: selectedCount,
@@ -120,8 +120,8 @@ export const useUpdateNameAndDescription = ({
           const { selectedCount, selectedOperation } = parseOperation(operation)
           const selectedMetric = getMetricByKey(metric)
           const metricLabel = selectedMetric ? selectedMetric.label : 'metric'
-          const hasPriceIcon = USD_METRICS.includes(metric)
-          const isPercentIcon = PERCENT_METRICS.includes(metric)
+          const hasPriceIcon = USD_METRICS.has(metric)
+          const isPercentIcon = PERCENT_METRICS.has(metric)
           const conditionsStr = getConditionsStr({
             operation: selectedOperation,
             count: selectedCount,

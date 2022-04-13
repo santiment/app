@@ -1,4 +1,4 @@
-export const NEGATIVE_METRICS = [
+const NEGATIVE_METRICS_ARRAY = [
   '30d_moving_avg_dev_activity_change_1d',
   'active_addresses_24h_change_1d',
   'active_addresses_24h_change_30d',
@@ -281,7 +281,7 @@ export const NEGATIVE_METRICS = [
   'social_volume_ai_total',
 ]
 
-export const USD_METRICS = [
+const USD_METRICS_ARRAY = [
   'bitmex_composite_price_index',
   'bitmex_perpetual_open_interest',
   'bitmex_perpetual_price',
@@ -335,7 +335,7 @@ export const USD_METRICS = [
   'realized_value_usd',
 ]
 
-export const PERCENT_METRICS = [
+const PERCENT_METRICS_ARRAY = [
   'bitmex_perpetual_funding_rate',
   'eth2_roi',
   'mvrv_usd_intraday_10y',
@@ -646,3 +646,7 @@ export const PERCENT_METRICS = [
   'whale_transaction_count_1m_usd_to_inf_change_30d',
   'whale_transaction_count_1m_usd_to_inf_change_7d',
 ]
+
+export const NEGATIVE_METRICS = new Set(NEGATIVE_METRICS_ARRAY)
+export const USD_METRICS = new Set(USD_METRICS_ARRAY)
+export const PERCENT_METRICS = new Set(PERCENT_METRICS_ARRAY)

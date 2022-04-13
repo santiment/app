@@ -28,8 +28,8 @@ const ChartPreview = ({ isWallet, metric }) => {
   const shouldRenderChart = currentSlug && typeof currentSlug === 'string'
   const shouldRenderPrice = currentSlug && !Array.isArray(currentSlug) && data
   const { selectedCount, selectedOperation } = parseOperation(operation)
-  const hasPriceIcon = USD_METRICS.includes(metric.key)
-  const isPercentIcon = PERCENT_METRICS.includes(metric.key)
+  const hasPriceIcon = USD_METRICS.has(metric.key)
+  const isPercentIcon = PERCENT_METRICS.has(metric.key)
   const conditionsStr = getConditionsStr({
     operation: selectedOperation,
     count: selectedCount,

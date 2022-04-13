@@ -46,10 +46,10 @@ const OperationSelector = ({ metric, isWallet }) => {
     }
   }, [operation, count])
 
-  const hasPriceIcon = USD_METRICS.includes(metric.key)
-  const isPositiveMetric = !NEGATIVE_METRICS.includes(metric.key)
+  const hasPriceIcon = USD_METRICS.has(metric.key)
+  const isPositiveMetric = !NEGATIVE_METRICS.has(metric.key)
   const isPercentIcon =
-    PERCENT_OPERATIONS.includes(operation.value) || PERCENT_METRICS.includes(metric.key)
+    PERCENT_OPERATIONS.includes(operation.value) || PERCENT_METRICS.has(metric.key)
   const isMultipleValues = MULTIPLE_VALUES_OPERATIONS.includes(operation.value)
 
   return (
