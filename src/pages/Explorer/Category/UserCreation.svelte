@@ -10,7 +10,7 @@
   export let currentUser = null
   export let showActions = false
 
-  $: ({ title, user, votes, comments } = item)
+  $: ({ title, user, votes, commentsCount } = item)
 </script>
 
 <div class="usercreation">
@@ -39,12 +39,12 @@
     <div class="stats row v-center">
       <div class="row v-center">
         <Svg id="comment" w="12" h="10.5" class="mrg-s mrg--r" />
-        {comments}
+        {commentsCount}
       </div>
 
       <div class="row v-center mrg-l mrg--l">
         <Svg id="rocket" w="10.5" h="14" class="mrg-s mrg--r" />
-        {votes}
+        {votes.totalVotes}
       </div>
     </div>
   </div>

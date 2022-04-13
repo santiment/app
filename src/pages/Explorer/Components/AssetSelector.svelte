@@ -73,7 +73,8 @@
         class="input fluid mrg-l mrg--b"
         placeholder="Search for asset"
         bind:this={inputNode}
-        bind:value={input} />
+        bind:value={input}
+      />
 
       <div>
         {#if selectedProjects.length}
@@ -94,7 +95,8 @@
               maxHeight={160}
               defaultItemHeight={32}
               hideEmptyResults
-              let:item={project}>
+              let:item={project}
+            >
               <AssetItem {project} on:click={() => toggleProject(project)} />
             </VirtualList>
           </div>

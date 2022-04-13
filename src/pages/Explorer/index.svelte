@@ -2,11 +2,9 @@
   import Svg from 'webkit/ui/Svg/svelte'
   import ExplorerCategory from './Category/ExplorerCategory.svelte'
   import Aside from './Aside.svelte'
-  import EmptyCreations from './Components/EmptyCreations.svelte'
   import { MenuItem } from './const'
 
   let activeMenu = MenuItem.NEW
-  let count = 10
 </script>
 
 <div class="row mrg-a mrg--l mrg--r">
@@ -39,17 +37,7 @@
       </div>
     </div>
 
-    {#if count == 0}
-      <div class="empty row hv-center fluid mrg--t">
-        {#if activeMenu == MenuItem.LIKES}
-          <EmptyCreations id="rocket" action="like" title="No liked" />
-        {:else if activeMenu == MenuItem.MY_CREATIONS}
-          <EmptyCreations id="browser" action="make" title="No" />
-        {/if}
-      </div>
-    {:else}
-      <ExplorerCategory />
-    {/if}
+    <ExplorerCategory {activeMenu} />
   </main>
 
   <Aside />
@@ -70,9 +58,5 @@
     --color: var(--green);
     --border: var(--green);
     --bg: var(--green-light-1);
-  }
-
-  .empty {
-    --margin: 120px;
   }
 </style>

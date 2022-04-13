@@ -10,8 +10,7 @@
   export let type = 'ALERT'
   export let showActions = false
   export let hasIcons = false
-
-  $: ({ assets } = item)
+  export let assets = []
 </script>
 
 <UserCreation {item} {small} {showActions}>
