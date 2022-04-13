@@ -13,42 +13,28 @@
 </script>
 
 <aside class={className}>
-  <Widget title="Recent Chart Layouts" icon="chart">
-    <svelte:fragment let:item slot="item">
-      <LayoutItem small {item} />
-    </svelte:fragment>
+  <Widget title="Recent Chart Layouts" icon="chart" let:item>
+    <LayoutItem small {item} />
   </Widget>
 
-  <Widget title="Insights" icon="insight" color="orange" iconWidth="14">
-    <div slot="header">
-      <ExternalLink href="https://insights.santiment.net/" />
-    </div>
-    <svelte:fragment let:item slot="item">
-      <LayoutItem small {item} />
-    </svelte:fragment>
+  <Widget title="Insights" icon="insight" color="orange" iconWidth="14" let:item>
+    <ExternalLink href="https://insights.santiment.net/" slot="header"/>
+    <LayoutItem small {item} />
   </Widget>
 
-  <Widget title="Social trends" icon="social-trend" color="blue">
-    <div slot="header">
-      <ExternalLink href="https://app.santiment.net/labs/trends/" />
-    </div>
-    <svelte:fragment let:item slot="item">
-      <SocialTrend {item} />
-    </svelte:fragment>
+  <Widget title="Social trends" icon="social-trend" color="blue" let:item>
+    <ExternalLink href="https://app.santiment.net/labs/trends/" slot="header" />
+    <SocialTrend {item} />
   </Widget>
 
-  <Widget title="Weekly Reports" icon="report" color="blue">
+  <Widget title="Weekly Reports" icon="report" color="blue" let:item>
     <div slot="header" class="pro row hv-center c-white caption">PRO</div>
-    <svelte:fragment let:item slot="item">
-      <WeeklyReport {item} />
-    </svelte:fragment>
+    <WeeklyReport {item} />
   </Widget>
 
-  <Widget title="Sheets Templates" icon="social-trend">
+  <Widget title="Sheets Templates" icon="social-trend" let:item>
     <div slot="header" class="pro row hv-center c-white caption">PRO</div>
-    <svelte:fragment let:item slot="item">
-      <SheetsTemplate {item} />
-    </svelte:fragment>
+    <SheetsTemplate {item} />
   </Widget>
 </aside>
 

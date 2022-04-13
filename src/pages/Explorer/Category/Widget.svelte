@@ -31,7 +31,7 @@
   </div>
 
   <svelte:fragment let:item>
-    <slot name="item" {item} />
+    <slot {item} />
   </svelte:fragment>
 
   <slot slot="header" name="header" />
