@@ -18,6 +18,7 @@ const AlertModalForm = ({
   isModalOpen,
   isSharedTrigger,
   isRecommendedSignal,
+  isRestrictedMessageClosed,
 }) => {
   const {
     setSelectedType,
@@ -137,6 +138,7 @@ const AlertModalForm = ({
     return (
       <Form className={styles.wrapper}>
         <AlertModalSidebar
+          isRestrictedMessageClosed={isRestrictedMessageClosed}
           isRecommendedSignal={isRecommendedSignal}
           isEdited={isEdited}
           isSharedTrigger={isSharedTrigger}

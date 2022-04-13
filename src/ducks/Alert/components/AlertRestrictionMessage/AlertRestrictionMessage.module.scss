@@ -1,6 +1,6 @@
 .wrapper {
-  min-height: 56px;
-  padding-left: 48px;
+  min-height: 52px;
+  padding: 0 24px;
   background-color: var(--orange-light-1);
 }
 
@@ -20,4 +20,21 @@
   &:hover {
     color: var(--orange-hover);
   }
+}
+
+.btn {
+  --bg-hover: var(--orange-light-1);
+  --fill: var(--orange);
+  --fill-hover: var(--orange);
+  padding: 9px 8px;
+}
+
+.tooltip {
+  z-index: 11111;
+  padding: 18px 24px;
+  width: 272px;
+}
+
+.tooltipLink {
+  display: inline-block;
 }
