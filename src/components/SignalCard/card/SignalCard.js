@@ -32,6 +32,7 @@ const SignalCard = ({
       {isSharedTriggerForm && (
         <DesktopOnly>
           <SignalCardHeader
+            shouldDisableActions={shouldDisableActions}
             deleteEnabled={deleteEnabled}
             isUserTheAuthor={isUserTheAuthor}
             isPublic={isPublic}
@@ -41,6 +42,7 @@ const SignalCard = ({
       )}
       {!isSharedTriggerForm && (
         <SignalCardHeader
+          shouldDisableActions={shouldDisableActions}
           deleteEnabled={deleteEnabled}
           isUserTheAuthor={isUserTheAuthor}
           isPublic={isPublic}
