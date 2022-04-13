@@ -34,6 +34,7 @@ function getAlertsRestrictions({ signals, isPro, isProPlus }) {
 
 const Alerts = ({ isDesktop, match }) => {
   const [filter, setFilter] = useState(filters.ALL)
+  const [isRestrictedMessageClosed, setIsRestrictedMessageClosed] = useState(false)
   const { user, loading: isUserLoading } = useUser()
   const { tab } = parse(useLocation().search, { parseNumbers: true })
   const { data: signals = [], loading } = useSignals({
@@ -126,6 +127,8 @@ const Alerts = ({ isDesktop, match }) => {
                   <>
                     <AlertRestrictionMessage
                       shouldHideRestrictionMessage={shouldHideRestrictionMessage}
+                      isRestrictedMessageClosed={isRestrictedMessageClosed}
+                      setIsRestrictedMessageClosed={setIsRestrictedMessageClosed}
                     />
                     <LoadableAlertsList
                       userId={user ? user.id : ''}

@@ -83,7 +83,13 @@ export function parseOperation(value) {
   return { selectedOperation: operation, selectedCount: count }
 }
 
-export function getConditionsStr({ operation, count, timeWindow, hasPriceIcon = true }) {
+export function getConditionsStr({
+  operation,
+  count,
+  timeWindow,
+  hasPriceIcon = true,
+  isPercentIcon = false,
+}) {
   let condition = `moving down ${count} %`
 
   switch (operation) {
@@ -119,7 +125,7 @@ export function getConditionsStr({ operation, count, timeWindow, hasPriceIcon = 
   }
 
   return `${
-    hasPriceIcon ? condition : condition.replaceAll('$', '')
+    hasPriceIcon ? condition : condition.replaceAll('$', isPercentIcon ? '%' : '')
   } compared to ${formatFrequencyStr(timeWindow)} earlier`
 }
 

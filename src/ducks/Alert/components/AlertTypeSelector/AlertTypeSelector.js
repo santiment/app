@@ -1,9 +1,11 @@
 import React from 'react'
+import cx from 'classnames'
 import Type from './Type/Type'
+import AlertRestrictionMessageTooltip from '../AlertRestrictionMessage/AlertRestrictionMessageTooltip'
 import { ALERT_TYPES } from '../../constants'
 import styles from './AlertTypeSelector.module.scss'
 
-const AlertTypeSelector = ({ selectorSettings }) => {
+const AlertTypeSelector = ({ selectorSettings, isRestrictedMessageClosed }) => {
   const {
     selectedType,
     setSelectedType,
@@ -13,6 +15,7 @@ const AlertTypeSelector = ({ selectorSettings }) => {
     initialState,
     setInitialState,
     formPreviousValues,
+    shouldHideRestrictionMessage,
   } = selectorSettings
 
   function handleSelectType({ type, isSelected }) {
@@ -31,7 +34,13 @@ const AlertTypeSelector = ({ selectorSettings }) => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.title}>Choose type of alert bellow:</div>
+      <div className={cx(styles.title, 'row v-center justify')}>
+        Choose type of alert bellow:
+        <AlertRestrictionMessageTooltip
+          isRestrictedMessageClosed={isRestrictedMessageClosed}
+          shouldHideRestrictionMessage={shouldHideRestrictionMessage}
+        />
+      </div>
       <div className={styles.typesWrapper}>
         {ALERT_TYPES.map((type) => {
           const isSelected = selectedType && selectedType.title === type.title

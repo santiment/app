@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
-import Icon from '@santiment-network/ui/Icon'
 import isEqual from 'lodash.isequal'
+import Icon from '@santiment-network/ui/Icon'
 import { createTrigger } from '../../../ducks/Signals/common/actions'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import styles from './CopySignal.module.scss'
@@ -51,6 +51,7 @@ const CopySignal = ({
       delete newSignal.id
       newSignal.isPublic = false
       createTrigger(newSignal)
+
       setCreation && setCreation(true)
     }
     if (onClose) {

@@ -3,7 +3,7 @@ import cx from 'classnames'
 import styles from './OpenSignalLink.module.scss'
 
 const PERCENT_REGEXP = new RegExp(
-  '((0x)?[0-9a-fA-F]{40})|( {1}[-\\$]?\\d+[,.]?\\d{0,}[,.$%]?\\d{0,}[$%]?[^x| ])|( {1}[-\\$]?\\d+[,.$%]?\\d{0,}[$%]? )',
+  '((0x)?[0-9a-fA-F]{40})|( {1}[-\\$%]?\\d+[,.]?\\d{0,}[,.$%]?\\d{0,}[$%]?[^x| ])|( {1}[-\\$%]?\\d+[,.$%]?\\d{0,}[$%]? )',
   'gi',
 )
 

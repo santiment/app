@@ -4,6 +4,7 @@ import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import { CellMeasurer, CellMeasurerCache } from 'react-virtualized'
 import ProjectListItem from './ProjectListItem/ProjectListItem'
 import styles from './ProjectsList.module.scss'
+import { useTheme } from '../../../../../../../../stores/ui/theme'
 
 const ROW_HEIGHT = 36
 const listStyle = { overflowX: false, overflowY: false }
@@ -45,9 +46,10 @@ const ProjectsList = ({
   onToggleProject,
   sections,
   searchTerm,
-  isSocial,
   isWords,
 }) => {
+  const { isNightMode } = useTheme()
+
   const rowRenderer = useCallback(
     ({ key, index, style, parent }) => {
       const { item, index: itemIndex, header } = subExtractor(sections, index)
@@ -79,6 +81,7 @@ const ProjectsList = ({
           <CellMeasurer key={key} cache={cache} parent={parent} columnIndex={0} rowIndex={index}>
             {({ registerChild }) => (
               <ProjectListItem
+                isNightMode={isNightMode}
                 ref={registerChild}
                 style={style}
                 isSelectedItem={isSelectedItem}

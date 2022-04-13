@@ -11,6 +11,7 @@ import {
   MULTIPLE_VALUES_OPERATIONS,
   PERCENT_OPERATIONS,
 } from './constants'
+import { NEGATIVE_METRICS, PERCENT_METRICS, USD_METRICS } from '../../constants'
 import { formatOptionLabel } from './utils'
 import styles from './OperationSelector.module.scss'
 
@@ -45,9 +46,10 @@ const OperationSelector = ({ metric, isWallet }) => {
     }
   }, [operation, count])
 
-  const hasPriceIcon = metric.category === 'Financial' || metric.key === 'price_usd'
-  const isPositiveMetric = metric.key !== 'exchange_balance'
-  const isPercentIcon = PERCENT_OPERATIONS.includes(operation.value)
+  const hasPriceIcon = USD_METRICS.has(metric.key)
+  const isPositiveMetric = !NEGATIVE_METRICS.has(metric.key)
+  const isPercentIcon =
+    PERCENT_OPERATIONS.includes(operation.value) || PERCENT_METRICS.has(metric.key)
   const isMultipleValues = MULTIPLE_VALUES_OPERATIONS.includes(operation.value)
 
   return (
