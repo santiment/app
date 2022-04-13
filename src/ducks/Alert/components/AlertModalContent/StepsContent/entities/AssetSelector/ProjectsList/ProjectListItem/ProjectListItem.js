@@ -19,6 +19,7 @@ const ProjectListItem = forwardRef(
       name,
       ticker,
       isWords,
+      isNightMode,
     },
     ref,
   ) => (
@@ -36,7 +37,13 @@ const ProjectListItem = forwardRef(
         <Checkbox isActive={isAssetInList} />
         <div className={styles.asset}>
           {!isWords && (
-            <ProjectIcon className={styles.icon} size={16} slug={slug} logoUrl={logoUrl} />
+            <ProjectIcon
+              className={styles.icon}
+              size={16}
+              slug={slug}
+              logoUrl={logoUrl}
+              isNightMode={isNightMode}
+            />
           )}
           <span className={styles.name}>{isWords ? slug : name}</span>
           {!isWords && (

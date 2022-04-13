@@ -7,8 +7,8 @@ import NextStep from '../../NextStep/NextStep'
 import StepTitle from '../../StepTitle/StepTitle'
 import ProjectsList from './ProjectsList/ProjectsList'
 import { useTrendingWords } from '../../../../../../TrendsTable/hooks'
-import styles from './AssetSelector.module.scss'
 import { PROJECTS_QUERY, useProjects } from '../../../../../../../stores/projects'
+import styles from './AssetSelector.module.scss'
 
 const AssetSelector = ({
   selectorSettings: { setSelectedStep, selectedStep, visitedSteps, setVisitedSteps },

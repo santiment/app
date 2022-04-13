@@ -55,11 +55,13 @@ const AlertModal = ({
     setIsPreview(!isUserTheAuthor)
   }
 
+  const dialogTitle = isPreview ? 'Alert details' : id ? 'Edit custom alert' : modalTitle
+
   return (
     <>
       <Dialog
         withAnimation
-        title={isPreview ? 'Alert details' : modalTitle}
+        title={dialogTitle}
         open={isModalOpen}
         onOpen={() => setIsModalOpen(true)}
         onClose={() => {

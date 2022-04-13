@@ -4,16 +4,27 @@ import { Link } from 'react-router-dom'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import styles from './MyAlertsTab.module.scss'
 
+const Trigger = ({ currentAmount, maxAmount, forwardedRef, isActive, ...props }) => (
+  <div
+    ref={forwardedRef}
+    {...props}
+    className={cx(
+      styles.badge,
+      'btn body-3 row hv-center c-waterloo',
+      isActive && styles.badgeHover,
+    )}
+  >
+    <span className={cx(styles.currentAmount, 'c-black')}>{currentAmount}</span>/{maxAmount}
+  </div>
+)
+
 const MyAlertsTab = ({ alertsRestrictions: { currentAmount, maxAmount } }) => (
   <div className='row hv-center'>
     <div className={cx(styles.tab, 'btn c-casper h4 txt-m')}>My Alerts</div>
     {maxAmount <= 20 && (
       <Tooltip
-        trigger={
-          <div className={cx(styles.badge, 'btn body-3 row hv-center c-waterloo')}>
-            <span className={cx(styles.currentAmount, 'c-black')}>{currentAmount}</span>/{maxAmount}
-          </div>
-        }
+        passOpenStateAs='isActive'
+        trigger={<Trigger currentAmount={currentAmount} maxAmount={maxAmount} />}
         position='bottom'
         className={cx(styles.tooltip, 'border box')}
       >
