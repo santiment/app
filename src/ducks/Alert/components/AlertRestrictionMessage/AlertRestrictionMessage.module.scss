@@ -29,6 +29,10 @@
   padding: 9px 8px;
 }
 
+.btnHover {
+  --bg: var(--orange-light-1);
+}
+
 .tooltip {
   z-index: 11111;
   padding: 18px 24px;

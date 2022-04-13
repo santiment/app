@@ -120,6 +120,11 @@ const AlertModalFormMaster = ({
         ...triggerValues,
       })
     } else {
+      localStorage.setItem(
+        'LAST_TRIGGER_NOTIFICATION_SETTINGS',
+        JSON.stringify(triggerValues.settings.channel),
+      )
+
       createAlert(triggerValues)
     }
     setSubmitting(false)

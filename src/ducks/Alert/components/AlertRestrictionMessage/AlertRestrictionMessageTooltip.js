@@ -5,6 +5,16 @@ import Icon from '@santiment-network/ui/Icon'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import styles from './AlertRestrictionMessage.module.scss'
 
+const Trigger = ({ forwardedRef, isActive, ...props }) => (
+  <div
+    ref={forwardedRef}
+    {...props}
+    className={cx('btn row hv-center', styles.btn, isActive && styles.btnHover)}
+  >
+    <Icon type='alert' />
+  </div>
+)
+
 const AlertRestrictionMessageTooltip = ({
   shouldHideRestrictionMessage,
   isRestrictedMessageClosed,
@@ -15,11 +25,8 @@ const AlertRestrictionMessageTooltip = ({
 
   return (
     <Tooltip
-      trigger={
-        <div className={cx('btn row hv-center', styles.btn)}>
-          <Icon type='alert' />
-        </div>
-      }
+      passOpenStateAs='isActive'
+      trigger={<Trigger />}
       position='bottom'
       className={cx(styles.tooltip, 'border box')}
     >
