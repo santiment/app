@@ -10,7 +10,7 @@ const IndexTab = ({ tabs, initialTab = 0, renderTopActions = [], bottomActions =
 
   return (
     <>
-      <div className='row justify mrg--b mrg-xxl'>
+      <div className={cx('row justify mrg--b mrg-xxl', styles.wrapper)}>
         {renderTopActions(activeTab)}
         <div className={cx(styles.tabs, 'row')}>
           {tabs.map((item) => {

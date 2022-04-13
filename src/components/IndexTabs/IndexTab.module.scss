@@ -1,5 +1,10 @@
 @import '~@santiment-network/ui/mixins';
 
+:global(.phone-xs) .wrapper,
+:global(.phone) .wrapper {
+  flex-direction: column;
+}
+
 .title {
   --color: var(--casper);
   --color-hover: var(--fiord);
