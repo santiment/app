@@ -1,70 +1,54 @@
 <script>
   import Widget from './Category/Widget.svelte'
   import ExternalLink from './Components/ExternalLink.svelte'
+  import LayoutItem from './Layouts/LayoutItem.svelte'
+  import SocialTrend from './Layouts/SocialTrend.svelte'
+  import WeeklyReport from './Layouts/WeeklyReport.svelte'
+  import SheetsTemplate from './Layouts/SheetsTemplate.svelte'
 
   let className = ''
   export { className as class }
+
+  // TODO: add getItems props for each widget
 </script>
 
 <aside class={className}>
-  <Widget title="Recent Chart Layouts" icon="chart" />
+  <Widget title="Recent Chart Layouts" icon="chart">
+    <svelte:fragment let:item slot="item">
+      <LayoutItem small {item} />
+    </svelte:fragment>
+  </Widget>
+
   <Widget title="Insights" icon="insight" color="orange" iconWidth="14">
     <div slot="header">
       <ExternalLink href="https://insights.santiment.net/" />
     </div>
+    <svelte:fragment let:item slot="item">
+      <LayoutItem small {item} />
+    </svelte:fragment>
   </Widget>
-  <Widget
-    title="Social trends"
-    icon="social-trend"
-    color="blue"
-    type="social"
-    items={[
-      {
-        id: 0,
-        type: 'social',
-        name: 'firo',
-        volume: '>12k',
-        tags: ['firo', 'users', 'project', 'price', 'mining', '1', '2', '3'],
-        user: { username: 'test' },
-      },
-    ]}
-  >
+
+  <Widget title="Social trends" icon="social-trend" color="blue">
     <div slot="header">
       <ExternalLink href="https://app.santiment.net/labs/trends/" />
     </div>
+    <svelte:fragment let:item slot="item">
+      <SocialTrend {item} />
+    </svelte:fragment>
   </Widget>
-  <Widget
-    title="Weekly Reports"
-    icon="report"
-    color="blue"
-    type="weekly_report"
-    items={[
-      {
-        id: 0,
-        type: 'weekly_report',
-        title: 'BTC pumps, but on-chain woes remain',
-        date: 'December 22, 2021',
-        url: '/',
-      },
-    ]}
-  >
+
+  <Widget title="Weekly Reports" icon="report" color="blue">
     <div slot="header" class="pro row hv-center c-white caption">PRO</div>
+    <svelte:fragment let:item slot="item">
+      <WeeklyReport {item} />
+    </svelte:fragment>
   </Widget>
-  <Widget
-    title="Sheets Templates"
-    icon="social-trend"
-    type="sheets_templates"
-    items={[
-      {
-        id: 0,
-        type: 'sheets_templates',
-        title: 'Funding Rate',
-        desc: 'What the new Funding Rates Sansheets model does is automatically calculate the funding rates on Binance (in USD), as well as the funding rates on FTX. Santiment has extensive Funding Rate metrics for hundreds of assets on these two exchanges. Both Binance and FTX have shown major alpha by going against the common trend of traders, so averaging these two funding rates together for assets is an easy way to see tops and bottoms that are forming.',
-        url: '/',
-      },
-    ]}
-  >
+
+  <Widget title="Sheets Templates" icon="social-trend">
     <div slot="header" class="pro row hv-center c-white caption">PRO</div>
+    <svelte:fragment let:item slot="item">
+      <SheetsTemplate {item} />
+    </svelte:fragment>
   </Widget>
 </aside>
 
