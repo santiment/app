@@ -5,20 +5,38 @@
   import SocialTrend from './Layouts/SocialTrend.svelte'
   import WeeklyReport from './Layouts/WeeklyReport.svelte'
   import SheetsTemplate from './Layouts/SheetsTemplate.svelte'
+  import { getItems } from './requests'
 
   let className = ''
   export { className as class }
 
-  // TODO: add getItems props for each widget
+  const PAGE_SIZE = 5
+  const getRecentItems = (type, key) => (page) =>
+    getItems({ types: [type], page, pageSize: PAGE_SIZE }).then(({ pages, items }) => ({
+      pages,
+      items: items.map((item) => item[key]),
+    }))
 </script>
 
 <aside class={className}>
-  <Widget title="Recent Chart Layouts" icon="chart" let:item>
+  <Widget
+    title="Recent Chart Layouts"
+    icon="chart"
+    let:item
+    getItems={getRecentItems('CHART_CONFIGURATION', 'chartConfiguration')}
+  >
     <LayoutItem small {item} />
   </Widget>
 
-  <Widget title="Insights" icon="insight" color="orange" iconWidth="14" let:item>
-    <ExternalLink href="https://insights.santiment.net/" slot="header"/>
+  <Widget
+    title="Insights"
+    icon="insight"
+    color="orange"
+    iconWidth="14"
+    let:item
+    getItems={getRecentItems('INSIGHT', 'insight')}
+  >
+    <ExternalLink href="https://insights.santiment.net/" slot="header" />
     <LayoutItem small {item} />
   </Widget>
 

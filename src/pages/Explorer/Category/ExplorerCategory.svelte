@@ -5,56 +5,94 @@
   import AssetSelector from '../Components/AssetSelector.svelte'
   import EmptyState from '../Components/EmptyState.svelte'
   import TypeSelector from '../Components/TypeSelector.svelte'
-  import { getItems, EntityType, RANGES, MenuItem } from '../const'
+  import { getItems } from '../requests'
+  import { currentUser } from '../store'
+  import { EntityType, RANGES, MenuItem } from '../const'
 
   export let activeMenu
   let items = []
   let range = ''
   let assets = []
-  let types = new Set(Object.values(EntityType))
+  let types = new Set(Object.values(EntityType).map((t) => t.key))
   let page = 1
+  let pages = 1
 
   function fetch() {
     const voted = activeMenu === MenuItem.LIKES
     const currentUserDataOnly = activeMenu === MenuItem.MY_CREATIONS
-    getItems({ voted, range, page, currentUserDataOnly }).then((res) => (items = res))
+    getItems({ types: Array.from(types), voted, range, page, currentUserDataOnly }).then((res) => {
+      pages = res.pages
+      items = res.items
+    })
   }
 
   $: activeMenu, range, assets, types, page, fetch()
+
+  $: showEmpty =
+    (!$currentUser && activeMenu === MenuItem.MY_CREATIONS) ||
+    (items.length === 0 && activeMenu !== MenuItem.NEW)
+
+  function getAssets(entity) {
+    const metricsJson = Object.values(entity.metricsJson).filter((m) => m.slug)
+    return [entity.project, ...metricsJson]
+  }
 </script>
 
-{#if activeMenu !== MenuItem.NEW && items.length === 0}
+{#if showEmpty}
   <EmptyState {activeMenu} />
 {:else}
-  <Category title="Explorer" {items} onMore={() => (page += 1)}>
-    <div slot="header" class="controls row mrg-a mrg--l">
-      <Range
-        items={Object.keys(RANGES)}
-        selectedIndex={4}
-        onChange={(newRange) => (range = newRange)}
-      />
-      <AssetSelector onChange={(newAssets) => (assets = newAssets)} />
-      <TypeSelector onChange={(newTypes) => (types = newTypes)} {types} />
-    </div>
+  {#key items}
+    <Category
+      title="Explorer"
+      {items}
+      onMore={() => (page += 1)}
+      hasMore={pages > 1 && page < pages}
+    >
+      <div slot="header" class="controls row mrg-a mrg--l">
+        <Range
+          items={Object.keys(RANGES)}
+          selectedIndex={4}
+          onChange={(newRange) => (range = newRange)}
+        />
+        <AssetSelector onChange={(newAssets) => (assets = newAssets)} />
+        <TypeSelector onChange={(newTypes) => (types = newTypes)} {types} />
+      </div>
 
-    <svelte:fragment let:item>
-      {#if item.chartConfiguration}
-        <LayoutItem
-          item={item.chartConfiguration}
-          showActions
-          type="CHART"
-          hasIcons
-          assets={[item.chartConfiguration.project]}
-        />
-      {:else if item.screener}
-        <LayoutItem
-          item={item.screener}
-          showActions
-          type="SCREENER"
-          hasIcons
-          assets={item.screener.listItems.map((i) => i.project)}
-        />
-      {/if}
-    </svelte:fragment>
-  </Category>
+      <svelte:fragment let:item>
+        {#if item.chartConfiguration}
+          <LayoutItem
+            item={item.chartConfiguration}
+            showActions
+            type="CHART"
+            hasIcons
+            assets={getAssets(item.chartConfiguration)}
+          />
+        {:else if item.screener}
+          <LayoutItem
+            item={item.screener}
+            showActions
+            type="SCREENER"
+            hasIcons
+            assets={item.screener.listItems.map((i) => i.project)}
+          />
+        {:else if item.projectWatchlist}
+          <LayoutItem
+            item={item.projectWatchlist}
+            showActions
+            type="WATCHLIST"
+            hasIcons
+            assets={item.projectWatchlist.listItems.map((i) => i.project)}
+          />
+        {:else if item.projectWatchlist}
+          <LayoutItem
+            item={item.addressWatchlist}
+            showActions
+            type="ADDRESS"
+            hasIcons
+            assets={item.addressWatchlist.listItems.map((i) => i.project)}
+          />
+        {/if}
+      </svelte:fragment>
+    </Category>
+  {/key}
 {/if}

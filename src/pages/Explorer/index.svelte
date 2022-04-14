@@ -1,10 +1,17 @@
 <script>
+  import { onMount } from 'svelte'
   import Svg from 'webkit/ui/Svg/svelte'
   import ExplorerCategory from './Category/ExplorerCategory.svelte'
   import Aside from './Aside.svelte'
+  import { getCurrentUser } from './requests'
+  import { currentUser } from './store'
   import { MenuItem } from './const'
 
   let activeMenu = MenuItem.NEW
+
+  onMount(() => {
+    getCurrentUser().then((user) => currentUser.update(() => user))
+  })
 </script>
 
 <div class="row mrg-a mrg--l mrg--r">

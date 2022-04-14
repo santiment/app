@@ -2,7 +2,7 @@
   let className = ''
   export { className as class }
   export let title
-  export let items
+  export let items = []
   export let hasMore = true
   export let onMore
   export let small = false

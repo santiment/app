@@ -4,10 +4,10 @@
   import Tooltip from 'webkit/ui/Tooltip/svelte'
   import Info from 'webkit/ui/Profile/Info.svelte'
   import Actions from '../Components/Actions'
+  import { currentUser } from '../store'
 
   export let small = false
   export let item
-  export let currentUser = null
   export let showActions = false
 
   $: ({ title, user, votes, commentsCount } = item)
@@ -16,7 +16,7 @@
 <div class="usercreation">
   <div class="row v-center nowrap relative">
     {#if showActions}
-      <Actions class="$style.actions" />
+      <Actions class="$style.actions" isOwner={user.id === $currentUser.id} />
     {/if}
     <h3 class="mrg-l mrg--r" class:body-2={!small}>
       {title}
@@ -32,7 +32,7 @@
       </svelte:fragment>
 
       <svelte:fragment slot="tooltip">
-        <Info {user} {currentUser} />
+        <Info {user} currentUser={$currentUser} />
       </svelte:fragment>
     </Tooltip>
 
