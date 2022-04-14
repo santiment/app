@@ -8,10 +8,9 @@ import { removeTrigger } from '../../../ducks/Signals/common/actions'
 import styles from './SignalControls.module.scss'
 
 const formatDescription = (title) => (
-  <>
-    <div className={styles.description}>Are you sure you want to delete {title}?</div>
-    <div>This action cannot be undone.</div>
-  </>
+  <div className={styles.description}>
+    Are you sure you want to delete {title}? This action cannot be undone.
+  </div>
 )
 
 const RemoveSignalButton = ({

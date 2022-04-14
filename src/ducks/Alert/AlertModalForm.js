@@ -6,6 +6,7 @@ import { useUpdateFinishedSteps } from './hooks/useUpdateFinishedSteps'
 import { useUpdateNameAndDescription } from './hooks/useUpdateNameAndDescription'
 import { ALERT_TYPES } from './constants'
 import styles from './AlertModalForm.module.scss'
+import { useUpdateNotificationSettings } from './hooks/useUpdateNotificationSettings'
 
 const AlertModalForm = ({
   selectorSettings,
@@ -18,6 +19,7 @@ const AlertModalForm = ({
   isModalOpen,
   isSharedTrigger,
   isRecommendedSignal,
+  isRestrictedMessageClosed,
 }) => {
   const {
     setSelectedType,
@@ -28,7 +30,19 @@ const AlertModalForm = ({
     selectedStep,
     setFormPreviousValues,
     setInitialState,
+    setSelectedStep,
+    setInvalidSteps,
+    invalidStepsMemo,
   } = selectorSettings
+
+  useUpdateNotificationSettings({
+    values,
+    visitedSteps,
+    setSelectedStep,
+    selectedType,
+    setInvalidSteps,
+    invalidStepsMemo,
+  })
 
   useUpdateFinishedSteps({
     selectedType,
@@ -137,6 +151,7 @@ const AlertModalForm = ({
     return (
       <Form className={styles.wrapper}>
         <AlertModalSidebar
+          isRestrictedMessageClosed={isRestrictedMessageClosed}
           isRecommendedSignal={isRecommendedSignal}
           isEdited={isEdited}
           isSharedTrigger={isSharedTrigger}

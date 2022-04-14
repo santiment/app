@@ -3,18 +3,27 @@
 }
 
 .badge {
+  --bg: var(--athens);
   --bg-hover: var(--green-light-1);
   --color-hover: var(--green);
 
   padding: 6px 12px;
   margin-left: 10px;
-  background-color: var(--athens);
   border-radius: 48px;
 
   &:hover {
     .currentAmount {
       color: inherit;
     }
+  }
+}
+
+.badgeHover {
+  --bg: var(--green-light-1);
+  --color: var(--green);
+
+  .currentAmount {
+    color: inherit;
   }
 }
 

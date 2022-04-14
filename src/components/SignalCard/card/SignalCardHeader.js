@@ -5,7 +5,13 @@ import { MobileOnly } from '../../Responsive'
 import MoreSignalActions from '../controls/MoreSignalActions'
 import styles from './SignalCard.module.scss'
 
-const SignalCardHeader = ({ deleteEnabled, isUserTheAuthor, isPublic, signal }) => {
+const SignalCardHeader = ({
+  deleteEnabled,
+  isUserTheAuthor,
+  isPublic,
+  signal,
+  shouldDisableActions,
+}) => {
   const { id, title, settings: { type, metric } = {}, isFrozen } = signal
 
   return (
@@ -14,6 +20,8 @@ const SignalCardHeader = ({ deleteEnabled, isUserTheAuthor, isPublic, signal }) 
 
       <MobileOnly>
         <MoreSignalActions
+          shouldDisableActions={shouldDisableActions}
+          signal={signal}
           deleteEnabled={deleteEnabled}
           isUserTheAuthor={isUserTheAuthor}
           isPublic={isPublic}
