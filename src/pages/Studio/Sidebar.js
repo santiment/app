@@ -15,6 +15,7 @@ const Sidebar = ({ studio, settings, selectMetricRef, onSidebarProjectMountRef }
 
   selectMetricRef.current = (node) => {
     if (lockedAsset.slug === settings.slug || node.noProject) return node
+    if (lockedAsset.address === settings.address) return node
 
     return newProjectMetric(lockedAsset, node)
   }
@@ -28,7 +29,11 @@ const Sidebar = ({ studio, settings, selectMetricRef, onSidebarProjectMountRef }
 
   return target
     ? ReactDOM.createPortal(
-        <ProjectSelector project={lockedAsset} onProjectSelect={onLockProjectSelect} />,
+        <ProjectSelector
+          project={lockedAsset}
+          address={settings.address}
+          onProjectSelect={onLockProjectSelect}
+        />,
         target,
       )
     : null

@@ -23,6 +23,6 @@ export function shareWidgets(widgets) {
   return widgets.map(shareChartWidget)
 }
 
-export function shareSettings({ slug, ticker, from, to }) {
-  return { slug, ticker, from, to }
+export function shareSettings({ slug, ticker, from, to, address }) {
+  return { slug, ticker, from, to, address }
 }
