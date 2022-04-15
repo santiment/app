@@ -6,7 +6,7 @@
   import WeeklyReport from './Layouts/WeeklyReport.svelte'
   import SheetsTemplate from './Layouts/SheetsTemplate.svelte'
   import { queryExplorerItems } from './api'
-  import {EntityType} from './const'
+  import { EntityType } from './const'
 
   let className = ''
   export { className as class }
@@ -24,7 +24,7 @@
     title="Recent Chart Layouts"
     icon="chart"
     let:item
-    getItems={getRecentItems(EntityType.CHART.key, "chartConfiguration")}
+    getItems={getRecentItems(EntityType.CHART.key, 'chartConfiguration')}
   >
     <LayoutItem small {item} />
   </Widget>

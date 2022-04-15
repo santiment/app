@@ -9,7 +9,6 @@
   export let item
   export let small = false
   export let showActions = false
-
   $: ({ title, user, votes, commentsCount } = item)
 </script>
 

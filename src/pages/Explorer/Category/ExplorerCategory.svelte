@@ -20,10 +20,16 @@
   function fetch() {
     const voted = activeMenu === MenuItem.LIKES
     const currentUserDataOnly = activeMenu === MenuItem.MY_CREATIONS
-    queryExplorerItems({ types: Array.from(types), voted, range, page, currentUserDataOnly }).then((res) => {
-      pages = res.pages
-      items = res.items
-    })
+    queryExplorerItems({ types: Array.from(types), voted, range, page, currentUserDataOnly }).then(
+      (res) => {
+        pages = res.pages
+        if (page === 1) {
+          items = res.items
+        } else {
+          items = [...items, ...res.items]
+        }
+      },
+    )
   }
 
   $: activeMenu, range, assets, types, page, fetch()
@@ -32,7 +38,7 @@
     (!$currentUser && activeMenu === MenuItem.MY_CREATIONS) ||
     (items.length === 0 && activeMenu !== MenuItem.NEW)
 
-  function getAssets({project, metricsJson}) {
+  function getAssets({ project, metricsJson }) {
     const _metricsJson = Object.values(metricsJson).filter((m) => m.slug)
     const assets = new Set([project, ..._metricsJson])
     return Array.from(assets)
@@ -42,12 +48,7 @@
 {#if showEmpty}
   <EmptyState {activeMenu} />
 {:else}
-  <Category
-    title="Explorer"
-    {items}
-    onMore={() => (page += 1)}
-    hasMore={page < pages}
-  >
+  <Category title="Explorer" {items} onMore={() => (page += 1)} hasMore={page < pages}>
     <div slot="header" class="controls row mrg-a mrg--l">
       <Range
         items={Object.keys(RANGES)}
@@ -83,7 +84,7 @@
           hasIcons
           assets={item.projectWatchlist.listItems.map((i) => i.project)}
         />
-      <!-- {:else if item.addressWatchlist}
+        <!-- {:else if item.addressWatchlist}
         <LayoutItem
           item={item.addressWatchlist}
           showActions

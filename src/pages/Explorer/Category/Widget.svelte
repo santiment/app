@@ -13,8 +13,8 @@
   let pages = 1
 
   $: hasMore = pages > 1 && page < pages
-  $: getItems && getItems(page)
-    .then((res) => {
+  $: getItems &&
+    getItems(page).then((res) => {
       if (res) {
         pages = res.pages
         items = res.items
@@ -32,7 +32,8 @@
   <div
     slot="icon"
     style="fill:var(--{color}); background:var(--{color}-light-1)"
-    class="$style.icon row hv-center">
+    class="$style.icon row hv-center"
+  >
     <Svg id={icon} w={iconWidth} />
   </div>
 

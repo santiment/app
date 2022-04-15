@@ -45,7 +45,6 @@ export const RANGES = {
   'All time': '',
 }
 
-
 export const EntityQuery = {
   projectWatchlist: `projectWatchlist { 
     id
@@ -55,6 +54,14 @@ export const EntityQuery = {
       id
       name
       username
+      following {
+        count
+        users {
+          id
+          avatarUrl
+          username
+        }
+      }
     }
     votes {
       totalVotes
@@ -74,6 +81,14 @@ export const EntityQuery = {
       id
       name
       username
+      following {
+        count
+        users {
+          id
+          avatarUrl
+          username
+        }
+      }
     }
     votes {
       totalVotes
@@ -93,6 +108,14 @@ export const EntityQuery = {
       id
       name
       username
+      following {
+        count
+        users {
+          id
+          avatarUrl
+          username
+        }
+      }
     }
     votes {
       totalVotes
@@ -109,6 +132,14 @@ export const EntityQuery = {
       id
       name
       username
+      following {
+        count
+        users {
+          id
+          avatarUrl
+          username
+        }
+      }
     }
     votes {
       totalVotes
@@ -123,6 +154,14 @@ export const EntityQuery = {
       id
       name
       username
+      following {
+        count
+        users {
+          id
+          avatarUrl
+          username
+        }
+      }
     }
     votes {
       totalVotes
@@ -139,9 +178,22 @@ export const EntityQuery = {
         id
         title
       }
-      userId
+      user {
+        avatarUrl
+        id
+        name
+        username
+        following {
+          count
+          users {
+            id
+            avatarUrl
+            username
+          }
+        }
+      }  
       votes {
         totalVotes
       }
-  }`
+  }`,
 }

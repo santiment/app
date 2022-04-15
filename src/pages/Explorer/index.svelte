@@ -3,15 +3,13 @@
   import Svg from 'webkit/ui/Svg/svelte'
   import ExplorerCategory from './Category/ExplorerCategory.svelte'
   import Aside from './Aside.svelte'
-  import { getCurrentUser } from './api'
   import { currentUser } from './store'
   import { MenuItem } from './const'
 
+  export let user = {}
   let activeMenu = MenuItem.NEW
 
-  onMount(() => {
-    getCurrentUser().then((user) => currentUser.update(() => user))
-  })
+  $: currentUser.update(() => user)
 </script>
 
 <div class="row mrg-a mrg--l mrg--r">
