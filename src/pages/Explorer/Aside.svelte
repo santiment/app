@@ -6,13 +6,13 @@
   import WeeklyReport from './Layouts/WeeklyReport.svelte'
   import SheetsTemplate from './Layouts/SheetsTemplate.svelte'
   import { queryExplorerItems, getReports, getTemplates } from './api'
-  import { EntityType } from './const'
+  import { EntityType, EntityKeys } from './const'
 
   let className = ''
   export { className as class }
 
   const PAGE_SIZE = 5
-  
+
   const getRecentItems = (type, key) => (page) =>
     queryExplorerItems({ types: [type], page, pageSize: PAGE_SIZE }).then(({ pages, items }) => ({
       pages,
@@ -44,10 +44,10 @@
     color="orange"
     iconWidth="14"
     let:item
-    getItems={getRecentItems('INSIGHT', 'insight')}
+    getItems={getRecentItems(EntityKeys.INSIGHT, 'insight')}
   >
     <ExternalLink href="https://insights.santiment.net/" slot="header" />
-    <LayoutItem small {item} />
+    <LayoutItem small {item} type={EntityKeys.INSIGHT} />
   </Widget>
 
   <Widget title="Social trends" icon="social-trend" color="blue" let:item>

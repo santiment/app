@@ -15,35 +15,35 @@ export const EntityKeys = {
 
 export const EntityType = {
   ALERT: {
-    key: 'USER_TRIGGER',
+    key: EntityKeys.USER_TRIGGER,
     label: 'Alerts',
     icon: 'alert',
     color: 'var(--red)',
     url: id => `/alerts/${id}`
   },
   ADDRESS: {
-    key: 'ADDRESS_WATCHLIST',
+    key: EntityKeys.ADDRESS_WATCHLIST,
     label: 'Addresses',
     icon: 'wallet',
     color: 'var(--purple)',
     url: id => `/watchlist/addresses/${id}`
   },
   CHART: {
-    key: 'CHART_CONFIGURATION',
+    key: EntityKeys.CHART_CONFIGURATION,
     label: 'Charts',
     icon: 'chart',
     color: 'var(--green)',
     url: id => `/charts/${id}`
   },
   SCREENER: {
-    key: 'SCREENER',
+    key: EntityKeys.SCREENER,
     label: 'Screeners',
     icon: 'screener',
     color: 'var(--blue)',
     url: id => `/screener/${id}`
   },
   WATCHLIST: {
-    key: 'PROJECT_WATCHLIST',
+    key: EntityKeys.PROJECT_WATCHLIST,
     label: 'Watchlists',
     icon: 'watchlist',
     color: 'var(--orange)',
@@ -57,4 +57,12 @@ export const RANGES = {
   '7d': '7d',
   '30d': '30d',
   'All time': '',
+}
+
+export const getItemUrl = (item, type) => {
+  if (type === EntityKeys.INSIGHT) {
+    return `https://insights.santiment.net/read/${item.id}`
+  }
+  const route = EntityType[type].url(item.trigger ? item.trigger.id : item.id)
+  return `${window.location.origin}${route}`
 }

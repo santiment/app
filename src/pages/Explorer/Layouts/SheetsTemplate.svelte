@@ -1,10 +1,13 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
+  import {userSubscription} from '../store'
 
   export let item = {}
 
   let isOpen = false
+
   $: ({description, name, url} = item)
+  $: isPro = $userSubscription.isPro || false
 </script>
 
 <div on:click={() => (isOpen = !isOpen)}>

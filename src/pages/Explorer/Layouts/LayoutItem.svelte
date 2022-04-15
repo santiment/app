@@ -3,7 +3,7 @@
   import UserCreation from '../Category/UserCreation.svelte'
   import AssetIcons from '../Components/AssetIcons.svelte'
   import AssetTags from '../Components/AssetTags.svelte'
-  import { EntityType } from '../const'
+  import { EntityType, getItemUrl } from '../const'
 
   export let small = false
   export let item
@@ -13,7 +13,7 @@
   export let assets = []
 </script>
 
-<UserCreation {item} {small} {showActions} url={EntityType[type].url(item.trigger ? item.trigger.id : item.id)}>
+<UserCreation {item} {small} {showActions} url={getItemUrl(item, type)}>
   {#if !small}
     {#if hasIcons}
       <AssetIcons {assets} />
