@@ -18,7 +18,7 @@
     {#if hasIcons}
       <AssetIcons {assets} />
     {:else}
-      <AssetTags tags={['Exchange', 'Binance', 'DEFI', 'A', 'B', 'C']} />
+      <AssetTags tags={assets} />
     {/if}
     <div class="type row v-center mrg-a mrg--l" style="fill: {EntityType[type].color}">
       <Svg id={EntityType[type].icon} w="16" />

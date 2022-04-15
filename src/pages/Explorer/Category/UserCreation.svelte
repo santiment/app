@@ -9,7 +9,7 @@
   export let item
   export let small = false
   export let showActions = false
-  $: ({ title, user, votes, commentsCount } = item)
+  $: ({ user, votes, commentsCount } = item)
 </script>
 
 <div class="usercreation">
@@ -18,7 +18,7 @@
       <Actions class="$style.actions" isOwner={user.id === $currentUser.id} />
     {/if}
     <h3 class="mrg-l mrg--r" class:body-2={!small}>
-      {title}
+      {item.trigger ? item.trigger.title : item.title}
     </h3>
 
     <slot />

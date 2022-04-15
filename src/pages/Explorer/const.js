@@ -4,6 +4,15 @@ export const MenuItem = {
   MY_CREATIONS: 'My creations',
 }
 
+export const EntityKeys = {
+  USER_TRIGGER: 'USER_TRIGGER',
+  ADDRESS_WATCHLIST: 'ADDRESS_WATCHLIST',
+  CHART_CONFIGURATION: 'CHART_CONFIGURATION',
+  SCREENER: 'SCREENER',
+  PROJECT_WATCHLIST: 'PROJECT_WATCHLIST',
+  INSIGHT: 'INSIGHT',
+}
+
 export const EntityType = {
   ALERT: {
     key: 'USER_TRIGGER',
@@ -43,157 +52,4 @@ export const RANGES = {
   '7d': '7d',
   '30d': '30d',
   'All time': '',
-}
-
-export const EntityQuery = {
-  projectWatchlist: `projectWatchlist { 
-    id
-    title: name,
-    user {
-      avatarUrl
-      id
-      name
-      username
-      following {
-        count
-        users {
-          id
-          avatarUrl
-          username
-        }
-      }
-    }
-    votes {
-      totalVotes
-    }
-    commentsCount
-    listItems {
-      project {
-        slug
-      }
-    }    
-  }`,
-  screener: `screener { 
-    id
-    title: name,
-    user {
-      avatarUrl
-      id
-      name
-      username
-      following {
-        count
-        users {
-          id
-          avatarUrl
-          username
-        }
-      }
-    }
-    votes {
-      totalVotes
-    }
-    commentsCount
-    listItems {
-      project {
-        slug
-      }
-    }    
-  }`,
-  chartConfiguration: `chartConfiguration {
-    id
-    title
-    user {
-      avatarUrl
-      id
-      name
-      username
-      following {
-        count
-        users {
-          id
-          avatarUrl
-          username
-        }
-      }
-    }
-    votes {
-      totalVotes
-    }
-    commentsCount   
-    project {slug}  
-    metricsJson        
-  }`,
-  insight: `insight {
-    id
-    title
-    user {
-      avatarUrl
-      id
-      name
-      username
-      following {
-        count
-        users {
-          id
-          avatarUrl
-          username
-        }
-      }
-    }
-    votes {
-      totalVotes
-    }
-    commentsCount   
-  }`,
-  addressWatchlist: `addressWatchlist {
-    id
-    title: name
-    user {
-      avatarUrl
-      id
-      name
-      username
-      following {
-        count
-        users {
-          id
-          avatarUrl
-          username
-        }
-      }
-    }
-    votes {
-      totalVotes
-    }
-    commentsCount
-    listItems {
-      project {
-        slug
-      }
-    } 
-  }`,
-  userTrigger: `userTrigger {
-      trigger {
-        id
-        title
-      }
-      user {
-        avatarUrl
-        id
-        name
-        username
-        following {
-          count
-          users {
-            id
-            avatarUrl
-            username
-          }
-        }
-      }  
-      votes {
-        totalVotes
-      }
-  }`,
 }

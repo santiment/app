@@ -26,7 +26,7 @@
         if (page === 1) {
           items = res.items
         } else {
-          items = [...items, ...res.items]
+          items = items.concat(res.items)
         }
       },
     )
@@ -39,9 +39,19 @@
     (items.length === 0 && activeMenu !== MenuItem.NEW)
 
   function getAssets({ project, metricsJson }) {
-    const _metricsJson = Object.values(metricsJson).filter((m) => m.slug)
-    const assets = new Set([project, ..._metricsJson])
-    return Array.from(assets)
+    const _metricsJson = Object.values(metricsJson).filter((m) => m.slug && m.slug !== project.slug)
+    return [project, ..._metricsJson]
+  }
+
+  function getAddressLabels(listItems) {
+    let labels = listItems
+      .map((i) => i.blockchainAddress.labels)
+      .flat()
+      .filter((l) => l.name)
+      .map((l) => l.name)
+    labels = new Set(labels)
+    labels = Array.from(labels)
+    return labels
   }
 </script>
 
@@ -53,10 +63,24 @@
       <Range
         items={Object.keys(RANGES)}
         selectedIndex={4}
-        onChange={(newRange) => (range = newRange)}
+        onChange={(newRange) => {
+          range = newRange
+          page = 1
+        }}
       />
-      <AssetSelector onChange={(newAssets) => (assets = newAssets)} />
-      <TypeSelector onChange={(newTypes) => (types = newTypes)} {types} />
+      <AssetSelector
+        onChange={(newAssets) => {
+          assets = newAssets
+          page = 1
+        }}
+      />
+      <TypeSelector
+        onChange={(newTypes) => {
+          types = newTypes
+          page = 1
+        }}
+        {types}
+      />
     </div>
 
     <svelte:fragment let:item>
@@ -84,14 +108,15 @@
           hasIcons
           assets={item.projectWatchlist.listItems.map((i) => i.project)}
         />
-        <!-- {:else if item.addressWatchlist}
+      {:else if item.addressWatchlist}
         <LayoutItem
           item={item.addressWatchlist}
           showActions
           type="ADDRESS"
-          hasIcons
-          assets={item.addressWatchlist.listItems.map((i) => i.project)}
-        /> -->
+          assets={getAddressLabels(item.addressWatchlist.listItems)}
+        />
+      {:else if item.userTrigger}
+        <LayoutItem item={item.userTrigger} showActions type="ALERT" hasIcons />
       {/if}
     </svelte:fragment>
   </Category>

@@ -1,5 +1,10 @@
 import { query } from 'webkit/api'
-import { EntityType, EntityQuery } from './const'
+import { EntityKeys } from './const'
+
+const accessor = ({ getExplorerItems: { stats, data } }) => ({
+  pages: stats.totalPagesCount,
+  items: data,
+})
 
 export const queryExplorerItems = ({
   types = [],
@@ -9,26 +14,22 @@ export const queryExplorerItems = ({
   page = 1,
   pageSize = 20,
 } = {}) => {
-  const accessor = ({ getExplorerItems: { stats, data } }) => ({
-    pages: stats.totalPagesCount,
-    items: data,
-  })
-
   const QUERYKEY = `getMost${voted ? 'Voted' : 'Recent'}`
   const CURSOR = range ? `cursor: { type: AFTER, datetime: "utc_now-${range}" }` : ''
+  const TYPES = new Set(types)
 
-  const projectWatchlist = types.includes(EntityType.WATCHLIST.key)
+  const projectWatchlist = TYPES.has(EntityKeys.PROJECT_WATCHLIST)
     ? EntityQuery.projectWatchlist
     : ''
-  const screener = types.includes(EntityType.SCREENER.key) ? EntityQuery.screener : ''
-  const chartConfiguration = types.includes(EntityType.CHART.key)
+  const screener = TYPES.has(EntityKeys.SCREENER) ? EntityQuery.screener : ''
+  const chartConfiguration = TYPES.has(EntityKeys.CHART_CONFIGURATION)
     ? EntityQuery.chartConfiguration
     : ''
-  const insight = types.includes('INSIGHT') ? EntityQuery.insight : ''
-  const addressWatchlist = types.includes(EntityType.ADDRESS.key)
+  const insight = TYPES.has(EntityKeys.INSIGHT) ? EntityQuery.insight : ''
+  const addressWatchlist = TYPES.has(EntityKeys.ADDRESS_WATCHLIST)
     ? EntityQuery.addressWatchlist
     : ''
-  const userTrigger = types.includes(EntityType.ALERT.key) ? EntityQuery.userTrigger : ''
+  const userTrigger = TYPES.has(EntityKeys.USER_TRIGGER) ? EntityQuery.userTrigger : ''
 
   const QUERY = `
       {
@@ -54,4 +55,159 @@ export const queryExplorerItems = ({
       }
     `
   return query(QUERY).then(accessor)
+}
+
+export const EntityQuery = {
+  projectWatchlist: `projectWatchlist { 
+    id
+    title: name,
+    user {
+      avatarUrl
+      id
+      name
+      username
+      following {
+        count
+        users {
+          id
+          avatarUrl
+          username
+        }
+      }
+    }
+    votes {
+      totalVotes
+    }
+    commentsCount
+    listItems {
+      project {
+        slug
+      }
+    }    
+  }`,
+  screener: `screener { 
+    id
+    title: name,
+    user {
+      avatarUrl
+      id
+      name
+      username
+      following {
+        count
+        users {
+          id
+          avatarUrl
+          username
+        }
+      }
+    }
+    votes {
+      totalVotes
+    }
+    commentsCount
+    listItems {
+      project {
+        slug
+      }
+    }    
+  }`,
+  chartConfiguration: `chartConfiguration {
+    id
+    title
+    user {
+      avatarUrl
+      id
+      name
+      username
+      following {
+        count
+        users {
+          id
+          avatarUrl
+          username
+        }
+      }
+    }
+    votes {
+      totalVotes
+    }
+    commentsCount   
+    project {slug}  
+    metricsJson        
+  }`,
+  insight: `insight {
+    id
+    title
+    user {
+      avatarUrl
+      id
+      name
+      username
+      following {
+        count
+        users {
+          id
+          avatarUrl
+          username
+        }
+      }
+    }
+    votes {
+      totalVotes
+    }
+    commentsCount   
+  }`,
+  addressWatchlist: `addressWatchlist {
+    id
+    title: name
+    user {
+      avatarUrl
+      id
+      name
+      username
+      following {
+        count
+        users {
+          id
+          avatarUrl
+          username
+        }
+      }
+    }
+    votes {
+      totalVotes
+    }
+    commentsCount
+    listItems {
+      blockchainAddress {
+        labels {
+          name
+        }
+      }
+    } 
+  }`,
+  userTrigger: `userTrigger {
+      trigger {
+        id
+        title
+      }
+      user {
+        avatarUrl
+        id
+        name
+        username
+        following {
+          count
+          users {
+            id
+            avatarUrl
+            username
+          }
+        }
+      }  
+      votes {
+        totalVotes
+      }
+  }`,
 }

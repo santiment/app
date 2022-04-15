@@ -1,5 +1,4 @@
 <script>
-  import { onMount } from 'svelte'
   import Svg from 'webkit/ui/Svg/svelte'
   import ExplorerCategory from './Category/ExplorerCategory.svelte'
   import Aside from './Aside.svelte'
