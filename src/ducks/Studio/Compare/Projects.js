@@ -52,7 +52,7 @@ const ProjectsList = ({ projects, onSelect, className }) => {
 
   function rowRenderer({ key, index, style }) {
     const project = projects[index]
-    const { name, ticker, slug, logoUrl } = project
+    const { name, ticker, slug, logoUrl, address } = project
 
     return (
       <Button
@@ -64,7 +64,7 @@ const ProjectsList = ({ projects, onSelect, className }) => {
       >
         <ProjectIcon className={styles.icon} logoUrl={logoUrl} size={16} slug={slug} />
         {name}
-        <span className={styles.ticker}>{ticker}</span>
+        {!address && <span className={styles.ticker}>{ticker}</span>}
       </Button>
     )
   }
