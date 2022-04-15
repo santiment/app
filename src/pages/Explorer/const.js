@@ -44,3 +44,104 @@ export const RANGES = {
   '30d': '30d',
   'All time': '',
 }
+
+
+export const EntityQuery = {
+  projectWatchlist: `projectWatchlist { 
+    id
+    title: name,
+    user {
+      avatarUrl
+      id
+      name
+      username
+    }
+    votes {
+      totalVotes
+    }
+    commentsCount
+    listItems {
+      project {
+        slug
+      }
+    }    
+  }`,
+  screener: `screener { 
+    id
+    title: name,
+    user {
+      avatarUrl
+      id
+      name
+      username
+    }
+    votes {
+      totalVotes
+    }
+    commentsCount
+    listItems {
+      project {
+        slug
+      }
+    }    
+  }`,
+  chartConfiguration: `chartConfiguration {
+    id
+    title
+    user {
+      avatarUrl
+      id
+      name
+      username
+    }
+    votes {
+      totalVotes
+    }
+    commentsCount   
+    project {slug}  
+    metricsJson        
+  }`,
+  insight: `insight {
+    id
+    title
+    user {
+      avatarUrl
+      id
+      name
+      username
+    }
+    votes {
+      totalVotes
+    }
+    commentsCount   
+  }`,
+  addressWatchlist: `addressWatchlist {
+    id
+    title: name
+    user {
+      avatarUrl
+      id
+      name
+      username
+    }
+    votes {
+      totalVotes
+    }
+    commentsCount
+    listItems {
+      project {
+        slug
+      }
+    } 
+  }`,
+  userTrigger: `userTrigger {
+      trigger {
+        id
+        title
+      }
+      userId
+      votes {
+        totalVotes
+      }
+  }`
+}

@@ -5,14 +5,15 @@
   import SocialTrend from './Layouts/SocialTrend.svelte'
   import WeeklyReport from './Layouts/WeeklyReport.svelte'
   import SheetsTemplate from './Layouts/SheetsTemplate.svelte'
-  import { getItems } from './requests'
+  import { queryExplorerItems } from './api'
+  import {EntityType} from './const'
 
   let className = ''
   export { className as class }
 
   const PAGE_SIZE = 5
   const getRecentItems = (type, key) => (page) =>
-    getItems({ types: [type], page, pageSize: PAGE_SIZE }).then(({ pages, items }) => ({
+    queryExplorerItems({ types: [type], page, pageSize: PAGE_SIZE }).then(({ pages, items }) => ({
       pages,
       items: items.map((item) => item[key]),
     }))
@@ -23,7 +24,7 @@
     title="Recent Chart Layouts"
     icon="chart"
     let:item
-    getItems={getRecentItems('CHART_CONFIGURATION', 'chartConfiguration')}
+    getItems={getRecentItems(EntityType.CHART.key, "chartConfiguration")}
   >
     <LayoutItem small {item} />
   </Widget>

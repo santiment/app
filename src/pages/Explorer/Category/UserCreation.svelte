@@ -6,8 +6,8 @@
   import Actions from '../Components/Actions'
   import { currentUser } from '../store'
 
-  export let small = false
   export let item
+  export let small = false
   export let showActions = false
 
   $: ({ title, user, votes, commentsCount } = item)
@@ -37,10 +37,12 @@
     </Tooltip>
 
     <div class="stats row v-center">
-      <div class="row v-center">
-        <Svg id="comment" w="12" h="10.5" class="mrg-s mrg--r" />
-        {commentsCount}
-      </div>
+      {#if commentsCount}
+        <div class="row v-center">
+          <Svg id="comment" w="12" h="10.5" class="mrg-s mrg--r" />
+          {commentsCount}
+        </div>
+      {/if}
 
       <div class="row v-center mrg-l mrg--l">
         <Svg id="rocket" w="10.5" h="14" class="mrg-s mrg--r" />

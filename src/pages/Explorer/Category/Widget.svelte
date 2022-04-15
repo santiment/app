@@ -6,17 +6,19 @@
   export let icon = 'info'
   export let color = 'green'
   export let iconWidth = 16
-  export let getItems = (page) => new Promise((resolve) => resolve({ pages: 1, items: [] }))
+  export let getItems
 
   let items = []
   let page = 1
   let pages = 1
 
   $: hasMore = pages > 1 && page < pages
-  $: page,
-    getItems(page).then((res) => {
-      pages = res.pages
-      items = res.items
+  $: getItems && getItems(page)
+    .then((res) => {
+      if (res) {
+        pages = res.pages
+        items = res.items
+      }
     })
 
   function onMore() {
@@ -30,8 +32,7 @@
   <div
     slot="icon"
     style="fill:var(--{color}); background:var(--{color}-light-1)"
-    class="$style.icon row hv-center"
-  >
+    class="$style.icon row hv-center">
     <Svg id={icon} w={iconWidth} />
   </div>
 

@@ -26,7 +26,7 @@
     {/if}
   </div>
 
-  {#each items as item (item.id)}
+  {#each items as item (item)}
     <div class="item btn">
       <slot {item} />
     </div>

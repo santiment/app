@@ -3,7 +3,7 @@
   import Svg from 'webkit/ui/Svg/svelte'
   import ExplorerCategory from './Category/ExplorerCategory.svelte'
   import Aside from './Aside.svelte'
-  import { getCurrentUser } from './requests'
+  import { getCurrentUser } from './api'
   import { currentUser } from './store'
   import { MenuItem } from './const'
 
