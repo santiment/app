@@ -13,7 +13,7 @@
   export let assets = []
 </script>
 
-<UserCreation {item} {small} {showActions}>
+<UserCreation {item} {small} {showActions} url={EntityType[type].url(item.trigger ? item.trigger.id : item.id)}>
   {#if !small}
     {#if hasIcons}
       <AssetIcons {assets} />

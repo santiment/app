@@ -9,10 +9,12 @@
   export let item
   export let small = false
   export let showActions = false
+  export let url
+
   $: ({ user, votes, commentsCount } = item)
 </script>
 
-<div class="usercreation">
+<a class="usercreation" href={url} target="_blank">
   <div class="row v-center nowrap relative">
     {#if showActions}
       <Actions class="$style.actions" isOwner={user.id === $currentUser.id} />
@@ -49,7 +51,7 @@
       </div>
     </div>
   </div>
-</div>
+</a>
 
 <style>
   h3 {

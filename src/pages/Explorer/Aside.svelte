@@ -5,18 +5,27 @@
   import SocialTrend from './Layouts/SocialTrend.svelte'
   import WeeklyReport from './Layouts/WeeklyReport.svelte'
   import SheetsTemplate from './Layouts/SheetsTemplate.svelte'
-  import { queryExplorerItems } from './api'
+  import { queryExplorerItems, getReports, getTemplates } from './api'
   import { EntityType } from './const'
 
   let className = ''
   export { className as class }
 
   const PAGE_SIZE = 5
+  
   const getRecentItems = (type, key) => (page) =>
     queryExplorerItems({ types: [type], page, pageSize: PAGE_SIZE }).then(({ pages, items }) => ({
       pages,
       items: items.map((item) => item[key]),
     }))
+
+  const getCustomItems = getFunc => page => getFunc().then(res => {
+    const begin = (page - 1) * PAGE_SIZE
+    return {
+      pages: Math.ceil(res.length / PAGE_SIZE),
+      items: res.slice(begin, begin + PAGE_SIZE)
+    }
+  })
 </script>
 
 <aside class={className}>
@@ -46,12 +55,12 @@
     <SocialTrend {item} />
   </Widget>
 
-  <Widget title="Weekly Reports" icon="report" color="blue" let:item>
+  <Widget title="Weekly Reports" icon="report" color="blue" let:item getItems={getCustomItems(getReports)}>
     <div slot="header" class="pro row hv-center c-white caption">PRO</div>
     <WeeklyReport {item} />
   </Widget>
 
-  <Widget title="Sheets Templates" icon="social-trend" let:item>
+  <Widget title="Sheets Templates" icon="social-trend" let:item getItems={getCustomItems(getTemplates)}>
     <div slot="header" class="pro row hv-center c-white caption">PRO</div>
     <SheetsTemplate {item} />
   </Widget>

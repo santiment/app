@@ -57,6 +57,29 @@ export const queryExplorerItems = ({
   return query(QUERY).then(accessor)
 }
 
+export const getReports = () => {
+  const QUERY = `
+  {
+    getReports{
+      name
+      url
+    }
+  }`
+  return query(QUERY).then(res => res.getReports)
+}
+
+export const getTemplates = () => {
+  const QUERY = `
+  {
+    getSheetsTemplates {
+      description,
+      name,
+      url
+    }
+  }`
+  return query(QUERY).then(res => res.getSheetsTemplates)
+}
+
 export const EntityQuery = {
   projectWatchlist: `projectWatchlist { 
     id

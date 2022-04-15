@@ -8,13 +8,13 @@
   export let isModerator = false
 </script>
 
-<div class="actions flex hv-center box border c-waterloo {className}">
+<div class="actions flex hv-center box border c-waterloo {className}" on:click|preventDefault>
   {#if isOwner}
     <Svg id="pencil" w="16" class="btn mrg-xl mrg--r" />
     <Svg id="delete" w="16" class="btn mrg-xl mrg--r" />
     <Svg id="comment" w="16" />
   {:else}
-    <Svg id="comment" w="16" class="btn mrg-xl mrg--r" />
+    <Svg id="comment" w="16" class="btn mrg-xl mrg--r"/>
     <Svg id="rocket" w="16" class="btn mrg-xl mrg--r" />
     <Svg id="share-dots" w="16" class="btn" />
     {#if isModerator}

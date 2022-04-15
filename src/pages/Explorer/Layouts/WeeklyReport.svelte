@@ -5,10 +5,15 @@
 
 <div class="row justify v-center">
   <h4>
-    {item.title}<br />
-    ({item.date})
+    {item.name}
   </h4>
   <a href={item.url} download>
     <Svg id="download" w="16" />
   </a>
 </div>
+
+<style>
+  h4 {
+    max-width: 252px;
+  }
+</style>
