@@ -9,8 +9,8 @@
   export let userSubscriptionData = {}
   let activeMenu = MenuItem.NEW
 
-  $: currentUser.update(() => user)
-  $: userSubscription.update(() => userSubscriptionData)
+  $: currentUser.set(user)
+  $: userSubscription.set(userSubscriptionData)
 </script>
 
 <div class="row mrg-a mrg--l mrg--r">

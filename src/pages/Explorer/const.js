@@ -19,35 +19,35 @@ export const EntityType = {
     label: 'Alerts',
     icon: 'alert',
     color: 'var(--red)',
-    url: id => `/alerts/${id}`
+    url: (id) => `/alerts/${id}`,
   },
   ADDRESS: {
     key: EntityKeys.ADDRESS_WATCHLIST,
     label: 'Addresses',
     icon: 'wallet',
     color: 'var(--purple)',
-    url: id => `/watchlist/addresses/${id}`
+    url: (id) => `/watchlist/addresses/${id}`,
   },
   CHART: {
     key: EntityKeys.CHART_CONFIGURATION,
     label: 'Charts',
     icon: 'chart',
     color: 'var(--green)',
-    url: id => `/charts/${id}`
+    url: (id) => `/charts/${id}`,
   },
   SCREENER: {
     key: EntityKeys.SCREENER,
     label: 'Screeners',
     icon: 'screener',
     color: 'var(--blue)',
-    url: id => `/screener/${id}`
+    url: (id) => `/screener/${id}`,
   },
   WATCHLIST: {
     key: EntityKeys.PROJECT_WATCHLIST,
     label: 'Watchlists',
     icon: 'watchlist',
     color: 'var(--orange)',
-    url: id => `/watchlist/projects/${id}`
+    url: (id) => `/watchlist/projects/${id}`,
   },
 }
 

@@ -7,13 +7,13 @@
 
   export let isOwner = false
   export let isModerator = false
-  export let url;
+  export let url
 
   let label = ''
 
   const onShare = () => {
     label = 'Copied!'
-    copy(url, () => label = '', 1500)
+    copy(url, () => (label = ''), 1500)
   }
 </script>
 

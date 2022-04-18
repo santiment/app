@@ -1,12 +1,12 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
-  import {userSubscription} from '../store'
+  import { userSubscription } from '../store'
 
   export let item = {}
 
   let isOpen = false
 
-  $: ({description, name, url} = item)
+  $: ({ description, name, url } = item)
   $: isPro = $userSubscription.isPro || false
 </script>
 

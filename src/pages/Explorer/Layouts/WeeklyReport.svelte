@@ -1,11 +1,11 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
-  import {userSubscription} from '../store'
+  import { userSubscription } from '../store'
   import UpgradeModal from '../Components/UpgradeModal.svelte'
 
   export let item
-  let showUpgradeModal = false;
-  
+  let showUpgradeModal = false
+
   $: isPro = $userSubscription.isPro || false
 </script>
 
@@ -22,7 +22,7 @@
       <Svg id="download" w="16" />
     </a>
   {:else}
-    <Svg id="download" w="16" on:click={() => showUpgradeModal = true} />
+    <Svg id="download" w="16" on:click={() => (showUpgradeModal = true)} />
   {/if}
 </div>
 

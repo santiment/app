@@ -38,10 +38,12 @@
     (!$currentUser && activeMenu === MenuItem.MY_CREATIONS) ||
     (items.length === 0 && activeMenu !== MenuItem.NEW)
 
-  function getAssets({ project, metricsJson }) {
-    const _metricsJson = Object.values(metricsJson).filter((m) => m.slug && m.slug !== project.slug)
-    return [project, ..._metricsJson]
-  }
+  $: range, assets, types, (page = 1)
+
+  const getAssets = ({ project, metricsJson }) => [
+    project,
+    ...Object.values(metricsJson).filter(({ slug }) => slug !== project.slug),
+  ]
 
   function getAddressLabels(listItems) {
     let labels = listItems

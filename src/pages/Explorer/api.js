@@ -57,7 +57,7 @@ export const queryExplorerItems = ({
   return query(QUERY).then(accessor)
 }
 
-export const getReports = () => {
+export function queryReports() {
   const QUERY = `
   {
     getReports{
@@ -65,10 +65,10 @@ export const getReports = () => {
       url
     }
   }`
-  return query(QUERY).then(res => res.getReports)
+  return query(QUERY).then((res) => res.getReports)
 }
 
-export const getTemplates = () => {
+export function queryTemplates() {
   const QUERY = `
   {
     getSheetsTemplates {
@@ -77,7 +77,7 @@ export const getTemplates = () => {
       url
     }
   }`
-  return query(QUERY).then(res => res.getSheetsTemplates)
+  return query(QUERY).then((res) => res.getSheetsTemplates)
 }
 
 export const EntityQuery = {

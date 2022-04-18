@@ -17,7 +17,11 @@
 <a class="usercreation" href={url} target="_blank">
   <div class="row v-center nowrap relative">
     {#if showActions}
-      <Actions class="$style.actions" isOwner={$currentUser && user && user.id === $currentUser.id} {url} />
+      <Actions
+        class="$style.actions"
+        isOwner={$currentUser && user && user.id === $currentUser.id}
+        {url}
+      />
     {/if}
     <h3 class="mrg-l mrg--r" class:body-2={!small}>
       {item.trigger ? item.trigger.title : item.title}
