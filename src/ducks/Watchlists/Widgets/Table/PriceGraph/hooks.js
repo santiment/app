@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/react-hooks'
 const PRICE_GRAPH_QUERY = gql`
   query getMetric(
     $selector: MetricTargetSelectorInputObject
-    $from: DateTime
+    $from: DateTime!
     $interval: interval
   ) {
     getMetric(metric: "price_usd") {
