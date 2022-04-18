@@ -1,4 +1,4 @@
-@import "~@santiment-network/ui/mixins";
+@import '~@santiment-network/ui/mixins';
 
 .wrapper {
   width: 100%;
@@ -12,11 +12,23 @@
 .title {
   color: var(--rhino);
 
-  @include text("h4");
+  @include text('h4');
 }
 
 .typesWrapper {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
+}
+
+.link {
+  color: var(--orange);
+
+  &:hover {
+    color: var(--orange-hover);
+  }
+}
+
+.tooltipLink {
+  display: inline-block;
 }

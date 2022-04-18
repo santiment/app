@@ -1,0 +1,25 @@
+.wrapper {
+  --line-clamp: 1;
+  --fill: var(--waterloo);
+  --fill-hover: var(--waterloo);
+}
+
+.btn {
+  cursor: default;
+}
+
+.text {
+  max-width: 100px;
+}
+
+.link {
+  color: var(--green);
+
+  &:hover {
+    color: var(--green-hover);
+  }
+}
+
+.tooltipLink {
+  display: inline-block;
+}

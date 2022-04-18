@@ -1,4 +1,4 @@
-@import "~@santiment-network/ui/mixins";
+@import '~@santiment-network/ui/mixins';
 
 .wrapper {
   height: 590px;
@@ -68,4 +68,16 @@
 .submit {
   min-height: 32px;
   width: 129px;
+}
+
+.link {
+  color: var(--orange);
+
+  &:hover {
+    color: var(--orange-hover);
+  }
+}
+
+.tooltipLink {
+  display: inline-block;
 }
