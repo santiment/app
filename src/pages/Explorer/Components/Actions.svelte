@@ -1,26 +1,38 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
+  import { copy } from 'webkit/utils'
 
   let className = ''
   export { className as class }
 
   export let isOwner = false
   export let isModerator = false
+  export let url
+
+  let label = ''
+
+  function onShare() {
+    label = 'Copied!'
+    copy(url, () => (label = ''), 1500)
+  }
 </script>
 
-<div class="actions flex hv-center box border c-waterloo {className}">
-  {#if isOwner}
-    <Svg id="pencil" w="16" class="btn mrg-xl mrg--r" />
-    <Svg id="delete" w="16" class="btn mrg-xl mrg--r" />
-    <Svg id="comment" w="16" />
-  {:else}
-    <Svg id="comment" w="16" class="btn mrg-xl mrg--r" />
-    <Svg id="rocket" w="16" class="btn mrg-xl mrg--r" />
-    <Svg id="share-dots" w="16" class="btn" />
-    {#if isModerator}
-      <Svg id="eye-crossed" w="16" class="btn mrg-xl mrg--l" />
+<div class="actions">
+  <div class="note c-white caption" class:show={!!label}>{label}</div>
+  <div class="flex hv-center box border c-waterloo {className}" on:click|preventDefault>
+    {#if isOwner}
+      <Svg id="pencil" w="16" class="btn $style.svg" />
+      <Svg id="delete" w="16" class="btn $style.svg" />
+      <Svg id="comment" w="16" class="btn $style.svg" />
+    {:else}
+      <Svg id="comment" w="16" class="btn $style.svg" />
+      <Svg id="rocket" w="16" class="btn $style.svg" />
+      <Svg id="share-dots" w="16" class="btn $style.svg" on:click={onShare} />
+      {#if isModerator}
+        <Svg id="eye-crossed" w="16" class="btn $style.svg" />
+      {/if}
     {/if}
-  {/if}
+  </div>
 </div>
 
 <style>
@@ -29,7 +41,26 @@
     right: -8px;
     top: -32px;
     height: 40px;
-    padding: 8px 16px;
     z-index: 10;
+  }
+
+  .svg {
+    padding: 12px;
+  }
+
+  .note {
+    opacity: 0;
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--fiord);
+    border-radius: 4px;
+    padding: 5px 12px;
+    transition: all 0.2s linear;
+  }
+
+  .show {
+    opacity: 1;
   }
 </style>

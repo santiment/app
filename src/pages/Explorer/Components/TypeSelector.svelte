@@ -5,13 +5,13 @@
   import { EntityType } from '../const'
 
   export let onChange = () => {}
-  export let types = new Set(Object.values(EntityType))
+  export let types = new Set()
 
-  const toggleType = (type) => {
-    if (types.has(type)) {
-      types.delete(type)
+  const toggleType = (key) => {
+    if (types.has(key)) {
+      types.delete(key)
     } else {
-      types.add(type)
+      types.add(key)
     }
     types = types
     onChange(types)
@@ -26,12 +26,12 @@
     {#each Object.values(EntityType) as type}
       <div
         class="btn-ghost row v-center"
-        on:click={() => toggleType(type)}
+        on:click={() => toggleType(type.key)}
         style="fill: {type.color}"
       >
         <Svg id={type.icon} w="16" class="mrg-s mrg--r" />
         {type.label}
-        <Checkbox isActive={types.has(type)} class="mrg-a mrg--l" />
+        <Checkbox isActive={types.has(type.key)} class="mrg-a mrg--l" />
       </div>
     {/each}
   </div>

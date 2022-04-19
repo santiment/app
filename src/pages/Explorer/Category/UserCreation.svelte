@@ -4,22 +4,27 @@
   import Tooltip from 'webkit/ui/Tooltip/svelte'
   import Info from 'webkit/ui/Profile/Info.svelte'
   import Actions from '../Components/Actions'
+  import { currentUser } from '../store'
 
-  export let small = false
   export let item
-  export let currentUser = null
+  export let small = false
   export let showActions = false
+  export let url
 
-  $: ({ title, user, votes, commentsCount } = item)
+  $: ({ user, votes, commentsCount } = item)
 </script>
 
-<div class="usercreation">
+<a class="usercreation" href={url} target="_blank">
   <div class="row v-center nowrap relative">
     {#if showActions}
-      <Actions class="$style.actions" />
+      <Actions
+        class="$style.actions"
+        isOwner={$currentUser && user && user.id === $currentUser.id}
+        {url}
+      />
     {/if}
     <h3 class="mrg-l mrg--r" class:body-2={!small}>
-      {title}
+      {item.trigger ? item.trigger.title : item.title}
     </h3>
 
     <slot />
@@ -32,15 +37,17 @@
       </svelte:fragment>
 
       <svelte:fragment slot="tooltip">
-        <Info {user} {currentUser} />
+        <Info {user} currentUser={$currentUser} />
       </svelte:fragment>
     </Tooltip>
 
     <div class="stats row v-center">
-      <div class="row v-center">
-        <Svg id="comment" w="12" h="10.5" class="mrg-s mrg--r" />
-        {commentsCount}
-      </div>
+      {#if commentsCount}
+        <div class="row v-center">
+          <Svg id="comment" w="12" h="10.5" class="mrg-s mrg--r" />
+          {commentsCount}
+        </div>
+      {/if}
 
       <div class="row v-center mrg-l mrg--l">
         <Svg id="rocket" w="10.5" h="14" class="mrg-s mrg--r" />
@@ -48,7 +55,7 @@
       </div>
     </div>
   </div>
-</div>
+</a>
 
 <style>
   h3 {

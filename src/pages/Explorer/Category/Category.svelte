@@ -2,7 +2,7 @@
   let className = ''
   export { className as class }
   export let title
-  export let items
+  export let items = []
   export let hasMore = true
   export let onMore
   export let small = false
@@ -26,7 +26,7 @@
     {/if}
   </div>
 
-  {#each items as item (item.id)}
+  {#each items as item (item)}
     <div class="item btn">
       <slot {item} />
     </div>
