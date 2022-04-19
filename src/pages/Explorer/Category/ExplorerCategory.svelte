@@ -23,16 +23,18 @@
     queryExplorerItems({ types: Array.from(types), voted, range, page, currentUserDataOnly }).then(
       (res) => {
         pages = res.pages
-        if (page === 1) {
-          items = res.items
-        } else {
-          items = items.concat(res.items)
-        }
-      },
+        items = items.concat(res.items)
+      }
     )
   }
 
-  $: range, assets, types, (page = 1)
+  $: activeMenu, range, assets, types, reset()
+
+  function reset() {
+    page = 1
+    items = []
+  }
+
   $: activeMenu, range, assets, types, page, fetch()
   $: showEmpty =
     (!$currentUser && activeMenu === MenuItem.MY_CREATIONS) ||
@@ -63,24 +65,10 @@
       <Range
         items={Object.keys(RANGES)}
         selectedIndex={4}
-        onChange={(newRange) => {
-          range = newRange
-          page = 1
-        }}
+        onChange={(newRange) => (range = newRange)}
       />
-      <AssetSelector
-        onChange={(newAssets) => {
-          assets = newAssets
-          page = 1
-        }}
-      />
-      <TypeSelector
-        onChange={(newTypes) => {
-          types = newTypes
-          page = 1
-        }}
-        {types}
-      />
+      <AssetSelector onChange={(newAssets) => (assets = newAssets)} />
+      <TypeSelector onChange={(newTypes) => (types = newTypes)} {types} />
     </div>
 
     <svelte:fragment let:item>

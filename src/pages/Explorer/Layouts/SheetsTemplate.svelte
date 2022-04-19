@@ -1,8 +1,7 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
-  import { dialogs } from 'webkit/ui/Dialog'
   import { userSubscription } from '../store'
-  import UpgradeModal from '../Components/UpgradeModal.svelte'
+  import { showUpgradeModal } from '../Components/UpgradeModal.svelte'
 
   export let item = {}
 
@@ -29,11 +28,7 @@
         </a>
       {:else}
         <!-- svelte-ignore a11y-invalid-attribute -->
-        <a
-          href="#"
-          class="btn-1 btn--s row v-center"
-          on:click|preventDefault={() => dialogs.show(UpgradeModal)}
-        >
+        <a href="#" class="btn-1 btn--s row v-center" on:click|preventDefault={showUpgradeModal}>
           <div class="mrg-s mrg--r">Open template</div>
           <Svg id="external-link" w="12" />
         </a>

@@ -1,3 +1,9 @@
+<script context="module">
+  import { dialogs } from 'webkit/ui/Dialog'
+  import UpgradeModal from './UpgradeModal.svelte'
+  export const showUpgradeModal = () => dialogs.show(UpgradeModal)
+</script>
+
 <script>
   import Dialog from 'webkit/ui/Dialog'
 
