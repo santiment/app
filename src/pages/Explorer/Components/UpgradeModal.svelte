@@ -75,6 +75,6 @@
   }
 
   p {
-    margin-left: 12px;
+    margin-left: 16px;
   }
 </style>
