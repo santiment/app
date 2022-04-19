@@ -59,7 +59,7 @@ export const RANGES = {
   'All time': '',
 }
 
-export const getItemUrl = (item, type) => {
+export function getItemUrl(item, type) {
   if (type === EntityKeys.INSIGHT) {
     return `https://insights.santiment.net/read/${item.id}`
   }

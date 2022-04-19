@@ -11,7 +11,7 @@
 
   let label = ''
 
-  const onShare = () => {
+  function onShare() {
     label = 'Copied!'
     copy(url, () => (label = ''), 1500)
   }

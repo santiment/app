@@ -32,13 +32,11 @@
     )
   }
 
+  $: range, assets, types, (page = 1)
   $: activeMenu, range, assets, types, page, fetch()
-
   $: showEmpty =
     (!$currentUser && activeMenu === MenuItem.MY_CREATIONS) ||
     (items.length === 0 && activeMenu !== MenuItem.NEW)
-
-  $: range, assets, types, (page = 1)
 
   const getAssets = ({ project, metricsJson }) => [
     project,
