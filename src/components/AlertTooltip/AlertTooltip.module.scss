@@ -1,0 +1,28 @@
+.tooltip {
+  z-index: 11111;
+  padding: 18px 24px;
+  width: 272px;
+}
+
+.btn {
+  --bg-hover: var(--orange-light-1);
+  --fill: var(--orange);
+  --fill-hover: var(--orange);
+  padding: 9px 8px;
+}
+
+.btnHover {
+  --bg: var(--orange-light-1);
+}
+
+
+.btnError {
+  --bg-hover: var(--red-light-1);
+  --fill: var(--red);
+  --fill-hover: var(--red);
+  padding: 9px 8px;
+}
+
+.btnErrorHover {
+  --bg: var(--red-light-1);
+}

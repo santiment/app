@@ -65,6 +65,21 @@ const ShareSignal = ({
   )
 }
 
+const Trigger = ({ forwardedRef, isActive, isFrozen, ...props }) => (
+  <div
+    ref={forwardedRef}
+    {...props}
+    className={cx(
+      'btn row hv-center mrg--r mrg-xl',
+      styles.expandButton,
+      isActive && styles.expandButtonHover,
+      isFrozen && styles.frozenExpandButton,
+    )}
+  >
+    <Icon type='dots' />
+  </div>
+)
+
 const MoreSignalActions = ({
   signalId,
   signalTitle,
@@ -109,17 +124,8 @@ const MoreSignalActions = ({
 
   return (
     <Tooltip
-      trigger={
-        <button
-          className={cx(
-            styles.expandButton,
-            'btn mrg--r mrg-xl',
-            isFrozen && styles.frozenExpandButton,
-          )}
-        >
-          <Icon type='dots' />
-        </button>
-      }
+      passOpenStateAs='isActive'
+      trigger={<Trigger isFrozen={isFrozen} />}
       position='bottom'
       align='start'
     >

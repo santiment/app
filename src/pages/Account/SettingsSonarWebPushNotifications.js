@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import Toggle from '@santiment-network/ui/Toggle'
+import AlertTooltip from '../../components/AlertTooltip/AlertTooltip'
 import { registerSonarActivitiesSw, requestNotificationPermission } from '../../serviceWorker'
 import SidecarExplanationTooltip from '../../ducks/SANCharts/SidecarExplanationTooltip'
 import { getAPIUrl, getOrigin } from '../../utils/utils'
@@ -144,7 +145,18 @@ const SettingsSonarWebPushNotifications = ({
   return (
     <div className={cx(classes.container, styles.settingBlock, className)}>
       <div className={classes.left}>
-        <div>Push notifications</div>
+        <div className='row v-center'>
+          <span className='mrg--r mrg-xs'>Push notifications</span>
+          <AlertTooltip
+            isVisible={!isActive}
+            content={
+              <span>
+                <span className='txt-m'>Push notifications are disabled!</span> This means you will
+                not receive Push notifications when this alerts is triggered.
+              </span>
+            }
+          />
+        </div>
         {!isPermissionsGranted && (
           <Label className={cx(styles.description, styles.warning)} accent='waterloo'>
             Notification permissions denied in browser settings. Please, check your browser

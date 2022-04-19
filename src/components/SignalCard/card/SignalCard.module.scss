@@ -136,14 +136,22 @@
 }
 
 .expandButton {
+  --bg-hover: var(--green-light-1);
   --color: var(--waterloo);
   --color-hover: var(--green);
-  padding-left: 0;
+  --fill: var(--waterloo);
+  --fill-hover: var(--green);
+  padding: 14px 7px;
 
   @include responsive("phone", "phone-xs") {
     margin: 0 5px 0 auto;
     padding: 6px;
   }
+}
+
+.expandButtonHover {
+  --bg: var(--green-light-1);
+  --fill: var(--green);
 }
 
 .frozenExpandButton {

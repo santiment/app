@@ -6,6 +6,7 @@ import { Button } from '@santiment-network/ui'
 import { DesktopOnly } from '../../Responsive'
 import StatusLabel from '../../StatusLabel'
 import MoreSignalActions from '../controls/MoreSignalActions'
+import AlertChannelsTooltip from '../../../ducks/Alert/components/AlertChannelsTooltip/AlertChannelsTooltip'
 import RemoveSignalButton from '../controls/RemoveSignalButton'
 import styles from './SignalCard.module.scss'
 
@@ -61,6 +62,9 @@ const SignalCardBottom = ({
           </h4>
         ) : (
           <UnpublishedMsg />
+        )}
+        {isUserTheAuthor && signal && signal.settings && signal.settings.channel && (
+          <AlertChannelsTooltip signal={signal} />
         )}
         {isUserTheAuthor && toggleSignal && !isFrozen && (
           <ToggleSignal isActive={isActive} toggleSignal={toggleSignal} />

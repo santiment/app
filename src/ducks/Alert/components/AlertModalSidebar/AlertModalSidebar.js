@@ -1,10 +1,11 @@
 import React from 'react'
 import cx from 'classnames'
+import { Link } from 'react-router-dom'
 import { useFormikContext } from 'formik'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import AlertStepsSelector from '../AlertStepsSelector/AlertStepsSelector'
-import AlertRestrictionMessageTooltip from '../AlertRestrictionMessage/AlertRestrictionMessageTooltip'
+import AlertTooltip from '../../../../components/AlertTooltip/AlertTooltip'
 import styles from './AlertModalSidebar.module.scss'
 
 const AlertModalSidebar = ({
@@ -59,9 +60,17 @@ const AlertModalSidebar = ({
               <Icon type='arrow-left' className={cx(styles.backIcon, 'mrg--r mrg-s')} /> Alert types
             </button>
           ) : (
-            <AlertRestrictionMessageTooltip
-              shouldHideRestrictionMessage={shouldHideRestrictionMessage}
-              isRestrictedMessageClosed={isRestrictedMessageClosed}
+            <AlertTooltip
+              isVisible={!shouldHideRestrictionMessage && isRestrictedMessageClosed}
+              content={
+                <span>
+                  <span className='txt-m'>Alert with Duration Restriction.</span> Your Alert will be
+                  valid for 30 days from the day it’s created. To extend Alert please{' '}
+                  <Link to='/pricing' className={cx(styles.link, styles.tooltipLink, 'txt-m')}>
+                    Update your Plan!
+                  </Link>
+                </span>
+              }
             />
           )}
         </div>
