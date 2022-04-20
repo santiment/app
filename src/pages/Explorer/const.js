@@ -16,6 +16,7 @@ export const EntityKeys = {
 export const EntityType = {
   ALERT: {
     key: EntityKeys.USER_TRIGGER,
+    voteKey: 'userTriggerId',
     label: 'Alerts',
     icon: 'alert',
     color: 'var(--red)',
@@ -23,6 +24,7 @@ export const EntityType = {
   },
   ADDRESS: {
     key: EntityKeys.ADDRESS_WATCHLIST,
+    voteKey: 'watchlistId',
     label: 'Addresses',
     icon: 'wallet',
     color: 'var(--purple)',
@@ -30,6 +32,7 @@ export const EntityType = {
   },
   CHART: {
     key: EntityKeys.CHART_CONFIGURATION,
+    voteKey: 'chartConfigurationId',
     label: 'Charts',
     icon: 'chart',
     color: 'var(--green)',
@@ -37,6 +40,7 @@ export const EntityType = {
   },
   SCREENER: {
     key: EntityKeys.SCREENER,
+    voteKey: 'watchlistId',
     label: 'Screeners',
     icon: 'screener',
     color: 'var(--blue)',
@@ -44,6 +48,7 @@ export const EntityType = {
   },
   WATCHLIST: {
     key: EntityKeys.PROJECT_WATCHLIST,
+    voteKey: 'watchlistId',
     label: 'Watchlists',
     icon: 'watchlist',
     color: 'var(--orange)',

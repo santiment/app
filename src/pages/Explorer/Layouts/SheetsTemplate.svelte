@@ -33,7 +33,8 @@
         href={url}
         target="_blank"
         class="btn-1 btn--s row v-center"
-        on:click={onOpenTemplateClick}>
+        on:click={onOpenTemplateClick}
+      >
         <div class="mrg-s mrg--r">Open template</div>
         <Svg id="external-link" w="12" />
       </a>

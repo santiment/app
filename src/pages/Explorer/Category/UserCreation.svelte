@@ -6,12 +6,14 @@
   import Actions from '../Components/Actions'
   import { currentUser } from '../store'
 
-  export let item
+  export let item = {}
   export let small = false
   export let showActions = false
   export let url
+  export let type
 
-  $: ({ user, votes, commentsCount } = item)
+  $: totalVotes = item.votes.totalVotes
+  $: ({ user, commentsCount } = item)
 </script>
 
 <a class="usercreation" href={url} target="_blank">
@@ -21,6 +23,10 @@
         class="$style.actions"
         isOwner={$currentUser && user && user.id === $currentUser.id}
         {url}
+        {item}
+        {type}
+        showCommentAction={commentsCount >= 0}
+        onVoteCountChange={(newTotalVotes) => (totalVotes = newTotalVotes)}
       />
     {/if}
     <h3 class="mrg-l mrg--r" class:body-2={!small}>
@@ -42,7 +48,7 @@
     </Tooltip>
 
     <div class="stats row v-center">
-      {#if commentsCount}
+      {#if commentsCount >= 0}
         <div class="row v-center">
           <Svg id="comment" w="12" h="10.5" class="mrg-s mrg--r" />
           {commentsCount}
@@ -51,7 +57,7 @@
 
       <div class="row v-center mrg-l mrg--l">
         <Svg id="rocket" w="10.5" h="14" class="mrg-s mrg--r" />
-        {votes.totalVotes}
+        {totalVotes}
       </div>
     </div>
   </div>
