@@ -13,7 +13,7 @@
   export let assets = []
 </script>
 
-<UserCreation {item} {small} {showActions} url={getItemUrl(item, type)}>
+<UserCreation {item} {small} {type} {showActions} url={getItemUrl(item, type)}>
   {#if !small}
     {#if hasIcons}
       <AssetIcons {assets} />
