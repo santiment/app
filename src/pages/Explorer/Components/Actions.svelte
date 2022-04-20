@@ -1,7 +1,7 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
   import { copy } from 'webkit/utils'
-  import { mutate } from 'webkit/api'
+  import vote from './api/vote'
   import { EntityType } from '../const'
 
   let className = ''
@@ -12,7 +12,7 @@
   export let url
   export let item = {}
   export let type
-  export let onVoteCountChange = console.log
+  export let onVoteCountChange
   export let showCommentAction
 
   let label = ''
@@ -27,17 +27,7 @@
     const id = item.trigger ? item.trigger.id : item.id
     const voteType = EntityType[type].voteKey
 
-    const VOTE_MUTATION = `
-      mutation {
-        vote(${voteType}:${id}) { 
-          votes {
-            totalVotes
-          }
-        }
-      }
-    `
-
-    mutate(VOTE_MUTATION).then(({ vote: { votes } }) => {
+    vote(id, voteType).then((votes) => {
       onVoteCountChange(votes.totalVotes)
       clearTimeout(voteTimeout)
       label = 'Voted!'

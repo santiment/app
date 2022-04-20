@@ -12,8 +12,7 @@
   export let url
   export let type
 
-  let totalVotes = item.votes.totalVotes
-
+  $: totalVotes = item.votes.totalVotes
   $: ({ user, commentsCount } = item)
 </script>
 
