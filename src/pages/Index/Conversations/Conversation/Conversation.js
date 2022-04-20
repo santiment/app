@@ -19,7 +19,7 @@ const getLink = (data) => {
   }
 
   if (insight) {
-    return `${makeLinkToInsight(insight.id, insight.title)}#comments\``
+    return `${makeLinkToInsight(insight.id, insight.title)}#comments`
   }
 
   if (blockchainAddress && blockchainAddress.address) {

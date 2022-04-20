@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import { track } from 'webkit/analytics'
 import { Event } from 'studio/analytics'
-import { newProjectMetric } from 'studio/metrics/utils'
+import { newProjectMetric, newAddressMetric } from 'studio/metrics/utils'
 import { useLockedAsset, useLockedAssetStore } from './stores'
 import ProjectSelector from '../../ducks/Studio/Sidebar/ProjectSelector'
 
@@ -14,9 +14,16 @@ const Sidebar = ({ studio, settings, selectMetricRef, onSidebarProjectMountRef }
   onSidebarProjectMountRef.current = setTarget
 
   selectMetricRef.current = (node) => {
-    if (lockedAsset.slug === settings.slug || node.noProject) return node
-    if (lockedAsset.address === settings.address) return node
+    if (node.noProject) return node
 
+    const { slug, address } = lockedAsset
+
+    if (address) {
+      if (address === settings.address) return node
+      return newAddressMetric(address, node)
+    }
+
+    if (!settings.address && slug === settings.slug) return node
     return newProjectMetric(lockedAsset, node)
   }
 

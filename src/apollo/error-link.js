@@ -8,6 +8,7 @@ const IGNORED_ERRORS = [
   'The user aborted a request',
   'Short url ',
   ' is too complex: complexity is ',
+  'Failed to fetch',
 ]
 
 const checkIsValidError = (msg = '') =>

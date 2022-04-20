@@ -13,6 +13,7 @@ import {
   onAnonComment,
   handleSavedComment,
   handleLayoutCommentLink,
+  onDefaultLayoutAddressSelect,
 } from './utils'
 import { parseUrl } from './sharing/parse'
 import { parseTemplate } from './sharing/template'
@@ -50,10 +51,12 @@ export default ({ location }) => {
       if (href) history.push(href)
     }
     window.onAnonComment = onAnonComment
+    window.onDefaultLayoutAddressSelect = onDefaultLayoutAddressSelect
 
     return () => {
       window.__onLinkClick = null
       window.onAnonComment = null
+      window.onDefaultLayoutAddressSelect = null
       selectedLayout.set()
     }
   }, [])
