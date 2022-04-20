@@ -2,7 +2,9 @@
   import Svg from 'webkit/ui/Svg/svelte'
   import { copy } from 'webkit/utils'
   import vote from './api/vote'
+  import { currentUser } from '../store'
   import { EntityType } from '../const'
+  import { history } from '../../../redux'
 
   let className = ''
   export { className as class }
@@ -23,7 +25,14 @@
     copy(url, () => (label = ''), 1500)
   }
 
-  function onVote() {
+  function onVote(e) {
+    e.preventDefault()
+
+    if (!$currentUser) {
+      history.push('/login')
+      return false
+    }
+
     const id = item.trigger ? item.trigger.id : item.id
     const voteType = EntityType[type].voteKey
 
