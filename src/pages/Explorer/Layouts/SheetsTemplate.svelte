@@ -1,7 +1,7 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
   import { userSubscription } from '../store'
-  import { showUpgradeModal } from '../Components/UpgradeModal.svelte'
+  import { showUpgradeDialog } from '../Components/UpgradeDialog.svelte'
 
   export let item = {}
 
@@ -9,6 +9,13 @@
 
   $: ({ description, name, url } = item)
   $: isPro = $userSubscription.isPro || false
+
+  function onOpenTemplateClick(e) {
+    if (isPro) return
+
+    e.preventDefault()
+    showUpgradeDialog()
+  }
 </script>
 
 <div on:click={() => (isOpen = !isOpen)}>
@@ -21,18 +28,15 @@
       <p class="mrg-s mrg--b">
         {description}
       </p>
-      {#if isPro}
-        <a href={url} target="_blank" class="btn-1 btn--s row v-center">
-          <div class="mrg-s mrg--r">Open template</div>
-          <Svg id="external-link" w="12" />
-        </a>
-      {:else}
-        <!-- svelte-ignore a11y-invalid-attribute -->
-        <a href="#" class="btn-1 btn--s row v-center" on:click|preventDefault={showUpgradeModal}>
-          <div class="mrg-s mrg--r">Open template</div>
-          <Svg id="external-link" w="12" />
-        </a>
-      {/if}
+
+      <a
+        href={url}
+        target="_blank"
+        class="btn-1 btn--s row v-center"
+        on:click={onOpenTemplateClick}>
+        <div class="mrg-s mrg--r">Open template</div>
+        <Svg id="external-link" w="12" />
+      </a>
     </div>
   {/if}
 </div>

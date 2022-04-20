@@ -24,7 +24,7 @@
       (res) => {
         pages = res.pages
         items = items.concat(res.items)
-      }
+      },
     )
   }
 
