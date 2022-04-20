@@ -13,6 +13,7 @@
   export let item = {}
   export let type
   export let onVoteCountChange = console.log
+  export let showCommentAction
 
   let label = ''
   let voteTimeout
@@ -53,9 +54,13 @@
     {#if isOwner}
       <Svg id="pencil" w="16" class="btn $style.svg" />
       <Svg id="delete" w="16" class="btn $style.svg" />
-      <Svg id="comment" w="16" class="btn $style.svg" />
+      {#if showCommentAction}
+        <Svg id="comment" w="16" class="btn $style.svg" />
+      {/if}
     {:else}
-      <Svg id="comment" w="16" class="btn $style.svg" />
+      {#if showCommentAction}
+        <Svg id="comment" w="16" class="btn $style.svg" />
+      {/if}
       <Svg id="rocket" w="16" class="btn $style.svg" on:click={onVote} />
       <Svg id="share-dots" w="16" class="btn $style.svg" on:click={onShare} />
       {#if isModerator}

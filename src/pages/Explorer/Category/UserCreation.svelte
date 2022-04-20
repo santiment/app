@@ -26,6 +26,7 @@
         {url}
         {item}
         {type}
+        showCommentAction={commentsCount >= 0}
         onVoteCountChange={(newTotalVotes) => (totalVotes = newTotalVotes)}
       />
     {/if}
@@ -48,7 +49,7 @@
     </Tooltip>
 
     <div class="stats row v-center">
-      {#if commentsCount}
+      {#if commentsCount >= 0}
         <div class="row v-center">
           <Svg id="comment" w="12" h="10.5" class="mrg-s mrg--r" />
           {commentsCount}
