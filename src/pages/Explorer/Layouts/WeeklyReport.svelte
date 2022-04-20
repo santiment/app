@@ -1,13 +1,13 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
   import { userSubscription } from '../store'
-  import { showUpgradeModal } from '../Components/UpgradeModal.svelte'
+  import { showUpgradeDialog } from '../Components/UpgradeDialog.svelte'
 
   export let item
 
   $: isPro = $userSubscription.isPro || false
 
-  const getAction = () => (isPro ? (window.location.href = item.url) : showUpgradeModal())
+  const getAction = () => (isPro ? (window.location.href = item.url) : showUpgradeDialog())
 </script>
 
 <div class="btn row justify v-center" on:click={getAction}>
