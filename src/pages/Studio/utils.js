@@ -73,3 +73,11 @@ export function handleLayoutCommentLink(settings, search) {
   }
   settings.sidewidget = SidewidgetType.LAYOUT_COMMENTS
 }
+
+export function onDefaultLayoutAddressSelect() {
+  store.dispatch(
+    showNotification({
+      title: 'It can take a while to load the address metrics',
+    }),
+  )
+}
