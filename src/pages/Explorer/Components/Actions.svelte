@@ -3,6 +3,7 @@
   import { copy } from 'webkit/utils'
   import vote from './api/vote'
   import { EntityType, getItemRoute } from '../const'
+  import { currentUser } from '../store'
   import { history } from '../../../redux'
 
   let className = ''
@@ -24,7 +25,14 @@
     copy(url, () => (label = ''), 1500)
   }
 
-  function onVote() {
+  function onVote(e) {
+    e.preventDefault()
+
+    if (!$currentUser) {
+      history.push('/login')
+      return false
+    }
+
     const id = item.trigger ? item.trigger.id : item.id
     const voteType = EntityType[type].voteKey
 
@@ -40,6 +48,12 @@
 
   function onComment(e) {
     e.preventDefault()
+
+    if (!$currentUser) {
+      history.push('/login')
+      return false
+    }
+
     history.push(getItemRoute(item, type), { openComments: true })
   }
 </script>
