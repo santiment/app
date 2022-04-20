@@ -2,8 +2,8 @@
   import Svg from 'webkit/ui/Svg/svelte'
   import { copy } from 'webkit/utils'
   import vote from './api/vote'
+  import { EntityType, getItemRoute } from '../const'
   import { currentUser } from '../store'
-  import { EntityType } from '../const'
   import { history } from '../../../redux'
 
   let className = ''
@@ -45,6 +45,17 @@
       }, 1500)
     })
   }
+
+  function onComment(e) {
+    e.preventDefault()
+
+    if (!$currentUser) {
+      history.push('/login')
+      return false
+    }
+
+    history.push(getItemRoute(item, type), { openComments: true })
+  }
 </script>
 
 <div class="actions">
@@ -54,11 +65,11 @@
       <Svg id="pencil" w="16" class="btn $style.svg" />
       <Svg id="delete" w="16" class="btn $style.svg" />
       {#if showCommentAction}
-        <Svg id="comment" w="16" class="btn $style.svg" />
+        <Svg id="comment" w="16" class="btn $style.svg" on:clck={onComment} />
       {/if}
     {:else}
       {#if showCommentAction}
-        <Svg id="comment" w="16" class="btn $style.svg" />
+        <Svg id="comment" w="16" class="btn $style.svg" on:click={onComment} />
       {/if}
       <Svg id="rocket" w="16" class="btn $style.svg" on:click={onVote} />
       <Svg id="share-dots" w="16" class="btn $style.svg" on:click={onShare} />
