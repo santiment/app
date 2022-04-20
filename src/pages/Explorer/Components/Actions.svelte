@@ -2,6 +2,7 @@
   import Svg from 'webkit/ui/Svg/svelte'
   import { copy } from 'webkit/utils'
   import vote from './api/vote'
+  import { currentUser } from '../store'
   import { EntityType } from '../const'
 
   let className = ''
@@ -24,6 +25,11 @@
   }
 
   function onVote() {
+    if (!$currentUser) {
+      window.location.href = '/login'
+      return
+    }
+
     const id = item.trigger ? item.trigger.id : item.id
     const voteType = EntityType[type].voteKey
 

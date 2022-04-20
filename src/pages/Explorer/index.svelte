@@ -7,6 +7,7 @@
 
   export let user = {}
   export let userSubscriptionData = {}
+
   let activeMenu = MenuItem.NEW
 
   $: currentUser.set(user)
