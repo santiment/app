@@ -13,9 +13,11 @@ export const queryExplorerItems = ({
   currentUserDataOnly = false,
   page = 1,
   pageSize = 20,
+  assets = [],
 } = {}) => {
   const QUERYKEY = `getMost${voted ? 'Voted' : 'Recent'}`
   const CURSOR = range ? `cursor: { type: AFTER, datetime: "utc_now-${range}" }` : ''
+  const FILTER_ASSETS = assets.length > 0 ? `filter: {slugs: ${JSON.stringify(assets)}}` : ''
   const TYPES = new Set(types)
 
   const projectWatchlist = TYPES.has(EntityKeys.PROJECT_WATCHLIST)
@@ -38,6 +40,7 @@ export const queryExplorerItems = ({
           page: ${page}
           pageSize: ${pageSize}
           ${CURSOR}
+          ${FILTER_ASSETS}
           currentUserDataOnly: ${currentUserDataOnly}
         ){
           stats {

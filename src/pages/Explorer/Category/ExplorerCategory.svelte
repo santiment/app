@@ -20,12 +20,17 @@
   function fetch() {
     const voted = activeMenu === MenuItem.LIKES
     const currentUserDataOnly = activeMenu === MenuItem.MY_CREATIONS
-    queryExplorerItems({ types: Array.from(types), voted, range, page, currentUserDataOnly }).then(
-      (res) => {
-        pages = res.pages
-        items = items.concat(res.items)
-      },
-    )
+    queryExplorerItems({
+      types: Array.from(types),
+      voted,
+      range,
+      page,
+      currentUserDataOnly,
+      assets,
+    }).then((res) => {
+      pages = res.pages
+      items = items.concat(res.items)
+    })
   }
 
   $: activeMenu, range, assets, types, reset()
@@ -67,7 +72,7 @@
         selectedIndex={4}
         onChange={(newRange) => (range = newRange)}
       />
-      <AssetSelector onChange={(newAssets) => (assets = newAssets)} />
+      <AssetSelector onChange={(newAssets) => (assets = newAssets.map((asset) => asset.slug))} />
       <TypeSelector onChange={(newTypes) => (types = newTypes)} {types} />
     </div>
 
