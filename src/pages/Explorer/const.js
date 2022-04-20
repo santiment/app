@@ -64,10 +64,13 @@ export const RANGES = {
   'All time': '',
 }
 
+export const getItemRoute = (item, type) =>
+  EntityType[type].url(item.trigger ? item.trigger.id : item.id)
+
 export function getItemUrl(item, type) {
   if (type === EntityKeys.INSIGHT) {
     return `https://insights.santiment.net/read/${item.id}`
   }
-  const route = EntityType[type].url(item.trigger ? item.trigger.id : item.id)
+  const route = getItemRoute(item, type)
   return `${window.location.origin}${route}`
 }
