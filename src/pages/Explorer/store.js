@@ -2,5 +2,6 @@ import { writable } from 'svelte/store'
 
 const currentUser = writable({})
 const userSubscription = writable({})
+const trendingWords = writable({})
 
-export { currentUser, userSubscription }
+export { currentUser, userSubscription, trendingWords }

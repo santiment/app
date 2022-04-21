@@ -2,7 +2,7 @@
   import Range from 'webkit/ui/Range.svelte'
   import Category from './Category.svelte'
   import LayoutItem from '../Layouts/LayoutItem.svelte'
-  import AssetSelector from '../Components/AssetSelector.svelte'
+  // import AssetSelector from '../Components/AssetSelector.svelte'
   import EmptyState from '../Components/EmptyState.svelte'
   import TypeSelector from '../Components/TypeSelector.svelte'
   import { queryExplorerItems } from '../api'
@@ -71,8 +71,10 @@
         items={Object.keys(RANGES)}
         selectedIndex={4}
         onChange={(newRange) => (range = newRange)}
+        class="mrg-s mrg--r"
       />
-      <AssetSelector onChange={(newAssets) => (assets = newAssets.map((asset) => asset.slug))} />
+      <!-- DISABLED FOR MVP -->
+      <!-- <AssetSelector onChange={(newAssets) => (assets = newAssets.map((asset) => asset.slug))} /> -->
       <TypeSelector onChange={(newTypes) => (types = newTypes)} {types} />
     </div>
 

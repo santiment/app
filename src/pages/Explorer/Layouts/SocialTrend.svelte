@@ -1,21 +1,32 @@
 <script>
-  export let item
+  import { history } from '../../../redux'
+
+  export let item = {}
+
+  const PER_ROW = 4
+
+  $: ({ word, tags, volume } = item)
+  $: TOTAL_TAGS = tags.length
 </script>
 
-<div>
+<a
+  href="https://app.santiment.net/labs/trends/explore/{word}"
+  on:click|preventDefault={() => history.push(`/labs/trends/explore/${word}`)}
+>
   <div class="row justify v-center mrg--b mrg-s">
-    <h5>{item.name}</h5>
-    <h6 class="caption">{item.volume} volume</h6>
+    <h5>{word}</h5>
+    <!-- TODO add volume -->
+    <!-- <h6 class="caption">{volume} volume</h6> -->
   </div>
   <ul class="row v-center c-waterloo caption">
-    {#each item.tags.slice(0, 5) as item}
+    {#each tags.slice(0, PER_ROW) as item}
       <li class="mrg-xs mrg--r ">{item}</li>
     {/each}
-    {#if item.tags.length > 5}
-      <li>+{item.length - 5}</li>
+    {#if TOTAL_TAGS > PER_ROW}
+      <li>+{TOTAL_TAGS - PER_ROW}</li>
     {/if}
   </ul>
-</div>
+</a>
 
 <style>
   li {

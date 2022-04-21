@@ -2,16 +2,18 @@
   import Svg from 'webkit/ui/Svg/svelte'
   import ExplorerCategory from './Category/ExplorerCategory.svelte'
   import Aside from './Aside.svelte'
-  import { currentUser, userSubscription } from './store'
+  import { currentUser, userSubscription, trendingWords } from './store'
   import { MenuItem } from './const'
 
   export let user = {}
   export let userSubscriptionData = {}
+  export let words = {}
 
   let activeMenu = MenuItem.NEW
 
   $: currentUser.set(user)
   $: userSubscription.set(userSubscriptionData)
+  $: trendingWords.set(words)
 </script>
 
 <div class="row mrg-a mrg--l mrg--r">

@@ -1,6 +1,7 @@
 <script context="module">
   import { dialogs } from 'webkit/ui/Dialog'
   import UpgradeDialog from './UpgradeDialog.svelte'
+  import { history } from '../../../redux'
 
   export const showUpgradeDialog = () => dialogs.show(UpgradeDialog)
 
@@ -39,7 +40,11 @@
     </ul>
 
     <div class="mrg-xxl mrg--t row body-3">
-      <a class="btn-1 btn--orange mrg--r mrg-l" href="/pricing">Upgrade to Pro</a>
+      <a
+        class="btn-1 btn--orange mrg--r mrg-l"
+        href="/pricing"
+        on:click|preventDefault={() => history.push('/pricing')}>Upgrade to Pro</a
+      >
 
       <button class="btn-2" on:click={closeDialog}>Cancel</button>
     </div>
