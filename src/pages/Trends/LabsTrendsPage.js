@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 import cx from 'classnames'
+import { track } from 'webkit/analytics'
 import Button from '@santiment-network/ui/Button'
 import TrendsSearchForm from '../../components/Trends/Search'
 import Suggestions from '../../components/Trends/Search/Suggestions'
@@ -35,6 +36,10 @@ function formatDate(dateStr) {
 
 const LabsTrendsPage = ({ history, datetime, defaultSelectedPeriod }) => {
   const [selectedPeriod, setSelectedPeriod] = useState(defaultSelectedPeriod)
+
+  useEffect(() => {
+    track.pageview('sanbase')
+  }, [])
 
   useEffect(() => {
     if (selectedPeriod && datetime !== selectedPeriod.to) {
