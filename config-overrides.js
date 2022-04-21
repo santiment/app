@@ -2,6 +2,7 @@ const webpack = require('webpack')
 const path = require('path')
 const CircularDependencyPlugin = require('circular-dependency-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
+const cssModules = require('svelte-preprocess-cssmodules')
 
 module.exports = function override(config, env) {
   config.resolve.extensions.push('.svelte')
@@ -21,10 +22,7 @@ module.exports = function override(config, env) {
 
   config.resolve.alias.svelte = path.resolve('node_modules', 'svelte')
   config.resolve.alias['@sapper/app'] = path.resolve(__dirname, 'src/svelte.js')
-  config.resolve.alias['@/apollo'] = path.resolve(
-    __dirname,
-    'src/apollo/index.js',
-  )
+  config.resolve.alias['@/apollo'] = path.resolve(__dirname, 'src/apollo/index.js')
 
   config.resolve.alias['studio'] = path.resolve('node_modules/san-studio/lib')
   config.resolve.alias['webkit'] = path.resolve('node_modules/san-webkit/lib')
@@ -35,6 +33,9 @@ module.exports = function override(config, env) {
     test: /\.svelte/,
     use: {
       loader: 'svelte-loader',
+      options: {
+        preprocess: [cssModules()],
+      },
     },
   })
 
@@ -59,7 +60,7 @@ module.exports = function override(config, env) {
       'process.env.MEDIA_PATH': JSON.stringify('/static'),
       'process.env.ICONS_PATH': JSON.stringify('/static/icons'),
       'process.env.IS_PROD_BACKEND': dev
-        ? (process.env.REACT_APP_BACKEND_URL || "").includes('-stage') === false
+        ? (process.env.REACT_APP_BACKEND_URL || '').includes('-stage') === false
         : 'window.location.hostname.includes("-stage") === false',
     }),
   )

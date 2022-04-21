@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
+import { useLocation } from 'react-router-dom'
 import toReact from 'svelte-adapter/react'
 import Icon from '@santiment-network/ui/Icon'
 import CreationInfoComponent from './CreationInfoWrapper.svelte'
@@ -61,6 +62,14 @@ const TopBar = ({
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [updateWatchlist, { loading }] = useUpdateWatchlist(type)
   const [isEditFormOpened, setIsEditFormOpened] = useState(false)
+  const { state } = useLocation()
+
+  useEffect(() => {
+    if (state && state.openComments) {
+      setIsCommentsOpen(true)
+      closeFilter()
+    }
+  }, [state])
 
   useEffect(() => {
     if (isLoggedIn) {

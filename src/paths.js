@@ -10,6 +10,7 @@ export const PATHS = {
   USERNAME: '/username',
   PRO_METRICS: '/pro-sheets-templates',
   INDEX: '/',
+  EXPLORER: '/',
   STUDIO: '/studio',
   CHARTS: '/charts',
   STABLECOINS: '/stablecoins',
