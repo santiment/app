@@ -192,6 +192,7 @@ const TopBar = ({
         {isAuthor && type === PROJECT && <WeeklyReport watchlist={entity} />}
         {type === SCREENER && (
           <Filter
+            entityId={id}
             watchlist={entity}
             projectsCount={projectsCount}
             isAuthor={isAuthor}

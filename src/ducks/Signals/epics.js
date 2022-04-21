@@ -169,7 +169,7 @@ export const HISTORICAL_TRIGGER_POINTS_QUERY = gql`
 
 export const TRIGGER_UPDATE_QUERY = gql`
   mutation updateTrigger(
-    $id: Int
+    $id: Int!
     $title: String
     $description: String
     $cooldown: String

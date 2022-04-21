@@ -207,7 +207,7 @@ export const App = ({
 
     const svelte = new Dialogs({ target: document.body })
     return () => svelte.$destroy()
-  }, [])
+  }, [pathname])
 
   useEffect(() => {
     if (isListPath(pathname)) {

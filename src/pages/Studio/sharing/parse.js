@@ -2,6 +2,7 @@ import 'studio/metrics/selector/subitems'
 import { useMemo } from 'react'
 import { parse } from 'query-string'
 import { Metric } from 'studio/metrics'
+import { parseWidget as parseChartWidget } from 'studio/sharing/widget'
 import { HolderDistributionMetric } from 'studio/metrics/_onchain/holderDistributions'
 import { newProjectMetric } from 'studio/metrics/utils'
 import { MERGED_DIVIDER, buildMergedMetric } from 'studio/HolderDistributionWidget/utils'
@@ -143,6 +144,15 @@ export function parseWidget(widget) {
 
   const Widget = getWidgetByKey(widget.widget)
   const KnownMetric = {}
+
+  if (widget.wm) {
+    return Object.assign(
+      Widget,
+      parseChartWidget(widget, {
+        parseSubwidgets,
+      }),
+    )
+  }
 
   const { metrics, indicators, settings } = widget
   parseCombinedMetrics(widget.combinedMetrics, KnownMetric)
