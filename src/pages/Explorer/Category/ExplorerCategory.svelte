@@ -71,6 +71,7 @@
         items={Object.keys(RANGES)}
         selectedIndex={4}
         onChange={(newRange) => (range = newRange)}
+        class="mrg-s mrg--r"
       />
       <AssetSelector onChange={(newAssets) => (assets = newAssets.map((asset) => asset.slug))} />
       <TypeSelector onChange={(newTypes) => (types = newTypes)} {types} />

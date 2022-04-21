@@ -7,7 +7,7 @@
 
   export let small = false
   export let item
-  export let type = 'ALERT'
+  export let type = 'CHART'
   export let showActions = false
   export let hasIcons = false
   export let assets = []

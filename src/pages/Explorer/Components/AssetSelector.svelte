@@ -59,7 +59,7 @@
 </script>
 
 <Tooltip bind:isOpened on="click" align="end" activeClass="$style.active">
-  <div slot="trigger" class="btn-2 btn--s mrg-s mrg--l mrg--r" use:projectsPreloader>
+  <div slot="trigger" class="btn-2 btn--s mrg-s mrg--r" use:projectsPreloader>
     Assets: {selections.size || 'All'}
     <Svg id="arrow-down" w="8" h="4.5" class="mrg-s mrg--l" />
   </div>

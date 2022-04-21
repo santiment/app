@@ -5,6 +5,8 @@
   import Info from 'webkit/ui/Profile/Info.svelte'
   import Actions from '../Components/Actions'
   import { currentUser } from '../store'
+  import { history } from '../../../redux'
+  import { getItemRoute } from '../const'
 
   export let item = {}
   export let small = false
@@ -14,9 +16,16 @@
 
   $: totalVotes = item.votes.totalVotes
   $: ({ user, commentsCount } = item)
+
+  function onClick(e) {
+    if (url.includes(location.hostname)) {
+      e.preventDefault()
+      history.push(getItemRoute(item, type))
+    }
+  }
 </script>
 
-<a class="usercreation" href={url} target="_blank">
+<a class="usercreation" href={url} target="_blank" on:click={onClick}>
   <div class="row v-center nowrap relative">
     {#if showActions}
       <Actions

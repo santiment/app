@@ -7,6 +7,7 @@
   import SheetsTemplate from './Layouts/SheetsTemplate.svelte'
   import { queryExplorerItems, queryReports, queryTemplates } from './api'
   import { EntityType, EntityKeys } from './const'
+  import { trendingWords } from './store'
 
   let className = ''
   export { className as class }
@@ -26,6 +27,20 @@
         pages: Math.ceil(items.length / PAGE_SIZE),
         items: items.slice(begin, begin + PAGE_SIZE),
       }
+    })
+
+  const getSocialItems = (trends) => (page) =>
+    new Promise((resolve) => {
+      const words = Object.keys(trends)
+      const items = words.map((word) => ({
+        word,
+        tags: trends[word].map(({ word }) => word),
+      }))
+      const begin = (page - 1) * PAGE_SIZE
+      return resolve({
+        pages: Math.ceil(words.length / PAGE_SIZE),
+        items: items.slice(begin, begin + PAGE_SIZE),
+      })
     })
 </script>
 
@@ -51,7 +66,13 @@
     <LayoutItem small {item} type={EntityKeys.INSIGHT} />
   </Widget>
 
-  <Widget title="Social trends" icon="social-trend" color="blue" let:item>
+  <Widget
+    title="Social trends"
+    icon="social-trend"
+    color="blue"
+    let:item
+    getItems={getSocialItems($trendingWords)}
+  >
     <ExternalLink href="https://app.santiment.net/labs/trends/" slot="header" />
     <SocialTrend {item} />
   </Widget>

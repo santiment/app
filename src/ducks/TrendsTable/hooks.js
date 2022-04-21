@@ -81,7 +81,7 @@ export function useTrendSocialVolume(words, trend) {
     if (!data) return LOADING
 
     return {
-      data: data[trend.word].slice(0, -1),
+      data: trend ? data[trend.word].slice(0, -1) : data,
       isLoading: false,
     }
   }, [data])
@@ -94,7 +94,7 @@ export function useTrendWordContext(words, trend) {
     if (!data) return LOADING
 
     return {
-      data: data[trend.word],
+      data: trend ? data[trend.word] : data,
       isLoading: false,
     }
   }, [data])
