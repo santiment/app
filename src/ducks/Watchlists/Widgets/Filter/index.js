@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
+import { track } from 'webkit/analytics'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Search from '@santiment-network/ui/Search'
@@ -22,6 +23,7 @@ import { notifyLoginForSave, notifyOutdatedVersion } from '../TopPanel/notificat
 import styles from './index.module.scss'
 
 const Filter = ({
+  entityId,
   projectsCount,
   isAuthor,
   isAuthorLoading,
@@ -109,6 +111,12 @@ const Filter = ({
       return
     }
 
+    track.event('screener_filter_updated', {
+      id: entityId,
+      filter: key,
+      args: metric.args,
+    })
+
     const filters = isNoFilters
       ? []
       : filter.filter(
@@ -143,6 +151,14 @@ const Filter = ({
         isContainMetric(item.args.metric || item.name, key) ||
         isContainMetric(item.args.metric || item.name, alternativeKey),
     )
+
+    track.event('screener_filter_toggled', {
+      id: entityId,
+      filter: key,
+      action: isMetricInList ? 'removed' : 'added',
+      args: metric.args,
+    })
+
     let newFilter = []
     if (isMetricInList) {
       newFilter = filter.filter(

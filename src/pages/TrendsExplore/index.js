@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
+import { track } from 'webkit/analytics'
 import Icon from '@santiment-network/ui/Icon'
 import SocialTool from '../SocialTool'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
@@ -34,6 +35,9 @@ const TrendsExplore = ({ topic, addedTopics, history, isDesktop }) => {
     return newLinkedAssets
   }, [topics, projects])
 
+  useEffect(() => {
+    track.pageview('sanbase')
+  }, [topic])
   useEffect(() => topics.forEach(addRecentTrends), [topics])
   useEffect(() => {
     if (topic !== '') {
