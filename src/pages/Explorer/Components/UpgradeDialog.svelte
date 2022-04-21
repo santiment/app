@@ -43,7 +43,7 @@
       <a
         class="btn-1 btn--orange mrg--r mrg-l"
         href="/pricing"
-        on:click|preventDefault={() => history.push('/pricing')}>Upgrade to Pro</a
+        on:click={window.__onLinkClick}>Upgrade to Pro</a
       >
 
       <button class="btn-2" on:click={closeDialog}>Cancel</button>

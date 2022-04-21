@@ -17,7 +17,7 @@
   $: totalVotes = item.votes.totalVotes
   $: ({ user, commentsCount } = item)
 
-  const onClick = (e) => {
+  function onClick(e) {
     if (url.includes(location.hostname)) {
       e.preventDefault()
       history.push(getItemRoute(item, type))

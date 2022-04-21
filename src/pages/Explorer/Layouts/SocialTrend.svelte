@@ -6,12 +6,12 @@
   const PER_ROW = 4
 
   $: ({ word, tags, volume } = item)
-  $: TOTAL_TAGS = tags.length
+  $: totalTags = tags.length
 </script>
 
 <a
   href="https://app.santiment.net/labs/trends/explore/{word}"
-  on:click|preventDefault={() => history.push(`/labs/trends/explore/${word}`)}
+  on:click={window.__onLinkClick}
 >
   <div class="row justify v-center mrg--b mrg-s">
     <h5>{word}</h5>
@@ -22,8 +22,8 @@
     {#each tags.slice(0, PER_ROW) as item}
       <li class="mrg-xs mrg--r ">{item}</li>
     {/each}
-    {#if TOTAL_TAGS > PER_ROW}
-      <li>+{TOTAL_TAGS - PER_ROW}</li>
+    {#if totalTags > PER_ROW}
+      <li>+{totalTags - PER_ROW}</li>
     {/if}
   </ul>
 </a>
