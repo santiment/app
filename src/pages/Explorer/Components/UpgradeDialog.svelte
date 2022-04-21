@@ -1,7 +1,6 @@
 <script context="module">
   import { dialogs } from 'webkit/ui/Dialog'
   import UpgradeDialog from './UpgradeDialog.svelte'
-  import { history } from '../../../redux'
 
   export const showUpgradeDialog = () => dialogs.show(UpgradeDialog)
 

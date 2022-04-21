@@ -1,6 +1,4 @@
 <script>
-  import { history } from '../../../redux'
-
   export let item = {}
 
   const PER_ROW = 4
@@ -10,7 +8,7 @@
 </script>
 
 <a
-  href="https://app.santiment.net/labs/trends/explore/{word}"
+  href="/labs/trends/explore/{word}"
   on:click={window.__onLinkClick}
 >
   <div class="row justify v-center mrg--b mrg-s">
