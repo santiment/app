@@ -10,10 +10,16 @@
   export let words = {}
 
   let activeMenu = MenuItem.NEW
+  let loading = true
 
   $: currentUser.set(user)
   $: userSubscription.set(userSubscriptionData)
   $: trendingWords.set(words)
+
+  function changeMenu(menuItem) {
+    if (loading) return
+    activeMenu = menuItem
+  }
 </script>
 
 <div class="row mrg-a mrg--l mrg--r">
@@ -22,7 +28,8 @@
       <div
         class="btn-2 row v-center"
         class:active={activeMenu == MenuItem.NEW}
-        on:click={() => (activeMenu = MenuItem.NEW)}
+        class:loading={activeMenu == MenuItem.NEW && loading}
+        on:click={() => changeMenu(MenuItem.NEW)}
       >
         <Svg id="time" w="16" class="mrg-s mrg--r" />
         New
@@ -30,7 +37,8 @@
       <div
         class="btn-2 row v-center mrg-s mrg--l"
         class:active={activeMenu == MenuItem.LIKES}
-        on:click={() => (activeMenu = MenuItem.LIKES)}
+        class:loading={activeMenu == MenuItem.LIKES && loading}
+        on:click={() => changeMenu(MenuItem.LIKES)}
       >
         <Svg id="rocket" w="16" class="mrg-s mrg--r" />
         Likes
@@ -39,14 +47,15 @@
       <div
         class="btn-2 row v-center mrg-a mrg--l"
         class:active={activeMenu == MenuItem.MY_CREATIONS}
-        on:click={() => (activeMenu = MenuItem.MY_CREATIONS)}
+        class:loading={activeMenu == MenuItem.MY_CREATIONS && loading}
+        on:click={() => changeMenu(MenuItem.MY_CREATIONS)}
       >
         <Svg id="user" w="16" class="mrg-s mrg--r" />
         My creations
       </div>
     </div>
 
-    <ExplorerCategory {activeMenu} />
+    <ExplorerCategory {activeMenu} onLoadingChange={(newLoading) => (loading = newLoading)} />
   </main>
 
   <Aside />

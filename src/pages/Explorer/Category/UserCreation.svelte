@@ -6,7 +6,7 @@
   import Actions from '../Components/Actions'
   import { currentUser } from '../store'
   import { history } from '../../../redux'
-  import { getItemRoute } from '../const'
+  import { getItemRoute, getItemId } from '../const'
 
   export let item = {}
   export let small = false
@@ -18,6 +18,10 @@
   $: ({ user, commentsCount } = item)
 
   function onClick(e) {
+    if (['use', 'svg'].indexOf(e.target.tagName) > -1) {
+      e.preventDefault()
+      return
+    }
     if (url.includes(location.hostname)) {
       e.preventDefault()
       history.push(getItemRoute(item, type))
@@ -25,7 +29,7 @@
   }
 </script>
 
-<a class="usercreation" href={url} target="_blank" on:click={onClick}>
+<a class="usercreation" href={url} target="_blank" on:click={onClick} id={getItemId(item, type)}>
   <div class="row v-center nowrap relative">
     {#if showActions}
       <Actions

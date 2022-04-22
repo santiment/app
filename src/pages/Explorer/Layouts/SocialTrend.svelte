@@ -7,10 +7,7 @@
   $: totalTags = tags.length
 </script>
 
-<a
-  href="/labs/trends/explore/{word}"
-  on:click={window.__onLinkClick}
->
+<a href="/labs/trends/explore/{word}" on:click={window.__onLinkClick}>
   <div class="row justify v-center mrg--b mrg-s">
     <h5>{word}</h5>
     <!-- TODO add volume -->

@@ -10,6 +10,8 @@
   import { EntityType, RANGES, MenuItem } from '../const'
 
   export let activeMenu
+  export let onLoadingChange = () => {}
+
   let items = []
   let range = ''
   let assets = []
@@ -18,6 +20,7 @@
   let pages = 1
 
   function fetch() {
+    onLoadingChange(true)
     const voted = activeMenu === MenuItem.LIKES
     const currentUserDataOnly = activeMenu === MenuItem.MY_CREATIONS
     queryExplorerItems({
@@ -27,10 +30,12 @@
       page,
       currentUserDataOnly,
       assets,
-    }).then((res) => {
-      pages = res.pages
-      items = items.concat(res.items)
     })
+      .then((res) => {
+        pages = res.pages
+        items = items.concat(res.items)
+      })
+      .finally(() => onLoadingChange(false))
   }
 
   $: activeMenu, range, assets, types, reset()
@@ -93,6 +98,7 @@
           type="SCREENER"
           hasIcons
           assets={item.screener.listItems.map((i) => i.project)}
+          id="{item.screener.id}-watchlist"
         />
       {:else if item.projectWatchlist}
         <LayoutItem

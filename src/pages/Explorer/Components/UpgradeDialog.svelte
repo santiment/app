@@ -39,10 +39,8 @@
     </ul>
 
     <div class="mrg-xxl mrg--t row body-3">
-      <a
-        class="btn-1 btn--orange mrg--r mrg-l"
-        href="/pricing"
-        on:click={window.__onLinkClick}>Upgrade to Pro</a
+      <a class="btn-1 btn--orange mrg--r mrg-l" href="/pricing" on:click={window.__onLinkClick}
+        >Upgrade to Pro</a
       >
 
       <button class="btn-2" on:click={closeDialog}>Cancel</button>
