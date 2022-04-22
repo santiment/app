@@ -93,7 +93,6 @@
     icon="social-trend"
     let:item
     getItems={getCustomItems(queryTemplates)}
-    isLast
   >
     <div slot="header" class="pro row hv-center c-white caption">PRO</div>
     <SheetsTemplate {item} />
