@@ -17,7 +17,7 @@ const DELETE = {
             }
         }
     `,
-  CHART: (id) => (id) =>
+  CHART: (id) =>
     `
         mutation {
             remove: deleteChartConfiguration(id: ${id}) {
