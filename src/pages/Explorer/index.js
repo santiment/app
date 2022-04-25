@@ -6,7 +6,14 @@ import { useUser } from '../../stores/user'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import { useTrendingWords, useTrendWordContext } from '../../ducks/TrendsTable/hooks'
 
-export const Page = toReact(SveltePage, { flex: 1, margin: '24px auto' }, 'div')
+const PAGE_STYLE = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'flex-start',
+  marginTop: '24px',
+}
+
+export const Page = toReact(SveltePage, PAGE_STYLE, 'div')
 
 const ExplorerPage = () => {
   const { user } = useUser()

@@ -100,10 +100,6 @@
 </aside>
 
 <style>
-  aside {
-    width: 320px;
-    margin-left: 48px;
-  }
   .pro {
     width: 40px;
     height: 20px;
