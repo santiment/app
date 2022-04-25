@@ -1,10 +1,11 @@
 <script>
+  import { getContext } from 'svelte'
   import Svg from 'webkit/ui/Svg/svelte'
   import { copy } from 'webkit/utils'
   import { deleteAction, vote } from './api'
   import { showDeleteConfirmationDialog } from './DeleteConfirmationDialog.svelte'
-  import { EntityType, getItemRoute, getItemAsString } from '../const'
-  import { currentUser, explorerItems } from '../store'
+  import { EntityType, getItemRoute } from '../const'
+  import { currentUser } from '../store'
   import { history } from '../../../redux'
 
   let className = ''
@@ -20,6 +21,8 @@
 
   let label = ''
   let voteTimeout
+
+  const filterExplorerItems = getContext('filterExplorerItems')
 
   $: id = item.trigger ? item.trigger.id : item.id
   $: ({ voteKey, deleteKey, singular } = EntityType[type])
@@ -65,7 +68,7 @@
     showDeleteConfirmationDialog(
       singular,
       () => deleteAction(id, deleteKey),
-      () => explorerItems.update((items) => items.filter((item) => getItemAsString(item) !== uid)),
+      () => filterExplorerItems(item),
     )
   }
 </script>

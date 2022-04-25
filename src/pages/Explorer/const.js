@@ -85,12 +85,12 @@ export function getItemUrl(item, type) {
   return `${window.location.origin}${route}`
 }
 
-export function getItemAsString(item) {
+export function getExplorerItem(item) {
   let data = {}
   if (item.addressWatchlist) data = item.addressWatchlist
   if (item.chartConfiguration) data = item.chartConfiguration
   if (item.projectWatchlist) data = item.projectWatchlist
   if (item.screener) data = item.screener
   if (item.userTrigger) data = item.userTrigger
-  return JSON.stringify(data)
+  return data
 }
