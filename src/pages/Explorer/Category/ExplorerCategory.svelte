@@ -6,13 +6,12 @@
   import EmptyState from '../Components/EmptyState.svelte'
   import TypeSelector from '../Components/TypeSelector.svelte'
   import { queryExplorerItems } from '../api'
-  import { currentUser } from '../store'
-  import { EntityType, RANGES, MenuItem } from '../const'
+  import { currentUser, explorerItems } from '../store'
+  import { EntityType, RANGES, MenuItem, getItemId } from '../const'
 
   export let activeMenu
   export let onLoadingChange = () => {}
 
-  let items = []
   let range = ''
   let assets = []
   let types = new Set(Object.values(EntityType).map((t) => t.key))
@@ -33,7 +32,7 @@
     })
       .then((res) => {
         pages = res.pages
-        items = items.concat(res.items)
+        explorerItems.set($explorerItems.concat(res.items))
       })
       .finally(() => onLoadingChange(false))
   }
@@ -42,13 +41,13 @@
 
   function reset() {
     page = 1
-    items = []
+    explorerItems.set([])
   }
 
   $: activeMenu, range, assets, types, page, fetch()
   $: showEmpty =
     (!$currentUser && activeMenu === MenuItem.MY_CREATIONS) ||
-    (items.length === 0 && activeMenu !== MenuItem.NEW)
+    ($explorerItems.length === 0 && activeMenu !== MenuItem.NEW)
 
   const getAssets = ({ project, metricsJson }) => [
     project,
@@ -70,7 +69,12 @@
 {#if showEmpty}
   <EmptyState {activeMenu} />
 {:else}
-  <Category title="Explorer" {items} onMore={() => (page += 1)} hasMore={page < pages}>
+  <Category
+    title="Explorer"
+    items={$explorerItems}
+    onMore={() => (page += 1)}
+    hasMore={page < pages}
+  >
     <div slot="header" class="controls row mrg-a mrg--l">
       <Range
         items={Object.keys(RANGES)}

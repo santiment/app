@@ -3,8 +3,8 @@
   import { copy } from 'webkit/utils'
   import { deleteAction, vote } from './api'
   import { showDeleteConfirmationDialog } from './DeleteConfirmationDialog.svelte'
-  import { EntityType, getItemRoute, getItemId } from '../const'
-  import { currentUser } from '../store'
+  import { EntityType, getItemRoute, getItemAsString } from '../const'
+  import { currentUser, explorerItems } from '../store'
   import { history } from '../../../redux'
 
   let className = ''
@@ -23,6 +23,7 @@
 
   $: id = item.trigger ? item.trigger.id : item.id
   $: ({ voteKey, deleteKey, singular } = EntityType[type])
+  $: uid = JSON.stringify(item)
 
   function onShare(e) {
     e.preventDefault()
@@ -64,7 +65,7 @@
     showDeleteConfirmationDialog(
       singular,
       () => deleteAction(id, deleteKey),
-      () => document.getElementById(`${getItemId(item, type)}`).parentElement.remove(),
+      () => explorerItems.update((items) => items.filter((item) => getItemAsString(item) !== uid)),
     )
   }
 </script>

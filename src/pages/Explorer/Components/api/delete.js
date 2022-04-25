@@ -1,30 +1,29 @@
 import { mutate } from 'webkit/api'
 
-const DELETE = {
-  TRIGGER: (id) => `
+function getDeleteMutation(id, deleteKey) {
+  let mutation = 'removeWatchlist'
+  let data = 'id'
+
+  switch (deleteKey) {
+    case 'TRIGGER':
+      mutation = 'removeTrigger'
+      data = 'trigger { id }'
+      break
+    case 'CHART':
+      mutation = 'deleteChartConfiguration'
+      break
+    default:
+      mutation = 'removeWatchlist'
+      data = 'id'
+  }
+
+  return `
         mutation {
-            remove: removeTrigger(id: ${id}) {
-                trigger {
-                    id
-                } 
+            remove: ${mutation}(id: ${id}) {
+                ${data}
             }
         }
-    `,
-  WATCHLIST: (id) => `
-        mutation {
-            remove: removeWatchlist(id: ${id}) {
-                id
-            }
-        }
-    `,
-  CHART: (id) =>
     `
-        mutation {
-            remove: deleteChartConfiguration(id: ${id}) {
-                id 
-            }
-        }
-    `,
 }
 
-export default (id, deleteKey) => mutate(DELETE[deleteKey](id))
+export default (id, deleteKey) => mutate(getDeleteMutation(id, deleteKey))
