@@ -6,7 +6,7 @@
   import Actions from '../Components/Actions'
   import { currentUser } from '../store'
   import { history } from '../../../redux'
-  import { getItemRoute, getItemId } from '../const'
+  import { getItemRoute } from '../const'
 
   export let item = {}
   export let small = false
@@ -18,7 +18,7 @@
   $: ({ user, commentsCount } = item)
 
   function onClick(e) {
-    if (['use', 'svg'].indexOf(e.target.tagName) > -1) {
+    if (['use', 'svg'].includes(e.target.tagName)) {
       e.preventDefault()
       return
     }
@@ -29,7 +29,7 @@
   }
 </script>
 
-<a class="usercreation" href={url} target="_blank" on:click={onClick} id={getItemId(item, type)}>
+<a class="usercreation" href={url} target="_blank" on:click={onClick}>
   <div class="row v-center nowrap relative">
     {#if showActions}
       <Actions

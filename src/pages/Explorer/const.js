@@ -85,14 +85,12 @@ export function getItemUrl(item, type) {
   return `${window.location.origin}${route}`
 }
 
-export function getItemId(item, type) {
-  let key = 'watchlist'
-  let id = item.id
-  if (type === EntityKeys.CHART_CONFIGURATION) {
-    key = 'chart'
-  } else if (type === EntityKeys.USER_TRIGGER) {
-    key = 'alert'
-    id = item.trigger.id
-  }
-  return `${id}-${key}`
+export function getItemAsString(item) {
+  let data = {}
+  if (item.addressWatchlist) data = item.addressWatchlist
+  if (item.chartConfiguration) data = item.chartConfiguration
+  if (item.projectWatchlist) data = item.projectWatchlist
+  if (item.screener) data = item.screener
+  if (item.userTrigger) data = item.userTrigger
+  return JSON.stringify(data)
 }
