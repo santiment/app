@@ -26,7 +26,6 @@
 
   $: id = item.trigger ? item.trigger.id : item.id
   $: ({ voteKey, deleteKey, singular } = EntityType[type])
-  $: uid = JSON.stringify(item)
 
   function onShare(e) {
     e.preventDefault()
