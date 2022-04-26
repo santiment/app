@@ -20,6 +20,7 @@
     if (loading) return
     activeMenu = menuItem
   }
+
 </script>
 
 <main>
@@ -63,12 +64,13 @@
   main,
   .aside {
     position: sticky;
-    bottom: 0;
     align-self: flex-end;
+    bottom: 0;
   }
 
   main {
     width: 640px;
+    min-height: 50%;
   }
 
   .aside {
