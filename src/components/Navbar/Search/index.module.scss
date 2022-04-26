@@ -1,14 +1,3 @@
-.search {
-  margin-left: auto;
-  transition: width 0.7s;
-  width: 264px;
-  margin-right: 22px;
-
-  &_focused {
-    width: 100%;
-  }
-}
-
 .input {
   text-overflow: ellipsis;
 }

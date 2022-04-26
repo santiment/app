@@ -48,7 +48,7 @@
 <style lang="scss">
   aside {
     position: absolute;
-    top: 70px;
+    top: 64px;
     left: 0;
     bottom: 0;
     z-index: 25;
@@ -66,7 +66,7 @@
   .container {
     position: sticky;
     top: 0;
-    height: calc(100vh - 70px);
+    height: calc(100vh - 64px);
     padding: 24px 16px;
 
     & :global {

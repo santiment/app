@@ -25,12 +25,20 @@ import 'webkit/styles/main.css'
 
 startResponsiveController()
 
+const APP_LINK = 'https://app.santiment.net'
 window.__onLinkClick = (e) => {
   e.preventDefault()
 
   const node = e.currentTarget
   const href = node.getAttribute('href')
-  if (href) history.push(href)
+
+  if (!href) return
+
+  if (href.includes(APP_LINK) || href.startsWith('/')) {
+    history.push(href.replace('https://app.santiment.net', ''))
+  } else {
+    window.location.href = href
+  }
 }
 
 const EmbeddedWidgetPage = Loadable({
