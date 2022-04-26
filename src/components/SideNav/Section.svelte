@@ -10,7 +10,7 @@
 </script>
 
 <div
-  class="category btn row v-center mrg-xl mrg--t"
+  class="category btn row v-center mrg-xl mrg--t txt-b"
   class:opened={isOpened}
   on:click={() => (isOpened = !isOpened)}>
   <Svg id={icon} w="16" class="mrg-s mrg--r $style.icon" />
