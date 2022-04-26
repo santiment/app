@@ -11,24 +11,37 @@
   let items = []
   let page = 1
   let pages = 1
+  let loading = false
 
   $: hasMore = pages > 1 && page < pages
-  $: getItems &&
-    getItems(page).then((res) => {
-      if (res) {
-        pages = res.pages
-        items = res.items
-      }
-    })
+  $: showLess = pages > 1 && page === pages
+  $: if (page === 1) items = []
+  $: getPage(page)
+
+  function getPage(page) {
+    if (loading) return
+    loading = true
+    getItems(page)
+      .then((res) => {
+        if (res) {
+          pages = res.pages
+          items = items.concat(res.items)
+        }
+      })
+      .finally(() => (loading = false))
+  }
 
   function onMore() {
-    if (page < pages) {
+    if (loading) return
+    if (showLess) {
+      page = 1
+    } else if (page < pages) {
       page += 1
     }
   }
 </script>
 
-<Category small {title} {items} {hasMore} {onMore}>
+<Category small {title} {items} {hasMore} {onMore} {showLess} {loading}>
   <div
     slot="icon"
     style="fill:var(--{color}); background:var(--{color}-light-1)"
