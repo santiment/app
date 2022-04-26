@@ -69,7 +69,6 @@
 
   main {
     width: 640px;
-    min-height: 100%;
   }
 
   .aside {
