@@ -57,7 +57,7 @@ export const queryExplorerItems = ({
         }
       }
     `
-  return query(QUERY).then(accessor)
+  return query(QUERY, { cacheTime: 20 }).then(accessor)
 }
 
 export function queryReports() {
@@ -96,8 +96,6 @@ export const EntityQuery = {
         count
         users {
           id
-          avatarUrl
-          username
         }
       }
     }
@@ -123,8 +121,6 @@ export const EntityQuery = {
         count
         users {
           id
-          avatarUrl
-          username
         }
       }
     }
@@ -150,8 +146,6 @@ export const EntityQuery = {
         count
         users {
           id
-          avatarUrl
-          username
         }
       }
     }
@@ -174,8 +168,6 @@ export const EntityQuery = {
         count
         users {
           id
-          avatarUrl
-          username
         }
       }
     }
@@ -196,8 +188,6 @@ export const EntityQuery = {
         count
         users {
           id
-          avatarUrl
-          username
         }
       }
     }

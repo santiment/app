@@ -1,7 +1,9 @@
 <script>
+  import { getContext } from 'svelte'
   import Svg from 'webkit/ui/Svg/svelte'
   import { copy } from 'webkit/utils'
-  import vote from './api/vote'
+  import { deleteAction, vote } from './api'
+  import { showDeleteConfirmationDialog } from './DeleteConfirmationDialog.svelte'
   import { EntityType, getItemRoute } from '../const'
   import { currentUser } from '../store'
   import { history } from '../../../redux'
@@ -20,7 +22,13 @@
   let label = ''
   let voteTimeout
 
-  function onShare() {
+  const filterExplorerItems = getContext('filterExplorerItems')
+
+  $: id = item.trigger ? item.trigger.id : item.id
+  $: ({ voteKey, deleteKey, singular } = EntityType[type])
+
+  function onShare(e) {
+    e.preventDefault()
     label = 'Copied!'
     copy(url, () => (label = ''), 1500)
   }
@@ -33,10 +41,7 @@
       return false
     }
 
-    const id = item.trigger ? item.trigger.id : item.id
-    const voteType = EntityType[type].voteKey
-
-    vote(id, voteType).then((votes) => {
+    vote(id, voteKey).then((votes) => {
       onVoteCountChange(votes.totalVotes)
       clearTimeout(voteTimeout)
       label = 'Voted!'
@@ -56,16 +61,25 @@
 
     history.push(getItemRoute(item, type), { openComments: true })
   }
+
+  function onDelete(e) {
+    e.preventDefault()
+    showDeleteConfirmationDialog(
+      singular,
+      () => deleteAction(id, deleteKey),
+      () => filterExplorerItems(item),
+    )
+  }
 </script>
 
 <div class="actions">
   <div class="note c-white caption" class:show={!!label}>{label}</div>
-  <div class="flex hv-center box border c-waterloo {className}" on:click|preventDefault>
+  <div class="flex hv-center box border c-waterloo {className}">
     {#if isOwner}
       <Svg id="pencil" w="16" class="btn $style.svg" />
-      <Svg id="delete" w="16" class="btn $style.svg" />
+      <Svg id="delete" w="16" class="btn $style.svg" on:click={onDelete} />
       {#if showCommentAction}
-        <Svg id="comment" w="16" class="btn $style.svg" on:clck={onComment} />
+        <Svg id="comment" w="16" class="btn $style.svg" on:click={onComment} />
       {/if}
     {:else}
       {#if showCommentAction}

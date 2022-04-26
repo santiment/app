@@ -1,4 +1,5 @@
 <script>
+  import { setContext } from 'svelte'
   import Range from 'webkit/ui/Range.svelte'
   import Category from './Category.svelte'
   import LayoutItem from '../Layouts/LayoutItem.svelte'
@@ -7,17 +8,24 @@
   import TypeSelector from '../Components/TypeSelector.svelte'
   import { queryExplorerItems } from '../api'
   import { currentUser } from '../store'
-  import { EntityType, RANGES, MenuItem } from '../const'
+  import { EntityType, RANGES, MenuItem, getExplorerItem } from '../const'
 
   export let activeMenu
-  let items = []
+  export let onLoadingChange = () => {}
+
   let range = ''
   let assets = []
   let types = new Set(Object.values(EntityType).map((t) => t.key))
   let page = 1
   let pages = 1
+  let items = []
+
+  setContext('filterExplorerItems', (itemToExclude) => {
+    items = items.filter((item) => getExplorerItem(item) !== itemToExclude)
+  })
 
   function fetch() {
+    onLoadingChange(true)
     const voted = activeMenu === MenuItem.LIKES
     const currentUserDataOnly = activeMenu === MenuItem.MY_CREATIONS
     queryExplorerItems({
@@ -27,10 +35,12 @@
       page,
       currentUserDataOnly,
       assets,
-    }).then((res) => {
-      pages = res.pages
-      items = items.concat(res.items)
     })
+      .then((res) => {
+        pages = res.pages
+        items = items.concat(res.items)
+      })
+      .finally(() => onLoadingChange(false))
   }
 
   $: activeMenu, range, assets, types, reset()
@@ -93,6 +103,7 @@
           type="SCREENER"
           hasIcons
           assets={item.screener.listItems.map((i) => i.project)}
+          id="{item.screener.id}-watchlist"
         />
       {:else if item.projectWatchlist}
         <LayoutItem
