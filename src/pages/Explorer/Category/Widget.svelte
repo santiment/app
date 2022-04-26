@@ -15,6 +15,8 @@
 
   $: hasMore = pages > 1 && page < pages
   $: showLess = pages > 1 && page === pages
+  $: if (page === 1) items = []
+  $: getPage(page)
 
   function getPage(page) {
     if (loading) return
@@ -22,9 +24,6 @@
     getItems(page)
       .then((res) => {
         if (res) {
-          if (page === 1) {
-            items = []
-          }
           pages = res.pages
           items = items.concat(res.items)
         }
@@ -40,8 +39,6 @@
       page += 1
     }
   }
-
-  $: getPage(page)
 </script>
 
 <Category small {title} {items} {hasMore} {onMore} {showLess} {loading}>
