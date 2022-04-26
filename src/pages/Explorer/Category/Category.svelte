@@ -7,6 +7,8 @@
   export let onMore
   export let small = false
   export let iconClass = ''
+  export let loading = false
+  export let showLess = false
 </script>
 
 <div class="border mrg--b mrg-xl {className}" class:small>
@@ -32,8 +34,10 @@
     </div>
   {/each}
 
-  {#if hasMore}
-    <div class="more btn row h-center c-accent" on:click={onMore}>Show more</div>
+  {#if hasMore || showLess}
+    <div class="more btn row h-center c-accent" class:loading on:click={onMore}>
+      Show {showLess ? 'less' : 'more'}
+    </div>
   {/if}
 </div>
 

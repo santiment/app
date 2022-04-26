@@ -20,7 +20,6 @@
     if (loading) return
     activeMenu = menuItem
   }
-
 </script>
 
 <main>
