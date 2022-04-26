@@ -1,13 +1,16 @@
 <script>
+  import { onDestroy } from 'svelte'
   import Svg from 'webkit/ui/Svg/svelte'
   import Section from './Section.svelte'
   import MinimizedCategories from './MinimizedCategories.svelte'
 
+  export let root
   export let pathname = '/'
 
   $: console.log(pathname)
 
   $: isCollapsed = pathname !== '/'
+  $: root.classList.toggle('$style.shifted', isCollapsed)
 
   const CREATE_LINKS = [
     ['Chart layout', '/charts', 'chart'],
@@ -18,20 +21,26 @@
   ]
 
   const RECENTS = []
+
+  onDestroy(() => {
+    root.classList.remove('$style.shifted')
+  })
 </script>
 
 <aside class:collapsed={isCollapsed}>
-  <div class="container txt-m">
-    <MinimizedCategories {pathname} {isCollapsed} />
+  <div class="content">
+    <div class="container txt-m">
+      <MinimizedCategories {pathname} {isCollapsed} />
 
-    <div class="links">
-      <a href="/" class="btn" class:active={pathname === '/'} on:click={window.__onLinkClick}>
-        <Svg id="folder" w="16" h="14" class="mrg-m mrg--r" />
-        Explorer
-      </a>
+      <div class="links">
+        <a href="/" class="btn" class:active={pathname === '/'} on:click={window.__onLinkClick}>
+          <Svg id="folder" w="16" h="14" class="mrg-m mrg--r" />
+          Explorer
+        </a>
 
-      <Section title="Create" icon="plus-circle" links={CREATE_LINKS} {pathname} />
-      <Section title="Recent" icon="time" links={CREATE_LINKS} {pathname} />
+        <Section title="Create" icon="plus-circle" links={CREATE_LINKS} {pathname} />
+        <Section title="Recent" icon="time" links={CREATE_LINKS} {pathname} />
+      </div>
     </div>
   </div>
 </aside>
@@ -39,22 +48,26 @@
 <style lang="scss">
   aside {
     position: absolute;
-    left: 0;
     top: 70px;
+    left: 0;
+    bottom: 0;
     z-index: 25;
-    height: 100%;
     width: 240px;
     color: var(--fiord);
     fill: var(--waterloo);
     transition: transform 180ms;
   }
 
+  .content {
+    background: var(--athens);
+    height: 100%;
+  }
+
   .container {
     position: sticky;
     top: 0;
-    height: 100vh;
+    height: calc(100vh - 70px);
     padding: 24px 16px;
-    background: var(--athens);
 
     & :global {
       a.btn {
@@ -107,5 +120,13 @@
 
   .links {
     transition: transform 0.15s, opacity 0.2s;
+  }
+
+  .shifted {
+    padding-left: 40px;
+
+    :global(header) {
+      margin-left: -40px;
+    }
   }
 </style>
