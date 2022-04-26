@@ -30,6 +30,7 @@ import { mapSizesToProps } from './utils/withSizes'
 import CreateAccountFreeTrial from './pages/Login/CreateAccountFreeTrial'
 import Intercom from './components/Intercom/index.js'
 import LiveWidget from './components/LiveWidget'
+import SideNav from './components/SideNav'
 import TrialPromptDialog from './components/TrialPromptDialog'
 import { useSavedComment } from './hooks/comment'
 import styles from './App.module.scss'
@@ -236,6 +237,7 @@ export const App = ({
         {isDesktop && <UrlModals />}
 
         <ErrorBoundary history={history}>
+          <SideNav isDesktop={isDesktop} pathname={pathname} />
           <TrialPromptDialog />
           <Switch>
             <Route path={SHARE_PATH} component={PageLoader} />

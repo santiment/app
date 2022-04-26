@@ -43,18 +43,10 @@ export default ({ location }) => {
   const { pathname, search } = location
 
   useEffect(() => {
-    window.__onLinkClick = (e) => {
-      e.preventDefault()
-
-      const node = e.currentTarget
-      const href = node.getAttribute('href')
-      if (href) history.push(href)
-    }
     window.onAnonComment = onAnonComment
     window.onDefaultLayoutAddressSelect = onDefaultLayoutAddressSelect
 
     return () => {
-      window.__onLinkClick = null
       window.onAnonComment = null
       window.onDefaultLayoutAddressSelect = null
       selectedLayout.set()

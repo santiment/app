@@ -25,6 +25,14 @@ import 'webkit/styles/main.css'
 
 startResponsiveController()
 
+window.__onLinkClick = (e) => {
+  e.preventDefault()
+
+  const node = e.currentTarget
+  const href = node.getAttribute('href')
+  if (href) history.push(href)
+}
+
 const EmbeddedWidgetPage = Loadable({
   loader: () => import('./pages/Embedded'),
   loading: () => 'Loading',
