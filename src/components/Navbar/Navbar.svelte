@@ -20,7 +20,7 @@
   })
 </script>
 
-<header class="row v-center">
+<header class="row v-center relative">
   <Product title="Sanbase" class="mrg-l mrg--r" />
   <Products
     active="sanbase"
@@ -52,6 +52,7 @@
     border-bottom: 1px solid var(--porcelain);
     background: var(--white);
     padding: 16px 24px;
+    z-index: 30;
   }
 
   .dropdown {

@@ -19,7 +19,7 @@
 </div>
 
 {#if isOpened}
-  <section class="mrg-s mrg--t">
+  <section class="mrg-s mrg--t nowrap">
     {#each links as [label, href, icon]}
       <a
         {href}
@@ -27,7 +27,8 @@
         class:active={pathname === href}
         on:click={window.__onLinkClick}>
         <Svg id={icon} w="16" class="mrg-m mrg--r" />
-        {label}
+
+        <span>{label}</span>
       </a>
     {/each}
   </section>
@@ -48,5 +49,10 @@
 
   .arrow {
     transform: rotate(var(--rotate));
+  }
+
+  span {
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 </style>

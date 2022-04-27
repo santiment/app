@@ -3,11 +3,10 @@
   import Svg from 'webkit/ui/Svg/svelte'
   import Section from './Section.svelte'
   import MinimizedCategories from './MinimizedCategories.svelte'
+  import Recent from './Recent.svelte'
 
   export let root
   export let pathname = '/'
-
-  $: console.log(pathname)
 
   $: isCollapsed = pathname !== '/'
   $: root.classList.toggle('$style.shifted', isCollapsed)
@@ -19,8 +18,6 @@
     ['Address', '/labs/balance', 'wallet'],
     ['Alert', '/alerts', 'alert'],
   ]
-
-  const RECENTS = []
 
   onDestroy(() => {
     root.classList.remove('$style.shifted')
@@ -39,7 +36,7 @@
         </a>
 
         <Section title="Create" icon="plus-circle" links={CREATE_LINKS} {pathname} />
-        <Section title="Recent" icon="time" links={CREATE_LINKS} {pathname} />
+        <Recent {pathname} />
       </div>
     </div>
   </div>

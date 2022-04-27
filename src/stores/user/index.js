@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
-import { getSessionValue, setSessionValue } from 'insights/stores/utils'
+import { setSessionValue } from 'insights/stores/utils'
 import { buildRefetcher } from './utils'
 import { client } from '../../apollo'
 
