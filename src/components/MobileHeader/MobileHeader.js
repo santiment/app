@@ -13,7 +13,7 @@ const defaultClasses = {
   shortLeft: styles.shortLeft,
   right: styles.right,
   searchBtn: styles.searchBtn,
-  isTitleLink: styles.isTitleLink
+  isTitleLink: styles.isTitleLink,
 }
 
 const MobileHeader = ({
@@ -25,7 +25,8 @@ const MobileHeader = ({
   rightActions,
   classes: _classes = {},
   showBack = false,
-  children
+  showSearch = true,
+  children,
 }) => {
   const classes = { ...defaultClasses, ..._classes }
   const Title = backRoute && !goBack ? Link : 'div'
@@ -34,22 +35,11 @@ const MobileHeader = ({
       <Title
         onClick={goBack && goBack}
         to={backRoute}
-        className={cx(
-          classes.left,
-          rightActions && classes.shortLeft,
-          _classes.back
-        )}
+        className={cx(classes.left, rightActions && classes.shortLeft, _classes.back)}
       >
-        {(backRoute || showBack) && (
-          <Icon className={classes.icon} type='arrow-left-big' />
-        )}
+        {(backRoute || showBack) && <Icon className={classes.icon} type='arrow-left-big' />}
         {title && (
-          <h1
-            className={cx(
-              classes.title,
-              (backRoute || showBack) && classes.isTitleLink
-            )}
-          >
+          <h1 className={cx(classes.title, (backRoute || showBack) && classes.isTitleLink)}>
             {title}
           </h1>
         )}
@@ -57,9 +47,11 @@ const MobileHeader = ({
       {children}
       <div className={classes.right}>
         {rightActions}
-        <Button to='/search' as={Link} className={classes.searchBtn}>
-          <Icon type='search' />
-        </Button>
+        {showSearch && (
+          <Button to='/search' as={Link} className={classes.searchBtn}>
+            <Icon type='search' />
+          </Button>
+        )}
       </div>
     </div>
   )
@@ -69,7 +61,7 @@ MobileHeader.propTypes = {
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   backRoute: PropTypes.string,
   rightActions: PropTypes.node,
-  goBack: PropTypes.func
+  goBack: PropTypes.func,
 }
 
 export default MobileHeader

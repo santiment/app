@@ -1,0 +1,54 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px;
+}
+
+.inputsRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  [class="Select-placeholder"] {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.repeatingCheckLabel {
+  color: var(--rhino);
+  cursor: pointer;
+
+  @include text("body-3");
+}
+
+.frequencyType {
+  width: 250px;
+
+  [class="ReactVirtualized__Grid ReactVirtualized__List"] {
+    min-height: 176px;
+  }
+}
+
+.counter {
+  width: 80px;
+}
+
+.frequencyPeriod {
+  width: 120px;
+
+  [class="ReactVirtualized__Grid ReactVirtualized__List"] {
+    min-height: 144px;
+  }
+}
+
+.frequencyTypeDAA {
+  [class="ReactVirtualized__Grid ReactVirtualized__List"] {
+    min-height: 80px;
+  }
+}

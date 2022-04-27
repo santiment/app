@@ -54,30 +54,24 @@ export const getAccount = () =>
     return resolve(null)
   })
 
-export const setupWeb3 = cbk => {
+export const setupWeb3 = (cbk) => {
   getAccount().then(cbk)
 }
 
-export const signMessage = async account => {
+export const signMessage = async (account) => {
   const message = `Login in Santiment with address ${account}`
   const localWeb3 = getWeb3()
-  const messageHash = localWeb3.sha3(
-    '\x19Ethereum Signed Message:\n' + message.length + message
-  )
+  const messageHash = localWeb3.sha3('\x19Ethereum Signed Message:\n' + message.length + message)
   return new Promise((resolve, reject) => {
-    localWeb3.personal.sign(
-      localWeb3.fromUtf8(message),
-      account,
-      (error, signature) => {
-        if (!error) {
-          resolve({
-            messageHash,
-            signature
-          })
-        } else {
-          reject(error)
-        }
+    localWeb3.personal.sign(localWeb3.fromUtf8(message), account, (error, signature) => {
+      if (!error) {
+        resolve({
+          messageHash,
+          signature,
+        })
+      } else {
+        reject(error)
       }
-    )
+    })
   })
 }

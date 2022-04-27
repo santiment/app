@@ -4,11 +4,7 @@ import Icon from '@santiment-network/ui/Icon'
 import Toggle from '../../../../components/VisibilityIndicator/Toggle'
 import styles from './TemplateStatus.module.scss'
 
-export const TemplateStatusToggle = ({
-  toggleIsPublic,
-  isPublic,
-  classes = {}
-}) => {
+export const TemplateStatusToggle = ({ toggleIsPublic, isPublic, classes = {} }) => {
   return (
     <div onClick={toggleIsPublic} className={classes.status}>
       Public
@@ -31,18 +27,14 @@ const TemplateStatus = ({
         styles.publicity,
         isPublic && styles.publicity_public,
         !isAuthor && styles.unclickable,
-        classes.status
+        classes.status,
       )}
       onClick={isAuthor ? toggleIsPublic : undefined}
       {...rest}
     >
       <Icon
         type={isPublic ? 'eye' : 'eye-disabled'}
-        className={cx(
-          styles.icon,
-          classes.statusIcon,
-          !isAuthor && styles.unclickableIcon
-        )}
+        className={cx(styles.icon, classes.statusIcon, !isAuthor && styles.unclickableIcon)}
       />{' '}
       {isPublic ? 'Public' : 'Private'}
     </El>

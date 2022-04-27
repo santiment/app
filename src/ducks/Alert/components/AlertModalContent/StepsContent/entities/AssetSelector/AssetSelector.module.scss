@@ -1,0 +1,53 @@
+.wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.titleWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  margin-bottom: 20px;
+}
+
+.submit {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  height: 24px;
+}
+
+.submitIcon {
+  margin-left: 8px;
+}
+
+.search {
+  z-index: 5;
+}
+
+.loaderWrapper {
+  height: 100%;
+}
+
+.loader {
+  height: 100%;
+  min-height: auto;
+}
+
+.tabs {
+  display: flex;
+  margin: 20px 0;
+
+  & > div {
+    padding: 0 6px 2px;
+    margin: 0 8px;
+  }
+}
+
+.searchWithWords {
+  margin-bottom: 20px;
+}

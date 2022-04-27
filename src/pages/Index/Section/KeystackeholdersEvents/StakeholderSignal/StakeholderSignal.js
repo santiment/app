@@ -12,7 +12,7 @@ import { usdFormatter } from '../../../../../ducks/dataHub/metrics/formatters'
 // import UsefulSuggestion from '../UsefulSuggestion'
 import styles from './StakeholderSignal.module.scss'
 
-function formatDate (date) {
+function formatDate(date) {
   const { DD, MM, YYYY } = getDateFormats(date)
   const { HH, mm } = getTimeFormats(date)
   return `${DD}.${MM}.${YYYY} ${HH}:${mm}`
@@ -20,7 +20,7 @@ function formatDate (date) {
 
 const MAX_TX_LENGTH = 40
 
-const getShortTx = value => {
+const getShortTx = (value) => {
   if (value.length < MAX_TX_LENGTH) {
     return value
   }
@@ -31,17 +31,11 @@ const LINK_SETTINGS = { linkSymbolsCount: 42 }
 
 const ExchangeLink = ({ exchange_name }) => {
   const link = HARDCODED_EXCHANGE_LINKS[exchange_name]
-  const label =
-    READABLE_EXCHANGE_NAMES[exchange_name] || exchange_name.toLowerCase()
+  const label = READABLE_EXCHANGE_NAMES[exchange_name] || exchange_name.toLowerCase()
 
   if (link) {
     return (
-      <a
-        className={styles.link}
-        target='_blank'
-        rel='noopener noreferrer'
-        href={link}
-      >
+      <a className={styles.link} target='_blank' rel='noopener noreferrer' href={link}>
         {label}
       </a>
     )
@@ -50,7 +44,7 @@ const ExchangeLink = ({ exchange_name }) => {
   }
 }
 
-function isValueUsd (value, value_usd, signal) {
+function isValueUsd(value, value_usd, signal) {
   if (!value_usd) {
     switch (signal) {
       case 'ath':
@@ -80,12 +74,12 @@ const StakeholderSignal = ({ data, settings }) => {
       daysDestroyed,
       prev_ath,
       prev_ath_dt,
-      value_usd
+      value_usd,
     },
     value,
     signal,
     slug,
-    project: targetProject
+    project: targetProject,
   } = data
 
   const [project = targetProject] = useProject(!targetProject && slug)
@@ -202,11 +196,7 @@ const StakeholderSignal = ({ data, settings }) => {
           )}
         </div>
         <div className={styles.chart}>
-          <StakeholderChartPreview
-            data={data}
-            project={project}
-            settings={settings}
-          />
+          <StakeholderChartPreview data={data} project={project} settings={settings} />
           {/* <UsefulSuggestion /> */}
         </div>
       </div>

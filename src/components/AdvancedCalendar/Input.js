@@ -1,26 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react'
 import cx from 'classnames'
-import {
-  selectNextGroup,
-  fixDateRangeString,
-  getValidityMsg,
-  extractGroupValue
-} from './utils'
+import { selectNextGroup, fixDateRangeString, getValidityMsg, extractGroupValue } from './utils'
 import styles from './index.module.scss'
 
 const TO_RIGHT = true
 
 const BlockingNeighbourChar = {
   ' ': true,
-  '-': true
+  '-': true,
 }
 
 const NavigationChar = {
   ArrowLeft: true,
-  ArrowRight: true
+  ArrowRight: true,
 }
 
-const canModifyChar = char => !Number.isNaN(parseInt(char, 10))
+const canModifyChar = (char) => !Number.isNaN(parseInt(char, 10))
 
 const Input = ({ value, onCalendarChange }) => {
   const [input, setInput] = useState(value)
@@ -33,18 +28,18 @@ const Input = ({ value, onCalendarChange }) => {
     setIsInvalid(false)
   }, [value])
 
-  function onFocus () {
+  function onFocus() {
     setIsFocused(true)
   }
 
-  function onBlur ({ target }) {
+  function onBlur({ target }) {
     if (!isFocused || value === target.value) return
 
     changeCalendar()
     setIsFocused(false)
   }
 
-  function onChange ({ target }) {
+  function onChange({ target }) {
     const { value, selectionStart } = target
     updateInput(value)
 
@@ -53,12 +48,12 @@ const Input = ({ value, onCalendarChange }) => {
     }
   }
 
-  function updateInput (value) {
+  function updateInput(value) {
     setInput(value)
     setIsInvalid(!validateInput(value))
   }
 
-  function changeCalendar () {
+  function changeCalendar() {
     const validDates = validateInput(input)
 
     if (validDates) {
@@ -66,12 +61,10 @@ const Input = ({ value, onCalendarChange }) => {
     }
   }
 
-  function validateInput (input) {
-    const dateSettings = input.split(' - ').map(item => item.split('/'))
+  function validateInput(input) {
+    const dateSettings = input.split(' - ').map((item) => item.split('/'))
 
-    const dates = dateSettings.map(
-      ([day, month, year]) => new Date(`${month}/${day}/20${year}`)
-    )
+    const dates = dateSettings.map(([day, month, year]) => new Date(`${month}/${day}/20${year}`))
 
     let [from, to] = dates
 
@@ -96,7 +89,7 @@ const Input = ({ value, onCalendarChange }) => {
     return msg ? null : dates
   }
 
-  function onClick ({ target }) {
+  function onClick({ target }) {
     const caret = target.selectionStart
     if (target.selectionEnd - caret !== 2) {
       updateInput(fixDateRangeString(target))
@@ -108,7 +101,7 @@ const Input = ({ value, onCalendarChange }) => {
     }
   }
 
-  function onKeyDown (e) {
+  function onKeyDown(e) {
     const { key, target } = e
 
     if (target.selectionEnd - target.selectionStart > 2) {
@@ -128,8 +121,7 @@ const Input = ({ value, onCalendarChange }) => {
       selectNextGroup(target, key === 'ArrowRight', beforeCaretIndex + 1)
     } else if (
       canModifyChar(key) ^
-      (BlockingNeighbourChar[charBeforeCaret] &&
-        BlockingNeighbourChar[charAfterCaret])
+      (BlockingNeighbourChar[charBeforeCaret] && BlockingNeighbourChar[charAfterCaret])
     ) {
       return
     }

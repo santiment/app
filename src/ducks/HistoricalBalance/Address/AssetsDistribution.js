@@ -14,27 +14,23 @@ const COLORS = [
   '#5275FF',
   '#efa7a7',
   '#8358ff',
-  '#18c0e4'
+  '#18c0e4',
 ]
 const MAX_COLOR_PROJECTS = COLORS.length
 const MAX_DESCRIBED_PROJECTS = 6
 
 export const existingAssetsFilter = ({ balanceUsd }) => balanceUsd
-export const distributionSorter = ({ balanceUsd: a }, { balanceUsd: b }) =>
-  b - a
-const checkIsSmallDistribution = percent => percent < 0.5
-const smallDistributionFinder = ({ percent }) =>
-  checkIsSmallDistribution(percent)
+export const distributionSorter = ({ balanceUsd: a }, { balanceUsd: b }) => b - a
+const checkIsSmallDistribution = (percent) => percent < 0.5
+const smallDistributionFinder = ({ percent }) => checkIsSmallDistribution(percent)
 
-export function useDistributions (walletAssets) {
+export function useDistributions(walletAssets) {
   const { projects } = useProjects()
 
   return useMemo(() => {
     if (projects.length === 0) return []
 
-    const sortedAssets = walletAssets
-      .filter(existingAssetsFilter)
-      .sort(distributionSorter)
+    const sortedAssets = walletAssets.filter(existingAssetsFilter).sort(distributionSorter)
     const { length } = sortedAssets
     const distributions = new Array(length)
     let totalBalance = 0
@@ -57,10 +53,8 @@ export function useDistributions (walletAssets) {
         percentText: percent > 0.1 ? percent.toFixed(1) + '%' : '0.0%',
         style: {
           '--width': percent + '%',
-          '--color': checkIsSmallDistribution(percent)
-            ? NO_COLOR
-            : COLORS[i] || NO_COLOR
-        }
+          '--color': checkIsSmallDistribution(percent) ? NO_COLOR : COLORS[i] || NO_COLOR,
+        },
       }
     }
 
@@ -75,31 +69,17 @@ const Distribution = ({ name, style, percentText }) => (
 )
 
 const Distributions = ({ distributions }) =>
-  distributions.map((distribution, i) => (
-    <Distribution key={i} {...distribution} />
-  ))
+  distributions.map((distribution, i) => <Distribution key={i} {...distribution} />)
 
-export const CollapsedDistributions = ({
-  distributions,
-  Items = Distributions
-}) => (
+export const CollapsedDistributions = ({ distributions, Items = Distributions }) => (
   <CollapsedTooltip
-    trigger={
-      <div
-        className={styles.collapsed}
-      >{`+${distributions.length} assets`}</div>
-    }
+    trigger={<div className={styles.collapsed}>{`+${distributions.length} assets`}</div>}
   >
     <Items distributions={distributions} />
   </CollapsedTooltip>
 )
 
-const AssetsDistribution = ({
-  walletAssets,
-  skipTitle,
-  className,
-  classes
-}) => {
+const AssetsDistribution = ({ walletAssets, skipTitle, className, classes }) => {
   const distributions = useDistributions(walletAssets)
   const biggestDistributions = useMemo(() => {
     const index = distributions.findIndex(smallDistributionFinder)
@@ -113,12 +93,8 @@ const AssetsDistribution = ({
 
   return (
     <div className={cx(styles.wrapper, className)}>
-      {!skipTitle && (
-        <div className={styles.title}>Assets USD distribution</div>
-      )}
-      <div
-        className={cx(styles.historgram, classes && classes.histogramClassName)}
-      >
+      {!skipTitle && <div className={styles.title}>Assets USD distribution</div>}
+      <div className={cx(styles.historgram, classes && classes.histogramClassName)}>
         {historgramProjects.map(({ name, style }) => (
           <div key={name} style={style} className={styles.slice} />
         ))}
@@ -128,12 +104,8 @@ const AssetsDistribution = ({
       </div>
 
       <div className={styles.projects}>
-        <Distributions
-          distributions={distributions.slice(0, MAX_DESCRIBED_PROJECTS)}
-        />
-        {hiddenProjects.length !== 0 && (
-          <CollapsedDistributions distributions={hiddenProjects} />
-        )}
+        <Distributions distributions={distributions.slice(0, MAX_DESCRIBED_PROJECTS)} />
+        {hiddenProjects.length !== 0 && <CollapsedDistributions distributions={hiddenProjects} />}
       </div>
     </div>
   )

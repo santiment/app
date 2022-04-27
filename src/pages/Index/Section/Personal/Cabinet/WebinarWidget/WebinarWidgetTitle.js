@@ -9,9 +9,7 @@ const WebinarWidgetTitle = () => {
         {WebinarsImg}
         <div className={styles.info}>
           <div className={styles.title}>Video Insights</div>
-          <div className={styles.description}>
-            Check out our recent webinars and weekly streams
-          </div>
+          <div className={styles.description}>Check out our recent webinars and weekly streams</div>
         </div>
       </div>
     </div>

@@ -18,7 +18,7 @@
 }
 
 .headerColumn {
-  top: 114px;
+  top: 130px;
   border-bottom: none;
 
   &:first-child {
@@ -38,4 +38,14 @@
 
 .tableRow {
   height: 60px;
+}
+
+.defaultHeight {
+  height: calc(100vh - 64px) !important;
+  min-height: calc(100vh - 64px) !important;
+}
+
+.fullHeight {
+  height: 100vh !important;
+  min-height: 100vh !important;
 }

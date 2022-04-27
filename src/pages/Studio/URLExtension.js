@@ -11,7 +11,7 @@ import { getShortUrl } from '../../components/Share/utils'
 
 const checkIsNotAuthorError = ({ message }) => message.includes('another user')
 
-function getSharedUrl (shortUrlHash, settings, widgets, sidewidget, layout) {
+function getSharedUrl(shortUrlHash, settings, widgets, sidewidget, layout) {
   const path = shortUrlHash ? '/charts' : window.location.pathname
   return (
     path +
@@ -19,18 +19,16 @@ function getSharedUrl (shortUrlHash, settings, widgets, sidewidget, layout) {
     stringify({
       settings,
       widgets,
-      sidepanel: sidewidget
-        ? JSON.stringify({ type: sidewidget.key || sidewidget })
-        : undefined,
-      layout: layout ? layout.id : undefined
+      sidepanel: sidewidget ? JSON.stringify({ type: sidewidget.key || sidewidget }) : undefined,
+      layout: layout ? layout.id : undefined,
     })
   )
 }
 
-const getSharedSettings = settings => JSON.stringify(shareSettings(settings))
-const getSharedWidgets = widgets => JSON.stringify(shareWidgets(widgets))
+const getSharedSettings = (settings) => JSON.stringify(shareSettings(settings))
+const getSharedWidgets = (widgets) => JSON.stringify(shareWidgets(widgets))
 
-const unsub = unsubscribe => unsubscribe()
+const unsub = (unsubscribe) => unsubscribe()
 const URLExtension = ({
   history,
   settings,
@@ -39,9 +37,9 @@ const URLExtension = ({
   subwidgets,
   prevFullUrlRef,
   shortUrlHashState,
-  setSlug
+  setSlug,
 }) => {
-  const { ticker, name } = settings
+  const { name } = settings
   const [sharedWidgets, setSharedWidgets] = useState('')
   const { isLoggedIn } = useUser()
   const layout = useStore(selectedLayout)
@@ -52,13 +50,13 @@ const URLExtension = ({
   useEffect(() => {
     const update = () => setSharedWidgets(getSharedWidgets(widgets))
     let updateTimer
-    function scheduleUpdate () {
+    function scheduleUpdate() {
       window.clearTimeout(updateTimer)
       updateTimer = window.setTimeout(update, 250)
     }
 
     const unsubs = []
-    widgets.forEach(widget => {
+    widgets.forEach((widget) => {
       if (!widget.OnUpdate) return
 
       unsubs.push(widget.OnUpdate.subscribe(scheduleUpdate))
@@ -76,13 +74,7 @@ const URLExtension = ({
     const isNew = window.location.pathname.split('/')[2] === 'new'
 
     let [shortUrlHash, setShortUrlHash] = shortUrlHashState
-    const url = getSharedUrl(
-      shortUrlHash,
-      sharedSettings,
-      sharedWidgets,
-      sidewidget,
-      layout
-    )
+    const url = getSharedUrl(shortUrlHash, sharedSettings, sharedWidgets, sidewidget, layout)
     if (url === prevFullUrlRef.current) return
 
     if (isNew && window.onLayoutCreationOpen) {
@@ -97,10 +89,10 @@ const URLExtension = ({
     let isRacing = false
 
     mutateShortUrl()
-    function mutateShortUrl () {
+    function mutateShortUrl() {
       const shortUrlPromise = shortUrlHash
         ? updateShortUrl(shortUrlHash, url)
-        : getShortUrl(url).then(newShortUrlHash => {
+        : getShortUrl(url).then((newShortUrlHash) => {
             if (isRacing) return
 
             shortUrlHash = newShortUrlHash
@@ -116,7 +108,7 @@ const URLExtension = ({
           history.replace(buildChartShortPath(shortUrlHash))
           window.onChartsLayoutMount()
         })
-        .catch(error => {
+        .catch((error) => {
           if (isRacing) return
 
           if (checkIsNotAuthorError(error)) {
@@ -133,16 +125,15 @@ const URLExtension = ({
 
   return (
     <Helmet
-      title={ticker ? `${ticker} project page` : 'Sanbase...'}
       meta={[
         {
           property: 'og:title',
-          content: `Project overview: ${name} - Sanbase`
+          content: `Project overview: ${name} - Sanbase`,
         },
         {
           property: 'og:description',
-          content: `Financial, development, on-chain and social data for ${name}.`
-        }
+          content: `Financial, development, on-chain and social data for ${name}.`,
+        },
       ]}
     />
   )

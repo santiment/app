@@ -15,7 +15,7 @@ const FeedFiltersDdWrapper = ({ title, ids, onUpdate, render, className }) => {
     }
   }, [ids.length, selectedValues.length, data.length])
 
-  const onChange = value => {
+  const onChange = (value) => {
     setSelectedValues(value)
     onUpdate && onUpdate(value.map(({ id }) => +id))
   }

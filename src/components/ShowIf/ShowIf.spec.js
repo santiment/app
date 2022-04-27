@@ -15,19 +15,19 @@ describe('ShowIf', () => {
     const initialState = {
       user: {
         data: {
-          sanBalance: 400
-        }
+          sanBalance: 400,
+        },
       },
-      rootUi: { isBetaModeEnabled: true }
+      rootUi: { isBetaModeEnabled: true },
     }
     store = mockStore(initialState)
   })
 
-  const getWrapper = store =>
+  const getWrapper = (store) =>
     mount(
       <ShowIf beta store={store}>
         <AnyComponent />
-      </ShowIf>
+      </ShowIf>,
     )
 
   it('it should render if beta', () => {
@@ -46,7 +46,7 @@ describe('ShowIf', () => {
     const wrapper = mount(
       <ShowIf loggedIn store={store}>
         <AnyComponent />
-      </ShowIf>
+      </ShowIf>,
     )
     expect(wrapper.find(AnyComponent).exists()).toBeTruthy()
   })

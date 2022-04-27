@@ -16,7 +16,7 @@ const ProjectsList = ({
   listItems,
   onToggleProject,
   isContained,
-  hideCheckboxes = false
+  hideCheckboxes = false,
 }) => {
   const rowRenderer = ({ key, index, style }) => {
     const { name, ticker, slug, id, balance, logoUrl } = items[index]
@@ -30,36 +30,19 @@ const ProjectsList = ({
           onToggleProject({
             project: items[index],
             listItems,
-            isAssetInList
+            isAssetInList,
           })
         }}
       >
         {!hideCheckboxes && (
-          <Checkbox
-            isActive={isAssetInList}
-            disabled={isContained ? false : isAssetInList}
-          />
+          <Checkbox isActive={isAssetInList} disabled={isContained ? false : isAssetInList} />
         )}
-        <div
-          className={cx(
-            styles.asset,
-            !isContained && isAssetInList && styles.disabled
-          )}
-        >
-          <ProjectIcon
-            className={styles.icon}
-            size={16}
-            slug={slug}
-            logoUrl={logoUrl}
-          />
+        <div className={cx(styles.asset, !isContained && isAssetInList && styles.disabled)}>
+          <ProjectIcon className={styles.icon} size={16} slug={slug} logoUrl={logoUrl} />
           <span className={styles.name}>{name}</span>
           <Label accent='waterloo'>
             (
-            {balance >= 0 && (
-              <Label className={styles.balance}>
-                {formatTokensCount(balance)}
-              </Label>
-            )}
+            {balance >= 0 && <Label className={styles.balance}>{formatTokensCount(balance)}</Label>}
             {ticker})
           </Label>
         </div>
@@ -68,9 +51,8 @@ const ProjectsList = ({
   }
 
   const wrapperStyles = {
-    height:
-      items.length > MAX_SHOWING_ITEMS ? `160px` : `${32 * items.length}px`,
-    paddingRight: items.length > MAX_SHOWING_ITEMS ? '0px' : `5px`
+    height: items.length > MAX_SHOWING_ITEMS ? `160px` : `${32 * items.length}px`,
+    paddingRight: items.length > MAX_SHOWING_ITEMS ? '0px' : `5px`,
   }
 
   return (

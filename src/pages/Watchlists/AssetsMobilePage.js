@@ -26,17 +26,16 @@ const CLOSED_ANOMALIES_HEIGHT = 48 + 20
 const OPENED_ANOMALIES_HEIGHT = 105 + 20
 const CHOOSED_ANOMALIES_HEIGHT = 137 + 20
 
-const INITIAL_REMAINING_HEIGHT =
-  BOTTOM_HEIGHT + HEADER_HEIGHT + TABLE_LABELS_HEIGHT
+const INITIAL_REMAINING_HEIGHT = BOTTOM_HEIGHT + HEADER_HEIGHT + TABLE_LABELS_HEIGHT
 
 const ROW_HEIGHT = 60
 
 export const PRICE_RANGES = [
   { value: '1d', label: '24h' },
-  { value: '7d', label: '7d' }
+  { value: '7d', label: '7d' },
 ]
 
-const AssetsMobilePage = props => {
+const AssetsMobilePage = (props) => {
   const { watchlist } = props
   const [pointer, setPointer] = useState(1)
   const [range, setRange] = useState(RANGES[pointer])
@@ -45,9 +44,7 @@ const AssetsMobilePage = props => {
   const [filterType, setFilterType] = useState(null)
   const [currentItems, setCurrentItems] = useState([])
   const [isOpenAnomalies, setIsOpenAnomalies] = useState(false)
-  const [remainingHeight, setRemainingHeight] = useState(
-    INITIAL_REMAINING_HEIGHT
-  )
+  const [remainingHeight, setRemainingHeight] = useState(INITIAL_REMAINING_HEIGHT)
 
   const [topRow, setTopRow] = useState(0)
 
@@ -74,8 +71,7 @@ const AssetsMobilePage = props => {
     const isOpen = !isOpenAnomalies
     setIsOpenAnomalies(isOpen)
     setRemainingHeight(
-      INITIAL_REMAINING_HEIGHT +
-        (isOpen ? OPENED_ANOMALIES_HEIGHT : CLOSED_ANOMALIES_HEIGHT)
+      INITIAL_REMAINING_HEIGHT + (isOpen ? OPENED_ANOMALIES_HEIGHT : CLOSED_ANOMALIES_HEIGHT),
     )
   }
 
@@ -90,15 +86,14 @@ const AssetsMobilePage = props => {
           isCurrentUserTheAuthor,
           isPublicWatchlist,
           items = [],
-          trendingAssets = []
+          trendingAssets = [],
         }) => {
           if (items !== currentItems) {
             setCurrentItems(items)
             setFilteredItems(null)
             setFilterType(null)
             setRemainingHeight(
-              INITIAL_REMAINING_HEIGHT +
-                (trendingAssets.length > 0 && CLOSED_ANOMALIES_HEIGHT)
+              INITIAL_REMAINING_HEIGHT + (trendingAssets.length > 0 && CLOSED_ANOMALIES_HEIGHT),
             )
           }
 
@@ -116,10 +111,7 @@ const AssetsMobilePage = props => {
           const scrollToIndex = scrollPosition || 0
 
           const saveScrollPosition = () => {
-            window.history.replaceState(
-              { scrollPosition: topRow },
-              'scrollPosition'
-            )
+            window.history.replaceState({ scrollPosition: topRow }, 'scrollPosition')
           }
 
           // TODO: rewrite this check (@haritonasty 17.05.21)
@@ -205,24 +197,17 @@ export const AssetsList = ({
   rowHeight = ROW_HEIGHT,
   initialIndex,
   saveScrollPosition,
-  onAssetsListScroll = () => {}
+  onAssetsListScroll = () => {},
 }) => {
-  const slugs = items.map(item => item.slug)
+  const slugs = items.map((item) => item.slug)
   const [savedLastIndex, setSavedLastIndex] = useState(30)
   const [savedStartIndex, setSavedStartIndex] = useState(0)
-  const [visibleItems, setVisibleItems] = useState(
-    slugs.slice(0, savedLastIndex)
-  )
+  const [visibleItems, setVisibleItems] = useState(slugs.slice(0, savedLastIndex))
   const [graphData, loading] = usePriceGraph({
     slugs: visibleItems,
-    range: priceRange
+    range: priceRange,
   })
-  const normalizedItems = normalizeGraphData(
-    graphData,
-    items,
-    `priceChart${priceRange}`,
-    loading
-  )
+  const normalizedItems = normalizeGraphData(graphData, items, `priceChart${priceRange}`, loading)
 
   const rowRenderer =
     renderer ||
@@ -230,11 +215,7 @@ export const AssetsList = ({
       const asset = normalizedItems[index]
       return (
         <div key={key} style={style}>
-          <AssetCard
-            {...asset}
-            onAssetClick={saveScrollPosition}
-            priceRange={priceRange}
-          />
+          <AssetCard {...asset} onAssetClick={saveScrollPosition} priceRange={priceRange} />
         </div>
       )
     }
@@ -253,15 +234,8 @@ export const AssetsList = ({
             scrollToIndex={initialIndex}
             scrollToAlignment={'start'}
             rowRenderer={rowRenderer}
-            onRowsRendered={({
-              overscanStartIndex,
-              overscanStopIndex,
-              startIndex
-            }) => {
-              if (
-                savedLastIndex - startIndex < 5 ||
-                startIndex - savedStartIndex < 0
-              ) {
+            onRowsRendered={({ overscanStartIndex, overscanStopIndex, startIndex }) => {
+              if (savedLastIndex - startIndex < 5 || startIndex - savedStartIndex < 0) {
                 const newLastIndex = overscanStopIndex + 25
                 setSavedLastIndex(newLastIndex)
                 setSavedStartIndex(overscanStartIndex)

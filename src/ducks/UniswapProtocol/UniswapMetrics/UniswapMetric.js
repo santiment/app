@@ -10,7 +10,7 @@ const UniswapMetric = ({ metric }) => {
   const { human_readable_name, key, formatter } = metric
   const [settings, setSettings] = useState({
     slug: 'uniswap',
-    ...formIntervalSettings(INTERVAL)
+    ...formIntervalSettings(INTERVAL),
   })
   const metrics = useMemo(() => {
     return [metric]
@@ -31,7 +31,7 @@ const UniswapMetric = ({ metric }) => {
       !isLoading &&
         setSettings({
           ...settings,
-          ...formIntervalSettings(INTERVAL)
+          ...formIntervalSettings(INTERVAL),
         })
     }, 120000)
 

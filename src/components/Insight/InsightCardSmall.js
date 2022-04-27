@@ -12,24 +12,18 @@ const InsightCard = ({
   votedAt,
   votes: { totalVotes },
   maxLines = 2,
-  multilineTextId
+  multilineTextId,
 }) => {
   return (
     <div className={className}>
       <a
-        href={`https://insights.santiment.net/read/${getSEOLinkFromIdAndTitle(
-          id,
-          title
-        )}`}
+        href={`https://insights.santiment.net/read/${getSEOLinkFromIdAndTitle(id, title)}`}
         className={styles.title}
       >
         <MultilineText id={multilineTextId} maxLines={maxLines} text={title} />
       </a>
       <div className={styles.meta}>
-        <a
-          href={`https://insights.santiment.net/user/${user.id}`}
-          className={styles.username}
-        >
+        <a href={`https://insights.santiment.net/user/${user.id}`} className={styles.username}>
           {user.username}
         </a>
         <LikeBtn disabled liked={!!votedAt} likesNumber={totalVotes} />
@@ -40,7 +34,7 @@ const InsightCard = ({
 
 InsightCard.defaultProps = {
   votes: {},
-  comments: 0
+  comments: 0,
 }
 
 export default InsightCard

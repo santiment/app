@@ -2,24 +2,33 @@ import React from 'react'
 import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import Toggle from '@santiment-network/ui/Toggle'
+import AlertTooltip from '../../components/AlertTooltip/AlertTooltip'
 import { useUser } from '../../stores/user'
-import {
-  useUpdateUserNotifications,
-  useUserSettings
-} from '../../stores/user/settings'
+import { useUpdateUserNotifications, useUserSettings } from '../../stores/user/settings'
 import styles from './AccountPage.module.scss'
 
 const SettingsEmailNotifications = ({ classes = {}, description }) => {
   const { user } = useUser()
   const {
-    settings: { alertNotifyEmail }
+    settings: { alertNotifyEmail },
   } = useUserSettings()
 
   const [update] = useUpdateUserNotifications()
 
   return (
     <div className={cx(classes.container, styles.settingBlock)}>
-      <Label className={classes.left}>Email notifications</Label>
+      <Label className={cx(classes.left, 'row v-center')}>
+        <span className='mrg--r mrg-xs'>Email notifications</span>
+        <AlertTooltip
+          isVisible={!alertNotifyEmail}
+          content={
+            <span>
+              <span className='txt-m'>Email notifications are disabled!</span> This means you will
+              not receive Email notifications when this alerts is triggered.
+            </span>
+          }
+        />
+      </Label>
       <div className={cx(styles.setting__right, classes.right)}>
         {description}
         {user && user.email ? (

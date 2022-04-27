@@ -13,7 +13,7 @@ import {
   useWidgetsStore,
   useStudioMetrics,
   useWidgets,
-  useHistory
+  useHistory,
 } from './stores'
 import LoginCTA from './LoginCTA'
 import { getExternalWidget } from './Widget'
@@ -33,12 +33,8 @@ import { Tab } from '../../ducks/Studio/Tabs'
 import {
   notifyAnonCreation,
   notifyCreation,
-  notifySave
+  notifySave,
 } from '../../ducks/Studio/Template/notifications'
-import 'webkit/styles/color.css'
-import 'webkit/styles/text.css'
-import 'webkit/styles/layout.css'
-import 'webkit/styles/elements.css'
 import styles from './index.module.scss'
 
 window.notifyLayoutSave = notifySave
@@ -46,7 +42,7 @@ window.notifyLayoutEdit = notifySave
 window.notifyLayoutCreation = notifyCreation
 window.notifyLayoutAnonCreation = notifyAnonCreation
 
-function getScreen () {
+function getScreen() {
   const { pathname } = window.location
 
   let screen
@@ -102,22 +98,22 @@ const Studio = ({
         shareLayoutWidgets: shareWidgets,
         onAnonFavoriteClick: () => setIsLoginCTAOpened(true),
         onWidget: () => redraw(),
-        onWidgetInit: () => setWidgetsRef.current(widgets => widgets.slice()),
+        onWidgetInit: () => setWidgetsRef.current((widgets) => widgets.slice()),
         onSubwidget: subwidgetsController.onSubwidget,
         onScreenMount: setMountedScreen,
-        onSidebarProjectMount: node => onSidebarProjectMountRef.current(node),
+        onSidebarProjectMount: (node) => onSidebarProjectMountRef.current(node),
         checkIsMapviewDisabled: () => isMapviewDisabledRef.current,
         adjustSelectedMetric: onMetricSelect,
         InsightsContextStore: InsightsStore,
-        headerPadding: SAN_HEADER_HEIGHT,
+        headerPadding: SAN_HEADER_HEIGHT + 65,
         screen: getScreen(),
         sidewidget: defaultSidewidget,
         widgets: defaultWidgets || [
           newWidget(ChartWidget, {
-            metrics: [Metric.price_usd]
-          })
-        ]
-      }
+            metrics: [Metric.price_usd],
+          }),
+        ],
+      },
     })
 
     setStudio(studio)
@@ -138,17 +134,17 @@ const Studio = ({
     if (studio && defaultWidgets) widgetsStore.set(defaultWidgets)
   }, [studio, defaultSettings, defaultWidgets])
 
-  function onModRangeSelect (start, end, e) {
+  function onModRangeSelect(start, end, e) {
     setModRange([new Date(start.value), new Date(end.value)])
   }
 
-  function onProjectSelect (project) {
+  function onProjectSelect(project) {
     if (project) {
       const { slug } = project
 
       if (settings.slug !== slug) {
         track.event(Event.ChangeAsset, { asset: slug })
-        widgets.forEach(widget => {
+        widgets.forEach((widget) => {
           if (widget.MetricsSignals) widget.MetricsSignals.clear()
         })
 
@@ -157,7 +153,7 @@ const Studio = ({
           History.add(
             'Asset change',
             () => setProject(oldProject),
-            () => setProject(project)
+            () => setProject(project),
           )
         }
       }
@@ -166,16 +162,16 @@ const Studio = ({
     }
   }
 
-  function setProject ({ slug, ticker, name, id }) {
+  function setProject({ slug, ticker, name, id }) {
     settingsStore.setProject({
       slug,
       ticker,
       name,
-      projectId: id
+      projectId: id,
     })
   }
 
-  function onMetricSelect (node) {
+  function onMetricSelect(node) {
     if (selectMetricRef.current) return selectMetricRef.current(node)
     return node
   }
@@ -184,11 +180,7 @@ const Studio = ({
     <div ref={ref} className={styles.wrapper}>
       {studio && (
         <>
-          <ProjectInfo
-            studio={studio}
-            settings={settings}
-            onProjectSelect={onProjectSelect}
-          />
+          <ProjectInfo studio={studio} settings={settings} onProjectSelect={onProjectSelect} />
         </>
       )}
 
@@ -203,14 +195,10 @@ const Studio = ({
       {studio && (
         <Switch>
           <Route path='/:base/related-insights'>
-            {mountedScreen === Tab.insights.path && (
-              <InsightsTab settings={settings} />
-            )}
+            {mountedScreen === Tab.insights.path && <InsightsTab settings={settings} />}
           </Route>
           <Route path='/:base/stats'>
-            {mountedScreen === Tab.stats.path && (
-              <KeyStatsTab settings={settings} />
-            )}
+            {mountedScreen === Tab.stats.path && <KeyStatsTab settings={settings} />}
           </Route>
           <Route>
             {!mountedScreen && (
@@ -239,10 +227,7 @@ const Studio = ({
         settings={settings}
       />
 
-      <LoginCTA
-        isLoginCTAOpened={isLoginCTAOpened}
-        setIsLoginCTAOpened={setIsLoginCTAOpened}
-      />
+      <LoginCTA isLoginCTAOpened={isLoginCTAOpened} setIsLoginCTAOpened={setIsLoginCTAOpened} />
     </div>
   )
 }

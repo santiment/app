@@ -13,13 +13,13 @@ export const DEFAULT_SETTINGS = {
   interval: getNewInterval(FROM, TO),
   from: FROM.toISOString(),
   to: TO.toISOString(),
-  timeRange: DEFAULT_TIME_RANGE
+  timeRange: DEFAULT_TIME_RANGE,
 }
 
 export const COMMON_CHART_OPTIONS = {
   isWatermarkLighter: getSavedToggle('isWatermarkLighter', false),
   isWatermarkVisible: getSavedToggle('isWatermarkVisible', true),
-  isCartesianGridActive: getSavedToggle('isCartesianGridActive', true)
+  isCartesianGridActive: getSavedToggle('isCartesianGridActive', true),
 }
 
 export const DEFAULT_OPTIONS = {
@@ -27,5 +27,5 @@ export const DEFAULT_OPTIONS = {
   isICOPriceActive: false,
   isMultiChartsActive: getSavedMulticharts(),
   isClosestDataActive: getSavedToggle('isClosestDataActive', true),
-  ...COMMON_CHART_OPTIONS
+  ...COMMON_CHART_OPTIONS,
 }

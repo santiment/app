@@ -6,11 +6,11 @@ export const Event = {
     category: 'Social',
     dataKey: 'position',
     description:
-      'Shows the appearance (and position) of the project on our list of top 10 emerging words on crypto social media on a given date'
+      'Shows the appearance (and position) of the project on our list of top 10 emerging words on crypto social media on a given date',
   },
   position: {
     label: 'Trending Position',
-    formatter: val => {
+    formatter: (val) => {
       switch (val) {
         case 1:
           return `1st`
@@ -22,6 +22,6 @@ export const Event = {
         default:
           return `${val}th`
       }
-    }
-  }
+    },
+  },
 }

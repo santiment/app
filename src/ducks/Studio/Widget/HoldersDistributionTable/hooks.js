@@ -3,20 +3,8 @@ import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 
 const TOP_HOLDERS_QUERY = gql`
-  query topHolders(
-    $slug: String!
-    $from: DateTime!
-    $to: DateTime!
-    $page: Int!
-    $pageSize: Int!
-  ) {
-    topHolders(
-      slug: $slug
-      from: $from
-      to: $to
-      page: $page
-      pageSize: $pageSize
-    ) {
+  query topHolders($slug: String!, $from: DateTime!, $to: DateTime!, $page: Int!, $pageSize: Int!) {
+    topHolders(slug: $slug, from: $from, to: $to, page: $page, pageSize: $pageSize) {
       address
       value
       valueUsd
@@ -40,7 +28,7 @@ const TOP_HOLDERS_COUNT_QUERY = gql`
 
 export const useTopHolders = ({ from, to, page, pageSize, slug, labels }) => {
   const query = useQuery(TOP_HOLDERS_QUERY, {
-    variables: { from, to, page, pageSize, slug, labels }
+    variables: { from, to, page, pageSize, slug, labels },
   })
 
   return useMemo(() => {
@@ -52,7 +40,7 @@ export const useTopHolders = ({ from, to, page, pageSize, slug, labels }) => {
 
 export const useMaxCountTopHolders = ({ from, to, slug, labels }) => {
   const query = useQuery(TOP_HOLDERS_COUNT_QUERY, {
-    variables: { from, to, slug, labels }
+    variables: { from, to, slug, labels },
   })
 
   return useMemo(() => {

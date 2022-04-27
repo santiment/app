@@ -4,17 +4,16 @@ const APP_NAME = 'Sanbase'
 export const isBrowser = typeof window !== 'undefined'
 export const isProdApp = window.location.origin === 'https://app.santiment.net'
 export const hasDoNotTrack = () => {
-  const dnt =
-    navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack
+  const dnt = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack
   return dnt === '1' || dnt === 'yes'
 }
 
 // GA strings need to have trailing whitespace trimmed,
-function trim (s) {
+function trim(s) {
   return s.replace(/^\s+|\s+$/g, '')
 }
 
-function mixScript (src) {
+function mixScript(src) {
   const script = document.createElement('script')
   script.async = true
   script.type = 'text/javascript'
@@ -24,14 +23,14 @@ function mixScript (src) {
   head.appendChild(script)
 }
 
-function loadScript () {
+function loadScript() {
   mixScript('//www.googletagmanager.com/gtag/js?id=' + TRACKER_IDs[0])
 }
 
 const initHotjar = () => {
   const settings = {
     hjid: 1829649,
-    hjsv: 6
+    hjsv: 6,
   }
   window.hj =
     window.hj ||
@@ -40,20 +39,13 @@ const initHotjar = () => {
     }
   window._hjSettings = settings
 
-  mixScript(
-    'https://static.hotjar.com/c/hotjar-' +
-      settings.hjid +
-      '.js?sv=' +
-      settings.hjsv
-  )
+  mixScript('https://static.hotjar.com/c/hotjar-' + settings.hjid + '.js?sv=' + settings.hjsv)
 }
 
 const initTwitterPixel = () => {
   mixScript('//static.ads-twitter.com/uwt.js')
-  window.twq = function twq () {
-    window.twq.exe
-      ? window.twq.exe.apply(window.twq, arguments)
-      : window.twq.queue.push(arguments)
+  window.twq = function twq() {
+    window.twq.exe ? window.twq.exe.apply(window.twq, arguments) : window.twq.queue.push(arguments)
   }
   window.twq.version = '1.1'
   window.twq.queue = []
@@ -61,11 +53,11 @@ const initTwitterPixel = () => {
   window.twq('track', 'PageView')
 }
 
-export function initializeTracking (trackerIDs = TRACKER_IDs) {
+export function initializeTracking(trackerIDs = TRACKER_IDs) {
   if (isBrowser && isProdApp && !hasDoNotTrack()) {
     loadScript()
     window.dataLayer = window.dataLayer || []
-    function gtag () {
+    function gtag() {
       window.dataLayer.push(arguments)
     }
     window.gtag = gtag
@@ -82,13 +74,13 @@ export function initializeTracking (trackerIDs = TRACKER_IDs) {
 
 export const update =
   isBrowser && isProdApp && !hasDoNotTrack()
-    ? user => {
+    ? (user) => {
         window.gtag('set', {
-          user_id: user.id
+          user_id: user.id,
         })
         window.gtag('event', 'screen_view', {
           app_name: APP_NAME,
-          app_version: process.env.REACT_APP_VERSION
+          app_version: process.env.REACT_APP_VERSION,
         })
         window.Intercom('update', {
           name: user.username,
@@ -96,7 +88,7 @@ export const update =
           email: user.email,
           ethAccounts: user.ethAccounts,
           nightmode: (user.settings || {}).theme,
-          app_version: process.env.REACT_APP_VERSION
+          app_version: process.env.REACT_APP_VERSION,
         })
       }
     : () => {}
@@ -122,21 +114,21 @@ export const event =
           window.gtag('event', action, {
             event_category: category,
             event_label: label,
-            ...values
+            ...values,
           })
         }
         if (type.includes('intercom')) {
           window.Intercom('trackEvent', action, {
             event_category: category,
             event_label: label,
-            ...values
+            ...values,
           })
         }
         if (type.includes('twitter')) {
           window.twq('track', action, {
             content_type: category,
             content_name: label,
-            ...values
+            ...values,
           })
         }
       }
@@ -148,7 +140,7 @@ export const event =
  * @param  {String} path - the current page e.g. '/about'
  * @param {Array} trackerIDs - (optional) a list of extra trackers to run the command on
  */
-export function pageview (rawPath, trackerIDs = TRACKER_IDs) {
+export function pageview(rawPath, trackerIDs = TRACKER_IDs) {
   if (!isBrowser || !isProdApp || hasDoNotTrack()) {
     return
   }
@@ -179,5 +171,5 @@ export default {
   initializeTracking,
   event,
   pageview,
-  update
+  update,
 }

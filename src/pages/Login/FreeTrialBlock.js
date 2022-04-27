@@ -7,12 +7,7 @@ import styles from './FreeTrialBlock.module.scss'
 const FreeTrialBlock = () => {
   return (
     <div className={styles.container}>
-      <svg
-        xmlns='http://www.w3.org/2000/svg'
-        width='198'
-        height='104'
-        fill='none'
-      >
+      <svg xmlns='http://www.w3.org/2000/svg' width='198' height='104' fill='none'>
         <defs />
         <path
           fill='var(--porcelain)'
@@ -119,8 +114,7 @@ const FreeTrialBlock = () => {
 
       <div className={styles.start}>Start your free trial</div>
       <div className={styles.description}>
-        Enjoy 14 days free of Sanbase Pro, no card or payment information
-        required
+        Enjoy 14 days free of Sanbase Pro, no card or payment information required
       </div>
       <Button
         as={Link}

@@ -4,7 +4,7 @@ import Sankey from './Sankey'
 import FullscreenDialogBtn from '../../../components/FullscreenDialogBtn'
 import styles from './index.module.scss'
 
-const Fullscreen = props => (
+const Fullscreen = (props) => (
   <div className={styles.fullscreen}>
     <Title>Fullscreen</Title>
 

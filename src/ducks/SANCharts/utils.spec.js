@@ -4,19 +4,19 @@ describe('Chart utils', () => {
   describe('alignDayMetrics', () => {
     it('In bounds of chart container', () => {
       const chartRef = {
-        offsetWidth: 1240
+        offsetWidth: 1240,
       }
 
       const bars = [
         {
-          metrics: new Map([['daily_active_addresses', { x: 0 }]])
+          metrics: new Map([['daily_active_addresses', { x: 0 }]]),
         },
         {
-          metrics: new Map([['daily_active_addresses', { x: 15 }]])
+          metrics: new Map([['daily_active_addresses', { x: 15 }]]),
         },
         {
-          metrics: new Map([['daily_active_addresses', { x: 30 }]])
-        }
+          metrics: new Map([['daily_active_addresses', { x: 30 }]]),
+        },
       ]
 
       const dayMetrics = [['daily_active_addresses']]
@@ -27,15 +27,15 @@ describe('Chart utils', () => {
         chartRef,
         bars,
         dayMetrics,
-        margin
+        margin,
       })
 
       expect(bars).toEqual([
         {
-          metrics: new Map([['daily_active_addresses', { width: 5, x: 0 }]])
+          metrics: new Map([['daily_active_addresses', { width: 5, x: 0 }]]),
         },
         {
-          metrics: new Map([['daily_active_addresses', { width: 5, x: 15 }]])
+          metrics: new Map([['daily_active_addresses', { width: 5, x: 15 }]]),
         },
         {
           metrics: new Map([
@@ -43,32 +43,32 @@ describe('Chart utils', () => {
               'daily_active_addresses',
               {
                 width: 5,
-                x: 30
-              }
-            ]
-          ])
-        }
+                x: 30,
+              },
+            ],
+          ]),
+        },
       ])
     })
 
     it('Out of bounds of chart container', () => {
       const chartRef = {
-        offsetWidth: 500
+        offsetWidth: 500,
       }
 
       const bars = [
         {
-          metrics: new Map([['daily_active_addresses', { x: 0 }]])
+          metrics: new Map([['daily_active_addresses', { x: 0 }]]),
         },
         {
-          metrics: new Map([['daily_active_addresses', { x: 145 }]])
+          metrics: new Map([['daily_active_addresses', { x: 145 }]]),
         },
         {
-          metrics: new Map([['daily_active_addresses', { x: 290 }]])
+          metrics: new Map([['daily_active_addresses', { x: 290 }]]),
         },
         {
-          metrics: new Map([['daily_active_addresses', { x: 435 }]])
-        }
+          metrics: new Map([['daily_active_addresses', { x: 435 }]]),
+        },
       ]
 
       const dayMetrics = [['daily_active_addresses']]
@@ -79,18 +79,18 @@ describe('Chart utils', () => {
         chartRef,
         bars,
         dayMetrics,
-        margin
+        margin,
       })
 
       expect(bars).toEqual([
         {
-          metrics: new Map([['daily_active_addresses', { width: 135, x: 0 }]])
+          metrics: new Map([['daily_active_addresses', { width: 135, x: 0 }]]),
         },
         {
-          metrics: new Map([['daily_active_addresses', { width: 135, x: 145 }]])
+          metrics: new Map([['daily_active_addresses', { width: 135, x: 145 }]]),
         },
         {
-          metrics: new Map([['daily_active_addresses', { width: 135, x: 290 }]])
+          metrics: new Map([['daily_active_addresses', { width: 135, x: 290 }]]),
         },
         {
           metrics: new Map([
@@ -98,11 +98,11 @@ describe('Chart utils', () => {
               'daily_active_addresses',
               {
                 width: 65,
-                x: 435
-              }
-            ]
-          ])
-        }
+                x: 435,
+              },
+            ],
+          ]),
+        },
       ])
     })
   })

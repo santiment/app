@@ -12,8 +12,11 @@ build:
 dev:
 	docker-compose up -d frontend
 
-log:
+logs:
 	docker-compose logs -f
+
+format:
+	docker-compose exec frontend npm run format
 
 test:
 	docker-compose up --build test

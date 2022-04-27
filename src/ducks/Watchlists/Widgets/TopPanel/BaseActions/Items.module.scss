@@ -1,3 +1,5 @@
+@import "~@santiment-network/ui/mixins";
+
 .icon {
   margin-right: 8px;
 }
@@ -7,11 +9,10 @@
   align-items: center;
   padding: 8px;
   width: auto;
-  margin: 2px 8px;
   fill: var(--casper);
 
-  &:hover, &:hover path {
-    fill: var(--jungle-green-light-3);
+  &:hover {
+    fill: var(--jungle-green);
   }
 }
 
@@ -21,7 +22,7 @@
 }
 
 .trigger {
-  border: 1px solid var(--mystic);
+  border: 1px solid var(--porcelain);
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -29,11 +30,14 @@
   height: 32px;
 
   &__text {
+    width: 52px;
     background: inherit;
     border-right: 1px solid var(--porcelain);
     border-radius: 0;
-    padding: 5px 15px;
-    height: 30px;
+    padding: 6px 8px;
+    color: var(--rhino);
+
+    @include text('body-3');
 
     &:hover {
       background: inherit;
@@ -41,11 +45,10 @@
   }
 
   &__arrowBtn {
-    padding: 13px 12px;
+    padding: 14px 14px 14px 12px;
     cursor: pointer;
     display: flex;
     align-items: center;
-    justify-content: center;
     fill: var(--waterloo);
     transition: background-color 0.2s ease-in-out;
 
@@ -55,7 +58,6 @@
 
     &_active {
       fill: var(--jungle-green);
-      background-color: var(--jungle-green-light-2);
     }
   }
 
@@ -70,9 +72,6 @@
 }
 
 .delete {
-  fill: var(--persimmon);
-  color: var(--persimmon);
-
   &:hover {
     fill: var(--persimmon-hover);
     color: var(--persimmon-hover);

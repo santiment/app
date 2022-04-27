@@ -2,23 +2,18 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import styles from './IndexTab.module.scss'
 
-const IndexTab = ({
-  tabs,
-  initialTab = 0,
-  renderTopActions = [],
-  bottomActions = []
-}) => {
+const IndexTab = ({ tabs, initialTab = 0, renderTopActions = [], bottomActions = [] }) => {
   const [activeTab, setTab] = useState(initialTab)
 
   const tab = tabs[activeTab]
-  const { content, title } = tab
+  const { content, id } = tab
 
   return (
     <>
-      <div className={styles.header}>
+      <div className={cx('row justify mrg--b mrg-xxl', styles.wrapper)}>
         {renderTopActions(activeTab)}
-        <div className={styles.tabs}>
-          {tabs.map(item => {
+        <div className={cx(styles.tabs, 'row')}>
+          {tabs.map((item) => {
             if (!item) {
               return null
             }
@@ -28,7 +23,11 @@ const IndexTab = ({
             return (
               <div
                 key={id}
-                className={cx(styles.title, id === activeTab && styles.active)}
+                className={cx(
+                  styles.title,
+                  'btn mrg--l mrg-xxl  h4 txt-m',
+                  id === activeTab && styles.active,
+                )}
                 onClick={() => setTab(id)}
               >
                 {title}
@@ -36,7 +35,7 @@ const IndexTab = ({
             )
           })}
         </div>
-        <div className={styles.actions}>
+        <div className={cx(styles.actions, 'row v-center')}>
           {bottomActions
             .filter(({ showOnTabs, hide, component }) => {
               if (!component) {
@@ -46,7 +45,7 @@ const IndexTab = ({
                 return false
               }
               if (showOnTabs) {
-                return showOnTabs.includes(title)
+                return showOnTabs.includes(id)
               }
 
               return true

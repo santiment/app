@@ -6,14 +6,7 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import { useControlledModal, newModalController } from '../../hooks/modal'
 import styles from './index.module.scss'
 
-const Button = ({
-  forwardedRef,
-  children,
-  Trigger,
-  isOpened,
-  open,
-  onClick
-}) => (
+const Button = ({ forwardedRef, children, Trigger, isOpened, open, onClick }) => (
   <div className={styles.btn} ref={forwardedRef}>
     <Trigger className={styles.trigger} onClick={onClick}>
       {children}
@@ -25,7 +18,7 @@ const Button = ({
   </div>
 )
 Button.defaultProps = {
-  Trigger: 'div'
+  Trigger: 'div',
 }
 
 const actionsMenuController = newModalController(
@@ -38,12 +31,7 @@ const actionsMenuController = newModalController(
         align='end'
         {...props}
         trigger={
-          <Button
-            Trigger={Trigger}
-            isOpened={isOpened}
-            open={onOpen}
-            onClick={onTriggerClick}
-          >
+          <Button Trigger={Trigger} isOpened={isOpened} open={onOpen} onClick={onTriggerClick}>
             {trigger}
           </Button>
         }
@@ -53,13 +41,12 @@ const actionsMenuController = newModalController(
         </Panel>
       </ContextMenu>
     )
-  }
+  },
 )
 
-export const useControlledActionsMenu = () =>
-  useControlledModal(actionsMenuController)
+export const useControlledActionsMenu = () => useControlledModal(actionsMenuController)
 
-const ActionsMenu = props => {
+const ActionsMenu = (props) => {
   const Controller = useControlledActionsMenu().ActionsMenu
   return <Controller {...props} />
 }

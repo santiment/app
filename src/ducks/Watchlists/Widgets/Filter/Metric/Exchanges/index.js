@@ -18,7 +18,7 @@ import styles from './index.module.scss'
 const DEFAULT_SETTINGS = {
   exchanges: [],
   exchanges_combinator: 'or',
-  isActive: false
+  isActive: false,
 }
 
 const Exchanges = ({
@@ -27,22 +27,17 @@ const Exchanges = ({
   defaultSettings,
   isNoFilters,
   updMetricInFilter,
-  toggleMetricInFilter
+  toggleMetricInFilter,
 }) => {
   const [exchanges, loading] = useMarketExchanges()
-  const {
-    settings,
-    setSettings,
-    selectSuggest,
-    clickCheckbox
-  } = useMetricSettings(defaultSettings)
+  const { settings, setSettings, selectSuggest, clickCheckbox } = useMetricSettings(defaultSettings)
   const [search, setSearch] = useState('')
 
   const hasActiveExchanges = settings.exchanges.length > 0
   const isANDCombinator = settings.exchanges_combinator === 'and'
   const filteredExchanges = useMemo(
     () => filterValuesBySearch(search, exchanges, 'exchange'),
-    [search, exchanges]
+    [search, exchanges],
   )
 
   useEffect(() => {
@@ -58,7 +53,7 @@ const Exchanges = ({
 
       const newFilter = {
         args: { exchanges_combinator, exchanges },
-        name: 'traded_on_exchanges'
+        name: 'traded_on_exchanges',
       }
 
       if (hasActiveExchanges) {
@@ -75,23 +70,23 @@ const Exchanges = ({
     }
   }, [settings])
 
-  function onToggleMode (combinator) {
-    setSettings(state => ({
+  function onToggleMode(combinator) {
+    setSettings((state) => ({
       ...state,
-      exchanges_combinator: combinator
+      exchanges_combinator: combinator,
     }))
   }
 
-  function onToggleExchange (exchange) {
+  function onToggleExchange(exchange) {
     const selectedExchangesSet = new Set(settings.exchanges)
 
     if (!selectedExchangesSet.delete(exchange)) {
       selectedExchangesSet.add(exchange)
     }
 
-    setSettings(state => ({
+    setSettings((state) => ({
       ...state,
-      exchanges: [...selectedExchangesSet]
+      exchanges: [...selectedExchangesSet],
     }))
   }
 
@@ -105,9 +100,7 @@ const Exchanges = ({
         onCheckboxClicked={clickCheckbox}
         customStateText={
           settings.isActive && hasActiveExchanges
-            ? `shows ${
-                isANDCombinator ? 'all' : 'at least one'
-              } of selected exchanges`
+            ? `shows ${isANDCombinator ? 'all' : 'at least one'} of selected exchanges`
             : ''
         }
       />
@@ -116,21 +109,14 @@ const Exchanges = ({
           {settings.exchanges.map((name, idx) => (
             <Fragment key={idx}>
               <div
-                className={cx(
-                  styles.label,
-                  isViewMode && styles.label__viewMode
-                )}
+                className={cx(styles.label, isViewMode && styles.label__viewMode)}
                 onClick={() => onToggleExchange(name)}
               >
                 {name}
-                {!isViewMode && (
-                  <Icon type='close-small' className={styles.label__close} />
-                )}
+                {!isViewMode && <Icon type='close-small' className={styles.label__close} />}
               </div>
               {settings.exchanges.length !== idx + 1 && (
-                <span className={styles.operator}>
-                  {isANDCombinator ? 'and' : 'or'}
-                </span>
+                <span className={styles.operator}>{isANDCombinator ? 'and' : 'or'}</span>
               )}
             </Fragment>
           ))}
@@ -151,7 +137,7 @@ const Exchanges = ({
                   icon='arrow-down'
                   iconPosition='right'
                   placeholder='Choose exchanges'
-                  onChange={evt => {
+                  onChange={(evt) => {
                     const { value } = evt.currentTarget
                     setSearch(value)
                   }}
@@ -172,66 +158,40 @@ const Exchanges = ({
                         <div>
                           <span className={styles.name}>{name}</span>
                         </div>
-                        <div className={cx(styles.action, styles.delete)}>
-                          Remove
-                        </div>
+                        <div className={cx(styles.action, styles.delete)}>Remove</div>
                       </Button>
                     ))}
                   </div>
                 )}
                 <div className={styles.list}>
-                  <Skeleton
-                    repeat={3}
-                    show={loading}
-                    className={styles.loader}
-                  />
-                  {filteredExchanges.map(
-                    ({ exchange, assetsCount, pairsCount }, idx) => {
-                      const isSelected = settings.exchanges.includes(exchange)
+                  <Skeleton repeat={3} show={loading} className={styles.loader} />
+                  {filteredExchanges.map(({ exchange, assetsCount, pairsCount }, idx) => {
+                    const isSelected = settings.exchanges.includes(exchange)
 
-                      return (
-                        <Button
-                          className={cx(
-                            styles.item,
-                            isSelected && styles.item__selected
-                          )}
-                          fluid
-                          variant='ghost'
-                          key={idx}
-                          onClick={() =>
-                            !isSelected && onToggleExchange(exchange)
-                          }
-                        >
-                          <div>
-                            <span className={styles.name}>{exchange}</span>
-                            <span className={styles.count}>
-                              ({assetsCount} assets, {pairsCount} pairs)
-                            </span>
-                          </div>
-                          <div
-                            className={cx(
-                              styles.action,
-                              isSelected && styles.selected
-                            )}
-                          >
-                            Add
-                          </div>
-                        </Button>
-                      )
-                    }
-                  )}
+                    return (
+                      <Button
+                        className={cx(styles.item, isSelected && styles.item__selected)}
+                        fluid
+                        variant='ghost'
+                        key={idx}
+                        onClick={() => !isSelected && onToggleExchange(exchange)}
+                      >
+                        <div>
+                          <span className={styles.name}>{exchange}</span>
+                          <span className={styles.count}>
+                            ({assetsCount} assets, {pairsCount} pairs)
+                          </span>
+                        </div>
+                        <div className={cx(styles.action, isSelected && styles.selected)}>Add</div>
+                      </Button>
+                    )
+                  })}
                 </div>
               </Panel>
             </ContextMenu>
-            <Combinators
-              onSelect={onToggleMode}
-              isANDCombinator={isANDCombinator}
-            />
+            <Combinators onSelect={onToggleMode} isANDCombinator={isANDCombinator} />
           </div>
-          <Suggestions
-            hints={baseMetric.hints}
-            onSuggestionClick={selectSuggest}
-          />
+          <Suggestions hints={baseMetric.hints} onSuggestionClick={selectSuggest} />
         </div>
       )}
     </>
@@ -248,7 +208,7 @@ export default ({ filters, baseMetric, ...props }) => {
       baseMetric={baseMetric}
       defaultSettings={{
         ...DEFAULT_SETTINGS,
-        ...settings
+        ...settings,
       }}
     />
   )

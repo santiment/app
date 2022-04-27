@@ -6,7 +6,7 @@ export const useTableEffects = ({
   deleteConnectedWidget,
   deleteWidget,
   widget,
-  parentWidget
+  parentWidget,
 }) => {
   const [dates, setDates] = useState(widget.datesRange)
 
@@ -19,13 +19,13 @@ export const useTableEffects = ({
     }
   }, [datesRange])
 
-  function onCalendarChange (newDates) {
+  function onCalendarChange(newDates) {
     widget.datesRange = newDates
     setDates(newDates)
     rerenderWidgets() // NOTE: Used to sync search query [@vanguard | Nov 2, 2020]
   }
 
-  function onCloseClick () {
+  function onCloseClick() {
     deleteConnectedWidget && parentWidget
       ? deleteConnectedWidget(widget, parentWidget)
       : deleteWidget(widget)
@@ -34,6 +34,6 @@ export const useTableEffects = ({
   return {
     dates,
     onCalendarChange,
-    onCloseClick
+    onCloseClick,
   }
 }

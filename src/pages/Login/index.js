@@ -19,13 +19,7 @@ import styles from './index.module.scss'
 const hasMetamask = detectMetamask()
 
 export const LoginDescription = ({ className }) => (
-  <div
-    className={cx(
-      styles.loginBlock,
-      className,
-      !hasMetamask && styles.noMetamask
-    )}
-  >
+  <div className={cx(styles.loginBlock, className, !hasMetamask && styles.noMetamask)}>
     <h3 className={styles.title}>Welcome to Sanbase</h3>
     <div className={styles.options}>
       <LoginMetamaskBtn />
@@ -44,7 +38,7 @@ export const LoginDescription = ({ className }) => (
   </div>
 )
 
-const LoginOptions = props => {
+const LoginOptions = (props) => {
   if (props.isDesktop) {
     return (
       <div className={styles.container}>
@@ -60,13 +54,7 @@ const LoginOptions = props => {
   )
 }
 
-const Login = ({
-  isLoggedIn,
-  isDesktop,
-  token,
-  location: { search = '' },
-  history
-}) => {
+const Login = ({ isLoggedIn, isDesktop, token, location: { search = '' }, history }) => {
   if (isLoggedIn) {
     const { consent } = parse(search)
     if (consent) {
@@ -79,14 +67,10 @@ const Login = ({
 
   const child = (
     <Switch>
-      <Route
-        exact
-        path={PATHS.LOGIN_VIA_EMAIL}
-        render={props => <LoginEmailForm {...props} />}
-      />
+      <Route exact path={PATHS.LOGIN_VIA_EMAIL} render={(props) => <LoginEmailForm {...props} />} />
       <Route
         path={PATHS.LOGIN}
-        render={props => <LoginOptions {...props} isDesktop={isDesktop} />}
+        render={(props) => <LoginOptions {...props} isDesktop={isDesktop} />}
       />
     </Switch>
   )

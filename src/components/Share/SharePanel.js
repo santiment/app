@@ -6,13 +6,7 @@ import ShareCopyBtn from './ShareCopyBtn'
 import ShareMedias from './medias/ShareMedias'
 import styles from './SharePanel.module.scss'
 
-const SharePanel = ({
-  shareTitle,
-  shareText,
-  shareLink,
-  children,
-  isDisabled
-}) => {
+const SharePanel = ({ shareTitle, shareText, shareLink, children, isDisabled }) => {
   return (
     <Dialog.ScrollContent className={styles.wrapper}>
       <div className={styles.content}>
@@ -40,12 +34,12 @@ const SharePanel = ({
 SharePanel.propTypes = {
   shareLink: PropTypes.string.isRequired,
   shareTitle: PropTypes.string,
-  shareText: PropTypes.string
+  shareText: PropTypes.string,
 }
 
 SharePanel.defaultProps = {
   shareTitle: 'Sanbase',
-  shareText: 'Hey! Look what I have found at the app.santiment.net!'
+  shareText: 'Hey! Look what I have found at the app.santiment.net!',
 }
 
 export default SharePanel

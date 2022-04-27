@@ -5,16 +5,7 @@ import { Skeleton } from '../../../../../components/Skeleton'
 import MiniChart from '../../../../../components/MiniChart'
 import styles from './Template.module.scss'
 
-const Template = ({
-  data,
-  label,
-  metric,
-  change,
-  value,
-  period,
-  loading,
-  changeRange
-}) => {
+const Template = ({ data, label, metric, change, value, period, loading, changeRange }) => {
   if (loading) {
     return <Skeleton className={styles.skeleton} show={true} />
   }

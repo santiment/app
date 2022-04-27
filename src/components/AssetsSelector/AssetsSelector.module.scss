@@ -1,5 +1,11 @@
 @import '~@santiment-network/ui/mixins';
 
+@mixin itemFont {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
 .wrapper {
   display: flex;
   align-items: baseline;
@@ -11,6 +17,18 @@
 .panel {
   width: 280px;
   padding: 12px 0 0 0;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 130%;
+  transform: scale(0);
+  transition: opacity 0.15s ease-in-out;
+}
+
+.panel_show {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 1000;
 }
 
 .trigger {
@@ -55,6 +73,8 @@
 }
 
 .reset {
+  @include itemFont;
+
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -82,4 +102,8 @@
   border: 1px solid var(--porcelain);
   box-sizing: border-box;
   border-radius: $border-radius;
+}
+
+.item {
+  @include itemFont;
 }

@@ -15,7 +15,7 @@ const EMPTY_OBJ = {}
 const PAGE_SIZE_OPTIONS = [10, 25, 50]
 const sortTypes = {
   datetime: (a, b, id) => sortDate(a.original[id], b.original[id]),
-  floatNumeric: (a, b, id) => sortFloatNumeric(a.original[id], b.original[id])
+  floatNumeric: (a, b, id) => sortFloatNumeric(a.original[id], b.original[id]),
 }
 
 const Table = ({
@@ -28,22 +28,22 @@ const Table = ({
     sortingSettings,
     stickySettings,
     paginationSettings,
-    rowSelectSettings
+    rowSelectSettings,
   } = EMPTY_OBJ,
   className,
-  classes = EMPTY_OBJ
+  classes = EMPTY_OBJ,
+  onToggle,
 }) => {
   const { isLoading, repeatLoading } = loadingSettings || EMPTY_OBJ
   const { allowSort, defaultSorting } = sortingSettings || EMPTY_OBJ
-  const { isStickyHeader, isStickyColumn, stickyColumnIdx = null } =
-    stickySettings || EMPTY_OBJ
+  const { isStickyHeader, isStickyColumn, stickyColumnIdx = null } = stickySettings || EMPTY_OBJ
   const {
     pageSize: initialPageSize,
     pageIndex: initialPageIndex = 0,
     onChangePage = null,
     pageSizeOptions = PAGE_SIZE_OPTIONS,
     controlledPageCount,
-    manualPagination
+    manualPagination,
   } = paginationSettings || EMPTY_OBJ
   const { onChangeSelectedRows } = rowSelectSettings || EMPTY_OBJ
   const initialState = EMPTY_OBJ
@@ -84,18 +84,19 @@ const Table = ({
     setPageSize,
     setSortBy,
     selectedFlatRows,
-    state: { pageIndex, pageSize, sortBy }
+    toggleAllRowsSelected,
+    state: { pageIndex, pageSize, sortBy },
   } = useTable(
     {
       columns,
       data,
-      useControlledState: state => {
+      useControlledState: (state) => {
         return React.useMemo(
           () => ({
             ...state,
-            pageIndex: manualPagination ? initialPageIndex : state.pageIndex
+            pageIndex: manualPagination ? initialPageIndex : state.pageIndex,
           }),
-          [state, initialPageIndex]
+          [state, initialPageIndex],
         )
       },
       disableSortRemove: true,
@@ -104,16 +105,16 @@ const Table = ({
       autoResetPage: false,
       autoResetSortBy: false,
       initialState,
-      ...optionalOptions
+      ...optionalOptions,
     },
     useSortBy,
     usePagination,
     useRowSelect,
-    hooks => {
-      hooks.visibleColumns.push(columns =>
-        rowSelectSettings ? [CHECKBOX_COLUMN, ...columns] : columns
+    (hooks) => {
+      hooks.visibleColumns.push((columns) =>
+        rowSelectSettings ? [CHECKBOX_COLUMN, ...columns] : columns,
       )
-    }
+    },
   )
 
   const content = paginationSettings ? page : rows
@@ -128,8 +129,14 @@ const Table = ({
     gotoPage,
     nextPage,
     previousPage,
-    pageSizeOptions
+    pageSizeOptions,
   }
+
+  useEffect(() => {
+    if (onToggle) {
+      onToggle(toggleAllRowsSelected)
+    }
+  }, [toggleAllRowsSelected])
 
   useEffect(() => {
     if (onChangeSelectedRows) {
@@ -154,34 +161,21 @@ const Table = ({
   }, [sortBy])
 
   return (
-    <div
-      className={cx(
-        styles.wrapper,
-        !paginationSettings && styles.wrapperOverflow,
-        className
-      )}
-    >
+    <div className={cx(styles.wrapper, !paginationSettings && styles.wrapperOverflow, className)}>
       <table {...getTableProps()} className={cx(styles.table, classes.table)}>
         <thead className={cx(styles.header, classes.header)}>
-          {headerGroups.map(headerGroup => (
-            <tr
-              {...headerGroup.getHeaderGroupProps()}
-              className={classes.headerRow}
-            >
+          {headerGroups.map((headerGroup) => (
+            <tr {...headerGroup.getHeaderGroupProps()} className={classes.headerRow}>
               {headerGroup.headers.map((column, idx) => (
                 <th
-                  {...column.getHeaderProps(
-                    column.getSortByToggleProps({ title: '' })
-                  )}
+                  {...column.getHeaderProps(column.getSortByToggleProps({ title: '' }))}
                   className={cx(
                     styles.headerColumn,
                     column.collapse && styles.collapse,
                     column.isSorted && styles.headerColumnActive,
                     isStickyHeader && styles.headerColumnStickyTop,
-                    isStickyColumn &&
-                      stickyColumnIdx === idx &&
-                      styles.headerColumnStickyLeft,
-                    classes.headerColumn
+                    isStickyColumn && stickyColumnIdx === idx && styles.headerColumnStickyLeft,
+                    classes.headerColumn,
                   )}
                 >
                   <span>{column.render('Header')}</span>
@@ -189,7 +183,7 @@ const Table = ({
                     <span
                       className={cx(
                         styles.sort,
-                        column.isSortedDesc ? styles.sortDesc : styles.sortAsc
+                        column.isSortedDesc ? styles.sortDesc : styles.sortAsc,
                       )}
                     />
                   )}
@@ -198,27 +192,19 @@ const Table = ({
             </tr>
           ))}
         </thead>
-        <tbody
-          {...getTableBodyProps()}
-          className={cx(styles.body, classes.body)}
-        >
-          {content.map(row => {
+        <tbody {...getTableBodyProps()} className={cx(styles.body, classes.body)}>
+          {content.map((row) => {
             prepareRow(row)
             return (
-              <tr
-                {...row.getRowProps()}
-                className={cx(styles.bodyRow, classes.bodyRow)}
-              >
+              <tr {...row.getRowProps()} className={cx(styles.bodyRow, classes.bodyRow)}>
                 {row.cells.map((cell, idx) => (
                   <td
                     {...cell.getCellProps()}
                     className={cx(
                       styles.bodyColumn,
                       cell.column.collapse && styles.collapse,
-                      isStickyColumn &&
-                        stickyColumnIdx === idx &&
-                        styles.bodyColumnSticky,
-                      classes.bodyColumn
+                      isStickyColumn && stickyColumnIdx === idx && styles.bodyColumnSticky,
+                      classes.bodyColumn,
                     )}
                   >
                     {cell.render('Cell')}
@@ -236,10 +222,8 @@ const Table = ({
           classes={{ wrapper: classes.loader, row: classes.loaderRow }}
         />
       )}
-      {!!loadingSettings && !isLoading && data.length === 0 && (
-        <NoData {...noDataSettings} />
-      )}
-      {!!paginationSettings && (
+      {!!loadingSettings && !isLoading && data.length === 0 && <NoData {...noDataSettings} />}
+      {!!paginationSettings && paginationParams.pageCount > 1 && (
         <Pagination
           {...paginationParams}
           onChangePage={onChangePage}

@@ -11,19 +11,13 @@ import styles from './CustomImageSideButton.module.scss'
 const MAX_IMG_SIZE = 5000 // NOTE(vanguard): after uploading file with size than 5mb backend does not return imageUrl
 
 class CustomImageSideButton extends ImageSideButton {
-  onChange (e) {
+  onChange(e) {
     const file = e.target.files[0]
 
     if (!file) {
       return
     }
-    const {
-      mutate,
-      setEditorState,
-      getEditorState,
-      close,
-      onImgLoad
-    } = this.props
+    const { mutate, setEditorState, getEditorState, close, onImgLoad } = this.props
     if (file.type.indexOf('image/') === 0) {
       if (file.size / 1024 > MAX_IMG_SIZE) {
         store.dispatch(showNotification('Image size is too large'))
@@ -45,11 +39,11 @@ class CustomImageSideButton extends ImageSideButton {
 
           setEditorState(
             addNewBlock(getEditorState(), Block.IMAGE, {
-              src: uploadImageUrl
-            })
+              src: uploadImageUrl,
+            }),
           )
         })
-        .catch(error => {
+        .catch((error) => {
           store.dispatch(showNotification('Upload image error'))
           Sentry.captureException(error)
         })
@@ -57,7 +51,7 @@ class CustomImageSideButton extends ImageSideButton {
     close()
   }
 
-  render () {
+  render() {
     return (
       <div className='md-sd-button'>
         <label className={styles.label} htmlFor='md-sd-img-button'>
@@ -76,7 +70,7 @@ class CustomImageSideButton extends ImageSideButton {
 }
 
 export default graphql(gql`
-  mutation($images: [Upload!]!) {
+  mutation ($images: [Upload!]!) {
     uploadImage(images: $images) {
       contentHash
       fileName

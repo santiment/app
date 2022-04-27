@@ -1,9 +1,5 @@
 @import '~@santiment-network/ui/mixins';
 
-.container {
-  margin-left: 16px;
-}
-
 .wrapper {
   width: 175px;
   display: flex;
@@ -13,4 +9,8 @@
   @include responsive('phone-xs', 'phone') {
     width: 100%;
   }
+}
+
+.hidePanel {
+  display: none;
 }

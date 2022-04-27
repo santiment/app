@@ -1,0 +1,13 @@
+@import "~@santiment-network/ui/mixins";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.error {
+  margin: 0;
+  width: fit-content;
+  padding: 6px 10px !important;
+}

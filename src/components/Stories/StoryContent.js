@@ -16,17 +16,9 @@ const StoryContent = ({
   onClick,
   onMediaClicked,
   isPaused,
-  isPhone
+  isPhone,
 }) => {
-  const {
-    title,
-    description,
-    buttonText,
-    buttonLink,
-    image,
-    videoId,
-    isDarkImage
-  } = slides[active]
+  const { title, description, buttonText, buttonLink, image, videoId, isDarkImage } = slides[active]
 
   let [widthSlideProgress, setWidthSlideProgress] = useState(null)
   const activeStoryRef = useRef(null)
@@ -39,7 +31,7 @@ const StoryContent = ({
 
   if (!isPaused && widthSlideProgress) setWidthSlideProgress(null)
 
-  const onVideoClicked = evt => {
+  const onVideoClicked = (evt) => {
     evt.stopPropagation()
     if (videoId && videoRef.current && !isPaused) {
       let iframe = document.createElement('iframe')
@@ -48,7 +40,7 @@ const StoryContent = ({
       iframe.setAttribute('allow', 'autoplay')
       iframe.setAttribute(
         'src',
-        `https://www.youtube-nocookie.com/embed/${videoId}?rel=0&showinfo=0&autoplay=1`
+        `https://www.youtube-nocookie.com/embed/${videoId}?rel=0&showinfo=0&autoplay=1`,
       )
       videoRef.current.appendChild(iframe)
       onMediaClicked(evt)
@@ -61,15 +53,12 @@ const StoryContent = ({
 
   return (
     <>
-      <div
-        className={styles.content}
-        onClick={isPhone ? onToggleSlide : onClick}
-      >
+      <div className={styles.content} onClick={isPhone ? onToggleSlide : onClick}>
         <div
           className={cx(
             styles.media,
             isDarkImage && styles.dark,
-            isPaused && videoId && styles.enabledVideo
+            isPaused && videoId && styles.enabledVideo,
           )}
           onClick={isPhone ? () => {} : onVideoClicked}
           ref={videoRef}
@@ -81,9 +70,7 @@ const StoryContent = ({
                 src={`https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`}
                 alt={title}
               />
-              <YoutubeButton
-                onPlayClick={isPhone ? onVideoClicked : () => {}}
-              />
+              <YoutubeButton onPlayClick={isPhone ? onVideoClicked : () => {}} />
             </div>
           )}
           {image && <img src={image} alt='' />}
@@ -114,28 +101,13 @@ const StoryContent = ({
           <Icon type='arrow-left-big' />
         </div>
       )}
-      <div
-        className={styles.lines}
-        style={{ '--amount': slides.length }}
-        ref={activeStoryRef}
-      >
+      <div className={styles.lines} style={{ '--amount': slides.length }} ref={activeStoryRef}>
         {slides.map((slide, idx) => (
-          <div
-            key={idx}
-            className={cx(styles.line, active > idx && styles.full)}
-          >
+          <div key={idx} className={cx(styles.line, active > idx && styles.full)}>
             <div
-              className={cx(
-                styles.progress,
-                active === idx && !isPaused && styles.activeLine
-              )}
+              className={cx(styles.progress, active === idx && !isPaused && styles.activeLine)}
               style={{
-                '--width':
-                  active === idx
-                    ? isPaused
-                      ? `${widthSlideProgress}px`
-                      : '100%'
-                    : 0
+                '--width': active === idx ? (isPaused ? `${widthSlideProgress}px` : '100%') : 0,
               }}
             />
           </div>

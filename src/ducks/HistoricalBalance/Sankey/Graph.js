@@ -15,11 +15,7 @@ const Graph = ({ address }) => {
   return (
     <>
       <div className={styles.controls}>
-        <CurrencyTransfers
-          address={address}
-          currency={currency}
-          setCurrency={setCurrency}
-        />
+        <CurrencyTransfers address={address} currency={currency} setCurrency={setCurrency} />
         <DepthLevel name='Inbound' value={inbound} onChange={setInbound} />
         <DepthLevel name='Outbound' value={outbound} onChange={setOutbound} />
         <DetailLevel value={detail} onChange={setDetail} />

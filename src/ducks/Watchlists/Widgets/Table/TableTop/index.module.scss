@@ -1,7 +1,7 @@
 @import '~@santiment-network/ui/mixins';
 
 .wrapper {
-  padding: 8px 40px 10px 32px;
+  padding: 8px 40px 10px 40px;
   margin-top: 2px;
   display: flex;
   justify-content: space-between;
@@ -9,7 +9,7 @@
   transition: width 0.2s ease-in-out;
   position: sticky;
   left: 0;
-  top: 64px;
+  top: 80px;
   min-height: 50px;
   background-color: var(--white);
   z-index: 2;

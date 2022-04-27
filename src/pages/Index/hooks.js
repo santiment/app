@@ -1,13 +1,13 @@
 import { useHistory } from 'react-router-dom'
 import { useDebounceEffect } from '../../hooks'
 
-function hashLinkScroll ({ location }) {
+function hashLinkScroll({ location }) {
   const { hash } = location
   if (hash !== '') {
     const elements = document.querySelectorAll(`a[href='/${hash}']`)
     if (elements && elements.length > 0) {
       elements[0].scrollIntoView({
-        behavior: 'smooth'
+        behavior: 'smooth',
       })
     }
   }
@@ -23,6 +23,6 @@ export const useAnchorLoading = (deps, scrollAnchors) => {
       }
     },
     0,
-    [history.location, scrollAnchors, ...deps]
+    [history.location, scrollAnchors, ...deps],
   )
 }

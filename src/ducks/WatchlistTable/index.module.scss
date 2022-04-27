@@ -1,5 +1,7 @@
+@import "~@santiment-network/ui/mixins.scss";
+
 :root {
-  --list-top-panel-height: 64px;
+  --list-top-panel-height: 80px;
   --addresses-list-table-top-height: 52px;
 }
 
@@ -19,7 +21,6 @@
   left: 0;
   height: var(--addresses-list-table-top-height);
   width: 100%;
-  margin-top: 18px;
 }
 
 .actions {
@@ -117,6 +118,24 @@
   margin-right: 8px;
 }
 
+.ml1 {
+  margin-left: 1rem;
+}
+
 .proWrapper {
   display: flex;
+}
+
+.title {
+  @include text('h4', 'l');
+  color: var(--mirage);
+  width: 100%;
+}
+
+.emptyWrapper {
+  flex-direction: column !important;
+  position: absolute;
+  top: 53%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

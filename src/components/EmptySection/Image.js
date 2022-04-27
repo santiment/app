@@ -1,12 +1,7 @@
 import React from 'react'
 
 const Image = ({ className }) => (
-  <svg
-    viewBox='0 0 423 183'
-    className={className}
-    fill='none'
-    xmlns='http://www.w3.org/2000/svg'
-  >
+  <svg viewBox='0 0 423 183' className={className} fill='none' xmlns='http://www.w3.org/2000/svg'>
     <path
       d='M51.05 43.03a2.23 2.23 0 0 1 2.76-1.54l5.2 1.44a9.23 9.23 0 0 1 3.21-3.25 6 6 0 0 1 5.34-.58c1.68-4.91 6.34-7.8 11.18-6.45a7.19 7.19 0 0 1 4.8 4.42 6.57 6.57 0 0 1 4.81-.44c3.2.89 5.36 4.22 5.04 8.8.75-.02 1.45.1 2.01.26 1.08.3 2.3.92 3.18 2.17.87 1.26 1.3 3.01 1.04 5.4'
       stroke='var(--waterloo)'
@@ -325,27 +320,9 @@ const Image = ({ className }) => (
       strokeLinecap='round'
       strokeLinejoin='round'
     />
-    <ellipse
-      cx='394.31'
-      cy='125.65'
-      rx='2.78'
-      ry='2.76'
-      fill='var(--waterloo)'
-    />
-    <ellipse
-      cx='402.64'
-      cy='125.65'
-      rx='2.78'
-      ry='2.76'
-      fill='var(--waterloo)'
-    />
-    <ellipse
-      cx='412.36'
-      cy='125.65'
-      rx='2.78'
-      ry='2.76'
-      fill='var(--waterloo)'
-    />
+    <ellipse cx='394.31' cy='125.65' rx='2.78' ry='2.76' fill='var(--waterloo)' />
+    <ellipse cx='402.64' cy='125.65' rx='2.78' ry='2.76' fill='var(--waterloo)' />
+    <ellipse cx='412.36' cy='125.65' rx='2.78' ry='2.76' fill='var(--waterloo)' />
   </svg>
 )
 

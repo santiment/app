@@ -19,31 +19,19 @@ export const useAreaData = (stats, key = 'value') => {
   const change = value ? calcPercentageChange(value, latestValue) : 0
   const color = `var(--${change >= 0 ? 'lima' : 'persimmon'})`
   const minValue = Math.min(...stats.map(({ [key]: value }) => value))
-  const chartStats = stats.map(stat => ({
+  const chartStats = stats.map((stat) => ({
     ...stat,
     originalValue: stat[key],
-    [key]: stat[key] - minValue
+    [key]: stat[key] - minValue,
   }))
 
   return { change, chartStats, color, value, latestValue }
 }
 
-const ChangeChart = ({
-  data,
-  dataKey = 'value',
-  color: forceColor,
-  ...rest
-}) => {
+const ChangeChart = ({ data, dataKey = 'value', color: forceColor, ...rest }) => {
   const area = useAreaData(data, dataKey)
 
-  return (
-    <ChangeChartTemplate
-      {...area}
-      dataKey={dataKey}
-      forceColor={forceColor}
-      {...rest}
-    />
-  )
+  return <ChangeChartTemplate {...area} dataKey={dataKey} forceColor={forceColor} {...rest} />
 }
 
 export const ChangeChartTemplate = ({
@@ -56,7 +44,7 @@ export const ChangeChartTemplate = ({
   showTooltip,
   dataKey = 'value',
   forceColor,
-  valueFormatter
+  valueFormatter,
 }) => (
   <AreaChart data={chartStats} height={height} width={width}>
     <defs>

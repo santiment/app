@@ -1,10 +1,7 @@
 import * as Sentry from '@sentry/react'
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
-import {
-  USER_APIKEY_REVOKE,
-  USER_APIKEY_REVOKE_SUCCESS
-} from './../actions/types'
+import { USER_APIKEY_REVOKE, USER_APIKEY_REVOKE_SUCCESS } from './../actions/types'
 
 const revokeApikeyGQL = gql`
   mutation revokeApikey($apikey: String!) {
@@ -19,21 +16,21 @@ const apikeyRevokeEpic = (action$, store, { client }) =>
     const mutation = client.mutate({
       mutation: revokeApikeyGQL,
       variables: {
-        apikey
-      }
+        apikey,
+      },
     })
     return Observable.from(mutation)
       .mergeMap(({ data: { revokeApikey } }) =>
         Observable.of({
           type: USER_APIKEY_REVOKE_SUCCESS,
-          apikeys: revokeApikey.apikeys
-        })
+          apikeys: revokeApikey.apikeys,
+        }),
       )
-      .catch(error => {
+      .catch((error) => {
         Sentry.captureException(error)
         return Observable.of({
           type: 'USER_APIKEY_REVOKE_FAIL',
-          payload: error
+          payload: error,
         })
       })
   })

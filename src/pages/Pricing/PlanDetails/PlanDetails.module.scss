@@ -24,12 +24,6 @@
   tr:last-child td:first-child {
     border-bottom: 0;
   }
-
-  tr:last-child {
-    .cell {
-      border-bottom: none;
-    }
-  }
 }
 
 .head {
@@ -110,6 +104,25 @@
   button,
   a {
     margin-bottom: 0;
+  }
+
+  &:first-of-type {
+    width: 434px;
+  }
+
+  &:not(:first-of-type) {
+    width: 352px;
+  }
+
+  :global(.phone-xs) &,
+  :global(.phone) & {
+    &:first-of-type {
+      width: 100%;
+    }
+
+    &:not(:first-of-type) {
+      width: 100%;
+    }
   }
 }
 

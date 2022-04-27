@@ -24,6 +24,7 @@ const TopPanel = ({
   isDefaultScreener,
   isUpdatingWatchlist,
   updateWatchlistFunction,
+  refetchAssets,
   ...props
 }) => {
   const { isAuthor, isAuthorLoading } = useIsAuthor(watchlist)
@@ -36,7 +37,7 @@ const TopPanel = ({
     }
   }, [])
 
-  function closeFilter () {
+  function closeFilter() {
     if (isFilterOpen) {
       setIsFilterOpen(false)
     }
@@ -48,25 +49,20 @@ const TopPanel = ({
         styles.wrapper,
         isFilterOpen && styles.open,
         type !== SCREENER && styles.light,
-        className
+        className,
       )}
     >
       <div className={styles.row}>
-        <Title
-          name={name}
-          watchlist={watchlist}
-          isDefaultScreener={isDefaultScreener}
-        />
+        <Title name={name} watchlist={watchlist} isDefaultScreener={isDefaultScreener} />
         <BaseActions
           type={type}
           watchlist={watchlist}
           onClick={closeFilter}
           isAuthor={isAuthor}
           isAuthorLoading={isAuthorLoading}
+          refetchAssets={refetchAssets}
         />
-        {isUpdatingWatchlist && (
-          <span className={styles.saving}>Saving...</span>
-        )}
+        {isUpdatingWatchlist && <span className={styles.saving}>Saving...</span>}
         <Grave
           knockNumber={knockNumber}
           setKnockNumber={setKnockNumber}
@@ -108,9 +104,7 @@ const TopPanel = ({
         <div className={styles.row}>
           {widgets && <Widgets widgets={widgets} setWidgets={setWidgets} />}
           {watchlist && <Share watchlist={watchlist} isAuthor={isAuthor} />}
-          {isAuthor && type === PROJECT && (
-            <WeeklyReport watchlist={watchlist} />
-          )}
+          {isAuthor && type === PROJECT && <WeeklyReport watchlist={watchlist} />}
         </div>
       )}
     </section>

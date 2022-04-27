@@ -164,6 +164,20 @@
   }
 }
 
+.prefix {
+  position: absolute;
+  color: var(--jungle-green);
+  top: 50%;
+  transform: translateY(-50%);
+  left: 8px;
+  
+  @include text('body-3');
+
+  :global(.phone) &, :global(.phone-xs) & { 
+    left: 10px;
+  }
+}
+
 .inputLabels {
   display: flex;
   flex-direction: column;
@@ -177,6 +191,8 @@
 .inputBlock {
   margin-right: 5px;
   display: flex;
+  flex-direction: column;
+  position: relative;
 
   @include responsive('phone', 'phone-xs') {
     width: 100%;
@@ -194,7 +210,6 @@
   }
 
   &__input {
-    margin-left: 16px;
     display: none;
 
     &_edit {
@@ -205,6 +220,10 @@
         margin: 0;
         width: 100%;
       }
+    }
+
+    &_prefix {
+      padding-left: 22px;
     }
   }
 
@@ -311,17 +330,6 @@
   }
 }
 
-.digest {
-  width: 100%;
-  display: flex;
-  align-items: center;
-
-  @include responsive('phone', 'phone-xs') {
-    display: flex;
-    flex-direction: column;
-  }
-}
-
 .neuro {
   width: 100%;
   display: flex;
@@ -330,14 +338,6 @@
   @include responsive('phone', 'phone-xs') {
     display: flex;
     flex-direction: column;
-  }
-}
-
-.digestSelector {
-  margin-left: auto;
-
-  @include responsive('phone', 'phone-xs') {
-    margin: 10px 0 0 0;
   }
 }
 
@@ -432,4 +432,23 @@
 
 .reconnect {
   margin-top: 4px;
+}
+
+.label {
+  font-weight: 400;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.labelTooltip {
+  margin-left: 8px;
+  cursor: pointer;
+  width: 12px;
+  height: 12px;
+
+  fill: var(--waterloo);
+  &:hover {
+    fill: var(--rhino);
+  }
 }

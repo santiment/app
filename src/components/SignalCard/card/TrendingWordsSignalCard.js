@@ -15,7 +15,7 @@ import TimelineEventComments from '../../TimelineEventComments/TimelineEventComm
 import externalStyles from './SignalCard.module.scss'
 import styles from './TrendingWordsSignalCard.module.scss'
 
-export const isTrendingWordsSignal = trigger => {
+export const isTrendingWordsSignal = (trigger) => {
   if (!trigger.settings) {
     return false
   }
@@ -31,13 +31,13 @@ const TrendingWordsSignalCard = ({
   className,
   activityPayload,
   activity: { id, commentsCount, votes, trigger, insertedAt: date, user },
-  onLike
+  onLike,
 }) => {
   const {
     title,
     settings,
     isPublic,
-    settings: { operation: { trigger_time } = {} }
+    settings: { operation: { trigger_time } = {} },
   } = trigger
 
   const strictTrendingWords = isStrictTrendingWords(settings)
@@ -45,11 +45,7 @@ const TrendingWordsSignalCard = ({
   return (
     <Panel padding className={cx(externalStyles.wrapper, className)}>
       <DesktopOnly>
-        <SignalCardHeader
-          isUserTheAuthor={false}
-          isPublic={isPublic}
-          signal={trigger}
-        />
+        <SignalCardHeader isUserTheAuthor={false} isPublic={isPublic} signal={trigger} />
       </DesktopOnly>
 
       <div className={externalStyles.wrapper__right}>
@@ -64,27 +60,15 @@ const TrendingWordsSignalCard = ({
           <FeedCardDate date={date} />
         </div>
 
-        <TrendingCardWords
-          settings={settings}
-          activityPayload={activityPayload}
-        />
+        <TrendingCardWords settings={settings} activityPayload={activityPayload} />
 
         {strictTrendingWords && <TrendingCardInsights date={new Date(date)} />}
 
         <SignalCreator user={user} />
 
         <div className={styles.bottom}>
-          <LikeBtnWrapper
-            onLike={onLike}
-            className={styles.likeBtn}
-            votes={votes}
-            user={user}
-          />
-          <TimelineEventComments
-            id={id}
-            authorId={user.id}
-            commentsCount={commentsCount}
-          />
+          <LikeBtnWrapper onLike={onLike} className={styles.likeBtn} votes={votes} user={user} />
+          <TimelineEventComments id={id} authorId={user.id} commentsCount={commentsCount} />
         </div>
       </div>
     </Panel>
@@ -100,7 +84,7 @@ const TrendingPeriod = ({ period }) => {
 
   const hours = +period.split(':')[0] + (-1 * currentTimezoneOffset) / 60
 
-  const getText = hours => {
+  const getText = (hours) => {
     if (hours >= 12 && hours < 20) {
       return 'Europe markets open'
     } else if (hours >= 4 && hours < 12) {

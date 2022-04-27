@@ -15,12 +15,7 @@ export default ({ hoverPoint, ...rest }) => {
 
   return (
     <div className={styles.add} style={{ '--top': hoverPoint.y + 'px' }}>
-      <Alerts
-        {...rest}
-        {...hoverPoint}
-        className={styles.alerts}
-        containerRef={containerRef}
-      />
+      <Alerts {...rest} {...hoverPoint} className={styles.alerts} containerRef={containerRef} />
     </div>
   )
 }

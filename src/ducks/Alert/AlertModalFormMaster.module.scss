@@ -1,0 +1,20 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.loaderWrapper {
+  height: 100%;
+}
+
+.loader {
+  height: 100%;
+  min-height: auto;
+}
+
+.notSignalInfo {
+  height: 100%;
+  padding: 20px;
+  text-align: center;
+
+  @include responsive("phone", "phone-xs") {
+    width: initial;
+  }
+}

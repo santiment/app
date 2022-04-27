@@ -9,13 +9,13 @@ export const isUserAuthorOfTemplate = (user, template) => {
   return user && (user.data ? +user.data.id : +user.id) === +id
 }
 
-export const usePublicTemplates = template => {
+export const usePublicTemplates = (template) => {
   const [updateTemplate] = useUpdateTemplate()
   const [isPublic, setIsPublic] = useState(template.isPublic)
-  function toggleIsPublic (e) {
+  function toggleIsPublic(e) {
     e.stopPropagation()
 
-    setIsPublic(state => {
+    setIsPublic((state) => {
       const newState = !state
       updateTemplate(template, { isPublic: newState })
       return newState

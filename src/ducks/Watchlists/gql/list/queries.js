@@ -4,10 +4,10 @@ import {
   getListItemsShortFragment,
   getStats,
   SHORT_WATCHLIST_FRAGMENT,
-  WATCHLIST_GENERAL_FRAGMENT
+  WATCHLIST_GENERAL_FRAGMENT,
 } from '../fragments'
 
-export const CREATE_WATCHLIST_MUTATION = type => gql`
+export const CREATE_WATCHLIST_MUTATION = (type) => gql`
   mutation createWatchlist(
     $type: WatchlistTypeEnum
     $name: String!
@@ -44,7 +44,7 @@ export const REMOVE_WATCHLIST_MUTATION = gql`
   }
 `
 
-export const UPDATE_WATCHLIST_MUTATION = type => gql`
+export const UPDATE_WATCHLIST_MUTATION = (type) => gql`
   mutation updateWatchlist(
     $id: Int!
     $name: String
@@ -78,7 +78,7 @@ export const UPDATE_WATCHLIST_MUTATION = type => gql`
   ${getListItemsFragment(type)}
 `
 
-export const ADD_LIST_ITEMS_MUTATION = type => gql`
+export const ADD_LIST_ITEMS_MUTATION = (type) => gql`
   mutation addWatchlistItems(
     $id: Int!
     $listItems: [InputListItem]
@@ -96,7 +96,7 @@ export const ADD_LIST_ITEMS_MUTATION = type => gql`
   ${getListItemsFragment(type)}
 `
 
-export const REMOVE_LIST_ITEMS_MUTATION = type => gql`
+export const REMOVE_LIST_ITEMS_MUTATION = (type) => gql`
   mutation removeWatchlistItems(
     $id: Int!
     $listItems: [InputListItem]

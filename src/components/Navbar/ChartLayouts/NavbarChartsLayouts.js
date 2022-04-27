@@ -26,10 +26,7 @@ const NavbarChartsLayouts = ({ recentTemplatesNumber = 0 }) => {
         <LayoutsEmptySection />
       ) : (
         <>
-          <LayoutsList
-            templates={templates}
-            recentTemplatesNumber={recentTemplatesNumber}
-          />
+          <LayoutsList templates={templates} recentTemplatesNumber={recentTemplatesNumber} />
           <CreateLayoutLink />
         </>
       )}
@@ -41,15 +38,12 @@ const NavbarChartsLayouts = ({ recentTemplatesNumber = 0 }) => {
 
 export const getLayoutsStyles = (templates, recentTemplatesNumber) => ({
   minHeight: getBlockMinHeight(templates),
-  maxHeight: recentTemplatesNumber > 0 ? '136px' : '100%'
+  maxHeight: recentTemplatesNumber > 0 ? '136px' : '100%',
 })
 
 const LayoutsList = ({ templates, activeLink, recentTemplatesNumber }) => (
-  <div
-    style={getLayoutsStyles(templates, recentTemplatesNumber)}
-    className={styles.wrapper}
-  >
-    {templates.map(template => {
+  <div style={getLayoutsStyles(templates, recentTemplatesNumber)} className={styles.wrapper}>
+    {templates.map((template) => {
       const link = prepareTemplateLink(template)
 
       const { title, id, isPublic } = template

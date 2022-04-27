@@ -1,18 +1,20 @@
-@import '~@santiment-network/ui/mixins';
+@import "~@santiment-network/ui/mixins";
 
 .wrapper {
   position: fixed;
   z-index: 9999;
   bottom: 20px;
   left: 20px;
-  max-width: 442px;
+  max-width: 445px;
   display: flex;
-  padding: 20px 20px 20px 24px;
-  border-radius: 10px;
+  padding: 20px 24px 20px 24px;
+  border-radius: 4px;
   align-items: flex-start;
   justify-content: flex-start;
+  box-shadow: 0 2px 24px rgba(24, 27, 43, 0.04),
+    1px 3px 7px rgba(47, 53, 77, 0.05);
 
-  @include responsive('phone', 'phone-xs') {
+  @include responsive("phone", "phone-xs") {
     flex-direction: column;
     text-align: center;
     align-items: center;
@@ -32,8 +34,9 @@
   min-height: 88px;
   max-width: 70px;
   max-height: 88px;
+  fill: none;
 
-  @include responsive('phone', 'phone-xs') {
+  @include responsive("phone", "phone-xs") {
     min-width: 102px;
     min-height: 121px;
     max-width: 102px;
@@ -47,7 +50,7 @@
   display: flex;
   flex-direction: column;
 
-  @include responsive('phone', 'phone-xs') {
+  @include responsive("phone", "phone-xs") {
     align-items: center;
     max-width: 360px;
     margin: 0 auto;
@@ -55,26 +58,39 @@
 }
 
 .title {
-  @include text('body-2', 'm');
+  max-width: 240px;
+  color: var(--rhino);
+  margin-bottom: 8px;
 
-  margin: 0 0 8px;
-  max-width: 270px;
+  @include text("body-2", "m");
 
-  @include responsive('phone', 'phone-xs') {
-    max-width: auto;
+  @include responsive("phone", "phone-xs") {
+    max-width: 100%;
 
-    @include text('body-1', 'm');
+    @include text("body-1", "m");
+  }
+}
+
+.closeIcon {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  cursor: pointer;
+  fill: var(--waterloo);
+
+  @include responsive("phone", "phone-xs") {
+    right: 20px;
   }
 }
 
 .text {
-  @include text('body-3');
+  @include text("body-3");
 
   margin: 0 0 16px;
   color: var(--waterloo);
 
-  @include responsive('phone', 'phone-xs') {
-    @include text('body-2');
+  @include responsive("phone", "phone-xs") {
+    @include text("body-2");
 
     margin: 0 0 24px;
   }
@@ -84,9 +100,8 @@
   width: 92px;
   justify-content: center;
 
-  @include responsive('phone', 'phone-xs') {
+  @include responsive("phone", "phone-xs") {
     width: 100%;
-    max-width: 360px;
     margin: 0;
   }
 }
@@ -96,5 +111,16 @@
 
   &:hover {
     color: var(--jungle-green-hover);
+  }
+}
+
+.actions {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  @include responsive("phone", "phone-xs") {
+    flex-direction: column;
   }
 }

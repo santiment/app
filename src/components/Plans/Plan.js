@@ -11,7 +11,6 @@ import styles from './Plan.module.scss'
 export const getAltPrice = (plans, billing, name) => {
   const { amount: altAmount, interval: altInterval } =
     getAlternativeBillingPlan(plans, { name, interval: billing }) || {}
-
   const [altPrice] = formatPrice(altAmount, null, altInterval)
 
   return { altPrice, altInterval }
@@ -32,7 +31,7 @@ const Plan = ({
   onDialogClose,
   subscription,
   classes = {},
-  btnProps
+  btnProps,
 }) => {
   const { id, name, amount } = plan
   const card = PLANS[name]
@@ -58,13 +57,11 @@ const Plan = ({
         classes.wrapper,
         card.isPopular && styles.card_popular,
         sameAsUserPlan && styles.card_active,
-        sameAsUserPlan && classes.wrapper_active
+        sameAsUserPlan && classes.wrapper_active,
       )}
     >
       <div className={cx(styles.card__top, classes.top)}>
-        <h3
-          className={cx(styles.card__title, isFree && styles.card__title__free)}
-        >
+        <h3 className={cx(styles.card__title, isFree && styles.card__title__free)}>
           {card.title} {sameAsUserPlan && isTrial ? 'Trial' : ''}
         </h3>
       </div>
@@ -78,11 +75,7 @@ const Plan = ({
         )}
 
         <div className={styles.discount}>
-          <PlanDiscontBlock
-            card={card}
-            altPrice={altPrice}
-            altInterval={altInterval}
-          />
+          <PlanDiscontBlock card={card} altPrice={altPrice} altInterval={altInterval} />
         </div>
 
         <PlanBtn
@@ -98,11 +91,7 @@ const Plan = ({
           showCreditMsg={!isFree}
         />
 
-        <Features
-          isGreen={isFree}
-          data={card.features}
-          classes={{ ...styles, ...classes }}
-        />
+        <Features isGreen={isFree} data={card.features} classes={{ ...styles, ...classes }} />
       </div>
     </div>
   )
@@ -119,7 +108,8 @@ export const PlanBtn = ({
   billing,
   id,
   className,
-  showCreditMsg
+  showCreditMsg,
+  onOpen,
 }) => {
   const { isLoggedIn } = useUser()
   const { isEligibleForSanbaseTrial } = useUserSubscriptionStatus()
@@ -153,6 +143,7 @@ export const PlanBtn = ({
           onDialogClose={onDialogClose}
           btnProps={btnProps}
           altPrice={altPrice}
+          onOpen={onOpen}
         />
       )}
     </div>

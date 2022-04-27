@@ -8,21 +8,21 @@ import styles from './NetworkActivity.module.scss'
 
 const TABS = {
   'Daily Addresses': {
-    metric: 'daily_active_addresses'
+    metric: 'daily_active_addresses',
   },
   'Token Velocity': {
-    metric: 'velocity'
+    metric: 'velocity',
   },
   'Network Growth': {
-    metric: 'network_growth'
-  }
+    metric: 'network_growth',
+  },
 }
 
 const NetworkActivity = ({ settings }) => {
   const [tab, setTab] = useState('Daily Addresses')
   const { data, loading } = useAggregatedProjects({
     ...TABS[tab],
-    ...settings
+    ...settings,
   })
 
   return (
@@ -31,7 +31,7 @@ const NetworkActivity = ({ settings }) => {
         className={styles.tabs}
         options={Object.keys(TABS)}
         defaultSelectedIndex={tab}
-        onSelect={tab => setTab(tab)}
+        onSelect={(tab) => setTab(tab)}
         classes={styles}
       />
       <div className={styles.chart}>
@@ -50,11 +50,11 @@ export const ProjectsPreparedChart = ({ data, logScale = false }) => {
     return data
       .sort(sortByValue)
       .filter(({ value }) => +value !== 0)
-      .map(item => {
+      .map((item) => {
         return {
           ...item,
           key: item.slug,
-          logValue: logScale ? Math.log(+item.value) : item.value
+          logValue: logScale ? Math.log(+item.value) : item.value,
         }
       })
   }, [data])
@@ -64,7 +64,7 @@ export const ProjectsPreparedChart = ({ data, logScale = false }) => {
       data={prepared}
       dataKey={'logValue'}
       settings={{
-        valueFormatter: val => `${millify(val)}`
+        valueFormatter: (val) => `${millify(val)}`,
       }}
     />
   )

@@ -6,12 +6,12 @@ import styles from './Settings.module.scss'
 const Calendar = ({ settings, changeTimePeriod }) => {
   const { timeRange, from, to } = settings
 
-  function onTimerangeChange (timeRange) {
+  function onTimerangeChange(timeRange) {
     const { from, to } = getIntervalByTimeRange(timeRange)
     changeTimePeriod(from, to, timeRange)
   }
 
-  function onCalendarChange ([from, to]) {
+  function onCalendarChange([from, to]) {
     changeTimePeriod(from, to)
   }
 

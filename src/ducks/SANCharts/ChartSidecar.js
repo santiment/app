@@ -3,9 +3,7 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Categories from './Categories'
 import { AssetsList } from '../../pages/Watchlists/AssetsMobilePage'
-import RecentlyWatched, {
-  Asset
-} from '../../components/RecentlyWatched/RecentlyWatched'
+import RecentlyWatched, { Asset } from '../../components/RecentlyWatched/RecentlyWatched'
 import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTabs'
 import Footer from '../../components/Footer'
 import styles from './ChartSidecar.module.scss'
@@ -15,7 +13,7 @@ export const SidecarItems = ({
   hidden = false,
   onSlugSelect,
   onProjectClick,
-  showFooter = false
+  showFooter = false,
 }) => {
   const [openedList, setOpenedList] = useState()
 
@@ -29,17 +27,8 @@ export const SidecarItems = ({
   }
 
   return hidden ? null : openedList ? (
-    <div
-      className={cx(
-        styles.content,
-        styles.content_assets,
-        classes.sidecarCategoryAssets
-      )}
-    >
-      <h2
-        className={cx(styles.back, classes.sidecarBackBtn)}
-        onClick={() => setOpenedList()}
-      >
+    <div className={cx(styles.content, styles.content_assets, classes.sidecarCategoryAssets)}>
+      <h2 className={cx(styles.back, classes.sidecarBackBtn)} onClick={() => setOpenedList()}>
         <Icon type='arrow-left' className={styles.backIcon} /> Back
       </h2>
       <AssetsList
@@ -50,12 +39,7 @@ export const SidecarItems = ({
     </div>
   ) : (
     <div className={cx(styles.content, classes.sidecarItems)}>
-      <div
-        className={cx(
-          styles.content__container,
-          classes.sidecarContentContainer
-        )}
-      >
+      <div className={cx(styles.content__container, classes.sidecarContentContainer)}>
         <div className={styles.visible}>
           <RecentlyWatched
             className={styles.section}

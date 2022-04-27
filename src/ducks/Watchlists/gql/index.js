@@ -12,26 +12,24 @@ export const WATCHLIST_SHORT_QUERY = gql`
   ${SHORT_WATCHLIST_FRAGMENT}
 `
 
-export const getRecentWatchlist = id =>
+export const getRecentWatchlist = (id) =>
   client
     .query({
       query: WATCHLIST_SHORT_QUERY,
       variables: {
-        id
-      }
+        id,
+      },
     })
     .then(({ data = {} }) => data.watchlist)
 
-export function tableQuery (columns) {
+export function tableQuery(columns) {
   const staticColumns = []
-  const dynamicColumns = columns.filter(
-    ({ isStatic, accessor, isRestricted, isChart }) => {
-      if (isStatic) {
-        staticColumns.push(accessor)
-      }
-      return !isStatic && !isRestricted && !isChart
+  const dynamicColumns = columns.filter(({ isStatic, accessor, isRestricted, isChart }) => {
+    if (isStatic) {
+      staticColumns.push(accessor)
     }
-  )
+    return !isStatic && !isRestricted && !isChart
+  })
 
   return gql`
   query allProjectsByFunction($fn: json) {
@@ -48,10 +46,16 @@ export function tableQuery (columns) {
           ({ accessor, timeRange, aggregation }) =>
             `${accessor}: aggregatedTimeseriesData(
             metric: "${accessor}"
-            from: "utc_now-${timeRange}"
+            from: "utc_now-${
+              aggregation.toUpperCase() === AGGREGATIONS_UPPER.LAST
+                ? accessor === 'sentiment_volume_consumed_total_change_1d'
+                  ? '2d'
+                  : '1d'
+                : timeRange
+            }"
             to: "utc_now"
             aggregation: ${AGGREGATIONS_UPPER[aggregation.toUpperCase()]}
-          )`
+          )`,
         )}
       }
       stats {

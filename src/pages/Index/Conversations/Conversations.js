@@ -25,7 +25,7 @@ const Conversations = () => {
     }
   }, [data])
 
-  function loadMore () {
+  function loadMore() {
     if (!loading && canLoad) {
       const last = conversations[conversations.length - 1]
 
@@ -45,13 +45,11 @@ const Conversations = () => {
         pageStart={0}
         loadMore={loadMore}
         hasMore={!loading && canLoad}
-        loader={
-          <Skeleton show={loading} key='loader' className={styles.skeleton} />
-        }
+        loader={<Skeleton show={loading} key='loader' className={styles.skeleton} />}
         threshold={200}
         useWindow={false}
       >
-        {conversations.map(item => (
+        {conversations.map((item) => (
           <Conversation data={item} key={item.id} classname={styles.item} />
         ))}
       </InfiniteScroll>

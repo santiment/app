@@ -16,24 +16,24 @@ export const initialState = {
       isTelegarmDeepLinkError: false,
       telegramDeepLink: '',
       isTelegramConnecting: false,
-      newsletterSubscription: 'OFF'
+      newsletterSubscription: 'OFF',
     },
     apikeys: [],
-    subscriptions: []
+    subscriptions: [],
   },
   account: null,
   token: null,
   hasMetamask: false,
-  consent: null
+  consent: null,
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case actions.USER_LOGIN_SUCCESS:
       loginUser()
-      session.update(ses => {
+      session.update((ses) => {
         ses.currentUser = {
-          ...action.user
+          ...action.user,
         }
         return ses
       })
@@ -44,8 +44,8 @@ export default (state = initialState, action) => {
         token: action.token,
         consent: action.consent,
         data: {
-          ...action.user
-        }
+          ...action.user,
+        },
       }
     case actions.USER_LOGOUT_SUCCESS:
       logoutUser()
@@ -55,7 +55,7 @@ export default (state = initialState, action) => {
         isLoading: false,
         data: {},
         token: null,
-        consent: null
+        consent: null,
       }
     case actions.USER_LOGIN_FAILED:
       return {
@@ -65,7 +65,7 @@ export default (state = initialState, action) => {
         data: {},
         token: null,
         consent: null,
-        errorMessage: action.payload
+        errorMessage: action.payload,
       }
     case actions.USER_EMAIL_CHANGE:
       updateUser({ email: action.email })
@@ -73,8 +73,8 @@ export default (state = initialState, action) => {
         ...state,
         data: {
           ...state.data,
-          email: action.email
-        }
+          email: action.email,
+        },
       }
     case actions.USER_SUBSCRIPTION_CHANGE:
       const subscriptions = Array.isArray(state.data.subscriptions)
@@ -85,8 +85,8 @@ export default (state = initialState, action) => {
         ...state,
         data: {
           ...state.data,
-          subscriptions
-        }
+          subscriptions,
+        },
       }
     case actions.USER_USERNAME_CHANGE:
       updateUser({ username: action.username })
@@ -94,8 +94,17 @@ export default (state = initialState, action) => {
         ...state,
         data: {
           ...state.data,
-          username: action.username
-        }
+          username: action.username,
+        },
+      }
+    case actions.USER_NAME_CHANGE:
+      updateUser({ name: action.name })
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          name: action.name,
+        },
       }
     case actions.USER_AVATAR_CHANGE: {
       updateUser({ avatarUrl: action.avatarUrl })
@@ -103,13 +112,13 @@ export default (state = initialState, action) => {
         ...state,
         data: {
           ...state.data,
-          avatarUrl: action.avatarUrl
-        }
+          avatarUrl: action.avatarUrl,
+        },
       }
     }
     case actions.USER_DIGEST_CHANGE:
       updateUserSettingsCache({
-        newsletterSubscription: action.payload
+        newsletterSubscription: action.payload,
       })
       return {
         ...state,
@@ -117,9 +126,9 @@ export default (state = initialState, action) => {
           ...state.data,
           settings: {
             ...state.data.settings,
-            newsletterSubscription: action.payload
-          }
-        }
+            newsletterSubscription: action.payload,
+          },
+        },
       }
 
     case actions.USER_SETTING_GDPR:
@@ -130,8 +139,8 @@ export default (state = initialState, action) => {
         data: {
           ...state.data,
           privacyPolicyAccepted,
-          marketingAccepted
-        }
+          marketingAccepted,
+        },
       }
     case actions.USER_APIKEY_GENERATE_SUCCESS:
     case actions.USER_APIKEY_REVOKE_SUCCESS:
@@ -139,20 +148,20 @@ export default (state = initialState, action) => {
         ...state,
         data: {
           ...state.data,
-          apikeys: action.apikeys
-        }
+          apikeys: action.apikeys,
+        },
       }
     case actions.CHANGE_USER_DATA:
       if (!action.user) {
         return {
           ...initialState,
           hasMetamask: action.hasMetamask,
-          isLoading: false
+          isLoading: false,
         }
       }
-      session.update(ses => {
+      session.update((ses) => {
         ses.currentUser = {
-          ...action.user
+          ...action.user,
         }
         return ses
       })
@@ -164,14 +173,14 @@ export default (state = initialState, action) => {
           ...action.user,
           settings: {
             ...state.data.settings,
-            ...action.user.settings
-          }
-        }
+            ...action.user.settings,
+          },
+        },
       }
     case actions.APP_USER_HAS_INACTIVE_TOKEN:
       return {
         ...initialState,
-        isLoading: false
+        isLoading: false,
       }
     case actions.SETTINGS_CONNECT_TELEGRAM:
       return {
@@ -180,9 +189,9 @@ export default (state = initialState, action) => {
           ...state.data,
           settings: {
             ...state.data.settings,
-            isTelegramConnecting: true
-          }
-        }
+            isTelegramConnecting: true,
+          },
+        },
       }
     case actions.SETTINGS_CONNECT_TELEGRAM_SUCCESS:
       return {
@@ -192,9 +201,9 @@ export default (state = initialState, action) => {
           settings: {
             ...state.data.settings,
             hasTelegramConnected: true,
-            isTelegramConnecting: false
-          }
-        }
+            isTelegramConnecting: false,
+          },
+        },
       }
     case actions.SETTINGS_CONNECT_TELEGRAM_CANCEL:
       return {
@@ -203,9 +212,9 @@ export default (state = initialState, action) => {
           ...state.data,
           settings: {
             ...state.data.settings,
-            isTelegramConnecting: false
-          }
-        }
+            isTelegramConnecting: false,
+          },
+        },
       }
     case actions.SETTINGS_GENERATE_TELEGRAM_DEEP_LINK:
       return {
@@ -215,9 +224,9 @@ export default (state = initialState, action) => {
           settings: {
             ...state.data.settings,
             isTelegarmDeepLinkLoading: true,
-            isTelegramConnecting: false
-          }
-        }
+            isTelegramConnecting: false,
+          },
+        },
       }
     case actions.SETTINGS_GENERATE_TELEGRAM_DEEP_LINK_SUCCESS:
       return {
@@ -227,9 +236,9 @@ export default (state = initialState, action) => {
           settings: {
             ...state.data.settings,
             isTelegarmDeepLinkLoading: false,
-            telegramDeepLink: action.payload.link
-          }
-        }
+            telegramDeepLink: action.payload.link,
+          },
+        },
       }
     case actions.SETTINGS_GENERATE_TELEGRAM_DEEP_LINK_FAILED:
       return {
@@ -240,25 +249,25 @@ export default (state = initialState, action) => {
             ...state.data.settings,
             isTelegarmDeepLinkLoading: false,
             isTelegarmDeepLinkError: true,
-            telegramDeepLink: undefined
-          }
-        }
+            telegramDeepLink: undefined,
+          },
+        },
       }
     case actions.SETTINGS_CONNECT_NEW_WALLET_SUCCESS:
       return {
         ...state,
         data: {
           ...state.data,
-          ethAccounts: action.payload.accounts
-        }
+          ethAccounts: action.payload.accounts,
+        },
       }
     case actions.SETTINGS_REMOVE_CONNECTED_WALLET_SUCCESS:
       return {
         ...state,
         data: {
           ...state.data,
-          ethAccounts: action.payload.accounts
-        }
+          ethAccounts: action.payload.accounts,
+        },
       }
     default:
       return state

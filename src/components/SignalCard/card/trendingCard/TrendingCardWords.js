@@ -2,8 +2,8 @@ import React from 'react'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import styles from './TrendingCardWords.module.scss'
 
-const toRenderedWord = word => ({
-  word
+const toRenderedWord = (word) => ({
+  word,
 })
 
 const getWords = (triggerWords, activityPayload) => {
@@ -22,7 +22,7 @@ const getWords = (triggerWords, activityPayload) => {
           if (splitted && splitted.length === 2) {
             acc.push({
               word: splitted[0].trim(),
-              score: splitted[1].trim()
+              score: splitted[1].trim(),
             })
           }
         }

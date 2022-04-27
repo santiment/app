@@ -14,23 +14,24 @@ const ShareModalTrigger = ({
   classes,
   dialogTitle = 'Share the data',
   isDialogOnly,
+  isAlert,
   ...props
 }) => {
-  return window.navigator.share ? (
+  return !isDialogOnly && window.navigator.share ? (
     <Trigger
       {...props}
       onClick={() => {
         window.navigator.share({
           title: shareTitle,
           text: shareText,
-          url: shareLink
+          url: shareLink,
         })
       }}
     />
   ) : (
     <Dialog
       size='m'
-      trigger={isDialogOnly ? null : <Trigger {...props} />}
+      trigger={isDialogOnly && !isAlert ? null : <Trigger {...props} />}
       title={dialogTitle}
       classes={classes}
       {...props}
@@ -49,12 +50,12 @@ const ShareModalTrigger = ({
 ShareModalTrigger.propTypes = {
   shareLink: PropTypes.string.isRequired,
   shareTitle: PropTypes.string,
-  shareText: PropTypes.string
+  shareText: PropTypes.string,
 }
 
 ShareModalTrigger.defaultProps = {
   shareTitle: 'Sanbase',
-  shareText: 'Hey! Look what I have found at the app.santiment.net!'
+  shareText: 'Hey! Look what I have found at the app.santiment.net!',
 }
 
 export default ShareModalTrigger

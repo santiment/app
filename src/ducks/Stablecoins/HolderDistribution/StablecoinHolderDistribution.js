@@ -12,18 +12,18 @@ import { metricsToPlotCategories } from '../../Chart/Synchronizer'
 import { StablecoinsSelector } from '../StablecoinSelector/ProjectsSelectors'
 import { MobileOnly } from '../../../components/Responsive'
 import DashboardChartHeaderWrapper, {
-  DashboardIntervals
+  DashboardIntervals,
 } from '../../../components/DashboardMetricChart/DashboardChartHeader/DashboardChartHeaderWrapper'
 import {
   HOLDERS_DISTRIBUTION_6M,
-  HOLDERS_DISTRIBUTION_MOBILE_INTERVALS
+  HOLDERS_DISTRIBUTION_MOBILE_INTERVALS,
 } from '../StablecoinsMarketCap/utils'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import PaywallInfo from '../../Studio/Chart/PaywallInfo'
 import { usePhase, Phase } from '../../Studio/phases'
 import {
   checkIfWasNotMerged,
-  buildMergedMetric
+  buildMergedMetric,
 } from '../../Studio/Widget/HolderDistributionWidget/utils'
 import styles from './StablecoinHolderDistribution.module.scss'
 
@@ -35,7 +35,7 @@ const CHART_PADDING_MOBILE = {
   top: 0,
   right: 0,
   bottom: 0,
-  left: 0
+  left: 0,
 }
 
 export const DEFAULT_STABLECOIN = {
@@ -45,12 +45,12 @@ export const DEFAULT_STABLECOIN = {
   ticker: 'USDT',
   rank: 4,
   marketcapUsd: 10010463777.928583,
-  __typename: 'Project'
+  __typename: 'Project',
 }
 
 const DEFAULT_SETTINGS = {
   ...getIntervalByTimeRange('183d'),
-  interval: '1d'
+  interval: '1d',
 }
 
 const StablecoinHolderDistribution = ({ isDesktop, className }) => {
@@ -59,26 +59,26 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
   const [checkedMetrics, setSelectedMetrics] = useState(DEFAULT_CHECKED_METRICS)
   const [metrics, setMetrics] = useState([
     HolderDistributionMetric.holders_distribution_100_to_1k,
-    HolderDistributionMetric.holders_distribution_1k_to_10k
+    HolderDistributionMetric.holders_distribution_1k_to_10k,
   ])
   const [mergedMetrics, setMergedMetrics] = useState([])
   const { currentPhase, setPhase } = usePhase()
   const [settings, setSettings] = useState({
     ...DEFAULT_SETTINGS,
-    slug: asset.slug
+    slug: asset.slug,
   })
   const MetricColor = useChartColors(metrics)
 
   useEffect(() => {
     setSettings({
       ...settings,
-      slug: asset.slug
+      slug: asset.slug,
     })
   }, [asset])
 
   const [data] = useTimeseries(metrics, settings)
   const [allTimeData] = useAllTimeData(metrics, {
-    slug: asset.slug
+    slug: asset.slug,
   })
 
   const onBrushChangeEnd = useCallback(
@@ -88,41 +88,41 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
 
       setSettings({ ...settings, from, to })
     },
-    [data, setSettings, settings, allTimeData]
+    [data, setSettings, settings, allTimeData],
   )
 
   const onChangeInterval = useCallback(
-    interval => {
+    (interval) => {
       setInterval(interval)
       setSettings({
         ...settings,
-        ...getIntervalByTimeRange(interval.value)
+        ...getIntervalByTimeRange(interval.value),
       })
     },
-    [settings, setSettings, setInterval]
+    [settings, setSettings, setInterval],
   )
 
   const axesMetricKeys = useAxesMetricsKey([...metrics].reverse())
   const categories = metricsToPlotCategories(metrics, {})
 
   const toggleMetric = useCallback(
-    metric => {
+    (metric) => {
       if (currentPhase !== Phase.IDLE) {
         return checkMetric(metric)
       }
 
-      const found = metrics.find(x => x === metric)
+      const found = metrics.find((x) => x === metric)
 
       if (found) {
-        setMetrics(metrics.filter(x => x !== metric))
+        setMetrics(metrics.filter((x) => x !== metric))
       } else {
         setMetrics([...metrics, metric])
       }
     },
-    [metrics, setMetrics, currentPhase, checkMetric]
+    [metrics, setMetrics, currentPhase, checkMetric],
   )
 
-  function checkMetric (metric) {
+  function checkMetric(metric) {
     const newCheckedMetrics = new Set(checkedMetrics)
 
     if (checkedMetrics.has(metric)) {
@@ -134,11 +134,11 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
     setSelectedMetrics(newCheckedMetrics)
   }
 
-  function onMergeClick () {
+  function onMergeClick() {
     setPhase(Phase.MAPVIEW)
   }
 
-  function onMergeConfirmClick () {
+  function onMergeConfirmClick() {
     if (checkedMetrics.size > 1) {
       const metric = buildMergedMetric([...checkedMetrics])
 
@@ -151,8 +151,8 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
     setSelectedMetrics(DEFAULT_CHECKED_METRICS)
   }
 
-  function onUnmergeClick (metric) {
-    const metricFilter = m => m !== metric
+  function onUnmergeClick(metric) {
+    const metricFilter = (m) => m !== metric
     setMetrics(metrics.filter(metricFilter))
     setMergedMetrics(mergedMetrics.filter(metricFilter))
   }

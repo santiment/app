@@ -1,13 +1,24 @@
 @import '~@santiment-network/ui/mixins';
 
 .dialog {
-  width: 320px;
+  width: 480px !important;
 
   @include responsive('phone-xs', 'phone') {
     width: 100%;
   }
 }
 
-.cancel {
-  margin-right: 16px;
+.content {
+  padding: 6px 40px 0 !important;
+  margin-bottom: 24px !important;
+}
+
+.actions {
+  --margin: 40px;
+  gap: 16px;
+  padding: 0 !important;
+}
+
+.button {
+  --h-padding: 30px !important;
 }

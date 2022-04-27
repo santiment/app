@@ -1,0 +1,7 @@
+@import '~@santiment-network/ui/mixins.scss';
+
+.dialog {
+  @include responsive('tablet', 'laptop', 'desktop') {
+    width: 440px;
+  }
+}

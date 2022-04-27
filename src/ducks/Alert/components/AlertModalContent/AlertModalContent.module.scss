@@ -1,0 +1,29 @@
+@import "~@santiment-network/ui/mixins";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  height: 590px;
+  padding: 36px 50px 0 40px;
+  box-sizing: border-box;
+  border-radius: 0 0 4px 0;
+
+  @include overlay-scroll;
+}
+
+.wrapperResized {
+  height: 536px;
+}
+
+.submit {
+  min-height: 32px;
+  width: 129px;
+  display: flex;
+  justify-content: center;
+  float: right;
+  margin-bottom: 24px;
+}

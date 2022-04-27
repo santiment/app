@@ -14,21 +14,17 @@ const BASE_PADDING = {
   top: 10,
   right: 45,
   bottom: 23,
-  left: 45
+  left: 45,
 }
 
 const PADDING = {
   ...BASE_PADDING,
-  bottom: 73
+  bottom: 73,
 }
 
 export const CanvasBase = ({ metrics, options, children, ...props }) => {
   const axesMetricKeys = useAxesMetricsKey(metrics)
-  const {
-    isCartesianGridActive,
-    isWatermarkLighter,
-    isWatermarkVisible
-  } = options
+  const { isCartesianGridActive, isWatermarkLighter, isWatermarkVisible } = options
 
   return (
     <Chart {...props}>
@@ -44,7 +40,7 @@ export const CanvasBase = ({ metrics, options, children, ...props }) => {
 }
 CanvasBase.defaultProps = {
   height: 270,
-  padding: BASE_PADDING
+  padding: BASE_PADDING,
 }
 
 const Canvas = ({ data, brushData, onBrushChangeEnd, ...props }) => {
@@ -53,13 +49,7 @@ const Canvas = ({ data, brushData, onBrushChangeEnd, ...props }) => {
 
   return (
     <CanvasBase data={data} {...props}>
-      <Brush
-        {...props}
-        data={brushData}
-        from={from}
-        to={to}
-        onChangeEnd={onBrushChangeEnd}
-      />
+      <Brush {...props} data={brushData} from={from} to={to} onChangeEnd={onBrushChangeEnd} />
 
       <Signals {...settings} metrics={metrics} data={data} selector='text' />
     </CanvasBase>
@@ -67,7 +57,7 @@ const Canvas = ({ data, brushData, onBrushChangeEnd, ...props }) => {
 }
 Canvas.defaultProps = {
   height: 420,
-  padding: PADDING
+  padding: PADDING,
 }
 
 export default Canvas

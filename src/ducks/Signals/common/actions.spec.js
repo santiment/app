@@ -10,7 +10,7 @@ describe('Signals actions', () => {
       timeWindow: '24h',
       channels: ['Telegram'],
       title: 'Check',
-      description: 'check'
+      description: 'check',
     })
     expect(resultAction).toMatchSnapshot()
   })
@@ -28,20 +28,20 @@ describe('Signals ETH wallet actions', () => {
         percent_threshold: 200,
         threshold: 101,
         target: {
-          address: '0x44fcfabfbe32024a01b778c025d70498382cced0'
+          address: '0x44fcfabfbe32024a01b778c025d70498382cced0',
         },
         asset: {
-          slug: 'adx-net'
+          slug: 'adx-net',
         },
         time_window: '24d',
         type: 'eth_wallet',
         operation: {
-          amount_down: 101
-        }
+          amount_down: 101,
+        },
       },
       isRepeating: true,
       cooldown: '3d',
-      shouldReload: false
+      shouldReload: false,
     })
     expect(resultAction).toMatchSnapshot()
   })

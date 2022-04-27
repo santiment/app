@@ -1,39 +1,36 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
-import debounce from 'lodash.debounce'
-import Button from '@santiment-network/ui/Button'
-import Icon from '@santiment-network/ui/Icon'
 import isEqual from 'lodash.isequal'
+import Icon from '@santiment-network/ui/Icon'
 import { createTrigger } from '../../../ducks/Signals/common/actions'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import styles from './CopySignal.module.scss'
 
 const CopySignal = ({
   children,
-  as = 'a',
   isAuthor,
   isCreated,
   signal,
   createTrigger,
   onCreate,
+  onClose,
   label = 'Copy alert',
   doneLabel = 'Copied to my alerts',
   classes = {},
-  btnParams
+  btnParams,
 }) => {
   const [isCreation, setCreation] = useState(false)
 
   if (isCreated && isCreation) {
     return (
-      <Button
-        as={as}
-        className={cx(styles.copyBtn, styles.copiedBtn)}
+      <button
+        className={cx(styles.copyBtn, 'btn body-3 row v-center', styles.copiedBtn)}
         {...btnParams}
       >
         {doneLabel}
-        <Icon className={styles.copyBtnIcon} type='success-round' />
-      </Button>
+        <Icon type='success-round' />
+      </button>
     )
   }
 
@@ -46,7 +43,7 @@ const CopySignal = ({
     return null
   }
 
-  const copySignal = debounce(() => {
+  function copySignal() {
     if (onCreate) {
       onCreate()
     } else {
@@ -54,29 +51,32 @@ const CopySignal = ({
       delete newSignal.id
       newSignal.isPublic = false
       createTrigger(newSignal)
+
       setCreation && setCreation(true)
     }
-  })
+    if (onClose) {
+      onClose()
+    }
+  }
 
   return (
     <>
       {children}
-      <Button
+      <button
         onClick={!isCreation ? copySignal : undefined}
-        as={as}
-        className={cx(styles.copyBtn, classes.copyBtn)}
+        className={cx(styles.copyBtn, 'btn body-3', classes.copyBtn)}
         {...btnParams}
       >
         {label}
-      </Button>
+      </button>
     </>
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  createTrigger: payload => {
+const mapDispatchToProps = (dispatch) => ({
+  createTrigger: (payload) => {
     dispatch(createTrigger(payload))
-  }
+  },
 })
 
 const mapStateToProps = (state, { creatorId, signal }) => {
@@ -91,10 +91,10 @@ const mapStateToProps = (state, { creatorId, signal }) => {
       (state &&
         state.signals.all &&
         state.signals.all.some(
-          item =>
+          (item) =>
             item.title === signal.title &&
-            isEqual(signal.settings.operation, item.settings.operation)
-        ))
+            isEqual(signal.settings.operation, item.settings.operation),
+        )),
   }
 }
 

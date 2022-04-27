@@ -38,6 +38,27 @@
   }
 }
 
+.frozenWrapper {
+  --frozen-bg-color: var(--whale);
+
+  background-color: var(--frozen-bg-color);
+
+  &:hover {
+    --frozen-icon-opacity: 1;
+    --frozen-left-buttons-display: none;
+    --frozen-left-actions-display: flex;
+    --frozen-bg-color: var(--athens);
+    --frozen-title-color: var(--rhino);
+    --frozen-up-icon-color: var(--green);
+    --frozen-down-icon-color: var(--red);
+    --frozen-alert-bg: var(--frozen-bg-color);
+  }
+}
+
+.frozenActions {
+  display: var(--frozen-left-actions-display, none);
+}
+
 .wrapper__top {
   display: flex;
   height: 100%;
@@ -50,6 +71,10 @@
   word-break: break-word;
   color: var(--waterloo);
   margin-top: 4px;
+}
+
+.frozenDescription {
+  color: var(--casper);
 }
 
 .pointer {
@@ -74,18 +99,30 @@
 }
 
 .popup {
+  width: 144px;
   background: var(--white);
 
   @include border-box();
 
   border-radius: $border-radius;
-  padding: 8px 8px;
+  padding: 8px;
 }
 
 .popupItem {
-  padding: 6px 8px;
+  gap: 8px;
+  width: 128px;
+  height: 32px;
+  border-radius: 4px;
+  --fill: var(--waterloo);
+  --fill-hover: var(--green);
+}
 
-  @include text("body-3");
+.publicShare {
+  --color-hover: var(--green);
+}
+
+.sharePanelBtn {
+  margin: 2px 0;
 }
 
 .bottom {
@@ -99,8 +136,12 @@
 }
 
 .expandButton {
-  margin-right: 20px;
-  padding-left: 0;
+  --bg-hover: var(--green-light-1);
+  --color: var(--waterloo);
+  --color-hover: var(--green);
+  --fill: var(--waterloo);
+  --fill-hover: var(--green);
+  padding: 14px 7px;
 
   @include responsive("phone", "phone-xs") {
     margin: 0 5px 0 auto;
@@ -108,9 +149,18 @@
   }
 }
 
-.link {
-  color: var(--mirage);
+.expandButtonHover {
+  --bg: var(--green-light-1);
+  --fill: var(--green);
+}
 
+.frozenExpandButton {
+  background-color: transparent !important;
+  fill: var(--casper) !important;
+  display: var(--frozen-left-buttons-display, block);
+}
+
+.link {
   @include text("body-3");
 }
 
@@ -124,12 +174,6 @@
   }
 }
 
-.removeSignal {
-  cursor: pointer;
-
-  @include text("body-3");
-}
-
 .shareBtn {
   padding-left: 0;
 
@@ -140,17 +184,6 @@
 
 .shareSingle {
   padding: 0;
-}
-
-.popupButton {
-  @include text("body-3");
-
-  align-items: center;
-
-  &:hover {
-    fill: var(--jungle-green-hover);
-    color: var(--jungle-green-hover);
-  }
 }
 
 .awaitingBlock {
@@ -232,4 +265,40 @@
 
 .shareIcon {
   margin-right: 8px;
+}
+
+.messageWrapper {
+  overflow: hidden;
+  height: 58px;
+  opacity: 1;
+  transition-property: height, opacity;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+
+  &__hide {
+    height: 1px;
+    opacity: 0;
+  }
+}
+
+.message {
+  margin-bottom: 16px;
+}
+
+.toggle {
+  width: auto;
+  position: absolute;
+  right: 16px;
+  bottom: 24px;
+}
+
+.frozenAlert {
+  ---border: var(--porcelain);
+  --color: var(--waterloo);
+  --color-hover: var(--waterloo);
+
+  cursor: default;
+  height: 32px;
+  background: var(--frozen-alert-bg, var(--white));
+  fill: var(--waterloo);
 }

@@ -1,28 +1,25 @@
 import React from 'react'
+import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import { couldShowChart } from '../../utils/utils'
 import SignalPreview from '../../chart/preview/SignalPreview'
 import NoSignalPreview from '../../chart/preview/NoSignalPreview'
+import { SignalTypeIcon } from '../../../../components/SignalCard/controls/SignalControls'
 import { DesktopOnly, MobileOnly } from '../../../../components/Responsive'
 import CopySignal from '../../../../components/SignalCard/controls/CopySignal'
 import { isStrictTrendingWords } from '../../../../components/SignalCard/card/utils'
-import { useUser } from '../../../../stores/user'
 import styles from './ShareTriggerForm.module.scss'
 
 const SharedTriggerForm = ({
   trigger,
-  onOpen,
-  onCreate,
+  onClose,
   settings,
   originalTrigger,
-  userId,
-  SignalCard
+  prepareAlertTitle,
+  setIsPreview,
+  shouldDisableActions,
 }) => {
-  const { metric } = settings
-  const { id } = trigger
-
-  const { user } = useUser()
-  const isAuthor = user && +userId === +user.id
+  const { metric, type } = settings
 
   if (!originalTrigger.id) {
     return null
@@ -30,62 +27,61 @@ const SharedTriggerForm = ({
 
   const {
     settings: originalSettings,
-    settings: { target }
+    settings: { target },
   } = originalTrigger
-  const showChart = target && couldShowChart(originalSettings)
 
+  const showChart = target && couldShowChart(originalSettings)
   const isUnsupportedTrigger = isStrictTrendingWords(originalSettings)
 
   if (isUnsupportedTrigger) {
     return (
       <div className={styles.container}>
-        <div className={styles.unsupported}>
-          This type of alerts is deprecated
-        </div>
+        <div className={styles.unsupported}>This type of alerts is deprecated</div>
       </div>
     )
   }
 
   return (
     <div className={styles.container}>
-      <SignalCard
-        id={id}
-        signal={trigger}
-        showMoreActions={false}
-        className={styles.cardPanel}
-        showStatus={false}
-        isSharedTriggerForm={true}
-      />
-
+      <div className={styles.title}>
+        <SignalTypeIcon type={type} metric={metric} />
+        <div className={styles.link}>{prepareAlertTitle(trigger.title)}</div>
+      </div>
       <div className={styles.backTesting}>
         {showChart ? (
           <>
-            <div className={styles.chartDivider} />
             <div className={styles.preview}>
               <SignalPreview trigger={trigger} type={metric.value} />
             </div>
+            <div className={styles.chartDivider} />
           </>
         ) : (
           <NoSignalPreview />
         )}
       </div>
-
       <div className={styles.actions}>
         <DesktopOnly>
           <CopySignal
             signal={trigger}
-            label='Add alert'
-            onCreate={onCreate}
-            classes={styles}
+            label='Copy to my alerts'
+            onClose={onClose}
+            classes={{
+              copyBtn: cx(styles.copyBtn, shouldDisableActions && 'c-waterloo'),
+            }}
             as='div'
-            btnParams={{ variant: 'fill', accent: 'positive' }}
+            btnParams={{
+              variant: 'fill',
+              accent: 'positive',
+              disabled: shouldDisableActions,
+            }}
           />
           <Button
+            disabled={shouldDisableActions}
             className={styles.btnEdit}
-            onClick={() => onOpen(false)}
+            onClick={() => setIsPreview(false)}
             border
           >
-            {isAuthor ? 'Edit alert' : 'Open alert'}
+            Open alert
           </Button>
         </DesktopOnly>
 
@@ -93,17 +89,24 @@ const SharedTriggerForm = ({
           <CopySignal
             signal={trigger}
             label='Add alert'
-            onCreate={onCreate}
-            classes={styles}
+            onClose={onClose}
+            classes={{
+              copyBtn: cx(styles.copyBtn, shouldDisableActions && 'c-waterloo'),
+            }}
             as='div'
-            btnParams={{ fluid: true, accent: 'positive' }}
+            btnParams={{
+              fluid: true,
+              accent: 'positive',
+              disabled: shouldDisableActions,
+            }}
           />
           <Button
+            disabled={shouldDisableActions}
             fluid
             className={styles.btnEdit}
-            onClick={() => onOpen(false)}
+            onClick={() => setIsPreview(false)}
           >
-            {isAuthor ? 'Edit alert' : 'Open alert'}
+            Open alert
           </Button>
         </MobileOnly>
       </div>

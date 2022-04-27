@@ -6,14 +6,7 @@ import styles from './WordCloud.module.scss'
 
 export const WordCloud = ({ cloud, className, isLoading }) => (
   <div className={className}>
-    {isLoading && (
-      <Skeleton
-        centered
-        className={styles.skeleton}
-        show={isLoading}
-        repeat={1}
-      />
-    )}
+    {isLoading && <Skeleton centered className={styles.skeleton} show={isLoading} repeat={1} />}
     <WordCloudContent
       cloud={cloud}
       className={className}
@@ -25,7 +18,7 @@ export const WordCloud = ({ cloud, className, isLoading }) => (
   </div>
 )
 
-export default props => {
+export default (props) => {
   const { cloud, loading } = useWordCloud(props)
 
   return <WordCloud {...props} cloud={cloud} isLoading={loading} />

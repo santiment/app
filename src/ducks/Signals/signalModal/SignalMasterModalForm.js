@@ -26,7 +26,7 @@ const SignalMasterModalForm = ({
   previousPage = ALERT_ROUTES.ALERTS,
   defaultOpen = true,
   onClose,
-  noLoginPopupContainer
+  noLoginPopupContainer,
 }) => {
   const history = useHistory()
   const location = useLocation()
@@ -40,9 +40,7 @@ const SignalMasterModalForm = ({
 
   const hasTrigger = +triggerId > 0
 
-  const [dialogOpenState, setDialogOpenState] = useState(
-    defaultOpen && hasTrigger
-  )
+  const [dialogOpenState, setDialogOpenState] = useState(defaultOpen && hasTrigger)
 
   const [isApproving, setIsAppoving] = useState(false)
   const [isChanged, setIsChanged] = useState(false)
@@ -90,15 +88,19 @@ const SignalMasterModalForm = ({
   }, [isChanged, setIsAppoving, closeDialog, goBack, isLoggedIn])
 
   const formChangedCallback = useCallback(
-    isChanged => {
+    (isChanged) => {
       setIsChanged(isChanged)
     },
-    [setIsChanged]
+    [setIsChanged],
   )
 
-  const { data = {}, loading: isLoading, error: isError } = useSignal({
+  const {
+    data = {},
+    loading: isLoading,
+    error: isError,
+  } = useSignal({
     triggerId,
-    skip: !dialogOpenState
+    skip: !dialogOpenState,
   })
 
   const { trigger = {} } = data
@@ -146,20 +148,17 @@ const SignalMasterModalForm = ({
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isLoggedIn: checkIsLoggedIn(state),
-    userId: +state.user.data.id
+    userId: +state.user.data.id,
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  redirect: url => {
+const mapDispatchToProps = (dispatch) => ({
+  redirect: (url) => {
     dispatch(push(url || ALERT_ROUTES.ALERTS))
-  }
+  },
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SignalMasterModalForm)
+export default connect(mapStateToProps, mapDispatchToProps)(SignalMasterModalForm)

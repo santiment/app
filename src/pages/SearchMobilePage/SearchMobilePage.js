@@ -10,14 +10,14 @@ import {
   getRecentAssets,
   getRecentTrends,
   removeRecentTrends,
-  removeRecentAssets
+  removeRecentAssets,
 } from '../../utils/recent'
 import { safeDecode } from '../../utils/utils'
 import styles from './SearchMobilePage.module.scss'
 
 const SearchMobilePage = ({ history }) => {
   const [selectedTab, selectTab] = useState(TABS[0].index)
-  const onSelectTab = selected => selectTab(selected)
+  const onSelectTab = (selected) => selectTab(selected)
   const [assets, setAssets] = useState(getRecentAssets().filter(Boolean))
   const [trends, setTrends] = useState(getRecentTrends().filter(Boolean))
 
@@ -30,7 +30,7 @@ const SearchMobilePage = ({ history }) => {
           classes={{
             wrapper: styles.wrapper,
             right: styles.hidden,
-            title: styles.hidden
+            title: styles.hidden,
           }}
           title='Search'
         >
@@ -52,7 +52,7 @@ const SearchMobilePage = ({ history }) => {
       <div className={styles.recentWrapper}>
         <h3 className={styles.caption}>Recently searched</h3>
         {selectedTab === TABS[0].index &&
-          assets.map(slug => (
+          assets.map((slug) => (
             <div key={slug} className={styles.recent}>
               <Link to={`/projects/${slug}`} className={styles.link}>
                 <Icon type='clock' className={styles.icon} />
@@ -63,14 +63,14 @@ const SearchMobilePage = ({ history }) => {
                 className={cx(styles.icon, styles.delete)}
                 onClick={() => {
                   removeRecentAssets(slug)
-                  const filteredAssets = assets.filter(asset => asset !== slug)
+                  const filteredAssets = assets.filter((asset) => asset !== slug)
                   setAssets(filteredAssets)
                 }}
               />
             </div>
           ))}
         {selectedTab === TABS[1].index &&
-          trends.map(word => (
+          trends.map((word) => (
             <div key={word} className={styles.recent}>
               <Link to={`/labs/trends/explore/${word}`} className={styles.link}>
                 <Icon type='clock' className={styles.icon} />
@@ -81,7 +81,7 @@ const SearchMobilePage = ({ history }) => {
                 className={cx(styles.icon, styles.delete)}
                 onClick={() => {
                   removeRecentTrends(word)
-                  const filteredTrends = trends.filter(trend => word !== trend)
+                  const filteredTrends = trends.filter((trend) => word !== trend)
                   setTrends(filteredTrends)
                 }}
               />

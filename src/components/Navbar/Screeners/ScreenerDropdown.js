@@ -11,10 +11,7 @@ import { getRecentScreeners } from '../../../utils/recent'
 import { VisibilityIndicator } from '../../VisibilityIndicator'
 import { getScreenerLink } from '../../../ducks/Watchlists/url'
 import { useRecentWatchlists } from '../../../ducks/Watchlists/gql/hooks'
-import {
-  useFeaturedScreeners,
-  useUserScreeners
-} from '../../../ducks/Watchlists/gql/lists/hooks'
+import { useFeaturedScreeners, useUserScreeners } from '../../../ducks/Watchlists/gql/lists/hooks'
 import wrapperStyles from '../Watchlists/MarketDropdown.module.scss'
 import styles from '../Watchlists/WatchlistsDropdown.module.scss'
 
@@ -82,10 +79,7 @@ const ScreenerDropdown = ({ activeLink }) => {
 }
 
 const List = ({ screeners, activeLink }) => (
-  <div
-    className={styles.wrapper}
-    style={{ minHeight: getBlockMinHeight(screeners) }}
-  >
+  <div className={styles.wrapper} style={{ minHeight: getBlockMinHeight(screeners) }}>
     <div className={styles.list}>
       {screeners.map((list, idx) => (
         <Item

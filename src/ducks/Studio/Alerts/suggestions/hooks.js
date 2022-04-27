@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { Suggestion } from './index'
 
-export function useSuggestions (metricValues) {
+export function useSuggestions(metricValues) {
   return useMemo(() => {
     const suggestions = []
     const { length } = metricValues

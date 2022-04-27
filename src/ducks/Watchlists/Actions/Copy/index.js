@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import Dialog from '@santiment-network/ui/Dialog'
-import Label from '@santiment-network/ui/Label'
 import { USER_EDIT_ASSETS_IN_LIST } from '../../../../actions/types'
 import { sortByAsDates } from '../../../../utils/sortMethods'
 import { showNotification } from '../../../../actions/rootActions'
@@ -9,8 +8,10 @@ import Watchlists from '../../Templates/Watchlists'
 import AssetsList from './AssetsList'
 import { useUser } from '../../../../stores/user/index'
 import LoginPopup from '../../../../components/banners/feature/PopupBanner'
-import SearchProjects from '../../../../components/Search/SearchProjects'
-import { useProjectWatchlists } from '../../gql/lists/hooks'
+import { useUserWatchlists } from '../../gql/lists/hooks'
+import { BLOCKCHAIN_ADDRESS } from '../../detector'
+import { mapAddressToAPIType } from '../../../../ducks/Watchlists/utils'
+import { useAddWatchlistItems } from '../../../../ducks/Watchlists/Widgets/Table/CompareInfo/Actions/hooks'
 import styles from './index.module.scss'
 
 const WatchlistCopyPopup = ({
@@ -19,19 +20,19 @@ const WatchlistCopyPopup = ({
   watchlistUi: { editableWatchlists },
   id: currentId,
   sendChanges,
-  setNotification
+  setNotification,
+  checkedAssets = new Set(),
+  type,
 }) => {
   const { isLoggedIn } = useUser()
-
-  const [watchlists] = useProjectWatchlists()
+  const [watchlists, isWatchlistsLoading] = useUserWatchlists(type)
   const [isShown, setIsShown] = useState(false)
   const [isEditing, setEditing] = useState(false)
   const [warning, setWarning] = useState(false)
-  const [assetsToCopy, setAssetsToCopy] = useState(new Set())
+  const [assetsToCopy, setAssetsToCopy] = useState()
   const [watchlistsToCopy, setWatchlistsToCopy] = useState(new Set())
-  const [editWatchlistState, setEditWatchlistState] = useState(
-    editableWatchlists
-  )
+  const [editWatchlistState, setEditWatchlistState] = useState(editableWatchlists)
+  const { addWatchlistItems } = useAddWatchlistItems()
 
   if (!isLoggedIn) return <LoginPopup>{trigger}</LoginPopup>
 
@@ -40,18 +41,23 @@ const WatchlistCopyPopup = ({
     setAssetsToCopy(new Set())
     setEditing(false)
     setIsShown(false)
+    window.dispatchEvent(new CustomEvent('panelVisibilityChange', { detail: 'show' }))
   }
 
-  const open = () => setIsShown(true)
+  const open = () => {
+    setIsShown(true)
+    setAssetsToCopy(checkedAssets)
+    window.dispatchEvent(new CustomEvent('panelVisibilityChange', { detail: 'hide' }))
+  }
 
-  const normalizeListItems = items => items.map(({ project: { id } }) => id)
+  const normalizeListItems = (items) => (items ? items.map(({ project: { id } }) => id) : [])
 
   const checkRemainingAssets = (listId, assets) => {
     const list = lists.find(({ id }) => listId === id)
     const listItems = list ? list.listItems : []
 
-    const remainingAssets = [...assets].filter(id => {
-      const assetInList = listItems.some(itemId => itemId === id)
+    const remainingAssets = [...assets].filter((id) => {
+      const assetInList = listItems.some((itemId) => itemId === id)
       return !assetInList
     })
 
@@ -64,7 +70,7 @@ const WatchlistCopyPopup = ({
     .reverse()
     .map(({ listItems, ...rest }) => ({
       ...rest,
-      listItems: normalizeListItems(listItems)
+      listItems: normalizeListItems(listItems),
     }))
 
   if (editableWatchlists.length !== editWatchlistState.length) {
@@ -73,7 +79,7 @@ const WatchlistCopyPopup = ({
       setNotification({
         description: 'Copying completed successfully',
         title: 'Success',
-        variant: 'success'
+        variant: 'success',
       })
       close()
     }
@@ -84,12 +90,10 @@ const WatchlistCopyPopup = ({
       if (isEditing) setEditing(false)
       if (warning) setWarning(false)
     } else if (assets.size > 0 && watchlists.size > 0) {
-      const hasWatchlistWithoutSelectedAssets = [...watchlists].some(
-        assetsListId => {
-          const remainingAssets = checkRemainingAssets(assetsListId, assets)
-          return remainingAssets.length > 0
-        }
-      )
+      const hasWatchlistWithoutSelectedAssets = [...watchlists].some((assetsListId) => {
+        const remainingAssets = checkRemainingAssets(assetsListId, assets)
+        return remainingAssets.length > 0
+      })
       if (hasWatchlistWithoutSelectedAssets !== isEditing) {
         setEditing(hasWatchlistWithoutSelectedAssets)
       }
@@ -107,7 +111,7 @@ const WatchlistCopyPopup = ({
     return listCopy
   }
 
-  const onAssetClick = id => {
+  const onAssetClick = (id) => {
     const assets = toggleItem(assetsToCopy, id)
     setAssetsToCopy(assets)
     checkEditingState(assets, watchlistsToCopy)
@@ -120,17 +124,37 @@ const WatchlistCopyPopup = ({
   }
 
   const applyChanges = () => {
-    watchlistsToCopy.forEach(assetsListId => {
+    watchlistsToCopy.forEach((assetsListId) => {
       const remainingAssets = checkRemainingAssets(assetsListId, assetsToCopy)
       if (remainingAssets.length > 0) {
         const list = lists.find(({ id }) => assetsListId === id)
-        sendChanges({
+        const changes = {
           assetsListId,
           currentId,
-          listItems: [...list.listItems, ...remainingAssets].map(id => ({
-            id
-          }))
-        })
+          listItems: [...list.listItems, ...remainingAssets].map((id) => ({
+            id,
+          })),
+        }
+        if (type === BLOCKCHAIN_ADDRESS) {
+          const listItems = assets
+            .filter((asset) => remainingAssets.includes(asset.blockchainAddress.address))
+            .map(({ blockchainAddress }) => mapAddressToAPIType(blockchainAddress))
+          addWatchlistItems({
+            variables: {
+              id: +assetsListId,
+              listItems,
+            },
+          }).then(() => {
+            setNotification({
+              description: 'Copying completed successfully',
+              title: 'Success',
+              variant: 'success',
+            })
+            close()
+          })
+        } else {
+          sendChanges(changes)
+        }
       }
     })
   }
@@ -145,30 +169,24 @@ const WatchlistCopyPopup = ({
     >
       <Dialog.ScrollContent className={styles.wrapper}>
         <div className={styles.assetsWrapper}>
-          <SearchProjects
-            noTrends
-            projects={assets}
-            checkedAssets={assetsToCopy}
-            isCopyingAssets={true}
-            className={styles.search}
-            onSuggestionSelect={({ item: { id } }) => onAssetClick(id)}
-          />
           <AssetsList
             items={assets}
             selectedItems={assetsToCopy}
             onToggleAsset={onAssetClick}
             classes={{ list: styles.wrapperList, asset: styles.asset }}
+            withSearch
+            type={type}
           />
         </div>
         <div className={styles.watchlistsWrapper}>
-          <Label accent='waterloo' className={styles.heading}>
-            Watchlists
-          </Label>
+          <div className={styles.header}>Choose watchlist below</div>
           <Watchlists
             onWatchlistClick={onWatchlistClick}
             className={styles.wrapperList}
             classes={{ list: styles.watchlists }}
             lists={lists}
+            withNewButton={false}
+            loading={isWatchlistsLoading}
           />
         </div>
       </Dialog.ScrollContent>
@@ -178,32 +196,31 @@ const WatchlistCopyPopup = ({
         </div>
       )}
       <Dialog.Actions className={styles.actions}>
-        <Dialog.Cancel onClick={close}>Cancel</Dialog.Cancel>
         <Dialog.Approve
           disabled={editWatchlistState.length > 0 || !isEditing}
           isLoading={editWatchlistState.length > 0}
           onClick={applyChanges}
           className={styles.approve}
         >
-          Apply
+          Copy assets
         </Dialog.Approve>
+        <Dialog.Cancel onClick={close}>Cancel</Dialog.Cancel>
       </Dialog.Actions>
     </Dialog>
   )
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   watchlistUi: state.watchlistUi,
-  assets: state.projects.items
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   sendChanges: ({ assetsListId, listItems, currentId }) =>
     dispatch({
       type: USER_EDIT_ASSETS_IN_LIST,
-      payload: { assetsListId, listItems, currentId }
+      payload: { assetsListId, listItems, currentId },
     }),
-  setNotification: message => dispatch(showNotification(message))
+  setNotification: (message) => dispatch(showNotification(message)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(WatchlistCopyPopup)

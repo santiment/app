@@ -9,7 +9,7 @@ import styles from './EditForm.module.scss'
 const MIN_LENGTH = 3
 const SHORT_NAME_ERROR = `The name should be at least ${MIN_LENGTH} characters`
 const BAD_SYMBOLS_ERROR = "Use only letters, numbers, whitespace and _-.'/,"
-const NAME_EXISTS_ERROR = 'You has already use this name'
+const NAME_EXISTS_ERROR = 'You have already used this name'
 const ALLOWED_SYMBOLS_REGEXP = /^([.\-/_' ,\w]*)$/
 
 const EMPTY_ARRAY = []
@@ -28,7 +28,7 @@ const EditForm = ({
   const [formState, setFormState] = useState({ name: defaultName })
   const debouncedCheckName = useDebounce(checkName, 300)
 
-  function onSubmit (evt) {
+  function onSubmit(evt) {
     evt.preventDefault()
 
     const { name, error } = formState
@@ -48,16 +48,14 @@ const EditForm = ({
     }
   }
 
-  function onInputChange ({ currentTarget: { value: name } }) {
-    setFormState(state => ({ ...state, name }))
+  function onInputChange({ currentTarget: { value: name } }) {
+    setFormState((state) => ({ ...state, name }))
     debouncedCheckName(name)
   }
 
-  function checkName (name = '') {
+  function checkName(name = '') {
     let error = ''
-    const hasSameName = sets.filter(
-      set => set.title.toLowerCase() === name.toLowerCase()
-    )
+    const hasSameName = sets.filter((set) => set.title.toLowerCase() === name.toLowerCase())
 
     if (!name || name.length < MIN_LENGTH) {
       error = SHORT_NAME_ERROR
@@ -67,14 +65,11 @@ const EditForm = ({
       error = BAD_SYMBOLS_ERROR
     }
 
-    if (
-      hasSameName.length > 0 &&
-      !(hasSameName.length === 1 && hasSameName[0].id === id)
-    ) {
+    if (hasSameName.length > 0 && !(hasSameName.length === 1 && hasSameName[0].id === id)) {
       error = NAME_EXISTS_ERROR
     }
 
-    setFormState(state => ({ ...state, error }))
+    setFormState((state) => ({ ...state, error }))
   }
 
   return (
@@ -102,7 +97,8 @@ const EditForm = ({
           placeholder='For example, Social movements'
           maxLength='25'
           defaultValue={formState.name}
-          onChange={onInputChange}
+          onChange={(e) => formState.error && onInputChange(e)}
+          onBlur={onInputChange}
           isError={formState.error}
           errorText={formState.error}
           autoComplete='off'
@@ -117,12 +113,7 @@ const EditForm = ({
             className={styles.btn}
             accent='positive'
             isLoading={isLoading}
-            disabled={
-              isLoading ||
-              formState.error ||
-              !formState.name ||
-              formState.name.length < MIN_LENGTH
-            }
+            disabled={isLoading}
           >
             {buttonLabel}
           </Dialog.Approve>
@@ -135,7 +126,7 @@ const EditForm = ({
 
 EditForm.defaultProps = {
   name: '',
-  sets: EMPTY_ARRAY
+  sets: EMPTY_ARRAY,
 }
 
 export default EditForm

@@ -5,12 +5,12 @@ import * as actions from './../actions/types'
 import { ERC20_PROJECTS_QUERY } from '../ducks/Watchlists/gql/allProjectsGQL'
 import { PROJECT } from '../ducks/Watchlists/detector'
 
-const handleError = error => {
+const handleError = (error) => {
   Sentry.captureException(error)
   return Observable.of({ type: actions.ASSETS_FETCH_FAILED, payload: error })
 }
 
-const pickProjectsType = type => {
+const pickProjectsType = (type) => {
   switch (type) {
     case 'erc20':
       return { projects: 'allErc20Projects', gql: ERC20_PROJECTS_QUERY }
@@ -26,18 +26,18 @@ const extractTablePayload = (store, { watchlist, projects }) => {
 
     return {
       isMonitored,
-      items: listItems.map(asset => asset.project),
+      items: listItems.map((asset) => asset.project),
       trendingAssets: stats.trendingProjects,
       projectsCount: stats.projectsCount,
       isCurrentUserTheAuthor: store.getState().user.data.id === user.id,
-      isPublicWatchlist: isPublic
+      isPublicWatchlist: isPublic,
     }
   }
 
   if (projects) {
     return {
       items: projects,
-      projectsCount: projects.length
+      projectsCount: projects.length,
     }
   }
 }
@@ -46,12 +46,7 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.ASSETS_FETCH)
     .filter(({ payload: { type } }) => {
-      return (
-        type === PROJECT ||
-        type === 'list' ||
-        type === 'list#shared' ||
-        pickProjectsType(type)
-      )
+      return type === PROJECT || type === 'list' || type === 'list#shared' || pickProjectsType(type)
     })
     .mergeMap(({ payload: { list, filters, type } }) => {
       const picked = pickProjectsType(type)
@@ -62,14 +57,14 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
           query: query,
           variables: { id: list.id, filters, minVolume: 0 },
           context: { isRetriable: true },
-          fetchPolicy: 'network-only'
-        })
+          fetchPolicy: 'network-only',
+        }),
       )
         .concatMap(({ data }) => {
           if (!(data.watchlist || data.projects)) {
             return Observable.of({
               type: actions.ASSETS_FETCH_SUCCESS,
-              payload: {}
+              payload: {},
             })
           }
 
@@ -79,21 +74,18 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
         .catch(handleError)
     })
 
-export const fetchAssetsFromListWithEditEpic = action$ =>
+export const fetchAssetsFromListWithEditEpic = (action$) =>
   action$
     .ofType(actions.ASSETS_FETCH_SUCCESS)
     .filter(({ payload: { isCurrentUserTheAuthor } }) => isCurrentUserTheAuthor)
     .switchMap(() =>
       action$
         .ofType(actions.USER_EDIT_ASSETS_IN_LIST_SUCCESS)
-        .filter(
-          ({ payload: { assetsListId, currentId } }) =>
-            assetsListId === currentId
-        )
+        .filter(({ payload: { assetsListId, currentId } }) => assetsListId === currentId)
         .mergeMap(({ payload: { assetsListId } }) =>
           Observable.of({
             type: actions.ASSETS_FETCH,
-            payload: { type: 'list', list: { id: assetsListId } }
-          })
-        )
+            payload: { type: 'list', list: { id: assetsListId } },
+          }),
+        ),
     )

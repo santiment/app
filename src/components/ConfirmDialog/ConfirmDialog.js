@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import cx from 'classnames'
 import Dialog from '@santiment-network/ui/Dialog'
 import styles from './ConfirmDialog.module.scss'
 
@@ -7,12 +8,12 @@ class ConfirmDialog extends PureComponent {
 
   static defaultProps = {
     title: 'Do you want to delete this watchlist?',
-    description: 'This action cannot be undone',
+    description: 'Are you sure? This action cannot be undone.',
     confirmLabel: 'Delete',
-    classes: {}
+    classes: {},
   }
 
-  static getDerivedStateFromProps (nextProps, prevState) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     const { isOpen } = nextProps
 
     if (typeof isOpen === 'undefined') {
@@ -20,7 +21,7 @@ class ConfirmDialog extends PureComponent {
     }
 
     return {
-      open: isOpen
+      open: isOpen,
     }
   }
 
@@ -47,17 +48,10 @@ class ConfirmDialog extends PureComponent {
     }
   }
 
-  render () {
-    const {
-      title,
-      description,
-      trigger,
-      classes,
-      confirmLabel,
-      isLoading
-    } = this.props
+  render() {
+    const { title, description, trigger, classes, confirmLabel, isLoading } = this.props
 
-    const mergedClasses = { ...styles, ...classes }
+    const { dialog, dialogTitle, ...restClasses } = classes
 
     return (
       <Dialog
@@ -65,23 +59,31 @@ class ConfirmDialog extends PureComponent {
         onClose={this.onClose}
         onOpen={this.openDialog}
         trigger={trigger}
-        title={title}
-        classes={mergedClasses}
+        classes={{
+          dialog: cx(styles.dialog, 'box', dialog),
+          title: cx('h4 txt-m c-black mrg--b mrg-s', dialogTitle),
+          ...restClasses,
+        }}
       >
-        <Dialog.ScrollContent withPadding>
-          <div className={classes.description}>{description}</div>
+        <Dialog.ScrollContent withPadding className={styles.content}>
+          {title && <div className='row hv-center h4 txt-m mrg--b mrg-s c-black'>{title}</div>}
+          {description && <div className='column hv-center body-2 c-waterloo'>{description}</div>}
         </Dialog.ScrollContent>
-        <Dialog.Actions>
+        <Dialog.Actions className={cx(styles.actions, 'row hv-center mrg--b')}>
+          <Dialog.Approve
+            className={cx(styles.button, 'btn-1 btn--green c-white')}
+            onClick={this.onDeleteClick}
+            isLoading={isLoading}
+          >
+            {confirmLabel}
+          </Dialog.Approve>
           <Dialog.Cancel
             onClick={this.onClose}
-            className={styles.cancel}
+            className={cx(styles.button, 'btn-2')}
             isLoading={isLoading}
           >
             Cancel
           </Dialog.Cancel>
-          <Dialog.Approve onClick={this.onDeleteClick} isLoading={isLoading}>
-            {confirmLabel}
-          </Dialog.Approve>
         </Dialog.Actions>
       </Dialog>
     )

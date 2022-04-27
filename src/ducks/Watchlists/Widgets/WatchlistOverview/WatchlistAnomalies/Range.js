@@ -3,15 +3,7 @@ import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import styles from './Range.module.scss'
 
-const Range = ({
-  label,
-  range,
-  changeRange,
-  children,
-  className,
-  btnClassName,
-  ...rest
-}) => (
+const Range = ({ label, range, changeRange, children, className, btnClassName, ...rest }) => (
   <div className={cx(styles.wrapper, className)}>
     {label ? <h3 className={styles.label}>{label}</h3> : children}
     {range && (

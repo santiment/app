@@ -1,3 +1,5 @@
+@import "~@santiment-network/ui/mixins.scss";
+
 .dd-wrapper {
   position: relative;
 }
@@ -45,6 +47,8 @@
 }
 
 .dd__list {
+  @include nightshadow;
+
   overflow: hidden;
   position: absolute;
   width: 100%;

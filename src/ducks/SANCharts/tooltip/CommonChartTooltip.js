@@ -1,10 +1,7 @@
 import React, { Fragment } from 'react'
 import cx from 'classnames'
 import { TooltipSetting } from '../../dataHub/tooltipSettings'
-import {
-  tooltipLabelFormatter,
-  tooltipValueFormatter
-} from '../../dataHub/metrics/formatters'
+import { tooltipLabelFormatter, tooltipValueFormatter } from '../../dataHub/metrics/formatters'
 import styles from './CommonChartTooltip.module.scss'
 
 const ChartTooltip = ({
@@ -18,7 +15,7 @@ const ChartTooltip = ({
   withLabel = true,
   showValueLabel = true,
   events,
-  classes = {}
+  classes = {},
 }) => {
   const payload = initialPayload
     ? hideItem
@@ -42,14 +39,7 @@ const ChartTooltip = ({
         )}
         <div className={styles.content}>
           {payload.map((p, index) => {
-            const {
-              key,
-              dataKey = key,
-              value,
-              name,
-              formatter,
-              payload: innerPayload
-            } = p
+            const { key, dataKey = key, value, name, formatter, payload: innerPayload } = p
 
             // // for compability with tree maps [GarageInc|14.07.2020]
             let { color } = p
@@ -59,23 +49,17 @@ const ChartTooltip = ({
 
             const foundedSettings = TooltipSetting[key] || {}
             return (
-              <div
-                key={dataKey || index}
-                style={{ '--color': color }}
-                className={styles.metric}
-              >
+              <div key={dataKey || index} style={{ '--color': color }} className={styles.metric}>
                 <span className={styles.value}>
                   {valueFormatter({
                     value,
                     key: dataKey,
                     formatter: foundedSettings.formatter || formatter,
-                    payload
+                    payload,
                   })}
                 </span>
                 {showValueLabel && (
-                  <span className={styles.name}>
-                    {foundedSettings.label || name || dataKey}
-                  </span>
+                  <span className={styles.name}>{foundedSettings.label || name || dataKey}</span>
                 )}
               </div>
             )
@@ -93,7 +77,7 @@ export const ProjectsChartTooltip = ({
   active,
   payload = [],
   label,
-  classes = {}
+  classes = {},
 }) => {
   return (
     active &&
@@ -136,7 +120,7 @@ export const renderLegend = ({ payload: items, labelFormatter }) => {
     <div className={styles.legend}>
       {items.map((item, index) => {
         const {
-          payload: { color, fill, opacity, dataKey }
+          payload: { color, fill, opacity, dataKey },
         } = item
 
         return (

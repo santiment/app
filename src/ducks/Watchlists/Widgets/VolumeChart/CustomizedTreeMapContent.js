@@ -2,7 +2,7 @@ import React from 'react'
 import { getFontSize, getWordLength } from './utils'
 import { renderPercent } from '../../../../components/PercentChanges'
 
-const CustomizedTreeMapContent = props => {
+const CustomizedTreeMapContent = (props) => {
   const {
     x,
     y,
@@ -10,7 +10,7 @@ const CustomizedTreeMapContent = props => {
     height,
     index,
     dataKey,
-    root: { children }
+    root: { children },
   } = props
 
   if (!children) {
@@ -25,9 +25,10 @@ const CustomizedTreeMapContent = props => {
   const fontSize = getFontSize(index, children.length)
 
   const tickerLength = getWordLength(fontSize, ticker)
+  const showTicker = tickerLength + 8 < width
 
-  const showTicker = tickerLength < width
-  const showChange = showTicker && fontSize * 2 + 5 < height
+  const valueLength = getWordLength(fontSize, value)
+  const showChange = showTicker && valueLength + 6 < width && fontSize * 2 + 5 < height
 
   return (
     <g>
@@ -39,15 +40,15 @@ const CustomizedTreeMapContent = props => {
         style={{
           fill: color,
           stroke: 'var(--white)',
-          strokeWidth: 2
+          strokeWidth: 2,
         }}
       />
       {showTicker && (
         <text
           x={x + width / 2}
-          y={y + height / 2 - (showChange ? 2 : -2)}
+          y={y + height / 2 - (showChange ? 2 : -4)}
           textAnchor='middle'
-          fill='var(--fiord)'
+          fill='var(--rhino)'
           fontSize={fontSize}
           fontWeight={500}
         >
@@ -59,7 +60,7 @@ const CustomizedTreeMapContent = props => {
           x={x + width / 2}
           y={y + height / 2 + fontSize - 1}
           textAnchor='middle'
-          fill='var(--fiord)'
+          fill='var(--rhino)'
           fontSize={fontSize}
           fontWeight={500}
         >

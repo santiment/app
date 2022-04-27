@@ -21,5 +21,5 @@ export const CompatibleMetric = {
   nvtRatioCirculation: Metric.nvt,
   nvtRatioTxVolume: Metric.nvt_transaction_volume,
   tokenAgeConsumed: Metric.age_consumed,
-  exchangeFundsFlow: Metric.exchange_balance
+  exchangeFundsFlow: Metric.exchange_balance,
 }

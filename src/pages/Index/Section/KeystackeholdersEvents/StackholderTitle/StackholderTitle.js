@@ -11,9 +11,9 @@ import styles from './StackholderTitle.module.scss'
 
 const OBJ = {}
 
-const getUniqueLabels = labels => [...new Set(labels)]
+const getUniqueLabels = (labels) => [...new Set(labels)]
 
-function onLinkClick (e) {
+function onLinkClick(e) {
   e.stopPropagation()
 }
 
@@ -26,9 +26,7 @@ export const StakeholderProBanner = ({ signals }) => {
         <Crown className={styles.imgPro} />
         <div className={styles.name}>
           PRO signals
-          <div className={cx(styles.count, styles.countPro)}>
-            {signals.length}
-          </div>
+          <div className={cx(styles.count, styles.countPro)}>{signals.length}</div>
         </div>
       </span>
       <Button className={styles.upgrade} accent='orange' variant='fill'>

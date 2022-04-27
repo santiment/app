@@ -16,22 +16,22 @@ const EXCLUDED_ADDRESSES = [
   '0x090d4613473dee047c3f2706764f49e0821d256e',
   '0x3d30b1ab88d487b0f3061f40de76845bec3f1e94',
   '0x3032ab3fa8c01d786d29dade018d7f2017918e12',
-  '0x8fdb3816fe10e16aaa9b12b3c4688c873efe2eca'
+  '0x8fdb3816fe10e16aaa9b12b3c4688c873efe2eca',
 ]
 
 const { from, to } = getTimeIntervalFromToday(-30, DAY)
 const slug = 'uniswap'
 const TRANSACTIONS_COUNT = 25
 
-function useProjectTopTransactions (slug, from, to, limit, excludedAddresses) {
+function useProjectTopTransactions(slug, from, to, limit, excludedAddresses) {
   const { data, loading } = useQuery(TOP_TOKEN_TRANSACTIONS_QUERY, {
     variables: {
       slug,
       from,
       to,
       limit,
-      excludedAddresses
-    }
+      excludedAddresses,
+    },
   })
 
   let result
@@ -50,11 +50,11 @@ const UniswapTopTransactions = () => {
     from,
     to,
     TRANSACTIONS_COUNT,
-    isExclude ? EXCLUDED_ADDRESSES : []
+    isExclude ? EXCLUDED_ADDRESSES : [],
   )
   const normalizedData = useMemo(
-    () => transactions.map(trx => normalizeTransactionData(slug, trx)),
-    [transactions]
+    () => transactions.map((trx) => normalizeTransactionData(slug, trx)),
+    [transactions],
   )
 
   return (
@@ -62,10 +62,7 @@ const UniswapTopTransactions = () => {
       <div className={styles.title}>
         <h3 className={styles.text}>Top Token Transactions, 30d</h3>
         {loading && <Loader className={styles.loader} />}
-        <div
-          className={styles.toggleWrapper}
-          onClick={() => setIsExclude(!isExclude)}
-        >
+        <div className={styles.toggleWrapper} onClick={() => setIsExclude(!isExclude)}>
           Include initial distribution addresses
           <Toggle className={styles.toggle} isActive={!isExclude} />
         </div>

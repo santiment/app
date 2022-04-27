@@ -10,7 +10,7 @@ const formatOptions = {
   currency: 'USD',
   minimumFractionDigits: 0,
   maximumFractionDigits: 0,
-  style: 'decimal'
+  style: 'decimal',
 }
 
 const WATCHLIST_STATS_HISTORY_QUERY = gql`
@@ -29,7 +29,7 @@ const WATCHLIST_STATS_HISTORY_QUERY = gql`
 export const useHistoryStats = ({ variables, skip }) => {
   const { data, loading } = useQuery(WATCHLIST_STATS_HISTORY_QUERY, {
     variables,
-    skip
+    skip,
   })
 
   return useMemo(() => {
@@ -40,14 +40,8 @@ export const useHistoryStats = ({ variables, skip }) => {
 
     if (length === 0) return EMPTY_OBJ
 
-    const {
-      marketcapUsd: firstMarketcap,
-      volumeUsd: firstVolume
-    } = historicalStats[0]
-    const {
-      marketcapUsd: lastMarketcap,
-      volumeUsd: lastVolume
-    } = historicalStats[length - 1]
+    const { marketcapUsd: firstMarketcap, volumeUsd: firstVolume } = historicalStats[0]
+    const { marketcapUsd: lastMarketcap, volumeUsd: lastVolume } = historicalStats[length - 1]
 
     return {
       loading: loading,
@@ -55,7 +49,7 @@ export const useHistoryStats = ({ variables, skip }) => {
       marketcap: formatNumber(lastMarketcap, formatOptions),
       volume: formatNumber(lastVolume, formatOptions),
       changeMarketcap: calcPercentageChange(firstMarketcap, lastMarketcap),
-      changeVolume: calcPercentageChange(firstVolume, lastVolume)
+      changeVolume: calcPercentageChange(firstVolume, lastVolume),
     }
   }, [data])
 }

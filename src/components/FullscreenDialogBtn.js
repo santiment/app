@@ -3,13 +3,7 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Dialog from '@santiment-network/ui/Dialog'
 
-const FullscreenDialogBtn = ({
-  children,
-  iconClassName,
-  title,
-  dialogClasses,
-  ...rest
-}) => (
+const FullscreenDialogBtn = ({ children, iconClassName, title, dialogClasses, ...rest }) => (
   <Dialog
     title={title}
     classes={dialogClasses}

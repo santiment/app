@@ -10,4 +10,4 @@
   setContext('getInsightChartProjectData', getInsightChartProjectData)
 </script>
 
-<InsightCardWithMarketcap {insight} {transformLink} class="{className}" />
+<InsightCardWithMarketcap {insight} {transformLink} class={className} />

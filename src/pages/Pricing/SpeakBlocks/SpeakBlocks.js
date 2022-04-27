@@ -2,15 +2,14 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
 import { PATHS } from '../../../paths'
-import { useUser } from '../../../stores/user'
+import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import ContactUs from '../../../components/ContactUs/ContactUs'
 import styles from './SpeakBlocks.module.scss'
 
 const Blocks = [
   {
-    title: 'Let’s the platform speak for itself',
-    description:
-      'Add your credit card to try all Sanbase Pro features FREE for 2 weeks',
+    title: 'Let the platform speak for itself',
+    description: 'Add your credit card to try all Sanbase Pro features FREE for 2 weeks',
     btn: (
       <Button
         variant='ghost'
@@ -21,29 +20,24 @@ const Blocks = [
       >
         Start your free trial
       </Button>
-    )
+    ),
   },
   {
     title: 'Talk to one of our experts',
     description:
       'Request a demo to have one of our product specialists walk you through the platform',
     btn: (
-      <ContactUs
-        variant='ghost'
-        accent='blue'
-        className={styles.btn}
-        message='Talk with expert.'
-      >
+      <ContactUs variant='ghost' accent='blue' className={styles.btn} message='Talk with expert.'>
         Request a demo
       </ContactUs>
-    )
-  }
+    ),
+  },
 ]
 
 const SpeakBlocks = () => {
-  const { isLoggedIn } = useUser()
+  const { isPro, isProPlus } = useUserSubscriptionStatus()
 
-  if (isLoggedIn) {
+  if (isPro || isProPlus) {
     return null
   }
 

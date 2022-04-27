@@ -17,11 +17,9 @@ const HistoricalBalance = ({
   defaultChartAssets,
   defaultPriceAssets,
   defaultIsLog,
-  isPhone
+  isPhone,
 }) => {
-  const { settings, changeTimePeriod, onAddressChange } = useSettings(
-    defaultSettings
-  )
+  const { settings, changeTimePeriod, onAddressChange } = useSettings(defaultSettings)
   const { walletAssets, isLoading, isError } = useWalletAssets(settings)
   const [chartAssets, setChartAssets] = useState(defaultChartAssets)
   const [priceAssets, setPriceAssets] = useState(defaultPriceAssets)
@@ -32,12 +30,12 @@ const HistoricalBalance = ({
     const priceAssetsToDelete = new Set(priceAssetsSet)
 
     chartAssets.forEach(({ slug }) => priceAssetsToDelete.delete(slug))
-    priceAssetsToDelete.forEach(asset => priceAssetsSet.delete(asset))
+    priceAssetsToDelete.forEach((asset) => priceAssetsSet.delete(asset))
 
     setPriceAssets([...priceAssetsSet])
   }, [chartAssets])
 
-  function togglePriceAsset (asset) {
+  function togglePriceAsset(asset) {
     const priceAssetsSet = new Set(priceAssets)
 
     if (priceAssetsSet.has(asset)) {
@@ -49,19 +47,19 @@ const HistoricalBalance = ({
     setPriceAssets([...priceAssetsSet])
   }
 
-  function updateChartAssets (newChartAssets) {
-    const { length } = newChartAssets
-    if (length > ASSETS_LIMIT) return
+  function updateChartAssets(asset) {
+    if (Array.isArray(asset)) {
+      setChartAssets(asset.map((item) => ({ ...item.value })))
+    } else {
+      if (chartAssets.length + 1 > ASSETS_LIMIT) return
 
-    const lastAsset = newChartAssets[length - 1]
-    if (chartAssets.length < length && lastAsset) {
-      const { slug } = lastAsset
+      setChartAssets([...chartAssets, asset.value])
+
+      const { slug } = asset.value
       if (!priceAssets.includes(slug)) {
         setPriceAssets([...priceAssets, slug])
       }
     }
-
-    setChartAssets(newChartAssets)
   }
 
   return (
@@ -92,32 +90,27 @@ const HistoricalBalance = ({
         setIsLog={setIsLog}
       >
         <DesktopOnly>
-          {settings.infrastructure === Infrastructure.ETH && (
-            <Sankey settings={settings} />
-          )}
+          {settings.infrastructure === Infrastructure.ETH && <Sankey settings={settings} />}
         </DesktopOnly>
       </Chart>
 
       <div className={cx(styles.bottom, isPhone && styles.bottom_phone)}>
         <div className={styles.left}>
-          <AddressTransactions
-            settings={settings}
-            walletAssets={walletAssets}
-          />
+          <AddressTransactions settings={settings} walletAssets={walletAssets} />
         </div>
         <div className={styles.right}>
           <Comments settings={settings} />
         </div>
       </div>
 
-      {React.Children.map(children, child =>
+      {React.Children.map(children, (child) =>
         React.cloneElement(child, {
           settings,
           chartAssets,
           priceAssets,
           isLog,
-          onAddressChange
-        })
+          onAddressChange,
+        }),
       )}
     </>
   )
@@ -126,7 +119,7 @@ const HistoricalBalance = ({
 HistoricalBalance.defaultProps = {
   defaultChartAssets: [],
   defaultPriceAssets: [],
-  defaultIsLog: false
+  defaultIsLog: false,
 }
 
 export default withDefaults(withSizes(HistoricalBalance))

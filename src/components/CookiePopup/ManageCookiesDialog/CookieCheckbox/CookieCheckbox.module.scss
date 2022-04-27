@@ -1,0 +1,56 @@
+@import "~@santiment-network/ui/mixins";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--porcelain);
+}
+
+.titleWrapper {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  height: 44px;
+
+  @include text("body-3");
+
+  &:hover {
+    color: var(--jungle-green);
+  }
+}
+
+.title {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.iconWrapper {
+  width: 10px;
+  height: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+}
+
+.icon {
+  height: 10px;
+  width: 6px;
+  fill: currentColor;
+}
+
+.openIcon {
+  transform: rotate(90deg);
+}
+
+.checkbox {
+  z-index: 2;
+  color: var(--rhino);
+}
+
+.content {
+  margin-bottom: 12px;
+
+  @include text("body-3");
+}

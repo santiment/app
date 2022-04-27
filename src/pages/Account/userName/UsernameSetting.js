@@ -1,57 +1,44 @@
 import React from 'react'
-import gql from 'graphql-tag'
-import { graphql } from 'react-apollo'
 import { store } from '../../../redux'
 import { showNotification } from '../../../actions/rootActions'
 import EditableInputSetting from './../EditableInputSetting'
+import { useUsernameChange } from '../../../hooks/profileChange'
 import styles from './UsernameSettings.module.scss'
 
-const TAKEN_MSG = 'has already been taken'
+const UsernameSetting = ({ dispatchNewUsername, username, name }) => {
+  const {
+    changeUsername,
+    savingUsername,
+    usernameError,
+    setUsernameError,
+    checkUsername,
+    catchUsernameChangeError,
+  } = useUsernameChange()
+  const normalizedUsername = username || (name && name.toLowerCase().replace(/ /g, '_'))
 
-const CHANGE_USERNAME_MUTATION = gql`
-  mutation changeUsername($value: String!) {
-    changeUsername(username: $value) {
-      username
-    }
-  }
-`
-
-const validateUsername = username => {
-  if (!username || username.length < 3) {
-    return 'Username should be at least 3 characters long'
-  }
-}
-
-const UsernameSetting = ({ dispatchNewUsername, username, changeUsername }) => {
   return (
     <EditableInputSetting
-      label='Name'
-      defaultValue={username}
-      validate={validateUsername}
+      label='Username'
+      defaultValue={normalizedUsername}
+      validate={checkUsername}
+      clearError={() => setUsernameError()}
       classes={styles}
-      onSubmit={(value, revertValue) =>
-        changeUsername({ variables: { value } })
+      prefix='@'
+      tooltip='Service assignation for any interactions on Sanbase'
+      saving={savingUsername}
+      submitError={usernameError}
+      onSubmit={(value, successCallback) => {
+        if (savingUsername) return
+        changeUsername(value)
           .then(() => {
-            store.dispatch(
-              showNotification(`Username successfully changed to "${value}"`)
-            )
+            store.dispatch(showNotification(`Username successfully changed to "${value}"`))
             dispatchNewUsername(value)
+            if (successCallback) successCallback()
           })
-          .catch(error => {
-            if (error.graphQLErrors[0].details.username.includes(TAKEN_MSG)) {
-              store.dispatch(
-                showNotification({
-                  variant: 'error',
-                  title: `Username "${value}" is already taken`
-                })
-              )
-            }
-          })
-      }
+          .catch((e) => catchUsernameChangeError(e, value))
+      }}
     />
   )
 }
 
-export default graphql(CHANGE_USERNAME_MUTATION, { name: 'changeUsername' })(
-  UsernameSetting
-)
+export default UsernameSetting

@@ -32,27 +32,15 @@ const ChartMetricsTool = ({
   return (
     <div className={styles.container}>
       {isWideChart && <div className={styles.divider} />}
-      <div
-        className={cx(
-          styles.wrapper,
-          isWideChart && styles.topOffset,
-          className
-        )}
-      >
+      <div className={cx(styles.wrapper, isWideChart && styles.topOffset, className)}>
         {hideSettings.metricSelector || (
           <ContextMenu
             open={isOpen}
             onClose={() => setIsOpen(false)}
             onOpen={() => setIsOpen(true)}
             trigger={
-              <Button
-                variant='fill'
-                accent='positive'
-                className={styles.trigger}
-              >
-                {!isMobile && (
-                  <Icon type='plus-round' className={styles.triggerIcon} />
-                )}
+              <Button variant='fill' accent='positive' className={styles.trigger}>
+                {!isMobile && <Icon type='plus-round' className={styles.triggerIcon} />}
                 {addMetricBtnText}
               </Button>
             }

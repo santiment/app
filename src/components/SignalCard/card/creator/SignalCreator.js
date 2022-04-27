@@ -13,7 +13,7 @@ const SignalCreator = ({
   onClick,
   classes = {},
   user: { id, username, email, avatarUrl } = {},
-  children
+  children,
 }) => {
   const show = showUserActions()
 
@@ -21,30 +21,20 @@ const SignalCreator = ({
     return null
   }
 
-  const nameOrEmail = username || email
+  const nameOrEmail = username ? `@${username}` : email
 
   return (
     <Link
       to={'/profile/' + id}
       className={cx(styles.container, className)}
-      onClick={e => {
+      onClick={(e) => {
         e.stopPropagation()
         onClick && onClick()
       }}
     >
-      <UserAvatar
-        userId={id}
-        externalAvatarUrl={avatarUrl}
-        classes={{ ...styles, ...classes }}
-      />
+      <UserAvatar userId={id} externalAvatarUrl={avatarUrl} classes={{ ...styles, ...classes }} />
       {nameOrEmail && (
-        <div
-          className={cx(
-            styles.right,
-            !id && styles.withoutUser,
-            classes.username
-          )}
-        >
+        <div className={cx(styles.right, !id && styles.withoutUser, classes.username)}>
           {nameOrEmail}
           {children}
         </div>

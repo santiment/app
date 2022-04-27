@@ -11,7 +11,7 @@ import { getBlockMinHeight } from '../utils'
 import Item from './Item'
 import {
   useUserAddressWatchlists,
-  useUserProjectWatchlists
+  useUserProjectWatchlists,
 } from '../../../ducks/Watchlists/gql/lists/hooks'
 import styles from './WatchlistsDropdown.module.scss'
 
@@ -29,9 +29,7 @@ const WatchlistsDropdown = ({ activeLink }) => {
     return <WatchlistsAnon className={styles.anon} />
   }
 
-  const watchlists = addressesWatchlists
-    .concat(projectsWatchlists)
-    .sort(sortById)
+  const watchlists = addressesWatchlists.concat(projectsWatchlists).sort(sortById)
 
   return watchlists.length === 0 ? (
     <EmptySection />
@@ -48,7 +46,7 @@ const WatchlistList = ({ watchlists, activeLink }) => (
     className={styles.wrapper}
     style={{
       minHeight: getBlockMinHeight(watchlists),
-      maxHeight: '100px'
+      maxHeight: '100px',
     }}
   >
     <div className={styles.list}>

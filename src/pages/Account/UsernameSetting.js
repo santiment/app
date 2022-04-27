@@ -15,7 +15,7 @@ const CHANGE_USERNAME_MUTATION = gql`
   }
 `
 
-const validateUsername = username => {
+const validateUsername = (username) => {
   if (!username || username.length < 3) {
     return 'Username should be at least 3 characters long'
   }
@@ -30,18 +30,16 @@ const UsernameSetting = ({ dispatchNewUsername, username, changeUsername }) => {
       onSubmit={(value, revertValue) =>
         changeUsername({ variables: { value } })
           .then(() => {
-            store.dispatch(
-              showNotification(`Username successfully changed to "${value}"`)
-            )
+            store.dispatch(showNotification(`Username successfully changed to "${value}"`))
             dispatchNewUsername(value)
           })
-          .catch(error => {
+          .catch((error) => {
             if (error.graphQLErrors[0].details.username.includes(TAKEN_MSG)) {
               store.dispatch(
                 showNotification({
                   variant: 'error',
-                  title: `Username "${value}" is already taken`
-                })
+                  title: `Username "${value}" is already taken`,
+                }),
               )
             }
           })
@@ -50,6 +48,4 @@ const UsernameSetting = ({ dispatchNewUsername, username, changeUsername }) => {
   )
 }
 
-export default graphql(CHANGE_USERNAME_MUTATION, { name: 'changeUsername' })(
-  UsernameSetting
-)
+export default graphql(CHANGE_USERNAME_MUTATION, { name: 'changeUsername' })(UsernameSetting)

@@ -1,10 +1,6 @@
 import COLOR from '@santiment-network/ui/variables.scss'
 import { getTextWidth } from '@santiment-network/chart/utils'
-import {
-  valueByY,
-  valueByLogY,
-  logScale
-} from '@santiment-network/chart/scales'
+import { valueByY, valueByLogY, logScale } from '@santiment-network/chart/scales'
 import { clearCtx } from '../utils'
 import { Metric } from '../../dataHub/metrics'
 import { dailyActiveAddressesSuggesters } from '../../Studio/Alerts/suggestions/dailyActiveAddresses'
@@ -23,26 +19,21 @@ const PADDINGS = PADDING_LEFT * 2
 const MARGIN_LEFT = 11
 const TEXT_LEFT_MARGIN = MARGIN_LEFT + PADDING_LEFT
 
-function alignY (y) {
+function alignY(y) {
   return y > BUBBLE_MARGIN_BOTTOM ? y : y + BUBBLE_MARGIN_BOTTOM + MARGIN_BOTTOM
 }
 
-function drawTextBubble (chart, y, width) {
+function drawTextBubble(chart, y, width) {
   const {
     left,
-    tooltip: { ctx }
+    tooltip: { ctx },
   } = chart
 
   ctx.fillStyle = COLOR.rhino
-  ctx.fillRect(
-    left + MARGIN_LEFT,
-    y - BUBBLE_MARGIN_BOTTOM,
-    width + PADDINGS,
-    HEIGHT
-  )
+  ctx.fillRect(left + MARGIN_LEFT, y - BUBBLE_MARGIN_BOTTOM, width + PADDINGS, HEIGHT)
 }
 
-function drawTexts (ctx, texts, x, y) {
+function drawTexts(ctx, texts, x, y) {
   let textX = x + TEXT_LEFT_MARGIN
   const textY = y - 12
 
@@ -53,7 +44,7 @@ function drawTexts (ctx, texts, x, y) {
   })
 }
 
-function drawLine (ctx, startX, endX, y) {
+function drawLine(ctx, startX, endX, y) {
   ctx.strokeStyle = COLOR.rhino
   ctx.setLineDash([3])
   ctx.lineWidth = 2
@@ -63,7 +54,7 @@ function drawLine (ctx, startX, endX, y) {
   ctx.stroke()
 }
 
-export function findMetricValueByY (chart, { key }, y) {
+export function findMetricValueByY(chart, { key }, y) {
   const { minMaxes, scale } = chart
 
   if (!minMaxes) return
@@ -73,7 +64,7 @@ export function findMetricValueByY (chart, { key }, y) {
   return calcValueByY(chart, y, min, max)
 }
 
-export function findMetricLastValue (data, { key }) {
+export function findMetricLastValue(data, { key }) {
   for (let i = data.length - 1; i > -1; i--) {
     const value = data[i][key]
 
@@ -83,12 +74,12 @@ export function findMetricLastValue (data, { key }) {
   }
 }
 
-export function drawHoveredSignal (chart, y, texts) {
+export function drawHoveredSignal(chart, y, texts) {
   const {
     left,
     right,
     rightAxisMargin = 0,
-    tooltip: { ctx }
+    tooltip: { ctx },
   } = chart
 
   ctx.save()
@@ -106,7 +97,7 @@ export function drawHoveredSignal (chart, y, texts) {
   ctx.restore()
 }
 
-export function makeSignalDrawable ({ id, settings: { operation } }, chart) {
+export function makeSignalDrawable({ id, settings: { operation } }, chart) {
   const { minMaxes, scale } = chart
   if (!minMaxes || !minMaxes.price_usd) {
     return
@@ -125,15 +116,15 @@ export function makeSignalDrawable ({ id, settings: { operation } }, chart) {
     id,
     value,
     type: below ? SIGNAL_BELOW : SIGNAL_ABOVE,
-    y: scale(chart, min, max)(value)
+    y: scale(chart, min, max)(value),
   }
 }
 
-export const checkPriceMetric = metric =>
+export const checkPriceMetric = (metric) =>
   metric === Metric.price_usd || metric.base === Metric.price_usd
 
 export const AlertBuilder = {
   daily_active_addresses: () => {
     return dailyActiveAddressesSuggesters[0]
-  }
+  },
 }

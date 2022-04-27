@@ -4,7 +4,7 @@ import { useDialogState } from '../../../../../hooks/dialog'
 import CompareContent from './CompareContent'
 import styles from './CompareDialog.module.scss'
 
-const FIND_PREDICATE = target => item => item === target
+const FIND_PREDICATE = (target) => (item) => item === target
 
 export const addOrRemove = (source, target, predicate) => {
   const index = source.findIndex(predicate || FIND_PREDICATE(target))
@@ -26,10 +26,10 @@ const CompareDialog = ({ trigger, assets }) => {
   const [metrics, setMetrics] = useState([])
 
   const onSelectMetric = useCallback(
-    metric => {
+    (metric) => {
       setMetrics(addOrRemove(metrics, metric))
     },
-    [metrics, setMetrics]
+    [metrics, setMetrics],
   )
 
   const onClear = useCallback(() => {
@@ -37,10 +37,10 @@ const CompareDialog = ({ trigger, assets }) => {
   }, [metrics, setMetrics])
 
   const removeMetric = useCallback(
-    metric => {
-      setMetrics(metrics.filter(m => m !== metric))
+    (metric) => {
+      setMetrics(metrics.filter((m) => m !== metric))
     },
-    [metrics, setMetrics]
+    [metrics, setMetrics],
   )
 
   return (

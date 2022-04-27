@@ -26,7 +26,7 @@ export const TEMPLATE_COMMON_FRAGMENT = gql`
 `
 
 export const TEMPLATE_QUERY = gql`
-  query chartConfiguration($id: Int) {
+  query chartConfiguration($id: Int!) {
     template: chartConfiguration(id: $id) {
       ...templateCommon
     }
@@ -35,7 +35,7 @@ export const TEMPLATE_QUERY = gql`
 `
 
 export const RECENT_TEMPLATE_QUERY = gql`
-  query chartConfiguration($id: Int) {
+  query chartConfiguration($id: Int!) {
     template: chartConfiguration(id: $id) {
       id
       title
@@ -81,10 +81,7 @@ export const CREATE_TEMPLATE_MUTATION = gql`
 `
 
 export const UPDATE_TEMPLATE_MUTATION = gql`
-  mutation updateChartConfiguration(
-    $id: ID!
-    $settings: ProjectChartInputObject!
-  ) {
+  mutation updateChartConfiguration($id: ID!, $settings: ProjectChartInputObject!) {
     template: updateChartConfiguration(id: $id, settings: $settings) {
       ...templateCommon
     }

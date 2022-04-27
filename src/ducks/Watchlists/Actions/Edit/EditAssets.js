@@ -3,7 +3,9 @@ import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import { Dialog, Label } from '@santiment-network/ui'
+import { store } from '../../../../redux'
 import { showNotification } from '../../../../actions/rootActions'
+import NotificationActions from '../../../../components/NotificationActions/NotificationActions'
 import { USER_EDIT_ASSETS_IN_LIST } from '../../../../actions/types'
 import { ALL_PROJECTS_FOR_SEARCH_QUERY } from '../../gql/allProjectsGQL'
 import EditableList from './EditableList'
@@ -22,15 +24,13 @@ const WatchlistEdit = ({
   id,
   sendChanges,
   watchlist,
-  setNotification
 }) => {
   const { isAuthor } = useIsAuthor(watchlist)
   const [isShown, setIsShown] = useState(false)
   const [isEditing, setEditing] = useState(false)
   const [listItems, setListItems] = useState(assets)
-  const [editWatchlistState, setEditWatchlistState] = useState(
-    editableWatchlists
-  )
+  const [editWatchlistState, setEditWatchlistState] = useState(editableWatchlists)
+  const [cachedAssets, setCachedAssets] = useState()
 
   const close = () => {
     setEditing(false)
@@ -40,23 +40,39 @@ const WatchlistEdit = ({
   const open = () => setIsShown(true)
 
   const applyChanges = () => {
+    setCachedAssets(assets)
     sendChanges({ listItems, assetsListId: id })
   }
 
   const toggleAsset = ({ project, listItems, isAssetInList }) => {
     if (!isEditing) setEditing(true)
     setListItems(
-      isAssetInList
-        ? listItems.filter(({ id }) => id !== project.id)
-        : [...listItems, project]
+      isAssetInList ? listItems.filter(({ id }) => id !== project.id) : [...listItems, project],
     )
   }
 
   if (editableWatchlists.length !== editWatchlistState.length) {
     setEditWatchlistState(editableWatchlists)
     if (editableWatchlists.length === 0 && isShown) {
-      setNotification(`"${name}" was modified`)
-      onSave && onSave()
+      onSave &&
+        onSave(() => {
+          store.dispatch(
+            showNotification({
+              variant: 'info',
+              title: `"${name}" was modified`,
+              description: (
+                <NotificationActions
+                  isOpenLink={false}
+                  onClick={() => {
+                    sendChanges({ listItems: cachedAssets, assetsListId: id })
+                    onSave()
+                  }}
+                />
+              ),
+              dismissAfter: 8000,
+            }),
+          )
+        })
       close()
     }
   }
@@ -68,13 +84,7 @@ const WatchlistEdit = ({
   }
 
   return (
-    <Dialog
-      title={`Edit "${name}"`}
-      trigger={trigger}
-      onOpen={open}
-      onClose={close}
-      open={isShown}
-    >
+    <Dialog title={`Edit "${name}"`} trigger={trigger} onOpen={open} onClose={close} open={isShown}>
       <Dialog.ScrollContent className={styles.wrapper}>
         <SearchProjects
           noTrends
@@ -85,9 +95,10 @@ const WatchlistEdit = ({
             toggleAsset({
               project,
               listItems,
-              isAssetInList: hasAssetById({ listItems, id: project.id })
+              isAssetInList: hasAssetById({ listItems, id: project.id }),
             })
           }
+          inputProps={{ autoFocus: true }}
         />
         <div className={styles.contentWrapper}>
           <Label accent='waterloo' className={styles.heading}>
@@ -128,21 +139,20 @@ const WatchlistEdit = ({
 
 const mapStateToProps = ({ watchlistUi }) => ({ watchlistUi })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   sendChanges: ({ assetsListId, listItems }) =>
     dispatch({
       type: USER_EDIT_ASSETS_IN_LIST,
-      payload: { assetsListId, listItems, currentId: assetsListId }
+      payload: { assetsListId, listItems, currentId: assetsListId },
     }),
-  setNotification: message => dispatch(showNotification(message))
 })
 
 export default compose(
   graphql(ALL_PROJECTS_FOR_SEARCH_QUERY, {
     options: () => ({
       context: { isRetriable: true },
-      variables: { minVolume: 0 }
-    })
+      variables: { minVolume: 0 },
+    }),
   }),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(WatchlistEdit)

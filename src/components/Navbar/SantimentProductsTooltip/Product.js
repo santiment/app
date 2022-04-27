@@ -6,16 +6,7 @@ import styles from './Product.module.scss'
 
 const ProductItem = ({
   className,
-  product: {
-    to,
-    img,
-    isIntercomButton,
-    message,
-    title,
-    label,
-    isSelected,
-    description
-  }
+  product: { to, img, isIntercomButton, message, title, label, isSelected, description },
 }) => {
   const Wrapper = ({ children, className }) =>
     isIntercomButton ? (
@@ -33,13 +24,7 @@ const ProductItem = ({
       </a>
     )
   return (
-    <Wrapper
-      className={cx(
-        styles.wrapper,
-        isSelected && styles.wrapper__selected,
-        className
-      )}
-    >
+    <Wrapper className={cx(styles.wrapper, isSelected && styles.wrapper__selected, className)}>
       <div className={styles.product}>
         <div className={styles.imgWrapper}>
           <img className={styles.img} src={img} alt={title} />

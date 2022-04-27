@@ -11,20 +11,20 @@ const handleLogout = (action$, store, { client }) =>
       return Observable.from(client.clearStore())
         .map(() => {
           return {
-            type: actions.APP_USER_HAS_INACTIVE_TOKEN
+            type: actions.APP_USER_HAS_INACTIVE_TOKEN,
           }
         })
-        .catch(error => {
+        .catch((error) => {
           Sentry.captureException(error)
           client.cache.reset()
           return Observable.of({
             type: actions.APP_USER_HAS_INACTIVE_TOKEN,
             payload: {
-              error
-            }
+              error,
+            },
           })
         })
-    })
+    }),
   )
 
 export default handleLogout

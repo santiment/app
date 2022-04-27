@@ -34,7 +34,6 @@
 
   @include responsive('laptop', 'tablet', 'desktop') {
     padding: 8px 4px 16px 16px;
-    justify-content: space-between;
   }
 }
 
@@ -46,17 +45,9 @@
   }
 }
 
-.heading {
-  margin: 16px 0 8px;
-
-  @include text('caption', 'l');
-
-  @include responsive('laptop', 'tablet', 'desktop') {
-    display: none;
-  }
-}
-
 .actions {
+  justify-content: flex-start;
+
   @include responsive('tablet', 'laptop', 'desktop') {
     padding-top: 20px;
   }
@@ -64,7 +55,7 @@
 
 .approve {
   @include responsive('tablet', 'laptop', 'desktop') {
-    margin-left: 16px;
+    margin-right: 16px;
   }
 }
 
@@ -78,8 +69,6 @@
 }
 
 .wrapperList {
-  margin-top: 16px;
-
   @include responsive('phone-xs', 'phone') {
     margin-right: 20px;
   }
@@ -119,4 +108,14 @@
   @include responsive('laptop', 'tablet', 'desktop') {
     padding: 16px 16px 0;
   }
+}
+
+.header {
+  @include text('body-3');
+
+  display: flex;
+  align-items: center;
+  color: var(--waterloo);
+  margin-bottom: 14px;
+  margin-top: 14px;
 }

@@ -9,6 +9,12 @@
   }
 }
 
+.frozenStatus {
+  display: var(--frozen-left-buttons-display, block);
+  fill: var(--casper);
+  color: var(--casper);
+}
+
 .icon {
   display: inline-flex;
   height: 32px;

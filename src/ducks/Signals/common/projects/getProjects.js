@@ -8,28 +8,27 @@ const GetProjects = ({ render, ...props }) => render(props)
 
 GetProjects.defaultProps = {
   allProjects: [],
-  isLoading: false
+  isLoading: false,
 }
 
-const mapStateToProps = state => ({
-  isLoggedIn: checkIsLoggedIn(state)
+const mapStateToProps = (state) => ({
+  isLoggedIn: checkIsLoggedIn(state),
 })
 
 export default compose(
   connect(mapStateToProps),
   graphql(ALL_PROJECTS_FOR_SEARCH_QUERY, {
-    skip: ({ isLoggedIn, skipLoggedInState }) =>
-      skipLoggedInState ? false : !isLoggedIn,
+    skip: ({ isLoggedIn, skipLoggedInState }) => (skipLoggedInState ? false : !isLoggedIn),
     options: () => ({
       context: { isRetriable: true },
-      variables: { minVolume: 0 }
+      variables: { minVolume: 0 },
     }),
     props: ({ data }) => {
       const projects = data['allProjects'] || []
       return {
         allProjects: [...projects],
-        isLoading: data.loading
+        isLoading: data.loading,
       }
-    }
-  })
+    },
+  }),
 )(GetProjects)

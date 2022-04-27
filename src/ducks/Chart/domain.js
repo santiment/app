@@ -1,19 +1,12 @@
 import { prepareDomain } from '@santiment-network/chart/bars/greenRedBars'
 import { Node } from './nodes'
 import { Metric } from '../dataHub/metrics'
-import {
-  checkIsProjectMetricKey,
-  getMetricByKey,
-  getProjectMetricByKey
-} from '../Studio/metrics'
+import { checkIsProjectMetricKey, getMetricByKey, getProjectMetricByKey } from '../Studio/metrics'
 
-const DEFAULT_DOMAIN_METRIC_KEYS = [
-  Metric.twitter_followers.key,
-  Metric.miners_balance.key
-]
+const DEFAULT_DOMAIN_METRIC_KEYS = [Metric.twitter_followers.key, Metric.miners_balance.key]
 
-export function domainModifier (metricKey, minMax) {
-  if (DEFAULT_DOMAIN_METRIC_KEYS.some(key => metricKey.startsWith(key))) {
+export function domainModifier(metricKey, minMax) {
+  if (DEFAULT_DOMAIN_METRIC_KEYS.some((key) => metricKey.startsWith(key))) {
     return
   }
 

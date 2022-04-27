@@ -6,7 +6,7 @@ import styles from './IntervalSelector.module.scss'
 export const INTERVAL_ALIAS = {
   '5min': '5m',
   '15min': '15m',
-  '30min': '30m'
+  '30min': '30m',
 }
 
 export const getNewInterval = (from, to, lastInterval, options = {}) => {
@@ -23,7 +23,7 @@ const getAvailableIntervals = (from, to) => {
   const { diff } = dateDifference({
     from: new Date(from),
     to: new Date(to),
-    format: DAY
+    format: DAY,
   })
 
   if (diff < 7) {
@@ -60,18 +60,18 @@ const getAvailableIntervals = (from, to) => {
   return ['7d', '10d', '14d']
 }
 
-export const formIntervalSettings = value => {
+export const formIntervalSettings = (value) => {
   const { from, to } = getTimerangePeriod(value)
   const interval = getNewInterval(from, to)
 
   return {
     from,
     to,
-    interval: INTERVAL_ALIAS[interval] || interval
+    interval: INTERVAL_ALIAS[interval] || interval,
   }
 }
 
-export function getValidInterval (from, to) {
+export function getValidInterval(from, to) {
   const interval = getNewInterval(from, to)
   return INTERVAL_ALIAS[interval] || interval
 }
@@ -80,12 +80,7 @@ const IntervalSelector = ({ from, to, interval, onIntervalChange }) => {
   const options = getAvailableIntervals(from, to)
 
   return (
-    <Dropdown
-      options={options}
-      selected={interval}
-      onSelect={onIntervalChange}
-      classes={styles}
-    />
+    <Dropdown options={options} selected={interval} onSelect={onIntervalChange} classes={styles} />
   )
 }
 

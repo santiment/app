@@ -1,0 +1,68 @@
+@import "~@santiment-network/ui/variables.scss";
+@import "~@santiment-network/ui/mixins.scss";
+
+.wrapperList {
+  user-select: none;
+  position: relative;
+  height: var(--height);
+  padding-right: var(--padding-right);
+}
+
+.selectedItem {
+  padding-bottom: 0;
+}
+
+.sectionTitle {
+  min-height: 36px;
+  color: var(--waterloo);
+  padding-bottom: 16px;
+
+  @include text("caption", "l");
+}
+
+.project {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  color: var(--mirage);
+  cursor: pointer;
+  padding-bottom: 16px;
+
+  @include text("body-3");
+
+  &:hover {
+    --project-text-color: var(--jungle-green);
+  }
+}
+
+.name {
+  color: var(--project-text-color, var(--rhino));
+  margin-right: 5px;
+}
+
+.label {
+  color: var(--project-text-color, var(--casper));
+
+  @include text("body-3");
+}
+
+.checkbox {
+  margin-right: 10px;
+}
+
+.list {
+  outline: none;
+
+  @include overlay-scroll;
+}
+
+.asset {
+  margin-left: 10px;
+  display: flex;
+}
+
+.icon {
+  margin-right: 5px;
+  position: relative;
+  top: 2px;
+}

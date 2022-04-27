@@ -14,7 +14,7 @@ const MobileNavbarAction = ({
     icon: styles.icon,
     wrapper: styles.wrapper,
     label: styles.label,
-    button: styles.button
+    button: styles.button,
   },
   isActive = false,
   showIf = { condition: true },

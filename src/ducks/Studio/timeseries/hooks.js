@@ -9,7 +9,7 @@ import { getIntervalByTimeRange } from '../../../utils/dates'
 window.AbortController =
   window.AbortController ||
   function () {
-    return { abort () {} }
+    return { abort() {} }
   }
 
 const DEFAULT_TS = []
@@ -19,9 +19,9 @@ const DEFAULT_ABORTABLES = new Map()
 const DEFAULT_METRIC_SETTINGS_MAP = new Map()
 const ABORTABLE_METRIC_SETTINGS_INDEX = 2
 
-const noop = v => v
+const noop = (v) => v
 
-const hashMetrics = metrics => metrics.reduce((acc, { key }) => acc + key, '')
+const hashMetrics = (metrics) => metrics.reduce((acc, { key }) => acc + key, '')
 
 export const cancelQuery = ([controller, id]) => {
   const { queryManager } = client
@@ -33,15 +33,11 @@ export const cancelQuery = ([controller, id]) => {
   queryManager.stopQuery(id)
 }
 
-function abortRemovedMetrics (abortables, newMetrics, MetricSettingMap) {
+function abortRemovedMetrics(abortables, newMetrics, MetricSettingMap) {
   const toAbort = new Map(abortables)
-  newMetrics.forEach(metric => {
+  newMetrics.forEach((metric) => {
     const abortable = abortables.get(metric)
-    if (
-      abortable &&
-      abortable[ABORTABLE_METRIC_SETTINGS_INDEX] ===
-        MetricSettingMap.get(metric)
-    ) {
+    if (abortable && abortable[ABORTABLE_METRIC_SETTINGS_INDEX] === MetricSettingMap.get(metric)) {
       toAbort.delete(metric)
     }
   })
@@ -57,17 +53,17 @@ function abortRemovedMetrics (abortables, newMetrics, MetricSettingMap) {
   return reducedAbortables
 }
 
-function abortAllMetrics (abortables) {
+function abortAllMetrics(abortables) {
   return [...abortables.values()].forEach(cancelQuery)
 }
 
 const NO_DATA_MSG = 'No data for the requested period'
 
-export function useTimeseries (
+export function useTimeseries(
   metrics,
   settings,
   MetricSettingMap = DEFAULT_METRIC_SETTINGS_MAP,
-  MetricTransformer = DEFAULT_METRIC_TRANSFORMER
+  MetricTransformer = DEFAULT_METRIC_TRANSFORMER,
 ) {
   const [timeseries, setTimeseries] = useState(DEFAULT_TS)
   const [loadings, setLoadings] = useState(metrics)
@@ -83,7 +79,7 @@ export function useTimeseries (
     }
 
     const metricsSet = new Set(metrics)
-    setLoadings(loadings => loadings.filter(loading => metricsSet.has(loading)))
+    setLoadings((loadings) => loadings.filter((loading) => metricsSet.has(loading)))
 
     setAbortables(abortRemovedMetrics(abortables, metrics, MetricSettingMap))
   }, [metricsHash, MetricSettingMap])
@@ -99,31 +95,30 @@ export function useTimeseries (
     let raceCondition = false
     let mergedData = []
 
-    metrics.forEach(metric => {
+    metrics.forEach((metric) => {
       const { key, queryKey = key, reqMeta, fetch } = metric
       const metricSettings = MetricSettingMap.get(metric)
       const queryId = client.queryManager.idCounter
       const abortController = new AbortController()
 
-      const { query: metricQuery, preTransform: metricPreTransform } =
-        metricSettings || {}
+      const { query: metricQuery, preTransform: metricPreTransform } = metricSettings || {}
       const query = metricQuery || getQuery(metric, metricSettings)
       if (!fetch) {
         if (!query) {
-          return setErrorMsg(state => {
+          return setErrorMsg((state) => {
             state[key] = NO_DATA_MSG
             return { ...state }
           })
         }
 
-        setAbortables(state => {
+        setAbortables((state) => {
           const newState = new Map(state)
           newState.set(metric, [abortController, queryId, metricSettings])
           return newState
         })
       }
 
-      setLoadings(state => {
+      setLoadings((state) => {
         const loadingsSet = new Set(state)
         loadingsSet.add(metric)
         return [...loadingsSet]
@@ -137,13 +132,13 @@ export function useTimeseries (
         slug,
         address,
         ...reqMeta,
-        ...metricSettings
+        ...metricSettings,
       }
 
       let attempt = 1
       getTimeseries()
 
-      function getTimeseries () {
+      function getTimeseries() {
         if (raceCondition) return
 
         const request = fetch
@@ -153,14 +148,14 @@ export function useTimeseries (
               .then(MetricTransformer[metric.key] || noop)
 
         request
-          .then(data => {
+          .then((data) => {
             if (raceCondition) return
 
             if (!data.length) {
               throw new Error(NO_DATA_MSG)
             }
 
-            setErrorMsg(state => {
+            setErrorMsg((state) => {
               if (!state[key]) return state
 
               const newState = Object.assign({}, state)
@@ -168,10 +163,7 @@ export function useTimeseries (
               return newState
             })
             setTimeseries(() => {
-              mergedData = mergeTimeseries([
-                mergedData,
-                data.map(normalizeDatetimes)
-              ])
+              mergedData = mergeTimeseries([mergedData, data.map(normalizeDatetimes)])
               return mergedData
             })
           })
@@ -184,7 +176,7 @@ export function useTimeseries (
             }
 
             setTimeseries(() => mergedData)
-            setErrorMsg(state => {
+            setErrorMsg((state) => {
               state[key] = substituteErrorMsg(message)
               return { ...state }
             })
@@ -192,13 +184,13 @@ export function useTimeseries (
           .finally(() => {
             if (raceCondition) return
 
-            setAbortables(state => {
+            setAbortables((state) => {
               const newState = new Map(state)
               newState.delete(metric)
               return newState
             })
 
-            setLoadings(state => state.filter(loadable => loadable !== metric))
+            setLoadings((state) => state.filter((loadable) => loadable !== metric))
           })
       }
     })
@@ -213,16 +205,16 @@ export function useTimeseries (
 
 const DEFAULT_BRUSH_SETTINGS = {
   interval: '4d',
-  ...getIntervalByTimeRange('all')
+  ...getIntervalByTimeRange('all'),
 }
 
-export function useAllTimeData (metrics, { slug }, MetricSettingMap) {
+export function useAllTimeData(metrics, { slug }, MetricSettingMap) {
   const brushSettings = useMemo(
     () => ({
       ...DEFAULT_BRUSH_SETTINGS,
-      slug
+      slug,
     }),
-    [slug]
+    [slug],
   )
   return useTimeseries(metrics, brushSettings, MetricSettingMap)
 }

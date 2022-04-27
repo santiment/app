@@ -7,10 +7,7 @@ import outsideSvg from '../../../../../../assets/signals/priceTypes/outside.svg'
 import movingUpSvg from '../../../../../../assets/signals/priceTypes/moving_up.svg'
 import movingDownSvg from '../../../../../../assets/signals/priceTypes/moving_down.svg'
 import someOfSvg from '../../../../../../assets/signals/priceTypes/someOf.svg'
-import {
-  ETH_WALLETS_OPERATIONS,
-  PRICE_CHANGE_TYPES
-} from '../../../../utils/constants'
+import { ETH_WALLETS_OPERATIONS, PRICE_CHANGE_TYPES } from '../../../../utils/constants'
 import { formatTokensCount } from '../../../../../../utils/formatting'
 
 const METRIC_TO_SVG = {
@@ -24,7 +21,7 @@ const METRIC_TO_SVG = {
   [PRICE_CHANGE_TYPES.MOVING_DOWN]: movingDownSvg,
   [PRICE_CHANGE_TYPES.PERCENT_SOME_OF]: someOfSvg,
   [ETH_WALLETS_OPERATIONS.AMOUNT_UP]: aboveSvg,
-  [ETH_WALLETS_OPERATIONS.AMOUNT_DOWN]: belowSvg
+  [ETH_WALLETS_OPERATIONS.AMOUNT_DOWN]: belowSvg,
 }
 
 const MetricOptionsRenderer = ({
@@ -39,7 +36,7 @@ const MetricOptionsRenderer = ({
   selectValue,
   style,
   valueArray,
-  valueKey
+  valueKey,
 }) => {
   const classNames = [styles.option]
 
@@ -94,7 +91,7 @@ export const WalletBalanceOptionRenderer = ({
   selectValue,
   style,
   valueArray,
-  valueKey
+  valueKey,
 }) => {
   const classNames = [styles.option]
 
@@ -118,9 +115,7 @@ export const WalletBalanceOptionRenderer = ({
       style={style}
     >
       <span>{slug}</span>
-      {hasBalance && (
-        <span className={styles.balance}>({formatTokensCount(balance)})</span>
-      )}
+      {hasBalance && <span className={styles.balance}>({formatTokensCount(balance)})</span>}
     </div>
   )
 }

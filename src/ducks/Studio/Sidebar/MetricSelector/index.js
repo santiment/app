@@ -5,19 +5,14 @@ import Group from '../Group'
 import MetricButton from '../Button'
 import { NO_GROUP } from '../utils'
 import { rebuildDescriptions } from '../../../dataHub/metrics/descriptions'
-import {
-  useFavoriteMetrics,
-  mutateFavoriteMetrics
-} from '../../../../stores/user/metrics'
+import { useFavoriteMetrics, mutateFavoriteMetrics } from '../../../../stores/user/metrics'
 import styles from '../Button/index.module.scss'
 
-const convertMetricToSidebarItem = item => ({ item })
+const convertMetricToSidebarItem = (item) => ({ item })
 
-const SortableItem = SortableElement(props => <MetricButton {...props} />)
+const SortableItem = SortableElement((props) => <MetricButton {...props} />)
 
-const SortableList = SortableContainer(props => (
-  <Group {...props} Button={SortableItem} />
-))
+const SortableList = SortableContainer((props) => <Group {...props} Button={SortableItem} />)
 
 const SortableGroup = ({ onDragEnd, onDragStart, ...props }) => (
   <SortableList
@@ -30,19 +25,14 @@ const SortableGroup = ({ onDragEnd, onDragStart, ...props }) => (
   />
 )
 
-const MetricSelector = ({
-  categories = {},
-  availableMetrics,
-  setIsDraggingMetric,
-  ...props
-}) => {
+const MetricSelector = ({ categories = {}, availableMetrics, setIsDraggingMetric, ...props }) => {
   const { Submetrics } = props
   const { favoriteMetrics } = useFavoriteMetrics()
   const [favorites, setFavorites] = useState(favoriteMetrics)
 
   const favoritesGroup = useMemo(
     () => ({ [NO_GROUP]: favorites.map(convertMetricToSidebarItem) }),
-    [favorites]
+    [favorites],
   )
 
   useEffect(() => setFavorites(favoriteMetrics), [favoriteMetrics])
@@ -51,7 +41,7 @@ const MetricSelector = ({
     rebuildDescriptions(Submetrics)
   }, [Submetrics])
 
-  function onDragEnd ({ oldIndex, newIndex }) {
+  function onDragEnd({ oldIndex, newIndex }) {
     const newFavoriteMetrics = favoriteMetrics.slice()
     newFavoriteMetrics.splice(oldIndex, 1)
     newFavoriteMetrics.splice(newIndex, 0, favoriteMetrics[oldIndex])
@@ -72,13 +62,11 @@ const MetricSelector = ({
         onDragStart={() => setIsDraggingMetric(true)}
       >
         {favoriteMetrics.length === 0 && (
-          <div className={styles.favorites}>
-            Save any metric to 'Favorites' for quick access
-          </div>
+          <div className={styles.favorites}>Save any metric to 'Favorites' for quick access</div>
         )}
       </Category>
 
-      {Object.keys(categories).map(key => (
+      {Object.keys(categories).map((key) => (
         <Category key={key} title={key} groups={categories[key]} {...props} />
       ))}
     </>

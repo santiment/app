@@ -6,7 +6,7 @@ import styles from './ScreenerTriggerDescription.module.scss'
 
 const ScreenerTriggerDescription = ({ trigger, data }) => {
   const {
-    settings: { type }
+    settings: { type },
   } = trigger
 
   if (!data || type !== METRIC_TYPES.SCREENER_SIGNAL) {
@@ -16,7 +16,7 @@ const ScreenerTriggerDescription = ({ trigger, data }) => {
   const {
     added_slugs = [],
     removed_slugs = [],
-    operation: { selector: { watchlist_id } = {} } = {}
+    operation: { selector: { watchlist_id } = {} } = {},
   } = data
 
   const link = getScreenerLink({ id: watchlist_id })

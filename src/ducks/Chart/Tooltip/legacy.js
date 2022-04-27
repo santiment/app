@@ -3,7 +3,7 @@ import {
   drawHoverLineY,
   drawTooltip,
   drawValueBubbleY,
-  drawValueBubbleX
+  drawValueBubbleX,
 } from '@santiment-network/chart/tooltip'
 import { handleMove, getHoveredIndex } from '@santiment-network/chart/events'
 import { drawAlertPlus } from './alert'
@@ -12,16 +12,16 @@ import {
   getDateDayMonthYear,
   getDateHoursMinutes,
   yBubbleFormatter,
-  isDayInterval
+  isDayInterval,
 } from '../utils'
 import { TooltipSetting } from '../../dataHub/tooltipSettings'
 
-export function setupTooltip (chart, marker, useCustomTooltip, onPlotTooltip) {
+export function setupTooltip(chart, marker, useCustomTooltip, onPlotTooltip) {
   const {
-    tooltip: { canvas, ctx }
+    tooltip: { canvas, ctx },
   } = chart
 
-  canvas.onmousemove = handleMove(chart, point => {
+  canvas.onmousemove = handleMove(chart, (point) => {
     if (!point) return
     chart.syncTooltips(point.value)
     if (useCustomTooltip) {
@@ -29,20 +29,17 @@ export function setupTooltip (chart, marker, useCustomTooltip, onPlotTooltip) {
       plotTooltip(chart, marker, point, {
         showLines: true,
         customTooltip: true,
-        showAlertPlus: true
+        showAlertPlus: true,
       })
     } else {
       plotTooltip(chart, marker, point)
     }
   })
 
-  canvas.onmousedown = handleMove(chart, point => {
+  canvas.onmousedown = handleMove(chart, (point) => {
     if (!point) return
     const { left, right, points, pointWidth } = chart
-    const {
-      left: canvasPageLeft,
-      right: canvasPageRight
-    } = canvas.getBoundingClientRect()
+    const { left: canvasPageLeft, right: canvasPageRight } = canvas.getBoundingClientRect()
     const { x } = point
 
     let moved = false
@@ -57,16 +54,12 @@ export function setupTooltip (chart, marker, useCustomTooltip, onPlotTooltip) {
 
     window.addEventListener('mouseup', onMouseUp)
 
-    function onMouseMove ({ pageX }) {
+    function onMouseMove({ pageX }) {
       const { left, right, top, height } = chart
 
       const isOutOfLeft = pageX < canvasPageLeft
       const isOutOfRight = pageX > canvasPageRight
-      const relativeX = isOutOfLeft
-        ? left
-        : isOutOfRight
-        ? right
-        : pageX - canvasPageLeft
+      const relativeX = isOutOfLeft ? left : isOutOfRight ? right : pageX - canvasPageLeft
 
       moved = true
 
@@ -81,7 +74,7 @@ export function setupTooltip (chart, marker, useCustomTooltip, onPlotTooltip) {
       ctx.restore()
     }
 
-    function onMouseUp ({ offsetX }) {
+    function onMouseUp({ offsetX }) {
       window.removeEventListener('mousemove', onMouseMove)
       window.removeEventListener('mouseup', onMouseUp)
 
@@ -113,13 +106,13 @@ export function setupTooltip (chart, marker, useCustomTooltip, onPlotTooltip) {
 
 const metricValueAccessor = ({ value }) => value || value === 0
 
-export function plotTooltip (chart, marker, point, options) {
+export function plotTooltip(chart, marker, point, options) {
   const {
     tooltip: { ctx },
     tooltipKey,
     hoverLineColor,
     tooltipPaintConfig,
-    bubblesPaintConfig
+    bubblesPaintConfig,
   } = chart
   const metricPoint = point[tooltipKey]
   if (!metricPoint) return
@@ -129,9 +122,7 @@ export function plotTooltip (chart, marker, point, options) {
   const { x, value: datetime, ...metrics } = point
   const { y, value } = metricPoint
 
-  const xBubbleFormatter = isDayInterval(chart)
-    ? getDateHoursMinutes
-    : getDateDayMonthYear
+  const xBubbleFormatter = isDayInterval(chart) ? getDateHoursMinutes : getDateDayMonthYear
 
   if (options && options.customTooltip) {
     if (options.showLines) {
@@ -158,15 +149,9 @@ export function plotTooltip (chart, marker, point, options) {
         yBubbleFormatter(value, tooltipKey),
         y,
         bubblesPaintConfig,
-        chart.isAlertsActive ? 5 : 0
+        chart.isAlertsActive ? 5 : 0,
       )
     }
-    drawValueBubbleX(
-      chart,
-      ctx,
-      xBubbleFormatter(datetime),
-      x,
-      bubblesPaintConfig
-    )
+    drawValueBubbleX(chart, ctx, xBubbleFormatter(datetime), x, bubblesPaintConfig)
   }
 }

@@ -7,17 +7,17 @@ import {
   CartesianGrid,
   XAxis,
   YAxis,
-  Tooltip
+  Tooltip,
 } from 'recharts'
 import { getDateFormats } from '../../utils/dates'
 import { formatNumber, millify } from './../../utils/formatting'
 
-const labelFormatter = date => {
+const labelFormatter = (date) => {
   const { dddd, MMM, DD, YYYY } = getDateFormats(new Date(date))
   return `${dddd}, ${MMM} ${DD} ${YYYY}`
 }
 
-const tickFormatter = date => {
+const tickFormatter = (date) => {
   const { DD, MMM, YY } = getDateFormats(new Date(date))
   return `${DD} ${MMM} ${YY}`
 }
@@ -74,9 +74,7 @@ const SignalsChart = ({ chartData = [] }) => {
 
           <Tooltip
             labelFormatter={labelFormatter}
-            formatter={(value, name) =>
-              formatNumber(value, { currency: 'USD' })
-            }
+            formatter={(value, name) => formatNumber(value, { currency: 'USD' })}
           />
 
           <CartesianGrid stroke='rgba(200, 200, 200, .2)' />
@@ -89,7 +87,7 @@ const SignalsChart = ({ chartData = [] }) => {
 
 SignalsChart.defaultProps = {
   data: {},
-  isLoading: true
+  isLoading: true,
 }
 
 export default SignalsChart

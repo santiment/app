@@ -3,52 +3,39 @@ import { PieChart, Pie, Cell } from 'recharts'
 import { useUniswapWhoMoved } from './gql'
 import { formatNumber } from '../../../utils/formatting'
 import Skeleton from '../../../components/Skeleton/Skeleton'
-import {
-  getDateFormats,
-  getTimeFormats,
-  make12Hours,
-  getAmPm
-} from '../../../utils/dates'
+import { getDateFormats, getTimeFormats, make12Hours, getAmPm } from '../../../utils/dates'
 import styles from './UniswapPieChart.module.scss'
 
 const obj = {
   centralizedExchanges: {
     label: 'Centralized Exchanges',
-    color: '#68DBF4'
+    color: '#68DBF4',
   },
   decentralizedExchanges: {
     label: 'Decentralized Exchanges',
-    color: '#785549'
+    color: '#785549',
   },
   cexTrader: {
     label: 'CEX Traders',
-    color: '#FFDAC5'
+    color: '#FFDAC5',
   },
   otherAddresses: {
     label: 'Other Addresses',
-    color: '#D4E763'
-  }
+    color: '#D4E763',
+  },
 }
 
-function transformData (data) {
+function transformData(data) {
   if (!data && !data.otherAddresses) {
     return
   }
 
   const total =
-    data.centralizedExchanges +
-    data.decentralizedExchanges +
-    data.otherAddresses +
-    data.cexTrader
+    data.centralizedExchanges + data.decentralizedExchanges + data.otherAddresses + data.cexTrader
 
-  const items = [
-    'centralizedExchanges',
-    'decentralizedExchanges',
-    'cexTrader',
-    'otherAddresses'
-  ]
+  const items = ['centralizedExchanges', 'decentralizedExchanges', 'cexTrader', 'otherAddresses']
 
-  const chartData = items.map(item => {
+  const chartData = items.map((item) => {
     const name = obj[item].label
     const value = (data[item] * 100) / total || 0
 
@@ -70,9 +57,7 @@ const WhoClaimedChart = () => {
   useEffect(() => {
     if (!loading) {
       const noData = chartData.filter(({ rawValue }) => rawValue === undefined)
-      const isTotallyEpmty = chartData.filter(
-        ({ rawValue }) => rawValue === null
-      )
+      const isTotallyEpmty = chartData.filter(({ rawValue }) => rawValue === null)
       if (noData.length > 0 || isTotallyEpmty.length === chartData.length) {
         setIsMissedData(true)
       }
@@ -102,26 +87,18 @@ const WhoClaimedChart = () => {
                 ))}
               </Pie>
             </PieChart>
-            <p
-              className={styles.time}
-            >{`Last update: ${D} ${MMM}, ${make12Hours(H)}:${mm}${getAmPm(
-              H
+            <p className={styles.time}>{`Last update: ${D} ${MMM}, ${make12Hours(H)}:${mm}${getAmPm(
+              H,
             )}`}</p>
           </div>
           <div className={styles.text}>
             <ul className={styles.list}>
               {chartData.map(({ name, value, rawValue, color }, idx) => (
-                <li
-                  key={idx}
-                  className={styles.item}
-                  style={{ '--pie-chart-item-color': color }}
-                >
+                <li key={idx} className={styles.item} style={{ '--pie-chart-item-color': color }}>
                   <span className={styles.item__name}>
                     {name} ({value.toFixed(2)}%):
                   </span>
-                  <span className={styles.item__value}>
-                    {formatNumber(rawValue || 0)}
-                  </span>
+                  <span className={styles.item__value}>{formatNumber(rawValue || 0)}</span>
                 </li>
               ))}
             </ul>

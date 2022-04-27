@@ -11,7 +11,7 @@ export const UNISWAP_METRIC_BOUNDARIES_QUERY = gql`
   }
 `
 
-export function useRestrictedInfo (metric) {
+export function useRestrictedInfo(metric) {
   const { data } = useQuery(metric)
   return data ? data.getMetric.metadata.isRestricted : false
 }

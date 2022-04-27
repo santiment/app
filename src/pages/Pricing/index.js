@@ -1,66 +1,66 @@
 import React from 'react'
+import Twitter from '@santiment-network/ui/Twitter'
 import Plans from './Plans/Plans'
-import PayWithCrypto from './PayWithCrypto'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
-import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
-import UpgradeInfo from './UpgradeInfo/UpgradeInfo'
-import SpeakBlocks from './SpeakBlocks/SpeakBlocks'
-import PlanDescriptions from './PlanDescriptions/PlanDescriptions'
 import { useUser } from '../../stores/user'
+import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
+import SpeakBlocks from './SpeakBlocks/SpeakBlocks'
 import PricingFAQ from './PricingFAQ/PricingFAQ'
 import Testimonials from '../../components/Testimonials'
-import Companies from './Companies/Companies'
-import TwitterFeedbacks from './TwitterFeedbacks/TwitterFeedbacks'
+import Companies from '../../pages/Pricing/Companies/Companies'
+import { TwitterBg } from './TwitterFeedbacks/TwitterFeedbacks'
+import twitterStyles from './twitter.module.scss'
 import styles from './index.module.scss'
 
-const Header = () => {
-  const { trialDaysLeft } = useUserSubscriptionStatus()
-
-  return (
-    <div className={styles.top}>
-      <div className={styles.headerContent}>
-        <h1 className={styles.title}>Be ahead of the game in crypto</h1>
-
-        <h2 className={styles.description}>
-          Choose the plan which fits your needs and enjoy our premium metrics
-          {trialDaysLeft && (
-            <div className={styles.trial}>
-              ({trialDaysLeft} in your free trial)
-            </div>
-          )}
-        </h2>
+const TwitterFeed = () => (
+  <div className={twitterStyles.container}>
+    <div className={twitterStyles.header}>
+      <TwitterBg className={twitterStyles.headerBg} />
+      <div className={twitterStyles.title}>
+        <TwitterBg className={twitterStyles.twitterBlue} />
+        More reviews from Twitter
       </div>
-      <div className={styles.img} />
     </div>
-  )
-}
+    <Twitter />
+  </div>
+)
+
+const Header = ({ trialDaysLeft }) => (
+  <div className={styles.top}>
+    <div className={styles.headerContent}>
+      <h1 className={styles.title}>Be ahead of the game in crypto</h1>
+
+      <h2 className={styles.description}>
+        Choose the plan which fits your needs and enjoy our premium metrics
+        {trialDaysLeft && <div className={styles.trial}>({trialDaysLeft} in your free trial)</div>}
+      </h2>
+    </div>
+    <div className={styles.img} />
+  </div>
+)
 
 const Page = () => {
-  const { isLoggedIn } = useUser()
+  const { user } = useUser()
+  const { trialDaysLeft, isPro, isProPlus } = useUserSubscriptionStatus()
+  const showConversion = !user || (!isPro && !isProPlus)
 
   return (
     <DashboardLayout showResearchers={false}>
       <div className={styles.inner}>
-        <Header />
-
+        <Header trialDaysLeft={trialDaysLeft} />
         <Plans id='plans' classes={styles} />
-
-        <PlanDescriptions />
-
-        <PayWithCrypto />
-
-        <SpeakBlocks />
-
-        <Companies />
-
-        <Testimonials />
-
-        <TwitterFeedbacks />
-
+        {showConversion && (
+          <>
+            <Companies
+              header={<div className={styles.companiesHeader}>You are in good company</div>}
+            />
+            <Testimonials slice={3} wrapperClass={styles.testimonials} />
+            <TwitterFeed />
+          </>
+        )}
         <PricingFAQ />
+        {showConversion && <SpeakBlocks />}
       </div>
-
-      {!isLoggedIn && <UpgradeInfo />}
     </DashboardLayout>
   )
 }

@@ -7,11 +7,12 @@ const IGNORED_ERRORS = [
   'Accept the privacy policy to activate your account',
   'The user aborted a request',
   'Short url ',
-  ' is too complex: complexity is '
+  ' is too complex: complexity is ',
+  'Failed to fetch',
 ]
 
 const checkIsValidError = (msg = '') =>
-  !IGNORED_ERRORS.some(ignoredPart => msg.includes(ignoredPart))
+  !IGNORED_ERRORS.some((ignoredPart) => msg.includes(ignoredPart))
 
 const ErrorLink = onError(({ graphQLErrors, networkError, operation }) => {
   if (graphQLErrors) {
@@ -38,9 +39,7 @@ const ErrorLink = onError(({ graphQLErrors, networkError, operation }) => {
       }
 
       if (checkIsValidError(graphQLErrors.message)) {
-        Sentry.captureException(
-          `[GraphQL error]: ${JSON.stringify(graphQLErrors)}`
-        )
+        Sentry.captureException(`[GraphQL error]: ${JSON.stringify(graphQLErrors)}`)
       }
     }
   }

@@ -1,0 +1,28 @@
+@import "~@santiment-network/ui/mixins";
+
+.wrapper {
+  width: 277px;
+  gap: 12px;
+  padding: 20px 32px 32px;
+  border: 1px solid var(--type-border, var(--porcelain));
+  background: var(--type-background, transparent);
+  border-radius: 8px;
+  cursor: pointer;
+
+  &:hover {
+    --type-border: var(--mystic);
+    --type-background: var(--whale);
+  }
+}
+
+.title {
+  gap: 12px;
+}
+
+.description {
+  color: var(--fiord);
+}
+
+.icon {
+  fill: var(--waterloo);
+}

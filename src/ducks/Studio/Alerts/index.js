@@ -1,13 +1,12 @@
 import React from 'react'
 import cx from 'classnames'
 import { useSuggestions } from './suggestions/hooks'
-import SignalMasterModalForm from '../../Signals/signalModal/SignalMasterModalForm'
-import { mapToOption } from '../../Signals/utils/utils'
 import LoginPopup from '../../../components/banners/feature/PopupBanner'
+import AlertModal from '../../Alert/AlertModal'
 import styles from './index.module.scss'
 
 const Alert = ({ alert, render, createAlert }) => {
-  function onClick () {
+  function onClick() {
     createAlert(alert)
   }
 
@@ -20,7 +19,7 @@ const Alert = ({ alert, render, createAlert }) => {
   )
 }
 
-function getHeader (title, project) {
+function getHeader(title, project) {
   let header = title
 
   if (project) {
@@ -30,29 +29,14 @@ function getHeader (title, project) {
   return header
 }
 
-export default ({
-  className,
-  metricValues,
-  containerRef,
-  onDialogClose,
-  ...rest
-}) => {
+export default ({ className, metricValues, containerRef, onDialogClose, ...rest }) => {
   const suggestions = useSuggestions(metricValues)
 
   return (
     <div ref={containerRef} className={cx(styles.wrapper, className)}>
       <div className={styles.header}>
         Create alert if:
-        <SignalMasterModalForm
-          onClose={onDialogClose}
-          canRedirect={false}
-          trigger={<span className={styles.manual}>Create alert manually</span>}
-          metaFormSettings={{
-            target: {
-              value: mapToOption(rest.slug)
-            }
-          }}
-        />
+        <AlertModal trigger={<span className={styles.manual}>Create alert manually</span>} />
       </div>
       <div className={styles.suggestions}>
         {suggestions.map(({ title, project, suggesters, ...values }) => {
@@ -61,11 +45,7 @@ export default ({
             <div key={header} className={styles.suggestion}>
               <div className={styles.title}>{header}</div>
               {suggesters.map((suggest, i) => (
-                <Alert
-                  key={i}
-                  {...rest}
-                  {...suggest({ ...rest, ...values, ...project })}
-                />
+                <Alert key={i} {...rest} {...suggest({ ...rest, ...values, ...project })} />
               ))}
             </div>
           )

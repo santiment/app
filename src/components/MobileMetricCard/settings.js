@@ -6,5 +6,5 @@ const interval = '1d'
 export const DEFAULT_SETTINGS = {
   from,
   to,
-  interval
+  interval,
 }

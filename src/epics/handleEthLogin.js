@@ -37,16 +37,8 @@ export const REMOVE_CONNECTED_WALLET_QUERY = gql`
 `
 
 export const CONNECT_NEW_WALLET_QUERY = gql`
-  mutation addUserEthAddress(
-    $address: String!
-    $signature: String!
-    $messageHash: String!
-  ) {
-    addUserEthAddress(
-      address: $address
-      signature: $signature
-      messageHash: $messageHash
-    ) {
+  mutation addUserEthAddress($address: String!, $signature: String!, $messageHash: String!) {
+    addUserEthAddress(address: $address, signature: $signature, messageHash: $messageHash) {
       ethAccounts {
         address
       }
@@ -54,7 +46,7 @@ export const CONNECT_NEW_WALLET_QUERY = gql`
   }
 `
 
-const loginWithEthereum = client => {
+const loginWithEthereum = (client) => {
   return new Promise(async (resolve, reject) => {
     let address = ''
     try {
@@ -70,12 +62,12 @@ const loginWithEthereum = client => {
           variables: {
             signature,
             address,
-            messageHash
-          }
+            messageHash,
+          },
         })
         resolve(mutation)
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error)
       })
   })
@@ -85,7 +77,7 @@ const handleEthLogin = (action$, store, { client }) =>
   action$
     .ofType(actions.USER_ETH_LOGIN)
     .takeUntil(action$.ofType(actions.USER_LOGIN_SUCCESS))
-    .switchMap(action => {
+    .switchMap((action) => {
       const { consent } = action.payload
       return Observable.from(loginWithEthereum(client))
         .mergeMap(({ data }) => {
@@ -94,7 +86,7 @@ const handleEthLogin = (action$, store, { client }) =>
           if (user.firstLogin) {
             GA.event({
               category: 'User',
-              action: 'First login'
+              action: 'First login',
             })
           }
           savePrevAuthProvider('metamask')
@@ -102,13 +94,13 @@ const handleEthLogin = (action$, store, { client }) =>
             type: actions.USER_LOGIN_SUCCESS,
             token,
             user,
-            consent: user.consent_id || consent
+            consent: user.consent_id || consent,
           })
         })
         .catch(handleErrorAndTriggerAction(actions.USER_LOGIN_FAILED))
     })
 
-const connectingNewWallet = client => {
+const connectingNewWallet = (client) => {
   return new Promise(async (resolve, reject) => {
     const address = await web3Helpers.getAccount()
     const { signature, messageHash } = await web3Helpers.signMessage(address)
@@ -117,8 +109,8 @@ const connectingNewWallet = client => {
       variables: {
         address,
         signature,
-        messageHash
-      }
+        messageHash,
+      },
     })
     try {
       const { data } = await mutation
@@ -131,29 +123,27 @@ const connectingNewWallet = client => {
 }
 
 export const connectNewWallet = (action$, store, { client }) =>
-  action$.ofType(actions.SETTINGS_CONNECT_NEW_WALLET).mergeMap(action => {
+  action$.ofType(actions.SETTINGS_CONNECT_NEW_WALLET).mergeMap((action) => {
     return Observable.from(connectingNewWallet(client))
-      .mergeMap(accounts => {
+      .mergeMap((accounts) => {
         return Observable.of({
           type: actions.SETTINGS_CONNECT_NEW_WALLET_SUCCESS,
           payload: {
-            accounts
-          }
+            accounts,
+          },
         })
       })
-      .catch(
-        handleErrorAndTriggerAction(actions.SETTINGS_CONNECT_NEW_WALLET_FAILED)
-      )
+      .catch(handleErrorAndTriggerAction(actions.SETTINGS_CONNECT_NEW_WALLET_FAILED))
   })
 
 export const removeConnectedWallet = (action$, store, { client }) =>
-  action$.ofType(actions.SETTINGS_REMOVE_CONNECTED_WALLET).switchMap(action => {
+  action$.ofType(actions.SETTINGS_REMOVE_CONNECTED_WALLET).switchMap((action) => {
     const address = getUserWallet(store.getState())
     const mutation = client.mutate({
       mutation: REMOVE_CONNECTED_WALLET_QUERY,
       variables: {
-        address
-      }
+        address,
+      },
     })
     return Observable.from(mutation)
       .mergeMap(({ data }) => {
@@ -161,15 +151,11 @@ export const removeConnectedWallet = (action$, store, { client }) =>
         return Observable.of({
           type: actions.SETTINGS_REMOVE_CONNECTED_WALLET_SUCCESS,
           payload: {
-            accounts
-          }
+            accounts,
+          },
         })
       })
-      .catch(
-        handleErrorAndTriggerAction(
-          actions.SETTINGS_REMOVE_CONNECTED_WALLET_FAILED
-        )
-      )
+      .catch(handleErrorAndTriggerAction(actions.SETTINGS_REMOVE_CONNECTED_WALLET_FAILED))
   })
 
 export default handleEthLogin

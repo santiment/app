@@ -5,14 +5,13 @@ const MetricsCache = new Map()
 
 export const metricHash = (metric, selector) => metric + '_' + selector
 
-export const buildKey = (key, selector) =>
-  `${key}_${selector.replace(/[^a-zA-Z0-9]+/g, '')}`
+export const buildKey = (key, selector) => `${key}_${selector.replace(/[^a-zA-Z0-9]+/g, '')}`
 
-export function buildMetrics (metrics, topics) {
+export function buildMetrics(metrics, topics) {
   const transformedMetrics = []
   const priceMetric = metrics.find(({ key }) => key === Metric.price_usd.key)
-  topics.forEach(topic => {
-    metrics.forEach(metric => {
+  topics.forEach((topic) => {
+    metrics.forEach((metric) => {
       if (metric.key === Metric.price_usd.key) {
         return
       }
@@ -27,7 +26,7 @@ export function buildMetrics (metrics, topics) {
   return transformedMetrics
 }
 
-function buildMetric (metric, text) {
+function buildMetric(metric, text) {
   if (metric === Metric.price_usd) {
     return metric
   }
@@ -35,7 +34,7 @@ function buildMetric (metric, text) {
   return buildTextBasedMetric(metric, text)
 }
 
-export function buildTextBasedMetric (metric, text) {
+export function buildTextBasedMetric(metric, text) {
   const key = buildKey(metric.key, text)
   const cached = MetricsCache.get(key)
 
@@ -54,12 +53,12 @@ export function buildTextBasedMetric (metric, text) {
     domainGroup: metricKey,
     useOriginColor: true,
     label: `${clippedText}, ${shortLabel}`,
-    text
+    text,
   }
 
   TooltipSetting[key] = {
     formatter,
-    label: `${clippedText}, ${shortLabel}`
+    label: `${clippedText}, ${shortLabel}`,
   }
 
   MetricsCache.set(key, textMetric)

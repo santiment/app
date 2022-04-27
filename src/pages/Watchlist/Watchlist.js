@@ -2,31 +2,28 @@ import React, { useEffect, useMemo, useState } from 'react'
 import Infographics from './Infographics'
 import { PROJECT } from '../../ducks/Watchlists/detector'
 import { useScreenerUrl } from '../../ducks/Watchlists/utils'
-import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
 import AssetsTable from '../../ducks/Watchlists/Widgets/Table'
 import { useRecent } from '../../ducks/Watchlists/gql/list/hooks'
 import { useColumns } from '../../ducks/Watchlists/Widgets/Table/hooks'
-import {
-  getAssetsByFunction,
-  getProjectsByFunction
-} from '../../ducks/Watchlists/gql/hooks'
+import { getAssetsByFunction, getProjectsByFunction } from '../../ducks/Watchlists/gql/hooks'
 import { buildFunctionQuery } from '../../ducks/Watchlists/Widgets/Filter/utils'
 import AssetsTemplates from '../../ducks/Watchlists/Widgets/Table/AssetsTemplates'
+import TopBar from '../../ducks/Watchlists/Widgets/TopBar/TopBar'
 
-const WatchlistPage = ({ location, history, watchlist }) => {
+const WatchlistPage = ({ location, history, watchlist, isDesktop }) => {
   const fn = useMemo(
     () => ({
       name: 'selector',
-      args: { filters: [], baseProjects: [{ watchlistId: watchlist.id }] }
+      args: { filters: [], baseProjects: [{ watchlistId: watchlist.id }] },
     }),
-    [watchlist.id]
+    [watchlist.id],
   )
   useRecent(watchlist, PROJECT)
   const [tableLoading, setTableLoading] = useState(true)
   const { widgets, setWidgets } = useScreenerUrl({
     location,
     history,
-    defaultParams: { isMovement: true }
+    defaultParams: { isMovement: true },
   })
   const { updatedAt } = watchlist
 
@@ -37,7 +34,7 @@ const WatchlistPage = ({ location, history, watchlist }) => {
     setOrderBy,
     fetchData,
     activeColumns,
-    setActiveColumnsKeys
+    setActiveColumnsKeys,
   } = useColumns()
 
   const { assets, projectsCount, loading } = getProjectsByFunction(
@@ -45,8 +42,8 @@ const WatchlistPage = ({ location, history, watchlist }) => {
       fn,
       orderBy,
       pagination,
-      activeColumns
-    })
+      activeColumns,
+    }),
   )
 
   useEffect(() => {
@@ -62,25 +59,23 @@ const WatchlistPage = ({ location, history, watchlist }) => {
   }, [orderBy])
 
   useEffect(() => {
-    if (
-      watchlist.listItems &&
-      watchlist.listItems.length !== 0 &&
-      assets.length === 0
-    ) {
+    if (watchlist.listItems && watchlist.listItems.length !== 0 && assets.length === 0) {
       refetchAssets()
     }
   }, [watchlist.listItems])
 
-  const refetchAssets = () => {
+  const refetchAssets = (onRefetchDone) => {
     setTableLoading(true)
     getAssetsByFunction(
       ...buildFunctionQuery({
         fn,
         orderBy,
         pagination,
-        activeColumns
-      })
-    ).then(() => setTableLoading(false))
+        activeColumns,
+      }),
+    )
+      .then(() => setTableLoading(false))
+      .then(() => typeof onRefetchDone === 'function' && onRefetchDone())
   }
 
   const fetchAllColumns = () =>
@@ -88,25 +83,23 @@ const WatchlistPage = ({ location, history, watchlist }) => {
       ...buildFunctionQuery({
         fn,
         orderBy,
-        activeColumns
-      })
+        activeColumns,
+      }),
     )
 
   const allItems = useMemo(
-    () =>
-      watchlist.listItems
-        ? watchlist.listItems.map(item => item.project)
-        : assets,
-    [watchlist]
+    () => (watchlist.listItems ? watchlist.listItems.map((item) => item.project) : assets),
+    [watchlist],
   )
 
   return (
     <>
-      <TopPanel
+      <TopBar
+        entity={watchlist}
         type={PROJECT}
+        refetchAssets={refetchAssets}
         widgets={widgets}
         setWidgets={setWidgets}
-        watchlist={watchlist}
       />
       <Infographics
         type='Watchlist'
@@ -117,6 +110,7 @@ const WatchlistPage = ({ location, history, watchlist }) => {
         updatedAt={updatedAt}
       />
       <AssetsTable
+        isDesktop={isDesktop}
         items={assets}
         allItems={allItems}
         type={PROJECT}
@@ -132,9 +126,7 @@ const WatchlistPage = ({ location, history, watchlist }) => {
         pageSize={pagination.pageSize}
         pageIndex={pagination.page - 1}
         updateActiveColumnsKeys={setActiveColumnsKeys}
-        onChangePage={pageIndex =>
-          setPagination({ ...pagination, page: +pageIndex + 1 })
-        }
+        onChangePage={(pageIndex) => setPagination({ ...pagination, page: +pageIndex + 1 })}
       />
       <AssetsTemplates items={allItems} watchlist={watchlist} />
     </>

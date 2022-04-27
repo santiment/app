@@ -7,5 +7,5 @@ const { from: FROM, to: TO } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
 
 export const DEFAULT_SETTINGS = {
   from: FROM.toISOString(),
-  to: TO.toISOString()
+  to: TO.toISOString(),
 }

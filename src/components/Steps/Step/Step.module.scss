@@ -1,0 +1,108 @@
+@import "~@santiment-network/ui/mixins";
+
+.wrapper {
+  position: relative;
+  overflow: visible;
+}
+
+.container[role="button"] {
+  cursor: var(--step-cursor, pointer);
+  transition: opacity 0.3s;
+}
+
+.tail {
+  position: absolute;
+  left: 12px;
+  top: 0;
+  height: 100%;
+  width: 1px;
+  padding-top: 25px;
+
+  &::after {
+    height: 100%;
+    width: 1px;
+    content: "";
+    display: inline-block;
+    transition: background 0.3s;
+    background-color: var(--porcelain);
+  }
+}
+
+.contentWrapper {
+  display: flex;
+}
+
+.content {
+  max-width: 240px;
+  overflow: hidden;
+}
+
+.title {
+  position: relative;
+  color: var(--title-color, var(--fiord));
+
+  @include text("body-2");
+
+  &:hover {
+    --title-color: var(--jungle-green);
+  }
+}
+
+.description {
+  margin-top: 4px;
+  padding-bottom: 20px;
+  color: var(--description-color, var(--fiord));
+
+  @include text("body-3");
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+  margin-right: 12px;
+  background-color: var(--icon-background-color, var(--waterloo));
+  color: var(--icon-color, var(--white));
+  border: var(--icon-border);
+
+  @include text("body-3", "m");
+}
+
+.icon {
+  color: currentColor;
+  fill: currentColor;
+}
+
+.finish {
+  --icon-background-color: var(--jungle-green);
+  --icon-color: var(--white);
+}
+
+.disabled {
+  --step-cursor: default;
+  --icon-background-color: var(--mystic);
+  --icon-color: var(--white);
+  --title-color: var(--casper);
+
+  .title {
+    &:hover {
+      --title-color: var(--casper);
+    }
+  }
+}
+
+.selected {
+  --icon-background-color: var(--jungle-green);
+  --icon-color: var(--white);
+  --title-color: var(--jungle-green);
+}
+
+.wrapper:last-child {
+  .tail,
+  .title::after {
+    display: none;
+  }
+}

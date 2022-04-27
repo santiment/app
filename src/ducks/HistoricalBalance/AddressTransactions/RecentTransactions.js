@@ -11,8 +11,7 @@ const RecentTransactions = ({ settings }) => {
   const pagesItems = useRef([]).current
   const [page, setPage] = useState(0)
   const { transactions, isLoading } = useRecentTransactions(settings, page + 1)
-  const nextTransactions = useRecentTransactions(settings, page + 2, isLoading)
-    .transactions
+  const nextTransactions = useRecentTransactions(settings, page + 2, isLoading).transactions
 
   const items = useMemo(() => {
     pagesItems[page] = transactions

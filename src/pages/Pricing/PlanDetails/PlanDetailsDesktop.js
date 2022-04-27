@@ -21,16 +21,8 @@ export const MarkIcon = ({ className }) => (
   </svg>
 )
 
-const PlanDetailsDesktop = ({
-  showingPlans,
-  userPlan,
-  subscription,
-  plans,
-  billing
-}) => {
-  const all = useMemo(() => new Array(showingPlans.length).fill(true), [
-    showingPlans
-  ])
+const PlanDetailsDesktop = ({ showingPlans, userPlan, subscription, plans, billing }) => {
+  const all = useMemo(() => new Array(showingPlans.length).fill(true), [showingPlans])
 
   return (
     <table className={styles.table}>
@@ -39,7 +31,7 @@ const PlanDetailsDesktop = ({
           <th className={cx(styles.head, styles.th)} key='empty'>
             {''}
           </th>
-          {showingPlans.map(plan => {
+          {showingPlans.map((plan) => {
             return (
               <PlanCard
                 as={'th'}
@@ -59,27 +51,21 @@ const PlanDetailsDesktop = ({
         {DETAILS.rows.map((row, i) => (
           <React.Fragment key={i}>
             <tr className={styles.row}>
-              <td
-                className={cx(styles.group, styles.cell, styles.noRightBorder)}
-              >
+              <td className={cx(styles.group, styles.cell, styles.noRightBorder)}>
                 {row.group.name}
               </td>
 
-              {all.map((item, index) => (
-                <td
-                  key={index}
-                  className={cx(styles.cell, styles.noRightBorder)}
-                />
+              {all.map((_, index) => (
+                <td key={index} className={cx(styles.cell, styles.noRightBorder)} />
               ))}
             </tr>
             {row.data.map(({ name, checks, texts }) => {
-              const checkboxes = !texts ? checks || all : undefined
+              let _checks = checks && checks.filter((_, idx) => idx !== 0)
+              let checkboxes = !texts ? _checks || all : undefined
 
               return (
                 <tr key={name} className={externalStyles.row}>
-                  <td className={cx(styles.cell, styles.feature__title)}>
-                    {name}
-                  </td>
+                  <td className={cx(styles.cell, styles.feature__title)}>{name}</td>
                   {checkboxes &&
                     checkboxes.map((check, y) => (
                       <td
@@ -87,28 +73,20 @@ const PlanDetailsDesktop = ({
                         className={cx(
                           styles.cell,
                           styles.feature__cell,
-                          !check && styles.feature__check__grey
+                          !check && styles.feature__check__grey,
                         )}
                       >
-                        {check && (
-                          <MarkIcon
-                            className={cx(
-                              styles.feature__check,
-                              y === 0 && styles.feature__check__green
-                            )}
-                          />
-                        )}
+                        {check && <MarkIcon className={styles.feature__check} />}
                       </td>
                     ))}
                   {texts &&
-                    texts.map((text, y) => (
-                      <td
-                        key={y}
-                        className={cx(styles.cell, styles.feature__cell)}
-                      >
-                        {text}
-                      </td>
-                    ))}
+                    texts
+                      .filter((_, idx) => idx !== 0)
+                      .map((text, y) => (
+                        <td key={y} className={cx(styles.cell, styles.feature__cell)}>
+                          {text}
+                        </td>
+                      ))}
                 </tr>
               )
             })}

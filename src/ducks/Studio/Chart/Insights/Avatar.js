@@ -11,7 +11,7 @@ const Avatar = ({ className, src, top, left, forwardedRef, ...props }) => (
     style={{
       left,
       top,
-      '--author': `url("${src || userPlaceholderSvg}")`
+      '--author': `url("${src || userPlaceholderSvg}")`,
     }}
   />
 )

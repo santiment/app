@@ -9,13 +9,11 @@ export const SignalCardWrapper = ({ isModal = true, trigger, children }) => {
     id,
     description,
     title,
-    settings: { metric, type }
+    settings: { metric, type },
   } = trigger
   return (
     <div className={styles.wrapper__top}>
-      <div
-        className={cx(styles.wrapper__left, styles.wrapper__left_subscription)}
-      >
+      <div className={cx(styles.wrapper__left, styles.wrapper__left_subscription)}>
         <SignalTypeIcon type={type} metric={metric} />
       </div>
       <div className={styles.wrapper__right}>

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import TableTop from './TableTop'
 import Table from '../../../Table'
 import { usePriceGraph } from './PriceGraph/hooks'
@@ -15,8 +15,7 @@ const price_usd_chart_1d = 'price_usd_chart_1d'
 const price_usd_chart_7d = 'price_usd_chart_7d'
 const price_usd_chart_30d = 'price_usd_chart_30d'
 
-const hasColumn = (columns, key) =>
-  columns.find(({ accessor }) => accessor === key)
+const hasColumn = (columns, key) => columns.find(({ accessor }) => accessor === key)
 
 const AssetsTable = ({
   items,
@@ -34,32 +33,32 @@ const AssetsTable = ({
   activeColumns,
   setOrderBy,
   updateActiveColumnsKeys,
-  fetchAllColumns
+  fetchAllColumns,
+  isDesktop,
 }) => {
+  const [toggleSelected, setToggleSelected] = useState()
   const defaultSorting = useMemo(
     () => [{ id: sorting.metric, desc: sorting.direction === 'desc' }],
-    [sorting]
+    [sorting],
   )
-  const columns = useMemo(() => [...DEFAULT_COLUMNS, ...activeColumns], [
-    activeColumns
-  ])
+  const columns = useMemo(() => [...DEFAULT_COLUMNS, ...activeColumns], [activeColumns])
   const { comparingAssets = [], updateAssets } = useComparingAssets()
   const slugs = useMemo(() => items.map(({ slug }) => slug), [items])
 
   const [graphData1d] = usePriceGraph({
     slugs,
     range: '1d',
-    skip: !hasColumn(activeColumns, price_usd_chart_1d)
+    skip: !hasColumn(activeColumns, price_usd_chart_1d),
   })
   const [graphData7d] = usePriceGraph({
     slugs,
     range: '7d',
-    skip: !hasColumn(activeColumns, price_usd_chart_7d)
+    skip: !hasColumn(activeColumns, price_usd_chart_7d),
   })
   const [graphData30d] = usePriceGraph({
     slugs,
     range: '30d',
-    skip: !hasColumn(activeColumns, price_usd_chart_30d)
+    skip: !hasColumn(activeColumns, price_usd_chart_30d),
   })
 
   const data = useMemo(() => {
@@ -69,6 +68,20 @@ const AssetsTable = ({
 
     return result
   }, [graphData7d, graphData1d, graphData30d, items])
+
+  useEffect(() => {
+    if (!isDesktop) return
+
+    const node = document.querySelector('.App')
+    const isSmall = data.length < 20
+
+    node.classList.remove(isSmall ? styles.defaultHeight : styles.fullHeight)
+    node.classList.add(isSmall ? styles.fullHeight : styles.defaultHeight)
+  }, [data])
+
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent('comparingAssetsChanged', { detail: comparingAssets }))
+  }, [comparingAssets])
 
   return (
     <>
@@ -84,6 +97,7 @@ const AssetsTable = ({
         setOrderBy={setOrderBy}
         activeColumns={activeColumns}
         updateActiveColumnsKeys={updateActiveColumnsKeys}
+        toggleSelected={toggleSelected}
       />
       <Table
         data={data}
@@ -94,20 +108,20 @@ const AssetsTable = ({
             skipNoData: type === PROJECT,
             title: 'No matches!',
             description:
-              "The assets for the filter which you applying weren't found. Check if it's correct or try another filter settings."
+              "The assets for the filter which you applying weren't found. Check if it's correct or try another filter settings.",
           },
           loadingSettings: {
             repeatLoading: allItems && allItems.length === 0 ? 0 : 30,
-            isLoading: loading && items.length === 0
+            isLoading: loading && items.length === 0,
           },
           sortingSettings: {
             defaultSorting,
-            allowSort: true
+            allowSort: true,
           },
           stickySettings: {
             isStickyHeader: true,
             isStickyColumn: true,
-            stickyColumnIdx: 2
+            stickyColumnIdx: 2,
           },
           paginationSettings: {
             pageSize,
@@ -115,11 +129,11 @@ const AssetsTable = ({
             onChangePage,
             pageSizeOptions: PAGE_SIZE_OPTIONS,
             controlledPageCount: Math.ceil(projectsCount / pageSize),
-            manualPagination: true
+            manualPagination: true,
           },
           rowSelectSettings: {
-            onChangeSelectedRows: updateAssets
-          }
+            onChangeSelectedRows: updateAssets,
+          },
         }}
         className={styles.tableWrapper}
         classes={{
@@ -127,15 +141,16 @@ const AssetsTable = ({
           bodyRow: styles.tableRow,
           pagination: styles.pagination,
           headerColumn: styles.headerColumn,
-          bodyColumn: styles.bodyColumn
+          bodyColumn: styles.bodyColumn,
         }}
+        onToggle={(toggleFunction) => setToggleSelected(() => toggleFunction)}
       />
     </>
   )
 }
 
 AssetsTable.defaultProps = {
-  items: DEFAULT_ITEMS
+  items: DEFAULT_ITEMS,
 }
 
 export default AssetsTable

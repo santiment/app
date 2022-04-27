@@ -4,39 +4,30 @@ import Comments from '../Insight/comments/Comments'
 import { client } from '../../apollo'
 import {
   COMMENTS_TIMELINE_EVENTS_QUERY,
-  CREATE_TIMELINE_EVENT_COMMENT_MUTATION
+  CREATE_TIMELINE_EVENT_COMMENT_MUTATION,
 } from '../../queries/timelineEventComments'
 
-function getTimelineComments (
-  id,
-  cursor,
-  entityType = CommentTypes.TIMELINE_EVENT
-) {
+function getTimelineComments(id, cursor, entityType = CommentTypes.TIMELINE_EVENT) {
   return client.query({
     query: COMMENTS_TIMELINE_EVENTS_QUERY,
     variables: {
       id,
       cursor,
-      entityType
+      entityType,
     },
-    fetchPolicy: 'network-only'
+    fetchPolicy: 'network-only',
   })
 }
 
-function createTimelineComment (
-  id,
-  content,
-  parentId,
-  entityType = CommentTypes.TIMELINE_EVENT
-) {
+function createTimelineComment(id, content, parentId, entityType = CommentTypes.TIMELINE_EVENT) {
   return client.mutate({
     mutation: CREATE_TIMELINE_EVENT_COMMENT_MUTATION,
     variables: {
       id: +id,
       parentId: parentId ? +parentId : null,
       content,
-      entityType
-    }
+      entityType,
+    },
   })
 }
 

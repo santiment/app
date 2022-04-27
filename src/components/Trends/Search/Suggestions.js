@@ -7,16 +7,16 @@ import styles from './Suggestions.module.scss'
 const SUGGESTIONS = [
   {
     trend: 'buy AND (dip OR dips)',
-    options: ''
+    options: '',
   },
   {
     trend: 'short',
-    options: ''
+    options: '',
   },
   {
     trend: 'fees',
-    options: ''
-  }
+    options: '',
+  },
 ]
 
 const Suggestions = ({ samples = SUGGESTIONS, className }) => (

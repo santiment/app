@@ -8,19 +8,15 @@ const PublicSignals = ({ data: signals, userId }) => {
   }
 
   const signalsWithUser = signals
-    .map(signal => ({
+    .map((signal) => ({
       ...signal,
-      userId: userId
+      userId: userId,
     }))
     .sort(({ id: idA }, { id: idB }) => idB - idA)
 
   return (
     <div className={styles.block}>
-      <SignalCardsGrid
-        signals={signalsWithUser}
-        deleteEnabled={false}
-        classes={styles}
-      />
+      <SignalCardsGrid signals={signalsWithUser} deleteEnabled={false} classes={styles} />
     </div>
   )
 }

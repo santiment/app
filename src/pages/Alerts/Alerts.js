@@ -9,30 +9,49 @@ import IndexTab from '../../components/IndexTabs/IndexTab'
 import PageLoader from '../../components/Loader/PageLoader'
 import { MobileOnly } from '../../components/Responsive'
 import { RecommendedSignals } from '../SonarFeed/SonarFeedRecommendations'
-import { SignalModal } from '../SonarFeed/SonarFeedPage'
+import AlertModal from '../../ducks/Alert/AlertModal'
+import MyAlertsTab from './MyAlertsTab/MyAlertsTab'
+import AlertRestrictionMessage from './AlertRestrictionMessage/AlertRestrictionMessage'
 import { useSignals } from '../../ducks/Signals/common/getSignals'
 import { useUser } from '../../stores/user'
 import { mapSizesToProps } from '../../utils/withSizes'
-import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
+import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import styles from './Alerts.module.scss'
 
 const LoadableAlertsList = Loadable({
   loader: () => import('../SonarFeed/SignalsList'),
-  loading: () => <PageLoader />
+  loading: () => <PageLoader />,
 })
+
+function getAlertsRestrictions({ signals, isPro, isProPlus }) {
+  const maxAmount = isProPlus ? Infinity : isPro ? 20 : 3
+  return {
+    maxAmount,
+    currentAmount: signals.length,
+    shouldHideRestrictionMessage: isProPlus || signals.length !== maxAmount,
+  }
+}
 
 const Alerts = ({ isDesktop, match }) => {
   const [filter, setFilter] = useState(filters.ALL)
+  const [isRestrictedMessageClosed, setIsRestrictedMessageClosed] = useState(false)
   const { user, loading: isUserLoading } = useUser()
   const { tab } = parse(useLocation().search, { parseNumbers: true })
   const { data: signals = [], loading } = useSignals({
-    skip: user && !user.id
+    skip: user && !user.id,
   })
+  const { isPro, isProPlus } = useUserSubscriptionStatus()
+  const alertsRestrictions = getAlertsRestrictions({
+    signals,
+    isPro,
+    isProPlus,
+  })
+  const { shouldHideRestrictionMessage } = alertsRestrictions
   const defaultOpenAlertId = match.params.id
 
   const initialTab = tab || (signals && signals.length > 0 ? 1 : 0)
 
-  const handleChangeFilter = res => {
+  const handleChangeFilter = (res) => {
     setFilter(res)
   }
 
@@ -40,42 +59,43 @@ const Alerts = ({ isDesktop, match }) => {
     {
       id: 0,
       component: AlertsFilter,
-      showOnTabs: ['My Alerts'],
+      showOnTabs: [1],
       hide: !isDesktop,
       props: {
         onSelect: handleChangeFilter,
-        selectedFilter: filter
-      }
+        selectedFilter: filter,
+      },
     },
     {
       id: 1,
-      component: SignalModal,
+      component: AlertModal,
       props: {
+        disabled: !shouldHideRestrictionMessage,
         canRedirect: false,
-        buttonParams: {
-          classes: styles.createButton
-        }
-      }
-    }
+        triggerButtonProps: {
+          label: 'Create alert',
+          variant: 'fill',
+          border: false,
+          classes: 'mrg-l mrg--l',
+        },
+      },
+    },
   ]
 
   const renderTopActions = useCallback(
-    currentTab => {
+    (currentTab) => {
       return (
         <MobileOnly>
           <div className={styles.header}>
             <div className={styles.title}>Alerts</div>
             {currentTab === 1 && (
-              <AlertsFilter
-                onSelect={handleChangeFilter}
-                selectedFilter={filter}
-              />
+              <AlertsFilter onSelect={handleChangeFilter} selectedFilter={filter} />
             )}
           </div>
         </MobileOnly>
       )
     },
-    [filter]
+    [filter],
   )
 
   return (
@@ -91,26 +111,41 @@ const Alerts = ({ isDesktop, match }) => {
               {
                 id: 0,
                 title: 'Explore Alerts',
-                content: <RecommendedSignals showTitle={false} showNew />
+                content: (
+                  <RecommendedSignals
+                    userId={user ? user.id : ''}
+                    showTitle={false}
+                    showNew
+                    shouldDisableActions={!shouldHideRestrictionMessage}
+                  />
+                ),
               },
               {
                 id: 1,
-                title: 'My Alerts',
+                title: <MyAlertsTab alertsRestrictions={alertsRestrictions} />,
                 content: (
-                  <LoadableAlertsList
-                    showNew
-                    filters={{
-                      statusFilter: filter
-                    }}
-                  />
-                )
-              }
+                  <>
+                    <AlertRestrictionMessage
+                      shouldHideRestrictionMessage={shouldHideRestrictionMessage}
+                      isRestrictedMessageClosed={isRestrictedMessageClosed}
+                      setIsRestrictedMessageClosed={setIsRestrictedMessageClosed}
+                    />
+                    <LoadableAlertsList
+                      userId={user ? user.id : ''}
+                      showNew
+                      filters={{
+                        statusFilter: filter,
+                      }}
+                    />
+                  </>
+                ),
+              },
             ]}
             bottomActions={bottomActions}
             renderTopActions={renderTopActions}
           />
           {defaultOpenAlertId && (
-            <SignalMasterModalForm
+            <AlertModal
               id={defaultOpenAlertId}
               defaultOpen={true}
               canRedirect={false}

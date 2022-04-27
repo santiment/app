@@ -5,35 +5,97 @@ import cloneDeep from 'lodash/cloneDeep'
 import { TRIGGERS_COMMON_FRAGMENT } from '../ducks/Signals/common/queries'
 import { SHORT_WATCHLIST_FRAGMENT } from '../ducks/Watchlists/gql/fragments'
 
+const SHARED_ACTIVITIES_FIELDS = `
+  id
+  watchlists {
+    ...generalFragment
+    historicalStats(from: "utc_now-7d", to: "utc_now", interval: "6h") {
+      marketcap
+    }
+  }
+  addressesWatchlists: watchlists(type: BLOCKCHAIN_ADDRESS) {
+    ...generalFragment
+    stats {
+      blockchainAddressesCount
+    }
+  }
+  triggers {
+    ...triggersCommon
+  }
+  insightsCount {
+    totalCount
+  }
+`
+
+const getProfileActivitiesQuery = (isCurrentUser) => {
+  if (isCurrentUser) {
+    return gql`
+      query getUser {
+        currentUser {
+          ${SHARED_ACTIVITIES_FIELDS}
+        }
+      }
+      ${TRIGGERS_COMMON_FRAGMENT}
+      ${SHORT_WATCHLIST_FRAGMENT}
+    `
+  }
+  return gql`
+    query getUser($userId: ID, $username: String) {
+      getUser(selector: { id: $userId, username: $username }) {
+        ${SHARED_ACTIVITIES_FIELDS}
+      }
+    }
+    ${TRIGGERS_COMMON_FRAGMENT}
+    ${SHORT_WATCHLIST_FRAGMENT}
+  `
+}
+
+export const useProfileActivities = (profileId, currentUserId) => {
+  const isCurrentUser = profileId === currentUserId
+  const QUERY = getProfileActivitiesQuery(isCurrentUser)
+  const query = useQuery(
+    QUERY,
+    !isCurrentUser && {
+      variables: {
+        userId: +profileId,
+      },
+    },
+  )
+  const KEY = isCurrentUser ? 'currentUser' : 'getUser'
+
+  return useMemo(() => {
+    const { data, loading, error } = query
+
+    return {
+      data: data ? data[KEY] : {},
+      loading,
+      error,
+    }
+  }, [query])
+}
+
 export const PUBLIC_USER_DATA_QUERY = gql`
   query getUser($userId: ID, $username: String) {
     getUser(selector: { id: $userId, username: $username }) {
       id
       email
       username
+      name
       avatarUrl
-      watchlists {
-        ...generalFragment
-        historicalStats(from: "utc_now-7d", to: "utc_now", interval: "6h") {
-          marketcap
-        }
-      }
-      addressesWatchlists: watchlists(type: BLOCKCHAIN_ADDRESS) {
-        ...generalFragment
-        stats {
-          blockchainAddressesCount
-        }
-      }
-      triggers {
-        ...triggersCommon
-      }
-      insightsCount {
-        totalCount
-      }
     }
   }
-  ${TRIGGERS_COMMON_FRAGMENT}
-  ${SHORT_WATCHLIST_FRAGMENT}
+`
+
+export const PUBLIC_CURRENT_USER_DATA_QUERY = gql`
+  query getUser {
+    currentUser {
+      id
+      email
+      username
+      name
+      avatarUrl
+    }
+  }
 `
 
 export const PUBLIC_USER_FOLLOWERS_DATA_QUERY = gql`
@@ -88,8 +150,8 @@ export const useOldUserFollowersFollowing = ({ userId, username }) => {
     skip: !userId && !username,
     variables: {
       userId: +userId,
-      username
-    }
+      username,
+    },
   })
 
   return useMemo(() => {
@@ -98,7 +160,7 @@ export const useOldUserFollowersFollowing = ({ userId, username }) => {
     return {
       data: data ? data.followData : {},
       loading,
-      error
+      error,
     }
   }, [query])
 }
@@ -122,16 +184,13 @@ export const updateFollowersList = (followers, follow, unfollow, userId) => {
 export const updateFollowingList = (usersList, userData) => {
   const isInList = usersList.users.some(({ id }) => +id === +userData.id)
   const { users } = usersList
-
   if (isInList) {
     const { id: followerId } = userData
     usersList.users = users.filter(({ id }) => +id !== +followerId)
   } else {
     users.push({
-      username: '',
-      avatarUrl: '',
       __typename: 'User',
-      ...userData
+      ...userData,
     })
     usersList.users = [...users]
   }
@@ -146,40 +205,33 @@ export const updateCurrentUserFollowQueryCache = (
   queryVariables,
   userId,
   followingUser,
-  currentUserId
+  currentUserId,
 ) => {
   update({ queryVariables, follow, unfollow, cache, followingUser, userId })
 
   if (currentUserId) {
     update({
       queryVariables: {
-        userId: +currentUserId
+        userId: +currentUserId,
       },
       cache,
       followingUser: {
-        id: queryVariables.userId
-      }
+        id: queryVariables.userId,
+      },
     })
   }
 }
 
-const update = ({
-  queryVariables,
-  follow,
-  unfollow,
-  cache,
-  followingUser,
-  userId
-}) => {
+const update = ({ queryVariables, follow, unfollow, cache, followingUser, userId }) => {
   const data = cloneDeep(
     cache.readQuery({
       query: PUBLIC_USER_FOLLOWERS_DATA_QUERY,
-      variables: queryVariables
-    })
+      variables: queryVariables,
+    }),
   )
 
   const {
-    followData: { followers, following }
+    followData: { followers, following },
   } = data
 
   if (followingUser) {
@@ -191,6 +243,6 @@ const update = ({
   cache.writeQuery({
     query: PUBLIC_USER_FOLLOWERS_DATA_QUERY,
     variables: queryVariables,
-    data: { ...data }
+    data: { ...data },
   })
 }

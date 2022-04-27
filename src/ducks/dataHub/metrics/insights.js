@@ -12,5 +12,5 @@ export const Insights = {
   [Metric.nvt.key]: [5627, 4260, 2043],
   [Metric.mvrv_usd.key]: [5643, 5639, 5620],
   [Metric.daily_active_addresses.key]: [5639, 5632, 4991],
-  [Metric.network_growth.key]: [5639, 5627, 2959]
+  [Metric.network_growth.key]: [5639, 5627, 2959],
 }

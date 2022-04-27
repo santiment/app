@@ -13,20 +13,20 @@ const style = {
     color: COLOR.rhino,
     fontFamily: 'Proxima Nova, sans-serif',
     '::placeholder': {
-      color: COLOR.casper
-    }
+      color: COLOR.casper,
+    },
   },
   invalid: {
-    color: COLOR.persimmon
-  }
+    color: COLOR.persimmon,
+  },
 }
 
 const nightStyle = {
   ...style,
   base: {
     ...style.base,
-    color: COLOR.mystic
-  }
+    color: COLOR.mystic,
+  },
 }
 
 const CardInformation = () => {
@@ -36,12 +36,7 @@ const CardInformation = () => {
     <div className={styles.card}>
       <label className={cx(styles.label, styles.label_card)}>
         Full name
-        <Input
-          className={styles.input}
-          placeholder='John Doe'
-          required
-          name='name'
-        />
+        <Input className={styles.input} placeholder='John Doe' required name='name' />
       </label>
 
       <label className={cx(styles.label, styles.label_card)}>
@@ -56,32 +51,17 @@ const BillingAddress = () => (
   <div className={styles.address}>
     <label className={cx(styles.label, styles.label_card)}>
       Country
-      <Input
-        className={styles.input}
-        name='address_country'
-        placeholder='US'
-        required
-      />
+      <Input className={styles.input} name='address_country' placeholder='US' required />
     </label>
 
     <label className={cx(styles.label, styles.label_card)}>
       State / Region
-      <Input
-        className={styles.input}
-        placeholder='e.g. California'
-        name='address_state'
-        required
-      />
+      <Input className={styles.input} placeholder='e.g. California' name='address_state' required />
     </label>
 
     <label className={cx(styles.label, styles.label_card)}>
       City
-      <Input
-        className={styles.input}
-        placeholder='e.g. Sacramento'
-        name='address_city'
-        required
-      />
+      <Input className={styles.input} placeholder='e.g. Sacramento' name='address_city' required />
     </label>
 
     <label className={cx(styles.label, styles.label_card)}>
@@ -103,7 +83,7 @@ const CheckoutForm = ({
   price,
   changeSelectedPlan,
   hasCompletedTrial,
-  subscription
+  subscription,
 }) => (
   <div className={styles.wrapper}>
     <div className={styles.card}>

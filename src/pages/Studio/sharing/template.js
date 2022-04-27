@@ -1,13 +1,13 @@
 import { Metric } from 'studio/metrics'
 import { parseWidget, parseWidgets } from './parse'
 
-export const newChartWidget = metrics =>
+export const newChartWidget = (metrics) =>
   parseWidget({
     widget: 'ChartWidget',
-    metrics
+    metrics,
   })
 
-export function parseTemplate (template) {
+export function parseTemplate(template) {
   const { options, metrics, comparables } = template
 
   if (options) {
@@ -19,21 +19,21 @@ export function parseTemplate (template) {
   return [newChartWidget(metrics)]
 }
 
-export function translateMultiChartToWidgets (metrics, comparables = []) {
+export function translateMultiChartToWidgets(metrics, comparables = []) {
   const allMetrics = metrics.concat(comparables)
   if (metrics.length + comparables.length < 2) {
     return [newChartWidget(allMetrics)]
   }
 
   let priceMetric
-  const noPriceMetrics = allMetrics.filter(metric => {
+  const noPriceMetrics = allMetrics.filter((metric) => {
     if (metric !== Metric.price_usd.key) return true
 
     priceMetric = metric
     return false
   })
 
-  return noPriceMetrics.map(metric =>
-    newChartWidget(priceMetric ? [priceMetric, metric] : [metric])
+  return noPriceMetrics.map((metric) =>
+    newChartWidget(priceMetric ? [priceMetric, metric] : [metric]),
   )
 }

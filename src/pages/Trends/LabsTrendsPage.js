@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 import cx from 'classnames'
+import { track } from 'webkit/analytics'
 import Button from '@santiment-network/ui/Button'
 import TrendsSearchForm from '../../components/Trends/Search'
 import Suggestions from '../../components/Trends/Search/Suggestions'
@@ -26,7 +27,7 @@ const TrendsHeader = () => {
   )
 }
 
-function formatDate (dateStr) {
+function formatDate(dateStr) {
   const date = new Date(dateStr)
   const { DD, MMM, YY } = getDateFormats(date)
   const { HH, mm } = getTimeFormats(date)
@@ -35,6 +36,10 @@ function formatDate (dateStr) {
 
 const LabsTrendsPage = ({ history, datetime, defaultSelectedPeriod }) => {
   const [selectedPeriod, setSelectedPeriod] = useState(defaultSelectedPeriod)
+
+  useEffect(() => {
+    track.pageview('sanbase')
+  }, [])
 
   useEffect(() => {
     if (selectedPeriod && datetime !== selectedPeriod.to) {
@@ -58,10 +63,7 @@ const LabsTrendsPage = ({ history, datetime, defaultSelectedPeriod }) => {
     <DashboardLayout showMobileHeader={false} classes={styles}>
       <Helmet>
         <title>Today’s Top Social Gainers in Crypto - Sanbase</title>
-        <meta
-          property='og:title'
-          content='Today’s Top Social Gainers in Crypto - Sanbase'
-        />
+        <meta property='og:title' content='Today’s Top Social Gainers in Crypto - Sanbase' />
         <meta
           property='og:description'
           content='Top 10 words with the biggest spike on crypto social media (compared to their previous 2-week average). These are the biggest developing stories in crypto.'
@@ -78,13 +80,7 @@ const LabsTrendsPage = ({ history, datetime, defaultSelectedPeriod }) => {
       </MobileOnly>
 
       <div className={externalStyles.header}>
-        <div
-          className={cx(
-            externalStyles.inner,
-            externalStyles.content,
-            styles.headerContent
-          )}
-        >
+        <div className={cx(externalStyles.inner, externalStyles.content, styles.headerContent)}>
           <div className={externalStyles.pageDescription}>
             <h3 className={externalStyles.title}>
               <DesktopOnly>
@@ -112,22 +108,11 @@ const LabsTrendsPage = ({ history, datetime, defaultSelectedPeriod }) => {
           {/*  daysClassName={styles.daysSelectorDays} */}
           {/*  onDayChange={changeDay} */}
           {/* /> */}
-          <div
-            className={cx(
-              styles.daysSelector,
-              !selectedPeriod && styles.daysSelectorHide
-            )}
-          >
+          <div className={cx(styles.daysSelector, !selectedPeriod && styles.daysSelectorHide)}>
             {selectedPeriod && (
               <>
-                <span>{`You are observing Top 10 word for ${formatDate(
-                  selectedPeriod.to
-                )}`}</span>
-                <Button
-                  border
-                  className={styles.switch}
-                  onClick={() => setSelectedPeriod(null)}
-                >
+                <span>{`You are observing Top 10 word for ${formatDate(selectedPeriod.to)}`}</span>
+                <Button border className={styles.switch} onClick={() => setSelectedPeriod(null)}>
                   Switch to the latest trends
                 </Button>
               </>
@@ -140,17 +125,13 @@ const LabsTrendsPage = ({ history, datetime, defaultSelectedPeriod }) => {
   )
 }
 
-export default props => {
+export default (props) => {
   const datetime = getDatetimeFromUrl()
   const defaultSelectedPeriod = datetime
     ? { ...getTimePeriod(datetime.toString(), '4h'), interval: '1h' }
     : null
 
   return (
-    <LabsTrendsPage
-      datetime={datetime}
-      defaultSelectedPeriod={defaultSelectedPeriod}
-      {...props}
-    />
+    <LabsTrendsPage datetime={datetime} defaultSelectedPeriod={defaultSelectedPeriod} {...props} />
   )
 }

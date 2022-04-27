@@ -7,50 +7,43 @@ import Panel from '@santiment-network/ui/Panel/Panel'
 import styles from './Widgets.module.scss'
 
 const Widgets = ({ widgets, setWidgets }) => {
-  const {
-    isPriceChartActive,
-    isMovement,
-    isPriceTreeMap,
-    isVolumeTreeMap
-  } = widgets
+  const { isPriceChartActive, isMovement, isPriceTreeMap, isVolumeTreeMap } = widgets
 
   const priceToggle = useCallback(
-    isPriceChartActive => {
+    (isPriceChartActive) => {
       setWidgets({ ...widgets, isPriceChartActive })
     },
-    [widgets]
+    [widgets],
   )
   const togglePriceTreeMap = useCallback(
-    isPriceTreeMap => {
+    (isPriceTreeMap) => {
       setWidgets({ ...widgets, isPriceTreeMap })
     },
-    [widgets]
+    [widgets],
   )
   const toggleVolumeTreeMap = useCallback(
-    isVolumeTreeMap => {
+    (isVolumeTreeMap) => {
       setWidgets({ ...widgets, isVolumeTreeMap })
     },
-    [widgets]
+    [widgets],
   )
   const movementToggle = useCallback(
-    isMovement => {
+    (isMovement) => {
       setWidgets({ ...widgets, isMovement })
     },
-    [widgets]
+    [widgets],
   )
 
   return (
     <ContextMenu
       trigger={
         <Button
+          border={true}
           variant='flat'
           className={cx(
             styles.triggerButton,
-            (isPriceChartActive ||
-              isPriceTreeMap ||
-              isVolumeTreeMap ||
-              isMovement) &&
-              styles.triggerButton__active
+            (isPriceChartActive || isPriceTreeMap || isVolumeTreeMap || isMovement) &&
+              styles.triggerButton__active,
           )}
           icon='view-option'
         >
@@ -128,11 +121,8 @@ const SVGs = [
   <svg width='14' height='14' fill='none'>
     <path fill='#8358FF' d='M7 0h7v14H7z' opacity='.6' />
     <path fill='#76E5C2' d='M0 0h7v14H0z' />
-    <path
-      fill='#FFAD4D'
-      d='M12.5 2.2l-3.7 8-4-1.6-2.4 3.7-.8-.6 2.7-4.3 4 1.5 3.2-7.1 1 .4z'
-    />
-  </svg>
+    <path fill='#FFAD4D' d='M12.5 2.2l-3.7 8-4-1.6-2.4 3.7-.8-.6 2.7-4.3 4 1.5 3.2-7.1 1 .4z' />
+  </svg>,
 ]
 
 export default Widgets

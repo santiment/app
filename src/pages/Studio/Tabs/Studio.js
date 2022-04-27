@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useRef, useEffect, useCallback } from 'react'
 import { newGlobalShortcut } from 'webkit/utils/events'
 import { globals } from 'studio/stores/globals'
 import { mapview } from 'studio/stores/mapview'
@@ -7,6 +7,47 @@ import Header from '../Header'
 import Widget from '../Widget'
 import Subwidgets from '../Subwidgets'
 import Sidewidget from '../Sidewidget'
+import { useUserSubscription } from '../../../stores/user/subscriptions'
+import PlanPaymentDialog from '../../../components/Plans/PlanPaymentDialog'
+import { usePlans } from '../../../ducks/Plans/hooks'
+import { getAlternativeBillingPlan } from '../../../utils/plans'
+
+const PaymentDialog = ({ subscription }) => {
+  const [plans] = usePlans()
+  const showPaymentRef = useRef()
+  const planRef = useRef({})
+  const { id, name, amount, interval } = planRef.current
+
+  const Trigger = useCallback(({ onClick }) => {
+    showPaymentRef.current = onClick
+    return null
+  }, [])
+
+  useEffect(() => {
+    window.showPaymentDialog = () => {
+      if (!planRef.current) {
+        planRef.current = getAlternativeBillingPlan(plans, subscription.plan)
+      }
+
+      if (showPaymentRef.current) showPaymentRef.current()
+    }
+
+    return () => {
+      delete window.showPaymentDialog
+    }
+  }, [])
+
+  return (
+    <PlanPaymentDialog
+      subscription={subscription}
+      title={name}
+      price={amount}
+      planId={+id}
+      billing={interval}
+      Trigger={Trigger}
+    />
+  )
+}
 
 const StudioTab = ({
   studio,
@@ -18,9 +59,10 @@ const StudioTab = ({
   modRange,
   InsightsStore,
   prevFullUrlRef,
-  subwidgetsController
+  subwidgetsController,
 }) => {
   const History = useHistory(studio)
+  const { subscription } = useUserSubscription()
 
   useEffect(() => {
     const unsubL = newGlobalShortcut('L', () => globals.toggle('isNewDrawing'))
@@ -55,7 +97,7 @@ const StudioTab = ({
       />
 
       {widgets.map(
-        widget =>
+        (widget) =>
           widget.container && (
             <Widget
               key={widget.id}
@@ -64,7 +106,7 @@ const StudioTab = ({
               settings={settings}
               InsightsStore={InsightsStore}
             />
-          )
+          ),
       )}
 
       {sidewidget && (
@@ -83,6 +125,8 @@ const StudioTab = ({
         settings={settings}
         modRange={modRange}
       />
+
+      {subscription && <PaymentDialog subscription={subscription} />}
     </>
   )
 }

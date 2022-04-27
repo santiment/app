@@ -6,22 +6,22 @@ import styles from './AlertsFilter.module.scss'
 export const filters = {
   ALL: 'all',
   ENABLED: 'enabled',
-  DISABLED: 'disabled'
+  DISABLED: 'disabled',
 }
 
 const filterOptions = [
   {
     index: filters.ALL,
-    content: 'All signals'
+    content: 'All signals',
   },
   {
     index: filters.ENABLED,
-    content: 'Show only enabled'
+    content: 'Show only enabled',
   },
   {
     index: filters.DISABLED,
-    content: 'Show only disabled'
-  }
+    content: 'Show only disabled',
+  },
 ]
 
 const AlertsFilter = ({ onSelect, selectedFilter = 'all' }) => {

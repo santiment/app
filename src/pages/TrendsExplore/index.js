@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
+import { track } from 'webkit/analytics'
 import Icon from '@santiment-network/ui/Icon'
 import SocialTool from '../SocialTool'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
@@ -30,12 +31,13 @@ const TrendsExplore = ({ topic, addedTopics, history, isDesktop }) => {
     if (projects.length === 0) return EMPTY_MAP
 
     const newLinkedAssets = new Map()
-    topics.forEach(topic =>
-      newLinkedAssets.set(topic, getProjectInfo(projects, topic, topic))
-    )
+    topics.forEach((topic) => newLinkedAssets.set(topic, getProjectInfo(projects, topic, topic)))
     return newLinkedAssets
   }, [topics, projects])
 
+  useEffect(() => {
+    track.pageview('sanbase')
+  }, [topic])
   useEffect(() => topics.forEach(addRecentTrends), [topics])
   useEffect(() => {
     if (topic !== '') {
@@ -47,7 +49,7 @@ const TrendsExplore = ({ topic, addedTopics, history, isDesktop }) => {
     }
   }, [topic, addedTopics])
 
-  function updTopics (newTopics) {
+  function updTopics(newTopics) {
     if (newTopics !== topics) {
       const { origin } = window.location
       const addedTopics = newTopics.slice(1)
@@ -75,7 +77,7 @@ const TrendsExplore = ({ topic, addedTopics, history, isDesktop }) => {
         title={pageTitle}
         meta={[
           { property: 'og:title', content: pageTitle },
-          { property: 'og:description', content: pageDescription }
+          { property: 'og:description', content: pageDescription },
         ]}
       />
       <div className={styles.layout}>
@@ -95,7 +97,7 @@ const TrendsExplore = ({ topic, addedTopics, history, isDesktop }) => {
               classes={{
                 wrapper: styles.mobileHeader,
                 left: styles.mobileHeader__left,
-                searchBtn: styles.mobileHeader__search
+                searchBtn: styles.mobileHeader__search,
               }}
               title='Social context'
             />
@@ -135,9 +137,5 @@ const TrendsExplore = ({ topic, addedTopics, history, isDesktop }) => {
 }
 
 export default ({ match: { params = {} } = {}, ...rest }) => (
-  <TrendsExplore
-    topic={safeDecode(params.word)}
-    addedTopics={getTopicsFromUrl()}
-    {...rest}
-  />
+  <TrendsExplore topic={safeDecode(params.word)} addedTopics={getTopicsFromUrl()} {...rest} />
 )

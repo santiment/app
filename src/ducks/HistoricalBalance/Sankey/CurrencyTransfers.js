@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import Button from '@santiment-network/ui/Button'
-import Select from '@santiment-network/ui/Search/Select/Select'
+import Select from '@santiment-network/ui/Select/Select'
 import { getCurrencyTransfers } from './currencies'
 import Title from './Title'
 import { useProjects } from '../../../stores/projects'
 import styles from './index.module.scss'
 
 const EMPTY = []
-const useTickerRank = projects =>
+const useTickerRank = (projects) =>
   useMemo(() => {
     const TickerRank = {}
     for (let i = 0; i < projects.length; i++) {
@@ -51,17 +51,14 @@ const CurrencyTransfers = ({ address, currency, setCurrency }) => {
 
     const sorted = rawCurrencies
       .slice()
-      .sort(
-        ({ symbol: a }, { symbol: b }) =>
-          (TickerRank[a] || 99999) - (TickerRank[b] || 99999)
-      )
+      .sort(({ symbol: a }, { symbol: b }) => (TickerRank[a] || 99999) - (TickerRank[b] || 99999))
 
     setCurrency(sorted[0])
     return sorted
   }, [rawCurrencies, TickerRank])
 
   useEffect(() => {
-    getCurrencyTransfers(address).then(currencies => {
+    getCurrencyTransfers(address).then((currencies) => {
       setCurrencies(currencies)
     })
   }, [address])

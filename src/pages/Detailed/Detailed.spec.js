@@ -8,24 +8,24 @@ import Detailed from './Detailed'
 
 jest.mock('../../components/Insight/comments/Comments.js', () => ({
   __esModule: true,
-  default: () => <div />
+  default: () => <div />,
 }))
 
 jest.mock('../../components/Insight/PulseInsight/index.js', () => ({
   __esModule: true,
-  default: () => <div />
+  default: () => <div />,
 }))
 
 describe('Project detail page container', () => {
   it('it should render correctly', () => {
     const store = configureStore([])({
       user: {
-        data: {}
+        data: {},
       },
-      rootUi: {}
+      rootUi: {},
     })
     const match = {
-      params: { ticker: 'AE' }
+      params: { ticker: 'AE' },
     }
 
     const pdp = shallow(
@@ -35,11 +35,11 @@ describe('Project detail page container', () => {
             id: 12,
             name: 'Aragorn',
             ticker: 'AE',
-            priceUsd: 10
+            priceUsd: 10,
           }}
           match={match}
         />
-      </Provider>
+      </Provider>,
     )
 
     expect(toJson(pdp)).toMatchSnapshot()

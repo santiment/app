@@ -3,10 +3,9 @@ import Cropper from 'react-easy-crop'
 import Dialog from '@santiment-network/ui/Dialog'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import getCroppedImg from './utils'
-import ImageUpload, {
-  extractUploadedImageUrl
-} from '../../../../components/ImageUpload'
+import ImageUpload, { extractUploadedImageUrl } from '../../../../components/ImageUpload'
 import styles from './ImageEditor.module.scss'
 
 const MAX_ZOOM = 2
@@ -25,15 +24,16 @@ const ImageEditor = ({
   setOpen,
   onChangeUrl,
   isOpen,
-  title
+  title,
+  withRemoveButton = false,
+  saving,
 }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [rotation, setRotation] = useState(0)
   const [zoom, setZoom] = useState(MIN_ZOOM)
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
 
-  const onZoomChange = value =>
-    setZoom(Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, value)))
+  const onZoomChange = (value) => setZoom(Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, value)))
 
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels)
@@ -45,11 +45,7 @@ const ImageEditor = ({
 
   const showCroppedImage = useCallback(async () => {
     try {
-      const croppedImage = await getCroppedImg(
-        imageUrl,
-        croppedAreaPixels,
-        rotation
-      )
+      const croppedImage = await getCroppedImg(imageUrl, croppedAreaPixels, rotation)
 
       onChange(croppedImage)
     } catch (e) {
@@ -57,7 +53,7 @@ const ImageEditor = ({
     }
   }, [croppedAreaPixels, rotation])
 
-  const onUploaded = data => {
+  const onUploaded = (data) => {
     const url = extractUploadedImageUrl(data)
 
     if (url) {
@@ -96,45 +92,63 @@ const ImageEditor = ({
 
         <div className={styles.actions}>
           <div className={styles.sliderContainer}>
-            <OnStepChange
-              onClick={() => onZoomChange(zoom - STEP_ZOOM)}
-              className={styles.zoomMin}
-            />
+            {!saving && imageUrl && (
+              <>
+                <OnStepChange
+                  onClick={() => onZoomChange(zoom - STEP_ZOOM)}
+                  className={styles.zoomMin}
+                />
 
-            <input
-              type='range'
-              step={STEP_ZOOM}
-              min={MIN_ZOOM}
-              max={MAX_ZOOM}
-              value={zoom}
-              onChange={event => onZoomChange(event.target.value)}
-              className={styles.slider}
-            />
+                <input
+                  type='range'
+                  step={STEP_ZOOM}
+                  min={MIN_ZOOM}
+                  max={MAX_ZOOM}
+                  value={zoom}
+                  onChange={(event) => onZoomChange(event.target.value)}
+                  className={styles.slider}
+                />
 
-            <OnStepChange
-              onClick={() => onZoomChange(zoom + STEP_ZOOM)}
-              className={styles.zoomMax}
-            />
+                <OnStepChange
+                  onClick={() => onZoomChange(zoom + STEP_ZOOM)}
+                  className={styles.zoomMax}
+                />
+              </>
+            )}
           </div>
 
           <div className={styles.btns}>
-            <Button border className={styles.addBtn}>
-              <ImageUpload
-                className={styles.fileLoader}
-                onUploaded={onUploaded}
-              />
-              Upload
-            </Button>
-            {imageUrl && (
-              <Button
-                variant='fill'
-                accent='positive'
-                disabled={!imageUrl}
-                className={styles.cropBtn}
-                onClick={showCroppedImage}
-              >
-                Update
-              </Button>
+            {saving ? (
+              <Loader />
+            ) : (
+              <>
+                {withRemoveButton && (
+                  <Button
+                    variant='flat'
+                    accent='negative'
+                    disabled={!imageUrl}
+                    className={styles.cropBtn}
+                    onClick={() => onChangeUrl('', false)}
+                  >
+                    Remove
+                  </Button>
+                )}
+                <Button border className={styles.addBtn}>
+                  <ImageUpload className={styles.fileLoader} onUploaded={onUploaded} />
+                  Upload
+                </Button>
+                {imageUrl && (
+                  <Button
+                    variant='fill'
+                    accent='positive'
+                    disabled={!imageUrl}
+                    className={styles.cropBtn}
+                    onClick={showCroppedImage}
+                  >
+                    Update
+                  </Button>
+                )}
+              </>
             )}
           </div>
         </div>

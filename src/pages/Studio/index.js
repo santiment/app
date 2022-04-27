@@ -7,7 +7,14 @@ import { selectedLayout } from 'studio/stores/layout'
 import Studio from './Studio'
 import URLExtension from './URLExtension'
 import RecentAssetExtension from './RecentAssetExtension'
-import { SHORT_URL_POSTFIX, getShortUrlHash } from './utils'
+import {
+  SHORT_URL_POSTFIX,
+  getShortUrlHash,
+  onAnonComment,
+  handleSavedComment,
+  handleLayoutCommentLink,
+  onDefaultLayoutAddressSelect,
+} from './utils'
 import { parseUrl } from './sharing/parse'
 import { parseTemplate } from './sharing/template'
 import { getIdFromSEOLink } from '../../utils/url'
@@ -15,10 +22,9 @@ import { getFullUrl } from '../../components/Share/utils'
 import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
 import PageLoader from '../../components/Loader/PageLoader'
 
-const parseLayout = layout =>
-  layout && queryLayout(+layout).then(selectedLayout.set)
+const parseLayout = (layout) => layout && queryLayout(+layout).then(selectedLayout.set)
 
-const Extensions = props => (
+const Extensions = (props) => (
   <>
     <URLExtension {...props} />
     <RecentAssetExtension settings={props.settings} />
@@ -37,16 +43,20 @@ export default ({ location }) => {
   const { pathname, search } = location
 
   useEffect(() => {
-    window.__onLinkClick = e => {
+    window.__onLinkClick = (e) => {
       e.preventDefault()
 
       const node = e.currentTarget
       const href = node.getAttribute('href')
       if (href) history.push(href)
     }
+    window.onAnonComment = onAnonComment
+    window.onDefaultLayoutAddressSelect = onDefaultLayoutAddressSelect
 
     return () => {
       window.__onLinkClick = null
+      window.onAnonComment = null
+      window.onDefaultLayoutAddressSelect = null
       selectedLayout.set()
     }
   }, [])
@@ -70,11 +80,11 @@ export default ({ location }) => {
 
       setPrevTemplateId(templateId)
       queryLayout(+templateId)
-        .then(layout => {
+        .then((layout) => {
           if (isRacing) return
           const parsedUrl = {
             settings: layout.project,
-            widgets: parseTemplate(layout)
+            widgets: parseTemplate(layout),
           }
           if (!parsedUrl.settings.slug) {
             parsedUrl.settings.slug = 'bitcoin'
@@ -82,6 +92,8 @@ export default ({ location }) => {
           }
 
           selectedLayout.set(layout)
+          if (location.hash === '#comment') handleSavedComment(parsedUrl)
+          handleLayoutCommentLink(parsedUrl, search)
           setShortUrlHash()
           setSlug(parsedUrl.settings.slug || '')
           setParsedUrl(parsedUrl)
@@ -105,7 +117,7 @@ export default ({ location }) => {
     if (shortUrlHash === prevShortUrlHash) return
 
     getFullUrl(shortUrlHash)
-      .then(fullUrl => {
+      .then((fullUrl) => {
         if (isRacing) return
 
         setShortUrlHash(shortUrlHash)

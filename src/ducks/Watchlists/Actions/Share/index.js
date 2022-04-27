@@ -20,12 +20,12 @@ const Share = ({ watchlist, isAuthor, className, customLink }) => {
     }
   }, [watchlist.isPublic])
 
-  return isAuthor ? (
+  return (
     <ShareModalTrigger
       dialogTitle={`Share ${type}`}
       shareLink={customLink || shortShareLink}
       isDisabled={!isPublic}
-      trigger={props => (
+      trigger={(props) => (
         <Button
           {...props}
           className={cx(styles.trigger, className)}
@@ -36,23 +36,16 @@ const Share = ({ watchlist, isAuthor, className, customLink }) => {
         </Button>
       )}
     >
-      <div
-        className={cx(
-          styles.messageWrapper,
-          isPublic && styles.messageWrapper__hide
-        )}
-      >
+      <div className={cx(styles.messageWrapper, isPublic && styles.messageWrapper__hide)}>
         <Message variant='warn' className={styles.message}>
           Your {type} is private. Please, switch it to “Public” first.
         </Message>
       </div>
-      <PublicityToggle
-        variant='flat'
-        watchlist={watchlist}
-        className={styles.toggle}
-      />
+      {isAuthor && (
+        <PublicityToggle variant='flat' watchlist={watchlist} className={styles.toggle} />
+      )}
     </ShareModalTrigger>
-  ) : null
+  )
 }
 
 export default Share

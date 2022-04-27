@@ -8,7 +8,7 @@ import SonarFeedRecommendations from './SonarFeedRecommendations'
 const SignalsList = ({ filters, userId, showRecommendations = true }) => {
   const { data: signals = [], loading } = useSignals({
     filters,
-    skip: !userId
+    skip: !userId,
   })
   const hasSignals = signals && signals.length > 0
 
@@ -28,7 +28,7 @@ const SignalsList = ({ filters, userId, showRecommendations = true }) => {
 }
 
 const mapStateToProps = ({ user }) => ({
-  userId: user && user.data ? user.data.id : undefined
+  userId: user && user.data ? user.data.id : undefined,
 })
 
 export default connect(mapStateToProps)(SignalsList)

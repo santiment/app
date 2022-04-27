@@ -38,6 +38,7 @@ export const CREATE_TRIGGER_QUERY = gql`
         description
         cooldown
         isActive
+        isFrozen
         tags {
           name
         }
@@ -50,78 +51,70 @@ export const createSignalEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.SIGNAL_CREATE)
     .debounceTime(200)
-    .switchMap(
-      ({ payload: { tags = [], __typename, isActive, ...trigger } }) => {
-        const create = client.mutate({
-          mutation: CREATE_TRIGGER_QUERY,
-          variables: {
-            ...trigger,
-            tags
+    .switchMap(({ payload: { tags = [], __typename, isActive, ...trigger } }) => {
+      const create = client.mutate({
+        mutation: CREATE_TRIGGER_QUERY,
+        variables: {
+          ...trigger,
+          tags,
+        },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          createTrigger: {
+            __typename: 'UserTrigger',
+            userId: -1,
+            trigger: {
+              __typename: 'Trigger',
+              ...trigger,
+              tags,
+              isActive: false,
+              id: -1,
+            },
           },
-          optimisticResponse: {
-            __typename: 'Mutation',
-            createTrigger: {
-              __typename: 'UserTrigger',
-              userId: -1,
-              trigger: {
-                __typename: 'Trigger',
-                ...trigger,
-                tags,
-                isActive: false,
-                id: -1
-              }
+        },
+        update: (proxy, newData) => {
+          let data = proxy.readQuery({ query: TRIGGERS_QUERY })
+          try {
+            const newTrigger = {
+              ...newData.data.createTrigger.trigger,
             }
-          },
-          update: (proxy, newData) => {
-            let data = proxy.readQuery({ query: TRIGGERS_QUERY })
-            try {
-              const newTrigger = {
-                ...newData.data.createTrigger.trigger
-              }
 
-              if (newTrigger.id > 0 && data.currentUser.triggers.length === 0) {
-                GA.event(GA_FIRST_SIGNAL)
-              }
-
-              data.currentUser.triggers = [
-                ...data.currentUser.triggers,
-                newTrigger
-              ]
-            } catch {
-              /* handle error */
+            if (newTrigger.id > 0 && data.currentUser.triggers.length === 0) {
+              GA.event(GA_FIRST_SIGNAL)
             }
-            proxy.writeQuery({ query: TRIGGERS_QUERY, data })
+
+            data.currentUser.triggers = [...data.currentUser.triggers, newTrigger]
+          } catch {
+            /* handle error */
           }
-        })
+          proxy.writeQuery({ query: TRIGGERS_QUERY, data })
+        },
+      })
 
-        return Observable.fromPromise(create)
-          .mergeMap(props => {
-            const {
-              data: {
-                createTrigger: { trigger }
-              }
-            } = props
-            return Observable.merge(
-              Observable.of({
-                type: actions.SIGNAL_CREATE_SUCCESS,
-                payload: trigger
+      return Observable.fromPromise(create)
+        .mergeMap((props) => {
+          const {
+            data: {
+              createTrigger: { trigger },
+            },
+          } = props
+          return Observable.merge(
+            Observable.of({
+              type: actions.SIGNAL_CREATE_SUCCESS,
+              payload: trigger,
+            }),
+            Observable.of(
+              showNotification({
+                title: 'Alert was succesfully created',
+                description: (
+                  <SignalNotificationActions signal={trigger} toLink={'/alerts/' + trigger.id} />
+                ),
               }),
-              Observable.of(
-                showNotification({
-                  title: 'Alert was succesfully created',
-                  description: (
-                    <SignalNotificationActions
-                      signal={trigger}
-                      toLink={'/alerts/' + trigger.id}
-                    />
-                  )
-                })
-              )
-            )
-          })
-          .catch(handleErrorAndTriggerAction(actions.SIGNAL_CREATE_FAILED))
-      }
-    )
+            ),
+          )
+        })
+        .catch(handleErrorAndTriggerAction(actions.SIGNAL_CREATE_FAILED))
+    })
 
 export const TRIGGER_TOGGLE_QUERY = gql`
   mutation updateTrigger($id: Int, $isActive: Boolean) {
@@ -135,40 +128,38 @@ export const TRIGGER_TOGGLE_QUERY = gql`
 `
 
 export const toggleSignalEpic = (action$, store, { client }) =>
-  action$
-    .ofType(actions.SIGNAL_TOGGLE_BY_ID)
-    .switchMap(({ payload: { id, isActive } }) => {
-      const toggle = client.mutate({
-        mutation: TRIGGER_TOGGLE_QUERY,
-        variables: {
-          id,
-          isActive
+  action$.ofType(actions.SIGNAL_TOGGLE_BY_ID).switchMap(({ payload: { id, isActive } }) => {
+    const toggle = client.mutate({
+      mutation: TRIGGER_TOGGLE_QUERY,
+      variables: {
+        id,
+        isActive,
+      },
+      optimisticResponse: {
+        __typename: 'Mutation',
+        updateTrigger: {
+          __typename: 'UserTrigger',
+          userId: -1,
+          trigger: {
+            __typename: 'Trigger',
+            id,
+            isActive,
+          },
         },
-        optimisticResponse: {
-          __typename: 'Mutation',
-          updateTrigger: {
-            __typename: 'UserTrigger',
-            userId: -1,
-            trigger: {
-              __typename: 'Trigger',
-              id,
-              isActive
-            }
-          }
-        }
-      })
-
-      return Observable.fromPromise(toggle)
-        .mergeMap(({ data: { updateTrigger } }) => {
-          return Observable.of({
-            type: actions.SIGNAL_TOGGLE_SUCCESS,
-            payload: {
-              id: updateTrigger.trigger.id
-            }
-          })
-        })
-        .catch(handleErrorAndTriggerAction(actions.SIGNAL_TOGGLE_FAILED))
+      },
     })
+
+    return Observable.fromPromise(toggle)
+      .mergeMap(({ data: { updateTrigger } }) => {
+        return Observable.of({
+          type: actions.SIGNAL_TOGGLE_SUCCESS,
+          payload: {
+            id: updateTrigger.trigger.id,
+          },
+        })
+      })
+      .catch(handleErrorAndTriggerAction(actions.SIGNAL_TOGGLE_FAILED))
+  })
 
 export const HISTORICAL_TRIGGER_POINTS_QUERY = gql`
   query historicalTriggerPoints($cooldown: String, $settings: json!) {
@@ -178,7 +169,7 @@ export const HISTORICAL_TRIGGER_POINTS_QUERY = gql`
 
 export const TRIGGER_UPDATE_QUERY = gql`
   mutation updateTrigger(
-    $id: Int
+    $id: Int!
     $title: String
     $description: String
     $cooldown: String
@@ -205,6 +196,7 @@ export const TRIGGER_UPDATE_QUERY = gql`
         cooldown
         iconUrl
         isActive
+        isFrozen
         isRepeating
         settings
       }
@@ -218,7 +210,7 @@ export const updateSignalEpic = (action$, store, { client }) =>
     .switchMap(({ payload: { tags, __typename, ...trigger } }) => {
       const toggle = client.mutate({
         mutation: TRIGGER_UPDATE_QUERY,
-        variables: { ...trigger }
+        variables: { ...trigger },
       })
 
       return Observable.fromPromise(toggle)
@@ -226,9 +218,9 @@ export const updateSignalEpic = (action$, store, { client }) =>
           return Observable.merge(
             Observable.of({
               type: actions.SIGNAL_UPDATE_SUCCESS,
-              payload: updateTrigger.trigger
+              payload: updateTrigger.trigger,
             }),
-            Observable.of(showNotification('Alert was succesfully updated'))
+            Observable.of(showNotification('Alert was succesfully updated')),
           )
         })
         .catch(handleErrorAndTriggerAction(actions.SIGNAL_UPDATE_FAILED))
@@ -245,56 +237,49 @@ export const TRIGGER_REMOVE_QUERY = gql`
 `
 
 export const removeSignalEpic = (action$, store, { client }) =>
-  action$
-    .ofType(actions.SIGNAL_REMOVE_BY_ID)
-    .switchMap(({ payload: { id } }) => {
-      const toggle = client.mutate({
-        mutation: TRIGGER_REMOVE_QUERY,
-        variables: { id },
-        optimisticResponse: {
-          __typename: 'Mutation',
-          removeTrigger: {
-            __typename: 'UserTrigger',
-            userId: -1,
-            trigger: {
-              __typename: 'Trigger',
-              id
-            }
-          }
+  action$.ofType(actions.SIGNAL_REMOVE_BY_ID).switchMap(({ payload: { id } }) => {
+    const toggle = client.mutate({
+      mutation: TRIGGER_REMOVE_QUERY,
+      variables: { id },
+      optimisticResponse: {
+        __typename: 'Mutation',
+        removeTrigger: {
+          __typename: 'UserTrigger',
+          userId: -1,
+          trigger: {
+            __typename: 'Trigger',
+            id,
+          },
         },
-        update: proxy => {
-          let data = proxy.readQuery({ query: TRIGGERS_QUERY })
-          if (data.currentUser.triggers) {
-            data.currentUser.triggers = data.currentUser.triggers.filter(
-              obj => +obj.id !== +id
-            )
-            proxy.writeQuery({ query: TRIGGERS_QUERY, data })
-          }
+      },
+      update: (proxy) => {
+        let data = proxy.readQuery({ query: TRIGGERS_QUERY })
+        if (data.currentUser.triggers) {
+          data.currentUser.triggers = data.currentUser.triggers.filter((obj) => +obj.id !== +id)
+          proxy.writeQuery({ query: TRIGGERS_QUERY, data })
         }
-      })
-
-      return Observable.fromPromise(toggle)
-        .mergeMap(({ data: { removeTrigger } }) => {
-          return Observable.merge(
-            Observable.of({
-              type: actions.SIGNAL_REMOVE_BY_ID_SUCCESS,
-              payload: { id: removeTrigger.trigger.id }
-            }),
-            Observable.of(showNotification('Alert has been removed'))
-          )
-        })
-        .catch(action => {
-          return Observable.merge(
-            handleErrorAndTriggerAction(actions.SIGNAL_REMOVE_BY_ID_FAILED)(
-              action,
-              { id }
-            ),
-            Observable.of(
-              showNotification({
-                title: 'Alert has not been removed',
-                variant: 'error'
-              })
-            )
-          )
-        })
+      },
     })
+
+    return Observable.fromPromise(toggle)
+      .mergeMap(({ data: { removeTrigger } }) => {
+        return Observable.merge(
+          Observable.of({
+            type: actions.SIGNAL_REMOVE_BY_ID_SUCCESS,
+            payload: { id: removeTrigger.trigger.id },
+          }),
+          Observable.of(showNotification('Alert has been removed')),
+        )
+      })
+      .catch((action) => {
+        return Observable.merge(
+          handleErrorAndTriggerAction(actions.SIGNAL_REMOVE_BY_ID_FAILED)(action, { id }),
+          Observable.of(
+            showNotification({
+              title: 'Alert has not been removed',
+              variant: 'error',
+            }),
+          ),
+        )
+      })
+  })

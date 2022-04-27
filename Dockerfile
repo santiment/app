@@ -8,9 +8,9 @@ ENV NODE_ENV=${NODE_ENV}
 ARG REACT_APP_BACKEND_URL
 ENV REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL}
 ARG GIT_HEAD
-RUN GIT_HEAD=$GIT_HEAD
+ENV GIT_HEAD=$GIT_HEAD
 # Tini - https://github.com/krallin/tini#why-tini
-RUN apk add --no-cache tini
+RUN apk --no-cache add git tini
 ENTRYPOINT ["/sbin/tini", "--"]
 WORKDIR /opt/san/app
 COPY . /opt/san/app
@@ -24,14 +24,11 @@ RUN test -s .node_modules.tar.gz \
 
 # ---- Deps ----
 FROM base AS deps
-RUN apk --no-cache add git
 # Install library dependencies
-RUN npm config set depth 0
-RUN npm config set package-lock true
+RUN npm config set depth 0 && npm config set package-lock true
 ENV NODE_ENV=development
 RUN if [ "$CI" = "true" ] ; then npm ci --no-audit --progress=false; else npm i --no-progress --no-audit --prefer-offline; fi
-RUN npx patch-package
-RUN npm cache clean --force
+RUN npx patch-package && npm cache clean --force
 
 # ---- Execution Dev ----
 FROM base AS dev
@@ -54,5 +51,5 @@ ENV NODE_ENV=production
 ARG REACT_APP_BACKEND_URL
 ENV REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL}
 ARG GIT_HEAD
-RUN GIT_HEAD=$GIT_HEAD
+ENV GIT_HEAD=$GIT_HEAD
 COPY --from=builder /opt/san/app/build /opt/san/app/build

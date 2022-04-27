@@ -7,8 +7,8 @@ export const MATRIX = [
       'dex_traders_to_cexes_flow',
       'dex_traders_to_defi_flow',
       'dex_traders_to_whale_flow',
-      'dex_traders_to_other_flow'
-    ]
+      'dex_traders_to_other_flow',
+    ],
   },
 
   {
@@ -19,8 +19,8 @@ export const MATRIX = [
       'dex_to_cexes_flow',
       'dexes_to_defi_flow',
       'dexes_to_whale_flow',
-      'dexes_to_other_flow'
-    ]
+      'dexes_to_other_flow',
+    ],
   },
 
   {
@@ -31,8 +31,8 @@ export const MATRIX = [
       null, /// 'cexes_to_cexes_flow',
       'cexes_to_defi_flow',
       'cexes_to_whale_flow',
-      'cexes_to_other_flow'
-    ]
+      'cexes_to_other_flow',
+    ],
   },
 
   {
@@ -43,8 +43,8 @@ export const MATRIX = [
       'defi_to_cexes_flow',
       null, /// 'defi_to_defi_flow',
       'defi_to_whale_flow',
-      'defi_to_other_flow'
-    ]
+      'defi_to_other_flow',
+    ],
   },
 
   {
@@ -55,8 +55,8 @@ export const MATRIX = [
       'whale_to_cexes_flow',
       'whale_to_defi_flow',
       null, /// 'whale_to_whale_flow',
-      'whale_to_other_flow'
-    ]
+      'whale_to_other_flow',
+    ],
   },
 
   {
@@ -67,9 +67,9 @@ export const MATRIX = [
       'other_to_cexes_flow',
       'other_to_defi_flow',
       'other_to_whale_flow',
-      null /// 'other_to_other_flow',
-    ]
-  }
+      null, /// 'other_to_other_flow',
+    ],
+  },
 ]
 export const MATRIX_SIZE = MATRIX.length
 export const LABELS = MATRIX.map(({ label }) => label)

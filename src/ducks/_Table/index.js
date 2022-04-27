@@ -4,15 +4,15 @@ import { FluidSkeleton as Skeleton } from '../../components/Skeleton'
 import NoDataImage from '../../components/Illustrations/NoData'
 import styles from './index.module.scss'
 
-export function prepareColumns (columns) {
-  columns.forEach(column => {
+export function prepareColumns(columns) {
+  columns.forEach((column) => {
     column.id = column.id || column.key || column.title
   })
 
   return columns
 }
 
-function minRowsPadding (minRows, columns, { length }) {
+function minRowsPadding(minRows, columns, { length }) {
   if (length >= minRows) return null
 
   const rowsToAdd = minRows - length
@@ -39,24 +39,27 @@ const Table = ({
   itemProps,
   isLoading,
   getItemKey,
-  onRowClick
+  onRowClick,
+  isWithColumnTitles = true,
+  emptySection,
 }) => (
   <table className={cx(styles.wrapper, className)}>
-    <thead>
-      <tr>
-        {columns.map(({ id, title, Title }) => (
-          <th key={id}>{Title ? <Title {...itemProps} /> : title}</th>
-        ))}
-      </tr>
-    </thead>
+    {isWithColumnTitles && (
+      <thead>
+        <tr>
+          {columns.map(({ id, title, Title }) => (
+            <th key={id}>{Title ? <Title {...itemProps} /> : title}</th>
+          ))}
+        </tr>
+      </thead>
+    )}
     <tbody>
       {items.map((item, i) => {
         const itemIndex = offset + i
-
         return (
           <tr
             key={getItemKey ? getItemKey(item) : item[itemKeyProperty]}
-            onClick={onRowClick && (e => onRowClick(item, e))}
+            onClick={onRowClick && ((e) => onRowClick(item, e))}
           >
             {columns.map(({ id, render, className }) => (
               <td key={id} className={className}>
@@ -70,9 +73,9 @@ const Table = ({
     </tbody>
     <caption>
       <Skeleton show={isLoading} className={styles.skeleton} />
-      {!isLoading && items.length === 0 && (
-        <NoDataImage className={styles.nodata} />
-      )}
+      {!isLoading &&
+        items.length === 0 &&
+        (emptySection || <NoDataImage className={styles.nodata} />)}
     </caption>
   </table>
 )
@@ -82,7 +85,7 @@ Table.defaultProps = {
   itemProps: {},
   itemKeyProperty: 'id',
   minRows: 0,
-  offset: 0
+  offset: 0,
 }
 
 export default Table

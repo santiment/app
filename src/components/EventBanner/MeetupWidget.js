@@ -50,11 +50,7 @@ const MeetupWidget = () => {
           </a>
         </div>
         <div className={styles.closeContainer}>
-          <Icon
-            type='close-medium'
-            className={styles.close}
-            onClick={hideTooltip}
-          />
+          <Icon type='close-medium' className={styles.close} onClick={hideTooltip} />
         </div>
       </div>
     </section>

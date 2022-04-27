@@ -8,20 +8,20 @@ export const useTimelineEvents = ({ to = 'utc_now', type, author }) => {
     date: to,
     filterBy: {
       type,
-      author
-    }
+      author,
+    },
   })
 
   const { data, loading, error } = useQuery(TIMELINE_EVENTS_QUERY, {
     variables: variables,
-    fetchPolicy: 'network-only'
+    fetchPolicy: 'network-only',
   })
 
   return useMemo(() => {
     return {
       data: data ? data.timelineEvents[0] : undefined,
       loading,
-      error
+      error,
     }
   }, [data, loading, error])
 }

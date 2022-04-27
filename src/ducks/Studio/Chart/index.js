@@ -52,7 +52,7 @@ const Chart = ({
   onRangeSelected,
   onRangeSelecting,
   onDeleteChartClick,
-  syncTooltips
+  syncTooltips,
 }) => {
   const { isLoggedIn } = useUser()
   const chartCursor = useChartCursorType(CursorType.FREE)
@@ -65,22 +65,13 @@ const Chart = ({
   const [focusTimer, setFocusTimer] = useState()
   const [metricSettings, setMetricSettings] = useState()
   const MetricColor = useMetricColor()
-  const HighlightedMetricColor = useHighlightMetricColor(
-    MetricColor,
-    focusedMetricKey
-  )
+  const HighlightedMetricColor = useHighlightMetricColor(MetricColor, focusedMetricKey)
   const domainGroups = useDomainGroups(metrics)
   const mirrorDomainGroups = useMemo(() => {
     const mirrorDomains = extractMirrorMetricsDomainGroups(domainGroups) || []
-    return mirrorDomains.concat(
-      extractIndicatorDomainGroups(widget.MetricIndicators)
-    )
+    return mirrorDomains.concat(extractIndicatorDomainGroups(widget.MetricIndicators))
   }, [domainGroups])
-  const [allTimeData] = useAllTimeData(
-    metrics,
-    settings,
-    widget.MetricSettingMap
-  )
+  const [allTimeData] = useAllTimeData(metrics, settings, widget.MetricSettingMap)
   const isBlurred = !isLoggedIn && index > 1
   const scale = options.isLogScale ? logScale : linearScale
 
@@ -92,7 +83,7 @@ const Chart = ({
     setMetricSettings()
   }, [metrics])
 
-  function onMetricHover (metric, { currentTarget }) {
+  function onMetricHover(metric, { currentTarget }) {
     const { parentNode } = currentTarget
     // HACK: For some reason, fast pointer movement can trigger 'mouseenter' but not 'mouseleave'
     // Hence, a metric might be stucked in the highlighted state [@vanguard | Jun 14, 2020]
@@ -101,16 +92,16 @@ const Chart = ({
         if (parentNode.querySelector(':hover')) {
           setFocusedMetricKey(metric.key)
         }
-      }, 60)
+      }, 60),
     )
   }
 
-  function onMetricHoverEnd () {
+  function onMetricHoverEnd() {
     clearTimeout(focusTimer)
     setFocusedMetricKey()
   }
 
-  function onBrushChangeEnd (startIndex, endIndex) {
+  function onBrushChangeEnd(startIndex, endIndex) {
     const start = allTimeData[startIndex]
     const end = allTimeData[endIndex]
     if (start && end) {
@@ -123,11 +114,11 @@ const Chart = ({
     }
   }
 
-  function onMetricSettingsClick (metric) {
+  function onMetricSettingsClick(metric) {
     setMetricSettings(metric === metricSettings ? undefined : metric)
   }
 
-  function onMetricRemove (metric) {
+  function onMetricRemove(metric) {
     if (metric === metricSettings) {
       setMetricSettings()
     }
@@ -245,9 +236,7 @@ const Chart = ({
         options={options}
         cursorType={chartCursor.cursorType}
         drawings={widget.drawings}
-        domainGroups={
-          isDomainGroupingActive ? domainGroups : mirrorDomainGroups
-        }
+        domainGroups={isDomainGroupingActive ? domainGroups : mirrorDomainGroups}
         selectedLineState={selectedLineState}
         isDrawingState={isDrawingState}
         isNewDrawingState={isNewDrawingState}

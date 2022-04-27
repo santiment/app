@@ -20,12 +20,12 @@ const PulseInsights = () => {
     <Query
       query={PULSE_INSIGHTS_BY_PAGE_QUERY}
       variables={{
-        page
+        page,
       }}
       notifyOnNetworkStatusChange={true}
       fetchPolicy='network-only'
     >
-      {props => {
+      {(props) => {
         const { data, loading } = props
 
         if (!data) {
@@ -51,11 +51,10 @@ class InsightsList extends React.Component {
 
   state = {
     list: this.props.insights,
-    isEnd:
-      this.props.insights && this.props.insights.length < MAX_INSIGHTS_COUNT
+    isEnd: this.props.insights && this.props.insights.length < MAX_INSIGHTS_COUNT,
   }
 
-  handleScroll = debounce(event => {
+  handleScroll = debounce((event) => {
     const wrappedElement = document.getElementById('root')
 
     if (!this.props.isLoading && isBottom(wrappedElement) && !this.unmounted) {
@@ -63,7 +62,7 @@ class InsightsList extends React.Component {
     }
   })
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     const { insights } = nextProps
 
     const [insight] = insights
@@ -72,28 +71,28 @@ class InsightsList extends React.Component {
       const { list } = this.state
       if (!list.find(({ id }) => id === insight.id)) {
         this.setState({
-          list: [...list, ...insights]
+          list: [...list, ...insights],
         })
       }
     }
 
     if (!insight || insights.length < MAX_INSIGHTS_COUNT) {
       this.setState({
-        isEnd: true
+        isEnd: true,
       })
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     window.addEventListener('scroll', this.handleScroll, true)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.unmounted = true
     window.removeEventListener('scroll', this.handleScroll)
   }
 
-  render () {
+  render() {
     const { list } = this.state
     const { isLoading } = this.props
 
@@ -104,7 +103,7 @@ class InsightsList extends React.Component {
         <RenderFeedGroups
           groups={grouped}
           groupRenderer={({ items }) => {
-            return items.map(insight => (
+            return items.map((insight) => (
               <PulseInsightWrapper
                 key={insight.id}
                 insight={insight}

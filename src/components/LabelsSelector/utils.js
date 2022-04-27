@@ -1,20 +1,20 @@
 export const HOLDERS_LABELS = [
   {
     label: 'Exchange',
-    type: 'exchange'
+    type: 'exchange',
   },
   {
     label: 'Infrastructure',
-    type: 'infrastructure'
+    type: 'infrastructure',
   },
   {
     label: 'Miner',
-    type: 'miner'
+    type: 'miner',
   },
   {
     label: 'Whale',
-    type: 'whale'
-  }
+    type: 'whale',
+  },
 ]
 
 /* // GarageInc: 7.04.2021 Temporary hidden, because 'non' labels work only with negative holders query
@@ -44,5 +44,5 @@ export const DISABLED_PAIRS = {
   miner: 'nonMiner',
   nonMiner: 'miner',
   infrastructure: 'nonInfrastructure',
-  nonInfrastructure: 'infrastructure'
+  nonInfrastructure: 'infrastructure',
 }

@@ -53,7 +53,7 @@ import {
   AMOUNT_ABS_CHANGE_UP_MODEL,
   AMOUNT_ABS_CHANGE_DOWN_MODEL,
   PRICE_ABS_CHANGE_BELOW_OR_EQUAL,
-  PRICE_ABS_CHANGE_ABOVE_OR_EQUAL
+  PRICE_ABS_CHANGE_ABOVE_OR_EQUAL,
 } from './constants'
 import { capitalizeStr } from '../../../utils/utils'
 import { formatNumber } from '../../../utils/formatting'
@@ -61,12 +61,12 @@ import { Metric } from '../../dataHub/metrics'
 import { useWatchlist } from '../../Watchlists/gql/hooks'
 import {
   isDailyMetric,
-  SIGNAL_SUPPORTED_METRICS
+  SIGNAL_SUPPORTED_METRICS,
 } from '../signalFormManager/signalCrudForm/formParts/metricTypes/metrics'
 import { findWebHook } from '../signalFormManager/signalCrudForm/formParts/channels/hooks'
 import { SCREENER_DEFAULT_SIGNAL } from '../ScreenerSignal/utils'
 
-export const mapToOptions = input => {
+export const mapToOptions = (input) => {
   if (!input) {
     return []
   }
@@ -78,47 +78,40 @@ export const mapToOptions = input => {
   }
 }
 
-export const mapToOption = item => {
+export const mapToOption = (item) => {
   if (typeof item === 'object') {
     const value = targetMapper(item)
     return {
       value,
-      label: value
+      label: value,
     }
   } else {
     return {
       value: item,
-      label: item
+      label: item,
     }
   }
 }
 
-export const targetMapper = ({
-  value,
-  slug,
-  address,
-  watchlist_id,
-  currency
-} = {}) => slug || value || currency || address || watchlist_id
-export const targetMapperWithName = ({ value, slug, name } = {}) =>
-  name || slug || value
+export const targetMapper = ({ value, slug, address, watchlist_id, currency } = {}) =>
+  slug || value || currency || address || watchlist_id
+export const targetMapperWithName = ({ value, slug, name } = {}) => name || slug || value
 
-export const targetMapperWithTicker = ({ value, slug, ticker } = {}) =>
-  ticker || slug || value
+export const targetMapperWithTicker = ({ value, slug, ticker } = {}) => ticker || slug || value
 
-const getTimeWindowUnit = timeWindow => {
+const getTimeWindowUnit = (timeWindow) => {
   if (!timeWindow) return undefined
 
   const value = timeWindow.replace(/[0-9]/g, '')
-  return TIME_WINDOW_UNITS.find(item => item.value === value)
+  return TIME_WINDOW_UNITS.find((item) => item.value === value)
 }
 
-const getFormTriggerTarget = settings => {
+const getFormTriggerTarget = (settings) => {
   const {
     target = {},
     target: { eth_address, address = eth_address, text } = {},
     selector,
-    asset
+    asset,
   } = settings
   const { slug, watchlist_id } = target
 
@@ -127,15 +120,15 @@ const getFormTriggerTarget = settings => {
       signalType: METRIC_TARGET_WATCHLIST,
 
       targetWatchlist: {
-        value: watchlist_id
-      }
+        value: watchlist_id,
+      },
     }
   }
 
   if (text) {
     return {
       signalType: METRIC_TARGET_TEXT,
-      textSelector: mapToOption(text)
+      textSelector: mapToOption(text),
     }
   }
 
@@ -150,10 +143,10 @@ const getFormTriggerTarget = settings => {
       ethAddress: newEthAddress,
       target: selector
         ? {
-            slug: selector.slug || selector.currency
+            slug: selector.slug || selector.currency,
           }
         : asset,
-      signalType: METRIC_TARGET_ASSETS
+      signalType: METRIC_TARGET_ASSETS,
     }
   }
 
@@ -161,7 +154,7 @@ const getFormTriggerTarget = settings => {
 
   return {
     target: newTarget,
-    signalType: METRIC_TARGET_ASSETS
+    signalType: METRIC_TARGET_ASSETS,
   }
 }
 
@@ -176,7 +169,7 @@ const getFormTriggerType = ({ target, type, operation }) => {
       }
       default: {
         return {
-          value: type
+          value: type,
         }
       }
     }
@@ -250,7 +243,7 @@ const getTriggerOperation = ({
   absoluteBorderRight,
   absoluteBorderLeft,
   percentThresholdLeft,
-  percentThresholdRight
+  percentThresholdRight,
 }) => {
   if (!type) {
     return undefined
@@ -285,7 +278,7 @@ const getTriggerOperation = ({
     case PRICE_CHANGE_TYPES.PERCENT_SOME_OF: {
       mapped[value] = [
         { [PRICE_CHANGE_TYPES.MOVING_UP]: percentThresholdLeft },
-        { [PRICE_CHANGE_TYPES.MOVING_DOWN]: percentThresholdRight }
+        { [PRICE_CHANGE_TYPES.MOVING_DOWN]: percentThresholdRight },
       ]
       break
     }
@@ -297,9 +290,9 @@ const getTriggerOperation = ({
   return mapped
 }
 
-const makeSubmetric = metric => ({
+const makeSubmetric = (metric) => ({
   key: metric,
-  label: capitalizeStr(metric.replace(/_/g, ' '))
+  label: capitalizeStr(metric.replace(/_/g, ' ')),
 })
 
 const getFormMetric = ({ type, metric }) => {
@@ -315,10 +308,7 @@ const getFormMetric = ({ type, metric }) => {
           return PRICE_METRIC
         }
         default: {
-          return (
-            SIGNAL_SUPPORTED_METRICS.find(({ key }) => key === metric) ||
-            makeSubmetric(metric)
-          )
+          return SIGNAL_SUPPORTED_METRICS.find(({ key }) => key === metric) || makeSubmetric(metric)
         }
       }
     }
@@ -353,7 +343,7 @@ const getFormMetric = ({ type, metric }) => {
   }
 }
 
-export const getOperationType = operation => {
+export const getOperationType = (operation) => {
   return Object.keys(operation)[0]
 }
 
@@ -365,7 +355,7 @@ const getAbsolutePriceValues = ({ settings: { operation } }) => {
       case PRICE_CHANGE_TYPES.ABOVE:
       case PRICE_CHANGE_TYPES.BELOW: {
         return {
-          absoluteThreshold: operation[operationType]
+          absoluteThreshold: operation[operationType],
         }
       }
       case PRICE_CHANGE_TYPES.INSIDE_CHANNEL:
@@ -373,7 +363,7 @@ const getAbsolutePriceValues = ({ settings: { operation } }) => {
         const [left, right] = operation[operationType]
         return {
           absoluteBorderLeft: left,
-          absoluteBorderRight: right
+          absoluteBorderRight: right,
         }
       }
       default: {
@@ -408,7 +398,7 @@ const getFormTrendingWords = ({ settings: { operation, target } }) => {
   switch (operationType) {
     case TRENDING_WORDS_WORD_MENTIONED.value: {
       return {
-        trendingWordsWithWords: mapToOptions(target.word)
+        trendingWordsWithWords: mapToOptions(target.word),
       }
     }
     default: {
@@ -425,7 +415,7 @@ export const mapFormPropsToScreenerTrigger = ({ formProps, signal }) => {
     description,
     title,
     isActive,
-    cooldown
+    cooldown,
   }
 
   trigger.settings.channel = getChannels(formProps)
@@ -433,16 +423,14 @@ export const mapFormPropsToScreenerTrigger = ({ formProps, signal }) => {
   return trigger
 }
 
-export const extractTimeWindowForm = time_window => {
+export const extractTimeWindowForm = (time_window) => {
   return {
     timeWindow: time_window ? +time_window.match(/\d+/)[0] : '24',
-    timeWindowUnit: time_window
-      ? getTimeWindowUnit(time_window)
-      : TIME_WINDOW_UNITS[0]
+    timeWindowUnit: time_window ? getTimeWindowUnit(time_window) : TIME_WINDOW_UNITS[0],
   }
 }
 
-export const mapTriggerToFormProps = currentTrigger => {
+export const mapTriggerToFormProps = (currentTrigger) => {
   if (!currentTrigger || !currentTrigger.settings) {
     return {}
   }
@@ -454,19 +442,14 @@ export const mapTriggerToFormProps = currentTrigger => {
     settings,
     title,
     description,
-    settings: { time_window, channel }
+    settings: { time_window, channel },
   } = currentTrigger
 
   const frequencyModels = getFrequencyFromCooldown(currentTrigger)
   const absolutePriceValues = getAbsolutePriceValues(currentTrigger)
 
-  const {
-    target,
-    signalType,
-    ethAddress,
-    targetWatchlist,
-    textSelector
-  } = getFormTriggerTarget(settings)
+  const { target, signalType, ethAddress, targetWatchlist, textSelector } =
+    getFormTriggerTarget(settings)
   const newType = getFormTriggerType(settings)
 
   const trendingWordsParams = getFormTrendingWords(currentTrigger)
@@ -488,43 +471,30 @@ export const mapTriggerToFormProps = currentTrigger => {
     ...getPercentTreshold(settings, newType),
 
     threshold: mapTriggerToFormThreshold(settings) || BASE_THRESHOLD,
-    channels: Array.isArray(channel)
-      ? channel.map(mapToFormChannel)
-      : [mapToFormChannel(channel)],
+    channels: Array.isArray(channel) ? channel.map(mapToFormChannel) : [mapToFormChannel(channel)],
     ...frequencyModels,
     ...absolutePriceValues,
     ...trendingWordsParams,
-    title: clipText(
-      Array.isArray(title) ? title.join(' ') : title,
-      MAX_TITLE_LENGTH
-    ),
-    description: clipText(description || '', MAX_DESCR_LENGTH)
+    title: clipText(Array.isArray(title) ? title.join(' ') : title, MAX_TITLE_LENGTH),
+    description: clipText(description || '', MAX_DESCR_LENGTH),
   }
 }
 
-const getPercentTreshold = (
-  { type, operation, percent_threshold: percentThreshold },
-  newType
-) => {
-  const parsedThreshold = operation
-    ? operation[Object.keys(operation)[0]]
-    : BASE_PERCENT_THRESHOLD
+const getPercentTreshold = ({ type, operation, percent_threshold: percentThreshold }, newType) => {
+  const parsedThreshold = operation ? operation[Object.keys(operation)[0]] : BASE_PERCENT_THRESHOLD
 
   if (newType && newType.value === PRICE_CHANGE_TYPES.PERCENT_SOME_OF) {
     return {
       percentThresholdLeft:
-        operation[PRICE_CHANGE_TYPES.PERCENT_SOME_OF][0][
-          PRICE_CHANGE_TYPES.MOVING_UP
-        ] || BASE_PERCENT_THRESHOLD,
+        operation[PRICE_CHANGE_TYPES.PERCENT_SOME_OF][0][PRICE_CHANGE_TYPES.MOVING_UP] ||
+        BASE_PERCENT_THRESHOLD,
       percentThresholdRight:
-        operation[PRICE_CHANGE_TYPES.PERCENT_SOME_OF][1][
-          PRICE_CHANGE_TYPES.MOVING_DOWN
-        ] || BASE_PERCENT_THRESHOLD
+        operation[PRICE_CHANGE_TYPES.PERCENT_SOME_OF][1][PRICE_CHANGE_TYPES.MOVING_DOWN] ||
+        BASE_PERCENT_THRESHOLD,
     }
   } else {
     return {
-      percentThreshold:
-        parsedThreshold || percentThreshold || BASE_PERCENT_THRESHOLD
+      percentThreshold: parsedThreshold || percentThreshold || BASE_PERCENT_THRESHOLD,
     }
   }
 }
@@ -532,7 +502,7 @@ const getPercentTreshold = (
 const getCooldownParams = ({ frequencyTimeType, frequencyTimeValue }) => {
   const cooldown = frequencyTimeValue.value + frequencyTimeType.value
   return {
-    cooldown: cooldown
+    cooldown: cooldown,
   }
 }
 
@@ -546,7 +516,7 @@ const getFrequencyFromCooldown = ({ cooldown }) => {
     case COOLDOWN_TYPES.hourly:
     case COOLDOWN_TYPES.daily:
     case COOLDOWN_TYPES.weekly: {
-      frequencyType = FREQUENCY_TYPES_OPTIONS.find(item => item.value === type)
+      frequencyType = FREQUENCY_TYPES_OPTIONS.find((item) => item.value === type)
       break
     }
     default: {
@@ -555,14 +525,14 @@ const getFrequencyFromCooldown = ({ cooldown }) => {
     }
   }
 
-  const frequencyTimeType = FREQUENCY_VALUES.find(item => item.value === type)
+  const frequencyTimeType = FREQUENCY_VALUES.find((item) => item.value === type)
   const frequencyTimeValue = mapToOption(value)
 
   return {
     frequencyType: frequencyType,
     frequencyTimeType: frequencyTimeType,
     frequencyTimeValue: frequencyTimeValue,
-    cooldown: original
+    cooldown: original,
   }
 }
 
@@ -574,7 +544,7 @@ export const mapFormTargetToTriggerTarget = (
   targetWatchlist,
   textSelector,
   signalType = {},
-  address
+  address,
 ) => {
   const { value } = signalType
 
@@ -582,23 +552,23 @@ export const mapFormTargetToTriggerTarget = (
     case METRIC_TARGET_WATCHLIST.value: {
       return {
         target: {
-          watchlist_id: targetWatchlist ? +targetWatchlist.id : undefined
-        }
+          watchlist_id: targetWatchlist ? +targetWatchlist.id : undefined,
+        },
       }
     }
     case METRIC_TARGET_TEXT.value: {
       return {
-        target: { text: textSelector ? mapTargetObject(textSelector) : '' }
+        target: { text: textSelector ? mapTargetObject(textSelector) : '' },
       }
     }
     default: {
       if (address) {
         return {
-          target: { address: mapTargetObject(address) }
+          target: { address: mapTargetObject(address) },
         }
       } else {
         return {
-          target: { slug: mapTargetObject(target) }
+          target: { slug: mapTargetObject(target) },
         }
       }
     }
@@ -606,9 +576,7 @@ export const mapFormTargetToTriggerTarget = (
 }
 
 export const mapTargetObject = (target, mapper = targetMapper) => {
-  return Array.isArray(target)
-    ? getTargetFromArray(target, mapper)
-    : mapper(target)
+  return Array.isArray(target) ? getTargetFromArray(target, mapper) : mapper(target)
 }
 
 const getSelectorPartByInfrastructure = (infrastructure, target) => {
@@ -617,14 +585,14 @@ const getSelectorPartByInfrastructure = (infrastructure, target) => {
     case 'Own': {
       return {
         infrastructure: target.ticker || 'ETH',
-        slug: mapTargetObject(target)
+        slug: mapTargetObject(target),
       }
     }
     case 'BTC':
     case 'BCH':
     case 'LTC': {
       return {
-        slug: mapTargetObject(target)
+        slug: mapTargetObject(target),
       }
     }
 
@@ -632,12 +600,12 @@ const getSelectorPartByInfrastructure = (infrastructure, target) => {
     case 'EOS':
     case 'BNB': {
       return {
-        slug: mapTargetObject(target)
+        slug: mapTargetObject(target),
       }
     }
     case 'XRP': {
       return {
-        currency: mapTargetObject(target)
+        currency: mapTargetObject(target),
       }
     }
     default: {
@@ -654,14 +622,14 @@ export const mapHBAssetTarget = ({ target }) => {
   return {
     selector: {
       infrastructure,
-      ...additional
-    }
+      ...additional,
+    },
   }
 }
 
 const ETH_INFRASTRUCTURE = 'ETH'
 
-const mapTargetInfrastructure = target => {
+const mapTargetInfrastructure = (target) => {
   if (Array.isArray(target) && target[0] && target[0].infrastructure) {
     return target[0].infrastructure
   }
@@ -669,20 +637,19 @@ const mapTargetInfrastructure = target => {
   return target.infrastructure || ETH_INFRASTRUCTURE
 }
 
-const mapToTriggerChannel = formItem => {
+const mapToTriggerChannel = (formItem) => {
   if (typeof formItem === 'object') {
     return formItem
   }
 
   return CHANNELS_MAP.find(({ label }) => label === formItem).value
 }
-const mapToFormChannel = channelValue => {
+const mapToFormChannel = (channelValue) => {
   if (typeof channelValue === 'object') {
     return channelValue
   }
 
-  return CHANNELS_MAP.find(({ value }) => value === channelValue.toLowerCase())
-    .label
+  return CHANNELS_MAP.find(({ value }) => value === channelValue.toLowerCase()).label
 }
 
 export const getChannels = ({ channels }) => {
@@ -699,28 +666,27 @@ export const getChannels = ({ channels }) => {
   return channels.map(mapToTriggerChannel)
 }
 
-export const isTrendingWordsByProjects = type =>
+export const isTrendingWordsByProjects = (type) =>
   type.value === TRENDING_WORDS_PROJECT_MENTIONED.value
 
-export const isTrendingWordsByWords = type =>
-  type.value === TRENDING_WORDS_WORD_MENTIONED.value
+export const isTrendingWordsByWords = (type) => type.value === TRENDING_WORDS_WORD_MENTIONED.value
 
-export const isTrendingWordsByWatchlist = type =>
+export const isTrendingWordsByWatchlist = (type) =>
   type.value === TRENDING_WORDS_WATCHLIST_MENTIONED.value
 
 export const getTrendingWordsTriggerOperation = ({ type: { value }, type }) => {
   if (isTrendingWordsByWatchlist(type)) {
     return {
-      [TRENDING_WORDS_PROJECT_MENTIONED.value]: true
+      [TRENDING_WORDS_PROJECT_MENTIONED.value]: true,
     }
   }
 
   return {
-    [value]: true
+    [value]: true,
   }
 }
 
-export const mapTrendingWordsTargets = items => {
+export const mapTrendingWordsTargets = (items) => {
   if (Array.isArray(items)) {
     if (items.length === 1) {
       return targetMapper(items[0])
@@ -736,24 +702,22 @@ export const getTrendingWordsTarget = ({
   type,
   target,
   targetWatchlist,
-  trendingWordsWithWords
+  trendingWordsWithWords,
 }) => {
   switch (type.value) {
     case TRENDING_WORDS_WORD_MENTIONED.value: {
       return {
-        word: mapTrendingWordsTargets(trendingWordsWithWords)
+        word: mapTrendingWordsTargets(trendingWordsWithWords),
       }
     }
     case TRENDING_WORDS_PROJECT_MENTIONED.value: {
       return {
-        slug: mapTrendingWordsTargets(target)
+        slug: mapTrendingWordsTargets(target),
       }
     }
     case TRENDING_WORDS_WATCHLIST_MENTIONED.value: {
       return {
-        watchlist_id: targetWatchlist
-          ? +(targetWatchlist.id || targetWatchlist.value)
-          : undefined
+        watchlist_id: targetWatchlist ? +(targetWatchlist.id || targetWatchlist.value) : undefined,
       }
     }
     default: {
@@ -762,12 +726,12 @@ export const getTrendingWordsTarget = ({
   }
 }
 
-export const mapFormToTWTriggerSettings = formProps => {
+export const mapFormToTWTriggerSettings = (formProps) => {
   return {
     type: TRENDING_WORDS,
     channel: getChannels(formProps),
     target: getTrendingWordsTarget(formProps),
-    operation: getTrendingWordsTriggerOperation(formProps)
+    operation: getTrendingWordsTriggerOperation(formProps),
   }
 }
 
@@ -778,12 +742,10 @@ const getTimeWindow = ({ timeWindow, timeWindowUnit, metric }) => {
     return '1d'
   }
 
-  return timeWindow && timeWindowUnit
-    ? timeWindow + '' + timeWindowUnit.value
-    : undefined
+  return timeWindow && timeWindowUnit ? timeWindow + '' + timeWindowUnit.value : undefined
 }
 
-function getAlertType (key, type) {
+function getAlertType(key, type) {
   if (isDailyMetric(key)) {
     return METRIC_TYPES.DAILY_METRIC_SIGNAL
   }
@@ -791,20 +753,15 @@ function getAlertType (key, type) {
   return key ? METRIC_TYPES.METRIC_SIGNAL : type
 }
 
-export const mapFormToPPCTriggerSettings = formProps => {
+export const mapFormToPPCTriggerSettings = (formProps) => {
   const {
     target,
     targetWatchlist,
     signalType,
     textSelector,
-    metric: { type, metric, key }
+    metric: { type, metric, key },
   } = formProps
-  const newTarget = mapFormTargetToTriggerTarget(
-    target,
-    targetWatchlist,
-    textSelector,
-    signalType
-  )
+  const newTarget = mapFormTargetToTriggerTarget(target, targetWatchlist, textSelector, signalType)
 
   return {
     type: getAlertType(key, type),
@@ -812,48 +769,38 @@ export const mapFormToPPCTriggerSettings = formProps => {
     ...newTarget,
     channel: getChannels(formProps),
     time_window: getTimeWindow(formProps),
-    operation: getTriggerOperation(formProps)
+    operation: getTriggerOperation(formProps),
   }
 }
 
-export const mapFormToPACTriggerSettings = formProps => {
+export const mapFormToPACTriggerSettings = (formProps) => {
   const {
     target,
     targetWatchlist,
     signalType,
     textSelector,
-    metric: { key, type, metric }
+    metric: { key, type, metric },
   } = formProps
-  const newTarget = mapFormTargetToTriggerTarget(
-    target,
-    targetWatchlist,
-    textSelector,
-    signalType
-  )
+  const newTarget = mapFormTargetToTriggerTarget(target, targetWatchlist, textSelector, signalType)
   return {
     type: getAlertType(key, type),
     metric: key || metric,
     ...newTarget,
     channel: getChannels(formProps),
     operation: getTriggerOperation(formProps),
-    time_window: getTimeWindow(formProps)
+    time_window: getTimeWindow(formProps),
   }
 }
 
-export const mapFormToDAATriggerSettings = formProps => {
+export const mapFormToDAATriggerSettings = (formProps) => {
   const {
     target,
     signalType,
     targetWatchlist,
     textSelector,
-    metric: { type, metric }
+    metric: { type, metric },
   } = formProps
-  const newTarget = mapFormTargetToTriggerTarget(
-    target,
-    targetWatchlist,
-    textSelector,
-    signalType
-  )
+  const newTarget = mapFormTargetToTriggerTarget(target, targetWatchlist, textSelector, signalType)
 
   if (type.metric === PRICE_ABSOLUTE_CHANGE) {
     return {
@@ -862,7 +809,7 @@ export const mapFormToDAATriggerSettings = formProps => {
       ...newTarget,
       channel: getChannels(formProps),
       time_window: getTimeWindow(formProps),
-      operation: getTriggerOperation(formProps)
+      operation: getTriggerOperation(formProps),
     }
   } else {
     return {
@@ -871,42 +818,37 @@ export const mapFormToDAATriggerSettings = formProps => {
       ...newTarget,
       channel: getChannels(formProps),
       time_window: getTimeWindow(formProps),
-      operation: getTriggerOperation(formProps)
+      operation: getTriggerOperation(formProps),
     }
   }
 }
 
-export const mapFormToPVDTriggerSettings = formProps => {
+export const mapFormToPVDTriggerSettings = (formProps) => {
   const {
     target,
     targetWatchlist,
     signalType,
     textSelector,
-    metric: { type, metric }
+    metric: { type, metric },
   } = formProps
-  const newTarget = mapFormTargetToTriggerTarget(
-    target,
-    targetWatchlist,
-    textSelector,
-    signalType
-  )
+  const newTarget = mapFormTargetToTriggerTarget(target, targetWatchlist, textSelector, signalType)
   return {
     type: type || metric,
     metric,
     ...newTarget,
     channel: getChannels(formProps),
-    threshold: BASE_THRESHOLD
+    threshold: BASE_THRESHOLD,
   }
 }
 
-export const mapFormToHBTriggerSettings = formProps => {
+export const mapFormToHBTriggerSettings = (formProps) => {
   const {
     target,
     targetWatchlist,
     textSelector,
     ethAddress,
     signalType,
-    metric: { type, metric }
+    metric: { type, metric },
   } = formProps
 
   const newTarget = mapFormTargetToTriggerTarget(
@@ -914,7 +856,7 @@ export const mapFormToHBTriggerSettings = formProps => {
     targetWatchlist,
     textSelector,
     signalType,
-    ethAddress
+    ethAddress,
   )
 
   const newAsset = mapHBAssetTarget({ target })
@@ -925,7 +867,7 @@ export const mapFormToHBTriggerSettings = formProps => {
     ...newTarget,
     ...newAsset,
     channel: getChannels(formProps),
-    operation: getTriggerOperation(formProps)
+    operation: getTriggerOperation(formProps),
   }
 }
 
@@ -979,7 +921,7 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
     ...cooldownParams,
     isPublic: !!isPublic,
     title,
-    description
+    description,
   }
 }
 
@@ -996,14 +938,14 @@ export const isNewTypeSignal = ({ settings: { type } }) => {
 const HistoricalBalanceMetrics = {
   ...Metric.balance,
   key: 'historicalBalance',
-  queryKey: 'historicalBalance'
+  queryKey: 'historicalBalance',
 }
 
 export const getNewMetricsByType = ({ settings: { type, metric } }) => {
   const defaultValue = {
     metrics: [Metric.price_usd],
     triggersBy: Metric.price_usd,
-    historicalTriggersDataKey: 'current'
+    historicalTriggersDataKey: 'current',
   }
 
   switch (type) {
@@ -1011,7 +953,7 @@ export const getNewMetricsByType = ({ settings: { type, metric } }) => {
       return {
         metrics: [HistoricalBalanceMetrics, Metric.price_usd],
         triggersBy: HistoricalBalanceMetrics,
-        historicalTriggersDataKey: 'current'
+        historicalTriggersDataKey: 'current',
       }
     }
     case METRIC_TYPES.DAILY_METRIC_SIGNAL:
@@ -1022,19 +964,17 @@ export const getNewMetricsByType = ({ settings: { type, metric } }) => {
           return {
             metrics: [Metric.daily_active_addresses, Metric.price_usd],
             triggersBy: Metric.daily_active_addresses,
-            historicalTriggersDataKey: 'current'
+            historicalTriggersDataKey: 'current',
           }
         }
         default: {
-          const checkingMetric = SIGNAL_SUPPORTED_METRICS.find(
-            ({ key }) => key === metric
-          )
+          const checkingMetric = SIGNAL_SUPPORTED_METRICS.find(({ key }) => key === metric)
 
           if (checkingMetric) {
             return {
               metrics: [Metric.price_usd, checkingMetric],
               triggersBy: checkingMetric,
-              historicalTriggersDataKey: 'current'
+              historicalTriggersDataKey: 'current',
             }
           }
 
@@ -1047,41 +987,41 @@ export const getNewMetricsByType = ({ settings: { type, metric } }) => {
   }
 }
 
-export const getOldMetricsByType = type => {
+export const getOldMetricsByType = (type) => {
   switch (type) {
     case DAILY_ACTIVE_ADDRESSES:
       return {
         metrics: [Metric.daily_active_addresses, Metric.price_usd],
-        triggersBy: Metric.daily_active_addresses
+        triggersBy: Metric.daily_active_addresses,
       }
     case TRENDING_WORDS:
       return {
         metrics: [Metric.price_usd, Metric.social_volume_total],
-        triggersBy: Metric.price_usd
+        triggersBy: Metric.price_usd,
       }
     case PRICE_VOLUME_DIFFERENCE:
       return {
         metrics: [Metric.price_usd, Metric.volume_usd],
-        triggersBy: Metric.price_usd
+        triggersBy: Metric.price_usd,
       }
     case ETH_WALLET:
       return {
         metrics: [HistoricalBalanceMetrics, Metric.price_usd],
-        triggersBy: HistoricalBalanceMetrics
+        triggersBy: HistoricalBalanceMetrics,
       }
     default:
       return {
         metrics: [Metric.price_usd],
-        triggersBy: Metric.price_usd
+        triggersBy: Metric.price_usd,
       }
   }
 }
 
-export const getTimeRangeForChart = type => {
+export const getTimeRangeForChart = (type) => {
   return PREVIEWS_TIMERANGE_BY_TYPE[type] || getDefaultTimeRangeValue(90)
 }
 
-export const getNearestTypeByMetric = metric => {
+export const getNearestTypeByMetric = (metric) => {
   if (metric.key) {
     return PRICE_PERCENT_CHANGE_DOWN_MODEL
   }
@@ -1108,9 +1048,9 @@ export const getNearestTypeByMetric = metric => {
   }
 }
 
-export function getFrequencyTimeType (frequencyType) {
+export function getFrequencyTimeType(frequencyType) {
   if (frequencyType && frequencyType.availableTypes) {
-    return FREQUENCY_VALUES.filter(item => {
+    return FREQUENCY_VALUES.filter((item) => {
       return frequencyType.availableTypes.indexOf(item.value) !== -1
     })
   } else {
@@ -1118,40 +1058,35 @@ export function getFrequencyTimeType (frequencyType) {
   }
 }
 
-export function getFrequencyTimeValues (frequencyTimeType) {
-  return frequencyTimeType
-    ? FREQUENCY_MAPPINGS[frequencyTimeType.value]
-    : undefined
+export function getFrequencyTimeValues(frequencyTimeType) {
+  return frequencyTimeType ? FREQUENCY_MAPPINGS[frequencyTimeType.value] : undefined
 }
 
-export function getNearestFrequencyTimeValue (frequencyTimeType) {
+export function getNearestFrequencyTimeValue(frequencyTimeType) {
   const timeValues = getFrequencyTimeValues(frequencyTimeType)
   return timeValues[0]
 }
 
-export function getNearestFrequencyTypeValue (frequencyType) {
+export function getNearestFrequencyTypeValue(frequencyType) {
   return getFrequencyTimeType(frequencyType)[0]
 }
 
-export const isAsset = signalType =>
-  signalType.value === METRIC_TARGET_ASSETS.value
-export const isWatchlist = signalType =>
-  signalType.value === METRIC_TARGET_WATCHLIST.value
-export const isText = signalType =>
-  signalType.value === METRIC_TARGET_TEXT.value
+export const isAsset = (signalType) => signalType.value === METRIC_TARGET_ASSETS.value
+export const isWatchlist = (signalType) => signalType.value === METRIC_TARGET_WATCHLIST.value
+export const isText = (signalType) => signalType.value === METRIC_TARGET_TEXT.value
 
-export const validateTriggerForm = values => {
+export const validateTriggerForm = (values) => {
   const errors = {
     ...metricTypesBlockErrors(values),
     ...metricValuesBlockErrors(values),
     ...descriptionBlockErrors(values),
-    ...validateChannels(values)
+    ...validateChannels(values),
   }
 
   return errors
 }
 
-export const metricTypesBlockErrors = values => {
+export const metricTypesBlockErrors = (values) => {
   const {
     type,
     ethAddress,
@@ -1162,7 +1097,7 @@ export const metricTypesBlockErrors = values => {
     textSelector,
     trendingWordsWithWords,
     signalType,
-    isLoading
+    isLoading,
   } = values
 
   let errors = {}
@@ -1185,10 +1120,7 @@ export const metricTypesBlockErrors = values => {
         }
       }
     } else {
-      if (
-        isHbAddressError &&
-        (Array.isArray(target) ? target.length === 1 : !!target)
-      ) {
+      if (isHbAddressError && (Array.isArray(target) ? target.length === 1 : !!target)) {
         errors.ethAddress = NOT_VALID_HB_ADDRESS
       }
     }
@@ -1213,10 +1145,7 @@ export const metricTypesBlockErrors = values => {
         errors.textSelector = REQUIRED_MESSAGE
       }
     } else {
-      if (
-        !target ||
-        (Array.isArray(target) ? target.length === 0 : !target.value)
-      ) {
+      if (!target || (Array.isArray(target) ? target.length === 0 : !target.value)) {
         errors.target = REQUIRED_MESSAGE
       }
     }
@@ -1242,19 +1171,13 @@ const checkByKey = (errors, key, source, dependencies, allowZero = false) => {
   return errors
 }
 
-const isNil = value => value === null || value === undefined
+const isNil = (value) => value === null || value === undefined
 export const isPriceMetric = ({ value }) => value === PRICE
 
-export const metricValuesBlockErrors = values => {
+export const metricValuesBlockErrors = (values) => {
   let errors = {}
 
-  const {
-    type,
-    absoluteThreshold,
-    absoluteBorderLeft,
-    absoluteBorderRight,
-    metric
-  } = values
+  const { type, absoluteThreshold, absoluteBorderLeft, absoluteBorderRight, metric } = values
 
   if (!type) {
     return errors
@@ -1265,18 +1188,8 @@ export const metricValuesBlockErrors = values => {
   if (type.metric === PRICE_PERCENT_CHANGE) {
     if (type.dependencies) {
       errors = checkByKey(errors, 'percentThreshold', values, type.dependencies)
-      errors = checkByKey(
-        errors,
-        'percentThresholdLeft',
-        values,
-        type.dependencies
-      )
-      errors = checkByKey(
-        errors,
-        'percentThresholdRight',
-        values,
-        type.dependencies
-      )
+      errors = checkByKey(errors, 'percentThresholdLeft', values, type.dependencies)
+      errors = checkByKey(errors, 'percentThresholdRight', values, type.dependencies)
     }
   }
 
@@ -1311,7 +1224,7 @@ export const metricValuesBlockErrors = values => {
   return errors
 }
 
-export const validateChannels = values => {
+export const validateChannels = (values) => {
   let errors = {}
   const { channels } = values
 
@@ -1328,15 +1241,9 @@ export const validateChannels = values => {
   return errors
 }
 
-export const descriptionBlockErrors = values => {
+export const descriptionBlockErrors = (values) => {
   let errors = {}
-  const {
-    frequencyType,
-    frequencyTimeValue,
-    frequencyTimeType,
-    title,
-    description
-  } = values
+  const { frequencyType, frequencyTimeValue, frequencyTimeType, title, description } = values
 
   if (!frequencyType || !frequencyType.value) {
     errors.frequencyType = REQUIRED_MESSAGE
@@ -1364,7 +1271,7 @@ export const descriptionBlockErrors = values => {
   return errors
 }
 
-export const getCheckingMetric = settings => {
+export const getCheckingMetric = (settings) => {
   const { metric, type } = settings
 
   if (typeof type === 'string') {
@@ -1374,7 +1281,7 @@ export const getCheckingMetric = settings => {
   return metric ? metric.value : type
 }
 
-export const getPreviewTarget = settings => {
+export const getPreviewTarget = (settings) => {
   const { selector, asset, target, targetWatchlist } = settings
 
   const item = mapTargetObject(selector || target || asset || targetWatchlist)
@@ -1386,15 +1293,8 @@ export const getPreviewTarget = settings => {
   return item
 }
 
-export const couldShowChart = (
-  settings,
-  types = POSSIBLE_METRICS_FOR_CHART
-) => {
-  const {
-    target = {},
-    ethAddress = target.address || target.eth_address,
-    selector
-  } = settings
+export const couldShowChart = (settings, types = POSSIBLE_METRICS_FOR_CHART) => {
+  const { target = {}, ethAddress = target.address || target.eth_address, selector } = settings
 
   if (target && target.watchlist_id) {
     return false
@@ -1412,9 +1312,7 @@ export const couldShowChart = (
       const checkedSelector = selector
         ? (selector.currency || selector.slug) && selector.infrastructure
         : true
-      return checkedSelector && Array.isArray(ethAddress)
-        ? ethAddress.length === 1
-        : !!ethAddress
+      return checkedSelector && Array.isArray(ethAddress) ? ethAddress.length === 1 : !!ethAddress
     }
     case TRENDING_WORDS: {
       return true
@@ -1435,31 +1333,31 @@ export const mapToAssets = (data, withFilter = true) => {
   }
 
   return data
-    .filter(asset => !withFilter || !!asset.mainContractAddress)
+    .filter((asset) => !withFilter || !!asset.mainContractAddress)
     .map((asset, index) => {
       return mapToOption(asset.slug)
     })
 }
 
 export const mapErc20AssetsToProps = ({
-  allErc20Projects: { allErc20Projects = [], isLoading }
+  allErc20Projects: { allErc20Projects = [], isLoading },
 }) => {
   return {
     assets: [{ slug: 'ethereum', label: 'ethereum' }, ...allErc20Projects],
-    isLoading: isLoading
+    isLoading: isLoading,
   }
 }
 
 export const mapAssetsHeldByAddressToProps = ({
-  assetsByWallet: { assetsHeldByAddress = [], loading }
+  assetsByWallet: { assetsHeldByAddress = [], loading },
 }) => {
   return {
     heldAssets: assetsHeldByAddress,
-    isLoading: loading
+    isLoading: loading,
   }
 }
 
-export const isValidHBAddress = address => {
+export const isValidHBAddress = (address) => {
   return address === undefined || !!address
 }
 
@@ -1476,24 +1374,23 @@ export const getDefaultFormValues = (newValues, { value: oldMetric }) => {
 
   return {
     ...defaultValues,
-    ...newValues
+    ...newValues,
   }
 }
 
 const buildFormBlock = (title, description = '') => ({
   titleLabel: title,
-  titleDescription: description
+  titleDescription: description,
 })
 
 const NOTIFY_ME_WHEN = 'Notify me when'
 
-const targetsJoin = targets =>
-  Array.isArray(targets) ? targets.join(', ') : targets
+const targetsJoin = (targets) => (Array.isArray(targets) ? targets.join(', ') : targets)
 
-export const hasHBAddresses = ethAddress =>
+export const hasHBAddresses = (ethAddress) =>
   Array.isArray(ethAddress) ? ethAddress.length > 0 : !!ethAddress
 
-export const getTargetsHeader = values => {
+export const getTargetsHeader = (values) => {
   const {
     target,
     targetWatchlist,
@@ -1502,7 +1399,7 @@ export const getTargetsHeader = values => {
     metric,
     trendingWordsWithWords,
     textSelector,
-    ethAddress = ''
+    ethAddress = '',
   } = values
 
   if (metric) {
@@ -1514,17 +1411,11 @@ export const getTargetsHeader = values => {
           return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
         }
         case TRENDING_WORDS_WORD_MENTIONED.value: {
-          const targets = mapTargetObject(
-            trendingWordsWithWords,
-            targetMapperWithName
-          )
+          const targets = mapTargetObject(trendingWordsWithWords, targetMapperWithName)
           return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
         }
         case TRENDING_WORDS_WATCHLIST_MENTIONED.value: {
-          return buildFormBlock(
-            NOTIFY_ME_WHEN,
-            targetMapperWithName(targetWatchlist)
-          )
+          return buildFormBlock(NOTIFY_ME_WHEN, targetMapperWithName(targetWatchlist))
         }
         default: {
         }
@@ -1536,14 +1427,11 @@ export const getTargetsHeader = values => {
       if (Array.isArray(ethAddress) && ethAddress.length > 1) {
         return buildFormBlock(
           NOTIFY_ME_WHEN,
-          `${targetsJoin(targets)} wallets [${addresses.join(', ')}]`
+          `${targetsJoin(targets)} wallets [${addresses.join(', ')}]`,
         )
       } else {
         const walletDescription = addresses ? 'wallet ' + addresses : ''
-        return buildFormBlock(
-          NOTIFY_ME_WHEN,
-          `${targetsJoin(targets)} ${walletDescription}`
-        )
+        return buildFormBlock(NOTIFY_ME_WHEN, `${targetsJoin(targets)} ${walletDescription}`)
       }
     }
   }
@@ -1551,10 +1439,7 @@ export const getTargetsHeader = values => {
   if (signalType) {
     switch (signalType.value) {
       case METRIC_TARGET_WATCHLIST.value: {
-        return buildFormBlock(
-          NOTIFY_ME_WHEN,
-          targetMapperWithName(targetWatchlist)
-        )
+        return buildFormBlock(NOTIFY_ME_WHEN, targetMapperWithName(targetWatchlist))
       }
       case METRIC_TARGET_TEXT.value: {
         const targets = mapTargetObject(textSelector || {})
@@ -1571,7 +1456,7 @@ export const getTargetsHeader = values => {
 const getUsd = (value = 0, isPriceMetric) =>
   isPriceMetric ? formatNumber(value || 0, { currency: 'USD' }) : value
 
-const getMetricTargetTitle = metric => {
+const getMetricTargetTitle = (metric) => {
   if (metric.key) {
     return metric.label
   }
@@ -1604,9 +1489,9 @@ export const titleMetricValuesHeader = (
     absoluteBorderLeft,
     timeWindowUnit: { label: timeWindowUnitLabel = '' } = {},
     timeWindow,
-    metric
+    metric,
   },
-  ofTarget = ' '
+  ofTarget = ' ',
 ) => {
   if (hasMetricValues && type) {
     const { value } = type
@@ -1618,67 +1503,56 @@ export const titleMetricValuesHeader = (
     const priceGoesTitle = `${titleTarget} ${ofTarget} goes`
     const priceMovingTitle = `${titleTarget} ${ofTarget} moving`
 
-    const priceCommonTitle =
-      isPriceMetric || metric.key ? priceMovingTitle : addressesTitle
+    const priceCommonTitle = isPriceMetric || metric.key ? priceMovingTitle : addressesTitle
 
     switch (value) {
       case ETH_WALLETS_OPERATIONS.AMOUNT_DOWN: {
-        return buildFormBlock(
-          `Balance ${ofTarget}`,
-          'decreases by ' + threshold
-        )
+        return buildFormBlock(`Balance ${ofTarget}`, 'decreases by ' + threshold)
       }
       case ETH_WALLETS_OPERATIONS.AMOUNT_UP: {
-        return buildFormBlock(
-          `Balance ${ofTarget}`,
-          'increases by ' + threshold
-        )
+        return buildFormBlock(`Balance ${ofTarget}`, 'increases by ' + threshold)
       }
       case PRICE_CHANGE_TYPES.MOVING_DOWN: {
         return buildFormBlock(
           priceCommonTitle,
-          `down ${percentThreshold ||
-            0}% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`
+          `down ${
+            percentThreshold || 0
+          }% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`,
         )
       }
       case PRICE_CHANGE_TYPES.MOVING_UP: {
         return buildFormBlock(
           priceCommonTitle,
-          `up ${percentThreshold ||
-            0}% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`
+          `up ${
+            percentThreshold || 0
+          }% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`,
         )
       }
       case PRICE_CHANGE_TYPES.PERCENT_SOME_OF: {
         return buildFormBlock(
           isPriceMetric ? `${titleTarget} ${ofTarget}` : addressesTitle,
-          `moving up ${percentThresholdLeft ||
-            0}% or moving down ${percentThresholdRight ||
-            0}% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`
+          `moving up ${percentThresholdLeft || 0}% or moving down ${
+            percentThresholdRight || 0
+          }% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`,
         )
       }
       case PRICE_CHANGE_TYPES.ABOVE_OR_EQUAL: {
         return buildFormBlock(
           priceGoesTitle,
-          'above or equal ' + getUsd(absoluteThreshold, isPriceMetric)
+          'above or equal ' + getUsd(absoluteThreshold, isPriceMetric),
         )
       }
       case PRICE_CHANGE_TYPES.BELOW_OR_EQUAL: {
         return buildFormBlock(
           priceGoesTitle,
-          'below or equal ' + getUsd(absoluteThreshold, isPriceMetric)
+          'below or equal ' + getUsd(absoluteThreshold, isPriceMetric),
         )
       }
       case PRICE_CHANGE_TYPES.ABOVE: {
-        return buildFormBlock(
-          priceGoesTitle,
-          'above ' + getUsd(absoluteThreshold, isPriceMetric)
-        )
+        return buildFormBlock(priceGoesTitle, 'above ' + getUsd(absoluteThreshold, isPriceMetric))
       }
       case PRICE_CHANGE_TYPES.BELOW: {
-        return buildFormBlock(
-          priceGoesTitle,
-          'below ' + getUsd(absoluteThreshold, isPriceMetric)
-        )
+        return buildFormBlock(priceGoesTitle, 'below ' + getUsd(absoluteThreshold, isPriceMetric))
       }
       case PRICE_CHANGE_TYPES.INSIDE_CHANNEL: {
         return buildFormBlock(
@@ -1686,7 +1560,7 @@ export const titleMetricValuesHeader = (
           'between ' +
             getUsd(absoluteBorderRight, isPriceMetric) +
             ' and ' +
-            getUsd(absoluteBorderLeft, isPriceMetric)
+            getUsd(absoluteBorderLeft, isPriceMetric),
         )
       }
       case PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL: {
@@ -1695,7 +1569,7 @@ export const titleMetricValuesHeader = (
           'outside ' +
             getUsd(absoluteBorderRight, isPriceMetric) +
             ' and ' +
-            getUsd(absoluteBorderLeft, isPriceMetric)
+            getUsd(absoluteBorderLeft, isPriceMetric),
         )
       }
       default: {
@@ -1705,7 +1579,7 @@ export const titleMetricValuesHeader = (
   }
 }
 
-export const getNewTitle = newValues => {
+export const getNewTitle = (newValues) => {
   const { metric, type } = newValues
   const { titleDescription: target } = getTargetsHeader(newValues)
 
@@ -1713,11 +1587,7 @@ export const getNewTitle = newValues => {
     return ''
   }
 
-  const { titleLabel, titleDescription = '' } = titleMetricValuesHeader(
-    true,
-    newValues,
-    ''
-  )
+  const { titleLabel, titleDescription = '' } = titleMetricValuesHeader(true, newValues, '')
 
   let title = ''
   switch (metric.value) {
@@ -1777,18 +1647,15 @@ const clipText = (text, maxLength) => {
   return text
 }
 
-export const getNewDescription = newValues => {
+export const getNewDescription = (newValues) => {
   const targetsHeader = getTargetsHeader(newValues).titleDescription
 
-  if (
-    !targetsHeader ||
-    (Array.isArray(targetsHeader) && targetsHeader.length === 0)
-  ) {
+  if (!targetsHeader || (Array.isArray(targetsHeader) && targetsHeader.length === 0)) {
     return ''
   }
 
   let metricsHeaderStr = Object.values(
-    titleMetricValuesHeader(true, newValues, `of ${targetsHeader}`)
+    titleMetricValuesHeader(true, newValues, `of ${targetsHeader}`),
   )
     .join(' ')
     .toLowerCase()
@@ -1796,7 +1663,7 @@ export const getNewDescription = newValues => {
   if (!metricsHeaderStr) {
     const {
       metric: { value } = {},
-      type: { value: typeValue }
+      type: { value: typeValue },
     } = newValues
     switch (value) {
       case PRICE_VOLUME_DIFFERENCE: {
@@ -1822,31 +1689,22 @@ export const getNewDescription = newValues => {
     }
   }
 
-  const {
-    channels,
-    isRepeating,
-    frequencyTimeValue,
-    frequencyTimeType
-  } = newValues
+  const { channels, isRepeating, frequencyTimeValue, frequencyTimeType } = newValues
 
   const repeatingBlock = isRepeating
     ? `every ${frequencyTimeValue.label} ${frequencyTimeType.label}`
     : 'only once'
 
   const channelsReadable = channels.reduce((acc, ch) => {
-    return typeof ch === 'object'
-      ? acc.concat(Object.keys(ch))
-      : acc.concat(ch.toLowerCase())
+    return typeof ch === 'object' ? acc.concat(Object.keys(ch)) : acc.concat(ch.toLowerCase())
   }, [])
 
   const channelsBlock =
-    channelsReadable && channelsReadable.length
-      ? `via ${channelsReadable.join(', ')}`
-      : ''
+    channelsReadable && channelsReadable.length ? `via ${channelsReadable.join(', ')}` : ''
 
   return clipText(
     `Notify me when the ${metricsHeaderStr}. Send me notifications ${repeatingBlock.toLowerCase()} ${channelsBlock}.`,
-    MAX_DESCR_LENGTH
+    MAX_DESCR_LENGTH,
   )
 }
 
@@ -1879,17 +1737,13 @@ export const buildValueChangeSignal = (slug, value, type, metric, selector) => {
     slug,
     {
       absoluteThreshold: value,
-      metric
+      metric,
     },
-    metric.key === 'price_usd' ? 'slug' : selector
+    metric.key === 'price_usd' ? 'slug' : selector,
   )
 }
 
-export const buildPercentUpDownSignal = (
-  slug,
-  metric = PRICE_METRIC,
-  selector
-) => {
+export const buildPercentUpDownSignal = (slug, metric = PRICE_METRIC, selector) => {
   return buildSignal(
     PRICE_PERCENT_CHANGE,
     PRICE_PERCENT_CHANGE_ONE_OF_MODEL,
@@ -1898,9 +1752,9 @@ export const buildPercentUpDownSignal = (
       metric,
       signalType: { label: 'Assets', value: 'assets' },
       percentThresholdLeft: 10,
-      percentThresholdRight: 10
+      percentThresholdRight: 10,
     },
-    selector
+    selector,
   )
 }
 
@@ -1913,35 +1767,35 @@ export const buildDAASignal = (slug, value, type) => {
   return buildSignal(PRICE_ABSOLUTE_CHANGE, resultType, slug, {
     metric: DAILY_ACTIVE_ADDRESSES_METRIC,
     signalType: { label: 'Assets', value: 'assets' },
-    absoluteThreshold: value
+    absoluteThreshold: value,
   })
 }
 
-export const buildDAAPercentUpDownSignal = slug => {
-  return buildSignal(
-    PRICE_PERCENT_CHANGE,
-    PRICE_PERCENT_CHANGE_UP_MODEL,
-    slug,
-    {
-      metric: DAILY_ACTIVE_ADDRESSES_METRIC,
-      signalType: { label: 'Assets', value: 'assets' },
-      percentThreshold: 10
-    }
-  )
+export const buildDAAPercentUpDownSignal = (slug) => {
+  return buildSignal(PRICE_PERCENT_CHANGE, PRICE_PERCENT_CHANGE_UP_MODEL, slug, {
+    metric: DAILY_ACTIVE_ADDRESSES_METRIC,
+    signalType: { label: 'Assets', value: 'assets' },
+    percentThreshold: 10,
+  })
 }
 
-export const buildInTrendingWordsSignal = topic => {
+export const buildInTrendingWordsSignal = (topic) => {
   return buildSignal(TRENDING_WORDS, TRENDING_WORDS_WORD_MENTIONED, topic, {
     metric: TRENDING_WORDS_METRIC,
     signalType: { label: 'Trending words', value: 'trending_word' },
-    trendingWordsWithWords: [{ value: topic, label: topic }]
+    trendingWordsWithWords: [{ value: topic, label: topic }],
   })
 }
 
 export const skipHistoricalPreview = ({ settings }) => {
-  const { target } = settings
+  const { target, time_window } = settings
 
-  return getCheckingMetric(settings) === TRENDING_WORDS || target.watchlist_id
+  return (
+    getCheckingMetric(settings) === TRENDING_WORDS ||
+    target.watchlist_id ||
+    typeof target.slug !== 'string' ||
+    !time_window
+  )
 }
 
 export const getSlugFromSignalTarget = ({ settings }) => {

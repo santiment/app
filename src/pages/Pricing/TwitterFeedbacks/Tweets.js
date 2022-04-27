@@ -6,15 +6,10 @@ import styles from './TwitterFeedbacks.module.scss'
 export const TweetsParsed = [
   <blockquote className='twitter-tweet' data-conversation='none'>
     <p lang='en' dir='ltr'>
-      Probed your platform, interesting metrics offering some very nuanced
-      insights. Between the on-chain analysis, development activity and macro
-      view - on the alt side, bullish on (@bancor)
-      <a href='https://twitter.com/search?q=%24bnt&src=cashtag_click'>
-        $bnt
-      </a>{' '}
-      <a href='https://twitter.com/hashtag/DeFi?src=hash&amp;ref_src=twsrc%5Etfw'>
-        #DeFi
-      </a>{' '}
+      Probed your platform, interesting metrics offering some very nuanced insights. Between the
+      on-chain analysis, development activity and macro view - on the alt side, bullish on (@bancor)
+      <a href='https://twitter.com/search?q=%24bnt&src=cashtag_click'>$bnt</a>{' '}
+      <a href='https://twitter.com/hashtag/DeFi?src=hash&amp;ref_src=twsrc%5Etfw'>#DeFi</a>{' '}
       <a href='https://twitter.com/hashtag/Analytics?src=hash&amp;ref_src=twsrc%5Etfw'>
         #Analytics
       </a>{' '}
@@ -102,8 +97,8 @@ export const TweetsParsed = [
 
   <blockquote className='twitter-tweet' data-conversation='none'>
     <p lang='en' dir='ltr'>
-      Great analysis. I like it as you bring facts on the table rather than as
-      all the others on this platform shouting 100k continually. Thanks you!
+      Great analysis. I like it as you bring facts on the table rather than as all the others on
+      this platform shouting 100k continually. Thanks you!
     </p>
     &mdash; alexei Slivinschi (@ASlivinschi){' '}
     <a href='https://twitter.com/ASlivinschi/status/1329226946656530436?ref_src=twsrc%5Etfw'>
@@ -112,8 +107,8 @@ export const TweetsParsed = [
   </blockquote>,
   <blockquote className='twitter-tweet' data-conversation='none'>
     <p lang='en' dir='ltr'>
-      Love this kinds data now if you could make an indicator that showed it all
-      aggregated in a simple form that would be super cool
+      Love this kinds data now if you could make an indicator that showed it all aggregated in a
+      simple form that would be super cool
     </p>
     &mdash; Joel - Coach K (@Coachkcrypto){' '}
     <a href='https://twitter.com/Coachkcrypto/status/1325316475117207552?ref_src=twsrc%5Etfw'>
@@ -136,15 +131,9 @@ export const TweetsParsed = [
   <blockquote className='twitter-tweet'>
     <p lang='en' dir='ltr'>
       I love these charts man!
-      <a href='https://twitter.com/hashtag/btc?src=hash&amp;ref_src=twsrc%5Etfw'>
-        #btc
-      </a>{' '}
-      <a href='https://twitter.com/hashtag/bitcoin?src=hash&amp;ref_src=twsrc%5Etfw'>
-        #bitcoin
-      </a>{' '}
-      <a href='https://twitter.com/hashtag/crypto?src=hash&amp;ref_src=twsrc%5Etfw'>
-        #crypto
-      </a>{' '}
+      <a href='https://twitter.com/hashtag/btc?src=hash&amp;ref_src=twsrc%5Etfw'>#btc</a>{' '}
+      <a href='https://twitter.com/hashtag/bitcoin?src=hash&amp;ref_src=twsrc%5Etfw'>#bitcoin</a>{' '}
+      <a href='https://twitter.com/hashtag/crypto?src=hash&amp;ref_src=twsrc%5Etfw'>#crypto</a>{' '}
       <a href='https://t.co/M31sVoFOMA'>https://t.co/M31sVoFOMA</a>
     </p>
     &mdash; CryptoNacci (@XCryptonacciX){' '}
@@ -155,10 +144,10 @@ export const TweetsParsed = [
 
   <blockquote className='twitter-tweet'>
     <p lang='en' dir='ltr'>
-      We LOVE to hear about these kinds of success stories. Thanks for enjoying
-      and using our data to enhance your trading,{' '}
-      <a href='https://twitter.com/Ahab_1337?ref_src=twsrc%5Etfw'>@ahab_1337</a>
-      ! 🎉 <a href='https://t.co/j7FuTV9LBV'>https://t.co/j7FuTV9LBV</a>
+      We LOVE to hear about these kinds of success stories. Thanks for enjoying and using our data
+      to enhance your trading,{' '}
+      <a href='https://twitter.com/Ahab_1337?ref_src=twsrc%5Etfw'>@ahab_1337</a>! 🎉{' '}
+      <a href='https://t.co/j7FuTV9LBV'>https://t.co/j7FuTV9LBV</a>
     </p>
     &mdash; Santiment (@santimentfeed){' '}
     <a href='https://twitter.com/santimentfeed/status/1383450235498754059?ref_src=twsrc%5Etfw'>
@@ -169,15 +158,10 @@ export const TweetsParsed = [
   <blockquote className='twitter-tweet'>
     <p lang='en' dir='ltr'>
       Signed up to the free trial{' '}
-      <a href='https://twitter.com/santimentfeed?ref_src=twsrc%5Etfw'>
-        @santimentfeed
-      </a>{' '}
-      Love the interface so far.{' '}
-      <a href='https://twitter.com/search?q=%24ETH&amp;src=ctag&amp;ref_src=twsrc%5Etfw'>
-        $ETH
-      </a>{' '}
-      supply on exchanges continues to go down while price is still heading to
-      $3,000.{' '}
+      <a href='https://twitter.com/santimentfeed?ref_src=twsrc%5Etfw'>@santimentfeed</a> Love the
+      interface so far.{' '}
+      <a href='https://twitter.com/search?q=%24ETH&amp;src=ctag&amp;ref_src=twsrc%5Etfw'>$ETH</a>{' '}
+      supply on exchanges continues to go down while price is still heading to $3,000.{' '}
       <a href='https://twitter.com/hashtag/ethererum?src=hash&amp;ref_src=twsrc%5Etfw'>
         #ethererum
       </a>{' '}
@@ -191,14 +175,14 @@ export const TweetsParsed = [
 
   <blockquote className='twitter-tweet'>
     <p lang='en' dir='ltr'>
-      This product has made me a ton of money. Trade profitability has
-      skyrocketed. Lemme know if you want to chat about it
+      This product has made me a ton of money. Trade profitability has skyrocketed. Lemme know if
+      you want to chat about it
     </p>
     &mdash; Ahab (@Ahab_1337){' '}
     <a href='https://twitter.com/Ahab_1337/status/1389198702355570694?ref_src=twsrc%5Etfw'>
       May 3, 2021
     </a>
-  </blockquote>
+  </blockquote>,
 ]
 
 export const TweetCard = ({ item }) => (

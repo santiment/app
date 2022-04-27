@@ -2,11 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import ComparableMetric from './Metric'
-import {
-  buildCompareKey,
-  getProjectHiddenMetrics,
-  makeComparableObject
-} from '../utils'
+import { buildCompareKey, getProjectHiddenMetrics, makeComparableObject } from '../utils'
 import ProjectSelectDialog from '../ProjectSelectDialog'
 import { DEFAULT_TABS } from '../ProjectSelectTabs'
 import { FIAT_MARKET_ASSETS } from '../../../dataHub/fiat'
@@ -14,13 +10,13 @@ import ProjectIcon from '../../../../components/ProjectIcon/ProjectIcon'
 import styles from './index.module.scss'
 
 const CUSTOM_CATEGORY = {
-  Fiat: () => Promise.resolve(FIAT_MARKET_ASSETS)
+  Fiat: () => Promise.resolve(FIAT_MARKET_ASSETS),
 }
 
 const CUSTOM_TABS = DEFAULT_TABS.concat(Object.keys(CUSTOM_CATEGORY))
 
 const CategoryModifier = {
-  All: assets => assets.concat(FIAT_MARKET_ASSETS)
+  All: (assets) => assets.concat(FIAT_MARKET_ASSETS),
 }
 
 export default ({
@@ -46,34 +42,34 @@ export default ({
       comparable.metric = selectedMetric
       comparable.project = selectedProject
 
-      return setComparables(state => state.slice())
+      return setComparables((state) => state.slice())
     }
     return (
       selectedMetric &&
-      setComparables(state => [
+      setComparables((state) => [
         ...state,
         makeComparableObject({
           metric: selectedMetric,
-          project: selectedProject
-        })
+          project: selectedProject,
+        }),
       ])
     )
   }, [selectedProject, selectedMetric])
 
-  function selectProject (project) {
+  function selectProject(project) {
     setSelectedProject(project)
     closeDialog()
   }
 
-  function removeComparable () {
-    setComparables(state => state.filter(comp => comp !== comparable))
+  function removeComparable() {
+    setComparables((state) => state.filter((comp) => comp !== comparable))
   }
 
-  function closeDialog () {
+  function closeDialog() {
     setOpened(false)
   }
 
-  function openDialog () {
+  function openDialog() {
     setOpened(true)
   }
 
@@ -82,12 +78,7 @@ export default ({
       <ProjectSelectDialog
         trigger={
           <Button border>
-            <ProjectIcon
-              className={styles.icon}
-              size={16}
-              slug={slug}
-              logoUrl={logoUrl}
-            />
+            <ProjectIcon className={styles.icon} size={16} slug={slug} logoUrl={logoUrl} />
             {ticker}
             <Icon type='arrow-down' className={styles.arrow} />
           </Button>
@@ -107,18 +98,11 @@ export default ({
         comparable={comparable}
         slug={slug}
         colors={colors}
-        hiddenMetrics={getProjectHiddenMetrics(
-          hiddenMetricsMap,
-          selectedProject
-        )}
+        hiddenMetrics={getProjectHiddenMetrics(hiddenMetricsMap, selectedProject)}
         onSelect={setSelectedMetric}
       />
       {comparable && (
-        <Icon
-          type='close-medium'
-          className={styles.remove}
-          onClick={removeComparable}
-        />
+        <Icon type='close-medium' className={styles.remove} onClick={removeComparable} />
       )}
     </div>
   )

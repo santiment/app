@@ -9,18 +9,19 @@ const SignalCardHeader = ({
   deleteEnabled,
   isUserTheAuthor,
   isPublic,
-  signal
+  signal,
+  shouldDisableActions,
 }) => {
-  const { id, title, settings: { type, metric } = {} } = signal
+  const { id, title, settings: { type, metric } = {}, isFrozen } = signal
 
   return (
-    <div
-      className={cx(styles.wrapper__left, styles.wrapper__left_subscription)}
-    >
-      <SignalTypeIcon type={type} metric={metric} />
+    <div className={cx(styles.wrapper__left, styles.wrapper__left_subscription)}>
+      <SignalTypeIcon type={type} metric={metric} isFrozen={isFrozen} />
 
       <MobileOnly>
         <MoreSignalActions
+          shouldDisableActions={shouldDisableActions}
+          signal={signal}
           deleteEnabled={deleteEnabled}
           isUserTheAuthor={isUserTheAuthor}
           isPublic={isPublic}

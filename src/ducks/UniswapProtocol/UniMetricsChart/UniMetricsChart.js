@@ -9,28 +9,25 @@ export const SUPPORTED_METRICS = [
   {
     ...Metric.price_usd,
     reqMeta: {
-      slug: UNISWAP
-    }
+      slug: UNISWAP,
+    },
   },
   {
     ...Metric.age_consumed,
     reqMeta: {
-      slug: UNISWAP
-    }
+      slug: UNISWAP,
+    },
   },
   {
     ...Metric.active_addresses_24h,
     reqMeta: {
-      slug: UNISWAP
-    }
-  }
+      slug: UNISWAP,
+    },
+  },
 ]
 
 const UniMetricsChart = () => (
-  <DashboardMetricChart
-    metrics={SUPPORTED_METRICS}
-    defaultInterval={INTERVAL_30_DAYS}
-  />
+  <DashboardMetricChart metrics={SUPPORTED_METRICS} defaultInterval={INTERVAL_30_DAYS} />
 )
 
 export default UniMetricsChart

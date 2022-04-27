@@ -10,7 +10,7 @@ import styles from './FollowBtn.module.scss'
 const ARR = []
 const OBJ = {}
 
-export function isInFollowers (users, targetUserId, currentUserId) {
+export function isInFollowers(users, targetUserId, currentUserId) {
   if (currentUserId && users) {
     if (targetUserId) {
       return users.some(({ id }) => +id === +targetUserId)
@@ -28,24 +28,19 @@ const FollowBtn = ({
   users = ARR,
   updateCache,
   className,
-  variant = 'fill'
+  variant = 'fill',
 }) => {
   const { user = OBJ } = useUser()
   const isFollowing = isInFollowers(users, targetUserId, user.id)
 
   return (
-    <Mutation
-      mutation={isFollowing ? UNFOLLOW_MUTATION : FOLLOW_MUTATION}
-      update={updateCache}
-    >
+    <Mutation mutation={isFollowing ? UNFOLLOW_MUTATION : FOLLOW_MUTATION} update={updateCache}>
       {(followAction, { loading }) => (
         <Button
           accent={isFollowing ? 'grey' : 'positive'}
           variant={variant}
           className={cx(isFollowing && styles.grey, className)}
-          onClick={() =>
-            !loading && followAction({ variables: { id: +userId } })
-          }
+          onClick={() => !loading && followAction({ variables: { id: +userId } })}
         >
           {!loading ? (
             isFollowing ? (

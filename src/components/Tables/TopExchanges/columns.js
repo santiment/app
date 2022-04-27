@@ -6,8 +6,8 @@ import ValueChange from '../../ValueChange/ValueChange'
 export const DEFAULT_SORTING = [
   {
     id: 'balance',
-    desc: true
-  }
+    desc: true,
+  },
 ]
 
 export const COLUMNS = [
@@ -15,30 +15,30 @@ export const COLUMNS = [
     Header: 'Exchange',
     accessor: 'owner',
     disableSortBy: true,
-    Cell: ({ value = '' }) => upperCaseFirstLetter(value)
+    Cell: ({ value = '' }) => upperCaseFirstLetter(value),
   },
   {
     Header: 'Balance',
     accessor: 'balance',
-    Cell: ({ value }) => millify(value)
+    Cell: ({ value }) => millify(value),
   },
   {
     Header: 'Change, 1d',
     accessor: 'balanceChange1d',
     Cell: ({ value }) => <ValueChange render={millify} change={value} />,
-    sortType: 'floatNumeric'
+    sortType: 'floatNumeric',
   },
   {
     Header: 'Change, 7d',
     accessor: 'balanceChange7d',
     Cell: ({ value }) => <ValueChange render={millify} change={value} />,
-    sortType: 'floatNumeric'
+    sortType: 'floatNumeric',
   },
   {
     Header: 'Change, 30d',
     accessor: 'balanceChange30d',
     Cell: ({ value }) => <ValueChange render={millify} change={value} />,
-    sortType: 'floatNumeric'
+    sortType: 'floatNumeric',
   },
   {
     Header: '1st transfer at',
@@ -52,12 +52,11 @@ export const COLUMNS = [
 
       return `${MMM} ${DD}, ${YYYY}`
     },
-    sortType: 'datetime'
+    sortType: 'datetime',
   },
   {
     Header: 'Since 1st transfer',
     accessor: 'daysSinceFirstTransfer',
-    Cell: ({ value = '' }) =>
-      value === null ? '' : `${value} day${value === 1 ? '' : 's'}`
-  }
+    Cell: ({ value = '' }) => (value === null ? '' : `${value} day${value === 1 ? '' : 's'}`),
+  },
 ]

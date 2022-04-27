@@ -6,10 +6,10 @@ import { getMetricSetting } from '../../utils'
 import { Node, BARS } from '../../../Chart/nodes'
 import { Metric } from '../../../dataHub/metrics'
 
-const getBaseMetric = metric => metric.base || metric
+const getBaseMetric = (metric) => metric.base || metric
 
 const NodeToLabel = {
-  [Node.BAR]: 'Bar'
+  [Node.BAR]: 'Bar',
 }
 const buildNode = (id, label) => {
   NodeToLabel[id] = label
@@ -21,7 +21,7 @@ const NODES = [
   buildNode(Node.LINE, 'Line'),
   buildNode(Node.FILLED_LINE, 'Filled line'),
   buildNode(Node.GRADIENT_LINE, 'Gradient line'),
-  buildNode(Node.AUTO_WIDTH_BAR, 'Bar')
+  buildNode(Node.AUTO_WIDTH_BAR, 'Bar'),
 ]
 const CANDLES_NODE = buildNode(Node.CANDLES, 'Candles')
 
@@ -44,14 +44,11 @@ const NodeSetting = ({ metric, widget, rerenderWidgets }) => {
     return BARS.has(node) ? Node.AUTO_WIDTH_BAR : node
   }, [widget.MetricSettingMap, metric])
 
-  function onChange (newNode) {
+  function onChange(newNode) {
     const newMap = new Map(widget.MetricSettingMap)
     const metricSetting = getMetricSetting(newMap, metric)
 
-    if (
-      newNode === metric.node ||
-      (newNode === Node.AUTO_WIDTH_BAR && BARS.has(metric.node))
-    ) {
+    if (newNode === metric.node || (newNode === Node.AUTO_WIDTH_BAR && BARS.has(metric.node))) {
       delete metricSetting.node
     } else {
       metricSetting.node = newNode
@@ -66,14 +63,9 @@ const NodeSetting = ({ metric, widget, rerenderWidgets }) => {
   return (
     <Dropdown trigger={<Setting>Style: {NodeToLabel[node]}</Setting>}>
       {!metric.indicator && getBaseMetric(metric) === Metric.price_usd && (
-        <Button
-          {...CANDLES_NODE}
-          activeKey={node}
-          activeRef={activeRef}
-          onChange={onChange}
-        />
+        <Button {...CANDLES_NODE} activeKey={node} activeRef={activeRef} onChange={onChange} />
       )}
-      {NODES.map(nodeType => (
+      {NODES.map((nodeType) => (
         <Button
           key={nodeType.id}
           {...nodeType}

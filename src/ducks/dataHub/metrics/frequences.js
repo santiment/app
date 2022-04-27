@@ -4,12 +4,7 @@ import styles from './Frequence.module.scss'
 
 export const Link = ({ href, children }) => {
   return (
-    <a
-      className={styles.link}
-      target='_blank'
-      rel='noopener noreferrer'
-      href={href}
-    >
+    <a className={styles.link} target='_blank' rel='noopener noreferrer' href={href}>
       {children}
     </a>
   )
@@ -33,15 +28,11 @@ const Hourly = (
 const Sentiment = (
   <div className={styles.text}>
     We store each of the{' '}
-    <Link href='https://academy.santiment.net/metrics/details/social-data'>
-      social data
-    </Link>{' '}
-    documents with its absolute timestamp. I.e. it is possible to aggregate the
-    data with any desired interval{' '}
-    <Link href='https://academy.santiment.net/products-and-plans/access-plans/'>
-      on request
-    </Link>
-    . Currently the time intervals we use are the following: 6h, 12h, 1d.
+    <Link href='https://academy.santiment.net/metrics/details/social-data'>social data</Link>{' '}
+    documents with its absolute timestamp. I.e. it is possible to aggregate the data with any
+    desired interval{' '}
+    <Link href='https://academy.santiment.net/products-and-plans/access-plans/'>on request</Link>.
+    Currently the time intervals we use are the following: 6h, 12h, 1d.
   </div>
 )
 
@@ -119,7 +110,7 @@ const Frequences = {
   [Metric.mcd_liquidation.key]: FiveMinute,
 
   [Metric.whale_transaction_count_100k_usd_to_inf.key]: Daily,
-  [Metric.whale_transaction_count_1m_usd_to_inf.key]: Daily
+  [Metric.whale_transaction_count_1m_usd_to_inf.key]: Daily,
 }
 
 export default Frequences

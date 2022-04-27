@@ -5,7 +5,7 @@ import { useDialogState } from '../../hooks/dialog'
 import AccordionContent from '../AccordionContent'
 import styles from './ExpansionItem.module.scss'
 
-const ExpansionItem = ({ title, children, isOpen, classes = {} }) => {
+const ExpansionItem = ({ iconType, title, children, isOpen, classes = {} }) => {
   const { openDialog, isOpened, closeDialog } = useDialogState(isOpen)
 
   return (
@@ -15,10 +15,9 @@ const ExpansionItem = ({ title, children, isOpen, classes = {} }) => {
         onClick={isOpened ? closeDialog : openDialog}
       >
         {title}
-
         <Icon
-          className={cx(styles.arrow, isOpened && styles.arrowOpened)}
-          type='arrow-down-big'
+          className={cx(styles.arrow, isOpened && styles.arrowOpened, classes.arrow)}
+          type={iconType || 'arrow-down-big'}
         />
       </div>
 

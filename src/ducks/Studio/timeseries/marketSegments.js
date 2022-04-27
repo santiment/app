@@ -4,7 +4,7 @@ import { Description } from '../../dataHub/metrics/descriptions'
 
 const MarketSegments = new Map()
 
-export const getMarketSegment = key => {
+export const getMarketSegment = (key) => {
   const target = MarketSegments.get(key)
   if (target) {
     return target
@@ -14,8 +14,8 @@ export const getMarketSegment = key => {
     key,
     label: `Dev. Activity (${key})`,
     reqMeta: {
-      market_segments: [key]
-    }
+      market_segments: [key],
+    },
   })
   MarketSegments.set(key, metric)
 

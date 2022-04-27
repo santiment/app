@@ -1,0 +1,45 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.wrapper {
+  margin-top: 16px;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.condition {
+  color: var(--fiord);
+
+  @include text("body-3", "m");
+}
+
+.conditionType {
+  text-transform: capitalize;
+  margin-right: 4px;
+  color: var(--waterloo);
+}
+
+.price {
+  color: var(--waterloo);
+
+  @include text("body-3", "m");
+}
+
+.chartWrapper {
+  min-height: 160px;
+  padding-top: 12px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.noChart {
+  display: none;
+}

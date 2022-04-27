@@ -10,11 +10,11 @@ import { getAPIUrl } from '../utils/utils'
 
 const httpLink = createHttpLink({
   uri: `${getAPIUrl()}/graphql`,
-  credentials: 'include'
+  credentials: 'include',
 })
 
 export const client = new ApolloClient({
   link: from([authLink, errorLink, retryLink, uploadLink, httpLink]),
   shouldBatch: true,
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
 })

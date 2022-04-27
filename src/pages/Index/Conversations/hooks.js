@@ -4,10 +4,7 @@ import { useQuery } from '@apollo/react-hooks'
 
 const CONVERSATIONS_QUERY = gql`
   query commentsFeed($to: DateTime!) {
-    commentsFeed(
-      limit: 15
-      cursor: { type: BEFORE, datetime: $to, order: DESC }
-    ) {
+    commentsFeed(limit: 15, cursor: { type: BEFORE, datetime: $to, order: DESC }) {
       id
       content
       insertedAt
@@ -30,6 +27,10 @@ const CONVERSATIONS_QUERY = gql`
           origin
         }
       }
+      chartConfiguration {
+        id
+        title
+      }
       user {
         id
         username
@@ -43,15 +44,15 @@ const CONVERSATIONS_QUERY = gql`
 export const useConversations = ({ to = 'utc_now' }) => {
   const { data, loading, error } = useQuery(CONVERSATIONS_QUERY, {
     variables: {
-      to
-    }
+      to,
+    },
   })
 
   return useMemo(() => {
     return {
       data: data ? data.commentsFeed : [],
       loading,
-      error
+      error,
     }
   }, [data, loading, error])
 }

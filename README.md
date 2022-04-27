@@ -4,15 +4,16 @@
 1. `mv .env.local.example .env.local`
 2. Fill .env.local
 3. `npm i`
-4. `npm run start`
-5. `npm run test` - One time run all tests
+4. `npm start`
+5. `npm test` - One time run all tests
 6. `npm run test:js` - Run js tests watcher
 
 ### Docker way
 
 * `make start` - Start your docker container with dev server
 * `make sh` - Bash in your dev container
-* `make log` - Show logs
+* `make logs` - Show logs
+* `make format` - Run `npm run format`
 
 ### VSCODE
 

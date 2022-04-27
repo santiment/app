@@ -12,12 +12,7 @@ const NOW = new Date()
 window.dateDifferenceInWords = dateDifferenceInWords
 
 export const NewLabelTemplate = ({ className, rest }) => (
-  <Label
-    {...rest}
-    className={cx(styles.label, className)}
-    accent='jungle-green'
-    variant='fill'
-  >
+  <Label {...rest} className={cx(styles.label, className)} accent='jungle-green' variant='fill'>
     NEW
   </Label>
 )
@@ -52,7 +47,7 @@ const NewLabel = ({ date, className, withOffset = true, limitDays }) => {
       {dateDifferenceInWords({
         from: new Date(date),
         to: checkingTime,
-        format: 'd'
+        format: 'd',
       })}
     </DarkTooltip>
   )

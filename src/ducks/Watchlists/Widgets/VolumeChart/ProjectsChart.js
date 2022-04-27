@@ -11,7 +11,7 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-  LabelList
+  LabelList,
 } from 'recharts'
 import { ProjectsChartTooltip } from '../../../SANCharts/tooltip/CommonChartTooltip'
 import Range from '../WatchlistOverview/WatchlistAnomalies/Range'
@@ -23,15 +23,12 @@ import {
   getBarValue,
   getTooltipLabels,
   PRICE_CHANGE_RANGES,
-  SORT_RANGES
+  SORT_RANGES,
 } from './utils'
-import {
-  PriceInfographicTitleRanges,
-  useInfographicRanges
-} from './InfographicTitles'
+import { PriceInfographicTitleRanges, useInfographicRanges } from './InfographicTitles'
 import styles from './ProjectsChart.module.scss'
 
-const renderCustomizedLabel = props => {
+const renderCustomizedLabel = (props) => {
   const { x, y, width, value: source, fill } = props
 
   const value = source * 100
@@ -39,37 +36,35 @@ const renderCustomizedLabel = props => {
   const fontSize = width < 20 ? 7 : 14
   const position = +value >= 0 ? -1 * (fontSize / 2) : fontSize
 
+  const xValue = x + width / 2
+  const yValue = y + position
+  const translateY = +value >= 0 ? -10 : 8
+  const barValue = getBarValue(+value)
+  const shouldRotate = width < 40 && barValue.toString().length > 3
+
   return (
-    <g>
+    <g style={{ transform: shouldRotate && `translateY(${translateY}px)` }}>
       <text
-        x={x + width / 2}
-        y={y + position}
+        x={xValue}
+        y={yValue}
         fill={fill}
         textAnchor='middle'
         fontSize={fontSize}
         fontWeight={500}
+        dominant-baseline={shouldRotate && 'central'}
+        transform={shouldRotate && `rotate(270, ${xValue}, ${yValue})`}
       >
-        {value && getBarValue(+value)}
+        {value && barValue}
       </text>
     </g>
   )
 }
 
-const ProjectsChart = ({
-  listId,
-  redirect,
-  settings,
-  onChangeSettings,
-  type
-}) => {
-  const {
-    sorter: { sortBy = 'marketcapUsd', desc: sortDesc } = {},
-    currency: defaultCurrency
-  } = settings
+const ProjectsChart = ({ listId, redirect, settings, onChangeSettings, type }) => {
+  const { sorter: { sortBy = 'marketcapUsd', desc: sortDesc } = {}, currency: defaultCurrency } =
+    settings
   const defaultIndex = useMemo(() => {
-    const index = SORT_RANGES.findIndex(
-      ({ key, desc }) => key === sortBy && desc === sortDesc
-    )
+    const index = SORT_RANGES.findIndex(({ key, desc }) => key === sortBy && desc === sortDesc)
     return index >= 0 ? index : 0
   }, [sortBy, sortDesc])
 
@@ -80,7 +75,7 @@ const ProjectsChart = ({
   useEffect(() => {
     onChangeSettings(type, {
       sortBy: sortByKey,
-      desc
+      desc,
     })
   }, [sortByKey, desc])
 
@@ -88,39 +83,32 @@ const ProjectsChart = ({
     type,
     ranges: PRICE_CHANGE_RANGES,
     defaultCurrency,
-    onChangeSettings
+    onChangeSettings,
   })
 
-  const {
-    data,
-    loading,
-    intervalIndex,
-    setIntervalIndex,
-    label,
-    key
-  } = useProjectRanges({
+  const { data, loading, intervalIndex, setIntervalIndex, label, key } = useProjectRanges({
     listId,
     ranges: currentRanges,
     sortByMetric: sortByKey,
     desc,
     settings,
     onChangeSettings,
-    type: type
+    type: type,
   })
 
   const colored = useMemo(() => {
-    return data.map(item => ({
+    return data.map((item) => ({
       ...item,
-      color: getBarColor(item[key])
+      color: getBarColor(item[key]),
     }))
   }, [data])
 
   const onProjectClick = useCallback(
-    data => {
+    (data) => {
       const { value } = data
       return redirect(`/projects/${value}`)
     },
-    [redirect]
+    [redirect],
   )
 
   const datakey = 'slug'
@@ -190,7 +178,7 @@ const ProjectsChart = ({
                     fontWeight={500}
                     stroke={'var(--casper)'}
                     tickCount={8}
-                    tickFormatter={val => `${100 * val} %`}
+                    tickFormatter={(val) => `${100 * val} %`}
                   />
 
                   <Bar dataKey={key}>
@@ -200,9 +188,7 @@ const ProjectsChart = ({
                         <Cell
                           key={`cell-${index}`}
                           fill={entry.color}
-                          onClick={() =>
-                            onProjectClick({ value: entry[datakey] })
-                          }
+                          onClick={() => onProjectClick({ value: entry[datakey] })}
                         />
                       )
                     })}
@@ -250,10 +236,10 @@ const ProjectsChart = ({
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  redirect: route => {
+const mapDispatchToProps = (dispatch) => ({
+  redirect: (route) => {
     dispatch(push(route))
-  }
+  },
 })
 
 export default connect(null, mapDispatchToProps)(ProjectsChart)

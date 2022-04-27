@@ -5,10 +5,7 @@ import PageLoader from '../../components/Loader/PageLoader'
 import Email from '../../components/Illustrations/Email'
 import Success from '../../components/Illustrations/Success'
 import { useUser } from '../../stores/user'
-import {
-  useUpdateUserSettings,
-  useUserSettings
-} from '../../stores/user/settings'
+import { useUpdateUserSettings, useUserSettings } from '../../stores/user/settings'
 import styles from './Unsubscribe.module.scss'
 
 const Unsubscribe = () => {
@@ -17,7 +14,7 @@ const Unsubscribe = () => {
   const { user = {}, isLoggedIn, loading } = useUser()
   const {
     loading: settingsLoading,
-    settings: { alertNotifyEmail }
+    settings: { alertNotifyEmail },
   } = useUserSettings()
 
   const [updateUserSettings] = useUpdateUserSettings()
@@ -45,8 +42,8 @@ const Unsubscribe = () => {
       <Email />
       <h3 className={styles.heading}>Signal email notifications</h3>
       <p className={styles.desc}>
-        Please, log in into account with your email and disable signal email
-        notifications in settings
+        Please, log in into account with your email and disable signal email notifications in
+        settings
       </p>
       <Button
         variant='fill'
@@ -66,9 +63,8 @@ const Unsubscribe = () => {
       {target === 'signals' ? (
         <>
           <p className={styles.desc}>
-            You succesfully disabled signal email notifications for{' '}
-            <b>{user.email}</b>. If you want to change it, you can manage email
-            notifications in your user settings.
+            You succesfully disabled signal email notifications for <b>{user.email}</b>. If you want
+            to change it, you can manage email notifications in your user settings.
           </p>
           <Button
             variant='fill'
@@ -83,9 +79,8 @@ const Unsubscribe = () => {
         </>
       ) : (
         <p className={styles.desc}>
-          Your email address<b>{email ? ` ${email} ` : ' '}</b> has been removed
-          from our mailing list. We are sorry to see you go, but we won't be
-          sending any more email to your address.
+          Your email address<b>{email ? ` ${email} ` : ' '}</b> has been removed from our mailing
+          list. We are sorry to see you go, but we won't be sending any more email to your address.
         </p>
       )}
     </div>

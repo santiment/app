@@ -1,25 +1,15 @@
 import React, { useCallback } from 'react'
 import {
   DEFAULT_INTERVAL_SELECTORS,
-  INTERVAL_3_MONTHS
+  INTERVAL_3_MONTHS,
 } from '../../../components/DashboardMetricChart/utils'
 import DashboardProjectChart from '../../../components/DashboardMetricChart/DashboardProjectChart/DashboardProjectChart'
 
-const DEXs = [
-  'Balancer',
-  'KyberNetwork',
-
-  'UniswapV2',
-
-  'Sushiswap',
-
-  '0x_v1',
-  '0x_v2'
-]
+const DEXs = ['Balancer', 'KyberNetwork', 'UniswapV2', 'Sushiswap', '0x_v1', '0x_v2']
 
 const BUILDER = ({ metric, slug }) => {
   const measurementSlug = slug.replace(/-/g, '_')
-  return DEXs.map(dex => {
+  return DEXs.map((dex) => {
     return {
       key: `${metric}_${measurementSlug}_${dex.replace('.', '_')}`,
       queryKey: metric,
@@ -30,16 +20,14 @@ const BUILDER = ({ metric, slug }) => {
       reqMeta: {
         owner: dex,
         label: 'decentralized_exchange',
-        slug
-      }
+        slug,
+      },
     }
   })
 }
 
 const VolumeOfEthTrades = ({ metric }) => {
-  const metricsBuilder = useCallback(({ slug }) => BUILDER({ metric, slug }), [
-    metric
-  ])
+  const metricsBuilder = useCallback(({ slug }) => BUILDER({ metric, slug }), [metric])
 
   return (
     <DashboardProjectChart

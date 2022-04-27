@@ -1,0 +1,34 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 32px 47px;
+}
+
+.title {
+  color: var(--rhino);
+
+  @include text('h4');
+}
+
+.typesWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.link {
+  color: var(--orange);
+
+  &:hover {
+    color: var(--orange-hover);
+  }
+}
+
+.tooltipLink {
+  display: inline-block;
+}

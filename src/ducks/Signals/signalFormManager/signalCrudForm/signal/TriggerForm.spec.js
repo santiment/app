@@ -9,8 +9,8 @@ import { client } from '../../../../../apollo'
 
 const allProjects = [
   {
-    slug: 'santiment'
-  }
+    slug: 'santiment',
+  },
 ]
 
 describe('TriggerForm', () => {
@@ -25,7 +25,7 @@ describe('TriggerForm', () => {
           onSettingsChange={mockCb}
           getSignalBacktestingPoints={() => {}}
         />
-      </ApolloProvider>
+      </ApolloProvider>,
     )
     expect(toJson(wrapper)).toMatchSnapshot()
   })
@@ -50,19 +50,19 @@ describe('TriggerForm EthWallet', () => {
             target: {
               value: {
                 value: asset,
-                label: asset
-              }
+                label: asset,
+              },
             },
             metric: {
-              value: { ...ETH_WALLET_METRIC }
+              value: { ...ETH_WALLET_METRIC },
             },
             type: {
-              value: { ...ETH_WALLET_METRIC }
+              value: { ...ETH_WALLET_METRIC },
             },
-            ethAddress: address
+            ethAddress: address,
           }}
         />
-      </ApolloProvider>
+      </ApolloProvider>,
     )
     expect(toJson(wrapper)).toMatchSnapshot()
   })

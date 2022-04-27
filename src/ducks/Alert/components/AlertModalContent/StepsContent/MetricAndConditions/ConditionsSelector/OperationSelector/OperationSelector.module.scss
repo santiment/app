@@ -1,0 +1,30 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.multiple {
+  --operation-inputs-direction: column;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: var(--operation-inputs-direction, row);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.operation {
+  flex: 1;
+
+  [class="ReactVirtualized__Grid ReactVirtualized__List"] {
+    min-height: 304px;
+  }
+}
+
+.inputs {
+  flex: 1;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

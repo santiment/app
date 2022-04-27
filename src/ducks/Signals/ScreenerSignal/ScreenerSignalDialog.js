@@ -1,18 +1,16 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import memoize from 'lodash.memoize'
-import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
-import Dialog from '@santiment-network/ui/Dialog'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
-import ScreenerSignal from './ScreenerSignal'
-import { updateTrigger, createTrigger } from '../common/actions'
 import { useWatchlist } from '../../Watchlists/gql/hooks'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { useSignals } from '../common/getSignals'
 import { useUser } from '../../../stores/user'
 import LoginPopup from '../../../components/banners/feature/PopupBanner'
-import { SCREENER_DEFAULT_SIGNAL } from './utils'
+import AlertModal from '../../Alert/AlertModal'
+import { SCREENER_DEFAULT_SIGNAL, WATCHLIST_DEFAULT_SIGNAL } from './utils'
+import { ALERT_TYPES } from '../../Alert/constants'
+import { PROJECT, SCREENER } from '../../Watchlists/detector'
 import styles from './ScreenerSignalDialog.module.scss'
 
 export const EditSignalIcon = ({ className }) => (
@@ -36,41 +34,40 @@ export const EditSignalIcon = ({ className }) => (
   </svg>
 )
 
-const getWachlistIdFromSignal = memoize((signal = {}) => {
-  const {
-    settings: { operation: { selector: { watchlist_id } = {} } = {} } = {}
-  } = signal
+const getWachlistIdFromSignal = memoize((signal = {}, isProject) => {
+  if (isProject) {
+    const { settings: { target: { watchlist_id } = {} } = {} } = signal
+
+    return watchlist_id
+  }
+
+  const { settings: { operation: { selector: { watchlist_id } = {} } = {} } = {} } = signal
   return watchlist_id
 })
 
-const getWatchlistSignal = memoize(({ signals, watchlist: { id } }) => {
-  return signals.find(signal => {
-    const wId = getWachlistIdFromSignal(signal)
+const getWatchlistSignal = memoize(({ signals, watchlist: { id }, isProject }) => {
+  return signals.find((signal) => {
+    const wId = getWachlistIdFromSignal(signal, isProject)
     return wId && +wId === +id
   })
 })
 
-const ScreenerSignalDialog = ({
-  trigger: ElTrigger,
-  signal,
-  watchlistId,
-  createTrigger,
-  updateTrigger,
-  defaultOpen,
-  redirect,
-  goBackTo
-}) => {
+const ScreenerSignalDialog = ({ trigger: ElTrigger, signal, watchlistId, type }) => {
+  const isProject = type === PROJECT
   const { isLoggedIn } = useUser()
-  const [stateSignal, setSignal] = useState(signal || SCREENER_DEFAULT_SIGNAL)
-  const [open, setOpen] = useState(defaultOpen)
+  const [stateSignal, setSignal] = useState(
+    signal ||
+      (type === SCREENER && SCREENER_DEFAULT_SIGNAL) ||
+      (isProject && WATCHLIST_DEFAULT_SIGNAL),
+  )
 
-  const targetId = watchlistId || getWachlistIdFromSignal(signal)
+  const targetId = watchlistId || getWachlistIdFromSignal(signal, isProject)
   const [watchlist] = useWatchlist({ id: targetId })
 
   const hasSignal = signal && signal.id > 0
 
   const { data: signals = [], loading: signalsLoading } = useSignals({
-    skip: hasSignal
+    skip: hasSignal,
   })
 
   useEffect(() => {
@@ -82,44 +79,37 @@ const ScreenerSignalDialog = ({
   useEffect(() => {
     if (watchlist && !hasSignal) {
       if (signals.length > 0) {
-        let signalOfWatchlist = getWatchlistSignal({ signals, watchlist })
+        let signalOfWatchlist = getWatchlistSignal({
+          signals,
+          watchlist,
+          isProject,
+        })
         if (signalOfWatchlist) {
           setSignal(signalOfWatchlist)
           return
         }
       }
 
-      const newSignal = {
-        ...SCREENER_DEFAULT_SIGNAL,
-        title: `Alert for screener '${watchlist.name}'`
+      if (isProject) {
+        const newSignal = {
+          ...WATCHLIST_DEFAULT_SIGNAL,
+          title: `Alert for watchlist '${watchlist.name}'`,
+        }
+        newSignal.settings.target = { watchlist_id: +watchlist.id }
+        setSignal(newSignal)
+      } else {
+        const newSignal = {
+          ...SCREENER_DEFAULT_SIGNAL,
+          title: `Alert for screener '${watchlist.name}'`,
+        }
+        newSignal.settings.operation.selector = { watchlist_id: watchlist.id }
+        setSignal(newSignal)
       }
-      newSignal.settings.operation.selector = { watchlist_id: watchlist.id }
-      setSignal(newSignal)
     }
   }, [signals, watchlist])
 
-  const onSubmit = useCallback(
-    data => {
-      setOpen(false)
-      if (stateSignal.id) {
-        return updateTrigger({
-          id: stateSignal.id,
-          ...data
-        })
-      } else {
-        return createTrigger(data)
-      }
-    },
-    [stateSignal]
-  )
-
-  const close = useCallback(() => {
-    setOpen(false)
-    goBackTo && redirect(goBackTo)
-  }, [goBackTo, redirect, setOpen])
-
   const isActive = !!stateSignal.id && !!stateSignal.isActive
-  const title = isActive ? 'Edit Alert' : 'Enable Alert'
+  const title = isActive ? 'Edit Alert' : 'Create Alert'
 
   if (signalsLoading) {
     return <Loader className={styles.loader} />
@@ -137,15 +127,25 @@ const ScreenerSignalDialog = ({
     )
   }
 
+  let defaultType
+
+  switch (type) {
+    case PROJECT:
+      defaultType = ALERT_TYPES[1]
+      break
+    case SCREENER:
+      defaultType = ALERT_TYPES[2]
+      break
+    default:
+      defaultType = ALERT_TYPES[1]
+      break
+  }
+
   return (
-    <Dialog
-      open={open}
-      onOpen={() => setOpen(true)}
-      onClose={close}
-      title={title}
-      classes={{
-        dialog: isLoggedIn ? styles.dialog : undefined
-      }}
+    <AlertModal
+      defaultType={defaultType}
+      signalData={stateSignal}
+      id={stateSignal.id}
       trigger={
         ElTrigger || (
           <Button className={styles.btn} type='button'>
@@ -161,27 +161,8 @@ const ScreenerSignalDialog = ({
           </Button>
         )
       }
-    >
-      <Dialog.ScrollContent>
-        <ScreenerSignal
-          watchlist={watchlist || {}}
-          signal={stateSignal}
-          onCancel={close}
-          onSubmit={onSubmit}
-        />
-      </Dialog.ScrollContent>
-    </Dialog>
+    />
   )
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    createTrigger: payload => dispatch(createTrigger(payload)),
-    updateTrigger: payload => dispatch(updateTrigger(payload)),
-    redirect: url => {
-      dispatch(push(url))
-    }
-  }
-}
-
-export default connect(null, mapDispatchToProps)(ScreenerSignalDialog)
+export default ScreenerSignalDialog

@@ -19,17 +19,16 @@ const OPTIONS = []
 const SELECTED = ''
 
 const dropdownClasses = {
-  wrapper: styles.dropdown
+  wrapper: styles.dropdown,
 }
 
-export function filterExplainableMetrics (metrics) {
+export function filterExplainableMetrics(metrics) {
   return metrics.filter(
-    ({ key }) =>
-      Description[key] || Insights[key] || Explanation[key] || Frequences[key]
+    ({ key }) => Description[key] || Insights[key] || Explanation[key] || Frequences[key],
   )
 }
 
-function dedupMetrics (metrics) {
+function dedupMetrics(metrics) {
   const dups = new Set()
 
   return metrics.filter(({ key }) => {
@@ -39,11 +38,11 @@ function dedupMetrics (metrics) {
   })
 }
 
-function buildOptions (metrics, colors) {
-  return dedupMetrics(filterExplainableMetrics(metrics)).map(metric => ({
+function buildOptions(metrics, colors) {
+  return dedupMetrics(filterExplainableMetrics(metrics)).map((metric) => ({
     index: metric.key,
     content: <Label metric={metric} colors={colors} />,
-    metric
+    metric,
   }))
 }
 
@@ -57,13 +56,7 @@ const Label = ({ metric, colors }) => {
   )
 }
 
-const MetricsExplanation = ({
-  metrics,
-  MetricColor,
-  onClose,
-  project,
-  ...rest
-}) => {
+const MetricsExplanation = ({ metrics, MetricColor, onClose, project, ...rest }) => {
   const [options, setOptions] = useState(OPTIONS)
   const [selected, setSelected] = useState(SELECTED)
 
@@ -106,7 +99,7 @@ const MetricsExplanation = ({
   )
 }
 
-export const MetricsExplanationContainer = props => (
+export const MetricsExplanationContainer = (props) => (
   <div className={styles.container}>
     <div className='txt-m mrg-l mrg--b'>Metric Explanations</div>
     <MetricsExplanation {...props} />
@@ -123,7 +116,7 @@ MetricsExplanation.Button = ({ onClick, ...props }) => (
 )
 
 MetricsExplanation.defaultProps = {
-  MetricColor: {}
+  MetricColor: {},
 }
 
 export default MetricsExplanation

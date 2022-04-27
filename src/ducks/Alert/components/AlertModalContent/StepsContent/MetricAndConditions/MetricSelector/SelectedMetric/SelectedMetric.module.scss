@@ -1,0 +1,22 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.wrapper {
+  margin-bottom: 12px;
+  padding: 8px 16px;
+  border: 1px solid var(--jungle-green-light-3);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.title {
+  margin-bottom: 6px;
+  color: var(--rhino);
+
+  @include text("body-3", "m");
+}
+
+.description {
+  color: var(--waterloo);
+
+  @include text("caption");
+}

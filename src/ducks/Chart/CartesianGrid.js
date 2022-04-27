@@ -8,9 +8,9 @@ const CartesianGrid = buildPlotter((chart, { xTicks, yTicks }) => {
   useEffect(
     () =>
       chart.plotter.register(ID, (_, scale) =>
-        drawCartesianGrid(chart, chart.axesColor, xTicks, yTicks)
+        drawCartesianGrid(chart, chart.axesColor, xTicks, yTicks),
       ),
-    [xTicks, yTicks]
+    [xTicks, yTicks],
   )
 
   usePlotterRemove(chart, ID)
@@ -18,7 +18,7 @@ const CartesianGrid = buildPlotter((chart, { xTicks, yTicks }) => {
 
 CartesianGrid.defaultProps = {
   xTicks: 10,
-  yTicks: 8
+  yTicks: 8,
 }
 
 export default CartesianGrid

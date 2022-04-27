@@ -9,14 +9,14 @@ import UpgradeBtn from '../../../components/UpgradeBtn/UpgradeBtn'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import styles from './PaywallInfo.module.scss'
 
-function formatDate (date) {
+function formatDate(date) {
   const { DD, MMM, YY } = getDateFormats(new Date(date))
   return `${DD} ${MMM}, ${YY}`
 }
 
 const DEFAULT_INFOS = []
 
-function useRestrictedInfo (metrics) {
+function useRestrictedInfo(metrics) {
   const [infos, setInfos] = useState(DEFAULT_INFOS)
 
   useEffect(() => {
@@ -25,7 +25,7 @@ function useRestrictedInfo (metrics) {
     let race = false
     const infos = []
 
-    getMetricBoundaries().then(MetricsBoundaries => {
+    getMetricBoundaries().then((MetricsBoundaries) => {
       if (race) return
 
       metrics.forEach(({ key, queryKey = key, label }, i) => {
@@ -38,9 +38,7 @@ function useRestrictedInfo (metrics) {
           infos.push({
             label,
             boundaries:
-              from && to
-                ? `${formatDate(from)} - ${formatDate(to)}`
-                : formatDate(from || to)
+              from && to ? `${formatDate(from)} - ${formatDate(to)}` : formatDate(from || to),
           })
         }
       })
@@ -61,13 +59,7 @@ const PaywallInfo = ({ metrics, className }) => {
   const { isPro, isTrial } = useUserSubscriptionStatus()
 
   if (isTrial) {
-    return (
-      <UpgradeBtn
-        variant='fill'
-        fluid
-        className={cx(styles.upgrade_trial, className)}
-      />
-    )
+    return <UpgradeBtn variant='fill' fluid className={cx(styles.upgrade_trial, className)} />
   }
 
   if (isPro) return null
@@ -84,16 +76,15 @@ const PaywallInfo = ({ metrics, className }) => {
       className={styles.tooltip}
     >
       <div className={styles.content}>
-        <h2 className={styles.title}>Why is some data hidden?</h2>
+        <h2 className={cx(styles.title, 'mrg-m mrg--b')}>Why is some data hidden?</h2>
         <p className={styles.text}>Your plan has limited data period for:</p>
         {infos.map(({ label, boundaries }) => (
-          <p key={label} className={styles.restriction}>
+          <p key={label} className={cx(styles.restriction, 'mrg-xs mrg--t')}>
             {label} ({boundaries})
           </p>
         ))}
-        <p className={styles.text}>
-          To unlock the full potential of Santiment metrics you need to upgrade
-          your account to PRO
+        <p className={cx(styles.text, 'mrg-l mrg--t mrg--b')}>
+          To unlock the full potential of Santiment metrics you need to upgrade your account to PRO
         </p>
         <UpgradeBtn variant='fill' fluid className={styles.upgrade} />
       </div>

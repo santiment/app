@@ -26,10 +26,10 @@ const query = gql`
   }
 `
 
-export const getSlugs = slugs => {
+export const getSlugs = (slugs) => {
   const func = JSON.stringify({
     args: { baseProjects: [{ slugs }] },
-    name: 'selector'
+    name: 'selector',
   })
 
   return client
@@ -38,23 +38,13 @@ export const getSlugs = slugs => {
     .catch(console.warn)
 }
 
-const Asset = ({
-  ticker,
-  logoUrl,
-  darkLogoUrl,
-  priceUsd,
-  percentChange24h
-}) => {
+const Asset = ({ ticker, logoUrl, darkLogoUrl, priceUsd, percentChange24h }) => {
   if (!ticker) return null
 
   return (
     <>
       <Column>
-        <ProjectIcon
-          className={styles.icon}
-          logoUrl={logoUrl}
-          darkLogoUrl={darkLogoUrl}
-        />
+        <ProjectIcon className={styles.icon} logoUrl={logoUrl} darkLogoUrl={darkLogoUrl} />
         {ticker}
       </Column>
 

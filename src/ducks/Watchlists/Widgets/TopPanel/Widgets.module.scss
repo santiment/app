@@ -1,6 +1,7 @@
 @import '~@santiment-network/ui/mixins';
 
 .triggerButton {
+  margin-left: 16px;
   align-items: center;
   justify-content: center;
   background: transparent !important;
@@ -12,7 +13,7 @@
       content: '';
       position: absolute;
       display: block;
-      top: 8px;
+      top: 7px;
       left: 21px;
       border-radius: 1px;
       width: 7px;

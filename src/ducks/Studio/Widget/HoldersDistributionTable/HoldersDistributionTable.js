@@ -24,17 +24,8 @@ const Header = ({ dates, onCalendarChange, onCloseClick }) => (
   <div className={styles.header}>
     Top Holders
     <div className={styles.header__right}>
-      <Calendar
-        className={styles.calendar}
-        selectRange
-        dates={dates}
-        onChange={onCalendarChange}
-      />
-      <Icon
-        type='close-medium'
-        className={widgetStyles.close}
-        onClick={onCloseClick}
-      />
+      <Calendar className={styles.calendar} selectRange dates={dates} onChange={onCalendarChange} />
+      <Icon type='close-medium' className={widgetStyles.close} onClick={onCloseClick} />
     </div>
   </div>
 )
@@ -48,30 +39,22 @@ const HoldersDistributionTable = ({ settings: { slug }, ...rest }) => {
   const [maxAmount] = useMaxCountTopHolders({
     from,
     to,
-    slug
+    slug,
   })
   const [holders, loading] = useTopHolders({
     from,
     to,
     page: page + 1,
     pageSize,
-    slug
+    slug,
   })
 
   return (
     <PanelWithHeader
       header={
-        <Header
-          dates={dates}
-          onCalendarChange={onCalendarChange}
-          onCloseClick={onCloseClick}
-        />
+        <Header dates={dates} onCalendarChange={onCalendarChange} onCloseClick={onCloseClick} />
       }
-      className={cx(
-        tableStyles.wrapper,
-        widgetStyles.widget_secondary,
-        styles.container
-      )}
+      className={cx(tableStyles.wrapper, widgetStyles.widget_secondary, styles.container)}
       contentClassName={cx(tableStyles.panel)}
       headerClassName={styles.panelHeader}
     >
@@ -87,29 +70,29 @@ const HoldersDistributionTable = ({ settings: { slug }, ...rest }) => {
             options={{
               sortingSettings: {
                 defaultSorting: [],
-                allowSort: false
+                allowSort: false,
               },
               stickySettings: { isStickyHeader: true },
               noDataSettings: {
-                title: 'No data!'
+                title: 'No data!',
               },
               paginationSettings: {
                 pageSize: pageSize,
                 pageIndex: page,
-                onChangePage: pageIndex => {
+                onChangePage: (pageIndex) => {
                   setPage(pageIndex)
                 },
                 pageSizeOptions: PAGE_SIZE_OPTIONS,
                 controlledPageCount: Math.ceil(maxAmount / pageSize),
-                manualPagination: true
-              }
+                manualPagination: true,
+              },
             }}
             className={widgetStyles.widget_secondary}
             classes={{
               pagination: styles.pagination,
               table: styles.table,
               header: styles.table__header,
-              headerColumn: styles.table__header__column
+              headerColumn: styles.table__header__column,
             }}
           />
         </SmoothDropdown>
@@ -118,15 +101,15 @@ const HoldersDistributionTable = ({ settings: { slug }, ...rest }) => {
   )
 }
 
-HoldersDistributionTable.new = props =>
+HoldersDistributionTable.new = (props) =>
   ChartWidget.new(
     {
       datesRange: DEFAULT_DATES,
       mergedMetrics: [],
       metrics: [],
-      ...props
+      ...props,
     },
-    HoldersDistributionTable
+    HoldersDistributionTable,
   )
 
 export default HoldersDistributionTable

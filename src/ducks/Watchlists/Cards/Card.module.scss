@@ -5,14 +5,14 @@
   border: 1px solid var(--porcelain);
   border-radius: 4px;
   cursor: pointer;
-  padding: 16px 20px;
-  height: 120px;
+  padding: var(--project-card-padding, 16px 20px);
+  height: var(--project-card-height, 120px);
   user-select: none;
   color: var(--rhino);
 
   &:hover {
-    border-color: var(--mystic);
-    color: var(--jungle-green);
+    border-color: var(--project-card-border-color, var(--mystic));
+    color: var(--project-card-color, var(--jungle-green));
   }
 }
 
@@ -43,7 +43,7 @@
   display: flex;
   justify-content: space-between;
   color: var(--rhino);
-  margin: 12px 0 8px;
+  margin: var(--project-card-middle-margin, 12px 0 8px);
 }
 
 .bottom {

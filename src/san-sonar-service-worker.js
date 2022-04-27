@@ -17,13 +17,13 @@ const createActivityChecksTable = () => {
   if (db && !db.objectStoreNames.contains(ACTIVITY_CHECKS_STORE_NAME)) {
     db.createObjectStore(ACTIVITY_CHECKS_STORE_NAME, {
       keyPath: 'id',
-      autoIncrement: true
+      autoIncrement: true,
     })
   }
   if (db && !db.objectStoreNames.contains(PARAMS_CHECKS_STORE_NAME)) {
     db.createObjectStore(PARAMS_CHECKS_STORE_NAME, {
       keyPath: 'id',
-      autoIncrement: true
+      autoIncrement: true,
     })
   }
 }
@@ -35,22 +35,22 @@ const createActivitiesDB = () => {
   }
 
   const request = indexedDB.open(WS_DB_NAME)
-  request.onerror = event => {
+  request.onerror = (event) => {
     console.log('The database is opened failed')
   }
-  request.onsuccess = event => {
+  request.onsuccess = (event) => {
     console.log('The database is opened successfully')
     db = request.result
     loadAndCheckActivities()
   }
-  request.onupgradeneeded = event => {
+  request.onupgradeneeded = (event) => {
     console.log('The database is onupgradeneeded successfully')
     db = event.target.result
     createActivityChecksTable()
   }
 }
 
-function getFirstValueFromTable (storeName, checkCallback) {
+function getFirstValueFromTable(storeName, checkCallback) {
   if (noDbOrStore(storeName)) {
     return
   }
@@ -62,7 +62,7 @@ function getFirstValueFromTable (storeName, checkCallback) {
 
   const cursorRequest = objectStore.openCursor()
 
-  cursorRequest.onsuccess = event => {
+  cursorRequest.onsuccess = (event) => {
     let cursor = event.target.result
     if (cursor) {
       checkCallback(cursor.value)
@@ -71,16 +71,16 @@ function getFirstValueFromTable (storeName, checkCallback) {
     }
   }
 
-  cursorRequest.onerror = event => {
+  cursorRequest.onerror = (event) => {
     console.log('IndexDB cursor failed', event)
   }
 }
 
-function noDbOrStore (storeName) {
+function noDbOrStore(storeName) {
   return !db || !db.objectStoreNames.contains(storeName)
 }
 
-function removeFromDb (storeName, checkCallback) {
+function removeFromDb(storeName, checkCallback) {
   if (noDbOrStore(storeName)) {
     setTimeout(() => {
       removeFromDb(storeName, checkCallback)
@@ -90,12 +90,9 @@ function removeFromDb (storeName, checkCallback) {
 
   createActivityChecksTable()
 
-  const request = db
-    .transaction([storeName], 'readwrite')
-    .objectStore(storeName)
-    .clear()
+  const request = db.transaction([storeName], 'readwrite').objectStore(storeName).clear()
 
-  request.onsuccess = event => {
+  request.onsuccess = (event) => {
     checkCallback()
   }
   request.onerror = () => {
@@ -103,23 +100,20 @@ function removeFromDb (storeName, checkCallback) {
   }
 }
 
-function addToDb (storeName, data, checkCallback) {
+function addToDb(storeName, data, checkCallback) {
   if (noDbOrStore(storeName)) {
     return
   }
 
   createActivityChecksTable()
 
-  const request = db
-    .transaction([storeName], 'readwrite')
-    .objectStore(storeName)
-    .add(data)
+  const request = db.transaction([storeName], 'readwrite').objectStore(storeName).add(data)
 
-  request.onsuccess = event => {
+  request.onsuccess = (event) => {
     checkCallback && checkCallback()
   }
 
-  request.onerror = event => {
+  request.onerror = (event) => {
     console.log('The data has been written failed', event)
     checkCallback && checkCallback()
   }
@@ -145,32 +139,28 @@ const addActivityDateAndRestart = (triggeredAt, newCount, enabled) => {
     ACTIVITY_CHECKS_STORE_NAME,
     {
       triggeredAt: triggeredAt,
-      count: newCount
+      count: newCount,
     },
-    enabled ? restart : undefined
+    enabled ? restart : undefined,
   )
 }
 
-const showActivitiesNotification = newCount => {
-  const displayCount =
-    newCount >= MAX_CHECKING_COUNT ? MAX_CHECKING_COUNT + '+' : newCount
-  self.registration.showNotification(
-    displayCount + ' new activities in Sonar!',
-    {
-      body: 'Open to check ' + PUBLIC_FRONTEND_ROUTE + '/sonar/activity',
-      badge: '/favicon-96x96.png',
-      icon: '/favicon-96x96.png',
-      timestamp: new Date()
-    }
-  )
+const showActivitiesNotification = (newCount) => {
+  const displayCount = newCount >= MAX_CHECKING_COUNT ? MAX_CHECKING_COUNT + '+' : newCount
+  self.registration.showNotification(displayCount + ' new activities in Sonar!', {
+    body: 'Open to check ' + PUBLIC_FRONTEND_ROUTE + '/sonar/activity',
+    badge: '/favicon-96x96.png',
+    icon: '/favicon-96x96.png',
+    timestamp: new Date(),
+  })
 }
 
-const checkNewActivities = activities => {
+const checkNewActivities = (activities) => {
   if (activities && activities.length > 0) {
     const loadedTriggeredAt = new Date(activities[0].triggeredAt)
 
     if (loadedTriggeredAt) {
-      getFirstValueFromTable(ACTIVITY_CHECKS_STORE_NAME, data => {
+      getFirstValueFromTable(ACTIVITY_CHECKS_STORE_NAME, (data) => {
         if (data) {
           const lastSavedTriggeredTime = new Date(data.triggeredAt).getTime()
           const count = activities.reduce((acc, item) => {
@@ -181,8 +171,7 @@ const checkNewActivities = activities => {
           }, 0)
 
           const isSameActivities =
-            loadedTriggeredAt.getTime() === lastSavedTriggeredTime &&
-            data.count === count
+            loadedTriggeredAt.getTime() === lastSavedTriggeredTime && data.count === count
           if (isSameActivities) {
             restart()
           } else if (count > data.count) {
@@ -211,12 +200,7 @@ const loadAndCheckActivities = () => {
     if (noUrls) {
       loadUrlParams()
     }
-    console.log(
-      "Can't load sonar activities: ",
-      isStopped,
-      PUBLIC_API_ROUTE,
-      PUBLIC_FRONTEND_ROUTE
-    )
+    console.log("Can't load sonar activities: ", isStopped, PUBLIC_API_ROUTE, PUBLIC_FRONTEND_ROUTE)
     restart()
     return
   }
@@ -230,29 +214,29 @@ const loadAndCheckActivities = () => {
       'query signalsHistoricalActivity($datetime: DateTime!) {  activities: signalsHistoricalActivity(limit: ' +
       MAX_CHECKING_COUNT +
       ', cursor: {type: BEFORE, datetime: $datetime}) {    cursor {      before      after      __typename    }    activity {      triggeredAt      trigger {    settings }    __typename    }    __typename  }}',
-    variables: { datetime: from.toISOString() }
+    variables: { datetime: from.toISOString() },
   }
 
   fetch(PUBLIC_API_ROUTE + `/graphql`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', accept: '*/*' },
     body: JSON.stringify(query),
-    credentials: 'include'
+    credentials: 'include',
   })
-    .then(res => res.json())
-    .then(res => {
+    .then((res) => res.json())
+    .then((res) => {
       const { data: { activities: { activity } = {} } = {} } = res
 
       if (activity) {
         const filtered = activity.filter(
           ({
             trigger: {
-              settings: { channel }
-            }
+              settings: { channel },
+            },
           }) =>
             Array.isArray(channel)
               ? channel.indexOf(WEB_PUSH_CHANNEL) !== -1
-              : channel === WEB_PUSH_CHANNEL
+              : channel === WEB_PUSH_CHANNEL,
         )
 
         checkNewActivities(filtered)
@@ -260,7 +244,7 @@ const loadAndCheckActivities = () => {
         restart()
       }
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(error)
       restart()
     })
@@ -289,13 +273,10 @@ self.addEventListener('message', function (event) {
 })
 
 const loadUrlParams = () => {
-  getFirstValueFromTable(PARAMS_CHECKS_STORE_NAME, data => {
+  getFirstValueFromTable(PARAMS_CHECKS_STORE_NAME, (data) => {
     if (data) {
       console.log('Loaded sonar service worker params from DB', data)
-      const {
-        PUBLIC_API_ROUTE: apiRoute,
-        PUBLIC_FRONTEND_ROUTE: webRoute
-      } = data
+      const { PUBLIC_API_ROUTE: apiRoute, PUBLIC_FRONTEND_ROUTE: webRoute } = data
 
       if (apiRoute && webRoute) {
         PUBLIC_API_ROUTE = apiRoute

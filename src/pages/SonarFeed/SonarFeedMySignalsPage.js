@@ -3,7 +3,7 @@ import { RecommendedSignals } from './SonarFeedRecommendations'
 import { mapQSToState } from '../../utils/utils'
 import SignalsList from './SignalsList'
 
-const SonarFeedMySignalsPage = props => {
+const SonarFeedMySignalsPage = (props) => {
   const filters = mapQSToState(props)
 
   return (

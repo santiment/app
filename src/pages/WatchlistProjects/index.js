@@ -8,7 +8,7 @@ import PageLoader from '../../components/Loader/PageLoader'
 
 export const WatchlistPage = ({ Page, isDesktop, ...props }) =>
   isDesktop ? (
-    <Page {...props} {...props.watchlist} />
+    <Page {...props} {...props.watchlist} isDesktop={isDesktop} />
   ) : (
     <AssetsMobilePage {...props} />
   )
@@ -19,12 +19,11 @@ const WatchlistProjects = ({ match, ...props }) => {
 
   if (isLoading) return <PageLoader />
   if (!watchlist) return <Redirect to='/' />
-
-  return <WatchlistPage {...props} type='list' watchlist={watchlist} />
+  return <WatchlistPage {...props} type='list' watchlist={watchlist} isDesktop={props.isDesktop} />
 }
 
 WatchlistProjects.defaultProps = {
-  Page: LegacyWatchlistPage
+  Page: LegacyWatchlistPage,
 }
 
 export default WatchlistProjects

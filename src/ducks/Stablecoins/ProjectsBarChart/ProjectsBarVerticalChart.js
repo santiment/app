@@ -1,18 +1,8 @@
 import React from 'react'
 import cx from 'classnames'
-import {
-  CartesianGrid,
-  ComposedChart,
-  ResponsiveContainer,
-  XAxis,
-  YAxis
-} from 'recharts'
+import { CartesianGrid, ComposedChart, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 import { SanWatermark } from './resources'
-import {
-  getProjectsMarkup,
-  renderVerticalLabel,
-  VerticalCategoryTick
-} from './utils'
+import { getProjectsMarkup, renderVerticalLabel, VerticalCategoryTick } from './utils'
 import styles from './ProjectsBarChart.module.scss'
 
 const DESKTOP_MARGIN = { top: 20, right: 34, left: 44, bottom: 0 }
@@ -24,7 +14,7 @@ const ProjectsBarVerticalChart = ({
   dataKey = 'value',
   onProjectClick,
   MetricColor,
-  settings: { valueFormatter = v => v } = {}
+  settings: { valueFormatter = (v) => v } = {},
 }) => {
   const markup = getProjectsMarkup({
     MetricColor,
@@ -35,14 +25,14 @@ const ProjectsBarVerticalChart = ({
     labelRenderer: renderVerticalLabel,
     barSize: 40,
     maxBarSize: 40,
-    isDesktop
+    isDesktop,
   })
 
   return (
     <div
       className={cx(styles.chart, styles.verticalChart)}
       style={{
-        height: `${data.length * 40}px`
+        height: `${data.length * 40}px`,
       }}
     >
       <div className={styles.watermark}>{SanWatermark}</div>
@@ -53,9 +43,7 @@ const ProjectsBarVerticalChart = ({
           layout='vertical'
           margin={isDesktop ? DESKTOP_MARGIN : MOBILE_MARGIN}
         >
-          {isDesktop && (
-            <CartesianGrid horizontal={false} stroke='var(--porcelain)' />
-          )}
+          {isDesktop && <CartesianGrid horizontal={false} stroke='var(--porcelain)' />}
 
           <XAxis
             type='number'
@@ -84,7 +72,7 @@ const ProjectsBarVerticalChart = ({
             textAnchor='end'
             verticalAnchor='end'
             onClick={onProjectClick}
-            tick={props => <VerticalCategoryTick {...props} data={data} />}
+            tick={(props) => <VerticalCategoryTick {...props} data={data} />}
           />
 
           {markup}

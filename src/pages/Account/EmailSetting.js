@@ -19,7 +19,7 @@ const CHANGE_EMAIL_MUTATION = gql`
   }
 `
 
-const validateEmail = email => {
+const validateEmail = (email) => {
   if (!email) {
     return 'Email is required'
   }
@@ -39,11 +39,11 @@ const EmailSetting = ({
   withoutButtons,
   isEmailConnected,
   onChangeStatus = () => {},
-  statuses = {}
+  statuses = {},
 }) => {
   const show = !hideIfEmail || (hideIfEmail && !email)
 
-  const onSubmit = value => {
+  const onSubmit = (value) => {
     onChangeStatus(statuses.loading)
     changeEmail({ variables: { value } })
       .then(() => {
@@ -51,12 +51,12 @@ const EmailSetting = ({
         showNotification(`Verification email was sent to "${value}"`)
         dispatchNewEmail(value)
       })
-      .catch(error => {
+      .catch((error) => {
         onChangeStatus(statuses.error)
         if (error.graphQLErrors[0].details.email.includes(TAKEN_MSG)) {
           showNotification({
             variant: 'error',
-            title: `Email "${value}" is already taken`
+            title: `Email "${value}" is already taken`,
           })
         }
       })
@@ -85,21 +85,21 @@ const EmailSetting = ({
 }
 
 const mapStateToProps = ({ user: { data: { email } = {} } }) => ({
-  email
+  email,
 })
 
-const mapDispatchToProps = dispatch => ({
-  dispatchNewEmail: email =>
+const mapDispatchToProps = (dispatch) => ({
+  dispatchNewEmail: (email) =>
     dispatch({
       type: USER_EMAIL_CHANGE,
-      email
+      email,
     }),
-  showNotification: data => dispatch(showNotification(data))
+  showNotification: (data) => dispatch(showNotification(data)),
 })
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  graphql(CHANGE_EMAIL_MUTATION, { name: 'changeEmail' })
+  graphql(CHANGE_EMAIL_MUTATION, { name: 'changeEmail' }),
 )
 
 export default enhance(EmailSetting)

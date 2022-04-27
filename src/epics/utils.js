@@ -5,10 +5,11 @@ import { showNotification } from '../actions/rootActions'
 import { Link } from 'react-router-dom'
 import styles from './epic-items.module.scss'
 
-export const handleErrorAndTriggerAction = action => (error, data) => {
+export const handleErrorAndTriggerAction = (action) => (error, data) => {
   Sentry.captureException(error)
 
-  const isSubscriptionError = error.message.indexOf('subscription') !== -1
+  const isSubscriptionError =
+    error.message.indexOf('subscription') !== -1 || error.message.indexOf('limit') !== -1
 
   if (isSubscriptionError) {
     return Observable.merge(
@@ -16,20 +17,20 @@ export const handleErrorAndTriggerAction = action => (error, data) => {
       Observable.of(
         showNotification({
           variant: 'info',
-          title: "You've reached your alerts limit (10)",
+          title: "You've reached your alerts limit",
           description: (
             <div>
               <div className={styles.description}>
                 Please upgrade your account for unlimited alerts
               </div>
-              <Link className={styles.link} to='/account#subscription'>
+              <Link className={styles.link} to='/pricing'>
                 Upgrade plan
               </Link>
             </div>
           ),
-          dismissAfter: 8000
-        })
-      )
+          dismissAfter: 8000,
+        }),
+      ),
     )
   } else {
     return Observable.of({ type: action, payload: error, data })

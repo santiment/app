@@ -13,16 +13,12 @@ const AssetsTemplates = ({ watchlist, items }) => {
     <>
       {!isAuthor && !isPublic && (
         <EmptySection imgClassName={styles.img}>
-          <Label className={styles.emptyText}>
-            List is private or doesn't exist
-          </Label>
+          <Label className={styles.emptyText}>List is private or doesn't exist</Label>
         </EmptySection>
       )}
       {!isAuthor && isPublic && items.length === 0 && (
         <EmptySection imgClassName={styles.img}>
-          <Label className={styles.emptyText}>
-            This public watchlist is empty
-          </Label>
+          <Label className={styles.emptyText}>This public watchlist is empty</Label>
         </EmptySection>
       )}
       {isAuthor && items.length === 0 && (
@@ -37,11 +33,7 @@ const AssetsTemplates = ({ watchlist, items }) => {
             assets={items}
             watchlist={watchlist}
             trigger={
-              <Button
-                accent='positive'
-                variant='fill'
-                className={styles.emptyBtn}
-              >
+              <Button accent='positive' variant='fill' className={styles.emptyBtn}>
                 Add assets
               </Button>
             }

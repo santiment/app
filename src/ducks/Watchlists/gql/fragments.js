@@ -26,6 +26,12 @@ export const WATCHLIST_GENERAL_FRAGMENT = gql`
     updatedAt
     description
     isMonitored
+    votes {
+      userVotes: currentUserVotes
+      totalVotes
+    }
+    votedAt
+    commentsCount
     user {
       id
     }
@@ -77,7 +83,7 @@ export const PROJECTS_LIST_ITEMS_FRAGMENT = gql`
   }
 `
 
-export const getStats = type =>
+export const getStats = (type) =>
   type !== BLOCKCHAIN_ADDRESS
     ? ''
     : `
@@ -85,12 +91,10 @@ export const getStats = type =>
     blockchainAddressesCount
   }`
 
-export const getListItemsShortFragment = type =>
+export const getListItemsShortFragment = (type) =>
   type === BLOCKCHAIN_ADDRESS
     ? ADDRESSES_SHORT_LIST_ITEMS_FRAGMENT
     : PROJECTS_SHORT_LIST_ITEMS_FRAGMENT
 
-export const getListItemsFragment = type =>
-  type === BLOCKCHAIN_ADDRESS
-    ? ADDRESSES_SHORT_LIST_ITEMS_FRAGMENT
-    : PROJECTS_LIST_ITEMS_FRAGMENT
+export const getListItemsFragment = (type) =>
+  type === BLOCKCHAIN_ADDRESS ? ADDRESSES_SHORT_LIST_ITEMS_FRAGMENT : PROJECTS_LIST_ITEMS_FRAGMENT

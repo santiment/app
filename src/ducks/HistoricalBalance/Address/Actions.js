@@ -25,7 +25,7 @@ const CreateAlertTrigger = ({ className, assets, address, isWithIcon }) => (
 const Actions = ({ address, infrastructure, assets, note }) => {
   const { ActionsMenu, close } = useControlledActionsMenu()
 
-  function onCommentClick () {
+  function onCommentClick() {
     const $comment = document.querySelector('textarea[name="comment"]')
     if ($comment) {
       $comment.focus()
@@ -36,16 +36,10 @@ const Actions = ({ address, infrastructure, assets, note }) => {
   return (
     <div className={styles.actions}>
       <ActionsMenu
-        Trigger={props => (
-          <CreateAlertTrigger {...props} assets={assets} address={address} />
-        )}
+        Trigger={(props) => <CreateAlertTrigger {...props} assets={assets} address={address} />}
       >
         <CreateAlertTrigger assets={assets} address={address} isWithIcon />
-        <AddToWatchlist
-          address={address}
-          infrastructure={infrastructure}
-          note={note}
-        />
+        <AddToWatchlist address={address} infrastructure={infrastructure} note={note} />
         <Button className={styles.btn} onClick={onCommentClick}>
           <Icon type='comment' className={styles.btn__icon} />
           Comment

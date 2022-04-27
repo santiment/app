@@ -8,7 +8,7 @@ import {
   PRICE_ABSOLUTE_CHANGE,
   PRICE_PERCENT_CHANGE,
   PRICE_VOLUME_DIFFERENCE,
-  SIGNAL_METRIC_TYPES
+  SIGNAL_METRIC_TYPES,
 } from '../../../ducks/Signals/utils/constants'
 import styles from './SignalControls.module.scss'
 
@@ -41,11 +41,11 @@ const getIconStyles = (type, metric) => {
   }
 }
 
-export const SignalTypeIcon = ({ type, metric, className }) => {
+export const SignalTypeIcon = ({ type, metric, className, isFrozen }) => {
   const [icon, iconClass] = getIconStyles(type, metric)
 
   return (
-    <div className={cx(iconClass, className)}>
+    <div className={cx(iconClass, isFrozen && styles.frozenIcon, className)}>
       <Icon type={icon} />
     </div>
   )

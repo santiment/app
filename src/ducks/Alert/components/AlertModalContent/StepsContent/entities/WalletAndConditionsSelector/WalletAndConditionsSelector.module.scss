@@ -1,0 +1,47 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  margin-bottom: 16px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+
+  @include text("caption", "m");
+}
+
+.label {
+  color: var(--waterloo);
+}
+
+.link {
+  cursor: pointer;
+  color: var(--jungle-green);
+}
+
+.addressInput {
+  margin-bottom: 12px;
+}
+
+.assetSelect {
+  margin-bottom: 24px;
+}
+
+.conditions {
+  display: flex;
+  flex-direction: column;
+}
+
+.titleWrapper {
+  display: flex;
+  justify-content: space-between;
+}

@@ -10,8 +10,8 @@ import styles from './UniswapHistoricalBalance.module.scss'
 
 const WALLET_ASSETS = [
   {
-    slug: 'uniswap'
-  }
+    slug: 'uniswap',
+  },
 ]
 const PRICE_ASSETS = ['uniswap']
 const METRICS = getWalletMetrics(WALLET_ASSETS, PRICE_ASSETS)
@@ -23,16 +23,10 @@ const SETTINGS = {
   address: ADDRESS,
   interval: getValidInterval(FROM, TO),
   from: FROM.toISOString(),
-  to: TO.toISOString()
+  to: TO.toISOString(),
 }
 
-const UniswapHistoricalBalance = ({
-  className,
-  headerClassName,
-  axesTicks,
-  padding,
-  height
-}) => {
+const UniswapHistoricalBalance = ({ className, headerClassName, axesTicks, padding, height }) => {
   const { settings, changeTimePeriod } = useSettings(SETTINGS)
 
   return (
@@ -64,14 +58,14 @@ const UniswapHistoricalBalance = ({
 UniswapHistoricalBalance.defaultProps = {
   axesTicks: {
     xTicks: 6,
-    yTicks: 4
+    yTicks: 4,
   },
   padding: {
     top: 10,
     right: 45,
     bottom: 23,
-    left: 45
-  }
+    left: 45,
+  },
 }
 
 export default UniswapHistoricalBalance
