@@ -1,8 +1,7 @@
 import React from 'react'
+import { InsightCard, PulseInsight } from '@cmp/InsightCard'
 import { publishDateSorter } from './utils'
 import Feed from '../Feed/Feed'
-
-import { InsightCard, PulseInsight } from '@cmp/InsightCard'
 
 const Insight = ({ className, ...insight }) => {
   const El = insight.isPulse ? PulseInsight : InsightCard

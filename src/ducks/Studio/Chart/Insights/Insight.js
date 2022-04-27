@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Loader from '@santiment-network/ui/Loader/Loader'
+import { CommentsType } from 'webkit/api/comments'
+import { Comments } from '@cmp/Comments'
 import Avatar from './Avatar'
 import Text from './Text'
 import { getInsightText } from './queries'
 import styles from './Insight.module.scss'
-
-import { CommentsType } from 'webkit/api/comments'
-import { Comments } from '@cmp/Comments'
 
 const Action = ({ type, isDisabled, ...props }) => (
   <div {...props} className={cx(styles.action, styles[type], isDisabled && styles.action_disabled)}>

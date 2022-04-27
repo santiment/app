@@ -10,7 +10,7 @@ const WATCHLIST_QUERY = (id) => `query {
 const accessor = ({ item }) => item
 export const queryWatchlist = (id) => query(WATCHLIST_QUERY(id)).then(accessor)
 
-const mapItems = (queries) => queries
+const mapItems = (queries) => queries.filter(Boolean)
 export function queryRecentItems(queryItems, ids) {
   const query = (id) => queryItems(id).catch(() => null)
   return ids.length ? Promise.all(ids.map(query)).then(mapItems) : Promise.resolve([])
