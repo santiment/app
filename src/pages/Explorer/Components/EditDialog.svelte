@@ -13,23 +13,24 @@
   import { edit } from './api'
 
   const MAX_TITLE_LENGTH = 25
+  const MIN_TITLE_LENGTH = 3
 
   export let itemData
 
   let closeDialog
   let editedTitle = itemData.title
-  let editedDescription = itemData.description
-  let editedPublic = itemData.isPublic
+  let editedDescription = itemData.description || ''
+  let editedPublic = !!itemData.isPublic
   let loading = false
 
   $: titleLength = editedTitle ? editedTitle.length : 0
-  $: applyDisabled = loading || titleLength < 3 || titleLength > MAX_TITLE_LENGTH
+  $: applyDisabled = loading || titleLength < MIN_TITLE_LENGTH || titleLength > MAX_TITLE_LENGTH
 
   function onEditClick() {
     loading = true
     edit(itemData.id, itemData.editKey, editedTitle, editedDescription, editedPublic)
       .then(() => {
-        // TODO: update item in the UIs
+        // TODO: update item in the UI
         closeDialog()
       })
       .catch((err) => {
