@@ -34,7 +34,7 @@ const AlertChannelsTooltip = ({ signal }) => {
     (!isEmailConnected && channel.includes('email')) ||
     (!isTelegramConnected && channel.includes('telegram'))
 
-  const channelItems = Array.isArray(channel) ? channel : []
+  const channelItems = Array.isArray(channel) ? channel : [channel]
   const channelTitles = channelItems.map((item) => {
     if (typeof item === 'string') {
       return capitalizeStr(item)
