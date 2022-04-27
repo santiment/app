@@ -19,16 +19,14 @@
 
   let closeDialog
   let loading = false
-  let editedTitle = itemData.title
-  let editedDescription = itemData.description || ''
-  let editedPublic = !!itemData.isPublic
+  let { id, singular, editKey, title, description, isPublic } = itemData
 
-  $: titleLength = (editedTitle || '').length
+  $: titleLength = (title || '').length
   $: applyDisabled = loading || titleLength < MIN_TITLE_LENGTH || titleLength > MAX_TITLE_LENGTH
 
   function onEditClick() {
     loading = true
-    edit(itemData.id, itemData.editKey, editedTitle, editedDescription, editedPublic)
+    edit(id, editKey, title, description, isPublic)
       .then(() => {
         // TODO: update item in the UI
         closeDialog()
@@ -41,7 +39,7 @@
   }
 </script>
 
-<Dialog {...$$props} bind:closeDialog title="Edit {itemData.singular}">
+<Dialog {...$$props} bind:closeDialog title="Edit {singular}">
   <div class="dialog">
     <div class="mrg-l mrg--b">
       <label for="name" class="c-waterloo mrg-xs mrg--b">
@@ -51,7 +49,7 @@
         id="name"
         class="input"
         placeholder="For example, Favorites"
-        bind:value={editedTitle}
+        bind:value={title}
         minlength="3"
         maxlength={MAX_TITLE_LENGTH}
       />
@@ -62,7 +60,7 @@
         id="description"
         class="input"
         placeholder="Add a description"
-        bind:value={editedDescription}
+        bind:value={description}
       />
     </div>
     <div class="row justify v-center">
@@ -73,9 +71,9 @@
         class:loading
         on:click={onEditClick}>Apply changes</button
       >
-      <div class="row hv-center btn" on:click={() => (editedPublic = !editedPublic)}>
-        <span class="mrg-s mrg--r">{editedPublic ? 'Public' : 'Private'}</span>
-        <Toggle isActive={editedPublic} />
+      <div class="row hv-center btn" on:click={() => (isPublic = !isPublic)}>
+        <span class="mrg-s mrg--r">{isPublic ? 'Public' : 'Private'}</span>
+        <Toggle isActive={isPublic} />
       </div>
     </div>
   </div>
