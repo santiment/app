@@ -65,6 +65,7 @@
     top: 0;
     height: calc(100vh - 64px);
     padding: 24px 16px;
+    overflow: auto;
 
     & :global {
       a.btn {
