@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useHistory } from 'react-router-dom'
 import { parse } from 'query-string'
 import { track } from 'webkit/analytics'
 import { queryLayout } from 'studio/api/layouts'
