@@ -101,18 +101,10 @@
           item={item.screener}
           showActions
           type="SCREENER"
-          hasIcons
-          assets={item.screener.listItems.map((i) => i.project)}
           id="{item.screener.id}-watchlist"
         />
       {:else if item.projectWatchlist}
-        <LayoutItem
-          item={item.projectWatchlist}
-          showActions
-          type="WATCHLIST"
-          hasIcons
-          assets={item.projectWatchlist.listItems.map((i) => i.project)}
-        />
+        <LayoutItem item={item.projectWatchlist} showActions type="WATCHLIST" />
       {:else if item.addressWatchlist}
         <LayoutItem
           item={item.addressWatchlist}

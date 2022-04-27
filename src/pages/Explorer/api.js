@@ -86,7 +86,9 @@ export function queryTemplates() {
 export const EntityQuery = {
   projectWatchlist: `projectWatchlist { 
     id
-    title: name,
+    title: name
+    description
+    isPublic
     user {
       avatarUrl
       id
@@ -102,16 +104,13 @@ export const EntityQuery = {
     votes {
       totalVotes
     }
-    commentsCount
-    listItems {
-      project {
-        slug
-      }
-    }    
+    commentsCount   
   }`,
   screener: `screener { 
     id
-    title: name,
+    title: name
+    description
+    isPublic
     user {
       avatarUrl
       id
@@ -127,16 +126,13 @@ export const EntityQuery = {
     votes {
       totalVotes
     }
-    commentsCount
-    listItems {
-      project {
-        slug
-      }
-    }    
+    commentsCount  
   }`,
   chartConfiguration: `chartConfiguration {
     id
     title
+    description
+    isPublic
     user {
       avatarUrl
       id
@@ -179,6 +175,8 @@ export const EntityQuery = {
   addressWatchlist: `addressWatchlist {
     id
     title: name
+    description
+    isPublic
     user {
       avatarUrl
       id
@@ -207,6 +205,8 @@ export const EntityQuery = {
       trigger {
         id
         title
+        description
+        isPublic
       }
       user {
         avatarUrl
@@ -217,8 +217,6 @@ export const EntityQuery = {
           count
           users {
             id
-            avatarUrl
-            username
           }
         }
       }  
