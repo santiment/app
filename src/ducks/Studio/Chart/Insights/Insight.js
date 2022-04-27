@@ -4,18 +4,11 @@ import Icon from '@santiment-network/ui/Icon'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Avatar from './Avatar'
 import Text from './Text'
-import { saveComment } from './utils'
 import { getInsightText } from './queries'
-import { Comments } from '../../../../components/Insight/comments/Comments'
-import {
-  getInsightComments,
-  createInsightComment,
-  deleteComment,
-  editComment,
-} from '../../../../components/Insight/comments/utils'
 import styles from './Insight.module.scss'
 
-const DEFAULT_COMMENTS = []
+import { CommentsType } from 'webkit/api/comments'
+import { Comments } from '@cmp/Comments'
 
 const Action = ({ type, isDisabled, ...props }) => (
   <div {...props} className={cx(styles.action, styles[type], isDisabled && styles.action_disabled)}>
@@ -33,7 +26,6 @@ const Insight = ({
   onPrevClick,
   onNextClick,
 }) => {
-  const [comments, setComments] = useState(DEFAULT_COMMENTS)
   const [loading, setLoading] = useState()
   const [text, setText] = useState()
   const { username, avatarUrl } = user
@@ -45,11 +37,6 @@ const Insight = ({
     if (isPulseInsights) {
       getInsightText(id).then(setText)
     }
-    getInsightComments(id).then(({ data }) => {
-      comments = data.comments
-      setComments(comments)
-      setLoading(false)
-    })
 
     function onKeyDown({ target, key }) {
       if (target !== document.body) return
@@ -88,17 +75,8 @@ const Insight = ({
         </a>
       </div>
       {text && <Text text={text} />}
-      <Comments
-        comments={comments}
-        id={id}
-        authorId={user.id}
-        commentsCount={comments.length}
-        getComments={getInsightComments}
-        createComment={createInsightComment}
-        editComment={editComment}
-        deleteComment={deleteComment}
-        saveComment={saveComment}
-      />
+
+      <Comments type={CommentsType.Insight} commentsFor={{ id, user }} titleClass='h4 c-waterloo' />
       {loading && <Loader className={styles.loader} />}
     </>
   )

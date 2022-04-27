@@ -1,13 +1,12 @@
 import React from 'react'
-import InsightCard from './InsightCardWithMarketcap'
 import { publishDateSorter } from './utils'
-import PulseInsightCard from './PulseInsight'
 import Feed from '../Feed/Feed'
-import styles from '../../ducks/Studio/RelatedInsights/RelatedInsights.module.scss'
+
+import { InsightCard, PulseInsight } from '@cmp/InsightCard'
 
 const Insight = ({ className, ...insight }) => {
-  const El = insight.isPulse ? PulseInsightCard : InsightCard
-  return <El insight={insight} className={styles.insightCard} />
+  const El = insight.isPulse ? PulseInsight : InsightCard
+  return <El insight={insight} class='mrg-l mrg--b' />
 }
 
 const InsightsFeed = ({ insights, dateKey = 'publishedAt' }) => (

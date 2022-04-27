@@ -1,0 +1,6048 @@
+diff --git a/node_modules/san-insights/lib/api/follow.js b/node_modules/san-insights/lib/api/follow.js
+new file mode 100644
+index 0000000..380b7f4
+--- /dev/null
++++ b/node_modules/san-insights/lib/api/follow.js
+@@ -0,0 +1,20 @@
++import { mutate } from 'san-webkit/lib/api'
++
++const FOLLOW_USER_MUTATION = (id) => `
++  mutation {
++    follow(userId:${id}) {
++      id
++    }
++  }
++`
++
++const UNFOLLOW_USER_MUTATION = (id) => `
++  mutation {
++    unfollow(userId:${id}) {
++      id
++    }
++  }
++`
++
++export const mutateFollowUser = (id, shouldFollow) =>
++  mutate((shouldFollow ? FOLLOW_USER_MUTATION : UNFOLLOW_USER_MUTATION)(id))
+diff --git a/node_modules/san-insights/lib/api/gdpr.js b/node_modules/san-insights/lib/api/gdpr.js
+new file mode 100644
+index 0000000..6bbaee9
+--- /dev/null
++++ b/node_modules/san-insights/lib/api/gdpr.js
+@@ -0,0 +1,11 @@
++import { mutate } from 'san-webkit/lib/api'
++
++const GDPR_MUTATION = (privacyPolicyAccepted) => `
++  mutation {
++    updateTermsAndConditions(privacyPolicyAccepted:${privacyPolicyAccepted}) {
++      privacyPolicyAccepted
++    }
++  }
++`
++
++export const mutateGdpr = (privacyPolicyAccepted) => mutate(GDPR_MUTATION(privacyPolicyAccepted))
+diff --git a/node_modules/san-insights/lib/api/insights/conversations.js b/node_modules/san-insights/lib/api/insights/conversations.js
+new file mode 100644
+index 0000000..d94201a
+--- /dev/null
++++ b/node_modules/san-insights/lib/api/insights/conversations.js
+@@ -0,0 +1,44 @@
++import { query } from 'san-webkit/lib/api/index.js'
++
++const CONVERSATIONS_QUERY = (datetime = 'utc_now') => `
++  query {
++    commentsFeed(
++      limit: 15
++      cursor: { type: BEFORE, datetime: "${datetime}", order: DESC }
++    ) {
++      id
++      content
++      insertedAt
++      insight {
++        id
++        title
++      }
++      timelineEvent {
++        id
++      }
++      shortUrl {
++        shortUrl
++      }
++      blockchainAddress {
++        id
++        address
++        labels {
++          metadata
++          name
++          origin
++        }
++      }
++      user {
++        id
++        username
++        avatarUrl
++        email
++      }
++    }
++  }
++`
++
++const accessor = ({ commentsFeed }) => commentsFeed
++export function queryConversations(date) {
++  return query(CONVERSATIONS_QUERY(date)).then(accessor)
++}
+diff --git a/node_modules/san-insights/lib/api/insights/draft.js b/node_modules/san-insights/lib/api/insights/draft.js
+new file mode 100644
+index 0000000..c7e8271
+--- /dev/null
++++ b/node_modules/san-insights/lib/api/insights/draft.js
+@@ -0,0 +1,68 @@
++import { mutate } from 'san-webkit/lib/api'
++
++const UPDATE_DRAFT_MUTATION = `
++  mutation updateInsight(
++    $id: ID!
++    $title: String
++    $text: String
++    $tags: [String]
++    $isPro: Boolean
++    $isPulse: Boolean
++    $projectId: Int
++  ) {
++    insight: updateInsight(
++      id: $id
++      title: $title
++      text: $text
++      tags: $tags
++      isPaywallRequired: $isPro
++      isPulse: $isPulse
++      priceChartProjectId: $projectId
++    ) {
++      id
++      updatedAt
++    }
++  }
++`
++
++const accessor = ({ insight }) => insight
++export const mutateUpdateDraft = (variables) =>
++  mutate(UPDATE_DRAFT_MUTATION, { variables }).then(accessor)
++
++// -------------------
++
++const CREATE_DRAFT_MUTATION = `
++  mutation createInsight(
++    $title: String!
++    $text: String
++    $tags: [String]
++    $isPro: Boolean
++    $isPulse: Boolean
++    $projectId: Int
++  ) {
++    insight: createInsight(
++      title: $title
++      text: $text
++      tags: $tags
++      isPaywallRequired: $isPro
++      isPulse: $isPulse
++      priceChartProjectId: $projectId
++    ) {
++      id
++      updatedAt
++    }
++  }
++`
++export const mutateCreateDraft = (variables) =>
++  mutate(CREATE_DRAFT_MUTATION, { variables }).then(accessor)
++
++// -------------------
++
++const PUBLISH_DRAFT_MUTATION = (id) => `
++  mutation {
++    publishInsight(id:${id}) {
++      id
++    }
++  }
++`
++export const mutatePublishDraft = (id) => mutate(PUBLISH_DRAFT_MUTATION(id))
+diff --git a/node_modules/san-insights/lib/api/insights/featured.js b/node_modules/san-insights/lib/api/insights/featured.js
+new file mode 100644
+index 0000000..36c61f0
+--- /dev/null
++++ b/node_modules/san-insights/lib/api/insights/featured.js
+@@ -0,0 +1,32 @@
++import { query, newSSRQuery } from 'san-webkit/lib/api'
++import { BASIC_INSIGHT_FRAGMENT } from '.'
++
++const FEATURED_INSIGHTS = `{
++  insights:featuredInsights(pageSize: 5) {
++    id
++    title
++    isPro:isPaywallRequired
++    user {
++      id
++      username
++    }
++  }
++}`
++
++const accessor = ({ insights }) => insights
++
++export const queryFeaturedInsights = (reqOptions) =>
++  query(FEATURED_INSIGHTS, undefined, reqOptions).then(accessor)
++
++export const queryFeaturedInsightsSSR = newSSRQuery(queryFeaturedInsights)
++
++// --------------
++
++const SUGGESTED_FEATURED_INSIGHTS = `{
++  insights:featuredInsights {
++    ${BASIC_INSIGHT_FRAGMENT}
++  }
++}`
++
++export const querySuggestedFeaturedInsights = () =>
++  query(SUGGESTED_FEATURED_INSIGHTS).then(accessor)
+diff --git a/node_modules/san-insights/lib/api/insights/index.js b/node_modules/san-insights/lib/api/insights/index.js
+new file mode 100644
+index 0000000..9c846cd
+--- /dev/null
++++ b/node_modules/san-insights/lib/api/insights/index.js
+@@ -0,0 +1,73 @@
++import { query, newSSRQuery } from 'san-webkit/lib/api'
++import { Cache } from 'san-webkit/lib/api/cache'
++import { RELATED_PROJECT_FRAGMENT } from './../../api/insights/project'
++
++export const BASIC_INSIGHT_FRAGMENT = `
++  id
++  title
++  isPro:isPaywallRequired
++  publishedAt
++  commentsCount
++  votedAt
++  votes {
++    totalVotes
++    currentUserVotes
++  }
++  user {
++    id
++    username
++    avatarUrl
++  }
++`
++
++export const INSIGHT_FRAGMENT =
++  BASIC_INSIGHT_FRAGMENT +
++  `
++  tags {
++    name
++  }
++`
++
++const ALL_INSIGHTS = (page = 1, tags, isOnlyPro = false, isOnlyPulse = undefined) => {
++  tags = tags ? `,tags:${JSON.stringify(tags)}` : ''
++  isOnlyPulse = isOnlyPulse !== undefined ? `,isPulse:${isOnlyPulse}` : ''
++
++  return `
++  {
++    insights: allInsights(page:${page}${
++    isOnlyPro ? ',isPaywallRequired:true' : ''
++  },pageSize:10${tags}${isOnlyPulse}) {
++      ${INSIGHT_FRAGMENT}
++      pulseText
++      isPulse
++    }
++  }
++`
++}
++
++export const accessor = ({ insights }) => insights
++export const queryAllInsights = (page, tags, isOnlyPro, isOnlyPulse, reqOptions) =>
++  query(ALL_INSIGHTS(page, tags, isOnlyPro, isOnlyPulse), undefined, reqOptions).then(accessor)
++
++export const queryAllInsightsSSR = newSSRQuery(queryAllInsights)
++
++// --------------------------------------
++
++const INSIGHT_QUERY = (id, data = '') => `{
++  insight(id:${id}) {
++    ${INSIGHT_FRAGMENT}
++    ${data}
++    readyState
++    updatedAt
++    text
++  }
++}`
++
++const insightAccessor = ({ insight }) => insight
++export const queryInsight = (id, queryFragments = '', reqOptions) =>
++  query(INSIGHT_QUERY(id, queryFragments), undefined, reqOptions).then(insightAccessor)
++
++export const queryInsightSSR = newSSRQuery(queryInsight)
++
++export const clearQueryInsightCache = (id, isMobile) =>
++  Cache.delete(INSIGHT_QUERY(id, isMobile ? undefined : RELATED_PROJECT_FRAGMENT))
+diff --git a/node_modules/san-insights/lib/api/insights/project.js b/node_modules/san-insights/lib/api/insights/project.js
+new file mode 100644
+index 0000000..7397bf4
+--- /dev/null
++++ b/node_modules/san-insights/lib/api/insights/project.js
+@@ -0,0 +1,97 @@
++import { query, newSSRQuery } from 'san-webkit/lib/api'
++import { ONE_DAY_IN_MS } from 'san-webkit/lib/utils/dates'
++
++function optimizePublicationPriceDate(publishedAt) {
++  const date = new Date(publishedAt)
++  const minutes = date.getMinutes()
++  date.setMinutes(minutes < 30 ? 30 : 60)
++  return date.toISOString()
++}
++
++const PRICE_QUERY = (slug, from, publishedAt, interval = '1d') => `{
++  getMetric(metric:"price_usd") {
++    publicationPrice:aggregatedTimeseriesData(slug:"${slug}",from:"${publishedAt}",to:"${optimizePublicationPriceDate(
++  publishedAt,
++)}",aggregation:FIRST)
++    data:timeseriesData(slug:"${slug}",from:"${from}",to:"utc_now",interval:"${interval}") {
++      d: datetime,
++      v: value
++    }
++  }
++}`
++
++function normalizeInterval(from) {
++  const fromDate = new Date(from)
++  const diff = (Date.now() - fromDate) / ONE_DAY_IN_MS
++
++  if (diff < 1) return '30m'
++  if (diff < 30) return '6h'
++  if (diff < 63) return '8h'
++  if (diff < 100) return '12h'
++  if (diff < 150) return '1d'
++  if (diff < 200) return '2d'
++  if (diff < 250) return '3d'
++  return '7d'
++}
++
++const accessor = ({ getMetric }) => getMetric
++export function queryPriceData(slug, from, publishedAt) {
++  return query(PRICE_QUERY(slug, from, publishedAt, normalizeInterval(from))).then(accessor)
++}
++export const queryPriceDataSSR = newSSRQuery(queryPriceData)
++
++// ----------------------------------------------------
++
++export const PROJECT_FRAGMENT = `
++  project: priceChartProject {
++    id
++    slug
++    ticker
++    priceUsd
++  }`
++
++const INSIGHT_PROJECT = (id) => `{
++  insight(id:${id}) {
++    ${PROJECT_FRAGMENT}
++  }
++}`
++const projectAccessor = ({ insight }) => insight.project
++export const queryInsightProject = (id) => query(INSIGHT_PROJECT(id)).then(projectAccessor)
++
++// ----------------------------------------------------
++
++export const RELATED_PROJECT_FRAGMENT =
++  PROJECT_FRAGMENT.slice(0, -1) +
++  `name
++  change:percentChange7d
++}`
++
++const RELATED_PROJECTS_QUERY = (id) => `{
++  insight(id:${id}) {
++    relatedProjects {
++      id
++      slug
++      name
++      ticker
++      priceUsd
++      change:percentChange7d
++    }
++  }
++}`
++const relatedProjectsAccessor = ({ insight }) => insight.relatedProjects
++export const queryInsightRelatedProjects = (id) =>
++  query(RELATED_PROJECTS_QUERY(id)).then(relatedProjectsAccessor)
++
++// ----------------------------------------------------
++
++const RELATED_PROJECT_PRICE_QUERY = (slug) => `{
++  getMetric(metric:"price_usd") {
++    data:timeseriesData(slug:"${slug}",from:"utc_now-7d",to:"utc_now",interval:"6h") {
++      d: datetime,
++      v: value
++    }
++  }
++}`
++const relatedProjectPriceAccessor = ({ getMetric }) => getMetric.data
++export const queryInsightRelatedProjectPrice = (slug) =>
++  query(RELATED_PROJECT_PRICE_QUERY(slug)).then(relatedProjectPriceAccessor)
+diff --git a/node_modules/san-insights/lib/api/insights/search.js b/node_modules/san-insights/lib/api/insights/search.js
+new file mode 100644
+index 0000000..6c35727
+--- /dev/null
++++ b/node_modules/san-insights/lib/api/insights/search.js
+@@ -0,0 +1,39 @@
++import { query } from 'san-webkit/lib/api'
++import { INSIGHT_FRAGMENT } from './index'
++
++const INSIGHTS_QUERY = `{
++  insights:allInsights(pageSize:5){
++    id
++    title
++  }
++}`
++
++const accessor = ({ insights }) => insights
++export const querySearchInsights = () => query(INSIGHTS_QUERY).then(accessor)
++
++// --------------
++
++const INSIGHTS_BY_SEARCH_TERM_QUERY = (searchTerm) => `{
++  insights:allInsightsBySearchTerm(searchTerm:"${searchTerm}") {
++    id
++    title
++    publishedAt
++  }
++}`
++
++const sorter = (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)
++const precacher = (data) => (data.insights.sort(sorter), data)
++const options = { precacher: () => precacher }
++export const querySearchTermInsights = (searchTerm) =>
++  query(INSIGHTS_BY_SEARCH_TERM_QUERY(searchTerm), options).then(accessor)
++
++// ----------
++
++const INSIGHTS_SEARCH_PAGE_QUERY = (searchTerm) => `{
++  insights:allInsightsBySearchTerm(searchTerm:"${searchTerm}") {
++    ${INSIGHT_FRAGMENT}
++  }
++}`
++
++export const querySearchPageInsights = (searchTerm) =>
++  query(INSIGHTS_SEARCH_PAGE_QUERY(searchTerm), options).then(accessor)
+diff --git a/node_modules/san-insights/lib/api/insights/user.js b/node_modules/san-insights/lib/api/insights/user.js
+new file mode 100644
+index 0000000..9bcf8fe
+--- /dev/null
++++ b/node_modules/san-insights/lib/api/insights/user.js
+@@ -0,0 +1,61 @@
++import { query, newSSRQuery, mutate } from 'san-webkit/lib/api'
++import { accessor, INSIGHT_FRAGMENT, BASIC_INSIGHT_FRAGMENT } from './index'
++
++const NO_CACHE = { cache: false }
++
++const CURRENT_USER_INSIGHTS_QUERY = (page) => `{
++    currentUser {
++      insights(page:${page},pageSize:10) {
++        ${INSIGHT_FRAGMENT}
++        pulseText
++        isPulse
++        readyState
++      }
++    }
++  }`
++
++const currentUserAccessor = ({ currentUser }) => currentUser.insights
++export const queryCurrentUserInsights = (page, reqOptions) =>
++  query(CURRENT_USER_INSIGHTS_QUERY(page), NO_CACHE, reqOptions).then(currentUserAccessor)
++
++export const queryCurrentUserInsightsSSR = newSSRQuery(queryCurrentUserInsights)
++
++// --------------------------------------
++const DRAFT_INSIGHTS_QUERY = (page) => `{
++    currentUser {
++      insights(page:${page},pageSize:10) {
++        id
++        title
++        text
++        pulseText
++        updatedAt
++        readyState
++      }
++    }
++  }`
++export const queryDraftInsights = (page, reqOptions) =>
++  query(DRAFT_INSIGHTS_QUERY(page), NO_CACHE, reqOptions).then(currentUserAccessor)
++
++export const queryDraftInsightsSSR = newSSRQuery(queryDraftInsights)
++
++// --------------------------------------
++
++const SUGGESTED_USER_INSIGHTS_QUERY = (id) => `{
++  insights:allInsightsForUser(userId:${id},pageSize:10){
++    ${BASIC_INSIGHT_FRAGMENT}
++  }
++}`
++
++export const querySuggestedUserInsights = (userId) =>
++  query(SUGGESTED_USER_INSIGHTS_QUERY(userId)).then(accessor)
++
++// --------------------------------------
++
++const DELETE_INSIGHT_MUTATION = (id) => `
++  mutation {
++    deleteInsight(id:${id}) {
++      id
++    }
++  }
++`
++export const mutateDeleteDraft = (id) => mutate(DELETE_INSIGHT_MUTATION(id))
+diff --git a/node_modules/san-insights/lib/api/login.js b/node_modules/san-insights/lib/api/login.js
+new file mode 100644
+index 0000000..a1dd114
+--- /dev/null
++++ b/node_modules/san-insights/lib/api/login.js
+@@ -0,0 +1,48 @@
++import { mutate } from 'san-webkit/lib/api'
++import { signMessage } from 'san-webkit/lib/utils/web3'
++import { CURRENT_USER_FRAGMENT } from './user'
++
++const EMAIL_LOGIN_MUTATION = (email, consent, subscribeToWeeklyNewsletter) => `
++  mutation {
++    emailLogin(
++      email:"${email}",
++      consent:"${consent}",
++      subscribeToWeeklyNewsletter:${subscribeToWeeklyNewsletter}
++    ) {
++      success
++    }
++  }
++`
++
++export const mutateEmailLogin = (email, consent = '', subscribeToWeeklyNewsletter = false) =>
++  mutate(EMAIL_LOGIN_MUTATION(email, consent, subscribeToWeeklyNewsletter))
++
++// ---------------
++
++const ETH_LOGIN_MUTATION = (signature, address, messageHash) => `
++  mutation {
++    ethLogin(
++      signature: "${signature}"
++      address: "${address}"
++      messageHash: "${messageHash}"
++    ) {
++      user {
++${CURRENT_USER_FRAGMENT}
++      }
++    }
++  }
++`
++
++const EthMutation = (MUTATION) => async () => {
++  if (!window.ethereum) return Promise.reject('No metamask found')
++
++  const accounts = await window.ethereum.enable()
++  if (!accounts) return Promise.reject()
++
++  const address = accounts[0]
++  const { signature, messageHash } = await signMessage(`Login in Santiment with address ${address}`)
++
++  return mutate < T > MUTATION(signature, address, messageHash)
++}
++
++export const ethLoginMutation = EthMutation(ETH_LOGIN_MUTATION)
+diff --git a/node_modules/san-insights/lib/api/tags.js b/node_modules/san-insights/lib/api/tags.js
+new file mode 100644
+index 0000000..ae978c1
+--- /dev/null
++++ b/node_modules/san-insights/lib/api/tags.js
+@@ -0,0 +1,14 @@
++import { query } from 'san-webkit/lib/api'
++import { checkIsTrendTag } from './../utils/insights'
++
++const TAGS_QUERY = `{
++  allTags {
++    name
++  }
++}`
++
++const noTrendingTags = (tag) => !checkIsTrendTag(tag)
++const getTag = ({ name }) => name
++const precacher = ({ allTags }) => allTags.map(getTag).filter(noTrendingTags)
++const options = { precacher: () => precacher }
++export const queryTags = () => query(TAGS_QUERY, options)
+diff --git a/node_modules/san-insights/lib/api/user.js b/node_modules/san-insights/lib/api/user.js
+new file mode 100644
+index 0000000..6e79026
+--- /dev/null
++++ b/node_modules/san-insights/lib/api/user.js
+@@ -0,0 +1,80 @@
++import { query, newSSRQuery, mutate } from 'san-webkit/lib/api'
++
++export const CURRENT_USER_FRAGMENT = `
++    id
++    email
++    username
++    privacyPolicyAccepted
++    avatarUrl
++    settings {
++      theme
++    }
++    insightsCount {
++      totalCount
++    }
++    subscriptions {
++      status
++      trialEnd
++      plan {
++        name
++        product {
++          id
++        }
++      }
++    }
++    following {
++      users {
++        id
++      }
++    }
++`
++
++export const CURRENT_USER_QUERY = `
++  {
++    currentUser {
++      ${CURRENT_USER_FRAGMENT}
++    }
++  }
++`
++
++export const queryCurrentUser = (reqOptions) => query(CURRENT_USER_QUERY, undefined, reqOptions)
++
++export const queryCurrentUserSSR = newSSRQuery(queryCurrentUser)
++
++// ---------
++
++const LOGOUT_MUTATION = `
++  mutation {
++    logout {
++      success
++    }
++  }
++`
++
++export const logoutMutation = () => mutate(LOGOUT_MUTATION)
++
++// -------
++
++const VERIFY_EMAIL_MUTATION = (email, token) => `
++  mutation {
++    verify:emailLoginVerify(email:"${email}", token:"${token}") {
++      user {
++        ${CURRENT_USER_FRAGMENT}
++      }
++    }
++  }
++`
++const verificationAccessor = ({ verify }) => verify.user
++export const verifyEmailMutation = (email, token) =>
++  mutate(VERIFY_EMAIL_MUTATION(email, token)).then(verificationAccessor)
++
++// ---------------
++
++const CHANGE_USERNAME_MUTATION = (username) => `
++  mutation {
++    changeUsername(username:"${username}") {
++      id
++    }
++  }
++`
++export const mutateChangeUsername = (username) => mutate(CHANGE_USERNAME_MUTATION(username))
+diff --git a/node_modules/san-insights/lib/api/watchlists.js b/node_modules/san-insights/lib/api/watchlists.js
+new file mode 100644
+index 0000000..ebb6794
+--- /dev/null
++++ b/node_modules/san-insights/lib/api/watchlists.js
+@@ -0,0 +1,57 @@
++import { query, mutate } from 'san-webkit/lib/api'
++
++const USER_WATCHLISTS_QUERY = `{
++  watchlists:fetchWatchlists {
++    id
++    name
++    isPublic
++    isScreener
++    listItems {
++      project {
++        id
++      }
++    }
++  }
++}`
++
++const noScreeners = ({ isScreener }) => !isScreener
++function precacher({ watchlists }) {
++  return watchlists.filter(noScreeners)
++}
++const options = { precacher: () => precacher }
++export const queryUserWatchlists = () => query(USER_WATCHLISTS_QUERY, options)
++
++// -----------------
++
++const CREATE_WATCHLIST_MUTATION = (name, description, isPublic) => `
++  mutation {
++    createWatchlist(name:"${name}",description:"${description}",isPublic:${isPublic}) {
++      id
++    }
++  }
++`
++const createWatchlistAccessor = ({ createWatchlist }) => createWatchlist
++export const mutateCreateWatchlist = (name, description, isPublic) =>
++  mutate(CREATE_WATCHLIST_MUTATION(name, description, isPublic)).then(createWatchlistAccessor)
++
++// -----------------
++
++const ADD_WATCHLIST_ITEMS_MUTATION = `
++  mutation addWatchlistItems($id: Int!, $items: [InputListItem]) {
++    addWatchlistItems(id: $id, listItems: $items) {
++      id
++    }
++  }
++`
++export const mutateAddWatchlistItems = (id, items) =>
++  mutate(ADD_WATCHLIST_ITEMS_MUTATION, { variables: { id, items } })
++
++const REMOVE_WATCHLIST_ITEMS_MUTATION = `
++  mutation removeWatchlistItems($id: Int!, $items: [InputListItem]) {
++    removeWatchlistItems(id: $id, listItems: $items) {
++      id
++    }
++  }
++`
++export const mutateRemoveWatchlistItems = (id, items) =>
++  mutate(REMOVE_WATCHLIST_ITEMS_MUTATION, { variables: { id, items } })
+diff --git a/node_modules/san-insights/lib/client.js b/node_modules/san-insights/lib/client.js
+new file mode 100644
+index 0000000..c25a5e1
+--- /dev/null
++++ b/node_modules/san-insights/lib/client.js
+@@ -0,0 +1,28 @@
++import * as sapper from '@sapper/app'
++import { startResponsiveController } from 'san-webkit/lib/responsive'
++import { bootIntercom } from 'san-webkit/lib/analytics/intercom'
++import { initGA } from 'san-webkit/lib/analytics/ga'
++import { ANON_EVENT } from 'san-webkit/lib/ui/FollowButton/flow'
++
++startResponsiveController()
++
++sapper.start({
++  target: document.querySelector('#sapper'),
++})
++
++if (process.env.IS_PROD_MODE) {
++  bootIntercom('cyjjko9u')
++  initGA('UA-100571693-11')
++}
++
++window.__onLinkClick = (e) => {
++  const node = e.currentTarget
++  const href = node.getAttribute('href')
++
++  if (href.startsWith('/profile/')) {
++    e.preventDefault()
++    window.location.href = 'https://app.santiment.net' + href
++  }
++}
++
++window.addEventListener(ANON_EVENT, () => sapper.goto('/login'))
+diff --git a/node_modules/san-insights/lib/components/AddToWatchlistDialog/Watchlists.svelte b/node_modules/san-insights/lib/components/AddToWatchlistDialog/Watchlists.svelte
+new file mode 100644
+index 0000000..e35243d
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/AddToWatchlistDialog/Watchlists.svelte
+@@ -0,0 +1,61 @@
++<script>
++  import Svg from 'san-webkit/lib/ui/Svg/svelte'
++  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
++  import Checkbox from 'san-webkit/lib/ui/Checkbox.svelte'
++
++  export let watchlists
++  export let loading
++  export let selected = new Set()
++  export let scrollNode
++
++  function toggle(watchlist) {
++    if (selected.has(watchlist)) selected.delete(watchlist)
++    else selected.add(watchlist)
++    selected = selected
++  }
++</script>
++
++<div class="column" bind:this={scrollNode}>
++  {#each watchlists as watchlist (watchlist.id)}
++    {@const { name, isPublic } = watchlist}
++    <div class="btn-ghost row v-center" on:click={() => toggle(watchlist)}>
++      <Checkbox class="mrg-s mrg--r" isActive={selected.has(watchlist)} />
++      {name}
++
++      <Tooltip dark position="top" align="center" closeTimeout={0} scrollParent={scrollNode}>
++        <span
++          slot="trigger"
++          class="publicity btn row v-centere mrg-a mrg--l"
++          aria-label={isPublic ? 'public' : 'Private'}
++        >
++          <Svg id="eye{isPublic ? '' : '-crossed'}" w="16" />
++        </span>
++
++        <div slot="tooltip" class="tooltip caption">{isPublic ? 'Public' : 'Private'}</div>
++      </Tooltip>
++    </div>
++  {:else}
++    <div class="mrg-l mrg--b" class:loading>You don't have any watchlists</div>
++  {/each}
++</div>
++
++<style>
++  .column {
++    max-height: 364px;
++    overflow: auto;
++    overflow-x: hidden;
++  }
++
++  .btn-ghost {
++    --bg-hover: none;
++  }
++
++  .publicity {
++    --fill: var(--casper);
++    --fill-hover: var(--waterloo);
++  }
++
++  .tooltip {
++    color: #fff;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/AddToWatchlistDialog/index.svelte b/node_modules/san-insights/lib/components/AddToWatchlistDialog/index.svelte
+new file mode 100644
+index 0000000..1b00472
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/AddToWatchlistDialog/index.svelte
+@@ -0,0 +1,119 @@
++<script context="module">
++  import { dialogs } from 'san-webkit/lib/ui/Dialog'
++  import { Preloader } from 'san-webkit/lib/utils/fn'
++  import AddToWatchlistDialog from './index.svelte'
++  import {
++    queryUserWatchlists,
++    mutateAddWatchlistItems,
++    mutateRemoveWatchlistItems,
++  } from './../../api/watchlists'
++
++  export const showAddToWatchlistDialog = (project) =>
++    dialogs.show(AddToWatchlistDialog, { project })
++  export const watchlistsPreloader = Preloader(queryUserWatchlists)
++
++  const idSorter = (a, b) => a.id - b.id
++  const concatIds = (acc, { id }) => acc + id + ','
++  const getWatchlistsHash = (watchlists) => watchlists.sort(idSorter).reduce(concatIds, '')
++</script>
++
++<script>
++  import Dialog from 'san-webkit/lib/ui/Dialog'
++  import Svg from 'san-webkit/lib/ui/Svg/svelte'
++  import { showNewWatchlistDialog } from './../../components/NewWatchlistDialog.svelte'
++  import Watchlists from './Watchlists.svelte'
++
++  export let DialogPromise
++  export let project
++  const projectId = +project.id
++
++  let closeDialog
++  let loading = true
++  let watchlists = []
++  let selected = new Set()
++  let defaultSelections = []
++  let hash = ''
++
++  $: disabled = hash === getWatchlistsHash(Array.from(selected))
++
++  queryUserWatchlists().then((data) => {
++    watchlists = data
++    selected = new Set(
++      watchlists.filter(({ listItems }) =>
++        listItems.some(({ project }) => projectId === +project.id),
++      ),
++    )
++    defaultSelections = Array.from(selected)
++    hash = getWatchlistsHash(defaultSelections.slice())
++
++    loading = false
++  })
++
++  function onNewWatchlist() {
++    showNewWatchlistDialog({ strict: true }).then((watchlist) => {
++      watchlists.push(watchlist)
++      watchlists = watchlists
++    })
++  }
++
++  function onApply() {
++    if (loading || disabled) return
++    loading = true
++
++    const additionSet = new Set(selected)
++    const removals = []
++
++    defaultSelections.forEach((watchlist) => {
++      if (additionSet.has(watchlist)) additionSet.delete(watchlist)
++      else removals.push(watchlist)
++    })
++
++    const additions = Array.from(additionSet)
++    const items = [{ projectId }]
++    const addItems = ({ id }) => mutateAddWatchlistItems(+id, items)
++    const removeItems = ({ id }) => mutateRemoveWatchlistItems(+id, items)
++
++    return Promise.all(additions.map(addItems).concat(removals.map(removeItems))).then(() => {
++      additions.forEach((watchlist) => {
++        watchlist.listItems.push({ project: { id: projectId } })
++      })
++      removals.forEach((watchlist) => {
++        watchlist.listItems = watchlist.listItems.filter(({ project }) => +project.id !== projectId)
++      })
++
++      DialogPromise.resolve(additions.length + removals.length)
++      closeDialog()
++    })
++  }
++</script>
++
++<Dialog {...$$props} title="Add {project.ticker} to watchlist" bind:closeDialog>
++  <section>
++    <Watchlists {watchlists} {loading} bind:selected />
++
++    <button class="btn-2 row hv-center fluid mrg-l mrg--t" on:click={onNewWatchlist}>
++      <Svg id="plus-circle" w="16" class="mrg-s mrg--r" />
++      Create watchlist
++    </button>
++  </section>
++
++  <div class="actions row">
++    <div class="btn-2 mrg-a mrg--l" on:click={closeDialog}>Cancel</div>
++    <div class="btn-1 mrg-l mrg--l" class:disabled class:loading on:click={onApply}>Apply</div>
++  </div>
++</Dialog>
++
++<style>
++  section {
++    padding: 12px 20px 0;
++    margin-bottom: 12px;
++    min-width: 320px;
++  }
++  .actions {
++    padding: 0 20px 20px;
++  }
++
++  button {
++    --fill: var(--waterloo);
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/Asset.svelte b/node_modules/san-insights/lib/components/Asset.svelte
+new file mode 100644
+index 0000000..8f9f967
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/Asset.svelte
+@@ -0,0 +1,36 @@
++<script>
++  import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte'
++
++  let className = ''
++  export { className as class }
++  export let asset
++
++  $: ({ slug, ticker, name } = asset)
++</script>
++
++<div class="border {className}">
++  <a href="https://app.santiment.net/projects/{slug}" class="top row v-center body-2">
++    <ProjectIcon {slug} size={22} class="mrg-s mrg--r" />
++    <div>
++      {name}
++      <span class="caption c-waterloo">{ticker}</span>
++    </div>
++  </a>
++  <div class="body">
++    <slot />
++  </div>
++</div>
++
++<style>
++  .border {
++    width: 235px;
++  }
++
++  .top {
++    border-bottom: 1px solid var(--porcelain);
++  }
++  .top,
++  .body {
++    padding: 16px;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/BecomeAnAuthor.svelte b/node_modules/san-insights/lib/components/BecomeAnAuthor.svelte
+new file mode 100644
+index 0000000..2125b42
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/BecomeAnAuthor.svelte
+@@ -0,0 +1,15 @@
++<script>
++  import { currentUser } from './../stores/user'
++  $: hasNoInsights = $currentUser && $currentUser.insightsCount.totalCount === 0
++</script>
++
++{#if hasNoInsights}
++  <a href="/new" class="btn-2 btn-1 mrg-xl mrg--b" sapper:prefetch>Become an Author</a>
++{/if}
++
++<style>
++  a {
++    --border: var(--green);
++    text-align: center;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/CommentButton.svelte b/node_modules/san-insights/lib/components/CommentButton.svelte
+new file mode 100644
+index 0000000..73c793d
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/CommentButton.svelte
+@@ -0,0 +1,10 @@
++<script>
++  import Button from 'san-webkit/lib/ui/Comments/Button.svelte'
++
++  let className = 'mrg-m mrg--l'
++  export { className as class }
++  export let count = 0
++  export let href
++</script>
++
++<Button href="{href}?_wc=1#comments" class={className} {count} />
+diff --git a/node_modules/san-insights/lib/components/Conversation.svelte b/node_modules/san-insights/lib/components/Conversation.svelte
+new file mode 100644
+index 0000000..6ef8dcf
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/Conversation.svelte
+@@ -0,0 +1,54 @@
++<script>
++  import { goto } from '@sapper/app'
++  import { getSEOLinkFromIdAndTitle } from 'san-webkit/lib/utils/url'
++  import Profile from 'san-webkit/lib/ui/Profile/svelte'
++  import { markdownToPlainText } from 'san-webkit/lib/ui/Editor/markdown'
++
++  let className = ''
++  export { className as class }
++  export let conversation
++
++  $: ({ user, content, insight } = conversation)
++
++  function onClick() {
++    const { id, title } = insight
++    goto('/read/' + getSEOLinkFromIdAndTitle(id, title))
++  }
++</script>
++
++<div class="border btn {className}" on:click={onClick}>
++  <div class="row">
++    <Profile {user} class="mrg-m mrg--r" />
++    <div class="caption mrg-a mrg--l">Insights</div>
++  </div>
++
++  <div class="comment mrg-s mrg--t mrg--b">{markdownToPlainText(content)}</div>
++  <div class="title c-waterloo">{insight.title}</div>
++</div>
++
++<style>
++  .btn {
++    padding: 12px 16px;
++    --bg-hover: var(--athens);
++    --img-size: 24px;
++  }
++
++  .caption {
++    padding: 4px 8px;
++    background: var(--orange-light-1);
++  }
++
++  .title,
++  .comment {
++    overflow: hidden;
++    text-overflow: ellipsis;
++    white-space: nowrap;
++  }
++
++  .comment {
++    white-space: pre-line;
++    display: -webkit-box;
++    -webkit-line-clamp: 2;
++    -webkit-box-orient: vertical;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/Conversations.svelte b/node_modules/san-insights/lib/components/Conversations.svelte
+new file mode 100644
+index 0000000..91f92df
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/Conversations.svelte
+@@ -0,0 +1,64 @@
++<script>
++  import { onMount } from 'svelte'
++  import ViewportObserver from 'san-webkit/lib/ui/ViewportObserver.svelte'
++  import { queryConversations } from './../api/insights/conversations'
++  import Conversation from './Conversation.svelte'
++
++  let conversations = []
++  let loading = false
++  let hasMore = true
++  let lastDate
++
++  const options = { root: null, rootMargin: '50% 0px' }
++  const getNewDate = () => lastDate && new Date(new Date(lastDate) - 1000).toISOString()
++  const insightsFilter = ({ insight }) => insight
++
++  function loadConversations() {
++    if (loading) return
++    loading = true
++
++    queryConversations(getNewDate()).then((data) => {
++      if (!data) return (hasMore = false)
++
++      const { length } = data
++      if (length === 0) return (hasMore = false)
++
++      const newLastDate = data[length - 1].insertedAt
++      if (lastDate === newLastDate) return (hasMore = false)
++
++      loading = false
++      lastDate = newLastDate
++      conversations = conversations.concat(data.filter(insightsFilter))
++
++      if (hasMore && conversations.length < 6) {
++        loadConversations()
++      }
++    })
++  }
++
++  onMount(loadConversations)
++</script>
++
++<h2 class="h4 mrg-l mrg--b">Conversations</h2>
++
++<div class="scroll" bind:this={options.root}>
++  <ViewportObserver {options} on:intersect={loadConversations} observeWhile={hasMore}>
++    {#each conversations as conversation (conversation.id)}
++      <Conversation {conversation} class="mrg-s mrg--b" />
++    {/each}
++  </ViewportObserver>
++</div>
++
++<style>
++  h2 {
++    margin-top: 28px;
++  }
++
++  .scroll {
++    overflow: hidden;
++  }
++  .scroll:hover {
++    overflow-y: auto;
++    overflow-y: overlay;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/DigestBanner.svelte b/node_modules/san-insights/lib/components/DigestBanner.svelte
+new file mode 100644
+index 0000000..6f25f05
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/DigestBanner.svelte
+@@ -0,0 +1,70 @@
++<script>
++  import Svg from 'san-webkit/lib/ui/Svg/svelte'
++  import InputWithIcon from 'san-webkit/lib/ui/InputWithIcon.svelte'
++  import { session } from './../stores/session'
++
++  let isVisible = true
++  let loading = false
++
++  function onSubmit({ currentTarget }) {
++    const email = currentTarget.email.value
++  }
++</script>
++
++{#if $session.isDesktop && isVisible}
++  <div class="banner border box">
++    <div class="close btn" on:click={() => (isVisible = !isVisible)}>
++      <Svg id="close" w="12" />
++    </div>
++
++    <div class="txt-m">Want more crypto insights?</div>
++    <p class="caption c-waterloo">Subscribe to Santiment’s weekly market Digest!</p>
++
++    <form on:submit|preventDefault={onSubmit}>
++      <InputWithIcon big type="email" name="email" icon="envelope" w="12" placeholder="Your email">
++        <button type="submit" class="btn-1" class:loading>Subscribe</button>
++      </InputWithIcon>
++    </form>
++  </div>
++{/if}
++
++<style lang="scss">.banner {
++  width: 380px;
++  position: fixed;
++  bottom: 20px;
++  left: 20px;
++  right: 0;
++  z-index: 10;
++  padding: 24px;
++  text-align: left;
++  background: var(--athens);
++}
++.banner::before {
++  content: "";
++  position: absolute;
++  top: 0;
++  right: 0;
++  left: 0;
++  bottom: 0;
++  opacity: 0.25;
++  background: url("/overview_banner.svg") no-repeat 100%;
++  background-size: 240%;
++  z-index: -1;
++}
++
++p {
++  color: var(--waterloo);
++  margin: 8px 0 20px;
++}
++
++button {
++  margin-right: 3px;
++}
++
++.close {
++  --fill: var(--waterloo);
++  --fill-hover: var(--black);
++  position: absolute;
++  top: 7px;
++  right: 10px;
++}</style>
+diff --git a/node_modules/san-insights/lib/components/EditButton.svelte b/node_modules/san-insights/lib/components/EditButton.svelte
+new file mode 100644
+index 0000000..d8800d5
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/EditButton.svelte
+@@ -0,0 +1,13 @@
++<script>
++  import Svg from 'san-webkit/lib/ui/Svg/svelte'
++
++  let className = 'mrg-m mrg--l'
++  export { className as class }
++  export let insight
++
++  $: ({ id } = insight)
++</script>
++
++<a href="/edit/{id}" class="btn-2 btn-rounded {className}" sapper:prefetch>
++  <Svg id="pencil" w="16" />
++</a>
+diff --git a/node_modules/san-insights/lib/components/Editor/Bottom.svelte b/node_modules/san-insights/lib/components/Editor/Bottom.svelte
+new file mode 100644
+index 0000000..96cdb5e
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/Editor/Bottom.svelte
+@@ -0,0 +1,59 @@
++<script>
++  import Toggle from 'san-webkit/lib/ui/Toggle'
++  import Publish from './Publish.svelte'
++  import SaveInfo from './SaveInfo.svelte'
++
++  export let insight
++  export let tags
++  export let requirements
++  export let isDraft = true
++  export let isSaving = false
++  export let update
++  export let updateInsight, publishDraft
++
++  function onPulseClick() {
++    insight.isPulse = !insight.isPulse
++    update()
++  }
++</script>
++
++<div class="bottom row v-center">
++  {#if insight.id}
++    <div class="c-casper">
++      {#if isSaving}
++        Saving...
++      {:else}
++        <SaveInfo {insight} {isDraft} />
++      {/if}
++    </div>
++  {/if}
++
++  <button class="pulse btn row v-center c-waterloo mrg-xl mrg--r mrg--l" on:click={onPulseClick}>
++    Pulse insight
++    <Toggle isActive={insight.isPulse} class="mrg-s mrg--l" />
++  </button>
++
++  <Publish
++    {insight}
++    {tags}
++    {update}
++    {updateInsight}
++    {publishDraft}
++    {requirements}
++    {isDraft}
++    {isSaving}
++  />
++</div>
++
++<style lang="scss">.bottom {
++  position: fixed;
++  bottom: 0;
++  right: calc(50% - 570px);
++  background: linear-gradient(270deg, var(--white) 83%, transparent 100%);
++  padding: 15px 0;
++  padding-left: 80px;
++}
++
++.pulse {
++  --color-hover: var(--black);
++}</style>
+diff --git a/node_modules/san-insights/lib/components/Editor/ProToggle.svelte b/node_modules/san-insights/lib/components/Editor/ProToggle.svelte
+new file mode 100644
+index 0000000..477d737
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/Editor/ProToggle.svelte
+@@ -0,0 +1,56 @@
++<script>
++  import Toggle from 'san-webkit/lib/ui/Toggle.svelte'
++  import { onDestroy, onMount } from 'svelte'
++
++  const PRO_PASS = 'sanpro'
++
++  export let insight
++  export let update
++
++  let isPro = insight.isPro
++  let trackPass
++  let isVisible = false
++
++  function onClick() {
++    isPro = !isPro
++    insight.isPro = isPro
++    update()
++  }
++
++  onMount(() => {
++    const keys = []
++    let isOverflowed = false
++
++    trackPass = ({ key }) => {
++      isOverflowed = keys.push(key) === PRO_PASS.length
++
++      if (isOverflowed) {
++        if (keys.join('') === PRO_PASS) {
++          isVisible = true
++          window.removeEventListener('keypress', trackPass)
++        }
++
++        keys.length = 0
++      }
++    }
++
++    window.addEventListener('keypress', trackPass)
++  })
++
++  onDestroy(() => {
++    if (trackPass) window.removeEventListener('keypress', trackPass)
++  })
++</script>
++
++{#if isVisible}
++  <button class="row v-center mrg-l mrg--t txt-m c-waterloo" on:click={onClick}>
++    <Toggle isActive={isPro} class="mrg-s mrg--r {isPro ? 'active-4Xf3zk' : ''}" />
++    PRO Insight
++  </button>
++{/if}
++
++<style>
++  :global(.active-4Xf3zk) {
++    background: var(--orange) !important;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/Editor/Project.svelte b/node_modules/san-insights/lib/components/Editor/Project.svelte
+new file mode 100644
+index 0000000..4eac71d
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/Editor/Project.svelte
+@@ -0,0 +1,29 @@
++<script>
++  import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte'
++
++  let className = ''
++  export { className as class }
++  export let project
++
++  $: ({ slug, name, ticker } = project)
++</script>
++
++<div class="row v-center {className}" on:click>
++  <ProjectIcon {slug} class="mrg-s mrg--r" />
++  <span class="name">{name}</span>
++  <span class="c-waterloo mrg-s mrg--l">{ticker}</span>
++</div>
++
++<style>
++  div {
++    fill: var(--waterloo) !important;
++  }
++
++  .name {
++    white-space: nowrap;
++    overflow: hidden;
++    text-overflow: ellipsis;
++    min-width: 0;
++    color: var(---color);
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/Editor/ProjectSelector.svelte b/node_modules/san-insights/lib/components/Editor/ProjectSelector.svelte
+new file mode 100644
+index 0000000..ec45c70
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/Editor/ProjectSelector.svelte
+@@ -0,0 +1,54 @@
++<script>
++  import Svg from 'san-webkit/lib/ui/Svg/svelte'
++  import { queryProjects } from 'san-webkit/lib/api/projects'
++  import Project from './Project.svelte'
++  import Selector from './Selector.svelte'
++
++  export let project
++  export let update
++
++  let projects = []
++  let isOpened
++
++  if (process.browser) queryProjects().then((data) => (projects = data))
++
++  function filter(value, items) {
++    const searchTerm = value.toLowerCase()
++    return items.filter(
++      ({ name, ticker }) =>
++        name.toLowerCase().includes(searchTerm) || ticker.toLowerCase().includes(searchTerm),
++    )
++  }
++
++  function selectProject(item) {
++    project = item
++    isOpened = false
++    update(project)
++  }
++</script>
++
++<Selector bind:isOpened key="slug" {filter} items={projects} placeholder="Search project">
++  {#if project}
++    <Project {project} class="project-ZkyPMI mrg-l mrg--r" />
++    <button class="clear btn" on:click|stopPropagation={() => selectProject(null)}>
++      <Svg id="close" w="8" />
++    </button>
++  {:else}
++    <div class="c-casper">Select project</div>
++  {/if}
++
++  <svelte:fragment slot="item" let:item>
++    <Project project={item} on:click={() => selectProject(item)} class="btn-ghost" />
++  </svelte:fragment>
++</Selector>
++
++<style>
++  .clear {
++    margin: -2px 12px 0 auto;
++    --fill-hover: var(--red);
++  }
++
++  :global(.project-ZkyPMI) {
++    min-width: 0;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/Editor/Publish.svelte b/node_modules/san-insights/lib/components/Editor/Publish.svelte
+new file mode 100644
+index 0000000..274fb73
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/Editor/Publish.svelte
+@@ -0,0 +1,47 @@
++<script>
++  import Svg from 'san-webkit/lib/ui/Svg/svelte'
++  import Requirements from './Requirements.svelte'
++  import PublishSettings from './PublishSettings.svelte'
++
++  export let insight
++  export let requirements
++  export let update
++  export let updateInsight, publishDraft
++  export let isSaving, isDraft
++
++  $: disabled = !checkRequirements(requirements)
++
++  function checkRequirements({ title, text, pulse }) {
++    return title && text && pulse
++  }
++
++  function onPublishClick() {
++    if (isDraft) publishDraft()
++    else updateInsight()
++  }
++</script>
++
++<Requirements {disabled} {requirements} isPulse={insight.isPulse}>
++  <PublishSettings
++    {insight}
++    {update}
++    {isDraft}
++    {onPublishClick}
++    isEnabled={!disabled}
++    loading={disabled || isSaving}
++  >
++    <div class="btn-2 btn-1 btn--s" class:disabled>
++      {isDraft ? 'Publish' : 'Update'} insight
++      <Svg id="arrow" w="8" h="5" class="mrg-xs mrg--l" />
++    </div>
++  </PublishSettings>
++</Requirements>
++
++<style>
++  .btn-2 {
++    --border: var(--green);
++  }
++  .disabled {
++    --border: var(--porcelain);
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/Editor/PublishSettings.svelte b/node_modules/san-insights/lib/components/Editor/PublishSettings.svelte
+new file mode 100644
+index 0000000..4ad8f73
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/Editor/PublishSettings.svelte
+@@ -0,0 +1,77 @@
++<script>
++  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
++  import { getSanbaseSubscription } from 'san-webkit/lib/utils/subscription'
++  import { currentUser } from './../../stores/user'
++  import ProjectSelector from './ProjectSelector.svelte'
++  import TagSelector from './TagSelector.svelte'
++  import ProToggle from './ProToggle.svelte'
++
++  export let insight
++  export let isDraft
++  export let isEnabled
++  export let loading = false
++  export let update, onPublishClick
++
++  $: subscription = $currentUser && getSanbaseSubscription($currentUser.subscriptions)
++
++  let project = insight.project
++  let tags = insight.tags
++
++  function onProjectUpdate(project) {
++    insight.project = project
++    update()
++  }
++
++  function onTagsUpdate(tags) {
++    insight.tags = tags
++    update()
++  }
++</script>
++
++<Tooltip
++  position="top"
++  align="end"
++  on="click"
++  {isEnabled}
++  class="tooltip-9ozSsm"
++  closeTimeout={500}
++>
++  <svelte:fragment slot="trigger">
++    <slot />
++  </svelte:fragment>
++
++  <svelte:fragment slot="tooltip">
++    <div>Select a coin for the price minichart and add tags to attract more readers</div>
++    <div class="label caption">Price minichart to show</div>
++    <ProjectSelector {project} update={onProjectUpdate} />
++
++    <div class="label caption">Tags ({tags.length}/5)</div>
++    <TagSelector bind:tags update={onTagsUpdate} />
++
++    {#if subscription}
++      <ProToggle {insight} {update} />
++    {/if}
++
++    <button class="btn-1 fluid mrg-xl mrg--t" class:loading on:click={onPublishClick}
++      >{isDraft ? 'Publish' : 'Update'} insight</button
++    >
++  </svelte:fragment>
++</Tooltip>
++
++<style>
++  :global(.tooltip-9ozSsm) {
++    padding: 15px;
++    width: 317px;
++    overflow: visible !important;
++    left: unset !important;
++    top: unset !important;
++    right: 0;
++    bottom: 55px;
++  }
++
++  .label {
++    font-weight: 500;
++    color: var(--waterloo);
++    margin: 16px 0 3px;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/Editor/ReactChartIframe.js b/node_modules/san-insights/lib/components/Editor/ReactChartIframe.js
+new file mode 100644
+index 0000000..82a6c1c
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/Editor/ReactChartIframe.js
+@@ -0,0 +1,67 @@
++import { createElement, useState } from 'react'
++import { Block, addNewBlock } from 'medium-draft'
++import Svg from 'san-webkit/lib/ui/Svg/react'
++
++const PATTERN = '^(https://embed.santiment.net/).+'
++
++const ChartIframe = ({ close, setEditorState, getEditorState }) => {
++  const [isOpened, setIsOpened] = useState(false)
++
++  function addIframe(src) {
++    setEditorState(addNewBlock(getEditorState(), Block.IFRAME, { src }))
++  }
++
++  function onClick() {
++    setIsOpened(true)
++  }
++
++  function onKeyDown(e) {
++    const input = e.currentTarget
++
++    const { key } = e
++    if (key === 'Enter') {
++      input.pattern = PATTERN
++      if (input.reportValidity()) {
++        e.preventDefault()
++        addIframe(input.value)
++        close()
++      }
++    } else if (key === 'Escape') {
++      e.preventDefault()
++      close()
++    }
++  }
++
++  function onPaste(e) {
++    const paste = (e.clipboardData || window.clipboardData).getData('text')
++
++    let start = paste.indexOf('src="')
++    if (start < 0) return
++    start += 'src="'.length
++
++    e.preventDefault()
++    e.currentTarget.value = paste.slice(start, paste.indexOf('"', start))
++  }
++
++  return createElement(
++    'div',
++    { className: 'md-sd-button body-3 row' },
++
++    createElement('label', { onClick, className: 'btn' }, createElement(Svg, { id: 'pie', w: 16 })),
++
++    isOpened &&
++      createElement('input', {
++        autoFocus: true,
++        className: 'input mrg-s mrg--l',
++        type: 'text',
++        defaultValue: '',
++        pattern: PATTERN,
++        placeholder: 'Press ENTER or ESC',
++        style: { marginTop: -4 },
++        onPaste,
++        onKeyDown,
++      }),
++  )
++}
++
++export default ChartIframe
+diff --git a/node_modules/san-insights/lib/components/Editor/ReactImage.js b/node_modules/san-insights/lib/components/Editor/ReactImage.js
+new file mode 100644
+index 0000000..bd8833d
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/Editor/ReactImage.js
+@@ -0,0 +1,56 @@
++import { createElement } from 'react'
++import { Block, addNewBlock } from 'medium-draft'
++import { upload } from 'san-webkit/lib/api'
++import { notifications } from 'san-webkit/lib/ui/Notifications'
++import Svg from 'san-webkit/lib/ui/Svg/react'
++
++const UPLOAD_IMAGE_MUTATION = `
++  mutation($files: [Upload!]!) {
++    uploadImage(images:$files) {
++      contentHash
++      fileName
++      imageUrl
++      hashAlgorithm
++    }
++  }`
++const accessor = ({ uploadImage }) => uploadImage
++export const mutateUploadImage = (files) => upload(UPLOAD_IMAGE_MUTATION, files).then(accessor)
++
++const MAX_IMG_SIZE = 5000 // NOTE(vanguard): after uploading file with size than 5mb backend does not return imageUrl
++const ChartIframe = ({ close, setEditorState, getEditorState }) => {
++  function onChange(e) {
++    const files = e.target.files
++    const file = files[0]
++    if (!file) return
++    if (file.type.indexOf('image/') !== 0) return
++    if (file.size / 1024 > MAX_IMG_SIZE) {
++      notifications.show({
++        type: 'error',
++        title: 'Image size is too large',
++      })
++      return
++    }
++
++    mutateUploadImage([file]).then(([data]) => {
++      setEditorState(addNewBlock(getEditorState(), Block.IMAGE, { src: data.imageUrl }))
++    })
++
++    close()
++  }
++
++  return createElement(
++    'label',
++    { className: 'md-sd-button btn' },
++
++    createElement(Svg, { id: 'image', w: 16 }),
++
++    createElement('input', {
++      className: 'hide',
++      type: 'file',
++      accept: 'image/*',
++      onChange,
++    }),
++  )
++}
++
++export default ChartIframe
+diff --git a/node_modules/san-insights/lib/components/Editor/ReactText.js b/node_modules/san-insights/lib/components/Editor/ReactText.js
+new file mode 100644
+index 0000000..a9bb390
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/Editor/ReactText.js
+@@ -0,0 +1,106 @@
++import { createElement, useState } from 'react'
++import { convertToRaw } from 'draft-js'
++import { BLOCK_BUTTONS, INLINE_BUTTONS, Editor, createEditorState } from 'medium-draft'
++import sanitizeHtml from 'sanitize-html/dist/sanitize-html'
++import mediumDraftImporter from 'medium-draft/lib/importer'
++import mediumDraftExporter from 'medium-draft/lib/exporter'
++import Svg from 'san-webkit/lib/ui/Svg/react'
++import ChartIframe from './ReactChartIframe'
++import Image from './ReactImage'
++
++const Icon = (id, w, h) => createElement(Svg, { id, w, h })
++INLINE_BUTTONS[0].label = Icon('editor/bold', 12, 16)
++INLINE_BUTTONS[1].label = Icon('editor/italic', 11.6, 16)
++INLINE_BUTTONS[2].label = Icon('editor/underline', 16)
++INLINE_BUTTONS[4].label = Icon('editor/link', 16)
++
++BLOCK_BUTTONS[1].label = Icon('editor/quotes', 16)
++BLOCK_BUTTONS[2].label = Icon('editor/list', 16)
++
++BLOCK_BUTTONS.push({
++  label: Icon('editor/title', 16),
++  style: 'header-one',
++  icon: 'header',
++  description: 'Heading 1',
++})
++BLOCK_BUTTONS.push({
++  label: Icon('editor/subtitle', 10),
++  style: 'header-two',
++  icon: 'header',
++  description: 'Heading 2',
++})
++
++const TOOLBAR = {
++  block: ['blockquote', 'unordered-list-item', 'header-one', 'header-two'],
++  inline: ['hyperlink', 'BOLD', 'UNDERLINE', 'ITALIC'],
++}
++
++const IMAGE_SIDE_BUTTON = {
++  title: 'Image',
++  component: Image,
++}
++
++const CHART_SIDE_BUTTON = {
++  title: 'Chart',
++  component: ChartIframe,
++}
++
++const removeAmpersandRepetitions = (str) =>
++  str.replace(/(?!<a(.*)>(.*))(&amp;)(?=(.*)<\/a>)/gi, '&')
++
++const sanitizeMediumDraftHtml = (html) =>
++  removeAmpersandRepetitions(
++    sanitizeHtml(html, {
++      allowedTags: [
++        ...sanitizeHtml.defaults.allowedTags,
++        'figure',
++        'figcaption',
++        'img',
++        'h1',
++        'h2',
++        'u',
++      ],
++      allowedAttributes: {
++        ...sanitizeHtml.defaults.allowedAttributes,
++        iframe: ['src'],
++        '*': ['class', 'id'],
++      },
++      allowedIframeHostnames: ['embed.santiment.net'],
++    }),
++  )
++
++const getEditorContent = (text) => convertToRaw(mediumDraftImporter(text))
++
++export default ({ text, contentRef, onChange: onContentChange }) => {
++  const [editorState, setEditorState] = useState(() => {
++    const state = createEditorState(getEditorContent(text))
++    const content = state.getCurrentContent()
++    contentRef.current = {
++      content,
++      sanitize: () => sanitizeMediumDraftHtml(mediumDraftExporter(content)),
++    }
++    contentRef.checkRequirements()
++    return state
++  })
++
++  function onChange(state) {
++    setEditorState(state)
++    const content = state.getCurrentContent()
++
++    if (editorState.getCurrentContent() === content) return
++
++    onContentChange()
++    contentRef.current = {
++      content,
++      sanitize: () => sanitizeMediumDraftHtml(mediumDraftExporter(content)),
++    }
++  }
++
++  return createElement(Editor, {
++    editorState,
++    onChange,
++    placeholder: 'Write something interesting ...',
++    toolbarConfig: TOOLBAR,
++    sideButtons: [IMAGE_SIDE_BUTTON, CHART_SIDE_BUTTON],
++  })
++}
+diff --git a/node_modules/san-insights/lib/components/Editor/Requirements.svelte b/node_modules/san-insights/lib/components/Editor/Requirements.svelte
+new file mode 100644
+index 0000000..0f8ec11
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/Editor/Requirements.svelte
+@@ -0,0 +1,51 @@
++<script>
++  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
++  import Svg from 'san-webkit/lib/ui/Svg/svelte'
++
++  export let disabled
++  export let isPulse
++  export let requirements
++</script>
++
++<Tooltip position="top" align="end" isEnabled={disabled}>
++  <div slot="trigger">
++    <slot />
++  </div>
++
++  <div slot="tooltip" class="requirements c-casper">
++    <p class:active={requirements.title}>
++      <Svg id="checkmark" w="8" h="6" />
++      Title contains more than 5 characters
++    </p>
++    <p class:active={requirements.text}>
++      <Svg id="checkmark" w="8" h="6" />
++      Text contains more than 5 characters
++    </p>
++    {#if isPulse}
++      <p class:active={requirements.pulse}>
++        <Svg id="checkmark" w="8" h="6" />
++        Text contains less than 150 words
++      </p>
++    {/if}
++  </div>
++</Tooltip>
++
++<style>
++  .requirements {
++    padding: 15px;
++    white-space: nowrap;
++    fill: var(--casper);
++  }
++  p {
++    margin: 8px 0;
++    display: flex;
++    align-items: center;
++  }
++  p :global(svg) {
++    margin-right: 6px;
++  }
++  .active {
++    fill: var(--green);
++    color: var(--black);
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/Editor/SaveInfo.svelte b/node_modules/san-insights/lib/components/Editor/SaveInfo.svelte
+new file mode 100644
+index 0000000..d941c4f
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/Editor/SaveInfo.svelte
+@@ -0,0 +1,24 @@
++<script>
++  import { onDestroy, onMount } from 'svelte'
++  import { dateDifferenceInWords } from 'san-webkit/lib/utils/dates'
++
++  export let insight
++  export let isDraft = true
++
++  let tick = 1
++  let interval
++
++  $: ({ updatedAt } = insight)
++  $: date = new Date(updatedAt)
++  $: time = tick && dateDifferenceInWords(date)
++
++  onMount(() => {
++    interval = window.setInterval(() => ++tick, 1000 * 60)
++  })
++  onDestroy(() => {
++    clearInterval(interval)
++  })
++</script>
++
++{isDraft ? 'Draft saved' : 'Insight updated'}
++{time}
+diff --git a/node_modules/san-insights/lib/components/Editor/Selector.svelte b/node_modules/san-insights/lib/components/Editor/Selector.svelte
+new file mode 100644
+index 0000000..634c80c
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/Editor/Selector.svelte
+@@ -0,0 +1,64 @@
++<script>
++  import Svg from 'san-webkit/lib/ui/Svg/svelte'
++  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
++  import List from 'san-webkit/lib/ui/VirtualList/Searchable.svelte'
++
++  let className = ''
++  export { className as class }
++  export let key
++  export let items
++  export let filter
++  export let isOpened
++  export let placeholder = 'Search tags'
++  export let isEnabled
++</script>
++
++<div class="relative">
++  <Tooltip
++    bind:isOpened
++    {isEnabled}
++    on="click"
++    class="tooltip-qLqDtS fluid"
++    activeClass="active-a1gcyj"
++  >
++    <div slot="trigger" class="btn input row justify v-center {className}">
++      <slot />
++
++      <Svg id="arrow" w="8" h="4.5" />
++    </div>
++
++    <svelte:fragment slot="tooltip">
++      <List
++        searchPosition="bottom"
++        {key}
++        {items}
++        {placeholder}
++        defaultItemHeight={32}
++        maxHeight={200}
++        autofocus
++        {filter}
++        let:item
++      >
++        <slot name="item" {item} />
++      </List>
++    </svelte:fragment>
++  </Tooltip>
++</div>
++
++<style>
++  :global(.tooltip-qLqDtS) {
++    padding: 8px;
++    left: unset !important;
++    top: unset !important;
++    right: 0;
++    bottom: 40px;
++  }
++
++  .input {
++    min-height: 34px;
++  }
++
++  :global(.active-a1gcyj) {
++    --border: var(--green);
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/Editor/TagSelector.svelte b/node_modules/san-insights/lib/components/Editor/TagSelector.svelte
+new file mode 100644
+index 0000000..5dccc46
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/Editor/TagSelector.svelte
+@@ -0,0 +1,78 @@
++<script>
++  import Svg from 'san-webkit/lib/ui/Svg/svelte'
++  import { queryTags } from './../../api/tags'
++  import Selector from './Selector.svelte'
++
++  export let tags = []
++  export let update
++
++  let isOpened
++  let allTags = []
++
++  $: isEnabled = tags.length < 5
++
++  if (process.browser) queryTags().then((data) => (allTags = data))
++
++  function filter(value, items) {
++    const searchTerm = value.toLowerCase()
++    return items.filter((item) => item.toLowerCase().includes(searchTerm))
++  }
++  function selectTag(item) {
++    if (tags.length >= 5) return
++
++    tags = Array.from(new Set(tags.concat(item)))
++    isOpened = false
++    update(tags)
++  }
++
++  function deleteTag(tag) {
++    tags = tags.filter((v) => v !== tag)
++    update(tags)
++  }
++</script>
++
++<Selector bind:isOpened {isEnabled} {filter} items={allTags}>
++  <div class="tags row">
++    {#each tags as tag (tag)}
++      <span class="tag border caption">
++        {tag}
++        <button class="close btn" on:click|stopPropagation={() => deleteTag(tag)}>
++          <Svg id="close-small" w="6" class="icon-yMVtSp" />
++        </button>
++      </span>
++    {:else}
++      <div class="c-casper">Add a tag...</div>
++    {/each}
++  </div>
++
++  <div slot="item" let:item class="btn-ghost" on:click={() => selectTag(item)}>
++    {item}
++  </div>
++</Selector>
++
++<style>
++  .tags {
++    margin-top: -3px;
++    flex-wrap: wrap;
++  }
++  .tag {
++    --border: var(--porcelain);
++    margin-right: 4px;
++    padding: 2px 4px;
++    margin: 3px 4px 0 0;
++  }
++  .c-casper {
++    margin-top: 3px;
++  }
++
++  .close {
++    margin-left: 2px;
++    padding: 0 2px;
++    --fill: var(--waterloo);
++    --fill-hover: var(--red);
++  }
++
++  :global(.icon-yMVtSp) {
++    margin: -2px 0 0;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/Editor/Text.svelte b/node_modules/san-insights/lib/components/Editor/Text.svelte
+new file mode 100644
+index 0000000..ea8ea52
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/Editor/Text.svelte
+@@ -0,0 +1,223 @@
++<script>
++  import React from 'react'
++  import ReactDOM from 'react-dom'
++  import { onDestroy, onMount } from 'svelte'
++  import InsightText from './../../components/InsightText.svelte'
++
++  export let insight
++  export let onChange
++  export let contentRef
++
++  let node
++
++  onMount(() => {
++    import('./ReactText').then((data) => render(data.default))
++  })
++  onDestroy(() => {
++    if (!node) return
++
++    ReactDOM.unmountComponentAtNode(node)
++  })
++
++  function render(Component) {
++    if (!node) return
++
++    const text = insight.text || ''
++    ReactDOM.render(React.createElement(Component, { text, contentRef, onChange }), node.firstChild)
++  }
++</script>
++
++<div class="relative" bind:this={node}>
++  <InsightText class="body-1" />
++</div>
++
++<style lang="scss">div {
++  --text-ul-margin: 10px 0 24px;
++}
++
++div :global(.md-RichEditor-root) :global(.md-block-image-caption--empty::before) {
++  content: "Add caption...";
++  color: var(--casper);
++  position: absolute;
++  left: 0;
++  cursor: text;
++  width: 720px;
++  text-align: center;
++}
++div :global(.public-DraftEditorPlaceholder-root) {
++  position: absolute;
++  z-index: 1;
++  pointer-events: none;
++}
++div :global(.public-DraftEditorPlaceholder-inner) {
++  color: var(--casper);
++}
++div :global(.md-editor-toolbar) {
++  font-size: 12px;
++  visibility: hidden;
++  position: absolute;
++  display: flex;
++  height: 32px;
++  background: #505573;
++  color: #d2d6e6;
++  fill: #d2d6e6;
++  cursor: auto;
++  z-index: 2;
++  border-radius: 4px;
++  transition: all 0.1s ease;
++  box-shadow: 0 2px 2px rgba(21, 24, 31, 0.04), 0 2px 6px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.08);
++  padding: 6px 10px;
++  align-items: center;
++}
++div :global(.md-editor-toolbar.md-editor-toolbar--isopen) {
++  visibility: visible;
++}
++div :global(.md-editor-toolbar) :global(button:hover) {
++  color: var(--green-hover);
++}
++div :global(.md-RichEditor-controls) {
++  height: 20px;
++  display: flex;
++  align-items: center;
++  border-right: 1px solid #7b829d;
++}
++div :global(.md-RichEditor-controls:last-of-type) {
++  border-right: none;
++}
++div :global(.md-RichEditor-styleButton) {
++  display: inline-flex;
++  width: 32px;
++  height: 20px;
++  justify-content: center;
++  align-items: center;
++  cursor: pointer;
++}
++div :global(.md-RichEditor-activeButton) {
++  fill: var(--green);
++}
++div :global(.md-editor-toolbar-unlink-button),
++div :global(.md-editor-toolbar-edit-button) {
++  color: #e0e4ee;
++}
++div :global(.md-editor-toolbar-unlink-button) {
++  margin: 0 8px;
++}
++div :global(.md-RichEditor-show-link-input) {
++  width: 100%;
++  padding: 0 10px;
++}
++div :global(.md-url-input-close) {
++  position: absolute;
++  right: 8px;
++  top: 2.5px;
++  font-size: 20px;
++  cursor: pointer;
++}
++div :global(.md-url-input) {
++  box-sizing: border-box;
++  display: block;
++  width: 100%;
++  height: 100%;
++  padding-right: 11px;
++  border: none;
++  outline: none;
++  background: transparent;
++  color: #fff;
++}
++div :global(.md-url-input::placeholder) {
++  color: #fff;
++  padding-left: 3px;
++}
++div :global([class*=hint--]) {
++  position: relative;
++}
++div :global([class*=hint--][aria-label]::after) {
++  background: #4c516c;
++  white-space: nowrap;
++  font-size: 12px;
++  padding: 4px 10px;
++  content: attr(aria-label);
++  margin-top: -8px;
++}
++div :global([class*=hint--]::before) {
++  content: "";
++  position: absolute;
++  border: 6px solid transparent;
++  z-index: 1000001;
++  margin-top: 11px;
++}
++div :global([class*=hint--]::after), div :global([class*=hint--]::before) {
++  position: absolute;
++  visibility: hidden;
++  opacity: 0;
++  left: 50%;
++  transform: translate3d(-50%, -30px, 0);
++  z-index: 1000000;
++  pointer-events: none;
++  transition: 0.3s ease;
++}
++div :global([class*=hint--]:hover::after), div :global([class*=hint--]:hover::before) {
++  visibility: visible;
++  opacity: 1;
++}
++div :global(.md-side-toolbar) {
++  position: absolute;
++  left: -36px;
++}
++:global(body.phone-xs) div :global(.md-side-toolbar) {
++  left: -8px;
++  margin-top: 25px;
++}
++div :global(.md-open-button) + :global(div) {
++  z-index: 9;
++  position: absolute;
++  top: 0;
++  left: 0;
++  animation-fill-mode: forwards;
++  animation-name: fade;
++  animation-duration: 200ms;
++  margin-top: 2px;
++}
++div :global(.md-add-button) {
++  cursor: pointer;
++  outline: none;
++  background: transparent;
++  border-radius: 50%;
++  width: 18px;
++  height: 18px;
++  position: relative;
++  margin-top: 7px;
++}
++div :global(.md-add-button) :global(svg) {
++  display: none;
++}
++div :global(.md-add-button.md-open-button::before) {
++  transform: translate3d(-44%, -50%, 0) rotate(45deg);
++}
++div :global(.md-add-button::before) {
++  color: var(--black);
++  content: "+";
++  display: inline-block;
++  position: absolute;
++  font-size: 25px;
++  line-height: 0;
++  transition: transform 200ms;
++  font-family: "Proxima Nova", sans-serif;
++  left: 52%;
++  top: 45%;
++  transform: translate3d(-50%, -50%, 0);
++}
++div :global(.md-sd-button) {
++  --color-hover: var(--green);
++  margin: 5px 0 0;
++}
++@keyframes fade {
++  from {
++    opacity: 0;
++    left: 0;
++  }
++  to {
++    opacity: 1;
++    left: 36px;
++  }
++}</style>
+diff --git a/node_modules/san-insights/lib/components/Editor/index.svelte b/node_modules/san-insights/lib/components/Editor/index.svelte
+new file mode 100644
+index 0000000..4f534c8
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/Editor/index.svelte
+@@ -0,0 +1,141 @@
++<script>
++  import { onDestroy } from 'svelte'
++  import { goto } from '@sapper/app'
++  import { debounce } from 'san-webkit/lib/utils/fn'
++  import { getSEOLinkFromIdAndTitle } from 'san-webkit/lib/utils/url'
++  import { notifications } from 'san-webkit/lib/ui/Notifications'
++  import Text from './Text.svelte'
++  import Bottom from './Bottom.svelte'
++  import { checkIsTrendTag } from './../../utils/insights'
++  import { clearQueryInsightCache } from './../../api/insights'
++  import { mutateUpdateDraft, mutateCreateDraft, mutatePublishDraft } from './../../api/insights/draft'
++  import { currentUser } from './../../stores/user'
++  import { session } from './../../stores/session'
++
++  export let insight = { readyState: 'draft' }
++  export let trendTag = getTags()
++
++  const defaultTitle = insight.title || ''
++  const isDraft = insight.readyState === 'draft'
++
++  let title = defaultTitle
++  let isSaving = false
++  let contentRef = { current: null, checkRequirements }
++  let requirements = { title: false, text: false, pulse: false }
++
++  const [scheduleUpdate, clearTimer] = debounce(1000, () => {
++    insight.title = title
++    insight.text = contentRef.current.sanitize()
++
++    checkRequirements()
++    if (!requirements.title || !requirements.text) return
++    if (isDraft) updateInsight()
++  })
++  function updateInsight() {
++    const mutate = insight.id ? mutateUpdateDraft : mutateCreateDraft
++
++    mutate({
++      id: +insight.id,
++      title: insight.title,
++      text: insight.text,
++      tags: trendTag ? insight.tags.concat(trendTag) : insight.tags,
++      isPro: insight.isPro,
++      isPulse: insight.isPulse,
++      projectId: insight.project ? +insight.project.id : null,
++    }).then((data) => {
++      if (isDraft === false) {
++        clearQueryInsightCache(insight.id, $session.isMobile)
++        goto(`/read/${getSEOLinkFromIdAndTitle(insight.id, insight.title)}`)
++        notifications.show({
++          type: 'success',
++          title: 'Your insight was successfully updated',
++        })
++        return
++      }
++
++      if (!insight.id) {
++        insight.id = data.id
++        window.history.replaceState({}, '', '/edit/' + data.id)
++      }
++      insight.updatedAt = data.updatedAt
++
++      isSaving = false
++    })
++  }
++
++  function publishDraft() {
++    if (!$currentUser.username) {
++      notifications.show({
++        type: 'error',
++        title: 'Please, add "Name" in the "Account settings" to publish the insight',
++        dismissAfter: 8000,
++      })
++      return
++    }
++
++    mutatePublishDraft(insight.id).then(() => {
++      clearQueryInsightCache(insight.id, $session.isMobile)
++      goto('/my')
++      notifications.shown({
++        type: 'success',
++        title: 'Thanks for your thoughts',
++        description: 'We will check your insight and publish it very soon.',
++      })
++    })
++  }
++
++  function onTitleInput({ currentTarget }) {
++    const value = currentTarget.textContent
++    if (!value) currentTarget.innerHTML = ''
++    title = value.trim()
++    update()
++  }
++
++  function checkRequirements() {
++    const state = contentRef.current
++    if (!state) return
++
++    const text = state.content.getPlainText().trim()
++    requirements = {
++      title: title.length > 5,
++      text: text.length > 5,
++      pulse: insight.isPulse ? text.split(' ').length < 151 : true,
++    }
++  }
++
++  function update() {
++    if (isDraft) isSaving = true
++    scheduleUpdate()
++  }
++
++  function getTags() {
++    if (!process.browser) return {}
++
++    const tags = insight.tags ? insight.tags.map(({ name }) => name) : []
++    insight.tags = tags.filter((tag) => !checkIsTrendTag(tag))
++
++    return tags.find(checkIsTrendTag)
++  }
++
++  onDestroy(clearTimer)
++</script>
++
++<h2 contenteditable class="txt-b mrg-l mrg--b" on:input={onTitleInput}>{defaultTitle}</h2>
++
++<Text {insight} {contentRef} onChange={update} />
++
++<Bottom {insight} {update} {updateInsight} {publishDraft} {requirements} {isDraft} {isSaving} />
++
++<style lang="scss">h2 {
++  line-height: 44px;
++  font-size: 38px;
++  outline: 0;
++  min-height: 44px;
++}
++h2:empty::before {
++  position: absolute;
++  content: "Name your insight";
++  color: var(--casper);
++  opacity: 0.7;
++  pointer-events: none;
++}</style>
+diff --git a/node_modules/san-insights/lib/components/EnlargedImage.svelte b/node_modules/san-insights/lib/components/EnlargedImage.svelte
+new file mode 100644
+index 0000000..28dabea
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/EnlargedImage.svelte
+@@ -0,0 +1,46 @@
++<script context="module">
++  import { dialogs } from 'san-webkit/lib/ui/Dialog'
++  import EnlargedImage from './EnlargedImage.svelte'
++
++  export const enlargeImage = (event) =>
++    event &&
++    event.target &&
++    event.target.src &&
++    dialogs.show(EnlargedImage, { src: event.target.src, single: true })
++</script>
++
++<script>
++  import Dialog from 'san-webkit/lib/ui/Dialog'
++  import Svg from 'san-webkit/lib/ui/Svg/svelte'
++
++  export let src
++
++  let closeDialog
++</script>
++
++<Dialog {...$$props} class="dialog-Fa3wXq" animated={false} noTitle bind:closeDialog>
++  <img {src} alt="Enlarged" />
++
++  <button class="btn" on:click={closeDialog}><Svg id="close" w="16" /></button>
++</Dialog>
++
++<style>
++  :global(.dialog-Fa3wXq) {
++    background: none;
++    border: none;
++    max-width: calc(100% - 100px) !important;
++    max-height: unset !important;
++  }
++
++  img {
++    max-height: 95vh;
++  }
++
++  button {
++    position: absolute;
++    top: -3px;
++    right: -32px;
++    --fill: #fff;
++    --fill-hover: var(--green);
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/Feed.svelte b/node_modules/san-insights/lib/components/Feed.svelte
+new file mode 100644
+index 0000000..00d9602
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/Feed.svelte
+@@ -0,0 +1,25 @@
++<script>
++  import { getDateFormats } from 'san-webkit/lib/utils/dates'
++
++  export let items
++
++  $: DateById = getDateIds(items)
++
++  function getDateIds(items) {
++    const result = {}
++    let lastDate
++    items.forEach(({ id, publishedAt }) => {
++      const { MMM, D } = getDateFormats(new Date(publishedAt))
++      const date = MMM + ' ' + D
++      if (lastDate === date) return
++      result[id] = lastDate = date
++    })
++    return result
++  }
++</script>
++
++{#each items as item (item.id)}
++  {@const date = DateById[item.id]}
++  {#if date}<h4 class="c-waterloo mrg-l mrg--b">{date}</h4>{/if}
++  <slot {item} />
++{/each}
+diff --git a/node_modules/san-insights/lib/components/HandpickedTakes.svelte b/node_modules/san-insights/lib/components/HandpickedTakes.svelte
+new file mode 100644
+index 0000000..d3ac736
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/HandpickedTakes.svelte
+@@ -0,0 +1,24 @@
++<script>
++  import SmallCard from './../components/InsightCard/SmallCard.svelte'
++
++  export let insights = []
++</script>
++
++<h2 class="h4 mrg-l mrg--b">Handpicked Takes</h2>
++
++<div class="scroll">
++  {#each insights as insight}
++    <SmallCard {insight} class="mrg-l mrg--b" />
++  {/each}
++</div>
++
++<style>
++  .scroll {
++    overflow: hidden;
++    min-height: 277px;
++  }
++  .scroll:hover {
++    overflow-y: auto;
++    overflow-y: overlay;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/InsightCard/Bottom.svelte b/node_modules/san-insights/lib/components/InsightCard/Bottom.svelte
+new file mode 100644
+index 0000000..3691507
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/InsightCard/Bottom.svelte
+@@ -0,0 +1,42 @@
++<script>
++  import Svg from 'san-webkit/lib/ui/Svg/svelte'
++  import CommentBtn from './../../components/CommentButton.svelte'
++  import VoteButton from './../../components/VoteButton.svelte'
++  import Tags from './../../components/Tags.svelte'
++
++  export let insight
++  export let href
++
++  $: ({ tags, commentsCount, isPro } = insight)
++</script>
++
++<div class="bottom row v-center c-waterloo">
++  <VoteButton {insight} />
++
++  <CommentBtn {href} count={commentsCount} />
++
++  <div class="tags c-waterloo mrg-a mrg--l caption row">
++    <Tags {tags} />
++  </div>
++
++  {#if isPro}
++    <Svg id="crown" w="12" h="9" class="crown-PJl2C0" />
++  {/if}
++</div>
++
++<style>
++  .bottom {
++    border-top: 1px solid var(--porcelain);
++    padding: 12px 16px 12px 24px;
++  }
++
++  :global(.crown-PJl2C0) {
++    fill: var(--orange);
++    margin-left: 20px;
++  }
++
++  .tags {
++    flex-wrap: wrap;
++    justify-content: flex-end;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/InsightCard/Card.svelte b/node_modules/san-insights/lib/components/InsightCard/Card.svelte
+new file mode 100644
+index 0000000..db8881b
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/InsightCard/Card.svelte
+@@ -0,0 +1,33 @@
++<script>
++  import { getSEOLinkFromIdAndTitle } from 'san-webkit/lib/utils/url'
++  import Bottom from './Bottom.svelte'
++
++  let className = ''
++  export { className as class }
++  export let insight
++
++  let node
++
++  $: ({ id, title } = insight)
++  $: href = '/read/' + getSEOLinkFromIdAndTitle(id, title)
++</script>
++
++<div class="border row {className}" bind:this={node}>
++  <div class="column fluid">
++    <div class="top">
++      <slot {href} {node} />
++    </div>
++    <Bottom {insight} {href} />
++  </div>
++  <slot name="right" />
++</div>
++
++<style>
++  .top {
++    padding: 18px 16px 16px 24px;
++  }
++
++  .fluid {
++    min-width: 0;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/InsightCard/Change.svelte b/node_modules/san-insights/lib/components/InsightCard/Change.svelte
+new file mode 100644
+index 0000000..e69de29
+diff --git a/node_modules/san-insights/lib/components/InsightCard/Draft.svelte b/node_modules/san-insights/lib/components/InsightCard/Draft.svelte
+new file mode 100644
+index 0000000..0241ed3
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/InsightCard/Draft.svelte
+@@ -0,0 +1,56 @@
++<script>
++  import Svg from 'san-webkit/lib/ui/Svg/svelte'
++  import { dateDifferenceInWords } from 'san-webkit/lib/utils/dates'
++  import { getRawText } from './../../utils/insights'
++  import { showDraftDeleteDialog } from './DraftDeleteDialog.svelte'
++
++  export let draft
++  export let onDelete
++
++  $: ({ id, title, pulseText, text = pulseText, updatedAt } = draft)
++  $: rawText = getRawText(text).slice(0, 80)
++
++  function onDeleteClick() {
++    showDraftDeleteDialog(id)
++      .then(() => onDelete(draft))
++      .catch(() => {})
++  }
++</script>
++
++<div class="column border c-waterloo">
++  <a href="/read/{id}" class="body-1 c-black">{title}</a>
++  <div class="text mrg-xs mrg--t">{rawText}</div>
++  <div class="row v-center mrg-l mrg--t">
++    Edited {dateDifferenceInWords(new Date(updatedAt))}
++
++    <div class="delete btn mrg-a mrg--l" on:click={onDeleteClick}>
++      <Svg id="delete" w="16" />
++    </div>
++
++    <a href="/edit/{id}" class="btn mrg-xl mrg--l" sapper:prefetch>
++      <Svg id="pencil" w="16" />
++    </a>
++  </div>
++</div>
++
++<style>
++  .border {
++    padding: 20px 24px 22px 20px;
++    white-space: nowrap;
++    min-width: 0;
++  }
++
++  a,
++  .text {
++    overflow: hidden;
++    text-overflow: ellipsis;
++  }
++
++  .btn {
++    --color-hover: var(--green);
++  }
++
++  .delete {
++    --color-hover: var(--red);
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/InsightCard/DraftDeleteDialog.svelte b/node_modules/san-insights/lib/components/InsightCard/DraftDeleteDialog.svelte
+new file mode 100644
+index 0000000..d236812
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/InsightCard/DraftDeleteDialog.svelte
+@@ -0,0 +1,55 @@
++<script context="module">
++  import { dialogs } from 'san-webkit/lib/ui/Dialog'
++  import DraftDeleteDialog from './DraftDeleteDialog.svelte'
++
++  export const showDraftDeleteDialog = (id) =>
++    dialogs.show(DraftDeleteDialog, {
++      id,
++      strict: true,
++    })
++</script>
++
++<script>
++  import Dialog from 'san-webkit/lib/ui/Dialog'
++  import { DialogLock } from 'san-webkit/lib/ui/Dialog/dialogs'
++  import { mutateDeleteDraft } from './../../api/insights/user'
++
++  export let id
++  export let DialogPromise
++
++  let closeDialog
++  let loading = false
++
++  function onDeleteClick() {
++    loading = true
++    DialogPromise.locking === DialogLock.LOCKED
++
++    mutateDeleteDraft(id)
++      .then(() => {
++        DialogPromise.resolve()
++        closeDialog()
++      })
++      .catch((e) => {
++        console.warn(e)
++        DialogPromise.locking === DialogLock.FREE
++        loading = false
++      })
++  }
++</script>
++
++<Dialog {...$$props} title="Are you sure you want to delete this draft?" bind:closeDialog>
++  <div class="row">
++    <div class="btn-2 mrg-a mrg--l" on:click={closeDialog}>Cancel</div>
++    <div class="btn-1 mrg-l mrg--l" class:loading on:click={onDeleteClick}>Delete Draft</div>
++  </div>
++</Dialog>
++
++<style>
++  .row {
++    padding: 16px 20px 20px;
++  }
++
++  :global(body.desktop) .row {
++    min-width: 365px;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/InsightCard/Editorial.svelte b/node_modules/san-insights/lib/components/InsightCard/Editorial.svelte
+new file mode 100644
+index 0000000..b12aa7e
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/InsightCard/Editorial.svelte
+@@ -0,0 +1,17 @@
++<script>
++  import Svg from 'san-webkit/lib/ui/Svg/svelte'
++
++  export let user
++
++  const SANTIMENT = new Set([6, 7, 1269, 3031, 4522, 79570])
++</script>
++
++{#if SANTIMENT.has(+user.id)}
++  <Svg illus id="editorial" w="118" h="40" class="mrg-a mrg--l icon-bXMlsN" />
++{/if}
++
++<style>
++  :global(.icon-bXMlsN) {
++    min-width: 118px;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/InsightCard/Price.svelte b/node_modules/san-insights/lib/components/InsightCard/Price.svelte
+new file mode 100644
+index 0000000..c84890e
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/InsightCard/Price.svelte
+@@ -0,0 +1,53 @@
++<script>
++  import { onDestroy, onMount } from 'svelte'
++  import { queryInsightProject } from './../../api/insights/project'
++  import PriceSincePublication, {
++    queryPriceSincePublication,
++  } from './../../components/PriceSincePublication.svelte'
++
++  export let node
++  export let insight
++  const { publishedAt } = insight
++
++  let observer
++  let project, projectData
++
++  $: project && loadPrice()
++
++  function loadProject() {
++    if (observer) observer.unobserve(node)
++    observer = null
++    queryInsightProject(insight.id, publishedAt).then((result) => (project = result))
++  }
++
++  function loadPrice() {
++    queryPriceSincePublication(project.slug, publishedAt).then((result) => (projectData = result))
++  }
++
++  function observeIntersection() {
++    if (!node) return loadProject()
++
++    const dispatcher = ([{ isIntersecting }]) => isIntersecting && loadProject()
++    observer = new IntersectionObserver(dispatcher, { rootMargin: '200px' })
++    observer.observe(node)
++  }
++
++  onMount(observeIntersection)
++
++  onDestroy(() => {
++    if (observer) observer.unobserve(node)
++  })
++</script>
++
++{#if project}
++  <PriceSincePublication {insight} {project} {...projectData} width={220} class="price-FKxZFc" />
++{/if}
++
++<style>
++  :global(.price-FKxZFc) {
++    width: 260px;
++    min-width: 260px;
++    padding: 21px 20px 29px;
++    background: linear-gradient(180deg, var(--athens), var(--white));
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/InsightCard/Pulse.svelte b/node_modules/san-insights/lib/components/InsightCard/Pulse.svelte
+new file mode 100644
+index 0000000..93e1445
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/InsightCard/Pulse.svelte
+@@ -0,0 +1,65 @@
++<script>
++  import { getDateFormats, getTimeFormats } from 'san-webkit/lib/utils/dates'
++  import Profile from 'san-webkit/lib/ui/Profile/index.svelte'
++  import InsightText from './../../components/InsightText.svelte'
++  import Card from './Card.svelte'
++  import Editorial from './Editorial.svelte'
++
++  let className = ''
++  export { className as class }
++  export let insight
++
++  $: ({ title, user, publishedAt, pulseText, text = pulseText } = insight)
++  $: date = formatDate(publishedAt)
++
++  function formatDate(date) {
++    date = new Date(date)
++    const { MM, D, YY } = getDateFormats(date)
++    const { HH, mm } = getTimeFormats(date)
++    return `${D}-${MM}-${YY}, ${HH}:${mm}`
++  }
++</script>
++
++<Card {insight} class={className} let:href>
++  <a {href} class="h4 row justify mrg-m mrg--b" sapper:prefetch
++    >{title}
++    <span class="c-waterloo caption">{date}</span>
++  </a>
++
++  <InsightText {text} class="text-m9aJEZ body-2" />
++
++  <div class="row v-center">
++    <Profile {user} class="profile-SI8Ex2 c-waterloo caption mrg-m mrg--t" />
++    <Editorial {user} />
++  </div>
++</Card>
++
++<style>
++  a {
++    word-break: break-all;
++  }
++
++  span {
++    align-self: flex-start;
++    margin: 4px 0 0 16px;
++    white-space: nowrap;
++  }
++
++  :global(.profile-SI8Ex2) {
++    --img-size: 24px;
++  }
++
++  :global(.text-m9aJEZ) {
++    --text-h1-size: 18px;
++    --text-h2-size: 16px;
++
++    --text-ul-margin: 10px 0 25px;
++
++    --text-figure-mrg-b: 12px;
++
++    --text-quote-size: 16px;
++    --text-quote-padding: 12px 20px;
++    --text-quote-margin: 12px 0 16px;
++    --text-quotes-size: 50px;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/InsightCard/SmallCard.svelte b/node_modules/san-insights/lib/components/InsightCard/SmallCard.svelte
+new file mode 100644
+index 0000000..526dad6
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/InsightCard/SmallCard.svelte
+@@ -0,0 +1,51 @@
++<script>
++  import { getSEOLinkFromIdAndTitle } from 'san-webkit/lib/utils/url'
++  import Svg from 'san-webkit/lib/ui/Svg/svelte'
++
++  let className = ''
++  export { className as class }
++  export let insight
++
++  $: ({ id, title, user, isPro } = insight)
++</script>
++
++<div class="column {className}">
++  <a href="/read/{getSEOLinkFromIdAndTitle(id, title)}" class="title body-2 mrg-xs mrg--b">
++    {title}
++  </a>
++  <a href="https://app.santiment.net/profile/{user.id}" class="user c-waterloo"
++    >@{user.username}
++  </a>
++  {#if isPro}<Svg id="crown" w="12" h="9" class="crown-qmRy2Q mrg-a mrg--l" />{/if}
++</div>
++
++<style>
++  .column {
++    position: relative;
++  }
++
++  .title,
++  .user {
++    white-space: nowrap;
++    overflow: hidden;
++    text-overflow: ellipsis;
++  }
++
++  .user {
++    padding-right: 30px;
++  }
++
++  .title {
++    white-space: pre-line;
++    display: -webkit-box;
++    -webkit-line-clamp: 2;
++    -webkit-box-orient: vertical;
++  }
++
++  :global(.crown-qmRy2Q) {
++    position: absolute;
++    fill: var(--orange);
++    bottom: 5px;
++    right: 0;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/InsightCard/index.svelte b/node_modules/san-insights/lib/components/InsightCard/index.svelte
+new file mode 100644
+index 0000000..70be6c2
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/InsightCard/index.svelte
+@@ -0,0 +1,47 @@
++<script>
++  import { getDateFormats } from 'san-webkit/lib/utils/dates'
++  import Profile from 'san-webkit/lib/ui/Profile/index.svelte'
++  import Card from './Card.svelte'
++  import Price from './Price.svelte'
++  import Editorial from './Editorial.svelte'
++
++  let className = ''
++  export { className as class }
++  export let insight
++  export let isWithPrice = process.browser
++
++  $: ({ title, user, publishedAt, tags } = insight)
++  $: date = formatDate(publishedAt)
++
++  function formatDate(date) {
++    const { MMM, D, YYYY } = getDateFormats(new Date(date))
++    return `${MMM} ${D}, ${YYYY}`
++  }
++</script>
++
++<Card {insight} class={className} let:node let:href>
++  <a {href} class="title body-2 mrg-m mrg--b" sapper:prefetch>{title}</a>
++
++  <div class="row v-center">
++    <Profile {user}>
++      <div class="caption c-waterloo">{date}</div>
++    </Profile>
++
++    <Editorial {user} />
++  </div>
++
++  <svelte:fragment slot="right">
++    {#if isWithPrice && node && tags.length}<Price {node} {insight} />{/if}
++  </svelte:fragment>
++</Card>
++
++<style>
++  .title {
++    display: block;
++    overflow: hidden;
++    text-overflow: ellipsis;
++    display: -webkit-box;
++    -webkit-line-clamp: var(--overflow-lines, 2);
++    -webkit-box-orient: vertical;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/InsightText.svelte b/node_modules/san-insights/lib/components/InsightText.svelte
+new file mode 100644
+index 0000000..2097725
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/InsightText.svelte
+@@ -0,0 +1,114 @@
++<script>
++  import { enlargeImage } from './EnlargedImage.svelte'
++
++  let className = ''
++  export { className as class }
++  export let text = ''
++
++  let node
++
++  $: node && hookImageEnlarger()
++
++  function hookImageEnlarger() {
++    const images = node.querySelectorAll('img')
++    Array.from(images).forEach((img) => {
++      img.onclick = enlargeImage
++    })
++  }
++</script>
++
++<div class={className} bind:this={node}>
++  {@html text}
++</div>
++
++<style lang="scss">@charset "UTF-8";
++div {
++  word-break: break-word;
++}
++div :global(h1) {
++  font-size: var(--text-h1-size, 28px);
++  line-height: 40px;
++  font-weight: 500;
++}
++div :global(h2) {
++  font-size: var(--text-h2-size, 22px);
++  line-height: 30px;
++  font-weight: 500;
++}
++div :global(iframe) {
++  border: 0;
++  width: 100%;
++  height: 300px;
++}
++div :global(.md-block-iframe) {
++  max-width: 100%;
++  margin-top: 10px;
++}
++div :global(a) {
++  color: var(--green);
++}
++div :global(a:hover) {
++  color: var(--green-hover);
++}
++div :global(u) :global(a) {
++  background: linear-gradient(var(--green-light-3), var(--green-light-3)) bottom/100% 1px no-repeat;
++}
++div :global(strong) {
++  font-weight: bold;
++}
++div :global(img) {
++  max-width: 100%;
++}
++div :global(figure) {
++  text-align: center;
++  max-width: 600px;
++  margin: 16px auto var(--text-figure-mrg-b, 32px);
++}
++div :global(figcaption) {
++  font-size: 14px;
++  line-height: 20px;
++  font-style: italic;
++  color: var(--waterloo);
++}
++div :global(ul),
++div :global(ol) {
++  padding-left: 35px;
++  margin: var(--text-ul-margin, 10px 0 40px);
++}
++div :global(ul) :global(li) {
++  list-style: disc outside;
++}
++div :global(ol) :global(li) {
++  list-style: decimal outside;
++}
++div :global(u) {
++  text-decoration: none;
++  background-position: 100% 100%;
++  background-repeat: no-repeat;
++  background-size: 100% 1px;
++  background-image: linear-gradient(var(--black), var(--black));
++}
++div :global(blockquote) {
++  font-size: var(--text-quote-size, 24px);
++  line-height: 32px;
++  padding: var(--text-quote-padding, 23px 32px);
++  background: var(--athens);
++  border-radius: 4px;
++  color: var(--black);
++  position: relative;
++  margin: var(--text-quote-margin, 20px 0 30px);
++}
++div :global(blockquote::before) {
++  content: "“";
++  position: absolute;
++  display: block;
++  left: 28px;
++  top: 1px;
++  font-size: var(--text-quotes-size, 74px);
++  font-family: sans-serif;
++  font-weight: bold;
++  color: var(--casper);
++}
++div :global(blockquote) + :global(blockquote::before) {
++  display: none;
++}</style>
+diff --git a/node_modules/san-insights/lib/components/InsightsFeed.svelte b/node_modules/san-insights/lib/components/InsightsFeed.svelte
+new file mode 100644
+index 0000000..4cfb365
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/InsightsFeed.svelte
+@@ -0,0 +1,29 @@
++<script>
++  import { queryAllInsights } from './../api/insights'
++  import { session } from './../stores/session'
++  import Feed from './Feed.svelte'
++  import InsightCard from './InsightCard/index.svelte'
++  import PulseCard from './InsightCard/Pulse.svelte'
++  import ViewportPagination from './ViewportPagination.svelte'
++
++  export let insights, tags, onlyPro
++  export let isOnlyPulse = undefined
++  export let query = queryAllInsights
++
++  let reset
++
++  $: reset && reset(tags, onlyPro)
++  $: isWithPrice = !$session.isMobile
++
++  const loadInsights = (page) => query(page, tags, onlyPro, isOnlyPulse)
++</script>
++
++<ViewportPagination bind:reset items={insights} query={loadInsights} let:items>
++  <Feed {items} let:item>
++    {#if item.isPulse}
++      <PulseCard insight={item} class="mrg-xl mrg--b" />
++    {:else}
++      <InsightCard insight={item} class="mrg-xl mrg--b" {isWithPrice} />
++    {/if}
++  </Feed>
++</ViewportPagination>
+diff --git a/node_modules/san-insights/lib/components/Nav/Account.svelte b/node_modules/san-insights/lib/components/Nav/Account.svelte
+new file mode 100644
+index 0000000..c297f39
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/Nav/Account.svelte
+@@ -0,0 +1,17 @@
++<script>
++  import AccountStatus from 'san-webkit/lib/ui/AccountStatus.svelte'
++  import AccountDropdown from 'san-webkit/lib/ui/AccountDropdown/index.svelte'
++  import { ui } from './../../stores/ui'
++  import { currentUser as user } from './../../stores/user'
++  import { startLogoutFlow } from './../../flow/logout'
++
++  $: currentUser = $user
++
++  function onLogoutClick() {
++    startLogoutFlow()
++  }
++</script>
++
++<AccountStatus {currentUser} />
++
++<AccountDropdown {currentUser} {ui} {onLogoutClick} />
+diff --git a/node_modules/san-insights/lib/components/Nav/Mobile.svelte b/node_modules/san-insights/lib/components/Nav/Mobile.svelte
+new file mode 100644
+index 0000000..9b821c5
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/Nav/Mobile.svelte
+@@ -0,0 +1,68 @@
++<script>
++  import Svg from 'san-webkit/lib/ui/Svg/svelte'
++  import Menu from './MobileMenu.svelte'
++
++  let isMenuOpened = false
++  const toggleMenu = () => (isMenuOpened = !isMenuOpened)
++</script>
++
++<nav class="row v-center c-casper caption txt-m">
++  <a href="https://app.santiment.net/feed">
++    <Svg illus id="nav/feed" w="15" h="17" />
++    Feed
++  </a>
++  <a href="https://app.santiment.net/assets">
++    <Svg illus id="nav/market" w="18" h="19" />
++    Market
++  </a>
++  <a href="https://app.santiment.net/watchlists">
++    <Svg illus id="nav/watchlists" w="21" h="17" />
++    Watchlists
++  </a>
++  <a href="/" class:active={!isMenuOpened} on:click={() => (isMenuOpened = false)}>
++    <Svg illus id="nav/insights" w="17" h="17" />
++    Insights
++  </a>
++  <button class:active={isMenuOpened} on:click={toggleMenu}>
++    <Svg illus id="nav/menu" w="17" h="16" />
++    Menu
++  </button>
++</nav>
++
++{#if isMenuOpened}
++  <Menu />
++{/if}
++
++<style>
++  nav {
++    box-shadow: 0 0 20px rgba(24, 27, 43, 0.05);
++    z-index: 11;
++    justify-content: space-evenly;
++    position: fixed;
++    bottom: 0;
++    left: 0;
++    right: 0;
++    background: var(--white);
++    border: 2px solid var(--porcelain);
++    border-top-left-radius: 10px;
++    border-top-right-radius: 10px;
++  }
++  nav :global(svg) {
++    margin-bottom: 4px;
++  }
++
++  a,
++  button {
++    padding: 10px 12px 6px;
++    display: flex;
++    flex-direction: column;
++    align-items: center;
++    justify-content: space-between;
++  }
++
++  .active {
++    color: var(--green);
++    --black: var(--green);
++    --porcelain: var(--green-light-2);
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/Nav/MobileMenu.svelte b/node_modules/san-insights/lib/components/Nav/MobileMenu.svelte
+new file mode 100644
+index 0000000..8d6dd00
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/Nav/MobileMenu.svelte
+@@ -0,0 +1,58 @@
++<script>
++  import Svg from 'san-webkit/lib/ui/Svg/svelte'
++  import { currentUser } from './../../stores/user'
++</script>
++
++<div class="menu column hv-center body-1">
++  <Svg illus id="santiment" w="145" h="26" class="logo-6PptzK" />
++
++  <div class="links column">
++    <a class="link" href="https://app.santiment.net/alerts">Alerts</a>
++    <a class="link" href="https://app.santiment.net/labs/trends">Social trends</a>
++    <a class="link" href="https://app.santiment.net/account">Account settings</a>
++    <button class="link" on:click={() => window.Intercom && window.Intercom('show')}>
++      Support
++    </button>
++  </div>
++
++  {#if !$currentUser}
++    <div class="bottom column">
++      <a href="/login" class="btn-1 row hv-center">Log in</a>
++      <a href="/sign-up" class="btn-2 row hv-center mrg-xl mrg--t">Create an account</a>
++    </div>
++  {/if}
++</div>
++
++<style>
++  .menu {
++    position: fixed;
++    z-index: 10;
++    top: 0;
++    bottom: 0;
++    left: 0;
++    right: 0;
++    background: var(--white);
++    padding: 15vh 16px 80px;
++  }
++
++  :global(.logo-6PptzK) {
++    margin: 0 auto 17vh;
++  }
++
++  .btn-1,
++  .btn-2 {
++    height: 40px;
++    font-size: 16px;
++    width: 100%;
++  }
++
++  .link {
++    margin-bottom: 32px;
++    text-align: center;
++  }
++
++  .bottom {
++    width: 80%;
++    margin-top: auto;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/Nav/Search.svelte b/node_modules/san-insights/lib/components/Nav/Search.svelte
+new file mode 100644
+index 0000000..7a52078
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/Nav/Search.svelte
+@@ -0,0 +1,141 @@
++<script>
++  import { onDestroy, onMount } from 'svelte'
++  import { debounce } from 'san-webkit/lib/utils/fn'
++  import { getSEOLinkFromIdAndTitle } from 'san-webkit/lib/utils/url'
++  import InputWithIcon from 'san-webkit/lib/ui/InputWithIcon.svelte'
++  import { querySearchInsights, querySearchTermInsights } from './../../api/insights/search'
++
++  let suggestionsNode
++  let cursor = 0
++  let isFocused = false
++  let isSearching = false
++  let suggestions = []
++  let value = ''
++
++  const onFocus = () => (isFocused = true)
++  const onBlur = () => (isFocused = false)
++  const onMouseDown = ({ currentTarget }) => currentTarget.click()
++  const onSuggestionSelect = () =>
++    suggestionsNode && suggestionsNode.querySelector('.cursored').click()
++
++  const [searchInsights, clearTimer] = debounce(250, (searchTerm) => {
++    value = searchTerm
++    querySearchTermInsights(searchTerm).then(getSuggestions).then(setSuggestions)
++  })
++
++  function onInput(e) {
++    const value = e.currentTarget.value
++    isSearching = true
++
++    if (value) searchInsights(value)
++    else querySearchInsights().then(setSuggestions)
++  }
++
++  function onKeyDown(e) {
++    const { key, currentTarget } = e
++    let newCursor = cursor
++
++    switch (key) {
++      case 'ArrowUp':
++        e.preventDefault()
++        newCursor = cursor - 1
++        break
++      case 'ArrowDown':
++        e.preventDefault()
++        newCursor = cursor + 1
++        break
++      case 'Enter':
++        currentTarget.blur()
++        onSuggestionSelect()
++      default:
++        return
++    }
++
++    const maxCursor = suggestions.length
++    newCursor = newCursor % maxCursor
++    cursor = newCursor < 0 ? maxCursor - 1 : newCursor
++  }
++
++  function getSuggestions(data) {
++    if (data.length < 5) return data
++    return data.slice(0, 4).concat({
++      id: 'more',
++      title: 'Show more results',
++      link: '/search?f=1&t=' + value,
++    })
++  }
++
++  function setSuggestions(data) {
++    suggestions = data
++    isSearching = false
++  }
++
++  function getLink({ id, title, link }) {
++    return link || `/read/${getSEOLinkFromIdAndTitle(id, title)}`
++  }
++
++  onMount(() => {
++    querySearchInsights().then(setSuggestions)
++  })
++  onDestroy(clearTimer)
++</script>
++
++<InputWithIcon
++  placeholder="Search for insights..."
++  icon="search"
++  w="12"
++  class="input-oROsWY relative mrg-a mrg--l"
++  on:focus={onFocus}
++  on:blur={onBlur}
++  on:input={onInput}
++  on:keydown={onKeyDown}
++>
++  {#if isFocused}
++    <div class="suggestions column border box" bind:this={suggestionsNode}>
++      {#if isSearching}
++        Searching...
++      {:else}
++        {#each suggestions as item, i (item.id)}
++          <a
++            href={getLink(item)}
++            class="btn-ghost"
++            class:cursored={i === cursor}
++            on:mousedown={onMouseDown}
++          >
++            {item.title}
++          </a>
++        {:else}
++          No results found
++        {/each}
++      {/if}
++    </div>
++  {/if}
++</InputWithIcon>
++
++<style>
++  :global(.input-oROsWY) {
++    width: 240px;
++    transition: width 0.2s ease-out;
++  }
++  :global(.input-oROsWY:focus-within) {
++    width: 340px;
++  }
++
++  .suggestions {
++    position: absolute;
++    left: 0;
++    width: 100%;
++    top: 36px;
++    text-align: center;
++    padding: 8px;
++    z-index: 5;
++  }
++
++  a {
++    text-align: left;
++  }
++
++  .cursored {
++    background: var(--porcelain);
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/Nav/index.svelte b/node_modules/san-insights/lib/components/Nav/index.svelte
+new file mode 100644
+index 0000000..ada488f
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/Nav/index.svelte
+@@ -0,0 +1,39 @@
++<script>
++  import Product from 'san-webkit/lib/ui/Product.svelte'
++  import Products from 'san-webkit/lib/ui/Products/svelte'
++  import Search from './Search.svelte'
++  import Account from './Account.svelte'
++
++  let isMenuOpened = false
++</script>
++
++<nav class:fixed={isMenuOpened}>
++  <div class="section row v-center">
++    <Product title="Insights" class="mrg-l mrg--r" />
++    <Products active="insights" isCompact isColumn />
++
++    <Search />
++
++    <div class="break mrg-xl mrg--l mrg--r" />
++
++    <Account />
++  </div>
++</nav>
++
++<style>
++  nav {
++    background: var(--white);
++    border-bottom: 1px solid var(--porcelain);
++    padding: 16px 0;
++    z-index: 3;
++  }
++  :global(.desktop) nav {
++    padding: 19px 0;
++  }
++
++  .break {
++    width: 1px;
++    height: 32px;
++    background: var(--porcelain);
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/NewWatchlistDialog.svelte b/node_modules/san-insights/lib/components/NewWatchlistDialog.svelte
+new file mode 100644
+index 0000000..cfe7521
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/NewWatchlistDialog.svelte
+@@ -0,0 +1,105 @@
++<script context="module">
++  import { dialogs } from 'san-webkit/lib/ui/Dialog'
++  import NewWatchlistDialog from './NewWatchlistDialog.svelte'
++
++  export const showNewWatchlistDialog = (props) => dialogs.show(NewWatchlistDialog, props)
++</script>
++
++<script>
++  import { onDestroy } from 'svelte'
++  import Dialog from 'san-webkit/lib/ui/Dialog'
++  import Toggle from 'san-webkit/lib/ui/Toggle.svelte'
++  import FieldTooltip from 'san-webkit/lib/ui/FieldTooltip/svelte'
++  import { debounce } from 'san-webkit/lib/utils/fn'
++  import { mutateCreateWatchlist } from './../api/watchlists'
++
++  export let DialogPromise
++
++  let closeDialog
++  let loading = false
++  let isPublic = false
++  let name = ''
++  let error = ''
++
++  const [checkValidity, clearTimer] = debounce(250, () => {
++    name = name.trim()
++    error = name.length < 3 ? 'The name should be at least 3 characters long' : ''
++  })
++
++  function onSubmit({ currentTarget }) {
++    if (loading || error) return
++    loading = true
++    const description = currentTarget.description.value
++
++    mutateCreateWatchlist(name, description, isPublic).then((watchlist) => {
++      Object.assign(watchlist, { name, description, isPublic, isScreener: false, listItems: [] })
++
++      DialogPromise.resolve(watchlist)
++    })
++
++    closeDialog()
++  }
++
++  onDestroy(clearTimer)
++</script>
++
++<Dialog {...$$props} title="New watchlist" bind:closeDialog>
++  <form class="dialog" on:submit|preventDefault={onSubmit}>
++    <FieldTooltip text={error} activeClass="error-er3sCR">
++      <label class="column">
++        Name ({name.length}/25)
++        <input
++          bind:value={name}
++          type="text"
++          class="input mrg-xs mrg--t"
++          required
++          minlength="3"
++          maxlength="25"
++          placeholder="Watchlist's name"
++          on:input={checkValidity}
++        />
++      </label>
++    </FieldTooltip>
++
++    <label class="column mrg-l mrg--t mrg--b">
++      Description (optional)
++      <textarea
++        class="input mrg-xs mrg--t"
++        placeholder="Watchlist's description"
++        name="description"
++        rows="3"
++      />
++    </label>
++
++    <div class="row v-center justify mrg-xl mrg--t">
++      <button type="submit" class="btn-1" class:loading class:disabled={!name || error}
++        >Create</button
++      >
++
++      <button type="button" class="btn row v-center" on:click={() => (isPublic = !isPublic)}>
++        {isPublic ? 'Public' : 'Private'}
++        <Toggle isActive={isPublic} class="mrg-m mrg--l" />
++      </button>
++    </div>
++  </form>
++</Dialog>
++
++<style>
++  .dialog {
++    padding: 16px 24px 24px;
++    width: 600px;
++  }
++
++  textarea {
++    resize: vertical;
++    min-height: 72px;
++  }
++
++  label {
++    color: var(--waterloo);
++  }
++
++  :global(.error-er3sCR) {
++    --border: var(--red);
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/PriceSincePublication.svelte b/node_modules/san-insights/lib/components/PriceSincePublication.svelte
+new file mode 100644
+index 0000000..d320aa4
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/PriceSincePublication.svelte
+@@ -0,0 +1,67 @@
++<script context="module">
++  import { queryPriceData } from './../api/insights/project'
++
++  export function getPublishTimestamp(publishedAt) {
++    return +new Date(publishedAt)
++  }
++
++  export function queryPriceSincePublication(slug, publishedAt, query = queryPriceData) {
++    const timestamp = getPublishTimestamp(publishedAt)
++    const diff = Date.now() - timestamp
++    const from = new Date(timestamp - diff * 0.5)
++    from.setMinutes(0, 0, 0)
++
++    return query(slug, from.toISOString(), publishedAt)
++  }
++</script>
++
++<script>
++  import Change, { percentChange } from 'san-webkit/lib/ui/Change.svelte'
++  import Chart from 'san-webkit/lib/ui/MiniChart/svelte'
++  import ChartPointRef from 'san-webkit/lib/ui/MiniChart/PointRef.svelte'
++
++  let className = ''
++  export { className as class }
++  export let width
++  export let insight
++  export let project = {}
++  export let data
++  export let publicationPrice
++
++  let clientHeight
++
++  $: ({ ticker, priceUsd } = project)
++  $: publishTimestamp = getPublishTimestamp(insight.publishedAt)
++  $: change = percentChange(publicationPrice, priceUsd)
++</script>
++
++{#if data}
++  <div class="price c-waterloo column justify {className}">
++    {ticker} price since publication
++    <div class="chart fluid mrg-m mrg--t c-casper" bind:clientHeight>
++      <Chart {data} {width} height={clientHeight} valueKey="v" let:points>
++        <ChartPointRef
++          {data}
++          {points}
++          stroke="var(--{change < 0 ? 'red' : 'lima'})"
++          target={publishTimestamp}
++        />
++      </Chart>
++    </div>
++    <Change {change} class="change-ofFR3t" />
++  </div>
++{/if}
++
++<style>
++  .price {
++    text-align: center;
++  }
++
++  .chart {
++    flex: 1;
++  }
++
++  :global(.change-ofFR3t) {
++    justify-content: flex-end;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/ShareButton.svelte b/node_modules/san-insights/lib/components/ShareButton.svelte
+new file mode 100644
+index 0000000..cdbd846
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/ShareButton.svelte
+@@ -0,0 +1,11 @@
++<script>
++  import Svg from 'san-webkit/lib/ui/Svg/svelte'
++  import { showShareDialog } from './ShareDialog.svelte'
++
++  let className = 'mrg-m mrg--l'
++  export { className as class }
++</script>
++
++<div class="btn-2 btn-rounded {className}" on:click={() => showShareDialog()}>
++  <Svg id="share" w="16" h="14" />
++</div>
+diff --git a/node_modules/san-insights/lib/components/ShareDialog.svelte b/node_modules/san-insights/lib/components/ShareDialog.svelte
+new file mode 100644
+index 0000000..fa49fe1
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/ShareDialog.svelte
+@@ -0,0 +1,103 @@
++<script context="module">
++  import { dialogs } from 'san-webkit/lib/ui/Dialog'
++  import { copy } from 'san-webkit/lib/utils'
++  import ShareDialog from './ShareDialog.svelte'
++
++  export const showShareDialog = () => dialogs.show(ShareDialog)
++</script>
++
++<script>
++  import Dialog from 'san-webkit/lib/ui/Dialog'
++  import Svg from 'san-webkit/lib/ui/Svg/svelte'
++
++  export let title = 'Sanbase'
++  export let text = 'Hey! Look what I have found at the app.santiment.net!'
++
++  let closeDialog
++  let node
++  let label = 'Copy link'
++
++  const encodedLink = encodeURIComponent(window.location.href)
++  const encodedTitle = encodeURIComponent(title)
++  const encodedText = encodeURIComponent(text)
++
++  const SOCIALS = [
++    {
++      label: 'Twitter',
++      icon: 'twitter',
++      href: `https://twitter.com/intent/tweet?url=${encodedLink}&via=santimentfeed&text=${encodedText}`,
++    },
++    {
++      label: 'Facebook',
++      icon: 'facebook',
++      href: `https://www.facebook.com/sharer/sharer.php?u=${encodedLink}`,
++    },
++    {
++      label: 'LinkedIn',
++      icon: 'linked-in',
++      href: `https://www.linkedin.com/shareArticle?mini=true&title=${encodedTitle}&summary=${encodedText}&source=santiment.net&url=${encodedLink}`,
++    },
++    {
++      label: 'Telegram',
++      icon: 'telegram',
++      href: `https://telegram.me/share/url?text=${encodedText}&url=${encodedLink}`,
++    },
++    {
++      label: 'Reddit',
++      icon: 'reddit',
++      href: `https://reddit.com/submit?title=${encodedTitle}&url=${encodedLink}`,
++    },
++  ]
++
++  function onCopy() {
++    label = 'Copied!'
++    copy(window.location.href, () => (label = 'Copy link'), 1000, node)
++  }
++</script>
++
++<Dialog {...$$props} title="Share insight" bind:closeDialog>
++  <div class="dialog">
++    <div class="link row border mrg-l mrg--b">
++      <input readonly type="text" value={window.location.href} bind:this={node} />
++      <div class="btn" on:click={onCopy}>{label}</div>
++    </div>
++
++    <div class="column">
++      {#each SOCIALS as { label, icon, href }}
++        <a {href} class="btn-2 btn--s mrg-s mrg--t" target="_blank" rel="noopened noreferrer">
++          <Svg id={icon} w="16" class="mrg-s mrg--r" />
++          Share on {label}
++        </a>
++      {/each}
++    </div>
++  </div>
++</Dialog>
++
++<style>
++  .dialog {
++    padding: 12px 20px;
++  }
++
++  .btn-2 {
++    fill: var(--casper);
++  }
++
++  input {
++    padding: 5px 10px;
++    border-radius: 4px;
++    color: var(--blue);
++    flex: 1;
++  }
++  :global(body.desktop) input {
++    min-width: 330px;
++  }
++
++  .btn {
++    padding: 5px 12px;
++    border-left: 1px solid var(--porcelain);
++    border-radius: 0;
++    --color-hover: var(--green);
++    min-width: 83px;
++    text-align: center;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/TagFilters.svelte b/node_modules/san-insights/lib/components/TagFilters.svelte
+new file mode 100644
+index 0000000..a96b482
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/TagFilters.svelte
+@@ -0,0 +1,52 @@
++<script>
++  import { stores } from '@sapper/app'
++
++  export let base = ''
++
++  const { page } = stores()
++  const TAGS = [
++    ['/', 'All'],
++    ['defi', 'DeFi'],
++    ['btc', 'BTC'],
++    ['eth,erc-20', 'ETH + ERC-20'],
++    ['strategies/alpha', 'Strategies/Alpha'],
++    ['metric tutorials', 'Metric Tutorials'],
++  ]
++
++  $: ({ tags, onlyPro } = $page.query)
++  $: active = onlyPro !== undefined ? 'pro' : (tags || '').toLowerCase()
++</script>
++
++<div class="row c-waterloo mrg-xl mrg--t mrg--b">
++  {#each TAGS as [link, label]}
++    {@const href = link ? `${base}?tags=${link}` : base}
++    <a {href} class="btn-2" class:active={active === link}>{label}</a>
++  {/each}
++
++  {#if !base}
++    <a href="?onlyPro" class="pro btn-2 btn-1 btn--orange" class:active={active === 'pro'}
++      >Only for PRO</a
++    >
++  {/if}
++</div>
++
++<style>
++  div {
++    flex-wrap: wrap;
++  }
++
++  a {
++    padding: 6px 16px;
++    margin: 8px 15px 0 0;
++  }
++
++  .active {
++    --bg: var(--green-light-1);
++    --color: var(--green);
++  }
++
++  .pro.active {
++    background: var(--orange-light-1);
++    --color: var(--orange);
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/Tags.svelte b/node_modules/san-insights/lib/components/Tags.svelte
+new file mode 100644
+index 0000000..33a02f6
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/Tags.svelte
+@@ -0,0 +1,23 @@
++<script>
++  import { stores } from '@sapper/app'
++
++  export let tags = []
++
++  const checkIsTrendTag = (tag) => tag.toLowerCase().endsWith('-trending-words')
++  const noTrendTagsFilter = ({ name }) => !checkIsTrendTag(name)
++
++  const { page } = stores()
++  $: base = $page.path === '/pulse' ? 'pulse' : ''
++</script>
++
++{#each tags.filter(noTrendTagsFilter) as { name }}
++  {@const tag = name.toLowerCase()}
++  <a href="{base}?tags={tag}" class="tag btn-2">{tag}</a>
++{/each}
++
++<style>
++  .tag {
++    padding: 1px 6px;
++    margin-left: 4px;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/components/ViewportPagination.svelte b/node_modules/san-insights/lib/components/ViewportPagination.svelte
+new file mode 100644
+index 0000000..27d1753
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/ViewportPagination.svelte
+@@ -0,0 +1,41 @@
++<script>
++  import ViewportObserver from 'san-webkit/lib/ui/ViewportObserver.svelte'
++
++  export let items
++  export let query
++  export let pageSize = 10
++  export let rootMargin = '650px'
++
++  let page = 1
++  let loading = false
++  let hasMore = process.browser && items.length >= pageSize
++
++  function onIntersect() {
++    if (hasMore && !loading) loadItems()
++  }
++
++  function loadItems() {
++    loading = true
++    query(++page).then((data) => {
++      items = items.concat(data)
++      hasMore = data.length === pageSize
++      loading = false
++    })
++  }
++
++  export function reset() {
++    page = 1
++    loading = false
++    hasMore = true
++  }
++</script>
++
++<slot {items} />
++
++{#if hasMore}
++  <div>
++    <ViewportObserver options={{ rootMargin }} on:intersect={onIntersect}
++      >Loading...</ViewportObserver
++    >
++  </div>
++{/if}
+diff --git a/node_modules/san-insights/lib/components/VoteButton.svelte b/node_modules/san-insights/lib/components/VoteButton.svelte
+new file mode 100644
+index 0000000..0ab3a65
+--- /dev/null
++++ b/node_modules/san-insights/lib/components/VoteButton.svelte
+@@ -0,0 +1,22 @@
++<script>
++  import { vote, VoteType } from 'san-webkit/lib/api/vote'
++  import LikeBtn from 'san-webkit/lib/ui/LikeButton/svelte'
++  import { currentUser } from './../stores/user'
++
++  export let insight
++
++  $: ({ id, votes } = insight)
++  function onVote() {
++    vote(id, VoteType.Insight).catch(() => {
++      votes.totalVotes -= 1
++      votes.userVotes -= 1
++    })
++  }
++</script>
++
++<LikeBtn
++  {onVote}
++  disabled={!$currentUser}
++  totalVotes={votes.totalVotes}
++  userVotes={votes.currentUserVotes}
++/>
+diff --git a/node_modules/san-insights/lib/flow/follow.js b/node_modules/san-insights/lib/flow/follow.js
+new file mode 100644
+index 0000000..6c22d68
+--- /dev/null
++++ b/node_modules/san-insights/lib/flow/follow.js
+@@ -0,0 +1,26 @@
++import { goto } from '@sapper/app'
++import { getSessionValue } from './../stores/utils'
++import { currentUser as currentUser$ } from './../stores/user'
++import { mutateFollowUser } from './../api/follow'
++
++export const checkIsFollowing = (currentUser, userId) =>
++  currentUser && currentUser.following.users.some(({ id }) => +id === +userId)
++
++export function startFollowFlow(userId) {
++  const { currentUser } = getSessionValue()
++  if (!currentUser) return goto('/login')
++
++  const followings = currentUser.following.users
++  const userIndex = followings.findIndex(({ id }) => +id === +userId)
++  const isFollowed = userIndex !== -1
++
++  if (isFollowed) {
++    followings.splice(userIndex, 1)
++  } else {
++    followings.push({ id: userId })
++  }
++
++  currentUser$.set(currentUser)
++
++  return mutateFollowUser(userId, !isFollowed)
++}
+diff --git a/node_modules/san-insights/lib/flow/login.js b/node_modules/san-insights/lib/flow/login.js
+new file mode 100644
+index 0000000..75a3cde
+--- /dev/null
++++ b/node_modules/san-insights/lib/flow/login.js
+@@ -0,0 +1,19 @@
++import { notifications } from 'san-webkit/lib/ui/Notifications'
++import { currentUser } from './../stores/user'
++import { ethLoginMutation } from './../api/login'
++
++export function startEthLoginFlow() {
++  return ethLoginMutation()
++    .then(({ ethLogin }) => {
++      currentUser.set(ethLogin.user)
++
++      notifications.show({
++        type: 'success',
++        title: 'You are logged in!',
++      })
++    })
++    .catch((e) => {
++      console.error(e)
++      return Promise.reject(e)
++    })
++}
+diff --git a/node_modules/san-insights/lib/flow/logout.js b/node_modules/san-insights/lib/flow/logout.js
+new file mode 100644
+index 0000000..075d2e5
+--- /dev/null
++++ b/node_modules/san-insights/lib/flow/logout.js
+@@ -0,0 +1,7 @@
++import { logoutMutation } from './../api/user'
++import { currentUser } from './../stores/user'
++
++export function startLogoutFlow() {
++  currentUser.set(null)
++  return logoutMutation()
++}
+diff --git a/node_modules/san-insights/lib/flow/redirect.js b/node_modules/san-insights/lib/flow/redirect.js
+new file mode 100644
+index 0000000..062cbfc
+--- /dev/null
++++ b/node_modules/san-insights/lib/flow/redirect.js
+@@ -0,0 +1,17 @@
++export function redirectLoggedInUser(app, session) {
++  if (session.currentUser) return app.redirect(302, '/')
++}
++
++export function redirectToLoginPage(app, session) {
++  if (session.currentUser) return false
++
++  app.redirect(302, '/login')
++  return true
++}
++
++export function redirectNonAuthor(app, session, insight) {
++  if (+session.currentUser.id === +insight.user.id) return false
++
++  app.redirect(302, '/')
++  return true
++}
+diff --git a/node_modules/san-insights/lib/flow/watchlists.js b/node_modules/san-insights/lib/flow/watchlists.js
+new file mode 100644
+index 0000000..9d695cc
+--- /dev/null
++++ b/node_modules/san-insights/lib/flow/watchlists.js
+@@ -0,0 +1,21 @@
++import { goto } from '@sapper/app'
++import { notifications } from 'san-webkit/lib/ui/Notifications'
++import { getSessionValue } from './../stores/utils'
++import { showAddToWatchlistDialog } from './../components/AddToWatchlistDialog/index.svelte'
++
++export function startAddToWatchlistFlow(project) {
++  const { currentUser } = getSessionValue()
++
++  if (!currentUser) {
++    return goto('/login')
++  }
++
++  return showAddToWatchlistDialog(project).then((amountModified) => {
++    if (!(amountModified > 0)) return
++
++    notifications.show({
++      type: 'success',
++      title: `${amountModified} watchlist${amountModified > 1 ? 's were' : ' was'} modified`,
++    })
++  })
++}
+diff --git a/node_modules/san-insights/lib/routes/_TopLinks.svelte b/node_modules/san-insights/lib/routes/_TopLinks.svelte
+new file mode 100644
+index 0000000..7f77f68
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/_TopLinks.svelte
+@@ -0,0 +1,21 @@
++<script>
++  import TagFilters from './../components/TagFilters.svelte'
++
++  export let isPulse = false
++</script>
++
++<a href="/" class="h4 txt-m" class:active={!isPulse} sapper:prefetch>Insights</a>
++<a href="/pulse" class="h4 txt-m" class:active={isPulse} sapper:prefetch>Pulse Insights</a>
++
++<TagFilters base={isPulse ? 'pulse' : ''} />
++
++<style>
++  a {
++    margin-right: 32px;
++    color: var(--casper);
++  }
++
++  .active {
++    color: var(--black);
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/routes/_error.svelte b/node_modules/san-insights/lib/routes/_error.svelte
+new file mode 100644
+index 0000000..1cf9d41
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/_error.svelte
+@@ -0,0 +1,24 @@
++<script>
++  export let status
++  export let error
++
++  const dev = process.env.NODE_ENV === 'development'
++</script>
++
++{#if dev}
++  <p>{status}</p>
++  <p>{error.message}</p>
++  <pre>{error.stack}</pre>
++{/if}
++
++<div class="fluid" />
++
++<style>
++  div {
++    position: absolute;
++    top: 0;
++    left: 0;
++    height: 100%;
++    background: url(webkit/illus/404.svg) no-repeat 50% 50% / 40%;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/routes/_layout.svelte b/node_modules/san-insights/lib/routes/_layout.svelte
+new file mode 100644
+index 0000000..4005a4a
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/_layout.svelte
+@@ -0,0 +1,59 @@
++<script context="module">
++  export function preload(page, session) {
++    if (page.path === '/gdpr') return
++
++    const user = session.currentUser
++    if (user && !user.privacyPolicyAccepted) {
++      return this.redirect(302, '/gdpr')
++    }
++  }
++</script>
++
++<script>
++  import { setContext } from 'svelte'
++  import { stores } from '@sapper/app'
++  import PageLoadProgress from 'san-webkit/lib/ui/PageLoadProgress.svelte'
++  import BackToTop from 'san-webkit/lib/ui/BackToTop.svelte'
++  import Dialogs from 'san-webkit/lib/ui/Dialog/Dialogs.svelte'
++  import CookiePopup from 'san-webkit/lib/ui/CookiesPopup.svelte'
++  import Notifications from 'san-webkit/lib/ui/Notifications'
++  import { session } from './../stores/session'
++  import Nav from './../components/Nav/index.svelte'
++  import NavMobile from './../components/Nav/Mobile.svelte'
++
++  const { preloading } = stores()
++
++  setContext('isMobile', $session.isMobile)
++</script>
++
++{#if $session.isMobile}
++  <NavMobile />
++{:else}
++  <Nav />
++{/if}
++
++{#if process.browser && $session.isDesktop}
++  <BackToTop />
++{/if}
++
++<main class="section">
++  <slot />
++</main>
++
++{#if process.browser}
++  <CookiePopup />
++  <Dialogs />
++  <Notifications />
++  <PageLoadProgress {preloading} />
++{/if}
++
++<style>
++  main {
++    padding: 32px 0;
++    flex: 1;
++    width: 100%;
++  }
++  :global(.isMobile) main {
++    padding: 16px 16px 76px;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/routes/edit/[id].svelte b/node_modules/san-insights/lib/routes/edit/[id].svelte
+new file mode 100644
+index 0000000..3f0fecd
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/edit/[id].svelte
+@@ -0,0 +1,36 @@
++<script context="module">
++  import { redirectToLoginPage, redirectNonAuthor } from './../../flow/redirect'
++  import { queryInsightSSR } from './../../api/insights'
++
++  export async function preload(page, session) {
++    if (redirectToLoginPage(this, session)) return
++
++    const { id } = page.params
++    const insight = await queryInsightSSR(
++      id,
++      'isPulse project:priceChartProject{id slug name ticker}',
++      this,
++    )
++
++    if (redirectNonAuthor(this, session, insight)) return
++
++    return { insight }
++  }
++</script>
++
++<script>
++  import Editor from './../../components/Editor/index.svelte'
++
++  export let insight
++</script>
++
++<div>
++  <Editor {insight} />
++</div>
++
++<style>
++  div {
++    max-width: 720px;
++    margin: 0 auto;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/routes/email_login.svelte b/node_modules/san-insights/lib/routes/email_login.svelte
+new file mode 100644
+index 0000000..6d1823e
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/email_login.svelte
+@@ -0,0 +1,23 @@
++<script context="module">
++  export function preload(_, session) {
++    if (session.currentUser) return this.redirect(302, '')
++  }
++</script>
++
++<script>
++  import { goto } from '@sapper/app'
++  import { parse } from 'san-webkit/lib/utils/url'
++  // import { getPostponedPaymentInsight } from './../logic/insights'
++  import { currentUser } from './../stores/user'
++  import { verifyEmailMutation } from './../api/user'
++
++  if (process.browser) {
++    const { email, token } = parse(window.location.search)
++    verifyEmailMutation(email, token).then((data) => {
++      currentUser.set(data)
++      goto(data.privacyPolicyAccepted ? '/' : '/gdpr')
++
++      // goto(data.privacyPolicyAccepted ? getPostponedPaymentInsight() || '/' : '/gdpr')
++    })
++  }
++</script>
+diff --git a/node_modules/san-insights/lib/routes/gdpr.svelte b/node_modules/san-insights/lib/routes/gdpr.svelte
+new file mode 100644
+index 0000000..de00ce2
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/gdpr.svelte
+@@ -0,0 +1,21 @@
++<script context="module">
++  export function preload(_, session) {
++    const user = session.currentUser
++    if (!user || user.privacyPolicyAccepted) return this.redirect(302, '')
++  }
++</script>
++
++<script>
++  import { goto } from '@sapper/app'
++  import Gdpr from 'san-webkit/lib/ui/LoginPrompt/Gdpr.svelte'
++  import { currentUser } from './../stores/user'
++  import Layout from './login/_layout.svelte'
++</script>
++
++<svelte:head>
++  <title>GDPR - Santiment Insights</title>
++</svelte:head>
++
++<Layout>
++  <Gdpr onAccept={() => goto('/')} currentUser={$currentUser} />
++</Layout>
+diff --git a/node_modules/san-insights/lib/routes/index.svelte b/node_modules/san-insights/lib/routes/index.svelte
+new file mode 100644
+index 0000000..4532d2c
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/index.svelte
+@@ -0,0 +1,83 @@
++<script context="module">
++  import { queryAllInsightsSSR } from './../api/insights'
++  import { queryFeaturedInsightsSSR } from './../api/insights/featured'
++
++  const parseTags = (tags) => tags && tags.toUpperCase().split(',')
++  const parseOnlyPro = (onlyPro) => onlyPro !== undefined
++
++  export async function preload(page) {
++    const { query } = page
++
++    const tags = parseTags(query.tags)
++    const onlyPro = parseOnlyPro(query.onlyPro)
++
++    const insights = await queryAllInsightsSSR(1, tags, onlyPro, undefined, this).catch((e) => {
++      console.log('Insights error', e)
++      return []
++    })
++
++    const featured = await queryFeaturedInsightsSSR(this).catch((e) => {
++      console.log('Featured insights error', e)
++      return []
++    })
++
++    return {
++      insights,
++      onlyPro,
++      tags,
++      featured,
++    }
++  }
++</script>
++
++<script>
++  import { session } from './../stores/session'
++  import TopLinks from './_TopLinks.svelte'
++  import InsightsFeed from './../components/InsightsFeed.svelte'
++  import HandpickedTakes from './../components/HandpickedTakes.svelte'
++  import Conversations from './../components/Conversations.svelte'
++  import BecomeAnAuthor from './../components/BecomeAnAuthor.svelte'
++
++  export let insights = []
++  export let featured = []
++  export let tags
++  export let onlyPro
++</script>
++
++<svelte:head>
++  <title>Insights</title>
++  <meta property="og:title" content="Insights" />
++  <meta name="description" content="All Community Insights" />
++  <meta property="og:description" content="All Commmunity Insights" />
++</svelte:head>
++
++<TopLinks />
++
++<div class="row">
++  <div class="fluid">
++    <InsightsFeed {insights} {tags} {onlyPro} />
++  </div>
++
++  {#if $session.isDesktop}
++    <aside class="column">
++      <BecomeAnAuthor />
++      <HandpickedTakes insights={featured} />
++      <Conversations />
++    </aside>
++  {/if}
++</div>
++
++<style>
++  aside {
++    width: 353px;
++    min-width: 353px;
++    height: calc(100vh - 60px);
++    position: sticky;
++    top: 30px;
++    margin: 0 0 0 30px;
++  }
++
++  .fluid {
++    min-width: 0;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/routes/login/_layout.svelte b/node_modules/san-insights/lib/routes/login/_layout.svelte
+new file mode 100644
+index 0000000..630ed50
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/login/_layout.svelte
+@@ -0,0 +1,29 @@
++<script context="module">
++  import { redirectLoggedInUser } from './../../flow/redirect'
++
++  export function preload(_, session) {
++    redirectLoggedInUser(this, session)
++  }
++</script>
++
++<div class="row hv-center">
++  <slot />
++</div>
++
++<style>
++  .row {
++    height: 100%;
++  }
++
++  .row::before {
++    content: '';
++    display: block;
++    position: absolute;
++    top: 0;
++    bottom: 0;
++    left: 0;
++    right: 0;
++    z-index: -1;
++    background: url('/login-bg.svg') no-repeat 50% / contain;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/routes/login/email.svelte b/node_modules/san-insights/lib/routes/login/email.svelte
+new file mode 100644
+index 0000000..34137ce
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/login/email.svelte
+@@ -0,0 +1,5 @@
++<script>
++  import EmailLogin from 'san-webkit/lib/ui/LoginPrompt/EmailLogin.svelte'
++</script>
++
++<EmailLogin />
+diff --git a/node_modules/san-insights/lib/routes/login/index.svelte b/node_modules/san-insights/lib/routes/login/index.svelte
+new file mode 100644
+index 0000000..570dd3b
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/login/index.svelte
+@@ -0,0 +1,13 @@
++<script>
++  // import { goto } from '@sapper/app'
++  import LoginPrompt from 'san-webkit/lib/ui/LoginPrompt/index.svelte'
++  import { startEthLoginFlow } from './../../flow/login'
++
++  function onMetamaskClick() {
++    return startEthLoginFlow().then(() => {
++      // goto(getPostponedPaymentInsight() || '/')
++    })
++  }
++</script>
++
++<LoginPrompt {onMetamaskClick} />
+diff --git a/node_modules/san-insights/lib/routes/my/_Empty.svelte b/node_modules/san-insights/lib/routes/my/_Empty.svelte
+new file mode 100644
+index 0000000..c5db144
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/my/_Empty.svelte
+@@ -0,0 +1,33 @@
++<script>
++  import Svg from 'san-webkit/lib/ui/Svg/svelte'
++</script>
++
++<div>
++  Use Insights to journal your ideas, perform research, or share with others. Record your trades or
++  research notes, and learn more about your investing style, track your progress over time. Build
++  your reputation and educate yourself at the same time!
++  <br />
++  <a href="/new" class="btn-1 mrg-xl mrg--t v-center" sapper:prefetch>
++    <Svg id="plus-circle" w="16" class="mrg-s mrg--r" />
++    Write your first insight
++  </a>
++</div>
++
++<style>
++  div {
++    height: 186px;
++    background: url('/empty-page.svg') no-repeat 50% 0;
++    width: 480px;
++    padding-top: 200px;
++    margin: auto;
++    text-align: center;
++    max-width: 100%;
++  }
++  :global(.night-mode) div {
++    background-image: url('/empty-page_dark.svg');
++  }
++
++  a {
++    display: inline-flex;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/routes/my/_layout.svelte b/node_modules/san-insights/lib/routes/my/_layout.svelte
+new file mode 100644
+index 0000000..d9baf45
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/my/_layout.svelte
+@@ -0,0 +1,38 @@
++<script>
++  export let segment
++</script>
++
++<h2 class="h4 txt-m mrg-xxl mrg--b">My Insights</h2>
++
++<div class="tabs row fluid mrg-xxl mrg--b">
++  <a href="/my/drafts" class="btn" class:active={segment === 'drafts'}>Drafts</a>
++  <a href="/my" class="btn" class:active={!segment}>Published</a>
++</div>
++
++<slot />
++
++<style lang="scss">.tabs {
++  border-bottom: 1px solid var(--porcelain);
++}
++
++.btn {
++  position: relative;
++  padding: 0 0 16px;
++  margin-right: 32px;
++  --color: var(--waterloo);
++  --color-hover: var(--green);
++}
++
++.active {
++  color: var(--green);
++}
++.active::after {
++  content: "";
++  display: block;
++  position: absolute;
++  bottom: -1px;
++  height: 2px;
++  width: 100%;
++  background: var(--green);
++  border-radius: 1px;
++}</style>
+diff --git a/node_modules/san-insights/lib/routes/my/drafts.svelte b/node_modules/san-insights/lib/routes/my/drafts.svelte
+new file mode 100644
+index 0000000..0ad2cb4
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/my/drafts.svelte
+@@ -0,0 +1,58 @@
++<script context="module">
++  import { redirectToLoginPage } from './../../flow/redirect'
++  import { queryDraftInsights, queryDraftInsightsSSR } from './../../api/insights/user'
++
++  const onlyDrafts = ({ readyState }) => readyState === 'draft'
++
++  export async function preload(_, session) {
++    if (redirectToLoginPage(this, session)) return
++
++    const insights = await queryDraftInsightsSSR(1, this).catch((e) => {
++      console.log("User's draft insights error", e)
++      return []
++    })
++
++    return { insights: insights.filter(onlyDrafts) }
++  }
++</script>
++
++<script>
++  import ViewportPagination from './../../components/ViewportPagination.svelte'
++  import Draft from './../../components/InsightCard/Draft.svelte'
++  import Empty from './_Empty.svelte'
++
++  export let insights = []
++
++  const onData = (insights) => insights.filter(onlyDrafts)
++  const query = (page) => queryDraftInsights(page).then(onData)
++
++  function onDraftDelete(draft) {
++    insights = insights.filter((item) => item !== draft)
++  }
++</script>
++
++<svelte:head>
++  <title>My Drafts</title>
++  <meta property="og:title" content="My Drafts" />
++  <meta name="description" property="og:description" content="My Drafts" />
++</svelte:head>
++
++{#if insights.length}
++  <ViewportPagination {query} items={insights} let:items>
++    <div class="insights">
++      {#each items as draft (draft.id)}
++        <Draft {draft} onDelete={onDraftDelete} />
++      {/each}
++    </div>
++  </ViewportPagination>
++{:else}
++  <Empty />
++{/if}
++
++<style>
++  .insights {
++    display: grid;
++    grid: auto / 1fr 1fr;
++    gap: 24px;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/routes/my/index.svelte b/node_modules/san-insights/lib/routes/my/index.svelte
+new file mode 100644
+index 0000000..7e7ed38
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/my/index.svelte
+@@ -0,0 +1,39 @@
++<script context="module">
++  import { redirectToLoginPage } from './../../flow/redirect'
++  import { queryCurrentUserInsightsSSR, queryCurrentUserInsights } from './../../api/insights/user'
++
++  const onlyPublishedFilter = ({ readyState }) => readyState === 'published'
++
++  export async function preload(_, session) {
++    if (redirectToLoginPage(this, session)) return
++
++    const insights = await queryCurrentUserInsightsSSR(1, this).catch((e) => {
++      console.log("User's insights error", e)
++      return []
++    })
++
++    return { insights: insights.filter(onlyPublishedFilter) }
++  }
++</script>
++
++<script>
++  import InsightsFeed from './../../components/InsightsFeed.svelte'
++  import Empty from './_Empty.svelte'
++
++  export let insights = []
++
++  const onData = (insights) => insights.filter(onlyPublishedFilter)
++  const query = (page) => queryCurrentUserInsights(page).then(onData)
++</script>
++
++<svelte:head>
++  <title>My Insights</title>
++  <meta property="og:title" content="My Insights" />
++  <meta name="description" property="og:description" content="My Insights" />
++</svelte:head>
++
++{#if insights.length}
++  <InsightsFeed {insights} {query} />
++{:else}
++  <Empty />
++{/if}
+diff --git a/node_modules/san-insights/lib/routes/new.svelte b/node_modules/san-insights/lib/routes/new.svelte
+new file mode 100644
+index 0000000..15c5e9c
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/new.svelte
+@@ -0,0 +1,34 @@
++<script context="module">
++  import { redirectToLoginPage } from './../flow/redirect'
++
++  export async function preload(page, session) {
++    if (redirectToLoginPage(this, session)) return
++
++    const trendTags = page.query.currentTrends
++    const trendTag = trendTags ? trendTags.split(',')[0] : undefined
++    return { trendTag }
++  }
++</script>
++
++<script>
++  import Editor from './../components/Editor/index.svelte'
++
++  export let trendTag
++</script>
++
++<svelte:head>
++  <title>Creating New Insight - Santiment Insights</title>
++  <meta property="og:title" content="Creating New Insight - Santiment Insights" />
++</svelte:head>
++
++<div>
++  <Editor {trendTag} />
++</div>
++
++<style>
++  div {
++    max-width: 720px;
++    margin: 0 auto;
++    padding-bottom: 120px;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/routes/pulse.svelte b/node_modules/san-insights/lib/routes/pulse.svelte
+new file mode 100644
+index 0000000..847fedd
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/pulse.svelte
+@@ -0,0 +1,46 @@
++<script context="module">
++  import { queryAllInsightsSSR } from './../api/insights'
++
++  const parseTags = (tags) => tags && tags.toUpperCase().split(',')
++  const parseOnlyPro = (onlyPro) => onlyPro !== undefined
++
++  export async function preload(page) {
++    const { query } = page
++
++    const tags = parseTags(query.tags)
++    const onlyPro = parseOnlyPro(query.onlyPro)
++    const insights = await queryAllInsightsSSR(1, tags, onlyPro, true, this)
++
++    return { insights, onlyPro, tags }
++  }
++</script>
++
++<script>
++  import TopLinks from './_TopLinks.svelte'
++  import InsightsFeed from './../components/InsightsFeed.svelte'
++
++  export let insights = []
++  export let tags
++  export let onlyPro
++</script>
++
++<svelte:head>
++  <title>Insights</title>
++  <meta property="og:title" content="Insights" />
++  <meta name="description" content="All Community Insights" />
++  <meta property="og:description" content="All Commmunity Insights" />
++</svelte:head>
++
++<TopLinks isPulse />
++
++<div class="row">
++  <div class="fluid">
++    <InsightsFeed {insights} {tags} {onlyPro} isOnlyPulse />
++  </div>
++</div>
++
++<style>
++  .fluid {
++    min-width: 0;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/routes/read/[slug].svelte b/node_modules/san-insights/lib/routes/read/[slug].svelte
+new file mode 100644
+index 0000000..98b6123
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/read/[slug].svelte
+@@ -0,0 +1,165 @@
++<script context="module">
++  import { getIdFromSEOLink } from 'san-webkit/lib/utils/url'
++  import { CommentsType } from 'san-webkit/lib/api/comments'
++  import { queryInsightSSR } from './../../api/insights'
++  import { RELATED_PROJECT_FRAGMENT, queryPriceDataSSR } from './../../api/insights/project'
++  import { redirectNonAuthor } from './../../flow/redirect'
++  import { queryPriceSincePublication } from './../../components/PriceSincePublication.svelte'
++
++  export async function preload(page, session) {
++    const { currentUser, isMobile } = session
++    const { slug } = page.params
++
++    const id = getIdFromSEOLink(slug)
++    const DATA = isMobile ? undefined : RELATED_PROJECT_FRAGMENT
++    const insight = await queryInsightSSR(id, DATA, this).catch((e) => {
++      console.log("Insight doesn't exist", e)
++    })
++
++    if (!insight) {
++      return this.redirect(302, '/')
++    }
++
++    const isDraft = insight.readyState === 'draft'
++    if (isDraft && redirectNonAuthor(this, session, insight)) {
++      return
++    }
++
++    const { user, project, updatedAt } = insight
++    const publishedAt = insight.publishedAt || updatedAt
++    const isAuthor = currentUser && +currentUser.id === +user.id
++
++    const queryPriceData = (...args) => queryPriceDataSSR(...args, this)
++    const priceQuery =
++      project && queryPriceSincePublication(project.slug, publishedAt, queryPriceData)
++
++    const projectData = await priceQuery
++
++    return { insight, projectData, slug, isAuthor, isDraft }
++  }
++</script>
++
++<script>
++  import { getDateFormats } from 'san-webkit/lib/utils/dates'
++  import { getSanbaseSubscription } from 'san-webkit/lib/utils/subscription'
++  import Comments from 'san-webkit/lib/ui/Comments/svelte'
++  import ViewportObserver from 'san-webkit/lib/ui/ViewportObserver.svelte'
++  import { currentUser } from './../../stores/user'
++  import { session } from './../../stores/session'
++  import { checkIsFollowing } from './../../flow/follow'
++  import Tags from './../../components/Tags.svelte'
++  import InsightText from './../../components/InsightText.svelte'
++  import Breadcrumbs from './_Breadcrumbs.svelte'
++  import Author from './_Author.svelte'
++  import Epilogue from './_Epilogue.svelte'
++  import FixedControls from './_FixedControls.svelte'
++  import Assets from './_Assets.svelte'
++  import SuggestedInsights from './_SuggestedInsights.svelte'
++  import MetaTags from './_MetaTags.svelte'
++  import Paywall from './_Paywall.svelte'
++
++  export let insight
++  export let projectData
++  export let slug
++  export let isAuthor
++  export let isDraft
++
++  let hidden = true
++
++  $: ({ title, text, user, updatedAt, publishedAt, tags, isPro } = insight)
++  $: subscription = $currentUser && getSanbaseSubscription($currentUser.subscriptions)
++  $: isPaywalled = isPro && !subscription
++  $: isPaywalled && (hidden = false)
++  $: link = encodeURIComponent(slug)
++
++  $: ({ MMM, D, YYYY } = getDateFormats(new Date(publishedAt || updatedAt)))
++  $: date = `${MMM} ${D}, ${YYYY}`
++  $: isFollowing = checkIsFollowing($currentUser, user.id)
++
++  const showSidebar = () => (hidden = false)
++  const hideSidebar = () => (hidden = true)
++</script>
++
++<MetaTags {insight} />
++
++<div class="insight">
++  {#if process.browser && $session.isDesktop}
++    <FixedControls {insight} {link} {hidden} {isAuthor} {isDraft} />
++    {#if projectData && isPaywalled === false}
++      <Assets {insight} {projectData} />
++    {/if}
++  {/if}
++
++  <Breadcrumbs {title} {link} />
++
++  <h1 class="h2 mrg-xl mrg--b mrg--t">{title}</h1>
++
++  <Author {user} {date} {isAuthor} {isFollowing} />
++
++  <InsightText {text} class="mrg-xl mrg--t body-1" />
++
++  {#if isPaywalled}
++    <Paywall />
++  {:else}
++    <div class="tags c-waterloo mrg-xl mrg--t caption">
++      <Tags {tags} />
++    </div>
++
++    <Author {user} {date} {isAuthor} {isFollowing} />
++
++    <ViewportObserver
++      top
++      options={{ rootMargin: '160px 0px -135px' }}
++      on:intersect={hideSidebar}
++      on:leaving={showSidebar}
++    >
++      <Epilogue {insight} {link} {isDraft} {isAuthor} {isFollowing} />
++    </ViewportObserver>
++
++    <div id="comments">
++      <Comments
++        type={CommentsType.Insight}
++        commentsFor={insight}
++        currentUser={$currentUser}
++        titleClass="h4 c-waterloo"
++      />
++    </div>
++  {/if}
++</div>
++
++{#if process.browser}
++  <SuggestedInsights {insight} {user} />
++{/if}
++
++<style>
++  .insight {
++    max-width: 720px;
++    margin: 0 auto;
++    position: relative;
++  }
++
++  .tags {
++    padding: 0 0 16px;
++    margin-bottom: 20px;
++    border-bottom: 1px solid var(--porcelain);
++  }
++
++  #comments {
++    margin-top: 40px;
++  }
++
++  #comments :global(form) {
++    margin-bottom: 30px;
++  }
++
++  #comments :global(form button) {
++    height: 40px;
++    flex: 0 0 92px;
++    white-space: nowrap;
++  }
++
++  #comments :global(form > div) {
++    min-height: 40px;
++    padding: 9px 12px;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/routes/read/_Assets.svelte b/node_modules/san-insights/lib/routes/read/_Assets.svelte
+new file mode 100644
+index 0000000..2c52a08
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/read/_Assets.svelte
+@@ -0,0 +1,57 @@
++<script>
++  import { onDestroy } from 'svelte'
++  import Asset from './../../components/Asset.svelte'
++  import PriceSincePublication from './../../components/PriceSincePublication.svelte'
++  import { queryInsightRelatedProjects } from './../../api/insights/project'
++  import RelatedProject from './_RelatedProject.svelte'
++
++  export let insight
++  export let projectData
++
++  let node
++  let observer
++  let relatedProjects = []
++
++  $: ({ id, project } = insight)
++  $: id && node && setupObserver()
++
++  const projectFilter = ({ slug }) => project.slug !== slug
++  function loadRelatedProjects() {
++    observer.unobserve(node)
++    observer = null
++    queryInsightRelatedProjects(insight.id).then((data) => {
++      relatedProjects = [project].concat(data.filter(projectFilter))
++    })
++  }
++
++  function setupObserver() {
++    const dispatcher = ([{ isIntersecting }]) => isIntersecting && loadRelatedProjects()
++    observer = new IntersectionObserver(dispatcher, { rootMargin: '10px' })
++    observer.observe(node)
++  }
++
++  onDestroy(() => {
++    if (observer) observer.unobserve(node)
++  })
++</script>
++
++<aside bind:this={node}>
++  <h2 class="c-waterloo mrg-l mrg--b">Assets from this insight</h2>
++
++  <Asset asset={project}>
++    <PriceSincePublication width={201} {insight} {project} {...projectData} />
++  </Asset>
++
++  {#each relatedProjects as project (project.slug)}
++    <RelatedProject {project} />
++  {/each}
++</aside>
++
++<style>
++  aside {
++    position: absolute;
++    top: 95px;
++    left: calc(100% + 60px);
++    white-space: nowrap;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/routes/read/_Author.svelte b/node_modules/san-insights/lib/routes/read/_Author.svelte
+new file mode 100644
+index 0000000..bd7dd73
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/read/_Author.svelte
+@@ -0,0 +1,19 @@
++<script>
++  import Profile from 'san-webkit/lib/ui/Profile/index.svelte'
++  import FollowButton from 'san-webkit/lib/ui/FollowButton/svelte'
++  import { currentUser } from './../../stores/user'
++
++  export let user, date
++  export let isAuthor
++  export let isFollowing
++</script>
++
++<div class="row v-center justify">
++  <Profile {user}>
++    <div class="caption c-waterloo">{date}</div>
++  </Profile>
++
++  {#if !isAuthor}
++    <FollowButton {isFollowing} {user} currentUser={$currentUser} />
++  {/if}
++</div>
+diff --git a/node_modules/san-insights/lib/routes/read/_Breadcrumbs.svelte b/node_modules/san-insights/lib/routes/read/_Breadcrumbs.svelte
+new file mode 100644
+index 0000000..9a62baa
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/read/_Breadcrumbs.svelte
+@@ -0,0 +1,29 @@
++<script>
++  import Svg from 'san-webkit/lib/ui/Svg/svelte'
++
++  export let title
++  export let link
++</script>
++
++<div class="row v-center">
++  <a href="/" class="c-casper">Insights</a>
++  <Svg id="arrow-right" w="4.5" h="8" class="arrow-yvauDT mrg-m mrg--l mrg--r" />
++  <a href="/read/{link}" class="title">{title}</a>
++</div>
++
++<style>
++  div {
++    white-space: nowrap;
++    z-index: 2;
++    position: relative;
++  }
++
++  .title {
++    text-overflow: ellipsis;
++    overflow: hidden;
++  }
++
++  :global(.arrow-yvauDT) {
++    min-width: 4.5px;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/routes/read/_Epilogue.svelte b/node_modules/san-insights/lib/routes/read/_Epilogue.svelte
+new file mode 100644
+index 0000000..5bf06c8
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/read/_Epilogue.svelte
+@@ -0,0 +1,98 @@
++<script>
++  import { onDestroy, onMount } from 'svelte'
++  import { EVENT, startFollowFlow } from 'san-webkit/lib/ui/FollowButton/flow'
++  import VoteButton from './../../components/VoteButton.svelte'
++  import CommentBtn from './../../components/CommentButton.svelte'
++  import ShareBtn from './../../components/ShareButton.svelte'
++  import EditBtn from './../../components/EditButton.svelte'
++  import { currentUser } from './../../stores/user'
++
++  export let insight
++  export let link
++  export let isAuthor
++  export let isFollowing
++  export let isDraft
++
++  $: ({ user, commentsCount } = insight)
++  $: ({ username } = user)
++  $: followMsg = `Follow ${username}`
++
++  const delay = () => ({ delay: 500 })
++
++  function onFollow({ currentTarget }) {
++    currentTarget.textContent = isFollowing ? followMsg : 'Unfollow'
++    startFollowFlow($currentUser, user.id)
++    updateUserStore()
++  }
++
++  function updateUserStore() {
++    currentUser.set($currentUser)
++  }
++  onMount(() => {
++    window.addEventListener(EVENT, updateUserStore)
++  })
++  onDestroy(() => {
++    if (process.browser) window.removeEventListener(EVENT, updateUserStore)
++  })
++</script>
++
++<div class="epilogue body-2 c-waterloo mrg-xl mrg--t">
++  <h3 class="h4 txt-m mrg-l mrg--b c-black">Thanks for reading!</h3>
++  <p class="cta">
++    If you enjoyed this insight please leave a like, join discussion in the comments and share it
++    with your friends!
++  </p>
++
++  <div class="row h-center body-3">
++    <VoteButton {insight} />
++    <CommentBtn href="read/{link}" count={commentsCount} />
++    {#if !isDraft}<ShareBtn {insight} />{/if}
++    {#if isAuthor}<EditBtn {insight} />{/if}
++  </div>
++
++  {#if !isAuthor && !isFollowing}
++    <div class="follow column v-center" out:delay>
++      <h3 class="h4 txt-m mrg-s mrg--b c-black">Never miss a post from {username}!</h3>
++      <p class="mrg-xl mrg--b">Get 'early bird' alerts for new insights from this author</p>
++      <button class="btn-1 btn--s body-3" on:click={onFollow}>{followMsg}</button>
++      <img src="/overview_banner.svg" alt="Banner" loading="lazy" />
++    </div>
++  {/if}
++</div>
++
++<style>
++  .epilogue {
++    text-align: center;
++  }
++  .cta {
++    max-width: 460px;
++    margin: 14px auto 28px;
++  }
++
++  .follow {
++    margin: 40px auto 0;
++    padding: 32px;
++    background: var(--athens);
++    border-radius: 4px;
++    position: relative;
++    overflow: hidden;
++  }
++  .h4,
++  .btn-1 {
++    z-index: 1;
++  }
++
++  .btn-1 {
++    color: #fff;
++    --bg: #2f354d;
++    --bg-hover: #2b3046;
++  }
++
++  img {
++    position: absolute;
++    opacity: 0.2;
++    top: 0;
++    left: 0;
++    width: 100%;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/routes/read/_FixedControls.svelte b/node_modules/san-insights/lib/routes/read/_FixedControls.svelte
+new file mode 100644
+index 0000000..199a486
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/read/_FixedControls.svelte
+@@ -0,0 +1,43 @@
++<script>
++  import CommentBtn from './../../components/CommentButton.svelte'
++  import ShareBtn from './../../components/ShareButton.svelte'
++  import EditBtn from './../../components/EditButton.svelte'
++  import VoteButton from './../../components/VoteButton.svelte'
++
++  export let insight
++  export let link
++  export let hidden = true
++  export let isAuthor
++  export let isDraft
++
++  $: ({ votes, commentsCount } = insight)
++</script>
++
++<aside>
++  <div class:hidden class="fixed column c-waterloo">
++    <VoteButton {insight} />
++    <CommentBtn href="/read/{link}" class="mrg-s mrg--t mrg--b" count={commentsCount} />
++    {#if !isDraft}<ShareBtn {insight} class="mrg-s mrg--b" />{/if}
++    {#if isAuthor}<EditBtn {insight} class="" />{/if}
++  </div>
++</aside>
++
++<style>
++  aside {
++    position: absolute;
++    left: -130px;
++    top: 95px;
++  }
++
++  .fixed {
++    position: fixed;
++    transition: opacity 150ms ease-in;
++    opacity: 1;
++    align-items: flex-start;
++  }
++
++  .hidden {
++    opacity: 0;
++    pointer-events: none;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/routes/read/_MetaTags.svelte b/node_modules/san-insights/lib/routes/read/_MetaTags.svelte
+new file mode 100644
+index 0000000..ca9bcc0
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/read/_MetaTags.svelte
+@@ -0,0 +1,38 @@
++<script>
++  export let insight
++
++  $: ({ title, text } = insight)
++  $: metaDescriptionText = getRawText(text).slice(0, 140)
++  $: previewImgLink = grabFirstImageLink(text)
++
++  function getRawText(text) {
++    if (!text) return ''
++    const res = text.split(/<.*?>/g).join('')
++    return res[0] === ' ' ? res.slice(1) : res
++  }
++
++  const IMG_SRC_ATTR_START = 'src="'
++  const IMG_SRC_ATTR_START_LENGTH = IMG_SRC_ATTR_START.length
++  function grabFirstImageLink(text) {
++    const start = text.indexOf(IMG_SRC_ATTR_START)
++
++    if (start === -1) return ''
++
++    const linkStart = start + IMG_SRC_ATTR_START_LENGTH
++    return text.slice(linkStart, text.indexOf('"', linkStart))
++  }
++</script>
++
++<svelte:head>
++  <title>{title} - Santiment Community Insights</title>
++  <meta name="description" content={metaDescriptionText} />
++  <meta property="og:type" content="article" />
++  <meta property="og:title" content="{title} - Santiment Community Insights" />
++  <meta property="og:description" content={metaDescriptionText} />
++
++  {#if previewImgLink}
++    <meta name="twitter:card" content="summary_large_image" />
++    <meta name="twitter:image" content={previewImgLink} />
++    <meta name="og:image" content={previewImgLink} />
++  {/if}
++</svelte:head>
+diff --git a/node_modules/san-insights/lib/routes/read/_Paywall.svelte b/node_modules/san-insights/lib/routes/read/_Paywall.svelte
+new file mode 100644
+index 0000000..1ccbec2
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/read/_Paywall.svelte
+@@ -0,0 +1,196 @@
++<script>
++  import { goto } from '@sapper/app'
++  import { track } from 'san-webkit/lib/analytics'
++  import { showPaymentDialog, dataPreloader } from 'san-webkit/lib/ui/PaymentDialog/index.svelte'
++  import { currentUser } from './../../stores/user'
++  // import { showPaymentDialog, dataPreloader } from './../../components/PaymentDialog/index.svelte'
++
++  function onUpgradeClick() {
++    track.event('upgrade', { method: 'Insight Paywall' })
++
++    if (!$currentUser) {
++      // postponePayment()
++      return goto('/login')
++    }
++
++    showPaymentDialog()
++  }
++</script>
++
++<section class="top mrg-xxl mrg--t">
++  <h2 class="h4 txt-m mrg-s mrg--b">There’s more of this Insight</h2>
++  <h3 class="c-waterloo mrg-xxl mrg--b">Choose your subscription plan</h3>
++
++  <div class="plan border">
++    <div class="body-1 mrg-s mrg--b">Sanbase PRO</div>
++    <div class="c-waterloo mrg-l mrg--b">Unlock all PRO insights</div>
++    <div class="h3 mrg-xl mrg--b">
++      $49<span class="c-casper">/mo</span>
++    </div>
++    <button on:click={onUpgradeClick} class="upgrade btn-1 btn--orange btn--l" use:dataPreloader
++      >Upgrade to PRO</button
++    >
++  </div>
++</section>
++
++<section class="benefit body-2 row">
++  <div class="fluid">
++    <h3 class="body-1 txt-m mrg-xl mrg--b">
++      Years of market experience, compressed in each report
++    </h3>
++    <p>
++      Since 2017, Santiment has been an industry leader in on-chain data, social intelligence and
++      behavior-based analysis of the crypto market.
++    </p>
++    <p>
++      Our tools have a proven track record of timing price tops for cryptocurrencies, helping
++      traders find profitable exit points and mitigate HODLing risk.
++    </p>
++
++    <h5 class="mrg-s mrg--t mrg--b">Our previous TOP calls:</h5>
++    <div class="column body-3">
++      <a class="btn" href="/read/waves-crowd-sentiment-pattern-124">WAVES crowd sentiment pattern</a
++      >
++      <a class="btn" href="/read/matic-charts-a-new-ath%3A-is-the-top-in%3F-2959"
++        >MATIC charts a new ATH: is the top in?</a
++      >
++      <a class="btn" href="/read/icx-insanity.-how-far-could-it-go%3F-5611"
++        >ICX insanity. How far could it go?</a
++      >
++    </div>
++  </div>
++
++  <img src="/insight_preview.png" alt="insight card" class="mrg-xxl mrg--l" loading="lazy" />
++</section>
++
++<section class="benefit body-2 row">
++  <img src="/signal_preview.png" alt="signal form" class="mrg-xxl mrg--r" loading="lazy" />
++
++  <div class="fluid">
++    <h3 class="body-1 txt-m mrg-xl mrg--b">What you get with Sanbase Pro:</h3>
++    <ul>
++      <li>Members-only daily market insights and analysis</li>
++      <li>30+ on-chain, social & project indicators for 900 cryptocurrencies</li>
++      <li>Custom alerts for the coins' price, on-chain & social trends</li>
++      <li>Santiment Spreadsheet plugin with 10+ pre-made market templates</li>
++      <li>Personalized asset watchlists and weekly performance reports</li>
++    </ul>
++  </div>
++</section>
++
++<section class="gain body-2 mrg-xl mrg--b">
++  <h2 class="h4 txt-m">Gain unfair advantage with Sanbase Pro</h2>
++  <p class="cta c-waterloo">
++    Subscribe to Sanbase Pro for access to exclusive insights, market-beating metrics, strategies
++    and templates!
++  </p>
++
++  <button
++    on:click={onUpgradeClick}
++    class="upgrade btn-1 btn--orange btn--l body-3"
++    use:dataPreloader>Subscribe to PRO</button
++  >
++</section>
++
++<style>
++  section {
++    text-align: center;
++  }
++
++  .top {
++    position: relative;
++    padding: 95px 0 0;
++    background: url('/paywall.svg') no-repeat 50% 0;
++  }
++  .top::before {
++    content: '';
++    position: absolute;
++    left: 0;
++    right: 0;
++    bottom: 100%;
++    height: 300px;
++    background: linear-gradient(
++      180deg,
++      rgba(255, 255, 255, 0) 0%,
++      rgba(255, 255, 255, 0.8) 51.04%,
++      #fff 100%
++    );
++  }
++
++  :global(.night-mode) .top::before {
++    background: linear-gradient(
++      180deg,
++      rgba(24, 27, 43, 0) 0%,
++      rgba(24, 27, 43, 0.8) 51.04%,
++      #181b2b 100%
++    );
++  }
++
++  .plan {
++    padding: 24px;
++    display: inline-block;
++  }
++
++  .upgrade {
++    width: 220px;
++    display: block;
++    margin-left: auto;
++    margin-right: auto;
++  }
++
++  .benefit {
++    max-width: 620px;
++    margin: 64px auto;
++    text-align: left;
++  }
++
++  p {
++    margin: 16px 0;
++  }
++
++  .btn {
++    --color: var(--green);
++    --color-hover: var(--green-hover);
++  }
++
++  li {
++    margin: 18px 0 0;
++    position: relative;
++    padding-left: 28px;
++  }
++  li::before {
++    content: url('/success-circle.svg');
++    display: block;
++    position: absolute;
++    top: 5px;
++    left: 0;
++    opacity: 1;
++  }
++
++  .fluid {
++    align-self: center;
++  }
++
++  img {
++    max-width: 310px;
++    width: 100%;
++  }
++  :global(.phone) img,
++  :global(.phone-xs) img {
++    display: none;
++  }
++
++  .cta {
++    max-width: 440px;
++    margin-left: auto;
++    margin-right: auto;
++  }
++
++  :global(.phone-xs) .cta {
++    padding: 0 16px;
++  }
++
++  .gain {
++    margin: 0 0 64px;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/routes/read/_RelatedProject.svelte b/node_modules/san-insights/lib/routes/read/_RelatedProject.svelte
+new file mode 100644
+index 0000000..8c23ffb
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/read/_RelatedProject.svelte
+@@ -0,0 +1,60 @@
++<script>
++  import Svg from 'san-webkit/lib/ui/Svg/svelte'
++  import Change, { formatPercentChange } from 'san-webkit/lib/ui/Change.svelte'
++  import Area from 'san-webkit/lib/ui/MiniChart/Area.svelte'
++  import Asset from './../../components/Asset.svelte'
++  import { queryInsightRelatedProjectPrice } from './../../api/insights/project'
++  import { watchlistsPreloader } from './../../components/AddToWatchlistDialog/index.svelte'
++  import { startAddToWatchlistFlow } from './../../flow/watchlists'
++
++  export let project
++
++  let data = []
++  const setData = (result) => (data = result)
++
++  $: change = +project.change
++  $: queryInsightRelatedProjectPrice(project.slug).then(setData)
++
++  function formatPrice(value) {
++    return +value.toFixed(value < 1 ? 6 : 2)
++  }
++</script>
++
++<Asset asset={project} class="mrg-l mrg--t">
++  <div class="top h4 mrg-xs mrg--b row v-center justify">
++    $ {formatPrice(+project.priceUsd)}
++    <Area
++      id={project.slug}
++      {data}
++      width={64}
++      height={29}
++      valueKey="v"
++      style="--color:var(--{change < 0 ? 'red' : 'lima'})"
++    />
++  </div>
++
++  <div class="row v-center c-casper mrg-m mrg--b">
++    <Change change={formatPercentChange(change)} class="mrg-xs mrg--r" />
++    in last 7d
++  </div>
++
++  <div
++    class="btn-2 btn--s"
++    on:click={() => startAddToWatchlistFlow(project)}
++    use:watchlistsPreloader
++  >
++    <Svg id="add-list" w="16" h="14" class="icon-Jsr3DF" />
++    Add to watchlist
++  </div>
++</Asset>
++
++<style>
++  .btn-2 {
++    position: relative;
++  }
++
++  :global(.icon-Jsr3DF) {
++    fill: var(--casper);
++    margin-right: 21px;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/routes/read/_SuggestedInsights.svelte b/node_modules/san-insights/lib/routes/read/_SuggestedInsights.svelte
+new file mode 100644
+index 0000000..e2318ed
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/read/_SuggestedInsights.svelte
+@@ -0,0 +1,89 @@
++<script>
++  import { querySuggestedUserInsights } from './../../api/insights/user'
++  import { querySuggestedFeaturedInsights } from './../../api/insights/featured'
++  import InsightCard from './../../components/InsightCard/index.svelte'
++  import { onDestroy } from 'svelte'
++
++  export let insight
++  export let user
++
++  let insights = []
++  let node, observer
++
++  $: user.id && node && setupObserver()
++
++  function loadSuggestions() {
++    if (!observer) return
++    observer.unobserve(node)
++    observer = null
++
++    const filter = ({ id }) => id !== insight.id
++    querySuggestedUserInsights(user.id).then((data) => {
++      const filtered = data.filter(filter)
++      if (filtered.length > 2) return (insights = filtered)
++      querySuggestedFeaturedInsights().then((featured) => {
++        insights = filtered.concat(featured)
++      })
++    })
++  }
++
++  function setupObserver() {
++    const dispatcher = ([{ isIntersecting }]) => isIntersecting && loadSuggestions()
++    observer = new IntersectionObserver(dispatcher, { rootMargin: '200px' })
++    observer.observe(node)
++  }
++
++  onDestroy(() => {
++    if (observer) observer.unobserve(node)
++  })
++</script>
++
++<section class="column v-center" bind:this={node}>
++  <h3 class="body-1 mrg-xl mrg--b">Suggested insights</h3>
++
++  <div class="visible">
++    <div class="scroll row">
++      {#each insights as insight}
++        <InsightCard {insight} isWithPrice={false} class="item-X+wedB mrg-xl mrg--r" />
++      {/each}
++    </div>
++  </div>
++</section>
++
++<style>
++  section {
++    background: var(--athens);
++    margin: 32px 0 -32px calc((1140px - 100vw) / 2);
++    width: 100vw;
++    padding: 40px;
++  }
++  :global(body:not(.desktop)) section {
++    margin: 32px -16px 64px -16px;
++    padding: 24px 16px;
++  }
++
++  .visible {
++    max-width: 100%;
++  }
++
++  .scroll {
++    overflow-x: auto;
++    height: calc(100% + 10px);
++    width: 1143px;
++    -ms-overflow-style: none;
++    scrollbar-width: none;
++  }
++  .scroll::-webkit-scrollbar {
++    display: none;
++  }
++
++  :global(body:not(.desktop) .scroll) {
++    width: 100%;
++  }
++
++  :global(.item-X\+wedB) {
++    width: 365px;
++    min-width: 365px;
++    --overflow-lines: 1;
++  }
++</style>
+diff --git a/node_modules/san-insights/lib/routes/search.svelte b/node_modules/san-insights/lib/routes/search.svelte
+new file mode 100644
+index 0000000..10a02bc
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/search.svelte
+@@ -0,0 +1,79 @@
++<script>
++  import { onDestroy } from 'svelte'
++  import { stores } from '@sapper/app'
++  import { debounce } from 'san-webkit/lib/utils/fn'
++  import ViewportObserver from 'san-webkit/lib/ui/ViewportObserver.svelte'
++  import { querySearchPageInsights } from './../api/insights/search'
++  import InsightCard from './../components/InsightCard/index.svelte'
++
++  const { page } = stores()
++
++  let insights = []
++  let hasMore = false
++  let offset = 20
++  let searchTerm = $page.query.t || ''
++  let loading = !!searchTerm
++
++  $: filteredInsights = insights.slice(0, offset)
++  $: process.browser && searchTerm && getInsights(searchTerm)
++
++  const [getInsights, clearTimer] = debounce(300, () => {
++    const value = searchTerm
++    hasMore = false
++    loading = true
++    history.replaceState(null, '', '/search?t=' + value)
++
++    querySearchPageInsights(searchTerm).then((data) => {
++      if (value !== searchTerm) return
++      insights = data
++      offset = 20
++      hasMore = true
++      loading = false
++    })
++  })
++
++  function onIntersect() {
++    offset += 20
++    hasMore = insights.length > offset
++  }
++  const unsubscribe = page.subscribe(({ query }) => {
++    if (query.f) searchTerm = query.t
++  })
++
++  onDestroy(() => {
++    unsubscribe()
++    clearTimer()
++  })
++</script>
++
++<svelte:head>
++  <title>Insights</title>
++  <meta property="og:title" content="Insights" />
++  <meta name="description" content="Community Insights" />
++  <meta property="og:description" content="Community Insights" />
++</svelte:head>
++
++<h2 class="row v-center mrg-l mrg--b">
++  Search results for:
++
++  <input
++    class="input mrg-s mrg--l"
++    type="text"
++    placeholder="Search for insights..."
++    bind:value={searchTerm}
++  />
++</h2>
++
++<ViewportObserver
++  options={{ rootMargin: '650px' }}
++  on:intersect={onIntersect}
++  observeWhile={hasMore}
++>
++  {#if loading}
++    Loading...
++  {:else}
++    {#each filteredInsights as insight (insight.id)}
++      <InsightCard {insight} class="mrg-l mrg--t" />
++    {/each}
++  {/if}
++</ViewportObserver>
+diff --git a/node_modules/san-insights/lib/routes/sign-up.svelte b/node_modules/san-insights/lib/routes/sign-up.svelte
+new file mode 100644
+index 0000000..e1fa25b
+--- /dev/null
++++ b/node_modules/san-insights/lib/routes/sign-up.svelte
+@@ -0,0 +1,16 @@
++<script context="module">
++  import { redirectLoggedInUser } from './../flow/redirect'
++
++  export function preload(_, session) {
++    redirectLoggedInUser(this, session)
++  }
++</script>
++
++<script>
++  import SignUp from 'san-webkit/lib/ui/LoginPrompt/SignUp.svelte'
++  import Layout from './login/_layout.svelte'
++</script>
++
++<Layout>
++  <SignUp />
++</Layout>
+diff --git a/node_modules/san-insights/lib/server.js b/node_modules/san-insights/lib/server.js
+new file mode 100644
+index 0000000..35615ae
+--- /dev/null
++++ b/node_modules/san-insights/lib/server.js
+@@ -0,0 +1,40 @@
++import sirv from 'sirv'
++import polka from 'polka'
++import compression from 'compression'
++import MobileDetect from 'mobile-detect'
++import * as sapper from '@sapper/server'
++import { queryCurrentUserSSR } from './api/user'
++
++const { PORT, NODE_ENV } = process.env
++const dev = NODE_ENV === 'development'
++
++const checkIsAccountNightMode = (user) => (user ? user.settings.theme === 'nightmode' : false)
++
++polka()
++  .use(
++    compression({ threshold: 0 }),
++    sirv('static', { dev }),
++    sapper.middleware({
++      session: async (req) => {
++        const { currentUser } = await queryCurrentUserSSR({
++          req,
++        }).catch((e) => {
++          console.log('CurrentUser error', e)
++          return { currentUser: null }
++        })
++
++        const isMobile = !!new MobileDetect(req.headers['user-agent'] || '').mobile()
++        const session = {
++          currentUser,
++          isMobile,
++          theme: checkIsAccountNightMode(currentUser) ? 'night-mode' : '',
++          isDesktop: !isMobile,
++        }
++
++        return session
++      },
++    }),
++  )
++  .listen(PORT, (err) => {
++    if (err) console.log('error', err)
++  })
+diff --git a/node_modules/san-insights/lib/service-worker.js b/node_modules/san-insights/lib/service-worker.js
+new file mode 100644
+index 0000000..54c3a29
+--- /dev/null
++++ b/node_modules/san-insights/lib/service-worker.js
+@@ -0,0 +1,86 @@
++import { timestamp, files, shell } from '@sapper/service-worker'
++
++const ASSETS = `cache${timestamp}`
++
++// `shell` is an array of all the files generated by the bundler,
++// `files` is an array of everything in the `static` directory
++const to_cache = shell.concat(files)
++const staticAssets = new Set(to_cache)
++
++self.addEventListener('install', (event) => {
++  event.waitUntil(
++    caches
++      .open(ASSETS)
++      .then((cache) => cache.addAll(to_cache))
++      .then(() => {
++        self.skipWaiting()
++      }),
++  )
++})
++
++self.addEventListener('activate', (event) => {
++  event.waitUntil(
++    caches.keys().then(async (keys) => {
++      // delete old caches
++      for (const key of keys) {
++        if (key !== ASSETS) await caches.delete(key)
++      }
++
++      self.clients.claim()
++    }),
++  )
++})
++
++/**
++ * Fetch the asset from the network and store it in the cache.
++ * Fall back to the cache if the user is offline.
++ */
++async function fetchAndCache(request) {
++  const cache = await caches.open(`offline${timestamp}`)
++
++  try {
++    const response = await fetch(request)
++    cache.put(request, response.clone())
++    return response
++  } catch (err) {
++    const response = await cache.match(request)
++    if (response) return response
++
++    throw err
++  }
++}
++
++self.addEventListener('fetch', (event) => {
++  if (event.request.method !== 'GET' || event.request.headers.has('range')) return
++
++  const url = new URL(event.request.url)
++
++  // don't try to handle e.g. data: URIs
++  const isHttp = url.protocol.startsWith('http')
++  const isDevServerRequest =
++    url.hostname === self.location.hostname && url.port !== self.location.port
++  const isStaticAsset = url.host === self.location.host && staticAssets.has(url.pathname)
++  const skipBecauseUncached = event.request.cache === 'only-if-cached' && !isStaticAsset
++
++  if (isHttp && !isDevServerRequest && !skipBecauseUncached) {
++    event.respondWith(
++      (async () => {
++        // always serve static files and bundler-generated assets from cache.
++        // if your application has other URLs with data that will never change,
++        // set this variable to true for them and they will only be fetched once.
++        const cachedAsset = isStaticAsset && (await caches.match(event.request))
++
++        // for pages, you might want to serve a shell `service-worker-index.html` file,
++        // which Sapper has generated for you. It's not right for every
++        // app, but if it's right for yours then uncomment this section
++        /*
++				if (!cachedAsset && url.origin === self.origin && routes.find(route => route.pattern.test(url.pathname))) {
++					return caches.match('/service-worker-index.html');
++				}
++				*/
++
++        return cachedAsset || fetchAndCache(event.request)
++      })(),
++    )
++  }
++})
+diff --git a/node_modules/san-insights/lib/stores/session.js b/node_modules/san-insights/lib/stores/session.js
+new file mode 100644
+index 0000000..98f471a
+--- /dev/null
++++ b/node_modules/san-insights/lib/stores/session.js
+@@ -0,0 +1,20 @@
++import { stores } from '@sapper/app'
++
++function getSession() {
++  const value = stores().session
++  if (!process.browser) return value
++
++  return session.value || (session.value = value)
++}
++export const session = {
++  subscribe(run, invalidate) {
++    const session = getSession()
++    return session.subscribe(run, invalidate)
++  },
++  set(value) {
++    return getSession().set(value)
++  },
++  update(value) {
++    return getSession().update(value)
++  },
++}
+diff --git a/node_modules/san-insights/lib/stores/ui.js b/node_modules/san-insights/lib/stores/ui.js
+new file mode 100644
+index 0000000..4807b4d
+--- /dev/null
++++ b/node_modules/san-insights/lib/stores/ui.js
+@@ -0,0 +1,43 @@
++import { writable } from 'svelte/store'
++import { mutate } from 'san-webkit/lib/api'
++import { getSavedJson, saveJson } from 'san-webkit/lib/utils/localStorage'
++import { getSessionValue } from './utils'
++
++const TOGGLE_THEME_MUTATION = (isNightMode) => `
++  mutation updateUserSettings {
++    updateUserSettings(settings: { theme: "${isNightMode ? 'nightmode' : ''}" }) {
++      theme
++    }
++  }
++`
++
++let store = { nightMode: false }
++
++if (process.browser) {
++  const { currentUser, theme } = getSessionValue() || {}
++
++  if (currentUser) {
++    store.nightMode = theme === 'night-mode'
++  } else {
++    store = getSavedJson('ui', store)
++  }
++
++  document.body.classList.toggle('night-mode', store.nightMode)
++}
++
++const { subscribe, set } = writable(store)
++export const ui = {
++  subscribe,
++  toggleNightMode() {
++    const { currentUser } = getSessionValue()
++    store.nightMode = document.body.classList.toggle('night-mode')
++
++    if (currentUser) {
++      mutate(TOGGLE_THEME_MUTATION(store.nightMode)).catch(console.error)
++    } else {
++      saveJson('ui', store)
++    }
++
++    set(store)
++  },
++}
+diff --git a/node_modules/san-insights/lib/stores/user.js b/node_modules/san-insights/lib/stores/user.js
+new file mode 100644
+index 0000000..82fa48e
+--- /dev/null
++++ b/node_modules/san-insights/lib/stores/user.js
+@@ -0,0 +1,27 @@
++import { stores } from '@sapper/app'
++import { derived } from 'svelte/store'
++
++export const user$ = () => derived(stores().session, ($session) => $session.currentUser)
++
++function getSession() {
++  const { session } = stores()
++  if (!process.browser) return session
++
++  return store.session || (store.session = session)
++}
++const store = {
++  subscribe(run, invalidate) {
++    const session = getSession()
++    return session.subscribe((value) => run(value.currentUser), invalidate)
++  },
++  set(value) {
++    if (!store.session) return
++
++    store.session.update((session) => {
++      session.currentUser = value
++      return session
++    })
++  },
++}
++
++export const currentUser = store
+diff --git a/node_modules/san-insights/lib/stores/utils.js b/node_modules/san-insights/lib/stores/utils.js
+new file mode 100644
+index 0000000..4789a2a
+--- /dev/null
++++ b/node_modules/san-insights/lib/stores/utils.js
+@@ -0,0 +1 @@
++export const getSessionValue = () => window.__SAPPER__.session
+diff --git a/node_modules/san-insights/lib/utils/insights.js b/node_modules/san-insights/lib/utils/insights.js
+new file mode 100644
+index 0000000..3760f1d
+--- /dev/null
++++ b/node_modules/san-insights/lib/utils/insights.js
+@@ -0,0 +1,7 @@
++export const checkIsTrendTag = (tag) => tag.toLowerCase().endsWith('-trending-words')
++
++export function getRawText(text) {
++  if (!text) return ''
++  const res = text.split(/<.*?>/g).join('')
++  return res[0] === ' ' ? res.slice(1) : res
++}

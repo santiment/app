@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
-import cx from 'classnames'
 import { Query } from 'react-apollo'
 import debounce from 'lodash.debounce'
 import Loader from '@santiment-network/ui/Loader/Loader'
+import { PulseInsight } from '@cmp/InsightCard'
 import { PULSE_INSIGHTS_BY_PAGE_QUERY } from '../../../../queries/InsightsGQL'
-import PulseInsightWrapper from '../../../../components/Insight/PulseInsight'
 import { isBottom } from '../utils'
 import EmptyFeed from '../EmptyFeed'
 import { groupByDates, RenderFeedGroups } from '../FeedList/FeedList'
-import styles from '../FeedItemRenderer/FeedItemRenderer.module.scss'
 import feedlistStyles from '../FeedList/FeedList.module.scss'
 
 const MAX_INSIGHTS_COUNT = 10
@@ -104,11 +102,7 @@ class InsightsList extends React.Component {
           groups={grouped}
           groupRenderer={({ items }) => {
             return items.map((insight) => (
-              <PulseInsightWrapper
-                key={insight.id}
-                insight={insight}
-                className={cx(styles.card, styles.pulseInsight)}
-              />
+              <PulseInsight key={insight.id} insight={insight} class='mrg-l mrg--b' />
             ))
           }}
         />

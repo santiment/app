@@ -1,12 +1,11 @@
 import React from 'react'
 import cx from 'classnames'
-import InsightCard from '../../../../components/Insight/InsightCardWithMarketcap'
 import WithFeedEventLikesMutation from '../../../../components/Like/WithFeedEventLikesMutation'
 import ActivityRenderer from '../../../SonarFeed/ActivityRenderer/ActivityRenderer'
 import TrendingWordsSignalCard, {
   isTrendingWordsSignal,
 } from '../../../../components/SignalCard/card/TrendingWordsSignalCard'
-import PulseInsight from '../../../../components/Insight/PulseInsight'
+import { InsightCard, PulseInsight } from '@cmp/InsightCard'
 import styles from './FeedItemRenderer.module.scss'
 
 const FeedItemRenderer = ({ item, index, showProfileExplanation }) => {
@@ -43,9 +42,9 @@ const FeedItemRenderer = ({ item, index, showProfileExplanation }) => {
 
     if (post) {
       return post.isPulse ? (
-        <PulseInsight insight={post} className={cx(styles.card, styles.pulseInsight)} />
+        <PulseInsight insight={post} class={cx('mrg-l mrg--b'.styles.card, styles.pulseInsight)} />
       ) : (
-        <InsightCard insight={post} classes={styles} className={styles.activityItem} />
+        <InsightCard insight={post} class='mrg-l mrg--b' />
       )
     }
   }

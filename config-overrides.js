@@ -25,7 +25,11 @@ module.exports = function override(config, env) {
   config.resolve.alias['@sapper/app'] = path.resolve(__dirname, 'src/svelte.js')
   config.resolve.alias['@/apollo'] = path.resolve(__dirname, 'src/apollo/index.js')
 
+  config.resolve.alias['@cmp'] = path.resolve(__dirname, 'src/components')
+  config.resolve.alias['@'] = path.resolve(__dirname, 'src')
+
   config.resolve.alias['studio'] = path.resolve('node_modules/san-studio/lib')
+  config.resolve.alias['insights'] = path.resolve('node_modules/san-insights/lib')
   config.resolve.alias['webkit'] = path.resolve('node_modules/san-webkit/lib')
 
   config.resolve.mainFields = ['svelte', 'browser', 'module', 'main']
