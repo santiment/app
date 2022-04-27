@@ -23,7 +23,7 @@
   let editedDescription = itemData.description || ''
   let editedPublic = !!itemData.isPublic
 
-  $: titleLength = (title || '').length
+  $: titleLength = (editedTitle || '').length
   $: applyDisabled = loading || titleLength < MIN_TITLE_LENGTH || titleLength > MAX_TITLE_LENGTH
 
   function onEditClick() {
