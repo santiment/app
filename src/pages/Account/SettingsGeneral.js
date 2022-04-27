@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Label from '@santiment-network/ui/Label'
 import Toggle from '@santiment-network/ui/Toggle'
+import { ui, useTheme } from '@/stores/ui/theme'
 import Settings from './Settings'
 import UsernameSetting from './userName/UsernameSetting'
 import NameSetting from './name/NameSetting'
@@ -17,39 +18,43 @@ const SettingsGeneral = ({
   avatarUrl,
   dispatchNewUsername,
   dispatchNewName,
-  toggleNightMode,
   toggleBetaMode,
-  isNightModeEnabled,
   isBetaModeEnabled,
-}) => (
-  <>
-    {!email && (
-      <AlertMessage text='Please connect your email to access all features of Sanbase.' warning />
-    )}
-    <Settings id='general' header='General'>
-      <Settings.Row>
-        <AvatarSettings avatarUrl={avatarUrl} />
-      </Settings.Row>
-      <NameSetting dispatchNewName={dispatchNewName} name={name} />
-      <UsernameSetting dispatchNewUsername={dispatchNewUsername} username={username} name={name} />
-      <Settings.Row>
-        <div className={styles.setting__left}>
-          <Label className={styles.label}>Night mode</Label>
-        </div>
-        <Toggle isActive={isNightModeEnabled} onClick={toggleNightMode} />
-      </Settings.Row>
-      <Settings.Row>
-        <div className={styles.setting__left}>
-          <Label className={styles.label}>Beta mode</Label>
-        </div>
-        <Toggle isActive={isBetaModeEnabled} onClick={toggleBetaMode} />
-      </Settings.Row>
-    </Settings>
-  </>
-)
+}) => {
+  const { nightMode } = useTheme()
+  return (
+    <>
+      {!email && (
+        <AlertMessage text='Please connect your email to access all features of Sanbase.' warning />
+      )}
+      <Settings id='general' header='General'>
+        <Settings.Row>
+          <AvatarSettings avatarUrl={avatarUrl} />
+        </Settings.Row>
+        <NameSetting dispatchNewName={dispatchNewName} name={name} />
+        <UsernameSetting
+          dispatchNewUsername={dispatchNewUsername}
+          username={username}
+          name={name}
+        />
+        <Settings.Row>
+          <div className={styles.setting__left}>
+            <Label className={styles.label}>Night mode</Label>
+          </div>
+          <Toggle isActive={nightMode} onClick={ui.toggleNightMode} />
+        </Settings.Row>
+        <Settings.Row>
+          <div className={styles.setting__left}>
+            <Label className={styles.label}>Beta mode</Label>
+          </div>
+          <Toggle isActive={isBetaModeEnabled} onClick={toggleBetaMode} />
+        </Settings.Row>
+      </Settings>
+    </>
+  )
+}
 
-const mapStateToProps = ({ rootUi: { isNightModeEnabled, isBetaModeEnabled } }) => ({
-  isNightModeEnabled,
+const mapStateToProps = ({ rootUi: { isBetaModeEnabled } }) => ({
   isBetaModeEnabled,
 })
 
@@ -63,10 +68,6 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch({
       type: actions.USER_NAME_CHANGE,
       name,
-    }),
-  toggleNightMode: () =>
-    dispatch({
-      type: actions.USER_TOGGLE_NIGHT_MODE,
     }),
   toggleBetaMode: () =>
     dispatch({

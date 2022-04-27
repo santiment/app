@@ -1,14 +1,13 @@
 <script>
   import { onMount } from 'svelte'
-  import { writable } from 'svelte/store'
   import Svg from 'webkit/ui/Svg/svelte'
   import Product from 'webkit/ui/Product.svelte'
   import Products from 'webkit/ui/Products/svelte'
   import AccountStatus from 'webkit/ui/AccountStatus.svelte'
   import AccountDropdown from 'webkit/ui/AccountDropdown/index.svelte'
+  import { ui } from '@/stores/ui/theme'
 
   export let currentUser = null
-  export let ui = writable({})
   export let mount
 
   let searchNode

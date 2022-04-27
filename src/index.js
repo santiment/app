@@ -17,7 +17,6 @@ import detectNetwork from './utils/detectNetwork'
 import { changeNetworkStatus, launchApp } from './actions/rootActions'
 import { register, unregister } from './serviceWorker'
 import { markAsLatestApp, newAppAvailable } from './ducks/Updates/actions'
-import { ThemeProvider } from './stores/ui/theme'
 import initSentry from './utils/initSentry'
 import { redirectSharedLink } from './components/Share/utils'
 import { SocketProvider } from './utils/socketHooks'
@@ -132,19 +131,17 @@ const main = () => {
   ReactDOM.render(
     <StripeProvider apiKey={stripeKey}>
       <ApolloProvider client={client}>
-        <ThemeProvider>
-          <SocketProvider>
-            <Provider store={store}>
-              <Router history={history}>
-                <Switch>
-                  <Route exact path='/__embedded' component={EmbeddedWidgetPage} />
-                  <Route exact path='/__chart' component={EmbeddedChartPage} />
-                  <Route path='/' component={App} history={history} />
-                </Switch>
-              </Router>
-            </Provider>
-          </SocketProvider>
-        </ThemeProvider>
+        <SocketProvider>
+          <Provider store={store}>
+            <Router history={history}>
+              <Switch>
+                <Route exact path='/__embedded' component={EmbeddedWidgetPage} />
+                <Route exact path='/__chart' component={EmbeddedChartPage} />
+                <Route path='/' component={App} history={history} />
+              </Switch>
+            </Router>
+          </Provider>
+        </SocketProvider>
       </ApolloProvider>
     </StripeProvider>,
     document.getElementById('root'),

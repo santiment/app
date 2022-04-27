@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
+import setSessionValue from 'insights/stores/utils'
 import { buildRefetcher } from './utils'
 import { client } from '../../apollo'
 
@@ -51,6 +52,8 @@ export function useUser() {
   return useMemo(() => {
     const { loading, data } = query
     const user = data && data.currentUser
+
+    setSessionValue({ currentUser: user })
 
     return {
       loading,

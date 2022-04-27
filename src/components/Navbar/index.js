@@ -14,7 +14,7 @@ export default ({ pathname }) => {
   const { user } = useUser()
   const { subscriptions } = useUserSubscriptions()
   const currentUser = useMemo(() => {
-    if (user) user.subscriptions = subscriptions
+    if (user) user.subscriptions = subscriptions || []
     return user
   }, [user, subscriptions])
 
@@ -29,10 +29,9 @@ export default ({ pathname }) => {
 
   useEffect(() => {
     if (!svelte) return
-    if (user) user.subscriptions = subscriptions
 
     svelte.$set({ pathname, currentUser })
-  }, [pathname, user, subscriptions])
+  }, [pathname, currentUser, subscriptions])
 
   function onMount(searchNode, notificationsNode) {
     setSearchNode(searchNode)
