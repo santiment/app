@@ -76,9 +76,10 @@
   overflow: overlay;
   scrollbar-width: thin;
 
-  & header {
+  & .header {
     position: sticky;
     left: 0;
+    z-index: 30;
   }
 
   & footer {

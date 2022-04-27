@@ -32,7 +32,7 @@ export default ({ pathname }) => {
   }
 
   return (
-    <div ref={ref}>
+    <div ref={ref} className='header'>
       {searchNode && ReactDOM.createPortal(<Search />, searchNode)}
       {notificationsNode && ReactDOM.createPortal(<NotificationsFeed />, notificationsNode)}
     </div>
