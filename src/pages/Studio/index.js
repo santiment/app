@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useHistory } from 'react-router-dom'
 import { parse } from 'query-string'
 import { track } from 'webkit/analytics'
 import { queryLayout } from 'studio/api/layouts'
@@ -38,23 +37,14 @@ export default ({ location }) => {
   const [prevTemplateId, setPrevTemplateId] = useState()
   const shortUrlHashState = useState()
   const prevFullUrlRef = useRef()
-  const history = useHistory()
 
   const { pathname, search } = location
 
   useEffect(() => {
-    window.__onLinkClick = (e) => {
-      e.preventDefault()
-
-      const node = e.currentTarget
-      const href = node.getAttribute('href')
-      if (href) history.push(href)
-    }
     window.onAnonComment = onAnonComment
     window.onDefaultLayoutAddressSelect = onDefaultLayoutAddressSelect
 
     return () => {
-      window.__onLinkClick = null
       window.onAnonComment = null
       window.onDefaultLayoutAddressSelect = null
       selectedLayout.set()

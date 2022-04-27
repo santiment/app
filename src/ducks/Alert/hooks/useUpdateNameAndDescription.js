@@ -58,12 +58,14 @@ export const useUpdateNameAndDescription = ({
           const hasSlug = slug && slug.length > 0 && !loading
 
           if (hasSlug) {
-            assets =
-              typeof slug === 'string'
-                ? projects.find((project) => project.slug === slug).name
-                : slug
-                    .map((item) => projects.find((project) => project.slug === item).name)
-                    .join(', ')
+            if (typeof slug === 'string') {
+              const found = projects.find((project) => project.slug === slug)
+              assets = found ? found.name : ''
+            } else {
+              assets = slug
+                .map((item) => projects.find((project) => project.slug === item).name)
+                .join(', ')
+            }
           }
 
           if (operation && metric && time_window && hasSlug) {
