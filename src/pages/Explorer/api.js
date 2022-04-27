@@ -104,12 +104,7 @@ export const EntityQuery = {
     votes {
       totalVotes
     }
-    commentsCount
-    listItems {
-      project {
-        slug
-      }
-    }    
+    commentsCount   
   }`,
   screener: `screener { 
     id
@@ -131,12 +126,7 @@ export const EntityQuery = {
     votes {
       totalVotes
     }
-    commentsCount
-    listItems {
-      project {
-        slug
-      }
-    }    
+    commentsCount  
   }`,
   chartConfiguration: `chartConfiguration {
     id
