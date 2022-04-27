@@ -2,10 +2,10 @@ import React from 'react'
 import cx from 'classnames'
 import { getSEOLinkFromIdAndTitle } from 'webkit/utils/url'
 import { markdownToPlainText } from 'webkit/ui/Editor/markdown'
-import { makeLinkToInsight } from '../../../../components/Insight/InsightCardInternals'
 import SignalCreator from '../../../../components/SignalCard/card/creator/SignalCreator'
 import TransactionTableLabels from '../../../../components/WalletLink/TransactionTableLabels'
 import { EtherscanLink } from '../../../../components/WalletLink/ActionLabels'
+import { makeLinkToInsight } from '../../../../utils/url'
 import styles from './Conversation.module.scss'
 
 const LINK_SETTINGS = { linkSymbolsCount: 32 }

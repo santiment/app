@@ -1,4 +1,6 @@
-export const getIdFromSEOLink = (link) => parseInt(link.slice(link.lastIndexOf('-') + 1), 10)
+import { getIdFromSEOLink, getSEOLinkFromIdAndTitle } from 'webkit/utils/url'
 
-export const getSEOLinkFromIdAndTitle = (id, title = '') =>
-  encodeURIComponent(`${title.toLowerCase().split(' ').join('-')}-${id}`)
+export const makeLinkToInsight = (id, title) =>
+  'https://insights.santiment.net/' + getSEOLinkFromIdAndTitle(id, title)
+
+export { getIdFromSEOLink, getSEOLinkFromIdAndTitle }

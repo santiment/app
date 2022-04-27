@@ -3,6 +3,7 @@ const path = require('path')
 const CircularDependencyPlugin = require('circular-dependency-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const cssModules = require('svelte-preprocess-cssmodules')
+const sveltePreprocess = require('svelte-preprocess')
 
 module.exports = function override(config, env) {
   config.resolve.extensions.push('.svelte')
@@ -24,7 +25,11 @@ module.exports = function override(config, env) {
   config.resolve.alias['@sapper/app'] = path.resolve(__dirname, 'src/svelte.js')
   config.resolve.alias['@/apollo'] = path.resolve(__dirname, 'src/apollo/index.js')
 
+  config.resolve.alias['@cmp'] = path.resolve(__dirname, 'src/components')
+  config.resolve.alias['@'] = path.resolve(__dirname, 'src')
+
   config.resolve.alias['studio'] = path.resolve('node_modules/san-studio/lib')
+  config.resolve.alias['insights'] = path.resolve('node_modules/san-insights/lib')
   config.resolve.alias['webkit'] = path.resolve('node_modules/san-webkit/lib')
 
   config.resolve.mainFields = ['svelte', 'browser', 'module', 'main']
@@ -34,7 +39,7 @@ module.exports = function override(config, env) {
     use: {
       loader: 'svelte-loader',
       options: {
-        preprocess: [cssModules()],
+        preprocess: [cssModules(), sveltePreprocess()],
       },
     },
   })

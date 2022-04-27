@@ -3,7 +3,7 @@ import { Query } from '@apollo/react-components'
 import Icon from '@santiment-network/ui/Icon'
 import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../../../queries/InsightsGQL'
 import { getInsightTrendTagByDate } from '../../../Insight/utils'
-import { makeLinkToInsight } from '../../../Insight/InsightCardInternals'
+import { makeLinkToInsight } from '../../../../utils/url'
 import styles from './TrendingCardInsights.module.scss'
 
 const TrendingCardInsights = ({ date }) => {

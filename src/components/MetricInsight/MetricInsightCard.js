@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import Panel from '@santiment-network/ui/Panel'
 import MultilineText from '../MultilineText/MultilineText'
-import { makeLinkToInsight } from '../Insight/InsightCardInternals'
+import { makeLinkToInsight } from '../../utils/url'
 import externalStyles from '../Insight/InsightCard.module.scss'
 import styles from './MetricInsightCard.module.scss'
 

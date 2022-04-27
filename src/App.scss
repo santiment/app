@@ -1,6 +1,6 @@
-@import "~@santiment-network/ui/variables.scss";
-@import "~@santiment-network/ui/mixins.scss";
-@import "~nprogress/nprogress";
+@import '~@santiment-network/ui/variables.scss';
+@import '~@santiment-network/ui/mixins.scss';
+@import '~nprogress/nprogress';
 
 .App {
   display: flex;
@@ -14,11 +14,11 @@
     padding: 0;
     max-width: 1170px;
 
-    @include responsive("phone", "phone-xs") {
+    @include responsive('phone', 'phone-xs') {
       padding: 0 0 60px;
     }
 
-    @include responsive("tablet", "laptop", "desktop") {
+    @include responsive('tablet', 'laptop', 'desktop') {
       padding: 0 15px;
       margin: 22px auto 0 auto;
       width: 100%;
@@ -38,7 +38,7 @@
   padding-left: 15px;
   width: 100%;
 
-  @include responsive("desktop") {
+  @include responsive('desktop') {
     max-width: 1170px;
   }
 }
@@ -53,8 +53,7 @@
   }
 
   #nprogress .peg {
-    box-shadow: 0 0 10px var(--progress-bg-color),
-      0 0 5px var(--progress-bg-color);
+    box-shadow: 0 0 10px var(--progress-bg-color), 0 0 5px var(--progress-bg-color);
   }
 
   #nprogress .spinner-icon {
@@ -72,13 +71,15 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100vh;
   overflow: auto;
   overflow: overlay;
   scrollbar-width: thin;
 
-  & header {
+  & .header {
     position: sticky;
     left: 0;
+    z-index: 30;
   }
 
   & footer {
