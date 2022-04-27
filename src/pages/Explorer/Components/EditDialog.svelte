@@ -30,6 +30,7 @@
     edit(itemData.id, itemData.editKey, editedTitle, editedDescription, editedPublic)
       .then(() => {
         // TODO: update item in the UIs
+        closeDialog()
       })
       .catch((err) => {
         // TODO: handle error and remove log
