@@ -72,13 +72,14 @@
 
   function onEdit(e) {
     e.preventDefault()
+    const { title, description = '', isPublic } = item.trigger || item
     showEditDialog({
       id,
       item,
       singular,
-      title: item.trigger ? item.trigger.title : item.title,
-      description: item.trigger ? item.trigger.description : item.description,
-      isPublic: item.trigger ? item.trigger.isPublic : item.isPublic,
+      title,
+      description,
+      isPublic,
       editKey: deleteKey,
     })
   }

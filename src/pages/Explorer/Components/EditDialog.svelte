@@ -18,12 +18,12 @@
   export let itemData
 
   let closeDialog
+  let loading = false
   let editedTitle = itemData.title
   let editedDescription = itemData.description || ''
   let editedPublic = !!itemData.isPublic
-  let loading = false
 
-  $: titleLength = editedTitle ? editedTitle.length : 0
+  $: titleLength = (title || '').length
   $: applyDisabled = loading || titleLength < MIN_TITLE_LENGTH || titleLength > MAX_TITLE_LENGTH
 
   function onEditClick() {

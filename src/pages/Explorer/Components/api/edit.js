@@ -1,6 +1,6 @@
 import { mutate } from 'webkit/api'
 
-function getEditMutation(id, editKey, title, description, isPublic) {
+function EDIT_ENTITY_MUTATION(id, editKey, title, description, isPublic) {
   let mutation = 'updateWatchlist'
   let data = 'id'
   let args = `(id: ${id}, name: "${title}", description: "${description}", isPublic: ${isPublic})`
@@ -28,4 +28,4 @@ function getEditMutation(id, editKey, title, description, isPublic) {
 }
 
 export default (id, editKey, title, description, isPublic) =>
-  mutate(getEditMutation(id, editKey, title, description, isPublic))
+  mutate(EDIT_ENTITY_MUTATION(id, editKey, title, description, isPublic))
