@@ -54,9 +54,9 @@ const Assets = ({ description, invalidStepsMemo, selected, isFinished }) => {
     )
   } else if (slug.length !== 0 && !loading) {
     const assets =
-      typeof slug === 'string'
+      (typeof slug === 'string'
         ? projects.find((project) => project.slug === slug)
-        : slug.map((item) => projects.find((project) => project.slug === item))
+        : slug.map((item) => projects.find((project) => project.slug === item))) || {}
 
     children = (
       <div className={styles.wrapper}>
