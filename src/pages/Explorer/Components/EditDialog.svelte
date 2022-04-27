@@ -19,7 +19,7 @@
 
   let closeDialog
   let editedTitle = itemData.title
-  let editedDescription = itemData.description || ''
+  let editedDescription = itemData.description ? itemData.description : ''
   let editedPublic = !!itemData.isPublic
   let loading = false
 
