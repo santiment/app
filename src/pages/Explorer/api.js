@@ -227,8 +227,6 @@ export const EntityQuery = {
           count
           users {
             id
-            avatarUrl
-            username
           }
         }
       }  
