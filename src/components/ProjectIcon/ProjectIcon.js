@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import Icon from '@santiment-network/ui/Icon'
-import { useTheme } from '@/stores/ui/theme'
 import { PREDEFINED_ICONS } from './savedIcons'
 import { PROJECT_ICON_QUERY } from './IconGQL.js'
+import { useTheme } from '../../stores/ui/theme'
 import styles from './ProjectIcon.module.scss'
 
 export const ProjectIcon = ({

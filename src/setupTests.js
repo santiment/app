@@ -18,6 +18,18 @@ jest.mock('svelte-adapter/react', () => ({
   default: () => ({}),
 }))
 
+jest.mock('./stores/user', () => ({
+  __esModule: true,
+  default: () => ({}),
+  useUser: () => {},
+}))
+
+jest.mock('./stores/ui/theme', () => ({
+  __esModule: true,
+  default: () => ({}),
+  useTheme: () => {},
+}))
+
 jest.mock('./stores/user/flow.js', () => ({
   __esModule: true,
   default: () => ({}),
@@ -28,16 +40,6 @@ jest.mock('./stores/user/flow.js', () => ({
 jest.mock('./ducks/Studio/Compare/ProjectSelectTabs.js', () => ({
   __esModule: true,
   DEFAULT_TABS: [],
-  default: () => <div />,
-}))
-
-jest.mock('./components/Insight/comments/Comments.js', () => ({
-  __esModule: true,
-  default: () => <div />,
-}))
-
-jest.mock('./components/Insight/PulseInsight/index.js', () => ({
-  __esModule: true,
   default: () => <div />,
 }))
 

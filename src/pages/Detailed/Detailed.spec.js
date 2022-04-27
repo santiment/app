@@ -6,16 +6,6 @@ import toJson from 'enzyme-to-json'
 import { Provider } from 'react-redux'
 import Detailed from './Detailed'
 
-jest.mock('../../components/Insight/comments/Comments.js', () => ({
-  __esModule: true,
-  default: () => <div />,
-}))
-
-jest.mock('../../components/Insight/PulseInsight/index.js', () => ({
-  __esModule: true,
-  default: () => <div />,
-}))
-
 describe('Project detail page container', () => {
   it('it should render correctly', () => {
     const store = configureStore([])({
