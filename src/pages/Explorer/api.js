@@ -86,7 +86,9 @@ export function queryTemplates() {
 export const EntityQuery = {
   projectWatchlist: `projectWatchlist { 
     id
-    title: name,
+    title: name
+    description
+    isPublic
     user {
       avatarUrl
       id
@@ -111,7 +113,9 @@ export const EntityQuery = {
   }`,
   screener: `screener { 
     id
-    title: name,
+    title: name
+    description
+    isPublic
     user {
       avatarUrl
       id
@@ -137,6 +141,8 @@ export const EntityQuery = {
   chartConfiguration: `chartConfiguration {
     id
     title
+    description
+    isPublic
     user {
       avatarUrl
       id
@@ -179,6 +185,8 @@ export const EntityQuery = {
   addressWatchlist: `addressWatchlist {
     id
     title: name
+    description
+    isPublic
     user {
       avatarUrl
       id
@@ -207,6 +215,8 @@ export const EntityQuery = {
       trigger {
         id
         title
+        description
+        isPublic
       }
       user {
         avatarUrl

@@ -2,28 +2,35 @@
   import { dialogs } from 'webkit/ui/Dialog'
   import DeleteConfirmationDialog from './DeleteConfirmationDialog.svelte'
 
-  export function showDeleteConfirmationDialog(itemType, onDelete, onComplete) {
-    dialogs.show(DeleteConfirmationDialog, { itemType, onDelete, onComplete })
+  export function showDeleteConfirmationDialog(itemData) {
+    dialogs.show(DeleteConfirmationDialog, { itemData })
   }
 </script>
 
 <script>
+  import { getContext } from 'svelte'
   import Dialog from 'webkit/ui/Dialog'
   import Svg from 'webkit/ui/Svg/svelte'
+  import { deleteAction } from './api'
 
-  export let itemType
-  export let onDelete
-  export let onComplete
+  export let itemData
 
   let closeDialog
 
-  const onDeleteClick = () => onDelete().then(onComplete).then(closeDialog)
+  $: ({ item, id, singular, deleteKey } = itemData)
+
+  const filterExplorerItems = getContext('filterExplorerItems')
+
+  const onDeleteClick = () =>
+    deleteAction(id, deleteKey)
+      .then(() => filterExplorerItems(item))
+      .then(closeDialog)
 </script>
 
 <Dialog {...$$props} noTitle bind:closeDialog>
   <div class="dialog">
     <div class="row justify v-center h4 txt-m mrg-s mrg--b c-black">
-      Do you want to delete this {itemType}?
+      Do you want to delete this {singular}?
       <Svg id="close" w="12" on:click={closeDialog} class="btn" />
     </div>
     <div class="hv-center body-2 c-waterloo mrg-xl mrg--b">

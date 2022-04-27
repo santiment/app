@@ -1,9 +1,9 @@
 <script>
-  import { getContext } from 'svelte'
   import Svg from 'webkit/ui/Svg/svelte'
   import { copy } from 'webkit/utils'
-  import { deleteAction, vote } from './api'
+  import { vote } from './api'
   import { showDeleteConfirmationDialog } from './DeleteConfirmationDialog.svelte'
+  import { showEditDialog } from './EditDialog.svelte'
   import { EntityType, getItemRoute } from '../const'
   import { currentUser } from '../store'
   import { history } from '../../../redux'
@@ -21,8 +21,6 @@
 
   let label = ''
   let voteTimeout
-
-  const filterExplorerItems = getContext('filterExplorerItems')
 
   $: id = item.trigger ? item.trigger.id : item.id
   $: ({ voteKey, deleteKey, singular } = EntityType[type])
@@ -64,11 +62,25 @@
 
   function onDelete(e) {
     e.preventDefault()
-    showDeleteConfirmationDialog(
+    showDeleteConfirmationDialog({
+      item,
       singular,
-      () => deleteAction(id, deleteKey),
-      () => filterExplorerItems(item),
-    )
+      id,
+      deleteKey,
+    })
+  }
+
+  function onEdit(e) {
+    e.preventDefault()
+    showEditDialog({
+      id,
+      item,
+      singular,
+      title: item.trigger ? item.trigger.title : item.title,
+      description: item.trigger ? item.trigger.description : item.description,
+      isPublic: item.trigger ? item.trigger.isPublic : item.isPublic,
+      editKey: deleteKey,
+    })
   }
 </script>
 
@@ -76,7 +88,7 @@
   <div class="note c-white caption" class:show={!!label}>{label}</div>
   <div class="flex hv-center box border c-waterloo {className}">
     {#if isOwner}
-      <Svg id="pencil" w="16" class="btn $style.svg" />
+      <Svg id="pencil" w="16" class="btn $style.svg" on:click={onEdit} />
       <Svg id="delete" w="16" class="btn $style.svg" on:click={onDelete} />
       {#if showCommentAction}
         <Svg id="comment" w="16" class="btn $style.svg" on:click={onComment} />
