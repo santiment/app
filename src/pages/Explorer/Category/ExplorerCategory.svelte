@@ -38,16 +38,9 @@
     })
       .then((res) => {
         pages = res.pages
-        items = items.concat(res.items)
+        items = page === 1 ? res.items : items.concat(res.items)
       })
       .finally(() => onLoadingChange(false))
-  }
-
-  $: activeMenu, range, assets, types, reset()
-
-  function reset() {
-    page = 1
-    items = []
   }
 
   $: activeMenu, range, assets, types, page, fetch()
