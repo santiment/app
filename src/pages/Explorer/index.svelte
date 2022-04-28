@@ -60,7 +60,6 @@
 <Aside class="$style.aside" />
 
 <style>
-  main,
   .aside {
     position: sticky;
     align-self: flex-end;
@@ -69,7 +68,6 @@
 
   main {
     width: 640px;
-    min-height: 50%;
   }
 
   .aside {
