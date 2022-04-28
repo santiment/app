@@ -1,3 +1,5 @@
+import { getSEOLinkFromIdAndTitle } from 'webkit/utils/url'
+
 export const MenuItem = {
   NEW: 'New',
   LIKES: 'Likes',
@@ -42,7 +44,7 @@ export const EntityType = {
     singular: 'chart',
     icon: 'chart',
     color: 'var(--green)',
-    url: (id) => `/charts/${id}`,
+    url: (id, title) => `/charts/${getSEOLinkFromIdAndTitle(id, title)}`,
   },
   SCREENER: {
     key: EntityKeys.SCREENER,
@@ -74,8 +76,10 @@ export const RANGES = {
   'All time': '',
 }
 
-export const getItemRoute = (item, type) =>
-  EntityType[type].url(item.trigger ? item.trigger.id : item.id)
+export function getItemRoute(item, type) {
+  const {id, title} = item.trigger || item
+  return EntityType[type].url(id, title)
+}
 
 export function getItemUrl(item, type) {
   if (type === EntityKeys.INSIGHT) {
