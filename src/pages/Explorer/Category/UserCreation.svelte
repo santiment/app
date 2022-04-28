@@ -50,7 +50,7 @@
   </div>
 </a>
 
-<div class="bottom row justify v-center c-waterloo mrg-s mrg--t" class:caption={small} href={url} target="_blank" on:click={onClick}>
+<a class="bottom row justify v-center c-waterloo mrg-s mrg--t" class:caption={small} href={url} target="_blank" on:click={onClick}>
   <Tooltip openDelay={110}>
     <svelte:fragment slot="trigger">
       <Profile {user} class="author" />
@@ -74,7 +74,7 @@
       {totalVotes}
     </div>
   </div>
-</div>
+</a>
 
 <style>
   h3 {
