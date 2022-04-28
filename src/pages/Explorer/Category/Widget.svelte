@@ -1,4 +1,5 @@
 <script>
+  import { onMount, onDestroy } from 'svelte'
   import Svg from 'webkit/ui/Svg/svelte'
   import Category from './Category.svelte'
 
@@ -12,15 +13,16 @@
   let page = 1
   let pages = 1
   let loading = false
+  let pullingTimer
 
   $: hasMore = pages > 1 && page < pages
   $: showLess = pages > 1 && page === pages
   $: if (page === 1) items = []
   $: getPage(page)
 
-  function getPage(page) {
-    if (loading) return
-    loading = true
+  function getPage(page, bypassLoading = false) {
+    if (!bypassLoading && loading) return
+    if (!bypassLoading) loading = true
     getItems(page)
       .then((res) => {
         if (res) {
@@ -39,6 +41,9 @@
       page += 1
     }
   }
+
+  onMount(() => pullingTimer = setTimeout(() => getPage(page, true), 60 * 1000))
+  onDestroy(() => clearTimeout(pullingTimer))
 </script>
 
 <Category small {title} {items} {hasMore} {onMore} {showLess} {loading}>

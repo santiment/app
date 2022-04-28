@@ -1,5 +1,5 @@
 <script>
-  import { setContext } from 'svelte'
+  import { setContext, onMount, onDestroy } from 'svelte'
   import Range from 'webkit/ui/Range.svelte'
   import Category from './Category.svelte'
   import LayoutItem from '../Layouts/LayoutItem.svelte'
@@ -19,13 +19,14 @@
   let page = 1
   let pages = 1
   let items = []
+  let pullingTimer
 
   setContext('filterExplorerItems', (itemToExclude) => {
     items = items.filter((item) => getExplorerItem(item) !== itemToExclude)
   })
 
-  function fetch() {
-    onLoadingChange(true)
+  function fetch(bypassLoading = false) {
+    if (!bypassLoading) onLoadingChange(true)
     const voted = activeMenu === MenuItem.LIKES
     const currentUserDataOnly = activeMenu === MenuItem.MY_CREATIONS
     queryExplorerItems({
@@ -63,6 +64,9 @@
     labels = Array.from(labels)
     return labels
   }
+
+  onMount(() => pullingTimer = setTimeout(fetch, 60 * 1000))
+  onDestroy(() => clearTimeout(pullingTimer))
 </script>
 
 {#if showEmpty}
