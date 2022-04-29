@@ -40,7 +40,7 @@
 {:else}
   {#each Object.values(EntityType) as type}
     <div
-      class="btn-ghost btnflat row v-center mrg-xs mrg--r"
+      class="btn-ghost btnflat row v-center"
       on:click={() => toggleType(type.key)}
       class:activetype={selectedTypes.has(type.key)}
       style="fill: {type.color}"
@@ -71,6 +71,11 @@
     border: 1px solid var(--porcelain);
     padding: 8px 12px;
     background-color: var(--athens);
+    font-size: 12px;
+  }
+
+  .btnflat:not(:last-of-type) {
+    margin-right: 8px;
   }
 
   .activetype {

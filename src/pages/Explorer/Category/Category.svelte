@@ -12,7 +12,7 @@
 </script>
 
 <div class="border mrg--b mrg-xl {className}" class:small>
-  <div class="header row v-center">
+  <div class="header row justify v-center">
     {#if $$slots.icon}
       <div class="icon row hv-center mrg-s mrg--r {iconClass}">
         <slot name="icon" />
