@@ -8,6 +8,8 @@
   export let root
   export let pathname = '/'
 
+  let isPeeked = false
+
   $: isCollapsed = pathname !== '/'
   $: root.classList.toggle('$style.shifted', isCollapsed)
 
@@ -24,7 +26,10 @@
   })
 </script>
 
-<aside class:collapsed={isCollapsed}>
+<aside
+  class:collapsed={isCollapsed}
+  on:mouseenter={() => (isPeeked = true)}
+  on:mouseleave={() => (isPeeked = false)}>
   <div class="content">
     <div class="container txt-m">
       <MinimizedCategories {pathname} {isCollapsed} />
@@ -36,7 +41,7 @@
         </a>
 
         <Section title="Create" icon="plus-circle" links={CREATE_LINKS} {pathname} />
-        <Recent {pathname} />
+        <Recent {pathname} {isPeeked} />
       </div>
     </div>
   </div>

@@ -8,6 +8,7 @@ import { ApolloProvider } from 'react-apollo'
 import Loadable from 'react-loadable'
 import { startResponsiveController } from 'webkit/responsive'
 import { ANON_EVENT } from 'webkit/ui/FollowButton/flow'
+import Notifications from 'webkit/ui/Notifications'
 import App from './App'
 import { client } from './apollo'
 import { store, history } from './redux'
@@ -25,11 +26,15 @@ import 'webkit/styles/main.css'
 startResponsiveController()
 
 const APP_LINK = 'https://app.santiment.net'
-window.__onLinkClick = (e) => {
-  e.preventDefault()
+window.__onLinkClick = (data) => {
+  let href = data
 
-  const node = e.currentTarget
-  const href = node.getAttribute('href')
+  if (typeof data !== 'string') {
+    data.preventDefault()
+
+    const node = data.currentTarget
+    href = node.getAttribute('href')
+  }
 
   if (!href) return
 
@@ -127,6 +132,8 @@ const main = () => {
   } else {
     unregister()
   }
+
+  new Notifications({ target: document.body })
 
   ReactDOM.render(
     <StripeProvider apiKey={stripeKey}>
