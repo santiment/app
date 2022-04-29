@@ -1,6 +1,7 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
   import Category from './Category.svelte'
+  import { trendingWords } from '../store'
 
   export let title = 'Recent Chart Layouts'
   export let icon = 'info'
@@ -16,12 +17,12 @@
   $: hasMore = pages > 1 && page < pages
   $: showLess = pages > 1 && page === pages
   $: if (page === 1) items = []
-  $: getPage(page)
+  $: getPage(page, $trendingWords)
 
-  function getPage(page) {
+  function getPage(page, trends) {
     if (loading) return
     loading = true
-    getItems(page)
+    getItems(page, trends)
       .then((res) => {
         if (res) {
           pages = res.pages

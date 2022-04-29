@@ -7,7 +7,6 @@
   import SheetsTemplate from './Layouts/SheetsTemplate.svelte'
   import { queryExplorerItems, queryReports, queryTemplates } from './api'
   import { EntityKeys } from './const'
-  import { trendingWords } from './store'
 
   let className = ''
   export { className as class }
@@ -29,7 +28,7 @@
       }
     })
 
-  const getSocialItems = (trends) => (page) =>
+  const getSocialItems = (page, trends) =>
     new Promise((resolve) => {
       const words = Object.keys(trends)
       const items = words.map((word) => ({
@@ -71,7 +70,7 @@
     icon="social-trend"
     color="blue"
     let:item
-    getItems={getSocialItems($trendingWords)}
+    getItems={getSocialItems}
   >
     <ExternalLink href="https://app.santiment.net/labs/trends/" slot="header" />
     <SocialTrend {item} />
