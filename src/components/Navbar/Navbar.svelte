@@ -1,11 +1,14 @@
 <script>
   import { onMount } from 'svelte'
+  import { customerData$ } from 'webkit/stores/user'
+  import { subscription$ } from 'webkit/stores/subscription'
   import Svg from 'webkit/ui/Svg/svelte'
   import Product from 'webkit/ui/Product.svelte'
   import Products from 'webkit/ui/Products/svelte'
   import AccountStatus from 'webkit/ui/AccountStatus.svelte'
   import AccountDropdown from 'webkit/ui/AccountDropdown/index.svelte'
   import { ui } from '@/stores/ui/theme'
+  import { history } from '@/redux'
 
   export let currentUser = null
   export let mount
@@ -13,7 +16,12 @@
   let searchNode
   let notificationsNode
 
-  function onLogoutClick() {}
+  function onLogoutClick() {
+    history.push('/logout')
+
+    subscription$.clear()
+    customerData$.clear()
+  }
 
   onMount(() => {
     mount(searchNode, notificationsNode)
@@ -27,13 +35,11 @@
     isCompact
     isColumn
     class="mrg-xxl mrg--r"
-    tooltipClassName="$style.dropdown"
-  />
+    tooltipClassName="$style.dropdown" />
 
   <a href="https://santiment.net/discord" class="discord btn-1 btn--s row v-center nowrap">
     <Svg id="discord" w="16" h="12" class="mrg-s mrg--r" />
-    Join us!</a
-  >
+    Join us!</a>
 
   <div class="search fluid mrg-a mrg--l" bind:this={searchNode} />
 
