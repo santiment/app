@@ -78,7 +78,7 @@
   </Widget>
 
   <Widget
-    title="Weekly Reports"
+    title="Bi-Weekly Reports"
     icon="report"
     color="blue"
     let:item

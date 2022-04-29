@@ -7,19 +7,23 @@
   import EmptyState from '../Components/EmptyState.svelte'
   import TypeSelector from '../Components/TypeSelector.svelte'
   import { queryExplorerItems } from '../api'
-  import { currentUser } from '../store'
   import { EntityType, RANGES, MenuItem, getExplorerItem } from '../const'
 
   export let activeMenu
   export let onLoadingChange = () => {}
 
   let range = ''
+  let selectedRangeIndex = Object.keys(RANGES).indexOf('All time')
   let assets = []
-  let types = new Set(Object.values(EntityType).map((t) => t.key))
+  let selectedTypes = new Set(Object.values(EntityType).map((t) => t.key))
   let page = 1
   let pages = 1
   let items = []
   let pullingTimer
+  let deselectAssets = () => {}
+
+  $: activeMenu, reset()
+  $: range, assets, selectedTypes, page, fetch()
 
   setContext('filterExplorerItems', (itemToExclude) => {
     items = items.filter((item) => getExplorerItem(item) !== itemToExclude)
@@ -30,7 +34,7 @@
     const voted = activeMenu === MenuItem.LIKES
     const currentUserDataOnly = activeMenu === MenuItem.MY_CREATIONS
     queryExplorerItems({
-      types: Array.from(types),
+      types: Array.from(selectedTypes),
       voted,
       range,
       page,
@@ -41,13 +45,18 @@
         pages = res.pages
         items = page === 1 ? res.items : items.concat(res.items)
       })
+      // TODO handle errors
+      .catch((e) => console.log(e.message))
       .finally(() => onLoadingChange(false))
   }
 
-  $: activeMenu, range, assets, types, page, fetch()
-  $: showEmpty =
-    (!$currentUser && activeMenu === MenuItem.MY_CREATIONS) ||
-    (items.length === 0 && activeMenu !== MenuItem.NEW)
+  function reset() {
+    page = 1
+    deselectAssets()
+    selectedTypes = new Set(Object.values(EntityType).map((t) => t.key))
+    range = ''
+    selectedRangeIndex = Object.keys(RANGES).indexOf('All time')
+  }
 
   const getAssets = ({ project, metricsJson }) => [
     project,
@@ -65,53 +74,63 @@
     return labels
   }
 
-  onMount(() => pullingTimer = setTimeout(fetch, 60 * 1000))
+  onMount(() => (pullingTimer = setTimeout(() => fetch(true), 60 * 1000)))
   onDestroy(() => clearTimeout(pullingTimer))
 </script>
 
-{#if showEmpty}
-  <EmptyState {activeMenu} />
-{:else}
-  <Category title="Explorer" {items} onMore={() => (page += 1)} hasMore={page < pages}>
-    <div slot="header" class="controls row mrg-a mrg--l">
+<Category title="Explorer" {items} onMore={() => (page += 1)} hasMore={page < pages}>
+  <div slot="header" class="controls row mrg-a mrg--l">
+    {#if activeMenu !== MenuItem.MY_CREATIONS}
       <Range
         items={Object.keys(RANGES)}
-        selectedIndex={4}
-        onChange={(newRange) => (range = newRange)}
+        selectedIndex={selectedRangeIndex}
+        onChange={(newRange) => {
+          range = RANGES[newRange]
+          selectedRangeIndex = Object.keys(RANGES).indexOf(newRange)
+        }}
         class="mrg-s mrg--r"
       />
-      <AssetSelector onChange={(newAssets) => (assets = newAssets.map((asset) => asset.slug))} />
-      <TypeSelector onChange={(newTypes) => (types = newTypes)} {types} />
-    </div>
+      <AssetSelector
+        onChange={(newAssets) => (assets = newAssets.map((asset) => asset.slug))}
+        setDeselect={(deselectFunc) => (deselectAssets = deselectFunc)}
+      />
+      <TypeSelector onChange={(newTypes) => (selectedTypes = newTypes)} {selectedTypes} />
+    {:else}
+      <TypeSelector flat onChange={(newTypes) => (selectedTypes = newTypes)} {selectedTypes} />
+    {/if}
+  </div>
 
-    <svelte:fragment let:item>
-      {#if item.chartConfiguration}
-        <LayoutItem
-          item={item.chartConfiguration}
-          showActions
-          type="CHART"
-          hasIcons
-          assets={getAssets(item.chartConfiguration)}
-        />
-      {:else if item.screener}
-        <LayoutItem
-          item={item.screener}
-          showActions
-          type="SCREENER"
-          id="{item.screener.id}-watchlist"
-        />
-      {:else if item.projectWatchlist}
-        <LayoutItem item={item.projectWatchlist} showActions type="WATCHLIST" />
-      {:else if item.addressWatchlist}
-        <LayoutItem
-          item={item.addressWatchlist}
-          showActions
-          type="ADDRESS"
-          assets={getAddressLabels(item.addressWatchlist.listItems)}
-        />
-      {:else if item.userTrigger}
-        <LayoutItem item={item.userTrigger} showActions type="ALERT" hasIcons />
-      {/if}
-    </svelte:fragment>
-  </Category>
+  <svelte:fragment let:item>
+    {#if item.chartConfiguration}
+      <LayoutItem
+        item={item.chartConfiguration}
+        showActions
+        type="CHART"
+        hasIcons
+        assets={getAssets(item.chartConfiguration)}
+      />
+    {:else if item.screener}
+      <LayoutItem
+        item={item.screener}
+        showActions
+        type="SCREENER"
+        id="{item.screener.id}-watchlist"
+      />
+    {:else if item.projectWatchlist}
+      <LayoutItem item={item.projectWatchlist} showActions type="WATCHLIST" />
+    {:else if item.addressWatchlist}
+      <LayoutItem
+        item={item.addressWatchlist}
+        showActions
+        type="ADDRESS"
+        assets={getAddressLabels(item.addressWatchlist.listItems)}
+      />
+    {:else if item.userTrigger}
+      <LayoutItem item={item.userTrigger} showActions type="ALERT" hasIcons />
+    {/if}
+  </svelte:fragment>
+</Category>
+
+{#if items.length === 0}
+  <EmptyState {activeMenu} />
 {/if}

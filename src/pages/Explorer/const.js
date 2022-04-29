@@ -16,15 +16,25 @@ export const EntityKeys = {
 }
 
 export const EntityType = {
-  ALERT: {
-    key: EntityKeys.USER_TRIGGER,
-    voteKey: 'userTriggerId',
-    deleteKey: 'TRIGGER',
-    label: 'Alerts',
-    singular: 'alert',
-    icon: 'alert',
-    color: 'var(--red)',
-    url: (id) => `/alerts/${id}`,
+  CHART: {
+    key: EntityKeys.CHART_CONFIGURATION,
+    voteKey: 'chartConfigurationId',
+    deleteKey: 'CHART',
+    label: 'Charts',
+    singular: 'chart',
+    icon: 'chart',
+    color: 'var(--green)',
+    url: (id, title) => `/charts/${getSEOLinkFromIdAndTitle(id, title)}`,
+  },
+  WATCHLIST: {
+    key: EntityKeys.PROJECT_WATCHLIST,
+    voteKey: 'watchlistId',
+    deleteKey: 'WATCHLIST',
+    label: 'Watchlists',
+    singular: 'watchlist',
+    icon: 'watchlist',
+    color: 'var(--orange)',
+    url: (id) => `/watchlist/projects/${id}`,
   },
   ADDRESS: {
     key: EntityKeys.ADDRESS_WATCHLIST,
@@ -36,16 +46,6 @@ export const EntityType = {
     color: 'var(--purple)',
     url: (id) => `/watchlist/addresses/${id}`,
   },
-  CHART: {
-    key: EntityKeys.CHART_CONFIGURATION,
-    voteKey: 'chartConfigurationId',
-    deleteKey: 'CHART',
-    label: 'Charts',
-    singular: 'chart',
-    icon: 'chart',
-    color: 'var(--green)',
-    url: (id, title) => `/charts/${getSEOLinkFromIdAndTitle(id, title)}`,
-  },
   SCREENER: {
     key: EntityKeys.SCREENER,
     voteKey: 'watchlistId',
@@ -56,15 +56,15 @@ export const EntityType = {
     color: 'var(--blue)',
     url: (id) => `/screener/${id}`,
   },
-  WATCHLIST: {
-    key: EntityKeys.PROJECT_WATCHLIST,
-    voteKey: 'watchlistId',
-    deleteKey: 'WATCHLIST',
-    label: 'Watchlists',
-    singular: 'watchlist',
-    icon: 'watchlist',
-    color: 'var(--orange)',
-    url: (id) => `/watchlist/projects/${id}`,
+  ALERT: {
+    key: EntityKeys.USER_TRIGGER,
+    voteKey: 'userTriggerId',
+    deleteKey: 'TRIGGER',
+    label: 'Alerts',
+    singular: 'alert',
+    icon: 'alert',
+    color: 'var(--red)',
+    url: (id) => `/alerts/${id}`,
   },
 }
 
@@ -77,7 +77,7 @@ export const RANGES = {
 }
 
 export function getItemRoute(item, type) {
-  const {id, title} = item.trigger || item
+  const { id, title } = item.trigger || item
   return EntityType[type].url(id, title)
 }
 

@@ -11,7 +11,8 @@ const PAGE_STYLE = {
   justifyContent: 'center',
   alignItems: 'flex-start',
   marginTop: '24px',
-  marginBottom: '100px'
+  marginBottom: '100px',
+  marginLeft: '240px',
 }
 
 export const Page = toReact(SveltePage, PAGE_STYLE, 'div')
