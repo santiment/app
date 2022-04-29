@@ -11,6 +11,7 @@
 
   let activeMenu = MenuItem.NEW
   let loading = true
+  let cachedWords = {}
 
   $: currentUser.set(user)
   $: userSubscription.set(userSubscriptionData)

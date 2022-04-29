@@ -6,7 +6,7 @@
   import WeeklyReport from './Layouts/WeeklyReport.svelte'
   import SheetsTemplate from './Layouts/SheetsTemplate.svelte'
   import { queryExplorerItems, queryReports, queryTemplates } from './api'
-  import { EntityType, EntityKeys } from './const'
+  import { EntityKeys } from './const'
   import { trendingWords } from './store'
 
   let className = ''

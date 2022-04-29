@@ -12,10 +12,13 @@
   export let activeMenu
   export let onLoadingChange = () => {}
 
+  const TIME_RANGES = Object.keys(RANGES)
+  const ENTITY_KEYS = Object.values(EntityType)
+
   let range = ''
-  let selectedRangeIndex = Object.keys(RANGES).indexOf('All time')
+  let selectedRangeIndex = TIME_RANGES.indexOf('All time')
   let assets = []
-  let selectedTypes = new Set(Object.values(EntityType).map((t) => t.key))
+  let selectedTypes = new Set(ENTITY_KEYS.map((t) => t.key))
   let page = 1
   let pages = 1
   let items = []
@@ -53,9 +56,9 @@
   function reset() {
     page = 1
     deselectAssets()
-    selectedTypes = new Set(Object.values(EntityType).map((t) => t.key))
+    selectedTypes = new Set(ENTITY_KEYS.map((t) => t.key))
     range = ''
-    selectedRangeIndex = Object.keys(RANGES).indexOf('All time')
+    selectedRangeIndex = TIME_RANGES.indexOf('All time')
   }
 
   const getAssets = ({ project, metricsJson }) => [
@@ -82,11 +85,11 @@
   <div slot="header" class="controls row mrg-a mrg--l">
     {#if activeMenu !== MenuItem.MY_CREATIONS}
       <Range
-        items={Object.keys(RANGES)}
+        items={TIME_RANGES}
         selectedIndex={selectedRangeIndex}
         onChange={(newRange) => {
           range = RANGES[newRange]
-          selectedRangeIndex = Object.keys(RANGES).indexOf(newRange)
+          selectedRangeIndex = TIME_RANGES.indexOf(newRange)
         }}
         class="mrg-s mrg--r"
       />
