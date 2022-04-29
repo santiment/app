@@ -76,9 +76,11 @@ export const RANGES = {
   'All time': '',
 }
 
-export function getItemRoute(item, type) {
+export function getItemRoute(item, type, withComments = false) {
   const { id, title } = item.trigger || item
-  return EntityType[type].url(id, title)
+  let route = EntityType[type].url(id, title)
+  if (withComments) route = `${route}?comment=${id}`
+  return route
 }
 
 export function getItemUrl(item, type) {

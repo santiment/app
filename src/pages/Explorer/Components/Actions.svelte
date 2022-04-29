@@ -57,7 +57,7 @@
       return false
     }
 
-    history.push(getItemRoute(item, type), { openComments: true })
+    history.push(getItemRoute(item, type, true), { openComments: true })
   }
 
   function onDelete(e) {
