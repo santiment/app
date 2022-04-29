@@ -42,7 +42,7 @@
   }
 
   getRecents()
-  const interval = setInterval(getRecents) // HACK: should dispatch events on new recents
+  const interval = setInterval(getRecents, 8000) // HACK: should dispatch events on new recents
   onDestroy(() => clearInterval(interval))
 </script>
 
