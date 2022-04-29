@@ -75,11 +75,13 @@
   overflow: auto;
   overflow: overlay;
   scrollbar-width: thin;
+  padding-top: 64px;
 
   & .header {
-    position: sticky;
-    left: 0;
-    z-index: 30;
+    position: absolute;
+    left: 40px;
+    right: 0;
+    top: 0;
   }
 
   & footer {

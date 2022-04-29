@@ -2,6 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import * as qs from 'query-string'
+import { customerData$ } from 'webkit/stores/user'
+import { subscription$ } from 'webkit/stores/subscription'
 import * as actions from '../../actions/types'
 
 class LogoutPage extends React.Component {
@@ -10,7 +12,12 @@ class LogoutPage extends React.Component {
   componentDidMount() {
     this.props.logout()
     const { to = this.props.to } = qs.parse(this.props.location.search)
-    this.timeout = setTimeout(() => this.props.redirect(to), 3000)
+    this.timeout = setTimeout(() => {
+      this.props.redirect(to)
+
+      subscription$.refetch()
+      customerData$.refetch()
+    }, 3000)
   }
 
   componentWillUnmount() {
