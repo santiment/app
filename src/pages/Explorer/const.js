@@ -7,7 +7,7 @@ export const MenuItem = {
 }
 
 export const EntityKeys = {
-  USER_TRIGGER: 'USER_TRIGGER',
+  // USER_TRIGGER: 'USER_TRIGGER',
   ADDRESS_WATCHLIST: 'ADDRESS_WATCHLIST',
   CHART_CONFIGURATION: 'CHART_CONFIGURATION',
   SCREENER: 'SCREENER',
@@ -56,16 +56,16 @@ export const EntityType = {
     color: 'var(--blue)',
     url: (id) => `/screener/${id}`,
   },
-  ALERT: {
-    key: EntityKeys.USER_TRIGGER,
-    voteKey: 'userTriggerId',
-    deleteKey: 'TRIGGER',
-    label: 'Alerts',
-    singular: 'alert',
-    icon: 'alert',
-    color: 'var(--red)',
-    url: (id) => `/alerts/${id}`,
-  },
+  // ALERT: {
+  //   key: EntityKeys.USER_TRIGGER,
+  //   voteKey: 'userTriggerId',
+  //   deleteKey: 'TRIGGER',
+  //   label: 'Alerts',
+  //   singular: 'alert',
+  //   icon: 'alert',
+  //   color: 'var(--red)',
+  //   url: (id) => `/alerts/${id}`,
+  // },
 }
 
 export const RANGES = {
