@@ -30,6 +30,10 @@
 
         <span>{label}</span>
       </a>
+    {:else}
+      <div class="empty c-waterloo mrg-s mrg--l">
+        Here wil be displayed recently viewed entities
+      </div>
     {/each}
   </section>
 {/if}
@@ -54,5 +58,9 @@
   span {
     text-overflow: ellipsis;
     overflow: hidden;
+  }
+
+  .empty {
+    white-space: normal;
   }
 </style>

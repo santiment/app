@@ -74,7 +74,7 @@ const MyWatchlists = ({ data, addressesData, isDesktop }) => {
         <Cards watchlists={watchlists} type={PROJECT} />
       </Content>
 
-      <Title>Addresses</Title>
+      <Title id='addresses'>Addresses</Title>
       <Content isGrid={isDesktop}>
         <Cards
           Card={WatchlistAddressCard}

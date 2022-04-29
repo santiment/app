@@ -6,6 +6,7 @@
   import AccountStatus from 'webkit/ui/AccountStatus.svelte'
   import AccountDropdown from 'webkit/ui/AccountDropdown/index.svelte'
   import { ui } from '@/stores/ui/theme'
+  import { history } from '@/redux'
 
   export let currentUser = null
   export let mount
@@ -13,7 +14,9 @@
   let searchNode
   let notificationsNode
 
-  function onLogoutClick() {}
+  function onLogoutClick() {
+    history.push('/logout')
+  }
 
   onMount(() => {
     mount(searchNode, notificationsNode)

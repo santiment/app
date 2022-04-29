@@ -15,7 +15,7 @@
     ['Chart layout', '/charts', 'chart'],
     ['Watchlist', '/watchlists', 'report'],
     ['Screener', '/screener/new', 'screener'],
-    ['Address', '/labs/balance', 'wallet'],
+    ['Address', '/watchlists#addresses', 'wallet'],
     ['Alert', '/alerts', 'alert'],
   ]
 
