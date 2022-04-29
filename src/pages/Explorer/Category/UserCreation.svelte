@@ -62,7 +62,7 @@
       </svelte:fragment>
     </Tooltip>
 
-    <a class="stats row v-center" href={url} target="_blank" on:click={onClick}>
+    <a class="stats row hv-center fluid" href={url} target="_blank" on:click={onClick}>
       {#if commentsCount >= 0}
         <div class="row v-center">
           <Svg id="comment" w="12" h="10.5" class="mrg-s mrg--r" />
@@ -103,7 +103,6 @@
   }
 
   .stats {
-    flex: 1;
     justify-content: end;
   }
 </style>

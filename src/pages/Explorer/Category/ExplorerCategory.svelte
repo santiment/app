@@ -24,16 +24,18 @@
   let items = []
   let pullingTimer
   let deselectAssets = () => {}
+  let loading = false
 
   $: activeMenu, reset()
   $: range, assets, selectedTypes, page, fetch()
+  $: onLoadingChange(loading)
 
   setContext('filterExplorerItems', (itemToExclude) => {
     items = items.filter((item) => getExplorerItem(item) !== itemToExclude)
   })
 
   function fetch(bypassLoading = false) {
-    if (!bypassLoading) onLoadingChange(true)
+    if (!bypassLoading) loading = true
     const voted = activeMenu === MenuItem.LIKES
     const currentUserDataOnly = activeMenu === MenuItem.MY_CREATIONS
     queryExplorerItems({
@@ -50,7 +52,7 @@
       })
       // TODO handle errors
       .catch((e) => console.log(e.message))
-      .finally(() => onLoadingChange(false))
+      .finally(() => (loading = false))
   }
 
   function reset() {
@@ -134,6 +136,6 @@
   </svelte:fragment>
 </Category>
 
-{#if items.length === 0}
+{#if !loading && items.length === 0}
   <EmptyState {activeMenu} />
 {/if}
