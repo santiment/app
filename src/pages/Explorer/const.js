@@ -20,7 +20,7 @@ export const EntityType = {
     key: EntityKeys.CHART_CONFIGURATION,
     voteKey: 'chartConfigurationId',
     deleteKey: 'CHART',
-    label: 'Charts',
+    label: 'Chart layouts',
     singular: 'chart',
     icon: 'chart',
     color: 'var(--green)',
