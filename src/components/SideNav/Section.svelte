@@ -12,7 +12,8 @@
 <div
   class="category btn row v-center mrg-xl mrg--t txt-b"
   class:opened={isOpened}
-  on:click={() => (isOpened = !isOpened)}>
+  on:click={() => (isOpened = !isOpened)}
+>
   <Svg id={icon} w="16" class="mrg-s mrg--r $style.icon" />
   {title}
   <Svg id="arrow-down" w="10" h="5.5" class="mrg-a mrg--l $style.arrow" />
@@ -25,7 +26,8 @@
         {href}
         class="btn mrg-xs mrg--t"
         class:active={pathname === href}
-        on:click={window.__onLinkClick}>
+        on:click={window.__onLinkClick}
+      >
         <Svg id={icon} w="16" class="mrg-m mrg--r" />
 
         <span>{label}</span>

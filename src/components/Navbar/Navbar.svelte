@@ -30,11 +30,13 @@
     isCompact
     isColumn
     class="mrg-xxl mrg--r"
-    tooltipClassName="$style.dropdown" />
+    tooltipClassName="$style.dropdown"
+  />
 
   <a href="https://santiment.net/discord" class="discord btn-1 btn--s row v-center nowrap">
     <Svg id="discord" w="16" h="12" class="mrg-s mrg--r" />
-    Join us!</a>
+    Join us!</a
+  >
 
   <div class="search fluid mrg-a mrg--l" bind:this={searchNode} />
 
