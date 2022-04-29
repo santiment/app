@@ -6,12 +6,14 @@
 </script>
 
 <script>
+  import { onMount } from 'svelte'
   import Tooltip from 'webkit/ui/Tooltip'
   import Svg from 'webkit/ui/Svg'
   import VirtualList from 'webkit/ui/VirtualList'
   import AssetItem from './AssetItem.svelte'
 
   export let onChange = () => {}
+  export let setDeselect = () => {}
 
   let inputNode
   let isOpened = false
@@ -56,6 +58,10 @@
     selections = new Set()
     onChange([])
   }
+
+  onMount(() => {
+    setDeselect(deselect)
+  })
 </script>
 
 <Tooltip bind:isOpened on="click" align="end" activeClass="$style.active">

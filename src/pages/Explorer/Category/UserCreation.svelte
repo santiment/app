@@ -29,52 +29,54 @@
   }
 </script>
 
-<a class="usercreation" href={url} target="_blank" on:click={onClick}>
-  <div class="row v-center nowrap relative">
-    {#if showActions}
-      <Actions
-        class="$style.actions"
-        isOwner={$currentUser && user && user.id === $currentUser.id}
-        {url}
-        {item}
-        {type}
-        showCommentAction={commentsCount >= 0}
-        onVoteCountChange={(newTotalVotes) => (totalVotes = newTotalVotes)}
-      />
-    {/if}
-    <h3 class="mrg-l mrg--r" class:body-2={!small}>
-      {item.trigger ? item.trigger.title : item.title}
-    </h3>
+<div class="usercreation">
+  <a href={url} target="_blank" on:click={onClick}>
+    <div class="row v-center nowrap relative">
+      {#if showActions}
+        <Actions
+          class="$style.actions"
+          isOwner={$currentUser && user && user.id === $currentUser.id}
+          {url}
+          {item}
+          {type}
+          showCommentAction={commentsCount >= 0}
+          onVoteCountChange={(newTotalVotes) => (totalVotes = newTotalVotes)}
+        />
+      {/if}
+      <h3 class="mrg-l mrg--r" class:body-2={!small}>
+        {item.trigger ? item.trigger.title : item.title}
+      </h3>
 
-    <slot />
-  </div>
-</a>
-
-<a class="bottom row justify v-center c-waterloo mrg-s mrg--t" class:caption={small} href={url} target="_blank" on:click={onClick}>
-  <Tooltip openDelay={110}>
-    <svelte:fragment slot="trigger">
-      <Profile {user} class="author" />
-    </svelte:fragment>
-
-    <svelte:fragment slot="tooltip">
-      <Info {user} currentUser={$currentUser} />
-    </svelte:fragment>
-  </Tooltip>
-
-  <div class="stats row v-center">
-    {#if commentsCount >= 0}
-      <div class="row v-center">
-        <Svg id="comment" w="12" h="10.5" class="mrg-s mrg--r" />
-        {commentsCount}
-      </div>
-    {/if}
-
-    <div class="row v-center mrg-l mrg--l">
-      <Svg id="rocket" w="10.5" h="14" class="mrg-s mrg--r" />
-      {totalVotes}
+      <slot />
     </div>
+  </a>
+
+  <div class="bottom row justify v-center c-waterloo mrg-s mrg--t" class:caption={small}>
+    <Tooltip openDelay={110}>
+      <svelte:fragment slot="trigger">
+        <Profile {user} class="author" />
+      </svelte:fragment>
+
+      <svelte:fragment slot="tooltip">
+        <Info {user} currentUser={$currentUser} />
+      </svelte:fragment>
+    </Tooltip>
+
+    <a class="stats row v-center" href={url} target="_blank" on:click={onClick}>
+      {#if commentsCount >= 0}
+        <div class="row v-center">
+          <Svg id="comment" w="12" h="10.5" class="mrg-s mrg--r" />
+          {commentsCount}
+        </div>
+      {/if}
+
+      <div class="row v-center mrg-l mrg--l">
+        <Svg id="rocket" w="10.5" h="14" class="mrg-s mrg--r" />
+        {totalVotes}
+      </div>
+    </a>
   </div>
-</a>
+</div>
 
 <style>
   h3 {
@@ -98,5 +100,10 @@
 
   .usercreation:hover .actions {
     display: block;
+  }
+
+  .stats {
+    flex: 1;
+    justify-content: end;
   }
 </style>

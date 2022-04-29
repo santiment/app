@@ -41,7 +41,7 @@ export const queryExplorerItems = ({
           pageSize: ${pageSize}
           ${CURSOR}
           ${FILTER_ASSETS}
-          currentUserDataOnly: ${currentUserDataOnly}
+          ${voted ? `currentUserVotedForOnly: true` : `currentUserDataOnly: ${currentUserDataOnly}`}
         ){
           stats {
             totalPagesCount

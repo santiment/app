@@ -6,7 +6,7 @@
   import WeeklyReport from './Layouts/WeeklyReport.svelte'
   import SheetsTemplate from './Layouts/SheetsTemplate.svelte'
   import { queryExplorerItems, queryReports, queryTemplates } from './api'
-  import { EntityType, EntityKeys } from './const'
+  import { EntityKeys } from './const'
   import { trendingWords } from './store'
 
   let className = ''
@@ -45,14 +45,14 @@
 </script>
 
 <aside class={className}>
-  <Widget
+  <!-- <Widget
     title="Recent Chart Layouts"
     icon="chart"
     let:item
     getItems={getRecentItems(EntityType.CHART.key, 'chartConfiguration')}
   >
     <LayoutItem small {item} />
-  </Widget>
+  </Widget> -->
 
   <Widget
     title="Insights"
@@ -78,7 +78,7 @@
   </Widget>
 
   <Widget
-    title="Weekly Reports"
+    title="Bi-Weekly Reports"
     icon="report"
     color="blue"
     let:item
