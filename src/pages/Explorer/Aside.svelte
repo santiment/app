@@ -65,13 +65,7 @@
     <LayoutItem small {item} type={EntityKeys.INSIGHT} />
   </Widget>
 
-  <Widget
-    title="Social trends"
-    icon="social-trend"
-    color="blue"
-    let:item
-    getItems={getSocialItems}
-  >
+  <Widget title="Social trends" icon="social-trend" color="blue" let:item getItems={getSocialItems}>
     <ExternalLink href="https://app.santiment.net/labs/trends/" slot="header" />
     <SocialTrend {item} />
   </Widget>
