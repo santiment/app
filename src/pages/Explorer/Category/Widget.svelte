@@ -12,7 +12,6 @@
   let page = 1
   let pages = 1
   let loading = false
-  let pullingTimer
 
   $: hasMore = pages > 1 && page < pages
   $: showLess = pages > 1 && page === pages

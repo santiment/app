@@ -45,14 +45,14 @@
 </script>
 
 <aside class={className}>
-  <Widget
+  <!-- <Widget
     title="Recent Chart Layouts"
     icon="chart"
     let:item
     getItems={getRecentItems(EntityType.CHART.key, 'chartConfiguration')}
   >
     <LayoutItem small {item} />
-  </Widget>
+  </Widget> -->
 
   <Widget
     title="Insights"
