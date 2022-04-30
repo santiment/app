@@ -45,11 +45,11 @@ export function parseSubwidgets(_subwidgets) {
     subwidgets: [],
     SubwidgetSettings: {},
   }
-  subwidgets.forEach(({ widget, from, to }, i) => {
-    ParsedSubwidgets.subwidgets[i] = getSubwidgetByKey(widget)
-    ParsedSubwidgets.SubwidgetSettings[widget] = {
-      from,
-      to,
+  subwidgets.forEach(({ k, f, t }, i) => {
+    ParsedSubwidgets.subwidgets[i] = getSubwidgetByKey(k)
+    ParsedSubwidgets.SubwidgetSettings[k] = {
+      from: f,
+      to: t,
     }
   })
   return ParsedSubwidgets

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import Button from '@santiment-network/ui/Button'
 import Dialog from '@santiment-network/ui/Dialog'
@@ -33,7 +33,9 @@ const createCacheUpdate = (subsId) =>
 const SCREENS = [SolutionsScreen, MissYouScreen]
 
 const CancelPlanDialog = ({
+  noTrigger = false,
   addNot,
+  ref,
   subscription: {
     id,
     currentPeriodEnd,
@@ -46,6 +48,15 @@ const CancelPlanDialog = ({
   const [oldPrice] = formatPrice(amount)
   const { MMMM, DD, YYYY } = getDateFormats(new Date(currentPeriodEnd))
   const date = `${MMMM} ${DD}, ${YYYY}`
+
+  useEffect(() => {
+    if (ref) {
+      ref.current = {
+        openDialog,
+        closeDialog,
+      }
+    }
+  }, [])
 
   function closeDialog() {
     setOpened(false)
@@ -74,9 +85,11 @@ const CancelPlanDialog = ({
           title={<DialogTitle screen={screen} onClick={previousScreen} />}
           onClose={closeDialog}
           trigger={
-            <Button onClick={openDialog} accent='positive'>
-              Cancel subscription
-            </Button>
+            noTrigger ? null : (
+              <Button onClick={openDialog} accent='positive'>
+                Cancel subscription
+              </Button>
+            )
           }
         >
           <Screen

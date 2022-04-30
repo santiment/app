@@ -12,7 +12,6 @@ import SettingsGetTokens from './SettingsGetTokens'
 import SettingsAPIKeys from './SettingsAPIKeys'
 import SettingsSessions from './SettingsSessions'
 import SettingsSubscription from './SettingsSubscription'
-import SettingsPlans from './SettingsPlans'
 import SettingsAffiliate from './AffiliateSettings/SettingsAffiliate'
 import { useUser } from '../../stores/user'
 import styles from './AccountPage.module.scss'
@@ -87,14 +86,6 @@ const tabs = [
       </Link>
     ),
   },
-  {
-    index: 9,
-    content: (
-      <Link className={styles.tab} to='#plans'>
-        Plans
-      </Link>
-    ),
-  },
 ]
 
 const AccountPage = ({ history, location }) => {
@@ -131,7 +122,6 @@ const AccountPage = ({ history, location }) => {
         <SettingsAPIKeys />
         <SettingsSessions />
         <SettingsSubscription />
-        <SettingsPlans />
       </div>
       <MobileOnly>
         <div className={styles.container}>

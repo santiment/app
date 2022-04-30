@@ -17,7 +17,6 @@
     ['Chart layout', '/charts', 'chart'],
     ['Watchlist', '/watchlists', 'report'],
     ['Screener', '/screener/new', 'screener'],
-    ['Address', '/watchlists#addresses', 'wallet'],
     ['Alert', '/alerts', 'alert'],
   ]
 
@@ -31,7 +30,7 @@
   on:mouseenter={() => (isPeeked = true)}
   on:mouseleave={() => (isPeeked = false)}>
   <div class="content">
-    <div class="container txt-m">
+    <div class="container txt-m" class:no-scrollbar={isCollapsed}>
       <MinimizedCategories {pathname} {isCollapsed} />
 
       <div class="links">

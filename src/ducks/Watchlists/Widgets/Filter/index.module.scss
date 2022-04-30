@@ -1,5 +1,5 @@
-@import "~@santiment-network/ui/mixins";
-@import "../../../../animations.scss";
+@import '~@santiment-network/ui/mixins';
+@import '../../../../animations.scss';
 
 :root {
   --filter-panel-header-height: 267px;
@@ -20,6 +20,8 @@
   transform: scaleX(0);
   transform-origin: top right;
   user-select: none;
+  z-index: 999999;
+  margin-top: 63px;
 }
 
 .background {
@@ -89,13 +91,13 @@
 }
 
 .count__assets {
-  @include text("body-2");
+  @include text('body-2');
 
   margin-right: 12px;
 }
 
 .count__filters {
-  @include text("body-3");
+  @include text('body-3');
 
   line-height: 22px;
   color: var(--waterloo);
