@@ -6,25 +6,33 @@
 </script>
 
 <div class="minimized" class:collapsed={isCollapsed}>
-  {#if isCollapsed}
-    <div class="btn row hv-center" class:active={pathname === '/'}>
-      <Svg id="folder" w="16" h="14" />
-    </div>
+  <div class="sticky">
+    {#if isCollapsed}
+      <div class="btn row hv-center" class:active={pathname === '/'}>
+        <Svg id="folder" w="16" h="14" />
+      </div>
 
-    <div class="btn row hv-center" class:active={pathname !== '/'}>
-      <Svg id="plus-circle" w="16" />
-    </div>
+      <div class="btn row hv-center" class:active={pathname !== '/'}>
+        <Svg id="plus-circle" w="16" />
+      </div>
 
-    <div class="btn row hv-center"><Svg id="time" w="16" /></div>
-  {/if}
+      <div class="btn row hv-center"><Svg id="time" w="16" /></div>
+    {/if}
+  </div>
 </div>
 
 <style>
+  .sticky {
+    position: sticky;
+    top: 22px;
+  }
+
   .minimized {
     position: absolute;
     top: 22px;
     right: 6px;
     opacity: 0;
+    bottom: 0;
   }
 
   .collapsed {

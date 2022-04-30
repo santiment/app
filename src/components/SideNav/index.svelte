@@ -30,9 +30,8 @@
   on:mouseenter={() => (isPeeked = true)}
   on:mouseleave={() => (isPeeked = false)}>
   <div class="content">
+    <MinimizedCategories {pathname} {isCollapsed} />
     <div class="container txt-m" class:no-scrollbar={isCollapsed}>
-      <MinimizedCategories {pathname} {isCollapsed} />
-
       <div class="links">
         <a href="/" class="btn" class:active={pathname === '/'} on:click={window.__onLinkClick}>
           <Svg id="folder" w="16" h="14" class="mrg-m mrg--r" />
