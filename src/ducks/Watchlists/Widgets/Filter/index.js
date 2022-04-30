@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react'
+import ReactDOM from 'react-dom'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import { track } from 'webkit/analytics'
@@ -202,80 +203,83 @@ const Filter = ({
   return (
     <>
       <Trigger isOpen={isOpen} onClick={setIsOpen} activeMetricsCount={activeBaseMetrics.length} />
-      <section className={cx(styles.wrapper, isOpen && styles.active)}>
-        <div
-          className={cx(closeClasses.wrapper, 'btn row v-center border')}
-          onClick={() => setIsOpen(false)}
-        >
-          <Icon type='sidebar' className={closeClasses.icon} />
-        </div>
-        <div className={styles.inner}>
-          <div className={styles.top}>
-            <div className={styles.row}>
-              <span className={styles.count__assets}>{projectsCount} assets</span>
-              {!loading && (
-                <span className={styles.count__filters}>{`${activeBaseMetrics.length} filter${
-                  activeBaseMetrics.length !== 1 ? 's' : ''
-                } activated`}</span>
-              )}
-              {loading && <Loader className={styles.loader} />}
-            </div>
-            {!isViewMode && isOpen && (
-              <Search
-                autoFocus
-                onChange={(value) => setCurrentSearch(value)}
-                placeholder='Search metrics'
-                className={styles.search}
-              />
-            )}
-            <div className={styles.togglers}>
-              <ToggleActiveFilters
-                isActive={isActiveFiltersOnly}
-                onClick={() => setIsActiveFiltersOnly(!isActiveFiltersOnly)}
-              />
-              {!isViewMode && (
-                <Button
-                  className={styles.button}
-                  onClick={resetAll}
-                  disabled={isReset || (!isWereChanges && isNoFilters)}
-                >
-                  Reset all
-                </Button>
-              )}
-            </div>
-            {isViewMode && !loading && (
-              <Message variant='warn' icon='info-round' className={styles.message}>
-                View only. You aren't the author of this screener
-              </Message>
-            )}
-            <EntryPoint
-              baseProjects={baseProjects}
-              setBaseProjects={setBaseProjects}
-              isViewMode={isViewMode}
-            />
+      {ReactDOM.createPortal(
+        <section className={cx(styles.wrapper, isOpen && styles.active)}>
+          <div
+            className={cx(closeClasses.wrapper, 'btn row v-center border')}
+            onClick={() => setIsOpen(false)}
+          >
+            <Icon type='sidebar' className={closeClasses.icon} />
           </div>
-          <div className={styles.content}>
-            {Object.keys(categories).map((key) => (
-              <Category
-                key={key}
-                title={key}
-                counter={categoryActiveMetricsCounter[key]}
-                groups={categories[key]}
-                toggleMetricInFilter={toggleMetricInFilter}
-                availableMetrics={availableMetrics}
+          <div className={styles.inner}>
+            <div className={styles.top}>
+              <div className={styles.row}>
+                <span className={styles.count__assets}>{projectsCount} assets</span>
+                {!loading && (
+                  <span className={styles.count__filters}>{`${activeBaseMetrics.length} filter${
+                    activeBaseMetrics.length !== 1 ? 's' : ''
+                  } activated`}</span>
+                )}
+                {loading && <Loader className={styles.loader} />}
+              </div>
+              {!isViewMode && isOpen && (
+                <Search
+                  autoFocus
+                  onChange={(value) => setCurrentSearch(value)}
+                  placeholder='Search metrics'
+                  className={styles.search}
+                />
+              )}
+              <div className={styles.togglers}>
+                <ToggleActiveFilters
+                  isActive={isActiveFiltersOnly}
+                  onClick={() => setIsActiveFiltersOnly(!isActiveFiltersOnly)}
+                />
+                {!isViewMode && (
+                  <Button
+                    className={styles.button}
+                    onClick={resetAll}
+                    disabled={isReset || (!isWereChanges && isNoFilters)}
+                  >
+                    Reset all
+                  </Button>
+                )}
+              </div>
+              {isViewMode && !loading && (
+                <Message variant='warn' icon='info-round' className={styles.message}>
+                  View only. You aren't the author of this screener
+                </Message>
+              )}
+              <EntryPoint
+                baseProjects={baseProjects}
+                setBaseProjects={setBaseProjects}
                 isViewMode={isViewMode}
-                isNoFilters={isReset}
-                filters={filter}
-                updMetricInFilter={updMetricInFilter}
-                isActiveFiltersOnly={isActiveFiltersOnly}
-                totalCounter={activeBaseMetrics.length}
-                isPro={isPro}
-                isOpen={isOpen}
               />
-            ))}
+            </div>
+            <div className={styles.content}>
+              {Object.keys(categories).map((key) => (
+                <Category
+                  key={key}
+                  title={key}
+                  counter={categoryActiveMetricsCounter[key]}
+                  groups={categories[key]}
+                  toggleMetricInFilter={toggleMetricInFilter}
+                  availableMetrics={availableMetrics}
+                  isViewMode={isViewMode}
+                  isNoFilters={isReset}
+                  filters={filter}
+                  updMetricInFilter={updMetricInFilter}
+                  isActiveFiltersOnly={isActiveFiltersOnly}
+                  totalCounter={activeBaseMetrics.length}
+                  isPro={isPro}
+                  isOpen={isOpen}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>,
+        document.body,
+      )}
       {isOpen && <div className={styles.background} onClick={() => setIsOpen(false)} />}
     </>
   )
