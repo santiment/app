@@ -35,7 +35,7 @@ const SCREENS = [SolutionsScreen, MissYouScreen]
 const CancelPlanDialog = ({
   noTrigger = false,
   addNot,
-  ref,
+  controlRef,
   subscription: {
     id,
     currentPeriodEnd,
@@ -50,8 +50,8 @@ const CancelPlanDialog = ({
   const date = `${MMMM} ${DD}, ${YYYY}`
 
   useEffect(() => {
-    if (ref) {
-      ref.current = {
+    if (controlRef) {
+      controlRef.current = {
         openDialog,
         closeDialog,
       }

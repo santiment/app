@@ -24,7 +24,7 @@ const SettingsSubscription = () => {
   return (
     <div id={ref.current ? '' : 'subscription'} ref={ref} className='mrg-xl mrg--b'>
       {subscription && (
-        <CancelSubscriptionDialog noTrigger ref={dialogRef} subscription={subscription} />
+        <CancelSubscriptionDialog noTrigger controlRef={dialogRef} subscription={subscription} />
       )}
     </div>
   )
