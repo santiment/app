@@ -54,7 +54,7 @@
   <div class="bottom row justify v-center c-waterloo mrg-s mrg--t" class:caption={small}>
     <Tooltip openDelay={110}>
       <svelte:fragment slot="trigger">
-        <Profile {user} class="author" />
+        <Profile {user} class="author fluid" />
       </svelte:fragment>
 
       <svelte:fragment slot="tooltip">

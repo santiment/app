@@ -7,6 +7,7 @@
   import EmptyState from '../Components/EmptyState.svelte'
   import TypeSelector from '../Components/TypeSelector.svelte'
   import { queryExplorerItems } from '../api'
+  import { currentUser } from '../store'
   import { EntityType, RANGES, MenuItem, getExplorerItem } from '../const'
 
   export let activeMenu
@@ -27,6 +28,9 @@
   let loading = false
 
   $: activeMenu, reset()
+  $: showEmpty = !$currentUser && activeMenu !== MenuItem.MY_CREATIONS
+  $: voted = activeMenu === MenuItem.LIKES
+  $: currentUserDataOnly = activeMenu === MenuItem.MY_CREATIONS
   $: range, assets, selectedTypes, page, fetch()
   $: onLoadingChange(loading)
 
@@ -35,9 +39,13 @@
   })
 
   function fetch(bypassLoading = false) {
+    if (showEmpty) {
+      pages = 1
+      page = 1
+      items = []
+      return
+    }
     if (!bypassLoading) loading = true
-    const voted = activeMenu === MenuItem.LIKES
-    const currentUserDataOnly = activeMenu === MenuItem.MY_CREATIONS
     queryExplorerItems({
       types: Array.from(selectedTypes),
       voted,
@@ -136,6 +144,6 @@
   </svelte:fragment>
 </Category>
 
-{#if !loading && items.length === 0}
+{#if showEmpty || (!loading && items.length === 0)}
   <EmptyState {activeMenu} />
 {/if}
