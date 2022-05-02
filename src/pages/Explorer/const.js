@@ -30,7 +30,7 @@ export const EntityType = {
     key: EntityKeys.PROJECT_WATCHLIST,
     voteKey: 'watchlistId',
     deleteKey: 'WATCHLIST',
-    label: 'Projects',
+    label: 'Watchlists',
     singular: 'watchlist',
     icon: 'watchlist',
     color: 'var(--orange)',
