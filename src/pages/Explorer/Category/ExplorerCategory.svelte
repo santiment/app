@@ -28,7 +28,7 @@
   let loading = false
 
   $: activeMenu, reset()
-  $: showEmpty = !$currentUser && activeMenu !== MenuItem.MY_CREATIONS
+  $: showEmpty = !$currentUser && activeMenu !== MenuItem.NEW
   $: voted = activeMenu === MenuItem.LIKES
   $: currentUserDataOnly = activeMenu === MenuItem.MY_CREATIONS
   $: range, assets, selectedTypes, page, fetch()
