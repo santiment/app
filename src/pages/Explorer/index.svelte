@@ -58,10 +58,12 @@
 <Aside class="$style.aside" />
 
 <style>
+  main,
   .aside {
     position: sticky;
     align-self: flex-end;
     bottom: 0;
+    padding-top: 10px;
   }
 
   :global(.tablet) .aside {
@@ -71,6 +73,7 @@
 
   main {
     width: 640px;
+    min-height: 100vh;
   }
 
   .aside {
