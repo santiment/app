@@ -2,24 +2,22 @@
   import { dialogs } from 'webkit/ui/Dialog'
   import DeleteConfirmationDialog from './DeleteConfirmationDialog.svelte'
 
-  export function showDeleteConfirmationDialog(itemData) {
-    dialogs.show(DeleteConfirmationDialog, { itemData })
+  export function showDeleteConfirmationDialog(itemData, filterExplorerItems) {
+    dialogs.show(DeleteConfirmationDialog, { itemData, filterExplorerItems })
   }
 </script>
 
 <script>
-  import { getContext } from 'svelte'
   import Dialog from 'webkit/ui/Dialog'
   import Svg from 'webkit/ui/Svg/svelte'
   import { deleteAction } from './api'
 
   export let itemData
+  export let filterExplorerItems
 
   let closeDialog
 
   $: ({ item, id, singular, deleteKey } = itemData)
-
-  const filterExplorerItems = getContext('filterExplorerItems')
 
   const onDeleteClick = () =>
     deleteAction(id, deleteKey)
