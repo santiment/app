@@ -64,6 +64,7 @@
     align-self: flex-end;
     bottom: 0;
     padding-top: 10px;
+    min-height: 100vh;
   }
 
   :global(.tablet) .aside {
@@ -73,7 +74,6 @@
 
   main {
     width: 640px;
-    min-height: 100vh;
   }
 
   .aside {

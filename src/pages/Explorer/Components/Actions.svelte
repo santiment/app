@@ -1,4 +1,5 @@
 <script>
+  import { getContext } from 'svelte'
   import Svg from 'webkit/ui/Svg/svelte'
   import { copy } from 'webkit/utils'
   import { vote } from './api'
@@ -24,6 +25,8 @@
 
   $: id = item.trigger ? item.trigger.id : item.id
   $: ({ voteKey, deleteKey, singular } = EntityType[type])
+
+  const filterExplorerItems = getContext('filterExplorerItems')
 
   function onShare(e) {
     e.preventDefault()
@@ -62,12 +65,15 @@
 
   function onDelete(e) {
     e.preventDefault()
-    showDeleteConfirmationDialog({
-      item,
-      singular,
-      id,
-      deleteKey,
-    })
+    showDeleteConfirmationDialog(
+      {
+        item,
+        singular,
+        id,
+        deleteKey,
+      },
+      filterExplorerItems,
+    )
   }
 
   function onEdit(e) {
