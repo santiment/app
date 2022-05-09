@@ -8,7 +8,7 @@
   import TypeSelector from '../Components/TypeSelector.svelte'
   import { queryExplorerItems } from '../api'
   import { currentUser } from '../store'
-  import { EntityType, RANGES, MenuItem, getExplorerItem } from '../const'
+  import { EntityType, RANGES, MenuItem, getExplorerItem, getExplorerItemProperty } from '../const'
 
   export let activeMenu
   export let onLoadingChange = () => {}
@@ -36,6 +36,25 @@
 
   setContext('filterExplorerItems', (itemToExclude) => {
     items = items.filter((item) => getExplorerItem(item) !== itemToExclude)
+  })
+
+  setContext('updateExplorerItem', (itemToUpdate, title, description, isPublic) => {
+    const itemIndex = items.findIndex((item) => getExplorerItem(item) === itemToUpdate)
+    const key = getExplorerItemProperty(items[itemIndex])
+    const item = items[itemIndex][key]
+
+    if (item.trigger) {
+      item.trigger.title = title
+      item.trigger.description = description
+      item.trigger.isPublic = isPublic
+    } else {
+      item.title = title
+      item.description = description
+      item.isPublic = isPublic
+    }
+
+    items[itemIndex][key] = item
+    items = items
   })
 
   function fetch(bypassLoading = false) {
