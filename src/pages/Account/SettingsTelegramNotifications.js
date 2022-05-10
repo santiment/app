@@ -17,7 +17,7 @@ const SettingsTelegramNotifications = ({ classes = {}, description, count }) => 
     <div className={cx(classes.container, styles.settingBlock)}>
       <Label className={cx(classes.left, 'row v-center')}>
         <span className='mrg--r mrg-xs'>Telegram notifications</span>
-        {count && count > 0 && (
+        {!!count && count > 0 && (
           <AlertTooltip
             isVisible={!alertNotifyTelegram}
             content={
