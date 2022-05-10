@@ -44,12 +44,14 @@ const SettingsNotifications = () => {
     <Settings id='notifications' header='Alert notifications'>
       <Settings.Row>
         <SettingsEmailNotifications
+          count={countWithEmail}
           description={SignalsDescription(countWithEmail, allCount, CHANNEL_TYPES.Email)}
         />
       </Settings.Row>
 
       <Settings.Row>
         <SettingsTelegramNotifications
+          count={countWithTelegram}
           description={SignalsDescription(countWithTelegram, allCount, CHANNEL_TYPES.Telegram)}
         />
       </Settings.Row>
@@ -57,6 +59,7 @@ const SettingsNotifications = () => {
       <ShowIf beta>
         <Settings.Row>
           <SettingsSonarWebPushNotifications
+            count={countWithBrowserPush}
             description={SignalsDescription(
               countWithBrowserPush,
               allCount,

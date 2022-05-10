@@ -24,7 +24,7 @@ const ErrorTrigger = ({ forwardedRef, isActive, ...props }) => (
   </div>
 )
 
-const AlertTooltip = ({ isVisible, content, type }) => {
+const AlertTooltip = ({ isVisible, content, type, tooltipClassname }) => {
   if (!isVisible) {
     return null
   }
@@ -40,7 +40,7 @@ const AlertTooltip = ({ isVisible, content, type }) => {
       passOpenStateAs='isActive'
       trigger={trigger}
       position='bottom'
-      className={cx(styles.tooltip, 'border box')}
+      className={cx(styles.tooltip, tooltipClassname, 'border box')}
     >
       <div className='relative row body-3'>{content}</div>
     </Tooltip>
