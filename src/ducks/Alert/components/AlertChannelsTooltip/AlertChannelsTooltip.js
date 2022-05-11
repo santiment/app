@@ -69,16 +69,17 @@ const AlertChannelsTooltip = ({ signal }) => {
         type='error'
         content={
           <span>
-            <span className='txt-m'>Your notifications are disabled!</span> This means you will not
-            receive information when this signal is triggered. To enable notifications, update your{' '}
-            <Link
-              to='/account#notifications'
-              className={cx(styles.link, styles.tooltipLink, 'txt-m')}
-            >
+            <span className='txt-m'>Your notifications are disabled!</span>{' '}
+            <span className={styles.contentText}>
+              This means you will not receive information when this alert is triggered. To enable
+              notifications, update your
+            </span>{' '}
+            <Link to='/account#notifications' className={cx(styles.link, styles.tooltipLink)}>
               Account Settings!
             </Link>
           </span>
         }
+        tooltipClassname={styles.tooltip}
       />
     </div>
   )

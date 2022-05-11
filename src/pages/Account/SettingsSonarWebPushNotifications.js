@@ -61,6 +61,7 @@ const SettingsSonarWebPushNotifications = ({
   className,
   recheckBrowserNotifications,
   description,
+  count,
 }) => {
   const [isActive, setIsActive] = useState(false)
   const [isPermissionsGranted, setPermissionsGranted] = useState(true)
@@ -147,15 +148,20 @@ const SettingsSonarWebPushNotifications = ({
       <div className={classes.left}>
         <div className='row v-center'>
           <span className='mrg--r mrg-xs'>Push notifications</span>
-          <AlertTooltip
-            isVisible={!isActive}
-            content={
-              <span>
-                <span className='txt-m'>Push notifications are disabled!</span> This means you will
-                not receive Push notifications when this alerts is triggered.
-              </span>
-            }
-          />
+          {count > 0 && (
+            <AlertTooltip
+              isVisible={!isActive}
+              content={
+                <span>
+                  <span className='txt-m'>Push notifications are disabled!</span>{' '}
+                  <span className={styles.contentText}>
+                    This means you will not receive Push notifications when this alert is triggered.
+                  </span>
+                </span>
+              }
+              tooltipClassname={styles.tooltipWidth}
+            />
+          )}
         </div>
         {!isPermissionsGranted && (
           <Label className={cx(styles.description, styles.warning)} accent='waterloo'>

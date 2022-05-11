@@ -7,7 +7,7 @@ import { useUser } from '../../stores/user'
 import { useUpdateUserNotifications, useUserSettings } from '../../stores/user/settings'
 import styles from './AccountPage.module.scss'
 
-const SettingsEmailNotifications = ({ classes = {}, description }) => {
+const SettingsEmailNotifications = ({ classes = {}, description, count }) => {
   const { user } = useUser()
   const {
     settings: { alertNotifyEmail },
@@ -19,15 +19,20 @@ const SettingsEmailNotifications = ({ classes = {}, description }) => {
     <div className={cx(classes.container, styles.settingBlock)}>
       <Label className={cx(classes.left, 'row v-center')}>
         <span className='mrg--r mrg-xs'>Email notifications</span>
-        <AlertTooltip
-          isVisible={!alertNotifyEmail}
-          content={
-            <span>
-              <span className='txt-m'>Email notifications are disabled!</span> This means you will
-              not receive Email notifications when this alerts is triggered.
-            </span>
-          }
-        />
+        {count > 0 && (
+          <AlertTooltip
+            isVisible={!alertNotifyEmail}
+            content={
+              <span>
+                <span className='txt-m'>Email notifications are disabled!</span>{' '}
+                <span className={styles.contentText}>
+                  This means you will not receive Email notifications when this alert is triggered.
+                </span>
+              </span>
+            }
+            tooltipClassname={styles.tooltipWidth}
+          />
+        )}
       </Label>
       <div className={cx(styles.setting__right, classes.right)}>
         {description}
