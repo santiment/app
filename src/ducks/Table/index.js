@@ -183,7 +183,7 @@ const Table = ({
                     <span
                       className={cx(
                         styles.sort,
-                        column.isSortedDesc ? styles.sortDesc : styles.sortAsc,
+                        column.isSortedDesc ? styles.sortAsc : styles.sortDesc,
                       )}
                     />
                   )}

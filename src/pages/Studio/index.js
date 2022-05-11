@@ -34,6 +34,7 @@ const Extensions = (props) => (
 export default ({ location }) => {
   const [parsedUrl, setParsedUrl] = useState()
   const [slug, setSlug] = useState('')
+  const [address, setAddress] = useState('')
   const [prevTemplateId, setPrevTemplateId] = useState()
   const shortUrlHashState = useState()
   const prevFullUrlRef = useRef()
@@ -52,8 +53,9 @@ export default ({ location }) => {
   }, [])
 
   useEffect(() => {
-    const newSlug = parse(search).slug
+    const { slug: newSlug, address: newAddress } = parse(search)
     if (newSlug && newSlug !== slug) setSlug(newSlug)
+    if (newAddress && newAddress !== address) setAddress(newAddress)
   }, [search])
 
   useEffect(() => {
@@ -86,6 +88,7 @@ export default ({ location }) => {
           handleLayoutCommentLink(parsedUrl, search)
           setShortUrlHash()
           setSlug(parsedUrl.settings.slug || '')
+          setAddress(parsedUrl.settings.address || '')
           setParsedUrl(parsedUrl)
         })
         .catch(console.error)
@@ -96,6 +99,7 @@ export default ({ location }) => {
       const parsedUrl = parseUrl(search)
       if (parsedUrl.settings) {
         setSlug(parsedUrl.settings.slug || '')
+        setAddress(parsedUrl.settings.address || '')
       }
 
       parseLayout(parsedUrl.layout)
@@ -117,6 +121,7 @@ export default ({ location }) => {
 
           if (parsedUrl.settings) {
             setSlug(parsedUrl.settings.slug || '')
+            setAddress(parsedUrl.settings.address || '')
           }
           parseLayout(parsedUrl.layout)
           setParsedUrl(parsedUrl)
@@ -133,6 +138,7 @@ export default ({ location }) => {
   return (
     <Studio
       slug={slug}
+      address={address}
       parsedUrl={parsedUrl}
       Extensions={Extensions}
       shortUrlHashState={shortUrlHashState}

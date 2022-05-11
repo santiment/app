@@ -6,7 +6,10 @@ import withSizes from 'react-sizes'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import nprogress from 'nprogress'
+import { newGlobalShortcut } from 'webkit/utils/events'
 import Dialogs from 'webkit/ui/Dialog/Dialogs.svelte'
+import { showMasterSelectorDialog } from 'studio/MasterSelectorDialog'
+import { queryAllProjects } from 'studio/api/project'
 import { isListPath, PATHS } from './paths'
 import NotificationStack from './components/NotificationStack'
 import UrlModals from './components/Modal/UrlModals'
@@ -219,6 +222,20 @@ export const App = ({
       setIsWatchlistPage(false)
     }
   }, [pathname])
+
+  useEffect(() => {
+    if (!isDesktop) return
+
+    queryAllProjects()
+    return newGlobalShortcut('CMD+K', () => {
+      const onSelect = window.location.pathname.startsWith('/charts')
+        ? null
+        : ({ slug, address }) =>
+            window.__onLinkClick(`/charts?${address ? 'address' : 'slug'}=${address || slug}`)
+
+      showMasterSelectorDialog(onSelect)
+    })
+  }, [isDesktop])
 
   return (
     <div className={cx('App', isWatchlistPage && isDesktop && 'list-container')}>
