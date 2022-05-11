@@ -9,7 +9,15 @@ const DEFAULT = get(ui)
 export function useTheme() {
   const [theme, setTheme] = useState(DEFAULT)
 
-  useEffect(() => ui.subscribe((value) => setTheme({ ...value })), [])
+  useEffect(
+    () =>
+      ui.subscribe((value) => {
+        const theme = { ...value }
+        theme.isNightMode = theme.nightMode
+        setTheme(theme)
+      }),
+    [],
+  )
 
   return theme
 }
