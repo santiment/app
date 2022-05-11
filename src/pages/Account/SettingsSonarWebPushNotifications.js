@@ -148,7 +148,7 @@ const SettingsSonarWebPushNotifications = ({
       <div className={classes.left}>
         <div className='row v-center'>
           <span className='mrg--r mrg-xs'>Push notifications</span>
-          {!!count && count > 0 && (
+          {count > 0 && (
             <AlertTooltip
               isVisible={!isActive}
               content={
