@@ -27,6 +27,7 @@
   $: ({ voteKey, deleteKey, singular } = EntityType[type])
 
   const filterExplorerItems = getContext('filterExplorerItems')
+  const updateExplorerItem = getContext('updateExplorerItem')
 
   function onShare(e) {
     e.preventDefault()
@@ -79,15 +80,18 @@
   function onEdit(e) {
     e.preventDefault()
     const { title, description = '', isPublic } = item.trigger || item
-    showEditDialog({
-      id,
-      item,
-      singular,
-      title,
-      description,
-      isPublic,
-      editKey: deleteKey,
-    })
+    showEditDialog(
+      {
+        id,
+        item,
+        singular,
+        title,
+        description,
+        isPublic,
+        editKey: deleteKey,
+      },
+      updateExplorerItem,
+    )
   }
 </script>
 

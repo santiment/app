@@ -38,6 +38,14 @@
     items = items.filter((item) => getExplorerItem(item) !== itemToExclude)
   })
 
+  setContext('updateExplorerItem', (itemToUpdate, title, description, isPublic) => {
+    const target = itemToUpdate.trigger || itemToUpdate
+    target.title = title
+    target.description = description
+    target.isPublic = isPublic
+    items = items
+  })
+
   function fetch(bypassLoading = false) {
     if (showEmpty) {
       pages = 1

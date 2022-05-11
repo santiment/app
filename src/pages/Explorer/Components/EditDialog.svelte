@@ -2,8 +2,8 @@
   import { dialogs } from 'webkit/ui/Dialog'
   import EditDialog from './EditDialog.svelte'
 
-  export function showEditDialog(itemData) {
-    dialogs.show(EditDialog, { itemData })
+  export function showEditDialog(itemData, updateExplorerItem) {
+    dialogs.show(EditDialog, { itemData, updateExplorerItem })
   }
 </script>
 
@@ -16,10 +16,11 @@
   const MIN_TITLE_LENGTH = 3
 
   export let itemData
+  export let updateExplorerItem
 
   let closeDialog
   let loading = false
-  let { id, singular, editKey, title, description, isPublic } = itemData
+  let { id, item, singular, editKey, title, description, isPublic } = itemData
 
   $: titleLength = (title || '').length
   $: applyDisabled = loading || titleLength < MIN_TITLE_LENGTH || titleLength > MAX_TITLE_LENGTH
@@ -28,7 +29,7 @@
     loading = true
     edit(id, editKey, title, description, isPublic)
       .then(() => {
-        // TODO: update item in the UI
+        updateExplorerItem(item, title, description, isPublic)
         closeDialog()
       })
       .catch((err) => {
