@@ -39,16 +39,10 @@
   })
 
   setContext('updateExplorerItem', (itemToUpdate, title, description, isPublic) => {
-    if (itemToUpdate.trigger) {
-      itemToUpdate.trigger.title = title
-      itemToUpdate.trigger.description = description
-      itemToUpdate.trigger.isPublic = isPublic
-    } else {
-      itemToUpdate.title = title
-      itemToUpdate.description = description
-      itemToUpdate.isPublic = isPublic
-    }
-
+    const target = itemToUpdate.trigger || itemToUpdate
+    target.title = title
+    target.description = description
+    target.isPublic = isPublic
     items = items
   })
 
