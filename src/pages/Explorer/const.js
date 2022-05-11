@@ -100,12 +100,3 @@ export function getExplorerItem(item) {
   if (item.userTrigger) data = item.userTrigger
   return data
 }
-
-export function getExplorerItemProperty(item) {
-  if (item.addressWatchlist) return 'addressWatchlist'
-  if (item.chartConfiguration) return 'chartConfiguration'
-  if (item.projectWatchlist) return 'projectWatchlist'
-  if (item.screener) return 'screener'
-  if (item.userTrigger) return 'userTrigger'
-  throw new Error('Invalid Item')
-}
