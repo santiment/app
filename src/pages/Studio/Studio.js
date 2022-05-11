@@ -5,15 +5,12 @@ import { Metric } from 'studio/metrics'
 import { newWidget } from 'studio/stores/widgets'
 import { studio as settingsStore } from 'studio/stores/studio'
 import ChartWidget from 'studio/ChartWidget'
-import { track } from 'webkit/analytics'
-import { Event } from 'studio/analytics'
 import {
   useGlobalsUpdater,
   useSettings,
   useWidgetsStore,
   useStudioMetrics,
   useWidgets,
-  useHistory,
 } from './stores'
 import LoginCTA from './LoginCTA'
 import { getExternalWidget } from './Widget'
@@ -54,6 +51,7 @@ function getScreen() {
 const getToday = () => new Date()
 const Studio = ({
   slug,
+  address,
   defaultSettings,
   defaultWidgets,
   defaultSidewidget,
@@ -74,13 +72,13 @@ const Studio = ({
   const subwidgetsController = useSubwidgetsController()
   const metrics = useStudioMetrics(studio)
   const InsightsStore = useInsightsStoreCreator()
-  const History = useHistory(studio)
   const redraw = useRedrawer()[1]
   const [mountedScreen, setMountedScreen] = useState()
   const [modRange, setModRange] = useState()
   const [modDate, setModDate] = useState(getToday)
   const [isLoginCTAOpened, setIsLoginCTAOpened] = useState(false)
-  useMemo(() => slug && settingsStore.setProject({ slug }), [slug])
+
+  useMemo(() => (address || slug) && settingsStore.setProject({ slug, address }), [slug, address])
 
   const onChartPointClick = (point, e) => setModDate(new Date(point.value))
 
@@ -138,39 +136,6 @@ const Studio = ({
     setModRange([new Date(start.value), new Date(end.value)])
   }
 
-  function onProjectSelect(project) {
-    if (project) {
-      const { slug } = project
-
-      if (settings.slug !== slug) {
-        track.event(Event.ChangeAsset, { asset: slug })
-        widgets.forEach((widget) => {
-          if (widget.MetricsSignals) widget.MetricsSignals.clear()
-        })
-
-        if (settings.name) {
-          const oldProject = Object.assign({}, settings)
-          History.add(
-            'Asset change',
-            () => setProject(oldProject),
-            () => setProject(project),
-          )
-        }
-      }
-
-      setProject(project)
-    }
-  }
-
-  function setProject({ slug, ticker, name, id }) {
-    settingsStore.setProject({
-      slug,
-      ticker,
-      name,
-      projectId: id,
-    })
-  }
-
   function onMetricSelect(node) {
     if (selectMetricRef.current) return selectMetricRef.current(node)
     return node
@@ -180,7 +145,7 @@ const Studio = ({
     <div ref={ref} className={styles.wrapper}>
       {studio && (
         <>
-          <ProjectInfo studio={studio} settings={settings} onProjectSelect={onProjectSelect} />
+          <ProjectInfo studio={studio} settings={settings} />
         </>
       )}
 

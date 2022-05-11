@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
+import { queryAllProjects } from 'studio/api/project'
 import Category from './Category'
 import { filterSearchableItems } from './utils'
-import { useProjects } from '../../../stores/projects'
 import styles from './Category.module.scss'
 
 function assetsFilterPredicate(value) {
@@ -41,8 +41,18 @@ export const Asset = ({ name, ticker }) => (
   </span>
 )
 
+function useProjects() {
+  const [projects, setProjects] = useState([])
+
+  useEffect(() => {
+    queryAllProjects().then(setProjects)
+  }, [])
+
+  return projects
+}
+
 const AssetsCategory = ({ searchTerm, ...props }) => {
-  const assets = useProjects().projects
+  const assets = useProjects()
   const searchableAssets = useSearchableAssets(assets)
   const suggestions = useMemo(() => {
     if (!searchTerm) {
