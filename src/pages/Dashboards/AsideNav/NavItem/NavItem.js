@@ -53,7 +53,7 @@ const NavItem = ({
 
   return (
     <div className={cx('border', styles.active, !submenu && styles.noSubmenu)}>
-      <div className={cx('body-3 txt-m', submenu && 'mrg--b mrg-l')}>{name}</div>
+      <div className={cx('txt-m', submenu && 'mrg--b mrg-l')}>{name}</div>
       {submenu && (
         <div className={cx('column mrg--l mrg-s', styles.submenuWrapper)}>
           {submenu.map((menuItem) => {

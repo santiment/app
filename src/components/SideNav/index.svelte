@@ -28,27 +28,23 @@
 <aside
   class:collapsed={isCollapsed}
   on:mouseenter={() => (isPeeked = true)}
-  on:mouseleave={() => (isPeeked = false)}>
+  on:mouseleave={() => (isPeeked = false)}
+>
   <div class="content">
     <MinimizedCategories {pathname} {isCollapsed} />
     <div class="container txt-m" class:no-scrollbar={isCollapsed}>
       <div class="links">
-        <a
-          href="/"
-          class="btn body-3 txt-m"
-          class:active={pathname === '/'}
-          on:click={window.__onLinkClick}
-        >
+        <a href="/" class="btn" class:active={pathname === '/'} on:click={window.__onLinkClick}>
           <Svg id="folder" w="16" h="14" class="mrg-m mrg--r" />
           Explorer
         </a>
         <a
           href="/dashboards"
-          class="btn mrg--t mrg-s body-3 txt-m"
+          class="btn mrg-s mrg--t"
           class:active={pathname.includes('/dashboards')}
           on:click={window.__onLinkClick}
         >
-          <Svg id="report" w="16" h="16" class="mrg-m mrg--r" />
+          <Svg id="report" w="16" class="mrg-m mrg--r" />
           Dashboards
         </a>
 
@@ -85,7 +81,6 @@
         display: flex;
         align-items: center;
         padding: 10px 12px;
-        border-radius: 8px;
       }
 
       .btn.active {

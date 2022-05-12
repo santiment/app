@@ -63,7 +63,5 @@
 
   .btn.active {
     --bg: var(--white);
-
-    border-radius: 6px;
   }
 </style>
