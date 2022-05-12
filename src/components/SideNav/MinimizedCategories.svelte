@@ -9,7 +9,7 @@
   function getActivePath(pathname) {
     if (pathname === '/') return { isExplorerPath: true }
 
-    if (pathname.includes('/dashboards')) return { isDashboardsPath: true }
+    if (pathname.startsWith('/dashboards')) return { isDashboardsPath: true }
 
     return { isCreatePath: true }
   }
@@ -23,7 +23,7 @@
       </div>
 
       <div class="btn row hv-center" class:active={isDashboardsPath}>
-        <Svg id="report" w="16" h="16" />
+        <Svg id="report" w="16" />
       </div>
 
       <div class="btn row hv-center" class:active={isCreatePath}>

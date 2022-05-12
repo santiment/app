@@ -41,7 +41,7 @@
         <a
           href="/dashboards"
           class="btn mrg-s mrg--t"
-          class:active={pathname.includes('/dashboards')}
+          class:active={pathname.startsWith('/dashboards')}
           on:click={window.__onLinkClick}
         >
           <Svg id="report" w="16" class="mrg-m mrg--r" />
