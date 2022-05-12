@@ -9,7 +9,7 @@ import Header from '../Header/Header'
 import { getTimePeriod } from '../../../TrendsExplore/utils'
 import { formatDate, getDatetimeFromUrl } from './utils'
 import dashboardsStyles from '../dashboards.module.scss'
-import styles from '../../../Trends/LabsTrendsPage.module.scss'
+import styles from './SocialTrends.module.scss'
 
 const SocialTrends = ({ history, shareLinkText, description }) => {
   const datetime = getDatetimeFromUrl()

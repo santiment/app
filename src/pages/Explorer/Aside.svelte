@@ -66,7 +66,7 @@
   </Widget>
 
   <Widget title="Social trends" icon="social-trend" color="blue" let:item getItems={getSocialItems}>
-    <ExternalLink href="https://app.santiment.net/labs/trends/" slot="header" />
+    <ExternalLink href="https://app.santiment.net/dashboards/labs/trends/" slot="header" />
     <SocialTrend {item} />
   </Widget>
 

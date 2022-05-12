@@ -17,7 +17,7 @@ import {
 import { Metric } from '../../../../ducks/dataHub/metrics'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import dashboardsStyles from '../dashboards.module.scss'
-import styles from '../../../UniswapProtocolPage/UniswapProtocolPage.module.scss'
+import styles from './UniswapProtocol.module.scss'
 
 const BALANCE_CHART_PADDING = {
   top: 16,

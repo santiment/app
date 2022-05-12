@@ -25,7 +25,11 @@ const EthToken = ({ submenu, shareLinkText, description }) => {
     <div className='column fluid'>
       <Header shareLinkText={shareLinkText} description={description} />
       <div className={dashboardsStyles.content}>
-        <Block title={submenu[1].title} tag={submenu[1].key}>
+        <Block
+          title={submenu[1].title}
+          tag={submenu[1].key}
+          className={dashboardsStyles.firstBlock}
+        >
           <VolumeOfEthTrades metric='eth_trade_volume_by_token' />
         </Block>
         <Block title={submenu[2].title} tag={submenu[2].key}>
