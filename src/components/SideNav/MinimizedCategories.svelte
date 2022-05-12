@@ -4,10 +4,12 @@
   export let pathname = ''
   export let isCollapsed = false
 
-  $: ({ isExplorerPath, isCreatePath } = getActivePath(pathname))
+  $: ({ isExplorerPath, isCreatePath, isDashboardsPath } = getActivePath(pathname))
 
   function getActivePath(pathname) {
     if (pathname === '/') return { isExplorerPath: true }
+
+    if (pathname.includes('/dashboards')) return { isDashboardsPath: true }
 
     return { isCreatePath: true }
   }
@@ -20,7 +22,7 @@
         <Svg id="folder" w="16" h="14" />
       </div>
 
-      <div class="btn row hv-center" class:active={pathname.includes('/dashboards')}>
+      <div class="btn row hv-center" class:active={isDashboardsPath}>
         <Svg id="report" w="16" h="16" />
       </div>
 
