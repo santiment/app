@@ -25,19 +25,19 @@ export function useStore(store, immute = (_) => _, setStoreRef) {
 }
 
 export function useGlobalsUpdater() {
-  const theme = useTheme()
+  const { isNightMode } = useTheme()
   const { isLoggedIn } = useUser()
   const userInfo = useUserSubscriptionStatus()
   const isBeta = useIsBetaMode()
 
   useEffect(() => {
-    globals.toggle('isNightMode', theme.nightMode)
+    globals.toggle('isNightMode', isNightMode)
     globals.toggle('isLoggedIn', isLoggedIn)
     globals.toggle('isTrial', userInfo.isTrial)
     globals.toggle('isPro', userInfo.isPro)
     globals.toggle('isProPlus', userInfo.isProPlus)
     globals.toggle('isBeta', isBeta)
-  }, [userInfo, isLoggedIn, theme, isBeta])
+  }, [userInfo, isLoggedIn, isNightMode, isBeta])
 }
 
 const settingsImmute = (store) => Object.assign({}, store)
