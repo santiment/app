@@ -1,8 +1,8 @@
 export const PATHS = {
   ALERTS: '/alerts',
   FEED: '/feed',
-  SOCIAL_TOOl: '/labs/trends/explore/',
-  SOCIAL_TRENDS: '/labs/trends/',
+  SOCIAL_TOOl: '/labs/trends/explore',
+  SOCIAL_TRENDS: '/labs/trends',
   LOGIN: '/login',
   LOGIN_VIA_EMAIL: '/login/email',
   CREATE_ACCOUNT: '/sign-up',
@@ -25,6 +25,7 @@ export const PATHS = {
   ADDRESSES_WATCHLIST: '/watchlist/addresses',
   PROJECTS_WATCHLIST: '/watchlist/projects',
   SCREENER: '/screener',
+  DASHBOARDS: '/dashboards',
 }
 
 export const isListPath = (path) =>

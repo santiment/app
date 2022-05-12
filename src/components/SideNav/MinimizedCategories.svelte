@@ -12,7 +12,14 @@
         <Svg id="folder" w="16" h="14" />
       </div>
 
-      <div class="btn row hv-center" class:active={pathname !== '/'}>
+      <div class="btn row hv-center" class:active={pathname.includes('/dashboards')}>
+        <Svg id="report" w="16" h="16" />
+      </div>
+
+      <div
+        class="btn row hv-center"
+        class:active={pathname !== '/' && !pathname.includes('/dashboards')}
+      >
         <Svg id="plus-circle" w="16" />
       </div>
 
@@ -45,5 +52,11 @@
     height: 28px;
     fill: var(--waterloo);
     margin: 0 0 16px;
+  }
+
+  .btn.active {
+    --bg: var(--white);
+
+    border-radius: 6px;
   }
 </style>

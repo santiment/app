@@ -59,7 +59,7 @@ const LoadablePage = (loader) =>
     loading: () => <PageLoader />,
   })
 
-// const LoadableIndexPage = LoadablePage(() => import('./pages/Index'))
+// const LoadableIndexPage = LoadablePage(() => import('./pages/Dashboards'))
 
 const LoadableIndexPage = LoadablePage(() => import('./pages/Explorer'))
 
@@ -135,6 +135,8 @@ const LoadableFeedPage = LoadablePage(() => import('./pages/feed/Feed'))
 
 const LoadableAlertsPage = LoadablePage(() => import('./pages/Alerts/Alerts'))
 
+const LoadableDashboardsPage = LoadablePage(() => import('./pages/Dashboards/Dashboards'))
+
 class Route extends React.Component {
   componentWillMount() {
     nprogress.start()
@@ -160,7 +162,7 @@ const ExternalRoutes = [
   },
   {
     to: 'https://data.santiment.net',
-    routes: ['data', 'dashboards'],
+    routes: ['data'],
   },
   {
     to: 'https://docs.santiment.net',
@@ -458,6 +460,10 @@ export const App = ({
               )}
             />
             <Route
+              path={PATHS.DASHBOARDS}
+              render={(props) => <LoadableDashboardsPage {...props} />}
+            />
+            <Route
               path={PATHS.STABLECOINS}
               render={(props) => <LoadableStablecoinsPage isDesktop={isDesktop} {...props} />}
             />
@@ -542,7 +548,8 @@ const mapStateToProps = ({ user, rootUi }, { location: { pathname } }) => ({
     !isPathnameInPages(pathname, FOOTER_DISABLED_FOR) &&
     !pathname.includes(PATHS.STUDIO) &&
     !pathname.includes(PATHS.CHARTS) &&
-    !pathname.includes(PATHS.LIST),
+    !pathname.includes(PATHS.LIST) &&
+    !pathname.includes(PATHS.DASHBOARDS),
 })
 
 const enhance = compose(

@@ -34,9 +34,23 @@
     <MinimizedCategories {pathname} {isCollapsed} />
     <div class="container txt-m" class:no-scrollbar={isCollapsed}>
       <div class="links">
-        <a href="/" class="btn" class:active={pathname === '/'} on:click={window.__onLinkClick}>
+        <a
+          href="/"
+          class="btn body-3 txt-m"
+          class:active={pathname === '/'}
+          on:click={window.__onLinkClick}
+        >
           <Svg id="folder" w="16" h="14" class="mrg-m mrg--r" />
           Explorer
+        </a>
+        <a
+          href="/dashboards"
+          class="btn mrg--t mrg-s body-3 txt-m"
+          class:active={pathname.includes('/dashboards')}
+          on:click={window.__onLinkClick}
+        >
+          <Svg id="report" w="16" h="16" class="mrg-m mrg--r" />
+          Dashboards
         </a>
 
         <Section title="Create" icon="plus-circle" links={CREATE_LINKS} {pathname} />
@@ -73,10 +87,14 @@
 
     & :global {
       a.btn {
+        --color-hover: var(--green);
+        --fill: var(--waterloo);
+        --fill-hover: var(--green);
+
         display: flex;
         align-items: center;
         padding: 10px 12px;
-        --color-hover: var(--green);
+        border-radius: 8px;
       }
 
       .btn.active {
