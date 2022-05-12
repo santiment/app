@@ -74,13 +74,10 @@
 
     & :global {
       a.btn {
-        --color-hover: var(--green);
-        --fill: var(--waterloo);
-        --fill-hover: var(--green);
-
         display: flex;
         align-items: center;
         padding: 10px 12px;
+        --color-hover: var(--green);
       }
 
       .btn.active {
