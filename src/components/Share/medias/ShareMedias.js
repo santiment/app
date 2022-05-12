@@ -3,7 +3,7 @@ import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import { track } from 'webkit/analytics'
-import { Event } from 'studio/analytics'
+import { AlertsEvents } from '../../../ducks/Alert/analytics'
 import styles from './ShareMedias.module.scss'
 
 const SECRET_LINK_TAG = '__SECRET_LINK_TAG__'
@@ -70,7 +70,7 @@ const ShareMedias = ({
               .replace(SECRET_TITLE_TAG, encodedTitle)}
             onClick={() => {
               if (isAlert) {
-                track.event(Event.ClickCopyAlertLink)
+                track.event(AlertsEvents.ClickCopyAlertLink)
               }
             }}
           >

@@ -3,13 +3,13 @@ import { useField } from 'formik'
 import cx from 'classnames'
 import Search from '@santiment-network/ui/Search'
 import { track } from 'webkit/analytics'
-import { Event } from 'studio/analytics'
 import ProjectsSelectTabs from '../../../../../../Studio/Compare/ProjectSelectTabs'
 import NextStep from '../../NextStep/NextStep'
 import StepTitle from '../../StepTitle/StepTitle'
 import ProjectsList from './ProjectsList/ProjectsList'
 import { useTrendingWords } from '../../../../../../TrendsTable/hooks'
 import { PROJECTS_QUERY, useProjects } from '../../../../../../../stores/projects'
+import { AlertsEvents } from '../../../../../analytics'
 import styles from './AssetSelector.module.scss'
 
 const AssetSelector = ({
@@ -86,9 +86,9 @@ const AssetSelector = ({
           setListItems([])
         } else {
           if (isSocial) {
-            track.event(Event.SetAlertSocialTrend, { trend: selected })
+            track.event(AlertsEvents.SetAlertSocialTrend, { trend: selected })
           } else {
-            track.event(Event.SetAlertAsset, { asset: selected })
+            track.event(AlertsEvents.SetAlertAsset, { asset: selected })
           }
 
           const selectedAssets = selected.map((item) => item.slug)

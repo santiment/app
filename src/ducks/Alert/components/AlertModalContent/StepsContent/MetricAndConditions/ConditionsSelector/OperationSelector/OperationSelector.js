@@ -3,7 +3,6 @@ import { useField } from 'formik'
 import cx from 'classnames'
 import Select from '@santiment-network/ui/Select/Select'
 import { track } from 'webkit/analytics'
-import { Event } from 'studio/analytics'
 import OperationInput from './OperationInput/OperationInput'
 import OperationValue from './OperationValue/OperationValue'
 import { parseOperation } from '../../../../../../utils'
@@ -14,6 +13,7 @@ import {
   PERCENT_OPERATIONS,
 } from './constants'
 import { NEGATIVE_METRICS, PERCENT_METRICS, USD_METRICS } from '../../constants'
+import { AlertsEvents } from '../../../../../../analytics'
 import { formatOptionLabel } from './utils'
 import styles from './OperationSelector.module.scss'
 
@@ -34,7 +34,7 @@ const OperationSelector = ({ metric, isWallet }) => {
   const [count, setCount] = useState(selectedCount || getCountDefault(operation))
 
   function handleChangeOperation({ label, value }) {
-    track.event(Event.SetAlertCondition, { condition: label })
+    track.event(AlertsEvents.SetAlertCondition, { condition: label })
 
     setOperation({ label, value })
     setCount(getCountDefault(value))

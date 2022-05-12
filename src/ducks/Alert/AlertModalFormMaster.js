@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import { useQuery } from 'react-apollo'
 import isEqual from 'lodash.isequal'
 import { track } from 'webkit/analytics'
-import { Event } from 'studio/analytics'
 import PageLoader from '../../components/Loader/PageLoader'
 import AlertTypeSelector from './components/AlertTypeSelector/AlertTypeSelector'
 import EmptySection from '../../components/EmptySection/EmptySection'
@@ -16,6 +15,7 @@ import { useUser } from '../../stores/user'
 import { useSignal } from './hooks/useSignal'
 import { getMetricSignalKey, validateFormSteps } from './utils'
 import { GET_METRIC_MIN_INTERVAL } from './hooks/queries'
+import { AlertsEvents } from './analytics'
 import styles from './AlertModalFormMaster.module.scss'
 
 const initialValues = {
@@ -87,10 +87,10 @@ const AlertModalFormMaster = ({
     (signalData && signalData.trigger && +signalData.trigger.authorId !== +signalData.id)
 
   useEffect(() => {
-    track.event(Event.OpenAlert)
+    track.event(AlertsEvents.OpenAlert)
 
     if (id || signalData) {
-      track.event(Event.ClickEditAlert)
+      track.event(AlertsEvents.ClickEditAlert)
 
       setSelectedStep(0)
     }
@@ -125,14 +125,14 @@ const AlertModalFormMaster = ({
         id,
         ...triggerValues,
       })
-      track.event(Event.EditAlert)
+      track.event(AlertsEvents.EditAlert)
     } else {
       localStorage.setItem(
         'LAST_TRIGGER_NOTIFICATION_SETTINGS',
         JSON.stringify(triggerValues.settings.channel),
       )
       createAlert(triggerValues)
-      track.event(Event.CreateAlert)
+      track.event(AlertsEvents.CreateAlert)
     }
     setSubmitting(false)
     handleCloseDialog()

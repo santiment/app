@@ -3,8 +3,8 @@ import cx from 'classnames'
 import { connect } from 'react-redux'
 import isEqual from 'lodash.isequal'
 import { track } from 'webkit/analytics'
-import { Event } from 'studio/analytics'
 import Icon from '@santiment-network/ui/Icon'
+import { AlertsEvents } from '../../../ducks/Alert/analytics'
 import { createTrigger } from '../../../ducks/Signals/common/actions'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import styles from './CopySignal.module.scss'
@@ -46,7 +46,7 @@ const CopySignal = ({
   }
 
   function copySignal() {
-    track.event(Event.ClickShareAlert)
+    track.event(AlertsEvents.ClickShareAlert)
 
     if (onCreate) {
       onCreate()

@@ -3,8 +3,8 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import copy from 'copy-to-clipboard'
 import { track } from 'webkit/analytics'
-import { Event } from 'studio/analytics'
 import Button from '@santiment-network/ui/Button'
+import { AlertsEvents } from '../../ducks/Alert/analytics'
 import styles from './SharePanel.module.scss'
 
 class ShareCopyBtn extends PureComponent {
@@ -32,7 +32,7 @@ class ShareCopyBtn extends PureComponent {
 
   onCopyClick = () => {
     if (this.props.isAlert) {
-      track.event(Event.ClickCopyAlertLink)
+      track.event(AlertsEvents.ClickCopyAlertLink)
     }
 
     copy(this.props.shareLink)

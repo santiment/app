@@ -2,13 +2,13 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useField } from 'formik'
 import { InputWithIcon } from '@santiment-network/ui/Input'
 import { track } from 'webkit/analytics'
-import { Event } from 'studio/analytics'
 import MetricsList from './MetricsList/MetricsList'
 import { useMergedTimeboundSubmetrics } from '../../../../../../dataHub/timebounds'
 import { getCategoryGraph } from '../../../../../../Studio/Sidebar/utils'
 import { useProject } from '../../../../../../../hooks/project'
 import { useIsBetaMode } from '../../../../../../../stores/ui'
 import { filterOnlyMetrics, getByAvailable } from './utils'
+import { AlertsEvents } from '../../../../../analytics'
 import styles from './MetricSelector.module.scss'
 
 const suggestedMetrics = {
@@ -96,7 +96,7 @@ const MetricSelector = ({ selectedMetric, metrics, target, onChange }) => {
   }, [metrics, allMetrics, isBeta])
 
   function handleSelectMetric(metric) {
-    track.event(Event.SetAlertMetric, { metric: metric.key })
+    track.event(AlertsEvents.SetAlertMetric, { metric: metric.key })
 
     setMetric(metric.key)
     onChange(metric)

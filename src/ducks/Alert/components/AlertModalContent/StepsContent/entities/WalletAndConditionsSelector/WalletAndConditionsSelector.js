@@ -3,7 +3,6 @@ import { useField } from 'formik'
 import Input from '@santiment-network/ui/Input'
 import Select from '@santiment-network/ui/Select/Select'
 import { track } from 'webkit/analytics'
-import { Event } from 'studio/analytics'
 import StepTitle from '../../StepTitle/StepTitle'
 import NextStep from '../../NextStep/NextStep'
 import ConditionsSelector from '../../MetricAndConditions/ConditionsSelector/ConditionsSelector'
@@ -11,6 +10,7 @@ import { useProjects } from '../../../../../../../stores/projects'
 import { useWalletAssets } from '../../../../../hooks/useWalletAssets'
 import { Infrastructure } from '../../../../../../../utils/address'
 import { mapAssetsToProjects } from './utils'
+import { AlertsEvents } from '../../../../../analytics'
 import styles from './WalletAndConditionsSelector.module.scss'
 
 const WalletAndConditionsSelector = ({
@@ -76,7 +76,7 @@ const WalletAndConditionsSelector = ({
         placeholder='Type an address'
         value={address}
         onChange={(e) => {
-          track.event(Event.SetAlertAddress)
+          track.event(AlertsEvents.SetAlertAddress)
 
           setAddress(e.target.value)
         }}
@@ -93,7 +93,7 @@ const WalletAndConditionsSelector = ({
         options={walletProjects}
         value={selectedAsset}
         onChange={(asset) => {
-          track.event(Event.SetAlertWalletAsset, { asset })
+          track.event(AlertsEvents.SetAlertWalletAsset, { asset })
 
           setSelectedAsset(asset)
         }}
