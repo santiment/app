@@ -60,8 +60,4 @@
     fill: var(--waterloo);
     margin: 0 0 16px;
   }
-
-  .btn.active {
-    --bg: var(--white);
-  }
 </style>
