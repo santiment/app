@@ -1,6 +1,8 @@
 import React from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
+import { track } from 'webkit/analytics'
+import { Event } from 'studio/analytics'
 import Icon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Tooltip from '@santiment-network/ui/Tooltip'
@@ -44,6 +46,7 @@ const ShareSignal = ({
         shareText={`Crypto Alert '${signalTitle}'`}
         shareLink={link}
         isDisabled={!isPublic && isUserTheAuthor}
+        onOpen={() => track.event(Event.ClickShareAlert)}
       >
         <>
           <div

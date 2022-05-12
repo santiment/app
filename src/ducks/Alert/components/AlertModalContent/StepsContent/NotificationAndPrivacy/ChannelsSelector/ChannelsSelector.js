@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useField } from 'formik'
+import { track } from 'webkit/analytics'
+import { Event } from 'studio/analytics'
 import EmailToggle from './channels/EmailToggle/EmailToggle'
 import TelegramToggle from './channels/TelegramToggle/TelegramToggle'
 import PushToggle from './channels/PushToggle/PushToggle'
@@ -49,6 +51,10 @@ const ChannelsSelector = () => {
   useEffect(() => {
     checkPushAvailability()
   }, [])
+
+  useEffect(() => {
+    track.event(Event.SetAlertChannel, { channel: value })
+  }, [value])
 
   const handleChangeChannels = useCallback(
     (channelTitle) => () => {

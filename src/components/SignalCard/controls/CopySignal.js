@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import isEqual from 'lodash.isequal'
+import { track } from 'webkit/analytics'
+import { Event } from 'studio/analytics'
 import Icon from '@santiment-network/ui/Icon'
 import { createTrigger } from '../../../ducks/Signals/common/actions'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
@@ -44,6 +46,8 @@ const CopySignal = ({
   }
 
   function copySignal() {
+    track.event(Event.ClickShareAlert)
+
     if (onCreate) {
       onCreate()
     } else {

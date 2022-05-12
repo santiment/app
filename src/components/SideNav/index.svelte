@@ -28,7 +28,8 @@
 <aside
   class:collapsed={isCollapsed}
   on:mouseenter={() => (isPeeked = true)}
-  on:mouseleave={() => (isPeeked = false)}>
+  on:mouseleave={() => (isPeeked = false)}
+>
   <div class="content">
     <MinimizedCategories {pathname} {isCollapsed} />
     <div class="container txt-m" class:no-scrollbar={isCollapsed}>

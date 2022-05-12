@@ -1,6 +1,8 @@
 import React, { useMemo, useState } from 'react'
 import { useField } from 'formik'
 import { InputWithIcon } from '@santiment-network/ui/Input'
+import { track } from 'webkit/analytics'
+import { Event } from 'studio/analytics'
 import PageLoader from '../../../../../../../components/Loader/PageLoader'
 import StepTitle from '../../StepTitle/StepTitle'
 import NextStep from '../../NextStep/NextStep'
@@ -47,6 +49,8 @@ const WatchlistAndScreenerSelector = ({
   }
 
   function handleSelectWatchlist(id) {
+    track.event(type === 'watchlist' ? Event.SetAlertWatchlist : Event.SetAlertScreener, { id })
+
     if (value === id) {
       setValue('')
     } else {

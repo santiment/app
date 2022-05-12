@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useField } from 'formik'
 import { InputWithIcon } from '@santiment-network/ui/Input'
+import { track } from 'webkit/analytics'
+import { Event } from 'studio/analytics'
 import MetricsList from './MetricsList/MetricsList'
 import { useMergedTimeboundSubmetrics } from '../../../../../../dataHub/timebounds'
 import { getCategoryGraph } from '../../../../../../Studio/Sidebar/utils'
@@ -94,6 +96,8 @@ const MetricSelector = ({ selectedMetric, metrics, target, onChange }) => {
   }, [metrics, allMetrics, isBeta])
 
   function handleSelectMetric(metric) {
+    track.event(Event.SetAlertMetric, { metric: metric.key })
+
     setMetric(metric.key)
     onChange(metric)
   }

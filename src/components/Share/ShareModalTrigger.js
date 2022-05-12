@@ -37,6 +37,7 @@ const ShareModalTrigger = ({
       {...props}
     >
       <SharePanel
+        isAlert={isAlert}
         children={children}
         isDisabled={isDisabled}
         shareTitle={shareTitle}

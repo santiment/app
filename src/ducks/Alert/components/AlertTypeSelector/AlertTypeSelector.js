@@ -1,6 +1,8 @@
 import React from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
+import { track } from 'webkit/analytics'
+import { Event } from 'studio/analytics'
 import Type from './Type/Type'
 import AlertTooltip from '../../../../components/AlertTooltip/AlertTooltip'
 import { ALERT_TYPES } from '../../constants'
@@ -20,6 +22,8 @@ const AlertTypeSelector = ({ selectorSettings, isRestrictedMessageClosed }) => {
   } = selectorSettings
 
   function handleSelectType({ type, isSelected }) {
+    track.event(Event.SetAlertType, { type: type.title })
+
     setSelectedType(type)
     setSelectedStep(0)
 

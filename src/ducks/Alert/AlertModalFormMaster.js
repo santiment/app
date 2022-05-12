@@ -4,6 +4,8 @@ import { Formik } from 'formik'
 import { connect } from 'react-redux'
 import { useQuery } from 'react-apollo'
 import isEqual from 'lodash.isequal'
+import { track } from 'webkit/analytics'
+import { Event } from 'studio/analytics'
 import PageLoader from '../../components/Loader/PageLoader'
 import AlertTypeSelector from './components/AlertTypeSelector/AlertTypeSelector'
 import EmptySection from '../../components/EmptySection/EmptySection'
@@ -85,7 +87,11 @@ const AlertModalFormMaster = ({
     (signalData && signalData.trigger && +signalData.trigger.authorId !== +signalData.id)
 
   useEffect(() => {
+    track.event(Event.OpenAlert)
+
     if (id || signalData) {
+      track.event(Event.ClickEditAlert)
+
       setSelectedStep(0)
     }
   }, [id, signalData])
@@ -119,13 +125,14 @@ const AlertModalFormMaster = ({
         id,
         ...triggerValues,
       })
+      track.event(Event.EditAlert)
     } else {
       localStorage.setItem(
         'LAST_TRIGGER_NOTIFICATION_SETTINGS',
         JSON.stringify(triggerValues.settings.channel),
       )
-
       createAlert(triggerValues)
+      track.event(Event.CreateAlert)
     }
     setSubmitting(false)
     handleCloseDialog()

@@ -1,6 +1,8 @@
 import React from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
+import { track } from 'webkit/analytics'
+import { Event } from 'studio/analytics'
 import SignalCard from './card/SignalCard'
 import { removeTrigger, toggleTrigger } from '../../ducks/Signals/common/actions'
 import { sortById } from '../../utils/sortMethods'
@@ -33,12 +35,13 @@ const SignalCardsGrid = ({
             isUserTheAuthor={isAuthor || (signalOwnerId && +signalOwnerId === +userId)}
             key={id || index}
             id={id}
-            toggleSignal={() =>
+            toggleSignal={() => {
+              track.event(Event.ChangeAlertAbility, { flag: !isActive })
               toggleSignal({
                 id,
                 isActive,
               })
-            }
+            }}
             removeSignal={() => {
               removeSignal(id)
             }}
