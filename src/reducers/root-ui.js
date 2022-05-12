@@ -12,10 +12,6 @@ const isNightModeEnabled =
   isShowHalloween() || (isNightMode !== undefined ? isNightMode : isNightModeDeprecated) || false
 const isBetaModeEnabled = isBetaMode !== undefined ? isBetaMode : isBetaModeDeprecated || false
 
-if (isNightModeEnabled) {
-  document.body.classList.add('night-mode')
-}
-
 export const initialState = {
   isOnline: true,
   loginSuccess: false,
