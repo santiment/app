@@ -3,12 +3,20 @@
 
   export let pathname = ''
   export let isCollapsed = false
+
+  $: ({ isExplorerPath, isCreatePath } = getActivePath(pathname))
+
+  function getActivePath(pathname) {
+    if (pathname === '/') return { isExplorerPath: true }
+
+    return { isCreatePath: true }
+  }
 </script>
 
 <div class="minimized" class:collapsed={isCollapsed}>
   <div class="sticky">
     {#if isCollapsed}
-      <div class="btn row hv-center" class:active={pathname === '/'}>
+      <div class="btn row hv-center" class:active={isExplorerPath}>
         <Svg id="folder" w="16" h="14" />
       </div>
 
@@ -16,10 +24,7 @@
         <Svg id="report" w="16" h="16" />
       </div>
 
-      <div
-        class="btn row hv-center"
-        class:active={pathname !== '/' && !pathname.includes('/dashboards')}
-      >
+      <div class="btn row hv-center" class:active={isCreatePath}>
         <Svg id="plus-circle" w="16" />
       </div>
 

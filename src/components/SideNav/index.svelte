@@ -28,8 +28,7 @@
 <aside
   class:collapsed={isCollapsed}
   on:mouseenter={() => (isPeeked = true)}
-  on:mouseleave={() => (isPeeked = false)}
->
+  on:mouseleave={() => (isPeeked = false)}>
   <div class="content">
     <MinimizedCategories {pathname} {isCollapsed} />
     <div class="container txt-m" class:no-scrollbar={isCollapsed}>
@@ -76,14 +75,6 @@
   .content {
     background: var(--athens);
     height: 100%;
-  }
-
-  .container {
-    position: sticky;
-    top: 0;
-    height: calc(100vh - 64px);
-    padding: 24px 16px;
-    overflow: auto;
 
     & :global {
       a.btn {
@@ -102,6 +93,14 @@
         --color: var(--black);
       }
     }
+  }
+
+  .container {
+    position: sticky;
+    top: 0;
+    height: calc(100vh - 64px);
+    padding: 24px 16px;
+    overflow: auto;
   }
 
   .collapsed {
