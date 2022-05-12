@@ -59,7 +59,7 @@ const LoadablePage = (loader) =>
     loading: () => <PageLoader />,
   })
 
-// const LoadableIndexPage = LoadablePage(() => import('./pages/Index'))
+// const LoadableIndexPage = LoadablePage(() => import('./pages/Dashboards'))
 
 const LoadableIndexPage = LoadablePage(() => import('./pages/Explorer'))
 
@@ -92,8 +92,6 @@ const LoadableMobileDetailedPage = LoadablePage(() =>
   import('./pages/Detailed/mobile/MobileDetailedPage'),
 )
 
-const LoadableTrendsLabsPage = LoadablePage(() => import('./pages/Trends/LabsTrendsPage'))
-
 const LoadableTrendsExplorePage = LoadablePage(() => import('./pages/TrendsExplore'))
 
 const LoadableAssetsMobilePage = LoadablePage(() => import('./pages/Watchlists/AssetsMobilePage'))
@@ -103,25 +101,6 @@ const LoadableSearchMobilePage = LoadablePage(() =>
 )
 
 const LoadableChartPage = LoadablePage(() => import('./pages/Studio'))
-
-const LoadableStablecoinsPage = LoadablePage(() =>
-  import('./pages/StablecoinsPage/StablecoinsPage'),
-)
-
-const LoadableETH2Dashboard = LoadablePage(() => import('./pages/ETH2Dashboard/ETH2Dashboard'))
-const LoadableEthAnalysisDashboard = LoadablePage(() =>
-  import('./pages/EthTradingAnalysis/EthTradingAnalysis'),
-)
-
-const LoadableUniswapProtocolPage = LoadablePage(() =>
-  import('./pages/UniswapProtocolPage/UniswapProtocolPage'),
-)
-
-const LoadableDexsPage = LoadablePage(() => import('./pages/DexsPage/DexsPage'))
-
-const LoadableBtcLockedPage = LoadablePage(() => import('./pages/BtcLockedPage/BtcLockedPage'))
-
-const LoadableNftInfluencersPage = LoadablePage(() => import('./pages/NftInfluencersPage/index'))
 
 const LoadableSheetsTemplatePage = LoadablePage(() =>
   import('./pages/SheetsTemplatePage/SheetsTemplatePage'),
@@ -134,6 +113,8 @@ const LoadableUnsubscribePage = LoadablePage(() => import('./pages/Unsubscribe/U
 const LoadableFeedPage = LoadablePage(() => import('./pages/feed/Feed'))
 
 const LoadableAlertsPage = LoadablePage(() => import('./pages/Alerts/Alerts'))
+
+const LoadableDashboardsPage = LoadablePage(() => import('./pages/Dashboards/Dashboards'))
 
 class Route extends React.Component {
   componentWillMount() {
@@ -160,7 +141,7 @@ const ExternalRoutes = [
   },
   {
     to: 'https://data.santiment.net',
-    routes: ['data', 'dashboards'],
+    routes: ['data'],
   },
   {
     to: 'https://docs.santiment.net',
@@ -384,9 +365,7 @@ export const App = ({
                 )
               }
             />
-            <Route exact path='/labs/trends' component={LoadableTrendsLabsPage} />
             <Route exact path='/labs' component={LoadableLabsPage} />
-            <Redirect from='/trends' to='/labs/trends' />
             <Route
               exact
               path={['/labs/trends/explore/:word', '/labs/trends/explore/']}
@@ -458,32 +437,8 @@ export const App = ({
               )}
             />
             <Route
-              path={PATHS.STABLECOINS}
-              render={(props) => <LoadableStablecoinsPage isDesktop={isDesktop} {...props} />}
-            />
-            <Route
-              path={PATHS.ETH2}
-              render={(props) => <LoadableETH2Dashboard isDesktop={isDesktop} {...props} />}
-            />
-            <Route
-              path={PATHS.ETH_ANALYSIS}
-              render={(props) => <LoadableEthAnalysisDashboard isDesktop={isDesktop} {...props} />}
-            />
-            <Route
-              path={PATHS.UNISWAP_PROTOCOL}
-              render={(props) => <LoadableUniswapProtocolPage isDesktop={isDesktop} {...props} />}
-            />
-            <Route
-              path={PATHS.DEXS}
-              render={(props) => <LoadableDexsPage isDesktop={isDesktop} {...props} />}
-            />
-            <Route
-              path={PATHS.BTC_LOCKED}
-              render={(props) => <LoadableBtcLockedPage {...props} />}
-            />
-            <Route
-              path={PATHS.NFT_INFLUENCERS_TRX}
-              render={(props) => <LoadableNftInfluencersPage {...props} />}
+              path={PATHS.DASHBOARDS}
+              render={(props) => <LoadableDashboardsPage {...props} />}
             />
             <Route
               path={PATHS.SHEETS_TEMPLATES}
@@ -542,7 +497,8 @@ const mapStateToProps = ({ user, rootUi }, { location: { pathname } }) => ({
     !isPathnameInPages(pathname, FOOTER_DISABLED_FOR) &&
     !pathname.includes(PATHS.STUDIO) &&
     !pathname.includes(PATHS.CHARTS) &&
-    !pathname.includes(PATHS.LIST),
+    !pathname.includes(PATHS.LIST) &&
+    !pathname.includes(PATHS.DASHBOARDS),
 })
 
 const enhance = compose(

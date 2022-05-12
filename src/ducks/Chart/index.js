@@ -124,7 +124,7 @@ const Chart = ({
   }
 
   useEffect(() => {
-    const { brushPaintConfig, ...rest } = paintConfigs[+isNightMode]
+    const { brushPaintConfig, ...rest } = paintConfigs[isNightMode ? +isNightMode : 0]
 
     Object.assign(chart, rest)
 

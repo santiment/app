@@ -5,8 +5,13 @@ import { useHistory } from 'react-router-dom'
 import { useEventListener } from '../../hooks/eventListeners'
 import styles from './LeftPageNavigation.module.scss'
 
-const extractFirstAnchor = (list, hash, accessor) => {
+export const extractFirstAnchor = (list, hash, accessor, shouldExist) => {
   const matchAnchor = hash ? hash.slice(1) : hash
+
+  if (shouldExist && !matchAnchor) {
+    return list.find((item) => item[accessor])
+  }
+
   return list.find((item) => item[accessor] === matchAnchor) || list[0]
 }
 
@@ -17,7 +22,9 @@ export const useNavigationAnchor = (list, accessor = 'key') => {
   )
 
   useEffect(() => {
-    history.replace(`${window.location.pathname}#${active[accessor]}`)
+    if (list.length > 0 && active && active[accessor]) {
+      history.replace(`${window.location.pathname}#${active[accessor]}`)
+    }
   }, [active])
 
   return {

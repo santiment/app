@@ -1,0 +1,71 @@
+.wrapper {
+  --color: var(--black);
+  --bg-hover: var(--athens);
+  --color-hover: var(--green);
+
+  padding: 8px 16px;
+
+  &:hover {
+    --trigger-display: block;
+
+    box-shadow: 0 2px 8px rgba(47, 53, 77, 0.16);
+  }
+}
+
+.active {
+  background: var(--athens);
+  border-right: 0;
+  border-radius: 0;
+  padding: 16px 16px 24px;
+}
+
+.noSubmenu {
+  padding-bottom: 16px;
+}
+
+.submenuWrapper {
+  border-left: 1px solid var(--porcelain);
+  row-gap: 8px;
+}
+
+.menuItem {
+  --color: var(--black);
+  --color-hover: var(--green-hover);
+
+  padding-left: 16px;
+}
+
+.activeAnchor {
+  --color: var(--green);
+
+  padding-left: 14px;
+  border-radius: 0;
+  border-left: 2px solid var(--green);
+}
+
+.groupTitle {
+  --color: var(--waterloo);
+  --color-hover: var(--waterloo);
+
+  cursor: default;
+  margin-bottom: 4px;
+  margin-top: 8px;
+}
+
+.trigger {
+  --fill: var(--waterloo);
+  --fill-hover: var(--black);
+
+  display: var(--trigger-display, none);
+}
+
+.triggerActive {
+  --fill: var(--black);
+  --trigger-display: block;
+}
+
+.tooltip {
+  z-index: 999;
+  padding: 24px 24px 16px;
+  max-width: 400px;
+}
