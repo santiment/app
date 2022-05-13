@@ -109,8 +109,9 @@
         {/if}
       </div>
     </div>
-
-    <button class="deselect btn caption fluid" on:click={deselect}>Deselect all</button>
+    {#if selections.size > 0}
+      <button class="deselect btn caption fluid" on:click={deselect}>Deselect all</button>
+    {/if}
   </div>
 </Tooltip>
 
