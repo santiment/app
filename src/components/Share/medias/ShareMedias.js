@@ -2,6 +2,8 @@ import React from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
+import { track } from 'webkit/analytics'
+import { AlertsEvents } from '../../../ducks/Alert/analytics'
 import styles from './ShareMedias.module.scss'
 
 const SECRET_LINK_TAG = '__SECRET_LINK_TAG__'
@@ -43,6 +45,7 @@ const ShareMedias = ({
   showTitle = true,
   isDisabled,
   classes = {},
+  isAlert,
 }) => {
   const encodedTitle = encodeURIComponent(shareTitle)
   const encodedText = encodeURIComponent(shareText)
@@ -65,6 +68,11 @@ const ShareMedias = ({
               .replace(SECRET_LINK_TAG, encodedLink)
               .replace(SECRET_TEXT_TAG, encodedText)
               .replace(SECRET_TITLE_TAG, encodedTitle)}
+            onClick={() => {
+              if (isAlert) {
+                track.event(AlertsEvents.ClickCopyAlertLink)
+              }
+            }}
           >
             <Icon type={icon} className={cx(styles.icon, className, classes.mediaIcon)} />
           </Button>

@@ -2,7 +2,9 @@ import React, { PureComponent } from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import copy from 'copy-to-clipboard'
+import { track } from 'webkit/analytics'
 import Button from '@santiment-network/ui/Button'
+import { AlertsEvents } from '../../ducks/Alert/analytics'
 import styles from './SharePanel.module.scss'
 
 class ShareCopyBtn extends PureComponent {
@@ -29,6 +31,10 @@ class ShareCopyBtn extends PureComponent {
   }
 
   onCopyClick = () => {
+    if (this.props.isAlert) {
+      track.event(AlertsEvents.ClickCopyAlertLink)
+    }
+
     copy(this.props.shareLink)
     this.startNotification()
   }

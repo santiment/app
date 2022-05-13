@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
+import { track } from 'webkit/analytics'
 import Toggle from '../../../../ducks/Watchlists/Actions/ChangeVisibility/Toggle'
 import { updateTrigger } from '../../../../ducks/Signals/common/actions'
+import { AlertsEvents } from '../../../../ducks/Alert/analytics'
 
 const UpdatePublicity = ({ signal, updateAlert, ...props }) => {
   const [isActive, setActive] = useState(signal.isPublic)
@@ -9,6 +11,7 @@ const UpdatePublicity = ({ signal, updateAlert, ...props }) => {
   return (
     <Toggle
       onClick={() => {
+        track.event(AlertsEvents.ChangeAlertVisibility, { flag: !isActive })
         setActive(!isActive)
         updateAlert({
           ...signal,

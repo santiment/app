@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
+import { track } from 'webkit/analytics'
 import Icon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Tooltip from '@santiment-network/ui/Tooltip'
@@ -10,6 +11,7 @@ import { DesktopOnly } from '../../Responsive'
 import RemoveSignalButton from './RemoveSignalButton'
 import CopySignal from './CopySignal'
 import UpdatePublicity from './UpdatePublicity/UpdatePublicity'
+import { AlertsEvents } from '../../../ducks/Alert/analytics'
 import { mapStateToQS } from '../../../utils/utils'
 import styles from '../card/SignalCard.module.scss'
 
@@ -44,6 +46,7 @@ const ShareSignal = ({
         shareText={`Crypto Alert '${signalTitle}'`}
         shareLink={link}
         isDisabled={!isPublic && isUserTheAuthor}
+        onOpen={() => track.event(AlertsEvents.ClickShareAlert)}
       >
         <>
           <div

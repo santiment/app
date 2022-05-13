@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useField } from 'formik'
+import { track } from 'webkit/analytics'
 import EmailToggle from './channels/EmailToggle/EmailToggle'
 import TelegramToggle from './channels/TelegramToggle/TelegramToggle'
 import PushToggle from './channels/PushToggle/PushToggle'
@@ -9,6 +10,7 @@ import { useUserSettings } from '../../../../../../../stores/user/settings'
 import { useUser } from '../../../../../../../stores/user'
 import { getSanSonarSW } from '../../../../../../../pages/Account/SettingsSonarWebPushNotifications'
 import { getChannelsTitles } from '../../../../../utils'
+import { AlertsEvents } from '../../../../../analytics'
 import styles from './ChannelsSelector.module.scss'
 
 const ChannelsSelector = () => {
@@ -49,6 +51,10 @@ const ChannelsSelector = () => {
   useEffect(() => {
     checkPushAvailability()
   }, [])
+
+  useEffect(() => {
+    track.event(AlertsEvents.SetAlertChannel, { channel: value })
+  }, [value])
 
   const handleChangeChannels = useCallback(
     (channelTitle) => () => {

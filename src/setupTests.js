@@ -43,4 +43,12 @@ jest.mock('./ducks/Studio/Compare/ProjectSelectTabs.js', () => ({
   default: () => <div />,
 }))
 
+jest.mock(
+  'webkit/analytics',
+  () => ({
+    track: () => {},
+  }),
+  { virtual: true },
+)
+
 window.IntersectionObserver = class {}

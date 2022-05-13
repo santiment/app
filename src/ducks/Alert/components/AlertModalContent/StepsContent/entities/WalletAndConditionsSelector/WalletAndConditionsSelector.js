@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useField } from 'formik'
 import Input from '@santiment-network/ui/Input'
 import Select from '@santiment-network/ui/Select/Select'
+import { track } from 'webkit/analytics'
 import StepTitle from '../../StepTitle/StepTitle'
 import NextStep from '../../NextStep/NextStep'
 import ConditionsSelector from '../../MetricAndConditions/ConditionsSelector/ConditionsSelector'
@@ -9,6 +10,7 @@ import { useProjects } from '../../../../../../../stores/projects'
 import { useWalletAssets } from '../../../../../hooks/useWalletAssets'
 import { Infrastructure } from '../../../../../../../utils/address'
 import { mapAssetsToProjects } from './utils'
+import { AlertsEvents } from '../../../../../analytics'
 import styles from './WalletAndConditionsSelector.module.scss'
 
 const WalletAndConditionsSelector = ({
@@ -73,7 +75,11 @@ const WalletAndConditionsSelector = ({
       <Input
         placeholder='Type an address'
         value={address}
-        onChange={(e) => setAddress(e.target.value)}
+        onChange={(e) => {
+          track.event(AlertsEvents.SetAlertAddress)
+
+          setAddress(e.target.value)
+        }}
         className={styles.addressInput}
       />
       <div className={styles.row}>
@@ -86,7 +92,11 @@ const WalletAndConditionsSelector = ({
         isSearchable={false}
         options={walletProjects}
         value={selectedAsset}
-        onChange={(asset) => setSelectedAsset(asset)}
+        onChange={(asset) => {
+          track.event(AlertsEvents.SetAlertWalletAsset, { asset })
+
+          setSelectedAsset(asset)
+        }}
         className={styles.assetSelect}
       />
       <StepTitle disabled={!selector.slug} title='Conditions' />

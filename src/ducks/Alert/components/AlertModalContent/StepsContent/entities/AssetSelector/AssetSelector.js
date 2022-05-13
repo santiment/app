@@ -2,12 +2,14 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useField } from 'formik'
 import cx from 'classnames'
 import Search from '@santiment-network/ui/Search'
+import { track } from 'webkit/analytics'
 import ProjectsSelectTabs from '../../../../../../Studio/Compare/ProjectSelectTabs'
 import NextStep from '../../NextStep/NextStep'
 import StepTitle from '../../StepTitle/StepTitle'
 import ProjectsList from './ProjectsList/ProjectsList'
 import { useTrendingWords } from '../../../../../../TrendsTable/hooks'
 import { PROJECTS_QUERY, useProjects } from '../../../../../../../stores/projects'
+import { AlertsEvents } from '../../../../../analytics'
 import styles from './AssetSelector.module.scss'
 
 const AssetSelector = ({
@@ -83,6 +85,12 @@ const AssetSelector = ({
           setSlug('')
           setListItems([])
         } else {
+          if (isSocial) {
+            track.event(AlertsEvents.SetAlertSocialTrend, { trend: selected })
+          } else {
+            track.event(AlertsEvents.SetAlertAsset, { asset: selected })
+          }
+
           const selectedAssets = selected.map((item) => item.slug)
           setSlug(selectedAssets.length === 1 ? selectedAssets[0] : selectedAssets)
           setListItems(selected)

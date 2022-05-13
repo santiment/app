@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { useField } from 'formik'
 import { InputWithIcon } from '@santiment-network/ui/Input'
+import { track } from 'webkit/analytics'
 import PageLoader from '../../../../../../../components/Loader/PageLoader'
 import StepTitle from '../../StepTitle/StepTitle'
 import NextStep from '../../NextStep/NextStep'
@@ -9,6 +10,7 @@ import {
   useProjectScreeners,
   useProjectWatchlists,
 } from '../../../../../../Watchlists/gql/lists/hooks'
+import { AlertsEvents } from '../../../../../analytics'
 import styles from './WatchlistAndScreenerSelector.module.scss'
 
 const WatchlistAndScreenerSelector = ({
@@ -47,6 +49,11 @@ const WatchlistAndScreenerSelector = ({
   }
 
   function handleSelectWatchlist(id) {
+    track.event(
+      type === 'watchlist' ? AlertsEvents.SetAlertWatchlist : AlertsEvents.SetAlertScreener,
+      { id },
+    )
+
     if (value === id) {
       setValue('')
     } else {
