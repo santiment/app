@@ -17,7 +17,7 @@
 
 <style>
   .icon {
-    background-color: var(--porcelain);
+    background: var(--porcelain);
   }
 
   .assets > :global(*) {
