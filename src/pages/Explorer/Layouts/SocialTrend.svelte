@@ -15,7 +15,7 @@
   </div>
   <ul class="row v-center c-waterloo caption">
     {#each tags.slice(0, PER_ROW) as item}
-      <li class="mrg-xs mrg--r ">{item}</li>
+      <li class="mrg-xs mrg--r ">{item.word}</li>
     {/each}
     {#if totalTags > PER_ROW}
       <li>+{totalTags - PER_ROW}</li>
