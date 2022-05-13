@@ -7,7 +7,7 @@
 <div class="assets row mrg-l mrg--r">
   {#each assets.slice(0, 3) as { slug }, i}
     <span style="z-index:{5 - i}">
-      <ProjectIcon {slug} size={24} />
+      <ProjectIcon {slug} size={24} class="$style.icon" />
     </span>
   {/each}
   {#if assets.length > 3}
@@ -16,6 +16,10 @@
 </div>
 
 <style>
+  .icon {
+    background: var(--porcelain);
+  }
+
   .assets > :global(*) {
     margin-left: -8px;
   }

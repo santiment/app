@@ -57,7 +57,7 @@ export const queryExplorerItems = ({
         }
       }
     `
-  return query(QUERY, { cacheTime: 20 }).then(accessor)
+  return query(QUERY).then(accessor)
 }
 
 export function queryReports() {
