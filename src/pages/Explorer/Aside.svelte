@@ -30,15 +30,10 @@
 
   const getSocialItems = (page, trends) =>
     new Promise((resolve) => {
-      const words = Object.keys(trends)
-      const items = words.map((word) => ({
-        word,
-        tags: trends[word].map(({ word }) => word),
-      }))
       const begin = (page - 1) * PAGE_SIZE
       return resolve({
-        pages: Math.ceil(words.length / PAGE_SIZE),
-        items: items.slice(begin, begin + PAGE_SIZE),
+        pages: Math.ceil(trends.length / PAGE_SIZE),
+        items: trends.slice(begin, begin + PAGE_SIZE),
       })
     })
 </script>

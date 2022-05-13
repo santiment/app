@@ -23,8 +23,8 @@ const ExplorerPage = () => {
   const { data } = useTrendWordContext(words)
 
   useEffect(() => {
-    trendingWords.set(data)
-  }, [data])
+    trendingWords.set(words.map((word) => ({ word, tags: data[word] || [] })))
+  }, [data, words])
 
   return (
     <>
