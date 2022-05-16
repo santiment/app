@@ -53,11 +53,7 @@ const WalletAndConditionsSelector = ({
     <>
       <div className={styles.titleWrapper}>
         <StepTitle title='Choose Wallet & Conditions' className={styles.title} />
-        <NextStep
-          onClick={handleNextClick}
-          label='Notification settings'
-          className={styles.nextBtn}
-        />
+        {selector.slug && <NextStep onClick={handleNextClick} label='Notification settings' />}
       </div>
       <div className={styles.row}>
         <div className={styles.label}>Wallet address</div>
@@ -99,11 +95,13 @@ const WalletAndConditionsSelector = ({
         }}
         className={styles.assetSelect}
       />
-      <StepTitle disabled={!selector.slug} title='Conditions' />
       {selector.slug && (
-        <div className={styles.conditions}>
-          <ConditionsSelector metric={{ category: '' }} isWallet />
-        </div>
+        <>
+          <StepTitle title='Conditions' />
+          <div className={styles.conditions}>
+            <ConditionsSelector metric={{ category: '' }} isWallet />
+          </div>
+        </>
       )}
     </>
   )

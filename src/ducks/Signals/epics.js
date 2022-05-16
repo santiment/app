@@ -117,7 +117,7 @@ export const createSignalEpic = (action$, store, { client }) =>
     })
 
 export const TRIGGER_TOGGLE_QUERY = gql`
-  mutation updateTrigger($id: Int, $isActive: Boolean) {
+  mutation updateTrigger($id: Int!, $isActive: Boolean) {
     updateTrigger(id: $id, isActive: $isActive) {
       trigger {
         isActive

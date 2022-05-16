@@ -144,7 +144,7 @@ export const ALERT_TYPES = [
     },
     steps: [
       {
-        label: 'Choose Wallet & Conditions',
+        label: 'Choose Wallet',
         description: 'You can choose any wallet',
       },
       {
