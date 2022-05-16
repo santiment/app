@@ -67,6 +67,10 @@ module.exports = function override(config, env) {
       'process.env.IS_PROD_BACKEND': dev
         ? (process.env.REACT_APP_BACKEND_URL || '').includes('-stage') === false
         : 'window.location.hostname.includes("-stage") === false',
+
+      'process.env.IS_STAGE_BACKEND': dev
+        ? (process.env.REACT_APP_BACKEND_URL || '').includes('-stage')
+        : 'window.location.hostname.includes("-stage")',
     }),
   )
 
