@@ -63,7 +63,7 @@ const SignalCardBottom = ({
         ) : (
           <UnpublishedMsg />
         )}
-        {isUserTheAuthor && signal && signal.settings && signal.settings.channel && (
+        {!isFrozen && isUserTheAuthor && signal && signal.settings && signal.settings.channel && (
           <AlertChannelsTooltip signal={signal} />
         )}
         {isUserTheAuthor && toggleSignal && !isFrozen && (
