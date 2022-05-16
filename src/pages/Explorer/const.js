@@ -1,6 +1,7 @@
 import { getSEOLinkFromIdAndTitle } from 'webkit/utils/url'
 
 export const MenuItem = {
+  SANTIMENT: 'Santiment',
   NEW: 'New',
   LIKES: 'Likes',
   MY_CREATIONS: 'My creations',
@@ -69,10 +70,10 @@ export const EntityType = {
 }
 
 export const RANGES = {
-  '12h': '12h',
-  '24h': '1d',
-  '7d': '7d',
-  '30d': '30d',
+  'Last 12h': '12h',
+  'Last 24h': '1d',
+  'Last 7d': '7d',
+  'Last 30d': '30d',
   'All time': '',
 }
 

@@ -31,24 +31,25 @@
       <Svg id="time" w="16" class="mrg-s mrg--r" />
       New
     </div>
-    <div
-      class="btn-2 row v-center mrg-s mrg--l"
-      class:active={activeMenu === MenuItem.LIKES}
-      class:loading={activeMenu === MenuItem.LIKES && loading}
-      on:click={() => changeMenu(MenuItem.LIKES)}
-    >
-      <Svg id="rocket" w="16" class="mrg-s mrg--r" />
-      Likes
-    </div>
-
-    <div
-      class="btn-2 row v-center mrg-a mrg--l"
-      class:active={activeMenu === MenuItem.MY_CREATIONS}
-      class:loading={activeMenu === MenuItem.MY_CREATIONS && loading}
-      on:click={() => changeMenu(MenuItem.MY_CREATIONS)}
-    >
-      <Svg id="user" w="16" class="mrg-s mrg--r" />
-      My creations
+    <div class="row v-center mrg-a mrg--l">
+      <div
+        class="btn-2 row v-center mrg-s mrg--r"
+        class:active={activeMenu === MenuItem.LIKES}
+        class:loading={activeMenu === MenuItem.LIKES && loading}
+        on:click={() => changeMenu(MenuItem.LIKES)}
+      >
+        <Svg id="rocket" w="16" class="mrg-s mrg--r" />
+        My likes
+      </div>
+      <div
+        class="btn-2 row v-center"
+        class:active={activeMenu === MenuItem.MY_CREATIONS}
+        class:loading={activeMenu === MenuItem.MY_CREATIONS && loading}
+        on:click={() => changeMenu(MenuItem.MY_CREATIONS)}
+      >
+        <Svg id="user" w="16" class="mrg-s mrg--r" />
+        My creations
+      </div>
     </div>
   </div>
 
