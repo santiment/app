@@ -31,9 +31,9 @@
 
     <ul>
       {#each FEATURS as feature}
-        <li class="row v-center mrg-m mrg--t">
+        <li class="row mrg-m mrg--t">
           <div class="dot mrg-m mrg--r" />
-          {feature}
+          <p>{feature}</p>
         </li>
       {/each}
     </ul>
@@ -73,5 +73,6 @@
     width: 6px;
     height: 6px;
     min-width: 6px;
+    margin-top: 10px;
   }
 </style>
