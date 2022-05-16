@@ -101,7 +101,7 @@
 
 <Category title="Explorer" {items} onMore={() => (page += 1)} hasMore={page < pages}>
   <div slot="header" class="controls row mrg-a mrg--l">
-    {#if activeMenu !== MenuItem.MY_CREATIONS}
+    {#if activeMenu === MenuItem.NEW}
       <Range
         items={TIME_RANGES}
         selectedIndex={selectedRangeIndex}
