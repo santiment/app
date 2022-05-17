@@ -8,7 +8,7 @@
   export let user = {}
   export let userSubscriptionData = {}
 
-  let activeMenu = MenuItem.NEW
+  let activeMenu = MenuItem.SANTIMENT
   let loading = true
 
   $: currentUser.set(user)
@@ -22,6 +22,15 @@
 
 <main>
   <div class="row v-center mrg-xl mrg--b">
+    <div
+      class="btn-2 row v-center mrg-s mrg--r"
+      class:active={activeMenu === MenuItem.SANTIMENT}
+      class:loading={activeMenu === MenuItem.SANTIMENT && loading}
+      on:click={() => changeMenu(MenuItem.SANTIMENT)}
+    >
+      <Svg id="santiment" w="16" class="mrg-s mrg--r" />
+      Santiment
+    </div>
     <div
       class="btn-2 row v-center"
       class:active={activeMenu === MenuItem.NEW}

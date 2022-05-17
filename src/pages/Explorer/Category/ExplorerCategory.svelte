@@ -31,6 +31,7 @@
   $: showEmpty = !$currentUser && activeMenu !== MenuItem.NEW
   $: voted = activeMenu === MenuItem.LIKES
   $: currentUserDataOnly = activeMenu === MenuItem.MY_CREATIONS
+  $: userRoleDataOnly = activeMenu === MenuItem.SANTIMENT
   $: range, assets, selectedTypes, page, fetch()
   $: onLoadingChange(loading)
 
@@ -61,6 +62,7 @@
       page,
       currentUserDataOnly,
       assets,
+      userRoleDataOnly,
     })
       .then((res) => {
         pages = res.pages
