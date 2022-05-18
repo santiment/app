@@ -99,7 +99,7 @@ const StartGuide = () => {
       <Row title='Connect with Telegram' to='/account' As={Link} isActive={telegram} />
       <Row
         title='Create your first Chart Layout'
-        to={loginHref || '/studio'}
+        to={loginHref || '/charts'}
         As={loginHref && Link}
         isActive={charts}
       />

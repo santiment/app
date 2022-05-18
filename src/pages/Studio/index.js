@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { Redirect } from 'react-router-dom'
 import { parse } from 'query-string'
 import { track } from 'webkit/analytics'
 import { queryLayout } from 'studio/api/layouts'
@@ -31,7 +32,7 @@ const Extensions = (props) => (
   </>
 )
 
-export default ({ location }) => {
+export default ({ location, isDesktop }) => {
   const [parsedUrl, setParsedUrl] = useState()
   const [slug, setSlug] = useState('')
   const [address, setAddress] = useState('')
@@ -135,6 +136,11 @@ export default ({ location }) => {
   if (!parsedUrl) return <PageLoader />
 
   const { widgets, settings, sidewidget } = parsedUrl || {}
+
+  if (!isDesktop) {
+    return <Redirect to={'/projects/' + (settings ? settings.slug : slug)} />
+  }
+
   return (
     <Studio
       slug={slug}

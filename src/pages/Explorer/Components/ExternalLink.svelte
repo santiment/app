@@ -3,7 +3,11 @@
   export let href
 </script>
 
-<a {href} target="_blank" class="btn-3 border">
+<a
+  {href}
+  target="_blank"
+  class="btn-3 border"
+  on:click={href.startsWith('/') ? window.__onLinkClick : null}>
   <Svg id="external-link" w="12" />
 </a>
 

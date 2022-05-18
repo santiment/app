@@ -36,7 +36,7 @@ const ResearchesBlock = ({ className }) => (
           border
           className={styles.button}
           as={Link}
-          to={'/studio'}
+          to={'/charts'}
           target='_blank'
           rel='noopener noreferrer'
         >
