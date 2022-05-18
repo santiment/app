@@ -49,7 +49,7 @@ Setup your editor with prettier-standard lint rules - https://github.com/sheerun
 * [Sanbase](https://app.santiment.net)
 * [Insights](https://insights.santiment.net)
 * [Sheets](https://sheets.santiment.net)
-* [SanR](https://sanr.santiment.net)
+* [SanR](https://sanr.app)
 * [API](https://api.santiment.net)
 * [Knowledge Base](https://academy.santiment.net)
 
