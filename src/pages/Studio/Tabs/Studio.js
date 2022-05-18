@@ -1,7 +1,5 @@
 import React, { useRef, useEffect, useCallback } from 'react'
 import { newGlobalShortcut } from 'webkit/utils/events'
-import { globals } from 'studio/stores/globals'
-import { mapview } from 'studio/stores/mapview'
 import { useHistory } from '../stores'
 import Header from '../Header'
 import Widget from '../Widget'
@@ -63,16 +61,6 @@ const StudioTab = ({
 }) => {
   const History = useHistory(studio)
   const { subscription } = useUserSubscription()
-
-  useEffect(() => {
-    const unsubL = newGlobalShortcut('L', () => globals.toggle('isNewDrawing'))
-    const unsubCmdM = newGlobalShortcut('CMD+M', mapview.toggle)
-
-    return () => {
-      unsubL()
-      unsubCmdM()
-    }
-  }, [])
 
   useEffect(() => {
     if (!History) return

@@ -96,7 +96,7 @@ export const SearchContainer = ({
           if (isMobile) {
             history.push(`/projects/${slug}`)
           } else {
-            history.push(`/studio?slug=${slug}`)
+            history.push(`/charts?slug=${slug}`)
           }
         } else if (category === TRENDING_WORDS) {
           history.push(`/labs/trends/explore/${item}`)

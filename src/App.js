@@ -425,12 +425,23 @@ export const App = ({
               path={PATHS.PRO_METRICS}
               render={(props) => <LoadableProMetricsPage isLoggedIn={isLoggedIn} {...props} />}
             />
-            {!isDesktop && <Redirect from={PATHS.STUDIO} to='/assets' />}
+            <Route
+              path={PATHS.CHARTS}
+              render={(props) => (
+                <LoadableChartPage
+                  classes={{ wrapper: styles.chart }}
+                  isDesktop={isDesktop}
+                  isLoggedIn={isLoggedIn}
+                  {...props}
+                />
+              )}
+            />
             <Route
               path={PATHS.STUDIO}
               render={(props) => (
                 <LoadableChartPage
                   classes={{ wrapper: styles.chart }}
+                  isDesktop={isDesktop}
                   isLoggedIn={isLoggedIn}
                   {...props}
                 />
@@ -451,16 +462,6 @@ export const App = ({
               )}
             />
             <Redirect from={PATHS.LABELS} to={PATHS.ETH_ANALYSIS} />
-            <Route
-              path={PATHS.CHARTS}
-              render={(props) => (
-                <LoadableChartPage
-                  classes={{ wrapper: styles.chart }}
-                  isLoggedIn={isLoggedIn}
-                  {...props}
-                />
-              )}
-            />
             {!isDesktop && <Redirect from={PATHS.EXPLORER} to='/assets' />}
             <Route path={PATHS.EXPLORER} component={LoadableIndexPage} />
           </Switch>
