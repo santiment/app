@@ -59,4 +59,4 @@
   }
 </script>
 
-<Section title="Recent" icon="time" links={recents} {pathname} />
+<Section title="Recents" icon="time" links={recents} {pathname} />

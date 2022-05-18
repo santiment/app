@@ -33,6 +33,7 @@ const ForceActionRedirector = ({ pathname }) => {
     // Disabled
     return
     //
+    /* eslint-disable no-unreachable */
     if (!socket || isProPlus || !shouldCheckPage(pathname)) {
       if (showTabLimitModal) {
         track.event('tab_limit_modal_closed')
