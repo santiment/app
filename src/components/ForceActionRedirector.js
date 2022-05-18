@@ -30,6 +30,9 @@ const ForceActionRedirector = ({ pathname }) => {
   }, [showTabLimitModal])
 
   function checkOpenTabs() {
+    // Disabled
+    return
+    //
     if (!socket || isProPlus || !shouldCheckPage(pathname)) {
       if (showTabLimitModal) {
         track.event('tab_limit_modal_closed')
