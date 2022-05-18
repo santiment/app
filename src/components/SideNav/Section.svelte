@@ -34,7 +34,7 @@
       </a>
     {:else}
       <div class="empty c-waterloo mrg-s mrg--l">
-        Here wil be displayed recently viewed entities
+        Here, we display your recently viewed chart layouts, watchlists, and screeners
       </div>
     {/each}
   </section>
