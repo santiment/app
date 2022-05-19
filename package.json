@@ -151,6 +151,7 @@
     "svelte-adapter": "^0.3.0",
     "svelte-loader": "^2.13.6",
     "svelte-preprocess": "^4.10.6",
+    "svelte-preprocess-cssmodules": "https://github.com/DmitriVanGuard/svelte-preprocess-cssmodules#3b24f22",
     "webpack": "4.44.2",
     "webpack-cli": "^3.1.2",
     "why-did-you-update": "^0.1.1"
