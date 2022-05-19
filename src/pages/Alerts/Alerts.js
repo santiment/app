@@ -28,7 +28,7 @@ function getAlertsRestrictions({ signals, isPro, isProPlus }) {
   return {
     maxAmount,
     currentAmount: signals.length,
-    shouldHideRestrictionMessage: isProPlus || signals.length > maxAmount,
+    shouldHideRestrictionMessage: isProPlus || signals.length < maxAmount,
   }
 }
 
