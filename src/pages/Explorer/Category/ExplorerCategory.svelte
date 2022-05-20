@@ -32,6 +32,7 @@
   $: voted = activeMenu === MenuItem.LIKES
   $: currentUserDataOnly = activeMenu === MenuItem.MY_CREATIONS
   $: userRoleDataOnly = activeMenu === MenuItem.SANTIMENT
+  $: isFeaturedDataOnly = activeMenu === MenuItem.SANTIMENT
   $: range, assets, selectedTypes, page, fetch()
   $: onLoadingChange(loading)
 
@@ -63,6 +64,7 @@
       currentUserDataOnly,
       assets,
       userRoleDataOnly,
+      isFeaturedDataOnly,
     })
       .then((res) => {
         pages = res.pages
