@@ -27,21 +27,6 @@ function loadScript() {
   mixScript('//www.googletagmanager.com/gtag/js?id=' + TRACKER_IDs[0])
 }
 
-const initHotjar = () => {
-  const settings = {
-    hjid: 1829649,
-    hjsv: 6,
-  }
-  window.hj =
-    window.hj ||
-    function () {
-      ;(window.hj.q = window.hj.q || []).push(arguments)
-    }
-  window._hjSettings = settings
-
-  mixScript('https://static.hotjar.com/c/hotjar-' + settings.hjid + '.js?sv=' + settings.hjsv)
-}
-
 const initTwitterPixel = () => {
   mixScript('//static.ads-twitter.com/uwt.js')
   window.twq = function twq() {
@@ -68,7 +53,6 @@ export function initializeTracking(trackerIDs = TRACKER_IDs) {
     })
 
     initTwitterPixel()
-    initHotjar()
   }
 }
 
