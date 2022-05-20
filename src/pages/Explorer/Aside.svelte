@@ -54,7 +54,8 @@
     color="orange"
     iconWidth="14"
     let:item
-    getItems={getRecentItems(EntityKeys.INSIGHT, 'insight')}>
+    getItems={getRecentItems(EntityKeys.INSIGHT, 'insight')}
+  >
     <ExternalLink href="https://insights.santiment.net/" slot="header" />
     <LayoutItem small {item} type={EntityKeys.INSIGHT} />
   </Widget>
@@ -69,7 +70,8 @@
     icon="report"
     color="blue"
     let:item
-    getItems={getCustomItems(queryReports)}>
+    getItems={getCustomItems(queryReports)}
+  >
     <div slot="header" class="pro row hv-center c-white caption">PRO</div>
     <WeeklyReport {item} />
   </Widget>
@@ -78,7 +80,8 @@
     title="Sheets Templates"
     icon="social-trend"
     let:item
-    getItems={getCustomItems(queryTemplates)}>
+    getItems={getCustomItems(queryTemplates)}
+  >
     <div slot="header" class="pro row hv-center c-white caption">PRO</div>
     <SheetsTemplate {item} />
   </Widget>

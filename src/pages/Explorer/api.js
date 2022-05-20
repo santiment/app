@@ -15,6 +15,7 @@ export const queryExplorerItems = ({
   pageSize = 20,
   assets = [],
   userRoleDataOnly = false,
+  isFeaturedDataOnly = false,
 } = {}) => {
   const QUERYKEY = `getMost${voted ? 'Voted' : 'Recent'}`
   const CURSOR = range ? `cursor: { type: AFTER, datetime: "utc_now-${range}" }` : ''
@@ -43,7 +44,8 @@ export const queryExplorerItems = ({
           ${CURSOR}
           ${FILTER_ASSETS}
           ${voted ? `currentUserVotedForOnly: true` : `currentUserDataOnly: ${currentUserDataOnly}`}
-          ${userRoleDataOnly ? 'userRoleDataOnly: SAN_FAMILY' : ''}
+          ${isFeaturedDataOnly ? 'isFeaturedDataOnly: true' : ''}
+          ${userRoleDataOnly ? 'serRoleDataOnly: SAN_FAMILY' : ''}
         ){
           stats {
             totalPagesCount
