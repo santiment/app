@@ -45,7 +45,7 @@ export const queryExplorerItems = ({
           ${FILTER_ASSETS}
           ${voted ? `currentUserVotedForOnly: true` : `currentUserDataOnly: ${currentUserDataOnly}`}
           ${isFeaturedDataOnly ? 'isFeaturedDataOnly: true' : ''}
-          ${userRoleDataOnly ? 'serRoleDataOnly: SAN_FAMILY' : ''}
+          ${userRoleDataOnly ? 'userRoleDataOnly: SAN_FAMILY' : ''}
         ){
           stats {
             totalPagesCount
