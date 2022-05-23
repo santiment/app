@@ -57,7 +57,7 @@ const TopBar = ({
   const [isCommentsOpen, setIsCommentsOpen] = useState(false)
   const { user: currentUser, isLoggedIn } = useUser()
   const { user, name: title, id, description, commentsCount, votes, isPublic } = entity
-  const { data = {} } = usePublicUserData({ userId: isLoggedIn && user.id })
+  const { data = {} } = usePublicUserData({ userId: user && user.id })
   const { isAuthor, isAuthorLoading } = useIsAuthor(entity)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [updateWatchlist, { loading }] = useUpdateWatchlist(type)
