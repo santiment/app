@@ -54,7 +54,6 @@
     "marked": "^4.0.12",
     "medium-draft": "^0.5.15",
     "medium-editor": "^5.23.3",
-    "npm": "^8.10.0",
     "nprogress": "^0.2.0",
     "outliers": "^0.0.3",
     "patch-package": "^6.2.2",
