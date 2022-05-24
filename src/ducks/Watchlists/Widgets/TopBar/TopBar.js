@@ -62,7 +62,6 @@ const TopBar = ({
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [updateWatchlist, { loading }] = useUpdateWatchlist(type)
   const [isEditFormOpened, setIsEditFormOpened] = useState(false)
-  const [zIndex, setZindex] = useState(25)
   const { state } = useLocation()
 
   useEffect(() => {
@@ -83,8 +82,6 @@ const TopBar = ({
   }, [id])
 
   function onVote() {
-    setZindex(100)
-    setTimeout(() => setZindex(25), 2000)
     track.event('watchlist_like', { id })
   }
 
@@ -116,7 +113,7 @@ const TopBar = ({
     })
 
   return (
-    <div className={styles.wrapper} style={{ zIndex }}>
+    <div className={styles.wrapper}>
       <div className={styles.info}>
         <CreationInfo
           id={id}
