@@ -39,11 +39,9 @@ export default ({ pathname }) => {
   }
 
   return (
-    <div style={{zIndex: 25}}>
-      <div ref={ref} className='header'>
-        {searchNode && ReactDOM.createPortal(<Search />, searchNode)}
-        {notificationsNode && ReactDOM.createPortal(<NotificationsFeed />, notificationsNode)}
-      </div>
+    <div ref={ref} className='header'>
+      {searchNode && ReactDOM.createPortal(<Search />, searchNode)}
+      {notificationsNode && ReactDOM.createPortal(<NotificationsFeed />, notificationsNode)}
     </div>
   )
 }
