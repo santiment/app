@@ -28,7 +28,7 @@
   let loading = false
 
   $: activeMenu, reset()
-  $: showEmpty = !$currentUser && activeMenu !== MenuItem.NEW
+  $: showEmpty = !$currentUser && ![MenuItem.NEW, MenuItem.SANTIMENT].includes(activeMenu)
   $: voted = activeMenu === MenuItem.LIKES
   $: currentUserDataOnly = activeMenu === MenuItem.MY_CREATIONS
   $: userRoleDataOnly = activeMenu === MenuItem.SANTIMENT
