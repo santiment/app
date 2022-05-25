@@ -16,7 +16,7 @@
 <UserCreation {item} {small} {type} {showActions} url={getItemUrl(item, type)}>
   {#if !small}
     {#if hasIcons}
-      <AssetIcons {assets} />
+      <AssetIcons assets={assets.filter((asset) => asset.slug)} />
     {:else}
       <AssetTags tags={assets} />
     {/if}
