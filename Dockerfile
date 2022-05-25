@@ -28,7 +28,7 @@ FROM base AS deps
 RUN npm config set depth 0 && npm config set package-lock true
 ENV NODE_ENV=development
 RUN if [ "$CI" = "true" ] ; then npm ci --no-audit --progress=false; else npm i --no-progress --no-audit --prefer-offline; fi
-RUN npx patch-package && npm cache clean --force
+RUN npx patch-package && npm cache clean --force && npm install -U npm
 
 # ---- Execution Dev ----
 FROM base AS dev
