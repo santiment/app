@@ -2,6 +2,7 @@
   import { onMount } from 'svelte'
   import { customerData$ } from 'webkit/stores/user'
   import { subscription$ } from 'webkit/stores/subscription'
+  import { track } from 'webkit/analytics'
   import Svg from 'webkit/ui/Svg/svelte'
   import Product from 'webkit/ui/Product.svelte'
   import Products from 'webkit/ui/Products/svelte'
@@ -38,7 +39,11 @@
     tooltipClassName="$style.dropdown"
   />
 
-  <a href="https://santiment.net/discord" class="discord btn-1 btn--s row v-center nowrap">
+  <a
+    href="https://santiment.net/discord"
+    class="discord btn-1 btn--s row v-center nowrap"
+    on:click={() => track.event('navbar_discord_join_us_clicked')}
+  >
     <Svg id="discord" w="16" h="12" class="mrg-s mrg--r" />
     Join us!</a
   >
