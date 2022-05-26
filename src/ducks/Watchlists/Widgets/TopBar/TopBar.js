@@ -155,17 +155,19 @@ const TopBar = ({
             >
               <Icon type='sidebar' className={styles.closeIcon} />
             </div>
-            <Comments
-              type={type === BLOCKCHAIN_ADDRESS ? CommentsType.Address : CommentsType.Watchlist}
-              commentsFor={{
-                ...entity,
-                id: +entity.id,
-              }}
-              currentUser={currentUser}
-              onAnonComment={onAnonComment}
-              onCommentsLoaded={handleSavedWatchlistComment}
-              onCommentError={onCommentError}
-            />
+            {entity && entity.user && (
+              <Comments
+                type={type === BLOCKCHAIN_ADDRESS ? CommentsType.Address : CommentsType.Watchlist}
+                commentsFor={{
+                  ...entity,
+                  id: +entity.id,
+                }}
+                currentUser={currentUser}
+                onAnonComment={onAnonComment}
+                onCommentsLoaded={handleSavedWatchlistComment}
+                onCommentError={onCommentError}
+              />
+            )}
           </div>
         )}
         {isCommentsOpen && (
