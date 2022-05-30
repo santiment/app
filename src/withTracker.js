@@ -10,7 +10,7 @@ const withTracker = (WrappedComponent) => {
   const trackPage = (page) => {
     if (process.env.NODE_ENV === 'production') {
       pageview(page)
-      track.pageview(page)
+      track.pageview('sanbase')
     }
   }
 
