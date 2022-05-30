@@ -50,7 +50,6 @@ export default ({ location, isDesktop }) => {
     return () => {
       window.onAnonComment = null
       window.onDefaultLayoutAddressSelect = null
-      window.onCommentSubmitted = null
       selectedLayout.set()
     }
   }, [])
