@@ -25,6 +25,7 @@ const WatchlistTable = ({
   updateActiveColumnsKeys,
   normalizeCSVData,
   onRefreshClick,
+  rebuildColumns,
   ...props
 }) => {
   const { items } = props
@@ -83,6 +84,7 @@ const WatchlistTable = ({
               watchlist={watchlist}
               activeColumns={activeColumns}
               updateActiveColumnsKeys={updateActiveColumnsKeys}
+              rebuildColumns={rebuildColumns}
             />
             <DownloadCSV type={BLOCKCHAIN_ADDRESS} watchlist={watchlist} data={csvData} />
           </div>
