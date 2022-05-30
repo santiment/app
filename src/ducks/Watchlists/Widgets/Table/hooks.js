@@ -10,7 +10,11 @@ export function useColumns(type) {
   const [pagination, setPagination] = useState(defaultPagination)
   const [orderBy, setOrderBy] = useState(DEFAULT_ORDER_BY)
   const [activeColumnsKeys, setActiveColumnsKeys] = useState(EMPTY_ARRAY)
-  const activeColumns = useMemo(() => getColumns(activeColumnsKeys, type), [activeColumnsKeys])
+  const [shouldRebuildColumns, rebuildColumns] = useState(0)
+  const activeColumns = useMemo(
+    () => getColumns(activeColumnsKeys, type),
+    [activeColumnsKeys, shouldRebuildColumns],
+  )
 
   const fetchData = useCallback(
     ({ pageSize, sortBy }) => {
@@ -42,5 +46,6 @@ export function useColumns(type) {
     fetchData,
     activeColumns,
     setActiveColumnsKeys,
+    rebuildColumns,
   }
 }

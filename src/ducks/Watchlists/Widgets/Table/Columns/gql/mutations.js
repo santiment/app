@@ -33,7 +33,7 @@ export const CREATE_TABLE_CONFIG_MUTATION = gql`
 `
 
 export const UPDATE_TABLE_CONFIG_MUTATION = gql`
-  mutation updateTableConfiguration($id: ID, $settings: TableConfigurationInputObject!) {
+  mutation updateTableConfiguration($id: ID!, $settings: TableConfigurationInputObject!) {
     config: updateTableConfiguration(id: $id, settings: $settings) {
       id
       type
