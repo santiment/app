@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { track } from 'webkit/analytics'
+import { TwitterTrackActions } from 'webkit/analytics/twitter'
 import { initializeTracking, pageview } from './utils/tracking'
 
 if (process.env.NODE_ENV === 'production') {
@@ -9,6 +11,7 @@ const withTracker = (WrappedComponent) => {
   const trackPage = (page) => {
     if (process.env.NODE_ENV === 'production') {
       pageview(page)
+      track.event(TwitterTrackActions.pageview)
     }
   }
 
