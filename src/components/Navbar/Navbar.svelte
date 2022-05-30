@@ -36,7 +36,7 @@
     isCompact
     isColumn
     class="mrg-xxl mrg--r"
-    tooltipClassName="$style.dropdown"
+    tooltipClass="$style.dropdown"
   />
 
   <a
