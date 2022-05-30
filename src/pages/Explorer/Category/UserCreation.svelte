@@ -6,7 +6,7 @@
   import Actions from '../Components/Actions'
   import { currentUser } from '../store'
   import { history } from '../../../redux'
-  import { EntityType, getItemRoute } from '../const'
+  import { getItemRoute } from '../const'
   import { storeActivity } from '../api'
 
   export let item = {}
