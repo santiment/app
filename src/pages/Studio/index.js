@@ -21,6 +21,7 @@ import { getIdFromSEOLink } from '../../utils/url'
 import { getFullUrl } from '../../components/Share/utils'
 import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
 import PageLoader from '../../components/Loader/PageLoader'
+import { storeActivity } from '../../pages/Explorer/api'
 
 const parseLayout = (layout) => layout && queryLayout(+layout).then(selectedLayout.set)
 
@@ -49,9 +50,18 @@ export default ({ location, isDesktop }) => {
     return () => {
       window.onAnonComment = null
       window.onDefaultLayoutAddressSelect = null
+      window.onCommentSubmitted = null
       selectedLayout.set()
     }
   }, [])
+
+  useEffect(() => {
+    if (parsedUrl && parsedUrl.layout) {
+      window.onCommentSubmitted = () =>
+        storeActivity('CHART_CONFIGURATION', parsedUrl.layout, 'COMMENT')
+    }
+    return () => (window.onCommentSubmitted = null)
+  }, [parsedUrl])
 
   useEffect(() => {
     const { slug: newSlug, address: newAddress } = parse(search)
