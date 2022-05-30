@@ -248,5 +248,6 @@ function getStoreActivityMutation(entityType, entityId, interactionType) {
     } 
   `
 }
-  
-export const storeActivity = (entityType, entityId, interactionType) => mutate(getStoreActivityMutation(entityType, entityId, interactionType))
+
+export const storeActivity = (entityType, entityId, interactionType) =>
+  mutate(getStoreActivityMutation(entityType, entityId, interactionType))

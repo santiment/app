@@ -83,7 +83,7 @@ const TopBar = ({
   }, [id])
 
   function onVote() {
-    storeActivity(entity.type, id, "UPVOTE")
+    storeActivity(type, id, 'UPVOTE')
     track.event('watchlist_like', { id })
   }
 
@@ -168,7 +168,7 @@ const TopBar = ({
                 onAnonComment={onAnonComment}
                 onCommentsLoaded={handleSavedWatchlistComment}
                 onCommentError={onCommentError}
-                onCommentSubmitted={console.log}
+                onCommentSubmitted={() => storeActivity(type, id, 'COMMENT')}
               />
             )}
           </div>
