@@ -1,5 +1,6 @@
-import { query } from 'webkit/api'
-import { EntityKeys } from './const'
+import { query, mutate } from 'webkit/api'
+
+import { EntityKeys, EntityType } from './const'
 
 const accessor = ({ getExplorerItems: { stats, data } }) => ({
   pages: stats.totalPagesCount,
@@ -229,3 +230,23 @@ export const EntityQuery = {
       }
   }`,
 }
+
+function getStoreActivityMutation(entityType, entityId, interactionType) {
+  let normalizedEntityType = entityType
+
+  if (EntityType[entityType]) {
+    normalizedEntityType = EntityType[entityType].key
+  }
+
+  return `
+    mutation {
+        storeUserEntityInteraction(
+            entityType: ${normalizedEntityType}
+            entityId: ${entityId}
+            interactionType: ${interactionType}
+        )
+    } 
+  `
+}
+  
+export const storeActivity = (entityType, entityId, interactionType) => mutate(getStoreActivityMutation(entityType, entityId, interactionType))
