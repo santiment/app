@@ -408,7 +408,13 @@ export const App = ({
               render={(props) => (
                 <ExternalRedirect to={`${getConsentUrl()}/consent${props.location.search}`} />
               )}
-            />{' '}
+            />
+            <Route
+              path='/read'
+              render={(props) => (
+                <ExternalRedirect to={`https://insights.santiment.net${props.location.pathname}`} />
+              )}
+            />
             <Route
               path={['/profile/:id', '/profile']}
               render={(props) => (
