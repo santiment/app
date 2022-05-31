@@ -8,6 +8,7 @@
   import { EntityType, getItemRoute } from '../const'
   import { currentUser } from '../store'
   import { history } from '../../../redux'
+  import { mutateStoreUserActivity, InteractionType } from '../../../queries/userActivity'
 
   let className = ''
   export { className as class }
@@ -24,7 +25,7 @@
   let voteTimeout
 
   $: id = item.trigger ? item.trigger.id : item.id
-  $: ({ voteKey, deleteKey, singular } = EntityType[type])
+  $: ({ key, voteKey, deleteKey, singular } = EntityType[type])
 
   const filterExplorerItems = getContext('filterExplorerItems')
   const updateExplorerItem = getContext('updateExplorerItem')
@@ -44,6 +45,7 @@
     }
 
     vote(id, voteKey).then((votes) => {
+      mutateStoreUserActivity(key, id, InteractionType.UPVOTE)
       onVoteCountChange(votes.totalVotes)
       clearTimeout(voteTimeout)
       label = 'Voted!'

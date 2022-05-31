@@ -23,6 +23,7 @@ import { useIsAuthor } from '../../gql/list/hooks'
 import { onAnonComment, onCommentError } from '../../../../pages/Studio/utils'
 import { useUpdateWatchlist } from '../../gql/list/mutations'
 import { notifyUpdate } from './notifications'
+import { mutateStoreUserActivity, InteractionType } from '../../../../queries/userActivity'
 import styles from './TopBar.module.scss'
 
 export const CreationInfo = toReact(
@@ -82,6 +83,7 @@ const TopBar = ({
   }, [id])
 
   function onVote() {
+    mutateStoreUserActivity(type, id, InteractionType.UPVOTE)
     track.event('watchlist_like', { id })
   }
 
@@ -166,6 +168,7 @@ const TopBar = ({
                 onAnonComment={onAnonComment}
                 onCommentsLoaded={handleSavedWatchlistComment}
                 onCommentError={onCommentError}
+                onCommentSubmitted={() => mutateStoreUserActivity(type, id, 'COMMENT')}
               />
             )}
           </div>
