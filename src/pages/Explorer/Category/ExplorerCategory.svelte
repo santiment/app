@@ -26,6 +26,7 @@
   let pullingTimer
   let deselectAssets = () => {}
   let loading = false
+  let deletedItems = []
 
   $: activeMenu, reset()
   $: showEmpty = !$currentUser && ![MenuItem.NEW, MenuItem.SANTIMENT].includes(activeMenu)
@@ -35,10 +36,9 @@
   $: isFeaturedDataOnly = activeMenu === MenuItem.SANTIMENT
   $: range, assets, selectedTypes, page, fetch()
   $: onLoadingChange(loading)
+  $: deletedItems, items = items.filter((item) => !deletedItems.includes(getExplorerItem(item)))
 
-  setContext('filterExplorerItems', (itemToExclude) => {
-    items = items.filter((item) => getExplorerItem(item) !== itemToExclude)
-  })
+  setContext('filterExplorerItems', (itemToExclude) => deletedItems = deletedItems.concat(itemToExclude))
 
   setContext('updateExplorerItem', (itemToUpdate, title, description, isPublic) => {
     const target = itemToUpdate.trigger || itemToUpdate
