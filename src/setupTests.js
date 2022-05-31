@@ -51,4 +51,13 @@ jest.mock(
   { virtual: true },
 )
 
+jest.mock(
+  'webkit/analytics/twitter',
+  () => ({
+    initTwitterPixel: () => {},
+    TwitterTrackActions: {},
+  }),
+  { virtual: true },
+)
+
 window.IntersectionObserver = class {}
