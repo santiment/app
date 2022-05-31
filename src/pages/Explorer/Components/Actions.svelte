@@ -4,6 +4,7 @@
   import { copy } from 'webkit/utils'
   import { vote } from './api'
   import { showDeleteConfirmationDialog } from './DeleteConfirmationDialog.svelte'
+  import { showHideConfirmationDialog } from './HideConfirmationDialog.svelte'
   import { showEditDialog } from './EditDialog.svelte'
   import { EntityType, getItemRoute } from '../const'
   import { currentUser } from '../store'
@@ -14,7 +15,6 @@
   export { className as class }
 
   export let isOwner = false
-  export let isModerator = false
   export let url
   export let item = {}
   export let type
@@ -95,6 +95,11 @@
       updateExplorerItem,
     )
   }
+
+  function onHide(e) {
+    e.preventDefault()
+    showHideConfirmationDialog({ key, singular, id, item }, filterExplorerItems)
+  }
 </script>
 
 <div class="actions">
@@ -112,8 +117,8 @@
       {/if}
       <Svg id="rocket" w="16" class="btn $style.svg" on:click={onVote} />
       <Svg id="share-dots" w="16" class="btn $style.svg" on:click={onShare} />
-      {#if isModerator}
-        <Svg id="eye-crossed" w="16" class="btn $style.svg" />
+      {#if $currentUser.isModerator && !isOwner}
+        <Svg id="eye-crossed" w="16" class="btn $style.svg" on:click={onHide} />
       {/if}
     {/if}
   </div>

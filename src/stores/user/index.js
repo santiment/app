@@ -19,6 +19,7 @@ export const USER_QUERY = gql`
       stripeCustomerId
       marketingAccepted
       privacyPolicyAccepted
+      isModerator
       following {
         count
         users {

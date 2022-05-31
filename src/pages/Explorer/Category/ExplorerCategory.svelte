@@ -36,9 +36,12 @@
   $: isFeaturedDataOnly = activeMenu === MenuItem.SANTIMENT
   $: range, assets, selectedTypes, page, fetch()
   $: onLoadingChange(loading)
-  $: deletedItems, items = items.filter((item) => !deletedItems.includes(getExplorerItem(item)))
+  $: deletedItems, (items = items.filter((item) => !deletedItems.includes(getExplorerItem(item))))
 
-  setContext('filterExplorerItems', (itemToExclude) => deletedItems = deletedItems.concat(itemToExclude))
+  setContext(
+    'filterExplorerItems',
+    (itemToExclude) => (deletedItems = deletedItems.concat(itemToExclude)),
+  )
 
   setContext('updateExplorerItem', (itemToUpdate, title, description, isPublic) => {
     const target = itemToUpdate.trigger || itemToUpdate
