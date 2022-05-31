@@ -8,7 +8,7 @@
   import { EntityType, getItemRoute } from '../const'
   import { currentUser } from '../store'
   import { history } from '../../../redux'
-  import { storeActivity } from '../api'
+  import { mutateStoreUserActivity, InteractionType } from '../../../queries/userActivity'
 
   let className = ''
   export { className as class }
@@ -45,7 +45,7 @@
     }
 
     vote(id, voteKey).then((votes) => {
-      storeActivity(key, id, 'UPVOTE')
+      mutateStoreUserActivity(key, id, InteractionType.UPVOTE)
       onVoteCountChange(votes.totalVotes)
       clearTimeout(voteTimeout)
       label = 'Voted!'

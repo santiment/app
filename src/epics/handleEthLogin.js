@@ -1,5 +1,7 @@
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
+import { track } from 'webkit/analytics'
+import { TwitterTrackActions } from 'webkit/analytics/twitter'
 import * as web3Helpers from './../web3Helpers'
 import * as actions from './../actions/types'
 import { handleErrorAndTriggerAction } from './utils'
@@ -87,6 +89,10 @@ const handleEthLogin = (action$, store, { client }) =>
             GA.event({
               category: 'User',
               action: 'First login',
+            })
+            track.event(TwitterTrackActions.signup, {
+              content_category: 'contact form',
+              content_name: 'sign-up',
             })
           }
           savePrevAuthProvider('metamask')

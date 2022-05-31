@@ -21,7 +21,8 @@ import { getIdFromSEOLink } from '../../utils/url'
 import { getFullUrl } from '../../components/Share/utils'
 import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
 import PageLoader from '../../components/Loader/PageLoader'
-import { storeActivity } from '../../pages/Explorer/api'
+import { mutateStoreUserActivity, InteractionType } from '../../queries/userActivity'
+import { EntityKeys } from '../../pages/Explorer/const'
 
 const parseLayout = (layout) => layout && queryLayout(+layout).then(selectedLayout.set)
 
@@ -57,7 +58,11 @@ export default ({ location, isDesktop }) => {
   useEffect(() => {
     if (parsedUrl && parsedUrl.layout) {
       window.onCommentSubmitted = () =>
-        storeActivity('CHART_CONFIGURATION', parsedUrl.layout, 'COMMENT')
+        mutateStoreUserActivity(
+          EntityKeys.CHART_CONFIGURATION,
+          parsedUrl.layout,
+          InteractionType.COMMENT,
+        )
     }
     return () => (window.onCommentSubmitted = null)
   }, [parsedUrl])

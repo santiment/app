@@ -7,7 +7,7 @@
   import { currentUser } from '../store'
   import { history } from '../../../redux'
   import { getItemRoute } from '../const'
-  import { storeActivity } from '../api'
+  import { mutateStoreUserActivity, InteractionType } from '../../../queries/userActivity'
 
   export let item = {}
   export let small = false
@@ -27,7 +27,7 @@
     }
     if (url.includes(location.hostname)) {
       e.preventDefault()
-      storeActivity(type, item.trigger ? item.trigger.id : item.id, 'VIEW')
+      mutateStoreUserActivity(type, item.trigger ? item.trigger.id : item.id, InteractionType.VIEW)
       history.push(getItemRoute(item, type))
     }
   }

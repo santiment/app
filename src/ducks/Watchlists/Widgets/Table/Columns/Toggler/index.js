@@ -25,6 +25,7 @@ const Toggler = ({
   setOrderBy,
   type,
   flexible = true,
+  rebuildColumns,
 }) => {
   const { isNightMode } = useTheme()
   const { isAuthor } = useIsAuthor(watchlist)
@@ -77,6 +78,7 @@ const Toggler = ({
       setActiveKeys(metrics)
       setCurrActiveKeys(metrics)
       updateActiveColumnsKeys(metrics)
+      rebuildColumns && rebuildColumns((prev) => prev + 1)
     }
   }, [config, categories])
 

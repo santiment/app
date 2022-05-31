@@ -50,7 +50,7 @@ const normalizeCSVData = (items) => items.map(normalizeCSVItem)
 
 const WatchlistAddressesTable = (props) => {
   const [list, setList] = useState(props.watchlist)
-  const { activeColumns, setActiveColumnsKeys } = useColumns(BLOCKCHAIN_ADDRESS)
+  const { activeColumns, setActiveColumnsKeys, rebuildColumns } = useColumns(BLOCKCHAIN_ADDRESS)
   const columns = useMemo(() => {
     const columns = combineColumns(activeColumns)
     if (props.isDesktop) return columns
@@ -65,6 +65,7 @@ const WatchlistAddressesTable = (props) => {
   return (
     <WatchlistTable
       {...props}
+      rebuildColumns={rebuildColumns}
       items={items}
       columns={columns}
       activeColumns={activeColumns}

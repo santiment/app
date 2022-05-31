@@ -1,3 +1,5 @@
+import { initTwitterPixel } from 'webkit/analytics/twitter'
+
 const TRACKER_IDs = ['UA-100571693-1', 'UA-100571693-2']
 const APP_NAME = 'Sanbase'
 
@@ -25,17 +27,6 @@ function mixScript(src) {
 
 function loadScript() {
   mixScript('//www.googletagmanager.com/gtag/js?id=' + TRACKER_IDs[0])
-}
-
-const initTwitterPixel = () => {
-  mixScript('//static.ads-twitter.com/uwt.js')
-  window.twq = function twq() {
-    window.twq.exe ? window.twq.exe.apply(window.twq, arguments) : window.twq.queue.push(arguments)
-  }
-  window.twq.version = '1.1'
-  window.twq.queue = []
-  window.twq('init', 'o0e0e')
-  window.twq('track', 'PageView')
 }
 
 export function initializeTracking(trackerIDs = TRACKER_IDs) {
