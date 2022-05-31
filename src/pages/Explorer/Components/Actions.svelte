@@ -117,7 +117,7 @@
       {/if}
       <Svg id="rocket" w="16" class="btn $style.svg" on:click={onVote} />
       <Svg id="share-dots" w="16" class="btn $style.svg" on:click={onShare} />
-      {#if $currentUser.isModerator && !isOwner}
+      {#if $currentUser && $currentUser.isModerator}
         <Svg id="eye-crossed" w="16" class="btn $style.svg" on:click={onHide} />
       {/if}
     {/if}
