@@ -1,9 +1,9 @@
 import { mutate } from 'webkit/api'
 
-const HIDE_ENTITY_MUTATION = (id, hideKey) => `
+const HIDE_ENTITY_MUTATION = (id, entityType) => `
     mutation {
-        moderateHide(entityType: ${hideKey}, entityId: ${id})
+        moderateHide(entityType: ${entityType}, entityId: ${id})
     }
 `
 
-export default (id, hideKey) => mutate(HIDE_ENTITY_MUTATION(id, hideKey))
+export default (id, entityType) => mutate(HIDE_ENTITY_MUTATION(id, entityType))

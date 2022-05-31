@@ -36,7 +36,12 @@
   $: isFeaturedDataOnly = activeMenu === MenuItem.SANTIMENT
   $: range, assets, selectedTypes, page, fetch()
   $: onLoadingChange(loading)
-  $: deletedItems, (items = items.filter((item) => !deletedItems.includes(getExplorerItem(item))))
+  $: items  = filterDeletedItems(deletedItems)
+  
+  function filterDeletedItems(deletedItems) {
+      const deletedSet = new Set(deletedItem)
+      return items.filter((item) => !deletedSet.has(getExplorerItem(item)))
+  }
 
   setContext(
     'filterExplorerItems',
