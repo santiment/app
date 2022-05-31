@@ -35,6 +35,7 @@ import Intercom from './components/Intercom/index.js'
 import LiveWidget from './components/LiveWidget'
 import SideNav from './components/SideNav'
 import TrialPromptDialog from './components/TrialPromptDialog'
+import OfferPopup from './components/OfferPopup/OfferPopup'
 import { useSavedComment } from './hooks/comment'
 import styles from './App.module.scss'
 import './index.scss'
@@ -231,6 +232,7 @@ export const App = ({
         ) : (
           <MobileNavbar activeLink={pathname} />
         )}
+        {isDesktop && <OfferPopup />}
         <ForceActionRedirector pathname={pathname} />
         {isDesktop && <UrlModals />}
 
