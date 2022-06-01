@@ -68,14 +68,14 @@
 
   function onDelete(e) {
     e.preventDefault()
+    const isModerator = $currentUser && $currentUser.isModerator
     showDeleteConfirmationDialog(
       {
         item,
         singular,
         id,
-        deleteKey,
-        key,
-        isModerator: $currentUser && $currentUser.isModerator,
+        deleteKey: isModerator ? key : deleteKey,
+        isModerator,
       },
       filterExplorerItems,
     )
