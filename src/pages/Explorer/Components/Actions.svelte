@@ -114,9 +114,6 @@
         <Svg id="comment" w="16" class="btn $style.svg" on:click={onComment} />
       {/if}
     {:else}
-      {#if $currentUser && $currentUser.isModerator}
-        <Svg id="delete" w="16" class="btn $style.svg" on:click={onDelete} />
-      {/if}
       {#if showCommentAction}
         <Svg id="comment" w="16" class="btn $style.svg" on:click={onComment} />
       {/if}
@@ -124,6 +121,7 @@
       <Svg id="share-dots" w="16" class="btn $style.svg" on:click={onShare} />
       {#if $currentUser && $currentUser.isModerator}
         <Svg id="eye-crossed" w="16" class="btn $style.svg" on:click={onHide} />
+        <Svg id="delete" w="16" class="btn $style.svg" on:click={onDelete} />
       {/if}
     {/if}
   </div>
