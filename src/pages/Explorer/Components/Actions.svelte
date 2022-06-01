@@ -114,7 +114,9 @@
         <Svg id="comment" w="16" class="btn $style.svg" on:click={onComment} />
       {/if}
     {:else}
-      <Svg id="delete" w="16" class="btn $style.svg" on:click={onDelete} />
+      {#if $currentUser && $currentUser.isModerator}
+        <Svg id="delete" w="16" class="btn $style.svg" on:click={onDelete} />
+      {/if}
       {#if showCommentAction}
         <Svg id="comment" w="16" class="btn $style.svg" on:click={onComment} />
       {/if}
