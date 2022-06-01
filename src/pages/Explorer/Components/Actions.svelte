@@ -68,12 +68,14 @@
 
   function onDelete(e) {
     e.preventDefault()
+    const isModerator = $currentUser && $currentUser.isModerator
     showDeleteConfirmationDialog(
       {
         item,
         singular,
         id,
-        deleteKey,
+        deleteKey: isModerator ? key : deleteKey,
+        isModerator,
       },
       filterExplorerItems,
     )
@@ -112,6 +114,7 @@
         <Svg id="comment" w="16" class="btn $style.svg" on:click={onComment} />
       {/if}
     {:else}
+      <Svg id="delete" w="16" class="btn $style.svg" on:click={onDelete} />
       {#if showCommentAction}
         <Svg id="comment" w="16" class="btn $style.svg" on:click={onComment} />
       {/if}

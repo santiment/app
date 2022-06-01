@@ -1,6 +1,14 @@
 import { mutate } from 'webkit/api'
 
-function getDeleteMutation(id, deleteKey) {
+function getDeleteMutation(id, deleteKey, isModerator) {
+  if (isModerator) {
+    return `
+      mutation {
+        remove: moderateDelete(entityType: ${deleteKey}, entityId: ${id})
+      }
+    `
+  }
+
   let mutation = 'removeWatchlist'
   let data = 'id'
 
@@ -18,12 +26,12 @@ function getDeleteMutation(id, deleteKey) {
   }
 
   return `
-        mutation {
-            remove: ${mutation}(id: ${id}) {
-                ${data}
-            }
-        }
+      mutation {
+          remove: ${mutation}(id: ${id}) {
+              ${data}
+          }
+      }
     `
 }
 
-export default (id, deleteKey) => mutate(getDeleteMutation(id, deleteKey))
+export default (id, deleteKey, isModerator) => mutate(getDeleteMutation(id, deleteKey, isModerator))
