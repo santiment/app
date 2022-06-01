@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import cx from 'classnames'
 import { useHistory } from 'react-router-dom'
 import Dialog from '@santiment-network/ui/Dialog'
+import { saveBoolean, getSavedBoolean } from 'webkit/utils/localStorage'
 import { useDialogState } from '../../hooks/dialog'
 import { useCustomerData } from './hooks/useCustomerData'
 import { useUser } from '../../stores/user'
@@ -23,12 +24,12 @@ const OfferPopup = () => {
   const { data, loading, error } = useCustomerData({ isLoggedIn })
 
   function handleCloseOffer() {
-    localStorage.setItem(IS_OFFER_VIEWED, JSON.stringify(true))
+    saveBoolean(IS_OFFER_VIEWED, JSON.stringify(true))
     closeDialog()
   }
 
   function handleOpenOffer() {
-    const isOfferViewed = JSON.parse(localStorage.getItem(IS_OFFER_VIEWED))
+    const isOfferViewed = getSavedBoolean(IS_OFFER_VIEWED)
 
     if (!isOfferViewed) {
       openDialog()
@@ -43,7 +44,11 @@ const OfferPopup = () => {
 
   useEffect(() => {
     if (!hideDialog) {
-      setTimeout(handleOpenOffer, TIMEOUT)
+      const timeoutID = setTimeout(handleOpenOffer, TIMEOUT)
+
+      return () => {
+        clearTimeout(timeoutID)
+      }
     }
   }, [hideDialog])
 
