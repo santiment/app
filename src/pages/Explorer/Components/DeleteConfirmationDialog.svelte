@@ -17,10 +17,10 @@
 
   let closeDialog
 
-  $: ({ item, id, singular, deleteKey } = itemData)
+  $: ({ item, id, singular, deleteKey, isModerator, key } = itemData)
 
   const onDeleteClick = () =>
-    deleteAction(id, deleteKey)
+    deleteAction(id, isModerator ? key : deleteKey, isModerator)
       .then(() => filterExplorerItems(item))
       .then(closeDialog)
 </script>
