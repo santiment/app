@@ -36,7 +36,8 @@
     </div>
     <div class="row hv-center">
       <button class="btn-1 mrg-m mrg--r" on:click={onDeleteClick}>Delete</button>
-      <button class="btn-2" on:click={closeDialog}>Cancel</button>
+      <!-- svelte-ignore a11y-autofocus -->
+      <button class="btn-2" autofocus on:click={closeDialog}>Cancel</button>
     </div>
   </div>
 </Dialog>
