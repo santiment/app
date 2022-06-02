@@ -23,12 +23,6 @@
     deleteAction(id, deleteKey, isModerator)
       .then(() => filterExplorerItems(item))
       .then(closeDialog)
-
-  function onEnterKeyPressed(event) {
-    event.stopPropagation()
-    event.preventDefault()
-    console.log({ key: event.code })
-  }
 </script>
 
 <Dialog {...$$props} noTitle bind:closeDialog>
