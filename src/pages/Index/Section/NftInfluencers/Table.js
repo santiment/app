@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import NftTable from '../../../../ducks/Table'
 import { dateDifferenceInWords } from '../../../../utils/dates'
 import { useNftQuery, useNftCountQuery } from './hooks'
+import { capitalizeStr } from '../../../../utils/utils'
 import {
   HOME_INDEX,
   PAGE_INDEX,
@@ -46,7 +48,15 @@ const Table = ({ isHome = true }) => {
         case 'Activity':
           return <Activity original={row.original} />
         case 'NFT collection name':
-          return row.original.nft.name
+          return (
+            <Link
+              className={styles.transaction}
+              to={`/charts?settings=%7B%22address%22%3A%22${row.original.nft.contractAddress}%22%7D&widgets=%5B%7B%22widget%22%3A%22ChartWidget%22%2C%22wm%22%3A%5B%22nft_social_volume%22%5D%2C%22wax%22%3A%5B0%5D%2C%22wc%22%3A%5B%22%23FFCB47%22%5D%2C%22ws%22%3A%7B%220%22%3A%7B%22interval%22%3A%221d%22%7D%7D%7D%2C%7B%22widget%22%3A%22ChartWidget%22%2C%22wm%22%3A%5B%22contract_transactions_count%22%2C%22contract_interacting_addresses_count%22%5D%2C%22wax%22%3A%5B0%2C1%5D%2C%22wc%22%3A%5B%22%23F47BF7%22%2C%22%23FF5B5B%22%5D%7D%5D`}
+            >
+              {capitalizeStr(row.original.nft.name)}
+              {<TRXhash hash={row.original.nft.contractAddress} asLink={false} />}
+            </Link>
+          )
         case 'Transaction':
           return (
             <Transaction
