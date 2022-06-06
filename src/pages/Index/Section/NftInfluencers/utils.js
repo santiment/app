@@ -98,14 +98,23 @@ export const Transaction = ({ from, to }) => (
   </div>
 )
 
-export const TRXhash = ({ hash }) => (
-  <a
-    href={`https://etherscan.io/tx/${hash}`}
-    className={styles.address}
-    title={hash}
-    target='_blank'
-    rel='noopener noreferrer'
-  >
-    {truncate(hash)}
-  </a>
-)
+export const TRXhash = ({ hash, asLink = true }) => {
+  if (!asLink) {
+    return (
+      <span className={styles.address} title={hash}>
+        {truncate(hash)}
+      </span>
+    )
+  }
+  return (
+    <a
+      href={`https://etherscan.io/tx/${hash}`}
+      className={styles.address}
+      title={hash}
+      target='_blank'
+      rel='noopener noreferrer'
+    >
+      {truncate(hash)}
+    </a>
+  )
+}
