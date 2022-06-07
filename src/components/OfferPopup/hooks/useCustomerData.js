@@ -1,23 +1,17 @@
-import { useQuery } from '@apollo/react-hooks'
-import { useUserSubscriptions } from '../../../stores/user/subscriptions'
-import { ANNUAL_DISCOUNT_QUERY } from './queries'
+import { useEffect, useState } from 'react'
+import { customerData$ } from 'webkit/stores/user'
 
-export const useCustomerData = ({ isLoggedIn }) => {
-  const { isEligibleForSanbaseTrial, loading: userLoading } = useUserSubscriptions()
-  const {
-    data = {},
-    loading: discountLoading,
-    error,
-  } = useQuery(ANNUAL_DISCOUNT_QUERY, {
-    skip: !isLoggedIn,
+export const useCustomerData = () => {
+  const [data, setData] = useState({
+    isLoggedIn: false,
+    sanBalance: 0,
+    isEligibleForTrial: false,
+    annualDiscount: {},
   })
 
-  return {
-    data: {
-      ...data,
-      isEligibleForSanbaseTrial,
-    },
-    loading: discountLoading || userLoading,
-    error,
-  }
+  useEffect(() => {
+    customerData$.subscribe((val) => setData(val))
+  }, [])
+
+  return data
 }

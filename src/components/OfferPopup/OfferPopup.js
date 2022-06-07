@@ -5,7 +5,6 @@ import Dialog from '@santiment-network/ui/Dialog'
 import { saveBoolean, getSavedBoolean } from 'webkit/utils/localStorage'
 import { useDialogState } from '../../hooks/dialog'
 import { useCustomerData } from './hooks/useCustomerData'
-import { useUser } from '../../stores/user'
 import { ReactComponent as OffersSvg } from './images/offers.svg'
 import styles from './OfferPopup.module.scss'
 
@@ -19,9 +18,8 @@ const TIMEOUT = 5 * 60 * 1000
 
 const OfferPopup = () => {
   const history = useHistory()
-  const { isLoggedIn } = useUser()
   const { isOpened, closeDialog, openDialog } = useDialogState()
-  const { data, loading, error } = useCustomerData({ isLoggedIn })
+  const { annualDiscount, isLoggedIn } = useCustomerData()
 
   function handleCloseOffer() {
     saveBoolean(IS_OFFER_VIEWED, JSON.stringify(true))
@@ -36,11 +34,7 @@ const OfferPopup = () => {
     }
   }
 
-  const hideDialog =
-    !isLoggedIn ||
-    loading ||
-    error ||
-    (data && data.annualDiscount && !data.annualDiscount.isEligible)
+  const hideDialog = !isLoggedIn || (annualDiscount && !annualDiscount.isEligible)
 
   useEffect(() => {
     if (!hideDialog) {
@@ -56,9 +50,7 @@ const OfferPopup = () => {
     return null
   }
 
-  const {
-    annualDiscount: { discount: { percentOff } = { percentOff: 50 } },
-  } = data
+  const { discount: { percentOff } = { percentOff: 50 } } = annualDiscount
 
   const description = DISCOUNT_DESCRIPTION[percentOff]
 
