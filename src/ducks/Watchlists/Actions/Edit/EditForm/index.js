@@ -132,7 +132,7 @@ const EditForm = ({
             maxLength='25'
             autoComplete='off'
             className={styles.input}
-            onChange={(e) => formState.error && onInputChange(e)}
+            onChange={onInputChange}
             onBlur={onInputChange}
             isError={formState.error}
             errorText={formState.error}
