@@ -1,0 +1,35 @@
+.wrapper {
+  max-width: 960px;
+  width: 100%;
+  max-height: 362px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.title {
+  padding: 24px 24px 10px !important;
+}
+
+.content {
+  height: 100%;
+  padding: 0 106px 50px;
+  gap: 68px;
+}
+
+.rightBlock {
+  max-width: 400px;
+}
+
+.description {
+  margin-bottom: 40px;
+  color: var(--fiord);
+}
+
+.upgradeBtn {
+  padding: 8px 51px !important;
+}
+
+
+.cancelBtn {
+  padding: 8px 20px !important;
+}
