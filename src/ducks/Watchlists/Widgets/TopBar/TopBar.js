@@ -157,7 +157,13 @@ const TopBar = ({
             }
           />
         ) : (
-          <SaveAs watchlist={entity} type={type} open={isEditFormOpened} />
+          <SaveAs
+            watchlist={entity}
+            type={type}
+            open={isEditFormOpened}
+            trigger={<></>}
+            customToggleOpen={setIsEditFormOpened}
+          />
         )}
         {!isLoggedIn && type === SCREENER ? null : (
           <div className={cx(styles.commentsWrapper, isCommentsOpen && styles.active)}>
