@@ -115,7 +115,7 @@ const TopBar = ({
       }
     })
 
-  const isCurrentUser = data.id === currentUser.id
+  const isCurrentUser = data && currentUser && data.id === currentUser.id
 
   return (
     <div className={styles.wrapper}>
