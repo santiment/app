@@ -93,6 +93,7 @@ export const EntityQuery = {
     title: name
     description
     isPublic
+    insertedAt
     user {
       avatarUrl
       id
@@ -115,6 +116,7 @@ export const EntityQuery = {
     title: name
     description
     isPublic
+    insertedAt
     user {
       avatarUrl
       id
@@ -137,6 +139,7 @@ export const EntityQuery = {
     title
     description
     isPublic
+    insertedAt
     user {
       avatarUrl
       id
@@ -181,6 +184,7 @@ export const EntityQuery = {
     title: name
     description
     isPublic
+    insertedAt
     user {
       avatarUrl
       id

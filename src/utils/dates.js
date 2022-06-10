@@ -439,3 +439,22 @@ export function checkIsToday(targetDate) {
     targetDate.getFullYear() === today.getFullYear()
   )
 }
+
+export function isToday(date) {
+  const today = new Date()
+  return today.toDateString() === date.toDateString()
+}
+
+export function isYesterday(date) {
+  const today = new Date()
+  const yesterday = new Date()
+  yesterday.setDate(today.getDate() - 1)
+  return yesterday.toDateString() === date.toDateString()
+}
+
+export function getPostMonthDay(date) {
+  if (isToday(date)) return 'Today'
+  if (isYesterday(date)) return 'Yesterday'
+  const { MMM, D } = getDateFormats(date)
+  return MMM + ' ' + D
+}
