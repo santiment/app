@@ -13,6 +13,7 @@
   export let loading = false
   export let showLess = false
   export let isMain = false
+  export let sortedItems = []
 
   $: isMain && changeOrder(items)
 
@@ -20,7 +21,9 @@
   const getRank = (item) => item.votes.totalVotes * 0.3 + item.commentsCount * 0.7
 
   function changeOrder(items) {
-    items.forEach((item) => {
+    const modifiedItems = [...items]
+
+    modifiedItems.forEach((item) => {
       const explorerItem = getExplorerItem(item)
 
       item.insertedAt = explorerItem.insertedAt
@@ -36,25 +39,26 @@
       item.last = false
     })
 
-    items.sort((a, b) => (a.postdate === b.postdate ? b.rank - a.rank : 0))
+    modifiedItems.sort((a, b) => (a.postdate === b.postdate ? b.rank - a.rank : 0))
 
-    addFirstAndLastItems()
+    addFirstAndLastItems(modifiedItems)
   }
 
-  function addFirstAndLastItems() {
-    const lastIndex = items.length - 1
+  function addFirstAndLastItems(modifiedItems) {
+    const lastIndex = modifiedItems.length - 1
     const dates = new Set()
-    items.forEach((item, index) => {
+    modifiedItems.forEach((item, index) => {
       if (!dates.has(item.date)) {
         dates.add(item.date)
         item.first = true
         if (index > 0) {
-          items[index - 1].last = true
+          modifiedItems[index - 1].last = true
         } else if (index === lastIndex) {
           item.last = true
         }
       }
     })
+    sortedItems = [...modifiedItems]
   }
 </script>
 
@@ -75,7 +79,7 @@
     {/if}
   </div>
 
-  {#each items as item (item)}
+  {#each isMain ? sortedItems : items as item (item)}
     {#if isMain && item.first}
       <div class="postdate c-waterloo">{item.postdate}</div>
     {/if}

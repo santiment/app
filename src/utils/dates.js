@@ -440,11 +440,6 @@ export function checkIsToday(targetDate) {
   )
 }
 
-export function checkIsToday(date) {
-  const today = new Date()
-  return today.toDateString() === date.toDateString()
-}
-
 export function checkIsYesterday(date) {
   const yesterday = new Date()
   yesterday.setDate(yesterday.getDate() - 1)
