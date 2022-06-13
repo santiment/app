@@ -22,18 +22,22 @@
   function changeOrder(items) {
     items.forEach((item) => {
       const explorerItem = getExplorerItem(item)
+
       item.insertedAt = explorerItem.insertedAt
       const insertedAt = new Date(explorerItem.insertedAt)
+
       item.postdate = getPostMonthDay(insertedAt)
+
       const { YYYY, MM, DD } = getDateFormats(insertedAt)
+
       item.date = `${YYYY}${MM}${DD}`
       item.rank = getRank(explorerItem)
       item.first = false
       item.last = false
     })
-    items.sort((a, b) =>
-      a.postdate === b.postdate ? b.rank - a.rank : b.insertedAt - a.insertedAt,
-    )
+
+    items.sort((a, b) => (a.postdate === b.postdate ? b.rank - a.rank : 0))
+
     addFirstAndLastItems()
   }
 
