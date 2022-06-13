@@ -53,8 +53,8 @@
             {href}
             class="btn mrg-xs mrg--t"
             class:active={pathname === href}
-            on:click={!target ? window.__onLinkClick : undefined}
-            target={target && '_blank'}
+            on:click={target && window.__onLinkClick}
+            {target}
           >
             <Svg id={icon} w="16" class="mrg-m mrg--r" />
 

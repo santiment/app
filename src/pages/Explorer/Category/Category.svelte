@@ -39,10 +39,10 @@
 
   function addFirstAndLastItems() {
     const lastIndex = items.length - 1
-    const dates = []
+    const dates = new Set()
     items.forEach((item, index) => {
-      if (!dates.includes(item.date)) {
-        dates.push(item.date)
+      if (!dates.has(item.date)) {
+        dates.add(item.date)
         item.first = true
         if (index > 0) {
           items[index - 1].last = true
@@ -153,8 +153,7 @@
   }
 
   .postdate {
-    margin-bottom: 12px;
-    margin-left: 24px;
+    margin: 0 0 12px 24px;
   }
 
   .isMain .first {
