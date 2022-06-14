@@ -135,7 +135,7 @@
   .border .more {
     border-radius: 0;
     border-top: 1px solid var(--porcelain);
-    --bg-hover: var(--athens);
+    --bg-hover: #fbfcfe;
   }
 
   .center {
@@ -145,7 +145,7 @@
 
   .more.last,
   .isMain .item {
-    --bg-hover: var(--athens);
+    --bg-hover: #fbfcfe;
   }
 
   .isMain .item {

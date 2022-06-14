@@ -3,7 +3,6 @@
   import Profile from 'webkit/ui/Profile/svelte'
   import Tooltip from 'webkit/ui/Tooltip/svelte'
   import Info from 'webkit/ui/Profile/Info.svelte'
-  import Actions from '../Components/Actions'
   import { currentUser } from '../store'
   import { history } from '../../../redux'
   import { getItemRoute } from '../const'
@@ -11,7 +10,6 @@
 
   export let item = {}
   export let small = false
-  export let showActions = false
   export let url
   export let type
 
@@ -35,21 +33,9 @@
 
 <a href={url} target="_blank" on:click={onClick} class="hoverable {hoverActions && 'forcehover'}">
   <div class="row v-center nowrap relative">
-    {#if showActions}
-      <Actions
-        class="$style.actions"
-        isOwner={$currentUser && user && user.id === $currentUser.id}
-        {url}
-        {item}
-        {type}
-        showCommentAction={commentsCount >= 0}
-        onVoteCountChange={(newTotalVotes) => (totalVotes = newTotalVotes)}
-      />
-    {/if}
     <h3 class="mrg-l mrg--r" class:body-2={!small}>
       {item.trigger ? item.trigger.title : item.title}
     </h3>
-
     <slot />
   </div>
 </a>
