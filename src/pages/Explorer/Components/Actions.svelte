@@ -42,10 +42,8 @@
     }
 
     totalVotes += 1
-
-    vote(id, voteKey)
-      .then(() => mutateStoreUserActivity(key, id, InteractionType.UPVOTE))
-      .catch(() => (totalVotes -= 1))
+    mutateStoreUserActivity(key, id, InteractionType.UPVOTE)
+    vote(id, voteKey).catch(() => (totalVotes -= 1))
   }
 
   function onComment(e) {
