@@ -1,9 +1,7 @@
 <script>
   import { setContext, onMount, onDestroy } from 'svelte'
-  import Range from 'webkit/ui/Range.svelte'
   import Category from './Category.svelte'
   import LayoutItem from '../Layouts/LayoutItem.svelte'
-  import AssetSelector from '../Components/AssetSelector.svelte'
   import EmptyState from '../Components/EmptyState.svelte'
   import TypeSelector from '../Components/TypeSelector.svelte'
   import { queryExplorerItems } from '../api'
@@ -111,26 +109,9 @@
   onDestroy(() => clearTimeout(pullingTimer))
 </script>
 
-<Category title="Explorer" {items} onMore={() => (page += 1)} hasMore={page < pages}>
+<Category isMain title="Explorer" {items} onMore={() => (page += 1)} hasMore={page < pages}>
   <div slot="header" class="controls row mrg-a mrg--l">
-    {#if [MenuItem.NEW, MenuItem.SANTIMENT].includes(activeMenu)}
-      <Range
-        items={TIME_RANGES}
-        selectedIndex={selectedRangeIndex}
-        onChange={(newRange) => {
-          range = RANGES[newRange]
-          selectedRangeIndex = TIME_RANGES.indexOf(newRange)
-        }}
-        class="mrg-s mrg--r"
-      />
-      <AssetSelector
-        onChange={(newAssets) => (assets = newAssets.map((asset) => asset.slug))}
-        setDeselect={(deselectFunc) => (deselectAssets = deselectFunc)}
-      />
-      <TypeSelector onChange={(newTypes) => (selectedTypes = newTypes)} {selectedTypes} />
-    {:else}
-      <TypeSelector flat onChange={(newTypes) => (selectedTypes = newTypes)} {selectedTypes} />
-    {/if}
+    <TypeSelector flat onChange={(newTypes) => (selectedTypes = newTypes)} {selectedTypes} />
   </div>
 
   <svelte:fragment let:item>

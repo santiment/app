@@ -25,6 +25,7 @@ export const EntityType = {
     singular: 'chart',
     icon: 'chart',
     color: 'var(--green)',
+    backgroundColor: 'var(--green-light-1)',
     url: (id, title) => `/charts/${getSEOLinkFromIdAndTitle(id, title)}`,
   },
   WATCHLIST: {
@@ -35,6 +36,7 @@ export const EntityType = {
     singular: 'watchlist',
     icon: 'watchlist',
     color: 'var(--orange)',
+    backgroundColor: 'var(--orange-light-1)',
     url: (id) => `/watchlist/projects/${id}`,
   },
   ADDRESS: {
@@ -45,6 +47,7 @@ export const EntityType = {
     singular: 'watchlist',
     icon: 'wallet',
     color: 'var(--purple)',
+    backgroundColor: 'var(--purple-light-1)',
     url: (id) => `/watchlist/addresses/${id}`,
   },
   SCREENER: {
@@ -55,6 +58,7 @@ export const EntityType = {
     singular: 'screener',
     icon: 'screener',
     color: 'var(--blue)',
+    backgroundColor: 'var(--blue-light-1)',
     url: (id) => `/screener/${id}`,
   },
   // ALERT: {
@@ -65,6 +69,7 @@ export const EntityType = {
   //   singular: 'alert',
   //   icon: 'alert',
   //   color: 'var(--red)',
+  //   backgroundColor: 'var(--red-light-1)',
   //   url: (id) => `/alerts/${id}`,
   // },
 }

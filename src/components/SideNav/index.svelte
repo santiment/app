@@ -1,7 +1,6 @@
 <script>
   import { onDestroy } from 'svelte'
   import Svg from 'webkit/ui/Svg/svelte'
-  import Section from './Section.svelte'
   import MinimizedCategories from './MinimizedCategories.svelte'
   import Recent from './Recent.svelte'
 
@@ -18,6 +17,7 @@
     ['Watchlist', '/watchlists', 'report'],
     ['Screener', '/screener/new', 'screener'],
     ['Alert', '/alerts', 'alert'],
+    ['Insights', 'https://insights.santiment.net/', 'insight', '_blank'],
   ]
 
   onDestroy(() => {
@@ -48,7 +48,24 @@
           Dashboards
         </a>
 
-        <Section title="Create" icon="plus-circle" links={CREATE_LINKS} {pathname} />
+        {#each CREATE_LINKS as [label, href, icon, target]}
+          <a
+            {href}
+            class="btn mrg-xs mrg--t"
+            class:active={pathname === href}
+            on:click={target && window.__onLinkClick}
+            {target}
+          >
+            <Svg id={icon} w="16" class="mrg-m mrg--r" />
+
+            <span>{label}</span>
+
+            {#if target}
+              <Svg id="external-link" w="12" class="mrg-m mrg--l" />
+            {/if}
+          </a>
+        {/each}
+
         <Recent {pathname} {isPeeked} />
       </div>
     </div>

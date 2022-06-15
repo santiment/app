@@ -39,14 +39,10 @@
 </script>
 
 <aside class={className}>
-  <!-- <Widget
-    title="Recent Chart Layouts"
-    icon="chart"
-    let:item
-    getItems={getRecentItems(EntityType.CHART.key, 'chartConfiguration')}
-  >
-    <LayoutItem small {item} />
-  </Widget> -->
+  <Widget title="Social trends" icon="social-trend" color="blue" let:item getItems={getSocialItems}>
+    <ExternalLink href="/dashboards/labs/trends" slot="header" />
+    <SocialTrend {item} />
+  </Widget>
 
   <Widget
     title="Insights"
@@ -58,11 +54,6 @@
   >
     <ExternalLink href="https://insights.santiment.net/" slot="header" />
     <LayoutItem small {item} type={EntityKeys.INSIGHT} />
-  </Widget>
-
-  <Widget title="Social trends" icon="social-trend" color="blue" let:item getItems={getSocialItems}>
-    <ExternalLink href="/dashboards/labs/trends" slot="header" />
-    <SocialTrend {item} />
   </Widget>
 
   <Widget

@@ -1,11 +1,11 @@
 <script>
   import { getContext } from 'svelte'
-  import Svg from 'webkit/ui/Svg/svelte'
   import { copy } from 'webkit/utils'
   import { vote } from './api'
   import { showDeleteConfirmationDialog } from './DeleteConfirmationDialog.svelte'
   import { showHideConfirmationDialog } from './HideConfirmationDialog.svelte'
   import { showEditDialog } from './EditDialog.svelte'
+  import ActionButton from './ActionButton.svelte'
   import { EntityType, getItemRoute } from '../const'
   import { currentUser } from '../store'
   import { history } from '../../../redux'
@@ -18,11 +18,9 @@
   export let url
   export let item = {}
   export let type
-  export let onVoteCountChange
-  export let showCommentAction
 
-  let label = ''
-  let voteTimeout
+  let totalVotes
+  let copyLabel = 'Copy'
 
   $: id = item.trigger ? item.trigger.id : item.id
   $: ({ key, voteKey, deleteKey, singular } = EntityType[type])
@@ -32,8 +30,8 @@
 
   function onShare(e) {
     e.preventDefault()
-    label = 'Copied!'
-    copy(url, () => (label = ''), 1500)
+    copyLabel = 'Copied!'
+    copy(url, () => (copyLabel = 'Copy'), 1500)
   }
 
   function onVote(e) {
@@ -46,12 +44,7 @@
 
     vote(id, voteKey).then((votes) => {
       mutateStoreUserActivity(key, id, InteractionType.UPVOTE)
-      onVoteCountChange(votes.totalVotes)
-      clearTimeout(voteTimeout)
-      label = 'Voted!'
-      voteTimeout = setTimeout(() => {
-        label = ''
-      }, 1500)
+      totalVotes = votes.totalVotes
     })
   }
 
@@ -104,55 +97,39 @@
   }
 </script>
 
-<div class="actions">
-  <div class="note c-white caption" class:show={!!label}>{label}</div>
-  <div class="flex hv-center box border c-waterloo {className}">
+<div>
+  <div class="row hv-center c-waterloo {className}">
     {#if isOwner}
-      <Svg id="pencil" w="16" class="btn $style.svg" on:click={onEdit} />
-      <Svg id="delete" w="16" class="btn $style.svg" on:click={onDelete} />
-      {#if showCommentAction}
-        <Svg id="comment" w="16" class="btn $style.svg" on:click={onComment} />
+      <ActionButton svgid="pencil" onClick={onEdit} tooltip="Edit" />
+      <ActionButton svgid="delete" onClick={onDelete} tooltip="Delete" />
+      {#if item.commentsCount >= 0}
+        <ActionButton
+          svgid="comment"
+          onClick={onComment}
+          counter={item.commentsCount}
+          tooltip="Comment"
+        />
       {/if}
     {:else}
-      {#if showCommentAction}
-        <Svg id="comment" w="16" class="btn $style.svg" on:click={onComment} />
+      <ActionButton
+        svgid="rocket"
+        onClick={onVote}
+        counter={totalVotes || item.votes.totalVotes}
+        tooltip="Like"
+      />
+      {#if item.commentsCount >= 0}
+        <ActionButton
+          svgid="comment"
+          onClick={onComment}
+          counter={item.commentsCount}
+          tooltip="Comment"
+        />
       {/if}
-      <Svg id="rocket" w="16" class="btn $style.svg" on:click={onVote} />
-      <Svg id="share-dots" w="16" class="btn $style.svg" on:click={onShare} />
+      <ActionButton svgid="share-dots" onClick={onShare} tooltip={copyLabel} />
       {#if $currentUser && $currentUser.isModerator}
-        <Svg id="eye-crossed" w="16" class="btn $style.svg" on:click={onHide} />
-        <Svg id="delete" w="16" class="btn $style.svg" on:click={onDelete} />
+        <ActionButton svgid="eye-crossed" onClick={onHide} tooltip="Hide" />
+        <ActionButton svgid="delete" onClick={onDelete} tooltip="Delete" />
       {/if}
     {/if}
   </div>
 </div>
-
-<style>
-  .actions {
-    position: absolute;
-    right: -8px;
-    top: -32px;
-    height: 40px;
-    z-index: 10;
-  }
-
-  .svg {
-    padding: 12px;
-  }
-
-  .note {
-    opacity: 0;
-    position: absolute;
-    top: -50%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: var(--fiord);
-    border-radius: 4px;
-    padding: 5px 12px;
-    transition: all 0.2s linear;
-  }
-
-  .show {
-    opacity: 1;
-  }
-</style>
