@@ -24,10 +24,10 @@
   $: description = item.trigger ? item.trigger.description : item.description
 
   function onClick(e) {
-    const isIcon = ['use', 'svg'].includes(e.target.tagName)
+    const isIcon = e.target && ['use', 'svg'].includes(e.target.tagName)
     const isActionButton =
       e.target.classList.contains(ACTION_BUTTON_CLASS) ||
-      e.target.parentElement && e.target.parentElement.contains(ACTION_BUTTON_CLASS)
+      (e.target.parentElement && e.target.parentElement.classList.contains(ACTION_BUTTON_CLASS))
     if (isIcon || isActionButton) {
       e.preventDefault()
       return
