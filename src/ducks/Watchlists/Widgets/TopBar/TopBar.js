@@ -141,6 +141,7 @@ const TopBar = ({
           votes={votes}
           onVote={onVote}
           description={description}
+          titleHoverTooltipClass={styles.titleHoverTooltip}
         />
         {isCurrentUser ? (
           <EditForm
