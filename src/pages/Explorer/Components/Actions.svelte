@@ -18,7 +18,7 @@
   export let item = {}
   export let type
 
-  let totalVotes
+  let totalVotes = item && item.votes ? +item.votes.totalVotes : 0
   let copyLabel = 'Copy link'
 
   $: id = item.trigger ? item.trigger.id : item.id
@@ -41,9 +41,9 @@
       return false
     }
 
-    totalVotes += 1
+    totalVotes = totalVotes + 1
     mutateStoreUserActivity(key, id, InteractionType.UPVOTE)
-    vote(id, voteKey).catch(() => (totalVotes -= 1))
+    vote(id, voteKey).catch(() => (totalVotes = totalVotes - 1))
   }
 
   function onComment(e) {
@@ -109,12 +109,7 @@
         />
       {/if}
     {:else}
-      <ActionButton
-        svgid="rocket"
-        onClick={onVote}
-        counter={totalVotes || item.votes.totalVotes}
-        tooltip="Like"
-      />
+      <ActionButton svgid="rocket" onClick={onVote} counter={totalVotes} tooltip="Like" />
       {#if item.commentsCount >= 0}
         <ActionButton
           svgid="comment"
