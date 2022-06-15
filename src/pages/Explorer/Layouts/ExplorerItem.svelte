@@ -84,6 +84,11 @@
 </a>
 
 <style>
+  .line2 :global(.author) {
+    --img-size: 24px;
+    --black: var(--waterloo);
+  }
+
   .explorerItem:hover h3 {
     color: var(--green);
   }
