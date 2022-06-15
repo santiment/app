@@ -30,7 +30,7 @@
   function onCopy(e) {
     e.preventDefault()
     copyLabel = 'Copied!'
-    copy(getItemUrl(item, type), () => (copyLabel = 'Copy'), 1500)
+    copy(getItemUrl(item, type), () => (copyLabel = 'Copy link'), 1500)
   }
 
   function onVote(e) {
