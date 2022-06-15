@@ -13,10 +13,10 @@
   $: root.classList.toggle('$style.shifted', isCollapsed)
 
   const CREATE_LINKS = [
-    ['Chart layout', '/charts', 'chart'],
-    ['Watchlist', '/watchlists', 'report'],
+    ['Charts', '/charts', 'chart'],
+    ['Watchlists', '/watchlists', 'report'],
     ['Screener', '/screener/new', 'screener'],
-    ['Alert', '/alerts', 'alert'],
+    ['Alerts', '/alerts', 'alert'],
     ['Insights', 'https://insights.santiment.net/', 'insight', '_blank'],
   ]
 
@@ -53,7 +53,7 @@
             {href}
             class="btn mrg-xs mrg--t"
             class:active={pathname === href}
-            on:click={target && window.__onLinkClick}
+            on:click={!target ? window.__onLinkClick : undefined}
             {target}
           >
             <Svg id={icon} w="16" class="mrg-m mrg--r" />

@@ -6,20 +6,42 @@
   import AssetIcons from '../Components/AssetIcons.svelte'
   import AssetTags from '../Components/AssetTags.svelte'
   import Actions from '../Components/Actions.svelte'
+  import { mutateStoreUserActivity, InteractionType } from '../../../queries/userActivity'
   import { currentUser } from '../store'
-  import { EntityType } from '../const'
+  import { history } from '../../../redux'
+  import { EntityType, getItemRoute } from '../const'
 
   export let item
   export let type = 'CHART'
+  export let url
   export let hasIcons = false
   export let assets = []
+
+  const ACTION_BUTTON_CLASS = 'actionbutton'
 
   $: ({ user } = item)
   $: title = item.trigger ? item.trigger.title : item.title ? item.title : ''
   $: description = item.trigger ? item.trigger.description : item.description
+
+  function onClick(e) {
+    const isIcon = e.target && ['use', 'svg'].includes(e.target.tagName)
+    const isActionButton =
+      e.target.classList.contains(ACTION_BUTTON_CLASS) ||
+      (e.target.parentElement && e.target.parentElement.classList.contains(ACTION_BUTTON_CLASS))
+    if (isIcon || isActionButton) {
+      e.preventDefault()
+      return
+    }
+    if (url.includes(location.hostname)) {
+      e.preventDefault()
+      mutateStoreUserActivity(type, item.trigger ? item.trigger.id : item.id, InteractionType.VIEW)
+      history.push(getItemRoute(item, type))
+      return
+    }
+  }
 </script>
 
-<div class="explorerItem">
+<a class="explorerItem" href={url} on:click={onClick}>
   <div class="row v-center line1">
     <div
       class="row hv-center mrg-m mrg--r itemicon"
@@ -59,7 +81,7 @@
       <Actions {item} {type} />
     </div>
   </div>
-</div>
+</a>
 
 <style>
   .explorerItem:hover h3 {
