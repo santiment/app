@@ -1,7 +1,6 @@
 <script>
   import { onDestroy } from 'svelte'
   import Svg from 'webkit/ui/Svg/svelte'
-  import Section from './Section.svelte'
   import MinimizedCategories from './MinimizedCategories.svelte'
   import Recent from './Recent.svelte'
 
@@ -14,10 +13,11 @@
   $: root.classList.toggle('$style.shifted', isCollapsed)
 
   const CREATE_LINKS = [
-    ['Chart layout', '/charts', 'chart'],
-    ['Watchlist', '/watchlists', 'report'],
+    ['Charts', '/charts', 'chart'],
+    ['Watchlists', '/watchlists', 'report'],
     ['Screener', '/screener/new', 'screener'],
-    ['Alert', '/alerts', 'alert'],
+    ['Alerts', '/alerts', 'alert'],
+    ['Insights', 'https://insights.santiment.net/', 'insight', '_blank'],
   ]
 
   onDestroy(() => {
@@ -48,7 +48,24 @@
           Dashboards
         </a>
 
-        <Section title="Create" icon="plus-circle" links={CREATE_LINKS} {pathname} />
+        {#each CREATE_LINKS as [label, href, icon, target]}
+          <a
+            {href}
+            class="btn mrg-xs mrg--t"
+            class:active={pathname === href}
+            on:click={!target ? window.__onLinkClick : undefined}
+            {target}
+          >
+            <Svg id={icon} w="16" class="mrg-m mrg--r" />
+
+            <span>{label}</span>
+
+            {#if target}
+              <Svg id="external-link" w="12" class="mrg-m mrg--l" />
+            {/if}
+          </a>
+        {/each}
+
         <Recent {pathname} {isPeeked} />
       </div>
     </div>

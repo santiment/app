@@ -12,6 +12,7 @@
   export let votes
   export let onVote
   export let description
+  export let editLabel
   export let titleHoverTooltipClass
 </script>
 
@@ -25,6 +26,7 @@
   {comments}
   {votes}
   {onVote}
+  {editLabel}
   {titleHoverTooltipClass}>
   <svelte:fragment slot="info">
     <div class="row mrg-s mrg--b">

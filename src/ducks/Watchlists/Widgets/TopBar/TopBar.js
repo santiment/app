@@ -10,6 +10,7 @@ import { CommentsType } from 'webkit/api/comments'
 import { lookupSavedComment, clearSavedComment } from 'webkit/ui/Comments/utils'
 import { track } from 'webkit/analytics'
 import BaseActions from '../TopPanel/BaseActions'
+import SaveAs from '../../../../ducks/Watchlists/Actions/SaveAs'
 import EditForm from '../../Actions/Edit/EditForm'
 import Widgets from '../TopPanel/Widgets'
 import ScreenerSignalDialog from '../../../Signals/ScreenerSignal/ScreenerSignalDialog'
@@ -114,6 +115,8 @@ const TopBar = ({
       }
     })
 
+  const isCurrentUser = data && currentUser && data.id === currentUser.id
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.info}>
@@ -124,6 +127,7 @@ const TopBar = ({
           }
           title={title}
           user={data}
+          editLabel={isCurrentUser ? 'Edit' : 'Save as'}
           currentUser={currentUser}
           onEditClick={() => setIsEditFormOpened((prev) => !prev)}
           comments={{
@@ -139,17 +143,29 @@ const TopBar = ({
           description={description}
           titleHoverTooltipClass={styles.titleHoverTooltip}
         />
-        <EditForm
-          type={type}
-          open={isEditFormOpened}
-          id={entity.id}
-          watchlist={entity}
-          isLoading={loading}
-          toggleOpen={setIsEditFormOpened}
-          title={'Edit ' + title}
-          settings={{ name: title, description, isPublic }}
-          onFormSubmit={(payload) => onEditApprove(payload).then(() => setIsEditFormOpened(false))}
-        />
+        {isCurrentUser ? (
+          <EditForm
+            type={type}
+            open={isEditFormOpened}
+            id={entity.id}
+            watchlist={entity}
+            isLoading={loading}
+            toggleOpen={setIsEditFormOpened}
+            title={'Edit ' + title}
+            settings={{ name: title, description, isPublic }}
+            onFormSubmit={(payload) =>
+              onEditApprove(payload).then(() => setIsEditFormOpened(false))
+            }
+          />
+        ) : (
+          <SaveAs
+            watchlist={entity}
+            type={type}
+            open={isEditFormOpened}
+            trigger={<></>}
+            customToggleOpen={setIsEditFormOpened}
+          />
+        )}
         {!isLoggedIn && type === SCREENER ? null : (
           <div className={cx(styles.commentsWrapper, isCommentsOpen && styles.active)}>
             <div
