@@ -137,6 +137,7 @@ const TopBar = ({
           votes={votes}
           onVote={onVote}
           description={description}
+          titleHoverTooltipClass={styles.titleHoverTooltip}
         />
         <EditForm
           type={type}
