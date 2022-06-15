@@ -9,9 +9,9 @@
   export let onClick = () => {}
 </script>
 
-<Tooltip dark position="top" align="center" activeClass="$style.active">
-  <div class="actionbutton row hv-center" slot="trigger">
-    <Svg id={svgid} w={width} class="btn $style.svg" on:click={onClick} />
+<Tooltip dark position="top" align="center" activeClass="$style.active" openDelay={200}>
+  <div class="actionbutton row hv-center" slot="trigger" on:click={onClick}>
+    <Svg id={svgid} w={width} class="$style.svg" />
     {#if counter >= 0}
       <span>{counter}</span>
     {/if}
@@ -25,6 +25,7 @@
     border-radius: 16px;
     border: none;
     min-width: 48px;
+    margin-right: 2px;
   }
 
   .active {
@@ -33,6 +34,10 @@
 
   .active span {
     color: var(--green);
+  }
+
+  .svg {
+    fill: var(--waterloo);
   }
 
   .active .svg {

@@ -6,7 +6,7 @@
   import { showHideConfirmationDialog } from './HideConfirmationDialog.svelte'
   import { showEditDialog } from './EditDialog.svelte'
   import ActionButton from './ActionButton.svelte'
-  import { EntityType, getItemRoute } from '../const'
+  import { EntityType, getItemRoute, getItemUrl } from '../const'
   import { currentUser } from '../store'
   import { history } from '../../../redux'
   import { mutateStoreUserActivity, InteractionType } from '../../../queries/userActivity'
@@ -15,12 +15,11 @@
   export { className as class }
 
   export let isOwner = false
-  export let url
   export let item = {}
   export let type
 
   let totalVotes
-  let copyLabel = 'Copy'
+  let copyLabel = 'Copy link'
 
   $: id = item.trigger ? item.trigger.id : item.id
   $: ({ key, voteKey, deleteKey, singular } = EntityType[type])
@@ -28,10 +27,10 @@
   const filterExplorerItems = getContext('filterExplorerItems')
   const updateExplorerItem = getContext('updateExplorerItem')
 
-  function onShare(e) {
+  function onCopy(e) {
     e.preventDefault()
     copyLabel = 'Copied!'
-    copy(url, () => (copyLabel = 'Copy'), 1500)
+    copy(getItemUrl(item, type), () => (copyLabel = 'Copy'), 1500)
   }
 
   function onVote(e) {
@@ -42,10 +41,11 @@
       return false
     }
 
-    vote(id, voteKey).then((votes) => {
-      mutateStoreUserActivity(key, id, InteractionType.UPVOTE)
-      totalVotes = votes.totalVotes
-    })
+    totalVotes += 1
+
+    vote(id, voteKey)
+      .then(() => mutateStoreUserActivity(key, id, InteractionType.UPVOTE))
+      .catch(() => (totalVotes -= 1))
   }
 
   function onComment(e) {
@@ -125,7 +125,7 @@
           tooltip="Comment"
         />
       {/if}
-      <ActionButton svgid="share-dots" onClick={onShare} tooltip={copyLabel} />
+      <ActionButton svgid="link" onClick={onCopy} tooltip={copyLabel} />
       {#if $currentUser && $currentUser.isModerator}
         <ActionButton svgid="eye-crossed" onClick={onHide} tooltip="Hide" />
         <ActionButton svgid="delete" onClick={onDelete} tooltip="Delete" />
