@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import gql from 'graphql-tag'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
@@ -19,16 +19,6 @@ const CHANGE_EMAIL_MUTATION = gql`
   }
 `
 
-const validateEmail = (email) => {
-  if (!email) {
-    return 'Email is required'
-  }
-
-  if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
-    return 'Invalid email address'
-  }
-}
-
 const EmailSetting = ({
   email,
   dispatchNewEmail,
@@ -42,6 +32,12 @@ const EmailSetting = ({
   statuses = {},
 }) => {
   const show = !hideIfEmail || (hideIfEmail && !email)
+  const ref = useRef()
+
+  useEffect(() => {
+    if (!ref) return
+    ref.current.inputRef.current.type = 'email'
+  }, [])
 
   const onSubmit = (value) => {
     onChangeStatus(statuses.loading)
@@ -62,11 +58,25 @@ const EmailSetting = ({
       })
   }
 
+  function validateEmail() {
+    const input = ref.current.inputRef.current
+    if (!input) return
+
+    if (!input.value) {
+      return 'Email is required'
+    }
+
+    if (input.validity.typeMismatch) {
+      return 'Invalid email address'
+    }
+  }
+
   return (
     // NOTE(haritonasty): temporal solution - until designers don't update mockups for email setting
     withoutButtons ? (
       <EditableInput
         label='Enter your email'
+        ref={ref}
         defaultValue={email}
         validate={validateEmail}
         onSubmit={onSubmit}
@@ -74,6 +84,7 @@ const EmailSetting = ({
       />
     ) : show ? (
       <EditableInputSetting
+        ref={ref}
         label='Email'
         defaultValue={email}
         validate={validateEmail}
