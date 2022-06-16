@@ -114,6 +114,10 @@ const AlertModalFormMaster = ({
       settings: { ...values.settings, type: selectedType.settings.type },
     }
 
+    if (selectedType.settings.type === 'wallet_movement') {
+      triggerValues.settings.type = values.settings.type
+    }
+
     if (selectedType.settings.type === 'metric_signal') {
       const { data } = await refetch({ metric: triggerValues.settings.metric })
 

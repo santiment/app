@@ -228,8 +228,7 @@ function validateWalletStep({ invalidSteps, settings, cooldown, title }) {
   if (
     !settings.target.address ||
     !settings.selector.infrastructure ||
-    !settings.selector.slug ||
-    Object.keys(settings.operation).length === 0
+    (settings.selector.address && !settings.selector.slug)
   ) {
     invalidSteps.push('wallet')
   }

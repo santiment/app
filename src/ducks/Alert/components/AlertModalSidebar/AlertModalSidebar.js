@@ -57,7 +57,7 @@ const AlertModalSidebar = ({
           <div className='h4 c-black'>{selectedType.title}</div>
           {!hasSignal ? (
             <button className={cx(styles.backButton, 'btn body-3')} onClick={handleReturnBack}>
-              <Icon type='arrow-left' className={cx(styles.backIcon, 'mrg--r mrg-s')} /> Alert types
+              <Icon type='arrow-left' className={cx(styles.backIcon, 'mrg--r mrg-s')} /> Categories
             </button>
           ) : (
             <AlertTooltip

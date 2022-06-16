@@ -1,0 +1,95 @@
+@import '~@santiment-network/ui/mixins';
+
+.title {
+  margin-bottom: 20px;
+}
+
+.selectorsWrapper {
+  gap: 12px;
+}
+
+.selector {
+  --selector-bg-color: var(--white);
+  --selector-border-color: var(--porcelain);
+  --selector-title-color: var(--black);
+  --selector-point-color: var(--porcelain);
+  --selector-point-border: 1px solid var(--selector-point-color);
+  --selector-cursor: pointer;
+
+  width: 100%;
+  padding: 12px 16px;
+  gap: 4px;
+  cursor: var(--selector-cursor);
+  background-color: var(--selector-bg-color);
+  border: 1px solid var(--selector-border-color);
+  border-radius: 6px;
+  overflow: hidden;
+
+  .description {
+    max-height: 500px;
+  }
+
+  &:hover {
+    --selector-border-color: var(--green);
+    --selector-point-color: var(--green);
+
+  }
+}
+
+.hasActiveEvent {
+  .description {
+    max-height: 0;
+  }
+
+  &:hover {
+    .description {
+      max-height: 500px;
+    }
+  }
+}
+
+.selectorDisabled {
+  --selector-bg-color: var(--athens);
+  --selector-title-color: var(--mystic);
+  --selector-cursor: default;
+
+  .description {
+    max-height: 0;
+  }
+
+  &:hover {
+    --selector-point-color: var(--porcelain);
+    --selector-border-color: var(--porcelain);
+  }
+}
+
+.selectorActive {
+  --selector-point-color: var(--green);
+  --selector-point-border: 4px solid var(--selector-point-color);
+}
+
+.selectorTitle {
+  color: var(--selector-title-color);
+}
+
+.new {
+  padding: 2px 4px;
+  background-color: var(--green-light-2);
+  color: var(--green);
+  border-radius: 4px;
+  margin-left: 6px;
+
+  @include text('tiny', 'l');
+}
+
+.point {
+  height: 16px;
+  width: 16px;
+  border: var(--selector-point-border);
+  border-radius: 100%;
+}
+
+.description {
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out;
+}

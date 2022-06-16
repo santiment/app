@@ -139,12 +139,12 @@ export const ALERT_TYPES = [
       target: { address: '' },
       selector: { infrastructure: '', slug: '' },
       channel: [],
-      time_window: '',
+      time_window: '1d',
       operation: {},
     },
     steps: [
       {
-        label: 'Choose Wallet',
+        label: 'Choose Wallet & Event',
         description: 'You can choose any wallet',
       },
       {
@@ -159,7 +159,7 @@ export const ALERT_TYPES = [
     ],
     subSteps: [
       {
-        label: 'Wallet & Conditions',
+        label: 'Wallet & Event',
       },
       {
         label: 'Notification & Privacy settings',
