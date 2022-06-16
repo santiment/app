@@ -135,7 +135,7 @@
   .border .more {
     border-radius: 0;
     border-top: 1px solid var(--porcelain);
-    --bg-hover: #fbfcfe;
+    --bg-hover: var(--whale);
   }
 
   .center {
@@ -145,7 +145,7 @@
 
   .more.last,
   .isMain .item {
-    --bg-hover: #fbfcfe;
+    --bg-hover: var(--whale);
   }
 
   .isMain .item {
