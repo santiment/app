@@ -45,7 +45,7 @@
   function getDisplayingType() {
     if (displayingTypes.size < 1) return filterableTabKeys
 
-    const values = new Set(Array.from(displayingTypes))
+    const values = new Set(displayingTypes)
     const hasWatchlist = values.has(EntityKeys.PROJECT_WATCHLIST)
     const hasAddress = values.has(EntityKeys.ADDRESS_WATCHLIST)
 
