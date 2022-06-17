@@ -6,18 +6,17 @@
   import TypeSelector from '../Components/TypeSelector.svelte'
   import { queryExplorerItems } from '../api'
   import { currentUser } from '../store'
-  import { EntityType, RANGES, MenuItem, getExplorerItem } from '../const'
+  import { RANGES, MenuItem, getExplorerItem, EntityKeys, FILTERABLE_TABS } from '../const'
 
   export let activeMenu
   export let onLoadingChange = () => {}
 
   const TIME_RANGES = Object.keys(RANGES)
-  const ENTITY_KEYS = Object.values(EntityType)
 
   let range = ''
   let selectedRangeIndex = TIME_RANGES.indexOf('All time')
   let assets = []
-  let selectedTypes = new Set(ENTITY_KEYS.map((t) => t.key))
+  let displayingTypes = new Set()
   let page = 1
   let pages = 1
   let items = []
@@ -32,13 +31,31 @@
   $: currentUserDataOnly = activeMenu === MenuItem.MY_CREATIONS
   $: userRoleDataOnly = activeMenu === MenuItem.SANTIMENT
   $: isFeaturedDataOnly = activeMenu === MenuItem.SANTIMENT
-  $: range, assets, selectedTypes, page, fetch()
+  $: range, assets, displayingTypes, page, fetch()
   $: onLoadingChange(loading)
   $: items = filterDeletedItems(deletedItems)
+
+  const filterableTabKeys = FILTERABLE_TABS.map((entity) => entity.key)
 
   function filterDeletedItems(deletedItems) {
     const deletedSet = new Set(deletedItems)
     return items.filter((item) => !deletedSet.has(getExplorerItem(item)))
+  }
+
+  function getDisplayingType() {
+    if (displayingTypes.size < 1) return filterableTabKeys
+
+    const values = new Set(displayingTypes)
+    const hasWatchlist = values.has(EntityKeys.PROJECT_WATCHLIST)
+    const hasAddress = values.has(EntityKeys.ADDRESS_WATCHLIST)
+
+    if (hasWatchlist && !hasAddress) {
+      values.add(EntityKeys.ADDRESS_WATCHLIST)
+    } else if (!hasWatchlist && hasAddress) {
+      values.delete(EntityKeys.ADDRESS_WATCHLIST)
+    }
+
+    return Array.from(values)
   }
 
   setContext(
@@ -63,7 +80,7 @@
     }
     if (!bypassLoading) loading = true
     queryExplorerItems({
-      types: Array.from(selectedTypes),
+      types: getDisplayingType(),
       voted,
       range,
       page,
@@ -84,7 +101,7 @@
   function reset() {
     page = 1
     deselectAssets()
-    selectedTypes = new Set(ENTITY_KEYS.map((t) => t.key))
+    displayingTypes = new Set()
     range = ''
     selectedRangeIndex = TIME_RANGES.indexOf('All time')
   }
@@ -111,7 +128,7 @@
 
 <Category isMain title="Explorer" {items} onMore={() => (page += 1)} hasMore={page < pages}>
   <div slot="header" class="controls row mrg-a mrg--l">
-    <TypeSelector flat onChange={(newTypes) => (selectedTypes = newTypes)} {selectedTypes} />
+    <TypeSelector flat onChange={(newTypes) => (displayingTypes = newTypes)} {displayingTypes} />
   </div>
 
   <svelte:fragment let:item>

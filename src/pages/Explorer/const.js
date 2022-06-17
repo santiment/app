@@ -21,12 +21,13 @@ export const EntityType = {
     key: EntityKeys.CHART_CONFIGURATION,
     voteKey: 'chartConfigurationId',
     deleteKey: 'CHART',
-    label: 'Chart layouts',
+    label: 'Charts',
     singular: 'chart',
     icon: 'chart',
     color: 'var(--green)',
     backgroundColor: 'var(--green-light-1)',
     url: (id, title) => `/charts/${getSEOLinkFromIdAndTitle(id, title)}`,
+    filterable: true,
   },
   WATCHLIST: {
     key: EntityKeys.PROJECT_WATCHLIST,
@@ -38,6 +39,7 @@ export const EntityType = {
     color: 'var(--orange)',
     backgroundColor: 'var(--orange-light-1)',
     url: (id) => `/watchlist/projects/${id}`,
+    filterable: true,
   },
   ADDRESS: {
     key: EntityKeys.ADDRESS_WATCHLIST,
@@ -60,6 +62,7 @@ export const EntityType = {
     color: 'var(--blue)',
     backgroundColor: 'var(--blue-light-1)',
     url: (id) => `/screener/${id}`,
+    filterable: true,
   },
   // ALERT: {
   //   key: EntityKeys.USER_TRIGGER,
@@ -73,6 +76,8 @@ export const EntityType = {
   //   url: (id) => `/alerts/${id}`,
   // },
 }
+
+export const FILTERABLE_TABS = Object.values(EntityType).filter((entity) => entity.filterable)
 
 export const RANGES = {
   'Last 12h': '12h',
