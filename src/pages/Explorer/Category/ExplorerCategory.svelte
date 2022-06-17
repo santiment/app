@@ -45,16 +45,17 @@
   function getDisplayingType() {
     if (displayingTypes.size < 1) return filterableTabKeys
 
-    const hasWatchlist = displayingTypes.has(EntityKeys.PROJECT_WATCHLIST)
-    const hasAddress = displayingTypes.has(EntityKeys.ADDRESS_WATCHLIST)
+    const values = new Set(Array.from(displayingTypes))
+    const hasWatchlist = values.has(EntityKeys.PROJECT_WATCHLIST)
+    const hasAddress = values.has(EntityKeys.ADDRESS_WATCHLIST)
 
     if (hasWatchlist && !hasAddress) {
-      displayingTypes.add(EntityKeys.ADDRESS_WATCHLIST)
+      values.add(EntityKeys.ADDRESS_WATCHLIST)
     } else if (!hasWatchlist && hasAddress) {
-      displayingTypes.delete(EntityKeys.ADDRESS_WATCHLIST)
+      values.delete(EntityKeys.ADDRESS_WATCHLIST)
     }
 
-    return Array.from(displayingTypes)
+    return Array.from(values)
   }
 
   setContext(
