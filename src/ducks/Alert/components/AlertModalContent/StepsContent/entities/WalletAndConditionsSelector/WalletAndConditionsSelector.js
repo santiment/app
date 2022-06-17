@@ -5,7 +5,6 @@ import Select from '@santiment-network/ui/Select/Select'
 import { getAddressInfrastructure } from 'webkit/utils/address'
 import { track } from 'webkit/analytics'
 import StepTitle from '../../StepTitle/StepTitle'
-import NextStep from '../../NextStep/NextStep'
 import EventSelector from './EventSelector/EventSelector'
 import ConditionsSelector from '../../MetricAndConditions/ConditionsSelector/ConditionsSelector'
 import InfoBlock from './InfoBlock/InfoBlock'
@@ -16,9 +15,7 @@ import { mapAssetsToProjects } from './utils'
 import { AlertsEvents } from '../../../../../analytics'
 import styles from './WalletAndConditionsSelector.module.scss'
 
-const WalletAndConditionsSelector = ({
-  selectorSettings: { setSelectedStep, selectedStep, visitedSteps, setVisitedSteps },
-}) => {
+const WalletAndConditionsSelector = () => {
   const [currentEvent, setCurrentEvent] = useState({})
   const [selectedAsset, setSelectedAsset] = useState()
   const [, { value: address }, { setValue: setAddress }] = useField('settings.target.address')
@@ -50,14 +47,6 @@ const WalletAndConditionsSelector = ({
   const walletProjects = useMemo(() => {
     return projects.length > 0 && assets.length > 0 ? mapAssetsToProjects(projects, assets) : []
   }, [assets, projects])
-
-  function handleNextClick() {
-    setSelectedStep(selectedStep + 1)
-
-    if (!visitedSteps.has(selectedStep + 1)) {
-      setVisitedSteps((prev) => [...prev, selectedStep + 1])
-    }
-  }
 
   let children
 
@@ -122,7 +111,6 @@ const WalletAndConditionsSelector = ({
     <div className={styles.wrapper}>
       <div className={styles.titleWrapper}>
         <StepTitle title='Choose Wallet' className={styles.title} />
-        {selector.slug && <NextStep onClick={handleNextClick} label='Notification settings' />}
       </div>
       <div className={styles.row}>
         <div className={styles.label}>Wallet address</div>
