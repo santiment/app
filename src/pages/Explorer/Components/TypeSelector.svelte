@@ -5,26 +5,28 @@
   import { EntityType } from '../const'
 
   export let onChange = () => {}
-  export let selectedTypes
+  export let displayingTypes
   export let flat = false
 
+  const filterableTabs = Object.values(EntityType).filter((entity) => entity.filterable)
+
   const toggleType = (key) => {
-    if (selectedTypes.has(key)) {
-      selectedTypes.delete(key)
+    if (displayingTypes.has(key)) {
+      displayingTypes.delete(key)
     } else {
-      selectedTypes.add(key)
+      displayingTypes.add(key)
     }
-    onChange(selectedTypes)
+    onChange(displayingTypes)
   }
 </script>
 
 {#if !flat}
   <Tootlip on="click" activeClass="$style.active" align="end">
-    <div slot="trigger" class="btn-2 btn--s">Types: {selectedTypes.size}</div>
+    <div slot="trigger" class="btn-2 btn--s">Types: {displayingTypes.size}</div>
 
     <div slot="tooltip" class="tooltip">
       <div class="caption txt-m mrg-s mrg--l mrg--b c-waterloo">Types</div>
-      {#each Object.values(EntityType) as type}
+      {#each filterableTabs as type}
         <div
           class="btn-ghost row v-center"
           on:click={() => toggleType(type.key)}
@@ -32,17 +34,17 @@
         >
           <Svg id={type.icon} w="16" class="mrg-s mrg--r" />
           {type.label}
-          <Checkbox isActive={selectedTypes.has(type.key)} class="mrg-a mrg--l" />
+          <Checkbox isActive={displayingTypes.has(type.key)} class="mrg-a mrg--l" />
         </div>
       {/each}
     </div>
   </Tootlip>
 {:else}
-  {#each Object.values(EntityType) as type}
+  {#each filterableTabs as type}
     <div
       class="btn-ghost btnflat row v-center"
       on:click={() => toggleType(type.key)}
-      class:activetype={selectedTypes.has(type.key)}
+      class:activetype={!displayingTypes.has(type.key)}
       style="fill: {type.color}"
     >
       <Svg id={type.icon} w="16" class="mrg-s mrg--r" />
