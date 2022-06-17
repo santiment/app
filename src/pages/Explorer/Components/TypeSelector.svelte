@@ -2,13 +2,11 @@
   import Svg from 'webkit/ui/Svg/svelte'
   import Tootlip from 'webkit/ui/Tooltip/svelte'
   import Checkbox from 'webkit/ui/Checkbox.svelte'
-  import { EntityType } from '../const'
+  import { FILTERABLE_TABS } from '../const'
 
   export let onChange = () => {}
   export let displayingTypes
   export let flat = false
-
-  const filterableTabs = Object.values(EntityType).filter((entity) => entity.filterable)
 
   const toggleType = (key) => {
     if (displayingTypes.has(key)) {
@@ -26,7 +24,7 @@
 
     <div slot="tooltip" class="tooltip">
       <div class="caption txt-m mrg-s mrg--l mrg--b c-waterloo">Types</div>
-      {#each filterableTabs as type}
+      {#each FILTERABLE_TABS as type}
         <div
           class="btn-ghost row v-center"
           on:click={() => toggleType(type.key)}
@@ -40,7 +38,7 @@
     </div>
   </Tootlip>
 {:else}
-  {#each filterableTabs as type}
+  {#each FILTERABLE_TABS as type}
     <div
       class="btn-ghost btnflat row v-center"
       on:click={() => toggleType(type.key)}

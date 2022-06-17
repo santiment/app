@@ -51,7 +51,6 @@ export const EntityType = {
     color: 'var(--purple)',
     backgroundColor: 'var(--purple-light-1)',
     url: (id) => `/watchlist/addresses/${id}`,
-    filterable: false,
   },
   SCREENER: {
     key: EntityKeys.SCREENER,
@@ -75,9 +74,10 @@ export const EntityType = {
   //   color: 'var(--red)',
   //   backgroundColor: 'var(--red-light-1)',
   //   url: (id) => `/alerts/${id}`,
-  //   filterable: false,
   // },
 }
+
+export const FILTERABLE_TABS = Object.values(EntityType).filter((entity) => entity.filterable)
 
 export const RANGES = {
   'Last 12h': '12h',

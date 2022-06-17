@@ -6,7 +6,7 @@
   import TypeSelector from '../Components/TypeSelector.svelte'
   import { queryExplorerItems } from '../api'
   import { currentUser } from '../store'
-  import { RANGES, MenuItem, getExplorerItem, EntityType, EntityKeys } from '../const'
+  import { RANGES, MenuItem, getExplorerItem, EntityKeys, FILTERABLE_TABS } from '../const'
 
   export let activeMenu
   export let onLoadingChange = () => {}
@@ -35,9 +35,7 @@
   $: onLoadingChange(loading)
   $: items = filterDeletedItems(deletedItems)
 
-  const filterableTabs = Object.values(EntityType)
-    .filter((entity) => entity.filterable)
-    .map((entity) => entity.key)
+  const filterableTabKeys = FILTERABLE_TABS.map((entity) => entity.key)
 
   function filterDeletedItems(deletedItems) {
     const deletedSet = new Set(deletedItems)
@@ -45,20 +43,18 @@
   }
 
   function getDisplayingType() {
-    if (displayingTypes.size < 1) return filterableTabs
+    if (displayingTypes.size < 1) return filterableTabKeys
 
-    const values = Array.from(displayingTypes)
-    
-    const hasWatchlist = values.includes(EntityKeys.PROJECT_WATCHLIST)
-    const addressIndex = values.indexOf(EntityKeys.ADDRESS_WATCHLIST)
+    const hasWatchlist = displayingTypes.has(EntityKeys.PROJECT_WATCHLIST)
+    const hasAddress = displayingTypes.has(EntityKeys.ADDRESS_WATCHLIST)
 
-    if (hasWatchlist && addressIndex === -1) {
-      values.push(EntityKeys.ADDRESS_WATCHLIST)
-    } else if (!hasWatchlist && addressIndex > -1) {
-      values.splice(addressIndex)
+    if (hasWatchlist && !hasAddress) {
+      displayingTypes.add(EntityKeys.ADDRESS_WATCHLIST)
+    } else if (!hasWatchlist && hasAddress) {
+      displayingTypes.delete(EntityKeys.ADDRESS_WATCHLIST)
     }
-    
-    return values
+
+    return Array.from(displayingTypes)
   }
 
   setContext(
