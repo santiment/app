@@ -1,4 +1,3 @@
-import { getMetric } from '../Studio/Sidebar/utils'
 import { capitalizeStr } from '../../utils/utils'
 import { parseIntervalString } from '../../utils/dates'
 
@@ -129,28 +128,6 @@ export function getConditionsStr({
   } compared to ${formatFrequencyStr(timeWindow)} earlier`
 }
 
-export function getTitleStr({ watchlist, slug, metric, operation, timeWindow, onlyCondition }) {
-  const selectedMetric = getMetric(metric)
-  const { selectedCount, selectedOperation } = parseOperation(operation)
-  const conditionStr = getConditionsStr({
-    operation: selectedOperation,
-    count: selectedCount,
-    timeWindow,
-  })
-
-  if (onlyCondition) {
-    return conditionStr
-  }
-
-  const slugStr = Array.isArray(slug)
-    ? slug.map((item) => capitalizeStr(item)).join(', ')
-    : capitalizeStr(slug)
-
-  return `${slugStr || capitalizeStr(watchlist)} ${
-    (selectedMetric && selectedMetric.label) || 'Metric'
-  } ${conditionStr}`
-}
-
 export function clipText(text, maxLength) {
   if (text && maxLength) {
     const lengthBorder = maxLength - 3
@@ -169,97 +146,194 @@ export function splitStr(str) {
   return { firstWord, rest }
 }
 
-function validateNotificationsAndTitle({ invalidSteps, settings, cooldown, title }) {
-  if (!cooldown || settings.channel.length === 0) {
-    invalidSteps.push('notifications')
-  }
-
-  if (settings.channel.length > 0 && settings.channel.some((item) => typeof item !== 'string')) {
-    const telegramChannel = settings.channel.find(
-      (item) => typeof item !== 'string' && 'telegram_channel' in item,
-    )
-    if (telegramChannel && !telegramChannel.telegram_channel) {
+function validateNotificationsAndTitle({
+  invalidSteps,
+  settings,
+  cooldown,
+  title,
+  stepIndex,
+  onlyValidate,
+  notificationsStepIndex,
+}) {
+  if (onlyValidate && stepIndex > notificationsStepIndex) {
+    if (!cooldown || settings.channel.length === 0) {
       invalidSteps.push('notifications')
     }
-    const webhook = settings.channel.find((item) => typeof item !== 'string' && 'webhook' in item)
-    if (webhook && !webhook.webhook) {
-      invalidSteps.push('notifications')
+
+    if (settings.channel.length > 0 && settings.channel.some((item) => typeof item !== 'string')) {
+      const telegramChannel = settings.channel.find(
+        (item) => typeof item !== 'string' && 'telegram_channel' in item,
+      )
+      if (telegramChannel && !telegramChannel.telegram_channel) {
+        invalidSteps.push('notifications')
+      }
+      const webhook = settings.channel.find((item) => typeof item !== 'string' && 'webhook' in item)
+      if (webhook && !webhook.webhook) {
+        invalidSteps.push('notifications')
+      }
     }
   }
 
-  if (!title) {
+  if (!title && !onlyValidate) {
     invalidSteps.push('title')
   }
 }
 
-function validateAssetStep({ invalidSteps, settings, cooldown, title }) {
-  if (settings.target.slug.length === 0) {
-    invalidSteps.push('asset')
+function validateAssetStep({ invalidSteps, settings, cooldown, title, stepIndex, onlyValidate }) {
+  if ((stepIndex > 0 && onlyValidate) || !onlyValidate) {
+    if (settings.target.slug.length === 0) {
+      invalidSteps.push('asset')
+    }
   }
 
-  if (!settings.metric || Object.keys(settings.operation).length === 0 || !settings.time_window) {
-    invalidSteps.push('metric')
+  if ((stepIndex > 1 && onlyValidate) || !onlyValidate) {
+    if (!settings.metric || Object.keys(settings.operation).length === 0 || !settings.time_window) {
+      invalidSteps.push('metric')
+    }
   }
 
-  validateNotificationsAndTitle({ invalidSteps, settings, cooldown, title })
+  validateNotificationsAndTitle({
+    invalidSteps,
+    settings,
+    cooldown,
+    title,
+    stepIndex,
+    onlyValidate,
+    notificationsStepIndex: 2,
+  })
 }
 
-function validateWatchlistStep({ invalidSteps, settings, cooldown, title }) {
-  if (!settings.target.watchlist_id) {
-    invalidSteps.push('watchlist')
+function validateWatchlistStep({
+  invalidSteps,
+  settings,
+  cooldown,
+  title,
+  stepIndex,
+  onlyValidate,
+}) {
+  if ((stepIndex > 0 && onlyValidate) || !onlyValidate) {
+    if (!settings.target.watchlist_id) {
+      invalidSteps.push('watchlist')
+    }
   }
 
-  if (!settings.metric || Object.keys(settings.operation).length === 0 || !settings.time_window) {
-    invalidSteps.push('metric')
+  if ((stepIndex > 1 && onlyValidate) || !onlyValidate) {
+    if (!settings.metric || Object.keys(settings.operation).length === 0 || !settings.time_window) {
+      invalidSteps.push('metric')
+    }
   }
 
-  validateNotificationsAndTitle({ invalidSteps, settings, cooldown, title })
+  validateNotificationsAndTitle({
+    invalidSteps,
+    settings,
+    cooldown,
+    title,
+    stepIndex,
+    onlyValidate,
+    notificationsStepIndex: 2,
+  })
 }
 
-function validateScreenerStep({ invalidSteps, settings, cooldown, title }) {
-  if (!settings.operation.selector.watchlist_id) {
-    invalidSteps.push('watchlist')
+function validateScreenerStep({
+  invalidSteps,
+  settings,
+  cooldown,
+  title,
+  stepIndex,
+  onlyValidate,
+}) {
+  if ((stepIndex > 0 && onlyValidate) || !onlyValidate) {
+    if (!settings.operation.selector.watchlist_id) {
+      invalidSteps.push('watchlist')
+    }
   }
 
-  validateNotificationsAndTitle({ invalidSteps, settings, cooldown, title })
+  validateNotificationsAndTitle({
+    invalidSteps,
+    settings,
+    cooldown,
+    title,
+    stepIndex,
+    onlyValidate,
+    notificationsStepIndex: 1,
+  })
 }
 
-function validateWalletStep({ invalidSteps, settings, cooldown, title }) {
-  if (
-    !settings.target.address ||
-    !settings.selector.infrastructure ||
-    (settings.selector.address && !settings.selector.slug)
-  ) {
-    invalidSteps.push('wallet')
+function validateWalletStep({ invalidSteps, settings, cooldown, title, stepIndex, onlyValidate }) {
+  if ((stepIndex > 0 && onlyValidate) || !onlyValidate) {
+    if (
+      settings.type === 'wallet_movement' &&
+      (!settings.target.address || !settings.selector.infrastructure || !settings.selector.slug)
+    ) {
+      invalidSteps.push('wallet')
+    }
+    if (
+      (settings.type === 'wallet_usd_valuation' || settings.type === 'wallet_assets') &&
+      (!settings.target.address || !settings.selector.infrastructure)
+    ) {
+      invalidSteps.push('wallet')
+    }
   }
 
-  validateNotificationsAndTitle({ invalidSteps, settings, cooldown, title })
+  validateNotificationsAndTitle({
+    invalidSteps,
+    settings,
+    cooldown,
+    title,
+    stepIndex,
+    onlyValidate,
+    notificationsStepIndex: 1,
+  })
 }
 
-function validateSocialTrendsStep({ invalidSteps, settings, cooldown, title }) {
-  if ('slug' in settings.target && settings.target.slug.length === 0) {
-    invalidSteps.push('trend')
+function validateSocialTrendsStep({
+  invalidSteps,
+  settings,
+  cooldown,
+  title,
+  stepIndex,
+  onlyValidate,
+}) {
+  if ((stepIndex > 0 && onlyValidate) || !onlyValidate) {
+    if ('slug' in settings.target && settings.target.slug.length === 0) {
+      invalidSteps.push('trend')
+    }
+
+    if ('word' in settings.target && settings.target.word.length === 0) {
+      invalidSteps.push('trend')
+    }
+
+    if ('watchlist_id' in settings.target && !settings.target.watchlist_id) {
+      invalidSteps.push('trend')
+    }
   }
 
-  if ('word' in settings.target && settings.target.word.length === 0) {
-    invalidSteps.push('trend')
-  }
-
-  if ('watchlist_id' in settings.target && !settings.target.watchlist_id) {
-    invalidSteps.push('trend')
-  }
-
-  validateNotificationsAndTitle({ invalidSteps, settings, cooldown, title })
+  validateNotificationsAndTitle({
+    invalidSteps,
+    settings,
+    cooldown,
+    title,
+    stepIndex,
+    onlyValidate,
+    notificationsStepIndex: 1,
+  })
 }
 
-export function validateFormSteps({ type, values, setInvalidSteps, submitForm, onlyValidate }) {
+export function validateFormSteps({
+  type,
+  values,
+  setInvalidSteps,
+  submitForm,
+  onlyValidate,
+  stepIndex,
+}) {
   const { settings, cooldown, title } = values
 
   switch (type.title) {
     case 'Asset': {
       let invalidSteps = []
 
-      validateAssetStep({ invalidSteps, settings, cooldown, title })
+      validateAssetStep({ invalidSteps, settings, cooldown, title, stepIndex, onlyValidate })
 
       if (invalidSteps.length > 0) {
         setInvalidSteps(invalidSteps)
@@ -274,7 +348,7 @@ export function validateFormSteps({ type, values, setInvalidSteps, submitForm, o
     case 'Watchlist': {
       let invalidSteps = []
 
-      validateWatchlistStep({ invalidSteps, settings, cooldown, title })
+      validateWatchlistStep({ invalidSteps, settings, cooldown, title, stepIndex, onlyValidate })
 
       if (invalidSteps.length > 0) {
         setInvalidSteps(invalidSteps)
@@ -289,7 +363,7 @@ export function validateFormSteps({ type, values, setInvalidSteps, submitForm, o
     case 'Screener': {
       let invalidSteps = []
 
-      validateScreenerStep({ invalidSteps, settings, cooldown, title })
+      validateScreenerStep({ invalidSteps, settings, cooldown, title, stepIndex, onlyValidate })
 
       if (invalidSteps.length > 0) {
         setInvalidSteps(invalidSteps)
@@ -304,7 +378,7 @@ export function validateFormSteps({ type, values, setInvalidSteps, submitForm, o
     case 'Wallet address': {
       let invalidSteps = []
 
-      validateWalletStep({ invalidSteps, settings, cooldown, title })
+      validateWalletStep({ invalidSteps, settings, cooldown, title, stepIndex, onlyValidate })
 
       if (invalidSteps.length > 0) {
         setInvalidSteps(invalidSteps)
@@ -319,7 +393,7 @@ export function validateFormSteps({ type, values, setInvalidSteps, submitForm, o
     case 'Social trends': {
       let invalidSteps = []
 
-      validateSocialTrendsStep({ invalidSteps, settings, cooldown, title })
+      validateSocialTrendsStep({ invalidSteps, settings, cooldown, title, stepIndex, onlyValidate })
 
       if (invalidSteps.length > 0) {
         setInvalidSteps(invalidSteps)
@@ -339,6 +413,7 @@ export function validateFormSteps({ type, values, setInvalidSteps, submitForm, o
     }
   }
 }
+
 function calcSeconds(amount, format) {
   let factor
   switch (format) {

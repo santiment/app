@@ -97,7 +97,22 @@ const AlertModalFormMaster = ({
   }, [id, signalData])
 
   useEffect(() => {
-    if (!isEqual(formPreviousValues, initialState)) {
+    let lastSavedNotificationSettings = JSON.parse(
+      localStorage.getItem('LAST_TRIGGER_NOTIFICATION_SETTINGS'),
+    )
+
+    let isFormEdited = !isEqual(formPreviousValues, initialState)
+
+    if (lastSavedNotificationSettings && lastSavedNotificationSettings.length > 0) {
+      const updatedInitialState = {
+        ...initialState,
+        settings: { ...initialState.settings, channel: lastSavedNotificationSettings },
+      }
+
+      isFormEdited = !isEqual(formPreviousValues, updatedInitialState)
+    }
+
+    if (isFormEdited) {
       setIsEdited(true)
     } else {
       setIsEdited(false)

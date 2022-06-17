@@ -2,14 +2,14 @@ import React, { useEffect } from 'react'
 import { useFormikContext } from 'formik'
 import { ProjectIcon } from '../../../../../../../components/ProjectIcon/ProjectIcon'
 import AlertMessage from '../../../../../../../components/Alert/AlertMessage'
-import { clipText, getConditionsStr, parseOperation, splitStr } from '../../../../../utils'
+import { clipText, getConditionsStr, parseOperation } from '../../../../../utils'
 import { useAssets } from '../../../../../../../hooks/project'
 import styles from './WalletAndConditions.module.scss'
 
 const WalletAndConditions = ({ description, invalidStepsMemo, selected, isFinished }) => {
   const {
     values: {
-      settings: { target, selector, time_window, operation },
+      settings: { target, selector, time_window, operation, type },
     },
   } = useFormikContext()
   const [projects, loading] = useAssets({
@@ -19,14 +19,40 @@ const WalletAndConditions = ({ description, invalidStepsMemo, selected, isFinish
   const isInvalid = invalidStepsMemo.has('wallet')
 
   useEffect(() => {
-    if (selector && target.address && selector.slug && !loading && isInvalid) {
+    if (
+      type === 'wallet_movement' &&
+      selector &&
+      target.address &&
+      selector.slug &&
+      !loading &&
+      isInvalid
+    ) {
       invalidStepsMemo.delete('wallet')
     }
-  }, [selector, target, loading, isInvalid])
+    if (
+      type === 'wallet_usd_valuation' &&
+      operation &&
+      target.address &&
+      selector.infrastructure &&
+      !loading &&
+      isInvalid
+    ) {
+      invalidStepsMemo.delete('wallet')
+    }
+    if (
+      type === 'wallet_assets' &&
+      target.address &&
+      selector.infrastructure &&
+      !loading &&
+      isInvalid
+    ) {
+      invalidStepsMemo.delete('wallet')
+    }
+  }, [selector, target, loading, isInvalid, type])
 
-  let children = ''
+  let children = description || ''
 
-  if (selector && target.address && selector.slug && !loading) {
+  if (type === 'wallet_movement' && selector && target.address && selector.slug && !loading) {
     const project = projects.find((project) => project.slug === selector.slug)
     const { selectedCount, selectedOperation } = parseOperation(operation)
     const conditionsStr = getConditionsStr({
@@ -34,7 +60,6 @@ const WalletAndConditions = ({ description, invalidStepsMemo, selected, isFinish
       count: selectedCount,
       timeWindow: time_window,
     })
-    const { rest } = splitStr(conditionsStr)
 
     children = (
       <div className={styles.wrapper}>
@@ -44,13 +69,48 @@ const WalletAndConditions = ({ description, invalidStepsMemo, selected, isFinish
           {project.ticker}
         </div>
         <div className={styles.condition}>
-          <span className={styles.conditionType}>Balance</span>
-          {rest}
+          <span className={styles.conditionType}>{project.name}</span>
+          {conditionsStr}
         </div>
       </div>
     )
-  } else {
-    children = description || ''
+  }
+
+  if (
+    type === 'wallet_usd_valuation' &&
+    operation &&
+    target.address &&
+    selector.infrastructure &&
+    !loading
+  ) {
+    const { selectedCount, selectedOperation } = parseOperation(operation)
+    const conditionsStr = getConditionsStr({
+      operation: selectedOperation,
+      count: selectedCount,
+      timeWindow: time_window,
+    })
+
+    children = (
+      <div className={styles.wrapper}>
+        <div className={styles.address}>{clipText(target.address, 24)}</div>
+        <div className={styles.item}>Full Capitalization</div>
+        <div className={styles.condition}>
+          <span className={styles.conditionType}>Balance</span>
+          {conditionsStr}
+        </div>
+      </div>
+    )
+  }
+
+  if (type === 'wallet_assets' && target.address && selector.infrastructure && !loading) {
+    children = (
+      <div className={styles.wrapper}>
+        <div className={styles.address}>{clipText(target.address, 24)}</div>
+        <div className={styles.item}>
+          Existed assets exit the wallet or new asset enters the wallet with non-zero balance
+        </div>
+      </div>
+    )
   }
 
   return (

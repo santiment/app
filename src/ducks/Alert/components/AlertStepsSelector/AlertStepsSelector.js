@@ -26,6 +26,7 @@ const AlertStepsSelector = ({
 
     if (stepIndex > 0) {
       validateFormSteps({
+        stepIndex,
         values,
         type: selectedType,
         setInvalidSteps,

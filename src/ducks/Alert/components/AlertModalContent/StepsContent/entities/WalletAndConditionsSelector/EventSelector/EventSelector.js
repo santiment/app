@@ -20,25 +20,31 @@ const EventSelector = ({ address, onEventChange, setSelectedAsset }) => {
 
   function handleSelectEvent(event) {
     const { settings: eventSettings } = event
-
     setCurrentEvent(event)
     setSelectedAsset(undefined)
 
     if (eventSettings) {
-      eventSettings.target.address = address
+      if (eventSettings.type !== settings.type && settings.selector.infrastructure) {
+        eventSettings.target.address = address
+        eventSettings.channel = settings.channel
 
-      if (eventSettings.type === 'wallet_movement') {
-        eventSettings.selector = settings.selector
+        if (eventSettings.type === 'wallet_movement') {
+          eventSettings.selector = settings.selector
+        }
+
+        if (
+          eventSettings.type === 'wallet_usd_valuation' ||
+          eventSettings.type === 'wallet_assets'
+        ) {
+          eventSettings.selector = { infrastructure: settings.selector.infrastructure }
+        }
+
+        setSettings(eventSettings)
       }
-
-      if (eventSettings.type === 'wallet_usd_valuation' || eventSettings.type === 'wallet_assets') {
-        eventSettings.selector = { infrastructure: settings.selector.infrastructure }
-      }
-
-      setSettings(eventSettings)
     } else {
       const defaultSettings = WALLET_EVENTS[0].settings
       defaultSettings.target.address = address
+      defaultSettings.channel = settings.channel
       setSettings(defaultSettings)
     }
 
