@@ -4,7 +4,6 @@ import Settings from './Settings'
 import SettingsTelegramNotifications from './SettingsTelegramNotifications'
 import SettingsEmailNotifications from './SettingsEmailNotifications'
 import SettingsSonarWebPushNotifications from './SettingsSonarWebPushNotifications'
-import ShowIf from '../../components/ShowIf/ShowIf'
 import { filterByChannels, useSignals } from '../../ducks/Signals/common/getSignals'
 import { CHANNEL_TYPES } from '../../ducks/Signals/utils/constants'
 import { useUserSettings } from '../../stores/user/settings'
@@ -56,19 +55,17 @@ const SettingsNotifications = () => {
         />
       </Settings.Row>
 
-      <ShowIf beta>
-        <Settings.Row>
-          <SettingsSonarWebPushNotifications
-            count={countWithBrowserPush}
-            description={SignalsDescription(
-              countWithBrowserPush,
-              allCount,
-              CHANNEL_TYPES.Browser,
-              'web push',
-            )}
-          />
-        </Settings.Row>
-      </ShowIf>
+      <Settings.Row>
+        <SettingsSonarWebPushNotifications
+          count={countWithBrowserPush}
+          description={SignalsDescription(
+            countWithBrowserPush,
+            allCount,
+            CHANNEL_TYPES.Browser,
+            'web push',
+          )}
+        />
+      </Settings.Row>
 
       <Settings.Row>
         <SignalLimits alertsPerDayLimit={alertsPerDayLimit} classes={styles} />

@@ -35,8 +35,9 @@ const EmailSetting = ({
   const ref = useRef()
 
   useEffect(() => {
-    if (!ref) return
-    ref.current.inputRef.current.type = 'email'
+    if (ref && ref.current && ref.current.inputRef) {
+      ref.current.inputRef.current.type = 'email'
+    }
   }, [])
 
   const onSubmit = (value) => {
