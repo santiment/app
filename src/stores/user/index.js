@@ -20,6 +20,16 @@ export const USER_QUERY = gql`
       marketingAccepted
       privacyPolicyAccepted
       isModerator
+      subscription: primaryUserSanbaseSubscription {
+        status
+        trialEnd
+        plan {
+          name
+          product {
+            id
+          }
+        }
+      }
       following {
         count
         users {
