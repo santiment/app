@@ -6,14 +6,21 @@
 
 .title {
   color: var(--rhino);
-  margin-bottom: 21px;
 
   @include text('h3');
 }
 
 .tabs {
+  position: sticky;
+  top: 0;
   width: 100%;
+  padding-top: 20px;
+  flex-wrap: wrap;
   margin-bottom: 25px;
+  row-gap: 20px;
+  column-gap: 32px;
+  z-index: 1;
+  background-color: var(--white);
 
   @include responsive('phone', 'phone-xs') {
     padding: 0 20px;
@@ -28,6 +35,11 @@
       margin: 0;
     }
   }
+}
+
+.tabWrapper {
+  margin: 0;
+  padding: 0 0 15px !important;
 }
 
 .tab {
