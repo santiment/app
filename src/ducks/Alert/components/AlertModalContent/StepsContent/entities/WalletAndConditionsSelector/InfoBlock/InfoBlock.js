@@ -40,19 +40,19 @@ const InfoBlock = ({ metric, assets = [] }) => {
     <div className={cx(styles.wrapper, 'column')}>
       <div className='row v-center mrg--b mrg-xs'>
         <Icon type='info-round-small' className={cx(styles.icon, 'mrg--r mrg-m')} />
-        <span className='body-3 txt-m c-black'>
+        <span className='txt-m c-black'>
           {currentSlug ? project && project.name : 'Balance'} {conditionsStr}
         </span>
       </div>
       {currentSlug ? (
-        <div className='body-3 txt-m c-waterloo mrg--l mrg-xl'>
+        <div className='txt-m c-waterloo mrg--l mrg-xl'>
           {!loading &&
             `1 ${project && project.ticker} = ${formatNumber(data, {
               currency: 'USD',
             })}`}
         </div>
       ) : (
-        <div className='body-3 txt-m c-waterloo mrg--l mrg-xl'>Current balance = {usd}</div>
+        <div className='txt-m c-waterloo mrg--l mrg-xl'>Current balance = {usd}</div>
       )}
     </div>
   )

@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { useQuery } from 'react-apollo'
 import isEqual from 'lodash.isequal'
 import { track } from 'webkit/analytics'
+import { getSavedJson } from 'webkit/utils/localStorage'
 import PageLoader from '../../components/Loader/PageLoader'
 import AlertTypeSelector from './components/AlertTypeSelector/AlertTypeSelector'
 import EmptySection from '../../components/EmptySection/EmptySection'
@@ -97,9 +98,7 @@ const AlertModalFormMaster = ({
   }, [id, signalData])
 
   useEffect(() => {
-    let lastSavedNotificationSettings = JSON.parse(
-      localStorage.getItem('LAST_TRIGGER_NOTIFICATION_SETTINGS'),
-    )
+    let lastSavedNotificationSettings = getSavedJson('LAST_TRIGGER_NOTIFICATION_SETTINGS')
 
     let isFormEdited = !isEqual(formPreviousValues, initialState)
 

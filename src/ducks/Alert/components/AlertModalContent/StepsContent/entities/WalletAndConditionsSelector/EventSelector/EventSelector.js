@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
 import { useField } from 'formik'
 import { getAddressInfrastructure } from 'webkit/utils/address'
@@ -8,7 +8,10 @@ import styles from './EventSelector.module.scss'
 const EventSelector = ({ address, onEventChange, setSelectedAsset }) => {
   const [, { value: settings }, { setValue: setSettings }] = useField('settings')
   const hasInitSettings = !!(settings.target && settings.target.address)
-  const initialEvent = WALLET_EVENTS.find((event) => event.settings.type === settings.type)
+  const initialEvent = useMemo(
+    () => WALLET_EVENTS.find((event) => event.settings.type === settings.type),
+    [settings.type],
+  )
   const [currentEvent, setCurrentEvent] = useState(hasInitSettings ? initialEvent : {})
   const isCorrectAddress = address && !!getAddressInfrastructure(address)
 
@@ -81,12 +84,12 @@ const EventSelector = ({ address, onEventChange, setSelectedAsset }) => {
               )}
             >
               <div className='row justify v-center'>
-                <div className={cx(styles.selectorTitle, 'row body-3')}>
+                <div className={cx(styles.selectorTitle, 'row')}>
                   {title} {isNew && <div className={styles.new}>NEW</div>}
                 </div>
                 <div className={styles.point} />
               </div>
-              <div className={cx(styles.description, 'body-3 c-waterloo')}>{description}</div>
+              <div className={cx(styles.description, 'c-waterloo')}>{description}</div>
             </div>
           )
         })}

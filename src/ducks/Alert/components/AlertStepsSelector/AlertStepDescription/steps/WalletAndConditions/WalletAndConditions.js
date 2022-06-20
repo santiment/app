@@ -19,33 +19,20 @@ const WalletAndConditions = ({ description, invalidStepsMemo, selected, isFinish
   const isInvalid = invalidStepsMemo.has('wallet')
 
   useEffect(() => {
-    if (
-      type === 'wallet_movement' &&
-      selector &&
-      target.address &&
-      selector.slug &&
-      !loading &&
-      isInvalid
-    ) {
+    const isInitialValuesInvalid = target.address && !loading && isInvalid
+
+    if (type === 'wallet_movement' && selector && isInitialValuesInvalid && selector.slug) {
       invalidStepsMemo.delete('wallet')
     }
     if (
       type === 'wallet_usd_valuation' &&
       operation &&
-      target.address &&
-      selector.infrastructure &&
-      !loading &&
-      isInvalid
+      isInitialValuesInvalid &&
+      selector.infrastructure
     ) {
       invalidStepsMemo.delete('wallet')
     }
-    if (
-      type === 'wallet_assets' &&
-      target.address &&
-      selector.infrastructure &&
-      !loading &&
-      isInvalid
-    ) {
+    if (type === 'wallet_assets' && isInitialValuesInvalid && selector.infrastructure) {
       invalidStepsMemo.delete('wallet')
     }
   }, [selector, target, loading, isInvalid, type])
