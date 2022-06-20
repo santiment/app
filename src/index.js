@@ -38,7 +38,9 @@ window.__onLinkClick = (data) => {
 
   if (!href) return
 
-  if (href.includes(APP_LINK) || href.startsWith('/')) {
+  if (data && data.ctrlKey) {
+    window.open(href, '_blank')
+  } else if (href.includes(APP_LINK) || href.startsWith('/')) {
     history.push(href.replace('https://app.santiment.net', ''))
   } else {
     window.location.href = href

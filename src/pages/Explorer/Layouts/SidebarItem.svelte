@@ -4,29 +4,16 @@
   import Tooltip from 'webkit/ui/Tooltip/svelte'
   import Info from 'webkit/ui/Profile/Info.svelte'
   import { currentUser } from '../store'
-  import { history } from '../../../redux'
-  import { getItemRoute } from '../const'
 
   export let item = {}
   export let small = false
   export let url
-  export let type
+  export let onClick = () => {}
 
   let hoverActions = false
 
   $: totalVotes = item.votes.totalVotes
   $: ({ user, commentsCount } = item)
-
-  function onClick(e) {
-    if (['use', 'svg'].includes(e.target.tagName)) {
-      e.preventDefault()
-      return
-    }
-    if (url.includes(location.hostname)) {
-      e.preventDefault()
-      history.push(getItemRoute(item, type))
-    }
-  }
 </script>
 
 <a href={url} target="_blank" on:click={onClick} class="hoverable {hoverActions && 'forcehover'}">
