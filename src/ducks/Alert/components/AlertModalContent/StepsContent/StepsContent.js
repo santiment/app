@@ -14,7 +14,7 @@ const StepsContent = ({ selectorSettings }) => {
     case 'Social trend': {
       return <SocialTrendsSelector selectorSettings={selectorSettings} />
     }
-    case 'Wallet & Conditions': {
+    case 'Wallet & Event': {
       return <WalletAndConditionsSelector selectorSettings={selectorSettings} />
     }
     case 'Screener': {

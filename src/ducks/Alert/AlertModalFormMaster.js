@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { useQuery } from 'react-apollo'
 import isEqual from 'lodash.isequal'
 import { track } from 'webkit/analytics'
+import { getSavedJson } from 'webkit/utils/localStorage'
 import PageLoader from '../../components/Loader/PageLoader'
 import AlertTypeSelector from './components/AlertTypeSelector/AlertTypeSelector'
 import EmptySection from '../../components/EmptySection/EmptySection'
@@ -97,7 +98,20 @@ const AlertModalFormMaster = ({
   }, [id, signalData])
 
   useEffect(() => {
-    if (!isEqual(formPreviousValues, initialState)) {
+    let lastSavedNotificationSettings = getSavedJson('LAST_TRIGGER_NOTIFICATION_SETTINGS')
+
+    let isFormEdited = !isEqual(formPreviousValues, initialState)
+
+    if (lastSavedNotificationSettings && lastSavedNotificationSettings.length > 0) {
+      const updatedInitialState = {
+        ...initialState,
+        settings: { ...initialState.settings, channel: lastSavedNotificationSettings },
+      }
+
+      isFormEdited = !isEqual(formPreviousValues, updatedInitialState)
+    }
+
+    if (isFormEdited) {
       setIsEdited(true)
     } else {
       setIsEdited(false)
@@ -112,6 +126,10 @@ const AlertModalFormMaster = ({
     const triggerValues = {
       ...values,
       settings: { ...values.settings, type: selectedType.settings.type },
+    }
+
+    if (selectedType.settings.type === 'wallet_movement') {
+      triggerValues.settings.type = values.settings.type
     }
 
     if (selectedType.settings.type === 'metric_signal') {

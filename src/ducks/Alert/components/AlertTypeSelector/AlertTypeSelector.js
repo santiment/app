@@ -40,7 +40,7 @@ const AlertTypeSelector = ({ selectorSettings, isRestrictedMessageClosed }) => {
   return (
     <div className={styles.wrapper}>
       <div className={cx(styles.title, 'row v-center justify')}>
-        Choose type of alert bellow:
+        Choose an alert category bellow:
         <AlertTooltip
           isVisible={!shouldHideRestrictionMessage && isRestrictedMessageClosed}
           content={

@@ -82,6 +82,12 @@ const AlertModalForm = ({
               return index === 1
             }
           }
+          if (
+            signal.settings.type === 'wallet_usd_valuation' ||
+            signal.settings.type === 'wallet_assets'
+          ) {
+            return index === 3
+          }
           return item.settings.type === signal.settings.type
         }),
       )
