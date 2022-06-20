@@ -7,36 +7,18 @@
   import AssetTags from '../Components/AssetTags.svelte'
   import Actions from '../Components/Actions.svelte'
   import { currentUser } from '../store'
-  import { history } from '../../../redux'
-  import { EntityType, getItemRoute } from '../const'
+  import { EntityType } from '../const'
 
   export let item
   export let type = 'CHART'
   export let url
   export let hasIcons = false
   export let assets = []
-
-  const ACTION_BUTTON_CLASS = 'actionbutton'
+  export let onClick = () => {}
 
   $: ({ user } = item)
   $: title = item.trigger ? item.trigger.title : item.title ? item.title : ''
   $: description = item.trigger ? item.trigger.description : item.description
-
-  function onClick(e) {
-    const isIcon = e.target && ['use', 'svg'].includes(e.target.tagName)
-    const isActionButton =
-      e.target.classList.contains(ACTION_BUTTON_CLASS) ||
-      (e.target.parentElement && e.target.parentElement.classList.contains(ACTION_BUTTON_CLASS))
-    if (isIcon || isActionButton) {
-      e.preventDefault()
-      return
-    }
-    if (url.includes(location.hostname)) {
-      e.preventDefault()
-      history.push(getItemRoute(item, type))
-      return
-    }
-  }
 </script>
 
 <a class="explorerItem" href={url} on:click={onClick}>
