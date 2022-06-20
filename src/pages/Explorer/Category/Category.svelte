@@ -53,7 +53,8 @@
         item.first = true
         if (index > 0) {
           modifiedItems[index - 1].last = true
-        } else if (index === lastIndex) {
+        }
+        if (index === lastIndex) {
           item.last = true
         }
       }
@@ -85,9 +86,10 @@
     {/if}
     <div
       class="item btn"
-      class:first={isMain && item.first}
-      class:last={isMain && item.last}
+      class:first={isMain && item.first && !item.last}
+      class:last={isMain && item.last && !item.first}
       class:center={isMain && !item.first && !item.last}
+      class:single={isMain && item.first && item.last}
     >
       <slot {item} />
     </div>
@@ -175,6 +177,12 @@
     border: 1px solid var(--porcelain);
     border-bottom-right-radius: 8px;
     border-bottom-left-radius: 8px;
+    margin-bottom: 24px;
+  }
+
+  .isMain .single {
+    border: 1px solid var(--porcelain);
+    border-radius: 8px;
     margin-bottom: 24px;
   }
 
