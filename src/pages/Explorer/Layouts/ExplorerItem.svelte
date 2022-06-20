@@ -6,7 +6,6 @@
   import AssetIcons from '../Components/AssetIcons.svelte'
   import AssetTags from '../Components/AssetTags.svelte'
   import Actions from '../Components/Actions.svelte'
-  import { mutateStoreUserActivity, InteractionType } from '../../../queries/userActivity'
   import { currentUser } from '../store'
   import { history } from '../../../redux'
   import { EntityType, getItemRoute } from '../const'
@@ -34,7 +33,6 @@
     }
     if (url.includes(location.hostname)) {
       e.preventDefault()
-      mutateStoreUserActivity(type, item.trigger ? item.trigger.id : item.id, InteractionType.VIEW)
       history.push(getItemRoute(item, type))
       return
     }

@@ -26,5 +26,8 @@ function STORE_USER_ACTIVITY_MUTATION(entityType, entityId, interactionType) {
     `
 }
 
+export const EntityTypes = {}
+Object.keys(EntityType).forEach((type) => (EntityTypes[type] = type))
+
 export const mutateStoreUserActivity = (entityType, entityId, interactionType) =>
   mutate(STORE_USER_ACTIVITY_MUTATION(entityType, entityId, interactionType))
