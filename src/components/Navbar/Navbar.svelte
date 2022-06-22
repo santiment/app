@@ -14,7 +14,7 @@
   export let currentUser = null
   export let mount
   export let isAppUpdateAvailable = false
-  export let variant
+  export let variant = 0
 
   let searchNode
   let notificationsNode
@@ -29,6 +29,9 @@
   onMount(() => {
     mount(searchNode, notificationsNode)
   })
+
+  $: subscription = currentUser && currentUser.subscription
+  $: customerData = $customerData$
 </script>
 
 <header class="row v-center relative">
@@ -59,12 +62,7 @@
 
   <div class="br mrg-xl mrg--r" />
 
-  <AccountStatus
-    {currentUser}
-    {variant}
-    subscription={currentUser && currentUser.subscription}
-    customerData={$customerData$}
-  />
+  <AccountStatus {currentUser} {variant} {subscription} {customerData} />
   <AccountDropdown
     {currentUser}
     {ui}
@@ -73,8 +71,8 @@
     version={process.env.REACT_APP_VERSION}
     {isAppUpdateAvailable}
     {variant}
-    subscription={currentUser && currentUser.subscription}
-    customerData={$customerData$}
+    {subscription}
+    {customerData}
   />
 </header>
 

@@ -21,7 +21,7 @@ export default ({ pathname }) => {
     if (user) user.subscriptions = subscriptions || []
     return user
   }, [user, subscriptions])
-  const variant = useGoogleOptimize(NAVBAR_EXPERIMENT_ID, [1, 2], 1000)
+  const variant = useGoogleOptimize(NAVBAR_EXPERIMENT_ID, [0, 1]) || 0
   const appVersionState = useSelector((state) => state.app.appVersionState)
   const isAppUpdateAvailable = appVersionState === APP_STATES.NEW_AVAILABLE
 
@@ -37,8 +37,8 @@ export default ({ pathname }) => {
   useEffect(() => {
     if (!svelte) return
 
-    svelte.$set({ pathname, currentUser })
-  }, [pathname, currentUser, subscriptions])
+    svelte.$set({ pathname, currentUser, isAppUpdateAvailable, variant })
+  }, [pathname, currentUser, subscriptions, variant, isAppUpdateAvailable])
 
   function onMount(searchNode, notificationsNode) {
     setSearchNode(searchNode)
