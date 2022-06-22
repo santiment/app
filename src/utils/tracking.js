@@ -2,6 +2,7 @@ import { initTwitterPixel } from 'webkit/analytics/twitter'
 
 const TRACKER_IDs = ['UA-100571693-1', 'UA-100571693-2']
 const APP_NAME = 'Sanbase'
+const OPTIMIZE_ID = 'OPT-TKTHGHT'
 
 export const NAVBAR_EXPERIMENT_ID = 'CG6tK8zVQ9Ww9wb7WJtYmg'
 export const isBrowser = typeof window !== 'undefined'
@@ -28,7 +29,7 @@ function mixScript(src) {
 
 function loadScript() {
   mixScript('//www.googletagmanager.com/gtag/js?id=' + TRACKER_IDs[0])
-  mixScript('//www.googleoptimize.com/optimize.js?id=OPT-TKTHGHT')
+  mixScript('//www.googleoptimize.com/optimize.js?id=' + OPTIMIZE_ID)
 }
 
 export function initializeTracking(trackerIDs = TRACKER_IDs) {
