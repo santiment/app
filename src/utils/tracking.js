@@ -3,6 +3,7 @@ import { initTwitterPixel } from 'webkit/analytics/twitter'
 const TRACKER_IDs = ['UA-100571693-1', 'UA-100571693-2']
 const APP_NAME = 'Sanbase'
 
+export const NAVBAR_EXPERIMENT_ID = 'CG6tK8zVQ9Ww9wb7WJtYmg'
 export const isBrowser = typeof window !== 'undefined'
 export const isProdApp = window.location.origin === 'https://app.santiment.net'
 export const hasDoNotTrack = () => {

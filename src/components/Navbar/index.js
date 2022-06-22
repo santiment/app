@@ -8,6 +8,7 @@ import NotificationsFeed from '../../ducks/Notifications/NotificationsFeed/Notif
 import { useUser } from '../../stores/user'
 import { useUserSubscriptions } from '../../stores/user/subscriptions'
 import { APP_STATES } from '../../ducks/Updates/reducers'
+import { NAVBAR_EXPERIMENT_ID } from '../../utils/tracking'
 
 export default ({ pathname }) => {
   const [svelte, setSvelte] = useState()
@@ -20,7 +21,7 @@ export default ({ pathname }) => {
     if (user) user.subscriptions = subscriptions || []
     return user
   }, [user, subscriptions])
-  const variant = useGoogleOptimize('CG6tK8zVQ9Ww9wb7WJtYmg', [0, 1, 2], 1000)
+  const variant = useGoogleOptimize(NAVBAR_EXPERIMENT_ID, [0, 1, 2], 1000)
   const appVersionState = useSelector((state) => state.app.appVersionState)
   const isAppUpdateAvailable = appVersionState === APP_STATES.NEW_AVAILABLE
 
