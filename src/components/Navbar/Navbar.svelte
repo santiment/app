@@ -13,6 +13,8 @@
 
   export let currentUser = null
   export let mount
+  export let isAppUpdateAvailable = false
+  export let variant
 
   let searchNode
   let notificationsNode
@@ -57,8 +59,16 @@
 
   <div class="br mrg-xl mrg--r" />
 
-  <AccountStatus {currentUser} />
-  <AccountDropdown {currentUser} {ui} {onLogoutClick} tooltipClass="$style.dropdown" />
+  <AccountStatus {currentUser} {variant} />
+  <AccountDropdown
+    {currentUser}
+    {ui}
+    {onLogoutClick}
+    tooltipClass="$style.dropdown"
+    version={process.env.REACT_APP_VERSION}
+    {isAppUpdateAvailable}
+    {variant}
+  />
 </header>
 
 <style>
