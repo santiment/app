@@ -28,6 +28,7 @@ function mixScript(src) {
 
 function loadScript() {
   mixScript('//www.googletagmanager.com/gtag/js?id=' + TRACKER_IDs[0])
+  mixScript('//www.googleoptimize.com/optimize.js?id=OPT-TKTHGHT')
 }
 
 export function initializeTracking(trackerIDs = TRACKER_IDs) {
