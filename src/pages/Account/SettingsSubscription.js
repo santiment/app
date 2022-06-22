@@ -19,7 +19,7 @@ const SettingsSubscription = () => {
       svelte.$destroy()
       delete window.showCancelSubscriptionDialog
     }
-  }, [])
+  }, [dialogRef.current])
 
   return (
     <div id={ref.current ? '' : 'subscription'} ref={ref} className='mrg-xl mrg--b'>
