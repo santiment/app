@@ -6,7 +6,7 @@
   import Svg from 'webkit/ui/Svg/svelte'
   import Product from 'webkit/ui/Product.svelte'
   import Products from 'webkit/ui/Products/svelte'
-  import AccountStatus from 'webkit/ui/AccountStatus.svelte'
+  import AccountStatus, { AccountStatusType } from 'webkit/ui/AccountStatus.svelte'
   import AccountDropdown from 'webkit/ui/AccountDropdown/index.svelte'
   import { ui } from '@/stores/ui/theme'
   import { history } from '@/redux'
@@ -14,7 +14,7 @@
   export let currentUser = null
   export let mount
   export let isAppUpdateAvailable = false
-  export let variant = 0
+  export let variant = AccountStatusType.First
 
   let searchNode
   let notificationsNode

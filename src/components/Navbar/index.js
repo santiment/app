@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { useSelector } from 'react-redux'
 import useGoogleOptimize from '@react-hook/google-optimize'
+import { AccountStatusType } from 'webkit/ui/AccountStatus.svelte'
 import Navbar from './Navbar.svelte'
 import Search from './Search'
 import NotificationsFeed from '../../ducks/Notifications/NotificationsFeed/NotificationsFeed'
@@ -21,7 +22,9 @@ export default ({ pathname }) => {
     if (user) user.subscriptions = subscriptions || []
     return user
   }, [user, subscriptions])
-  const variant = useGoogleOptimize(NAVBAR_EXPERIMENT_ID, [0, 1]) || 0
+  const variant =
+    useGoogleOptimize(NAVBAR_EXPERIMENT_ID, [AccountStatusType.First, AccountStatusType.Second]) ||
+    AccountStatusType.First
   const appVersionState = useSelector((state) => state.app.appVersionState)
   const isAppUpdateAvailable = appVersionState === APP_STATES.NEW_AVAILABLE
 
