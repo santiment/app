@@ -69,7 +69,6 @@ export const useUpdateFinishedSteps = ({
             values.settings.target &&
             values.settings.target.address &&
             values.settings.selector &&
-            values.settings.selector.slug &&
             values.settings.selector.infrastructure
           ) {
             !finishedSteps.has(0) && setFinishedSteps((prev) => [...prev, 0])

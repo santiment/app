@@ -8,7 +8,7 @@ const CompareTooltip = ({ disabledComparision }) => {
   return (
     <DarkTooltip
       align='center'
-      position='top'
+      position='bottom'
       on='hover'
       className={styles.tooltip}
       trigger={

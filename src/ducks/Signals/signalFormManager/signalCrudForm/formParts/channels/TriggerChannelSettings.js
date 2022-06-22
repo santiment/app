@@ -5,7 +5,6 @@ import ConnectTelegramBlock from '../../../../../../pages/Account/ConnectTelegra
 import SettingsTelegramNotifications from '../../../../../../pages/Account/SettingsTelegramNotifications'
 import SettingsEmailNotifications from '../../../../../../pages/Account/SettingsEmailNotifications'
 import SettingsSonarWebPushNotifications from '../../../../../../pages/Account/SettingsSonarWebPushNotifications'
-import ShowIf from '../../../../../../components/ShowIf/ShowIf'
 import { useDialogState } from '../../../../../../hooks/dialog'
 import styles from './TriggerChannelSettings.module.scss'
 
@@ -46,15 +45,11 @@ const TriggerChannelSettings = ({
           )}
 
           {showWebPush && (
-            <>
-              <ShowIf beta>
-                <SettingsSonarWebPushNotifications
-                  classes={styles}
-                  className={styles.notifications}
-                  recheckBrowserNotifications={recheckBrowserNotifications}
-                />
-              </ShowIf>
-            </>
+            <SettingsSonarWebPushNotifications
+              classes={styles}
+              className={styles.notifications}
+              recheckBrowserNotifications={recheckBrowserNotifications}
+            />
           )}
         </Dialog.ScrollContent>
       </Dialog>

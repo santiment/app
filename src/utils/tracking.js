@@ -131,10 +131,6 @@ export function pageview(rawPath, trackerIDs = TRACKER_IDs) {
     return
   }
 
-  if (typeof window.twq === 'function') {
-    window.twq('track', 'PageView')
-  }
-
   if (typeof window.gtag === 'function') {
     trackerIDs.forEach(function (ID) {
       window.gtag('config', ID, { page_path: path, app_name: APP_NAME })

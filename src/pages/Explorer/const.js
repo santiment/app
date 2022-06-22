@@ -21,11 +21,13 @@ export const EntityType = {
     key: EntityKeys.CHART_CONFIGURATION,
     voteKey: 'chartConfigurationId',
     deleteKey: 'CHART',
-    label: 'Chart layouts',
+    label: 'Charts',
     singular: 'chart',
     icon: 'chart',
     color: 'var(--green)',
+    backgroundColor: 'var(--green-light-1)',
     url: (id, title) => `/charts/${getSEOLinkFromIdAndTitle(id, title)}`,
+    filterable: true,
   },
   WATCHLIST: {
     key: EntityKeys.PROJECT_WATCHLIST,
@@ -35,7 +37,9 @@ export const EntityType = {
     singular: 'watchlist',
     icon: 'watchlist',
     color: 'var(--orange)',
+    backgroundColor: 'var(--orange-light-1)',
     url: (id) => `/watchlist/projects/${id}`,
+    filterable: true,
   },
   ADDRESS: {
     key: EntityKeys.ADDRESS_WATCHLIST,
@@ -45,6 +49,7 @@ export const EntityType = {
     singular: 'watchlist',
     icon: 'wallet',
     color: 'var(--purple)',
+    backgroundColor: 'var(--purple-light-1)',
     url: (id) => `/watchlist/addresses/${id}`,
   },
   SCREENER: {
@@ -55,7 +60,9 @@ export const EntityType = {
     singular: 'screener',
     icon: 'screener',
     color: 'var(--blue)',
+    backgroundColor: 'var(--blue-light-1)',
     url: (id) => `/screener/${id}`,
+    filterable: true,
   },
   // ALERT: {
   //   key: EntityKeys.USER_TRIGGER,
@@ -65,9 +72,12 @@ export const EntityType = {
   //   singular: 'alert',
   //   icon: 'alert',
   //   color: 'var(--red)',
+  //   backgroundColor: 'var(--red-light-1)',
   //   url: (id) => `/alerts/${id}`,
   // },
 }
+
+export const FILTERABLE_TABS = Object.values(EntityType).filter((entity) => entity.filterable)
 
 export const RANGES = {
   'Last 12h': '12h',

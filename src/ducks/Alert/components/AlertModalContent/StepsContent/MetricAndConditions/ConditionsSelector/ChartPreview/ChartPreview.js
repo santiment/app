@@ -42,19 +42,21 @@ const ChartPreview = ({ isWallet, metric }) => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.info}>
-        <div className={styles.condition}>
-          <span className={styles.conditionType}>{firstWord}</span>
-          {rest}
+      {!isWallet && (
+        <div className={styles.info}>
+          <div className={styles.condition}>
+            <span className={styles.conditionType}>{firstWord}</span>
+            {rest}
+          </div>
+          <div className={styles.price}>
+            {!loading &&
+              shouldRenderPrice &&
+              `1 ${project && project.ticker} = ${formatNumber(data, {
+                currency: 'USD',
+              })}`}
+          </div>
         </div>
-        <div className={styles.price}>
-          {!loading &&
-            shouldRenderPrice &&
-            `1 ${project && project.ticker} = ${formatNumber(data, {
-              currency: 'USD',
-            })}`}
-        </div>
-      </div>
+      )}
 
       <div className={cx(styles.chartWrapper, !shouldRenderChart && styles.noChart)}>
         {shouldRenderChart && <SignalPreview type={values.type} trigger={values} />}

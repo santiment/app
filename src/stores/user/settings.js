@@ -28,6 +28,12 @@ export const USER_SETTINGS_FRAGMENT = gql`
     hasTelegramConnected
     alertsPerDayLimit
     theme
+    isSubscribedBiweeklyReport
+    isSubscribedCommentsEmails
+    isSubscribedEduEmails
+    isSubscribedLikesEmails
+    isSubscribedMarketingEmails
+    isSubscribedMonthlyNewsletter
   }
 `
 
@@ -130,8 +136,9 @@ export function useUpdateUserSettings() {
 
   function update(newSettings) {
     const currentUser = getCurrentUser()
+    const { newsletterSubscription, ...otherSettings } = currentUser.settings
 
-    const merged = { ...currentUser.settings, ...newSettings }
+    const merged = { ...otherSettings, ...newSettings }
 
     if (typeof merged.alertsPerDayLimit === 'object') {
       merged.alertsPerDayLimit = JSON.stringify(merged.alertsPerDayLimit)

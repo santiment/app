@@ -25,7 +25,7 @@ const Distribution = ({ ticker, balance }) =>
 const Distributions = ({ distributions }) =>
   distributions.map((distribution, i) => <Distribution key={i} {...distribution} />)
 
-function useCurrentBalance(walletAssets) {
+export function useCurrentBalance(walletAssets) {
   const { projects } = useProjects()
 
   return useMemo(() => {

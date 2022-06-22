@@ -211,7 +211,13 @@ export const useUpdateNameAndDescription = ({
             slugTicker = currentProject.ticker
           }
 
-          if (hasSlugTicker && address && infrastructure) {
+          if (
+            hasSlugTicker &&
+            address &&
+            infrastructure &&
+            operation &&
+            Object.keys(operation).length > 0
+          ) {
             const { selectedCount, selectedOperation } = parseOperation(operation)
             const conditionsStr = getConditionsStr({
               operation: selectedOperation,
@@ -232,6 +238,45 @@ export const useUpdateNameAndDescription = ({
                 `Notify me when the balance of ${slugTicker.toLowerCase()} wallet ${
                   address || ''
                 } ${conditionsStr || ''}. ${notificationsStr}`,
+              )
+            }
+          } else if (address && infrastructure && operation && Object.keys(operation).length > 0) {
+            const { selectedCount, selectedOperation } = parseOperation(operation)
+            const conditionsStr = getConditionsStr({
+              operation: selectedOperation,
+              count: selectedCount,
+              timeWindow: time_window,
+            })
+
+            setTitle(`Balance ${conditionsStr}`)
+
+            if (cooldown && channel.length > 0) {
+              const notificationsStr = getDescriptionStr({
+                cooldown,
+                channels: channel,
+                isRepeating,
+              })
+
+              setDescription(
+                `Notify me when the balance of wallet ${address || ''} ${
+                  conditionsStr || ''
+                }. ${notificationsStr}`,
+              )
+            }
+          } else if (address && infrastructure && !operation) {
+            setTitle(
+              'Existed assets exit the wallet or new asset enters the wallet with non-zero balance',
+            )
+
+            if (cooldown && channel.length > 0) {
+              const notificationsStr = getDescriptionStr({
+                cooldown,
+                channels: channel,
+                isRepeating,
+              })
+
+              setDescription(
+                `Notify me when existed assets exit the wallet or new asset enters the wallet with non-zero balance. ${notificationsStr}`,
               )
             }
           } else {

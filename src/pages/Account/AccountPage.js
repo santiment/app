@@ -1,12 +1,14 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { HashLink as Link } from 'react-router-hash-link'
+import cx from 'classnames'
 import Tabs from '@santiment-network/ui/Tabs'
 import Button from '@santiment-network/ui/Button'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import SettingsGeneral from './SettingsGeneral'
 import SettingsConnections from './SettingsConnections'
+import SettingsEmailPreferences from './SettingsEmailPreferences/SettingsEmailPreferences'
 import SettingsNotifications from './SettingsNotifications'
 import SettingsGetTokens from './SettingsGetTokens'
 import SettingsAPIKeys from './SettingsAPIKeys'
@@ -57,13 +59,21 @@ const tabs = [
   {
     index: 5,
     content: (
+      <Link className={styles.tab} to='#email-preferences'>
+        Email Preferences
+      </Link>
+    ),
+  },
+  {
+    index: 6,
+    content: (
       <Link className={styles.tab} to='#get-tokens'>
         Get tokens
       </Link>
     ),
   },
   {
-    index: 6,
+    index: 7,
     content: (
       <Link className={styles.tab} to='#api-keys'>
         API keys
@@ -71,7 +81,7 @@ const tabs = [
     ),
   },
   {
-    index: 7,
+    index: 8,
     content: (
       <Link className={styles.tab} to='#sessions'>
         Sessions
@@ -79,7 +89,7 @@ const tabs = [
     ),
   },
   {
-    index: 8,
+    index: 9,
     content: (
       <Link className={styles.tab} to={ACCOUNT_PAGE_HASHES.subscription}>
         Subscription
@@ -112,12 +122,18 @@ const AccountPage = ({ history, location }) => {
       <MobileOnly>
         <MobileHeader title='Account settings' />
       </MobileOnly>
-      <Tabs className={styles.tabs} options={tabs} defaultSelectedIndex={selectedIndex} />
+      <Tabs
+        className={cx(styles.tabs, 'row justify')}
+        classes={{ tab: styles.tabWrapper }}
+        options={tabs}
+        defaultSelectedIndex={selectedIndex}
+      />
       <div className={styles.container}>
         <SettingsGeneral {...user} />
         <SettingsAffiliate />
         <SettingsConnections />
         <SettingsNotifications />
+        <SettingsEmailPreferences />
         <SettingsGetTokens />
         <SettingsAPIKeys />
         <SettingsSessions />

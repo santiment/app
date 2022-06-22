@@ -23,6 +23,8 @@ import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
 import PageLoader from '../../components/Loader/PageLoader'
 import { mutateStoreUserActivity, InteractionType } from '../../queries/userActivity'
 import { EntityKeys } from '../../pages/Explorer/const'
+import { useStore } from './stores'
+import { useUser } from '../../stores/user'
 
 const parseLayout = (layout) => layout && queryLayout(+layout).then(selectedLayout.set)
 
@@ -41,6 +43,8 @@ export default ({ location, isDesktop }) => {
   const [prevTemplateId, setPrevTemplateId] = useState()
   const shortUrlHashState = useState()
   const prevFullUrlRef = useRef()
+  const layout = useStore(selectedLayout)
+  const { isLoggedIn } = useUser()
 
   const { pathname, search } = location
 
@@ -56,16 +60,14 @@ export default ({ location, isDesktop }) => {
   }, [])
 
   useEffect(() => {
-    if (parsedUrl && parsedUrl.layout) {
+    if (isLoggedIn && layout && layout.id) {
+      mutateStoreUserActivity(EntityKeys.CHART_CONFIGURATION, layout.id, InteractionType.VIEW)
+
       window.onCommentSubmitted = () =>
-        mutateStoreUserActivity(
-          EntityKeys.CHART_CONFIGURATION,
-          parsedUrl.layout,
-          InteractionType.COMMENT,
-        )
+        mutateStoreUserActivity(EntityKeys.CHART_CONFIGURATION, layout.id, InteractionType.COMMENT)
     }
     return () => (window.onCommentSubmitted = null)
-  }, [parsedUrl])
+  }, [layout, isLoggedIn])
 
   useEffect(() => {
     const { slug: newSlug, address: newAddress } = parse(search)

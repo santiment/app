@@ -39,8 +39,8 @@ function checkType(type) {
     case 'Select Screener':
     case 'Screener':
       return DESCRIPTION_TYPES.SCREENERS
-    case 'Choose Wallet & Conditions':
-    case 'Wallet & Conditions':
+    case 'Choose Wallet & Event':
+    case 'Wallet & Event':
       return DESCRIPTION_TYPES.WALLET
     default:
       return {}
