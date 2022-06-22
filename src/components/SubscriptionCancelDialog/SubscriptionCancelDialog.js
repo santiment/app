@@ -49,14 +49,9 @@ const CancelPlanDialog = ({
   const { MMMM, DD, YYYY } = getDateFormats(new Date(currentPeriodEnd))
   const date = `${MMMM} ${DD}, ${YYYY}`
 
-  useEffect(() => {
-    if (controlRef) {
-      controlRef.current = {
-        openDialog,
-        closeDialog,
-      }
-    }
-  }, [])
+  if (controlRef) {
+    controlRef.current = { openDialog, closeDialog }
+  }
 
   function closeDialog() {
     setOpened(false)
