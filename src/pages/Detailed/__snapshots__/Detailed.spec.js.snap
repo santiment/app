@@ -1,21 +1,46 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Project detail page container it should render correctly 1`] = `
-<_default
-  match={
+<ContextProvider
+  value={
     Object {
-      "params": Object {
-        "ticker": "AE",
+      "getServerState": undefined,
+      "store": Object {
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      },
+      "subscription": Object {
+        "addNestedSub": [Function],
+        "getListeners": [Function],
+        "handleChangeWrapper": [Function],
+        "isSubscribed": [Function],
+        "notifyNestedSubs": [Function],
+        "trySubscribe": [Function],
+        "tryUnsubscribe": [Function],
       },
     }
   }
-  project={
-    Object {
-      "id": 12,
-      "name": "Aragorn",
-      "priceUsd": 10,
-      "ticker": "AE",
+>
+  <_default
+    match={
+      Object {
+        "params": Object {
+          "ticker": "AE",
+        },
+      }
     }
-  }
-/>
+    project={
+      Object {
+        "id": 12,
+        "name": "Aragorn",
+        "priceUsd": 10,
+        "ticker": "AE",
+      }
+    }
+  />
+</ContextProvider>
 `;
