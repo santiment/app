@@ -8,6 +8,7 @@ import { compose } from 'recompose'
 import nprogress from 'nprogress'
 import { newGlobalShortcut } from 'webkit/utils/events'
 import Dialogs from 'webkit/ui/Dialog/Dialogs.svelte'
+import FeatureWalkthrough from 'webkit/ui/FeatureWalkthrough/svelte'
 import { showMasterSelectorDialog } from 'studio/MasterSelectorDialog'
 import { queryAllProjects } from 'studio/api/project'
 import { isListPath, PATHS } from './paths'
@@ -185,6 +186,11 @@ export const App = ({
   const [isWatchlistPage, setIsWatchlistPage] = useState(false)
 
   useSavedComment(isLoggedIn)
+
+  useEffect(() => {
+    const svelte = new FeatureWalkthrough({ target: document.body })
+    return () => svelte.$destroy()
+  }, [])
 
   useEffect(() => {
     if (pathname.includes(PATHS.STUDIO) || pathname.includes(PATHS.CHARTS)) {
