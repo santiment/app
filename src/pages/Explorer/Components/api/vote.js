@@ -4,7 +4,7 @@ const VOTE_MUTATION = (id, voteType) => `
     mutation {
         vote(${voteType}:${id}) { 
             votes {
-            totalVotes
+                totalVotes
             }
         }
     }

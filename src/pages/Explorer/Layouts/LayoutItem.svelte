@@ -20,7 +20,8 @@
 
     const isActionButton =
       e.target.classList.contains(ACTION_BUTTON_CLASS) ||
-      (e.target.parentElement && e.target.parentElement.classList.contains(ACTION_BUTTON_CLASS))
+      (e.target.parentElement && e.target.parentElement.classList.contains(ACTION_BUTTON_CLASS)) ||
+      e.target.parentElement.classList.contains('btn')
 
     if (isIcon || isActionButton) {
       e.preventDefault()
