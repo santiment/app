@@ -14,7 +14,7 @@
 </script>
 
 <Tooltip dark position="top" align="center" activeClass="$style.active" openDelay={200}>
-  <div class="actionbutton row hv-center" class:padding={!isLike} slot="trigger" on:click={onClick}>
+  <div class="actionbutton row hv-center" class:padding={!isLike} slot="trigger" on:click={!isLike ? onClick : undefined}>
     {#if isLike}
       <LikeButton
         totalVotes={counter}
