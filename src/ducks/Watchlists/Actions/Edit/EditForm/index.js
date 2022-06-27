@@ -193,7 +193,7 @@ export default ({ settings = {}, ...props }) => (
     defaultSettings={{
       name: '',
       description: '',
-      isPublic: false,
+      isPublic: true,
       listItems: props.watchlist ? props.watchlist.listItems : [],
       ...settings,
     }}
