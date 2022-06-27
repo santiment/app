@@ -21,7 +21,7 @@
         {userVotes}
         onVote={onClick}
         hasBorder={false}
-        class="$style.likeHover"
+        class="$style.like"
       />
     {:else}
       <Svg id={svgid} w={width} class="$style.svg" />
@@ -34,8 +34,8 @@
 </Tooltip>
 
 <style>
-  .likeHover:hover {
-    background-color: var(--green-light-1);
+  .like {
+    --bg-hover: var(--green-light-1);
   }
 
   .actionbutton {

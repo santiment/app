@@ -35,7 +35,7 @@
   }
 
   function onVote(e) {
-    e && e.preventDefault()
+    if (e) e.preventDefault()
 
     if (!$currentUser) {
       history.push('/login')
