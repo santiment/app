@@ -19,8 +19,12 @@ const reportError = (err) =>
 
 const Actions = ({ selected, watchlist, onAdd, onRemove, assets }) => {
   const { user, isLoggedIn } = useUser()
-  const watchlistUserId = isLoggedIn && watchlist && watchlist.user.id
-  const isOwner = isLoggedIn && watchlistUserId === user.id
+  let isOwner = false
+
+  if (isLoggedIn) {
+    const watchlistUserId = watchlist && watchlist.user.id
+    isOwner = watchlistUserId === user.id
+  }
 
   const selectedText = useMemo(
     () => `${selected.length} ${selected.length > 1 ? 'items' : 'item'}`,
