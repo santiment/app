@@ -18,9 +18,9 @@ const reportError = (err) =>
   )
 
 const Actions = ({ selected, watchlist, onAdd, onRemove, assets }) => {
-  const {user} = useUser()
-  const watchlistUserId = watchlist && watchlist.user.id
-  const isOwner = watchlistUserId === user.id
+  const { user, isLoggedIn } = useUser()
+  const watchlistUserId = isLoggedIn && watchlist && watchlist.user.id
+  const isOwner = isLoggedIn && watchlistUserId === user.id
 
   const selectedText = useMemo(
     () => `${selected.length} ${selected.length > 1 ? 'items' : 'item'}`,
@@ -49,16 +49,11 @@ const Actions = ({ selected, watchlist, onAdd, onRemove, assets }) => {
 
   return (
     <div className={styles.actions}>
-      <Copy
-        selectedText={selectedText}
-        watchlist={watchlist}
-        assets={assets}
-        selected={selected}
-      />
+      <Copy selectedText={selectedText} watchlist={watchlist} assets={assets} selected={selected} />
       <SaveAs selectedText={selectedText} watchlist={watchlist} />
-      {isOwner &&
+      {isOwner && (
         <Delete selected={selected} onRemove={removeHandler} selectedText={selectedText} />
-      }
+      )}
     </div>
   )
 }
