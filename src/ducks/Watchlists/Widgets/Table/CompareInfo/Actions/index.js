@@ -6,6 +6,7 @@ import Delete from './Delete'
 import Copy from './Copy'
 import SaveAs from './SaveAs'
 import styles from './Actions.module.scss'
+import { useUser } from '../../../../../../stores/user'
 
 const reportError = (err) =>
   store.dispatch(
@@ -17,6 +18,10 @@ const reportError = (err) =>
   )
 
 const Actions = ({ selected, watchlist, onAdd, onRemove, assets }) => {
+  const {user} = useUser()
+  const watchlistUserId = watchlist && watchlist.user.id
+  const isOwner = watchlistUserId === user.id
+
   const selectedText = useMemo(
     () => `${selected.length} ${selected.length > 1 ? 'items' : 'item'}`,
     [selected],
@@ -43,18 +48,18 @@ const Actions = ({ selected, watchlist, onAdd, onRemove, assets }) => {
   }
 
   return (
-    <>
-      <div className={styles.actions}>
-        <Copy
-          selectedText={selectedText}
-          watchlist={watchlist}
-          assets={assets}
-          selected={selected}
-        />
-        <SaveAs selectedText={selectedText} watchlist={watchlist} />
+    <div className={styles.actions}>
+      <Copy
+        selectedText={selectedText}
+        watchlist={watchlist}
+        assets={assets}
+        selected={selected}
+      />
+      <SaveAs selectedText={selectedText} watchlist={watchlist} />
+      {isOwner &&
         <Delete selected={selected} onRemove={removeHandler} selectedText={selectedText} />
-      </div>
-    </>
+      }
+    </div>
   )
 }
 
