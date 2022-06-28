@@ -19,6 +19,7 @@
   export let type
 
   let totalVotes = item && item.votes ? +item.votes.totalVotes : 0
+  let userVotes = item && item.votes ? +item.votes.currentUserVotes : 0
   let copyLabel = 'Copy link'
 
   $: id = item.trigger ? item.trigger.id : item.id
@@ -34,7 +35,7 @@
   }
 
   function onVote(e) {
-    e.preventDefault()
+    if (e) e.preventDefault()
 
     if (!$currentUser) {
       history.push('/login')
@@ -43,7 +44,9 @@
 
     totalVotes = totalVotes + 1
     mutateStoreUserActivity(key, id, InteractionType.UPVOTE)
-    vote(id, voteKey).catch(() => (totalVotes = totalVotes - 1))
+    vote(id, voteKey)
+      .then((res) => (totalVotes = res.totalVotes))
+      .catch(() => (totalVotes = totalVotes - 1))
   }
 
   function onComment(e) {
@@ -109,7 +112,13 @@
         />
       {/if}
     {:else}
-      <ActionButton svgid="rocket" onClick={onVote} counter={totalVotes} tooltip="Like" />
+      <ActionButton
+        svgid="rocket"
+        onClick={onVote}
+        {userVotes}
+        counter={totalVotes}
+        tooltip="Like"
+      />
       {#if item.commentsCount >= 0}
         <ActionButton
           svgid="comment"

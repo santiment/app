@@ -108,6 +108,7 @@ export const EntityQuery = {
     }
     votes {
       totalVotes
+      currentUserVotes
     }
     commentsCount   
   }`,
@@ -131,6 +132,7 @@ export const EntityQuery = {
     }
     votes {
       totalVotes
+      currentUserVotes
     }
     commentsCount  
   }`,
@@ -154,6 +156,7 @@ export const EntityQuery = {
     }
     votes {
       totalVotes
+      currentUserVotes
     }
     commentsCount   
     project {slug}  
@@ -176,6 +179,7 @@ export const EntityQuery = {
     }
     votes {
       totalVotes
+      currentUserVotes
     }
     commentsCount   
   }`,
@@ -199,6 +203,7 @@ export const EntityQuery = {
     }
     votes {
       totalVotes
+      currentUserVotes
     }
     commentsCount
     listItems {
@@ -230,6 +235,7 @@ export const EntityQuery = {
       }  
       votes {
         totalVotes
+        currentUserVotes
       }
   }`,
 }
