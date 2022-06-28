@@ -5,8 +5,8 @@ import NotificationActions from '../../../../../../components/NotificationAction
 import Delete from './Delete'
 import Copy from './Copy'
 import SaveAs from './SaveAs'
-import styles from './Actions.module.scss'
 import { useUser } from '../../../../../../stores/user'
+import styles from './Actions.module.scss'
 
 const reportError = (err) =>
   store.dispatch(
