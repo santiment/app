@@ -5,6 +5,7 @@ import NotificationActions from '../../../../../../components/NotificationAction
 import Delete from './Delete'
 import Copy from './Copy'
 import SaveAs from './SaveAs'
+import { useUser } from '../../../../../../stores/user'
 import styles from './Actions.module.scss'
 
 const reportError = (err) =>
@@ -17,6 +18,14 @@ const reportError = (err) =>
   )
 
 const Actions = ({ selected, watchlist, onAdd, onRemove, assets }) => {
+  const { user, isLoggedIn } = useUser()
+  let isOwner = false
+
+  if (isLoggedIn) {
+    const watchlistUserId = watchlist && watchlist.user.id
+    isOwner = watchlistUserId === user.id
+  }
+
   const selectedText = useMemo(
     () => `${selected.length} ${selected.length > 1 ? 'items' : 'item'}`,
     [selected],
@@ -43,18 +52,13 @@ const Actions = ({ selected, watchlist, onAdd, onRemove, assets }) => {
   }
 
   return (
-    <>
-      <div className={styles.actions}>
-        <Copy
-          selectedText={selectedText}
-          watchlist={watchlist}
-          assets={assets}
-          selected={selected}
-        />
-        <SaveAs selectedText={selectedText} watchlist={watchlist} />
+    <div className={styles.actions}>
+      <Copy selectedText={selectedText} watchlist={watchlist} assets={assets} selected={selected} />
+      <SaveAs selectedText={selectedText} watchlist={watchlist} />
+      {isOwner && (
         <Delete selected={selected} onRemove={removeHandler} selectedText={selectedText} />
-      </div>
-    </>
+      )}
+    </div>
   )
 }
 
