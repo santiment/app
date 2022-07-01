@@ -4,8 +4,12 @@ import EventBanner from '../../components/EventBanner'
 import SveltePage from './index.svelte'
 import { useUser } from '../../stores/user'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
-import { useTrendingWords, useTrendWordContext } from '../../ducks/TrendsTable/hooks'
-import { trendingWords } from './store'
+import {
+  useTrendingWords,
+  useTrendSocialVolume,
+  useTrendWordContext,
+} from '../../ducks/TrendsTable/hooks'
+import { trendingWords, trendingWordsVolume } from './store'
 
 const PAGE_STYLE = {
   display: 'flex',
@@ -21,10 +25,15 @@ const ExplorerPage = () => {
   const userSubscriptionData = useUserSubscriptionStatus()
   const { words } = useTrendingWords()
   const { data } = useTrendWordContext(words)
+  const { data: socialVolume } = useTrendSocialVolume(words)
 
   useEffect(() => {
     trendingWords.set(words.map((word) => ({ word, tags: data[word] || [] })))
   }, [data])
+
+  useEffect(() => {
+    trendingWordsVolume.set(socialVolume)
+  }, [socialVolume])
 
   return (
     <>

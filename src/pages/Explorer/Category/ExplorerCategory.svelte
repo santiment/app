@@ -126,8 +126,15 @@
   onDestroy(() => clearTimeout(pullingTimer))
 </script>
 
-<Category isMain title="Explorer" {items} onMore={() => (page += 1)} hasMore={page < pages}>
-  <div slot="header" class="controls row mrg-a mrg--l">
+<Category
+  isMain
+  title="Explorer"
+  onMore={() => (page += 1)}
+  hasMore={page < pages}
+  {items}
+  {loading}
+>
+  <div slot="header">
     <TypeSelector flat onChange={(newTypes) => (displayingTypes = newTypes)} {displayingTypes} />
   </div>
 

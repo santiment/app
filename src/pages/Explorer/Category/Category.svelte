@@ -96,7 +96,12 @@
   {/each}
 
   {#if hasMore || showLess}
-    <div class="more btn row h-center c-accent" class:last={isMain} class:loading on:click={onMore}>
+    <div
+      class="more btn row h-center c-waterloo"
+      class:showMoreMain={isMain}
+      class:loading
+      on:click={onMore}
+    >
       Show {showLess ? 'less' : 'more'}
     </div>
   {/if}
@@ -122,9 +127,8 @@
   }
 
   .isMain .header {
-    border-radius: 8px;
+    border-radius: 8px 8px 0 0;
     border: 1px solid var(--porcelain);
-    margin-bottom: 24px;
   }
 
   .icon {
@@ -150,40 +154,40 @@
     --bg-hover: var(--whale);
   }
 
+  .item {
+    padding: 16px var(--padding);
+  }
+
   .isMain .item {
+    border: 1px solid var(--porcelain);
     border-radius: 0;
   }
 
-  .item {
-    padding: 12px var(--padding);
+  .isMain .center {
+    border-bottom: 0;
+  }
+
+  .isMain .first {
+    border-bottom: 0;
   }
 
   .more {
     padding: 13.5px 0;
   }
 
+  .showMoreMain {
+    --bg-hover: var(--whale);
+    --color-hover: var(--green);
+
+    border: 1px solid var(--porcelain);
+    border-radius: 0 0 8px 8px;
+  }
+
   .postdate {
-    margin: 0 0 12px 24px;
-  }
-
-  .isMain .first {
-    border: 1px solid var(--porcelain);
-    border-bottom: 0;
-    border-top-right-radius: 8px;
-    border-top-left-radius: 8px;
-  }
-
-  .isMain .last {
-    border: 1px solid var(--porcelain);
-    border-bottom-right-radius: 8px;
-    border-bottom-left-radius: 8px;
-    margin-bottom: 24px;
-  }
-
-  .isMain .single {
-    border: 1px solid var(--porcelain);
-    border-radius: 8px;
-    margin-bottom: 24px;
+    padding: 12px 24px;
+    background: var(--athens);
+    border-left: 1px solid var(--porcelain);
+    border-right: 1px solid var(--porcelain);
   }
 
   .isMain .more.last {

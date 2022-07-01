@@ -38,20 +38,21 @@
     </div>
   </Tootlip>
 {:else}
-  {#each FILTERABLE_TABS as type}
-    <div
-      class="btn-ghost btnflat row v-center"
-      on:click={() => toggleType(type.key)}
-      class:activetype={!displayingTypes.has(type.key)}
-      style="fill: {type.color}"
-    >
-      <Svg id={type.icon} w="16" class="mrg-s mrg--r" />
-      {type.label}
-    </div>
-  {/each}
+  <div class="wrapper row v-center">
+    {#each FILTERABLE_TABS as type}
+      <div
+        class="btn c-waterloo row v-center"
+        on:click={() => toggleType(type.key)}
+        class:active-filter={displayingTypes.has(type.key)}
+      >
+        <Svg id={type.icon} w="12" class="mrg--r" />
+        {type.label}
+      </div>
+    {/each}
+  </div>
 {/if}
 
-<style>
+<style lang="scss">
   .active {
     --border: var(--green);
   }
@@ -66,19 +67,23 @@
     --color-hover: var(--black);
   }
 
-  .btnflat {
-    border-radius: 20px;
-    border: 1px solid var(--porcelain);
-    padding: 8px 12px;
-    background-color: var(--athens);
-    font-size: 12px;
+  .wrapper {
+    gap: 16px;
   }
 
-  .btnflat:not(:last-of-type) {
-    margin-right: 8px;
+  .btn {
+    --margin: 6px;
+    --color-hover: var(--green);
+
+    height: 32px;
+    border-radius: 0;
   }
 
-  .activetype {
-    background-color: var(--white);
+  .active-filter {
+    --color: var(--green);
+    --color-hover: var(--green-hover) !important;
+    --fill: var(--green);
+
+    border-bottom: 1px solid var(--green);
   }
 </style>
