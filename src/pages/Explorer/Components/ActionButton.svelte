@@ -18,7 +18,7 @@
     class="actionbutton row hv-center"
     class:padding={!isLike}
     slot="trigger"
-    on:click={!isLike ? onClick : undefined}
+    on:click={isLike ? undefined : onClick}
   >
     {#if isLike}
       <LikeButton

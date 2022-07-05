@@ -48,8 +48,7 @@
 <style lang="scss">
   .btn-2 {
     --margin: 6px;
-    --v-padding: 9px;
-    --h-padding: 15px;
+    padding: 9px 15px;
     --fill: var(--waterloo);
     border-radius: 0;
 
