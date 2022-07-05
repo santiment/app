@@ -55,8 +55,8 @@
 
   <div class="search fluid mrg-a mrg--l" bind:this={searchNode} />
 
-  <a href="https://academy.santiment.net/" class="btn mrg-a mrg--l">Academy</a>
-  <a href="/pricing" class="btn mrg-l mrg--l" on:click={window.__onLinkClick}>Pricing</a>
+  <a href="https://academy.santiment.net/" class="btn-ghost mrg-a mrg--l">Academy</a>
+  <a href="/pricing" class="btn-ghost mrg-l mrg--l" on:click={window.__onLinkClick}>Pricing</a>
 
   <div class="notifications mrg-xl mrg--l" bind:this={notificationsNode} />
 
@@ -96,6 +96,7 @@
   a {
     --color: var(--waterloo);
     --color-hover: var(--green);
+    --bg-hover: var(--green-light-1);
   }
 
   .discord {

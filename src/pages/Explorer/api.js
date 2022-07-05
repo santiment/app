@@ -105,6 +105,9 @@ export const EntityQuery = {
           id
         }
       }
+      followers {
+        count
+      }
     }
     votes {
       totalVotes
@@ -128,6 +131,9 @@ export const EntityQuery = {
         users {
           id
         }
+      }
+      followers {
+        count
       }
     }
     votes {
@@ -153,6 +159,9 @@ export const EntityQuery = {
           id
         }
       }
+      followers {
+        count
+      }
     }
     votes {
       totalVotes
@@ -175,6 +184,9 @@ export const EntityQuery = {
         users {
           id
         }
+      }
+      followers {
+        count
       }
     }
     votes {
@@ -199,6 +211,9 @@ export const EntityQuery = {
         users {
           id
         }
+      }
+      followers {
+        count
       }
     }
     votes {
@@ -231,6 +246,9 @@ export const EntityQuery = {
           users {
             id
           }
+        }
+        followers {
+          count
         }
       }  
       votes {

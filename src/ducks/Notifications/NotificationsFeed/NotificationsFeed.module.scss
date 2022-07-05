@@ -49,6 +49,7 @@
   height: 16px;
   margin-right: 24px;
   cursor: pointer;
+  --bg-hover: var(--green-light-1) !important;
 }
 
 .trigger {
@@ -72,6 +73,18 @@
       fill: var(--jungle-green);
     }
   }
+}
+
+.counter {
+  position: absolute;
+  background-color: var(--persimmon-light);
+  color: var(--persimmon);
+  padding: 2px 3px;
+  border-radius: 18px;
+  border: none;
+  width: 26px;
+  right: 20px;
+  top: -8px;
 }
 
 .skeleton {
