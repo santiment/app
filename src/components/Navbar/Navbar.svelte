@@ -73,6 +73,7 @@
     {variant}
     {subscription}
     {customerData}
+    linkProfilePic={true}
   />
 </header>
 
