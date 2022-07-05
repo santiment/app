@@ -145,6 +145,14 @@ const NotificationsFeed = () => {
     )
   }, [events, lastLoadedDate])
 
+  const newCount = useMemo(() => {
+    let count = events.filter((item) => isNew(item, lastLoadedDate)).length
+    if (count > 9) {
+      count = '9+'
+    }
+    return count
+  }, [events, lastLoadedDate])
+
   return (
     <div className={styles.wrapper}>
       <ContextMenu
@@ -157,8 +165,11 @@ const NotificationsFeed = () => {
         offsetY={18}
         className={styles.dropdown}
         trigger={
-          <div className={cx(styles.trigger, hasNew && styles.trigger__active)}>
-            <Icon type='bell' className={styles.icon} />
+          <div className={cx(styles.trigger, 'relative')}>
+            {hasNew && (
+              <div className={cx(styles.counter, 'caption txt-center txt-m')}>{newCount}</div>
+            )}
+            <Icon type='bell' className={cx(styles.icon, 'btn-ghost')} />
           </div>
         }
       >
