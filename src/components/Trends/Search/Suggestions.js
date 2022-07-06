@@ -6,15 +6,15 @@ import styles from './Suggestions.module.scss'
 
 const SUGGESTIONS = [
   {
-    trend: 'buy AND (dip OR dips)',
+    trend: '(buy OR bought) AND (dip OR dips)',
     options: '',
   },
   {
-    trend: 'short',
+    trend: 'bottom',
     options: '',
   },
   {
-    trend: 'fees',
+    trend: 'sell',
     options: '',
   },
 ]
