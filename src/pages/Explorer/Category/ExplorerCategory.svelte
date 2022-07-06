@@ -42,7 +42,7 @@
     return items.filter((item) => !deletedSet.has(getExplorerItem(item)))
   }
 
-  function getDisplayingType() {
+  function getDisplayingType(displayingTypes) {
     if (displayingTypes.size < 1) return filterableTabKeys
 
     const values = new Set(displayingTypes)
@@ -80,7 +80,7 @@
     }
     if (!bypassLoading) loading = true
     queryExplorerItems({
-      types: getDisplayingType(),
+      types: getDisplayingType(displayingTypes),
       voted,
       range,
       page,
@@ -128,7 +128,14 @@
 
 <Category isMain title="Explorer" {items} onMore={() => (page += 1)} hasMore={page < pages}>
   <div slot="header" class="controls row mrg-a mrg--l">
-    <TypeSelector flat onChange={(newTypes) => (displayingTypes = newTypes)} {displayingTypes} />
+    <TypeSelector
+      flat
+      onChange={(newTypes) => {
+        displayingTypes = newTypes
+        page = 1
+      }}
+      {displayingTypes}
+    />
   </div>
 
   <svelte:fragment let:item>
