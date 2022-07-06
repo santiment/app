@@ -1,13 +1,8 @@
 <script>
-  import Svg from 'webkit/ui/Svg/svelte'
-  import Profile from 'webkit/ui/Profile/svelte'
-  import Tooltip from 'webkit/ui/Tooltip/svelte'
-  import Info from 'webkit/ui/Profile/Info.svelte'
+  import Pic from 'webkit/ui/Profile/Pic.svelte'
   import AssetIcons from '../Components/AssetIcons.svelte'
   import AssetTags from '../Components/AssetTags.svelte'
   import Actions from '../Components/Actions.svelte'
-  import { currentUser } from '../store'
-  import { EntityType } from '../const'
 
   export let item
   export let type = 'CHART'
@@ -15,21 +10,18 @@
   export let hasIcons = false
   export let assets = []
   export let onClick = () => {}
+  export let isTagName = true
 
   $: ({ user } = item)
+  $: if (isTagName && user.username === 'anonymous') isTagName = false
   $: title = item.trigger ? item.trigger.title : item.title ? item.title : ''
   $: description = item.trigger ? item.trigger.description : item.description
 </script>
 
-<a class="explorerItem" href={url} on:click={onClick}>
-  <div class="row v-center line1">
-    <div
-      class="row hv-center mrg-m mrg--r itemicon"
-      style="fill: {EntityType[type].color}; background: {EntityType[type].backgroundColor};"
-    >
-      <Svg id={EntityType[type].icon} w="16" />
-    </div>
-    <div class="row nowrap v-center">
+<a class="row v-center explorerItem" href={url} on:click={onClick}>
+  <Pic src={user.avatarUrl} class="mrg-l mrg--r $style.pic" />
+  <div class="fluid column">
+    <div class="row v-center nowrap">
       <h3 class="body-2 mrg-l mrg--r">
         {title}
       </h3>
@@ -39,51 +31,38 @@
         <AssetTags tags={assets} />
       {/if}
     </div>
-  </div>
 
-  {#if description}
-    <div class="row line2 c-waterloo">
-      {description}
-    </div>
-  {/if}
+    {#if description}
+      <div class="c-waterloo mrg-xs mrg--t">
+        {description}
+      </div>
+    {/if}
 
-  <div class="row line2 mrg-l mrg--t v-center justify">
-    <Tooltip openDelay={110}>
-      <svelte:fragment slot="trigger">
-        <Profile {user} class="author" />
-      </svelte:fragment>
-
-      <svelte:fragment slot="tooltip">
-        <Info {user} currentUser={$currentUser} />
-      </svelte:fragment>
-    </Tooltip>
-    <div class="row v-center">
-      <Actions {item} {type} />
+    <div class="row v-center justify mrg-m mrg--t">
+      <div class="username c-waterloo">
+        {isTagName && user.username ? '@' : ''}{user.username || user.email}
+      </div>
+      <div class="row v-center">
+        <Actions {item} {type} />
+      </div>
     </div>
   </div>
 </a>
 
-<style>
-  .line2 :global(.author) {
-    --img-size: 24px;
-    --black: var(--waterloo);
+<style lang="scss">
+  .explorerItem:hover {
+    .pic {
+      border: 1px solid var(--green);
+    }
+    .username {
+      color: var(--green);
+    }
+    h3 {
+      color: var(--green);
+    }
   }
 
-  .explorerItem:hover h3 {
-    color: var(--green);
-  }
-
-  .itemicon {
-    width: 24px;
-    height: 24px;
-    border-radius: 4px;
-  }
-
-  .line1 {
-    margin-bottom: 6px;
-  }
-
-  .line2 {
-    margin-left: 36px;
+  .pic {
+    --img-size: 40px;
   }
 </style>

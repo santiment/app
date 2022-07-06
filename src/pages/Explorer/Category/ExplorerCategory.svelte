@@ -126,7 +126,13 @@
   onDestroy(() => clearTimeout(pullingTimer))
 </script>
 
-<Category isMain title="Explorer" {items} onMore={() => (page += 1)} hasMore={page < pages}>
+<Category
+  isMain
+  title="Explorer"
+  {items}
+  {loading}
+  onMore={() => (page += 1)}
+  hasMore={page < pages}>
   <div slot="header" class="controls row mrg-a mrg--l">
     <TypeSelector
       flat
@@ -134,8 +140,7 @@
         displayingTypes = newTypes
         page = 1
       }}
-      {displayingTypes}
-    />
+      {displayingTypes} />
   </div>
 
   <svelte:fragment let:item>
@@ -145,15 +150,13 @@
         showActions
         type="CHART"
         hasIcons
-        assets={getAssets(item.chartConfiguration)}
-      />
+        assets={getAssets(item.chartConfiguration)} />
     {:else if item.screener}
       <LayoutItem
         item={item.screener}
         showActions
         type="SCREENER"
-        id="{item.screener.id}-watchlist"
-      />
+        id="{item.screener.id}-watchlist" />
     {:else if item.projectWatchlist}
       <LayoutItem item={item.projectWatchlist} showActions type="WATCHLIST" />
     {:else if item.addressWatchlist}
@@ -161,8 +164,7 @@
         item={item.addressWatchlist}
         showActions
         type="ADDRESS"
-        assets={getAddressLabels(item.addressWatchlist.listItems)}
-      />
+        assets={getAddressLabels(item.addressWatchlist.listItems)} />
     {:else if item.userTrigger}
       <LayoutItem item={item.userTrigger} showActions type="ALERT" hasIcons />
     {/if}
