@@ -18,16 +18,14 @@
     class="actionbutton row hv-center"
     class:padding={!isLike}
     slot="trigger"
-    on:click={isLike ? undefined : onClick}
-  >
+    on:click={isLike ? undefined : onClick}>
     {#if isLike}
       <LikeButton
         totalVotes={counter}
         {userVotes}
         onVote={onClick}
         hasBorder={false}
-        class="$style.like"
-      />
+        class="$style.like" />
     {:else}
       <Svg id={svgid} w={width} class="$style.svg" />
       {#if counter >= 0}

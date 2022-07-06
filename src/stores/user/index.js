@@ -38,6 +38,9 @@ export const USER_QUERY = gql`
           username
         }
       }
+      followers {
+        count
+      }
     }
   }
 `

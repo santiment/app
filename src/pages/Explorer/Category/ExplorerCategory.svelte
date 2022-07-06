@@ -42,7 +42,7 @@
     return items.filter((item) => !deletedSet.has(getExplorerItem(item)))
   }
 
-  function getDisplayingType() {
+  function getDisplayingType(displayingTypes) {
     if (displayingTypes.size < 1) return filterableTabKeys
 
     const values = new Set(displayingTypes)
@@ -80,7 +80,7 @@
     }
     if (!bypassLoading) loading = true
     queryExplorerItems({
-      types: getDisplayingType(),
+      types: getDisplayingType(displayingTypes),
       voted,
       range,
       page,
@@ -129,13 +129,18 @@
 <Category
   isMain
   title="Explorer"
-  onMore={() => (page += 1)}
-  hasMore={page < pages}
   {items}
   {loading}
->
-  <div slot="header">
-    <TypeSelector flat onChange={(newTypes) => (displayingTypes = newTypes)} {displayingTypes} />
+  onMore={() => (page += 1)}
+  hasMore={page < pages}>
+  <div slot="header" class="controls row mrg-a mrg--l">
+    <TypeSelector
+      flat
+      onChange={(newTypes) => {
+        displayingTypes = newTypes
+        page = 1
+      }}
+      {displayingTypes} />
   </div>
 
   <svelte:fragment let:item>
@@ -145,15 +150,13 @@
         showActions
         type="CHART"
         hasIcons
-        assets={getAssets(item.chartConfiguration)}
-      />
+        assets={getAssets(item.chartConfiguration)} />
     {:else if item.screener}
       <LayoutItem
         item={item.screener}
         showActions
         type="SCREENER"
-        id="{item.screener.id}-watchlist"
-      />
+        id="{item.screener.id}-watchlist" />
     {:else if item.projectWatchlist}
       <LayoutItem item={item.projectWatchlist} showActions type="WATCHLIST" />
     {:else if item.addressWatchlist}
@@ -161,8 +164,7 @@
         item={item.addressWatchlist}
         showActions
         type="ADDRESS"
-        assets={getAddressLabels(item.addressWatchlist.listItems)}
-      />
+        assets={getAddressLabels(item.addressWatchlist.listItems)} />
     {:else if item.userTrigger}
       <LayoutItem item={item.userTrigger} showActions type="ALERT" hasIcons />
     {/if}

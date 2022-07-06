@@ -72,7 +72,7 @@ const SignupDescription = ({ loading, loginEmail, setEmail }) => {
   return (
     <div className={externalStyles.loginBlock}>
       <h2 className={externalStyles.title}>
-        <div>Sign up now</div>
+        <div>Welcome to Sanbase</div>
       </h2>
 
       <LoginGoogleBtn signUp className={styles.google} />

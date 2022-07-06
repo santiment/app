@@ -20,7 +20,7 @@ const hasMetamask = detectMetamask()
 
 export const LoginDescription = ({ className }) => (
   <div className={cx(styles.loginBlock, className, !hasMetamask && styles.noMetamask)}>
-    <h3 className={styles.title}>Welcome to Sanbase</h3>
+    <h3 className={styles.title}>Welcome back</h3>
     <div className={styles.options}>
       <LoginMetamaskBtn />
       <OrUseDivider />
