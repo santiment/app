@@ -42,7 +42,14 @@ const MODULE = {
   },
 }
 
-const ProPopupWrapper = ({ type, trigger: Trigger, children, className }) => {
+const ProPopupWrapper = ({
+  type,
+  trigger: Trigger,
+  children,
+  className,
+  toggleOpen,
+  isOpen = false,
+}) => {
   const { isPro } = useUserSubscriptionStatus()
   const module = TypeAlias[type] || type
 
@@ -53,6 +60,8 @@ const ProPopupWrapper = ({ type, trigger: Trigger, children, className }) => {
   return (
     <ProPopup
       trigger={Trigger ? <Trigger /> : <div className={className}>{children}</div>}
+      isOpen={isOpen}
+      toggleOpen={toggleOpen}
       {...MODULE[module]}
     />
   )
