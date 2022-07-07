@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Button from '@santiment-network/ui/Button'
@@ -7,22 +7,18 @@ import styles from './index.module.scss'
 
 const EMPTY_ARRAY = []
 
-const ProPopup = ({ title, description, features, ...props }) => {
-  const [isOpen, setOpen] = useState(false)
-
-  const onOpenClick = () => setOpen(true)
-  const onCloseClick = () => setOpen(false)
+const ProPopup = ({
+  title,
+  description,
+  features,
+  toggleOpen = () => {},
+  isOpen = false,
+  ...props
+}) => {
+  const onCloseClick = () => toggleOpen(false)
 
   return (
-    <Dialog
-      size='m'
-      title={title}
-      open={isOpen}
-      onOpen={onOpenClick}
-      onClose={onCloseClick}
-      classes={styles}
-      {...props}
-    >
+    <Dialog size='m' title={title} open={isOpen} onClose={onCloseClick} classes={styles} {...props}>
       <div className={styles.container}>
         <div className={styles.description}>{description}</div>
         <div className={styles.features}>

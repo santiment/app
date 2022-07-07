@@ -162,7 +162,6 @@ const TopBar = ({
             watchlist={entity}
             type={type}
             open={isEditFormOpened}
-            trigger={<></>}
             customToggleOpen={setIsEditFormOpened}
           />
         )}
