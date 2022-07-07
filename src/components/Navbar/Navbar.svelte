@@ -40,7 +40,7 @@
     active="sanbase"
     isCompact
     isColumn
-    class="mrg-xxl mrg--r"
+    class="mrg-xxl mrg--r $style.hover"
     tooltipClass="$style.dropdown"
   />
 
@@ -58,7 +58,7 @@
   <a href="https://academy.santiment.net/" class="btn-ghost mrg-a mrg--l">Academy</a>
   <a href="/pricing" class="btn-ghost mrg-l mrg--l" on:click={window.__onLinkClick}>Pricing</a>
 
-  <div class="notifications mrg-xl mrg--l" bind:this={notificationsNode} />
+  <div class="notifications mrg-s mrg--l" bind:this={notificationsNode} />
 
   <div class="br mrg-xl mrg--r" />
 
@@ -73,6 +73,7 @@
     {variant}
     {subscription}
     {customerData}
+    isShowingFollowers={false}
   />
 </header>
 
@@ -87,6 +88,11 @@
 
   .dropdown {
     z-index: 30 !important;
+  }
+
+  .hover {
+    padding: 6px 8px;
+    --bg-hover: var(--green-light-1);
   }
 
   .search {
