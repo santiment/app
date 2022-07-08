@@ -48,7 +48,7 @@ const AlertTypeSelector = ({ selectorSettings, isRestrictedMessageClosed }) => {
               <span className='txt-m'>Alert with Duration Restriction.</span> Your Alert will be
               valid for 30 days from the day it’s created. To extend Alert please{' '}
               <Link to='/pricing' className={cx(styles.link, styles.tooltipLink, 'txt-m')}>
-                Update your Plan!
+                Upgrade your Plan!
               </Link>
             </span>
           }

@@ -34,7 +34,7 @@ const MyAlertsTab = ({ alertsRestrictions: { currentAmount, maxAmount } }) => (
             available. To unlock more alerts please
           </span>
           <Link to='/pricing' className={cx(styles.link, 'txt-m')}>
-            Update your Plan!
+            Upgrade your Plan!
           </Link>
         </div>
       </Tooltip>
