@@ -21,7 +21,7 @@ const AlertRestrictionMessage = ({
           You have reached the maximum amount of alerts available to you. To unlock more alerts
           please{' '}
           <Link to='/pricing' className={cx(styles.link, 'txt-m')}>
-            Update your Plan.
+            Upgrade your Plan.
           </Link>
         </div>
       </div>

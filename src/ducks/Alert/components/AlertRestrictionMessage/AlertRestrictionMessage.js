@@ -21,7 +21,7 @@ const AlertRestrictionMessage = ({
           <span className='txt-m'>Duration restriction!</span> Your Alert will be valid for 30 days.
           To extend Alert please{' '}
           <Link to='/pricing' className={cx(styles.link, 'txt-m')}>
-            Update your Plan.
+            Upgrade your Plan.
           </Link>
         </div>
       </div>
