@@ -3,7 +3,6 @@ import Section, { Title, Content } from './Section'
 import Page from '../../ducks/Page'
 import { useUser } from '../../stores/user'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
-import StoriesList from '../../components/Stories/StoriesList'
 import RecentlyWatched from '../../components/RecentlyWatched/RecentlyWatched'
 import WatchlistCard from '../../ducks/Watchlists/Cards/ProjectCard'
 import WatchlistAddressCard from '../../ducks/Watchlists/Cards/AddressCard'
@@ -106,7 +105,6 @@ const Watchlists = ({ isDesktop }) => {
       isWithPadding={!isDesktop}
     >
       <MobileOnly>
-        <StoriesList classes={styles} />
         <RecentlyWatched type='watchlists' />
       </MobileOnly>
 

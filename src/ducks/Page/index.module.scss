@@ -11,8 +11,8 @@
   @media only screen and (max-width: 1170px) {
     .header,
     .main {
-      padding-left: 16px;
-      padding-right: 16px;
+      padding-left: 20px;
+      padding-right: 20px;
     }
   }
 }
@@ -46,8 +46,8 @@
 @include responsive('phone', 'phone-xs') {
   .header,
   .main {
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   .title {

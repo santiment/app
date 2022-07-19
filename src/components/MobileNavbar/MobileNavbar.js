@@ -6,7 +6,6 @@ import Button from '@santiment-network/ui/Button'
 import MobileNavbarAction from './MobileNavbarAction'
 import SantimentLogo from './SantimentLogo'
 import AssetsIcon from './AssetsIcon'
-import FeedIcon from './FeedIcon'
 import InsightsIcon from './InsightsIcon'
 import WatchlistsIcon from './WatchlistsIcon'
 import MenuIcon from './MenuIcon'
@@ -15,11 +14,6 @@ import ContactUs from '../ContactUs/ContactUs'
 import styles from './MobileNavbar.module.scss'
 
 const NAVBAR_LINKS = [
-  {
-    label: 'Feed',
-    linkTo: '/feed',
-    Icon: FeedIcon,
-  },
   {
     label: 'Market',
     linkTo: '/assets',
