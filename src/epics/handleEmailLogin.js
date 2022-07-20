@@ -34,7 +34,6 @@ const EMAIL_CHANGE_VERIFY_MUTATION = gql`
         marketingAccepted
         consent_id
         avatarUrl
-        sanBalance
         ethAccounts {
           address
         }

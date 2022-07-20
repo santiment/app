@@ -14,7 +14,6 @@ export const USER_QUERY = gql`
       email
       avatarUrl
       consentId
-      sanBalance
       firstLogin
       stripeCustomerId
       marketingAccepted

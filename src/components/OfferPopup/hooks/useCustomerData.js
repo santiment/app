@@ -1,17 +1,13 @@
 import { useEffect, useState } from 'react'
+import { get } from 'svelte/store'
 import { customerData$ } from 'webkit/stores/user'
 
-export const useCustomerData = () => {
-  const [data, setData] = useState({
-    isLoggedIn: false,
-    sanBalance: 0,
-    isEligibleForTrial: false,
-    annualDiscount: {},
-  })
+const DEFAULT = get(customerData$)
 
-  useEffect(() => {
-    customerData$.subscribe((val) => setData(val))
-  }, [])
+export const useCustomerData = () => {
+  const [data, setData] = useState(DEFAULT)
+
+  useEffect(() => customerData$.subscribe((val) => setData(val)), [])
 
   return data
 }
