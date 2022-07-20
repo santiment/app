@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react'
-import { get } from 'svelte/store'
-import { customerData$ } from 'webkit/stores/user'
-
-const DEFAULT = get(customerData$)
+import { customerData$, DEFAULT } from 'webkit/stores/user'
 
 export const useCustomerData = () => {
   const [data, setData] = useState(DEFAULT)
