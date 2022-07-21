@@ -12,7 +12,6 @@ export const USER_GQL_FRAGMENT = gql`
     id
     email
     username
-    sanBalance
     privacyPolicyAccepted
     marketingAccepted
     consent_id
