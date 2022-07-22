@@ -50,9 +50,11 @@ function getLatestUserActivityDuration(entityType, entityId, interactionType) {
 }
 
 export function mutateStoreUserActivity(entityType, entityId, interactionType) {
-  saveLatestUserActivity(entityType, entityId, interactionType)
-  const duration = +getLatestUserActivityDuration(entityType, entityId, interactionType)
-  // Prevent duplicate/quick same user acitivity
-  if (duration < MIN_ACTIVITY_COOLDOWN) return
+  if (interactionType === InteractionType.VIEW) {
+    saveLatestUserActivity(entityType, entityId, interactionType)
+    const duration = +getLatestUserActivityDuration(entityType, entityId, interactionType)
+    // Prevent duplicate/quick view current page (6 seconds)
+    if (duration < 6) return  
+  }
   return mutate(STORE_USER_ACTIVITY_MUTATION(entityType, entityId, interactionType))
 }
