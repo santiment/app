@@ -29,5 +29,30 @@ function STORE_USER_ACTIVITY_MUTATION(entityType, entityId, interactionType) {
 export const EntityTypes = {}
 Object.keys(EntityType).forEach((type) => (EntityTypes[type] = type))
 
-export const mutateStoreUserActivity = (entityType, entityId, interactionType) =>
-  mutate(STORE_USER_ACTIVITY_MUTATION(entityType, entityId, interactionType))
+// Kepp track of latest user activity based on interaction type
+const userActivityHistory = {}
+
+const saveLatestUserActivity = (entityType, entityId, interactionType) => {
+  if (!userActivityHistory[interactionType]) {
+    userActivityHistory[interactionType] = {
+      entityType,
+      entityId,
+      timestamp: (new Date()).getTime()
+    }
+  }
+}
+
+function getLatestUserActivityDuration(entityType, entityId, interactionType) {
+  const latestActivity = userActivityHistory[interactionType]
+  if (latestActivity.entityType === entityType && latestActivity.entityId === entityId) {
+    return ((new Date()).getTime() - latestActivity.timestamp) / 1000
+  }
+}
+
+export function mutateStoreUserActivity(entityType, entityId, interactionType) {
+  saveLatestUserActivity(entityType, entityId, interactionType)
+  const duration = +getLatestUserActivityDuration(entityType, entityId, interactionType)
+  // Prevent duplicate/quick same user acitivity
+  if (duration < MIN_ACTIVITY_COOLDOWN) return
+  return mutate(STORE_USER_ACTIVITY_MUTATION(entityType, entityId, interactionType))
+}
