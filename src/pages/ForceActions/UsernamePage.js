@@ -7,7 +7,6 @@ import Input from '@santiment-network/ui/Input'
 import Icon from '@santiment-network/ui/Icon'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Panel from '@santiment-network/ui/Panel'
-import SantimentLogo from './SantimentLogo'
 import MobileWrapper from '../Login/Mobile/MobileWrapper'
 import { useUser } from '../../stores/user'
 import { useUsernameChange } from '../../hooks/profileChange'
@@ -115,8 +114,7 @@ const UsernamePage = ({ isDesktop, dispatchNewUsername }) => {
     </div>
   ) : (
     <div className={styles.container}>
-      <SantimentLogo />
-      <MobileWrapper className={styles.mobileWrapper}>
+      <MobileWrapper withHeader className={styles.mobileWrapper}>
         <UsernameChangeModal dispatchNewUsername={dispatchNewUsername} />
       </MobileWrapper>
     </div>

@@ -68,10 +68,10 @@ const TrialDescriptions = () => {
   )
 }
 
-const SignupDescription = ({ loading, loginEmail, setEmail }) => {
+const SignupDescription = ({ loading, loginEmail, setEmail, className }) => {
   return (
-    <div className={externalStyles.loginBlock}>
-      <h2 className={externalStyles.title}>
+    <div className={cx(externalStyles.loginBlock, className)}>
+      <h2 className={cx(externalStyles.title, 'h4 txt-m')}>
         <div>Welcome to Sanbase</div>
       </h2>
 
@@ -87,14 +87,14 @@ const SignupDescription = ({ loading, loginEmail, setEmail }) => {
         setEmail={setEmail}
         className={styles.email}
       />
-
-      <div className={externalStyles.noCredit}>No credit card required</div>
-
-      <div className={externalStyles.new}>
-        Have an account?{' '}
-        <Link to={PATHS.LOGIN} className={externalStyles.createLink}>
-          Log in
-        </Link>
+      <div className={styles.textcenter}>
+        <div className={externalStyles.noCredit}>No credit card required</div>
+        <div className={externalStyles.new}>
+          Have an account?{' '}
+          <Link to={PATHS.LOGIN} className={externalStyles.createLink}>
+            Log in
+          </Link>
+        </div>
       </div>
     </div>
   )
@@ -114,7 +114,7 @@ export const PrepareState = (props) => {
   }
 
   return (
-    <MobileWrapper onBack={history.goBack}>
+    <MobileWrapper withHeader>
       <SignupDescription loading={loading} loginEmail={loginEmail} setEmail={setEmail} />
     </MobileWrapper>
   )

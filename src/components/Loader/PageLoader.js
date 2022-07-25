@@ -2,8 +2,14 @@ import React from 'react'
 import cx from 'classnames'
 import styles from './PageLoader.module.scss'
 
-export const LoaderImage = () => (
-  <svg width='44' height='44' viewBox='0 0 32 32' fill='none' className={styles.loader__img}>
+export const LoaderImage = ({ withAnimation = true, width = 44 }) => (
+  <svg
+    width={width}
+    height={width}
+    viewBox='0 0 32 32'
+    fill='none'
+    className={cx(withAnimation && styles.loader__img)}
+  >
     <path fill='#fff' d='M32 16a16 16 0 11-32 0 16 16 0 0132 0z' />
     <path
       fill='#181B2B'

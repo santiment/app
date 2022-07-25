@@ -12,6 +12,28 @@
   height: 80vh;
 }
 
+.mobile {
+  height: unset;
+  margin-top: 30px;
+  align-items: flex-start;
+  text-align: left;
+
+  h2 {
+    @include text('h4');
+    margin-bottom: 24px;
+  }
+
+  p {
+    @include text('body-2');
+    margin-bottom: 24px;
+  }
+
+  div {
+    @include text('body-2');
+    color: var(--waterloo);
+  }
+}
+
 .link {
   color: var(--jungle-green);
 }
@@ -27,3 +49,5 @@
     margin-top: 0;
   }
 }
+
+

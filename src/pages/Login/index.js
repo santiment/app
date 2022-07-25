@@ -20,7 +20,7 @@ const hasMetamask = detectMetamask()
 
 export const LoginDescription = ({ className }) => (
   <div className={cx(styles.loginBlock, className, !hasMetamask && styles.noMetamask)}>
-    <h3 className={styles.title}>Welcome back</h3>
+    <h3 className={cx(styles.title, 'h4 txt-m')}>Welcome back</h3>
     <div className={styles.options}>
       <LoginMetamaskBtn />
       <OrUseDivider />
@@ -48,7 +48,7 @@ const LoginOptions = (props) => {
   }
 
   return (
-    <MobileWrapper>
+    <MobileWrapper withHeader>
       <LoginDescription />
     </MobileWrapper>
   )

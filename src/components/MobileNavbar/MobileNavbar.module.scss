@@ -1,5 +1,5 @@
 .wrapper {
-  background: var(--white);
+  background: var(--whale);
   position: fixed;
   bottom: 0;
   left: 0;
@@ -10,10 +10,7 @@
   align-items: center;
   color: rgba(255, 255, 255, 0.5);
   padding: 0;
-  box-shadow: 0 0 20px rgba(24, 27, 43, 0.05);
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border: 2px solid var(--porcelain);
+  border-top: 1px solid var(--athens);
 }
 
 .overlay {
