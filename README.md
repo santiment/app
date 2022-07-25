@@ -38,8 +38,8 @@ To start your local development you need to:
 5. Create a certificate for your custom domain and concatenate the two files <br />
    `mkcert "127.0.0.1" "localhost" "local.santiment.net"` <br />
    `cat *-key.pem *.pem > server.pem`
-6. Create /.cert folder and move the server.pem file into it in app root directory
-7. Run `npm run start`
+6. Create `/.cert` folder and move the server.pem file into it in app root directory
+7. Run `npm start`
 
 ## Lint/Format
 We use prettier-standard. eslint rules from standard and format by prettier.

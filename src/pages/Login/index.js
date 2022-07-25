@@ -48,7 +48,7 @@ const LoginOptions = (props) => {
   }
 
   return (
-    <MobileWrapper onBack={props.history.goBack}>
+    <MobileWrapper>
       <LoginDescription />
     </MobileWrapper>
   )
