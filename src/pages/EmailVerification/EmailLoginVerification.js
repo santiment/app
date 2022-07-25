@@ -16,7 +16,7 @@ export const EmailLoginVerification = ({ isSuccess, isError, isDesktop }) => {
   }
 
   let child
-  let className = cx(styles.wrapper, !isDesktop && styles.mobile)
+  const className = cx(styles.wrapper, !isDesktop && styles.mobile)
 
   if (isError) {
     child = (
