@@ -4,7 +4,8 @@ import styles from './PageLoader.module.scss'
 
 export const LoaderImage = ({ withAnimation = true, size = 44 }) => (
   <svg
-    size={size}
+    width={size}
+    height={size}
     viewBox='0 0 32 32'
     fill='none'
     className={cx(withAnimation && styles.loader__img)}
