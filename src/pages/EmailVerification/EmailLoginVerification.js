@@ -7,8 +7,8 @@ import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import * as actions from './../../actions/types'
 import PageLoader from '../../components/Loader/PageLoader'
-import styles from './Verification.module.scss'
 import MobileWrapper from '../Login/Mobile/MobileWrapper'
+import styles from './Verification.module.scss'
 
 export const EmailLoginVerification = ({ isSuccess, isError, isDesktop }) => {
   if (isSuccess) {

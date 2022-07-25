@@ -2,10 +2,9 @@ import React from 'react'
 import cx from 'classnames'
 import styles from './PageLoader.module.scss'
 
-export const LoaderImage = ({ withAnimation = true, width = 44 }) => (
+export const LoaderImage = ({ withAnimation = true, size = 44 }) => (
   <svg
-    width={width}
-    height={width}
+    size={width}
     viewBox='0 0 32 32'
     fill='none'
     className={cx(withAnimation && styles.loader__img)}

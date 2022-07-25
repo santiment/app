@@ -87,7 +87,7 @@ const SignupDescription = ({ loading, loginEmail, setEmail, className }) => {
         setEmail={setEmail}
         className={styles.email}
       />
-      <div className={styles.textcenter}>
+      <div className='txt-center'>
         <div className={externalStyles.noCredit}>No credit card required</div>
         <div className={externalStyles.new}>
           Have an account?{' '}
