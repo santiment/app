@@ -1,3 +1,5 @@
+@import '~@santiment-network/ui/mixins';
+
 .wrapper {
   background: var(--whale);
   position: fixed;
@@ -55,31 +57,54 @@
   width: 80%;
 
   &__login {
-    bottom: 160px;
+    bottom: 100px;
   }
 
   &__create {
-    bottom: 100px;
+    bottom: 160px;
+    color: var(--green);
+    border-color: var(--green);
   }
 }
 
 .navigationList {
   display: flex;
   flex-direction: column;
+  padding: 14px 16px 16px 16px;
 }
 
 .navigationList__link {
+  @include text('body-1');
+
   color: var(--rhino);
-  font-family: 'Proxima Nova', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 18px;
-  line-height: 26px;
-  text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 30px;
   padding: 0;
-  background: none;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+.separator {
+  margin: 27px 0;
   border: none;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  border-bottom: 1px solid var(--porcelain);
+}
+
+.username {
+  color: var(--rhino);
+}
+
+.crown {
+  --crown-size: 24px;
+  position: absolute;
+  left: var(--crown-size);
+  top: var(--crown-size);
+  width: var(--crown-size);
+  height: var(--crown-size);
+  border: none;
+  border-radius: 50%;
+  background-color: var(--orange-light-2);
+  fill: var(--orange);
 }
