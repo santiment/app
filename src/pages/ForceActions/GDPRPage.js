@@ -9,7 +9,6 @@ import Notification from '@santiment-network/ui/Notification'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import Panel from '@santiment-network/ui/Panel'
-import SantimentLogo from './SantimentLogo'
 import * as actions from './../../actions/types'
 import MobileWrapper from '../Login/Mobile/MobileWrapper'
 import { useUser } from '../../stores/user'
@@ -147,8 +146,9 @@ const GDPRPage = ({ togglePrivacyPolicy, dispatchNewUsername, isDesktop }) => {
     </div>
   ) : (
     <div className={styles.container}>
-      <SantimentLogo />
-      <MobileWrapper className={styles.mobileWrapper}>{child}</MobileWrapper>
+      <MobileWrapper withHeader className={styles.mobileWrapper}>
+        {child}
+      </MobileWrapper>
     </div>
   )
 }

@@ -9,10 +9,11 @@
   padding: 24px !important;
   height: 100%;
   position: relative;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
+}
+
+.withHeader {
+  border: none;
+  padding: 0;
 }
 
 .iconClose {
@@ -22,4 +23,17 @@
   fill: var(--waterloo);
   width: 16px;
   height: 16px;
+}
+
+.header {
+  border-bottom: 1px solid var(--athens);
+  background-color: var(--bleach);
+}
+
+.headercontent {
+  padding: 20px;
+
+  h1 {
+    color: var(--rhino);
+  }
 }

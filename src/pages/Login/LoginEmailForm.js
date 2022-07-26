@@ -106,7 +106,7 @@ const SuccessState = ({ email, isDesktop, history, showBack = true }) => {
     </div>
   )
 
-  return isDesktop ? child : <MobileWrapper onBack={history.goBack}>{child}</MobileWrapper>
+  return isDesktop ? child : <MobileWrapper withHeader>{child}</MobileWrapper>
 }
 
 const PrepareState = ({ loading, loginEmail, setEmail, isDesktop, history }) => {
@@ -127,7 +127,7 @@ const PrepareState = ({ loading, loginEmail, setEmail, isDesktop, history }) => 
     </div>
   )
 
-  return isDesktop ? child : <MobileWrapper onBack={history.goBack}>{child}</MobileWrapper>
+  return isDesktop ? child : <MobileWrapper withHeader>{child}</MobileWrapper>
 }
 
 const LoginEmailForm = ({

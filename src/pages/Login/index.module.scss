@@ -25,6 +25,7 @@
   @include responsive('phone', 'phone-xs', 'tablet') {
     min-width: initial;
     min-height: initial;
+    align-items: flex-start;
   }
 }
 
@@ -40,6 +41,7 @@
     padding: 0;
     min-width: initial;
     min-height: initial;
+    align-items: flex-start;
   }
 }
 
@@ -107,8 +109,6 @@
 }
 
 .title {
-  @include text('h3');
-
   color: var(--rhino);
   max-width: 344px;
   margin: 0;
@@ -141,6 +141,7 @@
   height: 40px;
   max-width: 280px;
   width: 100%;
+  font-size: 16px;
 
   &:hover {
     color: var(--white);
@@ -186,9 +187,8 @@
     margin-bottom: 8px;
 
     @include responsive('phone-xs', 'phone', 'tablet') {
-      padding: 0 16px;
       margin-top: 18px;
-      text-align: center;
+      text-align: left;
     }
   }
 
@@ -200,8 +200,7 @@
 
     @include responsive('phone-xs', 'phone', 'tablet') {
       margin-top: 24px;
-      text-align: center;
-      padding: 0 16px;
+      text-align: left;
     }
   }
 
@@ -246,7 +245,7 @@
     margin-top: 32px;
 
     @include responsive('phone', 'phone-xs', 'tablet') {
-      margin-top: 48px;
+      margin-top: 24px;
     }
   }
 
@@ -257,8 +256,9 @@
   }
 
   &__title {
-    @include text('h3');
+    @include text('h4');
 
+    font-weight: 400;
     color: var(--rhino);
     margin: 0;
   }
@@ -284,8 +284,8 @@
 }
 
 .new {
-  color: var(--waterloo);
-  margin-top: 24px;
+  color: var(--fiord);
+  margin-top: 12px;
 
   @include text('body-2');
 }
@@ -299,10 +299,10 @@
 }
 
 .noCredit {
-  @include text('caption');
+  @include text('body-3');
 
   color: var(--waterloo);
-  margin-top: 8px;
+  margin-top: 12px;
 }
 
 .loginLink {

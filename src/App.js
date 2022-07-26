@@ -399,8 +399,14 @@ export const App = ({
             />
             <Redirect from='/ethereum-spent' to='/projects/ethereum' />
             <Route exact path='/privacy-policy' component={PrivacyPolicyPage} />
-            <Route path='/email_login' component={EmailLoginVerification} />
-            <Route path='/verify_email' component={EmailLoginVerification} />
+            <Route
+              path='/email_login'
+              render={(props) => <EmailLoginVerification {...props} isDesktop={isDesktop} />}
+            />
+            <Route
+              path='/verify_email'
+              render={(props) => <EmailLoginVerification {...props} isDesktop={isDesktop} />}
+            />
             {ExternalRoutes.map((links) => {
               return links.routes.map((name) => (
                 <Route
