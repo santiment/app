@@ -108,7 +108,7 @@ const MobileNavbar = ({ history, activeLink }) => {
               )
             })}
             <hr className={styles.separator} />
-            <ContactUs className={cx(styles.navigationList__link, 'c-green')}>
+            <ContactUs className={cx(styles.navigationList__link, 'btn c-green')}>
               Help &amp; Feedback
             </ContactUs>
           </div>
