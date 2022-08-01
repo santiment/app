@@ -7,8 +7,7 @@ import Button from '@santiment-network/ui/Button'
 import { gotoExplore } from './utils.js'
 import styles from './index.module.scss'
 
-export const DEFAULT_TEXT =
-  'Enter a word or a phrase...                                               '
+export const DEFAULT_TEXT = 'Search for assets, trends...'
 
 export class TrendsSearchForm extends Component {
   static defaultProps = {

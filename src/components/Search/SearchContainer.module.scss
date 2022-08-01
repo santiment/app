@@ -18,11 +18,13 @@
 
   input + svg:first-of-type {
     padding: 0 8px 0 16px;
+    width: 16px;
   }
 }
 
 .focused {
   width: 340px;
+  border: 1px solid var(--green);
 }
 
 .name {

@@ -34,6 +34,7 @@
 .icon {
   fill: var(--rhino);
   width: 22px;
+  transform: rotate(180deg);
 }
 
 :global(.App .page) .title {

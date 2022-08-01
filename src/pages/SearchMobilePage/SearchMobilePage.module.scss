@@ -14,7 +14,10 @@
 
 .search {
   width: 100%;
+  height: 40px;
+  display: flex;
   margin-right: 15px;
+  border-radius: 6px;
 }
 
 .tabs {
@@ -25,10 +28,10 @@
 }
 
 .caption {
-  color: var(--waterloo);
-  margin: 16px 0 20px;
+  @include text('body-2', 'm');
 
-  @include text('body-3', 'l');
+  color: var(--waterloo);
+  margin: 20px 0 24px;
 }
 
 .recentWrapper {
