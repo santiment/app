@@ -50,7 +50,7 @@ const ConnectTelegramBlock = ({
   return (
     <div className={cx(styles.telegram, classes.container)}>
       <div className={cx(styles.setting__left, classes.left)}>
-        <Label>Telegram</Label>
+        <Label className={styles.label}>Telegram</Label>
         <Label className={styles.setting__description} accent='waterloo'>
           Connect the notification bot to your Telegram account
         </Label>

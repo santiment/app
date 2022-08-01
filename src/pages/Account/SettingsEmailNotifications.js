@@ -17,7 +17,7 @@ const SettingsEmailNotifications = ({ classes = {}, description, count }) => {
 
   return (
     <div className={cx(classes.container, styles.settingBlock)}>
-      <Label className={cx(classes.left, 'row v-center')}>
+      <Label className={cx(classes.left, 'row v-center', styles.label)}>
         <span className='mrg--r mrg-xs'>Email notifications</span>
         {count > 0 && (
           <AlertTooltip

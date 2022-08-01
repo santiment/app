@@ -29,7 +29,7 @@ const ConnectMetamaskBlock = ({
   return (
     <div className={cx(styles.metamask)}>
       <div className={styles.setting__left}>
-        <Label>Metamask</Label>
+        <Label className={styles.label}>Metamask</Label>
         <Label className={styles.setting__description} accent='waterloo'>
           You will get the ability to deposit tokens to your Sanbase account.
           <br />
