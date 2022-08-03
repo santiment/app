@@ -69,7 +69,9 @@ const SearchMobilePage = ({ history }) => {
         {items.map((slug) => (
           <div key={slug} className={styles.recent}>
             <Link to={TAB.getLinkURL(slug)} className={styles.link}>
-              <Icon type='clock' className={styles.icon} />
+              <div className={styles.iconholder} style={{fill: TAB.fill, backgroundColor: TAB.bgcolor}}>
+                <Icon type={TAB.icon} />
+              </div>
               <span className={styles.name}>{TAB.getLinkLabel(slug)}</span>
             </Link>
             <Icon
