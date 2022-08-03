@@ -13,7 +13,7 @@ import { INSIGHTS_BY_SEARCH_TERM_QUERY } from '../Navbar/Search/InsightsCategory
 import styles from './SearchContainer.module.scss'
 import ALL_PROJECTS from './../../allProjects.json'
 
-const TRENDING_WORDS_QUERY = gql`
+export const TRENDING_WORDS_QUERY = gql`
   query getTrendingWords($from: DateTime!, $to: DateTime!) {
     getTrendingWords(size: 10, from: $from, to: $to, interval: "1h") {
       datetime
@@ -149,7 +149,6 @@ const SearchProjects = ({
   onSuggestionSelect,
   ...props
 }) => {
-  console.log(props)
   return (
     <SearchWithSuggestions
       {...props}

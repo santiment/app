@@ -46,6 +46,7 @@ export const addRecentWatchlists = (id) => addRecent(RECENT_WATCHLISTS, id)
 export const addRecentScreeners = (id) => addRecent(RECENT_SCREENERS, id)
 export const addRecentTemplate = (id) => addRecent(RECENT_TEMPLATES, id.toString())
 export const addRecentMetric = (key) => addRecent(RECENT_MOBILE_METRICS, key, 6)
+export const addRecentInsights = (insight) => addRecent(RECENT_INSIGHTS, insight)
 
 export const removeRecentWatchlists = (id) =>
   saveRecent(RECENT_WATCHLISTS, removeRecent(RECENT_WATCHLISTS, id))

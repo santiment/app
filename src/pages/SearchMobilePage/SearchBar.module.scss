@@ -1,0 +1,23 @@
+@import '~@santiment-network/ui/mixins.scss';
+
+.wrapper {
+    position: relative;
+    margin-right: 12px;
+    height: 40px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.input {
+    width: 100%;
+
+    & input {
+        height: 40px;
+        padding-left: 36px !important;
+    }
+
+    & svg {
+        padding-left: 14px;
+    }
+}

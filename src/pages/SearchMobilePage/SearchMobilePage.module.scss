@@ -31,18 +31,18 @@
   @include text('body-2', 'm');
 
   color: var(--waterloo);
-  margin: 20px 0 24px;
+  margin-bottom: 24px;
 }
 
 .recentWrapper {
-  padding: 16px 0 16px 18px;
+  padding: 24px 0 16px 18px;
 }
 
 .recent {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 12px;
+  margin-bottom: 24px;
 }
 
 .link {
@@ -79,4 +79,13 @@
   fill: var(--waterloo);
   padding: 7px 18px;
   box-sizing: content-box;
+}
+
+.scrollable {
+  overflow-y: auto;
+}
+
+.assetIcon {
+  width: 24px;
+  height: 24px;
 }
