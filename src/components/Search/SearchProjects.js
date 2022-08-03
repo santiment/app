@@ -9,6 +9,7 @@ import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import { ALL_PROJECTS_FOR_SEARCH_QUERY } from '../../ducks/Watchlists/gql/allProjectsGQL'
 import { hasAssetById } from '../../ducks/Watchlists/utils'
 import ProjectIcon from './../ProjectIcon/ProjectIcon'
+import { INSIGHTS_BY_SEARCH_TERM_QUERY } from '../Navbar/Search/InsightsCategory'
 import styles from './SearchContainer.module.scss'
 import ALL_PROJECTS from './../../allProjects.json'
 
@@ -138,6 +139,7 @@ const Header = () => {
 }
 
 const SearchProjects = ({
+  insights = [],
   trendWords = [],
   projects = [],
   isEditingWatchlist,
@@ -147,6 +149,7 @@ const SearchProjects = ({
   onSuggestionSelect,
   ...props
 }) => {
+  console.log(props)
   return (
     <SearchWithSuggestions
       {...props}
@@ -185,6 +188,12 @@ const SearchProjects = ({
           items: trendWords,
           suggestionContent: (word) => word,
         },
+        {
+          title: 'Insights',
+          predicate: trendWordsPredicate,
+          items: insights,
+          suggestionContent: (word) => word,
+        },
       ]}
     />
   )
@@ -210,6 +219,13 @@ const enhance = compose(
       const trendWords = getTrendingWords[0]
       return {
         trendWords: trendWords ? trendWords.topWords.map(({ word }) => word) : [],
+      }
+    },
+  }),
+  graphql(INSIGHTS_BY_SEARCH_TERM_QUERY, {
+    props: ({ data: { allInsightsBySearchTerm = [] } }) => {
+      return {
+        insights: allInsightsBySearchTerm,
       }
     },
   }),

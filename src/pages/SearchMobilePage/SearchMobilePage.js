@@ -14,7 +14,6 @@ import {
   removeRecentAssets,
   remvoveRecentInsights,
 } from '../../utils/recent'
-import { safeDecode } from '../../utils/utils'
 import styles from './SearchMobilePage.module.scss'
 
 const SearchMobilePage = ({ history }) => {
@@ -24,16 +23,18 @@ const SearchMobilePage = ({ history }) => {
   const [trends, setTrends] = useState(getRecentTrends().filter(Boolean))
   const [insights, setInsights] = useState(getRecentInsights().filter(Boolean))
 
-  const tabRecentValues = useMemo(() => {
+  const tabActions = useMemo(() => {
     switch(selectedTab) {
       case TABS[0].index:
-        return assets
+        return [TABS[0], assets, setAssets, removeRecentAssets]
       case TABS[1].index:
-        return trends
+        return [TABS[1], trends, setTrends, removeRecentTrends]
       case TABS[2].index:
-        return insights
+        return [TABS[2], insights, setInsights, remvoveRecentInsights]
     }
   }, [selectedTab, assets, trends, insights])
+
+  const [TAB, items, setItems, removeItem] = tabActions
 
   return (
     <>
@@ -65,59 +66,23 @@ const SearchMobilePage = ({ history }) => {
       />
       <div className={styles.recentWrapper}>
         <h3 className={styles.caption}>Recently searched</h3>
-        {/* {tabRecentValues.map(() => (
+        {items.map((slug) => (
           <div key={slug} className={styles.recent}>
-            <Link to={selectedTab.getLinkURL(slug)} className={styles.link}>
+            <Link to={TAB.getLinkURL(slug)} className={styles.link}>
               <Icon type='clock' className={styles.icon} />
-              <span className={styles.name}>{selectedTab.getLinkLabel(slug)}</span>
+              <span className={styles.name}>{TAB.getLinkLabel(slug)}</span>
             </Link>
             <Icon
               type='close-medium'
               className={cx(styles.icon, styles.delete)}
               onClick={() => {
-                removeRecentAssets(slug)
-                const filteredAssets = assets.filter((asset) => asset !== slug)
-                setAssets(filteredAssets)
+                removeItem(slug)
+                const filteredAssets = items.filter((asset) => asset !== slug)
+                setItems(filteredAssets)
               }}
             />
           </div>
-        ))} */}
-        {selectedTab === TABS[0].index &&
-          assets.map((slug) => (
-            <div key={slug} className={styles.recent}>
-              <Link to={`/projects/${slug}`} className={styles.link}>
-                <Icon type='clock' className={styles.icon} />
-                <span className={styles.name}>{slug}</span>
-              </Link>
-              <Icon
-                type='close-medium'
-                className={cx(styles.icon, styles.delete)}
-                onClick={() => {
-                  removeRecentAssets(slug)
-                  const filteredAssets = assets.filter((asset) => asset !== slug)
-                  setAssets(filteredAssets)
-                }}
-              />
-            </div>
-          ))}
-        {selectedTab === TABS[1].index &&
-          trends.map((word) => (
-            <div key={word} className={styles.recent}>
-              <Link to={`/labs/trends/explore/${word}`} className={styles.link}>
-                <Icon type='clock' className={styles.icon} />
-                <span className={styles.name}>{safeDecode(word)}</span>
-              </Link>
-              <Icon
-                type='close-medium'
-                className={cx(styles.icon, styles.delete)}
-                onClick={() => {
-                  removeRecentTrends(word)
-                  const filteredTrends = trends.filter((trend) => word !== trend)
-                  setTrends(filteredTrends)
-                }}
-              />
-            </div>
-          ))}
+        ))}
       </div>
     </>
   )

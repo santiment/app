@@ -5,7 +5,18 @@
 }
 
 .input {
-  height: 40px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  
+  & input {
+    padding-left: 40px;
+  }
+}
+
+.icon {
+  padding: 0 8px 0 16px;
+  width: 16px !important;
 }
 
 .withButton {

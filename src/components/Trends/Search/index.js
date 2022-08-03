@@ -3,6 +3,7 @@ import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Input from '@santiment-network/ui/Input'
+import { InputWithIcon } from '@santiment-network/ui'
 import Button from '@santiment-network/ui/Button'
 import { gotoExplore } from './utils.js'
 import styles from './index.module.scss'
@@ -41,8 +42,12 @@ export class TrendsSearchForm extends Component {
 
     return (
       <form onSubmit={this.handleSubmit} className={cx(styles.wrapper, className)}>
-        <Input
+        <InputWithIcon
+          type='text'
+          icon='search-small'
+          iconPosition='left'        
           className={cx(styles.input, inputClassName, withButton && styles.withButton)}
+          iconClassName={styles.icon}
           placeholder={DEFAULT_TEXT}
           value={this.state.topic}
           onChange={this.handleChange}
