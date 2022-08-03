@@ -42,8 +42,7 @@ const AlertPreview = ({ setIsPreview, signal, handleCloseDialog, shouldDisableAc
     settings,
   } = signal
 
-  const currentSlug = settings.type === 'wallet_movement' ? selector.slug : slug
-  const shouldRenderChart = currentSlug && typeof currentSlug === 'string'
+  const shouldRenderChart = settings.type === 'wallet_movement' ? selector.slug : slug
   const isUnsupported = isUnsupportedTrigger(signal)
   const {
     data: { historicalTriggerPoints: points = [] } = {},

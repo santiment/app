@@ -100,7 +100,7 @@ const AlertModalFormMaster = ({
   useEffect(() => {
     let lastSavedNotificationSettings = getSavedJson('LAST_TRIGGER_NOTIFICATION_SETTINGS')
 
-    let isFormEdited = !isEqual(formPreviousValues, initialState)
+    let isFormEdited = !isEqual(formPreviousValues, initialState) && !isPreview
 
     if (lastSavedNotificationSettings && lastSavedNotificationSettings.length > 0) {
       const updatedInitialState = {
@@ -108,7 +108,7 @@ const AlertModalFormMaster = ({
         settings: { ...initialState.settings, channel: lastSavedNotificationSettings },
       }
 
-      isFormEdited = !isEqual(formPreviousValues, updatedInitialState)
+      isFormEdited = !isEqual(formPreviousValues, updatedInitialState) && !isPreview
     }
 
     if (isFormEdited) {
@@ -120,7 +120,7 @@ const AlertModalFormMaster = ({
     if (!isModalOpen) {
       setIsEdited(false)
     }
-  }, [formPreviousValues, isModalOpen])
+  }, [formPreviousValues, isModalOpen, isPreview])
 
   async function submitFormValues({ values, setSubmitting }) {
     const triggerValues = {
