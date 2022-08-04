@@ -2,7 +2,6 @@ const RECENT_ASSETS = 'RECENT_ASSETS'
 const RECENT_WATCHLISTS = 'RECENT_WATCHLISTS'
 const RECENT_SCREENERS = 'RECENT_SCREENERS'
 const RECENT_TRENDS = 'RECENT_TRENDS_SEARCH'
-const RECENT_INSIGHTS = 'RECENT_INSIGHTS'
 const RECENT_TEMPLATES = 'RECENT_TEMPLATES'
 const RECENT_MOBILE_METRICS = 'RECENT_MOBILE_METRICS'
 
@@ -34,7 +33,6 @@ export const getRecentWatchlists = () => getRecent(RECENT_WATCHLISTS)
 export const getRecentScreeners = () => getRecent(RECENT_SCREENERS)
 // words array
 export const getRecentTrends = () => getRecent(RECENT_TRENDS)
-export const getRecentInsights = () => getRecent(RECENT_INSIGHTS)
 // IDs array
 export const getRecentTemplates = () => getRecent(RECENT_TEMPLATES)
 // metric keys array
@@ -46,7 +44,6 @@ export const addRecentWatchlists = (id) => addRecent(RECENT_WATCHLISTS, id)
 export const addRecentScreeners = (id) => addRecent(RECENT_SCREENERS, id)
 export const addRecentTemplate = (id) => addRecent(RECENT_TEMPLATES, id.toString())
 export const addRecentMetric = (key) => addRecent(RECENT_MOBILE_METRICS, key, 6)
-export const addRecentInsights = (insight) => addRecent(RECENT_INSIGHTS, insight)
 
 export const removeRecentWatchlists = (id) =>
   saveRecent(RECENT_WATCHLISTS, removeRecent(RECENT_WATCHLISTS, id))
@@ -56,8 +53,6 @@ export const removeRecentTrends = (word) =>
   saveRecent(RECENT_TRENDS, removeRecent(RECENT_TRENDS, word))
 export const removeRecentAssets = (asset) =>
   saveRecent(RECENT_ASSETS, removeRecent(RECENT_ASSETS, asset))
-export const remvoveRecentInsights = (insight) =>
-  saveRecent(RECENT_INSIGHTS, removeRecent(RECENT_INSIGHTS, insight))
 export const removeRecentTemplate = (id) =>
   saveRecent(RECENT_TEMPLATES, removeRecent(RECENT_TEMPLATES, id.toString()))
 export const removeRecentMetric = (key) =>
