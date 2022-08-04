@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import Svg from 'webkit/ui/Svg/react'
@@ -8,15 +8,7 @@ import { client } from '../../apollo'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import SearchBar from './SearchBar'
 import { TABS } from '../../components/Search/tabs'
-import {
-  getItems,
-  addItem,
-  removeItem,
-  ASSETS_KEY,
-  TRENDS_KEY,
-  INSIGHTS_KEY,
-  getFromTo,
-} from './utils'
+import { useTabOptions } from './utils'
 import styles from './SearchMobilePage.module.scss'
 
 const AlternativeLink = ({ link, onClick, children }) => {
@@ -65,35 +57,7 @@ const SearchMobilePage = ({ history }) => {
   const [term, setTerm] = useState('')
   const [result, setResult] = useState([])
 
-  const tabActions = useMemo(() => {
-    switch (selectedTab) {
-      case TABS[0].index:
-        return [
-          TABS[0],
-          () => getItems(ASSETS_KEY),
-          (item) => addItem(ASSETS_KEY, item),
-          (item) => removeItem(ASSETS_KEY, item),
-          { minVolume: 0 },
-        ]
-      case TABS[1].index:
-        const [from, to] = getFromTo()
-        return [
-          TABS[1],
-          () => getItems(TRENDS_KEY),
-          (item) => addItem(TRENDS_KEY, item),
-          (item) => removeItem(TRENDS_KEY, item),
-          { from, to },
-        ]
-      case TABS[2].index:
-        return [
-          TABS[2],
-          () => getItems(INSIGHTS_KEY),
-          (item) => addItem(INSIGHTS_KEY, item),
-          (item) => removeItem(INSIGHTS_KEY, item),
-          { searchTerm: term },
-        ]
-    }
-  }, [selectedTab])
+  const tabActions = useTabOptions(selectedTab, term)
 
   const [activeTab, getTabItems, addTabItem, removeTabItem, variables] = tabActions
 
