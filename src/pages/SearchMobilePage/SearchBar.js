@@ -26,7 +26,9 @@ const SearchBar = ({ onChange, placeholder = DEFAULT_TEXT }) => {
         type='text'
         icon='search-small'
         iconPosition='left'
-        className={styles.input}
+        className='fluid'
+        inputClassName={styles.input}
+        iconClassName={styles.icon}
         placeholder={placeholder}
         value={term}
         onChange={(event) => setTerm(event.target.value)}
