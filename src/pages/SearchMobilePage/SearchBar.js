@@ -1,23 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { InputWithIcon } from '@santiment-network/ui'
+import { useDebounce } from '../../hooks'
 import styles from './SearchBar.module.scss'
 
 const DEFAULT_TEXT = 'Search for assets, trends...'
 
-const SearchBar = ({onChange, placeholder=DEFAULT_TEXT}) => {
+const SearchBar = ({ onChange, placeholder = DEFAULT_TEXT }) => {
     const [term, setTerm] = useState('')
 
-    useEffect(() => {
-        let timer;
+    useDebounce(onChange.bind(this, term), 300)
 
-        timer = setTimeout(() => {
-            onChange(term)
-        }, 300)
-
-        return () => clearInterval(timer)
-    }, [term])
-
-    const handleChange = (event) => {
+    function handleChange(event) {
         event.preventDefault()
         setTerm(event.target.value)
     }

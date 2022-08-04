@@ -31,7 +31,6 @@
   @include text('body-2', 'm');
 
   color: var(--waterloo);
-  margin-bottom: 24px;
 }
 
 .recentWrapper {
@@ -42,7 +41,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
 }
 
 .link {
@@ -56,16 +54,12 @@
 .iconholder {
   width: 24px;
   height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border: none;
   border-radius: 50%;
   margin-right: 10px;
 }
 
 .name {
-  @include text('body-2');
   color: var(--bleach);
   max-width: 88%;
 }
@@ -85,7 +79,7 @@
   overflow-y: auto;
 }
 
-.assetIcon {
+.asset {
   width: 24px;
   height: 24px;
 }

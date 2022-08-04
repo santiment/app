@@ -8,30 +8,22 @@ import { client } from '../../apollo'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import SearchBar from './SearchBar'
 import { TABS } from '../../components/Search/tabs'
-import { getItems, addItem, removeItem, ASSETS_KEY, TRENDS_KEY, INSIGHTS_KEY } from './cacheResult'
+import { getItems, addItem, removeItem, ASSETS_KEY, TRENDS_KEY, INSIGHTS_KEY, getFromTo } from './utils'
 import styles from './SearchMobilePage.module.scss'
 
-const LinkHOC = ({ link, onClick, children }) => {
+const AlternativeLink = ({ link, onClick, children }) => {
   if (link.toLowerCase().startsWith("http")) {
     return <a href={link} target="_blank" className={styles.link} onClick={onClick}>{children}</a>
   }
   return <Link to={link} className={styles.link} onClick={onClick}>{children}</Link>
 }
 
-const SearchMobilePage = ({ history, ...props }) => {
+const SearchMobilePage = ({ history }) => {
   const [selectedTab, selectTab] = useState(TABS[0].index)
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(false)
   const [term, setTerm] = useState('')
   const [result, setResult] = useState([])
-
-  const getFromTo = () => {
-    const from = new Date()
-    const to = new Date()
-    to.setHours(to.getHours(), 0, 0, 0)
-    from.setHours(from.getHours() - 1, 0, 0, 0)
-    return [from, to]
-  }
 
   const tabActions = useMemo(() => {
     switch (selectedTab) {
@@ -61,12 +53,12 @@ const SearchMobilePage = ({ history, ...props }) => {
           { searchTerm: term }
         ]
     }
-  }, [selectedTab, result])
+  }, [selectedTab])
 
-  const [TAB, getTabItems, addTabItem, removeTabItem, variables] = tabActions
+  const [activeTab, getTabItems, addTabItem, removeTabItem, variables] = tabActions
 
   function processResult(data) {
-    let result = data[TAB.responseKey]
+    let result = data[activeTab.responseKey]
     if (selectedTab === TABS[1].index) {
       result = result[0].topWords
     }
@@ -92,13 +84,13 @@ const SearchMobilePage = ({ history, ...props }) => {
 
   useEffect(() => {
     if (loading) return
-    if (!term || term === "") {
+    if (!term) {
       setResult([])
       return;
     }
     setLoading(true)
     client.query({
-      query: TAB.query,
+      query: activeTab.query,
       variables,
     }).then(({ data }) => {
       processResult(data)
@@ -136,41 +128,41 @@ const SearchMobilePage = ({ history, ...props }) => {
         {!loading &&
           <>
             {result.length < 1 &&
-              <h3 className={styles.caption}>Recently searched</h3>
+              <h3 className={cx(styles.caption, 'mrg--b mrg-xl')}>Recently searched</h3>
             }
             <div className={styles.scrollable}>
               {result.length > 0 && result.map((keys) => (
-                <div key={keys.id} className={styles.recent}>
-                  <LinkHOC link={TAB.getLinkURL(keys)} onClick={() => addTabItem(keys)}>
+                <div key={keys.id} className={cx(styles.recent, 'mrg--b mrg-xl')}>
+                  <AlternativeLink link={activeTab.getLinkURL(keys)} onClick={() => addTabItem(keys)}>
                     {selectedTab === TABS[0].index &&
-                      <div className={styles.iconholder}>
-                        <img src={keys.logoUrl} alt={keys.name} title={keys.name} className={styles.assetIcon} />
+                      <div className={cx(styles.iconholder, 'row hv-center')}>
+                        <img src={keys.logoUrl} alt={keys.name} title={keys.name} className={styles.asset} />
                       </div>
                     }
                     {selectedTab !== TABS[0].index &&
-                      <div className={styles.iconholder} style={{ fill: TAB.fill, backgroundColor: TAB.bgcolor }}>
-                        <Svg id={TAB.icon} w={11} h={13} />
+                      <div className={cx(styles.iconholder, 'row hv-center')} style={{ fill: activeTab.fill, backgroundColor: activeTab.bgcolor }}>
+                        <Svg id={activeTab.icon} w={11} h={13} />
                       </div>
                     }
-                    <span className={styles.name}>{TAB.getLinkLabel(keys)}</span>
-                  </LinkHOC>
+                    <span className={cx(styles.name, 'body-2')}>{activeTab.getLinkLabel(keys)}</span>
+                  </AlternativeLink>
                 </div>
               ))}
               {result.length < 1 && items.map((keys, index) => (
-                <div key={index} className={styles.recent}>
-                  <LinkHOC link={TAB.getLinkURL(keys)}>
+                <div key={index} className={cx(styles.recent, 'mrg--b mrg-xl')}>
+                  <AlternativeLink link={activeTab.getLinkURL(keys)}>
                     {selectedTab === TABS[0].index &&
-                      <div className={styles.iconholder}>
-                        <img src={keys.logoUrl} alt={keys.name} title={keys.name} className={styles.assetIcon} />
+                      <div className={cx(styles.iconholder, 'row hv-center')}>
+                        <img src={keys.logoUrl} alt={keys.name} title={keys.name} className={styles.asset} />
                       </div>
                     }
                     {selectedTab !== TABS[0].index &&
-                      <div className={styles.iconholder} style={{ fill: TAB.fill, backgroundColor: TAB.bgcolor }}>
-                        <Svg id={TAB.icon} w={11} h={13} />
+                      <div className={cx(styles.iconholder, 'row hv-center')} style={{ fill: activeTab.fill, backgroundColor: activeTab.bgcolor }}>
+                        <Svg id={activeTab.icon} w={11} h={13} />
                       </div>
                     }
-                    <span className={styles.name}>{TAB.getLinkLabel(keys)}</span>
-                  </LinkHOC>
+                    <span className={cx(styles.name, 'body-2')}>{activeTab.getLinkLabel(keys)}</span>
+                  </AlternativeLink>
                   <Icon
                     type='close-medium'
                     className={cx(styles.icon, styles.delete)}

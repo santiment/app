@@ -50,7 +50,7 @@ export const TABS = [
       return safeDecode(title)
     },
     icon: 'description',
-    fill: 'var(--texas-rose)',
+    fill: 'var(--orange)',
     bgcolor: 'var(--orange-light-1)',
     query: INSIGHTS_BY_SEARCH_TERM_QUERY,
     variables: ({searchTerm}) => ({searchTerm}),
