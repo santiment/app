@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
+import cx from 'classnames'
 import { InputWithIcon } from '@santiment-network/ui'
-import { useDebounce } from '../../hooks'
+import { useDebounceEffect } from '../../hooks'
 import styles from './SearchBar.module.scss'
 
 const DEFAULT_TEXT = 'Search for assets, trends...'
@@ -8,7 +9,7 @@ const DEFAULT_TEXT = 'Search for assets, trends...'
 const SearchBar = ({ onChange, placeholder = DEFAULT_TEXT }) => {
   const [term, setTerm] = useState('')
 
-  useDebounce(onChange.bind(this, term), 300)
+  useDebounceEffect(() => term && onChange(term), 300, [term])
 
   function handleChange(event) {
     event.preventDefault()
@@ -16,7 +17,11 @@ const SearchBar = ({ onChange, placeholder = DEFAULT_TEXT }) => {
   }
 
   return (
-    <form onSubmit={handleChange} className={styles.wrapper} onFocus={() => setTerm('')}>
+    <form
+      onSubmit={handleChange}
+      className={cx(styles.wrapper, 'relative fluid flex v-center mrg--r mrg-m')}
+      onFocus={() => setTerm('')}
+    >
       <InputWithIcon
         type='text'
         icon='search-small'
