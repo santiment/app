@@ -17,8 +17,7 @@ export const TABS = [
       return safeDecode(name)
     },
     icon: 'clock',
-    fill: 'var(--casper)',
-    bgcolor: 'transparent',
+    styleKey: 'assets',
     query: ALL_PROJECTS_FOR_SEARCH_QUERY,
     variables: ({ minVolume }) => ({ minVolume }),
     responseKey: 'allProjects',
@@ -35,8 +34,7 @@ export const TABS = [
       return safeDecode(word)
     },
     icon: 'fire',
-    fill: 'var(--blue)',
-    bgcolor: 'var(--blue-light-1)',
+    styleKey: 'trends',
     query: TRENDING_WORDS_QUERY,
     variables: ({ from, to }) => ({ from, to }),
     responseKey: 'getTrendingWords',
@@ -51,8 +49,7 @@ export const TABS = [
       return safeDecode(title)
     },
     icon: 'description',
-    fill: 'var(--orange)',
-    bgcolor: 'var(--orange-light-1)',
+    styleKey: 'insights',
     query: INSIGHTS_BY_SEARCH_TERM_QUERY,
     variables: ({ searchTerm }) => ({ searchTerm }),
     responseKey: 'insights',

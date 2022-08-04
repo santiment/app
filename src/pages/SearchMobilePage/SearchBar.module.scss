@@ -12,3 +12,18 @@
 .icon {
     padding-left: 14px;
 }
+
+.assets {
+    fill: 'var(--casper)';
+    background: 'transparent';
+}
+
+.trends {
+    fill: 'var(--blue)';
+    background: 'var(--blue-light-1)';
+}
+
+.insights {
+    fill: 'var(--orange)';
+    background: 'var(--orange-light-1)';
+}

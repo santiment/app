@@ -35,10 +35,7 @@ const SearchResultRow = ({ keys, selectedTab, activeTab, onClick, onClose }) => 
         </div>
       )}
       {selectedTab !== TABS[0].index && (
-        <div
-          className={cx(styles.iconholder, 'row hv-center')}
-          style={{ fill: activeTab.fill, backgroundColor: activeTab.bgcolor }}
-        >
+        <div className={cx(styles.iconholder, styles[activeTab.styleKey], 'row hv-center')}>
           <Svg id={activeTab.icon} w={11} h={13} />
         </div>
       )}
