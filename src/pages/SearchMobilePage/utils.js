@@ -12,10 +12,9 @@ export function addItem(key, item) {
   saveJson(key, items)
 }
 
-export function removeItem(key, item) {
-  let items = getItems(key)
-  const term = JSON.stringify(item)
-  items = items.filter((_item) => JSON.stringify(_item) !== term)
+export function removeItem(key, index) {
+  const items = getItems(key)
+  items.splice(index, 1)
   saveJson(key, items)
 }
 

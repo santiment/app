@@ -197,7 +197,7 @@ const SearchMobilePage = ({ history }) => {
                       keys={keys}
                       selectedTab={selectedTab}
                       onClose={() => {
-                        removeTabItem(keys)
+                        removeTabItem(index)
                         setItems(getTabItems())
                       }}
                     />
