@@ -6,28 +6,28 @@ import styles from './SearchBar.module.scss'
 const DEFAULT_TEXT = 'Search for assets, trends...'
 
 const SearchBar = ({ onChange, placeholder = DEFAULT_TEXT }) => {
-    const [term, setTerm] = useState('')
+  const [term, setTerm] = useState('')
 
-    useDebounce(onChange.bind(this, term), 300)
+  useDebounce(onChange.bind(this, term), 300)
 
-    function handleChange(event) {
-        event.preventDefault()
-        setTerm(event.target.value)
-    }
+  function handleChange(event) {
+    event.preventDefault()
+    setTerm(event.target.value)
+  }
 
-    return (
-        <form onSubmit={handleChange} className={styles.wrapper} onFocus={() => setTerm('')}>
-            <InputWithIcon
-                type='text'
-                icon='search-small'
-                iconPosition='left'
-                className={styles.input}
-                placeholder={placeholder}
-                value={term}
-                onChange={event => setTerm(event.target.value)}
-            />
-        </form>
-    )
+  return (
+    <form onSubmit={handleChange} className={styles.wrapper} onFocus={() => setTerm('')}>
+      <InputWithIcon
+        type='text'
+        icon='search-small'
+        iconPosition='left'
+        className={styles.input}
+        placeholder={placeholder}
+        value={term}
+        onChange={(event) => setTerm(event.target.value)}
+      />
+    </form>
+  )
 }
 
 export default SearchBar

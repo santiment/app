@@ -45,7 +45,7 @@ export class TrendsSearchForm extends Component {
         <InputWithIcon
           type='text'
           icon='search-small'
-          iconPosition='left'        
+          iconPosition='left'
           className={cx(styles.input, inputClassName, withButton && styles.withButton)}
           iconClassName={styles.icon}
           placeholder={DEFAULT_TEXT}

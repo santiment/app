@@ -1,8 +1,8 @@
-import { ALL_PROJECTS_FOR_SEARCH_QUERY } from "../../ducks/Watchlists/gql/allProjectsGQL";
-import { safeDecode } from "../../utils/utils";
-import { getSEOLinkFromIdAndTitle } from "../Insight/utils";
-import { INSIGHTS_BY_SEARCH_TERM_QUERY } from "../Navbar/Search/InsightsCategory";
-import { TRENDING_WORDS_QUERY } from "./SearchProjects";
+import { ALL_PROJECTS_FOR_SEARCH_QUERY } from '../../ducks/Watchlists/gql/allProjectsGQL'
+import { safeDecode } from '../../utils/utils'
+import { getSEOLinkFromIdAndTitle } from '../Insight/utils'
+import { INSIGHTS_BY_SEARCH_TERM_QUERY } from '../Navbar/Search/InsightsCategory'
+import { TRENDING_WORDS_QUERY } from './SearchProjects'
 
 export const TABS = [
   {
@@ -14,13 +14,13 @@ export const TABS = [
     },
     getLinkLabel: (arg) => {
       const name = arg.name || arg
-      return  safeDecode(name)
+      return safeDecode(name)
     },
     icon: 'clock',
     fill: 'var(--casper)',
     bgcolor: 'transparent',
     query: ALL_PROJECTS_FOR_SEARCH_QUERY,
-    variables: ({minVolume}) => ({ minVolume}),
+    variables: ({ minVolume }) => ({ minVolume }),
     responseKey: 'allProjects',
   },
   {
@@ -38,13 +38,14 @@ export const TABS = [
     fill: 'var(--blue)',
     bgcolor: 'var(--blue-light-1)',
     query: TRENDING_WORDS_QUERY,
-    variables: ({from, to}) => ({from, to}),
+    variables: ({ from, to }) => ({ from, to }),
     responseKey: 'getTrendingWords',
   },
   {
     index: 'Insights',
     content: 'Insights',
-    getLinkURL: ({id, title}) => `https://insights.santiment.net/read/${getSEOLinkFromIdAndTitle(id, title)}`,
+    getLinkURL: ({ id, title }) =>
+      `https://insights.santiment.net/read/${getSEOLinkFromIdAndTitle(id, title)}`,
     getLinkLabel: (arg) => {
       const title = arg.title || arg
       return safeDecode(title)
@@ -53,7 +54,7 @@ export const TABS = [
     fill: 'var(--orange)',
     bgcolor: 'var(--orange-light-1)',
     query: INSIGHTS_BY_SEARCH_TERM_QUERY,
-    variables: ({searchTerm}) => ({searchTerm}),
+    variables: ({ searchTerm }) => ({ searchTerm }),
     responseKey: 'insights',
-  }
+  },
 ]
