@@ -8,28 +8,22 @@ import { client } from '../../apollo'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import SearchBar from './SearchBar'
 import { TABS } from '../../components/Search/tabs'
-import {
-  getRecentAssets,
-  getRecentTrends,
-  getRecentInsights,
-  addRecentAssets,
-  addRecentTrends,
-  addRecentInsights,
-  removeRecentTrends,
-  removeRecentAssets,
-  remvoveRecentInsights,
-} from '../../utils/recent'
+import { getItems, addItem, removeItem, ASSETS_KEY, TRENDS_KEY, INSIGHTS_KEY } from './cacheResult'
 import styles from './SearchMobilePage.module.scss'
+
+const LinkHOC = ({ link, onClick, children }) => {
+  if (link.toLowerCase().startsWith("http")) {
+    return <a href={link} target="_blank" className={styles.link} onClick={onClick}>{children}</a>
+  }
+  return <Link to={link} className={styles.link} onClick={onClick}>{children}</Link>
+}
 
 const SearchMobilePage = ({ history, ...props }) => {
   const [selectedTab, selectTab] = useState(TABS[0].index)
+  const [items, setItems] = useState([])
   const [loading, setLoading] = useState(false)
   const [term, setTerm] = useState('')
   const [result, setResult] = useState([])
-
-  const [assets, setAssets] = useState(getRecentAssets().filter(Boolean))
-  const [trends, setTrends] = useState(getRecentTrends().filter(Boolean))
-  const [insights, setInsights] = useState(getRecentInsights().filter(Boolean))
 
   const getFromTo = () => {
     const from = new Date()
@@ -44,64 +38,61 @@ const SearchMobilePage = ({ history, ...props }) => {
       case TABS[0].index:
         return [
           TABS[0],
-          assets,
-          setAssets,
-          getRecentAssets,
-          addRecentAssets,
-          removeRecentAssets,
+          () => getItems(ASSETS_KEY),
+          (item) => addItem(ASSETS_KEY, item),
+          (item) => removeItem(ASSETS_KEY, item),
           { minVolume: 0 }
         ]
       case TABS[1].index:
         const [from, to] = getFromTo()
         return [
           TABS[1],
-          trends,
-          setTrends,
-          getRecentTrends,
-          addRecentTrends,
-          removeRecentTrends,
+          () => getItems(TRENDS_KEY),
+          (item) => addItem(TRENDS_KEY, item),
+          (item) => removeItem(TRENDS_KEY, item),
           { from, to }
         ]
       case TABS[2].index:
         return [
           TABS[2],
-          insights,
-          setInsights,
-          getRecentInsights,
-          addRecentInsights,
-          remvoveRecentInsights,
+          () => getItems(INSIGHTS_KEY),
+          (item) => addItem(INSIGHTS_KEY, item),
+          (item) => removeItem(INSIGHTS_KEY, item),
           { searchTerm: term }
         ]
     }
-  }, [selectedTab, assets, trends, insights, result])
+  }, [selectedTab, result])
 
-  const [TAB, items, setItems, getItems, addItem, removeItem, variables] = tabActions
+  const [TAB, getTabItems, addTabItem, removeTabItem, variables] = tabActions
 
   function processResult(data) {
     let result = data[TAB.responseKey]
     if (selectedTab === TABS[1].index) {
       result = result[0].topWords
     }
-    console.log(result)
     let processedResult = []
     const normalizedTerm = term.toLowerCase()
-    switch(selectedTab) {
+    switch (selectedTab) {
       case TABS[0].index:
-        processedResult = result.filter(({name, ticker}) => name.toLowerCase().includes(normalizedTerm) || ticker.toLowerCase().includes(normalizedTerm))
-      break
+        processedResult = result.filter(({ name, ticker }) => name.toLowerCase().includes(normalizedTerm) || ticker.toLowerCase().includes(normalizedTerm))
+        break
       case TABS[1].index:
-        processedResult = result.filter(({word}) => word.toLowerCase().includes(normalizedTerm))
-      break
+        processedResult = result.filter(({ word }) => word.toLowerCase().includes(normalizedTerm))
+        break
       case TABS[2].index:
-        processedResult = result.filter(({title}) => title.toLowerCase().includes(normalizedTerm))
-      break;
+        processedResult = result.filter(({ title }) => title.toLowerCase().includes(normalizedTerm))
+        break;
     }
     setResult(processedResult)
   }
 
   useEffect(() => {
+    setItems(getTabItems())
+  }, [selectedTab])
+
+  useEffect(() => {
     if (loading) return
-    if (!term) {
+    if (!term || term === "") {
       setResult([])
       return;
     }
@@ -111,8 +102,6 @@ const SearchMobilePage = ({ history, ...props }) => {
       variables,
     }).then(({ data }) => {
       processResult(data)
-      addItem(term)
-      setItems(getItems().filter(Boolean))
     }).finally(() => {
       setLoading(false)
     })
@@ -152,7 +141,7 @@ const SearchMobilePage = ({ history, ...props }) => {
             <div className={styles.scrollable}>
               {result.length > 0 && result.map((keys) => (
                 <div key={keys.id} className={styles.recent}>
-                  <Link to={TAB.getLinkURL(keys)} className={styles.link}>
+                  <LinkHOC link={TAB.getLinkURL(keys)} onClick={() => addTabItem(keys)}>
                     {selectedTab === TABS[0].index &&
                       <div className={styles.iconholder}>
                         <img src={keys.logoUrl} alt={keys.name} title={keys.name} className={styles.assetIcon} />
@@ -164,24 +153,30 @@ const SearchMobilePage = ({ history, ...props }) => {
                       </div>
                     }
                     <span className={styles.name}>{TAB.getLinkLabel(keys)}</span>
-                  </Link>
+                  </LinkHOC>
                 </div>
               ))}
-              {result.length < 1 && items.map((slug) => (
-                <div key={slug} className={styles.recent}>
-                  <Link to={TAB.getLinkURL({slug})} className={styles.link}>
-                    <div className={styles.iconholder} style={{ fill: TAB.fill, backgroundColor: TAB.bgcolor }}>
-                      <Svg id={TAB.icon} w={11} h={13} />
-                    </div>
-                    <span className={styles.name}>{TAB.getLinkLabel({id: slug, name: slug, word: slug, title: slug})}</span>
-                  </Link>
+              {result.length < 1 && items.map((keys, index) => (
+                <div key={index} className={styles.recent}>
+                  <LinkHOC link={TAB.getLinkURL(keys)}>
+                    {selectedTab === TABS[0].index &&
+                      <div className={styles.iconholder}>
+                        <img src={keys.logoUrl} alt={keys.name} title={keys.name} className={styles.assetIcon} />
+                      </div>
+                    }
+                    {selectedTab !== TABS[0].index &&
+                      <div className={styles.iconholder} style={{ fill: TAB.fill, backgroundColor: TAB.bgcolor }}>
+                        <Svg id={TAB.icon} w={11} h={13} />
+                      </div>
+                    }
+                    <span className={styles.name}>{TAB.getLinkLabel(keys)}</span>
+                  </LinkHOC>
                   <Icon
                     type='close-medium'
                     className={cx(styles.icon, styles.delete)}
                     onClick={() => {
-                      removeItem(slug)
-                      const filteredAssets = items.filter((asset) => asset !== slug)
-                      setItems(filteredAssets)
+                      removeTabItem(keys)
+                      setItems(getTabItems())
                     }}
                   />
                 </div>
