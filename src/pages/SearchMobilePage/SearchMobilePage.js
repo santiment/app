@@ -10,6 +10,7 @@ import SearchBar from './SearchBar'
 import { TABS } from '../../components/Search/tabs'
 import { useTabOptions } from './utils'
 import styles from './SearchMobilePage.module.scss'
+import PageLoader from '../../components/Loader/PageLoader'
 
 const AlternativeLink = ({ link, onClick, children }) => {
   if (link.toLowerCase().startsWith('http')) {
@@ -135,7 +136,9 @@ const SearchMobilePage = ({ history }) => {
         className={styles.tabs}
       />
       <div className={styles.recentWrapper}>
-        {!loading && (
+        {loading ? (
+          <PageLoader className={styles.loader} />
+        ) : (
           <>
             {result.length < 1 && (
               <h3 className={cx(styles.caption, 'mrg--b mrg-xl')}>Recently searched</h3>

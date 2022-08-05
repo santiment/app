@@ -9,7 +9,7 @@ const DEFAULT_TEXT = 'Search for assets, trends...'
 const SearchBar = ({ onChange, placeholder = DEFAULT_TEXT }) => {
   const [term, setTerm] = useState('')
 
-  useDebounceEffect(() => term && onChange(term), 300, [term])
+  useDebounceEffect(() => onChange(term), 300, [term])
 
   function handleChange(event) {
     event.preventDefault()
@@ -31,7 +31,7 @@ const SearchBar = ({ onChange, placeholder = DEFAULT_TEXT }) => {
         iconClassName={styles.icon}
         placeholder={placeholder}
         value={term}
-        onChange={(event) => setTerm(event.target.value)}
+        onChange={handleChange}
       />
     </form>
   )
