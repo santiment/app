@@ -20,7 +20,7 @@ export function removeItem(key, index) {
   saveJson(key, items)
 }
 
-export const getFromTo = () => {
+export function getFromTo() {
   const from = new Date()
   const to = new Date()
   to.setHours(to.getHours(), 0, 0, 0)
@@ -28,36 +28,22 @@ export const getFromTo = () => {
   return [from, to]
 }
 
-export const useTabOptions = (selectedTab, term) => {
-  const tabOptions = useMemo(() => {
+export const getItemControllers = (KEY) => ({
+  getTabItems: () => getItems(KEY),
+  addTabItem: (item) => addItem(KEY, item),
+  removeTabItem: (item) => removeItem(KEY, item),
+})
+
+export function useTabOptions(selectedTab, term) {
+  return useMemo(() => {
     switch (selectedTab) {
       case TABS[0].index:
-        return [
-          TABS[0],
-          () => getItems(ASSETS_KEY),
-          (item) => addItem(ASSETS_KEY, item),
-          (item) => removeItem(ASSETS_KEY, item),
-          { minVolume: 0 },
-        ]
+        return [TABS[0], ASSETS_KEY, { minVolume: 0 }]
       case TABS[1].index:
         const [from, to] = getFromTo()
-        return [
-          TABS[1],
-          () => getItems(TRENDS_KEY),
-          (item) => addItem(TRENDS_KEY, item),
-          (item) => removeItem(TRENDS_KEY, item),
-          { from, to },
-        ]
+        return [TABS[1], TRENDS_KEY, { from, to }]
       case TABS[2].index:
-        return [
-          TABS[2],
-          () => getItems(INSIGHTS_KEY),
-          (item) => addItem(INSIGHTS_KEY, item),
-          (item) => removeItem(INSIGHTS_KEY, item),
-          { searchTerm: term },
-        ]
+        return [TABS[2], INSIGHTS_KEY, { searchTerm: term }]
     }
   }, [selectedTab])
-
-  return tabOptions
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
-import { Link } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import Svg from 'webkit/ui/Svg/react'
 import { Icon } from '@santiment-network/ui'
 import Tabs from '@santiment-network/ui/Tabs'
@@ -8,11 +8,11 @@ import { client } from '../../apollo'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import SearchBar from './SearchBar'
 import { TABS } from '../../components/Search/tabs'
-import { useTabOptions } from './utils'
+import { useTabOptions, getItemControllers } from './utils'
 import styles from './SearchMobilePage.module.scss'
 import PageLoader from '../../components/Loader/PageLoader'
 
-const AlternativeLink = ({ link, onClick, children }) => {
+const Link = ({ link, onClick, children }) => {
   if (link.toLowerCase().startsWith('http')) {
     return (
       <a href={link} target='_blank' className={styles.link} onClick={onClick}>
@@ -21,15 +21,15 @@ const AlternativeLink = ({ link, onClick, children }) => {
     )
   }
   return (
-    <Link to={link} className={styles.link} onClick={onClick}>
+    <RouterLink to={link} className={styles.link} onClick={onClick}>
       {children}
-    </Link>
+    </RouterLink>
   )
 }
 
 const SearchResultRow = ({ keys, selectedTab, activeTab, onClick, onClose }) => (
   <div className={cx(styles.recent, 'mrg--b mrg-xl')} onClick={onClick}>
-    <AlternativeLink link={activeTab.getLinkURL(keys)}>
+    <Link link={activeTab.getLinkURL(keys)}>
       {selectedTab === TABS[0].index && (
         <div className={cx(styles.iconholder, 'row hv-center')}>
           <img src={keys.logoUrl} alt={keys.name} title={keys.name} className={styles.asset} />
@@ -41,7 +41,7 @@ const SearchResultRow = ({ keys, selectedTab, activeTab, onClick, onClose }) => 
         </div>
       )}
       <span className={cx(styles.name, 'body-2')}>{activeTab.getLinkLabel(keys)}</span>
-    </AlternativeLink>
+    </Link>
     {onClose && (
       <Icon type='close-medium' className={cx(styles.icon, styles.delete)} onClick={onClose} />
     )}
@@ -56,8 +56,8 @@ const SearchMobilePage = ({ history }) => {
   const [result, setResult] = useState([])
 
   const tabActions = useTabOptions(selectedTab, term)
-
-  const [activeTab, getTabItems, addTabItem, removeTabItem, variables] = tabActions
+  const [activeTab, KEY, variables] = tabActions
+  const { getTabItems, addTabItem, removeTabItem } = getItemControllers(KEY)
 
   function processResult(data) {
     let result = data[activeTab.responseKey]
