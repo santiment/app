@@ -96,7 +96,7 @@ const ProjectCard = ({
         ) : (
           <>
             <PercentChanges changes={change} />
-            &nbsp;&nbsp; total cap, 7d
+            <span className='body-2'>&nbsp;&nbsp; total cap, 7d</span>
           </>
         )
       }

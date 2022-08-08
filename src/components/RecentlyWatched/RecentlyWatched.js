@@ -12,7 +12,7 @@ import { useRecentAssets } from '../../hooks/recents'
 import { checkIsScreener } from '../../ducks/Screener/utils'
 import styles from './RecentlyWatched.module.scss'
 
-export const Asset = ({ project, classes = {}, onClick }) => {
+export const Asset = ({ project, classes = {}, onClick, iconSize = 20 }) => {
   const { name, ticker, priceUsd, percentChange7d, logoUrl, darkLogoUrl, slug } = project
   const res = onClick
     ? { Component: 'div', props: { onClick: () => onClick(project) } }
@@ -20,7 +20,7 @@ export const Asset = ({ project, classes = {}, onClick }) => {
   return (
     <res.Component className={cx(styles.item, classes.asset)} {...res.props}>
       <div className={styles.group}>
-        <ProjectIcon size={20} slug={slug} logoUrl={logoUrl} darkLogoUrl={darkLogoUrl} />
+        <ProjectIcon size={iconSize} slug={slug} logoUrl={logoUrl} darkLogoUrl={darkLogoUrl} />
         <h3 className={cx(styles.name, classes.asset__name)}>
           {name} <span className={styles.ticker}>{ticker}</span>
         </h3>
@@ -68,6 +68,7 @@ const RecentlyWatched = ({ className = '', onProjectClick, type, classes = {} })
                 project={project}
                 onClick={onProjectClick}
                 classes={classes}
+                iconSize={24}
               />
             ))}
         </div>

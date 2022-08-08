@@ -13,14 +13,21 @@ const Assets = ({ isDesktop }) => {
   }
 
   return (
-    <Page title='Explore assets' className={styles.wrapper}>
+    <Page
+      title='Markets overview'
+      className={styles.wrapper}
+      headerClassName={styles.fixedheader}
+      mainClassName={styles.margintop}
+    >
       <RecentlyWatched type='assets' />
 
       <Section title='Indices'>
         <FeaturedWatchlistCards className={styles.card} />
       </Section>
 
-      <Trends className={styles.trends} />
+      <Section title='Social Trends' externalLink='/labs/trends/explore/'>
+        <Trends className={styles.trends} isWithColumnTitles={false} />
+      </Section>
     </Page>
   )
 }

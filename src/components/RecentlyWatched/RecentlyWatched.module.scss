@@ -1,14 +1,15 @@
 @import '~@santiment-network/ui/mixins';
 
 .wrapper {
-  margin-bottom: 32px;
+  margin-bottom: 64px;
 }
 
 .title {
   @include text('body-1', 'l');
 
   margin-top: 0;
-  margin-bottom: 13px;
+  margin-bottom: 20px;
+  font-weight: 500;
 }
 
 .price,
@@ -16,6 +17,7 @@
   @include text('body-3');
 
   margin: 0;
+  color: var(--rhino);
 
   @include responsive('phone', 'phone-xs') {
     @include text('body-2');
@@ -36,8 +38,8 @@
 }
 
 .item {
-  margin-top: 8px;
-  padding: 12px;
+  margin-top: 12px;
+  padding: 12px 16px;
   height: 48px;
   border-radius: 4px;
   border: 1px solid var(--porcelain);
@@ -70,6 +72,7 @@
 
 .group {
   display: flex;
+  border: none;
 
   &:first-child {
     max-width: 50%;

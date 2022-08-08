@@ -2,7 +2,10 @@
 /* stylelint-disable */
 
 .word {
+  width: 100%;
+
   &__link {
+    @include text('body-2'); 
     color: var(--rhino);
   }
 }
@@ -115,9 +118,8 @@
     :global {
       th,
       td {
-        font-size: 14px;
-        padding-left: 8px;
-        padding-right: 8px;
+        padding-left: 16px;
+        padding-right: 16px;
       }
     }
   }
