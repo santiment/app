@@ -15,7 +15,7 @@ const INSIGHTS_QUERY = gql`
   }
 `
 
-const INSIGHTS_BY_SEARCH_TERM_QUERY = gql`
+export const INSIGHTS_BY_SEARCH_TERM_QUERY = gql`
   query allInsightsBySearchTerm($searchTerm: String!) {
     insights: allInsightsBySearchTerm(searchTerm: $searchTerm) {
       id

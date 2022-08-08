@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
-import { Button, Icon } from '@santiment-network/ui'
+import Svg from 'webkit/ui/Svg/react'
+import { Button } from '@santiment-network/ui'
 import styles from './MobileHeader.module.scss'
 
 const defaultClasses = {
@@ -37,7 +38,7 @@ const MobileHeader = ({
         to={backRoute}
         className={cx(classes.left, rightActions && classes.shortLeft, _classes.back)}
       >
-        {(backRoute || showBack) && <Icon className={classes.icon} type='arrow-left-big' />}
+        {(backRoute || showBack) && <Svg w={10} h={17} className={classes.icon} id='arrow-right' />}
         {title && (
           <h1 className={cx(classes.title, (backRoute || showBack) && classes.isTitleLink)}>
             {title}
@@ -49,7 +50,7 @@ const MobileHeader = ({
         {rightActions}
         {showSearch && (
           <Button to='/search' as={Link} className={classes.searchBtn}>
-            <Icon type='search' />
+            <Svg id='search' w={18} />
           </Button>
         )}
       </div>
