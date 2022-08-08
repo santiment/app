@@ -40,6 +40,19 @@
   margin: 24px 0 16px;
 }
 
+.fixedheader {
+  position: fixed;
+  width: 100%;
+  padding: 20px !important;
+  border-bottom: 1px solid var(--athens);
+  margin-bottom: 0 !important;
+  z-index: 1000;
+}
+
+.margintop {
+  margin-top: 97px;
+}
+
 @include responsive('phone-xs', 'phone') {
   .wrapper {
     margin-bottom: 60px;
@@ -48,6 +61,7 @@
 
   .title {
     @include text('body-1', 'l');
+    font-weight: 500;
   }
 
   .subtitle {
@@ -63,11 +77,11 @@
   }
 
   .section {
-    margin: 16px 0 40px;
+    margin: 20px 0 64px;
   }
 
   .card {
-    margin-bottom: 8px;
+    margin-bottom: 12px;
   }
 }
 
@@ -78,4 +92,16 @@
 
 .banner {
   margin-bottom: 72px;
+}
+
+.titleLink {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--porcelain);
+  border-radius: 6px;
+  fill: var(--green);
+}
+
+.trends {
+  border-top: none !important;
 }

@@ -25,6 +25,8 @@
 }
 
 .header {
+  @include text('body-2');
+  color: var(--fiord);
   display: flex;
   align-items: center;
 }
@@ -43,10 +45,11 @@
   display: flex;
   justify-content: space-between;
   color: var(--rhino);
-  margin: var(--project-card-middle-margin, 12px 0 8px);
+  margin: var(--project-card-middle-margin, 6px 0 8px);
 }
 
 .bottom {
   color: var(--casper);
   display: flex;
+  align-items: center;
 }
