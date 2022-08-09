@@ -24,7 +24,7 @@ export const LoginDescription = ({ className }) => (
     <div className={styles.options}>
       <LoginMetamaskBtn />
       <OrUseDivider />
-      {/* <LoginEmailBtn /> */}
+      <LoginEmailBtn />
       <LoginGoogleBtn />
       <LogitTwitterBtn />
 
