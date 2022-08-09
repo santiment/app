@@ -2,8 +2,6 @@
 /* stylelint-disable */
 
 .word {
-  width: 100%;
-
   &__link {
     @include text('body-2'); 
     color: var(--rhino);
@@ -107,7 +105,7 @@
 
 @include responsive('phone', 'phone-xs') {
   .word {
-    max-width: 0;
+    width: 100%;
   }
 
   .change__percent {
