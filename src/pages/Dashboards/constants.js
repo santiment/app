@@ -10,13 +10,13 @@ import NFTTx from './dashboards/NFTTx/NFTTx'
 
 export const DASHBOARDS = [
   {
-    name: 'Social Trends',
+    name: 'Social Tool. Trends 24H',
     description: 'Explore the social volume of any word on crypto social media.',
     to: PATHS.SOCIAL_TRENDS,
     Content: SocialTrends,
   },
   {
-    name: 'Social Tool',
+    name: 'Social Tool. Trends mid-term',
     to: PATHS.SOCIAL_TOOl,
     shouldRedirect: true,
   },
