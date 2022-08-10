@@ -15,7 +15,19 @@ import Chart from './Chart'
 import styles from './Item.module.scss'
 import NewLabel from '../NewLabel/NewLabel'
 
-const Item = ({ topic, title, link, createdAt, metrics, show, onLoad, settings, createSignal }) => {
+const Item = ({
+  topic,
+  title,
+  link,
+  createdAt,
+  metrics,
+  price,
+  priceTicker,
+  show,
+  onLoad,
+  settings,
+  createSignal,
+}) => {
   const MetricSettingMap = useMemo(() => {
     const MetricSettingMap = new Map()
 
@@ -79,6 +91,8 @@ const Item = ({ topic, title, link, createdAt, metrics, show, onLoad, settings, 
       <Chart
         topic={topic}
         metrics={metrics}
+        price={price}
+        priceTicker={priceTicker}
         settings={settings}
         onLoad={onLoad}
         settingMap={MetricSettingMap}

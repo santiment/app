@@ -7,8 +7,8 @@ import { drawAlertPlus } from '../../../ducks/Chart/Tooltip/alert'
 
 function plotTooltip(chart, point, setCurrentPoint) {
   const { hoverLineColor } = chart
-  const { x, value: datetime } = point
-  const { y, value } = point.social_volume_total
+  const { x, value: datetime, social_volume_total, price_usd } = point
+  const { y, value } = social_volume_total
 
   drawHoverLineX(chart, x, hoverLineColor, 0)
   drawHoverLineY(chart, y, hoverLineColor, -5)
@@ -17,6 +17,7 @@ function plotTooltip(chart, point, setCurrentPoint) {
   setCurrentPoint({
     datetime,
     point: value,
+    price_usd: price_usd && price_usd.value,
   })
 }
 
