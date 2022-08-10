@@ -1,12 +1,13 @@
 import React from 'react'
 import Tooltip from './Tooltip'
 import SANChart from '../../../ducks/Chart/Modular'
+import Lines from '../../../ducks/Chart/Lines'
 import Bars from '../../../ducks/Chart/Bars'
 import Signals from '../../../ducks/Chart/Signals'
 import { useMetricCategories } from '../../../ducks/Chart/Synchronizer'
 
 const CHART_HEIGHT = 150
-const CHART_COLORS = { social_volume_total: '#68DBF4' }
+const CHART_COLORS = { social_volume_total: '#68DBF4', price_usd: '#26C953' }
 const CHART_PADDING = {
   top: 5,
   right: 16,
@@ -24,6 +25,7 @@ const Canvas = ({ data, metrics, topic, settings, setCurrentPoint, ...props }) =
     categories={useMetricCategories(metrics)}
   >
     <Bars />
+    <Lines />
     <Tooltip setCurrentPoint={setCurrentPoint} />
     <Signals
       {...settings}

@@ -1,15 +1,15 @@
 import { getIntervalByTimeRange } from '../../utils/dates'
 
 export const TOPICS = [
-  { slug: 'bottom', title: 'Bottom' },
-  { slug: 'sell', title: 'Sell' },
-  { slug: 'bear AND market', title: 'Bear Market' },
-  { slug: 'luna', title: 'Luna Crash' },
-  { slug: 'rekt', title: 'Rekt' },
-  { slug: 'inflation', title: 'Inflation' },
-  { slug: 'usd', title: 'USD' },
-  { slug: 'merge', title: 'Merge' },
-  { slug: 'elon', title: 'Elon' },
+  { slug: 'bottom', title: 'Bottom', price: 'bitcoin', ticker: 'BTC' },
+  { slug: 'sell', title: 'Sell', price: 'bitcoin', ticker: 'BTC' },
+  { slug: 'bear AND market', title: 'Bear Market', price: 'bitcoin', ticker: 'BTC' },
+  { slug: 'luna', title: 'Luna Crash', price: 'luna', ticker: 'LUNC' },
+  { slug: 'rekt', title: 'Rekt', price: 'bitcoin', ticker: 'BTC' },
+  { slug: 'inflation', title: 'Inflation', price: 'bitcoin', ticker: 'BTC' },
+  { slug: 'usd', title: 'USD', price: 'bitcoin', ticker: 'BTC' },
+  { slug: 'merge', title: 'Merge', price: 'ethereum', ticker: 'ETH' },
+  { slug: 'elon', title: 'Elon', price: 'shiba-inu', ticker: 'SHIB' },
 ]
 
 export const INDEX_PAGE_GROUPS = [
