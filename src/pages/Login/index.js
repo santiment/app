@@ -7,6 +7,7 @@ import Panel from '@santiment-network/ui/Panel/Panel'
 import OrUseDivider from './OrUseDivider'
 import LoginMetamaskBtn from './LoginMetamaskBtn'
 import LoginEmailForm from './LoginEmailForm'
+import LoginWalletConnect from './LoginWalletConnect'
 import LoginEmailBtn from './LoginEmailBtn'
 import LoginGoogleBtn from './LoginGoogleBtn'
 import LogitTwitterBtn from './LoginTwitterBtn'
@@ -24,7 +25,9 @@ export const LoginDescription = ({ className }) => (
     <div className={styles.options}>
       <LoginMetamaskBtn />
       <OrUseDivider />
+
       <LoginEmailBtn />
+      <LoginWalletConnect />
       <LoginGoogleBtn />
       <LogitTwitterBtn />
 
