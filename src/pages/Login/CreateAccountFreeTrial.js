@@ -6,6 +6,7 @@ import Icon from '@santiment-network/ui/Icon'
 import withSizes from 'react-sizes'
 import LoginEmailForm, { EmailForm } from './LoginEmailForm'
 import LoginGoogleBtn from './LoginGoogleBtn'
+import LoginWalletConnect from './LoginWalletConnect'
 import OrUseDivider from './OrUseDivider'
 import MobileWrapper from './Mobile/MobileWrapper'
 import { PATHS } from '../../paths'
@@ -75,7 +76,9 @@ const SignupDescription = ({ loading, loginEmail, setEmail, className }) => {
         <div>Welcome to Sanbase</div>
       </h2>
 
-      <LoginGoogleBtn signUp className={styles.google} />
+      <LoginWalletConnect signUp className={styles.google} />
+
+      <LoginGoogleBtn signUp />
 
       <LogitTwitterBtn signUp />
 
