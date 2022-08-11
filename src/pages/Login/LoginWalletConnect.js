@@ -9,7 +9,7 @@ import styles from './index.module.scss'
 
 const mutateLogin = (connector, address) => mutateWalletConnectLogin('id', connector, address)
 
-const LoginGoogleBtn = ({ className }) => {
+const LoginWalletConnectBtn = ({ className }) => {
   function onClick() {
     track.event('sign_up', { method: 'walletconnect' })
 
@@ -42,4 +42,4 @@ const LoginGoogleBtn = ({ className }) => {
   )
 }
 
-export default LoginGoogleBtn
+export default LoginWalletConnectBtn
