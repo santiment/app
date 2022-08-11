@@ -9,7 +9,7 @@ import styles from './index.module.scss'
 
 const mutateLogin = (connector, address) => mutateWalletConnectLogin('id', connector, address)
 
-const LoginWalletConnectBtn = ({ className }) => {
+const LoginWalletConnectBtn = ({ signUp, className }) => {
   function onClick() {
     track.event('sign_up', { method: 'walletconnect' })
 
@@ -37,7 +37,7 @@ const LoginWalletConnectBtn = ({ className }) => {
       onClick={onClick}
     >
       <img src={wcSrc} alt='wallet connect' style={{ width: 24 }} className='mrg-s mrg--r' />
-      Sign in with WalletConnect
+      Sign {signUp ? 'up' : 'in'} with WalletConnect
     </button>
   )
 }
