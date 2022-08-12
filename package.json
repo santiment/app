@@ -98,6 +98,7 @@
     "san-insights": "https://github.com/santiment/insights-app#0137632",
     "san-webkit": "https://github.com/santiment/san-webkit#e148fc0",
     "san-studio": "https://github.com/santiment/san-studio#eea3a5b",
+    "san-queries": "git+ssh://git@github.com/santiment/san-queries#e793d79",
     "sanitize-html": "^1.18.2",
     "svg-sprite": "1.5.0",
     "turndown": "^7.1.1",
@@ -127,6 +128,7 @@
     "exit_on_eof": "^1.0.4",
     "imports-loader": "^0.7.1",
     "lint-staged": "^7.3.0",
+    "monaco-editor-core": "^0.33.0-dev.20220214",
     "node-sass": "npm:sass@^1.43.4",
     "postcss": "8.2.13",
     "postcss-cssnext-3": "npm:postcss-cssnext@3",
@@ -153,6 +155,7 @@
     "svelte-loader": "^2.13.6",
     "svelte-preprocess": "^4.10.6",
     "svelte-preprocess-cssmodules": "https://github.com/DmitriVanGuard/svelte-preprocess-cssmodules#3b24f22",
+    "typescript": "^4.1.6",
     "webpack": "4.44.2",
     "webpack-cli": "^3.1.2",
     "why-did-you-update": "^0.1.1"

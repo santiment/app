@@ -21,6 +21,13 @@ module.exports = function override(config, env) {
     urlLoader.options.limit = 1000
   }
 
+  const babelLoader = config.module.rules
+    .find((rule) => !!rule.oneOf)
+    .oneOf.find((rule) => rule.loader && rule.loader.includes('babel-loader'))
+
+  babelLoader.include = [path.resolve('src'), path.resolve('node_modules/monaco-editor')]
+  babelLoader.options.plugins.push('@babel/plugin-proposal-optional-chaining')
+
   config.resolve.alias.svelte = path.resolve('node_modules', 'svelte')
   config.resolve.alias['@sapper/app'] = path.resolve(__dirname, 'src/svelte.js')
   config.resolve.alias['@/apollo'] = path.resolve(__dirname, 'src/apollo/index.js')
@@ -32,6 +39,10 @@ module.exports = function override(config, env) {
   config.resolve.alias['insights'] = path.resolve('node_modules/san-insights/lib')
   config.resolve.alias['webkit'] = path.resolve('node_modules/san-webkit/lib')
 
+  config.resolve.alias['svelte'] = path.resolve('node_modules/svelte')
+  config.resolve.alias['san-webkit/lib'] = path.resolve('node_modules/san-webkit/lib')
+  config.resolve.alias['san-studio/lib'] = path.resolve('node_modules/san-studio/lib')
+
   config.resolve.mainFields = ['svelte', 'browser', 'module', 'main']
 
   config.module.rules.splice(2, 0, {
@@ -39,7 +50,13 @@ module.exports = function override(config, env) {
     use: {
       loader: 'svelte-loader',
       options: {
-        preprocess: [cssModules(), sveltePreprocess()],
+        preprocess: [
+          cssModules(),
+          sveltePreprocess({
+            assumptions: { noDocumentAll: true },
+            plugins: ['@babel/plugin-proposal-optional-chaining'],
+          }),
+        ],
       },
     },
   })
