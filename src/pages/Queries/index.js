@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import { parse } from 'webkit/utils/url'
 import SanQueries from 'san-queries/lib/index.svelte'
