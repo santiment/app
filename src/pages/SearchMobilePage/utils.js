@@ -45,7 +45,7 @@ export function useTabOptions(selectedTab, term) {
       case TABS[2].index:
         return [TABS[2], INSIGHTS_KEY, { searchTerm: term }]
       default:
-        throw new Error("Invalid selectedTab")
+        throw new Error('Invalid selectedTab')
     }
   }, [selectedTab])
 }

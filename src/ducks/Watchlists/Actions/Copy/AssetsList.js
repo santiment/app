@@ -12,12 +12,17 @@ import inputStyles from '../../../../components/BlockchainLabelsSelector/Blockch
 const ROW_HEIGHT = 32
 
 const AssetsList = ({ items, selectedItems, onToggleAsset, classes, withSearch = false, type }) => {
-  const [filter, setFilter] = useState()
-  const [filteredItems, setFilteredItems] = useState(items)
+  const [filter, setFilter] = useState('')
+  const [filteredItems, setFilteredItems] = useState([])
+
   useEffect(() => {
+    if (!selectedItems) {
+      setFilteredItems(items)
+      return
+    }
     if (!withSearch) return
     let filteredItems = [...items]
-    if (filter) {
+    if (filter.length > 0) {
       const normalizedFilter = filter.trim().toLowerCase()
       filteredItems =
         type === BLOCKCHAIN_ADDRESS
@@ -31,8 +36,15 @@ const AssetsList = ({ items, selectedItems, onToggleAsset, classes, withSearch =
               )
             })
     }
+    filteredItems.sort((a, b) => {
+      let lookupId = type === BLOCKCHAIN_ADDRESS ? a.blockchainAddress.address : a.id
+      const aSelected = +selectedItems.has(lookupId)
+      lookupId = type === BLOCKCHAIN_ADDRESS ? b.blockchainAddress.address : b.id
+      const bSelected = +selectedItems.has(lookupId)
+      return bSelected - aSelected
+    })
     setFilteredItems(filteredItems)
-  }, [items, filter, withSearch, type])
+  }, [filter, selectedItems])
 
   const rowRenderer = ({ key, index, style }) => {
     const { name, ticker, id, blockchainAddress } = filteredItems[index]

@@ -21,7 +21,7 @@ const Checkmark = () => (
     <circle cx='12' cy='12' r='12' fill='var(--jungle-green-light)' />
     <path
       fillRule='evenodd'
-      clipRule='evenodd'
+      clip-rule='evenodd'
       d='M17.278 8.64a.5.5 0 01.013.707l-5.786 6a.5.5 0 01-.733-.014l-3.214-3.6a.5.5 0 01.746-.666l2.855 3.198 5.412-5.612a.5.5 0 01.707-.013z'
       fill='#14C393'
     />

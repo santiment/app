@@ -15,7 +15,7 @@ export default (props) => (
     />
     <path
       fillRule='evenodd'
-      clipRule='evenodd'
+      clip-rule='evenodd'
       d='M16.9 8.33a6.07 6.07 0 11-12.14 0 6.07 6.07 0 0112.13 0zm-2 0a4.07 4.07 0 01-6.85 2.96l3.32-2.12a1 1 0 10-1.08-1.68L6.97 9.6a4.06 4.06 0 117.92-1.28z'
       fill='var(--menu-active-accent, var(--rhino))'
     />

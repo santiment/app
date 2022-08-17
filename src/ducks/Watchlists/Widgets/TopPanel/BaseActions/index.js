@@ -74,7 +74,7 @@ const Actions = ({ watchlist, type, onClick, isAuthor, isAuthorLoading, refetchA
         <Panel variant='modal' className={showPanel ? styles.wrapper : styles.hidePanel}>
           <New type={type} />
           <SaveAs type={type} watchlist={watchlist} />
-          {['SCREENER', 'PROJECT'].includes(type)  && <Copy watchlist={watchlist} />}
+          {['SCREENER', 'PROJECT'].includes(type) && <Copy watchlist={watchlist} />}
           <Edit
             type={type}
             title={title}

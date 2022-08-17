@@ -15,7 +15,13 @@ import PageLoader from '../../components/Loader/PageLoader'
 const Link = ({ link, onClick, children }) => {
   if (link.toLowerCase().startsWith('http')) {
     return (
-      <a href={link} target='_blank' rel="noopener noreferrer" className={styles.link} onClick={onClick}>
+      <a
+        href={link}
+        target='_blank'
+        rel='noopener noreferrer'
+        className={styles.link}
+        onClick={onClick}
+      >
         {children}
       </a>
     )
@@ -81,7 +87,7 @@ const SearchMobilePage = ({ history }) => {
         processedResult = result.filter(({ title }) => title.toLowerCase().includes(normalizedTerm))
         break
       default:
-        throw new Error("Invalid selectedTab")
+        throw new Error('Invalid selectedTab')
     }
     setResult(processedResult)
   }

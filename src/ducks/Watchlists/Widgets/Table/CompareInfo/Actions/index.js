@@ -54,14 +54,14 @@ const Actions = ({ type, selected, watchlist, onAdd, onRemove, assets }) => {
   return (
     <div className={styles.actions}>
       <Copy selectedText={selectedText} watchlist={watchlist} assets={assets} selected={selected} />
-      {type === 'PROJECT' &&
+      {type === 'PROJECT' && (
         <>
           <SaveAs selectedText={selectedText} watchlist={watchlist} />
           {isOwner && (
             <Delete selected={selected} onRemove={removeHandler} selectedText={selectedText} />
           )}
         </>
-      }
+      )}
     </div>
   )
 }
