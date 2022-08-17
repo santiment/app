@@ -127,34 +127,29 @@ const WatchlistCopyPopup = ({
     watchlistsToCopy.forEach((assetsListId) => {
       const remainingAssets = checkRemainingAssets(assetsListId, assetsToCopy)
       if (remainingAssets.length > 0) {
-        const list = lists.find(({ id }) => assetsListId === id)
-        const changes = {
-          assetsListId,
-          currentId,
-          listItems: [...list.listItems, ...remainingAssets].map((id) => ({
-            id,
-          })),
-        }
+        let listItems = []
         if (type === BLOCKCHAIN_ADDRESS) {
-          const listItems = assets
+          listItems = assets
             .filter((asset) => remainingAssets.includes(asset.blockchainAddress.address))
             .map(({ blockchainAddress }) => mapAddressToAPIType(blockchainAddress))
-          addWatchlistItems({
-            variables: {
-              id: +assetsListId,
-              listItems,
-            },
-          }).then(() => {
-            setNotification({
-              description: 'Copying completed successfully',
-              title: 'Success',
-              variant: 'success',
-            })
-            close()
-          })
         } else {
-          sendChanges(changes)
+          listItems = assets
+            .filter((asset) => remainingAssets.includes(asset.id))
+            .map(({ id }) => ({ project_id: +id }))
         }
+        addWatchlistItems({
+          variables: {
+            id: +assetsListId,
+            listItems,
+          },
+        }).then(() => {
+          setNotification({
+            description: 'Copying completed successfully',
+            title: 'Success',
+            variant: 'success',
+          })
+          close()
+        })
       }
     })
   }

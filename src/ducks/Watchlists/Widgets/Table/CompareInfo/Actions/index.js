@@ -31,18 +31,28 @@ const Actions = ({ type, selected, watchlist, onAdd, onRemove, assets }) => {
     [selected],
   )
 
+  function normalizeListItems(listItems) {
+    if (['SCREENER', 'PROJECT'].includes(type)) {
+      listItems = listItems.map((item) => ({ projectId: +item.id }))
+    }
+    return listItems
+  }
+
   function addHandler(listItems, onAddDone = () => {}) {
     onAdd(parseInt(watchlist.id), listItems, onAddDone).catch(reportError)
   }
 
   function removeHandler(listItems, onRemoveDone = () => {}) {
-    onRemove(parseInt(watchlist.id), listItems, () => {
+    onRemove(parseInt(watchlist.id), normalizeListItems(listItems), () => {
       store.dispatch(
         showNotification({
           variant: 'info',
           title: `${selectedText} deleted successfully.`,
           description: (
-            <NotificationActions isOpenLink={false} onClick={() => addHandler(listItems)} />
+            <NotificationActions
+              isOpenLink={false}
+              onClick={() => addHandler(normalizeListItems(listItems))}
+            />
           ),
           dismissAfter: 8000,
         }),
