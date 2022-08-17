@@ -14,7 +14,7 @@ const HeaderImage = () => {
       <path d='M0 0H416V186H0V0Z' fill='#1A1D2F' />
       <path
         fillRule='evenodd'
-        clip-rule='evenodd'
+        clipRule='evenodd'
         d='M112 29C109.791 29 108 30.7909 108 33V125C108 127.209 109.791 129 112 129H138V62C138 57.5817 141.582 54 146 54H275V33C275 30.7909 273.209 29 271 29H112Z'
         fill='#8A6A56'
       />
@@ -66,7 +66,7 @@ const HeaderImage = () => {
       />
       <path
         fillRule='evenodd'
-        clip-rule='evenodd'
+        clipRule='evenodd'
         d='M112 29C109.791 29 108 30.7909 108 33V125C108 127.209 109.791 129 112 129H138V62C138 57.5817 141.582 54 146 54H275V33C275 30.7909 273.209 29 271 29H112Z'
         fill='#FFD49C'
       />
