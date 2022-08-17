@@ -15,7 +15,6 @@
 
   export let user = {}
   export let userSubscriptionData = {}
-  export let variant = ExplorerFilterType.Second
 
   let activeMenu = MenuItem.NEW
   let loading = true

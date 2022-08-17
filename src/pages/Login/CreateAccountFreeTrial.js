@@ -106,7 +106,7 @@ const SignupDescription = ({ loading, loginEmail, setEmail, className }) => {
 export const LoginDivider = () => <div className={externalStyles.verticalDivider} />
 
 export const PrepareState = (props) => {
-  const { isDesktop, loading, loginEmail, setEmail, history } = props
+  const { isDesktop, loading, loginEmail, setEmail } = props
 
   if (isDesktop) {
     return (

@@ -17,7 +17,7 @@ const reportError = (err) =>
     }),
   )
 
-const Actions = ({ selected, watchlist, onAdd, onRemove, assets }) => {
+const Actions = ({ type, selected, watchlist, onAdd, onRemove, assets }) => {
   const { user, isLoggedIn } = useUser()
   let isOwner = false
 
@@ -54,10 +54,14 @@ const Actions = ({ selected, watchlist, onAdd, onRemove, assets }) => {
   return (
     <div className={styles.actions}>
       <Copy selectedText={selectedText} watchlist={watchlist} assets={assets} selected={selected} />
-      <SaveAs selectedText={selectedText} watchlist={watchlist} />
-      {isOwner && (
-        <Delete selected={selected} onRemove={removeHandler} selectedText={selectedText} />
-      )}
+      {type === 'PROJECT' &&
+        <>
+          <SaveAs selectedText={selectedText} watchlist={watchlist} />
+          {isOwner && (
+            <Delete selected={selected} onRemove={removeHandler} selectedText={selectedText} />
+          )}
+        </>
+      }
     </div>
   )
 }

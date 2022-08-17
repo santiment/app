@@ -8,8 +8,9 @@ const CompareInfo = ({ type, selected, cleanAll, watchlist, refetchAssets }) => 
   const { addWatchlistItems } = useAddWatchlistItems()
   return (
     <div className={styles.container}>
-      {type === 'PROJECT' && (
+      {['SCREENER', 'PROJECT'].includes(type) && (
         <Actions
+          type={type}
           selected={selected}
           assets={watchlist.listItems.map((item) => item.project)}
           watchlist={watchlist}

@@ -8,7 +8,7 @@ export const Title = ({ id, children, externalLink }) => (
     {children}
 
     {externalLink && (
-      <a href={externalLink} target='_blank' className='btn-0 btn-2 btn-3'>
+      <a href={externalLink} target='_blank' rel="noopener noreferrer" className='btn-0 btn-2 btn-3'>
         <Svg id='external-link' w={12} />
       </a>
     )}
