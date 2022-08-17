@@ -17,7 +17,7 @@ const reportError = (err) =>
     }),
   )
 
-const Actions = ({ selected, watchlist, onAdd, onRemove, assets }) => {
+const Actions = ({ type, selected, watchlist, onAdd, onRemove, assets }) => {
   const { user, isLoggedIn } = useUser()
   let isOwner = false
 
@@ -31,18 +31,28 @@ const Actions = ({ selected, watchlist, onAdd, onRemove, assets }) => {
     [selected],
   )
 
+  function normalizeListItems(listItems) {
+    if (['SCREENER', 'PROJECT'].includes(type)) {
+      listItems = listItems.map((item) => ({ projectId: +item.id }))
+    }
+    return listItems
+  }
+
   function addHandler(listItems, onAddDone = () => {}) {
     onAdd(parseInt(watchlist.id), listItems, onAddDone).catch(reportError)
   }
 
   function removeHandler(listItems, onRemoveDone = () => {}) {
-    onRemove(parseInt(watchlist.id), listItems, () => {
+    onRemove(parseInt(watchlist.id), normalizeListItems(listItems), () => {
       store.dispatch(
         showNotification({
           variant: 'info',
           title: `${selectedText} deleted successfully.`,
           description: (
-            <NotificationActions isOpenLink={false} onClick={() => addHandler(listItems)} />
+            <NotificationActions
+              isOpenLink={false}
+              onClick={() => addHandler(normalizeListItems(listItems))}
+            />
           ),
           dismissAfter: 8000,
         }),
@@ -54,9 +64,13 @@ const Actions = ({ selected, watchlist, onAdd, onRemove, assets }) => {
   return (
     <div className={styles.actions}>
       <Copy selectedText={selectedText} watchlist={watchlist} assets={assets} selected={selected} />
-      <SaveAs selectedText={selectedText} watchlist={watchlist} />
-      {isOwner && (
-        <Delete selected={selected} onRemove={removeHandler} selectedText={selectedText} />
+      {type === 'PROJECT' && (
+        <>
+          <SaveAs selectedText={selectedText} watchlist={watchlist} />
+          {isOwner && (
+            <Delete selected={selected} onRemove={removeHandler} selectedText={selectedText} />
+          )}
+        </>
       )}
     </div>
   )

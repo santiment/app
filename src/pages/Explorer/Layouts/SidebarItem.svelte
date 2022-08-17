@@ -78,8 +78,8 @@
     display: none;
   }
 
-  .hoverable:hover .actions,
-  .forcehover .actions {
+  :global(.hoverable:hover .actions),
+  :global(.forcehover .actions) {
     display: block;
   }
 

@@ -9,7 +9,7 @@
   import { RANGES, MenuItem, getExplorerItem, EntityKeys, FILTERABLE_TABS } from '../const'
 
   export let activeMenu
-  export let onLoadingChange = () => {}
+  export let onLoadingChange = (newLoading) => {}
 
   const TIME_RANGES = Object.keys(RANGES)
 
