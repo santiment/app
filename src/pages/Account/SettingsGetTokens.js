@@ -1,7 +1,5 @@
 import React from 'react'
 import Settings from './Settings'
-import BancorWidget from '../../components/BancorWidget/BancorWidget'
-import bancorLogo from './../../assets/bancor.svg'
 import styles from './AccountPage.module.scss'
 
 const SettingsGetTokens = () => (
@@ -14,8 +12,6 @@ const SettingsGetTokens = () => (
       }}
     >
       <span className={styles.getTokens}>Get SAN tokens</span>
-      <img className={styles.bancorLogo} src={bancorLogo} alt='bancor_logo' />
-      <BancorWidget className={styles.bancor} />
       <div className={styles.tokens__markets}>
         <a
           className={styles.tokens__market}
