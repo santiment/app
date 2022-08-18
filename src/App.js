@@ -104,6 +104,8 @@ const LoadableSearchMobilePage = LoadablePage(() =>
 
 const LoadableChartPage = LoadablePage(() => import('./pages/Studio'))
 
+const LoadableQueriesPage = LoadablePage(() => import('./pages/Queries'))
+
 const LoadableSheetsTemplatePage = LoadablePage(() =>
   import('./pages/SheetsTemplatePage/SheetsTemplatePage'),
 )
@@ -467,6 +469,19 @@ export const App = ({
                 />
               )}
             />
+
+            <Route
+              path={'/queries'}
+              render={(props) => (
+                <LoadableQueriesPage
+                  classes={{ wrapper: styles.chart }}
+                  isDesktop={isDesktop}
+                  isLoggedIn={isLoggedIn}
+                  {...props}
+                />
+              )}
+            />
+
             <Route
               path={PATHS.DASHBOARDS}
               render={(props) => <LoadableDashboardsPage {...props} />}
@@ -486,7 +501,9 @@ export const App = ({
             <Route path={PATHS.EXPLORER} component={LoadableIndexPage} />
           </Switch>
 
-          {!pathname.includes(PATHS.CHARTS) && <Intercom isDesktop={isDesktop} />}
+          {!pathname.includes(PATHS.CHARTS) && !pathname.startsWith('/queries') && (
+            <Intercom isDesktop={isDesktop} />
+          )}
         </ErrorBoundary>
 
         <NotificationStack />
