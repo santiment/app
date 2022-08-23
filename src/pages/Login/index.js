@@ -6,34 +6,39 @@ import { Switch, Route, Link, Redirect } from 'react-router-dom'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import OrUseDivider from './OrUseDivider'
 import LoginMetamaskBtn from './LoginMetamaskBtn'
-import LoginEmailForm from './LoginEmailForm'
-import LoginWalletConnect from './LoginWalletConnect'
-import LoginEmailBtn from './LoginEmailBtn'
+import LoginEmailForm, { EmailForm } from './LoginEmailForm'
 import LoginGoogleBtn from './LoginGoogleBtn'
 import LogitTwitterBtn from './LoginTwitterBtn'
 import { PATHS } from '../../paths'
 import MobileWrapper from './Mobile/MobileWrapper'
-import { hasMetamask as detectMetamask } from '../../web3Helpers'
 import { mapSizesToProps } from '../../utils/withSizes'
 import styles from './index.module.scss'
 
-const hasMetamask = detectMetamask()
-
-export const LoginDescription = ({ className }) => (
-  <div className={cx(styles.loginBlock, className, !hasMetamask && styles.noMetamask)}>
+export const LoginDescription = ({ loading, loginEmail, setEmail, className }) => (
+  <div className={cx(styles.loginBlock, 'body-2', className)}>
     <h3 className={cx(styles.title, 'h4 txt-m')}>Welcome back</h3>
-    <div className={styles.options}>
-      <LoginMetamaskBtn />
+    <div className='column hv-center'>
+      <LoginMetamaskBtn className='mrg-xl mrg--t' />
+
+      {/*<LoginWalletConnect />*/}
+
+      <LoginGoogleBtn />
+
+      <LogitTwitterBtn />
+
       <OrUseDivider />
 
-      <LoginEmailBtn />
-      <LoginWalletConnect />
-      <LoginGoogleBtn />
-      <LogitTwitterBtn />
+      <EmailForm
+        loading={loading}
+        loginEmail={loginEmail}
+        setEmail={setEmail}
+        label='Log in'
+        className={styles.emailFormInput}
+      />
 
       <div className={styles.new}>
         New to Santiment?{' '}
-        <Link to={PATHS.CREATE_ACCOUNT} className={styles.createLink}>
+        <Link to={PATHS.CREATE_ACCOUNT} className='btn-0'>
           Create an account
         </Link>
       </div>
@@ -42,17 +47,19 @@ export const LoginDescription = ({ className }) => (
 )
 
 const LoginOptions = (props) => {
-  if (props.isDesktop) {
+  const { isDesktop, loading, loginEmail, setEmail } = props
+
+  if (isDesktop) {
     return (
       <div className={styles.container}>
-        <LoginDescription />
+        <LoginDescription loading={loading} loginEmail={loginEmail} setEmail={setEmail} />
       </div>
     )
   }
 
   return (
     <MobileWrapper withHeader>
-      <LoginDescription />
+      <LoginDescription loading={loading} loginEmail={loginEmail} setEmail={setEmail} />
     </MobileWrapper>
   )
 }
@@ -73,7 +80,9 @@ const Login = ({ isLoggedIn, isDesktop, token, location: { search = '' }, histor
       <Route exact path={PATHS.LOGIN_VIA_EMAIL} render={(props) => <LoginEmailForm {...props} />} />
       <Route
         path={PATHS.LOGIN}
-        render={(props) => <LoginOptions {...props} isDesktop={isDesktop} />}
+        render={(props) => (
+          <LoginEmailForm prepareState={LoginOptions} isDesktop={isDesktop} {...props} />
+        )}
       />
     </Switch>
   )

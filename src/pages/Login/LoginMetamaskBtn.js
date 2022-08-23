@@ -1,22 +1,36 @@
 import React from 'react'
 import cx from 'classnames'
-import Button from '@santiment-network/ui/Button'
-import Icon from '@santiment-network/ui/Icon'
 import { connect } from 'react-redux'
-import LoginMetamaskUndetected from './LoginMetamaskUndetected'
+import Icon from '@santiment-network/ui/Icon'
 import { hasMetamask as detectMetamask } from '../../web3Helpers'
-import { showNotification } from './../../actions/rootActions'
-import { USER_ETH_LOGIN } from './../../actions/types'
+import { showNotification } from '../../actions/rootActions'
+import { USER_ETH_LOGIN } from '../../actions/types'
 import { useTrackEvents } from '../../hooks/tracking'
 import styles from './index.module.scss'
 
 const hasMetamask = detectMetamask()
 
-const LoginMetamaskBtn = ({ loginError, showErrorNotification, requestAuth }) => {
+const LoginMetamaskBtn = ({
+  loginError,
+  showErrorNotification,
+  requestAuth,
+  signUp,
+  className,
+}) => {
   const [trackEvent] = useTrackEvents()
 
   if (!hasMetamask) {
-    return <LoginMetamaskUndetected />
+    return (
+      <a
+        target='_blank'
+        rel='noopener noreferrer'
+        href='https://metamask.io/#how-it-works'
+        className={cx(styles.button, 'btn-2 row v-center', className)}
+      >
+        <Icon type='metamask' className={cx(styles.metamaskIcon, 'mrg-m mrg--r')} />
+        {signUp ? 'Sign up' : 'Log in'} with Metamask
+      </a>
+    )
   }
 
   if (loginError) {
@@ -32,10 +46,10 @@ const LoginMetamaskBtn = ({ loginError, showErrorNotification, requestAuth }) =>
   }
 
   return (
-    <Button fluid className={cx(styles.btn, styles.btn_metamask)} onClick={askAuth}>
-      <Icon type='metamask-monochrome' className={styles.btn__icon} />
-      <span className={styles.metamask}>Log in with Metamask</span>
-    </Button>
+    <button className={cx(styles.button, 'btn-2 row v-center', className)} onClick={askAuth}>
+      <Icon type='metamask' className={cx(styles.metamaskIcon, 'mrg-m mrg--r')} />
+      {signUp ? 'Sign up' : 'Log in'} with Metamask
+    </button>
   )
 }
 

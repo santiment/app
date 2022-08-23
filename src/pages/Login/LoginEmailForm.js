@@ -6,7 +6,6 @@ import { Form, Formik } from 'formik'
 import isEqual from 'lodash.isequal'
 import { useTrackEvents } from '../../hooks/tracking'
 import { InputWithIcon as Input } from '@santiment-network/ui/Input'
-import Button from '@santiment-network/ui/Button'
 import { PATHS } from '../../paths'
 import { store } from '../../redux'
 import { showNotification } from '../../actions/rootActions'
@@ -21,7 +20,7 @@ export const EmailForm = ({
   loginEmail,
   setEmail,
   placeholder = 'Your email',
-  label = 'Continue',
+  label = 'Sign up',
   className,
 }) => {
   const [trackEvent] = useTrackEvents()
@@ -70,15 +69,12 @@ export const EmailForm = ({
               className={styles.emailInput}
             />
 
-            <Button
-              variant='fill'
-              accent='positive'
-              className={styles.email__btn}
+            <button
+              className={cx(styles.submit, 'btn-1 body-2 row hv-center mrg-l mrg--t')}
               type='submit'
-              isLoading={loading}
             >
               {loading ? 'Waiting...' : label}
-            </Button>
+            </button>
           </Form>
         )
       }}
@@ -86,7 +82,7 @@ export const EmailForm = ({
   )
 }
 
-const SuccessState = ({ email, isDesktop, history, showBack = true }) => {
+const SuccessState = ({ email, isDesktop, showBack = true }) => {
   const child = (
     <div className={cx(styles.emailSuccess)}>
       <h2 className={cx(styles.title, styles.email__title)}>Email Confirmation</h2>
@@ -109,7 +105,7 @@ const SuccessState = ({ email, isDesktop, history, showBack = true }) => {
   return isDesktop ? child : <MobileWrapper withHeader>{child}</MobileWrapper>
 }
 
-const PrepareState = ({ loading, loginEmail, setEmail, isDesktop, history }) => {
+const PrepareState = ({ loading, loginEmail, setEmail, isDesktop }) => {
   const child = (
     <div className={styles.loginViaEmail}>
       <h2 className={cx(styles.title, styles.email__title)}>Welcome back</h2>
@@ -117,7 +113,7 @@ const PrepareState = ({ loading, loginEmail, setEmail, isDesktop, history }) => 
       <h3 className={styles.email__subtitle}>
         Log in to your Sanbase account to access additional features of our platform
       </h3>
-      <EmailForm loading={loading} loginEmail={loginEmail} setEmail={setEmail} />
+      <EmailForm loading={loading} loginEmail={loginEmail} setEmail={setEmail} label='Log in' />
       <Link to={PATHS.LOGIN} className={styles.email__link}>
         Or choose{' '}
         <Link to={PATHS.LOGIN} className={styles.loginLink}>
