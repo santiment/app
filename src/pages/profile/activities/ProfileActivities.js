@@ -7,10 +7,12 @@ import { useUserTemplates } from '../../../ducks/Studio/Template/gql/hooks'
 import ProfileTemplates from '../templates/ProfileTemplates'
 import ProjectCard from '../../../ducks/Watchlists/Cards/ProjectCard'
 import AddressCard from '../../../ducks/Watchlists/Cards/AddressCard'
+import { PROJECT, BLOCKCHAIN_ADDRESS, SCREENER } from '../../../ducks/Watchlists/detector'
 import LoaderImage from '../../../components/Loader/PageLoader'
 import { checkIsNotScreener, checkIsScreener } from '../../../ducks/Screener/utils'
-import styles from './ProfileActivities.module.scss'
 import { useProfileActivities } from '../../../queries/ProfileGQL'
+import { useUser } from '../../../stores/user'
+import styles from './ProfileActivities.module.scss'
 
 const ARRAY = []
 const STEPS = {
@@ -30,6 +32,8 @@ const ProfileActivities = ({ profileId, currentUserId }) => {
   const [step, setStep] = useState(window.location.hash || STEPS.INSIGHTS)
   const [templates] = useUserTemplates(profileId)
   const { data, loading } = useProfileActivities(profileId, currentUserId)
+  const { isLoggedIn, user } = useUser()
+  const isOwner = isLoggedIn && user && user.id === profileId
   const hasData = !loading && data
   const {
     insightsCount = { totalCount: 0 },
@@ -89,19 +93,37 @@ const ProfileActivities = ({ profileId, currentUserId }) => {
         {loading && <LoaderImage className={styles.loader} />}
         {hasData && (
           <>
-            {step === STEPS.INSIGHTS && <PublicInsights userId={profileId} />}
-            {step === STEPS.SIGNALS && <PublicSignals userId={profileId} data={triggers} />}
+            {step === STEPS.INSIGHTS && <PublicInsights userId={profileId} isOwner={isOwner} />}
             {step === STEPS.WATCHLISTS && (
-              <PublicWatchlists watchlists={projectWatchlists} Card={ProjectCard} />
+              <PublicWatchlists
+                watchlists={projectWatchlists}
+                Card={ProjectCard}
+                type={PROJECT}
+                isOwner={isOwner}
+              />
             )}
             {step === STEPS.ADDRESSES_WATCHLISTS && (
-              <PublicWatchlists watchlists={addressesWatchlists} Card={AddressCard} />
+              <PublicWatchlists
+                watchlists={addressesWatchlists}
+                Card={AddressCard}
+                type={BLOCKCHAIN_ADDRESS}
+                isOwner={isOwner}
+              />
             )}
             {step === STEPS.SCREENERS && (
-              <PublicWatchlists watchlists={screeners} path='/screener/' Card={ProjectCard} />
+              <PublicWatchlists
+                watchlists={screeners}
+                path='/screener/'
+                Card={ProjectCard}
+                type={SCREENER}
+                isOwner={isOwner}
+              />
+            )}
+            {step === STEPS.SIGNALS && (
+              <PublicSignals userId={profileId} isOwner={isOwner} data={triggers} />
             )}
             {step === STEPS.CHART_LAYOUTS && (
-              <ProfileTemplates userId={profileId} data={templates} />
+              <ProfileTemplates userId={profileId} isOwner={isOwner} data={templates} />
             )}
           </>
         )}
