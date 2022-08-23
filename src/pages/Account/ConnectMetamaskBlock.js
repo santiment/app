@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import cx from 'classnames'
 import * as actions from '../../actions/types'
-import Button from '@santiment-network/ui/Button'
 import Label from '@santiment-network/ui/Label'
 import { hasMetamask } from '../../web3Helpers'
 import styles from './AccountPage.module.scss'
@@ -24,27 +23,29 @@ const ConnectMetamaskBlock = ({
   connectNewWallet,
   removeConnectedWallet,
   isConnectWalletPending,
-  classes = {},
 }) => {
   return (
-    <div className={cx(styles.metamask)}>
+    <div className={cx(styles.metamask, 'row justify')}>
       <div className={styles.setting__left}>
         <Label className={styles.label}>Metamask</Label>
-        <Label className={styles.setting__description} accent='waterloo'>
-          You will get the ability to deposit tokens to your Sanbase account.
-          <br />
-          Please follow futher instructions.
-        </Label>
+        {address ? (
+          <div className='c-waterloo mrg-xs mrg--t'>{address}</div>
+        ) : (
+          <div className='c-waterloo mrg-xs mrg--t'>
+            You will get the ability to deposit tokens to your Sanbase account.
+            <br />
+            Please follow futher instructions.
+          </div>
+        )}
       </div>
-      <Button
-        variant='fill'
-        accent='positive'
+
+      <button
+        className={address ? 'btn-0' : 'btn-1'}
         disabled={!hasMetamask()}
-        className={cx(styles.metamask_connect, classes.right)}
         onClick={address ? removeConnectedWallet : connectNewWallet}
       >
         {getMetamaskBtnText(address, isConnectWalletPending)}
-      </Button>
+      </button>
     </div>
   )
 }
