@@ -122,12 +122,14 @@
   @include text('body-3');
 }
 
-.options {
-  margin: 32px 0 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.button {
+  width: 280px;
+  padding: 7px 0 7px 48px !important;
+}
+
+.submit {
+  width: 280px;
+  padding: 8px 0 !important;
 }
 
 .btn {
@@ -268,19 +270,17 @@
   border-bottom: 1px solid var(--porcelain);
   position: relative;
   margin: 32px 0;
-  width: 280px;
+  width: 317px;
 }
 
 .use {
   color: var(--waterloo);
   position: absolute;
-  top: -7px;
+  top: -10px;
   left: 50%;
   padding: 0 10px;
   background: var(--white);
   transform: translateX(-30px);
-
-  @include text('caption');
 }
 
 .new {
@@ -317,18 +317,18 @@
   background: var(--white);
   width: 280px;
   height: 40px;
-
-  @include text('body-3');
+  fill: var(--waterloo);
 
   input {
     height: 40px;
     padding-left: 40px !important;
+
+    @include text('body-2');
   }
 
   svg {
     padding: 0 8px 0 16px;
     width: 16px;
-    fill: var(--waterloo);
   }
 
   &:hover {
@@ -348,4 +348,13 @@
   fill: #1da1f2 !important;
   width: 18px;
   height: 18px;
+}
+
+.metamaskIcon {
+  width: 18px;
+  height: 16px;
+}
+
+.emailFormInput {
+  margin: 0;
 }

@@ -32,8 +32,9 @@ const GOOGLE_ICON = (
 )
 
 const LoginGoogleBtn = ({ signUp, className }) => (
-  <a href={AUTH_LINK} className={cx(styles.btn, styles.btn_email, styles.btn_google, className)}>
-    {GOOGLE_ICON} Sign {signUp ? ' up ' : ' in '} with Google
+  <a href={AUTH_LINK} className={cx(styles.button, 'btn-2 row v-center mrg-s mrg--t', className)}>
+    {GOOGLE_ICON}
+    {signUp ? 'Sign up ' : 'Log in '} with Google
   </a>
 )
 
