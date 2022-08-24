@@ -17,12 +17,13 @@ const useInsightsByUserSettings = ({ userId }) => {
   return { variables, page, setPage }
 }
 
-const UserInsights = ({ userId }) => {
+const UserInsights = ({ userId, isOwner }) => {
   const settings = useMemo(
     () => ({
       userId,
+      isOwner,
     }),
-    [userId],
+    [userId, isOwner],
   )
 
   const { variables, page, setPage } = useInsightsByUserSettings(settings)

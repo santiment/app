@@ -17,7 +17,7 @@ const SonarFeedRecommendations = ({
         {showButton && (
           <AlertModal
             triggerButtonProps={{
-              label: 'Add first alert',
+              label: 'Add alert',
               variant: 'fill',
               border: false,
             }}
