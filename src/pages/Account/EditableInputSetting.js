@@ -16,10 +16,6 @@ class EditableInputSetting extends PureComponent {
 
   inputRef = React.createRef()
 
-  componentWillUnmount() {
-    clearTimeout(this.timeout)
-  }
-
   onSubmit = (e) => {
     e.preventDefault()
     e.stopPropagation()
@@ -55,8 +51,7 @@ class EditableInputSetting extends PureComponent {
   }
 
   onChangeDebounced = ({ currentTarget: { value } }) => {
-    clearTimeout(this.timeout)
-    this.timeout = setTimeout(() => this.onChange(value), 100)
+    this.onChange(value)
   }
 
   render() {
