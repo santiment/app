@@ -1,9 +1,9 @@
 import React from 'react'
+import cx from 'classnames'
 import Section, { Title, Content } from './Section'
 import Page from '../../ducks/Page'
 import { useUser } from '../../stores/user'
-import { DesktopOnly, MobileOnly } from '../../components/Responsive'
-import RecentlyWatched from '../../components/RecentlyWatched/RecentlyWatched'
+import { DesktopOnly } from '../../components/Responsive'
 import WatchlistCard from '../../ducks/Watchlists/Cards/ProjectCard'
 import WatchlistAddressCard from '../../ducks/Watchlists/Cards/AddressCard'
 import { WatchlistCards } from '../../ducks/Watchlists/Cards/Card'
@@ -59,21 +59,19 @@ const MyWatchlists = ({ data, addressesData, isDesktop }) => {
   if (isLoading && addressesWatchlistsLoading) return null
 
   if (watchlists.length === 0 && addressesWatchlists.length === 0) {
-    return (
-      <Content>
-        <EmptySection wrapperClassName={styles.empty} className={styles.empty__img} />
-      </Content>
-    )
+    return <EmptySection wrapperClassName={styles.empty} className={styles.empty__img} />
   }
 
   return (
     <>
-      <h3 className={styles.subtitle}>Projects</h3>
+      <h3 className={cx('body-1 txt-m', isDesktop && 'mrg-l mrg--t mrg--b c-waterloo')}>
+        Projects
+      </h3>
       <Content isGrid={isDesktop} className={styles.projects}>
         <Cards watchlists={watchlists} type={PROJECT} />
       </Content>
 
-      <Title id='addresses'>Addresses</Title>
+      <h3 className='body-1 txt-m'>Addresses</h3>
       <Content isGrid={isDesktop}>
         <Cards
           Card={WatchlistAddressCard}
@@ -100,21 +98,18 @@ const Watchlists = ({ isDesktop }) => {
   return (
     <Page
       className={styles.wrapper}
-      title={isDesktop ? null : 'Watchlists'}
+      title={isDesktop ? null : 'My watchlists'}
       isCentered
       isWithPadding={!isDesktop}
     >
-      <MobileOnly>
-        <RecentlyWatched type='watchlists' />
-      </MobileOnly>
-
       <DesktopOnly>
         <Section isGrid title='Explore watchlists'>
           <FeaturedWatchlistCards Card={QueuedProjectCard} />
         </Section>
+
+        <Title>My watchlists</Title>
       </DesktopOnly>
 
-      <Title>My watchlists</Title>
       {isLoggedIn ? (
         <MyWatchlists
           data={userWatchlistsData}

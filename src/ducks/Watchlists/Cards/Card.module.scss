@@ -1,19 +1,23 @@
 @import '~@santiment-network/ui/mixins';
 
 .wrapper {
-  display: block;
+  height: 120px;
+  padding: 16px 16px 8px;
   border: 1px solid var(--porcelain);
-  border-radius: 4px;
-  cursor: pointer;
-  padding: var(--project-card-padding, 16px 20px);
-  height: var(--project-card-height, 120px);
+  border-radius: 6px;
   user-select: none;
-  color: var(--rhino);
 
   &:hover {
-    border-color: var(--project-card-border-color, var(--mystic));
-    color: var(--project-card-color, var(--jungle-green));
+    border-color: var(--mystic);
+    color: var(--jungle-green);
   }
+}
+
+:global(.tablet) .wrapper,
+:global(.phone) .wrapper,
+:global(.phone-xs) .wrapper {
+  height: 116px;
+  padding: 12px 16px;
 }
 
 .simple {
@@ -25,10 +29,7 @@
 }
 
 .header {
-  @include text('body-2');
   color: var(--fiord);
-  display: flex;
-  align-items: center;
 }
 
 .new {
@@ -40,16 +41,25 @@
 }
 
 .middle {
-  @include text('h4');
+  margin: 6px 0 8px;
+}
 
-  display: flex;
-  justify-content: space-between;
-  color: var(--rhino);
-  margin: var(--project-card-middle-margin, 6px 0 8px);
+.info {
+  flex-basis: 100%;
+}
+
+:global(.tablet) .middle,
+:global(.phone) .middle,
+:global(.phone-xs) .middle {
+  margin: 6px 0;
 }
 
 .bottom {
-  color: var(--casper);
-  display: flex;
-  align-items: center;
+  @include text('body-3');
+}
+
+:global(.tablet) .bottom,
+:global(.phone) .bottom,
+:global(.phone-xs) .bottom {
+  @include text('body-2');
 }

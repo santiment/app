@@ -21,10 +21,7 @@ export const EmptySection = ({ className, wrapperClassName, type = PROJECT, ...p
   >
     <div className={styles.empty__text}>
       {type === PROJECT ? (
-        <>
-          <span>Create your own watchlist to track assets</span>
-          <span>you are interested in</span>
-        </>
+        <span>Create your own watchlist to track assets you are interested in</span>
       ) : (
         <>
           <span>Start to add addresses you want to track</span>

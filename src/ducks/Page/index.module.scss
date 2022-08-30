@@ -4,33 +4,39 @@
   width: 100%;
 }
 
+:global(.tablet) .wrapper,
+:global(.phone) .wrapper,
+:global(.phone-xs) .wrapper {
+  padding-top: 73px;
+}
+
 .centered {
   max-width: 1170px;
   margin: 0 auto;
-
-  @media only screen and (max-width: 1170px) {
-    .header,
-    .main {
-      padding-left: 20px;
-      padding-right: 20px;
-    }
-  }
 }
 
 .header {
   padding: 16px 40px;
-  display: flex;
-  align-items: center;
   margin-bottom: 8px;
   background: var(--white);
 }
 
-.title {
-  @include text('h4');
+:global(.tablet) .header,
+:global(.phone) .header,
+:global(.phone-xs) .header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 20px 32px 20px 20px;
+  border-bottom: 1px solid var(--athens);
+  margin-bottom: 0;
+  z-index: 10;
+}
 
-  margin: 0 16px 0 0;
-  white-space: nowrap;
-  color: var(--rhino);
+:global(.tablet) .main,
+:global(.phone) .main,
+:global(.phone-xs) .main {
+  padding: 24px 20px;
 }
 
 .main {
@@ -39,19 +45,13 @@
   }
 }
 
-.search {
-  display: flex;
-  margin-left: auto;
+:global(.tablet) .main,
+:global(.phone) .main,
+:global(.phone-xs) .main {
+  padding: 24px 20px;
 }
 
-@include responsive('phone', 'phone-xs') {
-  .header,
-  .main {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-
-  .title {
-    font-weight: 500;
-  }
+.searchIcon {
+  display: flex;
+  margin-left: auto;
 }
