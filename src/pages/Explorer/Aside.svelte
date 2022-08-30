@@ -1,23 +1,15 @@
 <script>
   import Widget from './Category/Widget.svelte'
   import ExternalLink from './Components/ExternalLink.svelte'
-  import LayoutItem from './Layouts/LayoutItem.svelte'
   import SocialTrend from './Layouts/SocialTrend.svelte'
   import WeeklyReport from './Layouts/WeeklyReport.svelte'
   import SheetsTemplate from './Layouts/SheetsTemplate.svelte'
-  import { queryExplorerItems, queryReports, queryTemplates } from './api'
-  import { EntityKeys } from './const'
+  import { queryReports, queryTemplates } from './api'
 
   let className = ''
   export { className as class }
 
   const PAGE_SIZE = 5
-
-  const getRecentItems = (type, key) => (page) =>
-    queryExplorerItems({ types: [type], page, pageSize: PAGE_SIZE }).then(({ pages, items }) => ({
-      pages,
-      items: items.map((item) => item[key]),
-    }))
 
   const getCustomItems = (queryItems) => (page) =>
     queryItems().then((items) => {
@@ -42,18 +34,6 @@
   <Widget title="Social trends" icon="social-trend" color="blue" let:item getItems={getSocialItems}>
     <ExternalLink href="/dashboards/labs/trends" slot="header" />
     <SocialTrend {item} />
-  </Widget>
-
-  <Widget
-    title="Insights"
-    icon="insight"
-    color="orange"
-    iconWidth="14"
-    let:item
-    getItems={getRecentItems(EntityKeys.INSIGHT, 'insight')}
-  >
-    <ExternalLink href="https://insights.santiment.net/" slot="header" />
-    <LayoutItem small {item} type={EntityKeys.INSIGHT} />
   </Widget>
 
   <Widget

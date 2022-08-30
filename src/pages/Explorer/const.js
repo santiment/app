@@ -1,6 +1,7 @@
 import { getSEOLinkFromIdAndTitle } from 'webkit/utils/url'
 
 export const MenuItem = {
+  TRENDING: 'Trending',
   SANTIMENT: 'Santiment',
   NEW: 'New',
   LIKES: 'Likes',
@@ -17,6 +18,18 @@ export const EntityKeys = {
 }
 
 export const EntityType = {
+  INSIGHT: {
+    key: EntityKeys.INSIGHT,
+    voteKey: 'insightId',
+    deleteKey: 'INSIGHT',
+    label: 'Insights',
+    singular: 'insight',
+    icon: 'insight',
+    color: 'var(--blue)',
+    backgroundColor: 'var(--blue-light-1)',
+    url: (id) => `/insight/${id}`,
+    filterable: true,
+  },
   CHART: {
     key: EntityKeys.CHART_CONFIGURATION,
     voteKey: 'chartConfigurationId',
@@ -96,7 +109,7 @@ export function getItemRoute(item, type, withComments = false) {
 
 export function getItemUrl(item, type) {
   if (type === EntityKeys.INSIGHT) {
-    return `https://insights.santiment.net/read/${item.id}`
+    return `https://insights-stage.santiment.net/read/${item.id}`
   }
   const route = getItemRoute(item, type)
   return `${window.location.origin}${route}`
@@ -109,5 +122,6 @@ export function getExplorerItem(item) {
   if (item.projectWatchlist) data = item.projectWatchlist
   if (item.screener) data = item.screener
   if (item.userTrigger) data = item.userTrigger
+  if (item.insight) data = item.insight
   return data
 }

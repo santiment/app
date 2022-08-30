@@ -1,14 +1,6 @@
-<script lang="ts" context="module">
-  export enum ExplorerFilterType {
-    First,
-    Second,
-  }
-</script>
-
 <script>
   import ExplorerCategory from './Category/ExplorerCategory.svelte'
   import ExplorerFilter from './Components/ExplorerFilter.svelte'
-  import ExplorerFilterOld from './Components/ExplorerFilterOld.svelte'
   import Aside from './Aside.svelte'
   import { currentUser, userSubscription } from './store'
   import { MenuItem } from './const'
@@ -16,7 +8,7 @@
   export let user = {}
   export let userSubscriptionData = {}
 
-  let activeMenu = MenuItem.NEW
+  let activeMenu = MenuItem.TRENDING
   let loading = true
 
   $: currentUser.set(user)
@@ -24,13 +16,7 @@
 </script>
 
 <main>
-  {#if ExplorerFilterType.First}
-    <ExplorerFilterOld bind:activeMenu {loading} />
-  {/if}
-  {#if ExplorerFilterType.Second}
-    <ExplorerFilter bind:activeMenu {loading} />
-  {/if}
-
+  <ExplorerFilter bind:activeMenu {loading} />
   <ExplorerCategory {activeMenu} onLoadingChange={(newLoading) => (loading = newLoading)} />
 </main>
 
