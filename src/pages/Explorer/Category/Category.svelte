@@ -13,6 +13,7 @@
   export let loading = false
   export let showLess = false
   export let isMain = false
+  export let trending = false
   export let sortedItems = []
 
   $: isMain && changeOrder(items)
@@ -26,8 +27,8 @@
     modifiedItems.forEach((item) => {
       const explorerItem = getExplorerItem(item)
 
-      item.insertedAt = explorerItem.insertedAt
-      const insertedAt = new Date(explorerItem.insertedAt)
+      item.insertedAt = explorerItem.insertedAt || explorerItem.publishedAt
+      const insertedAt = new Date(item.insertedAt)
 
       item.postdate = getPostMonthDay(insertedAt)
 
@@ -39,9 +40,13 @@
       item.last = false
     })
 
-    modifiedItems.sort((a, b) => (a.postdate === b.postdate ? b.rank - a.rank : 0))
+    if (!trending) {
+      modifiedItems.sort((a, b) => (a.postdate === b.postdate ? b.rank - a.rank : 0))
 
-    addFirstAndLastItems(modifiedItems)
+      addFirstAndLastItems(modifiedItems)
+    } else {
+      sortedItems = [...modifiedItems]
+    }
   }
 
   function addFirstAndLastItems(modifiedItems) {
@@ -81,15 +86,16 @@
   </div>
 
   {#each isMain ? sortedItems : items as item (item)}
-    {#if isMain && item.first}
+    {#if isMain && item.first && !trending}
       <div class="postdate c-waterloo">{item.postdate}</div>
     {/if}
     <div
       class="item btn"
       class:first={isMain && item.first && !item.last}
       class:last={isMain && item.last && !item.first}
-      class:center={isMain && !item.first && !item.last}
+      class:center={isMain && !item.first && !item.last && !trending}
       class:single={isMain && item.first && item.last}
+      class:trending
     >
       <slot {item} />
     </div>
@@ -129,6 +135,10 @@
   .isMain .header {
     border-radius: 8px 8px 0 0;
     border: 1px solid var(--porcelain);
+  }
+
+  .trending {
+    border-top: 0 !important;
   }
 
   .icon {

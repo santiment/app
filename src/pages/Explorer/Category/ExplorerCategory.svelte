@@ -28,6 +28,7 @@
   $: activeMenu, reset()
   $: showEmpty = !$currentUser && ![MenuItem.NEW, MenuItem.SANTIMENT].includes(activeMenu)
   $: voted = activeMenu === MenuItem.LIKES
+  $: trending = activeMenu === MenuItem.TRENDING
   $: currentUserDataOnly = activeMenu === MenuItem.MY_CREATIONS
   $: userRoleDataOnly = activeMenu === MenuItem.SANTIMENT
   $: isFeaturedDataOnly = activeMenu === MenuItem.SANTIMENT
@@ -82,6 +83,7 @@
     queryExplorerItems({
       types: getDisplayingType(displayingTypes),
       voted,
+      trending,
       range,
       page,
       currentUserDataOnly,
@@ -128,6 +130,7 @@
 
 <Category
   isMain
+  {trending}
   title="Explorer"
   {items}
   {loading}
@@ -170,6 +173,8 @@
         type="ADDRESS"
         assets={getAddressLabels(item.addressWatchlist.listItems)}
       />
+    {:else if item.insight}
+      <LayoutItem item={item.insight} showActions type="INSIGHT" />
     {:else if item.userTrigger}
       <LayoutItem item={item.userTrigger} showActions type="ALERT" hasIcons />
     {/if}

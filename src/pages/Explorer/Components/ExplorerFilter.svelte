@@ -9,6 +9,15 @@
 <div class="wrapper row hv-center mrg--b mrg-xl">
   <div
     class="btn-2 row v-center"
+    class:active={activeMenu === MenuItem.TRENDING}
+    class:loading={activeMenu === MenuItem.TRENDING && loading}
+    on:click={() => !loading && (activeMenu = MenuItem.TRENDING)}
+  >
+    <Svg id="fire" w="16" class="mrg--r" />
+    Trending
+  </div>
+  <div
+    class="btn-2 row v-center"
     class:active={activeMenu === MenuItem.NEW}
     class:loading={activeMenu === MenuItem.NEW && loading}
     on:click={() => !loading && (activeMenu = MenuItem.NEW)}
