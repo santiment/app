@@ -13,7 +13,7 @@
   export let loading = false
   export let showLess = false
   export let isMain = false
-  export let trending = false
+  export let favorites = false
   export let sortedItems = []
 
   $: isMain && changeOrder(items)
@@ -40,7 +40,7 @@
       item.last = false
     })
 
-    if (!trending) {
+    if (!favorites) {
       modifiedItems.sort((a, b) => (a.postdate === b.postdate ? b.rank - a.rank : 0))
 
       addFirstAndLastItems(modifiedItems)
@@ -86,16 +86,16 @@
   </div>
 
   {#each isMain ? sortedItems : items as item (item)}
-    {#if isMain && item.first && !trending}
+    {#if isMain && item.first && !favorites}
       <div class="postdate c-waterloo">{item.postdate}</div>
     {/if}
     <div
       class="item btn"
       class:first={isMain && item.first && !item.last}
       class:last={isMain && item.last && !item.first}
-      class:center={isMain && !item.first && !item.last && !trending}
+      class:center={isMain && !item.first && !item.last && !favorites}
       class:single={isMain && item.first && item.last}
-      class:trending
+      class:favorites
     >
       <slot {item} />
     </div>
@@ -137,7 +137,7 @@
     border: 1px solid var(--porcelain);
   }
 
-  .trending {
+  .favorites {
     border-top: 0 !important;
   }
 

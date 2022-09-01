@@ -28,7 +28,7 @@
   $: activeMenu, reset()
   $: showEmpty = !$currentUser && ![MenuItem.NEW, MenuItem.SANTIMENT].includes(activeMenu)
   $: voted = activeMenu === MenuItem.LIKES
-  $: trending = activeMenu === MenuItem.TRENDING
+  $: favorites = activeMenu === MenuItem.FAVORITES
   $: currentUserDataOnly = activeMenu === MenuItem.MY_CREATIONS
   $: userRoleDataOnly = activeMenu === MenuItem.SANTIMENT
   $: isFeaturedDataOnly = activeMenu === MenuItem.SANTIMENT
@@ -83,7 +83,7 @@
     queryExplorerItems({
       types: getDisplayingType(displayingTypes),
       voted,
-      trending,
+      favorites,
       range,
       page,
       currentUserDataOnly,
@@ -130,7 +130,7 @@
 
 <Category
   isMain
-  {trending}
+  {favorites}
   title="Explorer"
   {items}
   {loading}

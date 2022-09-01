@@ -8,7 +8,7 @@
   export let user = {}
   export let userSubscriptionData = {}
 
-  let activeMenu = MenuItem.TRENDING
+  let activeMenu = MenuItem.NEW
   let loading = true
 
   $: currentUser.set(user)
