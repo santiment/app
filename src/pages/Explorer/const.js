@@ -1,7 +1,7 @@
 import { getSEOLinkFromIdAndTitle } from 'webkit/utils/url'
 
 export const MenuItem = {
-  TRENDING: 'Trending',
+  FAVORITES: 'Favorites',
   SANTIMENT: 'Santiment',
   NEW: 'New',
   LIKES: 'Likes',
@@ -109,7 +109,7 @@ export function getItemRoute(item, type, withComments = false) {
 
 export function getItemUrl(item, type) {
   if (type === EntityKeys.INSIGHT) {
-    return `https://insights-stage.santiment.net/read/${item.id}`
+    return `https://insights.santiment.net/read/${item.id}`
   }
   const route = getItemRoute(item, type)
   return `${window.location.origin}${route}`

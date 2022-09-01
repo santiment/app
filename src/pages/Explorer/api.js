@@ -10,7 +10,7 @@ export const queryExplorerItems = ({
   types = [],
   range,
   voted = false,
-  trending = false,
+  favorites = false,
   currentUserDataOnly = false,
   page = 1,
   pageSize = 20,
@@ -20,8 +20,9 @@ export const queryExplorerItems = ({
 } = {}) => {
   let QUERYKEY = `getMost`
   if (voted) QUERYKEY = QUERYKEY.concat('Voted')
-  else if (trending) QUERYKEY = QUERYKEY.concat('Used')
+  else if (favorites) QUERYKEY = QUERYKEY.concat('Used')
   else QUERYKEY = QUERYKEY.concat('Recent')
+
   const CURSOR = range ? `cursor: { type: AFTER, datetime: "utc_now-${range}" }` : ''
   const FILTER_ASSETS = assets.length > 0 ? `filter: {slugs: ${JSON.stringify(assets)}}` : ''
   const TYPES = new Set(types)
@@ -48,7 +49,7 @@ export const queryExplorerItems = ({
           ${CURSOR}
           ${FILTER_ASSETS}
           ${voted ? `currentUserVotedForOnly: true` : ''}
-          ${!voted && !trending ? `currentUserDataOnly: ${currentUserDataOnly}` : ''}
+          ${!voted && !favorites ? `currentUserDataOnly: ${currentUserDataOnly}` : ''}
           ${isFeaturedDataOnly ? 'isFeaturedDataOnly: true' : ''}
           ${userRoleDataOnly ? 'userRoleDataOnly: SAN_FAMILY' : ''}
         ){
