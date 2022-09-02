@@ -8,7 +8,7 @@
   export let user = {}
   export let userSubscriptionData = {}
 
-  let activeMenu = MenuItem.NEW
+  let activeMenu = MenuItem.FAVORITES
   let loading = true
 
   $: currentUser.set(user)
@@ -17,7 +17,7 @@
 
 <main>
   <ExplorerFilter bind:activeMenu {loading} />
-  <ExplorerCategory {activeMenu} onLoadingChange={(newLoading) => (loading = newLoading)} />
+  <ExplorerCategory bind:activeMenu onLoadingChange={(newLoading) => (loading = newLoading)} />
 </main>
 
 <Aside class="$style.aside" />
