@@ -18,12 +18,15 @@
   export let isTagName = true
 
   let projectData
+  let pulseInsightHeight = 0
+  let showShowReadMore = false
 
   $: ({ user, project, publishedAt, pulseText } = item)
   $: if (isTagName && user.username === 'anonymous') isTagName = false
   $: title = item.trigger ? item.trigger.title : item.title ? item.title : ''
   $: description = item.trigger ? item.trigger.description : item.description
   $: type === 'INSIGHT' && project && loadPrice()
+  $: if (pulseInsightHeight >= 400) showShowReadMore = true
 
   function loadPrice() {
     queryPriceSincePublication(project.slug, publishedAt).then((result) => (projectData = result))
@@ -32,14 +35,24 @@
 
 <a class="column explorerItem" href={url} on:click={onClick}>
   {#if pulseText}
-    <div class="pulseHeader row v-center">
-      <h3 class="pulseTitle body-2 nowrap line-clamp mrg-s mrg--b">{title}</h3>
-      <div class="insightTag row v-center txt-m mrg-a mrg--l">
-        <Svg id="insight" w="16" class="mrg-s mrg--r" />
-        Insights
+    <div
+      class="relative mrg-s mrg--b"
+      bind:clientHeight={pulseInsightHeight}
+      class:showShowReadMore>
+      <div class="pulseHeader row v-center">
+        <h3 class="pulseTitle body-2 nowrap line-clamp mrg-s mrg--b">{title}</h3>
+        <div class="insightTag row v-center txt-m mrg-a mrg--l">
+          <Svg id="insight" w="16" class="mrg-s mrg--r" />
+          Insights
+        </div>
       </div>
+      <InsightText text={pulseText} class="$style.text body-2" />
+      {#if showShowReadMore}
+        <div class="readMore fluid row h-center">
+          <button class="btn-2">Read more</button>
+        </div>
+      {/if}
     </div>
-    <InsightText text={pulseText} class="$style.text body-2 mrg-s mrg--b" />
   {/if}
 
   <section class="row v-center" class:insightWithAsset={projectData && !pulseText}>
@@ -64,19 +77,15 @@
         </div>
 
         {#if description}
-          <div
-            class="c-waterloo mrg-xs mrg--t nowrap line-clamp"
-            class:ellipsisText={projectData && !pulseText}
-          >
+          <p class="c-waterloo mrg-xs mrg--t" class:ellipsisText={projectData && !pulseText}>
             {description}
-          </div>
+          </p>
         {/if}
       {/if}
       <div class="row v-center justify mrg-m mrg--t" class:noMargin={pulseText}>
         <div
           class="username c-waterloo nowrap line-clamp"
-          class:ellipsisText={projectData && !pulseText}
-        >
+          class:ellipsisText={projectData && !pulseText}>
           {isTagName && user.username ? '@' : ''}{user.username || user.email}
         </div>
         <div class="row v-center">
@@ -127,6 +136,25 @@
 
   .pulseTitle {
     display: block;
+  }
+
+  .showShowReadMore {
+    height: 400px;
+    overflow: hidden;
+  }
+
+  .readMore {
+    --bg: var(--white);
+    height: 56px;
+    position: absolute;
+    align-items: flex-end;
+    bottom: 0;
+    background: linear-gradient(360deg, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+  }
+
+  .btn-2 {
+    --v-padding: 6px;
+    --h-padding: 12px;
   }
 
   .insightTag {
