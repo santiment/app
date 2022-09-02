@@ -116,4 +116,8 @@
     height: 100%;
     background: var(--porcelain);
   }
+
+  :global(.more) {
+    max-width: 256px;
+  }
 </style>
