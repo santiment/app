@@ -10,6 +10,7 @@ export const queryExplorerItems = ({
   types = [],
   range,
   voted = false,
+  favorites = false,
   currentUserDataOnly = false,
   page = 1,
   pageSize = 20,
@@ -17,7 +18,11 @@ export const queryExplorerItems = ({
   userRoleDataOnly = false,
   isFeaturedDataOnly = false,
 } = {}) => {
-  const QUERYKEY = `getMost${voted ? 'Voted' : 'Recent'}`
+  let QUERYKEY = `getMost`
+  if (voted) QUERYKEY = QUERYKEY.concat('Voted')
+  else if (favorites) QUERYKEY = QUERYKEY.concat('Used')
+  else QUERYKEY = QUERYKEY.concat('Recent')
+
   const CURSOR = range ? `cursor: { type: AFTER, datetime: "utc_now-${range}" }` : ''
   const FILTER_ASSETS = assets.length > 0 ? `filter: {slugs: ${JSON.stringify(assets)}}` : ''
   const TYPES = new Set(types)
@@ -43,7 +48,8 @@ export const queryExplorerItems = ({
           pageSize: ${pageSize}
           ${CURSOR}
           ${FILTER_ASSETS}
-          ${voted ? `currentUserVotedForOnly: true` : `currentUserDataOnly: ${currentUserDataOnly}`}
+          ${voted ? `currentUserVotedForOnly: true` : ''}
+          ${!voted && !favorites ? `currentUserDataOnly: ${currentUserDataOnly}` : ''}
           ${isFeaturedDataOnly ? 'isFeaturedDataOnly: true' : ''}
           ${userRoleDataOnly ? 'userRoleDataOnly: SAN_FAMILY' : ''}
         ){
@@ -88,7 +94,7 @@ export function queryTemplates() {
 }
 
 export const EntityQuery = {
-  projectWatchlist: `projectWatchlist { 
+  projectWatchlist: `projectWatchlist {
     id
     title: name
     description
@@ -113,9 +119,9 @@ export const EntityQuery = {
       totalVotes
       currentUserVotes
     }
-    commentsCount   
+    commentsCount
   }`,
-  screener: `screener { 
+  screener: `screener {
     id
     title: name
     description
@@ -140,7 +146,7 @@ export const EntityQuery = {
       totalVotes
       currentUserVotes
     }
-    commentsCount  
+    commentsCount
   }`,
   chartConfiguration: `chartConfiguration {
     id
@@ -167,13 +173,14 @@ export const EntityQuery = {
       totalVotes
       currentUserVotes
     }
-    commentsCount   
-    project {slug}  
-    metricsJson        
+    commentsCount
+    project {slug}
+    metricsJson
   }`,
   insight: `insight {
     id
     title
+    publishedAt
     user {
       avatarUrl
       id
@@ -193,7 +200,15 @@ export const EntityQuery = {
       totalVotes
       currentUserVotes
     }
-    commentsCount   
+    commentsCount
+    pulseText
+    isPulse
+    project: priceChartProject {
+      id
+      slug
+      ticker
+      priceUsd
+    }
   }`,
   addressWatchlist: `addressWatchlist {
     id
@@ -227,7 +242,7 @@ export const EntityQuery = {
           name
         }
       }
-    } 
+    }
   }`,
   userTrigger: `userTrigger {
       trigger {
@@ -250,7 +265,7 @@ export const EntityQuery = {
         followers {
           count
         }
-      }  
+      }
       votes {
         totalVotes
         currentUserVotes

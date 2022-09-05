@@ -1,6 +1,7 @@
 import { getSEOLinkFromIdAndTitle } from 'webkit/utils/url'
 
 export const MenuItem = {
+  FAVORITES: 'Favorites',
   SANTIMENT: 'Santiment',
   NEW: 'New',
   LIKES: 'Likes',
@@ -17,6 +18,18 @@ export const EntityKeys = {
 }
 
 export const EntityType = {
+  INSIGHT: {
+    key: EntityKeys.INSIGHT,
+    voteKey: 'insightId',
+    deleteKey: 'INSIGHT',
+    label: 'Insights',
+    singular: 'insight',
+    icon: 'insight',
+    color: 'var(--blue)',
+    backgroundColor: 'var(--blue-light-1)',
+    url: (id) => `/insight/${id}`,
+    filterable: true,
+  },
   CHART: {
     key: EntityKeys.CHART_CONFIGURATION,
     voteKey: 'chartConfigurationId',
@@ -109,5 +122,6 @@ export function getExplorerItem(item) {
   if (item.projectWatchlist) data = item.projectWatchlist
   if (item.screener) data = item.screener
   if (item.userTrigger) data = item.userTrigger
+  if (item.insight) data = item.insight
   return data
 }
