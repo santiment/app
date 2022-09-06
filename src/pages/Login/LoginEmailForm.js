@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Mutation } from 'react-apollo'
 import cx from 'classnames'
 import { Form, Formik } from 'formik'
@@ -82,7 +82,11 @@ export const EmailForm = ({
   )
 }
 
-const SuccessState = ({ email, isDesktop, showBack = true }) => {
+const SuccessState = ({ email, isDesktop, history, showBack = true }) => {
+  function clickHandler(event) {
+    event.preventDefault()
+    history.push(PATHS.LOGIN)
+  }
   const child = (
     <div className={cx(styles.emailSuccess)}>
       <h2 className={cx(styles.title, styles.email__title)}>Email Confirmation</h2>
@@ -92,12 +96,12 @@ const SuccessState = ({ email, isDesktop, showBack = true }) => {
       </h3>
 
       {showBack && (
-        <Link to={PATHS.LOGIN} className={cx(styles.email__link, styles.email__linkSuccess)}>
+        <span className={cx(styles.email__link, styles.email__linkSuccess)}>
           Back to{' '}
-          <Link to={PATHS.LOGIN} className={styles.loginLink}>
+          <a href={PATHS.LOGIN} className={styles.loginLink} onClick={clickHandler}>
             log in options
-          </Link>
-        </Link>
+          </a>
+        </span>
       )}
     </div>
   )
@@ -132,10 +136,11 @@ const LoginEmailForm = ({
   prepareState: PrepareStateEl = PrepareState,
   showBack = true,
 }) => {
+  const location = useLocation()
   const [email, setEmail] = useState('')
 
   return (
-    <Mutation mutation={EMAIL_LOGIN_MUTATION}>
+    <Mutation mutation={EMAIL_LOGIN_MUTATION} key={location.key}>
       {(loginEmail, { loading, data: { emailLogin: { success } = {} } = {} }) => {
         function login(data) {
           loginEmail(data).catch(() => {
