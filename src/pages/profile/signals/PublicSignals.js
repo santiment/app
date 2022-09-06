@@ -8,6 +8,7 @@ const PublicSignals = ({ data: signals, userId, isOwner }) => {
   if (!signals || signals.length === 0) {
     return (
       <NoEntries
+        maxWidth='358px'
         title={isOwner && 'No Alerts yet'}
         desc={
           isOwner

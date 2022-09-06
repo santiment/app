@@ -12,6 +12,7 @@ const PublicWatchlists = ({ watchlists, type, isOwner, ...props }) => {
       case PROJECT:
         return (
           <NoEntries
+            maxWidth='277px'
             title={isOwner && 'No Watchlist yet'}
             desc={
               isOwner

@@ -38,7 +38,8 @@
     <div
       class="relative mrg-s mrg--b"
       bind:clientHeight={pulseInsightHeight}
-      class:showShowReadMore>
+      class:showShowReadMore
+    >
       <div class="pulseHeader row v-center">
         <h3 class="pulseTitle body-2 nowrap line-clamp mrg-s mrg--b">{title}</h3>
         <div class="insightTag row v-center txt-m mrg-a mrg--l">
@@ -85,7 +86,8 @@
       <div class="row v-center justify mrg-m mrg--t" class:noMargin={pulseText}>
         <div
           class="username c-waterloo nowrap line-clamp"
-          class:ellipsisText={projectData && !pulseText}>
+          class:ellipsisText={projectData && !pulseText}
+        >
           {isTagName && user.username ? '@' : ''}{user.username || user.email}
         </div>
         <div class="row v-center">

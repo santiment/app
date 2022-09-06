@@ -11,7 +11,8 @@
     class="btn-2 row v-center"
     class:active={activeMenu === MenuItem.FAVORITES}
     class:loading={activeMenu === MenuItem.FAVORITES && loading}
-    on:click={() => !loading && (activeMenu = MenuItem.FAVORITES)}>
+    on:click={() => !loading && (activeMenu = MenuItem.FAVORITES)}
+  >
     <Svg id="star" w="16" class="mrg--r" />
     Favorites
   </div>
@@ -19,7 +20,8 @@
     class="btn-2 row v-center"
     class:active={activeMenu === MenuItem.NEW}
     class:loading={activeMenu === MenuItem.NEW && loading}
-    on:click={() => !loading && (activeMenu = MenuItem.NEW)}>
+    on:click={() => !loading && (activeMenu = MenuItem.NEW)}
+  >
     <Svg id="time" w="16" class="mrg--r" />
     New
   </div>
@@ -27,7 +29,8 @@
     class="btn-2 row v-center"
     class:active={activeMenu === MenuItem.SANTIMENT}
     class:loading={activeMenu === MenuItem.SANTIMENT && loading}
-    on:click={() => !loading && (activeMenu = MenuItem.SANTIMENT)}>
+    on:click={() => !loading && (activeMenu = MenuItem.SANTIMENT)}
+  >
     <Svg id="santiment" w="16" class="mrg--r" />
     By Santiment
   </div>
@@ -35,7 +38,8 @@
     class="btn-2 row v-center"
     class:active={activeMenu === MenuItem.MY_CREATIONS}
     class:loading={activeMenu === MenuItem.MY_CREATIONS && loading}
-    on:click={() => !loading && (activeMenu = MenuItem.MY_CREATIONS)}>
+    on:click={() => !loading && (activeMenu = MenuItem.MY_CREATIONS)}
+  >
     <Svg id="user" w="16" class="mrg--r" />
     My creations
   </div>
@@ -43,7 +47,8 @@
     class="btn-2 row v-center"
     class:active={activeMenu === MenuItem.LIKES}
     class:loading={activeMenu === MenuItem.LIKES && loading}
-    on:click={() => !loading && (activeMenu = MenuItem.LIKES)}>
+    on:click={() => !loading && (activeMenu = MenuItem.LIKES)}
+  >
     <Svg id="rocket" w="16" class="mrg--r" />
     My likes
   </div>

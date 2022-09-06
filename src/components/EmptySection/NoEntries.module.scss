@@ -5,4 +5,9 @@
   text-align: center;
 
   @include text('body-1');
+
+  a, button {
+    display: inline-block;
+    height: 32px;
+  }
 }
