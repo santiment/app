@@ -33,12 +33,6 @@
   z-index: 10;
 }
 
-:global(.tablet) .main,
-:global(.phone) .main,
-:global(.phone-xs) .main {
-  padding: 24px 20px;
-}
-
 .main {
   &_padding {
     padding: 0 40px;
@@ -48,7 +42,7 @@
 :global(.tablet) .main,
 :global(.phone) .main,
 :global(.phone-xs) .main {
-  padding: 24px 20px;
+  padding: 24px 20px 51px;
 }
 
 .searchIcon {

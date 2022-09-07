@@ -15,26 +15,31 @@ const mediasToShare = [
     icon: 'twitter',
     href: `https://twitter.com/home?status=${SECRET_TEXT_TAG}%0Alink%3A%20${SECRET_LINK_TAG}`,
     className: styles.twitter,
+    title: 'Twitter',
   },
   {
     icon: 'facebook',
     href: `https://www.facebook.com/sharer/sharer.php?u=${SECRET_LINK_TAG}`,
     className: styles.facebook,
+    title: 'Facebook',
   },
   {
     icon: 'linked-in',
     href: `https://www.linkedin.com/shareArticle?mini=true&title=${SECRET_TITLE_TAG}&summary=${SECRET_TEXT_TAG}&source=santiment.net&url=${SECRET_LINK_TAG}`,
     className: styles.linkedin,
+    title: 'LinkedIn',
   },
   {
     icon: 'telegram',
     href: `https://telegram.me/share/url?text=${SECRET_TEXT_TAG}&url=${SECRET_LINK_TAG}`,
     className: styles.telegram,
+    title: 'Telegram',
   },
   {
     icon: 'reddit',
     href: `https://reddit.com/submit?title=${SECRET_TEXT_TAG}&url=${SECRET_LINK_TAG}`,
     className: styles.reddit,
+    title: 'Reddit',
   },
 ]
 
@@ -46,10 +51,38 @@ const ShareMedias = ({
   isDisabled,
   classes = {},
   isAlert,
+  isMobile,
 }) => {
   const encodedTitle = encodeURIComponent(shareTitle)
   const encodedText = encodeURIComponent(shareText)
   const encodedLink = encodeURIComponent(shareLink)
+
+  if (isMobile) {
+    return (
+      <div className={styles.mediaWrapper}>
+        {mediasToShare.map(({ icon, href, title, className }) => (
+          <a
+            key={icon}
+            href={href
+              .replace(SECRET_LINK_TAG, encodedLink)
+              .replace(SECRET_TEXT_TAG, encodedText)
+              .replace(SECRET_TITLE_TAG, encodedTitle)}
+            target='_blank'
+            rel='noopener noreferrer'
+            className={cx(
+              styles.mediaBtn,
+              'btn body-2 row v-center',
+              isDisabled && styles.disabled,
+            )}
+            onClick={(e) => isDisabled && e.preventDefault()}
+          >
+            <Icon type={icon} className={cx(styles.icon, className)} />
+            <span>{title}</span>
+          </a>
+        ))}
+      </div>
+    )
+  }
 
   return (
     <div className={cx(styles.block, classes.medias)}>

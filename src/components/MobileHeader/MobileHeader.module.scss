@@ -1,34 +1,20 @@
 @import '~@santiment-network/ui/mixins';
 
 .wrapper {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 5;
-  background: var(--white);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   width: 100%;
+  padding: 20px 32px 20px 20px;
+  border-bottom: 1px solid var(--athens);
+  background: var(--white);
+  z-index: 10;
 }
 
-.left,
-.right {
-  display: flex;
-  align-items: center;
-}
-
-.left {
-  padding: 16px;
-
-  @include responsive('phone', 'phone-xs') {
-    max-width: 85%;
-  }
-}
-
-.shortLeft {
-  @include responsive('phone', 'phone-xs') {
-    max-width: 77%;
-  }
+:global(.tablet) .title,
+:global(.phone) .title,
+:global(.phone-xs) .title {
+  display: block;
+  max-width: 65vw;
 }
 
 .icon {
@@ -37,29 +23,7 @@
   transform: rotate(180deg);
 }
 
-:global(.App .page) .title {
-  @include text('h4', 'l');
-
-  color: var(--mirage);
-  width: 100%;
-
-  @include responsive('desktop', 'laptop') {
-    margin: 0 !important;
-  }
-
-  &::first-letter {
-    text-transform: uppercase;
-  }
-
-  @include responsive('phone', 'phone-xs') {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow-x: hidden;
-  }
-}
-
 .searchBtn {
-  padding-right: 16px;
   fill: var(--rhino);
 }
 

@@ -1,25 +1,28 @@
+.wrapper {
+  height: 100vh;
+  padding-top: 73px;
+  padding-bottom: 83px;
+}
+
 .wrapperList {
   height: inherit;
 }
 
 .assetsList {
+  padding-top: 58px;
   height: calc(100vh - var(--remaining-height));
-  height: calc(var(--vh, 1vh) * 100 - var(--remaining-height));
   position: relative;
 }
 
 .headings {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px 5px 47px;
-  position: sticky;
-  top: 58px;
+  padding: 24px 20px 6px 48px;
+  position: fixed;
+  top: 73px;
   z-index: 1;
   background: var(--white);
 }
 
 .intervalToggle {
-  display: inline-flex;
-  margin-left: 8px;
+  width: 40px;
+  height: 28px;
 }

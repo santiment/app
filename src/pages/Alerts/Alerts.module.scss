@@ -1,9 +1,9 @@
-@import "~@santiment-network/ui/mixins";
+@import '~@santiment-network/ui/mixins';
 
 .container {
   margin: 48px 0 80px 0;
 
-  @include responsive("phone", "phone-xs", "laptop", "tablet") {
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     padding: 0 16px;
     margin: 16px 0;
   }
@@ -19,5 +19,9 @@
 .title {
   color: var(--rhino);
 
-  @include text("h4", "m");
+  @include text('h4', 'm');
+}
+
+.mobileWrapper {
+  padding-top: 75px !important;
 }

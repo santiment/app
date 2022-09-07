@@ -2,8 +2,10 @@ import React from 'react'
 import Label from '@santiment-network/ui/Label'
 import Button from '@santiment-network/ui/Button'
 import Edit from '../../Actions/Edit/EditAssets'
-import { useIsAuthor } from '../../gql/list/hooks'
 import EmptySection from '../../../../components/EmptySection/EmptySection'
+import Tip from '../../../../components/EmptySection/Tip/Tip'
+import { DesktopOnly } from '../../../../components/Responsive'
+import { useIsAuthor } from '../../gql/list/hooks'
 import styles from '../../../../pages/Watchlists/EmptySection/index.module.scss'
 
 const AssetsTemplates = ({ watchlist, items }) => {
@@ -22,23 +24,28 @@ const AssetsTemplates = ({ watchlist, items }) => {
         </EmptySection>
       )}
       {isAuthor && items.length === 0 && (
-        <EmptySection imgClassName={styles.img}>
-          <Label className={styles.emptyText}>
-            Start to add assets you want to track or just interested in
-          </Label>
+        <>
+          <Tip className={styles.tip} />
+          <EmptySection className={styles.emptyWrapper} imgClassName={styles.img}>
+            <Label className={styles.emptyText}>
+              Start to add assets you want to track <br /> or just interested in
+            </Label>
 
-          <Edit
-            id={id}
-            name={name}
-            assets={items}
-            watchlist={watchlist}
-            trigger={
-              <Button accent='positive' variant='fill' className={styles.emptyBtn}>
-                Add assets
-              </Button>
-            }
-          />
-        </EmptySection>
+            <DesktopOnly>
+              <Edit
+                id={id}
+                name={name}
+                assets={items}
+                watchlist={watchlist}
+                trigger={
+                  <Button accent='positive' variant='fill' className={styles.emptyBtn}>
+                    Add assets
+                  </Button>
+                }
+              />
+            </DesktopOnly>
+          </EmptySection>
+        </>
       )}
     </>
   )

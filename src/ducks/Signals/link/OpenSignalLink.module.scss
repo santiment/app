@@ -1,19 +1,24 @@
-@import "~@santiment-network/ui/mixins";
+@import '~@santiment-network/ui/mixins';
 
 .link {
   cursor: pointer;
   color: var(--rhino) !important;
   word-break: break-word;
 
-  @include text("body-1");
+  @include text('body-1');
 
   &:hover {
     color: var(--green) !important;
   }
 
-  @include responsive("phone", "phone-xs") {
+  @include responsive('phone', 'phone-xs') {
     margin-left: 0;
   }
+}
+
+.linkMobile {
+  max-width: 60vw;
+  display: block !important;
 }
 
 .frozenLink {

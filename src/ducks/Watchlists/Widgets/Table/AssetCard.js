@@ -30,21 +30,25 @@ const AssetCard = ({
   const graphKey = asset[`priceChart${priceRange}`]
 
   return (
-    <Link className={cx(styles.wrapper, className)} to={`/projects/${slug}`} onClick={onAssetClick}>
-      <div className={styles.left}>
-        <div className={styles.icon}>
+    <Link
+      className={cx(styles.wrapper, 'body-2 row justify c-black', className)}
+      to={`/projects/${slug}`}
+      onClick={onAssetClick}
+    >
+      <div className={cx(styles.left, 'row')}>
+        <div className={cx(styles.icon, 'row hv-center')}>
           <ProjectIcon size={20} slug={slug} logoUrl={logoUrl} />
         </div>
-        <div className={styles.row}>
-          <div className={styles.name}>{name}</div>
-          <div className={styles.subRow}>
-            ${millify(marketcapUsd, 0)}{' '}
-            <span className={styles.ticker}>{ticker.toUpperCase()}</span>
+        <div className='column mrg-s mrg--l'>
+          <div className={cx(styles.name, 'nowrap line-clamp mrg-xs mrg--b')}>{name}</div>
+          <div className={cx(styles.subRow, 'row')}>
+            ${millify(marketcapUsd, 0)}
+            <span className='mrg-xs mrg--l c-casper'>{ticker.toUpperCase()}</span>
           </div>
         </div>
       </div>
-      <PriceGraph data={graphKey} className={styles.chart} width={78} />
-      <div className={styles.right}>
+      <PriceGraph data={graphKey} className={styles.chart} width={80} />
+      <div className={cx(styles.right, 'row')}>
         {priceUsd
           ? formatNumber(priceUsd, {
               currency: 'USD',

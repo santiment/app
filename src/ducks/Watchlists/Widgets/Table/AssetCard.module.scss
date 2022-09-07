@@ -4,41 +4,16 @@
   text-decoration: none;
   color: var(--rhino);
   width: 100%;
-  padding: 8px 16px;
-  display: flex;
-  justify-content: space-between;
-
-  @include text('body-2');
-}
-
-.row {
-  display: flex;
-  flex-direction: column;
-  margin-left: 12px;
+  padding: 10px 20px;
 }
 
 .name {
-  text-overflow: ellipsis;
-  max-width: 59vw;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-.ticker {
-  color: var(--casper);
-  margin-left: 6px;
-  position: relative;
-}
-
-.left,
-.right {
-  display: flex;
+  display: block;
+  max-width: 34vw;
 }
 
 .icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 24px;
 }
 
 .right {
@@ -61,6 +36,5 @@
 }
 
 .subRow {
-  display: flex;
   flex-wrap: nowrap;
 }

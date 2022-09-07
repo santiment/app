@@ -10,12 +10,19 @@ const OpenSignalLink = ({
   isUserTheAuthor,
   shouldDisableActions,
   isRecommendedSignal,
+  isMobile,
 }) => {
   const { id, title, isFrozen } = signal
 
   const trigger = (
     <div>
-      <div className={cx(styles.link, isFrozen && styles.frozenLink)}>
+      <div
+        className={cx(
+          styles.link,
+          isFrozen && styles.frozenLink,
+          isMobile && cx(styles.linkMobile, 'nowrap line-clamp mrg-m mrg--l'),
+        )}
+      >
         {prepareAlertTitle(title, isFrozen)}
       </div>
       {children}

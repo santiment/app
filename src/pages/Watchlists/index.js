@@ -71,14 +71,18 @@ const MyWatchlists = ({ data, addressesData, isDesktop }) => {
         <Cards watchlists={watchlists} type={PROJECT} />
       </Content>
 
-      <h3 className='body-1 txt-m'>Addresses</h3>
-      <Content isGrid={isDesktop}>
-        <Cards
-          Card={WatchlistAddressCard}
-          watchlists={addressesWatchlists}
-          type={BLOCKCHAIN_ADDRESS}
-        />
-      </Content>
+      {(addressesWatchlists.length !== 0 || isDesktop) && (
+        <>
+          <h3 className='body-1 txt-m'>Addresses</h3>
+          <Content isGrid={isDesktop}>
+            <Cards
+              Card={WatchlistAddressCard}
+              watchlists={addressesWatchlists}
+              type={BLOCKCHAIN_ADDRESS}
+            />
+          </Content>
+        </>
+      )}
     </>
   )
 }
@@ -117,14 +121,10 @@ const Watchlists = ({ isDesktop }) => {
           isDesktop={isDesktop}
         />
       ) : (
-        loading || (
-          <Content>
-            <LoginBanner isDesktop={isDesktop} />
-          </Content>
-        )
+        loading || <LoginBanner isDesktop={isDesktop} />
       )}
 
-      <Section isGrid={isDesktop} title='My screeners'>
+      <Section isGrid={isDesktop} title={isDesktop ? 'My screeners' : 'Screeners'}>
         <MyScreeners />
       </Section>
     </Page>

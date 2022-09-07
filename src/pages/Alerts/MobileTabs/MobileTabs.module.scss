@@ -1,0 +1,26 @@
+.btn {
+  --color: var(--waterloo);
+  --bg: var(--athens);
+
+  padding: 4px 12px;
+  border-radius: 16px;
+}
+
+.active {
+  --color: var(--green);
+  --bg: var(--green-light-1);
+}
+
+.wrapper {
+  padding-top: 56px;
+  padding-bottom: 60px;
+}
+
+.toolbar {
+  position: fixed;
+  top: 73px;
+  left: 0;
+  padding: 24px 20px 12px;
+  background: var(--white);
+  z-index: 11;
+}
