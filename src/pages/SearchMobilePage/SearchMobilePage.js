@@ -6,11 +6,11 @@ import { Icon } from '@santiment-network/ui'
 import Tabs from '@santiment-network/ui/Tabs'
 import { client } from '../../apollo'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
+import PageLoader from '../../components/Loader/PageLoader'
 import SearchBar from './SearchBar'
 import { TABS } from '../../components/Search/tabs'
 import { useTabOptions, getItemControllers } from './utils'
 import styles from './SearchMobilePage.module.scss'
-import PageLoader from '../../components/Loader/PageLoader'
 
 const Link = ({ link, onClick, children }) => {
   if (link.toLowerCase().startsWith('http')) {
@@ -118,25 +118,22 @@ const SearchMobilePage = ({ history }) => {
 
   return (
     <>
-      <div>
-        <MobileHeader
-          goBack={history.goBack}
-          backRoute={'/'}
-          classes={{
-            wrapper: styles.wrapper,
-            right: styles.hidden,
-            title: styles.hidden,
+      <MobileHeader
+        goBack={history.goBack}
+        backRoute={'/'}
+        classes={{
+          wrapper: styles.wrapper,
+          right: styles.hidden,
+          title: styles.hidden,
+        }}
+      >
+        <SearchBar
+          onChange={(term) => {
+            setResult([])
+            setTerm(term)
           }}
-          title='Search'
-        >
-          <SearchBar
-            onChange={(term) => {
-              setResult([])
-              setTerm(term)
-            }}
-          />
-        </MobileHeader>
-      </div>
+        />
+      </MobileHeader>
       <Tabs
         options={TABS}
         defaultSelectedIndex={selectedTab}

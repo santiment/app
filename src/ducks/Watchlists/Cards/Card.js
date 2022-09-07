@@ -1,9 +1,10 @@
 import React from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
-import { getSEOLinkFromIdAndTitle } from '../../../utils/url'
 import NewLabel from '../../../components/NewLabel/NewLabel'
 import { VisibilityIndicator } from '../../../components/VisibilityIndicator'
+import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
+import { getSEOLinkFromIdAndTitle } from '../../../utils/url'
 import styles from './Card.module.scss'
 
 const WatchlistCard = ({
@@ -17,6 +18,7 @@ const WatchlistCard = ({
   isSimplified,
   isWithNewCheck,
   isWithVisibility,
+  chart,
 }) => {
   const { id, name, insertedAt, isPublic, href } = watchlist
   const to = href || path + getSEOLinkFromIdAndTitle(id, name)
@@ -31,18 +33,41 @@ const WatchlistCard = ({
   }
 
   return (
-    <Link to={to} className={cx(styles.wrapper, className)}>
-      <div className={styles.header}>
-        {isWithNewCheck && <NewLabel date={insertedAt} className={styles.new} />}
-        {name}
-        {isWithVisibility && (
-          <VisibilityIndicator isPublic={isPublic} className={styles.visibility} />
-        )}
-      </div>
+    <>
+      <DesktopOnly>
+        <Link to={to} className={cx(styles.wrapper, 'btn c-black', className)}>
+          <div className={cx(styles.header, 'row v-center body-2')}>
+            {isWithNewCheck && <NewLabel date={insertedAt} className={styles.new} />}
+            {name}
+            {isWithVisibility && (
+              <VisibilityIndicator isPublic={isPublic} className={styles.visibility} />
+            )}
+          </div>
 
-      <div className={cx(styles.middle, classes.middle)}>{middleChildren}</div>
-      <div className={styles.bottom}>{bottomChildren}</div>
-    </Link>
+          <div className={cx(styles.middle, 'h4 row justify', classes.middle)}>
+            {middleChildren}
+          </div>
+          <div className={cx(styles.bottom, 'row v-center c-casper')}>{bottomChildren}</div>
+        </Link>
+      </DesktopOnly>
+      <MobileOnly>
+        <Link to={to} className={cx(styles.wrapper, 'btn row v-center justify c-black', className)}>
+          <div className={cx(styles.info, 'column justify')}>
+            <div className={cx(styles.header, 'row v-center body-2')}>
+              {isWithNewCheck && <NewLabel date={insertedAt} className={styles.new} />}
+              {name}
+            </div>
+
+            <div className={cx(styles.middle, 'h4 row justify', classes.middle)}>
+              {middleChildren}
+            </div>
+
+            <div className={cx(styles.bottom, 'row v-center c-casper')}>{bottomChildren}</div>
+          </div>
+          {chart}
+        </Link>
+      </MobileOnly>
+    </>
   )
 }
 

@@ -1,4 +1,4 @@
-@import "~@santiment-network/ui/mixins";
+@import '~@santiment-network/ui/mixins';
 
 .iconFilter {
   margin: auto;
@@ -41,4 +41,12 @@
       fill: var(--jungle-green);
     }
   }
+}
+
+.btnWrapper {
+  padding: 12px 20px 20px;
+}
+
+.btn {
+  padding: 12px 24px;
 }

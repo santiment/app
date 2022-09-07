@@ -7,10 +7,14 @@
   justify-content: center;
   position: relative;
   fill: none;
+}
 
-  @include responsive('phone', 'phone-xs') {
-    margin-top: 22vh;
-  }
+:global(.phone-xs) .img,
+:global(.phone) .img,
+:global(.tablet) .img {
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 24px;
 }
 
 .empty__text {
@@ -39,6 +43,12 @@
   }
 }
 
+:global(.phone-xs) .empty__row,
+:global(.phone) .empty__row,
+:global(.tablet) .empty__row {
+  margin-bottom: 40px;
+}
+
 .emptyText {
   display: block;
   width: 274px;
@@ -53,4 +63,12 @@
   align-items: center;
   width: 160px;
   margin: 16px 0;
+}
+
+.emptyWrapper {
+  padding: 0 20px;
+}
+
+.tip {
+  margin: 24px 20px 40px;
 }

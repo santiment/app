@@ -2,17 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
+import Icon from '@santiment-network/ui/Icon'
 import Svg from 'webkit/ui/Svg/react'
-import { Button } from '@santiment-network/ui'
+import { DesktopOnly } from '../Responsive'
 import styles from './MobileHeader.module.scss'
 
 const defaultClasses = {
   wrapper: styles.wrapper,
   icon: styles.icon,
   title: styles.title,
-  left: styles.left,
-  shortLeft: styles.shortLeft,
-  right: styles.right,
   searchBtn: styles.searchBtn,
   isTitleLink: styles.isTitleLink,
 }
@@ -30,28 +28,30 @@ const MobileHeader = ({
   children,
 }) => {
   const classes = { ...defaultClasses, ..._classes }
+
   const Title = backRoute && !goBack ? Link : 'div'
+
   return (
-    <div className={classes.wrapper}>
-      <Title
-        onClick={goBack && goBack}
-        to={backRoute}
-        className={cx(classes.left, rightActions && classes.shortLeft, _classes.back)}
-      >
-        {(backRoute || showBack) && <Svg w={10} h={17} className={classes.icon} id='arrow-right' />}
+    <div className={cx(classes.wrapper, 'row v-center justify')}>
+      <Title onClick={goBack && goBack} to={backRoute} className={cx(classes.left, _classes.back)}>
+        <DesktopOnly>
+          {(backRoute || showBack) && (
+            <Svg w={10} h={17} className={classes.icon} id='arrow-right' />
+          )}
+        </DesktopOnly>
         {title && (
-          <h1 className={cx(classes.title, (backRoute || showBack) && classes.isTitleLink)}>
+          <h1 className={cx(styles.title, 'nowrap line-clamp h4 txt-m nowrap mrg-l mrg--r')}>
             {title}
           </h1>
         )}
       </Title>
       {children}
-      <div className={classes.right}>
+      <div className={cx(classes.right, 'row v-center')}>
         {rightActions}
         {showSearch && (
-          <Button to='/search' as={Link} className={classes.searchBtn}>
-            <Svg id='search' w={18} />
-          </Button>
+          <Link to='/search' className='row v-center'>
+            <Icon type='search' width='18' height='18' />
+          </Link>
         )}
       </div>
     </div>

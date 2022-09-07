@@ -11,6 +11,20 @@
   }
 }
 
+:global(.tablet) .trigger,
+:global(.phone) .trigger,
+:global(.phone-xs) .trigger {
+  margin-right: var(--margin);
+  fill: var(--fiord);
+}
+
+:global(.tablet) .shareTitle,
+:global(.phone) .shareTitle,
+:global(.phone-xs) .shareTitle {
+  background: var(--whale);
+  color: var(--fiord);
+}
+
 .toggle {
   width: auto;
   position: absolute;
@@ -35,3 +49,31 @@
 .message {
   margin-bottom: 16px;
 }
+
+.warningMessage {
+  height: 56px;
+  opacity: 1;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: var(--orange-pale);
+
+  transition-property: height, opacity, padding;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+
+  &__hide {
+    --margin: 0;
+    padding: 0;
+    height: 0;
+    opacity: 0;
+  }
+}
+
+.warningMessageIcon {
+  fill: var(--orange-hover);
+}
+
+.toggleWrapper {
+  padding: 8px 0;
+}
+

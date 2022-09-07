@@ -10,6 +10,12 @@
   margin: 25px 0 50px;
 }
 
+:global(.tablet) .section,
+:global(.phone) .section,
+:global(.phone-xs) .section {
+  margin: 20px 0 56px;
+}
+
 .empty__img {
   margin: 0;
 }
@@ -30,7 +36,7 @@
 }
 
 .login {
-  margin: 0;
+  margin: 0 0 40px !important;
 }
 
 .subtitle {
@@ -40,25 +46,7 @@
   margin: 24px 0 16px;
 }
 
-.fixedheader {
-  position: fixed;
-  width: 100%;
-  padding: 20px !important;
-  border-bottom: 1px solid var(--athens);
-  margin-bottom: 0 !important;
-  z-index: 1000;
-}
-
-.margintop {
-  margin-top: 97px;
-}
-
 @include responsive('phone-xs', 'phone') {
-  .wrapper {
-    margin-bottom: 60px;
-    padding-bottom: 60px;
-  }
-
   .title {
     @include text('body-1', 'l');
     font-weight: 500;
@@ -70,17 +58,7 @@
     margin: 16px 0 8px;
   }
 
-  .empty {
-    padding: 30px 16px 16px;
-    border: 1px solid var(--porcelain);
-    border-radius: 4px;
-  }
-
-  .section {
-    margin: 20px 0 64px;
-  }
-
-  .card {
+  .card:not(:last-of-type) {
     margin-bottom: 12px;
   }
 }

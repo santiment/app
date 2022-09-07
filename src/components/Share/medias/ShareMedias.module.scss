@@ -43,13 +43,6 @@
   }
 }
 
-.icon {
-  width: 20px;
-  height: 20px;
-  text-align: center;
-  transition: fill 0.2s ease-out;
-}
-
 .share {
   display: flex;
 
@@ -66,4 +59,35 @@
   margin-bottom: 16px;
 
   @include text('body-3');
+}
+
+.mediaWrapper {
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 12px;
+
+  margin-top: 20px;
+}
+
+.mediaBtn {
+  --bg: var(--athens);
+  --color: var(--black);
+
+  gap: 12px;
+  padding: 12px 24px;
+}
+
+.disabled {
+  --fill: var(--mystic);
+  --fill-hover: var(--mystic);
+  --color: var(--casper);
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  transition: fill 0.2s ease-out;
 }

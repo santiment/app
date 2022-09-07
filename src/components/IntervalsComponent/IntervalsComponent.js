@@ -16,6 +16,7 @@ const IntervalsComponent = ({
   onChange = () => {},
   defaultIndex = 0,
   ranges = RANGES,
+  btnClassName,
 }) => {
   const [sortedByIndex, setSortedByIndex] = useState(defaultIndex)
   const { value, label } = ranges[sortedByIndex]
@@ -31,6 +32,7 @@ const IntervalsComponent = ({
       changeRange={() => {
         setSortedByIndex((sortedByIndex + 1) % ranges.length)
       }}
+      btnClassName={btnClassName}
     />
   )
 }

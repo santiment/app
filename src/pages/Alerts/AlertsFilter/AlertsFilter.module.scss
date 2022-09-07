@@ -1,4 +1,4 @@
-@import "~@santiment-network/ui/mixins";
+@import '~@santiment-network/ui/mixins';
 
 .filterContent {
   display: flex;
@@ -7,11 +7,12 @@
   padding: 8px;
 
   &__filterItem {
+    gap: 7px;
     padding: 6px 8px;
     cursor: pointer;
   }
 
-  @include responsive("phone", "phone-xs") {
+  @include responsive('phone', 'phone-xs') {
     padding: 24px 12px;
     gap: 12px;
   }

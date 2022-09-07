@@ -13,12 +13,7 @@ const Assets = ({ isDesktop }) => {
   }
 
   return (
-    <Page
-      title='Markets overview'
-      className={styles.wrapper}
-      headerClassName={styles.fixedheader}
-      mainClassName={styles.margintop}
-    >
+    <Page title='Markets overview' className={styles.wrapper}>
       <RecentlyWatched type='assets' />
 
       <Section title='Indices'>

@@ -3,6 +3,7 @@ import SignalCardsGrid from '../../components/SignalCard/SignalCardsGrid'
 import EmptySection from '../../components/EmptySection/EmptySection'
 import PageLoader from '../../components/Loader/PageLoader'
 import AlertModal from '../../ducks/Alert/AlertModal'
+import { DesktopOnly } from '../../components/Responsive'
 import { useFeaturedUserTriggers } from '../../ducks/Signals/common/useFeaturedUserTriggers'
 import styles from './SonarFeedRecommendations.module.scss'
 
@@ -14,15 +15,17 @@ const SonarFeedRecommendations = ({
     <div className={styles.wrapper}>
       <EmptySection className={styles.empty}>
         <div className={styles.description}>{description}</div>
-        {showButton && (
-          <AlertModal
-            triggerButtonProps={{
-              label: 'Add alert',
-              variant: 'fill',
-              border: false,
-            }}
-          />
-        )}
+        <DesktopOnly>
+          {showButton && (
+            <AlertModal
+              triggerButtonProps={{
+                label: 'Add alert',
+                variant: 'fill',
+                border: false,
+              }}
+            />
+          )}
+        </DesktopOnly>
       </EmptySection>
     </div>
   )

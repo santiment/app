@@ -24,10 +24,12 @@
       width: 100%;
     }
 
-    & h1 {
-      @include text('h3');
+    @include responsive('laptop', 'desktop') {
+      & h1 {
+        @include text('h3');
 
-      margin: 0;
+        margin: 0;
+      }
     }
   }
 }

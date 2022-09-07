@@ -33,7 +33,7 @@ const NAVBAR_LINKS = [
     Icon: AssetsIcon,
   },
   {
-    label: 'Watchlists',
+    label: 'Watchlist',
     linkTo: '/watchlists',
     Icon: WatchlistsIcon,
   },
@@ -80,7 +80,7 @@ const MobileNavbar = ({ history, activeLink }) => {
       <Helmet>
         <body style={isOpened ? { position: 'fixed', overflow: 'hidden' } : ''} />
       </Helmet>
-      <div className={styles.wrapper}>
+      <div className={cx(styles.wrapper, 'fluid row v-center justify')}>
         {NAVBAR_LINKS.map((props, index) => {
           return (
             <MobileNavbarAction

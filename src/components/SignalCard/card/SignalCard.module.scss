@@ -1,4 +1,4 @@
-@import "~@santiment-network/ui/mixins";
+@import '~@santiment-network/ui/mixins';
 
 .wrapper {
   display: flex;
@@ -11,7 +11,7 @@
     flex-direction: column;
     justify-content: space-between;
 
-    @include responsive("phone", "phone-xs") {
+    @include responsive('phone', 'phone-xs') {
       padding: 0;
     }
   }
@@ -24,7 +24,7 @@
     &_subscription {
       display: block;
 
-      @include responsive("phone", "phone-xs") {
+      @include responsive('phone', 'phone-xs') {
         margin-bottom: 15px;
         margin-right: 0;
         display: flex;
@@ -33,7 +33,7 @@
     }
   }
 
-  @include responsive("phone", "phone-xs") {
+  @include responsive('phone', 'phone-xs') {
     flex-direction: column;
   }
 }
@@ -66,11 +66,11 @@
 }
 
 .description {
-  @include text("body-3");
+  @include text('body-3');
 
   word-break: break-word;
   color: var(--waterloo);
-  margin-top: 4px;
+  margin-top: var(--margin, 4px);
 }
 
 .frozenDescription {
@@ -93,7 +93,7 @@
   position: relative;
   cursor: pointer;
 
-  @include responsive("phone", "phone-xs") {
+  @include responsive('phone', 'phone-xs') {
     margin-left: auto;
   }
 }
@@ -144,7 +144,7 @@
   --fill-hover: var(--green);
   padding: 14px 7px;
 
-  @include responsive("phone", "phone-xs") {
+  @include responsive('phone', 'phone-xs') {
     margin: 0 5px 0 auto;
     padding: 6px;
   }
@@ -162,7 +162,7 @@
 }
 
 .link {
-  @include text("body-3");
+  @include text('body-3');
 }
 
 .share {
@@ -178,7 +178,7 @@
 .shareBtn {
   padding-left: 0;
 
-  @include responsive("phone", "phone-xs") {
+  @include responsive('phone', 'phone-xs') {
     margin-left: auto;
   }
 }
@@ -193,7 +193,7 @@
 }
 
 .author {
-  @include text("body-3");
+  @include text('body-3');
 
   color: var(--waterloo);
   margin: 0;
@@ -226,7 +226,7 @@
 }
 
 .subscriptions {
-  @include text("body-3");
+  @include text('body-3');
 
   margin-right: 24px;
   display: flex;
@@ -239,7 +239,7 @@
 }
 
 .awaiting {
-  @include text("body-3");
+  @include text('body-3');
 
   display: inline-flex;
   align-items: center;

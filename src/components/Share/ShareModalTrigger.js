@@ -15,6 +15,7 @@ const ShareModalTrigger = ({
   dialogTitle = 'Share the data',
   isDialogOnly,
   isAlert,
+  isMobile,
   onOpen,
   ...props
 }) => {
@@ -39,6 +40,7 @@ const ShareModalTrigger = ({
       {...props}
     >
       <SharePanel
+        isMobile={isMobile}
         isAlert={isAlert}
         children={children}
         isDisabled={isDisabled}

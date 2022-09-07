@@ -6,7 +6,7 @@ import Dialog from '@santiment-network/ui/Dialog'
 import { DesktopOnly, MobileOnly } from '../Responsive'
 import styles from './Filter.module.scss'
 
-const FilterWrapper = ({ children, dialogTitle = 'Filter' }) => {
+const FilterWrapper = ({ children, dialogTitle = 'Filter', isMobile }) => {
   const [isOpen, setOpen] = useState(false)
 
   return (
@@ -41,6 +41,16 @@ const FilterWrapper = ({ children, dialogTitle = 'Filter' }) => {
           classes={styles}
         >
           {children}
+          {isMobile && (
+            <div className={styles.btnWrapper}>
+              <button
+                className={cx(styles.btn, 'btn-1 body-2 fluid row hv-center')}
+                onClick={() => setOpen(false)}
+              >
+                Apply filter
+              </button>
+            </div>
+          )}
         </Dialog>
       </MobileOnly>
     </>

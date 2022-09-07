@@ -1,12 +1,13 @@
 import React, { useMemo } from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
-import Card from './Card'
-import emptyChartSvg from './emptyChart.svg'
-import { calcPercentageChange } from '../../../utils/utils'
-import { millify } from '../../../utils/formatting'
+import { DesktopOnly } from '../../../components/Responsive'
 import MiniChart from '../../../components/MiniChart'
 import PercentChanges from '../../../components/PercentChanges'
+import Card from './Card'
+import { calcPercentageChange } from '../../../utils/utils'
+import { millify } from '../../../utils/formatting'
+import emptyChartSvg from './emptyChart.svg'
 
 export const WATCHLIST_MARKETCAP_HISTORY_QUERY = gql`
   query watchlist($id: ID!) {
@@ -20,12 +21,15 @@ export const WATCHLIST_MARKETCAP_HISTORY_QUERY = gql`
 `
 
 const NULL_MARKETCAP = '$ 0'
+
 const LOADING = {
   isLoading: true,
 }
+
 const DEFAULT = {
   marketcap: NULL_MARKETCAP,
 }
+
 export function useMarketcap(data, watchlist, onLoad, accessor) {
   return useMemo(() => {
     if (!data) return LOADING
@@ -83,11 +87,18 @@ const ProjectCard = ({
       middleChildren={
         <>
           {marketcap}
-          {noMarketcap ? (
-            <img src={emptyChartSvg} alt='empty chart' />
-          ) : (
-            <MiniChart valueKey='marketcap' data={data} change={change} width={chartWidth || 90} />
-          )}
+          <DesktopOnly>
+            {noMarketcap ? (
+              <img src={emptyChartSvg} alt='empty chart' />
+            ) : (
+              <MiniChart
+                valueKey='marketcap'
+                data={data}
+                change={change}
+                width={chartWidth || 90}
+              />
+            )}
+          </DesktopOnly>
         </>
       }
       bottomChildren={
@@ -100,9 +111,17 @@ const ProjectCard = ({
           </>
         )
       }
+      chart={
+        noMarketcap ? (
+          <img src={emptyChartSvg} alt='empty chart' width={104} height={64} />
+        ) : (
+          <MiniChart valueKey='marketcap' data={data} change={change} width={104} height={64} />
+        )
+      }
     />
   )
 }
+
 ProjectCard.defaultProps = {
   useWatchlistMarketcap,
   path: '/watchlist/projects/',

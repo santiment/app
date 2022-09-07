@@ -9,8 +9,10 @@ import IndexTab from '../../components/IndexTabs/IndexTab'
 import PageLoader from '../../components/Loader/PageLoader'
 import { MobileOnly } from '../../components/Responsive'
 import { RecommendedSignals } from '../SonarFeed/SonarFeedRecommendations'
+import Page from '../../ducks/Page'
 import AlertModal from '../../ducks/Alert/AlertModal'
 import MyAlertsTab from './MyAlertsTab/MyAlertsTab'
+import MobileTabs from './MobileTabs/MobileTabs'
 import AlertRestrictionMessage from './AlertRestrictionMessage/AlertRestrictionMessage'
 import { useSignals } from '../../ducks/Signals/common/getSignals'
 import { useUser } from '../../stores/user'
@@ -97,6 +99,38 @@ const Alerts = ({ isDesktop, match }) => {
     },
     [filter],
   )
+
+  if (!isDesktop) {
+    return (
+      <Page title='Alerts'>
+        {loading || isUserLoading ? (
+          <PageLoader />
+        ) : (
+          <MobileTabs
+            alertsRestrictions={alertsRestrictions}
+            filter={<AlertsFilter onSelect={handleChangeFilter} selectedFilter={filter} isMobile />}
+            explore={
+              <RecommendedSignals
+                userId={user ? user.id : ''}
+                showTitle={false}
+                showNew
+                shouldDisableActions={!shouldHideRestrictionMessage}
+              />
+            }
+            myAlerts={
+              <LoadableAlertsList
+                userId={user ? user.id : ''}
+                showNew
+                filters={{
+                  statusFilter: filter,
+                }}
+              />
+            }
+          />
+        )}
+      </Page>
+    )
+  }
 
   return (
     <div className={cx('page')}>

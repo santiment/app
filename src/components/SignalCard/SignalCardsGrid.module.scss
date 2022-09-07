@@ -1,4 +1,4 @@
-@import "~@santiment-network/ui/mixins";
+@import '~@santiment-network/ui/mixins';
 
 .wrapper {
   width: 100%;
@@ -12,10 +12,19 @@
   }
 }
 
+:global(.phone-xs) .wrapper,
+:global(.phone) .wrapper,
+:global(.tablet) .wrapper {
+  grid-gap: 16px;
+}
+
 .card {
   padding: 16px 24px !important;
+}
 
-  @include responsive('phone', 'phone-xs') {
-    width: 100%;
-  }
+:global(.phone-xs) .card,
+:global(.phone) .card,
+:global(.tablet) .card {
+  padding: 16px 20px !important;
+  width: 100%;
 }

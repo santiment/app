@@ -4,13 +4,24 @@ import Input from '@santiment-network/ui/Input'
 import Dialog from '@santiment-network/ui/Dialog'
 import ShareCopyBtn from './ShareCopyBtn'
 import ShareMedias from './medias/ShareMedias'
+import CopyLink from './CopyLink'
 import styles from './SharePanel.module.scss'
 
-const SharePanel = ({ shareTitle, shareText, shareLink, children, isDisabled, isAlert }) => {
-  return (
-    <Dialog.ScrollContent className={styles.wrapper}>
-      <div className={styles.content}>
-        {children}
+const SharePanel = ({
+  shareTitle,
+  shareText,
+  shareLink,
+  children,
+  isDisabled,
+  isAlert,
+  isMobile,
+}) => (
+  <Dialog.ScrollContent>
+    <div className={styles.content}>
+      {children}
+      {isMobile ? (
+        <CopyLink link={shareLink} disabled={isDisabled} />
+      ) : (
         <div className={styles.link}>
           <Input
             className={styles.link__input}
@@ -20,17 +31,19 @@ const SharePanel = ({ shareTitle, shareText, shareLink, children, isDisabled, is
           />
           <ShareCopyBtn shareLink={shareLink} disabled={isDisabled} isAlert={isAlert} />
         </div>
-        <ShareMedias
-          isDisabled={isDisabled}
-          shareTitle={shareTitle}
-          shareText={shareText}
-          shareLink={shareLink}
-          isAlert={isAlert}
-        />
-      </div>
-    </Dialog.ScrollContent>
-  )
-}
+      )}
+
+      <ShareMedias
+        isMobile={isMobile}
+        isDisabled={isDisabled}
+        shareTitle={shareTitle}
+        shareText={shareText}
+        shareLink={shareLink}
+        isAlert={isAlert}
+      />
+    </div>
+  </Dialog.ScrollContent>
+)
 
 SharePanel.propTypes = {
   shareLink: PropTypes.string.isRequired,

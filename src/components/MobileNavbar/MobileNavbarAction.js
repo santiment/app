@@ -1,40 +1,32 @@
 import React from 'react'
 import cx from 'classnames'
-import Button from '@santiment-network/ui/Button'
-import ShowIf from '../ShowIf/ShowIf'
 import styles from './MobileNavbarAction.module.scss'
 
-const MobileNavbarAction = ({
-  onClick,
-  Icon,
-  label,
-  linkTo,
-  classes = {
-    isActive: styles.isActive,
-    icon: styles.icon,
-    wrapper: styles.wrapper,
-    label: styles.label,
-    button: styles.button,
-  },
-  isActive = false,
-  showIf = { condition: true },
-  className = '',
-  ...props
-}) => {
+const MobileNavbarAction = ({ onClick, Icon, label, linkTo, isActive = false, href }) => {
   const handleOnClick = () => onClick(linkTo)
 
-  return (
-    <ShowIf {...showIf}>
-      <Button
-        className={cx(isActive && classes.isActive, classes.button, className)}
-        isActive={isActive}
-        onClick={handleOnClick}
-        {...props}
+  if (href) {
+    return (
+      <a
+        href={href}
+        target='_blank'
+        rel='noopener noreferrer'
+        className={cx(styles.btn, 'btn column v-center justify', isActive && styles.active)}
       >
-        <Icon className={classes.icon} />
+        <Icon className={styles.btnIcon} />
         {label}
-      </Button>
-    </ShowIf>
+      </a>
+    )
+  }
+
+  return (
+    <button
+      className={cx(styles.btn, 'btn column v-center justify', isActive && styles.active)}
+      onClick={handleOnClick}
+    >
+      <Icon className={styles.btnIcon} />
+      {label}
+    </button>
   )
 }
 

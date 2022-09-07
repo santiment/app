@@ -17,11 +17,11 @@ const Page = ({
   mainClassName,
 }) => (
   <div className={cx(styles.wrapper, className, isCentered && styles.centered)}>
-    <div className={cx(styles.header, headerClassName)}>
-      {title && <h1 className={styles.title}>{title}</h1>}
+    <div className={cx(styles.header, isPhone && 'row v-center justify', headerClassName)}>
+      {title && <h1 className='h4 txt-m nowrap mrg-l mrg--r'>{title}</h1>}
       {isPhone && (
-        <Link to='/search' className={styles.search}>
-          <Icon type='search' className={styles.search__icon} />
+        <Link to='/search'>
+          <Icon type='search' width='18' height='18' className={styles.searchIcon} />
         </Link>
       )}
     </div>

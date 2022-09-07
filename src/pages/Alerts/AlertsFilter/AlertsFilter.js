@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import RadioBtns from '@santiment-network/ui/RadioBtns'
 import Filter from '../../../components/Filter/Filter'
 import styles from './AlertsFilter.module.scss'
@@ -24,16 +25,16 @@ const filterOptions = [
   },
 ]
 
-const AlertsFilter = ({ onSelect, selectedFilter = 'all' }) => {
+const AlertsFilter = ({ onSelect, selectedFilter = 'all', isMobile }) => {
   return (
-    <Filter dialogTitle='Filter by'>
+    <Filter dialogTitle='Filter by' isMobile={isMobile}>
       <div className={styles.filterContent}>
         <RadioBtns
           options={filterOptions}
           labelOnRight
           defaultSelectedIndex={selectedFilter}
           onSelect={onSelect}
-          className={styles.filterContent__filterItem}
+          className={cx(styles.filterContent__filterItem, 'body-2')}
         />
       </div>
     </Filter>

@@ -1,17 +1,14 @@
 @import '~@santiment-network/ui/mixins';
 
 .wrapper {
-  background: var(--whale);
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 100%;
   z-index: 11;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+  padding: 16px 20px;
+  background: var(--whale);
+
   color: rgba(255, 255, 255, 0.5);
-  padding: 0;
   border-top: 1px solid var(--athens);
 }
 
