@@ -43,6 +43,7 @@ export const ScrollableInsightsList = ({ variables, query, setPage, page, settin
     <>
       {!isLoading && insights.length === 0 && data.length === 0 && (
         <NoEntries
+          maxWidth='358px'
           title={isOwner && 'No Insights yet'}
           desc={
             isOwner

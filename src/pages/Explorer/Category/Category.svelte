@@ -98,7 +98,8 @@
       class:last={isMain && item.last && !item.first}
       class:center={isMain && !item.first && !item.last && !favorites}
       class:single={isMain && item.first && item.last}
-      class:favorites>
+      class:favorites
+    >
       <slot {item} />
     </div>
     {@const itemCount = index + 1}
@@ -124,7 +125,8 @@
       class="more btn row h-center c-waterloo"
       class:showMoreMain={isMain}
       class:loading
-      on:click={onMore}>
+      on:click={onMore}
+    >
       Show {showLess ? 'less' : 'more'}
     </div>
   {/if}
