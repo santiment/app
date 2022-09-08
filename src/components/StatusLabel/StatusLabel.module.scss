@@ -9,6 +9,23 @@
   }
 }
 
+:global(.phone-xs) .status,
+:global(.phone) .status,
+:global(.tablet) .status {
+  width: 20px;
+  height: 18px;
+  margin-right: 24px;
+  fill: var(--casper);
+
+  &_public {
+    width: 20px;
+  }
+}
+
+.preview {
+  margin-right: 0 !important;
+}
+
 .frozenStatus {
   display: var(--frozen-left-buttons-display, block);
   fill: var(--casper);

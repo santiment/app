@@ -1,4 +1,3 @@
-
 .dialog {
   max-width: 960px;
   width: 100%;
@@ -7,8 +6,24 @@
   overflow: hidden;
 }
 
+:global(.phone-xs) .dialog,
+:global(.phone) .dialog,
+:global(.tablet) .dialog {
+  max-width: unset;
+  max-height: unset;
+  height: unset;
+}
+
 .dialogTitle {
   padding: 14px 24px !important;
+}
+
+:global(.tablet) .dialogTitle,
+:global(.phone) .dialogTitle,
+:global(.phone-xs) .dialogTitle {
+  padding: 12px 20px !important;
+  background: var(--whale);
+  color: var(--fiord);
 }
 
 .hidden {
@@ -20,4 +35,12 @@
   width: 100%;
   max-height: unset;
   height: auto;
+}
+
+:global(.phone-xs) .preview,
+:global(.phone) .preview,
+:global(.tablet) .preview {
+  max-width: unset;
+  max-height: unset;
+  height: unset;
 }

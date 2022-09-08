@@ -8,7 +8,6 @@ import CommonFooter from '../../pages/ProMetrics/ProMetricsFooter/CommonFooter'
 import styles from './DashboardLayout.module.scss'
 
 const DashboardLayout = ({
-  history,
   showResearchers = true,
   classes = {},
   showMobileHeader = true,
@@ -18,7 +17,7 @@ const DashboardLayout = ({
     <div className={cx('page', styles.container)}>
       {showMobileHeader && (
         <MobileOnly>
-          <MobileHeader showBack={true} goBack={history.goBack} classes={styles} />
+          <MobileHeader classes={styles} />
         </MobileOnly>
       )}
 

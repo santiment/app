@@ -22,7 +22,7 @@ const EMPTY_MAP = new Map()
 const pageDescription =
   'Explore the social volume of ANY word (or phrase) on crypto social media, including 100s of Telegram groups, crypto subreddits, trader chats and more.'
 
-const TrendsExplore = ({ topic, addedTopics, history, isDesktop }) => {
+const TrendsExplore = ({ topic, addedTopics, isDesktop }) => {
   const { projects } = useProjects()
   const { isPro: hasPremium } = useUserSubscriptionStatus()
   const [topics, setTopics] = useState([topic, ...addedTopics].filter(Boolean))
@@ -92,8 +92,6 @@ const TrendsExplore = ({ topic, addedTopics, history, isDesktop }) => {
             </div>
           ) : (
             <MobileHeader
-              goBack={history.goBack}
-              backRoute={'/'}
               classes={{
                 wrapper: styles.mobileHeader,
                 left: styles.mobileHeader__left,

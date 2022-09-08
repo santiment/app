@@ -54,7 +54,6 @@ const getQueryVariables = ({ currentUserId, location, match: { params: { id } = 
 
 const ProfilePage = (props) => {
   const { user = {}, loading: isUserLoading, isLoggedIn } = useUser()
-  const { history } = props
 
   const currentUserId = user ? user.id : undefined
 
@@ -102,12 +101,7 @@ const ProfilePage = (props) => {
     <div className={cx('page', styles.page)}>
       <MobileOnly>
         <div className={styles.header}>
-          <MobileHeader
-            rightActions={<ShareProfile />}
-            showBack={true}
-            goBack={history.goBack}
-            classes={styles}
-          />
+          <MobileHeader rightActions={<ShareProfile />} classes={styles} />
         </div>
       </MobileOnly>
       {followData && (

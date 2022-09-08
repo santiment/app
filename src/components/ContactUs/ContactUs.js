@@ -7,7 +7,8 @@ const ContactUs = ({ message, children, onClick, ...rest }) => {
 
   return (
     <Button
-      onClick={() => {
+      onClick={(e) => {
+        e.preventDefault()
         intercomHandler(message)
         onClick && onClick()
       }}

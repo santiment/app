@@ -47,7 +47,7 @@ const NAVBAR_LINKS = [
 
 const MENU_LINKS = [
   { linkTo: '/alerts', label: 'Alerts' },
-  { linkTo: '/labs/trends', label: 'Social tool' },
+  { linkTo: '/labs/trends/explore/', label: 'Social tool' },
   { linkTo: 'https://academy.santiment.net', label: 'Academy', isExternal: true },
   { linkTo: '/pricing', label: 'Pricing' },
 ]

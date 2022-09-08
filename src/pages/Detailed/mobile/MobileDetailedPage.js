@@ -102,16 +102,12 @@ const MobileDetailedPage = ({ data: { project = {}, loading }, ...props }) => {
 
   return loading ? (
     <div className={cx('page', styles.wrapper)}>
-      <MobileHeader showBack title={<Title slug={slug} />} goBack={props.history.goBack} />
+      <MobileHeader title={<Title slug={slug} />} />
       <PageLoader />
     </div>
   ) : (
     <div className={cx('page', styles.wrapper)}>
-      <MobileHeader
-        showBack
-        title={<Title slug={project.name} ticker={project.ticker} />}
-        goBack={props.history.goBack}
-      />
+      <MobileHeader title={<Title slug={project.name} ticker={project.ticker} />} />
       <div
         className={styles.main}
         onTouchStart={() => setIsOuterEvent(true)}

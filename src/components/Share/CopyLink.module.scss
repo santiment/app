@@ -1,5 +1,6 @@
 .btn {
-  padding: 12px 24px;
+  --color-hover: var(--black) !important;
+  padding: 12px 24px !important;
 }
 
 .disabledIcon {

@@ -6,8 +6,9 @@ import LoginPopup from '../../components/banners/feature/PopupBanner'
 import AlertTriggerButton from './components/AlertTriggerButton/AlertTriggerButton'
 import ConfirmClose from './components/ConfirmClose/ConfirmClose'
 import AlertModalFormMaster from './AlertModalFormMaster'
-import { useUser } from '../../stores/user'
+import AlertMobilePreview from './components/AlertMobilePreview/AlertMobilePreview'
 import AlertRestrictionMessage from './components/AlertRestrictionMessage/AlertRestrictionMessage'
+import { useUser } from '../../stores/user'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import styles from './AlertModal.module.scss'
 
@@ -20,9 +21,11 @@ const AlertModal = ({
   trigger,
   defaultType,
   signalData,
-  isUserTheAuthor = true,
+  isUserTheAuthor = false,
   shouldDisableActions,
   isRecommendedSignal,
+  isMobile,
+  signal,
 }) => {
   const match = useRouteMatch('/alerts/:id')
   const history = useHistory()
@@ -61,7 +64,7 @@ const AlertModal = ({
     <>
       <Dialog
         withAnimation
-        title={dialogTitle}
+        title={isMobile ? 'Alert details' : dialogTitle}
         open={isModalOpen}
         onOpen={() => setIsModalOpen(true)}
         onClose={() => {
@@ -78,43 +81,54 @@ const AlertModal = ({
         }
         classes={{
           dialog: cx(styles.dialog, isClosing && styles.hidden, isPreview && styles.preview),
-          title: styles.dialogTitle,
+          title: cx(styles.dialogTitle, isMobile && 'body-2 txt-m'),
         }}
       >
-        <>
-          {!isPreview && (
-            <AlertRestrictionMessage
-              shouldHideRestrictionMessage={shouldHideRestrictionMessage}
-              isRestrictedMessageClosed={isRestrictedMessageClosed}
-              setIsRestrictedMessageClosed={setIsRestrictedMessageClosed}
-            />
-          )}
-          <AlertModalFormMaster
-            isRestrictedMessageClosed={isRestrictedMessageClosed}
-            isRecommendedSignal={isRecommendedSignal}
-            shouldDisableActions={shouldDisableActions}
-            shouldHideRestrictionMessage={shouldHideRestrictionMessage}
-            isPreview={isPreview}
-            setIsPreview={setIsPreview}
+        {isMobile ? (
+          <AlertMobilePreview
             id={id}
-            signalData={signalData}
-            defaultType={defaultType}
-            handleCloseDialog={handleCloseDialog}
-            setIsEdited={setIsEdited}
-            isEdited={isEdited}
-            isModalOpen={isModalOpen}
-            isUserTheAuthor={isUserTheAuthor}
+            signal={signal}
+            isRecommendedSignal={isRecommendedSignal}
+            isAuthor={isUserTheAuthor}
           />
-        </>
+        ) : (
+          <>
+            {!isPreview && (
+              <AlertRestrictionMessage
+                shouldHideRestrictionMessage={shouldHideRestrictionMessage}
+                isRestrictedMessageClosed={isRestrictedMessageClosed}
+                setIsRestrictedMessageClosed={setIsRestrictedMessageClosed}
+              />
+            )}
+            <AlertModalFormMaster
+              isRestrictedMessageClosed={isRestrictedMessageClosed}
+              isRecommendedSignal={isRecommendedSignal}
+              shouldDisableActions={shouldDisableActions}
+              shouldHideRestrictionMessage={shouldHideRestrictionMessage}
+              isPreview={isPreview}
+              setIsPreview={setIsPreview}
+              id={id}
+              signalData={signalData}
+              defaultType={defaultType}
+              handleCloseDialog={handleCloseDialog}
+              setIsEdited={setIsEdited}
+              isEdited={isEdited}
+              isModalOpen={isModalOpen}
+              isUserTheAuthor={isUserTheAuthor}
+            />
+          </>
+        )}
       </Dialog>
-      <ConfirmClose
-        isOpen={isClosing}
-        onApprove={handleCloseDialog}
-        onCancel={() => {
-          setIsClosing(false)
-          setIsModalOpen(true)
-        }}
-      />
+      {!isMobile && (
+        <ConfirmClose
+          isOpen={isClosing}
+          onApprove={handleCloseDialog}
+          onCancel={() => {
+            setIsClosing(false)
+            setIsModalOpen(true)
+          }}
+        />
+      )}
     </>
   )
 }
