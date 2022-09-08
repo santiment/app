@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
+import { DesktopOnly } from '../Responsive'
 import styles from './StatusLabel.module.scss'
 
 const statusMap = [
@@ -16,13 +17,14 @@ const statusMap = [
 
 const getStatus = (isPublic) => statusMap[Number(isPublic)] || statusMap[0]
 
-const StatusLabel = ({ isPublic = false, isFrozen = false }) => (
-  <div className={cx('row v-center', isFrozen && styles.frozenStatus)}>
+const StatusLabel = ({ isPublic = false, isFrozen = false, isPreview }) => (
+  <div className={cx('row v-center', isFrozen && styles.frozenStatus, isPreview && 'mrg-l mrg--r')}>
     <Icon
       type={getStatus(isPublic).icon}
-      className={cx(styles.status, isPublic && styles.status_public)}
+      className={cx(styles.status, isPublic && styles.status_public, isPreview && styles.preview)}
     />
-    {getStatus(isPublic).label}{' '}
+    {isPreview && <span className='mrg-s mrg--l body-2'>{getStatus(isPublic).label}</span>}
+    <DesktopOnly>{getStatus(isPublic).label}</DesktopOnly>
   </div>
 )
 

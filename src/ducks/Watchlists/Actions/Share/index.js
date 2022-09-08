@@ -4,12 +4,12 @@ import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Message from '@santiment-network/ui/Message'
 import PublicityToggle from '../ChangeVisibility'
+import Toggle from '../../../../components/VisibilityIndicator/Toggle'
 import ShareModalTrigger from '../../../../components/Share/ShareModalTrigger'
 import { useShortShareLink } from '../../../../components/Share/hooks'
 import { checkIsScreener } from '../../../Screener/utils'
 import { useUpdateWatchlist } from '../../gql/list/mutations'
 import styles from './index.module.scss'
-import Toggle from '../../../../components/VisibilityIndicator/Toggle'
 
 const Share = ({ watchlist, isAuthor, className, customLink, isMobile }) => {
   const [isPublic, setIsPublic] = useState(watchlist.isPublic)

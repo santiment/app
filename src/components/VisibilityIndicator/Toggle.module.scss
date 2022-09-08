@@ -2,9 +2,14 @@
 
 .toggle {
   padding: 0 5px;
+  background-color: var(--casper);
+
+  &:hover {
+    background-color: var(--casper);
+  }
 
   @include responsive('phone-xs', 'phone') {
-    padding: 0 9px;
+    padding: 0 8px;
   }
 }
 

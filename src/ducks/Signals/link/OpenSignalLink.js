@@ -37,6 +37,8 @@ const OpenSignalLink = ({
       id={id}
       trigger={trigger}
       isUserTheAuthor={isUserTheAuthor}
+      isMobile={isMobile}
+      signal={isMobile && signal}
     />
   )
 }

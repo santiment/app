@@ -13,7 +13,7 @@ import { useHistoricalTriggerPoints } from '../../hooks/useHistoricalTriggerPoin
 import alertMasterFormStyles from '../../AlertModalFormMaster.module.scss'
 import styles from './AlertPreview.module.scss'
 
-const filterPoints = (points, { settings: { metric } = {} }) => {
+export const filterPoints = (points, { settings: { metric } = {} }) => {
   switch (metric) {
     case 'mvrv_usd_intraday': {
       const last = points[points.length - 1]

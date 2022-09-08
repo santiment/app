@@ -4,7 +4,7 @@ import Icon from '@santiment-network/ui/Icon'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import styles from './AlertTooltip.module.scss'
 
-const WarningTrigger = ({ forwardedRef, isActive, ...props }) => (
+export const WarningTrigger = ({ forwardedRef, isActive, ...props }) => (
   <div
     ref={forwardedRef}
     {...props}
@@ -14,7 +14,7 @@ const WarningTrigger = ({ forwardedRef, isActive, ...props }) => (
   </div>
 )
 
-const ErrorTrigger = ({ forwardedRef, isActive, ...props }) => (
+export const ErrorTrigger = ({ forwardedRef, isActive, ...props }) => (
   <div
     ref={forwardedRef}
     {...props}

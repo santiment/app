@@ -4,15 +4,12 @@ import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import Icon from '@santiment-network/ui/Icon'
 import Svg from 'webkit/ui/Svg/react'
-import { DesktopOnly } from '../Responsive'
 import styles from './MobileHeader.module.scss'
 
 const defaultClasses = {
   wrapper: styles.wrapper,
   icon: styles.icon,
   title: styles.title,
-  searchBtn: styles.searchBtn,
-  isTitleLink: styles.isTitleLink,
 }
 
 const MobileHeader = ({
@@ -34,11 +31,7 @@ const MobileHeader = ({
   return (
     <div className={cx(classes.wrapper, 'row v-center justify')}>
       <Title onClick={goBack && goBack} to={backRoute} className={cx(classes.left, _classes.back)}>
-        <DesktopOnly>
-          {(backRoute || showBack) && (
-            <Svg w={10} h={17} className={classes.icon} id='arrow-right' />
-          )}
-        </DesktopOnly>
+        {(backRoute || showBack) && <Svg w={10} h={17} className={classes.icon} id='arrow-right' />}
         {title && (
           <h1 className={cx(styles.title, 'nowrap line-clamp h4 txt-m nowrap mrg-l mrg--r')}>
             {title}

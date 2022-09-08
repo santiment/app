@@ -19,7 +19,7 @@ const SearchBar = ({ onChange, placeholder = DEFAULT_TEXT }) => {
   return (
     <form
       onSubmit={handleChange}
-      className={cx(styles.wrapper, 'relative fluid flex v-center mrg--r mrg-m')}
+      className={cx(styles.wrapper, 'relative fluid flex v-center mrg-xl mrg--l')}
       onFocus={() => setTerm('')}
     >
       <InputWithIcon

@@ -3,6 +3,7 @@
 .wrapper {
   display: flex;
   box-shadow: none;
+  border-radius: 6px;
 
   &__right {
     padding: 0;
@@ -136,6 +137,12 @@
   }
 }
 
+:global(.phone-xs) .bottom,
+:global(.phone) .bottom,
+:global(.tablet) .bottom {
+  margin-top: 16px;
+}
+
 .expandButton {
   --bg-hover: var(--green-light-1);
   --color: var(--waterloo);
@@ -221,6 +228,12 @@
   color: var(--jungle-green);
 }
 
+:global(.phone-xs) .toggleLabel,
+:global(.phone) .toggleLabel,
+:global(.tablet) .toggleLabel {
+  @include text('body-2');
+}
+
 .disabled {
   color: var(--waterloo);
 }
@@ -302,4 +315,10 @@
   height: 32px;
   background: var(--frozen-alert-bg, var(--white));
   fill: var(--waterloo);
+}
+
+:global(.phone-xs) .frozenAlert,
+:global(.phone) .frozenAlert,
+:global(.tablet) .frozenAlert {
+  --color: var(--black);
 }

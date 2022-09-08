@@ -21,7 +21,14 @@ import { useTimeseries } from '../../../Studio/timeseries/hooks'
 import { Skeleton } from '../../../../components/Skeleton'
 import styles from './SignalPreviewChart.module.scss'
 
-const SignalPreviewChart = ({ target, type: oldSignalType, points, showTitle, trigger }) => {
+const SignalPreviewChart = ({
+  target,
+  type: oldSignalType,
+  points,
+  showTitle,
+  hideTooltip,
+  trigger,
+}) => {
   const { label, from, to } = useMemo(() => getTimeRangeForChart(oldSignalType), [oldSignalType])
 
   useEffect(() => clearCache, [])
@@ -104,6 +111,7 @@ const SignalPreviewChart = ({ target, type: oldSignalType, points, showTitle, tr
       metrics={metrics}
       referenceDots={referenceDots}
       showTitle={showTitle}
+      hideTooltip={hideTooltip}
     />
   )
 }

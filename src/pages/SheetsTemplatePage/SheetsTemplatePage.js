@@ -7,13 +7,13 @@ import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import MakeProSubscriptionCard from '../feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
 import styles from './SheetsTemplatePage.module.scss'
 
-const SheetsTemplatePage = ({ history }) => {
+const SheetsTemplatePage = () => {
   const { isPro } = useUserSubscriptionStatus()
 
   return (
     <div className={cx('page', styles.container)}>
       <MobileOnly>
-        <MobileHeader showBack={true} goBack={history.goBack} classes={styles} />
+        <MobileHeader classes={styles} />
       </MobileOnly>
 
       <div className={styles.chart}>

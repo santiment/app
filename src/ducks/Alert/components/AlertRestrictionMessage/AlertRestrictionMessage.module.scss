@@ -1,18 +1,46 @@
+@import '~@santiment-network/ui/mixins';
+
 .wrapper {
   min-height: 52px;
   padding: 0 24px;
   background-color: var(--orange-light-1);
 }
 
+:global(.phone-xs) .wrapper,
+:global(.phone) .wrapper,
+:global(.tablet) .wrapper {
+  --margin: 16px;
+  padding: 16px 32px 16px 24px;
+}
+
 .wrapperPage {
   border-radius: 4px;
+}
+
+:global(.phone-xs) .wrapperPage,
+:global(.phone) .wrapperPage,
+:global(.tablet) .wrapperPage {
+  border-radius: 6px;
+}
+
+:global(.phone-xs) .info,
+:global(.phone) .info,
+:global(.tablet) .info {
+  align-items: baseline;
 }
 
 .icon {
   fill: var(--orange-hover);
   margin-right: 12px;
-  margin-bottom: 3px;
 }
+
+:global(.phone-xs) .icon,
+:global(.phone) .icon,
+:global(.tablet) .icon {
+  min-width: 16px;
+  height: 14px;
+}
+
 
 .link {
   color: var(--orange);

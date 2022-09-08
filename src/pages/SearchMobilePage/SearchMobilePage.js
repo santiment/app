@@ -120,9 +120,9 @@ const SearchMobilePage = ({ history }) => {
     <>
       <MobileHeader
         goBack={history.goBack}
-        backRoute={'/'}
+        backRoute='/'
         classes={{
-          wrapper: styles.wrapper,
+          wrapper: cx(styles.wrapper, 'row v-center'),
           right: styles.hidden,
           title: styles.hidden,
         }}
@@ -138,7 +138,10 @@ const SearchMobilePage = ({ history }) => {
         options={TABS}
         defaultSelectedIndex={selectedTab}
         onSelect={(tab) => selectTab(tab)}
-        className={styles.tabs}
+        className={cx(styles.tabs, 'row justify')}
+        classes={{
+          tab: styles.tab,
+        }}
       />
       <div className={styles.recentWrapper}>
         {loading ? (
