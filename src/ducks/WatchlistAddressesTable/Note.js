@@ -12,7 +12,7 @@ const Note = ({ notes, address, infrastructure, watchlistId, isAuthor }) => {
           id: +watchlistId,
           listItems: [{ blockchainAddress: { address, infrastructure, notes } }],
         },
-        'ADD_ITEMS',
+        'UPDATE_ITEMS',
       )
         .then(() => notifySaveNote())
         .catch(() => notifyError('note', 'save'))
