@@ -76,6 +76,20 @@ const SignalCard = ({
               {description}
             </h3>
           )}
+          {!isRecommendedSignal && (
+            <SignalCardBottom
+              shouldDisableActions={shouldDisableActions}
+              signalId={id}
+              signal={signal}
+              showMoreActions={showMoreActions}
+              toggleSignal={toggleSignal}
+              isAwaiting={isAwaiting}
+              editable={clickable}
+              isUserTheAuthor={isUserTheAuthor}
+              deleteEnabled={deleteEnabled}
+              showStatus={showStatus}
+            />
+          )}
         </MobileOnly>
         <DesktopOnly>
           <OpenSignalLink

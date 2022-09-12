@@ -64,7 +64,7 @@
 .mediaWrapper {
   overflow: hidden;
   display: grid;
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 12px;
 
@@ -80,8 +80,7 @@
 }
 
 .disabled {
-  --fill: var(--mystic);
-  --fill-hover: var(--mystic);
+  --media-bg: var(--mystic);
   --color: var(--casper);
 }
 

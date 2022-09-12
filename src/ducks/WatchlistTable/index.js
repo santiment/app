@@ -12,11 +12,10 @@ import { BLOCKCHAIN_ADDRESS } from '../Watchlists/detector'
 import ColumnsToggler from '../Watchlists/Widgets/Table/Columns/Toggler'
 import EditAddresses from '../Watchlists/Actions/Edit/EditAddresses/EditAddresses'
 import Actions from '../Watchlists/Widgets/Table/CompareInfo/Actions'
-import { updateWatchlistShort } from '../../ducks/Watchlists/gql/list/mutations'
+import { updateWatchlistShort } from '../Watchlists/gql/list/mutations'
 import { mapAddressToAPIType } from '../Watchlists/utils'
 import styles from './index.module.scss'
-
-export const Divider = () => <div className={styles.divider} />
+import Share from '../Watchlists/Actions/Share'
 
 const WatchlistTable = ({
   watchlist,
@@ -26,6 +25,7 @@ const WatchlistTable = ({
   normalizeCSVData,
   onRefreshClick,
   rebuildColumns,
+  isDesktop,
   ...props
 }) => {
   const { items } = props
@@ -93,21 +93,23 @@ const WatchlistTable = ({
 
       <MobileOnly>
         <MobileHeader
-          showBack={true}
           title={watchlist.name}
-          backRoute='/watchlists'
-          showSearch={false}
+          showSearch={!isDesktop}
           classes={{ title: styles.title }}
           rightActions={
-            <EditAddresses
-              watchlist={watchlist}
-              refreshList={refreshList}
-              trigger={
-                <Button>
-                  <Icon type='edit' />
-                </Button>
-              }
-            />
+            isDesktop ? (
+              <EditAddresses
+                watchlist={watchlist}
+                refreshList={refreshList}
+                trigger={
+                  <Button>
+                    <Icon type='edit' />
+                  </Button>
+                }
+              />
+            ) : (
+              <Share watchlist={watchlist} isMobile />
+            )
           }
         />
       </MobileOnly>

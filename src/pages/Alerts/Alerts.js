@@ -128,6 +128,15 @@ const Alerts = ({ isDesktop, match }) => {
             }
           />
         )}
+        {defaultOpenAlertId && (
+          <AlertModal
+            id={defaultOpenAlertId}
+            isMobile
+            defaultOpen={true}
+            canRedirect={false}
+            trigger={<></>}
+          />
+        )}
       </Page>
     )
   }

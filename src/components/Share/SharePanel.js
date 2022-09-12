@@ -20,7 +20,7 @@ const SharePanel = ({
     <div className={styles.content}>
       {children}
       {isMobile ? (
-        <CopyLink link={shareLink} disabled={isDisabled} />
+        <CopyLink link={shareLink} />
       ) : (
         <div className={styles.link}>
           <Input

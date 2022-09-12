@@ -138,7 +138,7 @@ const AssetItem = ({ item, isNightMode, isActive, toggleWatchlistProject }) => {
     <div className={styles.assetItem} onClick={() => toggleWatchlistProject(item)}>
       <Checkbox isActive={isActive} />{' '}
       <img src={src} loading='lazy' className={styles.logo} alt={item.name} /> {item.name}{' '}
-      <span className={cardStyles.ticker}>{item.ticker}</span>
+      <span className={cx(cardStyles.ticker, 'mrg--l mrg-xs c-waterloo')}>{item.ticker}</span>
     </div>
   )
 }

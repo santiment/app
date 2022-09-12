@@ -2,10 +2,8 @@
 
 .wrapper {
   background: var(--white);
-  display: flex;
   justify-content: unset;
-  align-items: center;
-  padding-top: 16px;
+  padding: 16px 20px;
 }
 
 .hidden {
@@ -21,10 +19,11 @@
 }
 
 .tabs {
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  padding: 24px 10px 0;
+  margin: 20px 20px 0;
+}
+
+.tab {
+  padding: 0 0 8px;
 }
 
 .caption {

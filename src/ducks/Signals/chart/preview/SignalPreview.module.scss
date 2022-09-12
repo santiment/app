@@ -1,4 +1,4 @@
-@import "~@santiment-network/ui/mixins";
+@import '~@santiment-network/ui/mixins';
 
 .fired {
   @include text('body-3');
@@ -33,6 +33,13 @@
   height: calc(100% - 20px);
 }
 
+:global(.tablet) .chartBlock,
+:global(.phone) .chartBlock,
+:global(.phone-xs) .chartBlock {
+  margin-top: 0;
+  height: 100%;
+}
+
 .chart {
   height: calc(100% - 32px);
 }
@@ -44,6 +51,12 @@
   @include responsive('phone', 'phone-xs') {
     margin-right: 0;
   }
+}
+
+:global(.phone-xs) .description,
+:global(.phone) .description,
+:global(.tablet) .description {
+  margin-left: 0;
 }
 
 .preview {

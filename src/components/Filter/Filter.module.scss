@@ -4,7 +4,7 @@
   margin: auto;
   width: 16px;
   height: 16px;
-  fill: var(--waterloo);
+  fill: var(--black);
 }
 
 .openState {
@@ -33,7 +33,7 @@
   width: 32px;
   height: 32px;
   display: flex;
-  border-radius: $border-radius;
+  border-radius: 6px;
   border: 1px solid var(--porcelain);
 
   &:hover {

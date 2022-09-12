@@ -15,12 +15,18 @@
   --bg: var(--orange-light-1);
 }
 
-
 .btnError {
   --bg-hover: var(--red-light-1);
   --fill: var(--red);
   --fill-hover: var(--red);
   padding: 9px 8px;
+}
+
+:global(.phone-xs) .btnError,
+:global(.phone) .btnError,
+:global(.tablet) .btnError {
+  --bg-hover: var(--white);
+  padding: 0;
 }
 
 .btnErrorHover {

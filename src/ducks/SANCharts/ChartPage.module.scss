@@ -123,6 +123,12 @@
   margin-top: 24px;
 }
 
+:global(.tablet) .chart,
+:global(.phone) .chart,
+:global(.phone-xs) .chart {
+  margin-top: 0;
+}
+
 .metrics {
   padding: 10px 20px;
 }

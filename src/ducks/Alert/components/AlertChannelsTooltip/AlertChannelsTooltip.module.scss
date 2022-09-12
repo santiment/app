@@ -4,6 +4,18 @@
   --fill-hover: var(--waterloo);
 }
 
+:global(.phone-xs) .wrapper,
+:global(.phone) .wrapper,
+:global(.tablet) .wrapper {
+  --margin: 0;
+}
+
+:global(.phone-xs) .wrapperError,
+:global(.phone) .wrapperError,
+:global(.tablet) .wrapperError {
+  --margin: 0;
+}
+
 .btn {
   cursor: default;
 }
@@ -30,4 +42,9 @@
 
 .contentText {
   color: var(--fiord);
+}
+
+.preview {
+  --color: var(--black) !important;
+  display: block;
 }

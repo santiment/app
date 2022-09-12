@@ -218,7 +218,7 @@ const AlertModalFormMaster = ({
     )
   }
 
-  if (isPreview) {
+  if (isPreview && signalData) {
     return (
       <AlertPreview
         shouldDisableActions={shouldDisableActions}

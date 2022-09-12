@@ -35,6 +35,7 @@ const RenderChart = ({
   classes,
   gradientParams = {},
   height,
+  hideTooltip,
 }) => {
   return (
     <ResponsiveContainer width='100%' height={height}>
@@ -58,12 +59,14 @@ const RenderChart = ({
 
         {referenceDots}
 
-        <Tooltip
-          content={<CustomTooltip classes={classes} />}
-          cursor={false}
-          position={{ x: 12, y: -22 }}
-          isAnimationActive={false}
-        />
+        {!hideTooltip && (
+          <Tooltip
+            content={<CustomTooltip classes={classes} />}
+            cursor={false}
+            position={{ x: 12, y: -22 }}
+            isAnimationActive={false}
+          />
+        )}
       </ComposedChart>
     </ResponsiveContainer>
   )
@@ -83,6 +86,7 @@ const VisualBacktestChart = ({
   activeDotColor,
   gradientParams = {},
   activeEl = ActiveDot,
+  hideTooltip,
 }) => {
   const colors = useChartColors(metrics, metricsColor)
   const markup = useMemo(
@@ -127,6 +131,7 @@ const VisualBacktestChart = ({
                 classes={classes}
                 gradientParams={gradientParams}
                 height={height}
+                hideTooltip={hideTooltip}
               />
             </div>
           </div>

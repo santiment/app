@@ -3,6 +3,10 @@ import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import { track } from 'webkit/analytics'
+import TwitterIcon from './TwitterIcon'
+import DiscordIcon from './DiscordIcon'
+import RedditIcon from './RedditIcon'
+import TelegramIcon from './TelegramIcon'
 import { AlertsEvents } from '../../../ducks/Alert/analytics'
 import styles from './ShareMedias.module.scss'
 
@@ -43,6 +47,29 @@ const mediasToShare = [
   },
 ]
 
+const mobileMedias = [
+  {
+    Icon: TwitterIcon,
+    href: `https://twitter.com/home?status=${SECRET_TEXT_TAG}%0Alink%3A%20${SECRET_LINK_TAG}`,
+    title: 'Twitter',
+  },
+  {
+    Icon: DiscordIcon,
+    href: `https://www.facebook.com/sharer/sharer.php?u=${SECRET_LINK_TAG}`,
+    title: 'Discord',
+  },
+  {
+    Icon: RedditIcon,
+    href: `https://reddit.com/submit?title=${SECRET_TEXT_TAG}&url=${SECRET_LINK_TAG}`,
+    title: 'Reddit',
+  },
+  {
+    Icon: TelegramIcon,
+    href: `https://telegram.me/share/url?text=${SECRET_TEXT_TAG}&url=${SECRET_LINK_TAG}`,
+    title: 'Telegram',
+  },
+]
+
 const ShareMedias = ({
   shareLink,
   shareTitle = '',
@@ -60,9 +87,9 @@ const ShareMedias = ({
   if (isMobile) {
     return (
       <div className={styles.mediaWrapper}>
-        {mediasToShare.map(({ icon, href, title, className }) => (
+        {mobileMedias.map(({ Icon, href, title, className }) => (
           <a
-            key={icon}
+            key={href}
             href={href
               .replace(SECRET_LINK_TAG, encodedLink)
               .replace(SECRET_TEXT_TAG, encodedText)
@@ -76,7 +103,7 @@ const ShareMedias = ({
             )}
             onClick={(e) => isDisabled && e.preventDefault()}
           >
-            <Icon type={icon} className={cx(styles.icon, className)} />
+            <Icon className={cx(styles.icon, className)} />
             <span>{title}</span>
           </a>
         ))}

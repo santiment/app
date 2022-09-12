@@ -1,4 +1,4 @@
-@import "~@santiment-network/ui/mixins.scss";
+@import '~@santiment-network/ui/mixins.scss';
 
 :root {
   --list-top-panel-height: 80px;
@@ -68,9 +68,7 @@
   :global {
     th {
       position: sticky;
-      top: calc(
-        var(--list-top-panel-height) + var(--addresses-list-table-top-height)
-      );
+      top: calc(var(--list-top-panel-height) + var(--addresses-list-table-top-height));
       z-index: 2;
 
       &:first-child {
@@ -109,6 +107,16 @@
   }
 }
 /* stylelint-enable */
+
+:global(.phone-xs) .table,
+:global(.phone) .table,
+:global(.tablet) .table {
+  padding-top: 73px;
+
+  th {
+    top: 73px
+  }
+}
 
 .add {
   color: var(--rhino) !important;

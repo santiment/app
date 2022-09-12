@@ -1,26 +1,18 @@
 @import '~@santiment-network/ui/mixins';
 
 .trigger {
-  padding: 0;
-  margin: 0;
+  --color-hover: var(--black) !important;
+  padding: 12px 24px !important;
   background: inherit;
-  fill: var(--waterloo) !important;
+  margin-right: var(--margin);
+  fill: var(--fiord) !important;
 
   &:hover {
     background: inherit;
   }
 }
 
-:global(.tablet) .trigger,
-:global(.phone) .trigger,
-:global(.phone-xs) .trigger {
-  margin-right: var(--margin);
-  fill: var(--fiord);
-}
-
-:global(.tablet) .shareTitle,
-:global(.phone) .shareTitle,
-:global(.phone-xs) .shareTitle {
+.shareTitle {
   background: var(--whale);
   color: var(--fiord);
 }
