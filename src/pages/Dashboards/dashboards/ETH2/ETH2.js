@@ -33,6 +33,10 @@ const Eth2 = ({ submenu, shareLinkText, description }) => (
       <Block title={submenu[5].title} tag={submenu[5].key}>
         <EthTopStakers />
       </Block>
+      </Block>
+      <Block title={submenu[6].title} tag={submenu[6].key}>
+        <EthStakingPools />
+      </Block>
     </div>
   </div>
 )
