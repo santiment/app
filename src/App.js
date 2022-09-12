@@ -6,9 +6,11 @@ import withSizes from 'react-sizes'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import nprogress from 'nprogress'
+import toReact from 'svelte-adapter/react'
 import { newGlobalShortcut } from 'webkit/utils/events'
 import Dialogs from 'webkit/ui/Dialog/Dialogs.svelte'
 import FeatureWalkthrough from 'webkit/ui/FeatureWalkthrough/svelte'
+import CookiesPopup from 'webkit/ui/CookiesPopup.svelte'
 import { showMasterSelectorDialog } from 'studio/MasterSelectorDialog'
 import { queryAllProjects } from 'studio/api/project'
 import { isListPath, PATHS } from './paths'
@@ -26,7 +28,6 @@ import PageLoader from './components/Loader/PageLoader'
 import Footer from './components/Footer'
 import { GDPRPage, UsernamePage } from './pages/ForceActions'
 import { getConsentUrl } from './utils/utils'
-import CookiePopup from './components/CookiePopup/CookiePopup'
 import ForceActionRedirector from './components/ForceActionRedirector'
 import { SHARE_PATH } from './components/Share/utils'
 import LogoutPage from './pages/Logout/Logout'
@@ -54,6 +55,8 @@ const FOOTER_DISABLED_FOR = [
   PATHS.SHEETS_TEMPLATES,
 ]
 const FOOTER_ABSOLUTE_FOR = [PATHS.LOGIN, PATHS.LOGIN_VIA_EMAIL, PATHS.CREATE_ACCOUNT, PATHS.GDPR]
+
+const ReactCookiesPopup = toReact(CookiesPopup, {}, 'div')
 
 const LoadablePage = (loader) =>
   Loadable({
@@ -507,7 +510,7 @@ export const App = ({
         </ErrorBoundary>
 
         <NotificationStack />
-        <CookiePopup />
+        <ReactCookiesPopup />
         {isDesktop && <LiveWidget />}
 
         {isDesktop && showFooter && (
