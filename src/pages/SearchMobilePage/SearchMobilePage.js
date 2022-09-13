@@ -8,6 +8,7 @@ import { client } from '../../apollo'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import PageLoader from '../../components/Loader/PageLoader'
 import SearchBar from './SearchBar'
+import NotFound from './NotFound'
 import { TABS } from '../../components/Search/tabs'
 import { useTabOptions, getItemControllers } from './utils'
 import styles from './SearchMobilePage.module.scss'
@@ -148,32 +149,40 @@ const SearchMobilePage = ({ history }) => {
           <PageLoader className={styles.loader} />
         ) : (
           <>
-            {result.length < 1 && (
+            {result.length < 1 && items.length > 0 && (
               <h3 className={cx(styles.caption, 'mrg--b mrg-xl')}>Recently searched</h3>
             )}
             <div className={styles.scrollable}>
-              {result.length > 0
-                ? result.map((keys) => (
-                    <SearchResultRow
-                      key={keys.id}
-                      activeTab={activeTab}
-                      keys={keys}
-                      selectedTab={selectedTab}
-                      onClick={() => addTabItem(keys)}
-                    />
-                  ))
-                : items.map((keys, index) => (
-                    <SearchResultRow
-                      key={index}
-                      activeTab={activeTab}
-                      keys={keys}
-                      selectedTab={selectedTab}
-                      onClose={() => {
-                        removeTabItem(index)
-                        setItems(getTabItems())
-                      }}
-                    />
-                  ))}
+              {term.length > 0 ? (
+                <>
+                  {result.length > 0 ? (
+                    result.map((keys) => (
+                      <SearchResultRow
+                        key={keys.id}
+                        activeTab={activeTab}
+                        keys={keys}
+                        selectedTab={selectedTab}
+                        onClick={() => addTabItem(keys)}
+                      />
+                    ))
+                  ) : (
+                    <NotFound />
+                  )}
+                </>
+              ) : (
+                items.map((keys, index) => (
+                  <SearchResultRow
+                    key={index}
+                    activeTab={activeTab}
+                    keys={keys}
+                    selectedTab={selectedTab}
+                    onClose={() => {
+                      removeTabItem(index)
+                      setItems(getTabItems())
+                    }}
+                  />
+                ))
+              )}
             </div>
           </>
         )}
