@@ -23,6 +23,8 @@ import {
   useUserProjectWatchlists,
   useUserScreeners,
 } from '../../ducks/Watchlists/gql/lists/hooks'
+import { getRecentWatchlists } from '../../utils/recent'
+import { useRecentWatchlists } from '../../ducks/Watchlists/gql/hooks'
 import styles from './index.module.scss'
 
 const LoginBanner = ({ isDesktop }) =>
@@ -56,6 +58,10 @@ const MyWatchlists = ({ data, addressesData, isDesktop }) => {
   const [watchlists, isLoading] = data
   const [addressesWatchlists, addressesWatchlistsLoading] = addressesData
 
+  const hasWatchlists = watchlists.length !== 0 || addressesWatchlists.length !== 0
+  const watchlistsIDs = hasWatchlists ? getRecentWatchlists().filter(Boolean) : []
+  const [recentWatchlists] = useRecentWatchlists(watchlistsIDs)
+
   if (isLoading && addressesWatchlistsLoading) return null
 
   if (watchlists.length === 0 && addressesWatchlists.length === 0) {
@@ -64,6 +70,16 @@ const MyWatchlists = ({ data, addressesData, isDesktop }) => {
 
   return (
     <>
+      {!isDesktop && recentWatchlists.length > 0 && (
+        <>
+          <h3 className={cx('body-1 txt-m', isDesktop && 'mrg-l mrg--t mrg--b c-waterloo')}>
+            Recently viewed watchlists
+          </h3>
+          <Content isGrid={false} className={styles.projects}>
+            <Cards watchlists={recentWatchlists} type={PROJECT} />
+          </Content>
+        </>
+      )}
       <h3 className={cx('body-1 txt-m', isDesktop && 'mrg-l mrg--t mrg--b c-waterloo')}>
         Projects
       </h3>
