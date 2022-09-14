@@ -138,7 +138,6 @@
   }
 
   .category {
-    overflow: hidden;
     --padding: 24px;
   }
 

@@ -117,7 +117,7 @@
     background: var(--porcelain);
   }
 
-  :global(.more) {
+  :global(.products.column .more) {
     max-width: 256px;
   }
 </style>
