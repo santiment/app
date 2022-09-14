@@ -3,6 +3,19 @@ import cx from 'classnames'
 import Svg from 'webkit/ui/Svg/react'
 import styles from './NavItem.module.scss'
 
+const SubItem = ({ subItem, activeSub, setActiveSubItem }) => {
+  const { key, title } = subItem
+  const isActiveSub = key === activeSub.key
+
+  return (
+    <li className={cx(styles.subItemWrapper, isActiveSub && styles.activeSub, 'mrg-xs mrg--b')}>
+      <button className={cx(styles.subItem, 'btn')} onClick={() => setActiveSubItem(subItem)}>
+        {title}
+      </button>
+    </li>
+  )
+}
+
 const NavItem = ({ isActive, activeSub, setActive, setActiveSubItem, ...item }) => {
   const { title, subItems } = item
 
@@ -11,27 +24,14 @@ const NavItem = ({ isActive, activeSub, setActive, setActiveSubItem, ...item }) 
   if (activeSub) {
     subNav = (
       <ul className={cx(styles.subWrapper)}>
-        {subItems.map((subItem) => {
-          const isActiveSub = subItem.key === activeSub.key
-
-          return (
-            <li
-              key={subItem.key}
-              className={cx(
-                styles.subItemWrapper,
-                isActiveSub && styles.activeSub,
-                'mrg-xs mrg--b',
-              )}
-            >
-              <button
-                className={cx(styles.subItem, 'btn')}
-                onClick={() => setActiveSubItem(subItem)}
-              >
-                {subItem.title}
-              </button>
-            </li>
-          )
-        })}
+        {subItems.map((subItem) => (
+          <SubItem
+            key={subItem.key}
+            activeSub={activeSub}
+            subItem={subItem}
+            setActiveSubItem={setActiveSubItem}
+          />
+        ))}
       </ul>
     )
   }

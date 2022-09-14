@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import SocialTrends from './dashboards/SocialTrends/SocialTrends'
+import SocialTool from './dashboards-new/SocialTool/SocialTool'
 import EthToken from './dashboards/ETHToken/ETHToken'
 import Eth2 from './dashboards/ETH2/ETH2'
 import Stablecoins from './dashboards/Stablecoins/Stablecoins'
@@ -20,7 +20,7 @@ const Dashboards = () => {
   let content = null
 
   const { title } = activeItem
-  if (title === DASHBOARDS_TITLES.SOCIAL_TOOL) content = <SocialTrends />
+  if (title === DASHBOARDS_TITLES.SOCIAL_TOOL) content = <SocialTool />
   if (title === DASHBOARDS_TITLES.ETH_TOKEN_TRADING) content = <EthToken />
   if (title === DASHBOARDS_TITLES.ETH_2_STAKING) content = <Eth2 />
   if (title === DASHBOARDS_TITLES.STABLECOINS) content = <Stablecoins />
