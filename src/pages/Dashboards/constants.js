@@ -80,6 +80,10 @@ export const DASHBOARDS = [
         title: 'Top Stakers',
         key: 'top-stakers',
       },
+      {
+        title: 'Staking pools',
+        key: 'eth2-staking-pools',
+      },
     ],
     Content: Eth2,
   },

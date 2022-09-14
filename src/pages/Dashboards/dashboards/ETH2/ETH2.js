@@ -7,6 +7,7 @@ import EthStakedAmountByLabel from '../../../../ducks/Eth2.0/EthStakedAmountByLa
 import EthStakedAddressesByLabel from '../../../../ducks/Eth2.0/EthStakedAddressesByLabel/EthStakedAddressesByLabel'
 import EthUnlabeledStackerInflow from '../../../../ducks/Eth2.0/EthUnlabeledStackerInflow/EthUnlabeledStackerInflow'
 import EthTopStakers from '../../../../ducks/Eth2.0/EthTopStakers/EthTopStakers'
+import EthStakingPools from '../../../../ducks/Eth2.0/EthStakingPools/EthStakingPools'
 import { withRenderQueueProvider } from '../../../../ducks/renderQueue/viewport'
 import dashboardsStyles from '../dashboards.module.scss'
 
@@ -31,6 +32,9 @@ const Eth2 = ({ submenu, shareLinkText, description }) => (
       </Block>
       <Block title={submenu[5].title} tag={submenu[5].key}>
         <EthTopStakers />
+      </Block>
+      <Block title={submenu[6].title} tag={submenu[6].key}>
+        <EthStakingPools />
       </Block>
     </div>
   </div>
