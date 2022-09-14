@@ -19,8 +19,6 @@ const ETH_STAKING_POOLS_QUERY = gql`
   }
 `
 
-const EthStakingPools = () => (
-  <DashPieChart query={ETH_STAKING_POOLS_QUERY} />
-)
+const EthStakingPools = () => <DashPieChart query={ETH_STAKING_POOLS_QUERY} />
 
 export default EthStakingPools
