@@ -1,0 +1,24 @@
+@import '~@santiment-network/ui/mixins';
+
+.suggestions {
+  @include responsive('phone', 'phone-xs') {
+    margin-bottom: 20px;
+  }
+}
+
+.daysSelector {
+  margin-top: 40px;
+  background-color: var(--white);
+  border: 1px solid var(--porcelain);
+  padding: 0 24px;
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  display: flex;
+  align-items: center;
+  transition: height 0.3s ease-in-out;
+  height: 57px;
+}
+
+.switch {
+  margin-left: auto;
+}

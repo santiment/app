@@ -122,6 +122,7 @@ const LoadableFeedPage = LoadablePage(() => import('./pages/feed/Feed'))
 const LoadableAlertsPage = LoadablePage(() => import('./pages/Alerts/Alerts'))
 
 const LoadableDashboardsPage = LoadablePage(() => import('./pages/Dashboards/Dashboards'))
+const LoadableNewDashboardsPage = LoadablePage(() => import('./pages/NewDashboards/Dashboards'))
 
 class Route extends React.Component {
   componentWillMount() {
@@ -488,6 +489,10 @@ export const App = ({
             <Route
               path={PATHS.DASHBOARDS}
               render={(props) => <LoadableDashboardsPage {...props} />}
+            />
+            <Route
+              path={`${PATHS.DASHBOARDS}-new`}
+              render={(props) => <LoadableNewDashboardsPage {...props} />}
             />
             <Route
               path={PATHS.SHEETS_TEMPLATES}

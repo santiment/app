@@ -36,7 +36,7 @@ const SocialTrends = ({ history, shareLinkText, description }) => {
   return (
     <div className='column fluid'>
       <Header shareLinkText={shareLinkText} description={description} />
-      <div className={cx('column', dashboardsStyles.content)} id='soc_tool_top_10'>
+      <div className={cx('column', dashboardsStyles.content)}>
         <div className={cx('column mrg--b mrg-xl', dashboardsStyles.socialTrendsForm)}>
           <TrendsSearchForm withButton classes={{ wrapper: 'mrg--b mrg-s' }} />
           <DesktopOnly>
@@ -53,7 +53,6 @@ const SocialTrends = ({ history, shareLinkText, description }) => {
             </>
           </div>
         )}
-        <div id='soc_tool_mid_trends'></div>
         <Trends {...(selectedPeriod || {})} period={selectedPeriod || {}} />
       </div>
     </div>
