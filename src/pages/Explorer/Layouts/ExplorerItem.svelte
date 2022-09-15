@@ -47,7 +47,7 @@
           Insights
         </div>
       </div>
-      <InsightText text={pulseText} class="$style.text body-2" />
+      <InsightText text={pulseText} class="$style.text body-3 c-waterloo" />
       {#if showShowReadMore}
         <div class="readMore fluid row h-center">
           <button class="btn-2">Read more</button>
