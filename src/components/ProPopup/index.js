@@ -7,18 +7,9 @@ import styles from './index.module.scss'
 
 const EMPTY_ARRAY = []
 
-const ProPopup = ({
-  title,
-  description,
-  features,
-  toggleOpen = () => {},
-  isOpen = false,
-  ...props
-}) => {
-  const onCloseClick = () => toggleOpen(false)
-
+const ProPopup = ({ title, description, features, isOpen = false, ...props }) => {
   return (
-    <Dialog size='m' title={title} open={isOpen} onClose={onCloseClick} classes={styles} {...props}>
+    <Dialog size='m' title={title} open={isOpen} classes={styles} {...props}>
       <div className={styles.container}>
         <div className={styles.description}>{description}</div>
         <div className={styles.features}>
@@ -34,7 +25,7 @@ const ProPopup = ({
           variant='fill'
           accent='orange'
           className={styles.btn}
-          onClick={onCloseClick}
+          onClick={props.onClose}
         >
           Go Pro
         </Button>
