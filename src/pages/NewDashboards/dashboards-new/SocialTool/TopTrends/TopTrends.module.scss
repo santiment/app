@@ -32,22 +32,9 @@
   color: var(--fiord);
 }
 
-.action {
-  height: 32px;
-}
-
-.share {
-  padding: 6px 14px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.link {
-  padding: 6px 8px;
-  border-left: 1px solid var(--white);
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  --expl-align-x: -46%;
+.divider {
+  width: 1px;
+  background-color: var(--porcelain);
 }
 
 .word {

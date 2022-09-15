@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import Share from '../Share/Share'
+import ShareMedia from '../ShareMedia/ShareMedia'
 import styles from './Info.module.scss'
 
 const Info = ({ title, description }) => (
@@ -11,7 +11,7 @@ const Info = ({ title, description }) => (
     </div>
     <div className={cx(styles.share, 'column')}>
       <p className='nowrap txt-m txt-right c-waterloo mrg-m mrg--b'>Share on social media</p>
-      <Share text={description} />
+      <ShareMedia text={description} />
     </div>
   </article>
 )

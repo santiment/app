@@ -4,10 +4,9 @@ import Info from '../shared/Info/Info'
 import TopTrendsTable from './TopTrends/TopTrendsTable'
 import TrendsExploreInput from './TrendsExploreInput/TrendsExploreInput'
 import TrendsExploreSuggestions from './TrendsExploreInput/TrendsExploreSuggestions'
-import { DesktopOnly } from '../../../../components/Responsive'
 import dashboardsStyles from '../dashboards.module.scss'
 
-const SocialTool = () => (
+const SocialTool = ({ isDesktop }) => (
   <section className={cx(dashboardsStyles.wrapper, 'column')}>
     <Info
       title='Social tool'
@@ -16,9 +15,7 @@ const SocialTool = () => (
     <main className={cx(dashboardsStyles.content, 'column')}>
       <div>
         <TrendsExploreInput showButton />
-        <DesktopOnly>
-          <TrendsExploreSuggestions />
-        </DesktopOnly>
+        {isDesktop && <TrendsExploreSuggestions />}
       </div>
       <div>
         <h4 className='h4 txt-b mrg-s mrg--b'>Top 10 Hourly Trends</h4>

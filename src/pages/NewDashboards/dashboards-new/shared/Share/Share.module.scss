@@ -1,13 +1,17 @@
-.wrapper {
-  gap: 12px;
+.action {
+  height: 32px;
 }
 
-.btn {
-  padding: 10px;
-  border: 1px solid var(--porcelain);
-  border-radius: 6px;
+.share {
+  padding: 6px 14px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
 
-  &:hover {
-    border-color: var(--mystic);
-  }
+.link {
+  padding: 6px 8px;
+  border-left: 1px solid var(--white);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  --expl-align-x: -46%;
 }

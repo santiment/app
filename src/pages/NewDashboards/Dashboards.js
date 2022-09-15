@@ -13,14 +13,14 @@ import { useNav } from './hooks'
 import { DASHBOARDS_TITLES } from './constants'
 import styles from './Dashboards.module.scss'
 
-const Dashboards = () => {
+const Dashboards = (props) => {
   const navSettings = useNav()
   const { activeItem } = navSettings
 
   let content = null
 
   const { title } = activeItem
-  if (title === DASHBOARDS_TITLES.SOCIAL_TOOL) content = <SocialTool />
+  if (title === DASHBOARDS_TITLES.SOCIAL_TOOL) content = <SocialTool {...props} />
   if (title === DASHBOARDS_TITLES.ETH_TOKEN_TRADING) content = <EthToken />
   if (title === DASHBOARDS_TITLES.ETH_2_STAKING) content = <Eth2 />
   if (title === DASHBOARDS_TITLES.STABLECOINS) content = <Stablecoins />

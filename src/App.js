@@ -492,7 +492,7 @@ export const App = ({
             />
             <Route
               path={`${PATHS.DASHBOARDS}-new`}
-              render={(props) => <LoadableNewDashboardsPage {...props} />}
+              render={(props) => <LoadableNewDashboardsPage isDesktop={isDesktop} {...props} />}
             />
             <Route
               path={PATHS.SHEETS_TEMPLATES}

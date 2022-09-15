@@ -1,28 +1,27 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import Tooltip from '@santiment-network/ui/Tooltip'
-import Svg from 'webkit/ui/Svg/react'
-import { copy } from 'webkit/utils'
 import Table from '../../../../../ducks/_Table'
-import ShareModalTrigger from '../../../../../components/Share/ShareModalTrigger'
+import Share from '../../shared/Share/Share'
 import { useTrendingWords } from '../../../../../ducks/TrendsTable/hooks'
 import { useColumns } from '../../../../../ducks/_Table/hooks'
-import { useShortShareLink } from '../../../../../components/Share/hooks'
 import { useSocialDominanceTrendingWords } from '../hooks'
 import { COLUMNS } from './TopTrendsColumns'
 import styles from './TopTrends.module.scss'
+import Calendar from '../../../../../ducks/Studio/AdvancedView/Calendar'
+import { checkIsToday } from '../../../../../utils/dates'
+import { getTimePeriod } from '../../../../TrendsExplore/utils'
 
 const LINK_SELECTOR = `.${styles.word}`
+const MAX_DATE = new Date()
 
 const TopTrendsTable = () => {
-  const [isShareOpened, setIsShareOpened] = useState(false)
-  const clearTimerRef = useRef()
-  const { trendingWords, words, isLoading } = useTrendingWords()
+  const [trendDate, setTrendDate] = useState([MAX_DATE])
+  const [period, setTrendPeriod] = useState()
+
+  const { trendingWords, words, isLoading } = useTrendingWords(period)
   const { data } = useSocialDominanceTrendingWords()
   const columns = useColumns(COLUMNS)
-
-  const sharePath = '/charts' + window.location.search
-  const { shortShareLink, getShortShareLink } = useShortShareLink(sharePath)
 
   function onRowClick(_, { target, currentTarget }) {
     if (!target.closest('a')) {
@@ -30,21 +29,14 @@ const TopTrendsTable = () => {
     }
   }
 
-  function onShareClick() {
-    getShortShareLink(window.location.pathname)
-    setIsShareOpened(true)
-  }
-
-  function onCopyLinkClick() {
-    if (clearTimerRef.current) clearTimerRef.current()
-
-    getShortShareLink(window.location.pathname).then((url) => {
-      const node = document.querySelector('.copy .link')
-      const clb = () => node && (node['aria-label'] = 'Copy link')
-
-      if (node) node['aria-label'] = 'Copied!'
-      clearTimerRef.current = copy(url, clb)
-    })
+  function onTrendCalendarChange(date) {
+    setTrendDate([date])
+    let period
+    if (!checkIsToday(date)) {
+      period = getTimePeriod(date)
+      period.interval = '1d'
+    }
+    setTrendPeriod(period)
   }
 
   return (
@@ -53,7 +45,11 @@ const TopTrendsTable = () => {
         <p className={styles.socDominance}>
           Social dominance SUM:{' '}
           <Tooltip
-            trigger={<span className={cx(styles.sum, 'btn mrg-m mrg--l')}>{data.toFixed(1)}%</span>}
+            trigger={
+              <span className={cx(styles.sum, 'btn mrg-m mrg--l')}>
+                {data ? `${data.toFixed(1)}%` : 0}
+              </span>
+            }
             position='top'
             className={cx(styles.tooltip, 'border box body-3')}
           >
@@ -63,19 +59,16 @@ const TopTrendsTable = () => {
             </div>
           </Tooltip>
         </p>
-        <div>
-          <div className='row v-center btn--green'>
-            <button className={cx(styles.share, styles.action, 'btn')} onClick={onShareClick}>
-              Share
-            </button>
-            <button
-              className={cx(styles.link, styles.action, 'copy link btn expl-tooltip')}
-              aria-label='Copy link'
-              onClick={onCopyLinkClick}
-            >
-              <Svg id='link' w='16' />
-            </button>
-          </div>
+        <div className='row'>
+          <Calendar
+            dates={trendDate}
+            onChange={onTrendCalendarChange}
+            className={styles.calendar}
+            maxDate={MAX_DATE}
+            isFullDate
+          />
+          <div className={cx(styles.divider, 'mrg-l mrg--l mrg--r')} />
+          <Share id='top_trends_table_share_link' />
         </div>
       </div>
       <Table
@@ -87,13 +80,6 @@ const TopTrendsTable = () => {
         minRows={10}
         isLoading={isLoading}
         onRowClick={onRowClick}
-      />
-      <ShareModalTrigger
-        isDialogOnly
-        classes={styles}
-        shareLink={shortShareLink}
-        open={isShareOpened}
-        onClose={() => setIsShareOpened(false)}
       />
     </div>
   )
