@@ -34,7 +34,7 @@ const AlertModal = ({
   const [isModalOpen, setIsModalOpen] = useState(defaultOpen)
   const [isClosing, setIsClosing] = useState(false)
   const [isEdited, setIsEdited] = useState(false)
-  const [isPreview, setIsPreview] = useState(!isUserTheAuthor)
+  const [isPreview, setIsPreview] = useState(!isUserTheAuthor && isRecommendedSignal)
   const { isPro, isProPlus, loading } = useUserSubscriptionStatus()
 
   const shouldHideRestrictionMessage = isPro || isProPlus || loading
@@ -55,7 +55,7 @@ const AlertModal = ({
     }
     setIsModalOpen(false)
     setIsClosing(false)
-    setIsPreview(!isUserTheAuthor)
+    setIsPreview(!isUserTheAuthor && isRecommendedSignal)
   }
 
   const dialogTitle = isPreview ? 'Alert details' : id ? 'Edit custom alert' : modalTitle
@@ -84,7 +84,7 @@ const AlertModal = ({
             styles.dialog,
             isClosing && styles.hidden,
             isPreview && styles.preview,
-            isRecommendedSignal && styles.recommended,
+            isRecommendedSignal && isPreview && styles.recommended,
           ),
           title: cx(styles.dialogTitle, isMobile && 'body-2 txt-m'),
         }}
