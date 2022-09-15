@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import ProPopup from './index'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
@@ -42,14 +42,8 @@ const MODULE = {
   },
 }
 
-const ProPopupWrapper = ({
-  type,
-  trigger: Trigger,
-  children,
-  className,
-  toggleOpen,
-  isOpen = false,
-}) => {
+const ProPopupWrapper = ({ type, trigger: Trigger, children, className }) => {
+  const [isOpen, setIsOpen] = useState(false)
   const { isPro } = useUserSubscriptionStatus()
   const module = TypeAlias[type] || type
 
@@ -61,7 +55,8 @@ const ProPopupWrapper = ({
     <ProPopup
       trigger={Trigger ? <Trigger /> : <div className={className}>{children}</div>}
       isOpen={isOpen}
-      toggleOpen={toggleOpen}
+      onClose={() => setIsOpen(false)}
+      onOpen={() => setIsOpen(true)}
       {...MODULE[module]}
     />
   )
