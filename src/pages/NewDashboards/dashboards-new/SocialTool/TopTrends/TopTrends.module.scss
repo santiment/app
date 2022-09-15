@@ -1,0 +1,54 @@
+.wrapper {
+  border: 1px solid var(--porcelain);
+  border-radius: 8px;
+  background-color: var(--white);
+}
+
+.table {
+  min-height: 350px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.topBar {
+  padding: 16px 24px;
+}
+
+.socDominance {
+  border-radius: 6px;
+  padding: 4px 12px;
+  background-color: var(--orange-light-1);
+}
+
+.sum {
+  --color: var(--orange-hover);
+  text-decoration-line: underline;
+}
+
+.tooltip {
+  z-index: 11111;
+  padding: 14px 20px;
+  width: 246px;
+  color: var(--fiord);
+}
+
+.action {
+  height: 32px;
+}
+
+.share {
+  padding: 6px 14px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.link {
+  padding: 6px 8px;
+  border-left: 1px solid var(--white);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  --expl-align-x: -46%;
+}
+
+.word {
+}

@@ -1,0 +1,15 @@
+.wrapper {
+  height: 100%;
+}
+
+.content {
+  height: 100%;
+  padding: 32px 24px 48px;
+  background: var(--athens);
+  gap: 56px;
+}
+
+.description {
+  max-width: 600px;
+  color: var(--fiord);
+}
