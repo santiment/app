@@ -1,9 +1,9 @@
 import React from 'react'
 import cx from 'classnames'
 import Info from '../shared/Info/Info'
-import TopTrendsTable from './TopTrends/TopTrendsTable'
 import TrendsExploreInput from './TrendsExploreInput/TrendsExploreInput'
 import TrendsExploreSuggestions from './TrendsExploreInput/TrendsExploreSuggestions'
+import TopTrends from './TopTrends/TopTrends'
 import dashboardsStyles from '../dashboards.module.scss'
 
 const SocialTool = ({ isDesktop }) => (
@@ -23,7 +23,7 @@ const SocialTool = ({ isDesktop }) => (
           The top words with the highest percentage increase in mentions on crypto social media in
           the previous 24 hours
         </p>
-        <TopTrendsTable />
+        <TopTrends />
       </div>
     </main>
   </section>

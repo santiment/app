@@ -1,12 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Skeleton } from '../../../../../components/Skeleton'
-import MiniChart from '../../../../../components/MiniChart'
-import { WordCloud } from '../../../../../components/WordCloud/WordCloud'
-import { useTrendSocialVolume, useTrendWordContext } from '../../../../../ducks/TrendsTable/hooks'
-import { INDEX_COLUMN } from '../../../../../ducks/_Table/columns'
-import { prepareColumns } from '../../../../../ducks/_Table'
-import styles from '../../../../../ducks/TrendsTable/index.module.scss'
+import { Skeleton } from '../../../../../../../components/Skeleton'
+import MiniChart from '../../../../../../../components/MiniChart'
+import { WordCloud } from '../../../../../../../components/WordCloud/WordCloud'
+import { useTrendSocialVolume, useTrendWordContext } from '../../../../../../../ducks/TrendsTable/hooks'
+import { INDEX_COLUMN } from '../../../../../../../ducks/_Table/columns'
+import { prepareColumns } from '../../../../../../../ducks/_Table'
+import styles from '../../../../../../../ducks/TrendsTable/index.module.scss'
 
 const Loader = () => <Skeleton show className={styles.chart__skeleton} />
 

@@ -1,0 +1,9 @@
+.action {
+  --fill: var(--waterloo);
+
+  padding: 8px 11px;
+
+  &[disabled] {
+    --fill: var(--casper);
+  }
+}

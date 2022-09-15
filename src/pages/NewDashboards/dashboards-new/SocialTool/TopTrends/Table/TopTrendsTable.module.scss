@@ -1,0 +1,36 @@
+@import '~@santiment-network/ui/mixins';
+
+.table {
+  min-height: 350px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+
+  td {
+    padding: 8px 12px;
+  }
+
+  td:first-of-type {
+    @include text('body-2');
+
+    padding-left: 24px;
+  }
+}
+
+.tableHeader {
+  th {
+    @include text('body-3', 'm');
+
+    color: var(--waterloo);
+    padding: 8px 12px;
+  }
+
+  th:first-of-type {
+    padding-left: 24px;
+  }
+  th:last-of-type {
+    padding-right: 24px;
+  }
+}
+
+.word {
+}

@@ -3,39 +3,3 @@
   border-radius: 8px;
   background-color: var(--white);
 }
-
-.table {
-  min-height: 350px;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-}
-
-.topBar {
-  padding: 16px 24px;
-}
-
-.socDominance {
-  border-radius: 6px;
-  padding: 4px 12px;
-  background-color: var(--orange-light-1);
-}
-
-.sum {
-  --color: var(--orange-hover);
-  text-decoration-line: underline;
-}
-
-.tooltip {
-  z-index: 11111;
-  padding: 14px 20px;
-  width: 246px;
-  color: var(--fiord);
-}
-
-.divider {
-  width: 1px;
-  background-color: var(--porcelain);
-}
-
-.word {
-}

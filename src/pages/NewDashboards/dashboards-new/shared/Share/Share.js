@@ -2,8 +2,8 @@ import React, { useRef, useState } from 'react'
 import cx from 'classnames'
 import { copy } from 'webkit/utils'
 import Svg from 'webkit/ui/Svg/react'
-import { useShortShareLink } from '../../../../../components/Share/hooks'
 import ShareModalTrigger from '../../../../../components/Share/ShareModalTrigger'
+import { useShortShareLink } from '../../../../../components/Share/hooks'
 import styles from './Share.module.scss'
 
 const Share = ({ id }) => {
