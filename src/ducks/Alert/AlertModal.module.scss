@@ -30,9 +30,12 @@
   visibility: hidden;
 }
 
-.preview {
+.recommended {
   max-width: 496px;
   width: 100%;
+}
+
+.preview {
   max-height: unset;
   height: auto;
 }

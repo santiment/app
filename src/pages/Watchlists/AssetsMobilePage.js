@@ -20,11 +20,11 @@ import styles from './AssetsMobilePage.module.scss'
 // Pls, upd here, if you change height of any elements on this page
 const BOTTOM_HEIGHT = 83
 const HEADER_HEIGHT = 73
-const TABLE_LABELS_HEIGHT = 58
+const TABLE_LABELS_HEIGHT = 60
 
 const INITIAL_REMAINING_HEIGHT = BOTTOM_HEIGHT + HEADER_HEIGHT + TABLE_LABELS_HEIGHT
 
-const ROW_HEIGHT = 72
+const ROW_HEIGHT = 68
 
 export const PRICE_RANGES = [
   { value: '1d', label: '24h' },

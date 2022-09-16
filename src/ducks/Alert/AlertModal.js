@@ -80,7 +80,12 @@ const AlertModal = ({
           )
         }
         classes={{
-          dialog: cx(styles.dialog, isClosing && styles.hidden, isPreview && styles.preview),
+          dialog: cx(
+            styles.dialog,
+            isClosing && styles.hidden,
+            isPreview && styles.preview,
+            isRecommendedSignal && styles.recommended,
+          ),
           title: cx(styles.dialogTitle, isMobile && 'body-2 txt-m'),
         }}
       >
