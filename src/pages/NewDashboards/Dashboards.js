@@ -21,13 +21,13 @@ const Dashboards = (props) => {
 
   const { title } = activeItem
   if (title === DASHBOARDS_TITLES.SOCIAL_TOOL) content = <SocialTool {...props} />
-  if (title === DASHBOARDS_TITLES.ETH_TOKEN_TRADING) content = <EthToken />
-  if (title === DASHBOARDS_TITLES.ETH_2_STAKING) content = <Eth2 />
-  if (title === DASHBOARDS_TITLES.STABLECOINS) content = <Stablecoins />
-  if (title === DASHBOARDS_TITLES.UNISWAP_PROTOCOL) content = <UniswapProtocol />
-  if (title === DASHBOARDS_TITLES.DECENTRALIZED_EXCHANGES) content = <Dex />
-  if (title === DASHBOARDS_TITLES.BTC_LOCKED) content = <BtcLocked />
-  if (title === DASHBOARDS_TITLES.NFT_INFLUENCERS_TRX) content = <NFTTx />
+  if (title === DASHBOARDS_TITLES.ETH_TOKEN_TRADING) content = <></>
+  if (title === DASHBOARDS_TITLES.ETH_2_STAKING) content = <></>
+  if (title === DASHBOARDS_TITLES.STABLECOINS) content = <></>
+  if (title === DASHBOARDS_TITLES.UNISWAP_PROTOCOL) content = <></>
+  if (title === DASHBOARDS_TITLES.DECENTRALIZED_EXCHANGES) content = <></>
+  if (title === DASHBOARDS_TITLES.BTC_LOCKED) content = <></>
+  if (title === DASHBOARDS_TITLES.NFT_INFLUENCERS_TRX) content = <></>
 
   return (
     <section className={cx(styles.wrapper, 'row')}>

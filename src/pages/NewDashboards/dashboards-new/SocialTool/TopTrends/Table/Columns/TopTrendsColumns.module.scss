@@ -1,0 +1,24 @@
+@import '~@santiment-network/ui/mixins';
+/* stylelint-disable */
+
+.word {
+  --color-hover: var(--green);
+}
+
+.cloud {
+  min-width: 260px;
+}
+
+.words {
+  height: 64px;
+}
+
+.chart {
+  --chart-stroke: var(--malibu);
+  --chart-fill: url(#trend-social-volume);
+}
+
+.skeleton {
+  height: 40px;
+  width: 120px;
+}

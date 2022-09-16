@@ -1,5 +1,6 @@
 import React from 'react'
 import TagCloud from 'react-tag-cloud'
+import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { formatNumber } from '../../utils/formatting'
 import styles from './WordCloud.module.scss'
@@ -24,20 +25,34 @@ const WORD_SMALL = {
   color: 'var(--casper)',
 }
 
-const getWordStyles = (index, bigLimit, mediumLimit) => {
+const getWordStyles = (index, bigLimit, mediumLimit, fixedFont) => {
   if (index < bigLimit) {
+    if (fixedFont) return { color: WORD_BIG.color, ...fixedFont }
+
     return WORD_BIG
   }
 
   if (index < mediumLimit) {
+    if (fixedFont) return { color: WORD_MEDIUM.color, ...fixedFont }
+
     return WORD_MEDIUM
   }
+
+  if (fixedFont) return { color: WORD_SMALL.color, ...fixedFont }
 
   return WORD_SMALL
 }
 
 const WordCloudContent = React.memo(
-  ({ cloud, showBadge = true, bigLimit = BIG_LIMIT, mediumLimit = MEDIUM_LIMIT, padding = 15 }) => {
+  ({
+    cloud,
+    showBadge = true,
+    bigLimit = BIG_LIMIT,
+    mediumLimit = MEDIUM_LIMIT,
+    padding = 15,
+    fixedFont,
+    textClassName,
+  }) => {
     return (
       <TagCloud
         style={{
@@ -51,8 +66,8 @@ const WordCloudContent = React.memo(
           <Link
             key={word}
             to={`/labs/trends/explore/${word}`}
-            style={getWordStyles(index, bigLimit, mediumLimit)}
-            className={styles.text}
+            style={getWordStyles(index, bigLimit, mediumLimit, fixedFont)}
+            className={cx(styles.text, textClassName)}
           >
             {word}
             {showBadge && index < bigLimit && (

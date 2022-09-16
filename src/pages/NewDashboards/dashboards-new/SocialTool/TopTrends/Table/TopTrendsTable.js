@@ -3,9 +3,10 @@ import Table from '../../../../../../ducks/_Table'
 import { useTrendingWords } from '../../../../../../ducks/TrendsTable/hooks'
 import { useColumns } from '../../../../../../ducks/_Table/hooks'
 import { COLUMNS } from './Columns/TopTrendsColumns'
+import topTrendsColumnsStyles from './Columns/TopTrendsColumns.module.scss'
 import styles from './TopTrendsTable.module.scss'
 
-const LINK_SELECTOR = `.${styles.word}`
+const LINK_SELECTOR = `.${topTrendsColumnsStyles.word}`
 
 const TopTrendsTable = ({ period }) => {
   const { trendingWords, words, isLoading } = useTrendingWords(period)

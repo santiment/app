@@ -5,7 +5,8 @@ import { DASHBOARDS } from '../constants'
 import styles from './Nav.module.scss'
 
 const Nav = ({ navSettings }) => {
-  const { activeItem, activeSubItem, setActiveItem, setActiveSubItem } = navSettings
+  const { activeItem, activeSubItem, setActiveItem, setActiveSubItem, scrollToSubItem } =
+    navSettings
 
   const dashboards = DASHBOARDS.map((dashboard) => {
     const isActive = dashboard.title === activeItem.title
@@ -20,14 +21,15 @@ const Nav = ({ navSettings }) => {
         activeSub={activeSub}
         setActive={setActiveItem}
         setActiveSubItem={setActiveSubItem}
+        scrollToSubItem={scrollToSubItem}
         {...dashboard}
       />
     )
   })
 
   return (
-    <nav className={cx(styles.wrapper, 'column')}>
-      <ul>{dashboards}</ul>
+    <nav className={cx(styles.wrapper, 'relative column')}>
+      <ul className={styles.nav}>{dashboards}</ul>
     </nav>
   )
 }

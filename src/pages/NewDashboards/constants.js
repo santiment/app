@@ -24,10 +24,6 @@ export const DASHBOARDS = [
     title: DASHBOARDS_TITLES.ETH_TOKEN_TRADING,
     subItems: [
       {
-        title: 'Trading',
-        key: 'eth_token_trading',
-      },
-      {
         title: 'Volume against ETH Based tokens (DEXs)',
         key: 'eth_token_volume_against_eth',
       },
