@@ -120,7 +120,7 @@ const AlertModalFormMaster = ({
     if (!isModalOpen) {
       setIsEdited(false)
     }
-  }, [formPreviousValues, isModalOpen, isPreview])
+  }, [formPreviousValues, initialState, isModalOpen, isPreview])
 
   async function submitFormValues({ values, setSubmitting }) {
     const triggerValues = {

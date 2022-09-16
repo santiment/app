@@ -110,7 +110,6 @@
     height: calc(100vh - 64px);
     padding: 24px 16px;
     overflow: auto;
-    background-color: var(--athens);
   }
 
   .collapsed {
@@ -129,6 +128,10 @@
       .links {
         transform: translate(0px);
         opacity: 1;
+      }
+
+      .container {
+        background-color: var(--athens);
       }
     }
   }

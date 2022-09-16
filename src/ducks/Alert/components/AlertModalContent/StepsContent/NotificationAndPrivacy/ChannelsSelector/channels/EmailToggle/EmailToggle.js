@@ -1,18 +1,18 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import SourceToggle from '../SourceToggle'
-import TriggerChannelSettings from '../../../../../../../../Signals/signalFormManager/signalCrudForm/formParts/channels/TriggerChannelSettings'
-import styles from '../../ChannelsSelector.module.scss'
 
 const EmailToggle = ({ disabled, email, isActive, onChange }) => (
   <SourceToggle
     label={
-      <>
+      <div className='row v-center nowrap'>
         Email
-        <TriggerChannelSettings
-          showTrigger={disabled}
-          trigger={<div className={styles.channelSettingsTrigger}>Enable notifications</div>}
-        />
-      </>
+        {disabled && (
+          <Link to='/account#notifications' className='btn c-green mrg-xs mrg--l'>
+            Enable notifications
+          </Link>
+        )}
+      </div>
     }
     disabled={disabled}
     onChange={onChange}

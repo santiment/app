@@ -17,15 +17,7 @@ const SaveAs = ({ watchlist, trigger, type, prefix = 'Duplicate', open, customTo
   const { closeDialog, isOpened, toggleOpen } = useDialogState(false)
 
   if (type === SCREENER && !isPro) {
-    return (
-      <ProPopupWrapper
-        isOpen={open}
-        type={type}
-        toggleOpen={customToggleOpen ? customToggleOpen : toggleOpen}
-      >
-        {trigger}
-      </ProPopupWrapper>
-    )
+    return <ProPopupWrapper type={type}>{trigger}</ProPopupWrapper>
   }
 
   if (!isLoggedIn) {
