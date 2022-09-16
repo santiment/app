@@ -19,7 +19,6 @@ const COLORS = [
 const MAX_COLOR_PROJECTS = COLORS.length
 const MAX_DESCRIBED_PROJECTS = 6
 
-export const existingAssetsFilter = ({ balanceUsd }) => balanceUsd
 export const distributionSorter = ({ balanceUsd: a }, { balanceUsd: b }) => b - a
 const checkIsSmallDistribution = (percent) => percent < 0.5
 const smallDistributionFinder = ({ percent }) => checkIsSmallDistribution(percent)
@@ -30,7 +29,7 @@ export function useDistributions(walletAssets) {
   return useMemo(() => {
     if (projects.length === 0) return []
 
-    const sortedAssets = walletAssets.filter(existingAssetsFilter).sort(distributionSorter)
+    const sortedAssets = walletAssets.sort(distributionSorter)
     const { length } = sortedAssets
     const distributions = new Array(length)
     let totalBalance = 0
