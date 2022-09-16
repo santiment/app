@@ -38,12 +38,11 @@ const renderCustomizedLabel = (props) => {
 
   const xValue = x + width / 2
   const yValue = y + position
-  const translateY = +value >= 0 ? -10 : 8
+  const translateY = +value > 0 ? -10 : 8
   const barValue = getBarValue(+value)
-  const shouldRotate = width < 40 && barValue.toString().length > 3
 
   return (
-    <g style={{ transform: shouldRotate && `translateY(${translateY}px)` }}>
+    <g style={{ transform: `translateY(${translateY}px)` }}>
       <text
         x={xValue}
         y={yValue}
@@ -51,8 +50,8 @@ const renderCustomizedLabel = (props) => {
         textAnchor='middle'
         fontSize={fontSize}
         fontWeight={500}
-        dominant-baseline={shouldRotate && 'central'}
-        transform={shouldRotate && `rotate(270, ${xValue}, ${yValue})`}
+        dominant-baseline={'central'}
+        transform={`rotate(270, ${xValue}, ${yValue})`}
       >
         {value && barValue}
       </text>
