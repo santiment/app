@@ -1,84 +1,33 @@
-import React, { useEffect, useState } from 'react'
-import { Helmet } from 'react-helmet'
+import React from 'react'
 import cx from 'classnames'
-import { track } from 'webkit/analytics'
-import AsideNav from './AsideNav/AsideNav'
-import { useNavigationAnchor } from '../../components/LeftPageNavigation/LeftPageNavigation'
-import { useEventListener } from '../../hooks/eventListeners'
-import { useDebounce } from '../../hooks'
-import { PATHS } from '../../paths'
-import { DASHBOARDS } from './constants'
-import { findScrollProperties, scrollToCurrentAnchor } from './utils'
+import SocialTool from './dashboards/SocialTool/SocialTool'
+import Nav from './Nav/Nav'
+import { useNav } from './hooks'
+import { DASHBOARDS_TITLES } from './constants'
 import styles from './Dashboards.module.scss'
 
-const Dashboards = ({ location, history }) => {
-  const [currentDashboard, setCurrentDashboard] = useState(DASHBOARDS[0])
-  const { setActive, active } = useNavigationAnchor(currentDashboard.submenu || [])
-  const setActiveDebounced = useDebounce(() => {
-    const { tab } = findScrollProperties(currentDashboard)
+const Dashboards = (props) => {
+  const { history, match, location } = props
+  const navSettings = useNav({ history, match, location })
+  const { activeItem } = navSettings
 
-    if (tab && active && tab.key !== active.key) {
-      setActive(tab)
-    }
-  }, 150)
+  let content = null
 
-  const { pathname, hash } = location
-
-  useEffect(() => {
-    track.pageview('sanbase')
-
-    if (pathname === PATHS.DASHBOARDS) {
-      history.push(`${pathname}${currentDashboard.to}`)
-      return
-    }
-
-    if (pathname !== `${PATHS.DASHBOARDS}${currentDashboard.to}`) {
-      setCurrentDashboard(
-        DASHBOARDS.find((dashboard) => dashboard.to === pathname.replace('/dashboards', '')),
-      )
-    }
-  }, [pathname])
-
-  useEffect(() => {
-    if (hash && currentDashboard && currentDashboard.submenu) {
-      scrollToCurrentAnchor({ currentDashboard, hash })
-    }
-  }, [currentDashboard])
-
-  useEventListener('scroll', () => {
-    if (currentDashboard && currentDashboard.submenu) {
-      setActiveDebounced()
-    }
-  })
-
-  const { Content, name, description, submenu } = currentDashboard
+  const { title } = activeItem
+  if (title === DASHBOARDS_TITLES.SOCIAL_TOOL) content = <SocialTool {...props} />
+  if (title === DASHBOARDS_TITLES.ETH_TOKEN_TRADING) content = <></>
+  if (title === DASHBOARDS_TITLES.ETH_2_STAKING) content = <></>
+  if (title === DASHBOARDS_TITLES.STABLECOINS) content = <></>
+  if (title === DASHBOARDS_TITLES.UNISWAP_PROTOCOL) content = <></>
+  if (title === DASHBOARDS_TITLES.DECENTRALIZED_EXCHANGES) content = <></>
+  if (title === DASHBOARDS_TITLES.BTC_LOCKED) content = <></>
+  if (title === DASHBOARDS_TITLES.NFT_INFLUENCERS_TRX) content = <></>
 
   return (
-    <div className={cx(styles.wrapper, 'row')}>
-      <Helmet>
-        <title>{currentDashboard.name}</title>
-        <meta property='og:title' content={currentDashboard.name} />
-        <meta property='og:description' content={currentDashboard.description} />
-      </Helmet>
-      <div className={styles.aside}>
-        <AsideNav
-          location={location}
-          history={history}
-          currentDashboard={currentDashboard}
-          setCurrentDashboard={setCurrentDashboard}
-          currentAnchor={active}
-          setCurrentAnchor={setActive}
-        />
-      </div>
-      {Content && (
-        <Content
-          history={history}
-          submenu={submenu}
-          description={description}
-          shareLinkText={description || name}
-        />
-      )}
-    </div>
+    <section className={cx(styles.wrapper, 'row')}>
+      <Nav navSettings={navSettings} />
+      <main className='fluid'>{content}</main>
+    </section>
   )
 }
 

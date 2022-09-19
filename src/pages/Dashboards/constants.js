@@ -1,237 +1,201 @@
-import { PATHS } from '../../paths'
-import SocialTrends from './dashboards/SocialTrends/SocialTrends'
-import EthToken from './dashboards/ETHToken/ETHToken'
-import Eth2 from './dashboards/ETH2/ETH2'
-import Stablecoins from './dashboards/Stablecoins/Stablecoins'
-import UniswapProtocol from './dashboards/UniswapProtocol/UniswapProtocol'
-import Dex from './dashboards/Dex/Dex'
-import BtcLocked from './dashboards/BTCLocked/BTCLocked'
-import NFTTx from './dashboards/NFTTx/NFTTx'
+export const DASHBOARDS_TITLES = {
+  SOCIAL_TOOL: 'Social Tool',
+  ETH_TOKEN_TRADING: 'ETH Token Trading Analysis',
+  ETH_2_STAKING: 'Ethereum 2.0 Staking Analytics',
+  STABLECOINS: 'Stablecoins',
+  UNISWAP_PROTOCOL: 'Uniswap Procotol',
+  DECENTRALIZED_EXCHANGES: 'Decentralized Exchanges',
+  BTC_LOCKED: 'Bitcoin Locked on Ethereum',
+  NFT_INFLUENCERS_TRX: 'NFT Influencers Trx',
+}
 
 export const DASHBOARDS = [
   {
-    name: 'Social Tool. Trends 24H',
-    description: 'Explore the social volume of any word on crypto social media.',
-    to: PATHS.SOCIAL_TRENDS,
-    Content: SocialTrends,
-  },
-  {
-    name: 'Social Tool. Trends mid-term',
-    to: PATHS.SOCIAL_TOOl,
-    shouldRedirect: true,
-  },
-  {
-    name: 'ETH Token Trading Analysis',
-    to: PATHS.ETH_ANALYSIS,
-    submenu: [
+    title: DASHBOARDS_TITLES.SOCIAL_TOOL,
+    subItems: [
+      { title: 'Top 10 Hourly Trends', key: 'soc_tool_top_10' },
       {
-        title: 'Trading',
-        key: '',
+        title: 'Popular Mid-Term Trends',
+        key: 'soc_tool_mid_trends',
       },
+    ],
+    path: 'social-tool',
+  },
+  {
+    title: DASHBOARDS_TITLES.ETH_TOKEN_TRADING,
+    subItems: [
       {
         title: 'Volume against ETH Based tokens (DEXs)',
-        key: 'volume-against-eth',
+        key: 'eth_token_volume_against_eth',
       },
       {
         title: 'Volume against USD Based tokens (Stablecoins)',
-        key: 'volume-against-usd',
+        key: 'eth_token_volume_against_usd',
       },
       {
         title: 'Token Price against ETH Based Tokens segmented by DEXs',
-        key: 'token-price',
-      },
-      {
-        title: 'Labeling',
-        key: '',
+        key: 'eth_token_token_against_eth',
       },
       {
         title: 'Label Balance',
-        key: 'label-balance',
+        key: 'eth_token_label_balance',
       },
     ],
-    Content: EthToken,
+    path: 'eth-token-trading',
   },
   {
-    name: 'Ethereum 2.0 Staking Analytics',
-    description: 'Information all about staking metrics and statistics for the new Ethereum 2.0.',
-    to: PATHS.ETH2,
-    submenu: [
+    title: DASHBOARDS_TITLES.ETH_2_STAKING,
+    subItems: [
       {
         title: 'Staking Roi',
-        key: 'staking-roi',
+        key: 'eth_2_roi',
       },
       {
         title: 'Total Staked',
-        key: 'total-staked',
+        key: 'eth_2_total_staked',
       },
       {
         title: 'Staked amount by Label',
-        key: 'staked-by-label',
+        key: 'eth_2_staked_amount_label',
       },
       {
         title: 'Number of Staked Addresses by Label',
-        key: 'staked-addresses',
+        key: 'eth_2_staked_addresses_label',
       },
       {
         title: 'Unlabeled Staker Inflow Sources',
-        key: 'unlabeled-inflow',
+        key: 'eth_2_staker_inflow',
       },
       {
         title: 'Top Stakers',
-        key: 'top-stakers',
-      },
-      {
-        title: 'Staking pools',
-        key: 'eth2-staking-pools',
+        key: 'eth_2_top_stakers',
       },
     ],
-    Content: Eth2,
+    path: 'eth-2-staking',
   },
   {
-    name: 'Stablecoins',
-    description:
-      'Real-time information on the biggest stablecoins’ market size, whale behavior, speculative demand and more.',
-    to: PATHS.STABLECOINS,
-    submenu: [
+    title: DASHBOARDS_TITLES.STABLECOINS,
+    subItems: [
       {
         title: 'Stablecoins Overview',
-        key: 'overview',
+        key: 'stablecoins_overview',
       },
       {
         title: 'Whale Trends',
-        key: 'whale-trends',
+        key: 'stablecoins_whale_trends',
       },
       {
         title: 'Flow to Exchanges',
-        key: 'flow-to-exchanges',
+        key: 'stablecoins_flow_exchanges',
       },
       {
         title: 'Top Exchanges',
-        key: 'top-exchanges',
+        key: 'stablecoins_top_exchanges',
       },
       {
         title: 'Stablecoin Net Exchange Flow',
-        key: 'net-exchange-flow',
+        key: 'stablecoins_net_exchange',
       },
       {
         title: 'Largest Transactions to Exchanges',
-        key: 'largest-transactions',
+        key: 'stablecoins_largest_transactions',
       },
       {
         title: 'Holder Distribution',
-        key: 'holder-distribution',
+        key: 'stablecoins_holder_distribution',
       },
       {
         title: 'Transaction Activity',
-        key: 'transaction-activity',
+        key: 'stablecoins_transaction_activity',
       },
       {
         title: 'Network Activity',
-        key: 'network-activity',
+        key: 'stablecoins_network_activity',
       },
     ],
-    Content: Stablecoins,
+    path: 'stablecoins',
   },
   {
-    name: 'Uniswap Protocol',
-    description:
-      'Real-time data on UNI token distribution, total amount of UNI claimed, amount of UNI on centralized and decentralized exchange, top UNI transactions and more.',
-    to: PATHS.UNISWAP_PROTOCOL,
-    submenu: [
-      {
-        title: 'General',
-        key: '',
-      },
+    title: DASHBOARDS_TITLES.UNISWAP_PROTOCOL,
+    subItems: [
       {
         title: 'Top Exchanges',
-        key: 'top-exchanges',
+        key: 'uniswap_top_exchanges',
       },
       {
         title: 'UNI Flow Balances',
-        key: 'flow-balances',
+        key: 'uniswap_uni_balances',
       },
       {
         title: 'Top Token Transactions',
-        key: 'top-transactions',
+        key: 'uniswap_top_token_transactions',
       },
       {
         title: 'UNI Price, Age Consumed, Active Addresses (24h)',
-        key: 'metrics',
-      },
-      {
-        title: 'Initial Distribution',
-        key: '',
+        key: 'uniswap_uni_price',
       },
       {
         title: 'Token Distributor',
-        key: 'token-distributor',
+        key: 'uniswap_token_distributor',
       },
       {
         title: 'UNI Token Claims',
-        key: 'claimers',
+        key: 'uniswap_uni_token_claims',
       },
       {
         title: 'Top Claimers',
-        key: 'top-claimers',
+        key: 'uniswap_top_claimers',
       },
       {
         title: 'UNI Claims: Overview',
-        key: 'claimers-widgets',
+        key: 'uniswap_uni_claims',
       },
       {
         title: 'Who claimed UNI?',
-        key: 'who-claimed',
+        key: 'uniswap_who_claimed',
       },
     ],
-    Content: UniswapProtocol,
+    path: 'uniswap',
   },
   {
-    name: 'Decentralized Exchanges',
-    description:
-      'Track the on-chain activity on 18 decentralized exchanges, their daily volumes, number of trades and the usage rate of individual DEXes over time. This data is from the main decentralized exchanges namely Balancer, Bancor, Curve, dYdX, Etherdelta, Gnosis, IDEX, Kyber, Oasis, 0x, Tokenstore, Uniswap, AirSwap, DEX.Top and DDEX.',
-    to: PATHS.DEXS,
-    submenu: [
+    title: DASHBOARDS_TITLES.DECENTRALIZED_EXCHANGES,
+    subItems: [
       {
         title: 'Volume of DEXs Trades',
-        key: 'trades-volume',
+        key: 'dex_volume_trades',
       },
       {
         title: 'Volume of Trades by DEXs',
-        key: 'dex-by-volume',
+        key: 'dex_volume_trades_by',
       },
       {
         title: 'Total Number of DEX Trades',
-        key: 'trades-amount',
+        key: 'dex_total_trades',
       },
       {
         title: 'Number of Trades Segmented by DEX',
-        key: 'dex-by-amount',
+        key: 'dex_segmented_trades',
       },
     ],
-    Content: Dex,
+    path: 'dex',
   },
   {
-    name: 'Bitcoin Locked on Ethereum',
-    to: PATHS.BTC_LOCKED,
-    submenu: [
+    title: DASHBOARDS_TITLES.BTC_LOCKED,
+    subItems: [
       {
         title: 'Total Supply',
-        key: 'total-supply',
+        key: 'btc_total_supply',
       },
       {
         title: 'Distribution of Bitcoin on Ethereum',
-        key: 'distribution-on-eth',
+        key: 'btc_distribution',
       },
       {
         title: 'Total BTC on Ethereum',
-        key: 'total-on-eth',
+        key: 'btc_total_eth',
       },
     ],
-    Content: BtcLocked,
+    path: 'btc-locked',
   },
-  {
-    name: 'NFT Influencers Trx',
-    to: PATHS.NFT_INFLUENCERS_TRX,
-    Content: NFTTx,
-  },
+  { title: DASHBOARDS_TITLES.NFT_INFLUENCERS_TRX, path: 'nft' },
 ]

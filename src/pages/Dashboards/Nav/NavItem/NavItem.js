@@ -3,12 +3,11 @@ import cx from 'classnames'
 import Svg from 'webkit/ui/Svg/react'
 import styles from './NavItem.module.scss'
 
-const SubItem = ({ subItem, activeSub, setActiveSubItem, scrollToSubItem }) => {
+const SubItem = ({ subItem, activeSub, scrollToSubItem }) => {
   const { key, title } = subItem
   const isActiveSub = key === activeSub.key
 
   function handleSubItemClick() {
-    setActiveSubItem(subItem)
     scrollToSubItem(subItem)
   }
 
@@ -21,14 +20,7 @@ const SubItem = ({ subItem, activeSub, setActiveSubItem, scrollToSubItem }) => {
   )
 }
 
-const NavItem = ({
-  isActive,
-  activeSub,
-  setActive,
-  setActiveSubItem,
-  scrollToSubItem,
-  ...item
-}) => {
+const NavItem = ({ isActive, activeSub, setActive, scrollToSubItem, ...item }) => {
   const { title, subItems } = item
 
   let subNav = null
@@ -41,7 +33,6 @@ const NavItem = ({
             key={subItem.key}
             activeSub={activeSub}
             subItem={subItem}
-            setActiveSubItem={setActiveSubItem}
             scrollToSubItem={scrollToSubItem}
           />
         ))}
