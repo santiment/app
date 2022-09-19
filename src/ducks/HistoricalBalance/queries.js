@@ -2,7 +2,10 @@ import gql from 'graphql-tag'
 
 export const WALLET_ASSETS_QUERY = gql`
   query assetsHeldByAddress($address: String!, $infrastructure: String!) {
-    assetsHeldByAddress(selector: { address: $address, infrastructure: $infrastructure }) {
+    assetsHeldByAddress(
+      selector: { address: $address, infrastructure: $infrastructure }
+      showAssetsWithZeroBalance: true
+    ) {
       slug
       balance
       balanceUsd

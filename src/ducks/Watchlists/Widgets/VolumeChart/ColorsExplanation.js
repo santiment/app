@@ -59,7 +59,8 @@ const ColorsExplanation = ({ colorMaps, range }) => {
         {COLORS.map((key) => {
           return (
             <div key={key} className={styles.card} style={{ backgroundColor: colorMaps[key] }}>
-              {key}{key !== '0' && '%'}
+              {key}
+              {key !== '0' && '%'}
             </div>
           )
         })}
