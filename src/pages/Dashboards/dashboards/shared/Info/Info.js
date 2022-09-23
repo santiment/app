@@ -4,7 +4,7 @@ import ShareMedia from '../ShareMedia/ShareMedia'
 import styles from './Info.module.scss'
 
 const Info = ({ title, description }) => (
-  <article className={cx(styles.wrapper, 'row')}>
+  <article className={cx(styles.wrapper, 'row justify')}>
     <div className={cx(styles.info)}>
       <h4 className='h4 txt-b mrg-m mrg--b'>{title}</h4>
       <p>{description}</p>

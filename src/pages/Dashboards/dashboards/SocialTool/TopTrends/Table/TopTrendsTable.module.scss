@@ -7,12 +7,12 @@
 
   td {
     padding: 8px 12px;
-  }
 
-  td:first-of-type {
-    @include text('body-2');
+    &:first-of-type {
+      @include text('body-2');
 
-    padding-left: 24px;
+      padding-left: 24px;
+    }
   }
 }
 
@@ -22,15 +22,13 @@
 
     color: var(--waterloo);
     padding: 8px 12px;
-  }
 
-  th:first-of-type {
-    padding-left: 24px;
-  }
-  th:last-of-type {
-    padding-right: 24px;
-  }
-}
+    &:first-of-type {
+      padding-left: 24px;
+    }
 
-.word {
+    &:last-of-type {
+      padding-right: 24px;
+    }
+  }
 }

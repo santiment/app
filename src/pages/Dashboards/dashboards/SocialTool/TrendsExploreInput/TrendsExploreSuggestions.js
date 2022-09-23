@@ -27,7 +27,7 @@ const TrendsExploreSuggestions = () => (
         <Link
           key={trend}
           to={`/labs/trends/explore/${trend}${options && '?' + options}`}
-          className={cx(styles.trend, 'btn mrg-xs mrg--r')}
+          className='btn btn-0 mrg-xs mrg--r'
         >
           {trend}
           {index !== SUGGESTIONS.length - 1 && ','}
