@@ -23,23 +23,6 @@ const SubItem = ({ subItem, activeSub, scrollToSubItem }) => {
 const NavItem = ({ isActive, activeSub, setActive, scrollToSubItem, ...item }) => {
   const { title, subItems } = item
 
-  let subNav = null
-
-  if (activeSub) {
-    subNav = (
-      <ul className={cx(styles.subWrapper)}>
-        {subItems.map((subItem) => (
-          <SubItem
-            key={subItem.key}
-            activeSub={activeSub}
-            subItem={subItem}
-            scrollToSubItem={scrollToSubItem}
-          />
-        ))}
-      </ul>
-    )
-  }
-
   return (
     <li className={styles.wrapper}>
       <button
@@ -53,7 +36,18 @@ const NavItem = ({ isActive, activeSub, setActive, scrollToSubItem, ...item }) =
           </div>
         )}
       </button>
-      {subNav}
+      {activeSub && (
+        <ul className={cx(styles.subWrapper)}>
+          {subItems.map((subItem) => (
+            <SubItem
+              key={subItem.key}
+              activeSub={activeSub}
+              subItem={subItem}
+              scrollToSubItem={scrollToSubItem}
+            />
+          ))}
+        </ul>
+      )}
     </li>
   )
 }
