@@ -2,6 +2,7 @@
 
 .tableWrapper {
   min-height: auto;
+  margin-bottom: 50px;
 }
 
 .table {
@@ -15,7 +16,7 @@
   bottom: 0;
   left: 40px;
   right: 0;
-  z-index: 23 !important;
+  z-index: 23;
 }
 
 .headerColumn {
