@@ -86,9 +86,10 @@ const MobileAssetChart = ({
           />
           {isTouch && (
             <Tooltip
+              wrapperStyle={{ zIndex: 999999, position: 'fixed' }}
               isAnimationActive={false}
               cursor={{ stroke: 'var(--casper)' }}
-              position={{ x: 0, y: isLandscapeMode ? -49 : -62.5 }}
+              position={{ x: 0, y: 0 }}
               content={(props) => (
                 <>
                   <MobilePriceTooltip {...props} labelFormatter={tooltipLabelFormatter} />
