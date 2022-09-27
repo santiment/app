@@ -3,10 +3,6 @@
 .wrapper {
   background: var(--white);
   width: calc(50vw - 16px);
-
-  @media (orientation: landscape) {
-    width: 30vw;
-  }
 }
 
 .price {
@@ -16,13 +12,6 @@
   min-height: 40px;
 
   @include text('h3');
-
-  @media (orientation: landscape) {
-    @include text('body-1', 'l');
-
-    min-height: 26px;
-    margin-bottom: 0;
-  }
 }
 
 .date {
@@ -31,8 +20,4 @@
   margin-bottom: 6px;
 
   @include text('caption');
-
-  @media (orientation: landscape) {
-    @include text('caption');
-  }
 }
