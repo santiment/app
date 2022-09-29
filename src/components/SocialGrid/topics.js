@@ -4,12 +4,30 @@ export const TOPICS = [
   { slug: 'bottom', title: 'Bottom', price: 'bitcoin', ticker: 'BTC' },
   { slug: 'sell', title: 'Sell', price: 'bitcoin', ticker: 'BTC' },
   { slug: 'bear AND market', title: 'Bear Market', price: 'bitcoin', ticker: 'BTC' },
-  { slug: 'luna', title: 'Luna Crash', price: 'luna', ticker: 'LUNC' },
+  {
+    slug: 'luna',
+    title: 'Luna Crash',
+    price: 'luna',
+    ticker: 'LUNC',
+    query: 'luna?asset=luna&slug=luna&ticker=LUNC',
+  },
   { slug: 'rekt', title: 'Rekt', price: 'bitcoin', ticker: 'BTC' },
-  { slug: 'inflation', title: 'Inflation', price: 'bitcoin', ticker: 'BTC' },
+  {
+    slug: 'inflation OR cpi',
+    title: 'Inflation',
+    price: 'bitcoin',
+    ticker: 'BTC',
+    query: 'inflation OR cpi?asset=bitcoin&slug=inflation OR cpi&ticker=BTC',
+  },
   { slug: 'usd', title: 'USD', price: 'bitcoin', ticker: 'BTC' },
   { slug: 'merge', title: 'Merge', price: 'ethereum', ticker: 'ETH' },
-  { slug: 'elon', title: 'Elon', price: 'shiba-inu', ticker: 'SHIB' },
+  {
+    slug: 'long',
+    title: 'Long',
+    price: 'bitcoin',
+    ticker: 'BTC',
+    query: 'long?asset=bitcoin&slug=long&ticker=BTC',
+  },
 ]
 
 export const INDEX_PAGE_GROUPS = [
