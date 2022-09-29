@@ -120,6 +120,7 @@ export const EntityQuery = {
       currentUserVotes
     }
     commentsCount
+    views
   }`,
   screener: `screener {
     id
@@ -147,6 +148,7 @@ export const EntityQuery = {
       currentUserVotes
     }
     commentsCount
+    views
   }`,
   chartConfiguration: `chartConfiguration {
     id
@@ -176,6 +178,7 @@ export const EntityQuery = {
     commentsCount
     project {slug}
     metricsJson
+    views
   }`,
   insight: `insight {
     id
@@ -209,6 +212,7 @@ export const EntityQuery = {
       ticker
       priceUsd
     }
+    views
   }`,
   addressWatchlist: `addressWatchlist {
     id
@@ -243,6 +247,7 @@ export const EntityQuery = {
         }
       }
     }
+    views
   }`,
   userTrigger: `userTrigger {
       trigger {
@@ -270,5 +275,6 @@ export const EntityQuery = {
         totalVotes
         currentUserVotes
       }
+      views
   }`,
 }
