@@ -54,8 +54,9 @@ const useBrush = ({ data, settings, setSettings, metrics, slug }) => {
   }
 }
 
-export const useChartSettings = (defaultInterval) => {
+export const useChartSettings = (defaultInterval, metric) => {
   const [settings, setSettings] = useState({
+    metric,
     ...defaultInterval.requestParams,
   })
 
