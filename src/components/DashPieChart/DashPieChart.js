@@ -18,6 +18,7 @@ const SORTER = sortBy('value')
 
 const DashPieChart = ({
   query,
+  metric,
   defaultInterval = INTERVAL_30_DAYS,
   intervals = ETH2_INTERVAL_SELECTORS,
 }) => {
@@ -25,7 +26,7 @@ const DashPieChart = ({
   const { MMM, D } = getDateFormats(currDate)
   const { H, mm } = getTimeFormats(currDate)
 
-  const { intervalSelector, onChangeInterval, settings } = useChartSettings(defaultInterval)
+  const { intervalSelector, onChangeInterval, settings } = useChartSettings(defaultInterval, metric)
 
   const { data: chartData, loading } = useEthPieChart(query, settings)
 

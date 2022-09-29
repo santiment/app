@@ -7,6 +7,7 @@ import UniswapProtocol from './dashboards/UniswapProtocol/UniswapProtocol'
 import Dex from './dashboards/Dex/Dex'
 import BtcLocked from './dashboards/BTCLocked/BTCLocked'
 import NFTTx from './dashboards/NFTTx/NFTTx'
+import EthStakingPools from './dashboards/EthStakingPools'
 
 export const DASHBOARDS = [
   {
@@ -87,6 +88,34 @@ export const DASHBOARDS = [
     ],
     Content: Eth2,
   },
+
+  {
+    name: 'Ethereum Staking Pools',
+    // description: 'Information all about staking metrics and statistics for the new Ethereum 2.0.',
+    to: PATHS.ETH_STAKING_POOLS,
+    submenu: [
+      {
+        title: 'Number of Validators',
+        key: 'validators-number',
+      },
+      {
+        title: 'Total Staked in USD',
+        key: 'total-staked',
+      },
+      /*
+      {
+        title: 'Staking Pool Distributions',
+        key: 'distributions',
+      },
+      {
+        title: 'Staking Pool Distributions Delta',
+        key: 'distributions-delta',
+      },
+      */
+    ],
+    Content: EthStakingPools,
+  },
+
   {
     name: 'Stablecoins',
     description:
