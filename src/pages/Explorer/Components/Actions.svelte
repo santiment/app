@@ -88,6 +88,12 @@
         title: `${singular} item: ${title}`,
         description: `Set to ${isFeatured ? 'featured' : 'unfeatured'} successfully`,
       })
+    }).catch(() => {
+      alertMessage.set({
+        variant: 'error',
+        title: `${singular} item: ${title}`,
+        description: `Something went wrong, Please try again or contact support`,
+      })
     })
   }
 
