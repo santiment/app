@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
 import toReact from 'svelte-adapter/react'
 import EventBanner from '../../components/EventBanner'
 import SveltePage from './index.svelte'
 import { useUser } from '../../stores/user'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
+import { showNotification } from '../../actions/rootActions'
 import {
   useTrendingWords,
   useTrendSocialVolume,
@@ -20,7 +22,7 @@ const PAGE_STYLE = {
 
 export const Page = toReact(SveltePage, PAGE_STYLE, 'div')
 
-const ExplorerPage = () => {
+const ExplorerPage = ({ showAlert }) => {
   const { user } = useUser()
   const userSubscriptionData = useUserSubscriptionStatus()
   const { words } = useTrendingWords()
@@ -38,9 +40,13 @@ const ExplorerPage = () => {
   return (
     <>
       <EventBanner />
-      <Page user={user} userSubscriptionData={userSubscriptionData} />
+      <Page user={user} userSubscriptionData={userSubscriptionData} showAlert={showAlert} />
     </>
   )
 }
 
-export default ExplorerPage
+const mapDispatchToProps = (dispatch) => ({
+  showAlert: (message) => dispatch(showNotification(message)),
+})
+
+export default connect(null, mapDispatchToProps)(ExplorerPage)

@@ -2,17 +2,20 @@
   import ExplorerCategory from './Category/ExplorerCategory.svelte'
   import ExplorerFilter from './Components/ExplorerFilter.svelte'
   import Aside from './Aside.svelte'
-  import { currentUser, userSubscription } from './store'
+  import { currentUser, userSubscription, alertMessage } from './store'
   import { MenuItem } from './const'
 
   export let user = {}
   export let userSubscriptionData = {}
+  export let showAlert
 
   let activeMenu = MenuItem.FAVORITES
   let loading = true
 
   $: currentUser.set(user)
   $: userSubscription.set(userSubscriptionData)
+
+  alertMessage.subscribe((message) => message && showAlert(message))
 </script>
 
 <main>

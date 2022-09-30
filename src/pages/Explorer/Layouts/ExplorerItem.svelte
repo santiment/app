@@ -104,9 +104,6 @@
 </a>
 
 <style lang="scss">
-  .username {
-    width: 20%;
-  }
   .explorerItem:hover {
     .pic {
       border: 1px solid var(--green);
