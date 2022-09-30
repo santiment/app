@@ -10,7 +10,7 @@
   export let onClick = () => {}
   export let userVotes = 0
   export let hasbackground = true
-  export let forceactive = false
+  export let forceActive = false
 
   $: isLike = svgid === 'rocket'
 </script>
@@ -23,8 +23,9 @@
   openDelay={200}
 >
   <div
-    class="actionbutton row hv-center {forceactive ? '$style.forceactive' : ''}"
+    class="actionbutton row hv-center}"
     class:padding={!isLike}
+    class:forceActive
     slot="trigger"
     on:click={isLike ? undefined : onClick}
   >
@@ -71,7 +72,7 @@
   }
 
   .active,
-  .forceactive {
+  .forceActive {
     background-color: var(--green-light-1);
 
     span {

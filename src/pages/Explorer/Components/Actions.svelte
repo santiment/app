@@ -81,20 +81,22 @@
   function onFeature(e, flag = true) {
     e.preventDefault()
     const { title } = item.trigger || item
-    feature(key, id, flag).then(() => {
-      isFeatured = flag
-      alertMessage.set({
-        variant: 'info',
-        title: `${singular} item: ${title}`,
-        description: `Set to ${isFeatured ? 'featured' : 'unfeatured'} successfully`,
+    feature(key, id, flag)
+      .then(() => {
+        isFeatured = flag
+        alertMessage.set({
+          variant: 'info',
+          title: `${singular} item: ${title}`,
+          description: `Set to ${isFeatured ? 'featured' : 'unfeatured'} successfully`,
+        })
       })
-    }).catch(() => {
-      alertMessage.set({
-        variant: 'error',
-        title: `${singular} item: ${title}`,
-        description: `Something went wrong, Please try again or contact support`,
+      .catch(() => {
+        alertMessage.set({
+          variant: 'error',
+          title: `${singular} item: ${title}`,
+          description: `Something went wrong, Please try again or contact support`,
+        })
       })
-    })
   }
 
   function onEdit(e) {
@@ -153,7 +155,7 @@
       {#if $currentUser && $currentUser.isModerator}
         {#if isPublic}
           <ActionButton
-            forceactive={isFeatured}
+            forceActive={isFeatured}
             svgid="fire"
             onClick={(event) => onFeature(event, !isFeatured)}
             tooltip={isFeatured ? 'Normal' : 'Feature'}
