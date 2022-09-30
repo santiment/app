@@ -5,7 +5,7 @@
   import EmptyState from '../Components/EmptyState.svelte'
   import TypeSelector from '../Components/TypeSelector.svelte'
   import { queryExplorerItems } from '../api'
-  import { currentUser } from '../store'
+  import { currentUser, alertMessage } from '../store'
   import { RANGES, MenuItem, getExplorerItem, EntityKeys, FILTERABLE_TABS } from '../const'
 
   export let activeMenu
@@ -96,8 +96,13 @@
           insights = insightsPage === 1 ? res.items : insights.concat(res.items)
         }
       })
-      // TODO handle errors
-      .catch((e) => console.log(e.message))
+      .catch(() => {
+        alertMessage.set({
+          variant: 'error',
+          title: 'Something went wrong',
+          description: 'Please try again or contact support',
+        })
+      })
       .finally(() => {
         queryExplorerItems({
           types: getDisplayingType(displayingTypes),
@@ -114,8 +119,13 @@
             pages = res.pages
             items = page === 1 ? res.items : items.concat(res.items)
           })
-          // TODO handle errors
-          .catch((e) => console.log(e.message))
+          .catch(() => {
+            alertMessage.set({
+              variant: 'error',
+              title: 'Something went wrong',
+              description: 'Please try again or contact support',
+            })
+          })
           .finally(() => (loading = false))
       })
   }
@@ -172,8 +182,13 @@
         .then((res) => {
           if (res.items.length === 0) activeMenu = MenuItem.NEW
         })
-        // TODO handle errors
-        .catch((e) => console.log(e.message))
+        .catch(() => {
+          alertMessage.set({
+            variant: 'error',
+            title: 'Something went wrong',
+            description: 'Please try again or contact support',
+          })
+        })
     }
 
     pullingTimer = setTimeout(() => fetch(true), 60 * 1000)

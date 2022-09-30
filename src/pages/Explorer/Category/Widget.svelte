@@ -1,7 +1,7 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
   import Category from './Category.svelte'
-  import { trendingWords } from '../store'
+  import { trendingWords, alertMessage } from '../store'
 
   export let title = 'Recent Chart Layouts'
   export let icon = 'info'
@@ -29,8 +29,13 @@
           items = items.concat(res.items)
         }
       })
-      // TODO handle errors
-      .catch((e) => console.log(e.message))
+      .catch(() => {
+        alertMessage.set({
+          variant: 'error',
+          title: 'Something went wrong',
+          description: 'Please try again or contact support',
+        })
+      })
       .finally(() => (loading = false))
   }
 

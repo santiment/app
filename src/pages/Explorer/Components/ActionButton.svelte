@@ -23,7 +23,7 @@
   openDelay={200}
 >
   <div
-    class="actionbutton row hv-center {forceactive && '$style.forceactive'}"
+    class="actionbutton row hv-center {forceactive ? '$style.forceactive' : ''}"
     class:padding={!isLike}
     slot="trigger"
     on:click={isLike ? undefined : onClick}

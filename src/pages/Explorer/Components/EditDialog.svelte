@@ -11,6 +11,7 @@
   import Dialog from 'webkit/ui/Dialog'
   import Toggle from 'webkit/ui/Toggle'
   import { edit } from './api'
+  import { alertMessage } from '../store'
 
   const MAX_TITLE_LENGTH = 25
   const MIN_TITLE_LENGTH = 3
@@ -32,9 +33,12 @@
         updateExplorerItem(item, title, description, isPublic)
         closeDialog()
       })
-      .catch((err) => {
-        // TODO: handle error and remove log
-        console.log(err.message)
+      .catch(() => {
+        alertMessage.set({
+          variant: 'error',
+          title: 'Something went wrong',
+          description: 'Please try again or contact support',
+        })
       })
       .finally(() => (loading = false))
   }
