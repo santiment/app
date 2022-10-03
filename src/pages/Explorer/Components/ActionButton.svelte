@@ -23,7 +23,7 @@
   openDelay={200}
 >
   <div
-    class="actionbutton row hv-center}"
+    class="actionbutton row hv-center"
     class:padding={!isLike}
     class:forceActive
     slot="trigger"
