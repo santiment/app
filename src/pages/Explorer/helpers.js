@@ -5,7 +5,8 @@ export const notifyError = ({ title, description }) =>
     variant: 'error',
     title: title || 'Something went wrong',
     description:
-      description || title
+      description ||
+      (title
         ? 'Something went wrong, Please try again or contact support'
-        : 'Please try again or contact support',
+        : 'Please try again or contact support'),
   })
