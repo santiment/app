@@ -1,6 +1,5 @@
 <script>
   import { setContext, onMount, onDestroy } from 'svelte'
-  import { notifications$ } from 'webkit/ui/Notifications'
   import Category from './Category.svelte'
   import LayoutItem from '../Layouts/LayoutItem.svelte'
   import EmptyState from '../Components/EmptyState.svelte'
@@ -8,6 +7,7 @@
   import { queryExplorerItems } from '../api'
   import { currentUser } from '../store'
   import { RANGES, MenuItem, getExplorerItem, EntityKeys, FILTERABLE_TABS } from '../const'
+  import { notifyError } from '../helpers'
 
   export let activeMenu
   export let onLoadingChange = (newLoading) => {}
@@ -98,11 +98,7 @@
         }
       })
       .catch(() => {
-        notifications$.show({
-          variant: 'error',
-          title: 'Something went wrong',
-          description: 'Please try again or contact support',
-        })
+        notifyError({ description: 'Please try again or contact support' })
       })
       .finally(() => {
         queryExplorerItems({
@@ -121,11 +117,7 @@
             items = page === 1 ? res.items : items.concat(res.items)
           })
           .catch(() => {
-            notifications$.show({
-              variant: 'error',
-              title: 'Something went wrong',
-              description: 'Please try again or contact support',
-            })
+            notifyError()
           })
           .finally(() => (loading = false))
       })
@@ -184,11 +176,7 @@
           if (res.items.length === 0) activeMenu = MenuItem.NEW
         })
         .catch(() => {
-          notifications$.show({
-            variant: 'error',
-            title: 'Something went wrong',
-            description: 'Please try again or contact support',
-          })
+          notifyError()
         })
     }
 

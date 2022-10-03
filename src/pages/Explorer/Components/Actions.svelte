@@ -11,6 +11,7 @@
   import { currentUser } from '../store'
   import { history } from '../../../redux'
   import { mutateStoreUserActivity, InteractionType } from '../../../queries/userActivity'
+  import { notifyError } from '../helpers'
 
   let className = ''
   export { className as class }
@@ -92,11 +93,7 @@
         })
       })
       .catch(() => {
-        notifications$.show({
-          variant: 'error',
-          title: `Item: ${title}`,
-          description: `Something went wrong, Please try again or contact support`,
-        })
+        notifyError({ title: `Item: ${title}` })
       })
   }
 

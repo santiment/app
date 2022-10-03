@@ -1,6 +1,5 @@
 <script context="module">
   import { dialogs } from 'webkit/ui/Dialog'
-  import { notifications$ } from 'webkit/ui/Notifications'
   import EditDialog from './EditDialog.svelte'
 
   export function showEditDialog(itemData, updateExplorerItem) {
@@ -12,6 +11,7 @@
   import Dialog from 'webkit/ui/Dialog'
   import Toggle from 'webkit/ui/Toggle'
   import { edit } from './api'
+  import { notifyError } from '../helpers'
 
   const MAX_TITLE_LENGTH = 25
   const MIN_TITLE_LENGTH = 3
@@ -34,11 +34,7 @@
         closeDialog()
       })
       .catch(() => {
-        notifications$.show({
-          variant: 'error',
-          title: 'Something went wrong',
-          description: 'Please try again or contact support',
-        })
+        notifyError()
       })
       .finally(() => (loading = false))
   }
