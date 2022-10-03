@@ -98,7 +98,7 @@
         }
       })
       .catch(() => {
-        notifyError({ description: 'Please try again or contact support' })
+        notifyError()
       })
       .finally(() => {
         queryExplorerItems({
