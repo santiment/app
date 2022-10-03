@@ -30,9 +30,7 @@
           items = items.concat(res.items)
         }
       })
-      .catch(() => {
-        notifyError()
-      })
+      .catch(notifyError)
       .finally(() => (loading = false))
   }
 

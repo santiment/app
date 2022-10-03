@@ -33,9 +33,7 @@
         updateExplorerItem(item, title, description, isPublic)
         closeDialog()
       })
-      .catch(() => {
-        notifyError()
-      })
+      .catch(notifyError)
       .finally(() => (loading = false))
   }
 </script>
