@@ -1,13 +1,14 @@
 <script>
   import { getContext } from 'svelte'
   import { copy } from 'webkit/utils'
+  import { notifications$ } from 'webkit/ui/Notifications'
   import { vote, feature } from './api'
   import { showDeleteConfirmationDialog } from './DeleteConfirmationDialog.svelte'
   import { showHideConfirmationDialog } from './HideConfirmationDialog.svelte'
   import { showEditDialog } from './EditDialog.svelte'
   import ActionButton from './ActionButton.svelte'
   import { EntityType, getItemRoute, getItemUrl } from '../const'
-  import { currentUser, alertMessage } from '../store'
+  import { currentUser } from '../store'
   import { history } from '../../../redux'
   import { mutateStoreUserActivity, InteractionType } from '../../../queries/userActivity'
 
@@ -84,16 +85,16 @@
     feature(key, id, flag)
       .then(() => {
         isFeatured = flag
-        alertMessage.set({
+        notifications$.show({
           variant: 'info',
-          title: `${singular} item: ${title}`,
-          description: `Set to ${isFeatured ? 'featured' : 'unfeatured'} successfully`,
+          title: `Item: ${title}`,
+          description: `Set to ${isFeatured ? 'featured' : 'normal'} successfully`,
         })
       })
       .catch(() => {
-        alertMessage.set({
+        notifications$.show({
           variant: 'error',
-          title: `${singular} item: ${title}`,
+          title: `Item: ${title}`,
           description: `Something went wrong, Please try again or contact support`,
         })
       })

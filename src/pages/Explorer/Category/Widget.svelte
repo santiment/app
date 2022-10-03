@@ -1,7 +1,8 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
+  import { notifications$ } from 'webkit/ui/Notifications'
   import Category from './Category.svelte'
-  import { trendingWords, alertMessage } from '../store'
+  import { trendingWords } from '../store'
 
   export let title = 'Recent Chart Layouts'
   export let icon = 'info'
@@ -30,7 +31,7 @@
         }
       })
       .catch(() => {
-        alertMessage.set({
+        notifications$.show({
           variant: 'error',
           title: 'Something went wrong',
           description: 'Please try again or contact support',

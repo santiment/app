@@ -1,11 +1,12 @@
 <script>
   import { setContext, onMount, onDestroy } from 'svelte'
+  import { notifications$ } from 'webkit/ui/Notifications'
   import Category from './Category.svelte'
   import LayoutItem from '../Layouts/LayoutItem.svelte'
   import EmptyState from '../Components/EmptyState.svelte'
   import TypeSelector from '../Components/TypeSelector.svelte'
   import { queryExplorerItems } from '../api'
-  import { currentUser, alertMessage } from '../store'
+  import { currentUser } from '../store'
   import { RANGES, MenuItem, getExplorerItem, EntityKeys, FILTERABLE_TABS } from '../const'
 
   export let activeMenu
@@ -97,7 +98,7 @@
         }
       })
       .catch(() => {
-        alertMessage.set({
+        notifications$.show({
           variant: 'error',
           title: 'Something went wrong',
           description: 'Please try again or contact support',
@@ -120,7 +121,7 @@
             items = page === 1 ? res.items : items.concat(res.items)
           })
           .catch(() => {
-            alertMessage.set({
+            notifications$.show({
               variant: 'error',
               title: 'Something went wrong',
               description: 'Please try again or contact support',
@@ -183,7 +184,7 @@
           if (res.items.length === 0) activeMenu = MenuItem.NEW
         })
         .catch(() => {
-          alertMessage.set({
+          notifications$.show({
             variant: 'error',
             title: 'Something went wrong',
             description: 'Please try again or contact support',
