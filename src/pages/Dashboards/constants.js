@@ -102,7 +102,6 @@ export const DASHBOARDS = [
         title: 'Total Staked in USD',
         key: 'total-staked',
       },
-      /*
       {
         title: 'Staking Pool Distributions',
         key: 'distributions',
@@ -111,7 +110,6 @@ export const DASHBOARDS = [
         title: 'Staking Pool Distributions Delta',
         key: 'distributions-delta',
       },
-      */
     ],
     Content: EthStakingPools,
   },
