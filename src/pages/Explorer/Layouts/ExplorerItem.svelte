@@ -33,6 +33,8 @@
   function loadPrice() {
     queryPriceSincePublication(project.slug, publishedAt).then((result) => (projectData = result))
   }
+
+  const limitUsername = (text) => (text.length < 25 ? text : text.substring(0, 25) + '...')
 </script>
 
 <a class="column explorerItem" href={url} on:click={onClick}>
@@ -89,7 +91,9 @@
           class="username c-waterloo nowrap line-clamp"
           class:ellipsisText={projectData && !pulseText}
         >
-          {isTagName && user.username ? '@' : ''}{user.username || user.email}
+          {isTagName && user.username ? '@' : ''}{user.username
+            ? limitUsername(user.username)
+            : user.email}
         </div>
         <ActionButton svgid="eye" tooltip="Views" counter={views} hasbackground={false} />
         <div class="row v-center">

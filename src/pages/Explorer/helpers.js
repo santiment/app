@@ -1,7 +1,11 @@
 import { notifications$ } from 'webkit/ui/Notifications'
 
-export const notifyError = ({ title, description }) =>
-  notifications$.show({
+export async function notifyError({ title, description, user }) {
+  // Check if we should check unauthenticated users
+  if (user !== undefined && !user) {
+    return
+  }
+  return notifications$.show({
     variant: 'error',
     title: title || 'Something went wrong',
     description:
@@ -10,3 +14,4 @@ export const notifyError = ({ title, description }) =>
         ? 'Something went wrong, Please try again or contact support'
         : 'Please try again or contact support'),
   })
+}
