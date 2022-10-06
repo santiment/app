@@ -89,6 +89,10 @@ const DashboardMetricChart = ({
   onLoad,
   projectSelector,
   canvasSettings,
+  useMetricsData = useTimeseries,
+  noBrush = false,
+  noIntervals = false,
+  isSharedAxisDefault = false,
 }) => {
   const MetricTransformer = useMirroredTransformer(metrics)
   const [MetricSettingsMap] = useState(new Map())
@@ -121,23 +125,29 @@ const DashboardMetricChart = ({
     [metrics, disabledMetrics],
   )
 
-  const [data, loadings] = useTimeseries(
+  const [data, loadings] = useMetricsData(
     activeMetrics,
     settings,
     MetricSettingsMap,
     MetricTransformer,
   )
 
-  const { allTimeData, allTimeDataLoadings, onBrushChangeEnd } = useBrush({
-    settings,
-    setSettings,
-    data,
-    metrics,
-    slug: metrics[0].reqMeta.slug,
-  })
+  const {
+    allTimeData = data,
+    allTimeDataLoadings = [],
+    onBrushChangeEnd,
+  } = noBrush
+    ? {}
+    : useBrush({
+        settings,
+        setSettings,
+        data,
+        metrics,
+        slug: metrics[0].reqMeta.slug,
+      })
 
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState(
-    domainGroups && domainGroups.length > mirrorDomainGroups.length,
+    isSharedAxisDefault || (domainGroups && domainGroups.length > mirrorDomainGroups.length),
   )
 
   const MetricColor = useChartColors(activeMetrics, metricsColor)
@@ -212,11 +222,13 @@ const DashboardMetricChart = ({
             disabledMetrics={disabledMetrics}
             colors={MetricColor}
           />
-          <DashIntervalSettings
-            metrics={metrics}
-            settings={settings}
-            updateInterval={updateSettingsMap}
-          />
+          {noIntervals ? null : (
+            <DashIntervalSettings
+              metrics={metrics}
+              settings={settings}
+              updateInterval={updateSettingsMap}
+            />
+          )}
         </div>
       </DesktopOnly>
 
@@ -243,11 +255,13 @@ const DashboardMetricChart = ({
           setInterval={onChangeInterval}
           intervals={intervals}
         />
-        <DashIntervalSettings
-          metrics={metrics}
-          settings={settings}
-          updateInterval={updateSettingsMap}
-        />
+        {noIntervals ? null : (
+          <DashIntervalSettings
+            metrics={metrics}
+            settings={settings}
+            updateInterval={updateSettingsMap}
+          />
+        )}
         <DashboardChartMetrics
           metrics={metrics}
           loadings={loadings}
