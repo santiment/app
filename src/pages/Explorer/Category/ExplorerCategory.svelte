@@ -97,7 +97,7 @@
           insights = insightsPage === 1 ? res.items : insights.concat(res.items)
         }
       })
-      .catch(notifyError)
+      .catch(() => notifyError({ user: $currentUser }))
       .finally(() => {
         queryExplorerItems({
           types: getDisplayingType(displayingTypes),
@@ -114,7 +114,7 @@
             pages = res.pages
             items = page === 1 ? res.items : items.concat(res.items)
           })
-          .catch(notifyError)
+          .catch(() => notifyError({ user: $currentUser }))
           .finally(() => (loading = false))
       })
   }
@@ -171,7 +171,7 @@
         .then((res) => {
           if (res.items.length === 0) activeMenu = MenuItem.NEW
         })
-        .catch(notifyError)
+        .catch(() => notifyError({ user: $currentUser }))
     }
 
     pullingTimer = setTimeout(() => fetch(true), 60 * 1000)

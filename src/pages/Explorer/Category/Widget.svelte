@@ -1,7 +1,7 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
   import Category from './Category.svelte'
-  import { trendingWords } from '../store'
+  import { currentUser, trendingWords } from '../store'
   import { notifyError } from '../helpers'
 
   export let title = 'Recent Chart Layouts'
@@ -30,7 +30,7 @@
           items = items.concat(res.items)
         }
       })
-      .catch(notifyError)
+      .catch(() => notifyError({ user: $currentUser }))
       .finally(() => (loading = false))
   }
 

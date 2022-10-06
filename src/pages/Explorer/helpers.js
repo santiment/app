@@ -1,7 +1,8 @@
 import { notifications$ } from 'webkit/ui/Notifications'
 
-export function notifyError({ title, description, ...props }) {
-  if (props && props[0]) {
+export async function notifyError({ title, description, user }) {
+  // Check if we should check unauthenticated users
+  if (user !== undefined && !user) {
     return
   }
   return notifications$.show({
