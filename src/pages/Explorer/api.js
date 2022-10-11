@@ -99,6 +99,7 @@ export const EntityQuery = {
     title: name
     description
     isPublic
+    isFeatured
     insertedAt
     user {
       avatarUrl
@@ -127,6 +128,7 @@ export const EntityQuery = {
     title: name
     description
     isPublic
+    isFeatured
     insertedAt
     user {
       avatarUrl
@@ -155,6 +157,7 @@ export const EntityQuery = {
     title
     description
     isPublic
+    isFeatured
     insertedAt
     user {
       avatarUrl
@@ -183,6 +186,7 @@ export const EntityQuery = {
   insight: `insight {
     id
     title
+    isFeatured
     publishedAt
     user {
       avatarUrl
@@ -219,6 +223,7 @@ export const EntityQuery = {
     title: name
     description
     isPublic
+    isFeatured
     insertedAt
     user {
       avatarUrl
@@ -255,6 +260,7 @@ export const EntityQuery = {
         title
         description
         isPublic
+        isFeatured
       }
       user {
         avatarUrl
