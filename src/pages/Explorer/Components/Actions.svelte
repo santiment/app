@@ -24,7 +24,7 @@
   let userVotes = item && item.votes ? +item.votes.currentUserVotes : 0
   let copyLabel = 'Copy link'
   // TODO: waiting for backend to give use this value, we need to updated
-  let isFeatured = false
+  let isFeatured = item.trigger ? item.trigger.isFeatured : item.isFeatured
 
   $: id = item.trigger ? item.trigger.id : item.id
   $: ({ key, voteKey, deleteKey, singular } = EntityType[type])
@@ -89,7 +89,7 @@
         notifications$.show({
           variant: 'info',
           title: `Item: ${title}`,
-          description: `Set to ${isFeatured ? 'featured' : 'normal'} successfully`,
+          description: `Set to ${!isFeatured ? 'not': ''} featured successfully`,
         })
       })
       .catch(() => {
@@ -156,7 +156,7 @@
             forceActive={isFeatured}
             svgid="fire"
             onClick={(event) => onFeature(event, !isFeatured)}
-            tooltip={isFeatured ? 'Normal' : 'Feature'}
+            tooltip="Featured"
           />
         {/if}
         <ActionButton svgid="eye-crossed" onClick={onHide} tooltip="Hide" />
