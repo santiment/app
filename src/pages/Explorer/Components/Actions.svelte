@@ -23,7 +23,6 @@
   let totalVotes = item && item.votes ? +item.votes.totalVotes : 0
   let userVotes = item && item.votes ? +item.votes.currentUserVotes : 0
   let copyLabel = 'Copy link'
-  // TODO: waiting for backend to give use this value, we need to updated
   let isFeatured = item.trigger ? item.trigger.isFeatured : item.isFeatured
 
   $: id = item.trigger ? item.trigger.id : item.id
@@ -89,7 +88,7 @@
         notifications$.show({
           variant: 'info',
           title: `Item: ${title}`,
-          description: `Set to ${!isFeatured ? 'not': ''} featured successfully`,
+          description: `Set to ${!isFeatured ? 'not' : ''} featured successfully`,
         })
       })
       .catch(() => {
