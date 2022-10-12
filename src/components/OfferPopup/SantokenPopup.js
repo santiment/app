@@ -14,7 +14,7 @@ const SantokenPopup = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   function handleClosePopup() {
-    // saveBoolean(IS_DISCOVER_SAN_TOKEN_VIEWED, JSON.stringify(true))
+    saveBoolean(IS_DISCOVER_SAN_TOKEN_VIEWED, JSON.stringify(true))
     setIsOpen(false)
   }
 
