@@ -38,7 +38,7 @@ import LiveWidget from './components/LiveWidget'
 import SideNav from './components/SideNav'
 import TrialPromptDialog from './components/TrialPromptDialog'
 import OfferPopup from './components/OfferPopup/OfferPopup'
-import SantokenPopup from './components/OfferPopup/SantokenPopup'
+import SanTokenPopup from './components/OfferPopup/SanTokenPopup'
 import { useSavedComment } from './hooks/comment'
 import styles from './App.module.scss'
 import './index.scss'
@@ -247,7 +247,7 @@ export const App = ({
         {isDesktop && <OfferPopup />}
         <ForceActionRedirector pathname={pathname} />
         {isDesktop && <UrlModals />}
-        {isDesktop && <SantokenPopup />}
+        {isDesktop && <SanTokenPopup />}
 
         <ErrorBoundary history={history}>
           <SideNav isDesktop={isDesktop} pathname={pathname} />

@@ -4,40 +4,34 @@ import { saveBoolean, getSavedBoolean } from 'webkit/utils/localStorage'
 import { useCustomerData } from './hooks/useCustomerData'
 import { ReactComponent as TokensSvg } from './images/tokens.svg'
 import { ReactComponent as CloseSvg } from './images/close.svg'
-import styles from './SantokensPopup.module.scss'
+import styles from './SanTokenPopup.module.scss'
 
 const IS_DISCOVER_SAN_TOKEN_VIEWED = 'IS_DISCOVER_SAN_TOKEN_VIEWED'
 const TIMEOUT = 4 * 1000
 
-const SantokenPopup = () => {
+const SanTokenPopup = () => {
   const { isLoggedIn } = useCustomerData()
   const [isOpen, setIsOpen] = useState(false)
 
   function handleClosePopup() {
-    saveBoolean(IS_DISCOVER_SAN_TOKEN_VIEWED, JSON.stringify(true))
+    saveBoolean(IS_DISCOVER_SAN_TOKEN_VIEWED, true)
     setIsOpen(false)
   }
 
-  function handleOpenPopup() {
-    const isDiscoverSanTokenViewed = getSavedBoolean(IS_DISCOVER_SAN_TOKEN_VIEWED)
-
-    if (!isDiscoverSanTokenViewed) {
-      setIsOpen(true)
-    }
-  }
+  const handleOpenPopup = () => setIsOpen(!getSavedBoolean(IS_DISCOVER_SAN_TOKEN_VIEWED))
 
   useEffect(() => {
     if (isOpen) return
     const timeoutID = setTimeout(handleOpenPopup, TIMEOUT)
     return () => {
-        clearTimeout(timeoutID)
+      clearTimeout(timeoutID)
     }
   }, [isOpen])
 
-  if (!isLoggedIn || !isOpen) return <></>
+  if (!isLoggedIn || !isOpen) return null
 
   return (
-    <div className={cx('row border', styles.santokens)}>
+    <div className={cx('row border box', styles.santokens)}>
       <TokensSvg className={styles.tokensvg} />
       <div className={styles.main}>
         <div className={cx('body-2 txt-m mrg--b mrg-s', styles.title)}>Discover SAN token</div>
@@ -62,4 +56,4 @@ const SantokenPopup = () => {
   )
 }
 
-export default SantokenPopup
+export default SanTokenPopup
