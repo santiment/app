@@ -1,10 +1,6 @@
 import React, { useMemo } from 'react'
 import cx from 'classnames'
-import {
-  distributionSorter,
-  existingAssetsFilter,
-  CollapsedDistributions,
-} from './AssetsDistribution'
+import { distributionSorter, CollapsedDistributions } from './AssetsDistribution'
 import { useProjects, getProjectInfo } from '../../../stores/projects'
 import { millify } from '../../../utils/formatting'
 import styles from './CurrentBalance.module.scss'
@@ -31,7 +27,7 @@ export function useCurrentBalance(walletAssets) {
   return useMemo(() => {
     if (projects.length === 0) return { distributions: [] }
 
-    const sortedAssets = walletAssets.filter(existingAssetsFilter).sort(distributionSorter)
+    const sortedAssets = walletAssets.sort(distributionSorter)
     const { length } = sortedAssets
     const distributions = new Array(length)
 

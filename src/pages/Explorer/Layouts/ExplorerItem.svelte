@@ -8,6 +8,7 @@
   import AssetIcons from '../Components/AssetIcons.svelte'
   import AssetTags from '../Components/AssetTags.svelte'
   import Actions from '../Components/Actions.svelte'
+  import ActionButton from '../Components/ActionButton.svelte'
 
   export let item
   export let type = 'CHART'
@@ -27,10 +28,13 @@
   $: description = item.trigger ? item.trigger.description : item.description
   $: type === 'INSIGHT' && project && loadPrice()
   $: if (pulseInsightHeight >= 400) showShowReadMore = true
+  $: views = item.trigger ? item.trigger.views : item.views
 
   function loadPrice() {
     queryPriceSincePublication(project.slug, publishedAt).then((result) => (projectData = result))
   }
+
+  const limitUsername = (text) => (text.length < 25 ? text : text.substring(0, 25) + '...')
 </script>
 
 <a class="column explorerItem" href={url} on:click={onClick}>
@@ -76,7 +80,6 @@
             </div>
           {/if}
         </div>
-
         {#if description}
           <p class="c-waterloo mrg-xs mrg--t" class:ellipsisText={projectData && !pulseText}>
             {description}
@@ -88,8 +91,11 @@
           class="username c-waterloo nowrap line-clamp"
           class:ellipsisText={projectData && !pulseText}
         >
-          {isTagName && user.username ? '@' : ''}{user.username || user.email}
+          {isTagName && user.username ? '@' : ''}{user.username
+            ? limitUsername(user.username)
+            : user.email}
         </div>
+        <ActionButton svgid="eye" tooltip="Views" counter={views} hasbackground={false} />
         <div class="row v-center">
           <Actions {item} {type} />
         </div>

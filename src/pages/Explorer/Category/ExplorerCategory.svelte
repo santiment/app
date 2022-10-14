@@ -7,6 +7,7 @@
   import { queryExplorerItems } from '../api'
   import { currentUser } from '../store'
   import { RANGES, MenuItem, getExplorerItem, EntityKeys, FILTERABLE_TABS } from '../const'
+  import { notifyError } from '../helpers'
 
   export let activeMenu
   export let onLoadingChange = (newLoading) => {}
@@ -96,8 +97,7 @@
           insights = insightsPage === 1 ? res.items : insights.concat(res.items)
         }
       })
-      // TODO handle errors
-      .catch((e) => console.log(e.message))
+      .catch(() => notifyError({ user: $currentUser }))
       .finally(() => {
         queryExplorerItems({
           types: getDisplayingType(displayingTypes),
@@ -114,8 +114,7 @@
             pages = res.pages
             items = page === 1 ? res.items : items.concat(res.items)
           })
-          // TODO handle errors
-          .catch((e) => console.log(e.message))
+          .catch(() => notifyError({ user: $currentUser }))
           .finally(() => (loading = false))
       })
   }
@@ -172,8 +171,7 @@
         .then((res) => {
           if (res.items.length === 0) activeMenu = MenuItem.NEW
         })
-        // TODO handle errors
-        .catch((e) => console.log(e.message))
+        .catch(() => notifyError({ user: $currentUser }))
     }
 
     pullingTimer = setTimeout(() => fetch(true), 60 * 1000)

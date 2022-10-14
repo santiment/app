@@ -99,6 +99,7 @@ export const EntityQuery = {
     title: name
     description
     isPublic
+    isFeatured
     insertedAt
     user {
       avatarUrl
@@ -120,12 +121,14 @@ export const EntityQuery = {
       currentUserVotes
     }
     commentsCount
+    views
   }`,
   screener: `screener {
     id
     title: name
     description
     isPublic
+    isFeatured
     insertedAt
     user {
       avatarUrl
@@ -147,12 +150,14 @@ export const EntityQuery = {
       currentUserVotes
     }
     commentsCount
+    views
   }`,
   chartConfiguration: `chartConfiguration {
     id
     title
     description
     isPublic
+    isFeatured
     insertedAt
     user {
       avatarUrl
@@ -176,10 +181,12 @@ export const EntityQuery = {
     commentsCount
     project {slug}
     metricsJson
+    views
   }`,
   insight: `insight {
     id
     title
+    isFeatured
     publishedAt
     user {
       avatarUrl
@@ -209,12 +216,14 @@ export const EntityQuery = {
       ticker
       priceUsd
     }
+    views
   }`,
   addressWatchlist: `addressWatchlist {
     id
     title: name
     description
     isPublic
+    isFeatured
     insertedAt
     user {
       avatarUrl
@@ -243,6 +252,7 @@ export const EntityQuery = {
         }
       }
     }
+    views
   }`,
   userTrigger: `userTrigger {
       trigger {
@@ -250,6 +260,7 @@ export const EntityQuery = {
         title
         description
         isPublic
+        isFeatured
       }
       user {
         avatarUrl
@@ -270,5 +281,6 @@ export const EntityQuery = {
         totalVotes
         currentUserVotes
       }
+      views
   }`,
 }

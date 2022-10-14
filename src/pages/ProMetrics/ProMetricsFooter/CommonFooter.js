@@ -2,9 +2,8 @@ import React from 'react'
 import cx from 'classnames'
 import SocialMediaLinks from '../../../components/SocialMediaLinks/SocialMediaLinks'
 import SubscriptionForm from '../../../components/SubscriptionForm/SubscriptionForm'
-import downloadLinkSvg from './../../../assets/google-play.svg'
-import styles from './CommonFooter.module.scss'
 import Version from '../../../components/Version/Version'
+import styles from './CommonFooter.module.scss'
 
 const LEFT_LINKS = [
   {
@@ -186,18 +185,6 @@ const CommonFooter = ({ className }) => {
                 subscribeBtnLabel='Subscribe'
                 subscriptionLabel='Send me weekly updates from crypto market'
               />
-            </div>
-
-            <div className={styles.appBlock}>
-              <div className={styles.downloadTitle}>Download Santiment app</div>
-              <a
-                href='https://play.google.com/store/apps/details?id=net.santiment.sanbase.android'
-                target='_blank'
-                rel='noopener noreferrer'
-                className={styles.downloadLink}
-              >
-                <img src={downloadLinkSvg} alt='Google play' />
-              </a>
             </div>
           </div>
         </div>

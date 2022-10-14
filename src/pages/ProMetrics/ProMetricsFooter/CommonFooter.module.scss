@@ -260,15 +260,6 @@
   flex: 1;
 }
 
-.appBlock {
-  display: flex;
-  flex-direction: column;
-
-  @include responsive('tablet', 'laptop') {
-    margin-right: 100px;
-  }
-}
-
 .subcriptionTitle {
   @include text('body-2', 'm');
 
@@ -283,27 +274,6 @@
     @include text('body-2', 'l');
 
     margin-bottom: 16px;
-  }
-}
-
-.downloadLink {
-  width: 136px;
-}
-
-.downloadTitle {
-  @include text('body-2', 'm');
-
-  color: var(--waterloo);
-  margin: 24px 0 12px 0;
-
-  @include responsive('phone', 'phone-xs') {
-    @include text('body-2', 'l');
-
-    margin: 40px 0 16px 0;
-  }
-
-  @include responsive('laptop', 'tablet') {
-    margin: 0 0 10px 0;
   }
 }
 

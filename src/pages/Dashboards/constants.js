@@ -9,6 +9,10 @@ export const DASHBOARDS_TITLES = {
   NFT_INFLUENCERS_TRX: 'NFT Influencers Trx',
 }
 
+import { PATHS } from '../../paths'
+import Stablecoins from './dashboards/Stablecoins/Stablecoins'
+import EthStakingPools from './dashboards/EthStakingPools'
+
 export const DASHBOARDS = [
   {
     title: DASHBOARDS_TITLES.SOCIAL_TOOL,
@@ -73,6 +77,32 @@ export const DASHBOARDS = [
     ],
     path: 'eth-2-staking',
   },
+
+  {
+    name: 'Ethereum Staking Pools',
+    // description: 'Information all about staking metrics and statistics for the new Ethereum 2.0.',
+    to: PATHS.ETH_STAKING_POOLS,
+    submenu: [
+      {
+        title: 'Number of Validators',
+        key: 'validators-number',
+      },
+      {
+        title: 'Total Staked in USD',
+        key: 'total-staked',
+      },
+      {
+        title: 'Staking Pool Distributions',
+        key: 'distributions',
+      },
+      {
+        title: 'Staking Pool Distributions Delta',
+        key: 'distributions-delta',
+      },
+    ],
+    Content: EthStakingPools,
+  },
+
   {
     title: DASHBOARDS_TITLES.STABLECOINS,
     subItems: [
