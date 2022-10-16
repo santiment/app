@@ -2,16 +2,13 @@ export const DASHBOARDS_TITLES = {
   SOCIAL_TOOL: 'Social Tool',
   ETH_TOKEN_TRADING: 'ETH Token Trading Analysis',
   ETH_2_STAKING: 'Ethereum 2.0 Staking Analytics',
+  ETH_STAKING: 'Ethereum Staking Pools',
   STABLECOINS: 'Stablecoins',
   UNISWAP_PROTOCOL: 'Uniswap Procotol',
   DECENTRALIZED_EXCHANGES: 'Decentralized Exchanges',
   BTC_LOCKED: 'Bitcoin Locked on Ethereum',
   NFT_INFLUENCERS_TRX: 'NFT Influencers Trx',
 }
-
-import { PATHS } from '../../paths'
-import Stablecoins from './dashboards/Stablecoins/Stablecoins'
-import EthStakingPools from './dashboards/EthStakingPools'
 
 export const DASHBOARDS = [
   {
@@ -77,32 +74,28 @@ export const DASHBOARDS = [
     ],
     path: 'eth-2-staking',
   },
-
   {
-    name: 'Ethereum Staking Pools',
-    // description: 'Information all about staking metrics and statistics for the new Ethereum 2.0.',
-    to: PATHS.ETH_STAKING_POOLS,
-    submenu: [
+    title: DASHBOARDS_TITLES.ETH_STAKING,
+    subItems: [
       {
         title: 'Number of Validators',
-        key: 'validators-number',
+        key: 'eth_validators',
       },
       {
         title: 'Total Staked in USD',
-        key: 'total-staked',
+        key: 'eth_staked_usd',
       },
       {
         title: 'Staking Pool Distributions',
-        key: 'distributions',
+        key: 'eth_staking_pool_distributions',
       },
       {
         title: 'Staking Pool Distributions Delta',
-        key: 'distributions-delta',
+        key: 'eth_staking_pool_distributions_delta',
       },
     ],
-    Content: EthStakingPools,
+    path: 'eth-staking',
   },
-
   {
     title: DASHBOARDS_TITLES.STABLECOINS,
     subItems: [

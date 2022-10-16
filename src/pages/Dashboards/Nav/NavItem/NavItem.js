@@ -27,7 +27,10 @@ const NavItem = ({ isActive, activeSub, setActive, scrollToSubItem, ...item }) =
     <li className={styles.wrapper}>
       <button
         className={cx(styles.item, isActive && styles.active, 'btn row v-center justify')}
-        onClick={() => setActive(item)}
+        onClick={() => {
+          window.scrollTo({ left: 0, top: 0, behavior: 'auto' })
+          setActive(item)
+        }}
       >
         <span>{title}</span>
         {subItems && (

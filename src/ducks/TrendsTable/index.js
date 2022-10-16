@@ -7,7 +7,7 @@ import { useColumns } from '../_Table/hooks'
 import styles from './index.module.scss'
 
 const LINK_SELECTOR = `.${styles.word}`
-const COMPACT_HIDDEN_COLUMNS = [Column.TRENDING_CHART, Column.CONNECTED_WORDS]
+const COMPACT_HIDDEN_COLUMNS = [Column.TRENDING_CHART, Column.CONNECTED_WORDS, Column.SOCIAL_VOLUME]
 
 const TrendsTable = ({ className, period, hiddenColumnIds, isCompact, ...props }) => {
   const { trendingWords, words, isLoading } = useTrendingWords(period)

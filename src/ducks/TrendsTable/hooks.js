@@ -5,6 +5,7 @@ import {
   TRENDING_WORDS_CONTEXT_QUERY,
   SOCIAL_VOLUME_QUERY,
   LAST_DAY_SOCIAL_VOLUME_QUERY,
+  WORDS_SOCIAL_DOMINANCE_QUERY,
 } from './queries'
 import { calcPercentageChange } from '../../utils/utils'
 
@@ -43,6 +44,7 @@ function useTrendWordsData(query, words) {
     variables: {
       words,
     },
+    skip: words.length === 0,
   })
 
   return useMemo(() => {
@@ -85,6 +87,23 @@ export function useTrendSocialVolume(words, trend) {
       isLoading: false,
     }
   }, [data])
+}
+
+export function useTrendSocialDominance(words, trend) {
+  const { data: trendContext, isLoading: isLoadingTrendContext } = useTrendWordContext(words, trend)
+  const trendWords = trendContext.map(({ word }) => word)
+  const data = useTrendWordsData(WORDS_SOCIAL_DOMINANCE_QUERY, trendWords)
+
+  return useMemo(() => {
+    if (!data || isLoadingTrendContext) return LOADING
+
+    const socialDominance = Object.keys(data).map((word) => ({ word, value: data[word] }))
+
+    return {
+      data: socialDominance,
+      isLoading: false,
+    }
+  }, [data, isLoadingTrendContext])
 }
 
 export function useTrendWordContext(words, trend) {

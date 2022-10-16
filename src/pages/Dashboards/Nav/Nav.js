@@ -7,6 +7,8 @@ import styles from './Nav.module.scss'
 const Nav = ({ navSettings }) => {
   const { activeItem, activeSubItem, setActiveItem, scrollToSubItem } = navSettings
 
+  if (!activeItem) return null
+
   const dashboards = DASHBOARDS.map((dashboard) => {
     const isActive = dashboard.title === activeItem.title
 

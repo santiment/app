@@ -2,8 +2,8 @@ import React from 'react'
 import Table from '../../../../../../ducks/_Table'
 import { useTrendingWords } from '../../../../../../ducks/TrendsTable/hooks'
 import { useColumns } from '../../../../../../ducks/_Table/hooks'
-import { COLUMNS } from './Columns/TopTrendsColumns'
-import topTrendsColumnsStyles from './Columns/TopTrendsColumns.module.scss'
+import { COLUMNS } from '../../../../../../ducks/TrendsTable/columns'
+import topTrendsColumnsStyles from '../../../../../../ducks/TrendsTable/columns.module.scss'
 import styles from './TopTrendsTable.module.scss'
 
 const LINK_SELECTOR = `.${topTrendsColumnsStyles.word}`

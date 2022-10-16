@@ -4,13 +4,17 @@ import { Skeleton } from '../../../../../../../components/Skeleton'
 import MiniChart from '../../../../../../../components/MiniChart'
 import { WordCloud } from '../../../../../../../components/WordCloud/WordCloud'
 import {
+  useTrendSocialDominance,
   useTrendSocialVolume,
   useTrendWordContext,
 } from '../../../../../../../ducks/TrendsTable/hooks'
 import { INDEX_COLUMN } from '../../../../../../../ducks/_Table/columns'
 import { prepareColumns } from '../../../../../../../ducks/_Table'
-import { getAverageSocialVolume } from './utils'
-import styles from './TopTrendsColumns.module.scss'
+import {
+  getAverageSocialDominance,
+  getAverageSocialVolume,
+} from '../../../../../../../ducks/TrendsTable/utils'
+import styles from '../../../../../../../ducks/TrendsTable/columns.module.scss'
 
 const Loader = () => <Skeleton show className={styles.skeleton} />
 
@@ -34,13 +38,19 @@ const SocialVolumeChart = ({ trend, words }) => {
 }
 
 const AverageSocialVolume = ({ trend, words }) => {
-  const { data, isLoading } = useTrendSocialVolume(words, trend)
+  const { data: volume, isLoading: isLoadingVolume } = useTrendSocialVolume(words, trend)
+  const { data: dominance, isLoading: isLoadingDominance } = useTrendSocialDominance(words, trend)
 
-  if (isLoading) return <Loader />
+  if (isLoadingVolume || isLoadingDominance) return <Loader />
 
-  const socialVolume = getAverageSocialVolume(data)
+  const socialVolume = getAverageSocialVolume(volume)
+  const socialDominance = getAverageSocialDominance(dominance)
 
-  return <p>{socialVolume} | 0%</p>
+  return (
+    <p>
+      {socialVolume} | {socialDominance}%
+    </p>
+  )
 }
 
 const ConnectedWords = memo(({ trend, words }) => {

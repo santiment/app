@@ -2,7 +2,6 @@ module.exports = {
   parser: 'babel-eslint',
   plugins: ['react'],
   extends: [
-    '@sheerun/eslint-config-standard/index.js',
     'plugin:react/recommended',
   ],
   rules: {
