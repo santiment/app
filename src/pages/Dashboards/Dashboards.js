@@ -2,6 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import SocialTool from './dashboards/SocialTool/SocialTool'
 import EthStakingPoolsPage from './dashboards/EthStakingPools/EthStakingPools'
+import EthTokenTrading from './dashboards/EthTokenTrading/EthTokenTrading'
 import Nav from './Nav/Nav'
 import { useNav } from './hooks'
 import { DASHBOARDS_TITLES } from './constants'
@@ -17,7 +18,7 @@ const Dashboards = (props) => {
   if (activeItem) {
     const { title } = activeItem
     if (title === DASHBOARDS_TITLES.SOCIAL_TOOL) content = <SocialTool {...props} />
-    if (title === DASHBOARDS_TITLES.ETH_TOKEN_TRADING) content = <></>
+    if (title === DASHBOARDS_TITLES.ETH_TOKEN_TRADING) content = <EthTokenTrading {...props} />
     if (title === DASHBOARDS_TITLES.ETH_2_STAKING) content = <></>
     if (title === DASHBOARDS_TITLES.ETH_STAKING) content = <EthStakingPoolsPage {...props} />
     if (title === DASHBOARDS_TITLES.STABLECOINS) content = <></>

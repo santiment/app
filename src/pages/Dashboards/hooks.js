@@ -80,7 +80,7 @@ export const useNav = ({ match, location, history }) => {
   function getSubItemScrollPosition(subItem) {
     const itemAnchor = document.getElementById(subItem.key)
 
-    return itemAnchor ? itemAnchor.offsetTop - itemAnchor.offsetHeight / 2 - 200 : 0
+    return itemAnchor ? itemAnchor.offsetTop - itemAnchor.offsetHeight / 2 : 0
   }
 
   function scrollToSubItem(subItem) {
@@ -93,7 +93,7 @@ export const useNav = ({ match, location, history }) => {
 
       if (isFirst && !isLast) window.scrollTo({ left: 0, top: 0, behavior: 'smooth' })
       else if (!isFirst && isLast)
-        window.scrollTo({ left: 0, top: window.innerHeight, behavior: 'smooth' })
+        window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: 'smooth' })
       else window.scrollTo({ left: 0, top: scrollPosition, behavior: 'smooth' })
     }
   }
@@ -136,7 +136,7 @@ export const useNav = ({ match, location, history }) => {
       }
 
       const intersectionOdds = intersectingEntries.map(({ top, ...rest }, index) => ({
-        odd: index === 0 ? Math.abs(top - 226) : Math.abs(top - window.innerHeight / 2),
+        odd: index === 0 ? Math.abs(top - 226) : Math.abs(top - window.innerHeight / 3),
         ...rest,
       }))
 
