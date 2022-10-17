@@ -1,0 +1,18 @@
+@import '~@santiment-network/ui/mixins';
+
+.balance {
+  &__chart {
+    margin-top: 10px;
+    background: var(--white);
+    border-radius: $border-radius;
+    border: 1px solid var(--porcelain);
+  }
+
+  &__header {
+    padding: 0;
+  }
+}
+
+.overviewWrapper {
+  @include grid-wrap(2);
+}
