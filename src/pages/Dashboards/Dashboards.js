@@ -8,6 +8,7 @@ import Stablecoins from './dashboards/Stablecoins/Stablecoins'
 import UniswapProtocol from './dashboards/Uniswap/Uniswap'
 import DecentralizedExchanges from './dashboards/DecentralizedExchanges/DecentralizedExchanges'
 import BtcLocked from './dashboards/BtcLocked/BtcLocked'
+import NFT from './dashboards/NFT/NFT'
 import Nav from './Nav/Nav'
 import { useNav } from './hooks'
 import { DASHBOARDS_TITLES } from './constants'
@@ -31,7 +32,7 @@ const Dashboards = (props) => {
     if (title === DASHBOARDS_TITLES.DECENTRALIZED_EXCHANGES)
       content = <DecentralizedExchanges {...props} />
     if (title === DASHBOARDS_TITLES.BTC_LOCKED) content = <BtcLocked {...props} />
-    if (title === DASHBOARDS_TITLES.NFT_INFLUENCERS_TRX) content = <></>
+    if (title === DASHBOARDS_TITLES.NFT_INFLUENCERS_TRX) content = <NFT {...props} />
   }
 
   return (
