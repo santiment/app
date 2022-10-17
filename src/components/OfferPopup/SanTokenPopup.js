@@ -41,7 +41,7 @@ const SanTokenPopup = () => {
         </div>
         <div>
           <a
-            className='btn-1 body-3 mrg--r mrg-l'
+            className={cx('btn-1 body-3 mrg--r mrg-l', styles.learn)}
             href='https://academy.santiment.net/san-tokens/how-to-buy-san-tokens/'
             target='_blank'
             rel='noopener noreferrer'
