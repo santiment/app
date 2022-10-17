@@ -5,13 +5,12 @@ import BtcStatistics from '../../../../ducks/BtcDistribution/BtcStatistics/BtcSt
 import DistributionBtcOnEth from '../../../../ducks/BtcDistribution/DistributionBtcOnEth/DistributionBtcOnEth'
 import TotalBtcOnEth from '../../../../ducks/BtcDistribution/TotalBtcOnEth/TotalBtcOnEth'
 import CheckProPaywall from '../../../../ducks/Stablecoins/CheckProPaywall'
-import { useRestrictedInfo } from '../../../UniswapProtocolPage/hooks'
+import { useRestrictedInfo } from '../../hooks'
 import { withRenderQueueProvider } from '../../../../ducks/renderQueue/viewport'
-import { METRIC_BOUNDARIES_QUERY } from './queries'
 import dashboardsStyles from '../dashboards.module.scss'
 
 const BtcLocked = () => {
-  const isProChecking = useRestrictedInfo(METRIC_BOUNDARIES_QUERY)
+  const isProChecking = useRestrictedInfo({ metric: 'total_supply' })
 
   return (
     <section className={cx(dashboardsStyles.wrapper, 'column')}>
