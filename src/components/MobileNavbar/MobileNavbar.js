@@ -48,6 +48,7 @@ const NAVBAR_LINKS = [
 const MENU_LINKS = [
   { linkTo: '/alerts', label: 'Alerts' },
   { linkTo: '/labs/trends/explore/', label: 'Social tool' },
+  { linkTo: '/nft', label: 'NFT Influencers' },
   { linkTo: 'https://academy.santiment.net', label: 'Academy', isExternal: true },
   { linkTo: '/pricing', label: 'Pricing' },
 ]

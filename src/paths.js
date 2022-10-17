@@ -3,6 +3,7 @@ export const PATHS = {
   FEED: '/feed',
   SOCIAL_TOOl: '/labs/trends/explore',
   SOCIAL_TRENDS: '/labs/trends',
+  NFT: '/nft',
   LOGIN: '/login',
   LOGIN_VIA_EMAIL: '/login/email',
   CREATE_ACCOUNT: '/sign-up',

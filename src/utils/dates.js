@@ -122,12 +122,14 @@ export const getTimeIntervalFromToday = (amount, dateFormat, options = {}) => {
 
 const calculateUnitByFormat = (diff, format) => parseInt(diff / FormatToTimestamp[format], 10)
 
-const getUnitFormattedString = (amount, format) => {
+const getUnitFormattedString = (amount, format, type) => {
   if (format === SECOND && amount < 60) {
     return 'a few seconds ago'
   }
 
   const plural = amount > 1 ? 's' : ''
+
+  if (type === 'short') return `${amount}${format} ago`
 
   return `${amount} ${FormatToString[format]}${plural} ago`
 }
@@ -173,6 +175,7 @@ export const dateDifference = ({ from, to = new Date(), format = YEAR }) => {
  * @param {Date} args.from - from
  * @param {Date} args.to - to
  * @param {'y'|'m'|'d'|'h'|'min'|'s'} args.format - format in which return the string
+ * @param {'short'|'full'} type - format in which return the string
  *
  * @example
  * // Getting the difference from: 2nd April 2019
@@ -181,9 +184,9 @@ export const dateDifference = ({ from, to = new Date(), format = YEAR }) => {
  * //=> '2 days ago'
  *
  */
-export const dateDifferenceInWords = (args) => {
+export const dateDifferenceInWords = (args, type = 'full') => {
   const { diff, format } = dateDifference(args)
-  return getUnitFormattedString(diff, format)
+  return getUnitFormattedString(diff, format, type)
 }
 
 /**

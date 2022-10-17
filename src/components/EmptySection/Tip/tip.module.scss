@@ -1,4 +1,3 @@
-
 .tipWrapper {
   background: var(--heliotrope-light);
   border-radius: 8px;
@@ -13,4 +12,17 @@
 .tipDescription {
   max-width: 236px;
   color: var(--fiord);
+}
+
+.popupWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 24px 20px 0;
+}
+
+.action {
+  position: absolute;
+  top: 14px;
+  right: 22px;
 }

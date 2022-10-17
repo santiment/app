@@ -1,0 +1,41 @@
+.row {
+  padding: 8px 4px 8px 0;
+}
+
+.marketRow {
+  padding: 16px;
+
+  &:not(:last-of-type) {
+    border-bottom: 1px solid var(--porcelain);
+  }
+}
+
+.influencer {
+  width: 158px;
+  gap: 6px;
+}
+
+.icon {
+  width: 14px;
+  height: 16px;
+  border-radius: 4px;
+  fill: var(--trx-icon-color, var(--waterloo));
+}
+
+.active {
+  --trx-icon-color: var(--green);
+
+  background-color: var(--green-light-1);
+}
+
+.account {
+  display: block;
+}
+
+.when {
+  width: 64px;
+}
+
+.collection {
+  width: 92px;
+}

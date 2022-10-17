@@ -1,0 +1,23 @@
+.header {
+  padding: 2px 24px 2px 36px;
+}
+
+.content {
+  overflow-y: auto;
+  height: calc(100vh - 204px);
+  padding: 16px 20px;
+  margin-bottom: 83px;
+  gap: 8px;
+}
+
+.marketTable {
+  border: 1px solid var(--porcelain);
+  border-radius: 6px;
+}
+
+.skeleton {
+  position: absolute;
+  width: 100%;
+  height: 284px;
+  top: 0;
+}

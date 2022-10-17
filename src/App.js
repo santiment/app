@@ -54,6 +54,7 @@ const FOOTER_DISABLED_FOR = [
   PATHS.EXPLORER,
   PATHS.STABLECOINS,
   PATHS.SHEETS_TEMPLATES,
+  PATHS.NFT,
 ]
 const FOOTER_ABSOLUTE_FOR = [PATHS.LOGIN, PATHS.LOGIN_VIA_EMAIL, PATHS.CREATE_ACCOUNT, PATHS.GDPR]
 
@@ -123,6 +124,10 @@ const LoadableFeedPage = LoadablePage(() => import('./pages/feed/Feed'))
 const LoadableAlertsPage = LoadablePage(() => import('./pages/Alerts/Alerts'))
 
 const LoadableDashboardsPage = LoadablePage(() => import('./pages/Dashboards/Dashboards'))
+
+const LoadableNftInfluencersTrxPage = LoadablePage(() =>
+  import('./pages/NftInfluencersTrx/NftInfluencersTrx'),
+)
 
 class Route extends React.Component {
   componentWillMount() {
@@ -500,6 +505,16 @@ export const App = ({
                   {...props}
                 />
               )}
+            />
+            <Route
+              path={PATHS.NFT}
+              render={(props) => {
+                if (isDesktop) {
+                  return <Redirect to='/' />
+                }
+
+                return <LoadableNftInfluencersTrxPage {...props} />
+              }}
             />
             <Redirect from={PATHS.LABELS} to={PATHS.ETH_ANALYSIS} />
             {!isDesktop && <Redirect from={PATHS.EXPLORER} to='/assets' />}
