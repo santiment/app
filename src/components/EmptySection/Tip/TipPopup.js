@@ -8,7 +8,9 @@ const TipPopup = () => {
   const [isOpened, setIsOpened] = useState(false)
 
   useEffect(() => {
-    setTimeout(() => setIsOpened(true), 3000)
+    const timeoutId = setTimeout(() => setIsOpened(true), 3000)
+
+    return () => clearTimeout(timeoutId)
   }, [])
 
   if (!isOpened) return null

@@ -8,20 +8,18 @@ export function formatKey({ trxHash, datetime }, idx) {
 }
 
 const Table = ({ data }) => (
-  <table className='column'>
-    <thead className={cx(styles.header, 'fluid txt-m c-casper')}>
-      <tr className='row v-center justify'>
-        <th>Twitter influencer</th>
-        <th>Activity</th>
-        <th>When</th>
-      </tr>
-    </thead>
-    <tbody className={cx(styles.content, 'column')}>
+  <div className='column'>
+    <div className={cx(styles.header, 'fluid txt-m c-casper row v-center justify')}>
+      <span>Twitter influencer</span>
+      <span>Activity</span>
+      <span className='txt-right'>When</span>
+    </div>
+    <div className={cx(styles.content, 'column')}>
       {data.map((trx, idx) => (
         <Row key={formatKey(trx, idx)} data={trx} />
       ))}
-    </tbody>
-  </table>
+    </div>
+  </div>
 )
 
 export default Table

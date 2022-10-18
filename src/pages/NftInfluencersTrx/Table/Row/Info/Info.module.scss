@@ -19,9 +19,8 @@
 }
 
 .address {
-  --bg: var(--green-light-1) !important;
-  --bg-hover: var(--green-light-1) !important;
-  --color-hover: var(--green);
+  --bg: var(--green-light-1);
+  --color: var(--green);
 
   max-width: 102px;
   padding: 2px 4px;

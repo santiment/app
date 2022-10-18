@@ -10,12 +10,10 @@ const MarketTable = () => {
   const { data, loading } = useNftQuery(0, 5)
 
   return (
-    <table className={cx(styles.marketTable, 'fluid column relative')}>
+    <div className={cx(styles.marketTable, 'fluid column relative')}>
       {!loading && data.map((trx, idx) => <Row key={formatKey(trx, idx)} data={trx} isMarket />)}
-      <caption>
-        <Skeleton show={loading} className={styles.skeleton} />
-      </caption>
-    </table>
+      <Skeleton show={loading} className={styles.skeleton} />
+    </div>
   )
 }
 
