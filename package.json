@@ -96,7 +96,7 @@
     "redux-persist": "^6.0.0",
     "rxjs": "5.x.x",
     "san-insights": "https://github.com/santiment/insights-app#0137632",
-    "san-studio": "https://github.com/santiment/san-studio#b9ba2b3",
+    "san-studio": "https://github.com/santiment/san-studio#c76e14f",
     "san-webkit": "https://github.com/santiment/san-webkit#2583a9d",
     "san-queries": "https://github.com/santiment/san-queries#0f5250c",
     "sanitize-html": "^1.18.2",
