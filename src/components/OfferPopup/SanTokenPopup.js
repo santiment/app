@@ -3,7 +3,6 @@ import cx from 'classnames'
 import { saveBoolean, getSavedBoolean } from 'webkit/utils/localStorage'
 import { useCustomerData } from './hooks/useCustomerData'
 import { ReactComponent as TokensSvg } from './images/tokens.svg'
-import { ReactComponent as TokensMobileSvg } from './images/tokensmobile.svg'
 import { ReactComponent as CloseSvg } from './images/close.svg'
 import styles from './SanTokenPopup.module.scss'
 
@@ -33,10 +32,9 @@ const SanTokenPopup = () => {
 
   return (
     <>
-      <div className={styles.mobiledropshadow}></div>
-      <div className={cx('row border box', styles.santokens)}>
-        <TokensSvg className={styles.tokensvg} />
-        <TokensMobileSvg className={cx('hide mrg--b mrg-xl', styles.tokenmobilesvg)} />
+      <div className={styles.shadow}></div>
+      <div className={cx('row border box', styles['san-tokens'])}>
+        <TokensSvg className={styles['token-svg']} />
         <div className={styles.main}>
           <div className={cx('body-2 txt-m mrg--b mrg-s', styles.title)}>Discover SAN token</div>
           <div className={cx('body-3 c-waterloo mrg--b mrg-l', styles.info)}>
