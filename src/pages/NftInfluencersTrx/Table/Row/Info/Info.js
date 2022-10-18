@@ -21,7 +21,7 @@ const Info = ({ data, isOpened }) => {
 
   const clearTimerRef = useRef()
 
-  useEffect(() => () => clearTimerRef.current(), [])
+  useEffect(() => () => clearTimerRef.current && clearTimerRef.current(), [])
 
   function onCopyAddressClick(address, event) {
     if (clearTimerRef.current) clearTimerRef.current()
