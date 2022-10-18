@@ -31,7 +31,7 @@
   let hasInsights = false
 
   $: activeMenu, reset()
-  $: showEmpty = !$currentUser && ![MenuItem.NEW, MenuItem.SANTIMENT].includes(activeMenu)
+  $: showEmpty = !$currentUser && ![MenuItem.TRENDING, MenuItem.NEW, MenuItem.SANTIMENT].includes(activeMenu)
   $: voted = activeMenu === MenuItem.LIKES
   $: favorites = activeMenu === MenuItem.FAVORITES
   $: currentUserDataOnly = activeMenu === MenuItem.MY_CREATIONS
