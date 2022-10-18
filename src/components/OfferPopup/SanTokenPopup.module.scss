@@ -15,10 +15,11 @@
     left: 25px;
     bottom: 25px;
     z-index: 1000;
-    padding: 24px 20px;
+    padding: 20px 24px;
 
     :global(.phone-xs) &,
     :global(.phone) & {
+        padding: 24px 20px;
         left: 0;
         bottom: 0;
         width: 100%;
