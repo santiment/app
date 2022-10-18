@@ -4,22 +4,105 @@
     bottom: 25px;
     z-index: 1000;
     padding: 20px 24px;
+
+    :global(.phone-xs) &,
+    :global(.phone) & {
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        border-radius: 0;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        flex-direction: column;
+        align-items: center;
+        animation: slideUp 0.5s;
+        animation-fill-mode: forwards;
+    }
+}
+
+@keyframes slideUp {
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.mobiledropshadow {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s;
+
+    :global(.phone-xs) &,
+    :global(.phone) & {
+        display: block;
+        position: fixed;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--rhino);
+        opacity: 0.8;
+        z-index: 999;
+    }
+}
+
+.close {
+    position: absolute;
+    right: 20px;
 }
 
 .tokensvg {
     margin-right: 22px;
+    min-width: 70px;
+
+    :global(.phone-xs) &,
+    :global(.phone) & {
+        display: none;
+    }
 }
 
 .main {
     max-width: 292px;
     margin-right: 7px;
+
+    :global(.phone-xs) &,
+    :global(.phone) & {
+        text-align: center;
+    }
 }
 
 .title {
     color: var(--rhino);
+
+    :global(.phone-xs) &,
+    :global(.phone) & {
+        font-weight: 500;
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
 }
 
 .learn {
-    padding: 8px 20px;
     display: inline-block;
+
+    :global(.phone-xs) &,
+    :global(.phone) & {
+        display: block;
+        width: 100%;
+    }
+}
+
+:global(.phone-xs) .info,
+:global(.phone) .info {
+    font-size: 16px;
+    line-height: 24px;
+    margin-bottom: 24px;
+    max-width: 320px;
+}
+
+:global(.phone-xs) .tokenmobilesvg,
+:global(.phone) .tokenmobilesvg {
+    display: block;
 }

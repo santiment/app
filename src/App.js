@@ -247,7 +247,7 @@ export const App = ({
         {isDesktop && <OfferPopup />}
         <ForceActionRedirector pathname={pathname} />
         {isDesktop && <UrlModals />}
-        {isDesktop && <SanTokenPopup />}
+        <SanTokenPopup />
 
         <ErrorBoundary history={history}>
           <SideNav isDesktop={isDesktop} pathname={pathname} />
