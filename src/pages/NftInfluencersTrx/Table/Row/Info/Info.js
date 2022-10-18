@@ -34,50 +34,66 @@ const Info = ({ data, isOpened }) => {
 
   return (
     <div className={cx(styles.wrapper, 'fluid column justify', isOpened && styles.opened)}>
-      <Section titles={['Twitter influencer', 'Activity']}>
-        {account && (
-          <a
-            href={account.Twitter}
-            target='_blank'
-            rel='noopener noreferrer'
-            className='body-2 row v-center'
+      <div className='row justify'>
+        <Section title='Twitter influencer'>
+          {account && (
+            <a
+              href={account.Twitter}
+              target='_blank'
+              rel='noopener noreferrer'
+              className='body-2 row v-center'
+            >
+              @{account.Name}
+              <Svg id='external-link' w={12} className={cx(styles.linkIcon, 'mrg-s mrg--l')} />
+            </a>
+          )}
+        </Section>
+        <Section title='Activity' className='txt-right'>
+          <Activity original={data} />
+        </Section>
+      </div>
+      <div className='column'>
+        <Section title='Collection name'>
+          <div className='body-2 row v-center justify'>
+            <span className='mrg-s mrg--r nowrap'>{capitalizeStr(nft.name)}</span>
+            <button
+              className={cx(styles.address, 'btn expl-tooltip')}
+              id={nft.contractAddress.toString()}
+              aria-label='Copy address'
+              onClick={(event) => onCopyAddressClick(nft.contractAddress, event)}
+            >
+              <span className='single-line'>{nft.contractAddress}</span>
+            </button>
+          </div>
+        </Section>
+      </div>
+      <div className='row justify'>
+        <Section title='Trx hash'>
+          <button
+            className={cx(styles.address, 'btn body-2 expl-tooltip')}
+            id={trxHash.toString()}
+            aria-label='Copy address'
+            onClick={(event) => onCopyAddressClick(trxHash, event)}
           >
-            @{account.Name}
-            <Svg id='external-link' w={12} className={cx(styles.linkIcon, 'mrg-s mrg--l')} />
-          </a>
-        )}
-        <Activity original={data} />
-      </Section>
-      <Section isSingle titles={['Collection name']}>
-        <span className='mrg-s mrg--r nowrap'>{capitalizeStr(nft.name)}</span>
-        <button
-          className={cx(styles.address, 'btn expl-tooltip')}
-          id={nft.contractAddress.toString()}
-          aria-label='Copy address'
-          onClick={(event) => onCopyAddressClick(nft.contractAddress, event)}
-        >
-          <span className='single-line'>{nft.contractAddress}</span>
-        </button>
-      </Section>
-      <Section titles={['Trx hash', 'When']}>
-        <button
-          className={cx(styles.address, 'btn body-2 expl-tooltip')}
-          id={trxHash.toString()}
-          aria-label='Copy address'
-          onClick={(event) => onCopyAddressClick(trxHash, event)}
-        >
-          <span className='single-line'>{trxHash}</span>
-        </button>
-        <div className='body-2'>{when}</div>
-      </Section>
-      <Section titles={['Price', 'Marketplace']}>
-        <div className='body-2'>
-          {`${parseFloat(amount.toFixed(3))} ${currencyProject && currencyProject.ticker}`}
-        </div>
-        <div className='body-2'>
-          <Marketplace marketplace={marketplace} />
-        </div>
-      </Section>
+            <span className='single-line'>{trxHash}</span>
+          </button>
+        </Section>
+        <Section title='When' className='txt-right'>
+          <div className='body-2'>{when}</div>
+        </Section>
+      </div>
+      <div className='row justify'>
+        <Section title='Price'>
+          <div className='body-2'>
+            {`${parseFloat(amount.toFixed(3))} ${currencyProject && currencyProject.ticker}`}
+          </div>
+        </Section>
+        <Section title='Marketplace' className='txt-right'>
+          <div className='body-2'>
+            <Marketplace marketplace={marketplace} />
+          </div>
+        </Section>
+      </div>
     </div>
   )
 }

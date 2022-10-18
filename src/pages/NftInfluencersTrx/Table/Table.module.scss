@@ -15,13 +15,16 @@
 }
 
 .marketTable {
+  height: auto;
   border: 1px solid var(--porcelain);
   border-radius: 6px;
+  padding: 0;
+  margin-bottom: 0;
 }
 
 .skeleton {
   position: absolute;
-  width: 100%;
-  height: 284px;
+  width: calc(100vw - 40px);
   top: 0;
+  padding: 24px 20px 0;
 }

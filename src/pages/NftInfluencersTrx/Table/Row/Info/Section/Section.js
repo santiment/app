@@ -1,27 +1,11 @@
 import React from 'react'
+import cx from 'classnames'
 
-const Section = ({ isSingle, titles, children }) => {
-  if (isSingle) {
-    return (
-      <div className='column'>
-        <div className='txt-m c-casper'>{titles[0]}</div>
-        <div className='body-2 row v-center justify'>{children}</div>
-      </div>
-    )
-  }
-
-  return (
-    <div className='row justify'>
-      <div className='column'>
-        <div className='txt-m c-casper'>{titles[0]}</div>
-        {children[0]}
-      </div>
-      <div className='column justify txt-right'>
-        <div className='txt-m c-casper'>{titles[1]}</div>
-        {children[1]}
-      </div>
-    </div>
-  )
-}
+const Section = ({ title, className, children }) => (
+  <div className={cx('column justify', className)}>
+    <div className='txt-m c-casper'>{title}</div>
+    {children}
+  </div>
+)
 
 export default Section
