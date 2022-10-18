@@ -36,7 +36,7 @@
   $: favorites = activeMenu === MenuItem.FAVORITES
   $: currentUserDataOnly = activeMenu === MenuItem.MY_CREATIONS
   $: userRoleDataOnly = activeMenu === MenuItem.SANTIMENT
-  $: isFeaturedDataOnly = activeMenu === MenuItem.SANTIMENT
+  $: isFeaturedDataOnly = [MenuItem.TRENDING, MenuItem.SANTIMENT].includes(activeMenu)
   $: range, assets, displayingTypes, page, fetch()
   $: displayingTypes, filterInsights()
   $: onLoadingChange(loading)
@@ -92,7 +92,7 @@
       page: insightsPage,
     })
       .then((res) => {
-        if (activeMenu === MenuItem.FAVORITES) {
+        if (activeMenu === MenuItem.TRENDING) {
           insightsPages = res.pages
           insights = insightsPage === 1 ? res.items : insights.concat(res.items)
         }
@@ -156,7 +156,7 @@
   }
 
   onMount(() => {
-    if (activeMenu === MenuItem.FAVORITES) {
+    if (activeMenu === MenuItem.TRENDING) {
       queryExplorerItems({
         types: getDisplayingType(displayingTypes),
         voted,
