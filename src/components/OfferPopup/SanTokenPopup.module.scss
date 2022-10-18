@@ -15,7 +15,7 @@
     left: 25px;
     bottom: 25px;
     z-index: 1000;
-    padding: 20px 24px;
+    padding: 24px 20px;
 
     :global(.phone-xs) &,
     :global(.phone) & {
@@ -48,12 +48,13 @@
 
 .token-svg {
     margin-right: 22px;
-    min-width: 70px;
+    width: 70px;
 
     :global(.phone-xs) &,
     :global(.phone) & {
         transform: rotate(270deg);
-        margin-bottom: 24px;
+        margin-right: 0;
+        width: 95px;
     }
 }
 
@@ -64,6 +65,10 @@
     :global(.phone-xs) &,
     :global(.phone) & {
         text-align: center;
+        max-width: 100% !important;
+        width: 100% !important;
+        margin-top: 16px;
+        margin-right: 0;
     }
 }
 
@@ -84,6 +89,8 @@
     :global(.phone) & {
         display: block;
         width: 100%;
+        font-size: 16px;
+        padding: 10px 24px !important;
     }
 }
 
@@ -91,6 +98,7 @@
 :global(.phone) .info {
     font-size: 16px;
     line-height: 24px;
-    margin-bottom: 24px;
-    max-width: 320px;
+    margin: 0 auto 24px;
+    width: 320px;
+    text-align: center;
 }
