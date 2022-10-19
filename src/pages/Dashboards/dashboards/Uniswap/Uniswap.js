@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import Info from '../shared/Info/Info'
+import Section from '../shared/Section/Section'
 import TopExchangesTable from '../../../../components/Tables/TopExchanges'
 import UniswapFlowBalances from '../../../../ducks/UniswapProtocol/UniswapFlowBalances'
 import UniswapTopTransactions from '../../../../ducks/UniswapProtocol/UniswapTopTransactions/UniswapTopTransactions'
@@ -29,6 +30,11 @@ const BALANCE_CHART_TICKS = {
   yTicks: 6,
 }
 
+const TOTAL_CLAIMS_METRICS = [
+  Metric.uniswap_total_claims_amount,
+  Metric.uniswap_total_claims_percent,
+]
+
 const UniswapProtocol = () => {
   const areClaimsRestricted = useRestrictedInfo({
     metric: 'uniswap_total_claims_amount',
@@ -42,59 +48,49 @@ const UniswapProtocol = () => {
         description='Real-time data on UNI token distribution, total amount of UNI claimed, amount of UNI on centralized and decentralized exchange, top UNI transactions and more.'
       />
       <main className={cx(dashboardsStyles.content, 'column')}>
-        <div id='uniswap_top_exchanges'>
+        <Section id='uniswap_top_exchanges'>
           <div>
             <TopExchangesTable slug='uniswap' />
           </div>
-        </div>
-        <div id='uniswap_uni_balances'>
-          <h4 className='h4 txt-b mrg-xxl mrg--b'>UNI Flow Balances</h4>
+        </Section>
+        <Section id='uniswap_uni_balances' title='UNI Flow Balances'>
           <div>
-            {!isPro ? (
-              <CheckProPaywall>
-                <UniswapFlowBalances />
-              </CheckProPaywall>
-            ) : (
+            <CheckProPaywall shouldCheck={!isPro}>
               <UniswapFlowBalances />
-            )}
+            </CheckProPaywall>
           </div>
-        </div>
-        <div id='uniswap_top_token_transactions'>
+        </Section>
+        <Section id='uniswap_top_token_transactions'>
           <div>
             <UniswapTopTransactions />
           </div>
-        </div>
-        <div id='uniswap_uni_price'>
-          <h4 className='h4 txt-b mrg-s mrg--b'>UNI Price, Age Consumed, Active Addresses (24h)</h4>
-          <p className={cx(dashboardsStyles.description, 'body-2 mrg-xxl mrg--b')}>
-            Daily active addresses signal the overall level of speculative (and utilitarian)
+        </Section>
+        <Section
+          id='uniswap_uni_price'
+          title='UNI Price, Age Consumed, Active Addresses (24h)'
+          description='Daily active addresses signal the overall level of speculative (and utilitarian)
             interest in a digital asset. As a result, sustained price rallies tend to necessitate a
             strong uptick in active addresses. Spikes in Age Consumed point to a substantial amount
             of previously idle coins moving addresses, suggesting a shift in the behavior of
             long-term investors. These shifts are often strong indicators of upcoming price
-            volatility in either direction
-          </p>
+            volatility in either direction'
+        >
           <div>
             <UniMetricsChart />
           </div>
-        </div>
-        <div id='uniswap_token_distributor'>
-          <h4 className='h4 txt-b mrg-xxl mrg--b'>Token Distributor</h4>
+        </Section>
+        <Section id='uniswap_token_distributor' title='Token Distributor'>
           <div>
-            {areClaimsRestricted ? (
-              <CheckProPaywall>
-                <UniswapMetrics />
-              </CheckProPaywall>
-            ) : (
+            <CheckProPaywall shouldCheck={areClaimsRestricted}>
               <UniswapMetrics />
-            )}
+            </CheckProPaywall>
           </div>
-        </div>
-        <div id='uniswap_uni_token_claims'>
-          <h4 className='h4 txt-b mrg-s mrg--b'>UNI Token Claims</h4>
-          <p className={cx(dashboardsStyles.description, 'body-2 mrg-xxl mrg--b')}>
-            0x090d4613473dee047c3f2706764f49e0821d256e
-          </p>
+        </Section>
+        <Section
+          id='uniswap_uni_token_claims'
+          title='UNI Token Claims'
+          description='0x090d4613473dee047c3f2706764f49e0821d256e'
+        >
           <div className={styles.overviewWrapper}>
             <UniswapHistoricalBalance
               className={styles.balance__chart}
@@ -103,41 +99,28 @@ const UniswapProtocol = () => {
               padding={BALANCE_CHART_PADDING}
               height={448}
             />
-            <ChartWidget
-              height={448}
-              metrics={[Metric.uniswap_total_claims_amount, Metric.uniswap_total_claims_percent]}
-            />
+            <ChartWidget height={448} metrics={TOTAL_CLAIMS_METRICS} />
           </div>
-        </div>
-        <div id='uniswap_top_claimers'>
+        </Section>
+        <Section id='uniswap_top_claimers'>
           <div>
-            {areClaimsRestricted ? (
-              <CheckProPaywall>
-                <TopClaimersTable />
-              </CheckProPaywall>
-            ) : (
+            <CheckProPaywall shouldCheck={areClaimsRestricted}>
               <TopClaimersTable />
-            )}
+            </CheckProPaywall>
           </div>
-        </div>
-        <div id='uniswap_uni_claims'>
-          <h4 className='h4 txt-b mrg-xxl mrg--b'>UNI Claims: Overview</h4>
+        </Section>
+        <Section id='uniswap_uni_claims' title='UNI Claims: Overview'>
           <div>
-            {areClaimsRestricted ? (
-              <CheckProPaywall>
-                <ClaimersWidgets />
-              </CheckProPaywall>
-            ) : (
+            <CheckProPaywall shouldCheck={areClaimsRestricted}>
               <ClaimersWidgets />
-            )}
+            </CheckProPaywall>
           </div>
-        </div>
-        <div id='uniswap_who_claimed'>
-          <h4 className='h4 txt-b mrg-xxl mrg--b'>Who claimed UNI?</h4>
+        </Section>
+        <Section id='uniswap_who_claimed' title='Who claimed UNI?'>
           <div>
             <UniswapWhoClaimed />
           </div>
-        </div>
+        </Section>
       </main>
     </section>
   )

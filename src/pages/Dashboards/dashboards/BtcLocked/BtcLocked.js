@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import Info from '../shared/Info/Info'
+import Section from '../shared/Section/Section'
 import BtcStatistics from '../../../../ducks/BtcDistribution/BtcStatistics/BtcStatistics'
 import DistributionBtcOnEth from '../../../../ducks/BtcDistribution/DistributionBtcOnEth/DistributionBtcOnEth'
 import TotalBtcOnEth from '../../../../ducks/BtcDistribution/TotalBtcOnEth/TotalBtcOnEth'
@@ -16,30 +17,23 @@ const BtcLocked = () => {
     <section className={cx(dashboardsStyles.wrapper, 'column')}>
       <Info title='Bitcoin Locked on Ethereum' description='' />
       <main className={cx(dashboardsStyles.content, 'column')}>
-        <div id='btc_total_supply'>
-          <h4 className='h4 txt-b mrg-xxl mrg--b'>Total Supply</h4>
+        <Section id='btc_total_supply' title='Total Supply'>
           <div>
-            {isProChecking ? (
-              <CheckProPaywall>
-                <BtcStatistics />
-              </CheckProPaywall>
-            ) : (
+            <CheckProPaywall shouldCheck={isProChecking}>
               <BtcStatistics />
-            )}
+            </CheckProPaywall>
           </div>
-        </div>
-        <div id='btc_distribution'>
-          <h4 className='h4 txt-b mrg-xxl mrg--b'>Distribution of Bitcoin on Ethereum</h4>
+        </Section>
+        <Section id='btc_distribution' title='Distribution of Bitcoin on Ethereum'>
           <div>
             <DistributionBtcOnEth />
           </div>
-        </div>
-        <div id='btc_total_eth'>
-          <h4 className='h4 txt-b mrg-xxl mrg--b'>Total BTC on Ethereum</h4>
+        </Section>
+        <Section id='btc_total_eth' title='Total BTC on Ethereum'>
           <div>
             <TotalBtcOnEth />
           </div>
-        </div>
+        </Section>
       </main>
     </section>
   )

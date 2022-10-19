@@ -53,9 +53,11 @@ function useTrendWordsData(query, words) {
     const { wordsData } = data
     const WordSocialVolume = {}
 
-    wordsData.forEach(({ word, data }) => {
-      WordSocialVolume[word] = data
-    })
+    if (wordsData) {
+      wordsData.forEach(({ word, data }) => {
+        WordSocialVolume[word] = data
+      })
+    }
 
     return WordSocialVolume
   }, [data])

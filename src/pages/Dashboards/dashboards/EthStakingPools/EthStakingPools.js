@@ -1,7 +1,8 @@
 import React from 'react'
 import cx from 'classnames'
-import Info from '../shared/Info/Info'
 import EthStakingPools from '../../../../ducks/Eth2.0/EthStakingPools/EthStakingPools'
+import Info from '../shared/Info/Info'
+import Section from '../shared/Section/Section'
 import DistributionBtcOnEth from './DistributionBtcOnEth/DistributionBtcOnEth'
 import { withRenderQueueProvider } from '../../../../ducks/renderQueue/viewport'
 import dashboardsStyles from '../dashboards.module.scss'
@@ -13,30 +14,26 @@ const EthStakingPoolsPage = () => (
       description='Information all about staking metrics and statistics for the new Ethereum 2.0.'
     />
     <main className={cx(dashboardsStyles.content, 'column')}>
-      <div id='eth_validators'>
-        <h4 className='h4 txt-b mrg-xxl mrg--b'>Number of Validators</h4>
+      <Section id='eth_validators' title='Number of Validators'>
         <div>
           <EthStakingPools />
         </div>
-      </div>
-      <div id='eth_staked_usd'>
-        <h4 className='h4 txt-b mrg-xxl mrg--b'>Total Staked in USD</h4>
+      </Section>
+      <Section id='eth_staked_usd' title='Total Staked in USD'>
         <div>
           <EthStakingPools metric='eth2_staking_pools_usd' />
         </div>
-      </div>
-      <div id='eth_staking_pool_distributions'>
-        <h4 className='h4 txt-b mrg-xxl mrg--b'>Staking Pool Distributions</h4>
+      </Section>
+      <Section id='eth_staking_pool_distributions' title='Staking Pool Distributions'>
         <div>
           <DistributionBtcOnEth metric='eth2_staking_pools_validators_count_over_time' />
         </div>
-      </div>
-      <div id='eth_staking_pool_distributions_delta'>
-        <h4 className='h4 txt-b mrg-xxl mrg--b'>Staking Pool Distributions Delta</h4>
+      </Section>
+      <Section id='eth_staking_pool_distributions_delta' title='Staking Pool Distributions Delta'>
         <div>
           <DistributionBtcOnEth metric='eth2_staking_pools_validators_count_over_time_delta' />
         </div>
-      </div>
+      </Section>
     </main>
   </section>
 )
