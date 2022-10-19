@@ -1,8 +1,8 @@
 import gql from 'graphql-tag'
 
 export const METRIC_BOUNDARIES_QUERY = gql`
-  query {
-    getMetric(metric: "total_supply") {
+  query ($metric: String!) {
+    getMetric(metric: $metric) {
       metadata {
         isRestricted
       }
