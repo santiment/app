@@ -35,7 +35,7 @@ const MarketTable = () => {
             </div>
           )
         })}
-      <Skeleton show={loading} className={styles.skeleton} />
+      <Skeleton show={loading} className={cx(styles.skeleton, styles.skeletonMarket)} />
     </div>
   )
 }
