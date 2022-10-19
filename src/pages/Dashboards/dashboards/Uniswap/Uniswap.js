@@ -12,12 +12,9 @@ import ClaimersWidgets, { ChartWidget } from '../../../../components/ClaimersWid
 import TopClaimersTable from '../../../../components/Tables/TopClaimers'
 import UniswapWhoClaimed from '../../../../ducks/UniswapProtocol/UniswapPieChart/WhoClaimedPieChart'
 import CheckProPaywall from '../../../../ducks/Stablecoins/CheckProPaywall'
-import {
-  UNISWAP_METRIC_BOUNDARIES_QUERY,
-  useRestrictedInfo,
-} from '../../../UniswapProtocolPage/hooks'
 import { Metric } from '../../../../ducks/dataHub/metrics'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
+import { useRestrictedInfo } from '../../hooks'
 import dashboardsStyles from '../dashboards.module.scss'
 import styles from './Uniswap.module.scss'
 
@@ -39,7 +36,9 @@ const TOTAL_CLAIMS_METRICS = [
 ]
 
 const UniswapProtocol = () => {
-  const areClaimsRestricted = useRestrictedInfo(UNISWAP_METRIC_BOUNDARIES_QUERY)
+  const areClaimsRestricted = useRestrictedInfo({
+    metric: 'uniswap_total_claims_amount',
+  })
   const { isPro } = useUserSubscriptionStatus()
 
   return (
