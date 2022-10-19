@@ -4,6 +4,26 @@ import { track } from 'webkit/analytics'
 import { useEventListener } from '../../hooks/eventListeners'
 import { DASHBOARDS } from './constants'
 
+function closestToZero(numbers) {
+  let closestIndex = 0
+  let diff = Number.MAX_VALUE
+
+  for (let i = 0; i < numbers.length; i++) {
+    const odd = numbers[i].odd
+
+    let abs = Math.abs(odd)
+
+    if (abs < diff) {
+      closestIndex = i
+      diff = abs
+    } else if (abs === diff && odd > 0 && numbers[closestIndex] < 0) {
+      closestIndex = i
+    }
+  }
+
+  return numbers[closestIndex]
+}
+
 export const useNav = ({ match, location, history }) => {
   const [activeItem, setActiveItem] = useState(undefined)
   const [activeSubItem, setActiveSubItem] = useState(undefined)
@@ -80,7 +100,7 @@ export const useNav = ({ match, location, history }) => {
   function getSubItemScrollPosition(subItem) {
     const itemAnchor = document.getElementById(subItem.key)
 
-    return itemAnchor ? itemAnchor.offsetTop - itemAnchor.offsetHeight / 2 - 200 : 0
+    return itemAnchor ? itemAnchor.offsetTop - window.innerHeight / 4 : 0
   }
 
   function scrollToSubItem(subItem) {
@@ -93,7 +113,7 @@ export const useNav = ({ match, location, history }) => {
 
       if (isFirst && !isLast) window.scrollTo({ left: 0, top: 0, behavior: 'smooth' })
       else if (!isFirst && isLast)
-        window.scrollTo({ left: 0, top: window.innerHeight, behavior: 'smooth' })
+        window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: 'smooth' })
       else window.scrollTo({ left: 0, top: scrollPosition, behavior: 'smooth' })
     }
   }
@@ -103,6 +123,9 @@ export const useNav = ({ match, location, history }) => {
   }
 
   function findMaxEntry(targets) {
+    const isBottom =
+      document.documentElement.scrollHeight === window.pageYOffset + window.innerHeight
+
     const entries = targets.filter(Boolean).map((target) => ({
       target,
       boundingClientRect: target.getBoundingClientRect(),
@@ -112,33 +135,24 @@ export const useNav = ({ match, location, history }) => {
       const intersectingEntries = entries.map(({ target, boundingClientRect }) => ({
         target,
         top: boundingClientRect.top,
+        bottom: boundingClientRect.bottom,
         y: boundingClientRect.y,
+        boundingClientRect,
       }))
 
-      function closestToZero(numbers) {
-        let closestIndex = 0
-        let diff = Number.MAX_VALUE
+      const intersectionOdds = intersectingEntries.map(
+        ({ top, bottom, boundingClientRect, ...rest }, index) => {
+          let odd = Math.abs(top - window.innerHeight / 4)
 
-        for (let i = 0; i < numbers.length; i++) {
-          const odd = numbers[i].odd
+          if (index === 0) odd = Math.abs(top - 226)
+          if (index === intersectingEntries.length - 1 && isBottom) odd = 0
 
-          let abs = Math.abs(odd)
-
-          if (abs < diff) {
-            closestIndex = i
-            diff = abs
-          } else if (abs === diff && odd > 0 && numbers[closestIndex] < 0) {
-            closestIndex = i
+          return {
+            odd,
+            ...rest,
           }
-        }
-
-        return numbers[closestIndex]
-      }
-
-      const intersectionOdds = intersectingEntries.map(({ top, ...rest }, index) => ({
-        odd: index === 0 ? Math.abs(top - 226) : Math.abs(top - window.innerHeight / 2),
-        ...rest,
-      }))
+        },
+      )
 
       return closestToZero(intersectionOdds)
     }
