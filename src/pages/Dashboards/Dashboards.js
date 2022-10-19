@@ -3,6 +3,12 @@ import cx from 'classnames'
 import SocialTool from './dashboards/SocialTool/SocialTool'
 import EthStakingPoolsPage from './dashboards/EthStakingPools/EthStakingPools'
 import EthTokenTrading from './dashboards/EthTokenTrading/EthTokenTrading'
+import Eth2 from './dashboards/Eth2/Eth2'
+import Stablecoins from './dashboards/Stablecoins/Stablecoins'
+import UniswapProtocol from './dashboards/Uniswap/Uniswap'
+import DecentralizedExchanges from './dashboards/DecentralizedExchanges/DecentralizedExchanges'
+import BtcLocked from './dashboards/BtcLocked/BtcLocked'
+import NFT from './dashboards/NFT/NFT'
 import Nav from './Nav/Nav'
 import { useNav } from './hooks'
 import { DASHBOARDS_TITLES } from './constants'
@@ -21,13 +27,14 @@ const Dashboards = (props) => {
     if (title === DASHBOARDS_TITLES.SOCIAL_TOOL)
       content = <SocialTool {...props} isDesktop={isDesktop} />
     if (title === DASHBOARDS_TITLES.ETH_TOKEN_TRADING) content = <EthTokenTrading {...props} />
-    if (title === DASHBOARDS_TITLES.ETH_2_STAKING) content = <></>
+    if (title === DASHBOARDS_TITLES.ETH_2_STAKING) content = <Eth2 {...props} />
     if (title === DASHBOARDS_TITLES.ETH_STAKING) content = <EthStakingPoolsPage {...props} />
-    if (title === DASHBOARDS_TITLES.STABLECOINS) content = <></>
-    if (title === DASHBOARDS_TITLES.UNISWAP_PROTOCOL) content = <></>
-    if (title === DASHBOARDS_TITLES.DECENTRALIZED_EXCHANGES) content = <></>
-    if (title === DASHBOARDS_TITLES.BTC_LOCKED) content = <></>
-    if (title === DASHBOARDS_TITLES.NFT_INFLUENCERS_TRX) content = <></>
+    if (title === DASHBOARDS_TITLES.STABLECOINS) content = <Stablecoins {...props} />
+    if (title === DASHBOARDS_TITLES.UNISWAP_PROTOCOL) content = <UniswapProtocol {...props} />
+    if (title === DASHBOARDS_TITLES.DECENTRALIZED_EXCHANGES)
+      content = <DecentralizedExchanges {...props} />
+    if (title === DASHBOARDS_TITLES.BTC_LOCKED) content = <BtcLocked {...props} />
+    if (title === DASHBOARDS_TITLES.NFT_INFLUENCERS_TRX) content = <NFT {...props} />
   }
 
   return (

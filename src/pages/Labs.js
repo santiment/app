@@ -22,7 +22,7 @@ const cards = [
     description: (
       <div>Explore the social volume of any word/phrase on crypto social media over time.</div>
     ),
-    link: '/dashboards/labs/trends',
+    link: '/dashboards',
     className: styles.trends,
     bgClassName: styles.trendsBg,
   },
