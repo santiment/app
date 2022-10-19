@@ -3,7 +3,7 @@
 
 .word {
   &__link {
-    @include text('body-2'); 
+    @include text('body-2');
     color: var(--rhino);
   }
 }
@@ -36,37 +36,42 @@
 }
 
 .table {
-  border: 1px solid var(--porcelain);
-  border-radius: 4px;
-  background: var(--white);
+  min-height: 350px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 
-  :global {
-    th {
-      font-size: 14px;
-      font-weight: 600;
+  td {
+    padding: 8px 12px;
+
+    &:first-of-type {
+      @include text('body-2');
+
+      padding-left: 24px;
+    }
+  }
+}
+
+.tableHeader {
+  th {
+    @include text('body-3', 'm');
+
+    color: var(--waterloo);
+    padding: 8px 12px;
+
+    &:first-of-type {
+      padding-left: 24px;
     }
 
-    td {
-      border-top: 1px solid var(--porcelain);
-      font-size: 16px;
-    }
-
-    tbody tr {
-      height: 80px;
-      cursor: pointer;
-
-      &:hover {
-        background: var(--athens);
-
-        :local(.word) {
-          color: var(--jungle-green);
-        }
-      }
+    &:last-of-type {
+      padding-right: 24px;
     }
   }
 }
 
 .compact {
+  border: 1px solid var(--porcelain);
+  border-radius: 8px;
+
   :global {
     tbody tr {
       height: 60px !important;
