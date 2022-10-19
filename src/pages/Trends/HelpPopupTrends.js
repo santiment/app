@@ -2,8 +2,8 @@ import React from 'react'
 import HelpPopup from './../../components/HelpPopup/HelpPopup'
 import styles from './../../components/HelpPopup/HelpPopup.module.scss'
 
-const HelpPopupTrends = () => (
-  <HelpPopup>
+const HelpPopupTrends = ({ className, triggerClassName }) => (
+  <HelpPopup className={className} triggerClassName={triggerClassName}>
     <h4 className={styles.title}>Specify your search results with these modifiers:</h4>
     <ul className={styles.list}>
       <li className={styles.item}>

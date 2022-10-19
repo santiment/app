@@ -84,7 +84,7 @@ const TrendsExplore = ({ topic, addedTopics, isDesktop }) => {
         <div className={styles.main}>
           {isDesktop ? (
             <div className={styles.breadcrumbs}>
-              <Link to='/dashboards/labs/trends' className={styles.link}>
+              <Link to='/dashboards' className={styles.link}>
                 Social Trends
               </Link>
               <Icon type='arrow-right' className={styles.arrow} />

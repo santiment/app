@@ -55,7 +55,7 @@ const mobileMedias = [
   },
   {
     Icon: DiscordIcon,
-    href: `https://www.facebook.com/sharer/sharer.php?u=${SECRET_LINK_TAG}`,
+    href: `https://santiment.net/discord`,
     title: 'Discord',
   },
   {
@@ -79,6 +79,7 @@ const ShareMedias = ({
   classes = {},
   isAlert,
   isMobile,
+  isDashboard,
 }) => {
   const encodedTitle = encodeURIComponent(shareTitle)
   const encodedText = encodeURIComponent(shareText)
@@ -105,6 +106,24 @@ const ShareMedias = ({
           >
             <Icon className={cx(styles.icon, className)} />
             <span>{title}</span>
+          </a>
+        ))}
+      </div>
+    )
+  }
+
+  if (isDashboard) {
+    return (
+      <div className={cx(styles.wrapper, 'row')}>
+        {mobileMedias.map(({ Icon, href }) => (
+          <a
+            key={href}
+            href={href.replace(SECRET_LINK_TAG, encodedLink).replace(SECRET_TEXT_TAG, encodedText)}
+            target='_blank'
+            rel='noopener noreferrer'
+            className={cx(styles.shareBtn, 'btn row hv-center')}
+          >
+            <Icon />
           </a>
         ))}
       </div>

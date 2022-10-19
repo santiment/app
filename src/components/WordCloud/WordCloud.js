@@ -4,16 +4,17 @@ import { useWordCloud } from './hooks'
 import Skeleton from '../Skeleton/Skeleton'
 import styles from './WordCloud.module.scss'
 
-export const WordCloud = ({ cloud, className, isLoading }) => (
+export const WordCloud = ({ cloud, className, textClassName, isLoading, fixedFont }) => (
   <div className={className}>
     {isLoading && <Skeleton centered className={styles.skeleton} show={isLoading} repeat={1} />}
     <WordCloudContent
       cloud={cloud}
-      className={className}
+      textClassName={textClassName}
       bigLimit={1}
       mediumLimit={3}
       padding={8}
       showBadge={false}
+      fixedFont={fixedFont}
     />
   </div>
 )

@@ -32,7 +32,7 @@
 
 <aside class={className}>
   <Widget title="Social trends" icon="social-trend" color="blue" let:item getItems={getSocialItems}>
-    <ExternalLink href="/dashboards/labs/trends" slot="header" />
+    <ExternalLink href="/dashboards" slot="header" />
     <SocialTrend {item} />
   </Widget>
 
