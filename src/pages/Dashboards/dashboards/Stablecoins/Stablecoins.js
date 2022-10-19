@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import Info from '../shared/Info/Info'
+import Section from '../shared/Section/Section'
 import StablecoinsMarketCap from '../../../../ducks/Stablecoins/StablecoinsMarketCap/StablecoinsMarketCap'
 import WhaleTrendsList from '../../../../ducks/Stablecoins/WhaleTrendsList/WhaleTrendsList'
 import FlowToExchangesList from '../../../../ducks/Stablecoins/FlowToExchanges/FlowToExchangesList'
@@ -26,64 +27,61 @@ const Stablecoins = () => (
     />
     <main className={cx(dashboardsStyles.content, 'column')}>
       <CurrentPageReport />
-      <div id='stablecoins_overview'>
-        <h4 className='h4 txt-b mrg-xxl mrg--b'>Stablecoins Overview</h4>
+      <Section id='stablecoins_overview' title='Stablecoins Overview'>
         <div>
           <StablecoinsMarketCap />
         </div>
-      </div>
-      <div id='stablecoins_whale_trends'>
-        <h4 className='h4 txt-b mrg-s mrg--b'>Whale Trends</h4>
-        <p className={cx(dashboardsStyles.description, 'body-2 mrg-xxl mrg--b')}>
-          Recent activity of each stablecoins’ top 100 non-exchange addresses
-        </p>
+      </Section>
+      <Section
+        id='stablecoins_whale_trends'
+        title='Whale Trends'
+        description='Recent activity of each stablecoins’ top 100 non-exchange addresses'
+      >
         <div>
           <CheckProPaywall>
             <WhaleTrendsList />
           </CheckProPaywall>
         </div>
-      </div>
-      <div id='stablecoins_flow_exchanges'>
-        <h4 className='h4 txt-b mrg-s mrg--b'>Flow to Exchanges</h4>
-        <p className={cx(dashboardsStyles.description, 'body-2 mrg-xxl mrg--b')}>
-          Estimated level of interest to swap stablecoins for more volatile cryptocurrencies{' '}
-        </p>
+      </Section>
+      <Section
+        id='stablecoins_flow_exchanges'
+        title='Flow to Exchanges'
+        description='Estimated level of interest to swap stablecoins for more volatile cryptocurrencies'
+      >
         <div>
           <CheckProPaywall>
             <FlowToExchangesList />
           </CheckProPaywall>
         </div>
-      </div>
-      <div id='stablecoins_top_exchanges'>
+      </Section>
+      <Section id='stablecoins_top_exchanges'>
         <div>
           <TopExchangesTable isStablecoinPage selector={{ watchlistId: isStage ? 1115 : 3985 }} />
         </div>
-      </div>
-      <div id='stablecoins_net_exchange'>
-        <h4 className='h4 txt-b mrg-xxl mrg--b'>Stablecoin Net Exchange Flow</h4>
+      </Section>
+      <Section id='stablecoins_net_exchange' title='Stablecoin Net Exchange Flow'>
         <div>
           <NetExchangeFlow />
         </div>
-      </div>
-      <div id='stablecoins_largest_transactions'>
-        <h4 className='h4 txt-b mrg-s mrg--b'>Largest Transactions to Exchanges</h4>
-        <p className={cx(dashboardsStyles.description, 'body-2 mrg-xxl mrg--b')}>
-          Select an asset to view their largest transactions in the last 24 hours
-        </p>
+      </Section>
+      <Section
+        id='stablecoins_largest_transactions'
+        title='Largest Transactions to Exchanges'
+        description='Select an asset to view their largest transactions in the last 24 hours'
+      >
         <div>
           <StablecoinsTransactions {...getTimerangePeriod('24h')} />
         </div>
-      </div>
-      <div id='stablecoins_holder_distribution'>
-        <h4 className='h4 txt-b mrg-s mrg--b'>Holder Distribution</h4>
-        <p className={cx(dashboardsStyles.description, 'body-2 mrg-xxl mrg--b')}>
-          Number of addresses sorted by their stablecoin balance
-        </p>
+      </Section>
+      <Section
+        id='stablecoins_holder_distribution'
+        title='Holder Distribution'
+        description='Number of addresses sorted by their stablecoin balance'
+      >
         <div>
           <StablecoinHolderDistribution />
         </div>
-      </div>
-
+      </Section>
       <BlockWithRanges
         className={dashboardsStyles.rangePadding}
         title='Transaction Activity'
