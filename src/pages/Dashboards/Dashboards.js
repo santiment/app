@@ -9,7 +9,7 @@ import { DASHBOARDS_TITLES } from './constants'
 import styles from './Dashboards.module.scss'
 
 const Dashboards = (props) => {
-  const { history, match, location } = props
+  const { history, match, location, isDesktop } = props
   const navSettings = useNav({ history, match, location })
   const { activeItem } = navSettings
 
@@ -17,7 +17,9 @@ const Dashboards = (props) => {
 
   if (activeItem) {
     const { title } = activeItem
-    if (title === DASHBOARDS_TITLES.SOCIAL_TOOL) content = <SocialTool {...props} />
+
+    if (title === DASHBOARDS_TITLES.SOCIAL_TOOL)
+      content = <SocialTool {...props} isDesktop={isDesktop} />
     if (title === DASHBOARDS_TITLES.ETH_TOKEN_TRADING) content = <EthTokenTrading {...props} />
     if (title === DASHBOARDS_TITLES.ETH_2_STAKING) content = <></>
     if (title === DASHBOARDS_TITLES.ETH_STAKING) content = <EthStakingPoolsPage {...props} />
