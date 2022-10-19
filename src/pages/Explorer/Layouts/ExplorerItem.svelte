@@ -8,7 +8,6 @@
   import AssetIcons from '../Components/AssetIcons.svelte'
   import AssetTags from '../Components/AssetTags.svelte'
   import Actions from '../Components/Actions.svelte'
-  import ActionButton from '../Components/ActionButton.svelte'
 
   export let item
   export let type = 'CHART'
@@ -28,7 +27,6 @@
   $: description = item.trigger ? item.trigger.description : item.description
   $: type === 'INSIGHT' && project && loadPrice()
   $: if (pulseInsightHeight >= 400) showShowReadMore = true
-  $: views = item.trigger ? item.trigger.views : item.views
 
   function loadPrice() {
     queryPriceSincePublication(project.slug, publishedAt).then((result) => (projectData = result))
@@ -95,7 +93,6 @@
             ? limitUsername(user.username)
             : user.email}
         </div>
-        <ActionButton svgid="eye" tooltip="Views" counter={views} hasbackground={false} />
         <div class="row v-center">
           <Actions {item} {type} />
         </div>

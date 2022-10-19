@@ -41,6 +41,9 @@
     .react-calendar__navigation__arrow {
       color: var(--mirage);
       border-radius: $border-radius;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       &:enabled:focus,
       &:enabled:hover {

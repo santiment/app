@@ -1,0 +1,16 @@
+.wrapper {
+  padding: 24px 24px 32px;
+  gap: 48px;
+}
+
+.info {
+  max-width: 820px;
+
+  p {
+    color: var(--fiord);
+  }
+}
+
+.share {
+  align-items: flex-end;
+}

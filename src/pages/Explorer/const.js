@@ -6,6 +6,7 @@ export const MenuItem = {
   NEW: 'New',
   LIKES: 'Likes',
   MY_CREATIONS: 'My creations',
+  TRENDING: 'Trending',
 }
 
 export const EntityKeys = {

@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
-import { useTrendWordContext, useTrendSocialVolume } from './hooks'
-import { prepareColumns } from '../_Table'
-import { INDEX_COLUMN } from '../_Table/columns'
 import { Skeleton } from '../../components/Skeleton'
 import MiniChart from '../../components/MiniChart'
 import { WordCloud } from '../../components/WordCloud/WordCloud'
-import styles from './index.module.scss'
+import { getAverageSocialDominance, getAverageSocialVolume } from './utils'
+import { useTrendSocialDominance, useTrendSocialVolume, useTrendWordContext } from './hooks'
+import { INDEX_COLUMN } from '../_Table/columns'
+import { prepareColumns } from '../_Table'
+import styles from './columns.module.scss'
 
-const Loader = () => <Skeleton show className={styles.chart__skeleton} />
+const Loader = () => <Skeleton show className={styles.skeleton} />
 
 const SocialVolumeChart = ({ trend, words }) => {
   const { data, isLoading } = useTrendSocialVolume(words, trend)
@@ -29,26 +30,53 @@ const SocialVolumeChart = ({ trend, words }) => {
   )
 }
 
-const ConnectedWords = ({ trend, words }) => {
+const AverageSocialVolume = ({ trend, words }) => {
+  const { data: volume, isLoading: isLoadingVolume } = useTrendSocialVolume(words, trend)
+  const { data: dominance, isLoading: isLoadingDominance } = useTrendSocialDominance(words, trend)
+
+  if (isLoadingVolume || isLoadingDominance) return <Loader />
+
+  const socialVolume = getAverageSocialVolume(volume)
+  const socialDominance = getAverageSocialDominance(dominance)
+
+  return (
+    <p>
+      {socialVolume} | {socialDominance}%
+    </p>
+  )
+}
+
+const ConnectedWords = memo(({ trend, words }) => {
   const { data, isLoading } = useTrendWordContext(words, trend)
 
-  return <WordCloud className={styles.cloud__words} cloud={data} isLoading={isLoading} />
-}
+  return (
+    <WordCloud
+      className={styles.words}
+      textClassName='body-3'
+      cloud={data}
+      isLoading={isLoading}
+      fixedFont={{
+        fontSize: 14,
+      }}
+    />
+  )
+})
 
 export const Column = {
   INDEX: INDEX_COLUMN.id,
-  SOCIAL_VOLUME: 'Soc. vol., 24h',
+  TRENDING_WORDS: 'Trending words, 24h',
   TRENDING_CHART: 'Trending chart, 7d',
+  SOCIAL_VOLUME: 'Average social volume, 7d',
   CONNECTED_WORDS: 'Connected words',
 }
 
 export const COLUMNS = [INDEX_COLUMN].concat(
   prepareColumns([
     {
-      title: 'Trending word',
+      title: Column.TRENDING_WORDS,
       className: styles.word,
       render: ({ word }) => (
-        <Link className={styles.word__link} to={`/labs/trends/explore/${word}`}>
+        <Link className='btn' to={`/labs/trends/explore/${word}`}>
           {word}
         </Link>
       ),
@@ -56,6 +84,10 @@ export const COLUMNS = [INDEX_COLUMN].concat(
     {
       title: Column.TRENDING_CHART,
       render: (trend, { words }) => <SocialVolumeChart trend={trend} words={words} />,
+    },
+    {
+      title: Column.SOCIAL_VOLUME,
+      render: (trend, { words }) => <AverageSocialVolume trend={trend} words={words} />,
     },
     {
       title: Column.CONNECTED_WORDS,

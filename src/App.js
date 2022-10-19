@@ -252,7 +252,7 @@ export const App = ({
         {isDesktop && <OfferPopup />}
         <ForceActionRedirector pathname={pathname} />
         {isDesktop && <UrlModals />}
-        {isDesktop && <SanTokenPopup />}
+        <SanTokenPopup />
 
         <ErrorBoundary history={history}>
           <SideNav isDesktop={isDesktop} pathname={pathname} />
@@ -494,7 +494,7 @@ export const App = ({
 
             <Route
               path={PATHS.DASHBOARDS}
-              render={(props) => <LoadableDashboardsPage {...props} />}
+              render={(props) => <LoadableDashboardsPage {...props} isDesktop={isDesktop} />}
             />
             <Route
               path={PATHS.SHEETS_TEMPLATES}

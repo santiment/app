@@ -28,6 +28,7 @@
   $: id = item.trigger ? item.trigger.id : item.id
   $: ({ key, voteKey, deleteKey, singular } = EntityType[type])
   $: isPublic = item.trigger ? item.trigger.isPublic : item.isPublic
+  $: views = item.trigger ? item.trigger.views : item.views
 
   const filterExplorerItems = getContext('filterExplorerItems')
   const updateExplorerItem = getContext('updateExplorerItem')
@@ -160,6 +161,7 @@
         {/if}
         <ActionButton svgid="eye-crossed" onClick={onHide} tooltip="Hide" />
         <ActionButton svgid="delete" onClick={onDelete} tooltip="Delete" />
+        <ActionButton svgid="eye" tooltip="Views" counter={views} hasbackground={false} />
       {/if}
     {/if}
   </div>

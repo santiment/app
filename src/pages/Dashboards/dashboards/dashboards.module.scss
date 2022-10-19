@@ -1,23 +1,19 @@
+.wrapper {
+  height: 100%;
+}
+
 .content {
   height: 100%;
-  padding: 32px 24px;
+  padding: 32px 24px 48px;
   background: var(--athens);
+  gap: 56px;
 }
 
-.socialTrendsPeriod {
-  margin-top: 0 !important;
+.description {
+  max-width: 600px;
+  color: var(--fiord);
 }
 
-.socialTrendsForm {
-  max-width: 368px;
-}
-
-.firstBlock {
-  padding-top: 0 !important;
-}
-
-:global(.phone-xs) .socialTrendsForm,
-:global(.phone) .socialTrendsForm,
-:global(.tablet) .socialTrendsForm {
-  max-width: 100%;
+.rangePadding {
+  padding: 0 !important;
 }

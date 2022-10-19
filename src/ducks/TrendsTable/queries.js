@@ -48,5 +48,14 @@ const newSocialVolumeQuery = (from, interval = '1d') => gql`
 }
 `
 
+export const WORDS_SOCIAL_DOMINANCE_QUERY = gql`
+  query wordsSocialDominance($words: [String]) {
+    wordsData: wordsSocialDominance(selector: { words: $words }) {
+      word
+      data: socialDominance
+    }
+  }
+`
+
 export const LAST_DAY_SOCIAL_VOLUME_QUERY = newSocialVolumeQuery('utc_now-1d')
 export const SOCIAL_VOLUME_QUERY = newSocialVolumeQuery('utc_now-7d', '8h')

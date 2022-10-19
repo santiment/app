@@ -31,6 +31,7 @@ function minRowsPadding(minRows, columns, { length }) {
 
 const Table = ({
   className,
+  headerClassName,
   offset,
   columns,
   minRows,
@@ -45,7 +46,7 @@ const Table = ({
 }) => (
   <table className={cx(styles.wrapper, className)}>
     {isWithColumnTitles && (
-      <thead>
+      <thead className={headerClassName}>
         <tr>
           {columns.map(({ id, title, Title }) => (
             <th key={id}>{Title ? <Title {...itemProps} /> : title}</th>

@@ -1,25 +1,111 @@
-.santokens {
+:global(.phone-xs) .shadow,
+:global(.phone) .shadow {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--rhino);
+    opacity: 0.8;
+    z-index: 1000;
+}
+
+.san-tokens {
     position: fixed;
     left: 25px;
     bottom: 25px;
     z-index: 1000;
     padding: 20px 24px;
+
+    :global(.phone-xs) &,
+    :global(.phone) & {
+        padding: 24px 20px;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        border-radius: 0;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        flex-direction: column;
+        align-items: center;
+        animation: slide-up 0.5s;
+        animation-fill-mode: forwards;
+    }
 }
 
-.tokensvg {
+@keyframes slide-up {
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    width: 12px;
+
+    :global(.phone-xs) &,
+    :global(.phone) & {
+        width: 16px;
+    }
+}
+
+.token-svg {
     margin-right: 22px;
+    width: 70px;
+
+    :global(.phone-xs) &,
+    :global(.phone) & {
+        transform: rotate(270deg);
+        margin-right: 0;
+        width: 95px;
+    }
 }
 
 .main {
     max-width: 292px;
     margin-right: 7px;
+
+    :global(.phone-xs) &,
+    :global(.phone) & {
+        text-align: center;
+        max-width: 100% !important;
+        width: 100% !important;
+        margin-top: 16px;
+        margin-right: 0;
+    }
 }
 
 .title {
     color: var(--rhino);
+
+    :global(.phone-xs) &,
+    :global(.phone) & {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
 }
 
 .learn {
-    padding: 8px 20px;
     display: inline-block;
+
+    :global(.phone-xs) &,
+    :global(.phone) & {
+        display: block;
+        width: 100%;
+        font-size: 16px;
+        padding: 10px 24px !important;
+    }
+}
+
+:global(.phone-xs) .info,
+:global(.phone) .info {
+    font-size: 16px;
+    line-height: 24px;
+    margin: 0 auto 24px;
+    width: 320px;
+    text-align: center;
 }
