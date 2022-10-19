@@ -5,13 +5,14 @@ import CheckProPaywall from '../../../../ducks/Stablecoins/CheckProPaywall'
 import LabelBalances from '../../../../ducks/Labels/LabelBalances/LabelBalances'
 import Info from '../shared/Info/Info'
 import Section from '../shared/Section/Section'
-import { useRestrictedInfo } from '../../../UniswapProtocolPage/hooks'
+import { useRestrictedInfo } from '../../hooks'
 import { withRenderQueueProvider } from '../../../../ducks/renderQueue/viewport'
-import { LABEL_METRIC_BOUNDARIES_QUERY } from './queries'
 import dashboardsStyles from '../dashboards.module.scss'
 
 const EthTokenTrading = () => {
-  const isLabelsProChecking = useRestrictedInfo(LABEL_METRIC_BOUNDARIES_QUERY)
+  const isLabelsProChecking = useRestrictedInfo({
+    metric: 'all_known_balance',
+  })
 
   return (
     <section className={cx(dashboardsStyles.wrapper, 'column')}>

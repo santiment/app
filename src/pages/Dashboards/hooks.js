@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import throttle from 'lodash.throttle'
+import { useQuery } from '@apollo/react-hooks'
 import { track } from 'webkit/analytics'
 import { useEventListener } from '../../hooks/eventListeners'
+import { METRIC_BOUNDARIES_QUERY } from './queries'
 import { DASHBOARDS } from './constants'
 
 function closestToZero(numbers) {
@@ -167,4 +169,9 @@ export const useNav = ({ match, location, history }) => {
     setActiveSubItem,
     scrollToSubItem,
   }
+}
+
+export function useRestrictedInfo(variables) {
+  const { data } = useQuery(METRIC_BOUNDARIES_QUERY, { variables })
+  return data ? data.getMetric.metadata.isRestricted : false
 }
