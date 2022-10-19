@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import Info from '../shared/Info/Info'
+import Section from '../shared/Section/Section'
 import CurrentPageReport from '../../../../ducks/Stablecoins/StablecoinsReport/CurrentPageReport'
 import DexTradesSegmentedByDEX, {
   DEX_VOLUME_METRICS,
@@ -14,7 +15,7 @@ import { DEX_BY_USD } from '../../../../ducks/Dexs/PriceMeasurement/DexPriceMeas
 import dashboardsStyles from '../dashboards.module.scss'
 
 const DEX_PREDICATE = ({ name }) =>
-  name.toLowerCase().indexOf('dex') >= 0 || name.toLowerCase().indexOf('decentralized') >= 0
+  name.toLowerCase().includes('dex') || name.toLowerCase().includes('decentralized')
 
 const DecentralizedExchanges = () => (
   <section className={cx(dashboardsStyles.wrapper, 'column')}>
@@ -24,32 +25,26 @@ const DecentralizedExchanges = () => (
     />
     <main className={cx(dashboardsStyles.content, 'column')}>
       <CurrentPageReport searchPredicate={DEX_PREDICATE} />
-      <div id='dex_volume_trades'>
-        <h4 className='h4 txt-b mrg-xxl mrg--b'>Volume of DEXs Trades</h4>
+      <Section id='dex_volume_trades' title='Volume of DEXs Trades'>
         <div>
           <DexTradesSegmentedByDEX />
         </div>
-      </div>
-      <div id='dex_volume_trades_by'>
-        <h4 className='h4 txt-b mrg-xxl mrg--b'>Volume of Trades by DEXs</h4>
+      </Section>
+      <Section id='dex_volume_trades_by' title='Volume of Trades by DEXs'>
         <div>
           <NumberOfTradesPerDex metrics={DEX_VOLUME_METRICS} />
         </div>
-      </div>
-
-      <div id='dex_total_trades'>
-        <h4 className='h4 txt-b mrg-xxl mrg--b'>Total Number of DEX Trades</h4>
+      </Section>
+      <Section id='dex_total_trades' title='Total Number of DEX Trades'>
         <div>
           <DexTradesTotalNumber measurement={DEX_BY_USD} />
         </div>
-      </div>
-
-      <div id='dex_segmented_trades'>
-        <h4 className='h4 txt-b mrg-xxl mrg--b'>Number of Trades Segmented by DEX</h4>
+      </Section>
+      <Section id='dex_segmented_trades' title='Number of Trades Segmented by DEX'>
         <div>
           <NumberOfTradesPerDex metrics={DEX_AMOUNT_METRICS} measurement={DEX_BY_USD} />
         </div>
-      </div>
+      </Section>
     </main>
   </section>
 )

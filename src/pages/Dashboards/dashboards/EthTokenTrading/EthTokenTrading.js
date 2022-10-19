@@ -4,6 +4,7 @@ import VolumeOfEthTrades from '../../../../ducks/EthTradingAnalysis/VolumeOfEthT
 import CheckProPaywall from '../../../../ducks/Stablecoins/CheckProPaywall'
 import LabelBalances from '../../../../ducks/Labels/LabelBalances/LabelBalances'
 import Info from '../shared/Info/Info'
+import Section from '../shared/Section/Section'
 import { useRestrictedInfo } from '../../../UniswapProtocolPage/hooks'
 import { withRenderQueueProvider } from '../../../../ducks/renderQueue/viewport'
 import { LABEL_METRIC_BOUNDARIES_QUERY } from './queries'
@@ -16,38 +17,34 @@ const EthTokenTrading = () => {
     <section className={cx(dashboardsStyles.wrapper, 'column')}>
       <Info title='ETH Token Trading Analysis' description='' />
       <main className={cx(dashboardsStyles.content, 'column')}>
-        <div id='eth_token_volume_against_eth'>
-          <h4 className='h4 txt-b mrg-xxl mrg--b'>Volume against ETH Based tokens (DEXs)</h4>
+        <Section id='eth_token_volume_against_eth' title='Volume against ETH Based tokens (DEXs)'>
           <div>
             <VolumeOfEthTrades metric='eth_trade_volume_by_token' />
           </div>
-        </div>
-        <div id='eth_token_volume_against_usd'>
-          <h4 className='h4 txt-b mrg-xxl mrg--b'>Volume against USD Based tokens (Stablecoins)</h4>
+        </Section>
+        <Section
+          id='eth_token_volume_against_usd'
+          title='Volume against USD Based tokens (Stablecoins)'
+        >
           <div>
             <VolumeOfEthTrades metric='stablecoin_trade_volume_by_token' />
           </div>
-        </div>
-        <div id='eth_token_token_against_eth'>
-          <h4 className='h4 txt-b mrg-xxl mrg--b'>
-            Token Price against ETH Based Tokens segmented by DEXs
-          </h4>
+        </Section>
+        <Section
+          id='eth_token_token_against_eth'
+          title='Token Price against ETH Based Tokens segmented by DEXs'
+        >
           <div>
             <VolumeOfEthTrades metric='token_eth_price_by_dex_5m' />
           </div>
-        </div>
-        <div id='eth_token_label_balance'>
-          <h4 className='h4 txt-b mrg-xxl mrg--b'>Label Balance</h4>
+        </Section>
+        <Section id='eth_token_label_balance' title='Label Balance'>
           <div>
-            {isLabelsProChecking ? (
-              <CheckProPaywall>
-                <LabelBalances />
-              </CheckProPaywall>
-            ) : (
+            <CheckProPaywall shouldCheck={isLabelsProChecking}>
               <LabelBalances />
-            )}
+            </CheckProPaywall>
           </div>
-        </div>
+        </Section>
       </main>
     </section>
   )
