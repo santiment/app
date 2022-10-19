@@ -40,13 +40,9 @@ const EthTokenTrading = () => {
         </Section>
         <Section id='eth_token_label_balance' title='Label Balance'>
           <div>
-            {isLabelsProChecking ? (
-              <CheckProPaywall>
-                <LabelBalances />
-              </CheckProPaywall>
-            ) : (
+            <CheckProPaywall shouldCheck={isLabelsProChecking}>
               <LabelBalances />
-            )}
+            </CheckProPaywall>
           </div>
         </Section>
       </main>
