@@ -1,5 +1,11 @@
-export const getAverageSocialVolume = (data) =>
-  Math.round(data.reduce((acc, { value }) => acc + value, 0) / data.length)
+function calcAverage(data) {
+  return data.reduce((acc, { value }) => acc + value, 0) / data.length
+}
 
-export const getAverageSocialDominance = (data) =>
-  (data.reduce((acc, { value }) => acc + value, 0) / data.length).toFixed(2)
+export function getAverageSocialVolume(data) {
+  return Math.round(calcAverage(data))
+}
+
+export function getAverageSocialDominance(data) {
+  return calcAverage(data).toFixed(2)
+}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import TopTrendsTable from './Table/TopTrendsTable'
+import TrendsTable from '../../../../../ducks/TrendsTable'
 import TopBar from './TopBar/TopBar'
 import styles from './TopTrends.module.scss'
 
@@ -9,7 +9,7 @@ const TopTrends = () => {
   return (
     <div className={styles.wrapper}>
       <TopBar setTrendPeriod={setTrendPeriod} />
-      <TopTrendsTable period={period} />
+      <TrendsTable period={period} />
     </div>
   )
 }
