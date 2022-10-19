@@ -45,6 +45,12 @@
 .close {
     position: absolute;
     right: 20px;
+    width: 12px;
+
+    :global(.phone-xs) &,
+    :global(.phone) & {
+        width: 16px;
+    }
 }
 
 .token-svg {
