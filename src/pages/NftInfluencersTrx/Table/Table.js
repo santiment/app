@@ -9,21 +9,18 @@ export function formatKey({ trxHash, datetime }, idx) {
   return `${trxHash}-${datetime}-${idx}`
 }
 
-const Table = ({ isMarket }) => {
-  const { data, loading } = useNftQuery(0, isMarket ? 5 : 25)
+const Table = () => {
+  const { data, loading } = useNftQuery(0, 25)
 
   return (
     <div className='column relative'>
-      {!isMarket && (
-        <div className={cx(styles.header, 'fluid txt-m c-casper row v-center justify')}>
-          <span>Twitter influencer</span>
-          <span>Activity</span>
-          <span className='txt-right'>When</span>
-        </div>
-      )}
-      <div className={cx(styles.content, isMarket && styles.marketTable, 'fluid column')}>
-        {!loading &&
-          data.map((trx, idx) => <Row key={formatKey(trx, idx)} data={trx} isMarket={isMarket} />)}
+      <div className={cx(styles.header, 'fluid txt-m c-casper row v-center justify')}>
+        <span>Twitter influencer</span>
+        <span>Activity</span>
+        <span className='txt-right'>When</span>
+      </div>
+      <div className={cx(styles.content, 'fluid column')}>
+        {!loading && data.map((trx, idx) => <Row key={formatKey(trx, idx)} data={trx} />)}
         <Skeleton show={loading} className={styles.skeleton} />
       </div>
     </div>

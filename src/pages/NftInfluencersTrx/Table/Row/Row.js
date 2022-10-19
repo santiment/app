@@ -4,32 +4,14 @@ import Icon from '@santiment-network/ui/Icon'
 import { dateDifferenceInWords } from 'webkit/utils/dates'
 import { Activity, getTwitterAccount } from '../../../Index/Section/NftInfluencers/utils'
 import Info from './Info/Info'
-import { capitalizeStr } from '../../../../utils/utils'
 import styles from './Row.module.scss'
 
-const Row = ({ data, isMarket }) => {
+const Row = ({ data }) => {
+  const { datetime } = data
   const [isOpened, setIsOpened] = useState(false)
-
-  const { datetime, nft } = data
 
   const when = dateDifferenceInWords(new Date(datetime))
   const account = getTwitterAccount(data)
-
-  if (isMarket) {
-    return (
-      <div className={cx(styles.marketRow, 'fluid row v-center justify')}>
-        <span className={cx(styles.influencer, styles.account, 'body-2 single-line')}>
-          {account && `@${account.Name}`}
-        </span>
-        <div className='row v-center'>
-          <Activity onlyIcon original={data} />
-          <span className={cx(styles.collection, 'mrg-s mrg--r single-line')}>
-            {capitalizeStr(nft.name)}
-          </span>
-        </div>
-      </div>
-    )
-  }
 
   return (
     <div className='fluid column'>
