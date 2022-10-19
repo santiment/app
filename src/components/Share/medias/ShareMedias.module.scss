@@ -90,3 +90,17 @@
   text-align: center;
   transition: fill 0.2s ease-out;
 }
+
+.wrapper {
+  gap: 12px;
+}
+
+.shareBtn {
+  padding: 10px;
+  border: 1px solid var(--porcelain);
+  border-radius: 6px;
+
+  &:hover {
+    border-color: var(--mystic);
+  }
+}

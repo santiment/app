@@ -1,27 +1,13 @@
-@import '~@santiment-network/ui/mixins';
-
-.examples {
-  margin-top: 8px;
-  display: flex;
-  align-items: center;
-  color: $bali-hai;
-
-  @include responsive('phone', 'phone-xs') {
-    flex-wrap: wrap;
-  }
+.wrapper {
+  padding: 8px 0;
 }
 
-.link {
-  border-bottom: none;
-  color: var(--jungle-green);
-  margin-left: 4px;
+.tooltip {
+  padding: 0;
+}
 
-  &:hover {
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-
-  &:last-of-type {
-    margin-right: 8px;
-  }
+.tooltipIcon {
+  width: 12px;
+  height: 12px;
+  fill: var(--waterloo);
 }
