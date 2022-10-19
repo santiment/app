@@ -4,7 +4,7 @@ import { MobileOnly } from '../../Responsive'
 import tip from '../../../assets/tip.svg'
 import styles from './tip.module.scss'
 
-const Tip = ({ className }) => (
+const Tip = ({ className, action }) => (
   <MobileOnly>
     <section className={cx(styles.tipWrapper, 'row', className)}>
       <img src={tip} alt='tip' className={cx(styles.tipImg, 'mrg-m mrg--r')} />
@@ -15,6 +15,7 @@ const Tip = ({ className }) => (
           layouts, and the ability to edit and access more features!
         </p>
       </article>
+      {action}
     </section>
   </MobileOnly>
 )

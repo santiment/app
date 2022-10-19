@@ -42,21 +42,22 @@ const getInfluencers = (original) => ({
   fromAddress: original.fromAddress.address,
 })
 
-export const Activity = ({ original }) => {
+export const Activity = ({ original, onlyIcon = false }) => {
   const { to, from } = getInfluencers(original)
 
   if (to && !from) {
     return (
-      <div>
-        <Icon type='buy' className={cx(styles.icon, styles.mr)} /> buy
+      <div className='row v-center'>
+        <Icon type='buy' className={cx(styles.icon, styles.mr)} /> {!onlyIcon && 'Buy'}
       </div>
     )
   }
 
   if (from && !to) {
     return (
-      <div>
-        <Icon type='sell' className={cx(styles.icon, styles.mr, styles.sell)} /> sell
+      <div className='row v-center'>
+        <Icon type='sell' className={cx(styles.icon, styles.mr, styles.sell)} />{' '}
+        {!onlyIcon && 'Sell'}
       </div>
     )
   }
