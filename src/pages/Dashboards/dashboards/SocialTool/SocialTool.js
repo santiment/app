@@ -1,9 +1,10 @@
 import React from 'react'
 import cx from 'classnames'
 import SocialGrid from '../../../../components/SocialGrid'
+import Suggestions from '../../../../components/Trends/Search/Suggestions'
 import Info from '../shared/Info/Info'
+import Section from '../shared/Section/Section'
 import TrendsExploreInput from './TrendsExploreInput/TrendsExploreInput'
-import TrendsExploreSuggestions from './TrendsExploreInput/TrendsExploreSuggestions'
 import TopTrends from './TopTrends/TopTrends'
 import dashboardsStyles from '../dashboards.module.scss'
 
@@ -16,25 +17,25 @@ const SocialTool = ({ isDesktop }) => (
     <main className={cx(dashboardsStyles.content, 'column')}>
       <div>
         <TrendsExploreInput showButton />
-        {isDesktop && <TrendsExploreSuggestions />}
+        {isDesktop && <Suggestions />}
       </div>
-      <div id='soc_tool_top_10'>
-        <h4 className='h4 txt-b mrg-s mrg--b'>Top 10 Hourly Trends</h4>
-        <p className={cx(dashboardsStyles.description, 'body-2 mrg-xxl mrg--b')}>
-          The top words with the highest percentage increase in mentions on crypto social media in
-          the previous 24 hours
-        </p>
+      <Section
+        id='soc_tool_top_10'
+        title='Top 10 Hourly Trends'
+        description='The top words with the highest percentage increase in mentions on crypto social media in
+          the previous 24 hours'
+      >
         <TopTrends />
-      </div>
-      <div id='soc_tool_mid_trends'>
-        <h4 className='h4 txt-b mrg-s mrg--b'>Popular Mid-Term Trends</h4>
-        <p className={cx(dashboardsStyles.description, 'body-2 mrg-xxl mrg--b')}>
-          The most popular topics in crypto social media. This ranges from worldwide economic and
+      </Section>
+      <Section
+        id='soc_tool_mid_trends'
+        title='Popular Mid-Term Trends'
+        description='The most popular topics in crypto social media. This ranges from worldwide economic and
           health topics, to discussions directly related to airdrops, new listings, price movement,
-          and more
-        </p>
+          and more'
+      >
         <SocialGrid />
-      </div>
+      </Section>
     </main>
   </section>
 )

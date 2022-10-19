@@ -1,31 +1,27 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import cx from 'classnames'
 import { copy } from 'webkit/utils'
 import Svg from 'webkit/ui/Svg/react'
 import ShareModalTrigger from '../../../../../components/Share/ShareModalTrigger'
-import { useShortShareLink } from '../../../../../components/Share/hooks'
 import styles from './Share.module.scss'
 
 const Share = ({ id }) => {
-  const [isShareOpened, setIsShareOpened] = useState(false)
   const clearTimerRef = useRef()
-  const { shortShareLink, getShortShareLink } = useShortShareLink()
+  const [isShareOpened, setIsShareOpened] = useState(false)
 
   function onShareClick() {
-    getShortShareLink(window.location.pathname)
     setIsShareOpened(true)
   }
 
-  function onCopyLinkClick() {
+  useEffect(() => () => clearTimerRef.current && clearTimerRef.current(), [])
+
+  function onCopyLinkClick(event) {
     if (clearTimerRef.current) clearTimerRef.current()
 
-    getShortShareLink(window.location.pathname).then((url) => {
-      const node = document.getElementById(id)
-      const clb = () => node && (node.ariaLabel = 'Copy link')
+    const clb = () => event.currentTarget && (event.currentTarget.ariaLabel = 'Copy link')
 
-      if (node) node.ariaLabel = 'Copied!'
-      clearTimerRef.current = copy(url, clb)
-    })
+    if (event.currentTarget) event.currentTarget.ariaLabel = 'Copied!'
+    clearTimerRef.current = copy(window.location.href, clb)
   }
 
   return (
@@ -47,7 +43,7 @@ const Share = ({ id }) => {
       <ShareModalTrigger
         isDialogOnly
         classes={styles}
-        shareLink={shortShareLink}
+        shareLink={window.location.href}
         open={isShareOpened}
         onClose={() => setIsShareOpened(false)}
       />
