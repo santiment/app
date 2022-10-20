@@ -1,5 +1,11 @@
 .word {
   --color-hover: var(--green);
+
+  :global(.phone) &,
+  :global(.phone-xs) &,
+  :global(.tablet) & {
+    width: 100%;
+  }
 }
 
 .cloud {

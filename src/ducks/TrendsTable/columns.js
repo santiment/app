@@ -1,4 +1,5 @@
 import React, { memo } from 'react'
+import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { Skeleton } from '../../components/Skeleton'
 import MiniChart from '../../components/MiniChart'
@@ -11,7 +12,7 @@ import styles from './columns.module.scss'
 
 const Loader = () => <Skeleton show className={styles.skeleton} />
 
-const SocialVolumeChart = ({ trend, words }) => {
+const SocialVolumeChart = ({ trend, words, isDesktop }) => {
   const { data, isLoading } = useTrendSocialVolume(words, trend)
 
   return isLoading ? (
@@ -19,7 +20,7 @@ const SocialVolumeChart = ({ trend, words }) => {
   ) : (
     <MiniChart
       className={styles.chart}
-      height={45}
+      height={isDesktop ? 45 : 40}
       width={120}
       data={data}
       valueKey='value'
@@ -83,7 +84,9 @@ export const COLUMNS = [INDEX_COLUMN].concat(
     },
     {
       title: Column.TRENDING_CHART,
-      render: (trend, { words }) => <SocialVolumeChart trend={trend} words={words} />,
+      render: (trend, { words, isDesktop }) => (
+        <SocialVolumeChart trend={trend} words={words} isDesktop={isDesktop} />
+      ),
     },
     {
       title: Column.SOCIAL_VOLUME,

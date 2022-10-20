@@ -55,7 +55,7 @@ const Info = ({ data, isOpened }) => {
       <div className='column'>
         <Section title='Collection name'>
           <div className='body-2 row v-center justify'>
-            <span className='mrg-s mrg--r nowrap'>{capitalizeStr(nft.name)}</span>
+            <span className='mrg-s mrg--r single-line'>{capitalizeStr(nft.name)}</span>
             <button
               className={cx(styles.address, 'btn expl-tooltip')}
               id={nft.contractAddress.toString()}

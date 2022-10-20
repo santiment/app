@@ -18,9 +18,9 @@ const TipPopup = () => {
   return (
     <div className={cx(styles.popupWrapper, 'fluid')}>
       <Tip
-        className='relative'
+        className={styles.popup}
         action={
-          <button onClick={() => setIsOpened(false)} className={styles.action}>
+          <button onClick={() => setIsOpened(false)}>
             <Icon type='close-medium' />
           </button>
         }
