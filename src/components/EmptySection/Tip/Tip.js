@@ -8,14 +8,16 @@ const Tip = ({ className, action }) => (
   <MobileOnly>
     <section className={cx(styles.tipWrapper, 'row', className)}>
       <img src={tip} alt='tip' className={cx(styles.tipImg, 'mrg-m mrg--r')} />
-      <article>
-        <p className='body-2 txt-m mrg-xs mrg--b'>Go to desktop for full access!</p>
-        <p className={styles.tipDescription}>
+      <article className='body-2 mrg-xs mrg--b'>
+        <div className='row justify v-center'>
+          <p className='txt-m'>Go to desktop for full access!</p>
+          {action}
+        </div>
+        <p className={cx(styles.tipDescription, 'mrg-l mrg--r')}>
           Head to Sanbase’s desktop version for the ability to create watchlists, alerts, chart
           layouts, and the ability to edit and access more features!
         </p>
       </article>
-      {action}
     </section>
   </MobileOnly>
 )

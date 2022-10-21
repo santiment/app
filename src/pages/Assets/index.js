@@ -21,11 +21,11 @@ const Assets = ({ isDesktop }) => {
         <FeaturedWatchlistCards className={styles.card} />
       </Section>
 
-      <Section title='Social Trends' externalLink='/labs/trends/explore/'>
+      <Section title='Social Trends' link='/labs/trends/explore/'>
         <Trends className={styles.trends} isWithColumnTitles={false} />
       </Section>
 
-      <Section title='Latest NFT Trx' externalLink='/nft'>
+      <Section title='Latest NFT Trx' link='/nft'>
         <NftInfluencersTrxTable />
       </Section>
     </Page>
