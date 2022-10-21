@@ -397,6 +397,7 @@ export const App = ({
             <Redirect from='/sonar/signal/:id' to={`/alerts/:id/${search}`} />
             <Redirect from='/sonar/my-signals' to={`/alerts${search}`} />
             <Redirect from='/sonar/my-alerts' to={`/alerts${search}`} />
+            <Redirect from='/dashboards/labs/trends' to='/dashboards/social-tool' />
             <Route path='/logout' component={LogoutPage} />
             <Route
               exact
