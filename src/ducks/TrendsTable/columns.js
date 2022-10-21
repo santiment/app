@@ -1,5 +1,4 @@
 import React, { memo } from 'react'
-import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { Skeleton } from '../../components/Skeleton'
 import MiniChart from '../../components/MiniChart'

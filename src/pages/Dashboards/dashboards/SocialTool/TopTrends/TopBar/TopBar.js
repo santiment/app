@@ -23,8 +23,8 @@ const TopBar = ({ setTrendPeriod }) => {
           className={cx(styles.tooltip, 'border box body-3')}
         >
           <div className='relative row body-3'>
-            This metric calculates the social volume for a list of words, and measures what its
-            discussion rate is vs. all other topics
+            Current discussion percentage of top 10 keywords compared to all keywords on crypto
+            platforms.
           </div>
         </Tooltip>
       </p>
