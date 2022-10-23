@@ -4,7 +4,6 @@ import Button from '@santiment-network/ui/Button'
 import NewWatchlist from '../../../ducks/Watchlists/Actions/New'
 import EditAddresses from '../../../ducks/Watchlists/Actions/Edit/EditAddresses/EditAddresses'
 import Section from '../../../components/EmptySection/EmptySection'
-import Tip from '../../../components/EmptySection/Tip/Tip'
 import { DesktopOnly } from '../../../components/Responsive'
 import { PROJECT, BLOCKCHAIN_ADDRESS } from '../../../ducks/Watchlists/detector'
 import { mapAddressToAPIType } from '../../../ducks/Watchlists/utils'
@@ -24,7 +23,6 @@ export const EmptySection = ({
   refreshList,
 }) => (
   <>
-    <Tip />
     <Section
       className={cx(styles.empty__row, wrapperClassName)}
       imgClassName={cx(styles.img, className)}

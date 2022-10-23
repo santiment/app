@@ -2,22 +2,23 @@ import React from 'react'
 import cx from 'classnames'
 import Section, { Title, Content } from './Section'
 import Page from '../../ducks/Page'
-import { useUser } from '../../stores/user'
-import { DesktopOnly } from '../../components/Responsive'
 import WatchlistCard from '../../ducks/Watchlists/Cards/ProjectCard'
 import WatchlistAddressCard from '../../ducks/Watchlists/Cards/AddressCard'
 import { WatchlistCards } from '../../ducks/Watchlists/Cards/Card'
 import FeaturedWatchlistCards from '../../ducks/Watchlists/Cards/Featured'
 import NewWatchlistCard from '../../ducks/Watchlists/Cards/NewCard'
+import MobileAnonBanner from '../../ducks/Watchlists/Templates/Anon/WatchlistsAnon'
+import InlineBanner from '../../components/banners/feature/InlineBanner'
+import Tip from '../../components/EmptySection/Tip/Tip'
+import { DesktopOnly } from '../../components/Responsive'
+import EmptySection from './EmptySection'
+import { BLOCKCHAIN_ADDRESS, PROJECT, SCREENER } from '../../ducks/Watchlists/detector'
 import {
   newRenderQueue,
   withRenderQueueProvider,
   useRenderQueueItem,
 } from '../../ducks/renderQueue/sized'
-import MobileAnonBanner from '../../ducks/Watchlists/Templates/Anon/WatchlistsAnon'
-import InlineBanner from '../../components/banners/feature/InlineBanner'
-import { BLOCKCHAIN_ADDRESS, PROJECT, SCREENER } from '../../ducks/Watchlists/detector'
-import EmptySection from './EmptySection'
+import { useUser } from '../../stores/user'
 import {
   useUserAddressWatchlists,
   useUserProjectWatchlists,
@@ -65,7 +66,12 @@ const MyWatchlists = ({ data, addressesData, isDesktop }) => {
   if (isLoading && addressesWatchlistsLoading) return null
 
   if (watchlists.length === 0 && addressesWatchlists.length === 0) {
-    return <EmptySection wrapperClassName={styles.empty} className={styles.empty__img} />
+    return (
+      <>
+        <Tip />
+        <EmptySection className={styles.empty__img} />
+      </>
+    )
   }
 
   return (
@@ -80,9 +86,11 @@ const MyWatchlists = ({ data, addressesData, isDesktop }) => {
           </Content>
         </>
       )}
-      <h3 className={cx('body-1 txt-m', isDesktop && 'mrg-l mrg--t mrg--b c-waterloo')}>
-        Projects
-      </h3>
+      {(watchlists.length > 0 || isDesktop) && (
+        <h3 className={cx('body-1 txt-m', isDesktop && 'mrg-l mrg--t mrg--b c-waterloo')}>
+          Projects
+        </h3>
+      )}
       <Content isGrid={isDesktop} className={styles.projects}>
         <Cards watchlists={watchlists} type={PROJECT} />
       </Content>
@@ -117,18 +125,19 @@ const Watchlists = ({ isDesktop }) => {
 
   return (
     <Page
-      className={styles.wrapper}
+      mainClassName='relative'
       title={isDesktop ? null : 'My watchlists'}
       isCentered
       isWithPadding={!isDesktop}
     >
-      <DesktopOnly>
-        <Section isGrid title='Explore watchlists'>
-          <FeaturedWatchlistCards Card={QueuedProjectCard} />
-        </Section>
-
-        <Title>My watchlists</Title>
-      </DesktopOnly>
+      {isDesktop && (
+        <>
+          <Section isGrid title='Explore watchlists'>
+            <FeaturedWatchlistCards Card={QueuedProjectCard} />
+          </Section>
+          <Title>My watchlists</Title>
+        </>
+      )}
 
       {isLoggedIn ? (
         <MyWatchlists
