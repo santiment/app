@@ -30,6 +30,7 @@
   :global(.tablet) &,
   :global(.phone-xs) & {
     padding: 0;
+    margin-bottom: 64px;
   }
 }
 
@@ -45,4 +46,8 @@
 .divider {
   width: 1px;
   background-color: var(--porcelain);
+}
+
+.popularTrends {
+  --margin: 0;
 }

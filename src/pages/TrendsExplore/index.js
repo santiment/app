@@ -123,8 +123,15 @@ const TrendsExplore = ({ topic, addedTopics, isDesktop }) => {
           />
         ) : (
           <>
-            <h4 className='h4 txt-m mrg-xxl mrg--t'>Popular trends</h4>
-            <SocialGrid className={cx('mrg-xl mrg--t mrg--b', !isDesktop && styles.socialGrid)} />
+            <h4
+              className={cx(
+                'txt-m mrg-xxl mrg--t',
+                isDesktop ? 'h4' : cx(styles.popularTrends, 'body-1'),
+              )}
+            >
+              Popular trends
+            </h4>
+            <SocialGrid isCompact={!isDesktop} className={'mrg-xl mrg--t mrg--b'} />
           </>
         )}
       </div>
