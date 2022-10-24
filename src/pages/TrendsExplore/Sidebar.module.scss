@@ -4,11 +4,25 @@
   position: sticky;
   top: 24px;
   width: 320px;
+
+  :global(.tablet) &,
+  :global(.phone) &,
+  :global(.phone-xs) & {
+    position: unset;
+    width: 100%;
+  }
 }
 
 .calendar {
   fill: var(--casper);
   margin-left: auto;
+}
+
+.mobileCalendar {
+  fill: var(--waterloo);
+  height: 32px;
+  width: auto;
+  padding: 6px 12px;
 }
 
 .footer {
@@ -18,4 +32,22 @@
 
 .footerVersionDivider {
   display: none;
+}
+
+.trendsWrapper {
+  --margin: 20px;
+}
+
+.trends {
+  border: 1px solid var(--porcelain);
+  border-radius: 6px;
+  border-spacing: 0;
+
+  td {
+    padding: 12px 16px !important;
+  }
+
+  tr:not(:last-of-type) td {
+    border-bottom: 1px solid var(--porcelain);
+  }
 }

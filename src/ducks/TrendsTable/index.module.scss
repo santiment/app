@@ -136,3 +136,9 @@
     }
   }
 }
+
+.empty {
+  tr:not(:last-of-type) td {
+    border-bottom: none !important;
+  }
+}

@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
+import Dialog from '@santiment-network/ui/Dialog'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
@@ -21,7 +22,9 @@ const checkSameDates = ([from, to]) =>
     from.getMonth() === to.getMonth() &&
     from.getFullYear() === to.getFullYear())
 
-const AdvancedViewCalendar = ({ dates, isFullDate, className, ...rest }) => {
+const AdvancedViewCalendar = ({ dates, isFullDate, className, isDesktop = true, ...rest }) => {
+  const [isOpen, setIsOpen] = useState(false)
+
   const label = checkSameDates(dates)
     ? getDateLabel(dates[0], isFullDate)
     : `${getDateLabel(dates[0])} - ${getDateLabel(dates[1])}`
@@ -37,6 +40,31 @@ const AdvancedViewCalendar = ({ dates, isFullDate, className, ...rest }) => {
       <Icon type='calendar' className={styles.icon} />
     </Button>
   )
+
+  if (!isDesktop) {
+    return (
+      <Dialog
+        title='Choose a date'
+        passOpenStateAs='isActive'
+        trigger={trigger}
+        open={isOpen}
+        onOpen={() => setIsOpen(true)}
+        onClose={() => setIsOpen(false)}
+        classes={{
+          dialog: styles.dialog,
+          title: cx(styles.dialogTitle, 'row v-center body-2 txt-m'),
+        }}
+      >
+        <Calendar value={dates} isDesktop={isDesktop} {...rest} />
+        <button
+          className={cx(styles.apply, 'btn-1 row hv-center body-2')}
+          onClick={() => setIsOpen(false)}
+        >
+          Apply
+        </button>
+      </Dialog>
+    )
+  }
 
   return (
     <ContextMenu passOpenStateAs='isActive' position='bottom' align='end' trigger={trigger}>

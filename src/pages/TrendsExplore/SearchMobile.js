@@ -13,7 +13,8 @@ const SearchMobile = ({ topic = '', onChangeTopics }) => {
 
   useEffect(() => {
     onChangeTopics([topic])
-  }, [])
+    setTextareaValue(topic)
+  }, [topic])
 
   useDebounceEffect(() => onChangeTopics(textareaValue ? [textareaValue.trim()] : []), 700, [
     textareaValue,

@@ -25,6 +25,12 @@
 
 .sidebar {
   padding: 24px 0;
+
+  :global(.phone) &,
+  :global(.tablet) &,
+  :global(.phone-xs) & {
+    padding: 0;
+  }
 }
 
 .link {
