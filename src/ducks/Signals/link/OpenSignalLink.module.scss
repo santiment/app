@@ -10,10 +10,6 @@
   &:hover {
     color: var(--green) !important;
   }
-
-  @include responsive('phone', 'phone-xs') {
-    margin-left: 0;
-  }
 }
 
 .linkMobile {
