@@ -531,7 +531,7 @@ export const App = ({
         <ReactCookiesPopup />
         {isDesktop && <LiveWidget />}
 
-        {isDesktop && showFooter && (
+        {isDesktop && showFooter && !pathname.includes(PATHS.SOCIAL_TOOl) && (
           <Footer
             classes={{
               footer: isPathnameInPages(pathname, FOOTER_ABSOLUTE_FOR) && styles.footerAbsolute,

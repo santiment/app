@@ -1,77 +1,21 @@
 @import '~@santiment-network/ui/mixins';
 
 .sidebar {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-
-  @include responsive('desktop', 'laptop') {
-    position: absolute;
-    top: 70px;
-    right: 0;
-    height: calc(100vh - 70px);
-    flex-direction: column;
-    width: 380px;
-    margin: 0 10px 0 32px;
-    padding: 22px 24px 0 32px;
-    overflow: hidden;
-    border-left: 1px solid var(--porcelain);
-
-    &:hover {
-      overflow-y: auto;
-      overflow-y: overlay;
-    }
-  }
-
-  @include responsive('phone-xs', 'phone') {
-    flex-direction: column;
-    margin-bottom: 50px;
-  }
-}
-
-.fixed {
-  @include responsive('desktop', 'laptop') {
-    position: fixed;
-    top: 0;
-    height: 100vh;
-  }
-}
-
-.trends {
-  @include responsive('tablet') {
-    margin-left: 50px;
-  }
-}
-
-.footer {
-  display: none;
-
-  @include responsive('desktop', 'laptop') {
-    display: flex;
-    flex-direction: column;
-    padding: 14px 0;
-    margin: auto 0 0;
-  }
-}
-
-.footerVersionDivider {
-  display: none;
-}
-
-.trend {
-  @include text('body-3');
-
-  margin: 0 8px 0 0;
-  color: var(--rhino);
-}
-
-.row {
-  display: flex;
-  align-items: center;
-  margin: 0 0 14px;
+  position: sticky;
+  top: 24px;
+  width: 320px;
 }
 
 .calendar {
   fill: var(--casper);
   margin-left: auto;
+}
+
+.footer {
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.footerVersionDivider {
+  display: none;
 }
