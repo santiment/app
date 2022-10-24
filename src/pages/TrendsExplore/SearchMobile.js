@@ -7,9 +7,10 @@ import styles from './Search.module.scss'
 
 const SearchMobile = ({ topic = '', onChangeTopics }) => {
   const textareaRef = useRef(null)
+  const wrapperRef = useRef(null)
   const [textareaValue, setTextareaValue] = useState(topic)
 
-  useAutosizeTextArea(textareaRef, textareaValue)
+  useAutosizeTextArea({ textareaRef, wrapperRef, value: textareaValue })
 
   useEffect(() => {
     onChangeTopics([topic])
@@ -27,7 +28,7 @@ const SearchMobile = ({ topic = '', onChangeTopics }) => {
   }
 
   return (
-    <div className={cx(styles.textareaWrapper, 'fluid relative mrg-xxl mrg--b')}>
+    <div className='fluid relative mrg-xxl mrg--b' ref={wrapperRef}>
       {textareaValue && (
         <Icon
           type='close-medium'

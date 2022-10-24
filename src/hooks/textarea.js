@@ -1,8 +1,9 @@
 import { useEffect } from 'react'
 
-const useAutosizeTextArea = (textAreaRef, value, initHeight = 40) => {
+const useAutosizeTextArea = ({ textareaRef, wrapperRef, value, initHeight = 40 }) => {
   useEffect(() => {
-    let textareaEl = textAreaRef.current
+    let textareaEl = textareaRef.current
+    let wrapperEl = wrapperRef.current
 
     if (textareaEl) {
       textareaEl.style.height = initHeight + 'px'
@@ -10,7 +11,13 @@ const useAutosizeTextArea = (textAreaRef, value, initHeight = 40) => {
 
       textareaEl.style.height = scrollHeight + 'px'
     }
-  }, [textAreaRef, value])
+    if (wrapperEl) {
+      wrapperEl.style.height = initHeight + 'px'
+      const scrollHeight = textareaEl.scrollHeight
+
+      wrapperEl.style.height = scrollHeight + 'px'
+    }
+  }, [textareaRef, wrapperRef, value])
 }
 
 export default useAutosizeTextArea
