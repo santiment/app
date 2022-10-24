@@ -10,13 +10,15 @@ import { PERIODS } from './utils'
 import styles from './index.module.scss'
 import stylesTooltip from '../../components/HelpPopup/HelpPopup.module.scss'
 
-const AverageSocialVolume = ({ hasPremium, ...props }) => {
+const AverageSocialVolume = ({ hasPremium, isDesktop, ...props }) => {
   const [period, setPeriod] = useState(PERIODS[0])
+  const [isTooltipOpen, setIsTooltipOpen] = useState(false)
+
   return (
     <div className={styles.wrapper}>
-      <div className={styles.header}>
-        <div className={styles.left}>
-          <h3 className={styles.title}>Average</h3>
+      <div className={cx(styles.header, 'row v-center justify mrg-l mrg--b')}>
+        <div className='row v-center'>
+          <h3 className={cx(isDesktop ? 'body-3 mrg-s' : 'body-1 mrg-l', 'mrg--r')}>Average</h3>
           <HelpPopup>
             <h4 className={stylesTooltip.title}>Average Social Volume</h4>
             The average number of daily mentions in the past {period.text}
@@ -24,8 +26,14 @@ const AverageSocialVolume = ({ hasPremium, ...props }) => {
         </div>
         <Tooltip
           on='click'
+          shown={isTooltipOpen}
           trigger={
-            <Button variant='flat' border className={styles.trigger}>
+            <Button
+              variant='flat'
+              border
+              className={cx(styles.trigger, !isDesktop && 'body-3 row hv-center')}
+              onClick={() => setIsTooltipOpen(true)}
+            >
               {period.label}
             </Button>
           }
@@ -37,7 +45,10 @@ const AverageSocialVolume = ({ hasPremium, ...props }) => {
               <span
                 className={cx(styles.period, item.label === period.label && styles.selected)}
                 key={item.label}
-                onClick={() => setPeriod(item)}
+                onClick={() => {
+                  setPeriod(item)
+                  setIsTooltipOpen(false)
+                }}
               >
                 {item.label}
               </span>
@@ -46,7 +57,7 @@ const AverageSocialVolume = ({ hasPremium, ...props }) => {
         </Tooltip>
       </div>
       {hasPremium && <Content {...props} range={period.query} />}
-      {hasPremium === false && <PaywallBanner />}
+      {hasPremium === false && <PaywallBanner isMobile={!isDesktop} />}
     </div>
   )
 }

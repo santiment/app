@@ -31,7 +31,12 @@ const Sidebar = ({ topics, linkedAssets, isDesktop, isEmptySearch, ...props }) =
     <aside className={cx(styles.sidebar, 'column')}>
       {!isEmptySearch && (
         <>
-          <AverageSocialVolume {...props} topics={topics} linkedAssets={linkedAssets} />
+          <AverageSocialVolume
+            {...props}
+            topics={topics}
+            linkedAssets={linkedAssets}
+            isDesktop={isDesktop}
+          />
           <EnhancedWordCloud words={topics} isDesktop={isDesktop} />
         </>
       )}

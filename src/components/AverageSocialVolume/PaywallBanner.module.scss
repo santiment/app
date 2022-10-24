@@ -13,6 +13,17 @@
   padding: 18px 24px;
   display: flex;
   flex-direction: column;
+
+  :global(.tablet) &,
+  :global(.phone) &,
+  :global(.phone-xs) & {
+    padding: 16px 20px;
+    border-radius: 6px;
+
+    div {
+      color: var(--fiord);
+    }
+  }
 }
 
 .desc {
@@ -24,4 +35,9 @@
 
 .button {
   margin-right: auto;
+}
+
+.link {
+  width: 110px;
+  padding: 8px 24px;
 }

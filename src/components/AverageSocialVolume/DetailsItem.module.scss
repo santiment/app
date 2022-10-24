@@ -7,6 +7,12 @@
   @include text('caption');
 
   font-weight: 500;
+
+  :global(.tablet) &,
+  :global(.phone) &,
+  :global(.phone-xs) & {
+    @include text('body-3');
+  }
 }
 
 .text {
@@ -16,11 +22,23 @@
   @include text('caption');
 
   font-weight: 500;
+
+  :global(.tablet) &,
+  :global(.phone) &,
+  :global(.phone-xs) & {
+    @include text('body-2');
+  }
 }
 
 .title {
   display: inline-block;
   color: var(--rhino);
+
+  :global(.tablet) &,
+  :global(.phone) &,
+  :global(.phone-xs) & {
+    @include text('body-2');
+  }
 }
 
 .value {
