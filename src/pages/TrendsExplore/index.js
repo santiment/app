@@ -73,6 +73,17 @@ const TrendsExplore = ({ topic, addedTopics, isDesktop }) => {
     }
   }
 
+  const search = (
+    <Search
+      topics={topics}
+      linkedAssets={linkedAssets}
+      activeLinkedAssets={activeLinkedAssets}
+      setActiveLinkedAssets={setActiveLinkedAssets}
+      onChangeTopics={updTopics}
+      isDesktop={isDesktop}
+    />
+  )
+
   return (
     <Page
       className={cx(styles.wrapper, 'row')}
@@ -87,23 +98,23 @@ const TrendsExplore = ({ topic, addedTopics, isDesktop }) => {
           { property: 'og:description', content: pageDescription },
         ]}
       />
-      <div className={cx(styles.main, 'column')}>
-        <div className='row v-center mrg-xl mrg--b mrg--t'>
-          <Link to='/dashboards' className={cx(styles.link, 'btn')}>
-            Social Trends
-          </Link>
-          <Icon type='arrow-right' className={cx(styles.arrow, 'mrg-m mrg--l mrg--r')} />
-          Social context
-        </div>
-        <Search
-          topics={topics}
-          linkedAssets={linkedAssets}
-          activeLinkedAssets={activeLinkedAssets}
-          setActiveLinkedAssets={setActiveLinkedAssets}
-          onChangeTopics={updTopics}
-          isDesktop={isDesktop}
-        />
-        {isDesktop && <Suggestions />}
+      {!isDesktop && search}
+      <div
+        className={cx(styles.main, 'column', isEmptySearch && !isDesktop && styles.mainEmptySearch)}
+      >
+        {isDesktop && (
+          <>
+            <div className='row v-center mrg-xl mrg--b mrg--t'>
+              <Link to='/dashboards' className={cx(styles.link, 'btn')}>
+                Social Trends
+              </Link>
+              <Icon type='arrow-right' className={cx(styles.arrow, 'mrg-m mrg--l mrg--r')} />
+              Social context
+            </div>
+            {search}
+            <Suggestions />
+          </>
+        )}
         {!isEmptySearch ? (
           <SocialTool
             linkedAssets={activeLinkedAssets}
@@ -113,11 +124,11 @@ const TrendsExplore = ({ topic, addedTopics, isDesktop }) => {
         ) : (
           <>
             <h4 className='h4 txt-m mrg-xxl mrg--t'>Popular trends</h4>
-            <SocialGrid className='mrg-xl mrg--t mrg--b' />
+            <SocialGrid className={cx('mrg-xl mrg--t mrg--b', !isDesktop && styles.socialGrid)} />
           </>
         )}
       </div>
-      <div className={cx(styles.divider, 'mrg-xxl mrg--l mrg--r')} />
+      {isDesktop && <div className={cx(styles.divider, 'mrg-xxl mrg--l mrg--r')} />}
       <div className={cx(styles.sidebar, 'relative')}>
         <Sidebar
           topics={topics}

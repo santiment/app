@@ -6,6 +6,25 @@
 
 .content {
   flex: 1 1;
+
+  :global(.phone) &,
+  :global(.tablet) &,
+  :global(.phone-xs) & {
+    flex-direction: column;
+  }
+}
+
+.main {
+  flex: 1;
+}
+
+.mainEmptySearch {
+  order: 3;
+  margin-bottom: 40px;
+}
+
+.sidebar {
+  padding: 24px 0;
 }
 
 .link {
@@ -17,15 +36,7 @@
   fill: var(--waterloo);
 }
 
-.main {
-  flex: 1;
-}
-
 .divider {
   width: 1px;
   background-color: var(--porcelain);
-}
-
-.sidebar {
-  padding: 24px 0;
 }

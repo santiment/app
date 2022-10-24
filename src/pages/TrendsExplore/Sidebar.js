@@ -50,12 +50,14 @@ const Sidebar = ({ topics, linkedAssets, isDesktop, isEmptySearch, ...props }) =
         )}
       </div>
       <TrendsTable isCompact period={trendPeriod} />
-      <Footer
-        classes={{
-          footer: cx(styles.footer, 'column mrg-xxl mrg--t'),
-          footerVersionDivider: styles.footerVersionDivider,
-        }}
-      />
+      {isDesktop && (
+        <Footer
+          classes={{
+            footer: cx(styles.footer, 'column mrg-xxl mrg--t'),
+            footerVersionDivider: styles.footerVersionDivider,
+          }}
+        />
+      )}
     </aside>
   )
 }

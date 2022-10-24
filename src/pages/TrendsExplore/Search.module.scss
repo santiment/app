@@ -91,3 +91,28 @@
   width: auto;
   padding: 0;
 }
+
+.textareaWrapper {
+  height: 40px;
+}
+
+.textarea {
+  overflow-y: hidden;
+  resize: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+
+  &::placeholder {
+    color: var(--waterloo);
+  }
+}
+
+.textareaWithIcon {
+  padding-right: 48px;
+}
+
+.textareaIcon {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+}
