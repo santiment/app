@@ -6,6 +6,7 @@ import cx from 'classnames'
 import withSizes from 'react-sizes'
 import AlertsFilter, { filters } from './AlertsFilter/AlertsFilter'
 import IndexTab from '../../components/IndexTabs/IndexTab'
+import TipPopup from '../../components/EmptySection/Tip/TipPopup'
 import PageLoader from '../../components/Loader/PageLoader'
 import { MobileOnly } from '../../components/Responsive'
 import { RecommendedSignals } from '../SonarFeed/SonarFeedRecommendations'
@@ -102,31 +103,36 @@ const Alerts = ({ isDesktop, match }) => {
 
   if (!isDesktop) {
     return (
-      <Page title='Alerts'>
+      <Page title='Alerts' mainClassName='relative'>
         {loading || isUserLoading ? (
           <PageLoader />
         ) : (
-          <MobileTabs
-            alertsRestrictions={alertsRestrictions}
-            filter={<AlertsFilter onSelect={handleChangeFilter} selectedFilter={filter} isMobile />}
-            explore={
-              <RecommendedSignals
-                userId={user ? user.id : ''}
-                showTitle={false}
-                showNew
-                shouldDisableActions={!shouldHideRestrictionMessage}
-              />
-            }
-            myAlerts={
-              <LoadableAlertsList
-                userId={user ? user.id : ''}
-                showNew
-                filters={{
-                  statusFilter: filter,
-                }}
-              />
-            }
-          />
+          <>
+            <TipPopup />
+            <MobileTabs
+              alertsRestrictions={alertsRestrictions}
+              filter={
+                <AlertsFilter onSelect={handleChangeFilter} selectedFilter={filter} isMobile />
+              }
+              explore={
+                <RecommendedSignals
+                  userId={user ? user.id : ''}
+                  showTitle={false}
+                  showNew
+                  shouldDisableActions={!shouldHideRestrictionMessage}
+                />
+              }
+              myAlerts={
+                <LoadableAlertsList
+                  userId={user ? user.id : ''}
+                  showNew
+                  filters={{
+                    statusFilter: filter,
+                  }}
+                />
+              }
+            />
+          </>
         )}
         {defaultOpenAlertId && (
           <AlertModal
