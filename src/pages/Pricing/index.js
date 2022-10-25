@@ -12,20 +12,28 @@ import PageLoader from '@cmp/Loader/PageLoader'
 import twitterStyles from './twitter.module.scss'
 import styles from './index.module.scss'
 
-export default () => {
+export default ({ isDesktop }) => {
   const ref = useRef()
   const [referencedNode, setReferencedNode] = useState()
   const [twitterNode, setTwitterNode] = useState()
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    const root = document.getElementById('root')
     let race = false
+
     Promise.all([querySanbasePlans(), subscription$.query(), customerData$.query()]).finally(() => {
       if (race) return
       setLoading(false)
     })
 
-    return () => (race = true)
+    !isDesktop && (root.style.overflow = 'clip')
+
+    return () => {
+      race = true
+
+      !isDesktop && root.removeAttribute('style')
+    }
   }, [])
 
   useEffect(() => {
@@ -40,7 +48,7 @@ export default () => {
   }, [loading])
 
   return (
-    <div ref={ref}>
+    <div ref={ref} className={styles.wrapper}>
       {loading && <PageLoader />}
 
       {referencedNode &&
