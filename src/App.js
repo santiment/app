@@ -279,7 +279,11 @@ export const App = ({
                 }}
               />
             ))}
-            <Route exact path='/pricing' component={LoadablePricingPage} />
+            <Route
+              exact
+              path='/pricing'
+              render={(props) => <LoadablePricingPage {...props} isDesktop={isDesktop} />}
+            />
             <Route
               exact
               path={PATHS.GDPR}

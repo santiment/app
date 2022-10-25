@@ -1,5 +1,13 @@
 @import '~@santiment-network/ui/mixins.scss';
 
+.wrapper {
+  :global(.phone-xs) &,
+  :global(.phone) &,
+  :global(.tablet) & {
+    margin-bottom: 64px;
+  }
+}
+
 .title {
   @include text('h3', 'l');
 
@@ -32,7 +40,13 @@
 .img {
   mix-blend-mode: normal;
   opacity: 0.8;
-  background: linear-gradient(180deg, var(--white) -27.4%, rgba(255, 255, 255, 0) 22.37%, var(--white) 75.8%), url('./headerBg.svg') no-repeat 100%;
+  background: linear-gradient(
+      180deg,
+      var(--white) -27.4%,
+      rgba(255, 255, 255, 0) 22.37%,
+      var(--white) 75.8%
+    ),
+    url('./headerBg.svg') no-repeat 100%;
   height: 250px;
   width: 290px;
   position: absolute;
@@ -157,7 +171,8 @@
   display: flex;
   align-items: center;
 
-  &::before, &::after {
+  &::before,
+  &::after {
     content: '';
     width: 5px;
     height: 5px;
