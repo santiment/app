@@ -12,6 +12,7 @@ export const WordCloudWithHeader = ({
   className = '',
   showDescription = true,
   classes,
+  isDesktop = true,
   ...rest
 }) => {
   const { from, to, size } = rest
@@ -22,13 +23,15 @@ export const WordCloudWithHeader = ({
       className={className}
       trendWord={word}
       description={
-        <>
-          <span className={styles.heading}>Social context</span>
-          <HelpPopup>
-            <h4 className={stylesTooltip.title}>Social context</h4>
-            {SOCIAL_CONTEXT_DESCRIPTION}
-          </HelpPopup>
-        </>
+        isDesktop && (
+          <>
+            <span className={styles.heading}>Social context</span>
+            <HelpPopup>
+              <h4 className={stylesTooltip.title}>Social context</h4>
+              {SOCIAL_CONTEXT_DESCRIPTION}
+            </HelpPopup>
+          </>
+        )
       }
       isLoading={loading}
       error={error}

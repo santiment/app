@@ -6,7 +6,7 @@ import HoveredValue from '../Tooltip'
 import { useTimeseries } from '../../../ducks/Studio/timeseries/hooks'
 import styles from '../index.module.scss'
 
-const Chart = ({ metrics, settingMap, settings, priceTicker, onLoad, ...props }) => {
+const Chart = ({ metrics, settingMap, settings, priceTicker, onLoad, isCompact, ...props }) => {
   const [currentPoint, setCurrentPoint] = useState()
   const [data, loadings] = useTimeseries(metrics, settings, settingMap)
   const lastPrice = useMemo(() => {
@@ -24,21 +24,25 @@ const Chart = ({ metrics, settingMap, settings, priceTicker, onLoad, ...props })
     <Loader className={styles.loader} />
   ) : (
     <>
-      {currentPoint && <HoveredValue {...currentPoint} />}
+      {!isCompact && (
+        <>
+          {currentPoint && <HoveredValue {...currentPoint} />}
 
-      <div className={'mrg-l mrg--l'}>
-        <span className='c-green mrg-xs mrg--r'>
-          {usdFormatter((currentPoint || lastPrice).price_usd)}
-        </span>
-        {priceTicker}/USD
-      </div>
-
+          <div className={'mrg-l mrg--l'}>
+            <span className='c-green mrg-xs mrg--r'>
+              {usdFormatter((currentPoint || lastPrice).price_usd)}
+            </span>
+            {priceTicker}/USD
+          </div>
+        </>
+      )}
       <Canvas
         {...props}
         settings={settings}
         data={data}
         metrics={metrics}
         setCurrentPoint={setCurrentPoint}
+        isCompact={isCompact}
       />
     </>
   )

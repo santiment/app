@@ -13,6 +13,15 @@
   animation-name: shiftUp;
   animation-timing-function: ease-out;
   animation-duration: 0.5s;
+
+  :global(.phone) &,
+  :global(.tablet) &,
+  :global(.phone-xs) & {
+    grid-template-columns: 1fr 1fr !important;
+    grid-gap: 12px;
+    margin-top: 20px;
+    margin-bottom: 12px;
+  }
 }
 
 .loader {
@@ -23,4 +32,9 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+}
+
+.showMore {
+  --color: var(--green);
+  padding: 10px 0;
 }

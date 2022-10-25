@@ -1,20 +1,21 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
+import cx from 'classnames'
 import { Helmet } from 'react-helmet'
 import { track } from 'webkit/analytics'
 import Icon from '@santiment-network/ui/Icon'
 import SocialTool from '../SocialTool'
-import MobileHeader from '../../components/MobileHeader/MobileHeader'
+import Page from '../../ducks/Page'
 import Suggestions from '../../components/Trends/Search/Suggestions'
-import { safeDecode, updateHistory } from '../../utils/utils'
-import { addRecentTrends } from '../../utils/recent'
-import { trackTopicSearch } from '../../components/Trends/Search/utils'
 import SocialGrid from '../../components/SocialGrid'
-import { getTopicsFromUrl, updTopicsInUrl } from './url'
 import Search from './Search'
 import Sidebar from './Sidebar'
 import { useProjects, getProjectInfo } from '../../stores/projects'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
+import { safeDecode, updateHistory } from '../../utils/utils'
+import { addRecentTrends } from '../../utils/recent'
+import { trackTopicSearch } from '../../components/Trends/Search/utils'
+import { getTopicsFromUrl, updTopicsInUrl } from './url'
 import styles from './index.module.scss'
 
 const EMPTY_MAP = new Map()
@@ -35,10 +36,15 @@ const TrendsExplore = ({ topic, addedTopics, isDesktop }) => {
     return newLinkedAssets
   }, [topics, projects])
 
+  const isEmptySearch = !topics[0]
+  const pageTitle = `Crypto Social Trends for ${topic} - Sanbase`
+
   useEffect(() => {
     track.pageview('sanbase')
   }, [topic])
+
   useEffect(() => topics.forEach(addRecentTrends), [topics])
+
   useEffect(() => {
     if (topic !== '') {
       setTopics([topic, ...addedTopics])
@@ -67,12 +73,24 @@ const TrendsExplore = ({ topic, addedTopics, isDesktop }) => {
     }
   }
 
-  const pageTitle = `Crypto Social Trends for ${topic} - Sanbase`
-
-  const isEmptySearch = !topics[0]
+  const search = (
+    <Search
+      topics={topics}
+      linkedAssets={linkedAssets}
+      activeLinkedAssets={activeLinkedAssets}
+      setActiveLinkedAssets={setActiveLinkedAssets}
+      onChangeTopics={updTopics}
+      isDesktop={isDesktop}
+    />
+  )
 
   return (
-    <div className={styles.wrapper}>
+    <Page
+      className={cx(styles.wrapper, 'row')}
+      title={isDesktop ? null : 'Social Tool'}
+      mainClassName={cx(styles.content, 'row')}
+      hasHeader={!isDesktop}
+    >
       <Helmet
         title={pageTitle}
         meta={[
@@ -80,48 +98,45 @@ const TrendsExplore = ({ topic, addedTopics, isDesktop }) => {
           { property: 'og:description', content: pageDescription },
         ]}
       />
-      <div className={styles.layout}>
-        <div className={styles.main}>
-          {isDesktop ? (
-            <div className={styles.breadcrumbs}>
-              <Link to='/dashboards' className={styles.link}>
+      {!isDesktop && search}
+      <div
+        className={cx(styles.main, 'column', isEmptySearch && !isDesktop && styles.mainEmptySearch)}
+      >
+        {isDesktop && (
+          <>
+            <div className='row v-center mrg-xl mrg--b mrg--t'>
+              <Link to='/dashboards' className={cx(styles.link, 'btn')}>
                 Social Trends
               </Link>
-              <Icon type='arrow-right' className={styles.arrow} />
+              <Icon type='arrow-right' className={cx(styles.arrow, 'mrg-m mrg--l mrg--r')} />
               Social context
             </div>
-          ) : (
-            <MobileHeader
-              classes={{
-                wrapper: styles.mobileHeader,
-                left: styles.mobileHeader__left,
-                searchBtn: styles.mobileHeader__search,
-              }}
-              title='Social context'
-            />
-          )}
-          <Search
-            topics={topics}
-            linkedAssets={linkedAssets}
-            activeLinkedAssets={activeLinkedAssets}
-            setActiveLinkedAssets={setActiveLinkedAssets}
-            onChangeTopics={updTopics}
-            isDesktop={isDesktop}
+            {search}
+            <Suggestions />
+          </>
+        )}
+        {!isEmptySearch ? (
+          <SocialTool
+            linkedAssets={activeLinkedAssets}
+            allDetectedAssets={linkedAssets}
+            settings={{ slug: topics[0], addedTopics: topics.slice(1) }}
           />
-          {isDesktop && <Suggestions />}
-          {!isEmptySearch ? (
-            <SocialTool
-              linkedAssets={activeLinkedAssets}
-              allDetectedAssets={linkedAssets}
-              settings={{ slug: topics[0], addedTopics: topics.slice(1) }}
-            />
-          ) : (
-            <>
-              <h4 className={styles.titlePopular}>Popular trends</h4>
-              <SocialGrid className={styles.grid} />
-            </>
-          )}
-        </div>
+        ) : (
+          <>
+            <h4
+              className={cx(
+                'txt-m mrg-xxl mrg--t',
+                isDesktop ? 'h4' : cx(styles.popularTrends, 'body-1'),
+              )}
+            >
+              Popular trends
+            </h4>
+            <SocialGrid isCompact={!isDesktop} className={'mrg-xl mrg--t mrg--b'} />
+          </>
+        )}
+      </div>
+      {isDesktop && <div className={cx(styles.divider, 'mrg-xxl mrg--l mrg--r')} />}
+      <div className={cx(styles.sidebar, 'relative')}>
         <Sidebar
           topics={topics}
           linkedAssets={activeLinkedAssets}
@@ -130,7 +145,7 @@ const TrendsExplore = ({ topic, addedTopics, isDesktop }) => {
           isEmptySearch={isEmptySearch}
         />
       </div>
-    </div>
+    </Page>
   )
 }
 

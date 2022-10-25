@@ -3,19 +3,35 @@
 
 .wrapper {
   border: 1px solid var(--porcelain);
-  box-shadow: 0 4px 8px rgba(24, 27, 43, 0.04),
-    0 8px 16px rgba(24, 27, 43, 0.05),
+  box-shadow: 0 4px 8px rgba(24, 27, 43, 0.04), 0 8px 16px rgba(24, 27, 43, 0.05),
     0 12px 32px rgba(24, 27, 43, 0.05);
   border-radius: $border-radius;
   width: 246px;
   background: var(--white);
   margin: 0 auto;
 
+  :global(.phone-xs) &,
+  :global(.phone) &,
+  :global(.tablet) & {
+    margin: 0;
+    box-shadow: none;
+    border: none;
+    width: 100%;
+    height: 349px;
+  }
+
   :global {
     .react-calendar__month-view__weekdays__weekday {
       @include text('caption');
 
       color: var(--waterloo);
+
+      :global(.phone-xs) &,
+      :global(.phone) &,
+      :global(.tablet) & {
+        @include text('body-3', 'm');
+        padding: 0 0 8px;
+      }
     }
 
     abbr[title] {
@@ -27,14 +43,44 @@
       margin: 0;
       padding: 5px;
 
+      :global(.phone-xs) &,
+      :global(.phone) &,
+      :global(.tablet) & {
+        height: 56px;
+        padding: 12px 20px;
+      }
+
       & + div {
         border-top: 1px solid var(--porcelain);
         padding: 10px;
+
+        :global(.phone-xs) &,
+        :global(.phone) &,
+        :global(.tablet) & {
+          padding: 24px 20px 0;
+        }
       }
     }
 
     .react-calendar__navigation__label {
       @include text('body-3');
+
+      :global(.phone-xs) &,
+      :global(.phone) &,
+      :global(.tablet) & {
+        @include text('body-2', 'm');
+      }
+    }
+
+    .react-calendar__navigation__arrow {
+      :global(.phone-xs) &,
+      :global(.phone) &,
+      :global(.tablet) & {
+        font-size: 20px;
+        height: 32px;
+        width: 32px;
+        min-width: 32px;
+      }
     }
 
     .react-calendar__navigation__label,
@@ -49,6 +95,12 @@
       &:enabled:hover {
         background: var(--athens);
       }
+
+      :global(.phone-xs) &,
+      :global(.phone) &,
+      :global(.tablet) & {
+        fill: var(--waterloo);
+      }
     }
 
     .react-calendar__navigation__prev2-button,
@@ -59,6 +111,12 @@
     .react-calendar__navigation__arrow[disabled] {
       background: transparent;
       color: var(--casper);
+
+      :global(.phone-xs) &,
+      :global(.phone) &,
+      :global(.tablet) & {
+        fill: var(--casper);
+      }
     }
   }
 
@@ -77,6 +135,14 @@
   padding: 0 !important;
   color: var(--mirage);
 
+  :global(.phone-xs) &,
+  :global(.phone) &,
+  :global(.tablet) & {
+    @include text('body-2');
+
+    height: 40px;
+  }
+
   &:enabled:hover {
     background: var(--athens);
     color: var(--jungle-green-hover);
@@ -86,6 +152,12 @@
   &:enabled:focus {
     color: var(--jungle-green);
     background: var(--jungle-green-light);
+
+    :global(.phone-xs) &,
+    :global(.phone) &,
+    :global(.tablet) & {
+      border-radius: 6px;
+    }
   }
 
   &:global(.react-calendar__tile--active) {

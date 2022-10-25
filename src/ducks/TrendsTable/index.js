@@ -23,7 +23,12 @@ const TrendsTable = ({ className, period, hiddenColumnIds, isCompact, isDesktop,
   return (
     <Table
       {...props}
-      className={cx(styles.table, className, isCompact && styles.compact)}
+      className={cx(
+        styles.table,
+        className,
+        isCompact && styles.compact,
+        trendingWords.length === 0 && styles.empty,
+      )}
       headerClassName={styles.tableHeader}
       items={trendingWords}
       minRows={10}

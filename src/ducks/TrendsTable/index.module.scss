@@ -77,6 +77,15 @@
       height: 60px !important;
     }
 
+    thead tr th {
+      &:first-of-type {
+        border-top-left-radius: 8px;
+      }
+      &:last-of-type {
+        border-top-right-radius: 8px;
+      }
+    }
+
     th {
       border-bottom: 1px solid var(--porcelain);
     }
@@ -125,5 +134,11 @@
         padding-right: 16px;
       }
     }
+  }
+}
+
+.empty {
+  tr:not(:last-of-type) td {
+    border-bottom: none !important;
   }
 }

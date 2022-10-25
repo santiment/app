@@ -2,27 +2,19 @@
 @import '~@santiment-network/ui/variables';
 
 .wrapper {
-  @include responsive('tablet') {
-    display: none;
+  :global(.tablet) &,
+  :global(.phone) &,
+  :global(.phone-xs) & {
+    margin-bottom: 64px;
   }
 }
 
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0 0 16px;
-}
-
-.left {
-  display: flex;
-  align-items: center;
-}
-
-.title {
-  @include text('body-3');
-
-  margin: 0 8px 0 0;
+  :global(.tablet) &,
+  :global(.phone) &,
+  :global(.phone-xs) & {
+    --margin: 20px;
+  }
 }
 
 .content {
@@ -74,6 +66,14 @@
   &:hover {
     color: var(--rhino);
     border-color: var(--jungle-green);
+  }
+
+  :global(.tablet) &,
+  :global(.phone) &,
+  :global(.phone-xs) & {
+    width: 38px;
+    height: 32px;
+    padding: 6px 10px;
   }
 }
 

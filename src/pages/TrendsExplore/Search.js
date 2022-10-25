@@ -6,6 +6,7 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Toggle from '@santiment-network/ui/Toggle'
 import DarkTooltip from '../../components/Tooltip/DarkTooltip'
+import SearchMobile from './SearchMobile'
 import { DEFAULT_TEXT } from '../../components/Trends/Search'
 import styles from './Search.module.scss'
 
@@ -21,6 +22,7 @@ const Search = ({
   activeLinkedAssets,
   onChangeTopics,
   setActiveLinkedAssets,
+  isDesktop = true,
 }) => {
   const [isInFocus, setIsInFocus] = useState(false)
   const [values, setValues] = useState(topics)
@@ -61,6 +63,10 @@ const Search = ({
     setActiveLinkedAssets(newActiveLinkedAssets)
   }
 
+  if (!isDesktop) {
+    return <SearchMobile onChangeTopics={onChangeTopics} topic={topics[0] || ''} />
+  }
+
   return (
     <MultiInput
       onValueAdd={(value, newValues) => setValues(newValues)}
@@ -81,7 +87,6 @@ const Search = ({
               position='top'
               align='start'
               on='hover'
-              className={styles.tooltip}
               trigger={
                 <Button
                   className={styles.btn}
@@ -109,7 +114,6 @@ const Search = ({
                 position='top'
                 align='start'
                 on='hover'
-                className={styles.tooltip}
                 trigger={<Button className={styles.btn}>{text}</Button>}
               >
                 Click to explore project page
