@@ -38,7 +38,7 @@ const Item = ({
       }
     }
     return { metrics: METRICS, settings: SETTINGS }
-  }, [])
+  }, [price])
 
   const MetricSettingMap = useMemo(() => {
     const MetricSettingMap = new Map()
