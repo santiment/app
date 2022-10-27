@@ -1,6 +1,7 @@
 <script>
   import { onDestroy } from 'svelte'
   import Svg from 'webkit/ui/Svg/svelte'
+  import Pumpkin from 'webkit/ui/Halloween/Pumpkin.svelte'
   import MinimizedCategories from './MinimizedCategories.svelte'
   import Recent from './Recent.svelte'
 
@@ -69,6 +70,10 @@
         <Recent {pathname} {isPeeked} />
       </div>
     </div>
+  </div>
+
+  <div class="pumpkin">
+    <Pumpkin showOn="explorer" />
   </div>
 </aside>
 
@@ -160,5 +165,12 @@
     :global(header) {
       margin-left: -40px;
     }
+  }
+
+  .pumpkin {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    z-index: 100;
   }
 </style>

@@ -8,6 +8,7 @@
   import Products from 'webkit/ui/Products/svelte'
   import AccountStatus, { AccountStatusType } from 'webkit/ui/AccountStatus.svelte'
   import AccountDropdown from 'webkit/ui/AccountDropdown/index.svelte'
+  import HalloweenBtn from 'webkit/ui/Halloween/Button.svelte'
   import { ui } from '@/stores/ui/theme'
   import { history } from '@/redux'
 
@@ -35,27 +36,27 @@
 </script>
 
 <header class="row v-center relative">
-  <Product title="Sanbase" class="mrg-l mrg--r" />
+  <Product title="Sanbase" class="mrg-l mrg--r" isHalloween />
   <Products
     active="sanbase"
     isCompact
     isColumn
     class="mrg-xxl mrg--r $style.hover"
-    tooltipClass="$style.dropdown"
-  />
+    tooltipClass="$style.dropdown" />
 
   <a
     href="https://santiment.net/discord"
     class="discord btn-1 btn--s row v-center nowrap"
-    on:click={() => track.event('navbar_discord_join_us_clicked')}
-  >
+    on:click={() => track.event('navbar_discord_join_us_clicked')}>
     <Svg id="discord" w="16" h="12" class="mrg-s mrg--r" />
-    Join us!</a
-  >
+    Join us!</a>
 
   <div class="search fluid mrg-a mrg--l" bind:this={searchNode} />
 
-  <a href="https://academy.santiment.net/" class="btn-ghost mrg-a mrg--l">Academy</a>
+  <HalloweenBtn class="mrg-a mrg--l" />
+  <a
+    href="https://academy.santiment.net/"
+    class="btn-ghost {currentUser ? 'mrg-l' : 'mrg-a'} mrg--l">Academy</a>
   <a href="/pricing" class="btn-ghost mrg-l mrg--l" on:click={window.__onLinkClick}>Pricing</a>
 
   <div class="notifications mrg-s mrg--l" bind:this={notificationsNode} />
@@ -73,8 +74,7 @@
     {variant}
     {subscription}
     {customerData}
-    isShowingFollowers={false}
-  />
+    isShowingFollowers={false} />
 </header>
 
 <style>

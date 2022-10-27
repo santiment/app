@@ -1,12 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom'
+import toReact from 'svelte-adapter/react'
 import { copy } from 'webkit/utils'
+import Pumpkin from 'webkit/ui/Halloween/Pumpkin.svelte'
 import { studio as settingsStore } from 'studio/stores/studio'
 import { useHistory } from './stores'
 import { useShortShareLink } from '../../components/Share/hooks'
 import Calendar from '../../ducks/Studio/Header/Calendar'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import styles from '../../ducks/Studio/Header/Settings.module.scss'
+
+const ReactPumpkin = toReact(Pumpkin, {}, 'div')
 
 const Header = ({ studio, settings, widgets, metrics, prevFullUrlRef }) => {
   const [calendarTarget, setCalendarTarget] = useState()
@@ -62,7 +66,9 @@ const Header = ({ studio, settings, widgets, metrics, prevFullUrlRef }) => {
         <Calendar settings={settings} changeTimePeriod={changeTimePeriod} />,
         calendarTarget,
       )}
-
+      <div className={styles.pumpkin}>
+        <ReactPumpkin showOn='charts' />
+      </div>
       <ShareModalTrigger
         isDialogOnly
         classes={styles}
