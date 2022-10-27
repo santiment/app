@@ -5,7 +5,6 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import AddToWatchlist from '../../ducks/Watchlists/Actions/Add'
 import ChartSignalCreationDialog from '../../ducks/SANCharts/ChartSignalCreationDialog'
-import Grave from '../../components/Halloween/Grave'
 import { useUser } from '../../stores/user'
 import styles from './index.module.scss'
 
@@ -29,12 +28,6 @@ const ProjectInfo = ({ studio, settings }) => {
     <>
       {ReactDOM.createPortal(
         <>
-          <Grave
-            slug='charts'
-            setKnockNumber={setKnockNumber}
-            knockNumber={knockNumber}
-            name={slug}
-          />
           <AddToWatchlist
             trigger={
               <Button border className={cx('btn btn--green', styles.watchlist)}>

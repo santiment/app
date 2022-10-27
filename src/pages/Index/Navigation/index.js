@@ -7,7 +7,6 @@ import Button from '@santiment-network/ui/Button'
 import { useEventListener } from '../../../hooks/eventListeners'
 import { TOP_LINKS } from './anchors'
 import StartGuide from '../Section/Personal/StartGuide'
-import Grave from '../../../components/Halloween/Grave'
 import { useNavigationAnchor } from '../../../components/LeftPageNavigation/LeftPageNavigation'
 import styles from './index.module.scss'
 
@@ -64,7 +63,6 @@ const Navigation = ({ className }) => {
         ))}
       </div>
       <div className={styles.bottom}>
-        <Grave knockNumber={knockNumber} setKnockNumber={setKnockNumber} slug='nav' name='SAN' />
         <ContextMenu
           passOpenStateAs='isActive'
           position='top'

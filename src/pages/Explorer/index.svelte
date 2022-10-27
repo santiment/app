@@ -4,6 +4,8 @@
   import Aside from './Aside.svelte'
   import { currentUser, userSubscription } from './store'
   import { MenuItem } from './const'
+  import netTop from '../../assets/halloween/net-top.svg'
+  import netBottom from '../../assets/halloween/net-bottom.svg'
 
   export let user = {}
   export let userSubscriptionData = {}
@@ -14,6 +16,9 @@
   $: currentUser.set(user)
   $: userSubscription.set(userSubscriptionData)
 </script>
+
+<img src={netTop} alt="Net" class="net-top" />
+<img src={netBottom} alt="Net" class="net-bottom" />
 
 <main>
   <ExplorerFilter bind:activeMenu {loading} />
@@ -49,5 +54,17 @@
   .aside {
     width: 344px;
     margin-left: 40px;
+  }
+
+  .net-top {
+    position: absolute;
+    top: 64px;
+    left: 120px;
+  }
+
+  .net-bottom {
+    position: fixed;
+    bottom: -20px;
+    right: 0;
   }
 </style>

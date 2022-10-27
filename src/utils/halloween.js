@@ -1,31 +1,26 @@
-import { loadKeyState } from './localStorage'
+import { useEffect } from 'react'
+import { saveBoolean, getSavedBoolean } from 'webkit/utils/localStorage'
+import { ui, useTheme } from '../stores/ui/theme'
 
-// true if Oct 25 - Nov 1 and user didn't toggle night mode
-export function isShowHalloween() {
-  const isDisabledByUser = loadKeyState('disabledHalloweenMode')
-
-  return isHalloweenDay() && !isDisabledByUser
-}
-
-// true if Oct 25 - Nov 1
 export function isHalloweenDay() {
   const currentDate = new Date()
   const currentMonth = currentDate.getMonth()
   const currentDay = currentDate.getDate()
 
-  return (currentMonth === 9 && currentDay > 24) || (currentMonth === 10 && currentDay < 2)
+  return (currentMonth === 9 && currentDay > 24) || (currentMonth === 10 && currentDay < 5)
 }
 
-export function getCheckedGraves() {
-  const res = localStorage.getItem('halloweenGraves')
+export const IS_HALLOWEEN_ENABLED = 'IS_HALLOWEEN_ENABLED'
 
-  return res ? res.split(',') : []
-}
+export const useHalloweenMode = () => {
+  const { isNightMode } = useTheme()
 
-export function addGrave(slug) {
-  const graves = new Set(getCheckedGraves())
-  graves.add(slug)
-  localStorage.setItem('halloweenGraves', [...graves].toString())
+  useEffect(() => {
+    const isHalloweenEnabled = getSavedBoolean(IS_HALLOWEEN_ENABLED)
 
-  return graves
+    if (!isHalloweenEnabled && isNightMode === false && isHalloweenDay()) {
+      ui.toggleNightMode()
+      saveBoolean(IS_HALLOWEEN_ENABLED, true)
+    }
+  }, [isNightMode])
 }

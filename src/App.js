@@ -40,6 +40,7 @@ import TrialPromptDialog from './components/TrialPromptDialog'
 import OfferPopup from './components/OfferPopup/OfferPopup'
 import SanTokenPopup from './components/OfferPopup/SanTokenPopup'
 import { useSavedComment } from './hooks/comment'
+import { useHalloweenMode } from './utils/halloween'
 import styles from './App.module.scss'
 import './index.scss'
 import './App.scss'
@@ -197,6 +198,8 @@ export const App = ({
   const [isWatchlistPage, setIsWatchlistPage] = useState(false)
 
   useSavedComment(isLoggedIn)
+
+  useHalloweenMode()
 
   useEffect(() => {
     const svelte = new FeatureWalkthrough({ target: document.body })

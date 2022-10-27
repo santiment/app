@@ -1,7 +1,6 @@
 import * as actions from './../actions/types'
 import { loadKeyState } from '../utils/localStorage'
 import { updateIsBetaMode } from '../stores/ui'
-import { isShowHalloween } from '../utils/halloween'
 
 const isNightMode = loadKeyState('isNightMode')
 const isNightModeDeprecated = loadKeyState('isNightModeEnabled')
@@ -9,7 +8,7 @@ const isBetaMode = loadKeyState('isBetaMode')
 const isBetaModeDeprecated = loadKeyState('isBetaModeEnabled')
 
 const isNightModeEnabled =
-  isShowHalloween() || (isNightMode !== undefined ? isNightMode : isNightModeDeprecated) || false
+  (isNightMode !== undefined ? isNightMode : isNightModeDeprecated) || false
 const isBetaModeEnabled = isBetaMode !== undefined ? isBetaMode : isBetaModeDeprecated || false
 
 export const initialState = {

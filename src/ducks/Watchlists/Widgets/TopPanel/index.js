@@ -9,7 +9,6 @@ import { useIsAuthor } from '../../gql/list/hooks'
 import { PROJECT, SCREENER } from '../../detector'
 import WeeklyReport from '../../Actions/WeeklyReport'
 import ScreenerSignalDialog from '../../../Signals/ScreenerSignal/ScreenerSignalDialog'
-import Grave from '../../../../components/Halloween/Grave'
 import styles from './index.module.scss'
 
 const TopPanel = ({
@@ -63,12 +62,6 @@ const TopPanel = ({
           refetchAssets={refetchAssets}
         />
         {isUpdatingWatchlist && <span className={styles.saving}>Saving...</span>}
-        <Grave
-          knockNumber={knockNumber}
-          setKnockNumber={setKnockNumber}
-          slug='screener'
-          name='SAN'
-        />
       </div>
       {type === SCREENER ? (
         <div className={styles.row}>

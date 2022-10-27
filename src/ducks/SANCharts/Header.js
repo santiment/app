@@ -18,7 +18,6 @@ import { TriggerProjectsSelector } from '../Signals/signalFormManager/signalCrud
 import { formatNumber } from '../../utils/formatting'
 import { PROJECT_BY_SLUG_QUERY } from './gql'
 import ALL_PROJECTS from '../../allProjects.json'
-import Grave from '../../components/Halloween/Grave'
 import ProjectSelectDialog from '../Studio/Compare/ProjectSelectDialog'
 import styles from './Header.module.scss'
 
@@ -208,12 +207,6 @@ const Header = ({
               onClose={closeDialog}
               onSelect={onProjectSelect}
               trigger={<ProjectInfo {...project} slug={slug} onClick={openDialog} />}
-            />
-            <Grave
-              knockNumber={knockNumber}
-              setKnockNumber={setKnockNumber}
-              slug={slug}
-              name={project.name}
             />
           </div>
 
