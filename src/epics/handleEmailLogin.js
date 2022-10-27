@@ -4,9 +4,9 @@ import gql from 'graphql-tag'
 import { replace } from 'react-router-redux'
 import { track } from 'webkit/analytics'
 import { TwitterTrackActions, trackTwitterSignUpEvent } from 'webkit/analytics/twitter'
-import { changeDigestSubscription, showNotification } from './../actions/rootActions'
+import { changeDigestSubscription, showNotification } from '../actions/rootActions'
 import * as actions from './../actions/types'
-import { savePrevAuthProvider } from './../utils/localStorage'
+import { savePrevAuthProvider } from '../utils/localStorage'
 import GA from './../utils/tracking'
 import { setCoupon } from '../utils/coupon'
 import { USER_GQL_FRAGMENT } from './handleLaunch'
@@ -64,10 +64,7 @@ export const handleLoginSuccess = (action$) =>
       GA.update(user)
 
       if (user.firstLogin || (email && !loggedEmails.includes(email))) {
-        GA.event({
-          category: 'User',
-          action: 'First login',
-        })
+        track.event('sign_up')
         trackTwitterSignUpEvent()
         track.event(TwitterTrackActions.signup, {
           content_category: 'contact form',

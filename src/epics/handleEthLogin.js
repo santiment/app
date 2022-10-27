@@ -1,7 +1,5 @@
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
-import { track } from 'webkit/analytics'
-import { TwitterTrackActions, trackTwitterSignUpEvent } from 'webkit/analytics/twitter'
 import * as web3Helpers from './../web3Helpers'
 import * as actions from './../actions/types'
 import { handleErrorAndTriggerAction } from './utils'
@@ -85,17 +83,6 @@ const handleEthLogin = (action$, store, { client }) =>
         .mergeMap(({ data }) => {
           const { token, user } = data.ethLogin
           GA.update(user)
-          if (user.firstLogin) {
-            GA.event({
-              category: 'User',
-              action: 'First login',
-            })
-            trackTwitterSignUpEvent()
-            track.event(TwitterTrackActions.signup, {
-              content_category: 'contact form',
-              content_name: 'sign-up',
-            })
-          }
           savePrevAuthProvider('metamask')
           return Observable.of({
             type: actions.USER_LOGIN_SUCCESS,
