@@ -139,6 +139,7 @@
 
   .category {
     --padding: 24px;
+    background-color: var(--white);
   }
 
   .small {
