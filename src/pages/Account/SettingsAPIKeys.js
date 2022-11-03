@@ -13,11 +13,11 @@ import styles from './SettingsAPIKeys.module.scss'
 let genTimer
 
 const SettingsAPIKeys = ({ apikeys = [], generateAPIKey, revokeAPIKey }) => {
-  const [copiedShown, setCopiedShown] = useState(false)
+  const [copiedShown, setCopiedShown] = useState('')
 
-  function showCopiedTooltip() {
-    setCopiedShown(true)
-    setTimeout(() => setCopiedShown(false), 1000)
+  function showCopiedTooltip(apikey) {
+    setCopiedShown(apikey)
+    setTimeout(() => setCopiedShown(''), 1000)
   }
 
   function onGenClick() {
@@ -59,12 +59,12 @@ const SettingsAPIKeys = ({ apikeys = [], generateAPIKey, revokeAPIKey }) => {
             {apikeys.length > 0 ? (
               apikeys.map((apikey) => (
                 <div key={apikey} className={styles.keyContainer}>
-                  <div className={cx(styles.apikey, copiedShown && styles.copied)}>
+                  <div className={cx(styles.apikey, copiedShown === apikey && styles.copied)}>
                     <input className={styles.apikey__input} defaultValue={apikey} readOnly />
                     <Icon
                       onClick={() => {
                         copy(apikey)
-                        showCopiedTooltip()
+                        showCopiedTooltip(apikey)
                       }}
                       type='copy'
                       className={styles.apikey__icon}
