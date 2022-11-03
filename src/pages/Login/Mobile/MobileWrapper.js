@@ -7,14 +7,14 @@ import Panel from '@santiment-network/ui/Panel'
 import MobileHeader from './MobileHeader'
 import styles from './MobileWrapper.module.scss'
 
-const MobileWrapper = ({ isDesktop, children, onBack, className, withHeader = false }) => {
+const MobileWrapper = ({ isDesktop, children, onBack, className, withHeader = false, toggleMenu }) => {
   if (isDesktop) {
     return children
   }
 
   return (
     <div className={cx(styles.wrapper, className, withHeader && styles.withHeader)}>
-      {withHeader && <MobileHeader />}
+      {withHeader && <MobileHeader toggleMenu={toggleMenu} />}
       <Panel padding className={cx(styles.panel, withHeader && styles.withHeader)}>
         {onBack && <Icon type='close-medium' className={styles.iconClose} onClick={onBack} />}
         {children}

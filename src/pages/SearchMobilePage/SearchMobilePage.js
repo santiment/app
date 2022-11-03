@@ -60,8 +60,7 @@ const SearchMobilePage = ({ history }) => {
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(false)
   const [term, setTerm] = useState('')
-  const [result, setResult] = useState([])
-
+  const [result, setResult] = useState()
   const tabActions = useTabOptions(selectedTab, term)
   const [activeTab, KEY, variables] = tabActions
   const { getTabItems, addTabItem, removeTabItem } = getItemControllers(KEY)
@@ -128,12 +127,7 @@ const SearchMobilePage = ({ history }) => {
           title: styles.hidden,
         }}
       >
-        <SearchBar
-          onChange={(term) => {
-            setResult([])
-            setTerm(term)
-          }}
-        />
+        <SearchBar onChange={setTerm} />
       </MobileHeader>
       <Tabs
         options={TABS}
@@ -149,14 +143,13 @@ const SearchMobilePage = ({ history }) => {
           <PageLoader className={styles.loader} />
         ) : (
           <>
-            {result.length < 1 && items.length > 0 && (
+            {result && result.length < 1 && items.length > 0 && (
               <h3 className={cx(styles.caption, 'mrg--b mrg-xl')}>Recently searched</h3>
             )}
             <div className={styles.scrollable}>
               {term.length > 0 ? (
                 <>
-                  {result.length > 0 ? (
-                    result.map((keys) => (
+                  {result && result.length > 0 && result.map((keys) => (
                       <SearchResultRow
                         key={keys.id}
                         activeTab={activeTab}
@@ -164,10 +157,8 @@ const SearchMobilePage = ({ history }) => {
                         selectedTab={selectedTab}
                         onClick={() => addTabItem(keys)}
                       />
-                    ))
-                  ) : (
-                    <NotFound />
-                  )}
+                  ))}
+                  {!result && <NotFound />}
                 </>
               ) : (
                 items.map((keys, index) => (
