@@ -95,7 +95,7 @@ const MobileNavbar = ({ history, activeLink }) => {
         <MobileNavbarAction onClick={toggleMenu} Icon={MenuIcon} isActive={isOpened} label='Menu' />
       </div>
       {isOpened && (
-        <MobileWrapper withHeader>
+        <MobileWrapper withHeader toggleMenu={toggleMenu}>
           <div onClick={toggleMenu} className={styles.navigationList}>
             {MENU_LINKS.map(({ linkTo, label, isExternal }) => {
               return isExternal ? (
