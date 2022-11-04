@@ -28,6 +28,7 @@
   {onVote}
   {editLabel}
   {titleHoverTooltipClass}
+  hasInfo={description}
 >
   <svelte:fragment slot="info">
     <div class="row mrg-s mrg--b">
