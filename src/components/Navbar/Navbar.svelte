@@ -8,7 +8,6 @@
   import Products from 'webkit/ui/Products/svelte'
   import AccountStatus, { AccountStatusType } from 'webkit/ui/AccountStatus.svelte'
   import AccountDropdown from 'webkit/ui/AccountDropdown/index.svelte'
-  import HalloweenBtn from 'webkit/ui/Halloween/Button.svelte'
   import { ui } from '@/stores/ui/theme'
   import { history } from '@/redux'
 
@@ -53,10 +52,7 @@
 
   <div class="search fluid mrg-a mrg--l" bind:this={searchNode} />
 
-  <HalloweenBtn class="mrg-a mrg--l" />
-  <a
-    href="https://academy.santiment.net/"
-    class="btn-ghost {currentUser ? 'mrg-l' : 'mrg-a'} mrg--l">Academy</a>
+  <a href="https://academy.santiment.net/" class="btn-ghost mrg-a mrg--l">Academy</a>
   <a href="/pricing" class="btn-ghost mrg-l mrg--l" on:click={window.__onLinkClick}>Pricing</a>
 
   <div class="notifications mrg-s mrg--l" bind:this={notificationsNode} />

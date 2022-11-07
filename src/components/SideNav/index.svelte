@@ -1,7 +1,6 @@
 <script>
   import { onDestroy } from 'svelte'
   import Svg from 'webkit/ui/Svg/svelte'
-  import Pumpkin from 'webkit/ui/Halloween/Pumpkin.svelte'
   import MinimizedCategories from './MinimizedCategories.svelte'
   import Recent from './Recent.svelte'
 
@@ -29,8 +28,7 @@
 <aside
   class:collapsed={isCollapsed}
   on:mouseenter={() => (isPeeked = true)}
-  on:mouseleave={() => (isPeeked = false)}
->
+  on:mouseleave={() => (isPeeked = false)}>
   <div class="content">
     <MinimizedCategories {pathname} {isCollapsed} />
     <div class="container txt-m" class:no-scrollbar={isCollapsed}>
@@ -43,8 +41,7 @@
           href="/dashboards"
           class="btn mrg-s mrg--t"
           class:active={pathname.startsWith('/dashboards')}
-          on:click={window.__onLinkClick}
-        >
+          on:click={window.__onLinkClick}>
           <Svg id="report" w="16" class="mrg-m mrg--r" />
           Dashboards
         </a>
@@ -55,8 +52,7 @@
             class="btn mrg-xs mrg--t"
             class:active={pathname === href}
             on:click={!target ? window.__onLinkClick : undefined}
-            {target}
-          >
+            {target}>
             <Svg id={icon} w="16" class="mrg-m mrg--r" />
 
             <span>{label}</span>
@@ -70,10 +66,6 @@
         <Recent {pathname} {isPeeked} />
       </div>
     </div>
-  </div>
-
-  <div class="pumpkin">
-    <Pumpkin showOn="explorer" />
   </div>
 </aside>
 
@@ -165,12 +157,5 @@
     :global(header) {
       margin-left: -40px;
     }
-  }
-
-  .pumpkin {
-    position: fixed;
-    bottom: 25px;
-    left: 25px;
-    z-index: 100;
   }
 </style>
