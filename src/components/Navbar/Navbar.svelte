@@ -35,7 +35,7 @@
 </script>
 
 <header class="row v-center relative">
-  <Product title="Sanbase" class="mrg-l mrg--r" isHalloween />
+  <Product title="Sanbase" class="mrg-l mrg--r" />
   <Products
     active="sanbase"
     isCompact
