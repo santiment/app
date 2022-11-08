@@ -147,7 +147,7 @@ const SearchMobilePage = ({ history }) => {
               <h3 className={cx(styles.caption, 'mrg--b mrg-xl')}>Recently searched</h3>
             )}
             <div className={styles.scrollable}>
-              {term.length > 0 ? (
+              {term && term.length > 0 ? (
                 <>
                   {result && result.length > 0 && result.map((keys) => (
                       <SearchResultRow
