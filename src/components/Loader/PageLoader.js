@@ -2,36 +2,6 @@ import React from 'react'
 import cx from 'classnames'
 import styles from './PageLoader.module.scss'
 
-export const Logo = ({ size = 56 }) => (
-  <svg width={size} height={size} viewBox='0 0 32 32' fill='none'>
-    <path fill='#15181F' d='M32 16a16 16 0 11-32 0 16 16 0 0132 0z' />
-    <path
-      fill='#E7EAF3'
-      d='M8.23 16a1.7 1.7 0 01-1.71 1.69A1.7 1.7 0 014.8 16c0-.93.77-1.69 1.72-1.69.94 0 1.71.76 1.71 1.69zM25.48 17.69A1.7 1.7 0 0027.2 16a1.7 1.7 0 00-1.72-1.69A1.7 1.7 0 0023.77 16c0 .93.77 1.69 1.71 1.69zM19.43 9.61a6.5 6.5 0 00-4.4-.67c-1.38.32-2.57 1.26-2.8 2.84-.18 1.3.22 2.33.9 3.14a9.31 9.31 0 002.27 1.77c.81.5 1.48.9 1.97 1.38.46.44.7.9.7 1.5 0 .69-.2 1.04-.43 1.24-.24.22-.63.38-1.19.42a5.43 5.43 0 01-3.3-.97l-1.21 1.56a7.42 7.42 0 004.65 1.37 3.92 3.92 0 002.4-.94 3.48 3.48 0 001.07-2.68c0-1.26-.55-2.19-1.28-2.9-.7-.67-1.6-1.2-2.32-1.65a7.52 7.52 0 01-1.8-1.36c-.35-.42-.55-.9-.45-1.61.08-.59.5-1.02 1.28-1.2a4.5 4.5 0 013 .5l.94-1.74z'
-    />
-    <path
-      fill='#505573'
-      d='M16 30.83a14.83 14.83 0 100-29.66 14.83 14.83 0 000 29.66zM32 16a16 16 0 11-32 0 16 16 0 0132 0z'
-    />
-  </svg>
-)
-
-export const Bat = ({ withAnimation = true }) => (
-  <svg
-    width='100'
-    height='90'
-    viewBox='0 0 100 90'
-    fill='none'
-    xmlns='http://www.w3.org/2000/svg'
-    className={cx(withAnimation && styles.loader__img, styles.bat)}
-  >
-    <path
-      d='M77.5689 0C77.5689 16.056 73.9102 31.3023 63.8471 36.9996V9.37642L50 20.6986L36.1529 9.37642V36.9996C26.0898 31.3026 22.4311 16.0573 22.4311 0C11.0105 0 0 23.2922 0 49.8877C0 62.6636 3.92504 74.2023 7.41271 82.8162C11.8373 74.3659 18.4196 65.4085 25.8772 65.4085C39.2001 65.4085 50 68.8124 50 90C50 68.8124 60.7999 65.4085 74.1228 65.4085C81.5804 65.4085 88.1627 74.3659 92.5873 82.8162C96.075 74.1936 100 62.6647 100 49.8877C100 23.2908 88.9895 0 77.5689 0Z'
-      fill='#343A52'
-    />
-  </svg>
-)
-
 export const LoaderImage = ({ withAnimation = true, size = 44 }) => (
   <svg
     width={size}
@@ -55,10 +25,7 @@ export const LoaderImage = ({ withAnimation = true, size = 44 }) => (
 const PageLoader = ({ className, text = 'Loading', containerClass = 'page' }) => (
   <div className={containerClass}>
     <div className={cx(styles.loader, className)}>
-      <div className='relative'>
-        <Bat />
-        <Logo />
-      </div>
+      <LoaderImage />
       <span className={styles.text}>{text}...</span>
     </div>
   </div>
