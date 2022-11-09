@@ -68,7 +68,7 @@ const SearchMobilePage = ({ history }) => {
   function processResult(data) {
     let result = data[activeTab.responseKey]
     if (selectedTab === TABS[1].index) {
-      result = result[0].topWords
+      result = result.length > 0 ? result[0].topWords : []
     }
     let processedResult = []
     const normalizedTerm = term.toLowerCase()
