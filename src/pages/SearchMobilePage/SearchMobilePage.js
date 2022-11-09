@@ -143,13 +143,13 @@ const SearchMobilePage = ({ history }) => {
           <PageLoader className={styles.loader} />
         ) : (
           <>
-            {result && result.length < 1 && items.length > 0 && (
+            {!term && items.length > 0 && (
               <h3 className={cx(styles.caption, 'mrg--b mrg-xl')}>Recently searched</h3>
             )}
             <div className={styles.scrollable}>
-              {term && term.length > 0 ? (
+              {term && term.length > 0 && result ? (
                 <>
-                  {result && result.length > 0 && result.map((keys) => (
+                  {result.length > 0 && result.map((keys) => (
                       <SearchResultRow
                         key={keys.id}
                         activeTab={activeTab}
@@ -158,7 +158,7 @@ const SearchMobilePage = ({ history }) => {
                         onClick={() => addTabItem(keys)}
                       />
                   ))}
-                  {!result && <NotFound />}
+                  {result.length === 0 && <NotFound />}
                 </>
               ) : (
                 items.map((keys, index) => (
