@@ -77,8 +77,15 @@ const Studio = ({
   const [modRange, setModRange] = useState()
   const [modDate, setModDate] = useState(getToday)
   const [isLoginCTAOpened, setIsLoginCTAOpened] = useState(false)
+  const { from, to } = (props.parsedUrl || {}).settings || {}
 
   useMemo(() => (address || slug) && settingsStore.setProject({ slug, address }), [slug, address])
+
+  useMemo(() => {
+    if (from && to) {
+      settingsStore.setPeriod(new Date(from), new Date(to))
+    }
+  }, [])
 
   const onChartPointClick = (point, e) => setModDate(new Date(point.value))
 
