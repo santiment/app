@@ -65,9 +65,9 @@ export const RECENT_TRANSACTIONS_QUERY = gql`
 export const TOP_TRANSACTIONS_QUERY = gql`
   query topTransfers(
     $addressSelector: AddressSelector
-    $from: DateTime
+    $from: DateTime!
     $to: DateTime = "utc_now"
-    $slug: String
+    $slug: String!
     $page: Int
     $pageSize: Int = 20
   ) {
