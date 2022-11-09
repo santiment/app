@@ -16,17 +16,11 @@ const useTickerRank = (projects) =>
     return TickerRank
   }, [projects])
 
-const Option = ({ option, style, selectValue }) => {
+const Option = (option) => {
   const { address, name, symbol } = option
 
   return (
-    <Button
-      key={address + name + symbol}
-      variant='ghost'
-      className={styles.currency}
-      style={style}
-      onClick={() => selectValue(option)}
-    >
+    <Button key={address + name + symbol} variant='ghost' className={styles.currency}>
       {name} ({symbol})
     </Button>
   )
@@ -52,6 +46,10 @@ const CurrencyTransfers = ({ address, currency, setCurrency }) => {
     const sorted = rawCurrencies
       .slice()
       .sort(({ symbol: a }, { symbol: b }) => (TickerRank[a] || 99999) - (TickerRank[b] || 99999))
+      .map((value) => ({
+        ...value,
+        label: value.address,
+      }))
 
     setCurrency(sorted[0])
     return sorted
@@ -70,7 +68,7 @@ const CurrencyTransfers = ({ address, currency, setCurrency }) => {
       <Select
         options={currencies}
         value={currency}
-        optionRenderer={Option}
+        formatOptionLabel={Option}
         className={styles.currencies__select}
         onChange={setCurrency}
         valueComponent={Value}

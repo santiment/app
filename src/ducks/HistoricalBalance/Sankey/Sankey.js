@@ -11,7 +11,7 @@ const SankeyGraph = ({ id, address, currency, inbound, outbound, detail }) => {
     if (!currency) return
 
     querySankey({
-      address,
+      address: address.toLowerCase(),
       inbound,
       outbound,
       detail,
