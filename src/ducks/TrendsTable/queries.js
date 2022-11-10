@@ -57,5 +57,4 @@ export const WORDS_SOCIAL_DOMINANCE_QUERY = gql`
   }
 `
 
-export const LAST_DAY_SOCIAL_VOLUME_QUERY = newSocialVolumeQuery('utc_now-1d')
 export const SOCIAL_VOLUME_QUERY = newSocialVolumeQuery('utc_now-7d', '8h')

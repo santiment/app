@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import { Skeleton } from '../../components/Skeleton'
 import MiniChart from '../../components/MiniChart'
 import { WordCloud } from '../../components/WordCloud/WordCloud'
-import { getAverageSocialDominance, getAverageSocialVolume } from './utils'
-import { useTrendSocialDominance, useTrendSocialVolume, useTrendWordContext } from './hooks'
+import { getAverageSocialVolume } from './utils'
+import { useTrendSocialVolume, useTrendWordContext } from './hooks'
 import { INDEX_COLUMN } from '../_Table/columns'
 import { prepareColumns } from '../_Table'
 import styles from './columns.module.scss'
@@ -32,18 +32,12 @@ const SocialVolumeChart = ({ trend, words, isDesktop }) => {
 
 const AverageSocialVolume = ({ trend, words }) => {
   const { data: volume, isLoading: isLoadingVolume } = useTrendSocialVolume(words, trend)
-  const { data: dominance, isLoading: isLoadingDominance } = useTrendSocialDominance(words, trend)
 
-  if (isLoadingVolume || isLoadingDominance) return <Loader />
+  if (isLoadingVolume) return <Loader />
 
   const socialVolume = getAverageSocialVolume(volume)
-  const socialDominance = getAverageSocialDominance(dominance)
 
-  return (
-    <p>
-      {socialVolume} | {socialDominance}%
-    </p>
-  )
+  return <p className='txt-center'>{socialVolume}</p>
 }
 
 const ConnectedWords = memo(({ trend, words }) => {

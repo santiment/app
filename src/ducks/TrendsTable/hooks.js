@@ -1,13 +1,6 @@
 import { useMemo } from 'react'
 import { useQuery } from '@apollo/react-hooks'
-import {
-  TRENDING_WORDS_QUERY,
-  TRENDING_WORDS_CONTEXT_QUERY,
-  SOCIAL_VOLUME_QUERY,
-  LAST_DAY_SOCIAL_VOLUME_QUERY,
-  WORDS_SOCIAL_DOMINANCE_QUERY,
-} from './queries'
-import { calcPercentageChange } from '../../utils/utils'
+import { TRENDING_WORDS_QUERY, TRENDING_WORDS_CONTEXT_QUERY, SOCIAL_VOLUME_QUERY } from './queries'
 
 const ARRAY = []
 const LOADING = {
@@ -39,7 +32,7 @@ export function useTrendingWords(variables) {
   }, [data])
 }
 
-function useTrendWordsData(query, words) {
+export function useTrendWordsData(query, words) {
   const { data } = useQuery(query, {
     variables: {
       words,
@@ -63,21 +56,6 @@ function useTrendWordsData(query, words) {
   }, [data])
 }
 
-export function useTrendSocialVolumeChange(words, trend) {
-  const data = useTrendWordsData(LAST_DAY_SOCIAL_VOLUME_QUERY, words)
-
-  return useMemo(() => {
-    if (!data) return {}
-
-    const [{ value: oldValue }, { value: newValue }] = data[trend.word]
-
-    return {
-      value: Math.round(newValue),
-      change: calcPercentageChange(oldValue, newValue),
-    }
-  }, [data])
-}
-
 export function useTrendSocialVolume(words, trend) {
   const data = useTrendWordsData(SOCIAL_VOLUME_QUERY, words)
 
@@ -89,23 +67,6 @@ export function useTrendSocialVolume(words, trend) {
       isLoading: false,
     }
   }, [data])
-}
-
-export function useTrendSocialDominance(words, trend) {
-  const { data: trendContext, isLoading: isLoadingTrendContext } = useTrendWordContext(words, trend)
-  const trendWords = trendContext.map(({ word }) => word)
-  const data = useTrendWordsData(WORDS_SOCIAL_DOMINANCE_QUERY, trendWords)
-
-  return useMemo(() => {
-    if (!data || isLoadingTrendContext) return LOADING
-
-    const socialDominance = Object.keys(data).map((word) => ({ word, value: data[word] }))
-
-    return {
-      data: socialDominance,
-      isLoading: false,
-    }
-  }, [data, isLoadingTrendContext])
 }
 
 export function useTrendWordContext(words, trend) {
