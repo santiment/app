@@ -155,6 +155,10 @@
     align-items: flex-end;
     bottom: 0;
     background: linear-gradient(360deg, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+
+    :global(.night-mode) & {
+      background-color: linear-gradient(360deg, black 0%, rgba(0, 0, 0, 0) 100%);
+    }
   }
 
   .btn-2 {
