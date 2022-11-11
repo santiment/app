@@ -8,7 +8,7 @@ const TopTrends = () => {
 
   return (
     <div className={styles.wrapper}>
-      <TopBar setTrendPeriod={setTrendPeriod} />
+      <TopBar setTrendPeriod={setTrendPeriod} period={period} />
       <TrendsTable period={period} />
     </div>
   )

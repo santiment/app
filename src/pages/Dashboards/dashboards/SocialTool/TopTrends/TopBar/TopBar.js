@@ -6,8 +6,8 @@ import Share from '../../../shared/Share/Share'
 import { useSocialDominanceTrendingWords } from '../../hooks'
 import styles from './TopBar.module.scss'
 
-const TopBar = ({ setTrendPeriod }) => {
-  const { data } = useSocialDominanceTrendingWords()
+const TopBar = ({ setTrendPeriod, period }) => {
+  const { data } = useSocialDominanceTrendingWords(period)
 
   return (
     <div className={cx(styles.topBar, 'row v-center justify')}>

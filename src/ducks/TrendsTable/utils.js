@@ -1,11 +1,15 @@
+function calcSum(data) {
+  return data.reduce((acc, { value }) => acc + value, 0)
+}
+
 function calcAverage(data) {
-  return data.reduce((acc, { value }) => acc + value, 0) / data.length
+  return calcSum(data) / data.length
 }
 
 export function getAverageSocialVolume(data) {
   return Math.round(calcAverage(data))
 }
 
-export function getAverageSocialDominance(data) {
-  return calcAverage(data).toFixed(2)
+export function getSocialDominanceSum(data) {
+  return calcSum(data)
 }
