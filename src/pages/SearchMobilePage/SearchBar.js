@@ -18,7 +18,7 @@ const SearchBar = ({ onChange, placeholder = DEFAULT_TEXT }) => {
 
   return (
     <form
-      onSubmit={handleChange}
+      onSubmit={event => event.preventDefault()}
       className={cx(styles.wrapper, 'relative fluid flex v-center mrg-xl mrg--l')}
       onFocus={() => setTerm('')}
     >

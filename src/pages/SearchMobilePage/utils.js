@@ -47,5 +47,5 @@ export function useTabOptions(selectedTab, term) {
       default:
         throw new Error('Invalid selectedTab')
     }
-  }, [selectedTab])
+  }, [selectedTab, term])
 }
