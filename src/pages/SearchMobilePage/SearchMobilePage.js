@@ -127,7 +127,7 @@ const SearchMobilePage = ({ history }) => {
           title: styles.hidden,
         }}
       >
-        <SearchBar onChange={setTerm} loading={loading} />
+        <SearchBar onChange={setTerm} />
       </MobileHeader>
       <Tabs
         options={TABS}
