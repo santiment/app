@@ -9,7 +9,7 @@ const DEFAULT_TEXT = 'Search for assets, trends...'
 const SearchBar = ({ onChange, placeholder = DEFAULT_TEXT }) => {
   const [term, setTerm] = useState('')
 
-  useDebounceEffect(() => onChange(term), 300, [term])
+  useDebounceEffect(() => onChange(term.trim()), 300, [term])
 
   function handleChange(event) {
     event.preventDefault()

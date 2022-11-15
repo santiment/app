@@ -31,7 +31,7 @@
 
 .container {
   display: flex;
-  min-height: 100%;
+  min-height: 100vh;
 
   @include responsive('phone', 'phone-xs') {
     flex-direction: column;
@@ -45,6 +45,9 @@
   display: flex;
   flex-direction: column;
   width: 195px;
+  position: sticky;
+  top: 24px;
+  align-self: flex-start;
 
   @include responsive('phone', 'phone-xs') {
     width: 100%;
