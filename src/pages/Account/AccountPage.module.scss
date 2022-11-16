@@ -23,13 +23,19 @@
   padding-top: 20px;
   flex-wrap: wrap;
   margin-bottom: 25px;
-  row-gap: 20px;
-  column-gap: 32px;
-  z-index: 1;
   background-color: var(--white);
+  z-index: 25;
 
   @include responsive('phone', 'phone-xs') {
-    padding: 0 20px;
+    position: fixed;
+    display: inline-flex !important;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    top: 70px;
+    padding: 24px 20px 0;
+    margin-bottom: 32px;
+    overflow: auto;
+    white-space: nowrap;
   }
 
   & div {
@@ -44,8 +50,16 @@
 }
 
 .tabWrapper {
-  margin: 0;
-  padding: 0 0 15px !important;
+  padding: 0 4px 8px !important;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 0 32px 0 0 !important;
+    padding: 0 4px 9px 4px !important;
+
+    &::after {
+      bottom: 0;
+    }
+  }
 }
 
 .tab {
@@ -57,6 +71,11 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  scroll-margin-top: 60px;
+
+  @include responsive('phone', 'phone-xs') {
+    scroll-margin-top: 140px;
+  }
 
   &__header {
     background: var(--athens);
@@ -413,7 +432,7 @@
 
 .container {
   @include responsive('phone', 'phone-xs') {
-    margin: 0 16px;
+    margin: 72px 16px 0;
   }
 }
 
