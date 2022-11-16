@@ -93,6 +93,13 @@ export const EntityType = {
 
 export const FILTERABLE_TABS = Object.values(EntityType).filter((entity) => entity.filterable)
 
+export const FeatureEvent = {
+  [EntityType.CHART.key]: 'chart_layouts',
+  [EntityType.INSIGHT.key]: 'insights',
+  [EntityType.WATCHLIST.key]: 'watchlists',
+  [EntityType.SCREENER.key]: 'screeners',
+}
+
 export const RANGES = {
   'Last 12h': '12h',
   'Last 24h': '1d',
