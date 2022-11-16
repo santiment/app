@@ -31,6 +31,7 @@ const SignupDescription = ({ loading, loginEmail, setEmail, className }) => (
     <OrUseDivider />
 
     <EmailForm
+      signUp
       loading={loading}
       loginEmail={loginEmail}
       setEmail={setEmail}
@@ -71,7 +72,7 @@ const CreateAccountFreeTrial = (props) => {
     return <Redirect to='/' />
   }
 
-  let child = <LoginEmailForm prepareState={PrepareState} {...props} />
+  let child = <LoginEmailForm signUp prepareState={PrepareState} {...props} />
 
   return props.isDesktop ? (
     <div className={cx('page', styles.wrapper)}>

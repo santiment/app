@@ -41,7 +41,7 @@ export const DialogSignUp = ({ defaultRoute, trigger }) => {
           <LoginEmailForm isDesktop showBack={false} />
         </Case>
         <Case of='/sign-up'>
-          <LoginEmailForm isDesktop prepareState={PrepareState} showBack={false} />
+          <LoginEmailForm signUp isDesktop prepareState={PrepareState} showBack={false} />
         </Case>
       </Switch>
     </Modal>
