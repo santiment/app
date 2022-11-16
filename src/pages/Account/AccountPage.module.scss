@@ -74,6 +74,11 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  scroll-margin-top: 60px;
+
+  @include responsive('phone', 'phone-xs') {
+    scroll-margin-top: 140px;
+  }
 
   &__header {
     background: var(--athens);
@@ -493,17 +498,4 @@
 
 .contentText {
   color: var(--fiord);
-}
-
-.virtualDiv {
-  position: absolute;
-  top: -60px;
-  height: 0;
-  border: 0;
-  opacity: 0;
-  outline: none;
-
-  @include responsive('phone', 'phone-xs') {
-    top: -140px;
-  }
 }
