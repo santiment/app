@@ -23,13 +23,22 @@
   padding-top: 20px;
   flex-wrap: wrap;
   margin-bottom: 25px;
-  row-gap: 20px;
-  column-gap: 32px;
-  z-index: 1;
   background-color: var(--white);
+  z-index: 25;
 
   @include responsive('phone', 'phone-xs') {
-    padding: 0 20px;
+    position: fixed;
+    display: inline-flex !important;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    top: 70px;
+    padding: 24px 20px 0;
+    margin-bottom: 32px;
+    overflow: auto;
+    white-space: nowrap;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   & div {
@@ -44,8 +53,16 @@
 }
 
 .tabWrapper {
-  margin: 0;
-  padding: 0 0 15px !important;
+  padding: 0 4px 8px !important;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 0 32px 0 0 !important;
+    padding: 0 4px 9px 4px !important;
+
+    &::after {
+      bottom: 0;
+    }
+  }
 }
 
 .tab {
@@ -413,7 +430,7 @@
 
 .container {
   @include responsive('phone', 'phone-xs') {
-    margin: 0 16px;
+    margin: 72px 16px 0;
   }
 }
 
@@ -476,4 +493,17 @@
 
 .contentText {
   color: var(--fiord);
+}
+
+.virtualDiv {
+  position: absolute;
+  top: -60px;
+  height: 0;
+  border: 0;
+  opacity: 0;
+  outline: none;
+
+  @include responsive('phone', 'phone-xs') {
+    top: -140px;
+  }
 }
