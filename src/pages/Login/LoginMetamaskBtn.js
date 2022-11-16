@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
-import { trackLogin, LoginType } from 'webkit/analytics/events/general'
+import { trackLoginStart, LoginType } from 'webkit/analytics/events/general'
 import { trackSignupStart } from 'webkit/analytics/events/onboarding'
 import Icon from '@santiment-network/ui/Icon'
 import { hasMetamask as detectMetamask } from '../../web3Helpers'
@@ -42,7 +42,7 @@ const LoginMetamaskBtn = ({
     if (signUp) {
       trackSignupStart(LoginType.METAMASK)
     } else {
-      trackLogin(LoginType.METAMASK)
+      trackLoginStart(LoginType.METAMASK)
     }
   }
 

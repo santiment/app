@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
-import { trackLogin, LoginType } from 'webkit/analytics/events/general'
+import { trackLoginStart, LoginType } from 'webkit/analytics/events/general'
 import { trackSignupStart } from 'webkit/analytics/events/onboarding'
 import styles from './index.module.scss'
 
@@ -14,7 +14,7 @@ const LogitTwitterBtn = ({ signUp, className }) => {
     if (signUp) {
       trackSignupStart(LoginType.TWITTER)
     } else {
-      trackLogin(LoginType.TWITTER)
+      trackLoginStart(LoginType.TWITTER)
     }
   }
 

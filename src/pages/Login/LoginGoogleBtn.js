@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import { trackLogin, LoginType } from 'webkit/analytics/events/general'
+import { trackLoginStart, LoginType } from 'webkit/analytics/events/general'
 import { trackSignupStart } from 'webkit/analytics/events/onboarding'
 import styles from './index.module.scss'
 
@@ -38,7 +38,7 @@ const LoginGoogleBtn = ({ signUp, className }) => {
     if (signUp) {
       trackSignupStart(LoginType.GOOGLE)
     } else {
-      trackLogin(LoginType.GOOGLE)
+      trackLoginStart(LoginType.GOOGLE)
     }
   }
 

@@ -4,6 +4,9 @@ import gql from 'graphql-tag'
 import { replace } from 'react-router-redux'
 import { track } from 'webkit/analytics'
 import { TwitterTrackActions, trackTwitterSignUpEvent } from 'webkit/analytics/twitter'
+import { getSaveLoginMethod } from 'webkit/analytics/events/utils'
+import { trackLoginFinish, LoginType } from 'webkit/analytics/events/general'
+import { trackSignupFinish } from 'webkit/analytics/events/onboarding'
 import { changeDigestSubscription, showNotification } from '../actions/rootActions'
 import * as actions from './../actions/types'
 import { savePrevAuthProvider } from '../utils/localStorage'
@@ -63,8 +66,14 @@ export const handleLoginSuccess = (action$) =>
         )
       GA.update(user)
 
+      const { method = LoginType.EMAIL } = getSaveLoginMethod() || {}
+      if (user.firstLogin) {
+        trackSignupFinish(method)
+      } else {
+        trackLoginFinish(method)
+      }
+
       if (user.firstLogin || (email && !loggedEmails.includes(email))) {
-        track.event('sign_up')
         trackTwitterSignUpEvent()
         track.event(TwitterTrackActions.signup, {
           content_category: 'contact form',

@@ -4,7 +4,7 @@ import { Mutation } from 'react-apollo'
 import cx from 'classnames'
 import { Form, Formik } from 'formik'
 import isEqual from 'lodash.isequal'
-import { trackLogin, LoginType } from 'webkit/analytics/events/general'
+import { trackLoginStart, LoginType } from 'webkit/analytics/events/general'
 import { trackSignupStart } from 'webkit/analytics/events/onboarding'
 import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import { PATHS } from '../../paths'
@@ -36,7 +36,7 @@ export const EmailForm = ({
         if (signUp) {
           trackSignupStart(LoginType.EMAIL)
         } else {
-          trackLogin(LoginType.EMAIL)
+          trackLoginStart(LoginType.EMAIL)
         }
 
         loginEmail({
