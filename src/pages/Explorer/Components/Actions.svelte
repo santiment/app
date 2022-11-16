@@ -2,11 +2,11 @@
   import { getContext } from 'svelte'
   import { copy } from 'webkit/utils'
   import { notifications$ } from 'webkit/ui/Notifications'
-  import { trackVote } from 'webkit/analytics/events/interaction'
   import {
-    trackExplorerItemComments,
-    trackExplorerItemCopyLink,
-  } from 'webkit/analytics/events/explorer'
+    trackVote,
+    trackShowComments,
+    trackShareLinkCopy,
+  } from 'webkit/analytics/events/interaction'
   import { VoteTypeFeature } from 'webkit/ui/LikeButton/index.svelte'
   import { vote, feature } from './api'
   import { showDeleteConfirmationDialog } from './DeleteConfirmationDialog.svelte'
@@ -41,10 +41,11 @@
 
   function onCopy(e) {
     e.preventDefault()
+    const url = getItemUrl(item, type)
     copyLabel = 'Copied!'
-    copy(getItemUrl(item, type), () => (copyLabel = 'Copy link'), 1500)
+    copy(url, () => (copyLabel = 'Copy link'), 1500)
 
-    trackExplorerItemCopyLink({ id, type: VoteTypeFeature[voteKey] })
+    trackShareLinkCopy({ url, source: 'explorer-' + VoteTypeFeature[voteKey] })
   }
 
   function onVote(e) {
@@ -67,7 +68,7 @@
   function onComment(e) {
     e.preventDefault()
 
-    trackExplorerItemComments({ id, type: VoteTypeFeature[voteKey] })
+    trackShowComments({ id, source: 'explorer-' + VoteTypeFeature[voteKey] })
 
     if (!$currentUser) {
       history.push('/login')

@@ -131,7 +131,7 @@ const ShareMedias = ({
             rel='noopener noreferrer'
             className={cx(styles.shareBtn, 'btn row hv-center')}
             onClick={() => {
-              trackShareFormSubmit({ url: encodedLink, media: id })
+              trackShareFormSubmit({ url: shareLink, media: id })
             }}
           >
             <Icon />
@@ -159,7 +159,7 @@ const ShareMedias = ({
               .replace(SECRET_TEXT_TAG, encodedText)
               .replace(SECRET_TITLE_TAG, encodedTitle)}
             onClick={() => {
-              trackShareFormSubmit({ url: encodedLink, media: icon })
+              trackShareFormSubmit({ url: shareLink, media: icon })
 
               if (isAlert) {
                 track.event(AlertsEvents.ClickCopyAlertLink)

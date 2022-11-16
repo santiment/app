@@ -32,13 +32,14 @@ class ShareCopyBtn extends PureComponent {
   }
 
   onCopyClick = () => {
-    trackShareLinkCopy(this.props.shareLink)
+    const { shareLink, source } = this.props
+    trackShareLinkCopy({ url: shareLink, source })
 
     if (this.props.isAlert) {
       track.event(AlertsEvents.ClickCopyAlertLink)
     }
 
-    copy(this.props.shareLink)
+    copy(shareLink)
     this.startNotification()
   }
 

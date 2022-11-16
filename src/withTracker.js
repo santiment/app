@@ -68,9 +68,9 @@ function getPageType(pathname) {
 
   if (pathname.startsWith('/screener/')) return PageType.SCREENER
 
-  if (pathname.startsWith('/labs/trends/explore/')) return 'social_tool'
-  if (pathname.startsWith('/labs/balance')) return 'historical_balance'
-  if (pathname.startsWith('/labs')) return 'labs'
+  if (pathname.startsWith('/labs/trends/explore/')) return PageType.SOCIAL_TOOL
+  if (pathname.startsWith('/labs/balance')) return PageType.HISTORICAL_BALANCE
+  if (pathname.startsWith('/labs')) return PageType.LABS
 
   if (pathname.startsWith('/insights')) return PageType.INSIGHTS
 }

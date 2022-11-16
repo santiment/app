@@ -19,7 +19,7 @@ import WeeklyReport from '../../Actions/WeeklyReport'
 import Filter from '../Filter'
 import { usePublicUserData } from '../../../../pages/profile/ProfilePage'
 import { useUser } from '../../../../stores/user'
-import { BLOCKCHAIN_ADDRESS, PROJECT, SCREENER } from '../../detector'
+import { BLOCKCHAIN_ADDRESS, getTitleByWatchlistType, PROJECT, SCREENER } from '../../detector'
 import { useIsAuthor } from '../../gql/list/hooks'
 import { onAnonComment, onCommentError } from '../../../../pages/Studio/utils'
 import { useUpdateWatchlist } from '../../gql/list/mutations'
@@ -125,6 +125,7 @@ const TopBar = ({
           type={
             type === BLOCKCHAIN_ADDRESS ? CreationType.AddressWatchlist : CreationType.Watchlist
           }
+          source={getTitleByWatchlistType(type)}
           title={title}
           user={data}
           editLabel={isCurrentUser ? 'Edit' : 'Save as'}

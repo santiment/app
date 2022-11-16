@@ -31,7 +31,7 @@ const TopBar = ({ setTrendPeriod, period }) => {
       <div className='row'>
         <Calendar setTrendPeriod={setTrendPeriod} />
         <div className={cx(styles.divider, 'mrg-l mrg--l mrg--r')} />
-        <Share id='top_trends_table_share_link' />
+        <Share id='top_trends_table_share_link' source='dashboards' />
       </div>
     </div>
   )
