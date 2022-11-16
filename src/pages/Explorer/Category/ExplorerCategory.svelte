@@ -1,5 +1,6 @@
 <script>
   import { setContext, onMount, onDestroy } from 'svelte'
+  import { trackExplorerShowMore } from 'webkit/analytics/events/explorer'
   import Category from './Category.svelte'
   import LayoutItem from '../Layouts/LayoutItem.svelte'
   import EmptyState from '../Components/EmptyState.svelte'
@@ -190,9 +191,9 @@
   onMore={() => {
     page += 1
     insightsPage += 1
+    trackExplorerShowMore({ page, size: 20 })
   }}
-  hasMore={page < pages}
->
+  hasMore={page < pages}>
   <div slot="header" class="controls row mrg-a mrg--l">
     <TypeSelector
       flat
@@ -201,8 +202,7 @@
         page = 1
         insightsPage = 1
       }}
-      {displayingTypes}
-    />
+      {displayingTypes} />
   </div>
 
   <svelte:fragment let:item>
@@ -212,15 +212,13 @@
         showActions
         type="CHART"
         hasIcons
-        assets={getAssets(item.chartConfiguration)}
-      />
+        assets={getAssets(item.chartConfiguration)} />
     {:else if item.screener}
       <LayoutItem
         item={item.screener}
         showActions
         type="SCREENER"
-        id="{item.screener.id}-watchlist"
-      />
+        id="{item.screener.id}-watchlist" />
     {:else if item.projectWatchlist}
       <LayoutItem item={item.projectWatchlist} showActions type="WATCHLIST" />
     {:else if item.addressWatchlist}
@@ -228,8 +226,7 @@
         item={item.addressWatchlist}
         showActions
         type="ADDRESS"
-        assets={getAddressLabels(item.addressWatchlist.listItems)}
-      />
+        assets={getAddressLabels(item.addressWatchlist.listItems)} />
     {:else if item.insight}
       <LayoutItem item={item.insight} showActions type="INSIGHT" />
     {:else if item.userTrigger}
