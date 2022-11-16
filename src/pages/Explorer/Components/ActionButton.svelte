@@ -1,7 +1,7 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
   import Tooltip from 'webkit/ui/Tooltip/svelte'
-  import LikeButton from 'webkit/ui/LikeButton'
+  import LikeButton from 'webkit/ui/LikeButton/LikeButton.svelte'
 
   export let svgid
   export let counter
@@ -20,23 +20,20 @@
   position="top"
   align="center"
   activeClass={hasbackground ? '$style.active' : '$style.passive'}
-  openDelay={200}
->
+  openDelay={200}>
   <div
     class="actionbutton row hv-center"
     class:padding={!isLike}
     class:forceActive
     slot="trigger"
-    on:click={isLike ? undefined : onClick}
-  >
+    on:click={isLike ? undefined : onClick}>
     {#if isLike}
       <LikeButton
         totalVotes={counter}
         {userVotes}
         onVote={onClick}
         hasBorder={false}
-        class="$style.like"
-      />
+        class="$style.like" />
     {:else}
       <Svg id={svgid} w={width} class="$style.svg" />
       {#if counter >= 0}
