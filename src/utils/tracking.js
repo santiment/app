@@ -1,5 +1,5 @@
 import { initTwitterPixel } from 'webkit/analytics/twitter'
-import { initAmplitude } from 'webkit/analytics/amplitude'
+import { initAmplitude, updateAmplitude } from 'webkit/analytics/amplitude'
 
 const TRACKER_IDs = ['UA-100571693-1', 'UA-100571693-2']
 const APP_NAME = 'Sanbase'
@@ -70,6 +70,7 @@ export const update =
           nightmode: (user.settings || {}).theme,
           app_version: process.env.REACT_APP_VERSION,
         })
+        updateAmplitude(user.id, user.username, user.email)
       }
     : () => {}
 
