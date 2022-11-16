@@ -17,9 +17,10 @@ const SharePanel = ({
   isAlert,
   isMobile,
   source,
+  feature,
 }) => {
   useEffect(() => {
-    trackShareFormOpen(source)
+    trackShareFormOpen({ source, feature })
   }, [])
 
   return (
@@ -27,7 +28,7 @@ const SharePanel = ({
       <div className={styles.content}>
         {children}
         {isMobile ? (
-          <CopyLink link={shareLink} source={source} />
+          <CopyLink link={shareLink} source={source} feature={feature} />
         ) : (
           <div className={styles.link}>
             <Input
@@ -38,6 +39,7 @@ const SharePanel = ({
             />
             <ShareCopyBtn
               source='share-form'
+              feature={feature}
               shareLink={shareLink}
               disabled={isDisabled}
               isAlert={isAlert}

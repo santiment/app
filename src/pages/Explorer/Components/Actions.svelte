@@ -45,7 +45,7 @@
     copyLabel = 'Copied!'
     copy(url, () => (copyLabel = 'Copy link'), 1500)
 
-    trackShareLinkCopy({ url, source: 'explorer-' + VoteTypeFeature[voteKey] })
+    trackShareLinkCopy({ url, feature: VoteTypeFeature[voteKey], source: 'explorer' })
   }
 
   function onVote(e) {
@@ -68,7 +68,7 @@
   function onComment(e) {
     e.preventDefault()
 
-    trackShowComments({ id, source: 'explorer-' + VoteTypeFeature[voteKey] })
+    trackShowComments({ id, feature: VoteTypeFeature[voteKey], source: 'explorer' })
 
     if (!$currentUser) {
       history.push('/login')

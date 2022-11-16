@@ -6,7 +6,7 @@ import { trackShareLinkCopy } from 'webkit/analytics/events/interaction'
 import ShareModalTrigger from '../../../../../components/Share/ShareModalTrigger'
 import styles from './Share.module.scss'
 
-const Share = ({ id, source }) => {
+const Share = ({ id, feature, source }) => {
   const clearTimerRef = useRef()
   const [isShareOpened, setIsShareOpened] = useState(false)
 
@@ -19,7 +19,7 @@ const Share = ({ id, source }) => {
   function onCopyLinkClick(event) {
     if (clearTimerRef.current) clearTimerRef.current()
 
-    trackShareLinkCopy({ url: window.location.href, source })
+    trackShareLinkCopy({ url: window.location.href, feature, source })
 
     const clb = () => event.currentTarget && (event.currentTarget.ariaLabel = 'Copy link')
 
@@ -45,7 +45,8 @@ const Share = ({ id, source }) => {
 
       <ShareModalTrigger
         isDialogOnly
-        source='dashboard'
+        feature='dashboard'
+        source='dashboards'
         classes={styles}
         shareLink={window.location.href}
         open={isShareOpened}

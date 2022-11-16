@@ -39,6 +39,7 @@ const ShareSignal = ({
     <div className={cx(styles.sharePanelBtn, className)}>
       <ShareModalTrigger
         source='alerts'
+        feature='alert'
         isAlert={isAlert}
         isDialogOnly={isDialogOnly}
         trigger={trigger}

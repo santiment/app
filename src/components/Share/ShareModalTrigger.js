@@ -24,7 +24,7 @@ const ShareModalTrigger = ({
     <Trigger
       {...props}
       onClick={() => {
-        trackShareFormOpen(props.source)
+        trackShareFormOpen({ source: props.source, feature: props.feature })
         window.navigator.share({
           title: shareTitle,
           text: shareText,
@@ -43,6 +43,7 @@ const ShareModalTrigger = ({
     >
       <SharePanel
         source={props.source}
+        feature={props.feature}
         isMobile={isMobile}
         isAlert={isAlert}
         children={children}

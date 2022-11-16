@@ -49,7 +49,7 @@ const Header = ({ studio, settings, widgets, metrics, prevFullUrlRef }) => {
     if (clearTimerRef.current) clearTimerRef.current()
 
     getShortShareLink(prevFullUrlRef.current).then((url) => {
-      trackShareLinkCopy({ url, source: 'charts' })
+      trackShareLinkCopy({ url, feature: 'chart_layout', source: 'charts' })
 
       const node = document.querySelector('.copy .link')
       const clb = () => node && (node.ariaLabel = 'Copy link')
@@ -66,6 +66,7 @@ const Header = ({ studio, settings, widgets, metrics, prevFullUrlRef }) => {
         calendarTarget,
       )}
       <ShareModalTrigger
+        feature='chart_layout'
         source='charts'
         isDialogOnly
         classes={styles}
