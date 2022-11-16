@@ -4,7 +4,8 @@ import { Mutation } from 'react-apollo'
 import cx from 'classnames'
 import { Form, Formik } from 'formik'
 import isEqual from 'lodash.isequal'
-import { useTrackEvents } from '../../hooks/tracking'
+import { trackLoginStart, LoginType } from 'webkit/analytics/events/general'
+import { trackSignupStart } from 'webkit/analytics/events/onboarding'
 import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import { PATHS } from '../../paths'
 import { store } from '../../redux'
@@ -21,9 +22,9 @@ export const EmailForm = ({
   setEmail,
   placeholder = 'Your email',
   label = 'Sign up',
+  signUp,
   className,
 }) => {
-  const [trackEvent] = useTrackEvents()
   return (
     <Formik
       initialValues={{
@@ -32,10 +33,11 @@ export const EmailForm = ({
       onSubmit={({ email }) => {
         setEmail && setEmail(email)
 
-        trackEvent({
-          category: 'User',
-          action: 'Choose an email provider',
-        })
+        if (signUp) {
+          trackSignupStart(LoginType.EMAIL)
+        } else {
+          trackLoginStart(LoginType.EMAIL)
+        }
 
         loginEmail({
           variables: {

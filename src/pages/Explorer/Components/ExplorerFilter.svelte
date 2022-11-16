@@ -1,9 +1,17 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
+  import { trackExplorerFiltersUse } from 'webkit/analytics/events/explorer'
   import { MenuItem } from '../const'
 
   export let loading = false
   export let activeMenu
+
+  function onFilterClick(filter) {
+    if (loading) return
+
+    activeMenu = filter
+    trackExplorerFiltersUse(filter)
+  }
 </script>
 
 <div class="wrapper row hv-center mrg--b mrg-xl">
@@ -11,8 +19,7 @@
     class="btn-2 row v-center"
     class:active={activeMenu === MenuItem.TRENDING}
     class:loading={activeMenu === MenuItem.TRENDING && loading}
-    on:click={() => !loading && (activeMenu = MenuItem.TRENDING)}
-  >
+    on:click={() => onFilterClick(MenuItem.TRENDING)}>
     <Svg id="fire" w="16" class="mrg--r" />
     Trending
   </div>
@@ -20,8 +27,7 @@
     class="btn-2 row v-center"
     class:active={activeMenu === MenuItem.NEW}
     class:loading={activeMenu === MenuItem.NEW && loading}
-    on:click={() => !loading && (activeMenu = MenuItem.NEW)}
-  >
+    on:click={() => onFilterClick(MenuItem.NEW)}>
     <Svg id="time" w="16" class="mrg--r" />
     New
   </div>
@@ -29,8 +35,7 @@
     class="btn-2 row v-center"
     class:active={activeMenu === MenuItem.SANTIMENT}
     class:loading={activeMenu === MenuItem.SANTIMENT && loading}
-    on:click={() => !loading && (activeMenu = MenuItem.SANTIMENT)}
-  >
+    on:click={() => onFilterClick(MenuItem.SANTIMENT)}>
     <Svg id="santiment" w="16" class="mrg--r" />
     By Santiment
   </div>
@@ -38,8 +43,7 @@
     class="btn-2 row v-center"
     class:active={activeMenu === MenuItem.MY_CREATIONS}
     class:loading={activeMenu === MenuItem.MY_CREATIONS && loading}
-    on:click={() => !loading && (activeMenu = MenuItem.MY_CREATIONS)}
-  >
+    on:click={() => onFilterClick(MenuItem.MY_CREATIONS)}>
     <Svg id="user" w="16" class="mrg--r" />
     My creations
   </div>
@@ -47,8 +51,7 @@
     class="btn-2 row v-center"
     class:active={activeMenu === MenuItem.LIKES}
     class:loading={activeMenu === MenuItem.LIKES && loading}
-    on:click={() => !loading && (activeMenu = MenuItem.LIKES)}
-  >
+    on:click={() => onFilterClick(MenuItem.LIKES)}>
     <Svg id="rocket" w="16" class="mrg--r" />
     My likes
   </div>

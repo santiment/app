@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom'
 import { copy } from 'webkit/utils'
 import { studio as settingsStore } from 'studio/stores/studio'
+import { trackShareLinkCopy } from 'webkit/analytics/events/interaction'
 import { useHistory } from './stores'
 import { useShortShareLink } from '../../components/Share/hooks'
 import Calendar from '../../ducks/Studio/Header/Calendar'
@@ -48,6 +49,8 @@ const Header = ({ studio, settings, widgets, metrics, prevFullUrlRef }) => {
     if (clearTimerRef.current) clearTimerRef.current()
 
     getShortShareLink(prevFullUrlRef.current).then((url) => {
+      trackShareLinkCopy({ url, feature: 'chart_layout', source: 'charts' })
+
       const node = document.querySelector('.copy .link')
       const clb = () => node && (node.ariaLabel = 'Copy link')
 
@@ -63,6 +66,8 @@ const Header = ({ studio, settings, widgets, metrics, prevFullUrlRef }) => {
         calendarTarget,
       )}
       <ShareModalTrigger
+        feature='chart_layout'
+        source='charts'
         isDialogOnly
         classes={styles}
         shareLink={shortShareLink}

@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import throttle from 'lodash.throttle'
 import { useQuery } from '@apollo/react-hooks'
-import { track } from 'webkit/analytics'
 import { useEventListener } from '../../hooks/eventListeners'
 import { METRIC_BOUNDARIES_QUERY } from './queries'
 import { DASHBOARDS } from './constants'
@@ -55,7 +54,6 @@ export const useNav = ({ match, location, history }) => {
 
       if (url !== currentPathname) {
         history.push(url)
-        track.pageview('sanbase')
       }
 
       const subItems = activeItem.subItems

@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Dialog from '@santiment-network/ui/Dialog'
+import { trackShareFormOpen } from 'webkit/analytics/events/interaction'
 import SharePanel from './SharePanel'
 import ShareBtn from './ShareBtn'
 
@@ -23,6 +24,7 @@ const ShareModalTrigger = ({
     <Trigger
       {...props}
       onClick={() => {
+        trackShareFormOpen({ source: props.source, feature: props.feature })
         window.navigator.share({
           title: shareTitle,
           text: shareText,
@@ -40,6 +42,8 @@ const ShareModalTrigger = ({
       {...props}
     >
       <SharePanel
+        source={props.source}
+        feature={props.feature}
         isMobile={isMobile}
         isAlert={isAlert}
         children={children}

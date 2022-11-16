@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import { Helmet } from 'react-helmet'
-import { track } from 'webkit/analytics'
 import Icon from '@santiment-network/ui/Icon'
 import SocialTool from '../SocialTool'
 import Page from '../../ducks/Page'
@@ -38,10 +37,6 @@ const TrendsExplore = ({ topic, addedTopics, isDesktop }) => {
 
   const isEmptySearch = !topics[0]
   const pageTitle = `Crypto Social Trends for ${topic} - Sanbase`
-
-  useEffect(() => {
-    track.pageview('sanbase')
-  }, [topic])
 
   useEffect(() => topics.forEach(addRecentTrends), [topics])
 

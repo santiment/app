@@ -2,6 +2,12 @@
   import { getContext } from 'svelte'
   import { copy } from 'webkit/utils'
   import { notifications$ } from 'webkit/ui/Notifications'
+  import {
+    trackVote,
+    trackShowComments,
+    trackShareLinkCopy,
+  } from 'webkit/analytics/events/interaction'
+  import { VoteTypeFeature } from 'webkit/ui/LikeButton/index.svelte'
   import { vote, feature } from './api'
   import { showDeleteConfirmationDialog } from './DeleteConfirmationDialog.svelte'
   import { showHideConfirmationDialog } from './HideConfirmationDialog.svelte'
@@ -35,8 +41,11 @@
 
   function onCopy(e) {
     e.preventDefault()
+    const url = getItemUrl(item, type)
     copyLabel = 'Copied!'
-    copy(getItemUrl(item, type), () => (copyLabel = 'Copy link'), 1500)
+    copy(url, () => (copyLabel = 'Copy link'), 1500)
+
+    trackShareLinkCopy({ url, feature: VoteTypeFeature[voteKey], source: 'explorer' })
   }
 
   function onVote(e) {
@@ -52,10 +61,14 @@
     vote(id, voteKey)
       .then((res) => (totalVotes = res.totalVotes))
       .catch(() => (totalVotes = totalVotes - 1))
+
+    trackVote({ id, feature: VoteTypeFeature[voteKey], source: 'explorer' })
   }
 
   function onComment(e) {
     e.preventDefault()
+
+    trackShowComments({ id, feature: VoteTypeFeature[voteKey], source: 'explorer' })
 
     if (!$currentUser) {
       history.push('/login')
@@ -130,8 +143,7 @@
           svgid="comment"
           onClick={onComment}
           counter={item.commentsCount}
-          tooltip="Comment"
-        />
+          tooltip="Comment" />
       {/if}
     {:else}
       <ActionButton
@@ -139,15 +151,13 @@
         onClick={onVote}
         {userVotes}
         counter={totalVotes}
-        tooltip="Like"
-      />
+        tooltip="Like" />
       {#if item.commentsCount >= 0}
         <ActionButton
           svgid="comment"
           onClick={onComment}
           counter={item.commentsCount}
-          tooltip="Comment"
-        />
+          tooltip="Comment" />
       {/if}
       <ActionButton svgid="link" onClick={onCopy} tooltip={copyLabel} />
       {#if $currentUser && $currentUser.isModerator}
@@ -156,8 +166,7 @@
             forceActive={isFeatured}
             svgid="fire"
             onClick={(event) => onFeature(event, !isFeatured)}
-            tooltip="Featured"
-          />
+            tooltip="Featured" />
         {/if}
         <ActionButton svgid="eye-crossed" onClick={onHide} tooltip="Hide" />
         <ActionButton svgid="delete" onClick={onDelete} tooltip="Delete" />

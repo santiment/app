@@ -1,4 +1,5 @@
 import { initTwitterPixel } from 'webkit/analytics/twitter'
+import { initAmplitude } from 'webkit/analytics/amplitude'
 
 const TRACKER_IDs = ['UA-100571693-1', 'UA-100571693-2']
 const APP_NAME = 'Sanbase'
@@ -47,6 +48,7 @@ export function initializeTracking(trackerIDs = TRACKER_IDs) {
     })
 
     initTwitterPixel()
+    initAmplitude()
   }
 }
 

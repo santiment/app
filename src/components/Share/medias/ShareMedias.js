@@ -3,6 +3,7 @@ import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import { track } from 'webkit/analytics'
+import { trackShareFormSubmit } from 'webkit/analytics/events/interaction'
 import TwitterIcon from './TwitterIcon'
 import DiscordIcon from './DiscordIcon'
 import RedditIcon from './RedditIcon'
@@ -49,21 +50,25 @@ const mediasToShare = [
 
 const mobileMedias = [
   {
+    id: 'twitter',
     Icon: TwitterIcon,
     href: `https://twitter.com/home?status=${SECRET_TEXT_TAG}%0Alink%3A%20${SECRET_LINK_TAG}`,
     title: 'Twitter',
   },
   {
+    id: 'discord',
     Icon: DiscordIcon,
     href: `https://santiment.net/discord`,
     title: 'Discord',
   },
   {
+    id: 'reddit',
     Icon: RedditIcon,
     href: `https://reddit.com/submit?title=${SECRET_TEXT_TAG}&url=${SECRET_LINK_TAG}`,
     title: 'Reddit',
   },
   {
+    id: 'telegram',
     Icon: TelegramIcon,
     href: `https://telegram.me/share/url?text=${SECRET_TEXT_TAG}&url=${SECRET_LINK_TAG}`,
     title: 'Telegram',
@@ -88,7 +93,7 @@ const ShareMedias = ({
   if (isMobile) {
     return (
       <div className={styles.mediaWrapper}>
-        {mobileMedias.map(({ Icon, href, title, className }) => (
+        {mobileMedias.map(({ id, Icon, href, title, className }) => (
           <a
             key={href}
             href={href
@@ -102,7 +107,10 @@ const ShareMedias = ({
               'btn body-2 row v-center',
               isDisabled && styles.disabled,
             )}
-            onClick={(e) => isDisabled && e.preventDefault()}
+            onClick={(e) => {
+              trackShareFormSubmit({ url: shareLink, media: id })
+              if (isDisabled) e.preventDefault()
+            }}
           >
             <Icon className={cx(styles.icon, className)} />
             <span>{title}</span>
@@ -115,13 +123,16 @@ const ShareMedias = ({
   if (isDashboard) {
     return (
       <div className={cx(styles.wrapper, 'row')}>
-        {mobileMedias.map(({ Icon, href }) => (
+        {mobileMedias.map(({ id, Icon, href }) => (
           <a
             key={href}
             href={href.replace(SECRET_LINK_TAG, encodedLink).replace(SECRET_TEXT_TAG, encodedText)}
             target='_blank'
             rel='noopener noreferrer'
             className={cx(styles.shareBtn, 'btn row hv-center')}
+            onClick={() => {
+              trackShareFormSubmit({ url: shareLink, media: id })
+            }}
           >
             <Icon />
           </a>
@@ -148,6 +159,8 @@ const ShareMedias = ({
               .replace(SECRET_TEXT_TAG, encodedText)
               .replace(SECRET_TITLE_TAG, encodedTitle)}
             onClick={() => {
+              trackShareFormSubmit({ url: shareLink, media: icon })
+
               if (isAlert) {
                 track.event(AlertsEvents.ClickCopyAlertLink)
               }

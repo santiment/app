@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Redirect } from 'react-router-dom'
 import { parse } from 'query-string'
-import { track } from 'webkit/analytics'
 import { queryLayout } from 'studio/api/layouts'
 import { selectedLayout } from 'studio/stores/layout'
 import Studio from './Studio'
@@ -81,7 +80,6 @@ export default ({ location, isDesktop }) => {
     let isRacing = false
     const templateId = getIdFromSEOLink(pathname)
     if (prevFullUrlRef.current === pathname + search) return
-    track.pageview('sanbase')
     const [prevShortUrlHash, setShortUrlHash] = shortUrlHashState
 
     if (Number.isFinite(templateId)) {

@@ -26,6 +26,8 @@ const ShareTrigger = (props) => (
 
 export const ShareProfile = () => (
   <ShareModalTrigger
+    feature='profile'
+    source='profile'
     dialogTitle='Share profile'
     shareLink={window.location.href}
     trigger={ShareTrigger}

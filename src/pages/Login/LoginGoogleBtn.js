@@ -1,5 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
+import { trackLoginStart, LoginType } from 'webkit/analytics/events/general'
+import { trackSignupStart } from 'webkit/analytics/events/onboarding'
 import styles from './index.module.scss'
 
 const AUTH_LINK = (process.env.REACT_APP_BACKEND_URL || window.location.hostname).includes('stage')
@@ -31,11 +33,25 @@ const GOOGLE_ICON = (
   </svg>
 )
 
-const LoginGoogleBtn = ({ signUp, className }) => (
-  <a href={AUTH_LINK} className={cx(styles.button, 'btn-2 row v-center mrg-s mrg--t', className)}>
-    {GOOGLE_ICON}
-    {signUp ? 'Sign up ' : 'Log in '} with Google
-  </a>
-)
+const LoginGoogleBtn = ({ signUp, className }) => {
+  function onClick() {
+    if (signUp) {
+      trackSignupStart(LoginType.GOOGLE)
+    } else {
+      trackLoginStart(LoginType.GOOGLE)
+    }
+  }
+
+  return (
+    <a
+      href={AUTH_LINK}
+      className={cx(styles.button, 'btn-2 row v-center mrg-s mrg--t', className)}
+      onClick={onClick}
+    >
+      {GOOGLE_ICON}
+      {signUp ? 'Sign up ' : 'Log in '} with Google
+    </a>
+  )
+}
 
 export default LoginGoogleBtn

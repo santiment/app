@@ -1,11 +1,12 @@
 import React from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
+import { trackLoginStart, LoginType } from 'webkit/analytics/events/general'
+import { trackSignupStart } from 'webkit/analytics/events/onboarding'
 import Icon from '@santiment-network/ui/Icon'
 import { hasMetamask as detectMetamask } from '../../web3Helpers'
 import { showNotification } from '../../actions/rootActions'
 import { USER_ETH_LOGIN } from '../../actions/types'
-import { useTrackEvents } from '../../hooks/tracking'
 import styles from './index.module.scss'
 
 const hasMetamask = detectMetamask()
@@ -17,8 +18,6 @@ const LoginMetamaskBtn = ({
   signUp,
   className,
 }) => {
-  const [trackEvent] = useTrackEvents()
-
   if (!hasMetamask) {
     return (
       <a
@@ -39,10 +38,12 @@ const LoginMetamaskBtn = ({
 
   function askAuth(consent) {
     requestAuth(consent)
-    trackEvent({
-      category: 'User',
-      action: 'Choose an metamask provider',
-    })
+
+    if (signUp) {
+      trackSignupStart(LoginType.METAMASK)
+    } else {
+      trackLoginStart(LoginType.METAMASK)
+    }
   }
 
   return (

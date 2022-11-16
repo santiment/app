@@ -2,19 +2,27 @@
   import Svg from 'webkit/ui/Svg/svelte'
   import Tootlip from 'webkit/ui/Tooltip/svelte'
   import Checkbox from 'webkit/ui/Checkbox.svelte'
-  import { FILTERABLE_TABS } from '../const'
+  import { trackExplorerFeaturesFilter } from 'webkit/analytics/events/explorer'
+  import { FeatureEvent, FILTERABLE_TABS } from '../const'
 
   export let onChange = () => {}
   export let displayingTypes
   export let flat = false
 
   const toggleType = (key) => {
-    if (displayingTypes.has(key)) {
+    const isRemoved = displayingTypes.has(key)
+    if (isRemoved) {
       displayingTypes.delete(key)
     } else {
       displayingTypes.add(key)
     }
     onChange(displayingTypes)
+
+    trackExplorerFeaturesFilter({
+      feature: FeatureEvent[key],
+      features: [...displayingTypes].map((key) => FeatureEvent[key]),
+      isRemoved,
+    })
   }
 </script>
 
@@ -28,8 +36,7 @@
         <div
           class="btn-ghost row v-center"
           on:click={() => toggleType(type.key)}
-          style="fill: {type.color}"
-        >
+          style="fill: {type.color}">
           <Svg id={type.icon} w="16" class="mrg-s mrg--r" />
           {type.label}
           <Checkbox isActive={displayingTypes.has(type.key)} class="mrg-a mrg--l" />
@@ -43,8 +50,7 @@
       <div
         class="btn c-waterloo row v-center"
         on:click={() => toggleType(type.key)}
-        class:active-filter={displayingTypes.has(type.key)}
-      >
+        class:active-filter={displayingTypes.has(type.key)}>
         <Svg id={type.icon} w="12" class="mrg--r" />
         {type.label}
       </div>
