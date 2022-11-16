@@ -36,6 +36,7 @@ const Share = ({ signal, isAuthor, updateAlert }) => {
       shareLink={shortShareLink}
       isDisabled={isAuthor && !isPublic}
       isMobile
+      source='alert'
       trigger={(props) => (
         <button
           {...props}

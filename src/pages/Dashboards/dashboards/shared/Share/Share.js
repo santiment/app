@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import cx from 'classnames'
 import { copy } from 'webkit/utils'
 import Svg from 'webkit/ui/Svg/react'
+import { trackShareLinkCopy } from 'webkit/analytics/events/interaction'
 import ShareModalTrigger from '../../../../../components/Share/ShareModalTrigger'
 import styles from './Share.module.scss'
 
@@ -17,6 +18,8 @@ const Share = ({ id }) => {
 
   function onCopyLinkClick(event) {
     if (clearTimerRef.current) clearTimerRef.current()
+
+    trackShareLinkCopy(window.location.href)
 
     const clb = () => event.currentTarget && (event.currentTarget.ariaLabel = 'Copy link')
 
@@ -42,6 +45,7 @@ const Share = ({ id }) => {
 
       <ShareModalTrigger
         isDialogOnly
+        source='dashboard'
         classes={styles}
         shareLink={window.location.href}
         open={isShareOpened}

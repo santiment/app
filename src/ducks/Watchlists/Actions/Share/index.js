@@ -38,6 +38,7 @@ const Share = ({ watchlist, isAuthor, className, customLink, isMobile }) => {
       shareLink={customLink || shortShareLink}
       isDisabled={!isPublic}
       isMobile={isMobile}
+      source='watchlist'
       trigger={(props) => (
         <>
           {isMobile ? (

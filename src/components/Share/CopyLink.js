@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import copy from 'copy-to-clipboard'
+import { trackShareLinkCopy } from 'webkit/analytics/events/interaction'
 import linkImg from '../../assets/link.svg'
 import styles from './CopyLink.module.scss'
 
@@ -9,6 +10,7 @@ const CopyLink = ({ link }) => {
 
   function handleCopyClick() {
     copy(link)
+    trackShareLinkCopy(link)
 
     setIsCopied(setTimeout(() => setIsCopied(false), 10000))
   }
