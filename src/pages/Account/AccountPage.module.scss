@@ -36,9 +36,6 @@
     margin-bottom: 32px;
     overflow: auto;
     white-space: nowrap;
-    &::-webkit-scrollbar {
-      display: none;
-    }
   }
 
   & div {

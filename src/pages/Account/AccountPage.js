@@ -123,7 +123,7 @@ const AccountPage = ({ history, location }) => {
         <MobileHeader title='Account settings' />
       </MobileOnly>
       <Tabs
-        className={cx(styles.tabs, 'row justify')}
+        className={cx(styles.tabs, 'row justify no-scrollbar')}
         classes={{ tab: styles.tabWrapper }}
         options={tabs}
         defaultSelectedIndex={selectedIndex}
