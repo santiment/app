@@ -1,3 +1,4 @@
+import { updateAmplitude } from 'webkit/analytics/amplitude'
 import { stores } from '../svelte'
 import * as actions from '../actions/types'
 import { updateUser } from '../stores/user'
@@ -152,7 +153,8 @@ export default (state = initialState, action) => {
         },
       }
     case actions.CHANGE_USER_DATA:
-      if (!action.user) {
+      const { user } = action
+      if (!user) {
         return {
           ...initialState,
           hasMetamask: action.hasMetamask,
@@ -160,11 +162,10 @@ export default (state = initialState, action) => {
         }
       }
       session.update((ses) => {
-        ses.currentUser = {
-          ...action.user,
-        }
+        ses.currentUser = { ...user }
         return ses
       })
+      updateAmplitude(user.id, user.username, user.email)
 
       return {
         ...state,

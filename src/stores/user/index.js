@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
+import { updateAmplitude } from 'webkit/analytics/amplitude'
 import { setSessionValue } from 'insights/stores/utils'
 import { buildRefetcher } from './utils'
 import { client } from '../../apollo'
@@ -51,10 +52,13 @@ export function updateUser(newUser) {
     query: USER_QUERY,
   })
 
+  const user = newUser && Object.assign({}, currentUser, newUser)
+  if (user) updateAmplitude(user.id, user.username, user.email)
+
   client.writeQuery({
     query: USER_QUERY,
     data: {
-      currentUser: newUser && Object.assign({}, currentUser, newUser),
+      currentUser: user,
     },
   })
 }
