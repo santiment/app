@@ -104,7 +104,7 @@
   .container {
     position: sticky;
     top: 0;
-    height: 100vh;
+    height: calc(100vh - 64px);
     padding: 24px 16px;
     overflow: auto;
 
