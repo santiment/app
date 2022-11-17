@@ -10,15 +10,13 @@
 </script>
 
 <div
-  class="category btn row justify v-center mrg-xl mrg--t txt-b"
+  class="category btn row v-center mrg-xl mrg--t txt-b"
   class:opened={isOpened}
   on:click={() => (isOpened = !isOpened)}
 >
-  <div class="row v-center">
-    <Svg id={icon} w="16" class="mrg-s mrg--r $style.icon" />
-    {title}  
-  </div>
-  <Svg id="arrow-down" w="10" h="5.5" class="$style.arrow" />
+  <Svg id={icon} w="16" class="mrg-s mrg--r $style.icon" />
+  {title}
+  <Svg id="arrow-down" w="10" h="5.5" class="mrg-a mrg--l $style.arrow" />
 </div>
 
 {#if isOpened}
