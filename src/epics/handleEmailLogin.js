@@ -2,8 +2,7 @@ import * as Sentry from '@sentry/react'
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
 import { replace } from 'react-router-redux'
-import { track } from 'webkit/analytics'
-import { TwitterTrackActions, trackTwitterSignUpEvent } from 'webkit/analytics/twitter'
+import { trackTwitterSignUpEvent } from 'webkit/analytics/twitter'
 import { getSavedLoginMethod } from 'webkit/analytics/events/utils'
 import { trackLoginFinish, LoginType } from 'webkit/analytics/events/general'
 import { trackSignupFinish } from 'webkit/analytics/events/onboarding'
@@ -75,10 +74,6 @@ export const handleLoginSuccess = (action$) =>
 
       if (user.firstLogin || (email && !loggedEmails.includes(email))) {
         trackTwitterSignUpEvent()
-        track.event(TwitterTrackActions.signup, {
-          content_category: 'contact form',
-          content_name: 'sign-up',
-        })
         if (email) {
           localStorage.setItem('loggedEmails', loggedEmails + email + ';')
         }
