@@ -30,14 +30,19 @@ const SocialVolumeChart = ({ trend, words, isDesktop }) => {
   )
 }
 
-const AverageSocialVolume = ({ trend, words }) => {
+const AverageSocialVolume = ({ trend, words, dominance }) => {
   const { data: volume, isLoading: isLoadingVolume } = useTrendSocialVolume(words, trend)
 
   if (isLoadingVolume) return <Loader />
 
   const socialVolume = getAverageSocialVolume(volume)
+  const trendDominance = dominance[trend.word] || 0
 
-  return <p className='txt-center'>{socialVolume}</p>
+  return (
+    <p>
+      {socialVolume} | {trendDominance.toFixed(2)}%
+    </p>
+  )
 }
 
 const ConnectedWords = memo(({ trend, words }) => {
@@ -83,7 +88,9 @@ export const COLUMNS = [INDEX_COLUMN].concat(
     },
     {
       title: Column.SOCIAL_VOLUME,
-      render: (trend, { words }) => <AverageSocialVolume trend={trend} words={words} />,
+      render: (trend, { words, dominance }) => (
+        <AverageSocialVolume trend={trend} words={words} dominance={dominance} />
+      ),
     },
     {
       title: Column.CONNECTED_WORDS,
