@@ -11,5 +11,7 @@ export function getAverageSocialVolume(data) {
 }
 
 export function getSocialDominanceSum(data) {
-  return calcSum(data)
+  const wordsDominance = data && Object.keys(data).map((word) => ({ word, value: data[word] }))
+
+  return calcSum(wordsDominance)
 }

@@ -3,11 +3,11 @@ import cx from 'classnames'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import Calendar from '../../../shared/Calendar/Calendar'
 import Share from '../../../shared/Share/Share'
-import { useSocialDominanceTrendingWords } from '../../hooks'
+import { getSocialDominanceSum } from '../../../../../../ducks/TrendsTable/utils'
 import styles from './TopBar.module.scss'
 
-const TopBar = ({ setTrendPeriod, period }) => {
-  const { data } = useSocialDominanceTrendingWords(period)
+const TopBar = ({ setTrendPeriod, dominance }) => {
+  const dominanceSum = dominance && getSocialDominanceSum(dominance)
 
   return (
     <div className={cx(styles.topBar, 'row v-center justify')}>
@@ -16,7 +16,7 @@ const TopBar = ({ setTrendPeriod, period }) => {
         <Tooltip
           trigger={
             <span className={cx(styles.sum, 'btn mrg-m mrg--l')}>
-              {data ? `${data.toFixed(1)}%` : 0}
+              {dominanceSum ? `${dominanceSum.toFixed(1)}%` : 0}
             </span>
           }
           position='top'

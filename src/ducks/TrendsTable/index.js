@@ -10,7 +10,15 @@ import styles from './index.module.scss'
 const LINK_SELECTOR = `.${columnsStyles.word}`
 const COMPACT_HIDDEN_COLUMNS = [Column.TRENDING_CHART, Column.CONNECTED_WORDS, Column.SOCIAL_VOLUME]
 
-const TrendsTable = ({ className, period, hiddenColumnIds, isCompact, isDesktop, ...props }) => {
+const TrendsTable = ({
+  className,
+  period,
+  dominance,
+  hiddenColumnIds,
+  isCompact,
+  isDesktop,
+  ...props
+}) => {
   const { trendingWords, words, isLoading } = useTrendingWords(period)
   const columns = useColumns(COLUMNS, isCompact ? COMPACT_HIDDEN_COLUMNS : hiddenColumnIds)
 
@@ -34,7 +42,7 @@ const TrendsTable = ({ className, period, hiddenColumnIds, isCompact, isDesktop,
       minRows={10}
       columns={columns}
       itemKeyProperty='word'
-      itemProps={{ words, isDesktop }}
+      itemProps={{ words, isDesktop, dominance }}
       isLoading={isLoading}
       onRowClick={onRowClick}
     />
