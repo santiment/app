@@ -76,11 +76,8 @@
     }
 
     const route = getItemRoute(item, type, true)
-    
-    console.log({route, type})
-
     if (type === EntityKeys.INSIGHT) {
-      window.open(route, "_blank")
+      window.open(route, '_blank')
     } else {
       history.push(route, { openComments: true })
     }
@@ -151,7 +148,8 @@
           svgid="comment"
           onClick={onComment}
           counter={item.commentsCount}
-          tooltip="Comment" />
+          tooltip="Comment"
+        />
       {/if}
     {:else}
       <ActionButton
@@ -159,13 +157,15 @@
         onClick={onVote}
         {userVotes}
         counter={totalVotes}
-        tooltip="Like" />
+        tooltip="Like"
+      />
       {#if item.commentsCount >= 0}
         <ActionButton
           svgid="comment"
           onClick={onComment}
           counter={item.commentsCount}
-          tooltip="Comment" />
+          tooltip="Comment"
+        />
       {/if}
       <ActionButton svgid="link" onClick={onCopy} tooltip={copyLabel} />
       {#if $currentUser && $currentUser.isModerator}
@@ -174,7 +174,8 @@
             forceActive={isFeatured}
             svgid="fire"
             onClick={(event) => onFeature(event, !isFeatured)}
-            tooltip="Featured" />
+            tooltip="Featured"
+          />
         {/if}
         <ActionButton svgid="eye-crossed" onClick={onHide} tooltip="Hide" />
         <ActionButton svgid="delete" onClick={onDelete} tooltip="Delete" />

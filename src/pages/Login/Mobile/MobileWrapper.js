@@ -7,7 +7,14 @@ import Panel from '@santiment-network/ui/Panel'
 import MobileHeader from './MobileHeader'
 import styles from './MobileWrapper.module.scss'
 
-const MobileWrapper = ({ isDesktop, children, onBack, className, withHeader = false, toggleMenu }) => {
+const MobileWrapper = ({
+  isDesktop,
+  children,
+  onBack,
+  className,
+  withHeader = false,
+  toggleMenu,
+}) => {
   if (isDesktop) {
     return children
   }

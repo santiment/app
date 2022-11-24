@@ -36,7 +36,8 @@
         <div
           class="btn-ghost row v-center"
           on:click={() => toggleType(type.key)}
-          style="fill: {type.color}">
+          style="fill: {type.color}"
+        >
           <Svg id={type.icon} w="16" class="mrg-s mrg--r" />
           {type.label}
           <Checkbox isActive={displayingTypes.has(type.key)} class="mrg-a mrg--l" />
@@ -50,7 +51,8 @@
       <div
         class="btn c-waterloo row v-center"
         on:click={() => toggleType(type.key)}
-        class:active-filter={displayingTypes.has(type.key)}>
+        class:active-filter={displayingTypes.has(type.key)}
+      >
         <Svg id={type.icon} w="12" class="mrg--r" />
         {type.label}
       </div>
