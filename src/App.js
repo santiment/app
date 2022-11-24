@@ -11,6 +11,7 @@ import { newGlobalShortcut } from 'webkit/utils/events'
 import Dialogs from 'webkit/ui/Dialog/Dialogs.svelte'
 import FeatureWalkthrough from 'webkit/ui/FeatureWalkthrough/svelte'
 import CookiesPopup from 'webkit/ui/CookiesPopup.svelte'
+import MobileNavbar from 'webkit/ui/MobileNavbar/Navbar.svelte'
 import { showMasterSelectorDialog } from 'studio/MasterSelectorDialog'
 import { queryAllProjects } from 'studio/api/project'
 import { isListPath, PATHS } from './paths'
@@ -19,7 +20,6 @@ import UrlModals from './components/Modal/UrlModals'
 import Roadmap from './pages/Roadmap'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
 import EmailLoginVerification from './pages/EmailVerification/EmailLoginVerification'
-import MobileNavbar from './components/MobileNavbar/MobileNavbar'
 import Navbar from './components/Navbar'
 import withTracker from './withTracker'
 import withIntercom from './withIntercom'
@@ -40,6 +40,7 @@ import TrialPromptDialog from './components/TrialPromptDialog'
 import OfferPopup from './components/OfferPopup/OfferPopup'
 import SanTokenPopup from './components/OfferPopup/SanTokenPopup'
 import { useSavedComment } from './hooks/comment'
+import { useUser } from './stores/user'
 import styles from './App.module.scss'
 import './index.scss'
 import './App.scss'
@@ -59,6 +60,7 @@ const FOOTER_DISABLED_FOR = [
 const FOOTER_ABSOLUTE_FOR = [PATHS.LOGIN, PATHS.LOGIN_VIA_EMAIL, PATHS.CREATE_ACCOUNT, PATHS.GDPR]
 
 const ReactCookiesPopup = toReact(CookiesPopup, {}, 'div')
+const ReactMobileNavbar = toReact(MobileNavbar, {}, 'div')
 
 const LoadablePage = (loader) =>
   Loadable({
@@ -195,6 +197,7 @@ export const App = ({
   history,
 }) => {
   const [isWatchlistPage, setIsWatchlistPage] = useState(false)
+  const { user } = useUser()
 
   useSavedComment(isLoggedIn)
 
@@ -247,7 +250,7 @@ export const App = ({
         {isDesktop ? (
           <Navbar activeLink={pathname} search={search} />
         ) : (
-          <MobileNavbar activeLink={pathname} />
+          <ReactMobileNavbar path={pathname} user={user} />
         )}
         {isDesktop && <OfferPopup />}
         <ForceActionRedirector pathname={pathname} />
