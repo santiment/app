@@ -76,7 +76,7 @@
     }
 
     const route = getItemRoute(item, type, true)
-    if (type === EntityKeys.INSIGHT) {
+    if (route.startsWith("https://")) {
       window.open(route, '_blank')
     } else {
       history.push(route, { openComments: true })
