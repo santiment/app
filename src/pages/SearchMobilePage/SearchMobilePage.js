@@ -149,15 +149,16 @@ const SearchMobilePage = ({ history }) => {
             <div className={styles.scrollable}>
               {term && term.length > 0 && result ? (
                 <>
-                  {result.length > 0 && result.map((keys) => (
-                    <SearchResultRow
-                      key={keys.id}
-                      activeTab={activeTab}
-                      keys={keys}
-                      selectedTab={selectedTab}
-                      onClick={() => addTabItem(keys)}
-                    />
-                  ))}
+                  {result.length > 0 &&
+                    result.map((keys) => (
+                      <SearchResultRow
+                        key={keys.id}
+                        activeTab={activeTab}
+                        keys={keys}
+                        selectedTab={selectedTab}
+                        onClick={() => addTabItem(keys)}
+                      />
+                    ))}
                   {result.length === 0 && <NotFound />}
                 </>
               ) : (

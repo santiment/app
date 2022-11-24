@@ -5,7 +5,7 @@ import { Button, Icon } from '@santiment-network/ui'
 import { LoaderImage } from '../../../components/Loader/PageLoader'
 import styles from './MobileWrapper.module.scss'
 
-const MobileHeader = ({toggleMenu}) => (
+const MobileHeader = ({ toggleMenu }) => (
   <div className={styles.header}>
     <div className={cx(styles.headercontent, 'row justify v-center')}>
       <div className='row v-center'>

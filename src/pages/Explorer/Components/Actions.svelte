@@ -13,7 +13,7 @@
   import { showHideConfirmationDialog } from './HideConfirmationDialog.svelte'
   import { showEditDialog } from './EditDialog.svelte'
   import ActionButton from './ActionButton.svelte'
-  import { EntityType, getItemRoute, getItemUrl } from '../const'
+  import { EntityKeys, EntityType, getItemRoute, getItemUrl } from '../const'
   import { currentUser } from '../store'
   import { history } from '../../../redux'
   import { mutateStoreUserActivity, InteractionType } from '../../../queries/userActivity'
@@ -75,7 +75,12 @@
       return false
     }
 
-    history.push(getItemRoute(item, type, true), { openComments: true })
+    const route = getItemRoute(item, type, true)
+    if (route.startsWith("https://")) {
+      window.open(route, '_blank')
+    } else {
+      history.push(route, { openComments: true })
+    }
   }
 
   function onDelete(e) {
@@ -143,7 +148,8 @@
           svgid="comment"
           onClick={onComment}
           counter={item.commentsCount}
-          tooltip="Comment" />
+          tooltip="Comment"
+        />
       {/if}
     {:else}
       <ActionButton
@@ -151,13 +157,15 @@
         onClick={onVote}
         {userVotes}
         counter={totalVotes}
-        tooltip="Like" />
+        tooltip="Like"
+      />
       {#if item.commentsCount >= 0}
         <ActionButton
           svgid="comment"
           onClick={onComment}
           counter={item.commentsCount}
-          tooltip="Comment" />
+          tooltip="Comment"
+        />
       {/if}
       <ActionButton svgid="link" onClick={onCopy} tooltip={copyLabel} />
       {#if $currentUser && $currentUser.isModerator}
@@ -166,7 +174,8 @@
             forceActive={isFeatured}
             svgid="fire"
             onClick={(event) => onFeature(event, !isFeatured)}
-            tooltip="Featured" />
+            tooltip="Featured"
+          />
         {/if}
         <ActionButton svgid="eye-crossed" onClick={onHide} tooltip="Hide" />
         <ActionButton svgid="delete" onClick={onDelete} tooltip="Delete" />

@@ -30,7 +30,8 @@
   {editLabel}
   {titleHoverTooltipClass}
   {source}
-  hasInfo={description}>
+  hasInfo={description}
+>
   <svelte:fragment slot="info">
     <div class="row mrg-s mrg--b">
       <Svg id="description" w="16" class="mrg-m mrg--r" />
