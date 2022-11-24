@@ -121,7 +121,7 @@ export function getItemRoute(item, type, withComments = false) {
 export function getItemUrl(item, type) {
   if (type === EntityKeys.INSIGHT) {
     const { id, title } = item.trigger || item
-    return `https://insights.santiment.net/read/${getSEOLinkFromIdAndTitle(id, title)}`
+    return EntityType[type].url(id, title)
   }
   const route = getItemRoute(item, type)
   return `${window.location.origin}${route}`
