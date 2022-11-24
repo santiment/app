@@ -28,7 +28,7 @@ export const EntityType = {
     icon: 'insight',
     color: 'var(--blue)',
     backgroundColor: 'var(--blue-light-1)',
-    url: (id) => `/insight/${id}`,
+    url: (id, title) => `https://insights.santiment.net/read/${getSEOLinkFromIdAndTitle(id, title)}`,
     filterable: true,
   },
   CHART: {
@@ -111,13 +111,16 @@ export const RANGES = {
 export function getItemRoute(item, type, withComments = false) {
   const { id, title } = item.trigger || item
   let route = EntityType[type].url(id, title)
-  if (withComments) route = `${route}?comment=${id}`
+  if (withComments) {
+      route = type === EntityKeys.INSIGHT ? `${route}?_wc=1#comments` : `${route}?comment=${id}`
+  }
   return route
 }
 
 export function getItemUrl(item, type) {
   if (type === EntityKeys.INSIGHT) {
-    return `https://insights.santiment.net/read/${item.id}`
+    const { id, title } = item.trigger || item
+    return `https://insights.santiment.net/read/${getSEOLinkFromIdAndTitle(id, title)}`
   }
   const route = getItemRoute(item, type)
   return `${window.location.origin}${route}`

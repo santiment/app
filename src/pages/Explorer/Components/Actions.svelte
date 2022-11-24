@@ -13,7 +13,7 @@
   import { showHideConfirmationDialog } from './HideConfirmationDialog.svelte'
   import { showEditDialog } from './EditDialog.svelte'
   import ActionButton from './ActionButton.svelte'
-  import { EntityType, getItemRoute, getItemUrl } from '../const'
+  import { EntityKeys, EntityType, getItemRoute, getItemUrl } from '../const'
   import { currentUser } from '../store'
   import { history } from '../../../redux'
   import { mutateStoreUserActivity, InteractionType } from '../../../queries/userActivity'
@@ -75,7 +75,15 @@
       return false
     }
 
-    history.push(getItemRoute(item, type, true), { openComments: true })
+    const route = getItemRoute(item, type, true)
+    
+    console.log({route, type})
+
+    if (type === EntityKeys.INSIGHT) {
+      window.open(route, "_blank")
+    } else {
+      history.push(route, { openComments: true })
+    }
   }
 
   function onDelete(e) {
