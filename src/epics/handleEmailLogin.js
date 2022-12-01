@@ -67,7 +67,9 @@ export const handleLoginSuccess = (action$) =>
 
       const { method = LoginType.EMAIL } = getSavedLoginMethod() || {}
       if (user.firstLogin) {
-        trackSignupFinish(method)
+        window.onGdprAccept = () => {
+          trackSignupFinish(method)
+        }
       } else {
         trackLoginFinish(method)
       }

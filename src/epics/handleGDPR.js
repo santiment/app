@@ -1,5 +1,6 @@
 import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
+import { trackGdprAccept } from 'webkit/analytics/events/onboarding'
 import { showNotification } from './../actions/rootActions'
 import { handleErrorAndTriggerAction } from './utils'
 import { USER_EMAIL_LOGIN_QEURY } from './handleLaunch'
@@ -75,6 +76,13 @@ const handleGDPR = (action$, store, { client }) =>
       return Observable.from(mutationPromise)
         .mergeMap(({ data: { updateTermsAndConditions = {} } }) => {
           const { id, __typename, ...payload } = updateTermsAndConditions
+
+          if (window.onGdprAccept) {
+            window.onGdprAccept()
+          }
+
+          trackGdprAccept(true)
+
           return Observable.merge(
             Observable.of({ type: actions.USER_SETTING_GDPR, payload }),
             Observable.of(showNotification('Privacy settings is changed')),
