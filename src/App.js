@@ -486,18 +486,7 @@ export const App = ({
             />
 
             <Route
-              path='/queries/:dashboardId/:panelId'
-              render={(props) => (
-                <LoadableQueriesPage
-                  classes={{ wrapper: styles.chart }}
-                  isDesktop={isDesktop}
-                  isLoggedIn={isLoggedIn}
-                  {...props}
-                />
-              )}
-            />
-            <Route
-              path='/queries'
+              path='/queries/:dashboardId?/:panelId?'
               render={(props) => (
                 <LoadableQueriesPage
                   classes={{ wrapper: styles.chart }}
