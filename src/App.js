@@ -561,7 +561,8 @@ const mapStateToProps = ({ user, rootUi }, { location: { pathname } }) => ({
     !pathname.includes(PATHS.STUDIO) &&
     !pathname.includes(PATHS.CHARTS) &&
     !pathname.includes(PATHS.LIST) &&
-    !pathname.includes(PATHS.DASHBOARDS),
+    !pathname.includes(PATHS.DASHBOARDS) &&
+    !pathname.startsWith('/queries/'),
 })
 
 const enhance = compose(
