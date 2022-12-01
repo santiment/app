@@ -1,27 +1,56 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
-import { parse } from 'webkit/utils/url'
+import { getIdFromSEOLink } from 'webkit/utils/url'
 import SanQueries from 'san-queries/lib/index.svelte'
+import { queryDashboard } from 'san-queries/lib/api/dashboard'
+import { parseSharedUrl } from 'san-queries/lib/sharing/url'
+import PageLoader from '../../components/Loader/PageLoader'
 
-const Queries = () => {
+const Queries = ({ dashboardId, panelId }) => {
+  const [isLoading, setIsLoading] = useState(true)
   const ref = useRef()
+  const svelteRef = useRef()
 
   useEffect(() => {
     const page = ref.current
 
-    const { shared } = parse(window.location.search)
-    const panel = shared ? JSON.parse(shared) : undefined
-    window.history.pushState(null, '', '/queries')
+    window.__getShareBase = () => '/queries/'
 
-    const queries = new SanQueries({
-      target: page,
-      props: { dashboard: panel && { panels: [panel] } },
-    })
+    const id = getIdFromSEOLink(dashboardId || '')
 
-    return () => queries.$destroy()
+    if (Number.isFinite(id)) {
+      queryDashboard(id)
+        .then((dashboard) => {
+          start(dashboard, panelId)
+        })
+        .catch(() => {
+          start()
+        })
+    } else {
+      const { panels, selectedPanelId } = parseSharedUrl(window.location.search)
+      start(panels && { panels }, selectedPanelId)
+    }
+
+    function start(dashboard, selectedPanelId) {
+      setIsLoading(false)
+      svelteRef.current = new SanQueries({
+        target: page,
+        props: { dashboard, selectedPanelId },
+      })
+    }
+
+    return () => {
+      delete window.__getShareBase
+      if (svelteRef.current) svelteRef.current.$destroy()
+    }
   }, [])
 
-  return <div ref={ref} />
+  return (
+    <>
+      {isLoading && <PageLoader />}
+      <div ref={ref} />
+    </>
+  )
 }
 
 export default (props) => {
@@ -31,5 +60,5 @@ export default (props) => {
     return <Redirect to='/' />
   }
 
-  return <Queries {...props} search={location.search} />
+  return <Queries {...props} {...props.match.params} search={location.search} />
 }
