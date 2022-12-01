@@ -3,7 +3,6 @@ import { Link, Redirect } from 'react-router-dom'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { trackGdprAccept } from 'webkit/analytics/events/onboarding'
 import Input from '@santiment-network/ui/Input'
 import Button from '@santiment-network/ui/Button'
 import Notification from '@santiment-network/ui/Notification'
@@ -38,7 +37,6 @@ const GdprDescription = ({ toggleGDPR, isGDPR, togglePrivacyPolicy, dispatchNewU
       .then(() => {
         dispatchNewUsername(username)
         togglePrivacyPolicy()
-        trackGdprAccept(true)
       })
       .catch(catchUsernameChangeError)
   }, [isGDPR, username, savingUsername, checkUsername, catchUsernameChangeError, changeUsername])
