@@ -486,7 +486,7 @@ export const App = ({
             />
 
             <Route
-              path={'/queries'}
+              path='/queries/:dashboardId?/:panelId?'
               render={(props) => (
                 <LoadableQueriesPage
                   classes={{ wrapper: styles.chart }}
