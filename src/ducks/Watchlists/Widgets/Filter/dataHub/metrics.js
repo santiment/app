@@ -72,6 +72,11 @@ export const Metric = {
     label: 'Price BTC',
     badge: '₿',
   },
+  price_volatility_1w: {
+    category: CATEGORIES.FINANCIAL,
+    label: 'Price Volatility',
+    tableColumnFormatter: (value) => value && +value.toFixed(6),
+  },
   marketcap_usd: {
     category: CATEGORIES.FINANCIAL,
     label: 'Marketcap',
@@ -633,6 +638,7 @@ Object.keys(Metric).forEach((key) => {
 export const metrics = [
   Metric.price_usd,
   Metric.price_btc,
+  Metric.price_volatility_1w,
   Metric.marketcap_usd,
   Metric.rank,
   Metric.eth_spent,
