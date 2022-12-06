@@ -1,9 +1,14 @@
 import React, { useMemo } from 'react'
+import cx from 'classnames'
 import URLExtension from './URLExtension'
+import { useUser } from '../../stores/user'
 import Page from '../../ducks/Page'
 import HistoricalBalance from '../../ducks/HistoricalBalance'
 import { parseUrl } from '../../ducks/HistoricalBalance/url'
 import HelpPopup from '../../components/HelpPopup/HelpPopup'
+import PageLoader from '../../components/Loader/PageLoader'
+import { LoginWarning } from '../../components/banners/feature/PopupBanner'
+import styles from './index.module.scss'
 
 const Help = () => (
   <HelpPopup>
@@ -19,14 +24,25 @@ export const Title = () => (
   </>
 )
 
-const HistoricalBalancePage = ({ history, isDesktop }) => {
+const HistoricalBalancePage = ({ history }) => {
+  const { loading, isLoggedIn } = useUser()
   const { settings, chartAssets, priceAssets, isLog } = useMemo(
-    () => parseUrl(window.location.search),
-    [],
+    () => parseUrl(isLoggedIn ? window.location.search : ''),
+    [isLoggedIn],
   )
+
+  if (loading) {
+    return <PageLoader />
+  }
 
   return (
     <Page title='Historical Balance' actions={<Help />}>
+      {isLoggedIn ? null : (
+        <div className={cx(styles.bg, 'row hv-center')}>
+          <LoginWarning className={cx(styles.login, 'border')} />
+        </div>
+      )}
+
       <HistoricalBalance
         defaultSettings={settings}
         defaultChartAssets={chartAssets}
