@@ -28,6 +28,7 @@ const HistoricalBalance = ({
 
   useEffect(() => {
     if (chartAssets.length) return
+    if (!walletAssets.length) return
 
     setChartAssets(walletAssets.slice(0, 1))
   }, [walletAssets])
@@ -110,14 +111,17 @@ const HistoricalBalance = ({
         </div>
       </div>
 
-      {React.Children.map(children, (child) =>
-        React.cloneElement(child, {
-          settings,
-          chartAssets,
-          priceAssets,
-          isLog,
-          onAddressChange,
-        }),
+      {React.Children.map(
+        children,
+        (child) =>
+          child &&
+          React.cloneElement(child, {
+            settings,
+            chartAssets,
+            priceAssets,
+            isLog,
+            onAddressChange,
+          }),
       )}
     </>
   )

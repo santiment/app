@@ -49,7 +49,7 @@ const HistoricalBalancePage = ({ history }) => {
         defaultPriceAssets={priceAssets}
         defaultIsLog={isLog}
       >
-        <URLExtension history={history} />
+        {isLoggedIn && <URLExtension history={history} />}
       </HistoricalBalance>
     </Page>
   )
