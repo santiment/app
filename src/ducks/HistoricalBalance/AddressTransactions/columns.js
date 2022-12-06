@@ -22,7 +22,8 @@ function getDatetime(datetime) {
   return `${YYYY}, ${MMM} ${DD}, ${HH}:${mm}:${ss}`
 }
 
-const checkIsSending = (address, fromAddress) => address === fromAddress.address
+const checkIsSending = (address, fromAddress) =>
+  address && fromAddress.address && address.toLowerCase() === fromAddress.address.toLowerCase()
 
 const Values = ({ address, project, toAddress, fromAddress, trxValue, asset }) => {
   const { logoUrl, darkLogoUrl, ticker } = asset || project || {}

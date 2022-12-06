@@ -22,8 +22,16 @@ const HistoricalBalance = ({
   const { settings, changeTimePeriod, onAddressChange } = useSettings(defaultSettings)
   const { walletAssets, isLoading, isError } = useWalletAssets(settings)
   const [chartAssets, setChartAssets] = useState(defaultChartAssets)
+
   const [priceAssets, setPriceAssets] = useState(defaultPriceAssets)
   const [isLog, setIsLog] = useState(defaultIsLog)
+
+  useEffect(() => {
+    if (chartAssets.length) return
+    if (!walletAssets.length) return
+
+    setChartAssets(walletAssets.slice(0, 1))
+  }, [walletAssets])
 
   useEffect(() => {
     const priceAssetsSet = new Set(priceAssets)
@@ -103,14 +111,17 @@ const HistoricalBalance = ({
         </div>
       </div>
 
-      {React.Children.map(children, (child) =>
-        React.cloneElement(child, {
-          settings,
-          chartAssets,
-          priceAssets,
-          isLog,
-          onAddressChange,
-        }),
+      {React.Children.map(
+        children,
+        (child) =>
+          child &&
+          React.cloneElement(child, {
+            settings,
+            chartAssets,
+            priceAssets,
+            isLog,
+            onAddressChange,
+          }),
       )}
     </>
   )
