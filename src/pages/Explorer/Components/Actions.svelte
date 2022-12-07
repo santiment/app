@@ -7,8 +7,7 @@
     trackShowComments,
     trackShareLinkCopy,
   } from 'webkit/analytics/events/interaction'
-  import { VoteTypeFeature } from 'webkit/ui/LikeButton/index.svelte'
-  import { vote, feature } from './api'
+  import { vote, feature as mutateFeature } from './api'
   import { showDeleteConfirmationDialog } from './DeleteConfirmationDialog.svelte'
   import { showHideConfirmationDialog } from './HideConfirmationDialog.svelte'
   import { showEditDialog } from './EditDialog.svelte'
@@ -32,7 +31,7 @@
   let isFeatured = item.trigger ? item.trigger.isFeatured : item.isFeatured
 
   $: id = item.trigger ? item.trigger.id : item.id
-  $: ({ key, voteKey, deleteKey, singular } = EntityType[type])
+  $: ({ key, voteKey, deleteKey, singular, feature } = EntityType[type])
   $: isPublic = item.trigger ? item.trigger.isPublic : item.isPublic
   $: views = item.trigger ? item.trigger.views : item.views
 
@@ -45,7 +44,7 @@
     copyLabel = 'Copied!'
     copy(url, () => (copyLabel = 'Copy link'), 1500)
 
-    trackShareLinkCopy({ url, feature: VoteTypeFeature[voteKey], source: 'explorer' })
+    trackShareLinkCopy({ url, feature, source: 'explorer' })
   }
 
   function onVote(e) {
@@ -62,13 +61,13 @@
       .then((res) => (totalVotes = res.totalVotes))
       .catch(() => (totalVotes = totalVotes - 1))
 
-    trackVote({ id, feature: VoteTypeFeature[voteKey], source: 'explorer' })
+    trackVote({ id, feature, source: 'explorer' })
   }
 
   function onComment(e) {
     e.preventDefault()
 
-    trackShowComments({ id, feature: VoteTypeFeature[voteKey], source: 'explorer' })
+    trackShowComments({ id, feature, source: 'explorer' })
 
     if (!$currentUser) {
       history.push('/login')
@@ -76,7 +75,7 @@
     }
 
     const route = getItemRoute(item, type, true)
-    if (route.startsWith("https://")) {
+    if (route.startsWith('https://')) {
       window.open(route, '_blank')
     } else {
       history.push(route, { openComments: true })
@@ -101,7 +100,7 @@
   function onFeature(e, flag = true) {
     e.preventDefault()
     const { title } = item.trigger || item
-    feature(key, id, flag)
+    mutateFeature(key, id, flag)
       .then(() => {
         isFeatured = flag
         notifications$.show({
@@ -148,8 +147,7 @@
           svgid="comment"
           onClick={onComment}
           counter={item.commentsCount}
-          tooltip="Comment"
-        />
+          tooltip="Comment" />
       {/if}
     {:else}
       <ActionButton
@@ -157,15 +155,13 @@
         onClick={onVote}
         {userVotes}
         counter={totalVotes}
-        tooltip="Like"
-      />
+        tooltip="Like" />
       {#if item.commentsCount >= 0}
         <ActionButton
           svgid="comment"
           onClick={onComment}
           counter={item.commentsCount}
-          tooltip="Comment"
-        />
+          tooltip="Comment" />
       {/if}
       <ActionButton svgid="link" onClick={onCopy} tooltip={copyLabel} />
       {#if $currentUser && $currentUser.isModerator}
@@ -174,8 +170,7 @@
             forceActive={isFeatured}
             svgid="fire"
             onClick={(event) => onFeature(event, !isFeatured)}
-            tooltip="Featured"
-          />
+            tooltip="Featured" />
         {/if}
         <ActionButton svgid="eye-crossed" onClick={onHide} tooltip="Hide" />
         <ActionButton svgid="delete" onClick={onDelete} tooltip="Delete" />
