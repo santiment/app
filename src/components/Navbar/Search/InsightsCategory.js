@@ -45,7 +45,7 @@ function getInsightsBySearchTerm(searchTerm) {
 
 const propsAccessor = ({ id, href }) => ({
   key: id,
-  href: href || 'https://insights.santiment.net/read/' + id,
+  href: href || '/insights/read/' + id,
   As: 'a',
 })
 

@@ -129,6 +129,8 @@ const LoadableNftInfluencersTrxPage = LoadablePage(() =>
   import('./pages/NftInfluencersTrx/NftInfluencersTrx'),
 )
 
+const LoadableInsightsPage = LoadablePage(() => import('./pages/Insights'))
+
 class Route extends React.Component {
   componentWillMount() {
     nprogress.start()
@@ -440,12 +442,13 @@ export const App = ({
                 <ExternalRedirect to={`${getConsentUrl()}/consent${props.location.search}`} />
               )}
             />
+
             <Route
               path='/read'
-              render={(props) => (
-                <ExternalRedirect to={`https://insights.santiment.net${props.location.pathname}`} />
-              )}
+              render={(props) => <Redirect to={'/insights' + props.location.pathname} />}
             />
+            <Route path='/insights' component={LoadableInsightsPage} />
+
             <Route
               path={['/profile/:id', '/profile']}
               render={(props) => (
