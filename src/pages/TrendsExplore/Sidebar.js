@@ -28,7 +28,7 @@ const Sidebar = ({ topics, linkedAssets, isDesktop, isEmptySearch, ...props }) =
   }
 
   return (
-    <aside className={cx(styles.sidebar, 'column')}>
+    <aside className={cx(styles.sidebar, 'column no-scrollbar')}>
       {!isEmptySearch && (
         <>
           <AverageSocialVolume
