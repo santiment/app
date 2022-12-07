@@ -13,12 +13,10 @@ const SUGGESTIONS = [
   {
     trend: 'bottom',
     options: '',
-    link: '',
   },
   {
     trend: 'sell',
     options: '',
-    link: '',
   },
 ]
 
