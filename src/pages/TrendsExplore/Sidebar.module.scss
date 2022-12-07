@@ -1,9 +1,15 @@
 @import '~@santiment-network/ui/mixins';
 
 .sidebar {
-  position: sticky;
-  top: 24px;
+  position: fixed;
   width: 320px;
+  top: 72px;
+  overflow-y: auto;
+  height: 100%;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   :global(.tablet) &,
   :global(.phone) &,

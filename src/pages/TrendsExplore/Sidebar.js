@@ -27,8 +27,14 @@ const Sidebar = ({ topics, linkedAssets, isDesktop, isEmptySearch, ...props }) =
     setTrendPeriod(period)
   }
 
+  function toggleMainScrollbar(status) {
+    const body = document.getElementsByTagName('body')[0]
+    body.style.overflowY = status ? 'initial' : 'hidden'
+    body.style.marginRight = status ? 'initial' : '4px'
+  }
+
   return (
-    <aside className={cx(styles.sidebar, 'column')}>
+    <aside className={cx(styles.sidebar, 'column')} onMouseOver={() => toggleMainScrollbar(false)} onMouseLeave={() => toggleMainScrollbar(true)}>
       {!isEmptySearch && (
         <>
           <AverageSocialVolume
