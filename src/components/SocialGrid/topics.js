@@ -5,11 +5,11 @@ export const TOPICS = [
   { slug: 'sell', title: 'Sell', price: 'bitcoin', ticker: 'BTC' },
   { slug: 'bear AND market', title: 'Bear Market', price: 'bitcoin', ticker: 'BTC' },
   {
-    slug: 'luna',
-    title: 'Luna Crash',
-    price: 'luna',
-    ticker: 'LUNC',
-    query: 'luna?asset=luna&slug=luna&ticker=LUNC',
+    slug: 'ftx-token',
+    title: 'FTX Crash',
+    price: 'ftx-token',
+    ticker: 'FTT',
+    query: 'sbf OR alameda OR ftx OR ftt?asset=ftx-token&slug=ftx-token&ticker=FTT',
   },
   { slug: 'rekt', title: 'Rekt', price: 'bitcoin', ticker: 'BTC' },
   {
@@ -20,7 +20,13 @@ export const TOPICS = [
     query: 'inflation OR cpi?asset=bitcoin&slug=inflation OR cpi&ticker=BTC',
   },
   { slug: 'usd', title: 'USD', price: 'bitcoin', ticker: 'BTC' },
-  { slug: 'merge', title: 'Merge', price: 'ethereum', ticker: 'ETH' },
+  {
+    slug: 'dogecoin',
+    title: 'Doge',
+    price: 'dogecoin',
+    ticker: 'DOGE',
+    query: 'doge OR dogecoin?asset=dogecoin&slug=dogecoin&ticker=DOGE'
+  },
   {
     slug: 'long',
     title: 'Long',

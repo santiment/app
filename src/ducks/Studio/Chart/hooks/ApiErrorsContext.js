@@ -27,6 +27,7 @@ export const ApiErrorsProvider = ({ children }) => {
         setErrorsForMetrics(data)
         API_ERRORS_DATA = data
       })
+      .catch(console.log)
 
     return controller
   }
