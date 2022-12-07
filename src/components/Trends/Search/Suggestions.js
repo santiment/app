@@ -6,15 +6,16 @@ import styles from './Suggestions.module.scss'
 
 const SUGGESTIONS = [
   {
-    trend: 'bitcoin',
+    trend: 'Buy the dip',
+    options: '',
+    link: '(buy OR bought) AND (dip OR dips)',
+  },
+  {
+    trend: 'bottom',
     options: '',
   },
   {
-    trend: 'blockchain',
-    options: '',
-  },
-  {
-    trend: 'IEO OR IEOs OR launchpad',
+    trend: 'sell',
     options: '',
   },
 ]
@@ -23,10 +24,10 @@ const TrendsExploreSuggestions = () => (
   <div className={cx(styles.wrapper, 'row v-center')}>
     <p className='c-casper mrg-xs mrg--r'>Try out:</p>
     <p className='row nowrap mrg-xs mrg--r'>
-      {SUGGESTIONS.map(({ trend, options }, index) => (
+      {SUGGESTIONS.map(({ trend, options, link }, index) => (
         <Link
           key={trend}
-          to={`/labs/trends/explore/${trend}${options && '?' + options}`}
+          to={`/labs/trends/explore/${link || trend}${options && '?' + options}`}
           className='btn btn-0 mrg-xs mrg--r'
         >
           {trend}
