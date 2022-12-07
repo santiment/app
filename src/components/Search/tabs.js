@@ -42,8 +42,7 @@ export const TABS = [
   {
     index: 'Insights',
     content: 'Insights',
-    getLinkURL: ({ id, title }) =>
-      `https://insights.santiment.net/read/${getSEOLinkFromIdAndTitle(id, title)}`,
+    getLinkURL: ({ id, title }) => `/insights/read/${getSEOLinkFromIdAndTitle(id, title)}`,
     getLinkLabel: (arg) => {
       const title = arg.title || arg
       return safeDecode(title)

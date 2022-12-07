@@ -22,6 +22,7 @@ const MoreInfo = ({ link }) => {
       rel='noopener noreferrer'
       target='_blank'
       href={link}
+      onClick={window.__onLinkClick}
     >
       More info
     </a>
@@ -60,7 +61,7 @@ export const THIRD_METRICS_GROUP = [
           This template determines the best trading days (historically) for any coin in the
           Santiment database, with adjustable time ranges for Pro users.
         </div>
-        <MoreInfo link='https://insights.santiment.net/read/backtesting-the-week%3A-which-days-are-best-for-trading-crypto%3F-1139' />
+        <MoreInfo link='/insights/read/backtesting-the-week%3A-which-days-are-best-for-trading-crypto%3F-1139' />
       </>
     ),
     isImage: true,
@@ -76,7 +77,7 @@ export const THIRD_METRICS_GROUP = [
           This Index calculates the top 10 most distributed and most concentrated ERC-20 coins
           (within the top 50) over the last month.
         </div>
-        <MoreInfo link='https://insights.santiment.net/read/314' />
+        <MoreInfo link='/insights/read/314' />
       </>
     ),
     isImage: true,
@@ -201,7 +202,7 @@ export const FIRST_METRICS_GROUP = [
         </div>
         <MoreInfo
           link={
-            'https://insights.santiment.net/read/%F0%9F%93%A2-mean-age-653/?utm_campaign=mainlist_feb_2020&utm_medium=newsletter&utm_source=email&via=monthly_email'
+            '/insights/read/%F0%9F%93%A2-mean-age-653/?utm_campaign=mainlist_feb_2020&utm_medium=newsletter&utm_source=email&via=monthly_email'
           }
         />
       </>
@@ -219,7 +220,7 @@ export const FIRST_METRICS_GROUP = [
           The template includes a dozen views of top whales’ behavior, including balance changes,
           big accumulation/sell-off events and week-to-week adjustments to total supply held.
         </div>
-        <MoreInfo link='https://insights.santiment.net/read/top-token-holders-and-their-role-as-leading-indicators-5618' />
+        <MoreInfo link='/insights/read/top-token-holders-and-their-role-as-leading-indicators-5618' />
       </>
     ),
     isImage: true,
@@ -266,7 +267,7 @@ export const FIRST_METRICS_GROUP = [
         </div>
         <MoreInfo
           link={
-            'https://insights.santiment.net/read/price---daily-addresses-divergence%3A-%0Aa-primer-on-on-chain-trading-strategies-2222'
+            '/insights/read/price---daily-addresses-divergence%3A-%0Aa-primer-on-on-chain-trading-strategies-2222'
           }
         />
       </>

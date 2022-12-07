@@ -38,8 +38,7 @@ const NAVBAR_LINKS = [
     Icon: WatchlistsIcon,
   },
   {
-    as: 'a',
-    href: 'https://insights.santiment.net',
+    href: '/insights/',
     label: 'Insights',
     Icon: InsightsIcon,
   },

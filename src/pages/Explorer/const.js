@@ -28,8 +28,7 @@ export const EntityType = {
     icon: 'insight',
     color: 'var(--blue)',
     backgroundColor: 'var(--blue-light-1)',
-    url: (id, title) =>
-      `https://insights.santiment.net/read/${getSEOLinkFromIdAndTitle(id, title)}`,
+    url: (id, title) => `/insights/read/${getSEOLinkFromIdAndTitle(id, title)}`,
     filterable: true,
   },
   CHART: {
@@ -119,10 +118,6 @@ export function getItemRoute(item, type, withComments = false) {
 }
 
 export function getItemUrl(item, type) {
-  if (type === EntityKeys.INSIGHT) {
-    const { id, title } = item.trigger || item
-    return EntityType[type].url(id, title)
-  }
   const route = getItemRoute(item, type)
   return `${window.location.origin}${route}`
 }
