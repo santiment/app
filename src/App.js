@@ -445,9 +445,9 @@ export const App = ({
 
             <Route
               path='/read'
-              render={(props) => <Redirect to={'insights' + props.location.pathname} />}
+              render={(props) => <Redirect to={'/insights' + props.location.pathname} />}
             />
-            <Route path='/insights' component={LoadableInsightsPage}></Route>
+            <Route path='/insights' component={LoadableInsightsPage} />
 
             <Route
               path={['/profile/:id', '/profile']}
