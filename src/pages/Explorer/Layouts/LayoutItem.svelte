@@ -1,6 +1,5 @@
 <script>
   import { trackExplorerItemOpened } from 'webkit/analytics/events/explorer'
-  import { VoteTypeFeature } from 'webkit/ui/LikeButton/index.svelte'
   import SidebarItem from '../Layouts/SidebarItem.svelte'
   import ExplorerItem from '../Layouts/ExplorerItem.svelte'
   import { getItemRoute, EntityType, getItemUrl } from '../const'
@@ -20,7 +19,7 @@
   function onClick(e) {
     const isIcon = e.target && ['use', 'svg'].includes(e.target.tagName)
 
-    trackExplorerItemOpened({ id: item.id, feature: VoteTypeFeature[EntityType[type].voteKey] })
+    trackExplorerItemOpened({ id: item.id, feature: EntityType[type].feature })
 
     const isActionButton =
       e.target.classList.contains(ACTION_BUTTON_CLASS) ||

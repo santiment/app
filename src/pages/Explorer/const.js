@@ -1,4 +1,6 @@
 import { getSEOLinkFromIdAndTitle } from 'webkit/utils/url'
+import { VoteTypeFeature } from 'webkit/ui/LikeButton/index.svelte'
+import { VoteType } from 'webkit/api/vote'
 
 export const MenuItem = {
   FAVORITES: 'Favorites',
@@ -30,6 +32,7 @@ export const EntityType = {
     backgroundColor: 'var(--blue-light-1)',
     url: (id, title) => `/insights/read/${getSEOLinkFromIdAndTitle(id, title)}`,
     filterable: true,
+    feature: VoteTypeFeature[VoteType.Insight],
   },
   CHART: {
     key: EntityKeys.CHART_CONFIGURATION,
@@ -42,6 +45,7 @@ export const EntityType = {
     backgroundColor: 'var(--green-light-1)',
     url: (id, title) => `/charts/${getSEOLinkFromIdAndTitle(id, title)}`,
     filterable: true,
+    feature: VoteTypeFeature[VoteType.Layout],
   },
   WATCHLIST: {
     key: EntityKeys.PROJECT_WATCHLIST,
@@ -54,6 +58,8 @@ export const EntityType = {
     backgroundColor: 'var(--orange-light-1)',
     url: (id) => `/watchlist/projects/${id}`,
     filterable: true,
+
+    feature: VoteTypeFeature[VoteType.Watchlist],
   },
   ADDRESS: {
     key: EntityKeys.ADDRESS_WATCHLIST,
@@ -65,6 +71,8 @@ export const EntityType = {
     color: 'var(--purple)',
     backgroundColor: 'var(--purple-light-1)',
     url: (id) => `/watchlist/addresses/${id}`,
+
+    feature: VoteTypeFeature[VoteType.Watchlist],
   },
   SCREENER: {
     key: EntityKeys.SCREENER,
@@ -77,6 +85,7 @@ export const EntityType = {
     backgroundColor: 'var(--blue-light-1)',
     url: (id) => `/screener/${id}`,
     filterable: true,
+    feature: 'screener',
   },
   // ALERT: {
   //   key: EntityKeys.USER_TRIGGER,
