@@ -7,10 +7,6 @@
   overflow-y: auto;
   height: 100%;
 
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
   :global(.tablet) &,
   :global(.phone) &,
   :global(.phone-xs) & {

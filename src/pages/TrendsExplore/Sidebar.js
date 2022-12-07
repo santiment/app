@@ -34,7 +34,7 @@ const Sidebar = ({ topics, linkedAssets, isDesktop, isEmptySearch, ...props }) =
   }
 
   return (
-    <aside className={cx(styles.sidebar, 'column')} onMouseOver={() => toggleMainScrollbar(false)} onMouseLeave={() => toggleMainScrollbar(true)}>
+    <aside className={cx(styles.sidebar, 'column no-scrollbar')} onMouseOver={() => toggleMainScrollbar(false)} onMouseLeave={() => toggleMainScrollbar(true)}>
       {!isEmptySearch && (
         <>
           <AverageSocialVolume
