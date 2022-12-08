@@ -10,7 +10,7 @@ export default ({ match }) => {
           .replace(window.location.origin, '')
           .replace(match.path, '')
 
-        const stage = process.env.IS_STAGE_BACKEND && '-stage'
+        const stage = process.env.IS_STAGE_BACKEND ? '-stage' : ''
         const href = `https://insights${stage}.santiment.net${path}`
 
         window.location = href
