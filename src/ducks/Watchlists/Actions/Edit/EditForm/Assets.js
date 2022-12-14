@@ -55,7 +55,7 @@ const Assets = ({ watchlist, onChange, preSelectedItems }) => {
         {isSearchMode ? (
           <Input
             autoFocus
-            maxLength='25'
+            maxLength='30'
             autoComplete='off'
             placeholder='Type to search'
             className={styles.searchInput}

@@ -59,6 +59,8 @@ const HINTS = {
   ],
 }
 
+const priceVolatilityFormatter = (value) => value && +value.toFixed(6)
+
 export const Metric = {
   price_usd: {
     category: CATEGORIES.FINANCIAL,
@@ -72,10 +74,25 @@ export const Metric = {
     label: 'Price BTC',
     badge: '₿',
   },
+  price_volatility_1d: {
+    category: CATEGORIES.FINANCIAL,
+    label: 'Price Volatility 1d',
+    tableColumnFormatter: priceVolatilityFormatter,
+  },
   price_volatility_1w: {
     category: CATEGORIES.FINANCIAL,
-    label: 'Price Volatility',
-    tableColumnFormatter: (value) => value && +value.toFixed(6),
+    label: 'Price Volatility 1w',
+    tableColumnFormatter: priceVolatilityFormatter,
+  },
+  price_volatility_2w: {
+    category: CATEGORIES.FINANCIAL,
+    label: 'Price Volatility 2w',
+    tableColumnFormatter: priceVolatilityFormatter,
+  },
+  price_volatility_4w: {
+    category: CATEGORIES.FINANCIAL,
+    label: 'Price Volatility 4w',
+    tableColumnFormatter: priceVolatilityFormatter,
   },
   marketcap_usd: {
     category: CATEGORIES.FINANCIAL,
@@ -638,7 +655,10 @@ Object.keys(Metric).forEach((key) => {
 export const metrics = [
   Metric.price_usd,
   Metric.price_btc,
+  Metric.price_volatility_1d,
   Metric.price_volatility_1w,
+  Metric.price_volatility_2w,
+  Metric.price_volatility_4w,
   Metric.marketcap_usd,
   Metric.rank,
   Metric.eth_spent,

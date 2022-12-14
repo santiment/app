@@ -129,7 +129,7 @@ const EditForm = ({
         {isOpen && (
           <Input
             name='name'
-            maxLength='25'
+            maxLength='30'
             autoComplete='off'
             className={styles.input}
             onChange={onInputChange}
