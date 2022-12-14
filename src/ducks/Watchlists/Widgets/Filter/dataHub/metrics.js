@@ -655,7 +655,10 @@ Object.keys(Metric).forEach((key) => {
 export const metrics = [
   Metric.price_usd,
   Metric.price_btc,
+  Metric.price_volatility_1d,
   Metric.price_volatility_1w,
+  Metric.price_volatility_2w,
+  Metric.price_volatility_4w,
   Metric.marketcap_usd,
   Metric.rank,
   Metric.eth_spent,
