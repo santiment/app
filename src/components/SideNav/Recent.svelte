@@ -40,7 +40,7 @@
 
   function queryRecent({ type, id }) {
     return RecentFetcher[type](id)
-      .then((item) => mapRecent(type, item))
+      .then((item) => (item ? mapRecent(type, item) : Promise.reject()))
       .catch(() => {
         removeRecent(type, id)
         return null
