@@ -97,7 +97,7 @@
     "rxjs": "5.x.x",
     "san-insights": "https://github.com/santiment/insights-app#0137632",
     "san-studio": "https://github.com/santiment/san-studio#28a74dc",
-    "san-webkit": "https://github.com/santiment/san-webkit#008013e",
+    "san-webkit": "https://github.com/santiment/san-webkit#1590d79",
     "san-queries": "https://github.com/santiment/san-queries#c501ced",
     "sanitize-html": "^1.18.2",
     "svg-sprite": "1.5.0",
