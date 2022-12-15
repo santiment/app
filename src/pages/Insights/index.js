@@ -15,7 +15,7 @@ export default ({ match }) => {
 
         window.location = href
       },
-      isTrackingEnabled ? 200 : 0,
+      isTrackingEnabled ? 400 : 0,
     )
   }, [])
 
