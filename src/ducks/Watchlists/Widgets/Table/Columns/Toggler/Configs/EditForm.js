@@ -95,7 +95,7 @@ const EditForm = ({
           name='name'
           className={styles.input}
           placeholder='For example, Social movements'
-          maxLength='25'
+          maxLength='30'
           defaultValue={formState.name}
           onChange={(e) => formState.error && onInputChange(e)}
           onBlur={onInputChange}
