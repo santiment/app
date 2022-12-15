@@ -7,6 +7,7 @@
   height: 100%;
   overflow-y: auto;
   overscroll-behavior: contain;
+  transition: top 0.2s ease-in;
 
   :global(.tablet) &,
   :global(.phone) &,
@@ -14,6 +15,10 @@
     position: unset;
     width: 100%;
   }
+}
+
+.filltop {
+  top: 4px;
 }
 
 .calendar {
