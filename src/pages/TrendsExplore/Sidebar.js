@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import { getTimePeriod } from './utils'
 import Calendar from '../../ducks/Studio/AdvancedView/Calendar'
@@ -16,14 +16,6 @@ const MAX_DATE = new Date()
 const Sidebar = ({ topics, linkedAssets, isDesktop, isEmptySearch, ...props }) => {
   const [trendDate, setTrendDate] = useState([MAX_DATE])
   const [trendPeriod, setTrendPeriod] = useState()
-  const [removeTopOffset, setRemoveTopOffset] = useState(false)
-
-  useEffect(() => {
-    const onScroll = () => setRemoveTopOffset(isDesktop && window.pageYOffset >= 65)
-    window.removeEventListener('scroll', onScroll);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [isDesktop]);
 
   function onTrendCalendarChange(date) {
     setTrendDate([date])
@@ -36,7 +28,7 @@ const Sidebar = ({ topics, linkedAssets, isDesktop, isEmptySearch, ...props }) =
   }
 
   return (
-    <aside className={cx(styles.sidebar, 'column no-scrollbar', removeTopOffset && styles.filltop)}>
+    <aside className={cx(styles.sidebar, 'column no-scrollbar')}>
       {!isEmptySearch && (
         <>
           <AverageSocialVolume

@@ -14,7 +14,7 @@ const CustomProjectCategories = {
   gold: getCategoryGraph(['price_usd']),
   's-and-p-500': getCategoryGraph(['price_usd']),
   'crude-oil': getCategoryGraph(['price_usd']),
-  'dxy': getCategoryGraph(['price_usd']),
+  dxy: getCategoryGraph(['price_usd']),
 }
 
 export const SEARCH_PREDICATE_ONLY_METRICS = (searchTerm) => {
