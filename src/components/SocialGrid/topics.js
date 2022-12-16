@@ -25,7 +25,7 @@ export const TOPICS = [
     title: 'Doge',
     price: 'dogecoin',
     ticker: 'DOGE',
-    query: 'doge OR dogecoin?asset=dogecoin&slug=dogecoin&ticker=DOGE'
+    query: 'doge OR dogecoin?asset=dogecoin&slug=dogecoin&ticker=DOGE',
   },
   {
     slug: 'long',
