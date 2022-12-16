@@ -28,8 +28,7 @@
 <aside
   class:collapsed={isCollapsed}
   on:mouseenter={() => (isPeeked = true)}
-  on:mouseleave={() => (isPeeked = false)}
->
+  on:mouseleave={() => (isPeeked = false)}>
   <div class="content">
     <MinimizedCategories {pathname} {isCollapsed} />
     <div class="container txt-m" class:no-scrollbar={isCollapsed}>
@@ -42,8 +41,7 @@
           href="/dashboards"
           class="btn mrg-s mrg--t"
           class:active={pathname.startsWith('/dashboards')}
-          on:click={window.__onLinkClick}
-        >
+          on:click={window.__onLinkClick}>
           <Svg id="report" w="16" class="mrg-m mrg--r" />
           Dashboards
         </a>
@@ -54,8 +52,7 @@
             class="btn mrg-xs mrg--t"
             class:active={pathname === href}
             on:click={!target ? window.__onLinkClick : undefined}
-            {target}
-          >
+            {target}>
             <Svg id={icon} w="16" class="mrg-m mrg--r" />
 
             <span>{label}</span>
@@ -71,6 +68,11 @@
     </div>
   </div>
 </aside>
+{#if !isCollapsed}
+  <div class="xmas">
+    <Svg illus id="christmas/left-top-snow" w="353" h="290" class="$style.left-snow" />
+  </div>
+{/if}
 
 <style lang="scss">
   aside {
@@ -108,8 +110,10 @@
     position: sticky;
     top: 0;
     height: calc(100vh - 64px);
+    background: var(--athens);
     padding: 24px 16px;
     overflow: auto;
+    z-index: 6;
 
     &::-webkit-scrollbar {
       display: none;
@@ -168,5 +172,19 @@
     :global(header) {
       margin-left: -40px;
     }
+  }
+
+  .xmas {
+    position: absolute;
+    left: 160px;
+    top: 0;
+    width: 353px;
+    height: 100%;
+  }
+
+  .left-snow {
+    position: sticky;
+    top: -60px;
+    z-index: 2;
   }
 </style>

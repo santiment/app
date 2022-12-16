@@ -122,7 +122,7 @@
 
   {#if hasMore || showLess}
     <div
-      class="more btn row h-center c-waterloo"
+      class="more btn row h-center c-waterloo relative"
       class:showMoreMain={isMain}
       class:loading
       on:click={onMore}
@@ -139,16 +139,19 @@
 
   .category {
     --padding: 24px;
-    background-color: var(--white);
   }
 
   .small {
     --padding: 16px;
+    position: relative;
+    z-index: 5;
+    background: var(--white);
   }
 
   .header {
     height: 66px;
     padding: 0 var(--padding);
+    z-index: 5;
   }
 
   .isMain .header {
@@ -184,7 +187,9 @@
   }
 
   .item {
+    position: relative;
     padding: 16px var(--padding);
+    z-index: 5;
   }
 
   .isMain .item {
@@ -202,6 +207,7 @@
 
   .more {
     padding: 13.5px 0;
+    z-index: 5;
   }
 
   .showMoreMain {

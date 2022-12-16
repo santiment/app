@@ -39,6 +39,7 @@
   .sticky {
     position: sticky;
     top: 22px;
+    z-index: 10;
   }
 
   .minimized {
