@@ -25,11 +25,15 @@
 <style>
   main,
   .aside {
-    position: sticky;
+    position: relative;
     align-self: flex-end;
     bottom: 0;
     padding-top: 10px;
     min-height: 100vh;
+  }
+
+  .aside {
+    position: sticky;
   }
 
   :global(.tablet) .aside {

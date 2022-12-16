@@ -1,4 +1,5 @@
 <script>
+  import Svg from 'webkit/ui/Svg/svelte'
   import Widget from './Category/Widget.svelte'
   import ExternalLink from './Components/ExternalLink.svelte'
   import SocialTrend from './Layouts/SocialTrend.svelte'
@@ -30,7 +31,10 @@
     })
 </script>
 
-<aside class={className}>
+<aside class="relative {className}">
+  <div class="xmas column">
+    <Svg illus id="christmas/right-snow" w="407" h="548" class="$style.right-snow" />
+  </div>
   <Widget title="Social trends" icon="social-trend" color="blue" let:item getItems={getSocialItems}>
     <ExternalLink href="/dashboards" slot="header" />
     <SocialTrend {item} />
@@ -41,8 +45,7 @@
     icon="report"
     color="blue"
     let:item
-    getItems={getCustomItems(queryReports)}
-  >
+    getItems={getCustomItems(queryReports)}>
     <div slot="header" class="pro row hv-center c-white caption">PRO</div>
     <WeeklyReport {item} />
   </Widget>
@@ -51,8 +54,7 @@
     title="Sheets Templates"
     icon="social-trend"
     let:item
-    getItems={getCustomItems(queryTemplates)}
-  >
+    getItems={getCustomItems(queryTemplates)}>
     <div slot="header" class="pro row hv-center c-white caption">PRO</div>
     <SheetsTemplate {item} />
   </Widget>
@@ -64,5 +66,19 @@
     height: 20px;
     background-color: var(--orange);
     border-radius: 4px;
+  }
+
+  .xmas {
+    position: absolute;
+    height: calc(100% + 100px);
+    width: 407px;
+    right: 130px;
+    justify-content: flex-end;
+    z-index: 2;
+  }
+
+  .right-snow {
+    bottom: 0;
+    position: sticky;
   }
 </style>

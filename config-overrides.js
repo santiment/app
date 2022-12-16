@@ -115,6 +115,11 @@ module.exports = function override(config, env) {
         flatten: true,
       },
       {
+        from: path.resolve('node_modules/san-webkit/lib/sprites/illus/christmas/*.svg'),
+        to: 'static/sprites/illus/christmas',
+        flatten: true,
+      },
+      {
         from: path.resolve('node_modules/san-webkit/lib/icons/*.svg'),
         to: 'static/icons',
         flatten: true,
@@ -127,6 +132,11 @@ module.exports = function override(config, env) {
       {
         from: path.resolve('node_modules/san-webkit/lib/illus/halloween/*.svg'),
         to: 'static/illus/halloween',
+        flatten: true,
+      },
+      {
+        from: path.resolve('node_modules/san-webkit/lib/illus/christmas/*.svg'),
+        to: 'static/illus/christmas',
         flatten: true,
       },
     ]),
