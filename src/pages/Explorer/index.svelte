@@ -26,7 +26,7 @@
   main,
   .aside {
     position: relative;
-    align-self: flex-end;
+    align-self: flex-start;
     bottom: 0;
     padding-top: 10px;
     min-height: 100vh;
