@@ -52,6 +52,7 @@ export const handleLoginSuccess = (action$) =>
 
       const loggedEmails = localStorage.getItem('loggedEmails') || ''
       const { email } = user
+      const isFirstLogin = window.isFirstLogin || user.firstLogin
 
       window.$FPROM &&
         window.$FPROM.trackSignup(
@@ -66,7 +67,7 @@ export const handleLoginSuccess = (action$) =>
       GA.update(user)
 
       const { method = LoginType.EMAIL } = getSavedLoginMethod() || {}
-      if (user.firstLogin) {
+      if (isFirstLogin) {
         window.onGdprAccept = () => {
           trackSignupFinish(method)
         }
@@ -74,7 +75,7 @@ export const handleLoginSuccess = (action$) =>
         trackLoginFinish(method)
       }
 
-      if (user.firstLogin || (email && !loggedEmails.includes(email))) {
+      if (isFirstLogin || (email && !loggedEmails.includes(email))) {
         trackTwitterSignUpEvent()
         if (email) {
           localStorage.setItem('loggedEmails', loggedEmails + email + ';')

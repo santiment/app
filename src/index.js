@@ -1,3 +1,4 @@
+import './firstLogin' // NOTE: ENFORCING FIRST IMPORT ORDER
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Route, Switch } from 'react-router-dom'
