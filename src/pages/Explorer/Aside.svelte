@@ -60,7 +60,7 @@
   </Widget>
 </aside>
 
-<style>
+<style lang="scss">
   .pro {
     width: 40px;
     height: 20px;
@@ -80,5 +80,10 @@
   .right-snow {
     bottom: 0;
     position: sticky;
+    --cyan: #d7f6fc;
+
+    :global(.night-mode) & {
+      --cyan: #253a4b;
+    }
   }
 </style>

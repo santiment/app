@@ -176,15 +176,20 @@
 
   .xmas {
     position: absolute;
-    left: 160px;
-    top: 0;
+    left: 180px;
+    top: 20px;
     width: 353px;
     height: 100%;
   }
 
   .left-snow {
     position: sticky;
-    top: -60px;
+    top: -40px;
     z-index: 2;
+    --cyan: #d7f6fc;
+
+    :global(.night-mode) & {
+      --cyan: #253a4b;
+    }
   }
 </style>

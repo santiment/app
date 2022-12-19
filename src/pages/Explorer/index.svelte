@@ -34,6 +34,7 @@
 
   .aside {
     position: sticky;
+    align-self: flex-end;
   }
 
   :global(.tablet) .aside {
