@@ -63,7 +63,7 @@ const ReactCookiesPopup = toReact(CookiesPopup, {}, 'div')
 const LoadablePage = (loader) =>
   Loadable({
     loader,
-    loading: () => <PageLoader />,
+    loading: PageLoader,
   })
 
 // const LoadableIndexPage = LoadablePage(() => import('./pages/Dashboards'))

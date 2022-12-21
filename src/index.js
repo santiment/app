@@ -138,24 +138,26 @@ const main = () => {
 
   new Notifications({ target: document.body })
 
-  ReactDOM.render(
-    <StripeProvider apiKey={stripeKey}>
-      <ApolloProvider client={client}>
-        <SocketProvider>
-          <Provider store={store}>
-            <Router history={history}>
-              <Switch>
-                <Route exact path='/__embedded' component={EmbeddedWidgetPage} />
-                <Route exact path='/__chart' component={EmbeddedChartPage} />
-                <Route path='/' component={App} history={history} />
-              </Switch>
-            </Router>
-          </Provider>
-        </SocketProvider>
-      </ApolloProvider>
-    </StripeProvider>,
-    document.getElementById('root'),
-  )
+  setTimeout(() => {
+    ReactDOM.render(
+      <StripeProvider apiKey={stripeKey}>
+        <ApolloProvider client={client}>
+          <SocketProvider>
+            <Provider store={store}>
+              <Router history={history}>
+                <Switch>
+                  <Route exact path='/__embedded' component={EmbeddedWidgetPage} />
+                  <Route exact path='/__chart' component={EmbeddedChartPage} />
+                  <Route path='/' component={App} history={history} />
+                </Switch>
+              </Router>
+            </Provider>
+          </SocketProvider>
+        </ApolloProvider>
+      </StripeProvider>,
+      document.getElementById('root'),
+    )
+  }, 2000)
 }
 
 if (process.env.NODE_ENV === 'development') {
