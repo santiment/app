@@ -27,7 +27,7 @@ import ErrorBoundary from './components/ErrorContent/ErrorBoundary'
 import PageLoader from './components/Loader/PageLoader'
 import Footer from './components/Footer'
 import { GDPRPage, UsernamePage } from './pages/ForceActions'
-import delayPromise, { getConsentUrl } from './utils/utils'
+import { getConsentUrl } from './utils/utils'
 import ForceActionRedirector from './components/ForceActionRedirector'
 import { SHARE_PATH } from './components/Share/utils'
 import LogoutPage from './pages/Logout/Logout'
@@ -62,7 +62,7 @@ const ReactCookiesPopup = toReact(CookiesPopup, {}, 'div')
 
 const LoadablePage = (loader) =>
   Loadable({
-    loader: () => delayPromise(loader(), 2000),
+    loader,
     loading: PageLoader,
   })
 

@@ -108,16 +108,6 @@ const isStage =
       process.env.REACT_APP_BACKEND_URL === 'https://api-stage.santiment.net'
     : window.location && window.location.href.indexOf('stage') !== -1
 
-const delay = (d) => new Promise((r) => setTimeout(r, d))
-
-export default async function delayPromise(promise, minimumDelay, { delayRejection = true } = {}) {
-  const delayPromise = delay(minimumDelay)
-
-  await (delayRejection ? delayPromise : Promise.all([promise, delayPromise]))
-
-  return promise
-}
-
 export {
   getOrigin,
   getAPIUrl,
@@ -133,5 +123,4 @@ export {
   safeDecode,
   updateHistory,
   isStage,
-  delayPromise,
 }
