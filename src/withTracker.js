@@ -56,6 +56,8 @@ function getPageType(pathname) {
 
   if (pathname.startsWith('/pricing')) return 'pricing'
 
+  if (pathname.startsWith('/queries')) return 'queries'
+
   if (pathname.startsWith('/charts')) return PageType.CHARTS
 
   if (pathname.startsWith('/alerts')) return PageType.ALERTS

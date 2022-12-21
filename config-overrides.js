@@ -81,6 +81,8 @@ module.exports = function override(config, env) {
       'process.env.IS_DEV_MODE': dev,
       'process.env.MEDIA_PATH': JSON.stringify('/static'),
       'process.env.ICONS_PATH': JSON.stringify('/static/icons'),
+      'process.env.SERVER_FETCH': 'require("node-fetch")',
+
       'process.env.IS_PROD_BACKEND': dev
         ? (process.env.REACT_APP_BACKEND_URL || '').includes('-stage') === false
         : 'window.location.hostname.includes("-stage") === false',

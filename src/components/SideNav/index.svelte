@@ -17,6 +17,7 @@
     ['Watchlists', '/watchlists', 'report'],
     ['Screener', '/screener/new', 'screener'],
     ['Alerts', '/alerts', 'alert'],
+    ['Queries (Beta)', '/queries', 'queries'],
     ['Insights', 'https://insights.santiment.net/', 'insight', '_blank'],
   ]
 
