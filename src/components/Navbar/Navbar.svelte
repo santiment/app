@@ -1,5 +1,5 @@
 <script>
-  import { onMount } from 'svelte'
+  import { onDestroy, onMount } from 'svelte'
   import { customerData$ } from 'webkit/stores/user'
   import { subscription$ } from 'webkit/stores/subscription'
   import { track } from 'webkit/analytics'
@@ -8,6 +8,8 @@
   import Products from 'webkit/ui/Products/svelte'
   import AccountStatus, { AccountStatusType } from 'webkit/ui/AccountStatus.svelte'
   import AccountDropdown from 'webkit/ui/AccountDropdown/index.svelte'
+  import { checkIsGameStarted } from 'webkit/ui/ChristmasNFTDialog/api'
+  import { showChristmasNFTDialog } from 'webkit/ui/ChristmasNFTDialog/Dialog.svelte'
   import NftButton from 'webkit/ui/ChristmasNFTDialog/Button.svelte'
   import { ui } from '@/stores/ui/theme'
   import { history } from '@/redux'
@@ -27,12 +29,37 @@
     customerData$.clear()
   }
 
-  onMount(() => {
-    mount(searchNode, notificationsNode)
-  })
-
   $: subscription = currentUser && currentUser.subscription
   $: customerData = $customerData$
+
+  let timer
+  onMount(() => {
+    mount(searchNode, notificationsNode)
+    if (!checkIsGameStarted()) {
+      timer = setTimeout(() => showChristmasNFTDialog(), 2000)
+    }
+
+    window.onNftGameStart = () => {
+      const data = { campaign_participant: 'nft_battle_2022' }
+
+      if (window.Intercom) {
+        window.Intercom('update', data)
+      }
+
+      if (window.identifyAmplitude) {
+        window.identifyAmplitude((identity) => {
+          Object.keys(data).forEach((key) => {
+            identity.set(key, data[key])
+          })
+        })
+      }
+    }
+  })
+
+  onDestroy(() => {
+    delete window.onNftGameStart
+    clearTimeout(timer)
+  })
 </script>
 
 <header class="row v-center relative">

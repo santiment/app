@@ -22,6 +22,7 @@ import { markAsLatestApp, newAppAvailable } from './ducks/Updates/actions'
 import initSentry from './utils/initSentry'
 import { redirectSharedLink } from './components/Share/utils'
 import { SocketProvider } from './utils/socketHooks'
+import '@santiment-network/ui/main.scss'
 import 'webkit/styles/main.css'
 
 startResponsiveController()
