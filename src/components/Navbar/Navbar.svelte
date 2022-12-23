@@ -8,7 +8,7 @@
   import Products from 'webkit/ui/Products/svelte'
   import AccountStatus, { AccountStatusType } from 'webkit/ui/AccountStatus.svelte'
   import AccountDropdown from 'webkit/ui/AccountDropdown/index.svelte'
-  import { checkIsGameStarted } from 'webkit/ui/ChristmasNFTDialog/api'
+  import { checkWasNftDialogClosedOnce } from 'webkit/ui/ChristmasNFTDialog/api'
   import { showChristmasNFTDialog } from 'webkit/ui/ChristmasNFTDialog/Dialog.svelte'
   import NftButton from 'webkit/ui/ChristmasNFTDialog/Button.svelte'
   import { ui } from '@/stores/ui/theme'
@@ -35,7 +35,7 @@
   let timer
   onMount(() => {
     mount(searchNode, notificationsNode)
-    if (!checkIsGameStarted()) {
+    if (!checkWasNftDialogClosedOnce()) {
       timer = setTimeout(() => showChristmasNFTDialog(), 2000)
     }
 
