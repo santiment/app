@@ -69,11 +69,6 @@
     </div>
   </div>
 </aside>
-{#if !isCollapsed}
-  <div class="xmas">
-    <Svg illus id="christmas/left-top-snow" w="353" h="290" class="$style.left-snow" />
-  </div>
-{/if}
 
 <style lang="scss">
   aside {
@@ -172,25 +167,6 @@
 
     :global(header) {
       margin-left: -40px;
-    }
-  }
-
-  .xmas {
-    position: absolute;
-    left: 180px;
-    top: 20px;
-    width: 353px;
-    height: 100%;
-  }
-
-  .left-snow {
-    position: sticky;
-    top: -40px;
-    z-index: 2;
-    --cyan: #d7f6fc;
-
-    :global(.night-mode) & {
-      --cyan: #253a4b;
     }
   }
 </style>

@@ -1,10 +1,6 @@
 import React from 'react'
-import Lottie from 'lottie-react'
 import cx from 'classnames'
-import logoAnimation from './animation'
 import styles from './PageLoader.module.scss'
-
-// FIXME: Remove `Lottie` and `logoAnimation`, uncomment `<svg>` after christmas
 
 export const LoaderImage = ({ withAnimation = true, size = 44 }) => (
   <svg
@@ -29,9 +25,8 @@ export const LoaderImage = ({ withAnimation = true, size = 44 }) => (
 const PageLoader = ({ className, text = 'Loading', containerClass = 'page' }) => (
   <div className={containerClass}>
     <div className={cx(styles.loader, className)}>
-      {/*<LoaderImage />*/}
-      <Lottie animationData={logoAnimation} />
-      {/*<span className={styles.text}>{text}...</span>*/}
+      <LoaderImage />
+      <span className={styles.text}>{text}...</span>
     </div>
   </div>
 )
