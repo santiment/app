@@ -8,8 +8,6 @@
   import Products from 'webkit/ui/Products/svelte'
   import AccountStatus, { AccountStatusType } from 'webkit/ui/AccountStatus.svelte'
   import AccountDropdown from 'webkit/ui/AccountDropdown/index.svelte'
-  import { checkWasNftDialogClosedOnce } from 'webkit/ui/ChristmasNFTDialog/api'
-  import { showChristmasNFTDialog } from 'webkit/ui/ChristmasNFTDialog/Dialog.svelte'
   import NftButton from 'webkit/ui/ChristmasNFTDialog/Button.svelte'
   import { ui } from '@/stores/ui/theme'
   import { history } from '@/redux'
@@ -32,12 +30,8 @@
   $: subscription = currentUser && currentUser.subscription
   $: customerData = $customerData$
 
-  let timer
   onMount(() => {
     mount(searchNode, notificationsNode)
-    if (!checkWasNftDialogClosedOnce()) {
-      timer = setTimeout(() => showChristmasNFTDialog(), 2000)
-    }
 
     window.onNftGameStart = () => {
       const data = { campaign_participant: 'nft_battle_2022' }
@@ -58,7 +52,6 @@
 
   onDestroy(() => {
     delete window.onNftGameStart
-    clearTimeout(timer)
   })
 </script>
 
