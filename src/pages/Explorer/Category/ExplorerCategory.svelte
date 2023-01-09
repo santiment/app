@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { setContext, onMount, onDestroy } from 'svelte'
   import { trackExplorerShowMore } from 'webkit/analytics/events/explorer'
   import Category from './Category.svelte'
@@ -7,16 +7,15 @@
   import TypeSelector from '../Components/TypeSelector.svelte'
   import { queryExplorerItems } from '../api'
   import { currentUser } from '../store'
-  import { RANGES, MenuItem, getExplorerItem, EntityKeys, FILTERABLE_TABS } from '../const'
+  import { getExplorerItem, EntityKeys, FILTERABLE_TABS } from '../const'
   import { notifyError } from '../helpers'
+  import MenuItems from '../menu.ts'
+  import type { MenuItem } from '../menu.ts'
 
-  export let activeMenu
+  export let activeMenu: MenuItem
   export let onLoadingChange = (newLoading) => {}
 
-  const TIME_RANGES = Object.keys(RANGES)
-
   let range = ''
-  let selectedRangeIndex = TIME_RANGES.indexOf('All time')
   let assets = []
   let displayingTypes = new Set()
   let page = 1
@@ -32,12 +31,7 @@
   let hasInsights = false
 
   $: activeMenu, reset()
-  $: showEmpty = !$currentUser && [MenuItem.MY_CREATIONS, MenuItem.LIKES].includes(activeMenu)
-  $: voted = activeMenu === MenuItem.LIKES
-  $: favorites = activeMenu === MenuItem.FAVORITES
-  $: currentUserDataOnly = activeMenu === MenuItem.MY_CREATIONS
-  $: userRoleDataOnly = activeMenu === MenuItem.SANTIMENT
-  $: isFeaturedDataOnly = [MenuItem.TRENDING, MenuItem.SANTIMENT].includes(activeMenu)
+  $: showEmpty = !$currentUser && activeMenu.getEmptyCreationsProps
   $: range, assets, displayingTypes, page, fetch()
   $: displayingTypes, filterInsights()
   $: onLoadingChange(loading)
@@ -93,7 +87,7 @@
       page: insightsPage,
     })
       .then((res) => {
-        if (activeMenu === MenuItem.TRENDING) {
+        if (activeMenu.is('Trending')) {
           insightsPages = res.pages
           insights = insightsPage === 1 ? res.items : insights.concat(res.items)
         }
@@ -102,14 +96,14 @@
       .finally(() => {
         queryExplorerItems({
           types: getDisplayingType(displayingTypes),
-          voted,
-          favorites,
+          voted: activeMenu.hasAttribute('voted'),
+          favorites: activeMenu.hasAttribute('favorites'),
           range,
           page,
-          currentUserDataOnly,
+          currentUserDataOnly: activeMenu.hasAttribute('currentUserDataOnly'),
           assets,
-          userRoleDataOnly,
-          isFeaturedDataOnly,
+          userRoleDataOnly: activeMenu.hasAttribute('userRoleDataOnly'),
+          isFeaturedDataOnly: activeMenu.hasAttribute('isFeaturedDataOnly'),
         })
           .then((res) => {
             pages = res.pages
@@ -126,7 +120,6 @@
     deselectAssets()
     displayingTypes = new Set()
     range = ''
-    selectedRangeIndex = TIME_RANGES.indexOf('All time')
   }
 
   const getAssets = ({ project, metricsJson }) => [
@@ -156,33 +149,78 @@
     }
   }
 
+  function getLayoutProps(item): {} {
+    if (item.chartConfiguration)
+      return {
+        item: item.chartConfiguration,
+        type: 'CHART',
+        hasIcons: true,
+        assets: getAssets(item.chartConfiguration),
+      }
+
+    if (item.screener)
+      return {
+        item: item.screener,
+        type: 'SCREENER',
+      }
+
+    if (item.projectWatchlist)
+      return {
+        item: item.projectWatchlist,
+        type: 'WATCHLIST',
+      }
+
+    if (item.addressWatchlist)
+      return {
+        item: item.addressWatchlist,
+        type: 'ADDRESS',
+        assets: getAddressLabels(item.addressWatchlist.listItems),
+      }
+
+    if (item.insight)
+      return {
+        item: item.insight,
+        type: 'INSIGHT',
+      }
+
+    if (item.userTrigger)
+      return {
+        item: item.userTrigger,
+        type: 'ALERT',
+        hasIcons: true,
+      }
+
+    return {}
+  }
+
   onMount(() => {
-    if (activeMenu === MenuItem.TRENDING) {
+    if (activeMenu.is('Trending')) {
       queryExplorerItems({
         types: getDisplayingType(displayingTypes),
-        voted,
-        favorites,
+        voted: activeMenu.hasAttribute('voted'),
+        favorites: activeMenu.hasAttribute('favorites'),
         range,
         page,
-        currentUserDataOnly,
+        currentUserDataOnly: activeMenu.hasAttribute('currentUserDataOnly'),
         assets,
-        userRoleDataOnly,
-        isFeaturedDataOnly,
+        userRoleDataOnly: activeMenu.hasAttribute('userRoleDataOnly'),
+        isFeaturedDataOnly: activeMenu.hasAttribute('isFeaturedDataOnly'),
       })
         .then((res) => {
-          if (res.items.length === 0) activeMenu = MenuItem.NEW
+          if (res.items.length === 0) activeMenu = MenuItems.New
         })
         .catch(() => notifyError({ user: $currentUser }))
     }
 
     pullingTimer = setTimeout(() => fetch(true), 60 * 1000)
   })
+
   onDestroy(() => clearTimeout(pullingTimer))
 </script>
 
 <Category
   isMain
-  {favorites}
+  favorites={activeMenu.hasAttribute('favorites')}
   title="Explorer"
   {items}
   {insights}
@@ -208,38 +246,10 @@
   </div>
 
   <svelte:fragment let:item>
-    {#if item.chartConfiguration}
-      <LayoutItem
-        item={item.chartConfiguration}
-        showActions
-        type="CHART"
-        hasIcons
-        assets={getAssets(item.chartConfiguration)}
-      />
-    {:else if item.screener}
-      <LayoutItem
-        item={item.screener}
-        showActions
-        type="SCREENER"
-        id="{item.screener.id}-watchlist"
-      />
-    {:else if item.projectWatchlist}
-      <LayoutItem item={item.projectWatchlist} showActions type="WATCHLIST" />
-    {:else if item.addressWatchlist}
-      <LayoutItem
-        item={item.addressWatchlist}
-        showActions
-        type="ADDRESS"
-        assets={getAddressLabels(item.addressWatchlist.listItems)}
-      />
-    {:else if item.insight}
-      <LayoutItem item={item.insight} showActions type="INSIGHT" />
-    {:else if item.userTrigger}
-      <LayoutItem item={item.userTrigger} showActions type="ALERT" hasIcons />
-    {/if}
+    <LayoutItem {...getLayoutProps(item)} />
   </svelte:fragment>
 </Category>
 
 {#if showEmpty || (!loading && items.length === 0 && insights.length === 0)}
-  <EmptyState {activeMenu} />
+  <EmptyState {...activeMenu.getEmptyCreationsProps()} />
 {/if}
