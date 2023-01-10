@@ -3,11 +3,13 @@
 .container {
   padding: 24px;
 
-  @include responsive('phone', 'phone-xs') {
+  :global(.phones) &,
+  :global(.phone-xs) & {
     padding: 20px 24px;
 
     button {
       width: auto;
     }
+
   }
 }

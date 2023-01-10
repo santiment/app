@@ -82,7 +82,8 @@
     background: var(--athens);
     color: var(--waterloo);
 
-    @include responsive('phone', 'phone-xs') {
+    :global(.phones) &,
+    :global(.phone-xs) & {
       padding: 12px 24px;
     }
   }
@@ -102,7 +103,8 @@
   min-height: 60px;
   padding: 20px 24px;
   
-  @include responsive('phone', 'phone-xs') {
+  :global(.phones) &,
+  :global(.phone-xs) & {
     @include text('body-2');
   }
 
@@ -141,7 +143,8 @@
     margin-top: 4px;
     color: var(--waterloo) !important;
 
-    @include responsive('phone', 'phone-xs') {
+    :global(.phones) &,
+    :global(.phone-xs) & {
       margin-top: auto;
     }
   }
@@ -284,7 +287,8 @@
       color: var(--jungle-green-hover);
     }
 
-    @include responsive('phone', 'phone-xs') {
+    :global(.phones) &,
+    :global(.phone-xs) & {
       @include text('body-2');
     }
   }
@@ -491,7 +495,8 @@
   align-items: center;
   color: var(--rhino);
 
-  @include responsive('phone', 'phone-xs') {
+  :global(.phones) &,
+  :global(.phone-xs) & {
     margin-bottom: 6px;
     @include text('body-2');
   }

@@ -19,7 +19,8 @@
     fill: var(--waterloo);
   }
 
-  @include responsive('phone', 'phone-xs') {
+  :global(.phones) &,
+  :global(.phone-xs) & {
     margin-bottom: 12px;
   }
 }
