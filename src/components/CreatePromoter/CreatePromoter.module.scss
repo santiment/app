@@ -5,10 +5,8 @@
 
   @include responsive('phone', 'phone-xs') {
     padding: 20px 24px;
-  }
 
-  button {
-    @include responsive('phone', 'phone-xs') {
+    button {
       width: auto;
     }
   }
