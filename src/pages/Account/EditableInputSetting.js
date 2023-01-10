@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react'
+import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Label from '@santiment-network/ui/Label'
 import Input from '@santiment-network/ui/Input'
 import Icon from '@santiment-network/ui/Icon'
 import DarkTooltip from '../../components/Tooltip/DarkTooltip'
-import cx from 'classnames'
 import styles from './AccountPage.module.scss'
 
 class EditableInputSetting extends PureComponent {
@@ -94,7 +94,7 @@ class EditableInputSetting extends PureComponent {
                 {tooltip ? (
                   <DarkTooltip
                     trigger={
-                      <div>
+                      <div className="row hv-center">
                         {label} <Icon type='info-round' className={styles.labelTooltip} />
                       </div>
                     }
@@ -108,7 +108,7 @@ class EditableInputSetting extends PureComponent {
                 )}
               </Label>
               <Label
-                className={cx(styles.setting__description, classes.inputContainerLabel)}
+                className={cx(styles.label, styles.setting__description, classes.inputContainerLabel)}
                 accent='waterloo'
               >
                 {(defaultValue && `${prefix || ''}${defaultValue}`) ||

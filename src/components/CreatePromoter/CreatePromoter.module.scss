@@ -1,5 +1,15 @@
-@import '~@santiment-network/ui/variables';
+@import '~@santiment-network/ui/mixins';
 
 .container {
   padding: 24px;
+
+  @include responsive('phone', 'phone-xs') {
+    padding: 20px 24px;
+  }
+
+  button {
+    @include responsive('phone', 'phone-xs') {
+      width: auto;
+    }
+  }
 }

@@ -4,14 +4,14 @@
   @include responsive('phone', 'phone-xs') {
     display: flex;
     flex-direction: column;
-    height: auto !important;
+    align-items: flex-start;
   }
 }
 
 .inputContainerRight {
   @include responsive('phone', 'phone-xs') {
     display: flex;
-    margin-top: 10px;
+    margin-top: 12px;
   }
 }
 

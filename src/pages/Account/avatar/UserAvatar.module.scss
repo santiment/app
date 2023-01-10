@@ -18,6 +18,10 @@
   &:hover {
     fill: var(--waterloo);
   }
+
+  @include responsive('phone', 'phone-xs') {
+    margin-bottom: 12px;
+  }
 }
 
 .img {
