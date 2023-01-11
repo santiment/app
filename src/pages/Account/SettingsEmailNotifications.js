@@ -16,7 +16,7 @@ const SettingsEmailNotifications = ({ classes = {}, description, count }) => {
   const [update] = useUpdateUserNotifications()
 
   return (
-    <div className={cx(classes.container, styles.settingBlock)}>
+    <div className={cx(classes.container, styles.settingBlock, count < 1 && styles.noCount)}>
       <Label className={cx(classes.left, 'row v-center', styles.label)}>
         <span className='mrg--r mrg-xs'>Email notifications</span>
         {count > 0 && (

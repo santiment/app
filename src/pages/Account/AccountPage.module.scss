@@ -66,6 +66,19 @@
   color: inherit;
 }
 
+.noCount {
+  :global(.phones) &,
+  :global(.phone-xs) & {
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: space-between;
+
+    & span, & div {
+      margin: 0;
+    }
+  }
+}
+
 .settings {
   margin-bottom: 25px;
   width: 100%;
@@ -102,7 +115,7 @@
   border-bottom: 1px solid var(--porcelain);
   min-height: 60px;
   padding: 20px 24px;
-  
+
   :global(.phones) &,
   :global(.phone-xs) & {
     @include text('body-2');
@@ -116,6 +129,11 @@
     display: flex;
     flex-direction: column;
 
+    :global(.phones) &,
+    :global(.phone-xs) & {
+      width: 100%;
+    }
+
     &_form {
       flex-direction: row;
       align-items: center;
@@ -126,6 +144,13 @@
     display: flex;
     align-items: center;
     margin-left: auto;
+
+    :global(.phones) &,
+    :global(.phone-xs) & {
+      margin-left: 0;
+      margin-top: 6px;
+      justify-content: space-between;
+    }
   }
 
   &_apikey {
@@ -155,7 +180,7 @@
 }
 
 .getTokens {
-  @include text('body-3');
+  @include text('body-2');
 }
 
 .bancorLogo {
@@ -169,7 +194,7 @@
   width: 100%;
   margin-top: 14px;
 
-  & > div > div > div > div {
+  &>div>div>div>div {
     // NOTE(vangaurd): I know....
 
     box-shadow: none !important;
@@ -178,8 +203,7 @@
     align-items: center;
   }
 
-  a[href="https://www.bancor.network"]
-  {
+  a[href="https://www.bancor.network"] {
     position: absolute;
     top: -42px;
   }
@@ -210,7 +234,8 @@
     }
 
     @include responsive('phone', 'phone-xs') {
-      padding: 10px;
+      padding: 16px 8px;
+      margin-right: 8px;
     }
   }
 }
@@ -304,7 +329,7 @@
     display: block;
   }
 
-  &_error .form__input:focus + .form__error {
+  &_error .form__input:focus+.form__error {
     display: block;
   }
 }
@@ -371,6 +396,7 @@
 
   @include responsive('phone', 'phone-xs') {
     flex-direction: column;
+    align-items: flex-start;
   }
 }
 
@@ -381,6 +407,10 @@
     margin: auto;
     margin-top: 10px;
   }
+}
+
+.metasmask_address {
+  word-break: break-word;
 }
 
 .neuro {
@@ -399,7 +429,6 @@
 
   @include responsive('phone', 'phone-xs') {
     margin: auto;
-    margin-top: 10px;
   }
 }
 
@@ -416,6 +445,11 @@
   @include responsive('phone', 'phone-xs') {
     flex-direction: column;
   }
+
+  :global(.phones) &,
+  :global(.phone-xs) & {
+    align-items: flex-start;
+  }
 }
 
 .settingBlock {
@@ -423,6 +457,12 @@
   height: 32px;
   display: flex;
   flex-direction: row;
+
+  :global(.phones) &,
+  :global(.phone-xs) & {
+    height: auto;
+    flex-direction: column;
+  }
 }
 
 .pushLoader {
@@ -443,6 +483,12 @@
   margin-right: 24px;
   color: var(--jungle-green);
   text-align: right;
+
+  :global(.phones) &,
+  :global(.phone-xs) & {
+    @include text('body-2');
+    text-align: left;
+  }
 }
 
 .toggleWrapper {
@@ -478,14 +524,17 @@
   color: var(--waterloo);
 
   @include text('body-3');
+
+  :global(.phones) &,
+  :global(.phone-xs) & {
+    margin-left: 0;
+    margin-top: 12px;
+  }
 }
 
 .link {
   padding: 0;
-}
-
-.reconnect {
-  margin-top: 4px;
+  margin-left: 4px;
 }
 
 .label {
@@ -509,6 +558,7 @@
   height: 12px;
 
   fill: var(--waterloo);
+
   &:hover {
     fill: var(--rhino);
   }

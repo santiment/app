@@ -29,9 +29,9 @@ const ConnectMetamaskBlock = ({
       <div className={styles.setting__left}>
         <Label className={styles.label}>Metamask</Label>
         {address ? (
-          <div className='c-waterloo mrg-xs mrg--t'>{address}</div>
+          <div className={cx(styles.metasmask_address, 'c-waterloo mrg-m mrg--b')}>{address}</div>
         ) : (
-          <div className='c-waterloo mrg-xs mrg--t'>
+          <div className='c-waterloo mrg-m mrg--b'>
             You will get the ability to deposit tokens to your Sanbase account.
             <br />
             Please follow futher instructions.

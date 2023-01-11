@@ -51,7 +51,7 @@ const ConnectTelegramBlock = ({
     <div className={cx(styles.telegram, classes.container)}>
       <div className={cx(styles.setting__left, classes.left)}>
         <Label className={styles.label}>Telegram</Label>
-        <Label className={styles.setting__description} accent='waterloo'>
+        <Label className={cx(styles.label, styles.setting__description)} accent='waterloo'>
           Connect the notification bot to your Telegram account
         </Label>
       </div>
@@ -70,7 +70,7 @@ const ConnectTelegramBlock = ({
           </TgButton>
 
           {hasTelegramConnected && (
-            <div className={styles.reconnect}>
+            <div className={styles.label}>
               Have another account?{' '}
               <TgButton
                 accent='positive'

@@ -8,8 +8,12 @@
 
 .title {
   @include text('body-3', 'l');
-
   margin-bottom: 12px;
+
+  :global(.phones) &,
+  :global(.phone-xs) & {
+    @include text('body-2');
+  }
 }
 
 .limitBlock {
@@ -25,4 +29,11 @@
 .input {
   text-align: center;
   max-width: 150px;
+
+  :global(.phones) &,
+  :global(.phone-xs) & {
+    padding: 8px 10px;
+    width: 80px;
+    border-radius: 6px;
+  }
 }
