@@ -21,5 +21,6 @@
     width: 100%;
     display: flex;
     flex-direction: row;
+    @include text('body-2');
   }
 }

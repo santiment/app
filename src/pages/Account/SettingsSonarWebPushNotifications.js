@@ -144,7 +144,7 @@ const SettingsSonarWebPushNotifications = ({
   }
 
   return (
-    <div className={cx(classes.container, styles.settingBlock, className)}>
+    <div className={cx(classes.container, styles.settingBlock, className, styles.noCount)}>
       <div className={cx(classes.left, 'row v-center')}>
         <div className='row v-center'>
           <span className='mrg--r mrg-xs'>Push notifications</span>
