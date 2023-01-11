@@ -29,7 +29,7 @@ const SettingsEmailPreferences = () => {
         </Settings.Row>
       ))}
       <Settings.Row>
-        <div className='column mrg--t mrg--b mrg-s'>
+        <div className='column'>
           <button className={cx(styles.btn, 'btn')} onClick={handleUnsubscribeAll}>
             Unsubscribe from all of the above
           </button>

@@ -1,5 +1,10 @@
 .textWrapper {
   gap: 6px;
+
+  :global(.phones) &,
+  :global(.phone-xs) & {
+    max-width: 207px;
+  }
 }
 
 .proBadge {

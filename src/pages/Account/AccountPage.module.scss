@@ -180,7 +180,7 @@
 }
 
 .getTokens {
-  @include text('body-3');
+  @include text('body-2');
 }
 
 .bancorLogo {
@@ -234,7 +234,8 @@
     }
 
     @include responsive('phone', 'phone-xs') {
-      padding: 10px;
+      padding: 16px 8px;
+      margin-right: 8px;
     }
   }
 }
