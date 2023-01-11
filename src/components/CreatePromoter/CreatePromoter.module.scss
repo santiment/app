@@ -1,5 +1,15 @@
-@import '~@santiment-network/ui/variables';
+@import '~@santiment-network/ui/mixins';
 
 .container {
   padding: 24px;
+
+  :global(.phones) &,
+  :global(.phone-xs) & {
+    padding: 20px 24px;
+
+    button {
+      width: auto;
+    }
+
+  }
 }

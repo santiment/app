@@ -75,15 +75,17 @@
 
   @include responsive('phone', 'phone-xs') {
     scroll-margin-top: 140px;
+    margin-bottom: 40px;
   }
 
   &__header {
     background: var(--athens);
-    color: var(--grey-dark-2);
+    color: var(--waterloo);
 
-    @include text('caption');
-
-    font-weight: 600;
+    :global(.phones) &,
+    :global(.phone-xs) & {
+      padding: 12px 24px;
+    }
   }
 
   &__content {
@@ -99,7 +101,12 @@
   align-items: center;
   border-bottom: 1px solid var(--porcelain);
   min-height: 60px;
-  padding: 16px 20px;
+  padding: 20px 24px;
+  
+  :global(.phones) &,
+  :global(.phone-xs) & {
+    @include text('body-2');
+  }
 
   &:last-child {
     border-bottom: none;
@@ -134,6 +141,12 @@
 
   &__description {
     margin-top: 4px;
+    color: var(--waterloo) !important;
+
+    :global(.phones) &,
+    :global(.phone-xs) & {
+      margin-top: auto;
+    }
   }
 }
 
@@ -224,6 +237,7 @@
 
   @include responsive('phone', 'phone-xs') {
     flex-direction: column;
+    @include text('body-2');
   }
 }
 
@@ -271,6 +285,11 @@
 
     &:hover {
       color: var(--jungle-green-hover);
+    }
+
+    :global(.phones) &,
+    :global(.phone-xs) & {
+      @include text('body-2');
     }
   }
 
@@ -475,6 +494,12 @@
   display: flex;
   align-items: center;
   color: var(--rhino);
+
+  :global(.phones) &,
+  :global(.phone-xs) & {
+    margin-bottom: 6px;
+    @include text('body-2');
+  }
 }
 
 .labelTooltip {

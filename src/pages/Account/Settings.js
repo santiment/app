@@ -7,7 +7,7 @@ const Settings = (props) => (
   <Panel
     {...props}
     className={cx(styles.settings, props.className)}
-    headerClassName={styles.settings__header}
+    headerClassName={cx(styles.settings__header, 'txt-m body-3')}
     contentClassName={cx(styles.settings__content, props.contentClassName)}
   />
 )

@@ -22,7 +22,7 @@ const UserAvatar = ({
         styles.avatar,
         classes.avatar,
         !picUrl && classes.avatarEmpty,
-        isCurrentUser && classes.editable,
+        isCurrentUser && classes.editable
       )}
       style={{ backgroundImage: `url("${picUrl}"` }}
     >

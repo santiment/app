@@ -18,6 +18,11 @@
   &:hover {
     fill: var(--waterloo);
   }
+
+  :global(.phones) &,
+  :global(.phone-xs) & {
+    margin-bottom: 12px;
+  }
 }
 
 .img {
