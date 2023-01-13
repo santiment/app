@@ -1,11 +1,6 @@
 @import '~@santiment-network/ui/mixins';
 @import '~@santiment-network/ui/variables';
 
-.wrapper {
-  display: flex;
-  flex-direction: column;
-}
-
 .apikey {
   display: flex;
   height: 32px;
@@ -77,5 +72,26 @@
 
   &:hover {
     color: var(--jungle-green-hover);
+  }
+}
+
+.descriptionRow {
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--porcelain);
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.generateButton {
+  width: auto;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-top: 12px;
   }
 }

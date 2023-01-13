@@ -8,6 +8,7 @@ import copy from 'copy-to-clipboard'
 import Settings from './Settings'
 import * as actions from '../../actions/types'
 import ApiCallsStatistic, { API_KEYS_STATS } from './ApiCallsStatistic'
+import accountStyles from './AccountPage.module.scss'
 import styles from './SettingsAPIKeys.module.scss'
 
 let genTimer
@@ -27,9 +28,9 @@ const SettingsAPIKeys = ({ apikeys = [], generateAPIKey, revokeAPIKey }) => {
 
   return (
     <Settings id='api-keys' header='API keys'>
-      <Settings.Row>
-        <div className={styles.setting__left}>
-          <Label className={styles.setting__description} accent='waterloo'>
+      <Settings.Row className={styles.descriptionRow}>
+        <Label className={cx(accountStyles.label)} accent='waterloo'>
+          <p>
             The api key can only be used to fetch data and not to execute graphql mutations.
             <br />
             <br />
@@ -52,43 +53,38 @@ const SettingsAPIKeys = ({ apikeys = [], generateAPIKey, revokeAPIKey }) => {
               documentation
             </a>{' '}
             to get started.
-          </Label>
-        </div>
-        <div>
-          <div className={styles.wrapper}>
-            {apikeys.length > 0 ? (
-              apikeys.map((apikey) => (
-                <div key={apikey} className={styles.keyContainer}>
-                  <div className={cx(styles.apikey, copiedShown === apikey && styles.copied)}>
-                    <input className={styles.apikey__input} defaultValue={apikey} readOnly />
-                    <Icon
-                      onClick={() => {
-                        copy(apikey)
-                        showCopiedTooltip(apikey)
-                      }}
-                      type='copy'
-                      className={styles.apikey__icon}
-                    />
-                  </div>
-                  <Button
-                    onClick={() => {
-                      revokeAPIKey(apikey)
-                    }}
-                    accent='negative'
-                  >
-                    Revoke
-                  </Button>
-                </div>
-              ))
-            ) : (
-              <Button onClick={onGenClick} variant='fill' accent='positive'>
-                Generate
+          </p>
+        </Label>
+        {apikeys.length > 0 ? (
+          apikeys.map((apikey) => (
+            <div key={apikey} className={styles.keyContainer}>
+              <div className={cx(styles.apikey, copiedShown === apikey && styles.copied)}>
+                <input className={styles.apikey__input} defaultValue={apikey} readOnly />
+                <Icon
+                  onClick={() => {
+                    copy(apikey)
+                    showCopiedTooltip(apikey)
+                  }}
+                  type='copy'
+                  className={styles.apikey__icon}
+                />
+              </div>
+              <Button
+                onClick={() => {
+                  revokeAPIKey(apikey)
+                }}
+                accent='negative'
+              >
+                Revoke
               </Button>
-            )}
-          </div>
-        </div>
+            </div>
+          ))
+        ) : (
+          <Button onClick={onGenClick} variant='fill' accent='positive' className={styles.generateButton}>
+            Generate
+          </Button>
+        )}
       </Settings.Row>
-
       <ApiCallsStatistic type={API_KEYS_STATS.APIKEY} />
     </Settings>
   )

@@ -156,14 +156,16 @@ const Session = ({ client, platform, isCurrent, jti, refreshWidget, lastActiveAt
         </Dialog.Actions>
       </Dialog>
       <Settings.Row className={styles.wrapper}>
-        {getPlatformIcon(platform)}
-        <div className={styles.info}>
-          <span className={styles.platform}>
-            {platform}, {client}
-          </span>
-          <span className={styles.time}>
-            {isCurrent ? 'Current session' : `Last active ${formatDate(lastActiveAt)}`}
-          </span>
+        <div className='row'>
+          {getPlatformIcon(platform)}
+          <div className={styles.info}>
+            <span className={styles.platform}>
+              {platform}, {client}
+            </span>
+            <span className={styles.time}>
+              {isCurrent ? 'Current session' : `Last active ${formatDate(lastActiveAt)}`}
+            </span>
+          </div>
         </div>
         <Button accent='negative' isLoading={loading} className={styles.revoke} onClick={onClick}>
           Revoke
