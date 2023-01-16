@@ -1,7 +1,16 @@
+@import '~@santiment-network/ui/mixins';
+
 .wrapper {
   padding: 12px 24px;
   display: flex;
   align-items: center;
+
+  @include responsive('phone', 'phone-xs') {
+    padding: 16px 24px;
+    flex-direction: column;
+    align-items: flex-start;
+    @include text('body-2');
+  }
 }
 
 .info {
@@ -21,6 +30,12 @@
 .revoke {
   margin-left: auto;
   padding-right: 0;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-left: 56px;
+    margin-top: 12px;
+    padding-left: initial;
+  }
 }
 
 .wrapper + .wrapper {

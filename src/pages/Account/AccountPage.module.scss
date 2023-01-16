@@ -297,6 +297,8 @@
       @include responsive('phone', 'phone-xs') {
         margin: 0;
         width: 100%;
+        padding: 8px 10px;
+        height: 40px;    
       }
     }
 
@@ -345,7 +347,7 @@
   text-align: center;
 
   &_cancel {
-    margin-right: 16px;
+    margin-left: 16px;
   }
 }
 

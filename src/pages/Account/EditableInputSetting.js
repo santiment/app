@@ -137,6 +137,14 @@ class EditableInputSetting extends PureComponent {
           {editing ? (
             <div className={styles.btns}>
               <Button
+                border
+                className={cx(styles.btn, styles.btn_cancel)}
+                onClick={this.disableEditing}
+                disabled={saving}
+              >
+                Cancel
+              </Button>
+              <Button
                 variant='fill'
                 accent='positive'
                 className={styles.btn}
@@ -144,14 +152,6 @@ class EditableInputSetting extends PureComponent {
                 disabled={saving}
               >
                 Save
-              </Button>
-              <Button
-                border
-                className={cx(styles.btn, styles.btn_cancel)}
-                onClick={this.disableEditing}
-                disabled={saving}
-              >
-                Cancel
               </Button>
             </div>
           ) : (
