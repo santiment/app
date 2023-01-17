@@ -13,7 +13,6 @@ export const DEFAULT_SETTINGS = {
   alertNotifyTelegram: false,
   pageSize: 20,
   theme: 'default',
-  newsletterSubscription: 'OFF',
   alertsPerDayLimit: {},
 }
 
@@ -21,7 +20,6 @@ export const USER_SETTINGS_FRAGMENT = gql`
   fragment userSettigsFragment on UserSettings {
     hidePrivacyData
     isBetaMode
-    newsletterSubscription
     pageSize
     alertNotifyEmail
     alertNotifyTelegram

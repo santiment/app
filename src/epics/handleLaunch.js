@@ -20,7 +20,6 @@ export const USER_GQL_FRAGMENT = gql`
       address
     }
     settings {
-      newsletterSubscription
       isBetaMode
       theme
       isPromoter

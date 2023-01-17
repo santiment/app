@@ -2,7 +2,6 @@ import { updateAmplitude } from 'webkit/analytics/amplitude'
 import { stores } from '../svelte'
 import * as actions from '../actions/types'
 import { updateUser } from '../stores/user'
-import { updateUserSettingsCache } from '../stores/user/settings'
 import { updateUserSubscriptions } from '../stores/user/subscriptions'
 import { loginUser, logoutUser } from '../stores/user/flow'
 
@@ -17,7 +16,6 @@ export const initialState = {
       isTelegarmDeepLinkError: false,
       telegramDeepLink: '',
       isTelegramConnecting: false,
-      newsletterSubscription: 'OFF',
     },
     apikeys: [],
     subscriptions: [],
@@ -117,21 +115,6 @@ export default (state = initialState, action) => {
         },
       }
     }
-    case actions.USER_DIGEST_CHANGE:
-      updateUserSettingsCache({
-        newsletterSubscription: action.payload,
-      })
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          settings: {
-            ...state.data.settings,
-            newsletterSubscription: action.payload,
-          },
-        },
-      }
-
     case actions.USER_SETTING_GDPR:
       const { privacyPolicyAccepted, marketingAccepted } = action.payload
       updateUser({ privacyPolicyAccepted, marketingAccepted })
