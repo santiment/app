@@ -23,6 +23,11 @@ const withTracker = (WrappedComponent) => {
     componentDidMount() {
       const page = this.props.location.pathname
       trackPage(page)
+
+      trackPageView({
+        url: page,
+        type: getPageType(page),
+      })
     }
 
     componentWillReceiveProps(nextProps) {
