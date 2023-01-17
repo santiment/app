@@ -1,12 +1,9 @@
 import React from 'react'
 import cx from 'classnames'
+import { getOAuthLink } from 'webkit/utils/auth'
 import { trackLoginStart, LoginType } from 'webkit/analytics/events/general'
 import { trackSignupStart } from 'webkit/analytics/events/onboarding'
 import styles from './index.module.scss'
-
-const AUTH_LINK = (process.env.REACT_APP_BACKEND_URL || window.location.hostname).includes('stage')
-  ? 'https://api-stage.santiment.net/auth/google'
-  : 'https://api.santiment.net/auth/google'
 
 const GOOGLE_ICON = (
   <svg
@@ -44,7 +41,7 @@ const LoginGoogleBtn = ({ signUp, className }) => {
 
   return (
     <a
-      href={AUTH_LINK}
+      href={getOAuthLink('google')}
       className={cx(styles.button, 'btn-2 row v-center mrg-s mrg--t', className)}
       onClick={onClick}
     >

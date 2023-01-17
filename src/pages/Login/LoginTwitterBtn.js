@@ -1,13 +1,10 @@
 import React from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
+import { getOAuthLink } from 'webkit/utils/auth'
 import { trackLoginStart, LoginType } from 'webkit/analytics/events/general'
 import { trackSignupStart } from 'webkit/analytics/events/onboarding'
 import styles from './index.module.scss'
-
-const AUTH_LINK = (process.env.REACT_APP_BACKEND_URL || window.location.hostname).includes('stage')
-  ? 'https://api-stage.santiment.net/auth/twitter'
-  : 'https://api.santiment.net/auth/twitter'
 
 const LogitTwitterBtn = ({ signUp, className }) => {
   function onClick() {
@@ -20,7 +17,7 @@ const LogitTwitterBtn = ({ signUp, className }) => {
 
   return (
     <a
-      href={AUTH_LINK}
+      href={getOAuthLink('twitter')}
       className={cx(styles.button, 'btn-2 row v-center mrg-s mrg--t', className)}
       onClick={onClick}
     >
