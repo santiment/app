@@ -2,7 +2,7 @@ import 'rxjs'
 import { combineEpics } from 'redux-observable'
 import handleLauched from './handleLaunch'
 import handleLogout from './handleLogout'
-import handleEmailLogin, { digestSubscriptionEpic, handleLoginSuccess } from './handleEmailLogin'
+import handleEmailLogin, { handleLoginSuccess } from './handleEmailLogin'
 import handleEthLogin, { connectNewWallet, removeConnectedWallet } from './handleEthLogin'
 import logoutEpic from './../pages/Logout/LogoutEpic'
 import handleGDPR from './handleGDPR'
@@ -39,7 +39,6 @@ export default combineEpics(
   handleEmailLogin,
   // First handler after user is logged in (Ethereum or Email Provider)
   handleLoginSuccess,
-  digestSubscriptionEpic,
   handleEthLogin,
   handleGDPR,
   // user's assets lists

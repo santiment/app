@@ -6,13 +6,12 @@ import { trackTwitterSignUpEvent } from 'webkit/analytics/twitter'
 import { getSavedLoginMethod } from 'webkit/analytics/events/utils'
 import { trackLoginFinish, LoginType } from 'webkit/analytics/events/general'
 import { trackSignupFinish } from 'webkit/analytics/events/onboarding'
-import { changeDigestSubscription, showNotification } from '../actions/rootActions'
+import { showNotification } from '../actions/rootActions'
 import * as actions from './../actions/types'
 import { savePrevAuthProvider } from '../utils/localStorage'
 import GA from './../utils/tracking'
 import { setCoupon } from '../utils/coupon'
 import { USER_GQL_FRAGMENT } from './handleLaunch'
-import { NEWSLETTER_SUBSCRIPTION_MUTATION } from '../pages/Account/gql'
 
 const EMAIL_LOGIN_VERIFY_MUTATION = gql`
   mutation emailLoginVerify($email: String!, $token: String!) {
@@ -92,30 +91,6 @@ export const handleLoginSuccess = (action$) =>
     .catch((error) => {
       return Observable.of({ type: actions.USER_LOGIN_FAILED, payload: error })
     })
-
-export const digestSubscriptionEpic = (action$, store, { client }) =>
-  action$
-    .ofType(actions.USER_LOGIN_SUCCESS)
-    .take(1)
-    .mergeMap(({ subscribeToWeeklyNewsletter, user: { privacyPolicyAccepted } }) =>
-      (privacyPolicyAccepted ? Observable.of(true) : action$.ofType(actions.USER_SETTING_GDPR))
-        .delayWhen(() => Observable.timer(2000))
-        .take(1)
-        .mergeMap((action) => {
-          if (subscribeToWeeklyNewsletter) {
-            return Observable.from(
-              client.mutate({
-                mutation: NEWSLETTER_SUBSCRIPTION_MUTATION,
-                variables: {
-                  subscription: 'WEEKLY',
-                },
-              }),
-            ).mergeMap(() => Observable.of(changeDigestSubscription()))
-          }
-
-          return Observable.empty()
-        }),
-    )
 
 const handleEmailLogin = (action$, store, { client }) =>
   action$
