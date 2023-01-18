@@ -79,18 +79,8 @@
     items = items
   })
 
-  async function setInsightItems() {
-    if (activeMenu !== MenuItem.TRENDING) return
-    const insightItems = await queryExplorerItems({
-      types: [EntityKeys.INSIGHT],
-      page: insightsPage,
-    })
-    insightsPages = insightItems.pages
-    insights = insightsPage === 1 ? insightItems.items : insights.concat(insightItems.items)
-  }
-
   async function setDisplayingItems() {
-    const displayingItems = await queryExplorerItems({
+    const data = await queryExplorerItems({
       types: getDisplayingType(displayingTypes),
       voted,
       favorites,
@@ -101,8 +91,8 @@
       userRoleDataOnly,
       isFeaturedDataOnly,
     })
-    pages = displayingItems.pages
-    items = page === 1 ? displayingItems.items : items.concat(displayingItems.items)
+    pages = data.pages
+    items = page === 1 ? data.items : items.concat(data.items)
   }
 
   async function fetch(bypassLoading = false) {
@@ -115,7 +105,6 @@
 
     try {
       loading = !bypassLoading
-      await setInsightItems()
       await setDisplayingItems()
     } catch {
       notifyError({ user: $currentUser })
