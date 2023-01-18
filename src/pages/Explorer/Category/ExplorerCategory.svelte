@@ -79,45 +79,49 @@
     items = items
   })
 
-  function fetch(bypassLoading = false) {
+  async function setInsightItems() {
+    if (activeMenu !== MenuItem.TRENDING) return
+    const insightItems = await queryExplorerItems({
+      types: [EntityKeys.INSIGHT],
+      page: insightsPage,
+    })
+    insightsPages = insightItems.pages
+    insights = insightsPage === 1 ? insightItems.items : insights.concat(insightItems.items)
+  }
+
+  async function setDisplayingItems() {
+    const displayingItems = await queryExplorerItems({
+      types: getDisplayingType(displayingTypes),
+      voted,
+      favorites,
+      range,
+      page,
+      currentUserDataOnly,
+      assets,
+      userRoleDataOnly,
+      isFeaturedDataOnly,
+    })
+    pages = displayingItems.pages
+    items = page === 1 ? displayingItems.items : items.concat(displayingItems.items)
+  }
+
+  async function fetch(bypassLoading = false) {
     if (showEmpty) {
       pages = 1
       page = 1
       items = []
       return
     }
-    if (!bypassLoading) loading = true
 
-    queryExplorerItems({
-      types: [EntityKeys.INSIGHT],
-      page: insightsPage,
-    })
-      .then((res) => {
-        if (activeMenu === MenuItem.TRENDING) {
-          insightsPages = res.pages
-          insights = insightsPage === 1 ? res.items : insights.concat(res.items)
-        }
-      })
-      .catch(() => notifyError({ user: $currentUser }))
-      .finally(() => {
-        queryExplorerItems({
-          types: getDisplayingType(displayingTypes),
-          voted,
-          favorites,
-          range,
-          page,
-          currentUserDataOnly,
-          assets,
-          userRoleDataOnly,
-          isFeaturedDataOnly,
-        })
-          .then((res) => {
-            pages = res.pages
-            items = page === 1 ? res.items : items.concat(res.items)
-          })
-          .catch(() => notifyError({ user: $currentUser }))
-          .finally(() => (loading = false))
-      })
+    try {
+      loading = !bypassLoading
+      await setInsightItems()
+      await setDisplayingItems()
+    } catch {
+      notifyError({ user: $currentUser })
+    } finally {
+      loading = false
+    }
   }
 
   function reset() {
@@ -193,8 +197,7 @@
     insightsPage += 1
     trackExplorerShowMore({ page, size: 20 })
   }}
-  hasMore={page < pages}
->
+  hasMore={page < pages}>
   <div slot="header" class="controls row mrg-a mrg--l">
     <TypeSelector
       flat
@@ -203,8 +206,7 @@
         page = 1
         insightsPage = 1
       }}
-      {displayingTypes}
-    />
+      {displayingTypes} />
   </div>
 
   <svelte:fragment let:item>
@@ -214,15 +216,13 @@
         showActions
         type="CHART"
         hasIcons
-        assets={getAssets(item.chartConfiguration)}
-      />
+        assets={getAssets(item.chartConfiguration)} />
     {:else if item.screener}
       <LayoutItem
         item={item.screener}
         showActions
         type="SCREENER"
-        id="{item.screener.id}-watchlist"
-      />
+        id="{item.screener.id}-watchlist" />
     {:else if item.projectWatchlist}
       <LayoutItem item={item.projectWatchlist} showActions type="WATCHLIST" />
     {:else if item.addressWatchlist}
@@ -230,8 +230,7 @@
         item={item.addressWatchlist}
         showActions
         type="ADDRESS"
-        assets={getAddressLabels(item.addressWatchlist.listItems)}
-      />
+        assets={getAddressLabels(item.addressWatchlist.listItems)} />
     {:else if item.insight}
       <LayoutItem item={item.insight} showActions type="INSIGHT" />
     {:else if item.userTrigger}
