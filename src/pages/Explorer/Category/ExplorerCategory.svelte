@@ -22,14 +22,10 @@
   let page = 1
   let pages = 1
   let items = []
-  let insights = []
-  let insightsPage = 1
-  let insightsPages = 1
   let pullingTimer
   let deselectAssets = () => {}
   let loading = false
   let deletedItems = []
-  let hasInsights = false
 
   $: activeMenu, reset()
   $: showEmpty = !$currentUser && [MenuItem.MY_CREATIONS, MenuItem.LIKES].includes(activeMenu)
@@ -39,7 +35,6 @@
   $: userRoleDataOnly = activeMenu === MenuItem.SANTIMENT
   $: isFeaturedDataOnly = [MenuItem.TRENDING, MenuItem.SANTIMENT].includes(activeMenu)
   $: range, assets, displayingTypes, page, fetch()
-  $: displayingTypes, filterInsights()
   $: onLoadingChange(loading)
   $: items = filterDeletedItems(deletedItems)
 
@@ -115,7 +110,6 @@
 
   function reset() {
     page = 1
-    insightsPage = 1
     deselectAssets()
     displayingTypes = new Set()
     range = ''
@@ -138,17 +132,6 @@
     return labels
   }
 
-  function filterInsights() {
-    const values = new Set(getDisplayingType(displayingTypes))
-    hasInsights = values.has(EntityKeys.INSIGHT)
-
-    if (!hasInsights) {
-      insights = []
-      insightsPage = 1
-      insightsPages = 1
-    }
-  }
-
   onMount(() => {
     pullingTimer = setTimeout(() => fetch(true), 60 * 1000)
   })
@@ -161,12 +144,9 @@
   {favorites}
   title="Explorer"
   {items}
-  {insights}
-  {hasInsights}
   {loading}
   onMore={() => {
     page += 1
-    insightsPage += 1
     trackExplorerShowMore({ page, size: 20 })
   }}
   hasMore={page < pages}>
@@ -176,7 +156,6 @@
       onChange={(newTypes) => {
         displayingTypes = newTypes
         page = 1
-        insightsPage = 1
       }}
       {displayingTypes} />
   </div>
@@ -211,6 +190,6 @@
   </svelte:fragment>
 </Category>
 
-{#if showEmpty || (!loading && items.length === 0 && insights.length === 0)}
+{#if showEmpty || (!loading && items.length === 0)}
   <EmptyState {activeMenu} />
 {/if}
