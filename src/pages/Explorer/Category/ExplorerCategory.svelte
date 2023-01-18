@@ -161,26 +161,9 @@
   }
 
   onMount(() => {
-    if (activeMenu === MenuItem.TRENDING) {
-      queryExplorerItems({
-        types: getDisplayingType(displayingTypes),
-        voted,
-        favorites,
-        range,
-        page,
-        currentUserDataOnly,
-        assets,
-        userRoleDataOnly,
-        isFeaturedDataOnly,
-      })
-        .then((res) => {
-          if (res.items.length === 0) activeMenu = MenuItem.NEW
-        })
-        .catch(() => notifyError({ user: $currentUser }))
-    }
-
     pullingTimer = setTimeout(() => fetch(true), 60 * 1000)
   })
+
   onDestroy(() => clearTimeout(pullingTimer))
 </script>
 
