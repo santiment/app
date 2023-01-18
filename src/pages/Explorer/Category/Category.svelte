@@ -85,7 +85,7 @@
     {/if}
   </div>
 
-  {#each isMain ? sortedItems : items as item, index (item)}
+  {#each isMain ? sortedItems : items as item (item)}
     {#if isMain && item.first && !favorites}
       <div class="postdate c-waterloo">{item.postdate}</div>
     {/if}
@@ -99,7 +99,6 @@
     >
       <slot {item} />
     </div>
-    {@const itemCount = index + 1}
   {/each}
 
   {#if hasMore || showLess}
