@@ -14,13 +14,13 @@ query(`{
   const { auth } = parseAuthSearchParams()
 
   if (auth) {
-    trackSignupLogin(auth)
+    trackSignupLogin(window.isFirstLogin, auth)
     window.history.replaceState(window.history.state, null, window.location.pathname)
   }
 })
 
-export function trackSignupLogin(method) {
-  if (window.isFirstLogin) {
+export function trackSignupLogin(isFirstLogin, method) {
+  if (isFirstLogin) {
     trackSignupFinish(method, [Tracker.GA, Tracker.AMPLITUDE])
 
     window.onGdprAccept = () => trackSignupFinish(method, [Tracker.SAN])

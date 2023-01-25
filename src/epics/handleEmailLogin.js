@@ -66,7 +66,7 @@ export const handleLoginSuccess = (action$) =>
       GA.update(user)
 
       const { method = LoginType.EMAIL } = getSavedLoginMethod() || {}
-      trackSignupLogin(method)
+      trackSignupLogin(isFirstLogin, method)
 
       if (isFirstLogin || (email && !loggedEmails.includes(email))) {
         trackTwitterSignUpEvent()
