@@ -6,7 +6,6 @@ import { useUpdateFinishedSteps } from './hooks/useUpdateFinishedSteps'
 import { useUpdateNameAndDescription } from './hooks/useUpdateNameAndDescription'
 import { ALERT_TYPES } from './constants'
 import styles from './AlertModalForm.module.scss'
-import { useUpdateNotificationSettings } from './hooks/useUpdateNotificationSettings'
 
 const AlertModalForm = ({
   selectorSettings,
@@ -30,19 +29,7 @@ const AlertModalForm = ({
     selectedStep,
     setFormPreviousValues,
     setInitialState,
-    setSelectedStep,
-    setInvalidSteps,
-    invalidStepsMemo,
   } = selectorSettings
-
-  useUpdateNotificationSettings({
-    values,
-    visitedSteps,
-    setSelectedStep,
-    selectedType,
-    setInvalidSteps,
-    invalidStepsMemo,
-  })
 
   useUpdateFinishedSteps({
     selectedType,
