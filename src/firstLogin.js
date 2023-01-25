@@ -1,5 +1,6 @@
 import { query } from 'webkit/api'
 import { parseAuthSearchParams } from 'webkit/utils/auth'
+import { Tracker } from 'webkit/analytics'
 import { trackLoginFinish } from 'webkit/analytics/events/general'
 import { trackSignupFinish } from 'webkit/analytics/events/onboarding'
 
@@ -13,14 +14,17 @@ query(`{
   const { auth } = parseAuthSearchParams()
 
   if (auth) {
-    if (window.isFirstLogin) {
-      window.onGdprAccept = () => {
-        trackSignupFinish(auth)
-      }
-    } else {
-      trackLoginFinish(auth)
-    }
-
+    trackSignupLogin(window.isFirstLogin, auth)
     window.history.replaceState(window.history.state, null, window.location.pathname)
   }
 })
+
+export function trackSignupLogin(isFirstLogin, method) {
+  if (isFirstLogin) {
+    trackSignupFinish(method, [Tracker.GA, Tracker.AMPLITUDE])
+
+    window.onGdprAccept = () => trackSignupFinish(method, [Tracker.SAN])
+  } else {
+    trackLoginFinish(method)
+  }
+}

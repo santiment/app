@@ -4,14 +4,14 @@ import gql from 'graphql-tag'
 import { replace } from 'react-router-redux'
 import { trackTwitterSignUpEvent } from 'webkit/analytics/twitter'
 import { getSavedLoginMethod } from 'webkit/analytics/events/utils'
-import { trackLoginFinish, LoginType } from 'webkit/analytics/events/general'
-import { trackSignupFinish } from 'webkit/analytics/events/onboarding'
+import { LoginType } from 'webkit/analytics/events/general'
 import { showNotification } from '../actions/rootActions'
 import * as actions from './../actions/types'
 import { savePrevAuthProvider } from '../utils/localStorage'
 import GA from './../utils/tracking'
 import { setCoupon } from '../utils/coupon'
 import { USER_GQL_FRAGMENT } from './handleLaunch'
+import { trackSignupLogin } from '../firstLogin'
 
 const EMAIL_LOGIN_VERIFY_MUTATION = gql`
   mutation emailLoginVerify($email: String!, $token: String!) {
@@ -66,13 +66,7 @@ export const handleLoginSuccess = (action$) =>
       GA.update(user)
 
       const { method = LoginType.EMAIL } = getSavedLoginMethod() || {}
-      if (isFirstLogin) {
-        window.onGdprAccept = () => {
-          trackSignupFinish(method)
-        }
-      } else {
-        trackLoginFinish(method)
-      }
+      trackSignupLogin(isFirstLogin, method)
 
       if (isFirstLogin || (email && !loggedEmails.includes(email))) {
         trackTwitterSignUpEvent()
