@@ -41,6 +41,17 @@ export const USER_QUERY = gql`
       followers {
         count
       }
+      ethAccounts {
+        address
+      }
+      sanbaseNft {
+        hasValidNft
+        nftCount
+        nftData {
+          address
+          tokenIds
+        }
+      }
     }
   }
 `
