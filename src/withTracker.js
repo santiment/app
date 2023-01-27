@@ -54,7 +54,7 @@ const withTracker = (WrappedComponent) => {
   return HOC
 }
 
-function getPageType(pathname) {
+export function getPageType(pathname) {
   if (pathname === '/') return PageType.EXPLORER
 
   if (pathname === '/account') return PageType.ACCOUNT

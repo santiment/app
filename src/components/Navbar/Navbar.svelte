@@ -8,6 +8,7 @@
   import Products from 'webkit/ui/Products/svelte'
   import AccountStatus, { AccountStatusType } from 'webkit/ui/AccountStatus.svelte'
   import AccountDropdown from 'webkit/ui/AccountDropdown/index.svelte'
+  import { queryUserNftInsights } from 'webkit/ui/ChristmasNFTDialog/api'
   import NftButton from 'webkit/ui/ChristmasNFTDialog/Button.svelte'
   import { ui } from '@/stores/ui/theme'
   import { history } from '@/redux'
@@ -19,6 +20,8 @@
 
   let searchNode
   let notificationsNode
+  let insights = []
+  let discountCode = ''
 
   function onLogoutClick() {
     history.push('/logout')
@@ -30,8 +33,15 @@
   $: subscription = currentUser && currentUser.subscription
   $: customerData = $customerData$
 
+  $: isNftWinner = currentUser && currentUser.sanbaseNft && currentUser.sanbaseNft.hasValidNft
+  $: isDiscountWinner = discountCode && insights.length
+
   onMount(() => {
     mount(searchNode, notificationsNode)
+
+    queryUserNftInsights().then((data) => {
+      insights = data
+    })
 
     window.onNftGameStart = () => {
       const data = { campaign_participant: 'nft_battle_2022' }
@@ -73,7 +83,11 @@
 
   <div class="search fluid mrg-a mrg--l" bind:this={searchNode} />
 
-  <NftButton class="mrg-a mrg--l" />
+  <NftButton
+    class="mrg-a mrg--l"
+    isWinner={isNftWinner || isDiscountWinner}
+    props={{ currentUser, discountCode, isNftWinner }} />
+
   <a href="https://academy.santiment.net/" class="btn-ghost mrg-l mrg--l">Academy</a>
   <a href="/pricing" class="btn-ghost mrg-l mrg--l" on:click={window.__onLinkClick}>Pricing</a>
 

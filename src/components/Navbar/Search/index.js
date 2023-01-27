@@ -7,6 +7,7 @@ import Suggestions from './Suggestions'
 import { useCursorNavigation } from './navigation'
 import { addRecent } from './RecentsCategory'
 import { store } from '../../../redux'
+import { getPageType } from '../../../withTracker'
 import styles from './index.module.scss'
 
 const EDITABLE_TAGS = new Set(['INPUT', 'TEXTAREA'])
@@ -20,7 +21,15 @@ const Search = () => {
   useEffect(() => {
     if (!searchTerm) return
 
-    const timer = setTimeout(() => track.event('navbar_search', { value: searchTerm }), 500)
+    const timer = setTimeout(
+      () =>
+        track.event('navbar_search', {
+          value: searchTerm,
+          source: getPageType(window.location.pathname),
+          source_url: window.location.href,
+        }),
+      500,
+    )
     return () => clearTimeout(timer)
   }, [searchTerm])
 
