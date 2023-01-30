@@ -85,10 +85,12 @@ const AssetSelector = ({
           setSlug('')
           setListItems([])
         } else {
+          const trackMetadata = selected.map((asset) => asset.slug || asset.name)
+
           if (isSocial) {
-            track.event(AlertsEvents.SetAlertSocialTrend, { trend: selected })
+            track.event(AlertsEvents.SetAlertSocialTrend, { trend: trackMetadata })
           } else {
-            track.event(AlertsEvents.SetAlertAsset, { asset: selected })
+            track.event(AlertsEvents.SetAlertAsset, { asset: trackMetadata })
           }
 
           const selectedAssets = selected.map((item) => item.slug)
