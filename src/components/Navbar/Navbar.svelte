@@ -21,7 +21,6 @@
   let searchNode
   let notificationsNode
   let insights = []
-  let discountCode = ''
 
   function onLogoutClick() {
     history.push('/logout')
@@ -33,6 +32,7 @@
   $: subscription = currentUser && currentUser.subscription
   $: customerData = $customerData$
 
+  $: discountCode = currentUser && +currentUser.id === 2414 ? 'caKHq5Zo' : ''
   $: isNftWinner = currentUser && currentUser.sanbaseNft && currentUser.sanbaseNft.hasValidNft
   $: isDiscountWinner = discountCode && insights.length
 
