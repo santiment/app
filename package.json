@@ -13,12 +13,13 @@
     "lint": "npm run lint:js && npm run lint:css",
     "precommit": "lint-staged",
     "storybook": "start-storybook -p 9001 -c .storybook",
-    "build": "npm run build:sw && REACT_APP_VERSION=$(node -pe 'require(\"./package.json\").version')-$GIT_HEAD react-app-rewired build",
+    "build": "npm run get-schema && npm run build:sw && REACT_APP_VERSION=$(node -pe 'require(\"./package.json\").version')-$GIT_HEAD react-app-rewired build",
     "test:js": "react-scripts test",
     "test": "CI=true npm run test:js",
     "eject": "react-scripts eject",
     "build:sw": "rm -f ./public/san-sonar-service-worker.js && NODE_ENV=production webpack --config webpack.sw.config.js",
-    "postinstall": "patch-package"
+    "get-schema": "node scripts/index",
+    "postinstall": "patch-package && npm run get-schema"
   },
   "dependencies": {
     "@apollo/react-testing": "^3.1.3",
@@ -97,8 +98,8 @@
     "rxjs": "5.x.x",
     "san-insights": "https://github.com/santiment/insights-app#0aebf0e",
     "san-studio": "https://github.com/santiment/san-studio#3056aec",
-    "san-webkit": "https://github.com/santiment/san-webkit#15b76cd",
-    "san-queries": "https://github.com/santiment/san-queries#678df71",
+    "san-webkit": "https://github.com/santiment/san-webkit#6740285",
+    "san-queries": "https://github.com/santiment/san-queries#5e9600b",
     "sanitize-html": "^1.18.2",
     "svg-sprite": "1.5.0",
     "turndown": "^7.1.1",
