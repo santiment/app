@@ -83,10 +83,12 @@
 
   <div class="search fluid mrg-a mrg--l" bind:this={searchNode} />
 
-  <NftButton
-    class="mrg-a mrg--l"
-    isWinner={isNftWinner || isDiscountWinner}
-    props={{ currentUser, discountCode, isNftWinner }} />
+  {#if isNftWinner || isDiscountWinner}
+    <NftButton
+      class="mrg-a mrg--l"
+      isWinner={isNftWinner || isDiscountWinner}
+      props={{ currentUser, discountCode, isNftWinner }} />
+  {/if}
 
   <a href="https://academy.santiment.net/" class="btn-ghost mrg-l mrg--l">Academy</a>
   <a href="/pricing" class="btn-ghost mrg-l mrg--l" on:click={window.__onLinkClick}>Pricing</a>
