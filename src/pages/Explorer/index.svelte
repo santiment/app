@@ -1,14 +1,15 @@
-<script>
+<script lang="ts">
   import ExplorerCategory from './Category/ExplorerCategory.svelte'
   import ExplorerFilter from './Components/ExplorerFilter.svelte'
   import Aside from './Aside.svelte'
   import { currentUser, userSubscription } from './store'
-  import { MenuItem } from './const'
+  import MenuItems from './menu.ts'
+  import type { MenuItem } from './menu.ts'
 
   export let user = {}
   export let userSubscriptionData = {}
 
-  let activeMenu = MenuItem.TRENDING
+  let activeMenu: MenuItem = MenuItems.Trending
   let loading = true
 
   $: currentUser.set(user)

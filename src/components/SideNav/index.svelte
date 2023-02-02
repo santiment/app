@@ -29,7 +29,8 @@
 <aside
   class:collapsed={isCollapsed}
   on:mouseenter={() => (isPeeked = true)}
-  on:mouseleave={() => (isPeeked = false)}>
+  on:mouseleave={() => (isPeeked = false)}
+>
   <div class="content">
     <MinimizedCategories {pathname} {isCollapsed} />
     <div class="container txt-m" class:no-scrollbar={isCollapsed}>
@@ -42,7 +43,8 @@
           href="/dashboards"
           class="btn mrg-s mrg--t"
           class:active={pathname.startsWith('/dashboards')}
-          on:click={window.__onLinkClick}>
+          on:click={window.__onLinkClick}
+        >
           <Svg id="report" w="16" class="mrg-m mrg--r" />
           Dashboards
         </a>
@@ -53,7 +55,8 @@
             class="btn mrg-xs mrg--t"
             class:active={pathname === href}
             on:click={!target ? window.__onLinkClick : undefined}
-            {target}>
+            {target}
+          >
             <Svg id={icon} w="16" class="mrg-m mrg--r" />
 
             <span>{label}</span>

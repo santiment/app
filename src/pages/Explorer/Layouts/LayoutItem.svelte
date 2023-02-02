@@ -1,14 +1,11 @@
 <script>
   import { trackExplorerItemOpened } from 'webkit/analytics/events/explorer'
-  import SidebarItem from '../Layouts/SidebarItem.svelte'
   import ExplorerItem from '../Layouts/ExplorerItem.svelte'
   import { getItemRoute, EntityType, getItemUrl } from '../const'
   import { history } from '../../../redux'
 
-  export let small = false
   export let item
   export let type = 'CHART'
-  export let showActions = false
   export let hasIcons = false
   export let assets = []
 
@@ -39,8 +36,4 @@
   }
 </script>
 
-{#if small}
-  <SidebarItem {item} {small} {showActions} {url} {onClick} />
-{:else}
-  <ExplorerItem {item} {type} {url} {hasIcons} {assets} {onClick} />
-{/if}
+<ExplorerItem {item} {type} {url} {hasIcons} {assets} {onClick} />

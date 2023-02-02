@@ -2,15 +2,6 @@ import { getSEOLinkFromIdAndTitle } from 'webkit/utils/url'
 import { VoteTypeFeature } from 'webkit/ui/LikeButton/index.svelte'
 import { VoteType } from 'webkit/api/vote'
 
-export const MenuItem = {
-  FAVORITES: 'Favorites',
-  SANTIMENT: 'Santiment',
-  NEW: 'New',
-  LIKES: 'Likes',
-  MY_CREATIONS: 'My creations',
-  TRENDING: 'Trending',
-}
-
 export const EntityKeys = {
   // USER_TRIGGER: 'USER_TRIGGER',
   ADDRESS_WATCHLIST: 'ADDRESS_WATCHLIST',

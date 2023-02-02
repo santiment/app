@@ -41,7 +41,8 @@
     icon="report"
     color="blue"
     let:item
-    getItems={getCustomItems(queryReports)}>
+    getItems={getCustomItems(queryReports)}
+  >
     <div slot="header" class="pro row hv-center c-white caption">PRO</div>
     <WeeklyReport {item} />
   </Widget>
@@ -50,7 +51,8 @@
     title="Sheets Templates"
     icon="social-trend"
     let:item
-    getItems={getCustomItems(queryTemplates)}>
+    getItems={getCustomItems(queryTemplates)}
+  >
     <div slot="header" class="pro row hv-center c-white caption">PRO</div>
     <SheetsTemplate {item} />
   </Widget>
