@@ -5,6 +5,7 @@
   export let icon = ''
   export let pathname
   export let links
+  export let onLinkClick = window.__onLinkClick
 
   let isOpened = true
 </script>
@@ -12,8 +13,7 @@
 <div
   class="category btn row v-center mrg-xl mrg--t txt-b"
   class:opened={isOpened}
-  on:click={() => (isOpened = !isOpened)}
->
+  on:click={() => (isOpened = !isOpened)}>
   <Svg id={icon} w="16" class="mrg-s mrg--r $style.icon" />
   {title}
   <Svg id="arrow-down" w="10" h="5.5" class="mrg-a mrg--l $style.arrow" />
@@ -21,13 +21,13 @@
 
 {#if isOpened}
   <section class="mrg-s mrg--t nowrap">
-    {#each links as [label, href, icon]}
+    {#each links as [label, href, icon, feature]}
       <a
         {href}
         class="btn mrg-xs mrg--t"
         class:active={pathname === href}
-        on:click={window.__onLinkClick}
-      >
+        on:click={onLinkClick}
+        data-feature={feature}>
         <Svg id={icon} w="16" class="mrg-m mrg--r" />
 
         <span>{label}</span>
