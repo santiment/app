@@ -69,9 +69,9 @@ export function getPageType(pathname) {
 
   if (pathname.startsWith('/profile/')) return PageType.PROFILE
 
-  if (pathname.startsWith('/watchlist/')) return PageType.WATCHLIST
+  if (pathname.startsWith('/watchlist')) return PageType.WATCHLIST
 
-  if (pathname.startsWith('/dashboards/')) return PageType.DASHBOARDS
+  if (pathname.startsWith('/dashboards')) return PageType.DASHBOARDS
 
   if (pathname.startsWith('/screener/')) return PageType.SCREENER
 
