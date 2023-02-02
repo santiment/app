@@ -80,6 +80,7 @@ export function getPageType(pathname) {
   if (pathname.startsWith('/labs')) return PageType.LABS
 
   if (pathname.startsWith('/insights')) return PageType.INSIGHTS
+  if (pathname.startsWith('https://insights.santiment.net')) return PageType.INSIGHTS
 }
 
 window.addEventListener('beforeunload', () => {

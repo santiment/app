@@ -1,8 +1,10 @@
 <script>
   import { onDestroy } from 'svelte'
   import Svg from 'webkit/ui/Svg/svelte'
+  import { trackSideNavFeatures } from 'webkit/analytics/events/general'
   import MinimizedCategories from './MinimizedCategories.svelte'
   import Recent from './Recent.svelte'
+  import { getPageType } from '../../withTracker'
 
   export let root
   export let pathname = '/'
@@ -21,6 +23,23 @@
     ['Insights', 'https://insights.santiment.net/', 'insight', '_blank'],
   ]
 
+  function onLinkClick(e) {
+    const { currentTarget } = e
+    const url = currentTarget.getAttribute('href')
+
+    const isExternal = url.startsWith('https://')
+
+    trackSideNavFeatures({
+      url: isExternal ? url : window.location.origin + url,
+      type: getPageType(url),
+      sourceType: getPageType(window.location.pathname),
+    })
+
+    if (isExternal) return
+
+    window.__onLinkClick(e)
+  }
+
   onDestroy(() => {
     root.classList.remove('$style.shifted')
   })
@@ -34,15 +53,16 @@
     <MinimizedCategories {pathname} {isCollapsed} />
     <div class="container txt-m" class:no-scrollbar={isCollapsed}>
       <div class="links">
-        <a href="/" class="btn" class:active={pathname === '/'} on:click={window.__onLinkClick}>
+        <a href="/" class="btn" class:active={pathname === '/'} on:click={onLinkClick}>
           <Svg id="folder" w="16" h="14" class="mrg-m mrg--r" />
           Explorer
         </a>
+
         <a
           href="/dashboards"
           class="btn mrg-s mrg--t"
           class:active={pathname.startsWith('/dashboards')}
-          on:click={window.__onLinkClick}>
+          on:click={onLinkClick}>
           <Svg id="report" w="16" class="mrg-m mrg--r" />
           Dashboards
         </a>
@@ -52,7 +72,7 @@
             {href}
             class="btn mrg-xs mrg--t"
             class:active={pathname === href}
-            on:click={!target ? window.__onLinkClick : undefined}
+            on:click={onLinkClick}
             {target}>
             <Svg id={icon} w="16" class="mrg-m mrg--r" />
 
