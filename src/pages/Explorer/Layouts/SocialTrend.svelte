@@ -1,14 +1,24 @@
 <script>
-  import MiniChart from 'san-webkit/lib/ui/MiniChart'
+  import MiniChart from 'webkit/ui/MiniChart'
+  import { trackExplorerSidepanel } from 'webkit/analytics/events/explorer'
   import { trendingWordsVolume } from '../store'
 
   export let item = {}
 
   $: ({ word } = item)
   $: wordVolumeData = $trendingWordsVolume[word] || []
+
+  function onClick(e) {
+    trackExplorerSidepanel({
+      type: 'social_trends',
+      action: 'item_click',
+    })
+
+    window.__onLinkClick(e)
+  }
 </script>
 
-<a href="/labs/trends/explore/{word}" on:click={window.__onLinkClick}>
+<a href="/labs/trends/explore/{word}" on:click={onClick}>
   <div class="row justify v-center mrg--b mrg-s">
     <h5>{word}</h5>
 
@@ -20,8 +30,7 @@
       valueKey="value"
       gradientId="trend-social-volume"
       gradientColor="malibu"
-      gradientOpacity="0.7"
-    />
+      gradientOpacity="0.7" />
   </div>
 </a>
 

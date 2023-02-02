@@ -1,4 +1,5 @@
 <script>
+  import { trackExplorerSidepanel } from 'webkit/analytics/events/explorer'
   import Widget from './Category/Widget.svelte'
   import ExternalLink from './Components/ExternalLink.svelte'
   import SocialTrend from './Layouts/SocialTrend.svelte'
@@ -28,11 +29,30 @@
         items: trends.slice(begin, begin + PAGE_SIZE),
       })
     })
+
+  function onMoreClick(type) {
+    trackExplorerSidepanel({ type, action: 'show_more' })
+  }
 </script>
 
 <aside class="relative {className}">
-  <Widget title="Social trends" icon="social-trend" color="blue" let:item getItems={getSocialItems}>
-    <ExternalLink href="/dashboards" slot="header" />
+  <Widget
+    title="Social trends"
+    icon="social-trend"
+    color="blue"
+    let:item
+    getItems={getSocialItems}
+    type="social_trends"
+    {onMoreClick}>
+    <ExternalLink
+      href="/dashboards"
+      slot="header"
+      onClick={() => {
+        trackExplorerSidepanel({
+          type: 'social_trends',
+          action: 'source_page_open',
+        })
+      }} />
     <SocialTrend {item} />
   </Widget>
 
@@ -41,7 +61,9 @@
     icon="report"
     color="blue"
     let:item
-    getItems={getCustomItems(queryReports)}>
+    getItems={getCustomItems(queryReports)}
+    type="bi_weekly_reports"
+    {onMoreClick}>
     <div slot="header" class="pro row hv-center c-white caption">PRO</div>
     <WeeklyReport {item} />
   </Widget>
@@ -50,7 +72,9 @@
     title="Sheets Templates"
     icon="social-trend"
     let:item
-    getItems={getCustomItems(queryTemplates)}>
+    getItems={getCustomItems(queryTemplates)}
+    type="sheets_templates"
+    {onMoreClick}>
     <div slot="header" class="pro row hv-center c-white caption">PRO</div>
     <SheetsTemplate {item} />
   </Widget>

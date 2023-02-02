@@ -1,5 +1,6 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
+  import { trackExplorerSidepanel } from 'webkit/analytics/events/explorer'
   import { userSubscription } from '../store'
   import { showUpgradeDialog } from '../Components/UpgradeDialog.svelte'
 
@@ -11,6 +12,12 @@
   $: isPro = $userSubscription.isPro || false
 
   function onOpenTemplateClick(e) {
+    trackExplorerSidepanel({
+      type: 'sheets_templates',
+      action: 'item_click',
+      error: isPro ? undefined : 'free_user',
+    })
+
     if (isPro) return
 
     e.preventDefault()
@@ -33,8 +40,7 @@
         href={url}
         target="_blank"
         class="btn-1 btn--s row v-center"
-        on:click={onOpenTemplateClick}
-      >
+        on:click={onOpenTemplateClick}>
         <div class="mrg-s mrg--r">Open template</div>
         <Svg id="external-link" w="12" />
       </a>
