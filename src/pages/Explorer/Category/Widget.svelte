@@ -9,6 +9,8 @@
   export let color = 'green'
   export let iconWidth = 16
   export let getItems
+  export let type
+  export let onMoreClick
 
   let items = []
   let page = 1
@@ -40,6 +42,8 @@
       page = 1
     } else if (page < pages) {
       page += 1
+
+      if (onMoreClick) onMoreClick(type)
     }
   }
 </script>
@@ -48,8 +52,7 @@
   <div
     slot="icon"
     style="fill:var(--{color}); background:var(--{color}-light-1)"
-    class="$style.icon row hv-center"
-  >
+    class="$style.icon row hv-center">
     <Svg id={icon} w={iconWidth} />
   </div>
 
