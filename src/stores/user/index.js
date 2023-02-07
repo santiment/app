@@ -46,10 +46,12 @@ export const USER_QUERY = gql`
       }
       sanbaseNft {
         hasValidNft
+        hasNonValidNft
         nftCount
         nftData {
           address
           tokenIds
+          nonValidTokenIds
         }
       }
     }

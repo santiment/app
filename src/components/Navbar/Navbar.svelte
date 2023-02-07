@@ -33,7 +33,10 @@
   $: customerData = $customerData$
 
   $: discountCode = currentUser && +currentUser.id === 2414 ? 'caKHq5Zo' : ''
-  $: isNftWinner = currentUser && currentUser.sanbaseNft && currentUser.sanbaseNft.hasValidNft
+  $: isNftWinner =
+    currentUser &&
+    currentUser.sanbaseNft &&
+    (currentUser.sanbaseNft.hasValidNft || currentUser.sanbaseNft.hasNonValidNft)
   $: isDiscountWinner = discountCode && insights.length
 
   onMount(() => {
