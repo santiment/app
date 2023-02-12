@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
+import { connectWallet } from 'webkit/utils/web3'
 import * as web3Helpers from './../web3Helpers'
 import * as actions from './../actions/types'
 import { handleErrorAndTriggerAction } from './utils'
@@ -94,27 +95,10 @@ const handleEthLogin = (action$, store, { client }) =>
         .catch(handleErrorAndTriggerAction(actions.USER_LOGIN_FAILED))
     })
 
-const connectingNewWallet = (client) => {
-  return new Promise(async (resolve, reject) => {
-    const address = await web3Helpers.getAccount()
-    const { signature, messageHash } = await web3Helpers.signMessage(address)
-    const mutation = client.mutate({
-      mutation: CONNECT_NEW_WALLET_QUERY,
-      variables: {
-        address,
-        signature,
-        messageHash,
-      },
-    })
-    try {
-      const { data } = await mutation
-      const accounts = data.addUserEthAddress.ethAccounts
-      resolve(accounts)
-    } catch (error) {
-      reject(error)
-    }
-  })
-}
+const connectingNewWallet = () =>
+  connectWallet('Login in Santiment with address ')
+    .then(({ ethAccounts }) => ethAccounts)
+    .catch((e) => new Error(e))
 
 export const connectNewWallet = (action$, store, { client }) =>
   action$.ofType(actions.SETTINGS_CONNECT_NEW_WALLET).mergeMap((action) => {
