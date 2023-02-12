@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
 import { connectWallet } from 'webkit/utils/web3'
+import { notifications$ } from 'webkit/ui/Notifications'
 import * as web3Helpers from './../web3Helpers'
 import * as actions from './../actions/types'
 import { handleErrorAndTriggerAction } from './utils'
@@ -98,7 +99,17 @@ const handleEthLogin = (action$, store, { client }) =>
 const connectingNewWallet = () =>
   connectWallet('Login in Santiment with address ')
     .then(({ ethAccounts }) => ethAccounts)
-    .catch((e) => new Error(e))
+    .catch((e) => {
+      const error = e && (e[0] || e).message
+
+      notifications$.show({
+        type: 'error',
+        title: 'Failed to connect wallet',
+        description: error,
+      })
+
+      return new Error(e)
+    })
 
 export const connectNewWallet = (action$, store, { client }) =>
   action$.ofType(actions.SETTINGS_CONNECT_NEW_WALLET).mergeMap((action) => {
