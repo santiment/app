@@ -1,16 +1,15 @@
 import { getIntervalByTimeRange } from '../../utils/dates'
 
 export const TOPICS = [
-  { slug: 'bottom', title: 'Bottom', price: 'bitcoin', ticker: 'BTC' },
-  { slug: 'sell', title: 'Sell', price: 'bitcoin', ticker: 'BTC' },
-  { slug: 'bear AND market', title: 'Bear Market', price: 'bitcoin', ticker: 'BTC' },
+  { slug: 'ai', title: 'AI', price: 'bitcoin', ticker: 'BTC' },
   {
-    slug: 'ftx-token',
-    title: 'FTX Crash',
-    price: 'ftx-token',
-    ticker: 'FTT',
-    query: 'sbf OR alameda OR ftx OR ftt?asset=ftx-token&slug=ftx-token&ticker=FTT',
+    slug: '(bull AND market) OR bull OR bullrun OR bullmarket',
+    title: 'Bull Market',
+    price: 'bitcoin',
+    ticker: 'BTC',
   },
+  { slug: 'bear AND market', title: 'Bear Market', price: 'bitcoin', ticker: 'BTC' },
+  { slug: 'cpi', title: 'CPI', price: 'bitcoin', ticker: 'BTC' },
   { slug: 'rekt', title: 'Rekt', price: 'bitcoin', ticker: 'BTC' },
   {
     slug: 'inflation OR cpi',
