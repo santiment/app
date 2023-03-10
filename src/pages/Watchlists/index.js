@@ -20,7 +20,7 @@ import {
 } from '../../ducks/renderQueue/sized'
 import { useUser } from '../../stores/user'
 import {
-  useUserAddressWatchlists,
+  useAddressWatchlists,
   useUserProjectWatchlists,
   useUserScreeners,
 } from '../../ducks/Watchlists/gql/lists/hooks'
@@ -121,7 +121,7 @@ const MyScreeners = () => {
 const Watchlists = ({ isDesktop }) => {
   const { isLoggedIn, loading } = useUser()
   const userWatchlistsData = useUserProjectWatchlists()
-  const userAddressesWatchlistsData = useUserAddressWatchlists()
+  const userAddressesWatchlistsData = useAddressWatchlists()
 
   return (
     <Page

@@ -81,7 +81,7 @@ export const UPDATE_WATCHLIST_MUTATION = (type) => gql`
 export const ADD_LIST_ITEMS_MUTATION = (type) => gql`
   mutation addWatchlistItems(
     $id: Int!
-    $listItems: [InputListItem]
+    $listItems: [InputListItem]!
   ) {
     addWatchlistItems(
       id: $id
