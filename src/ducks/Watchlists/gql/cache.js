@@ -20,7 +20,10 @@ export function updateWatchlistOnEdit(cache, { data }) {
   const query = getWatchlistsShortQuery(type)
   const store = cache.readQuery({ query: query })
   const index = store.watchlists.findIndex(({ id }) => id === updateWatchlist.id)
-  store.watchlists[index] = { ...store.watchlists[index], ...updateWatchlist }
+  store.watchlists[index] = {
+    ...store.watchlists[index],
+    ...updateWatchlist,
+  }
 
   cache.writeQuery({ query: query, data: store })
 }

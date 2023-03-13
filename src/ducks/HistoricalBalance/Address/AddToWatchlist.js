@@ -7,7 +7,8 @@ import { useAddressWatchlists } from '../../Watchlists/gql/lists/hooks'
 import { updateWatchlistShort } from '../../Watchlists/gql/list/mutations'
 import styles from './index.module.scss'
 
-const updateWatchlist = ({ id, listItems }) => updateWatchlistShort({ id: +id, listItems })
+const addToWatchlist = ({ id, listItems }) =>
+  updateWatchlistShort({ id: +id, listItems }, 'ADD_ITEMS')
 
 const AddToWatchlist = ({ address, infrastructure, note }) => {
   function checkIsListItemTheAddress({ blockchainAddress }) {
@@ -18,7 +19,7 @@ const AddToWatchlist = ({ address, infrastructure, note }) => {
     return listItems.some(checkIsListItemTheAddress)
   }
 
-  function onChangesApply(addToWatchlists, removeFromWatchlists) {
+  function onChangesApply(addToWatchlists) {
     const newListItem = {
       blockchainAddress: {
         address,
@@ -29,13 +30,12 @@ const AddToWatchlist = ({ address, infrastructure, note }) => {
       __typename: 'ListItem',
     }
 
-    removeFromWatchlists.forEach(({ listItems }) =>
-      listItems.splice(listItems.findIndex(checkIsListItemTheAddress), 1),
-    )
+    const updatedWatchlists = addToWatchlists.map(({ id }) => ({
+      listItems: [newListItem],
+      id,
+    }))
 
-    addToWatchlists.forEach(({ listItems }) => listItems.push(newListItem))
-
-    return Promise.all(addToWatchlists.concat(removeFromWatchlists).map(updateWatchlist))
+    return Promise.all(updatedWatchlists.map(addToWatchlist))
   }
 
   return (
