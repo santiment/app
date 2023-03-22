@@ -17,6 +17,11 @@ export const DetailedMetric = {
     name: 'Twitter',
     label: 'Twitter Social Volume',
   },
+  social_volume_4chan: {
+    color: '#5235FF',
+    name: '4chan',
+    label: '4chan Social Volume',
+  },
   community_messages_count_telegram: {
     color: '#5275FF',
     name: 'Telegram',
