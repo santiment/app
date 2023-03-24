@@ -51,6 +51,7 @@ export const METRICS = [
   'social_dominance_total',
   'social_volume_telegram',
   'social_volume_twitter',
+  'social_volume_4chan',
   'social_volume_reddit',
   'social_volume_total',
   'community_messages_count_telegram',
