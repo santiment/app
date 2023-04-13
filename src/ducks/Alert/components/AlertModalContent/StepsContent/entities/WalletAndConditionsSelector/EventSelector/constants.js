@@ -36,7 +36,7 @@ export const WALLET_EVENTS = [
       'Track a list of assets inside the particular wallet for entering or exiting the wallet. Assets have to be with non-zero balance.',
     isNew: true,
     settings: {
-      type: 'wallet_assets',
+      type: 'wallet_assets_held',
       channel: [],
       target: { address: '' },
       selector: { infrastructure: '' },

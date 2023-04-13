@@ -71,7 +71,7 @@ const AlertModalForm = ({
           }
           if (
             signal.settings.type === 'wallet_usd_valuation' ||
-            signal.settings.type === 'wallet_assets'
+            signal.settings.type === 'wallet_assets_held'
           ) {
             return index === 3
           }
