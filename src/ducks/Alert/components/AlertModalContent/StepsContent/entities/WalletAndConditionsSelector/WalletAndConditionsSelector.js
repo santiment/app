@@ -66,7 +66,7 @@ const WalletAndConditionsSelector = () => {
         )
         break
       }
-      case 'wallet_assets': {
+      case 'wallet_assets_held': {
         children = <></>
         break
       }

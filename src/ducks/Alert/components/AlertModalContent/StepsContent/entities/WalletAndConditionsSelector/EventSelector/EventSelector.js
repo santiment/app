@@ -37,7 +37,7 @@ const EventSelector = ({ address, onEventChange, setSelectedAsset }) => {
 
         if (
           eventSettings.type === 'wallet_usd_valuation' ||
-          eventSettings.type === 'wallet_assets'
+          eventSettings.type === 'wallet_assets_held'
         ) {
           eventSettings.selector = { infrastructure: settings.selector.infrastructure }
         }

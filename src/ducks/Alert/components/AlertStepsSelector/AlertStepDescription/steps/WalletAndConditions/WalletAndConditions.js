@@ -32,7 +32,7 @@ const WalletAndConditions = ({ description, invalidStepsMemo, selected, isFinish
     ) {
       invalidStepsMemo.delete('wallet')
     }
-    if (type === 'wallet_assets' && isInitialValuesInvalid && selector.infrastructure) {
+    if (type === 'wallet_assets_held' && isInitialValuesInvalid && selector.infrastructure) {
       invalidStepsMemo.delete('wallet')
     }
   }, [selector, target, loading, isInvalid, type])
@@ -89,7 +89,7 @@ const WalletAndConditions = ({ description, invalidStepsMemo, selected, isFinish
     )
   }
 
-  if (type === 'wallet_assets' && target.address && selector.infrastructure && !loading) {
+  if (type === 'wallet_assets_held' && target.address && selector.infrastructure && !loading) {
     children = (
       <div className={styles.wrapper}>
         <div className={styles.address}>{clipText(target.address, 24)}</div>

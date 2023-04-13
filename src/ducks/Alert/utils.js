@@ -268,7 +268,7 @@ function validateWalletStep({ invalidSteps, settings, cooldown, title, stepIndex
       invalidSteps.push('wallet')
     }
     if (
-      (settings.type === 'wallet_usd_valuation' || settings.type === 'wallet_assets') &&
+      (settings.type === 'wallet_usd_valuation' || settings.type === 'wallet_assets_held') &&
       (!settings.target.address || !settings.selector.infrastructure)
     ) {
       invalidSteps.push('wallet')
