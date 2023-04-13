@@ -123,9 +123,39 @@ export function getConditionsStr({
       break
   }
 
-  return `${
-    hasPriceIcon ? condition : condition.replaceAll('$', isPercentIcon ? '%' : '')
-  } compared to ${formatFrequencyStr(timeWindow)} earlier`
+  return formatConditionToCompared({
+    condition,
+    operation,
+    hasPriceIcon,
+    isPercentIcon,
+    timeWindow,
+  })
+}
+
+function formatConditionToCompared({
+  condition,
+  operation,
+  hasPriceIcon,
+  isPercentIcon,
+  timeWindow,
+}) {
+  let formattedCondition = hasPriceIcon
+    ? condition
+    : condition.replaceAll('$', isPercentIcon ? '%' : '')
+
+  switch (operation) {
+    case 'above_or_equal':
+    case 'below_or_equal':
+    case 'percent_up':
+    case 'percent_down':
+    case 'some_of':
+      formattedCondition += `compared to ${formatFrequencyStr(timeWindow)} earlier`
+      break
+    default:
+      break
+  }
+
+  return formattedCondition
 }
 
 export function clipText(text, maxLength) {
