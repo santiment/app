@@ -81,11 +81,16 @@ const Signals = ({
   }, [userSignals, slug])
 
   function buildSignals() {
-    setSignals(
-      getSlugPriceSignals(userSignals, slug)
+    let signals = []
+    try {
+      signals = getSlugPriceSignals(userSignals, slug)
         .map((signal) => makeSignalDrawable(signal, chart))
-        .filter(Boolean),
-    )
+        .filter(Boolean)
+    } catch (e) {
+      console.error(e)
+    }
+
+    setSignals(signals)
   }
 
   function onMouseMove({ target, currentTarget, nativeEvent: { offsetY: y } }) {

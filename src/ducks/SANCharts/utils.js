@@ -348,19 +348,19 @@ export const mapToRequestedMetrics = (metrics, { interval, slug, from, to, timeR
   }))
 
 export const getSlugPriceSignals = (signals, slug, price = undefined) =>
-  signals.filter(
-    ({
-      settings: { target: { slug: signalSlug } = {}, operation: { above, below } = {} } = {},
-    }) => {
-      let result = (!!above || !!below) && slug === signalSlug
+  signals.filter(({ settings }) => {
+    const { target, operation } = settings || {}
+    const { above, below } = operation || {}
+    const { slug: signalSlug } = target || {}
 
-      if (result && price !== undefined) {
-        result = above === price || below === price
-      }
+    let result = (!!above || !!below) && slug === signalSlug
 
-      return result
-    },
-  )
+    if (result && price !== undefined) {
+      result = above === price || below === price
+    }
+
+    return result
+  })
 
 const MIN_TICK_MILLIFY_VALUE = 1000000
 
