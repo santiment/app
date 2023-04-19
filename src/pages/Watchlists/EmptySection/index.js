@@ -40,7 +40,7 @@ export const EmptySection = ({
         )}
         <DesktopOnly>
           {type === PROJECT ? (
-            <NewWatchlist trigger={<CTAButton />} type={type} />
+            <NewWatchlist trigger={<CTAButton />} type={type} source='create_watchlist' />
           ) : (
             <EditAddresses
               watchlist={watchlist}

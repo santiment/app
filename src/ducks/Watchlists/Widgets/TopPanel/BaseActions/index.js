@@ -10,7 +10,15 @@ import { getTitleByWatchlistType, SCREENER } from '../../../detector'
 import { Delete, New, SaveAs, Edit, NonAuthorTrigger, Trigger, Copy } from './Items'
 import styles from './index.module.scss'
 
-const Actions = ({ watchlist, type, onClick, isAuthor, isAuthorLoading, refetchAssets }) => {
+const Actions = ({
+  watchlist,
+  type,
+  onClick,
+  isAuthor,
+  isAuthorLoading,
+  refetchAssets,
+  widgets,
+}) => {
   const [lists] = useUserWatchlists(type)
   const [updateWatchlist, { loading }] = useUpdateWatchlist(type)
   const [isMenuOpened, setIsMenuOpened] = useState(false)
@@ -58,6 +66,7 @@ const Actions = ({ watchlist, type, onClick, isAuthor, isAuthorLoading, refetchA
             title={title}
             isLoading={loading}
             watchlist={watchlist}
+            widgets={widgets}
             onPrimaryAction={onEditApprove}
             openMenu={() => {
               setShowPanel(true)
@@ -72,8 +81,8 @@ const Actions = ({ watchlist, type, onClick, isAuthor, isAuthorLoading, refetchA
         onClose={() => setIsMenuOpened(false)}
       >
         <Panel variant='modal' className={showPanel ? styles.wrapper : styles.hidePanel}>
-          <New type={type} />
-          <SaveAs type={type} watchlist={watchlist} />
+          <New type={type} widgets={widgets} source='new_in_context_menu' />
+          <SaveAs type={type} watchlist={watchlist} widgets={widgets} />
           {['SCREENER', 'PROJECT'].includes(type) && <Copy watchlist={watchlist} />}
           <Edit
             type={type}

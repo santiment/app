@@ -3,13 +3,14 @@ import Actions from './Actions/index'
 import { useDeleteWatchlistItems, useAddWatchlistItems } from './Actions/hooks'
 import styles from './CompareInfo.module.scss'
 
-const CompareInfo = ({ type, selected, cleanAll, watchlist, refetchAssets }) => {
+const CompareInfo = ({ type, selected, cleanAll, watchlist, refetchAssets, widgets }) => {
   const { removeWatchlistItems } = useDeleteWatchlistItems()
   const { addWatchlistItems } = useAddWatchlistItems()
   return (
     <div className={styles.container}>
       {['SCREENER', 'PROJECT'].includes(type) && (
         <Actions
+          widgets={widgets}
           type={type}
           selected={selected}
           assets={watchlist.listItems.map((item) => item.project)}

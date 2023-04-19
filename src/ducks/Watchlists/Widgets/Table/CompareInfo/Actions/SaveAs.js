@@ -5,7 +5,7 @@ import SaveAsAction from '../../../../../../ducks/Watchlists/Actions/SaveAs'
 import tableStyles from '../../AssetsTable.module.scss'
 import styles from './Actions.module.scss'
 
-const SaveAs = ({ selectedText, watchlist }) => {
+const SaveAs = ({ selectedText, watchlist, widgets }) => {
   return (
     <div>
       <SaveAsAction
@@ -24,7 +24,9 @@ const SaveAs = ({ selectedText, watchlist }) => {
         }
         type={watchlist.type}
         watchlist={watchlist}
+        source='save_items_as_new_watchlist'
         prefix='Save as'
+        infographics={widgets}
       />
     </div>
   )

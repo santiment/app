@@ -1,4 +1,5 @@
 import * as Sentry from '@sentry/react'
+import { track } from 'webkit/analytics'
 import { client } from '../../../../apollo'
 import { useMutation } from '@apollo/react-hooks'
 import { history } from '../../../../redux'
@@ -88,8 +89,35 @@ export function useCreateWatchlist(type) {
     update: updateWatchlistsOnCreation,
   })
 
-  function createWatchlist(props) {
+  function createWatchlist(props, trackInfo = {}) {
     const { function: fn, listItems, name, description, isPublic } = props
+
+    console.log(trackInfo)
+
+    const { source, infographics: sourceInfographics = {} } = trackInfo
+    const { isMovement, isPriceChartActive, isPriceTreeMap, isVolumeTreeMap } = sourceInfographics
+    const infographics = [
+      isPriceTreeMap && 'price_treemap',
+      isVolumeTreeMap && 'social_volume_treemap',
+      isPriceChartActive && 'price_bar_chart',
+      isMovement && 'marketcap_volume',
+    ].filter(Boolean)
+
+    const isScreener = type === SCREENER
+    const event = isScreener ? 'screener_create' : 'watchlist_create'
+    track.event(event, {
+      category: 'General',
+      type: isScreener || type === 'PROJECT' ? 'project' : 'address',
+      is_public: isPublic,
+      title: name,
+      description,
+      infographics,
+      source,
+      source_url: window.location.href,
+    })
+
+    return Promise.reject()
+
     return mutate({
       variables: {
         type: transformToServerType(type),

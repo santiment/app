@@ -117,6 +117,7 @@ const WatchlistPage = ({ location, history, watchlist, isDesktop }) => {
         loading={loading}
         sorting={orderBy}
         watchlist={watchlist}
+        widgets={widgets}
         fetchData={fetchData}
         setOrderBy={setOrderBy}
         refetchAssets={refetchAssets}

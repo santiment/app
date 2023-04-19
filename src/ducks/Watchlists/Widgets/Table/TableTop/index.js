@@ -25,6 +25,7 @@ const TableTop = ({
   activeColumns,
   updateActiveColumnsKeys,
   toggleSelected,
+  widgets,
 }) => {
   const [refreshTimestamp, setRefreshTimestamp] = useState(Date.now)
   const disabledComparision = comparingAssets.length < 2
@@ -58,6 +59,7 @@ const TableTop = ({
           </div>
           {comparingAssets.length > 0 && (
             <CompareInfo
+              widgets={widgets}
               type={type}
               selected={comparingAssets}
               watchlist={watchlist}

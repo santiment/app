@@ -199,6 +199,7 @@ const TopBar = ({
           type={type}
           watchlist={entity}
           onClick={closeFilter}
+          widgets={widgets}
           isAuthor={isAuthor}
           isAuthorLoading={isAuthorLoading}
           refetchAssets={refetchAssets}
