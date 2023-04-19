@@ -1,0 +1,159 @@
+diff --git a/node_modules/monaco-editor/esm/vs/basic-languages/monaco.contribution.js b/node_modules/monaco-editor/esm/vs/basic-languages/monaco.contribution.js
+index a6b7213..8e3b8a0 100644
+--- a/node_modules/monaco-editor/esm/vs/basic-languages/monaco.contribution.js
++++ b/node_modules/monaco-editor/esm/vs/basic-languages/monaco.contribution.js
+@@ -7,6 +7,7 @@ import '../editor/editor.api.js';
+  *-----------------------------------------------------------------------------*/
+ 
+ // src/basic-languages/monaco.contribution.ts
++/*
+ import "./abap/abap.contribution.js";
+ import "./apex/apex.contribution.js";
+ import "./azcli/azcli.contribution.js";
+@@ -84,3 +85,4 @@ import "./typescript/typescript.contribution.js";
+ import "./vb/vb.contribution.js";
+ import "./xml/xml.contribution.js";
+ import "./yaml/yaml.contribution.js";
++*/
+diff --git a/node_modules/monaco-editor/esm/vs/editor/edcore.main.js b/node_modules/monaco-editor/esm/vs/editor/edcore.main.js
+index b5dddfe..7011455 100644
+--- a/node_modules/monaco-editor/esm/vs/editor/edcore.main.js
++++ b/node_modules/monaco-editor/esm/vs/editor/edcore.main.js
+@@ -3,13 +3,13 @@
+  *  Licensed under the MIT License. See License.txt in the project root for license information.
+  *--------------------------------------------------------------------------------------------*/
+ import './editor.all.js';
+-import './standalone/browser/accessibilityHelp/accessibilityHelp.js';
+-import './standalone/browser/iPadShowKeyboard/iPadShowKeyboard.js';
++// import './standalone/browser/accessibilityHelp/accessibilityHelp.js';
++// import './standalone/browser/iPadShowKeyboard/iPadShowKeyboard.js';
+ import './standalone/browser/inspectTokens/inspectTokens.js';
+-import './standalone/browser/quickAccess/standaloneHelpQuickAccess.js';
+-import './standalone/browser/quickAccess/standaloneGotoLineQuickAccess.js';
+-import './standalone/browser/quickAccess/standaloneGotoSymbolQuickAccess.js';
+-import './standalone/browser/quickAccess/standaloneCommandsQuickAccess.js';
+-import './standalone/browser/referenceSearch/standaloneReferenceSearch.js';
+-import './standalone/browser/toggleHighContrast/toggleHighContrast.js';
++// import './standalone/browser/quickAccess/standaloneHelpQuickAccess.js';
++// import './standalone/browser/quickAccess/standaloneGotoLineQuickAccess.js';
++// import './standalone/browser/quickAccess/standaloneGotoSymbolQuickAccess.js';
++// import './standalone/browser/quickAccess/standaloneCommandsQuickAccess.js';
++// import './standalone/browser/referenceSearch/standaloneReferenceSearch.js';
++// import './standalone/browser/toggleHighContrast/toggleHighContrast.js';
+ export * from './editor.api.js';
+diff --git a/node_modules/monaco-editor/esm/vs/editor/editor.all.js b/node_modules/monaco-editor/esm/vs/editor/editor.all.js
+index f49e000..36bbe1d 100644
+--- a/node_modules/monaco-editor/esm/vs/editor/editor.all.js
++++ b/node_modules/monaco-editor/esm/vs/editor/editor.all.js
+@@ -3,53 +3,53 @@
+  *  Licensed under the MIT License. See License.txt in the project root for license information.
+  *--------------------------------------------------------------------------------------------*/
+ import './browser/coreCommands.js';
+-import './browser/widget/codeEditorWidget.js';
+-import './browser/widget/diffEditorWidget.js';
+-import './browser/widget/diffNavigator.js';
+-import './contrib/anchorSelect/browser/anchorSelect.js';
++// import './browser/widget/codeEditorWidget.js';
++// import './browser/widget/diffEditorWidget.js';
++// import './browser/widget/diffNavigator.js';
++// import './contrib/anchorSelect/browser/anchorSelect.js';
+ import './contrib/bracketMatching/browser/bracketMatching.js';
+ import './contrib/caretOperations/browser/caretOperations.js';
+-import './contrib/caretOperations/browser/transpose.js';
+-import './contrib/clipboard/browser/clipboard.js';
+-import './contrib/codeAction/browser/codeActionContributions.js';
+-import './contrib/codelens/browser/codelensController.js';
+-import './contrib/colorPicker/browser/colorContributions.js';
+-import './contrib/comment/browser/comment.js';
+-import './contrib/contextmenu/browser/contextmenu.js';
+-import './contrib/cursorUndo/browser/cursorUndo.js';
++// import './contrib/caretOperations/browser/transpose.js';
++// import './contrib/clipboard/browser/clipboard.js';
++// import './contrib/codeAction/browser/codeActionContributions.js';
++// import './contrib/codelens/browser/codelensController.js';
++// import './contrib/colorPicker/browser/colorContributions.js';
++// import './contrib/comment/browser/comment.js';
++// import './contrib/contextmenu/browser/contextmenu.js';
++// import './contrib/cursorUndo/browser/cursorUndo.js';
+ import './contrib/dnd/browser/dnd.js';
+-import './contrib/find/browser/findController.js';
+-import './contrib/folding/browser/folding.js';
+-import './contrib/fontZoom/browser/fontZoom.js';
+-import './contrib/format/browser/formatActions.js';
+-import './contrib/documentSymbols/browser/documentSymbols.js';
++// import './contrib/find/browser/findController.js';
++// import './contrib/folding/browser/folding.js';
++// import './contrib/fontZoom/browser/fontZoom.js';
++// import './contrib/format/browser/formatActions.js';
++// import './contrib/documentSymbols/browser/documentSymbols.js';
+ import './contrib/inlineCompletions/browser/inlineCompletionsContribution.js';
+-import './contrib/gotoSymbol/browser/goToCommands.js';
+-import './contrib/gotoSymbol/browser/link/goToDefinitionAtPosition.js';
+-import './contrib/gotoError/browser/gotoError.js';
+-import './contrib/hover/browser/hover.js';
++// import './contrib/gotoSymbol/browser/goToCommands.js';
++// import './contrib/gotoSymbol/browser/link/goToDefinitionAtPosition.js';
++// import './contrib/gotoError/browser/gotoError.js';
++// import './contrib/hover/browser/hover.js';
+ import './contrib/indentation/browser/indentation.js';
+-import './contrib/inlayHints/browser/inlayHintsContribution.js';
+-import './contrib/inPlaceReplace/browser/inPlaceReplace.js';
+-import './contrib/lineSelection/browser/lineSelection.js';
+-import './contrib/linesOperations/browser/linesOperations.js';
+-import './contrib/linkedEditing/browser/linkedEditing.js';
+-import './contrib/links/browser/links.js';
+-import './contrib/multicursor/browser/multicursor.js';
+-import './contrib/parameterHints/browser/parameterHints.js';
+-import './contrib/rename/browser/rename.js';
+-import './contrib/smartSelect/browser/smartSelect.js';
+-import './contrib/snippet/browser/snippetController2.js';
+-import './contrib/suggest/browser/suggestController.js';
++// import './contrib/inlayHints/browser/inlayHintsContribution.js';
++// import './contrib/inPlaceReplace/browser/inPlaceReplace.js';
++// import './contrib/lineSelection/browser/lineSelection.js';
++// import './contrib/linesOperations/browser/linesOperations.js';
++// import './contrib/linkedEditing/browser/linkedEditing.js';
++// import './contrib/links/browser/links.js';
++// import './contrib/multicursor/browser/multicursor.js';
++// import './contrib/parameterHints/browser/parameterHints.js';
++// import './contrib/rename/browser/rename.js';
++// import './contrib/smartSelect/browser/smartSelect.js';
++// import './contrib/snippet/browser/snippetController2.js';
++// import './contrib/suggest/browser/suggestController.js';
+ import './contrib/tokenization/browser/tokenization.js';
+-import './contrib/toggleTabFocusMode/browser/toggleTabFocusMode.js';
+-import './contrib/unicodeHighlighter/browser/unicodeHighlighter.js';
+-import './contrib/unusualLineTerminators/browser/unusualLineTerminators.js';
+-import './contrib/viewportSemanticTokens/browser/viewportSemanticTokens.js';
+-import './contrib/wordHighlighter/browser/wordHighlighter.js';
++// import './contrib/toggleTabFocusMode/browser/toggleTabFocusMode.js';
++// import './contrib/unicodeHighlighter/browser/unicodeHighlighter.js';
++// import './contrib/unusualLineTerminators/browser/unusualLineTerminators.js';
++// import './contrib/viewportSemanticTokens/browser/viewportSemanticTokens.js';
++// import './contrib/wordHighlighter/browser/wordHighlighter.js';
+ import './contrib/wordOperations/browser/wordOperations.js';
+-import './contrib/wordPartOperations/browser/wordPartOperations.js';
++// import './contrib/wordPartOperations/browser/wordPartOperations.js';
+ // Load up these strings even in VSCode, even if they are not used
+ // in order to get them translated
+-import './common/standaloneStrings.js';
+-import '../base/browser/ui/codicons/codiconStyles.js'; // The codicons are defined here and must be loaded
++// import './common/standaloneStrings.js';
++// import '../base/browser/ui/codicons/codiconStyles.js'; // The codicons are defined here and must be loaded
+diff --git a/node_modules/monaco-editor/esm/vs/editor/editor.main.js b/node_modules/monaco-editor/esm/vs/editor/editor.main.js
+index 97bfc6b..beb4574 100644
+--- a/node_modules/monaco-editor/esm/vs/editor/editor.main.js
++++ b/node_modules/monaco-editor/esm/vs/editor/editor.main.js
+@@ -1,7 +1,7 @@
+ import '../basic-languages/monaco.contribution';
+-import '../language/css/monaco.contribution';
+-import '../language/html/monaco.contribution';
+-import '../language/json/monaco.contribution';
+-import '../language/typescript/monaco.contribution';
++// import '../language/css/monaco.contribution';
++// import '../language/html/monaco.contribution';
++// import '../language/json/monaco.contribution';
++// import '../language/typescript/monaco.contribution';
+ 
+ export * from './edcore.main';
+\ No newline at end of file
