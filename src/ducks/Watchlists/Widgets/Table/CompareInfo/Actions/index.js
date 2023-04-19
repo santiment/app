@@ -17,7 +17,7 @@ const reportError = (err) =>
     }),
   )
 
-const Actions = ({ type, selected, watchlist, onAdd, onRemove, assets }) => {
+const Actions = ({ type, selected, watchlist, onAdd, onRemove, assets, widgets }) => {
   const { user, isLoggedIn } = useUser()
   let isOwner = false
 
@@ -66,7 +66,7 @@ const Actions = ({ type, selected, watchlist, onAdd, onRemove, assets }) => {
       <Copy selectedText={selectedText} watchlist={watchlist} assets={assets} selected={selected} />
       {type === 'PROJECT' && (
         <>
-          <SaveAs selectedText={selectedText} watchlist={watchlist} />
+          <SaveAs selectedText={selectedText} watchlist={watchlist} widgets={widgets} />
           {isOwner && (
             <Delete selected={selected} onRemove={removeHandler} selectedText={selectedText} />
           )}

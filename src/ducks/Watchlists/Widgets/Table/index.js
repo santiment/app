@@ -35,6 +35,7 @@ const AssetsTable = ({
   updateActiveColumnsKeys,
   fetchAllColumns,
   isDesktop,
+  widgets,
 }) => {
   const [toggleSelected, setToggleSelected] = useState()
   const defaultSorting = useMemo(
@@ -86,6 +87,7 @@ const AssetsTable = ({
   return (
     <>
       <TableTop
+        widgets={widgets}
         refetchAssets={refetchAssets}
         fetchAllColumns={fetchAllColumns}
         comparingAssets={comparingAssets}

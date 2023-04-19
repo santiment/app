@@ -8,7 +8,7 @@ import ProPopupWrapper from '../../../../components/ProPopup/Wrapper'
 import LoginPopup from '../../../../components/banners/feature/PopupBanner'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 
-const NewWatchlist = ({ trigger, type, openOnSuccess = true }) => {
+const NewWatchlist = ({ trigger, type, openOnSuccess = true, source, infographics }) => {
   const { isLoggedIn } = useUser()
   const title = getTitleByWatchlistType(type)
   const { isPro } = useUserSubscriptionStatus()
@@ -24,7 +24,7 @@ const NewWatchlist = ({ trigger, type, openOnSuccess = true }) => {
   }
 
   function onSubmit(props) {
-    createWatchlist({ ...props, openOnSuccess }).then(closeDialog)
+    createWatchlist({ ...props, openOnSuccess }, { source, infographics }).then(closeDialog)
   }
 
   return (

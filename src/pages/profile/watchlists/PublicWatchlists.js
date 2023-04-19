@@ -58,6 +58,7 @@ const PublicWatchlists = ({ watchlists, type, isOwner, ...props }) => {
           >
             {isOwner && (
               <NewWatchlist
+                source='create_screener'
                 trigger={<button className='btn-1 body-3'>Create screener</button>}
                 type={SCREENER}
               />

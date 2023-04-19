@@ -1,4 +1,5 @@
 import * as Sentry from '@sentry/react'
+import { track } from 'webkit/analytics'
 import { client } from '../../../../apollo'
 import { useMutation } from '@apollo/react-hooks'
 import { history } from '../../../../redux'
@@ -83,13 +84,41 @@ export const updateWatchlistShort = (variables, action) =>
     },
   })
 
+function trackWatchlistCreation(type, watchlist, trackInfo) {
+  const { id, name, description, isPublic } = watchlist
+
+  const { source, infographics: sourceInfographics = {} } = trackInfo || {}
+  const { isMovement, isPriceChartActive, isPriceTreeMap, isVolumeTreeMap } = sourceInfographics
+  const infographics = [
+    isPriceTreeMap && 'price_treemap',
+    isVolumeTreeMap && 'social_volume_treemap',
+    isPriceChartActive && 'price_bar_chart',
+    isMovement && 'marketcap_volume',
+  ].filter(Boolean)
+
+  const isScreener = type === SCREENER
+  const event = isScreener ? 'screener_create' : 'watchlist_create'
+  track.event(event, {
+    category: 'General',
+    id,
+    type: isScreener || type === 'PROJECT' ? 'project' : 'address',
+    is_public: isPublic,
+    title: name,
+    description,
+    infographics,
+    source,
+    source_url: window.location.href,
+  })
+}
+
 export function useCreateWatchlist(type) {
   const [mutate, data] = useMutation(CREATE_WATCHLIST_MUTATION(type), {
     update: updateWatchlistsOnCreation,
   })
 
-  function createWatchlist(props) {
+  function createWatchlist(props, trackInfo) {
     const { function: fn, listItems, name, description, isPublic } = props
+
     return mutate({
       variables: {
         type: transformToServerType(type),
@@ -107,6 +136,7 @@ export function useCreateWatchlist(type) {
         const { openOnSuccess } = props
 
         notifyCreation(title, !openOnSuccess && link)
+        trackWatchlistCreation(type, { ...props, id: watchlist.id }, trackInfo)
 
         if (openOnSuccess) {
           history.push(link)

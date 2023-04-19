@@ -22,13 +22,15 @@ export const NonAuthorTrigger = (props) => (
   </Item>
 )
 
-export const Trigger = ({ type, forwardedRef, isActive, onPrimaryAction, openMenu }) => {
+export const Trigger = ({ type, forwardedRef, isActive, onPrimaryAction, openMenu, widgets }) => {
   const onSubmit = (props) => onPrimaryAction(props)
 
   return (
     <div className={styles.trigger} ref={forwardedRef}>
       <NewAction
         type={type}
+        source='new'
+        infographics={widgets}
         onSubmit={onSubmit}
         trigger={<Button className={styles.trigger__text}>New</Button>}
       />
@@ -58,17 +60,26 @@ export const Delete = ({ id, name, title }) => (
   />
 )
 
-export const New = ({ type, onSubmit }) => (
-  <NewAction type={type} onSubmit={onSubmit} trigger={<Item icon='plus-round'>New</Item>} />
+export const New = ({ type, onSubmit, widgets, source = 'new' }) => (
+  <NewAction
+    type={type}
+    onSubmit={onSubmit}
+    source={source}
+    infographics={widgets}
+    trigger={<Item icon='plus-round'>New</Item>}
+  />
 )
 
-export const SaveAs = ({ type, watchlist }) => {
+export const SaveAs = ({ type, watchlist, widgets }) => {
   const showDuplicate = ['SCREENER', 'PROJECT', 'BLOCKCHAIN_ADDRESS'].includes(type)
   const iconName = showDuplicate ? 'duplicate' : 'disk'
+
   return (
     <SaveAsAction
       type={type}
       watchlist={watchlist}
+      source='duplicate'
+      infographics={widgets}
       trigger={
         <Item icon={iconName} className={iconName}>
           {showDuplicate ? 'Duplicate' : 'Save as'}
