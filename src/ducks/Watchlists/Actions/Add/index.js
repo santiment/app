@@ -95,6 +95,7 @@ const WatchlistPopup = ({
           onWatchlistClick={(watchlist) => toggleAssetInList(watchlist)}
           lists={lists}
           projectId={projectId}
+          source='add_item_to_watchlist_create_new'
           {...props}
         />
       </Dialog.ScrollContent>

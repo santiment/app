@@ -17,6 +17,7 @@ const Watchlists = ({
   withNewButton = true,
   classes = {},
   loading = false,
+  source,
 }) => {
   let watchlistsContent = loading ? (
     <div className={styles.loading}>
@@ -56,6 +57,7 @@ const Watchlists = ({
       </div>
       {withNewButton && (
         <NewWatchlist
+          source={source}
           type={PROJECT}
           openOnSuccess={false}
           trigger={<NewBtn border className={styles.watchlistNew} />}
