@@ -25,7 +25,7 @@ const Trigger = ({ title, showProBanner, ...props }) => (
 const NewCard = ({ type }) => {
   switch (type) {
     case SCREENER:
-      return <NewScreenerCard />
+      return <NewScreenerCard source='create_screener' />
     case BLOCKCHAIN_ADDRESS:
     case PROJECT:
     default:
@@ -39,11 +39,15 @@ const NewWatchlistCard = ({ type }) => (
   </LoginPopup>
 )
 
-const NewScreenerCard = () => {
+const NewScreenerCard = ({ source }) => {
   const { isPro } = useUserSubscriptionStatus()
 
   return (
-    <NewWatchlist trigger={<Trigger title='screener' showProBanner={!isPro} />} type={SCREENER} />
+    <NewWatchlist
+      trigger={<Trigger title='screener' showProBanner={!isPro} />}
+      type={SCREENER}
+      source={source}
+    />
   )
 }
 
