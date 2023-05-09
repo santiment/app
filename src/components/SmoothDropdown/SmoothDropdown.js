@@ -9,7 +9,7 @@ const modalRoot = document.getElementById('dd-modal')
 let ddTemplate
 
 if (modalRoot) {
-  ddTemplate = modalRoot.querySelector('#dd-template').content
+  ddTemplate = modalRoot.querySelector('#dd-template')
 }
 
 export const SmoothDropdownContext = React.createContext({

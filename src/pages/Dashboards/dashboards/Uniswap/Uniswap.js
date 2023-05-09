@@ -7,33 +7,14 @@ import UniswapFlowBalances from '../../../../ducks/UniswapProtocol/UniswapFlowBa
 import UniswapTopTransactions from '../../../../ducks/UniswapProtocol/UniswapTopTransactions/UniswapTopTransactions'
 import UniMetricsChart from '../../../../ducks/UniswapProtocol/UniMetricsChart/UniMetricsChart'
 import UniswapMetrics from '../../../../ducks/UniswapProtocol/UniswapMetrics/UniswapMetrics'
-import UniswapHistoricalBalance from '../../../../ducks/Studio/Tabs/UniswapHistoricalBalance/UniswapHistoricalBalance'
-import ClaimersWidgets, { ChartWidget } from '../../../../components/ClaimersWidgets'
+import ClaimersWidgets from '../../../../components/ClaimersWidgets'
 import TopClaimersTable from '../../../../components/Tables/TopClaimers'
 import UniswapWhoClaimed from '../../../../ducks/UniswapProtocol/UniswapPieChart/WhoClaimedPieChart'
 import CheckProPaywall from '../../../../ducks/Stablecoins/CheckProPaywall'
-import { Metric } from '../../../../ducks/dataHub/metrics'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import { useRestrictedInfo } from '../../hooks'
 import dashboardsStyles from '../dashboards.module.scss'
-import styles from './Uniswap.module.scss'
-
-const BALANCE_CHART_PADDING = {
-  top: 16,
-  right: 45,
-  bottom: 18,
-  left: 45,
-}
-
-const BALANCE_CHART_TICKS = {
-  xTicks: 6,
-  yTicks: 6,
-}
-
-const TOTAL_CLAIMS_METRICS = [
-  Metric.uniswap_total_claims_amount,
-  Metric.uniswap_total_claims_percent,
-]
+import TokenClaims from './TokenClaims'
 
 const UniswapProtocol = () => {
   const areClaimsRestricted = useRestrictedInfo({
@@ -91,17 +72,9 @@ const UniswapProtocol = () => {
           title='UNI Token Claims'
           description='0x090d4613473dee047c3f2706764f49e0821d256e'
         >
-          <div className={styles.overviewWrapper}>
-            <UniswapHistoricalBalance
-              className={styles.balance__chart}
-              headerClassName={styles.balance__header}
-              axesTicks={BALANCE_CHART_TICKS}
-              padding={BALANCE_CHART_PADDING}
-              height={448}
-            />
-            <ChartWidget height={448} metrics={TOTAL_CLAIMS_METRICS} />
-          </div>
+          <TokenClaims></TokenClaims>
         </Section>
+
         <Section id='uniswap_top_claimers'>
           <div>
             <CheckProPaywall shouldCheck={areClaimsRestricted}>
