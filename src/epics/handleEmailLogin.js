@@ -11,7 +11,7 @@ import { savePrevAuthProvider } from '../utils/localStorage'
 import GA from './../utils/tracking'
 import { setCoupon } from '../utils/coupon'
 import { USER_GQL_FRAGMENT } from './handleLaunch'
-import { trackSignupLogin } from '../firstLogin'
+// import { trackSignupLogin } from '../firstLogin'
 
 const EMAIL_LOGIN_VERIFY_MUTATION = gql`
   mutation emailLoginVerify($email: String!, $token: String!) {
@@ -66,7 +66,7 @@ export const handleLoginSuccess = (action$) =>
       GA.update(user)
 
       const { method = LoginType.EMAIL } = getSavedLoginMethod() || {}
-      trackSignupLogin(isFirstLogin, method)
+      // trackSignupLogin(isFirstLogin, method)
 
       if (isFirstLogin || (email && !loggedEmails.includes(email))) {
         trackTwitterSignUpEvent()

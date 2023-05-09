@@ -6,10 +6,12 @@ import Chart from './Chart'
 import AddressSetting from './Address'
 import Comments from './Comments'
 import AddressTransactions from './AddressTransactions'
-import Sankey from './Sankey'
+// import Sankey from './Sankey'
 import { withSizes, DesktopOnly } from '../../components/Responsive'
 import { Infrastructure } from '../../utils/address'
 import styles from './index.module.scss'
+
+const Sankey = () => null
 
 const HistoricalBalance = ({
   children,

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
 import { useLocation } from 'react-router-dom'
-import toReact from 'svelte-adapter/react'
+// import toReact from 'svelte-adapter/react'
 import Icon from '@santiment-network/ui/Icon'
 import CreationInfoComponent from './CreationInfoWrapper.svelte'
 import CommentsComponent from 'webkit/ui/Comments/svelte'
@@ -27,23 +27,8 @@ import { notifyUpdate } from './notifications'
 import { mutateStoreUserActivity, InteractionType } from '../../../../queries/userActivity'
 import styles from './TopBar.module.scss'
 
-export const CreationInfo = toReact(
-  CreationInfoComponent,
-  {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  'div',
-)
-export const Comments = toReact(
-  CommentsComponent,
-  {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  'div',
-)
+export const CreationInfo = () => null
+export const Comments = () => null
 
 const TopBar = ({
   entity,

@@ -4,7 +4,7 @@ import toReact from 'svelte-adapter/react'
 import SvelteInsightCardWithMarketcap from './index.svelte'
 import styles from './index.module.scss'
 
-const ReactInsightCardWithMarketCap = toReact(SvelteInsightCardWithMarketcap, {}, 'div')
+const ReactInsightCardWithMarketCap = () => null
 
 const InsightCardWithMarketcap = ({ insight, className }) => (
   <ReactInsightCardWithMarketCap insight={insight} className={cx(styles.wrapper, className)} />

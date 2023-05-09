@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react'
-import toReact from 'svelte-adapter/react'
+// import toReact from 'svelte-adapter/react'
 import { CommentsType } from 'webkit/api/comments'
-import SvelteComments from 'webkit/ui/Comments/svelte'
+// import SvelteComments from 'webkit/ui/Comments/svelte'
 import { useBlockchainAddress } from '../hooks'
 import { useUser } from '../../../stores/user'
 import { onAnonComment } from '../../../pages/Studio/utils'
 import styles from './index.module.scss'
 
-const ReactComments = toReact(SvelteComments, {}, 'div')
+const ReactComments = () => null
 const Comments = ({ settings }) => {
   const blockchainAddress = useBlockchainAddress(settings)
   const { user } = useUser()

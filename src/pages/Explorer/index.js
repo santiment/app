@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import toReact from 'svelte-adapter/react'
+// import toReact from 'svelte-adapter/react'
 import EventBanner from '../../components/EventBanner'
 import SveltePage from './index.svelte'
 import { useUser } from '../../stores/user'
@@ -18,7 +18,7 @@ const PAGE_STYLE = {
   margin: '14px 0 100px 240px',
 }
 
-export const Page = toReact(SveltePage, PAGE_STYLE, 'div')
+export const Page = () => null
 
 const ExplorerPage = () => {
   const { user } = useUser()
