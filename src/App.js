@@ -15,8 +15,8 @@ import ErrorBoundary from './components/ErrorContent/ErrorBoundary'
 import PageLoader from './components/Loader/PageLoader'
 
 import { useSavedComment } from './hooks/comment'
-import './index.scss'
-import './App.scss'
+// import './index.scss'
+// import './App.scss'
 
 const LoadablePage = (loader) =>
   Loadable({
