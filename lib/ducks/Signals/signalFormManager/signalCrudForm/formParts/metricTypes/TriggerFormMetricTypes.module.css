@@ -1,0 +1,290 @@
+/* stylelint-disable */
+:export {
+  bleach: #fff;
+  athens: #f7f8fb;
+  porcelain: #e7eaf3;
+  mystic: #d2d6e7;
+  casper: #9faac4;
+  waterloo: #7a859e;
+  fiord: #505573;
+  rhino: #2f354d;
+  mirage: #181b2b;
+  shark: #15181f;
+  bleach-night: #181b2b;
+  athens-night: #1c1f31;
+  porcelain-night: #222639;
+  mystic-night: #343a52;
+  casper-night: #4e5472;
+  waterloo-night: #7a809a;
+  fiord-night: #a2a7bd;
+  rhino-night: #dfe1ec;
+  mirage-night: #f8f9ff;
+  jungle-green: #14c393;
+  jungle-green-hover: #1fac85;
+  jungle-green-light: #edf8f5;
+  jungle-green-light-2: #dcf6ef;
+  jungle-green-light-3: #b0ebdb;
+  jungle-green-accent: #8affce;
+  jungle-green-dark: #182833;
+  jungle-green-dark-2: #173d40;
+  jungle-green-dark-3: #165e55;
+  texas-rose: #ffad4d;
+  texas-rose-hover: #fd9317;
+  texas-rose-light: #fff3e4;
+  texas-rose-light-2: #ffe7ca;
+  texas-rose-light-3: #ffd49c;
+  texas-rose-dark: #3b3130;
+  texas-rose-dark-2: #503f3d;
+  texas-rose-dark-3: #2a262d;
+  bright-sun: #ffcb47;
+  bright-sun-hover: #f0bb35;
+  persimmon: #ff6363;
+  persimmon-hover: #f85454;
+  persimmon-light: #ffe6e6;
+  persimmon-light-2: #ffadad;
+  persimmon-dark: #462835;
+  persimmon-dark-2: #74353e;
+  lima: #26c953;
+  lima-hover: #1bad44;
+  lima-light: #e3fbe3;
+  lima-dark: #1a3424;
+  sheets: #1aa168;
+  sheets-hover: #158a59;
+  dodger-blue: #5275ff;
+  dodger-blue-hover: #375be9;
+  dodger-blue-light: #ecf0fe;
+  dodger-blue-light-2: #dae0fd;
+  dodger-blue-light-3: #a9baff;
+  dodger-blue-dark: #1d223e;
+  dodger-blue-dark-2: #21284b;
+  dodger-blue-dark-3: #354895;
+  heliotrope: #8358ff;
+  heliotrope-hover: #6339dd;
+  heliotrope-light: #f0eeff;
+  heliotrope-light-2: #c9c2ff;
+  heliotrope-light-4: #c1abff;
+  heliotrope-dark: #28244b;
+  heliotrope-dark-2: #342b68;
+  heliotrope-dark-4: #4e3995;
+  malibu: #68dbf4;
+  malibu-hover: #18c0e4;
+  malibu-light: #e5f9fd;
+  malibu-accent: #72ffff;
+  malibu-dark: #253a4b;
+  browny: #b76a50;
+  browny-night: #bb7760;
+}
+
+.baseTypes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.listItem {
+  margin-top: 8px;
+  width: calc(50% - 5px);
+}
+
+.label {
+  margin-left: auto;
+  color: var(--jungle-green);
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .label {
+    margin-left: 0;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .label {
+    margin-left: 0;
+  }
+}
+
+.textBlocks {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .textBlocks {
+    flex-direction: column;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .textBlocks {
+    flex-direction: column;
+  }
+}
+
+.metric {
+  min-height: 70px;
+  width: 100%;
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  padding: 0 16px;
+  cursor: pointer;
+  max-height: 70px;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .metric {
+    padding: 10px 20px;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .metric {
+    padding: 10px 20px;
+  }
+}
+.metric:hover {
+  color: var(--jungle-green-hover);
+  border: 1px solid var(--jungle-green-hover);
+}
+
+.metrics {
+  padding: 8px 0;
+}
+
+.iconBlock {
+  margin-right: 15px;
+}
+.iconBlock svg {
+  width: 30px;
+  height: 30px;
+  fill: none;
+}
+
+.dialog {
+  width: 564px;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .dialog {
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .dialog {
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0;
+  }
+}
+
+.metricsTitle {
+  color: var(--mirage);
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 26px;
+}
+
+.metricsExplanation {
+  color: var(--waterloo);
+  margin-top: 4px;
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .metricsExplanation {
+    text-align: center;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .metricsExplanation {
+    text-align: center;
+  }
+}
+
+.metricsHeader {
+  padding: 0 24px 18px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  padding: 0 24px 24px;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .content {
+    padding-top: 20px;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .content {
+    padding-top: 20px;
+  }
+}
+
+.title {
+  justify-content: flex-end;
+  border: 0;
+  padding: 16px 16px 0 16px !important;
+}
+
+.texts {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.choose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-top: 24px;
+}
+
+.chooseText {
+  background: var(--white);
+  padding: 0 12px;
+  z-index: 10;
+  color: var(--waterloo);
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.divider {
+  position: absolute;
+  top: 7px;
+  width: 100%;
+  border-bottom: 1px solid var(--porcelain);
+}
+
+.search {
+  margin-top: 26px;
+}
+.search input {
+  height: 40px;
+}
+
+.error {
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+  margin: 4px 0 8px 0;
+  color: var(--persimmon);
+}

@@ -1,0 +1,17 @@
+.tabs {
+  margin: 0 0 8px;
+  display: flex;
+}
+
+.tab {
+  padding: 0 8px 7px;
+  margin: 0;
+  color: var(--casper);
+  font-weight: 600;
+  flex: 1;
+  justify-content: center;
+}
+
+.selectedTab {
+  color: var(--rhino);
+}

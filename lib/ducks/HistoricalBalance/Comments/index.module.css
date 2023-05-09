@@ -1,0 +1,15 @@
+.wrapper :global h4 {
+  margin: 0 0 24px !important;
+  font-size: 18px !important;
+  line-height: 26px !important;
+  color: var(--waterloo);
+}
+.wrapper :global form > div {
+  min-height: 40px;
+  padding: 9px 12px;
+}
+.wrapper :global form button {
+  height: 40px;
+  flex: 0 0 92px;
+  white-space: nowrap;
+}

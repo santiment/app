@@ -1,0 +1,26 @@
+.wrapper {
+  width: 100%;
+  height: auto;
+  margin-bottom: 24px;
+}
+
+.title {
+  margin-bottom: 24px;
+}
+
+.actionBlock {
+  margin-bottom: 16px;
+}
+
+.frequencyBlock {
+  margin-bottom: 16px;
+}
+
+.privacyBlock {
+  margin-bottom: 26px;
+}
+
+.titleWrapper {
+  display: flex;
+  justify-content: space-between;
+}

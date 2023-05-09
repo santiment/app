@@ -1,0 +1,49 @@
+.wrapper {
+  --line-clamp: 1;
+  --fill: var(--waterloo);
+  --fill-hover: var(--waterloo);
+}
+
+:global(.phone-xs) .wrapper,
+:global(.phone) .wrapper,
+:global(.tablet) .wrapper {
+  --margin: 0;
+}
+
+:global(.phone-xs) .wrapperError,
+:global(.phone) .wrapperError,
+:global(.tablet) .wrapperError {
+  --margin: 0;
+}
+
+.btn {
+  cursor: default;
+}
+
+.text {
+  max-width: 100px;
+}
+
+.link {
+  color: var(--green);
+}
+.link:hover {
+  color: var(--green-hover);
+}
+
+.tooltipLink {
+  display: inline-block;
+}
+
+.tooltip {
+  width: 318px;
+}
+
+.contentText {
+  color: var(--fiord);
+}
+
+.preview {
+  --color: var(--black) !important;
+  display: block;
+}

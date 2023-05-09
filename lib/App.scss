@@ -1,0 +1,92 @@
+@import '~@santiment-network/ui/variables.scss';
+@import '~@santiment-network/ui/mixins.scss';
+@import '~nprogress/nprogress';
+
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  height: 100%;
+  -webkit-overflow-scrolling: touch;
+
+  & .page {
+    flex: 1;
+    padding: 0;
+    max-width: 1170px;
+
+    @include responsive('phone', 'phone-xs') {
+      padding: 0 0 60px;
+    }
+
+    @include responsive('tablet', 'laptop', 'desktop') {
+      padding: 0 15px;
+      margin: 22px auto 0 auto;
+      width: 100%;
+    }
+
+    @include responsive('laptop', 'desktop') {
+      & h1 {
+        @include text('h3');
+
+        margin: 0;
+      }
+    }
+  }
+}
+
+.container {
+  margin: 0 auto;
+  padding-right: 15px;
+  padding-left: 15px;
+  width: 100%;
+
+  @include responsive('desktop') {
+    max-width: 1170px;
+  }
+}
+
+@supports (--css: variables) {
+  :root {
+    --progress-bg-color: #d3d3d3;
+  }
+
+  #nprogress .bar {
+    background: var(--progress-bg-color);
+  }
+
+  #nprogress .peg {
+    box-shadow: 0 0 10px var(--progress-bg-color), 0 0 5px var(--progress-bg-color);
+  }
+
+  #nprogress .spinner-icon {
+    border-top-color: var(--progress-bg-color);
+    border-left-color: var(--progress-bg-color);
+  }
+}
+
+.error-message {
+  color: var(--persimmon);
+}
+
+.list-container {
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  overflow: auto;
+  overflow: overlay;
+  scrollbar-width: thin;
+  padding-top: 64px;
+
+  & .header {
+    position: absolute;
+    left: 40px;
+    right: 0;
+    top: 0;
+  }
+
+  & footer {
+    display: none;
+  }
+}

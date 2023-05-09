@@ -1,0 +1,338 @@
+/* stylelint-disable */
+:export {
+  bleach: #fff;
+  athens: #f7f8fb;
+  porcelain: #e7eaf3;
+  mystic: #d2d6e7;
+  casper: #9faac4;
+  waterloo: #7a859e;
+  fiord: #505573;
+  rhino: #2f354d;
+  mirage: #181b2b;
+  shark: #15181f;
+  bleach-night: #181b2b;
+  athens-night: #1c1f31;
+  porcelain-night: #222639;
+  mystic-night: #343a52;
+  casper-night: #4e5472;
+  waterloo-night: #7a809a;
+  fiord-night: #a2a7bd;
+  rhino-night: #dfe1ec;
+  mirage-night: #f8f9ff;
+  jungle-green: #14c393;
+  jungle-green-hover: #1fac85;
+  jungle-green-light: #edf8f5;
+  jungle-green-light-2: #dcf6ef;
+  jungle-green-light-3: #b0ebdb;
+  jungle-green-accent: #8affce;
+  jungle-green-dark: #182833;
+  jungle-green-dark-2: #173d40;
+  jungle-green-dark-3: #165e55;
+  texas-rose: #ffad4d;
+  texas-rose-hover: #fd9317;
+  texas-rose-light: #fff3e4;
+  texas-rose-light-2: #ffe7ca;
+  texas-rose-light-3: #ffd49c;
+  texas-rose-dark: #3b3130;
+  texas-rose-dark-2: #503f3d;
+  texas-rose-dark-3: #2a262d;
+  bright-sun: #ffcb47;
+  bright-sun-hover: #f0bb35;
+  persimmon: #ff6363;
+  persimmon-hover: #f85454;
+  persimmon-light: #ffe6e6;
+  persimmon-light-2: #ffadad;
+  persimmon-dark: #462835;
+  persimmon-dark-2: #74353e;
+  lima: #26c953;
+  lima-hover: #1bad44;
+  lima-light: #e3fbe3;
+  lima-dark: #1a3424;
+  sheets: #1aa168;
+  sheets-hover: #158a59;
+  dodger-blue: #5275ff;
+  dodger-blue-hover: #375be9;
+  dodger-blue-light: #ecf0fe;
+  dodger-blue-light-2: #dae0fd;
+  dodger-blue-light-3: #a9baff;
+  dodger-blue-dark: #1d223e;
+  dodger-blue-dark-2: #21284b;
+  dodger-blue-dark-3: #354895;
+  heliotrope: #8358ff;
+  heliotrope-hover: #6339dd;
+  heliotrope-light: #f0eeff;
+  heliotrope-light-2: #c9c2ff;
+  heliotrope-light-4: #c1abff;
+  heliotrope-dark: #28244b;
+  heliotrope-dark-2: #342b68;
+  heliotrope-dark-4: #4e3995;
+  malibu: #68dbf4;
+  malibu-hover: #18c0e4;
+  malibu-light: #e5f9fd;
+  malibu-accent: #72ffff;
+  malibu-dark: #253a4b;
+  browny: #b76a50;
+  browny-night: #bb7760;
+}
+
+/* stylelint-disable */
+:export {
+  bleach: #fff;
+  athens: #f7f8fb;
+  porcelain: #e7eaf3;
+  mystic: #d2d6e7;
+  casper: #9faac4;
+  waterloo: #7a859e;
+  fiord: #505573;
+  rhino: #2f354d;
+  mirage: #181b2b;
+  shark: #15181f;
+  bleach-night: #181b2b;
+  athens-night: #1c1f31;
+  porcelain-night: #222639;
+  mystic-night: #343a52;
+  casper-night: #4e5472;
+  waterloo-night: #7a809a;
+  fiord-night: #a2a7bd;
+  rhino-night: #dfe1ec;
+  mirage-night: #f8f9ff;
+  jungle-green: #14c393;
+  jungle-green-hover: #1fac85;
+  jungle-green-light: #edf8f5;
+  jungle-green-light-2: #dcf6ef;
+  jungle-green-light-3: #b0ebdb;
+  jungle-green-accent: #8affce;
+  jungle-green-dark: #182833;
+  jungle-green-dark-2: #173d40;
+  jungle-green-dark-3: #165e55;
+  texas-rose: #ffad4d;
+  texas-rose-hover: #fd9317;
+  texas-rose-light: #fff3e4;
+  texas-rose-light-2: #ffe7ca;
+  texas-rose-light-3: #ffd49c;
+  texas-rose-dark: #3b3130;
+  texas-rose-dark-2: #503f3d;
+  texas-rose-dark-3: #2a262d;
+  bright-sun: #ffcb47;
+  bright-sun-hover: #f0bb35;
+  persimmon: #ff6363;
+  persimmon-hover: #f85454;
+  persimmon-light: #ffe6e6;
+  persimmon-light-2: #ffadad;
+  persimmon-dark: #462835;
+  persimmon-dark-2: #74353e;
+  lima: #26c953;
+  lima-hover: #1bad44;
+  lima-light: #e3fbe3;
+  lima-dark: #1a3424;
+  sheets: #1aa168;
+  sheets-hover: #158a59;
+  dodger-blue: #5275ff;
+  dodger-blue-hover: #375be9;
+  dodger-blue-light: #ecf0fe;
+  dodger-blue-light-2: #dae0fd;
+  dodger-blue-light-3: #a9baff;
+  dodger-blue-dark: #1d223e;
+  dodger-blue-dark-2: #21284b;
+  dodger-blue-dark-3: #354895;
+  heliotrope: #8358ff;
+  heliotrope-hover: #6339dd;
+  heliotrope-light: #f0eeff;
+  heliotrope-light-2: #c9c2ff;
+  heliotrope-light-4: #c1abff;
+  heliotrope-dark: #28244b;
+  heliotrope-dark-2: #342b68;
+  heliotrope-dark-4: #4e3995;
+  malibu: #68dbf4;
+  malibu-hover: #18c0e4;
+  malibu-light: #e5f9fd;
+  malibu-accent: #72ffff;
+  malibu-dark: #253a4b;
+  browny: #b76a50;
+  browny-night: #bb7760;
+}
+
+.wrapper {
+  display: grid;
+  grid-row-gap: 24px;
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .wrapper {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 32px;
+    grid-template-areas: "card confirmation";
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .wrapper {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 32px;
+    grid-template-areas: "card confirmation";
+  }
+}
+
+.address {
+  margin-top: 24px;
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .card {
+    grid-area: card;
+  }
+  .confirmation {
+    grid-area: confirmation;
+    background: var(--athens);
+    border-radius: 4px;
+    padding: 27px 32px 24px 32px;
+    width: 420px;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .card {
+    grid-area: card;
+  }
+  .confirmation {
+    grid-area: confirmation;
+    background: var(--athens);
+    border-radius: 4px;
+    padding: 27px 32px 24px 32px;
+    width: 420px;
+  }
+}
+.toggle {
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--waterloo);
+  fill: var(--waterloo);
+  margin: 0 0 15px;
+  user-select: none;
+}
+.toggle svg {
+  height: 13px;
+  width: 13px;
+  margin: 0 5px -1px 0;
+}
+
+.row {
+  display: flex;
+}
+
+.input {
+  height: 40px;
+  margin-bottom: 16px;
+}
+.input:hover, .input:focus {
+  border-color: var(--jungle-green);
+}
+.input_last {
+  margin: 0;
+}
+
+.label_card :global .StripeElement {
+  border: 1px solid var(--porcelain);
+  box-sizing: border-box;
+  border-radius: 4px;
+  display: block;
+  padding: 11px 10px;
+  outline: 0;
+  background: var(--white);
+  margin-bottom: 5px;
+  height: 40px;
+}
+.label_card :global .StripeElement--focus {
+  border-color: var(--jungle-green);
+}
+.label_card :global .StripeElement--invalid {
+  border-color: var(--persimmon);
+}
+
+.label {
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  color: var(--waterloo);
+  flex: 1;
+  margin-bottom: 3px;
+}
+.label_cvc {
+  margin-left: 16px;
+}
+
+.bottom {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.tooltip {
+  z-index: 1000;
+}
+.tooltip__content {
+  width: 340px;
+  padding: 12px 20px 20px;
+}
+.tooltip__text {
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--waterloo);
+}
+
+.icon {
+  width: 13px;
+  height: 13px;
+  fill: var(--casper);
+  vertical-align: text-top;
+  margin-left: 5px;
+  cursor: pointer;
+}
+.icon_active {
+  fill: var(--jungle-green);
+}
+
+.cards {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  margin: 12px 0 4px;
+}
+
+.magnet {
+  height: 22px;
+  background: #181b2b;
+}
+
+.block {
+  width: 90%;
+  height: 20px;
+  background: #fff;
+  border-radius: 2px;
+  margin: 6px auto;
+  text-align: right;
+}
+
+.number {
+  position: relative;
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  color: var(--casper);
+  margin-top: 30px;
+  text-align: center;
+}

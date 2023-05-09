@@ -1,0 +1,49 @@
+.dialog {
+  max-width: 960px;
+  width: 100%;
+  max-height: 640px;
+  height: 100%;
+  overflow: hidden;
+}
+
+:global(.phone-xs) .dialog,
+:global(.phone) .dialog,
+:global(.tablet) .dialog {
+  max-width: unset;
+  max-height: unset;
+  height: unset;
+}
+
+.dialogTitle {
+  padding: 14px 24px !important;
+}
+
+:global(.tablet) .dialogTitle,
+:global(.phone) .dialogTitle,
+:global(.phone-xs) .dialogTitle {
+  padding: 12px 20px !important;
+  background: var(--whale);
+  color: var(--fiord);
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.recommended {
+  max-width: 496px;
+  width: 100%;
+}
+
+.preview {
+  max-height: unset;
+  height: auto;
+}
+
+:global(.phone-xs) .preview,
+:global(.phone) .preview,
+:global(.tablet) .preview {
+  max-width: unset;
+  max-height: unset;
+  height: unset;
+}

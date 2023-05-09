@@ -1,0 +1,23 @@
+.btn {
+  padding: 0;
+}
+.btn:focus {
+  color: var(--white);
+  fill: var(--white);
+}
+
+.icon {
+  margin-top: -2px;
+  margin-right: 9px;
+}
+
+.dialog {
+  width: 90%;
+  max-width: 90%;
+  height: 90%;
+  max-height: 90%;
+}
+
+.fill {
+  padding: 0 12px;
+}

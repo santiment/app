@@ -1,0 +1,5 @@
+.btn {
+  --color: var(--green);
+  --color-hover: var(--green-hover);
+  margin-bottom: 6px;
+}

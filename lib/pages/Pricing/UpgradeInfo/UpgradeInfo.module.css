@@ -1,0 +1,302 @@
+/* stylelint-disable */
+:export {
+  bleach: #fff;
+  athens: #f7f8fb;
+  porcelain: #e7eaf3;
+  mystic: #d2d6e7;
+  casper: #9faac4;
+  waterloo: #7a859e;
+  fiord: #505573;
+  rhino: #2f354d;
+  mirage: #181b2b;
+  shark: #15181f;
+  bleach-night: #181b2b;
+  athens-night: #1c1f31;
+  porcelain-night: #222639;
+  mystic-night: #343a52;
+  casper-night: #4e5472;
+  waterloo-night: #7a809a;
+  fiord-night: #a2a7bd;
+  rhino-night: #dfe1ec;
+  mirage-night: #f8f9ff;
+  jungle-green: #14c393;
+  jungle-green-hover: #1fac85;
+  jungle-green-light: #edf8f5;
+  jungle-green-light-2: #dcf6ef;
+  jungle-green-light-3: #b0ebdb;
+  jungle-green-accent: #8affce;
+  jungle-green-dark: #182833;
+  jungle-green-dark-2: #173d40;
+  jungle-green-dark-3: #165e55;
+  texas-rose: #ffad4d;
+  texas-rose-hover: #fd9317;
+  texas-rose-light: #fff3e4;
+  texas-rose-light-2: #ffe7ca;
+  texas-rose-light-3: #ffd49c;
+  texas-rose-dark: #3b3130;
+  texas-rose-dark-2: #503f3d;
+  texas-rose-dark-3: #2a262d;
+  bright-sun: #ffcb47;
+  bright-sun-hover: #f0bb35;
+  persimmon: #ff6363;
+  persimmon-hover: #f85454;
+  persimmon-light: #ffe6e6;
+  persimmon-light-2: #ffadad;
+  persimmon-dark: #462835;
+  persimmon-dark-2: #74353e;
+  lima: #26c953;
+  lima-hover: #1bad44;
+  lima-light: #e3fbe3;
+  lima-dark: #1a3424;
+  sheets: #1aa168;
+  sheets-hover: #158a59;
+  dodger-blue: #5275ff;
+  dodger-blue-hover: #375be9;
+  dodger-blue-light: #ecf0fe;
+  dodger-blue-light-2: #dae0fd;
+  dodger-blue-light-3: #a9baff;
+  dodger-blue-dark: #1d223e;
+  dodger-blue-dark-2: #21284b;
+  dodger-blue-dark-3: #354895;
+  heliotrope: #8358ff;
+  heliotrope-hover: #6339dd;
+  heliotrope-light: #f0eeff;
+  heliotrope-light-2: #c9c2ff;
+  heliotrope-light-4: #c1abff;
+  heliotrope-dark: #28244b;
+  heliotrope-dark-2: #342b68;
+  heliotrope-dark-4: #4e3995;
+  malibu: #68dbf4;
+  malibu-hover: #18c0e4;
+  malibu-light: #e5f9fd;
+  malibu-accent: #72ffff;
+  malibu-dark: #253a4b;
+  browny: #b76a50;
+  browny-night: #bb7760;
+}
+
+.ask {
+  position: relative;
+  margin: 84px 0 76px 0;
+  display: flex;
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .ask {
+    margin: 24px 0 48px 0;
+    padding: 24px 16px 16px 16px;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .ask {
+    margin: 24px 0 48px 0;
+    padding: 24px 16px 16px 16px;
+  }
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .ask {
+    margin: 24px 0 48px 0;
+    padding: 24px 16px 16px 16px;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .ask {
+    margin: 24px 0 48px 0;
+    padding: 24px 16px 16px 16px;
+  }
+}
+
+.askBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.askTitle {
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 600;
+  color: var(--rhino);
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .askTitle {
+    font-family: "Proxima Nova", sans-serif;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 600;
+    max-width: 320px;
+    text-align: center;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .askTitle {
+    font-family: "Proxima Nova", sans-serif;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 600;
+    max-width: 320px;
+    text-align: center;
+  }
+}
+
+.askUpgradeBtn {
+  margin-top: 32px;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .askUpgradeBtn {
+    max-width: 320px;
+    margin-top: 24px;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .askUpgradeBtn {
+    max-width: 320px;
+    margin-top: 24px;
+  }
+}
+
+.sign {
+  color: var(--white);
+  margin-bottom: 22px;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .sign {
+    margin-bottom: 16px;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .sign {
+    margin-bottom: 16px;
+  }
+}
+
+.bgSvg {
+  display: flex;
+  height: 180px;
+  background: url("../../../assets/pro-metrics/sign-bg.svg") repeat-x bottom;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .bgSvg {
+    background: var(--jungle-green);
+  }
+}
+@media only screen and (max-width: 479px) {
+  .bgSvg {
+    background: var(--jungle-green);
+  }
+}
+
+.signSvg {
+  height: 200px;
+  margin: 14px 0 0 0 !important;
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .signSvg {
+    margin: 0;
+    height: initial;
+  }
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .signSvg {
+    margin: 0;
+    height: initial;
+  }
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .signSvg {
+    margin: 0;
+    height: initial;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .signSvg {
+    margin: 0;
+    height: initial;
+  }
+}
+
+.emailInput {
+  height: 40px;
+  padding: 0 !important;
+  border: none !important;
+}
+.emailInput input {
+  height: 40px;
+  padding-right: 235px !important;
+  padding-left: 33px !important;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .emailInput input {
+    height: 48px;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .emailInput input {
+    height: 48px;
+  }
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .emailInput {
+    height: 48px;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .emailInput {
+    height: 48px;
+  }
+}
+
+.getStartedBtn {
+  background-color: var(--rhino);
+}
+
+.form {
+  width: 450px !important;
+  align-items: flex-start !important;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .form {
+    width: 100% !important;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .form {
+    width: 100% !important;
+  }
+}
+
+.subscriptionCheckbox {
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 16px !important;
+}
+
+.subscriptionLabel {
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--white) !important;
+  margin-left: 8px;
+}
+
+.selectedCheckbox svg {
+  fill: var(--mystic) !important;
+}
+.selectedCheckbox div {
+  background: var(--white);
+  border-color: var(--white);
+}
+.selectedCheckbox div:hover {
+  background: var(--athens);
+  border-color: var(--athens);
+}

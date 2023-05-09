@@ -1,0 +1,44 @@
+.status {
+  vertical-align: sub;
+  fill: var(--grey-dark);
+  margin-right: 9px;
+  width: 15px;
+}
+.status_public {
+  width: 17px;
+}
+
+:global(.phone-xs) .status,
+:global(.phone) .status,
+:global(.tablet) .status {
+  width: 20px;
+  height: 18px;
+  margin-right: 24px;
+  fill: var(--casper);
+}
+:global(.phone-xs) .status_public,
+:global(.phone) .status_public,
+:global(.tablet) .status_public {
+  width: 20px;
+}
+
+.preview {
+  margin-right: 0 !important;
+}
+
+.frozenStatus {
+  display: var(--frozen-left-buttons-display, block);
+  fill: var(--casper);
+  color: var(--casper);
+}
+
+.icon {
+  display: inline-flex;
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  background: var(--blue-light);
+  fill: var(--blue);
+  justify-content: center;
+  align-items: center;
+}

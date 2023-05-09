@@ -1,0 +1,27 @@
+.contact {
+  background-color: transparent;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  color: var(--casper);
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+}
+.links a {
+  margin-left: 1em;
+  color: var(--casper);
+}
+.links a:first-child {
+  margin-left: 0;
+}

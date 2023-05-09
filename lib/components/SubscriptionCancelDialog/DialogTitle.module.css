@@ -1,0 +1,11 @@
+.back {
+  display: flex;
+  align-items: center;
+  padding-right: 10px;
+  cursor: pointer;
+}
+
+.icon {
+  margin-right: 12px;
+  fill: var(--waterloo);
+}

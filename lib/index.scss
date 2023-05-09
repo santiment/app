@@ -1,0 +1,46 @@
+@import '~@santiment-network/ui/mixins';
+
+/* stylelint-disable no-descending-specificity */
+:global(#root) {
+  @include responsive('phone', 'phone-xs') {
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    // for firefox
+    scrollbar-width: none;
+  }
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--casper) var(--porcelain);
+  scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  text-decoration: none;
+  text-decoration-line: none;
+  text-decoration-style: initial;
+  text-decoration-color: initial;
+}
+
+#dd-modal {
+  position: absolute;
+}
+
+// Fix index level of san-ui Select menu list
+.Select-menu-outer {
+  z-index: 100;
+}
+
+:root {
+  --accent: var(--green);
+}

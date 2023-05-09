@@ -1,0 +1,10 @@
+.wrapper {
+  margin: 0;
+}
+
+.header {
+  margin: 0;
+  z-index: 2;
+  position: sticky;
+  top: 0;
+}

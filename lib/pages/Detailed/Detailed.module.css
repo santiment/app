@@ -1,0 +1,50 @@
+.wrapper {
+  margin-top: 0;
+}
+
+.breadcrumbs {
+  margin-top: -15px;
+}
+
+.bottom {
+  padding: 25px;
+}
+
+.spent {
+  margin-bottom: 16px;
+}
+
+.noPadding {
+  padding: 0;
+}
+
+.info {
+  display: flex;
+  margin-bottom: 16px;
+}
+.info:last-child {
+  margin: 0;
+}
+.info_uniswap {
+  display: flex;
+  flex-direction: column;
+}
+.info__card {
+  flex: 1;
+  max-width: calc(50% - 16px);
+}
+.info__card:first-child {
+  margin-right: 16px;
+}
+.info__card:last-child {
+  max-width: 50%;
+}
+.info__card :global .row-info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.uniswap {
+  flex: 1;
+}

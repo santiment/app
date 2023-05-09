@@ -1,0 +1,29 @@
+.wrapper {
+  overflow: hidden;
+  height: 0;
+  padding: 0 20px;
+  background-color: var(--athens);
+  border-radius: 6px;
+  transition: height 0.15s ease-out, padding 0.15s ease-in, margin-top 0.15s ease-in;
+}
+
+.opened {
+  height: 244px;
+  padding: 12px 20px;
+  margin-top: 4px;
+  transition: height 0.25s ease-in, padding 0.25s ease-in, margin-top 0.25s ease-in;
+}
+
+.linkIcon {
+  fill: var(--green);
+}
+
+.address {
+  --bg: var(--green-light-1);
+  --color: var(--green);
+  max-width: 102px;
+  padding: 2px 4px;
+}
+.address span {
+  display: block;
+}

@@ -1,0 +1,92 @@
+.wrapper {
+  position: relative;
+  margin-top: 13px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.wrapper_explained {
+  padding-right: 340px !important;
+}
+.wrapper:first-child {
+  margin: 0;
+}
+
+.top {
+  display: flex;
+  margin-bottom: 8px;
+  justify-content: space-between;
+}
+
+.metrics {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: -4px;
+}
+
+.metric {
+  margin-bottom: 4px;
+}
+
+.meta {
+  display: flex;
+  height: 32px;
+}
+
+.restriction {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  font-size: 22px;
+}
+.restriction__link {
+  color: var(--jungle-green);
+  margin-right: 5px;
+  text-decoration: underline;
+}
+.restriction__link:hover {
+  color: var(--jungle-green-hover);
+}
+
+.blur {
+  filter: blur(7px);
+}
+
+.explanation {
+  width: 320px;
+  border-left: 1px solid var(--porcelain);
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.explain {
+  margin-left: 12px;
+  white-space: nowrap;
+}
+
+.chart {
+  flex: 1;
+  height: 0;
+  min-height: 0;
+  margin: 0 -5px;
+}
+
+.chart:hover .ico {
+  display: none;
+}
+
+.compare {
+  margin: 0 8px 0 16px;
+}
+
+.settings {
+  margin-bottom: 16px;
+}

@@ -1,0 +1,93 @@
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.label {
+  border-radius: 4px;
+  border: 1px solid var(--porcelain);
+  color: var(--rhino);
+  padding: 4px 8px;
+  height: 24px;
+  margin: 4px 4px 0 0;
+  background: var(--white);
+  text-align: center;
+  align-items: center;
+  display: flex;
+}
+
+.san {
+  background: var(--porcelain);
+}
+
+.new {
+  cursor: pointer;
+}
+.new:hover {
+  fill: var(--jungle-green);
+}
+
+.close {
+  width: 0;
+  fill: var(--waterloo);
+  cursor: pointer;
+  overflow: hidden;
+  transition: width 200ms;
+  margin-left: 5px;
+}
+.close:hover {
+  fill: var(--jungle-green);
+}
+
+.write {
+  position: relative;
+  display: flex;
+  padding-right: 0;
+}
+.write_focused {
+  border-color: var(--jungle-green);
+}
+.write_focused .close {
+  width: 12px;
+}
+.write:hover .close {
+  width: 12px;
+}
+
+.input {
+  outline: none;
+  min-width: 65px;
+}
+
+.empty {
+  position: relative;
+}
+.empty::before {
+  content: "Label name";
+  white-space: nowrap;
+  color: var(--waterloo);
+  position: absolute;
+  top: 4px;
+  left: 8px;
+  pointer-events: none;
+}
+
+.collapsed {
+  cursor: pointer;
+}
+.collapsed:hover {
+  color: var(--jungle-green);
+}
+.collapsed__tooltip {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 430px;
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  padding: 15px;
+  overflow: auto;
+  max-height: 300px;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(21, 24, 31, 0.02), 0 8px 14px rgba(21, 24, 31, 0.04), 0 12px 32px rgba(21, 24, 31, 0.05);
+}

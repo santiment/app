@@ -1,0 +1,16 @@
+.wrapper {
+  display: flex;
+  gap: 8px;
+}
+
+.counter {
+  max-width: 243px;
+  flex: 1;
+}
+
+.period {
+  flex: 1;
+}
+.period [class="ReactVirtualized__Grid ReactVirtualized__List"] {
+  min-height: 112px;
+}

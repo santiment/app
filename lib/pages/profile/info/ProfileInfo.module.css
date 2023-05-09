@@ -1,0 +1,545 @@
+/* stylelint-disable */
+:export {
+  bleach: #fff;
+  athens: #f7f8fb;
+  porcelain: #e7eaf3;
+  mystic: #d2d6e7;
+  casper: #9faac4;
+  waterloo: #7a859e;
+  fiord: #505573;
+  rhino: #2f354d;
+  mirage: #181b2b;
+  shark: #15181f;
+  bleach-night: #181b2b;
+  athens-night: #1c1f31;
+  porcelain-night: #222639;
+  mystic-night: #343a52;
+  casper-night: #4e5472;
+  waterloo-night: #7a809a;
+  fiord-night: #a2a7bd;
+  rhino-night: #dfe1ec;
+  mirage-night: #f8f9ff;
+  jungle-green: #14c393;
+  jungle-green-hover: #1fac85;
+  jungle-green-light: #edf8f5;
+  jungle-green-light-2: #dcf6ef;
+  jungle-green-light-3: #b0ebdb;
+  jungle-green-accent: #8affce;
+  jungle-green-dark: #182833;
+  jungle-green-dark-2: #173d40;
+  jungle-green-dark-3: #165e55;
+  texas-rose: #ffad4d;
+  texas-rose-hover: #fd9317;
+  texas-rose-light: #fff3e4;
+  texas-rose-light-2: #ffe7ca;
+  texas-rose-light-3: #ffd49c;
+  texas-rose-dark: #3b3130;
+  texas-rose-dark-2: #503f3d;
+  texas-rose-dark-3: #2a262d;
+  bright-sun: #ffcb47;
+  bright-sun-hover: #f0bb35;
+  persimmon: #ff6363;
+  persimmon-hover: #f85454;
+  persimmon-light: #ffe6e6;
+  persimmon-light-2: #ffadad;
+  persimmon-dark: #462835;
+  persimmon-dark-2: #74353e;
+  lima: #26c953;
+  lima-hover: #1bad44;
+  lima-light: #e3fbe3;
+  lima-dark: #1a3424;
+  sheets: #1aa168;
+  sheets-hover: #158a59;
+  dodger-blue: #5275ff;
+  dodger-blue-hover: #375be9;
+  dodger-blue-light: #ecf0fe;
+  dodger-blue-light-2: #dae0fd;
+  dodger-blue-light-3: #a9baff;
+  dodger-blue-dark: #1d223e;
+  dodger-blue-dark-2: #21284b;
+  dodger-blue-dark-3: #354895;
+  heliotrope: #8358ff;
+  heliotrope-hover: #6339dd;
+  heliotrope-light: #f0eeff;
+  heliotrope-light-2: #c9c2ff;
+  heliotrope-light-4: #c1abff;
+  heliotrope-dark: #28244b;
+  heliotrope-dark-2: #342b68;
+  heliotrope-dark-4: #4e3995;
+  malibu: #68dbf4;
+  malibu-hover: #18c0e4;
+  malibu-light: #e5f9fd;
+  malibu-accent: #72ffff;
+  malibu-dark: #253a4b;
+  browny: #b76a50;
+  browny-night: #bb7760;
+}
+
+.container {
+  display: flex;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .container {
+    flex-direction: column;
+    margin: 0 16px;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .container {
+    flex-direction: column;
+    margin: 0 16px;
+  }
+}
+
+.left {
+  display: flex;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .left {
+    display: flex;
+    max-width: 100%;
+    align-items: flex-start;
+    margin-top: 16px;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .left {
+    display: flex;
+    max-width: 100%;
+    align-items: flex-start;
+    margin-top: 16px;
+  }
+}
+
+.leftText {
+  height: 140px;
+  word-break: break-word;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.right {
+  flex: 1;
+  margin-left: 55px;
+  margin-bottom: 40px;
+  padding-bottom: 31px;
+  border-bottom: 1px solid var(--porcelain);
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .right {
+    margin: 0;
+    padding: 0;
+    min-width: auto;
+    border: none;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .right {
+    margin: 0;
+    padding: 0;
+    min-width: auto;
+    border: none;
+  }
+}
+
+.socials {
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.followersBlocks {
+  display: flex;
+}
+
+.followBlock {
+  padding: 9px;
+  display: flex;
+  align-items: center;
+}
+.followBlock:hover {
+  cursor: pointer;
+  background: var(--athens);
+  border-radius: 4px;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .followBlock {
+    padding-left: 0;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .followBlock {
+    padding-left: 0;
+  }
+}
+
+.followBlockSecond {
+  margin-left: 16px;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .followBlockSecond {
+    margin-left: 16px;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .followBlockSecond {
+    margin-left: 16px;
+  }
+}
+
+.followCounter {
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 32px;
+  color: var(--rhino);
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .followCounter {
+    font-family: "Proxima Nova", sans-serif;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .followCounter {
+    font-family: "Proxima Nova", sans-serif;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+.followDescription {
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--waterloo);
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .followDescription {
+    font-family: "Proxima Nova", sans-serif;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+    margin-left: 6px;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .followDescription {
+    font-family: "Proxima Nova", sans-serif;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+    margin-left: 6px;
+  }
+}
+
+.follow {
+  height: 32px;
+  fill: var(--jungle-green);
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .follow {
+    display: none;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .follow {
+    display: none;
+  }
+}
+
+.followCounters {
+  margin-left: 13px;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .followCounters {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 0;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .followCounters {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 0;
+  }
+}
+
+.editIcon {
+  margin-right: 8px;
+}
+
+.followContainer {
+  display: flex;
+  align-items: center;
+}
+
+.followBtn {
+  padding: 6px 12px 6px 7px;
+  max-width: 142px;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .followBtn {
+    margin: 12px 0 0 auto;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .followBtn {
+    margin: 12px 0 0 auto;
+  }
+}
+
+.accountBtn {
+  min-width: 143px;
+  justify-content: center;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .accountBtn {
+    margin: 12px 0 0 auto;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .accountBtn {
+    margin: 12px 0 0 auto;
+  }
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.name {
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 40px;
+  color: var(--rhino);
+  overflow-wrap: break-word;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .name {
+    font-family: "Proxima Nova", sans-serif;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 32px;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .name {
+    font-family: "Proxima Nova", sans-serif;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 32px;
+  }
+}
+
+.empty {
+  color: var(--waterloo);
+}
+
+.username {
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 28px;
+  color: var(--waterloo);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.email {
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--waterloo);
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .email {
+    margin: 0 0 0 16px;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .email {
+    margin: 0 0 0 16px;
+  }
+}
+
+.avatar {
+  width: 140px;
+  height: 140px;
+}
+.avatar svg {
+  width: 50%;
+  height: 50%;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .avatar {
+    width: 82px;
+    height: 82px;
+    min-width: 82px;
+    margin-right: 14px;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .avatar {
+    width: 82px;
+    height: 82px;
+    min-width: 82px;
+    margin-right: 14px;
+  }
+}
+
+.counter {
+  color: var(--waterloo);
+}
+
+.shareIcon {
+  margin-right: 12px;
+  fill: var(--waterloo);
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .shareIcon {
+    fill: var(--jungle-green);
+  }
+}
+@media only screen and (max-width: 479px) {
+  .shareIcon {
+    fill: var(--jungle-green);
+  }
+}
+
+.shareTrigger {
+  color: var(--rhino);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+}
+.shareTrigger:hover {
+  color: var(--jungle-green-hover);
+}
+.shareTrigger:hover .shareIcon {
+  fill: var(--jungle-green-hover);
+}
+
+.tooltipClose {
+  width: 12px;
+}
+
+.bell {
+  margin-left: 24px;
+}
+
+.editable {
+  cursor: pointer;
+  position: relative;
+}
+.editable svg:not(.avatarIcon) {
+  display: none;
+}
+.editable:hover svg:not(.avatarIcon) {
+  display: initial;
+}
+
+.ml16 {
+  margin-left: 16px;
+  fill: var(--waterloo);
+}
+
+.editableAvatar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.editWrapper {
+  width: 480px;
+}
+
+.modalContent {
+  padding: 14px 20px;
+}
+
+.modalTitle {
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+  color: var(--waterloo);
+  cursor: pointer;
+}
+.label:not(:first-of-type) {
+  margin-top: 16px;
+}
+.label svg {
+  width: 12px;
+  height: 12px;
+  margin-left: 6px;
+  fill: var(--waterloo);
+}
+.label svg:hover {
+  fill: var(--rhino);
+}
+
+.actions {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  justify-content: flex-start;
+  padding: 0;
+}
+.actions button {
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  margin-right: 16px;
+  padding: 8px 20px;
+  height: 40px;
+}
+
+.usernameInput {
+  padding-left: 25px;
+}
+
+.inputPrefix {
+  position: relative;
+}
+.inputPrefix::before {
+  content: "@";
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  color: var(--jungle-green);
+  transform: translateY(-50%);
+}

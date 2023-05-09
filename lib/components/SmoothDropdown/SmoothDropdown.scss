@@ -1,0 +1,78 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.dd-wrapper {
+  position: relative;
+}
+
+.dd {
+  position: absolute;
+  z-index: 1002;
+  width: 100%;
+  left: 5px;
+  right: 5px;
+  top: calc(100% + 6px);
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.25s ease;
+}
+
+.dd.dd-first-time {
+  transition: opacity 0.25s ease;
+}
+
+.dd__bg,
+.dd__arrow {
+  position: absolute;
+}
+
+.dd__bg {
+  background-color: var(--white);
+  box-sizing: border-box;
+  transition: 0.25s ease;
+  border-radius: 4px;
+  overflow: hidden;
+  z-index: -1;
+  border: 1px solid var(--porcelain);
+  width: 100%;
+  height: 100%;
+  box-shadow: var(--modal-box-shadow);
+}
+
+.dd__arrow {
+  width: 10px;
+  height: 10px;
+  background: var(--white);
+  pointer-events: none;
+  transform: translate3d(-50%, -50%, 0) rotate(45deg);
+}
+
+.dd__list {
+  @include nightshadow;
+
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.dd__content {
+  position: absolute;
+  opacity: 0;
+  transition: 0.25s ease;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.dd__trigger {
+  display: inline-block;
+}
+
+.dd.has-dropdown-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.dd__item.active .dd__content {
+  opacity: 1;
+  z-index: 2;
+}

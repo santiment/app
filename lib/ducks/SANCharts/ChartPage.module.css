@@ -1,0 +1,305 @@
+/* stylelint-disable */
+:export {
+  bleach: #fff;
+  athens: #f7f8fb;
+  porcelain: #e7eaf3;
+  mystic: #d2d6e7;
+  casper: #9faac4;
+  waterloo: #7a859e;
+  fiord: #505573;
+  rhino: #2f354d;
+  mirage: #181b2b;
+  shark: #15181f;
+  bleach-night: #181b2b;
+  athens-night: #1c1f31;
+  porcelain-night: #222639;
+  mystic-night: #343a52;
+  casper-night: #4e5472;
+  waterloo-night: #7a809a;
+  fiord-night: #a2a7bd;
+  rhino-night: #dfe1ec;
+  mirage-night: #f8f9ff;
+  jungle-green: #14c393;
+  jungle-green-hover: #1fac85;
+  jungle-green-light: #edf8f5;
+  jungle-green-light-2: #dcf6ef;
+  jungle-green-light-3: #b0ebdb;
+  jungle-green-accent: #8affce;
+  jungle-green-dark: #182833;
+  jungle-green-dark-2: #173d40;
+  jungle-green-dark-3: #165e55;
+  texas-rose: #ffad4d;
+  texas-rose-hover: #fd9317;
+  texas-rose-light: #fff3e4;
+  texas-rose-light-2: #ffe7ca;
+  texas-rose-light-3: #ffd49c;
+  texas-rose-dark: #3b3130;
+  texas-rose-dark-2: #503f3d;
+  texas-rose-dark-3: #2a262d;
+  bright-sun: #ffcb47;
+  bright-sun-hover: #f0bb35;
+  persimmon: #ff6363;
+  persimmon-hover: #f85454;
+  persimmon-light: #ffe6e6;
+  persimmon-light-2: #ffadad;
+  persimmon-dark: #462835;
+  persimmon-dark-2: #74353e;
+  lima: #26c953;
+  lima-hover: #1bad44;
+  lima-light: #e3fbe3;
+  lima-dark: #1a3424;
+  sheets: #1aa168;
+  sheets-hover: #158a59;
+  dodger-blue: #5275ff;
+  dodger-blue-hover: #375be9;
+  dodger-blue-light: #ecf0fe;
+  dodger-blue-light-2: #dae0fd;
+  dodger-blue-light-3: #a9baff;
+  dodger-blue-dark: #1d223e;
+  dodger-blue-dark-2: #21284b;
+  dodger-blue-dark-3: #354895;
+  heliotrope: #8358ff;
+  heliotrope-hover: #6339dd;
+  heliotrope-light: #f0eeff;
+  heliotrope-light-2: #c9c2ff;
+  heliotrope-light-4: #c1abff;
+  heliotrope-dark: #28244b;
+  heliotrope-dark-2: #342b68;
+  heliotrope-dark-4: #4e3995;
+  malibu: #68dbf4;
+  malibu-hover: #18c0e4;
+  malibu-light: #e5f9fd;
+  malibu-accent: #72ffff;
+  malibu-dark: #253a4b;
+  browny: #b76a50;
+  browny-night: #bb7760;
+}
+
+.wrapper {
+  display: flex;
+}
+
+.tool {
+  border-radius: 4px;
+  flex: 1;
+  width: 100%;
+}
+
+.toolShort {
+  width: 65%;
+  flex: auto;
+}
+
+.toolWideChart {
+  border: none;
+}
+
+.container {
+  background: var(--white);
+}
+.container_bottom {
+  padding: 24px;
+  border-top: 1px solid var(--porcelain);
+}
+
+.wideChartBg {
+  background: var(--athens) !important;
+  padding: 20px 24px;
+}
+
+.settings {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 13px;
+}
+.settings_noSearch {
+  justify-content: flex-end;
+}
+.settings__title {
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 26px;
+  margin: 0 16px 0 0;
+  color: var(--mirage);
+}
+.settings_settings {
+  margin-left: auto;
+}
+.settings__main {
+  margin-left: auto;
+}
+.settings__studio {
+  color: var(--rhino);
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 26px;
+}
+.settings__slugBlock {
+  display: flex;
+  align-items: baseline;
+}
+.settings__slug {
+  margin-left: 8px;
+  color: var(--waterloo);
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+}
+.settings__group {
+  display: flex;
+  align-items: center;
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .settings__group {
+    margin: 0;
+  }
+  .settings__group:first-child {
+    margin-top: 10px;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .settings {
+    flex-direction: column-reverse;
+  }
+}
+
+.ranges,
+.calendar {
+  margin-right: 16px;
+}
+
+.search {
+  width: 20%;
+  min-width: 200px;
+}
+
+.title {
+  text-align: center;
+  color: var(--mirage);
+  font-size: 16px;
+  line-height: 32px;
+}
+
+.zoom {
+  position: absolute;
+  top: 5px;
+  left: 58px;
+  z-index: 1;
+}
+
+.chart {
+  user-select: none !important;
+  position: relative;
+  margin-top: 24px;
+}
+
+:global(.tablet) .chart,
+:global(.phone) .chart,
+:global(.phone-xs) .chart {
+  margin-top: 0;
+}
+
+.metrics {
+  padding: 10px 20px;
+}
+
+.btn {
+  background: var(--white);
+  outline: none;
+  color: var(--waterloo);
+  border-radius: 4px;
+  height: 32px;
+  cursor: pointer;
+  margin-right: 8px;
+  padding: 6px 12px;
+  border: 1px solid transparent;
+}
+
+.active {
+  color: var(--mirage);
+  background: var(--athens);
+  border: 1px solid var(--porcelain);
+}
+
+.btn[disabled] {
+  color: var(--mystic) !important;
+  fill: var(--mystic) !important;
+  background: var(--white);
+  cursor: not-allowed;
+}
+
+.label {
+  margin-right: 10px;
+}
+
+:global(.recharts-default-tooltip) {
+  background-color: var(--white) !important;
+}
+
+.context {
+  padding: 8px 8px;
+}
+.context__toggle {
+  margin-left: 16px;
+}
+.context__btn {
+  justify-content: space-between;
+}
+.context__btn_big {
+  height: auto;
+  text-align: left;
+}
+.context__btn_icon_and_name {
+  display: flex;
+}
+.context .icon {
+  fill: var(--casper);
+  margin-right: 8px;
+}
+.context .icon.flash {
+  fill: none;
+  stroke: var(--casper);
+  stroke-width: 1.5px;
+}
+
+.moreData {
+  padding: 0 20px 20px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.limitedLabel {
+  display: flex;
+  margin-right: 5px;
+  color: var(--waterloo);
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.paywall {
+  background: var(--athens);
+}
+
+.settingsBtn {
+  background: none;
+  fill: var(--casper);
+}
+.settingsBtn:hover {
+  fill: var(--jungle-green-hover);
+}
+
+.logo {
+  height: 32px;
+}
+
+.divider {
+  width: calc(100% + 18px);
+  border-top: 1px solid var(--porcelain);
+  margin: 8px -9px;
+}

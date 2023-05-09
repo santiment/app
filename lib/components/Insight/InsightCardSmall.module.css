@@ -1,0 +1,26 @@
+.title {
+  display: inline-block;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--mirage);
+  max-width: 400px;
+  margin-bottom: 6px;
+}
+.title:hover {
+  color: var(--jungle-green-hover);
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+}
+
+.username {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--waterloo);
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 21px;
+}

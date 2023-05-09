@@ -1,0 +1,27 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.calendar {
+  margin: 0 8px;
+  min-width: 167px;
+}
+
+.selector > div {
+  padding: 6px;
+  margin-left: 4px;
+  width: 32px;
+}
+.selector > div:first-child {
+  margin: 0;
+}
+.selector > div::before {
+  top: 0;
+  left: 0 !important;
+  bottom: 0;
+}
+
+.settings {
+  margin-left: 8px;
+}

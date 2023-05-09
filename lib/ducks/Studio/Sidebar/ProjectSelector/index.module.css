@@ -1,0 +1,38 @@
+.icon {
+  margin-right: 6px;
+}
+
+.arrow {
+  margin-left: auto;
+  fill: var(--waterloo);
+  min-width: 8px;
+}
+
+.selector {
+  border: 1px solid var(--porcelain);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  height: 32px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+.selector:hover .arrow {
+  fill: var(--jungle-green);
+}
+
+.addressIcon {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  background: var(--casper);
+  border-radius: 50%;
+  fill: var(--white);
+}
+
+.address {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

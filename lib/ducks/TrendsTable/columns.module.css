@@ -1,0 +1,24 @@
+.word {
+  --color-hover: var(--green);
+}
+:global(.phone) .word, :global(.phone-xs) .word, :global(.tablet) .word {
+  width: 100%;
+}
+
+.cloud {
+  min-width: 260px;
+}
+
+.words {
+  height: 64px;
+}
+
+.chart {
+  --chart-stroke: var(--malibu);
+  --chart-fill: url(#trend-social-volume);
+}
+
+.skeleton {
+  height: 40px;
+  width: 120px;
+}

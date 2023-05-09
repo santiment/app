@@ -1,0 +1,28 @@
+.widget {
+  background: var(--white);
+  padding: 20px;
+  border-radius: 4px;
+  border: 1px solid var(--porcelain);
+  margin-top: 16px;
+  height: 530px;
+}
+.widget:only-child {
+  height: 100%;
+}
+.widget:first-child {
+  margin: 0;
+}
+.widget_secondary {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  margin-top: -3px;
+}
+
+.close {
+  margin-left: auto;
+  fill: var(--casper);
+  cursor: pointer;
+}
+.close:hover {
+  fill: var(--jungle-green);
+}

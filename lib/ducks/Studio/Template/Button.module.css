@@ -1,0 +1,30 @@
+.btn {
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  display: flex;
+}
+
+.arrow {
+  width: 8px;
+}
+
+.action {
+  height: 32px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  fill: var(--waterloo);
+}
+.action:hover {
+  color: var(--jungle-green);
+  fill: var(--jungle-green);
+}
+.action:last-child {
+  border-left: 1px solid var(--porcelain);
+}
+
+.save {
+  white-space: nowrap;
+}

@@ -1,0 +1,8 @@
+.btn {
+  --color-hover: var(--black) !important;
+  padding: 12px 24px !important;
+}
+
+.disabledIcon {
+  fill: var(--waterloo);
+}

@@ -1,0 +1,22 @@
+.adjustable {
+  background: var(--athens);
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.settings {
+  margin-left: 22px;
+  cursor: initial;
+}
+
+.setting {
+  display: flex;
+  align-items: center;
+  color: var(--waterloo);
+  margin: 10px 0 0;
+}
+
+.input {
+  width: 64px;
+  margin-right: 8px;
+}

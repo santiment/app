@@ -1,0 +1,42 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.btn {
+  width: 24px;
+  height: 24px;
+  max-width: 24px;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  fill: var(--rhino);
+}
+.btn.stroke {
+  stroke: var(--rhino);
+}
+.btn:hover {
+  background: var(--athens);
+  fill: var(--rhino);
+}
+.btn:hover.stroke {
+  stroke: var(--rhino);
+}
+.btn_active, .btn_active:hover {
+  background: var(--jungle-green-light);
+  fill: var(--jungle-green);
+}
+.btn_active.stroke, .btn_active:hover.stroke {
+  stroke: var(--jungle-green);
+}
+
+.drawing {
+  position: relative;
+}
+
+.divider {
+  height: 24px;
+  border: 1px solid var(--porcelain);
+  margin: 0 8px;
+}

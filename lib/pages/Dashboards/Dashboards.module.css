@@ -1,0 +1,4 @@
+.wrapper {
+  flex: 1 1;
+  scroll-behavior: auto;
+}

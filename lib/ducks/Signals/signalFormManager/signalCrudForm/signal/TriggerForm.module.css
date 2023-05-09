@@ -1,0 +1,494 @@
+/* stylelint-disable */
+:export {
+  bleach: #fff;
+  athens: #f7f8fb;
+  porcelain: #e7eaf3;
+  mystic: #d2d6e7;
+  casper: #9faac4;
+  waterloo: #7a859e;
+  fiord: #505573;
+  rhino: #2f354d;
+  mirage: #181b2b;
+  shark: #15181f;
+  bleach-night: #181b2b;
+  athens-night: #1c1f31;
+  porcelain-night: #222639;
+  mystic-night: #343a52;
+  casper-night: #4e5472;
+  waterloo-night: #7a809a;
+  fiord-night: #a2a7bd;
+  rhino-night: #dfe1ec;
+  mirage-night: #f8f9ff;
+  jungle-green: #14c393;
+  jungle-green-hover: #1fac85;
+  jungle-green-light: #edf8f5;
+  jungle-green-light-2: #dcf6ef;
+  jungle-green-light-3: #b0ebdb;
+  jungle-green-accent: #8affce;
+  jungle-green-dark: #182833;
+  jungle-green-dark-2: #173d40;
+  jungle-green-dark-3: #165e55;
+  texas-rose: #ffad4d;
+  texas-rose-hover: #fd9317;
+  texas-rose-light: #fff3e4;
+  texas-rose-light-2: #ffe7ca;
+  texas-rose-light-3: #ffd49c;
+  texas-rose-dark: #3b3130;
+  texas-rose-dark-2: #503f3d;
+  texas-rose-dark-3: #2a262d;
+  bright-sun: #ffcb47;
+  bright-sun-hover: #f0bb35;
+  persimmon: #ff6363;
+  persimmon-hover: #f85454;
+  persimmon-light: #ffe6e6;
+  persimmon-light-2: #ffadad;
+  persimmon-dark: #462835;
+  persimmon-dark-2: #74353e;
+  lima: #26c953;
+  lima-hover: #1bad44;
+  lima-light: #e3fbe3;
+  lima-dark: #1a3424;
+  sheets: #1aa168;
+  sheets-hover: #158a59;
+  dodger-blue: #5275ff;
+  dodger-blue-hover: #375be9;
+  dodger-blue-light: #ecf0fe;
+  dodger-blue-light-2: #dae0fd;
+  dodger-blue-light-3: #a9baff;
+  dodger-blue-dark: #1d223e;
+  dodger-blue-dark-2: #21284b;
+  dodger-blue-dark-3: #354895;
+  heliotrope: #8358ff;
+  heliotrope-hover: #6339dd;
+  heliotrope-light: #f0eeff;
+  heliotrope-light-2: #c9c2ff;
+  heliotrope-light-4: #c1abff;
+  heliotrope-dark: #28244b;
+  heliotrope-dark-2: #342b68;
+  heliotrope-dark-4: #4e3995;
+  malibu: #68dbf4;
+  malibu-hover: #18c0e4;
+  malibu-light: #e5f9fd;
+  malibu-accent: #72ffff;
+  malibu-dark: #253a4b;
+  browny: #b76a50;
+  browny-night: #bb7760;
+}
+
+.wrapper {
+  position: relative;
+  width: 560px;
+  padding: 0;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .wrapper {
+    width: 100%;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .wrapper {
+    width: 100%;
+  }
+}
+
+.sharedForm {
+  max-width: 496px;
+}
+
+.loading {
+  padding: 20px 0;
+  text-align: center;
+}
+
+.closeButton {
+  position: absolute;
+  cursor: pointer;
+  right: 20px;
+  top: 15px;
+  fill: var(--waterloo);
+  z-index: 100;
+}
+
+.signalPreview {
+  display: block !important;
+  position: relative;
+  padding: 15px;
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 16px;
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+}
+.row:first-child {
+  margin-top: 16px;
+}
+.row:last-child {
+  margin-bottom: 0;
+}
+.row:empty {
+  margin: 0;
+}
+
+.metricValues {
+  display: grid;
+  grid-row-gap: 16px;
+  grid-column-gap: 16px;
+  grid-template-columns: 1fr 1fr;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .metricValues {
+    grid-template-columns: 1fr;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .metricValues {
+    grid-template-columns: 1fr;
+  }
+}
+
+.rowTop {
+  margin-top: 0 !important;
+}
+
+.rowBottom {
+  margin-bottom: 0 !important;
+}
+
+.rowSingle {
+  margin: 0 !important;
+}
+
+.messages {
+  margin-top: 10px;
+}
+
+.openSettings {
+  cursor: pointer;
+}
+
+.link {
+  color: var(--persimmon);
+}
+
+.notifyBlock {
+  align-items: center;
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
+}
+
+.labelClassName {
+  margin-right: 20px;
+}
+
+.Field {
+  text-align: left;
+  user-select: none;
+  margin-bottom: auto;
+  padding-right: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .Field {
+    font-family: "Proxima Nova", sans-serif;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .Field {
+    font-family: "Proxima Nova", sans-serif;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+.rowTimeWindow {
+  margin-bottom: 12px;
+}
+
+.fieldFilled {
+  width: 100%;
+  padding: 0 !important;
+}
+
+.isRepeating {
+  display: flex;
+  align-items: center;
+}
+
+.checkboxLabel {
+  cursor: pointer;
+  margin: 2px 20px 0 10px !important;
+  color: var(--mirage);
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.Field:last-child {
+  padding-right: 0;
+}
+
+.timeWindow {
+  display: flex;
+}
+
+.timeWindowInput {
+  flex: 1;
+  margin-right: 8px;
+  max-width: 72px;
+}
+
+.timeWindowUnit {
+  flex: 1;
+}
+
+.frequency {
+  display: flex;
+}
+
+.frequencyTimeValue {
+  flex: 1;
+  margin-right: 8px;
+  max-width: 64px;
+}
+
+.frequencyTimeType {
+  flex: 1;
+  width: 100px;
+}
+
+.selector {
+  width: 100%;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .selector {
+    display: flex;
+    height: auto;
+    flex-direction: column;
+    padding: 5px;
+  }
+  .selector div {
+    width: 100%;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .selector {
+    display: flex;
+    height: auto;
+    flex-direction: column;
+    padding: 5px;
+  }
+  .selector div {
+    width: 100%;
+  }
+}
+
+.triggerFormItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 20px 20px;
+  margin-top: 0;
+  border-radius: 0;
+}
+
+.lastPrice {
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  font-size: 10px;
+  color: var(--casper);
+  margin-left: 2px;
+  margin-top: 1px;
+}
+
+.triggerToggleBlock {
+  display: flex;
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.triggerToggleLabel {
+  margin-left: 20px;
+}
+
+.timeWindowExplanation {
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  font-size: 10px;
+  color: var(--casper);
+  margin-left: 2px;
+  margin-top: 1px;
+}
+
+a:hover {
+  fill: var(--jungle-green);
+}
+
+.createWatchlist {
+  height: 32px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.descriptionBlock {
+  margin-top: 20px;
+}
+
+.submitButton {
+  width: 120px;
+  margin-left: auto;
+  display: flex;
+  justify-content: center;
+}
+@media only screen and (max-width: 479px) {
+  .submitButton {
+    width: 100%;
+  }
+}
+
+.descriptionTextarea {
+  border: 0 !important;
+  padding: 0 !important;
+  color: var(--casper) !important;
+}
+@media only screen and (max-width: 479px) {
+  .descriptionTextarea {
+    font-size: 16px !important;
+    line-height: 24px !important;
+  }
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .descriptionTextarea {
+    font-size: 16px !important;
+    line-height: 24px !important;
+  }
+}
+
+.chainBlock {
+  margin-top: 20px;
+}
+
+.preview {
+  position: relative;
+}
+
+.previewWithDiviver {
+  padding-top: 6px;
+}
+
+.checkboxBlock {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox {
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.explanation {
+  z-index: 1000 !important;
+}
+
+.requiredChannelExplanation {
+  margin-top: 2px;
+  cursor: pointer;
+  color: var(--jungle-green);
+}
+.requiredChannelExplanation:hover {
+  color: var(--jungle-green-hover);
+}
+
+.flexRow {
+  display: flex;
+  align-items: center;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .flexRow {
+    flex-direction: column;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .flexRow {
+    flex-direction: column;
+  }
+}
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .fieldTimeWindow {
+    padding: 0;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .fieldTimeWindow {
+    padding: 0;
+  }
+}
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  :global(.Select-value) {
+    font-family: "Proxima Nova", sans-serif;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+@media only screen and (max-width: 479px) {
+  :global(.Select-value) {
+    font-family: "Proxima Nova", sans-serif;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+.tooltip {
+  z-index: 1000;
+  max-width: 231px;
+}
+
+.question {
+  margin: 0;
+}
+
+.channel {
+  display: flex;
+  flex: auto;
+}
+
+.webhook {
+  margin-top: 14px;
+}
+
+.inputLink {
+  margin-left: 2px;
+}
+
+.or {
+  margin: 0 8px;
+}

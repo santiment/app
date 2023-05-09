@@ -1,0 +1,251 @@
+/* stylelint-disable */
+:export {
+  bleach: #fff;
+  athens: #f7f8fb;
+  porcelain: #e7eaf3;
+  mystic: #d2d6e7;
+  casper: #9faac4;
+  waterloo: #7a859e;
+  fiord: #505573;
+  rhino: #2f354d;
+  mirage: #181b2b;
+  shark: #15181f;
+  bleach-night: #181b2b;
+  athens-night: #1c1f31;
+  porcelain-night: #222639;
+  mystic-night: #343a52;
+  casper-night: #4e5472;
+  waterloo-night: #7a809a;
+  fiord-night: #a2a7bd;
+  rhino-night: #dfe1ec;
+  mirage-night: #f8f9ff;
+  jungle-green: #14c393;
+  jungle-green-hover: #1fac85;
+  jungle-green-light: #edf8f5;
+  jungle-green-light-2: #dcf6ef;
+  jungle-green-light-3: #b0ebdb;
+  jungle-green-accent: #8affce;
+  jungle-green-dark: #182833;
+  jungle-green-dark-2: #173d40;
+  jungle-green-dark-3: #165e55;
+  texas-rose: #ffad4d;
+  texas-rose-hover: #fd9317;
+  texas-rose-light: #fff3e4;
+  texas-rose-light-2: #ffe7ca;
+  texas-rose-light-3: #ffd49c;
+  texas-rose-dark: #3b3130;
+  texas-rose-dark-2: #503f3d;
+  texas-rose-dark-3: #2a262d;
+  bright-sun: #ffcb47;
+  bright-sun-hover: #f0bb35;
+  persimmon: #ff6363;
+  persimmon-hover: #f85454;
+  persimmon-light: #ffe6e6;
+  persimmon-light-2: #ffadad;
+  persimmon-dark: #462835;
+  persimmon-dark-2: #74353e;
+  lima: #26c953;
+  lima-hover: #1bad44;
+  lima-light: #e3fbe3;
+  lima-dark: #1a3424;
+  sheets: #1aa168;
+  sheets-hover: #158a59;
+  dodger-blue: #5275ff;
+  dodger-blue-hover: #375be9;
+  dodger-blue-light: #ecf0fe;
+  dodger-blue-light-2: #dae0fd;
+  dodger-blue-light-3: #a9baff;
+  dodger-blue-dark: #1d223e;
+  dodger-blue-dark-2: #21284b;
+  dodger-blue-dark-3: #354895;
+  heliotrope: #8358ff;
+  heliotrope-hover: #6339dd;
+  heliotrope-light: #f0eeff;
+  heliotrope-light-2: #c9c2ff;
+  heliotrope-light-4: #c1abff;
+  heliotrope-dark: #28244b;
+  heliotrope-dark-2: #342b68;
+  heliotrope-dark-4: #4e3995;
+  malibu: #68dbf4;
+  malibu-hover: #18c0e4;
+  malibu-light: #e5f9fd;
+  malibu-accent: #72ffff;
+  malibu-dark: #253a4b;
+  browny: #b76a50;
+  browny-night: #bb7760;
+}
+
+.cell {
+  border-right: 1px solid var(--porcelain);
+  border-bottom: 1px solid var(--porcelain);
+  word-break: break-word;
+  white-space: break-spaces;
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+}
+.cell:last-child {
+  border-right: none;
+}
+
+.table {
+  width: 100%;
+  border-spacing: 0;
+  margin-top: 40px;
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  position: relative;
+}
+.table tr:last-child td:first-child {
+  border-bottom: 0;
+}
+
+.head {
+  padding: 32px 25px;
+  font-size: 22px;
+  line-height: 30px;
+  font-weight: bold;
+  text-align: left;
+  width: 15%;
+  border: 1px solid var(--porcelain);
+  border-left: 0;
+}
+.head:first-child {
+  border-top: 0;
+}
+
+.noRightBorder {
+  border-right: none;
+}
+
+.group {
+  padding: 40px 0 16px 24px;
+  min-width: 350px;
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 600;
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .group {
+    padding: 16px 12px;
+    min-width: initial;
+  }
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .group {
+    padding: 16px 12px;
+    min-width: initial;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .group {
+    padding: 16px 12px;
+    min-width: initial;
+  }
+}
+
+.feature__title {
+  padding: 15px 24px;
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  word-break: break-word;
+  white-space: break-spaces;
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .feature__title {
+    padding: 16px 12px;
+  }
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .feature__title {
+    padding: 16px 12px;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .feature__title {
+    padding: 16px 12px;
+  }
+}
+.feature__cell {
+  text-align: center;
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .feature__cell {
+    min-width: 150px;
+  }
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .feature__cell {
+    min-width: 150px;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .feature__cell {
+    min-width: 150px;
+  }
+}
+.feature__check {
+  fill: var(--texas-rose);
+  vertical-align: middle;
+}
+.feature__check__green {
+  fill: var(--jungle-green);
+}
+.feature__check__grey {
+  background: var(--athens);
+}
+
+.th {
+  padding: 16px;
+  position: sticky;
+  top: 0;
+  background: var(--white);
+}
+.th button,
+.th a {
+  margin-bottom: 0;
+}
+.th:first-of-type {
+  width: 434px;
+}
+.th:not(:first-of-type) {
+  width: 352px;
+}
+:global(.phone-xs) .th:first-of-type, :global(.phone) .th:first-of-type {
+  width: 100%;
+}
+:global(.phone-xs) .th:not(:first-of-type), :global(.phone) .th:not(:first-of-type) {
+  width: 100%;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  align-items: center;
+}
+
+.name {
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 600;
+}
+
+.description {
+  color: var(--waterloo);
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+}

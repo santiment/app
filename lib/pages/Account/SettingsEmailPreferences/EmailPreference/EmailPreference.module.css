@@ -1,0 +1,19 @@
+.textWrapper {
+  gap: 6px;
+}
+:global(.phones) .textWrapper, :global(.phone-xs) .textWrapper {
+  max-width: 207px;
+}
+
+.proBadge {
+  padding: 2px 8px;
+  background: var(--orange);
+  border-radius: 4px;
+}
+
+.link {
+  color: var(--orange);
+}
+.link:hover {
+  color: var(--orange-hover);
+}

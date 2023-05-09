@@ -1,0 +1,9 @@
+.wrapper {
+  padding: 16px 16px 12px;
+  background-color: var(--athens);
+  border-radius: 6px;
+}
+
+.icon {
+  fill: var(--waterloo);
+}

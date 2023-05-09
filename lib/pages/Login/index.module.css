@@ -1,0 +1,627 @@
+/* stylelint-disable */
+:export {
+  bleach: #fff;
+  athens: #f7f8fb;
+  porcelain: #e7eaf3;
+  mystic: #d2d6e7;
+  casper: #9faac4;
+  waterloo: #7a859e;
+  fiord: #505573;
+  rhino: #2f354d;
+  mirage: #181b2b;
+  shark: #15181f;
+  bleach-night: #181b2b;
+  athens-night: #1c1f31;
+  porcelain-night: #222639;
+  mystic-night: #343a52;
+  casper-night: #4e5472;
+  waterloo-night: #7a809a;
+  fiord-night: #a2a7bd;
+  rhino-night: #dfe1ec;
+  mirage-night: #f8f9ff;
+  jungle-green: #14c393;
+  jungle-green-hover: #1fac85;
+  jungle-green-light: #edf8f5;
+  jungle-green-light-2: #dcf6ef;
+  jungle-green-light-3: #b0ebdb;
+  jungle-green-accent: #8affce;
+  jungle-green-dark: #182833;
+  jungle-green-dark-2: #173d40;
+  jungle-green-dark-3: #165e55;
+  texas-rose: #ffad4d;
+  texas-rose-hover: #fd9317;
+  texas-rose-light: #fff3e4;
+  texas-rose-light-2: #ffe7ca;
+  texas-rose-light-3: #ffd49c;
+  texas-rose-dark: #3b3130;
+  texas-rose-dark-2: #503f3d;
+  texas-rose-dark-3: #2a262d;
+  bright-sun: #ffcb47;
+  bright-sun-hover: #f0bb35;
+  persimmon: #ff6363;
+  persimmon-hover: #f85454;
+  persimmon-light: #ffe6e6;
+  persimmon-light-2: #ffadad;
+  persimmon-dark: #462835;
+  persimmon-dark-2: #74353e;
+  lima: #26c953;
+  lima-hover: #1bad44;
+  lima-light: #e3fbe3;
+  lima-dark: #1a3424;
+  sheets: #1aa168;
+  sheets-hover: #158a59;
+  dodger-blue: #5275ff;
+  dodger-blue-hover: #375be9;
+  dodger-blue-light: #ecf0fe;
+  dodger-blue-light-2: #dae0fd;
+  dodger-blue-light-3: #a9baff;
+  dodger-blue-dark: #1d223e;
+  dodger-blue-dark-2: #21284b;
+  dodger-blue-dark-3: #354895;
+  heliotrope: #8358ff;
+  heliotrope-hover: #6339dd;
+  heliotrope-light: #f0eeff;
+  heliotrope-light-2: #c9c2ff;
+  heliotrope-light-4: #c1abff;
+  heliotrope-dark: #28244b;
+  heliotrope-dark-2: #342b68;
+  heliotrope-dark-4: #4e3995;
+  malibu: #68dbf4;
+  malibu-hover: #18c0e4;
+  malibu-light: #e5f9fd;
+  malibu-accent: #72ffff;
+  malibu-dark: #253a4b;
+  browny: #b76a50;
+  browny-night: #bb7760;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 39px 99px;
+  min-height: 418px;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .container {
+    min-width: initial;
+    min-height: initial;
+    padding: 32px;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .container {
+    min-width: initial;
+    min-height: initial;
+    padding: 32px;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .container {
+    min-width: initial;
+    min-height: initial;
+    padding: 32px;
+  }
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .container {
+    min-width: initial;
+    min-height: initial;
+    padding: 32px;
+  }
+}
+
+.loginViaEmail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 598px;
+  min-height: 418px;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .loginViaEmail {
+    min-width: initial;
+    min-height: initial;
+    align-items: flex-start;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .loginViaEmail {
+    min-width: initial;
+    min-height: initial;
+    align-items: flex-start;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .loginViaEmail {
+    min-width: initial;
+    min-height: initial;
+    align-items: flex-start;
+  }
+}
+
+.emailSuccess {
+  display: flex;
+  flex-direction: column;
+  min-width: 598px;
+  min-height: 418px;
+  justify-content: center;
+  align-items: center;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .emailSuccess {
+    padding: 0;
+    min-width: initial;
+    min-height: initial;
+    align-items: flex-start;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .emailSuccess {
+    padding: 0;
+    min-width: initial;
+    min-height: initial;
+    align-items: flex-start;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .emailSuccess {
+    padding: 0;
+    min-width: initial;
+    min-height: initial;
+    align-items: flex-start;
+  }
+}
+
+.loginBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 344px;
+  justify-content: center;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .loginBlock {
+    padding: 0;
+    border: none;
+    height: 100%;
+    justify-content: center;
+    min-width: initial;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .loginBlock {
+    padding: 0;
+    border: none;
+    height: 100%;
+    justify-content: center;
+    min-width: initial;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .loginBlock {
+    padding: 0;
+    border: none;
+    height: 100%;
+    justify-content: center;
+    min-width: initial;
+  }
+}
+
+.noMetamask {
+  padding: 19px 0;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .noMetamask {
+    padding: 0;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .noMetamask {
+    padding: 0;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .noMetamask {
+    padding: 0;
+  }
+}
+
+.verticalDivider {
+  border-right: 1px solid var(--porcelain);
+  min-height: 340px;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .verticalDivider {
+    margin: 0 32px;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .verticalDivider {
+    margin: 0 32px;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .verticalDivider {
+    margin: 0 32px;
+  }
+}
+
+.wrapper {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background-image: url("./../../../src/assets/login/pattern.svg");
+  background-size: cover;
+  margin-top: 0 !important;
+  max-width: 100% !important;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .wrapper {
+    background-image: none;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .wrapper {
+    background-image: none;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .wrapper {
+    background-image: none;
+  }
+}
+
+.panel {
+  margin: 0 auto;
+  text-align: center;
+  justify-content: center;
+  padding: 0 !important;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .panel {
+    width: 100%;
+    max-width: 400px;
+    min-width: initial;
+    padding: 15px 30px;
+    box-shadow: none;
+    border: none;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .panel {
+    width: 100%;
+    max-width: 400px;
+    min-width: initial;
+    padding: 15px 30px;
+    box-shadow: none;
+    border: none;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .panel {
+    width: 100%;
+    max-width: 400px;
+    min-width: initial;
+    padding: 15px 30px;
+    box-shadow: none;
+    border: none;
+  }
+}
+
+.title {
+  color: var(--rhino);
+  max-width: 344px;
+  margin: 0;
+  text-align: center;
+}
+
+.metamask {
+  margin: auto;
+  color: #fff;
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.button {
+  width: 280px;
+  padding: 7px 0 7px 48px !important;
+}
+
+.submit {
+  width: 280px;
+  padding: 8px 0 !important;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  color: var(--white);
+  fill: var(--white);
+  padding: 9px 12px;
+  text-align: left;
+  height: 40px;
+  max-width: 280px;
+  width: 100%;
+  font-size: 16px;
+}
+.btn:hover {
+  color: var(--white);
+  fill: var(--white);
+}
+.btn_email {
+  display: flex;
+  justify-content: center;
+  background: var(--white);
+  color: var(--rhino);
+  fill: var(--casper);
+  border: 1px solid var(--porcelain);
+  margin-bottom: 0;
+}
+.btn_email:hover {
+  color: var(--jungle-green);
+  fill: var(--jungle-green);
+}
+.btn_google {
+  margin-top: 8px;
+}
+.btn_metamask {
+  background: #f6851b;
+}
+.btn__icon {
+  margin-right: 10px;
+}
+
+.email__subtitle {
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--waterloo);
+  margin-top: 16px;
+  max-width: 320px;
+  word-break: break-word;
+  margin-bottom: 8px;
+}
+@media only screen and (max-width: 479px) {
+  .email__subtitle {
+    margin-top: 18px;
+    text-align: left;
+  }
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .email__subtitle {
+    margin-top: 18px;
+    text-align: left;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .email__subtitle {
+    margin-top: 18px;
+    text-align: left;
+  }
+}
+.email__subtitleSuccess {
+  margin-top: 24px;
+  margin-bottom: 0;
+  max-width: 340px;
+  text-align: center;
+}
+@media only screen and (max-width: 479px) {
+  .email__subtitleSuccess {
+    margin-top: 24px;
+    text-align: left;
+  }
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .email__subtitleSuccess {
+    margin-top: 24px;
+    text-align: left;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .email__subtitleSuccess {
+    margin-top: 24px;
+    text-align: left;
+  }
+}
+.email__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 24px;
+}
+@media only screen and (max-width: 479px) {
+  .email__form {
+    width: 100%;
+  }
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .email__form {
+    width: 100%;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .email__form {
+    width: 100%;
+  }
+}
+.email__btn {
+  margin-top: 16px;
+  width: 280px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .email__btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .email__btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .email__btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+.email__link {
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--waterloo);
+  fill: var(--waterloo);
+  margin-top: 24px;
+}
+.email__link:hover {
+  color: var(--waterloo) !important;
+}
+.email__linkSuccess {
+  margin-top: 32px;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .email__linkSuccess {
+    margin-top: 24px;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .email__linkSuccess {
+    margin-top: 24px;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .email__linkSuccess {
+    margin-top: 24px;
+  }
+}
+.email__pointer {
+  transform: rotate(180deg);
+  margin-right: 5px;
+  vertical-align: middle;
+}
+.email__title {
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 400;
+  color: var(--rhino);
+  margin: 0;
+}
+
+.divider {
+  border-bottom: 1px solid var(--porcelain);
+  position: relative;
+  margin: 32px 0;
+  width: 317px;
+}
+
+.use {
+  color: var(--waterloo);
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  padding: 0 10px;
+  background: var(--white);
+  transform: translateX(-30px);
+}
+
+.new {
+  color: var(--fiord);
+  margin-top: 12px;
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.createLink {
+  color: var(--jungle-green);
+}
+.createLink:hover {
+  color: var(--jungle-green-hover);
+}
+
+.noCredit {
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--waterloo);
+  margin-top: 12px;
+}
+
+.loginLink {
+  color: var(--jungle-green);
+}
+.loginLink:hover {
+  color: var(--jungle-green-hover);
+}
+
+.emailInput {
+  background: var(--white);
+  width: 280px;
+  height: 40px;
+  fill: var(--waterloo);
+}
+.emailInput input {
+  height: 40px;
+  padding-left: 40px !important;
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+}
+.emailInput svg {
+  padding: 0 8px 0 16px;
+  width: 16px;
+}
+.emailInput:hover {
+  fill: var(--jungle-green-hover) !important;
+}
+@media only screen and (max-width: 479px) {
+  .emailInput {
+    width: 100%;
+  }
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .emailInput {
+    width: 100%;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .emailInput {
+    width: 100%;
+  }
+}
+
+.emailCheck {
+  color: var(--rhino);
+}
+
+.twitter {
+  fill: #1da1f2 !important;
+  width: 18px;
+  height: 18px;
+}
+
+.metamaskIcon {
+  width: 18px;
+  height: 16px;
+}
+
+.emailFormInput {
+  margin: 0;
+}

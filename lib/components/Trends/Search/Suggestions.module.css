@@ -1,0 +1,13 @@
+.wrapper {
+  padding: 8px 0;
+}
+
+.tooltip {
+  padding: 0;
+}
+
+.tooltipIcon {
+  width: 12px;
+  height: 12px;
+  fill: var(--waterloo);
+}

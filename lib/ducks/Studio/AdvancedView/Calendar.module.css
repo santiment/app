@@ -1,0 +1,39 @@
+.btn:hover,
+.active {
+  border-color: var(--jungle-green);
+  color: var(--rhino);
+  fill: var(--jungle-green);
+}
+
+.btn {
+  fill: var(--waterloo);
+}
+
+.icon {
+  margin: -2px 0 0 10px;
+}
+
+.leftIcon {
+  margin: 0 8px 0 0;
+}
+
+:global(.phone-xs) .dialog,
+:global(.phone) .dialog,
+:global(.tablet) .dialog {
+  min-height: 490px;
+}
+
+:global(.tablet) .dialogTitle,
+:global(.phone) .dialogTitle,
+:global(.phone-xs) .dialogTitle {
+  padding: 12px 20px;
+  background: var(--whale);
+  color: var(--fiord);
+  border-bottom: 1px solid var(--athens);
+}
+
+.apply {
+  padding: 12px 0;
+  height: 48px;
+  margin: 24px 20px 20px;
+}

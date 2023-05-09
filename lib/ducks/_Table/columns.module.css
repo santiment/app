@@ -1,0 +1,10 @@
+.checkbox {
+  line-height: 0;
+  width: 1px;
+  user-select: none;
+}
+
+.index {
+  color: var(--waterloo);
+  width: 1px;
+}

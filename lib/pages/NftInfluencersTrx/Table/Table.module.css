@@ -1,0 +1,37 @@
+.header {
+  padding: 2px 24px 2px 36px;
+}
+.header span:last-of-type {
+  width: 64px;
+}
+
+.content {
+  overflow-y: auto;
+  height: calc(100vh - 204px);
+  padding: 16px 20px;
+  margin-bottom: 83px;
+  gap: 8px;
+}
+
+.marketTable {
+  overflow: hidden;
+  height: 318px;
+  border: 1px solid var(--porcelain);
+  border-radius: 6px;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.skeleton {
+  position: absolute;
+  height: calc(100% - 99px);
+  width: calc(100vw - 40px);
+  top: 0;
+  left: 20px;
+  padding: 24px 20px 0;
+}
+
+.skeletonMarket {
+  left: 0;
+  height: 318px;
+}

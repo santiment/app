@@ -1,0 +1,16 @@
+.icon {
+  margin-left: auto;
+  fill: var(--waterloo);
+  transition: transform 0.25s ease-in-out;
+}
+
+.btn {
+  min-width: 165px;
+}
+
+.active {
+  border-color: var(--jungle-green);
+}
+.active .icon {
+  transform: rotate(180deg);
+}

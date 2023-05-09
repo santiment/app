@@ -1,0 +1,12 @@
+.delete {
+  color: var(--persimmon);
+}
+.delete .icon {
+  fill: var(--persimmon) !important;
+}
+.delete:hover {
+  color: var(--persimmon-hover);
+}
+.delete:hover .icon {
+  fill: var(--persimmon-hover) !important;
+}

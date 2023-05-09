@@ -1,0 +1,36 @@
+.tab {
+  --color: inherit;
+}
+
+.badge {
+  --bg: var(--athens);
+  --bg-hover: var(--green-light-1);
+  --color-hover: var(--green);
+  padding: 6px 12px;
+  margin-left: 10px;
+  border-radius: 48px;
+}
+.badge:hover .currentAmount {
+  color: inherit;
+}
+
+.badgeHover {
+  --bg: var(--green-light-1);
+  --color: var(--green);
+}
+.badgeHover .currentAmount {
+  color: inherit;
+}
+
+.tooltip {
+  z-index: 999;
+  padding: 18px 24px;
+  width: 272px;
+}
+
+.link {
+  color: var(--orange);
+}
+.link:hover {
+  color: var(--orange-hover);
+}

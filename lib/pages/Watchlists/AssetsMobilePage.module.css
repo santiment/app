@@ -1,0 +1,28 @@
+.wrapper {
+  height: 100vh;
+  padding-top: 73px;
+  padding-bottom: 83px;
+}
+
+.wrapperList {
+  height: inherit;
+}
+
+.assetsList {
+  padding-top: 60px;
+  height: calc(100vh - var(--remaining-height));
+  position: relative;
+}
+
+.headings {
+  padding: 24px 20px 8px 48px;
+  position: fixed;
+  top: 73px;
+  z-index: 1;
+  background: var(--white);
+}
+
+.intervalToggle {
+  width: 40px;
+  height: 28px;
+}

@@ -1,0 +1,19 @@
+.tab {
+  margin-right: 32px;
+  cursor: pointer;
+  user-select: none;
+  color: var(--rhino);
+  transition: color 0.1s ease;
+}
+.tab:hover, .tab:focus {
+  color: var(--rhino);
+}
+.tab_inactive {
+  color: var(--casper);
+}
+.tab_inactive:hover, .tab_inactive:focus {
+  color: var(--waterloo);
+}
+.tab:last-child {
+  margin: 0;
+}

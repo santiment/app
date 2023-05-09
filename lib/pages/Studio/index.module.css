@@ -1,0 +1,44 @@
+.project {
+  background: var(--white);
+  margin: -20px -40px 25px;
+  padding: 32px 40px 0;
+}
+
+.tabs {
+  margin: 32px 0 0 !important;
+}
+
+.sidepanel {
+  display: flex;
+  max-height: 100%;
+}
+
+.exchanges__title {
+  margin-top: 32px;
+}
+.exchanges__title > h3 {
+  font-size: 18px !important;
+  line-height: 26px !important;
+  font-weight: 500 !important;
+}
+
+.close {
+  margin-left: auto;
+  fill: var(--casper);
+  cursor: pointer;
+}
+.close:hover {
+  fill: var(--green);
+}
+
+.btn__icon {
+  margin-right: 8px;
+}
+
+.watchlist {
+  border: 0;
+}
+
+.signal {
+  fill: var(--casper);
+}

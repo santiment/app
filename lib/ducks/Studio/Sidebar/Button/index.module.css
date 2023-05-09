@@ -1,0 +1,203 @@
+/* stylelint-disable */
+:export {
+  bleach: #fff;
+  athens: #f7f8fb;
+  porcelain: #e7eaf3;
+  mystic: #d2d6e7;
+  casper: #9faac4;
+  waterloo: #7a859e;
+  fiord: #505573;
+  rhino: #2f354d;
+  mirage: #181b2b;
+  shark: #15181f;
+  bleach-night: #181b2b;
+  athens-night: #1c1f31;
+  porcelain-night: #222639;
+  mystic-night: #343a52;
+  casper-night: #4e5472;
+  waterloo-night: #7a809a;
+  fiord-night: #a2a7bd;
+  rhino-night: #dfe1ec;
+  mirage-night: #f8f9ff;
+  jungle-green: #14c393;
+  jungle-green-hover: #1fac85;
+  jungle-green-light: #edf8f5;
+  jungle-green-light-2: #dcf6ef;
+  jungle-green-light-3: #b0ebdb;
+  jungle-green-accent: #8affce;
+  jungle-green-dark: #182833;
+  jungle-green-dark-2: #173d40;
+  jungle-green-dark-3: #165e55;
+  texas-rose: #ffad4d;
+  texas-rose-hover: #fd9317;
+  texas-rose-light: #fff3e4;
+  texas-rose-light-2: #ffe7ca;
+  texas-rose-light-3: #ffd49c;
+  texas-rose-dark: #3b3130;
+  texas-rose-dark-2: #503f3d;
+  texas-rose-dark-3: #2a262d;
+  bright-sun: #ffcb47;
+  bright-sun-hover: #f0bb35;
+  persimmon: #ff6363;
+  persimmon-hover: #f85454;
+  persimmon-light: #ffe6e6;
+  persimmon-light-2: #ffadad;
+  persimmon-dark: #462835;
+  persimmon-dark-2: #74353e;
+  lima: #26c953;
+  lima-hover: #1bad44;
+  lima-light: #e3fbe3;
+  lima-dark: #1a3424;
+  sheets: #1aa168;
+  sheets-hover: #158a59;
+  dodger-blue: #5275ff;
+  dodger-blue-hover: #375be9;
+  dodger-blue-light: #ecf0fe;
+  dodger-blue-light-2: #dae0fd;
+  dodger-blue-light-3: #a9baff;
+  dodger-blue-dark: #1d223e;
+  dodger-blue-dark-2: #21284b;
+  dodger-blue-dark-3: #354895;
+  heliotrope: #8358ff;
+  heliotrope-hover: #6339dd;
+  heliotrope-light: #f0eeff;
+  heliotrope-light-2: #c9c2ff;
+  heliotrope-light-4: #c1abff;
+  heliotrope-dark: #28244b;
+  heliotrope-dark-2: #342b68;
+  heliotrope-dark-4: #4e3995;
+  malibu: #68dbf4;
+  malibu-hover: #18c0e4;
+  malibu-light: #e5f9fd;
+  malibu-accent: #72ffff;
+  malibu-dark: #253a4b;
+  browny: #b76a50;
+  browny-night: #bb7760;
+}
+
+.plus {
+  box-sizing: content-box;
+  border-radius: 50%;
+  padding: 3px;
+  fill: var(--waterloo);
+  background: var(--porcelain);
+  margin-right: 8px;
+  min-width: 8px;
+}
+
+.info {
+  visibility: hidden;
+  fill: var(--waterloo);
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  margin-left: auto;
+}
+.info:hover {
+  fill: var(--rhino);
+}
+
+.active {
+  transform: rotate(45deg);
+}
+
+.disabled {
+  color: var(--casper) !important;
+  pointer-events: none;
+}
+.disabled .plus {
+  fill: var(--casper);
+}
+
+.unselectable {
+  pointer-events: all;
+}
+.unselectable .plus {
+  fill: var(--casper) !important;
+  background: var(--porcelain) !important;
+}
+
+.btn {
+  text-align: left;
+  justify-content: space-between;
+  padding: 6px 9px;
+  min-height: 32px;
+  height: auto;
+  z-index: 1;
+}
+.btn:hover .plus {
+  background: var(--jungle-green);
+  fill: var(--white);
+}
+.btn:hover .active {
+  background: var(--persimmon);
+}
+.btn:hover .info {
+  visibility: visible;
+}
+
+.pro {
+  color: var(--texas-rose);
+}
+.pro:hover {
+  color: var(--texas-rose-hover);
+}
+.pro:hover .plus {
+  background: var(--texas-rose);
+}
+.pro:hover .active {
+  background: var(--persimmon);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.error {
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+  border-radius: 4px;
+  padding: 2px 5px;
+  margin-right: 8px;
+  background: var(--porcelain);
+  color: var(--casper);
+  white-space: nowrap;
+}
+
+.beta {
+  font-family: "Proxima Nova", sans-serif;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  background: var(--athens);
+  color: var(--waterloo);
+  padding: 3px 6px;
+  margin-left: 8px;
+}
+
+.new {
+  font-size: 11px;
+  line-height: 17px;
+  border-radius: 4px;
+  background: var(--jungle-green-light-2);
+  color: var(--jungle-green);
+  padding: 0 5px;
+  margin-left: 8px;
+}
+
+.dragged {
+  z-index: 10000;
+  pointer-events: all !important;
+}
+
+.favorites {
+  margin-left: 9px;
+  color: var(--waterloo);
+}

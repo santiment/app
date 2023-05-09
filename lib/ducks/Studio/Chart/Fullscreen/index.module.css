@@ -1,0 +1,32 @@
+.btn {
+  fill: var(--casper);
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+}
+
+.dialog {
+  max-height: 95%;
+  max-width: 97%;
+  width: 97%;
+  height: 95%;
+}
+
+.content {
+  padding: 15px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.chart {
+  flex: 1;
+  height: 0;
+}
