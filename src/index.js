@@ -1,31 +1,14 @@
-import './firstLogin' // NOTE: ENFORCING FIRST IMPORT ORDER
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import { StripeProvider } from 'react-stripe-elements'
-import throttle from 'lodash.throttle'
 import { ApolloProvider } from 'react-apollo'
 import Loadable from 'react-loadable'
-import { startResponsiveController } from 'webkit/responsive'
-import { ANON_EVENT } from 'webkit/ui/FollowButton/flow'
-import Notifications from 'webkit/ui/Notifications'
 import App from './App'
 import { client } from './apollo'
 import { store, history } from './redux'
-import { saveState } from './utils/localStorage'
-import { isNotSafari } from './utils/utils'
-import detectNetwork from './utils/detectNetwork'
-import { changeNetworkStatus, launchApp } from './actions/rootActions'
-import { register, unregister } from './serviceWorker'
-import { markAsLatestApp, newAppAvailable } from './ducks/Updates/actions'
-import initSentry from './utils/initSentry'
-import { redirectSharedLink } from './components/Share/utils'
-import { SocketProvider } from './utils/socketHooks'
 import '@santiment-network/ui/main.scss'
 import 'webkit/styles/main.css'
-
-startResponsiveController()
 
 const APP_LINK = 'https://app.santiment.net'
 window.__onLinkClick = (data) => {
@@ -58,8 +41,6 @@ const EmbeddedChartPage = Loadable({
   loader: () => import('./pages/Embedded/Chart'),
   loading: () => 'Loading',
 })
-
-redirectSharedLink()
 
 const stripeKey =
   process.env.NODE_ENV === 'development' || window.location.host.includes('-stage')
@@ -104,58 +85,19 @@ if (typeof Node === 'function' && Node.prototype) {
 const main = () => {
   calculateHeight()
 
-  window.addEventListener('resize', throttle(calculateHeight, 200))
-
-  window.addEventListener(ANON_EVENT, () => {
-    history.push('/login')
-  })
-
-  initSentry()
-
-  store.subscribe(
-    throttle(() => {
-      saveState(store.getState().user)
-    }, 1000),
-  )
-
-  store.dispatch(launchApp())
-
-  detectNetwork(({ online = true }) => {
-    store.dispatch(changeNetworkStatus(online))
-  })
-
-  if (isNotSafari()) {
-    register({
-      onUpdate: () => {
-        store.dispatch(newAppAvailable())
-      },
-      markAsLatestApp: () => {
-        store.dispatch(markAsLatestApp())
-      },
-    })
-  } else {
-    unregister()
-  }
-
-  new Notifications({ target: document.body })
-
   setTimeout(() => {
     ReactDOM.render(
-      <StripeProvider apiKey={stripeKey}>
-        <ApolloProvider client={client}>
-          <SocketProvider>
-            <Provider store={store}>
-              <Router history={history}>
-                <Switch>
-                  <Route exact path='/__embedded' component={EmbeddedWidgetPage} />
-                  <Route exact path='/__chart' component={EmbeddedChartPage} />
-                  <Route path='/' component={App} history={history} />
-                </Switch>
-              </Router>
-            </Provider>
-          </SocketProvider>
-        </ApolloProvider>
-      </StripeProvider>,
+      <ApolloProvider client={client}>
+        <Provider store={store}>
+          <Router history={history}>
+            <Switch>
+              <Route exact path='/__embedded' component={EmbeddedWidgetPage} />
+              <Route exact path='/__chart' component={EmbeddedChartPage} />
+              <Route path='/' component={App} history={history} />
+            </Switch>
+          </Router>
+        </Provider>
+      </ApolloProvider>,
       document.getElementById('root'),
     )
   }, 2000)
