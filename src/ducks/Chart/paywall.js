@@ -1,4 +1,5 @@
-import COLOR from '@santiment-network/ui/variables.scss'
+// import COLOR from '@santiment-network/ui/variables.scss'
+import { Color as COLOR } from 'studio/Chart/theme'
 
 export function drawPaywall(chart, leftBoundaryDate, rightBoundaryDate) {
   const { ctx, points, left, top, right, width, height } = chart

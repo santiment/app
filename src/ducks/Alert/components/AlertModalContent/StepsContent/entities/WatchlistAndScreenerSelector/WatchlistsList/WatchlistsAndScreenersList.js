@@ -1,9 +1,11 @@
 import React, { useCallback } from 'react'
-import List from 'react-virtualized/dist/commonjs/List'
-import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
-import { CellMeasurer, CellMeasurerCache } from 'react-virtualized'
 import WatchlistsAndScreenersListItem from './WatchlistsListItem/WatchlistsAndScreenersListItem'
 import styles from './WatchlistsAndScreenersList.module.scss'
+
+const List = () => {}
+const AutoSizer = () => {}
+const CellMeasurer = () => {}
+function CellMeasurerCache() {}
 
 const ROW_HEIGHT = 66
 const MAX_SHOWING_ITEMS = 5

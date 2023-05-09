@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 import cx from 'classnames'
-import { CSVLink } from 'react-csv'
+// import { CSVLink } from 'react-csv'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import ProPopupWrapper from '../../components/ProPopup/Wrapper'
@@ -47,7 +47,7 @@ const AsyncButton = ({ watchlist, downloadData, activeColumns, ...props }) => {
   return (
     <>
       <Button className={cx(styles.action, styles.action_csv)} onClick={fetchData} {...props} />
-      <CSVLink filename={`${watchlist.name}.csv`} data={data} ref={csvEl} />
+      {/* <CSVLink filename={`${watchlist.name}.csv`} data={data} ref={csvEl} /> */}
     </>
   )
 }
@@ -68,7 +68,6 @@ export const DownloadCSV = ({ watchlist, data, downloadData, ...props }) => {
         className={cx(styles.action, styles.action_csv)}
         {...props}
         disabled={!isPro}
-        as={CSVLink}
       />
     )
   }

@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import throttle from 'lodash.throttle'
 import cx from 'classnames'
-import List from 'react-virtualized/dist/commonjs/List'
-import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import Label from '@santiment-network/ui/Label'
 import GetAssets from '../../ducks/Watchlists/Widgets/Table/GetAssets'
 import AssetCard from '../../ducks/Watchlists/Widgets/Table/AssetCard'
@@ -15,6 +13,9 @@ import { addRecentWatchlists, removeRecentWatchlists } from '../../utils/recent'
 import { usePriceGraph } from '../../ducks/Watchlists/Widgets/Table/PriceGraph/hooks'
 import { normalizeGraphData } from '../../ducks/Watchlists/Widgets/Table/PriceGraph/utils'
 import styles from './AssetsMobilePage.module.scss'
+
+const List = () => {}
+const AutoSizer = () => {}
 
 // NOTE(haritonasty): predefined heights needed for calculate react-virtualized height.
 // Pls, upd here, if you change height of any elements on this page

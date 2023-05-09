@@ -1,5 +1,5 @@
 import React from 'react'
-import { InsightCard, PulseInsight } from '@cmp/InsightCard'
+import { InsightCard, PulseInsight } from '../InsightCard'
 import { publishDateSorter } from './utils'
 import Feed from '../Feed/Feed'
 

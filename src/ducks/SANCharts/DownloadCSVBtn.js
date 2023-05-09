@@ -1,5 +1,5 @@
 import React from 'react'
-import { CSVLink } from 'react-csv'
+// import { CSVLink } from 'react-csv'
 import Button from '@santiment-network/ui/Button'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import { mergeTimeseries } from '../Studio/timeseries/utils'
@@ -23,7 +23,7 @@ const DownloadCSVBtn = ({ title, data, events, activeMetrics, activeEvents, ...p
     datetime: new Date(item.datetime).toISOString(),
   }))
 
-  return <Button filename={filename} headers={headers} data={mergedData} {...props} as={CSVLink} />
+  return <Button filename={filename} headers={headers} data={mergedData} {...props} />
 }
 
 DownloadCSVBtn.defaultProps = {

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
-import List from 'react-virtualized/dist/commonjs/List'
-import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import Button from '@santiment-network/ui/Button'
 import ProjectIcon from '../../../components/ProjectIcon/ProjectIcon'
 import styles from './Projects.module.scss'
+
+const List = () => {}
+const AutoSizer = () => {}
 
 const ROW_HEIGHT = 32
 

@@ -1,12 +1,13 @@
 import React from 'react'
 import cx from 'classnames'
-import List from 'react-virtualized/dist/commonjs/List'
-import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import Label from '@santiment-network/ui/Label'
 import { Checkbox } from '@santiment-network/ui'
 import ProjectIcon from '../../../../../../components/ProjectIcon/ProjectIcon'
 import { formatTokensCount } from '../../../../../../utils/formatting'
 import styles from './ProjectsList.module.scss'
+
+const List = () => {}
+const AutoSizer = () => {}
 
 const ROW_HEIGHT = 32
 const MAX_SHOWING_ITEMS = 4

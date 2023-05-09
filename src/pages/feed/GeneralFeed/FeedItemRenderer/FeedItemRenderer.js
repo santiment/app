@@ -5,7 +5,7 @@ import ActivityRenderer from '../../../SonarFeed/ActivityRenderer/ActivityRender
 import TrendingWordsSignalCard, {
   isTrendingWordsSignal,
 } from '../../../../components/SignalCard/card/TrendingWordsSignalCard'
-import { InsightCard, PulseInsight } from '@cmp/InsightCard'
+import { InsightCard, PulseInsight } from '../../../../components/InsightCard'
 import styles from './FeedItemRenderer.module.scss'
 
 const FeedItemRenderer = ({ item, index, showProfileExplanation }) => {

@@ -59,6 +59,8 @@ async function main() {
       file = file.toString()
       file = transpile(file).code
       file = file.replace(/\.module\.scss/g, '.module.css')
+      file = file.replace(/webkit\//g, 'san-webkit/lib/')
+      file = file.replace(/studio\//g, 'san-studio/lib/')
     }
 
     mkdir(path.dirname(libFilePath))

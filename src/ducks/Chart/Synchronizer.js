@@ -3,7 +3,8 @@ import { getValidTooltipKey, findTooltipMetric } from './utils'
 import { Node } from './nodes'
 import { setupColorGenerator } from '../SANCharts/utils'
 import { Metric } from '../dataHub/metrics'
-import COLOR from '@santiment-network/ui/variables.scss'
+// import COLOR from '@santiment-network/ui/variables.scss'
+import { Color as COLOR } from 'studio/Chart/theme'
 
 const cache = new Map()
 const METRIC_NODE = {}

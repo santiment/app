@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
-import List from 'react-virtualized/dist/commonjs/List'
-import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import Label from '@santiment-network/ui/Label'
 import { InputWithIcon } from '@santiment-network/ui/Input'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import { BLOCKCHAIN_ADDRESS } from '../../detector'
 import styles from './AssetsList.module.scss'
 import inputStyles from '../../../../components/BlockchainLabelsSelector/BlockchainLabelsSelector.module.scss'
+
+const List = () => {}
+const AutoSizer = () => {}
 
 const ROW_HEIGHT = 32
 

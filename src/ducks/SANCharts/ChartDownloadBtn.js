@@ -7,7 +7,7 @@ import { domainModifier } from '../Chart/domain'
 import { getMultiAxesChartPadding } from '../Studio/Chart/Canvas'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import { useTheme } from '../../stores/ui/theme'
-import { mirage } from '@santiment-network/ui/variables.scss'
+const { mirage } = {}
 
 const CHART_PADDING = {
   top: 10,

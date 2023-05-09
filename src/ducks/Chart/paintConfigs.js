@@ -1,4 +1,5 @@
-import COLOR from '@santiment-network/ui/variables.scss'
+// import COLOR from '@santiment-network/ui/variables.scss'
+import { Color as COLOR } from 'studio/Chart/theme'
 
 export const dayAxesColor = COLOR.porcelain
 export const nightAxesColor = '#222639'

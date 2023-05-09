@@ -1,4 +1,4 @@
-import { waterloo } from '@santiment-network/ui/variables.scss'
+const { waterloo } = {}
 
 const ALERT_ADD_SIZE = 13
 const ALERT_ADD_HALF_SIZE = 7

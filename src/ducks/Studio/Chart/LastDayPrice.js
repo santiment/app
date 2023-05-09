@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { getTextWidth } from '@santiment-network/chart/utils'
-import COLOR from '@santiment-network/ui/variables.scss'
+// import COLOR from '@santiment-network/ui/variables.scss'
+import { Color as COLOR } from 'studio/Chart/theme'
 import { useChart, noop } from '../../Chart/context'
 import { TooltipSetting } from '../../dataHub/tooltipSettings'
 import { ONE_DAY_IN_MS } from '../../../utils/dates'

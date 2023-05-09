@@ -1,6 +1,7 @@
 import { linearScale, logScale, valueByY, valueByLogY } from '@santiment-network/chart/scales'
 import { drawValueBubbleY, drawValueBubbleX } from '@santiment-network/chart/tooltip'
-import COLOR from '@santiment-network/ui/variables.scss'
+// import COLOR from '@santiment-network/ui/variables.scss'
+import { Color as COLOR } from 'studio/Chart/theme'
 import {
   clearCtx,
   getDateDayMonthYear,

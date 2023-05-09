@@ -1,13 +1,14 @@
 import React from 'react'
 import cx from 'classnames'
-import List from 'react-virtualized/dist/commonjs/List'
-import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Label from '@santiment-network/ui/Label'
 import { hasAddress, hasAssetById } from '../../utils'
 import styles from './AssetsList.module.scss'
 import Labels from '../../../HistoricalBalance/Address/Labels'
+
+const List = () => {}
+const AutoSizer = () => {}
 
 const ROW_HEIGHT = 32
 
