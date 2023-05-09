@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
-import { updateAmplitude } from 'webkit/analytics/amplitude'
-import { getSanbaseSubscription } from 'webkit/utils/subscription'
+// import { updateAmplitude } from 'webkit/analytics/amplitude'
+// import { getSanbaseSubscription } from 'webkit/utils/subscription'
 // import { setSessionValue } from 'insights/stores/utils'
 import { buildRefetcher } from './utils'
 import { client } from '../../apollo'
@@ -63,7 +63,7 @@ export const USER_QUERY = gql`
 
 function storeUserSubscriptionData(user) {
   if (user) {
-    user.subscription = getSanbaseSubscription(user.subscriptions || [])
+    // user.subscription = getSanbaseSubscription(user.subscriptions || [])
   }
 }
 
@@ -82,7 +82,7 @@ export function updateUser(newUser) {
 
   const user = newUser && Object.assign({}, currentUser, newUser)
   if (user) {
-    updateAmplitude(user.id, user.username, user.email)
+    // updateAmplitude(user.id, user.username, user.email)
   }
   storeUserSubscriptionData(user)
 

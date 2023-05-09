@@ -11,10 +11,12 @@ function transpile(code) {
         '@babel/preset-env',
         {
           loose: true,
-          useBuiltIns: 'usage',
+          // useBuiltIns: 'usage',
           targets: {
-            chrome: '80',
+            chrome: '90',
           },
+          modules: false,
+          // corejs: 2,
         },
       ],
 
@@ -33,6 +35,8 @@ function transpile(code) {
 let ROOT = path.resolve(__dirname, '..')
 const SRC = path.resolve(ROOT, 'src')
 const LIB = path.resolve(ROOT, 'lib')
+
+fs.rmSync(LIB, { recursive: true, force: true })
 
 async function main() {
   let i = 0
@@ -53,8 +57,8 @@ async function main() {
       file = result.css.toString()
     } else if (libFilePath.endsWith('.js')) {
       file = file.toString()
-      file.replace(/.module.scss/g, '.module.css')
       file = transpile(file).code
+      file = file.replace(/\.module\.scss/g, '.module.css')
     }
 
     mkdir(path.dirname(libFilePath))
