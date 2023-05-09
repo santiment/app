@@ -1,4 +1,4 @@
-@import "../../../node_modules/@santiment-network/ui/mixins";
+@import 'node_modules/@santiment-network/ui/mixins';
 
 .container {
   display: flex;
@@ -24,20 +24,20 @@
 }
 
 .title {
-  @include text("h4", "l");
+  @include text('h4', 'l');
 
   :global(.desktop) & {
-    @include text("h2", "l");
+    @include text('h2', 'l');
   }
 }
 
 .error {
   margin-top: 32px;
 
-  @include text("body-2", "m");
+  @include text('body-2', 'm');
 
   :global(.desktop) & {
-    @include text("body-1", "m");
+    @include text('body-1', 'm');
   }
 }
 
@@ -51,10 +51,10 @@
 .description {
   margin-top: 16px;
 
-  @include text("body-2", "m");
+  @include text('body-2', 'm');
 
   :global(.desktop) & {
-    @include text("body-1");
+    @include text('body-1');
   }
 }
 
