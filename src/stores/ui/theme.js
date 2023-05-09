@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react'
 import { get } from 'svelte/store'
-import { ui } from 'insights/stores/ui'
+// import { ui } from 'insights/stores/ui'
+const ui = {
+  subscribe: (val) => {
+    val({ nightMode: false })
+    return () => {}
+  },
+}
 
 const NIGHTMODE = 'nightmode'
 export const THEMES = ['default', NIGHTMODE]

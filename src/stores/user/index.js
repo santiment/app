@@ -3,9 +3,11 @@ import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import { updateAmplitude } from 'webkit/analytics/amplitude'
 import { getSanbaseSubscription } from 'webkit/utils/subscription'
-import { setSessionValue } from 'insights/stores/utils'
+// import { setSessionValue } from 'insights/stores/utils'
 import { buildRefetcher } from './utils'
 import { client } from '../../apollo'
+
+function setSessionValue() {}
 
 export const USER_QUERY = gql`
   {
