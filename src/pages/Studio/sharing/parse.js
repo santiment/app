@@ -1,6 +1,6 @@
 import 'studio/metrics/selector/subitems'
-import { useMemo } from 'react'
-import { parse } from 'query-string'
+// import { useMemo } from 'react'
+// import { parse } from 'query-string'
 import { Metric } from 'studio/metrics'
 import { parseWidget as parseChartWidget } from 'studio/sharing/widget'
 import { HolderDistributionMetric } from 'studio/metrics/_onchain/holderDistributions'
@@ -13,7 +13,7 @@ import { getWidgetByKey, parseSubwidgets } from './widgets'
 import { parseDrawings } from './drawings'
 import { parseChartAddons } from './addons'
 import { ExternalWidgetCreator } from '../Widget'
-import { parseSharedSidepanel } from '../../../ducks/Studio/url/parse'
+// import { parseSharedSidepanel } from '../../../ducks/Studio/url/parse'
 import { getProjectMetricByKey, checkIsProjectMetricKey } from '../../../ducks/Studio/metrics'
 import { COMPARE_CONNECTOR } from '../../../ducks/Studio/url/utils'
 
@@ -173,54 +173,54 @@ export function parseWidget(widget) {
   return Widget
 }
 
-export function parseWidgets(widgets) {
-  return widgets.map(parseWidget)
-}
+// export function parseWidgets(widgets) {
+//   return widgets.map(parseWidget)
+// }
 
-function tryParseWidgets(widgets) {
-  try {
-    return parseWidgets(JSON.parse(widgets))
-  } catch (e) {
-    console.error(e)
-  }
-}
+// function tryParseWidgets(widgets) {
+//   try {
+//     return parseWidgets(JSON.parse(widgets))
+//   } catch (e) {
+//     console.error(e)
+//   }
+// }
 
-function tryParseSharedSidewidget(sidewidget) {
-  try {
-    return parseSharedSidepanel(sidewidget)
-  } catch (e) {
-    console.error(e)
-  }
-}
+// function tryParseSharedSidewidget(sidewidget) {
+//   try {
+//     return parseSharedSidepanel(sidewidget)
+//   } catch (e) {
+//     console.error(e)
+//   }
+// }
 
-function tryParseSettings(settings) {
-  try {
-    return JSON.parse(settings)
-  } catch (e) {
-    console.error(e)
-  }
-}
+// function tryParseSettings(settings) {
+//   try {
+//     return JSON.parse(settings)
+//   } catch (e) {
+//     console.error(e)
+//   }
+// }
 
-export function parseUrl(url) {
-  const { settings, widgets, sidepanel, layout } = parse(url.slice(url.indexOf('?')))
+// export function parseUrl(url) {
+//   const { settings, widgets, sidepanel, layout } = parse(url.slice(url.indexOf('?')))
 
-  return {
-    settings: settings && tryParseSettings(settings),
-    widgets: widgets && tryParseWidgets(widgets),
-    sidewidget: sidepanel && tryParseSharedSidewidget(sidepanel),
-    layout,
-  }
-}
+//   return {
+//     settings: settings && tryParseSettings(settings),
+//     widgets: widgets && tryParseWidgets(widgets),
+//     sidewidget: sidepanel && tryParseSharedSidewidget(sidepanel),
+//     layout,
+//   }
+// }
 
-export function useUrlParse(parsedUrl) {
-  return useMemo(() => {
-    if (parsedUrl) return parsedUrl
-    const { widgets, settings, sidewidget } = parseUrl(window.location.search)
+// export function useUrlParse(parsedUrl) {
+//   return useMemo(() => {
+//     if (parsedUrl) return parsedUrl
+//     const { widgets, settings, sidewidget } = parseUrl(window.location.search)
 
-    return {
-      settings,
-      widgets,
-      sidewidget,
-    }
-  }, [])
-}
+//     return {
+//       settings,
+//       widgets,
+//       sidewidget,
+//     }
+//   }, [])
+// }
