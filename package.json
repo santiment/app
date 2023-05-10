@@ -1,7 +1,6 @@
 {
   "name": "Sanbase",
   "version": "1.0.0",
-  "type": "module",
   "private": true,
   "scripts": {
     "prestart": "rm -f ./node_modules/webpack-dev-server/ssl/server.pem && cp -f .cert/server.pem ./node_modules/webpack-dev-server/ssl",

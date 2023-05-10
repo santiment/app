@@ -1,5 +1,5 @@
 import { Metric } from 'studio/metrics'
-import { parseWidget, parseWidgets } from './parse'
+import { parseWidget } from './parse'
 
 export const newChartWidget = (metrics) =>
   parseWidget({
@@ -12,7 +12,7 @@ export function parseTemplate(template) {
 
   if (options) {
     const { widgets, multi_chart } = options
-    if (widgets) return parseWidgets(widgets)
+    if (widgets) return widgets.map(parseWidget)
     if (multi_chart) return translateMultiChartToWidgets(metrics, comparables)
   }
 

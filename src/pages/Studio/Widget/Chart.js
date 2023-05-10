@@ -47,14 +47,7 @@ const ChartWidget = ({ widget, target, settings, InsightsStore }) => {
     <>
       <Insights widget={widget} InsightsStore={InsightsStore} />
 
-      {!isDrawing &&
-        chartContainer &&
-        ReactDOM.createPortal(
-          <Signals {...settings} metrics={metrics} data={[{}]} chart={widget.chart} />,
-          chartContainer,
-        )}
-
-      <Settings />
+      {/* <Settings /> */}
     </>
   )
 }

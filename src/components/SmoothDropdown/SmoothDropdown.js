@@ -4,14 +4,6 @@ import ReactDOM from 'react-dom'
 import cx from 'classnames'
 import './SmoothDropdown.scss'
 
-const modalRoot = document.getElementById('dd-modal')
-
-let ddTemplate
-
-if (modalRoot) {
-  ddTemplate = modalRoot.querySelector('#dd-template')
-}
-
 export const SmoothDropdownContext = React.createContext({
   handleMouseEnter: () => {},
   handleMouseLeave: () => {},
@@ -23,7 +15,10 @@ class SmoothDropdown extends Component {
 
   dropdownWrapperRef = React.createRef()
 
-  ddContainer = ddTemplate.cloneNode(true).firstElementChild
+  modalRoot = document.getElementById('dd-modal')
+  ddTemplate = this.modalRoot.querySelector('#dd-template')
+
+  ddContainer = this.ddTemplate.cloneNode(true).firstElementChild
 
   ddItemsRef = new WeakMap()
   ddItemsStyles = new WeakMap()
@@ -55,14 +50,14 @@ class SmoothDropdown extends Component {
   }
 
   componentDidMount() {
-    modalRoot.appendChild(this.ddContainer)
+    this.modalRoot.appendChild(this.ddContainer)
 
     // GarageInc: HACK for IOS(IPAD and etc) which can't handle mouseLeave/touchCancel/blur events
     document.addEventListener('touchstart', this.handleTouchEvent)
   }
 
   componentWillUnmount() {
-    modalRoot.removeChild(this.ddContainer)
+    this.modalRoot.removeChild(this.ddContainer)
     this.ddContainer = null
     this.portalContainer = null
     this.bgNode = null
