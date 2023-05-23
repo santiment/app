@@ -85,15 +85,6 @@ export const TweetsParsed = [
       November 18, 2020
     </a>
   </blockquote>,
-  <blockquote className='twitter-tweet' data-conversation='none'>
-    <p lang='en' dir='ltr'>
-      great work!
-    </p>
-    &mdash; Dr. Julian Hosp (DFI = DeFi on Bitcoin!) (@julianhosp){' '}
-    <a href='https://twitter.com/julianhosp/status/1326767360733286405?ref_src=twsrc%5Etfw'>
-      November 12, 2020
-    </a>
-  </blockquote>,
 
   <blockquote className='twitter-tweet' data-conversation='none'>
     <p lang='en' dir='ltr'>
