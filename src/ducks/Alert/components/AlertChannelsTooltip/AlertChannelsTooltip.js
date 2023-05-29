@@ -31,9 +31,10 @@ const AlertChannelsTooltip = ({ signal, isPreview }) => {
   }, [])
 
   const hasUncheckedChannels =
-    (!isPushEnabled && channel.includes('push')) ||
-    (!isEmailConnected && channel.includes('email')) ||
-    (!isTelegramConnected && channel.includes('telegram'))
+    channel.includes &&
+    ((!isPushEnabled && channel.includes('push')) ||
+      (!isEmailConnected && channel.includes('email')) ||
+      (!isTelegramConnected && channel.includes('telegram')))
 
   const channelItems = Array.isArray(channel) ? channel : [channel]
   const channelTitles = channelItems.map((item) => {
