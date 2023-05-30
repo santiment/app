@@ -139,7 +139,7 @@ export const DEFAULT_SHEETS_TEMPLATES = [
 
   {
     name: 'Top Transactions',
-    url: 'https://docs.google.com/spreadsheets/d/1vvhzCUnmXv2n-XP5juUxizVtn6Xbj-OcS78wq0cT46s/view',
+    url: 'https://docs.google.com/spreadsheets/d/1mqzWNmDNhHacAzeVw5XGaCGqBJW5GjLNN7dBW89wTv0/view',
     description: (
       <>
         Often times, major transactions happen days before a price change actually occurs. Being
