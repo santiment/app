@@ -6,7 +6,6 @@
   export { className as class }
   export let title
   export let items = []
-  export let insights = []
   export let hasMore = true
   export let onMore
   export let small = false
@@ -15,11 +14,9 @@
   export let showLess = false
   export let isMain = false
   export let favorites = false
-  export let hasInsights = false
   export let sortedItems = []
 
   $: isMain && changeOrder(items)
-  $: isMain && changeOrder(insights)
 
   // Formula: Likes * 0.3 + Comments * 0.7
   const getRank = (item) => item.votes.totalVotes * 0.3 + item.commentsCount * 0.7
@@ -88,7 +85,7 @@
     {/if}
   </div>
 
-  {#each isMain ? sortedItems : items as item, index (item)}
+  {#each isMain ? sortedItems : items as item (item)}
     {#if isMain && item.first && !favorites}
       <div class="postdate c-waterloo">{item.postdate}</div>
     {/if}
@@ -102,23 +99,7 @@
     >
       <slot {item} />
     </div>
-    {@const itemCount = index + 1}
-    {@const insight = insights[itemCount / 2]}
-    {#if hasInsights && favorites && itemCount % 2 === 0 && insight}
-      <div class="item btn" class:favorites>
-        <slot item={insight} />
-      </div>
-    {/if}
   {/each}
-
-  {#if hasInsights && insights.length > 0 && !loading && !hasMore && favorites && isMain}
-    {@const restInsights = insights.slice(items.length / 2)}
-    {#each restInsights as insight}
-      <div class="item btn" class:favorites>
-        <slot item={insight} />
-      </div>
-    {/each}
-  {/if}
 
   {#if hasMore || showLess}
     <div

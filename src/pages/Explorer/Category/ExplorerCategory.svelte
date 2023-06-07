@@ -22,14 +22,10 @@
   let page = 1
   let pages = 1
   let items = []
-  let insights = []
-  let insightsPage = 1
-  let insightsPages = 1
   let pullingTimer
   let deselectAssets = () => {}
   let loading = false
   let deletedItems = []
-  let hasInsights = false
 
   $: activeMenu, reset()
   $: showEmpty = !$currentUser && [MenuItem.MY_CREATIONS, MenuItem.LIKES].includes(activeMenu)
@@ -39,7 +35,6 @@
   $: userRoleDataOnly = activeMenu === MenuItem.SANTIMENT
   $: isFeaturedDataOnly = [MenuItem.TRENDING, MenuItem.SANTIMENT].includes(activeMenu)
   $: range, assets, displayingTypes, page, fetch()
-  $: displayingTypes, filterInsights()
   $: onLoadingChange(loading)
   $: items = filterDeletedItems(deletedItems)
 
@@ -79,50 +74,42 @@
     items = items
   })
 
-  function fetch(bypassLoading = false) {
+  async function setDisplayingItems() {
+    const data = await queryExplorerItems({
+      types: getDisplayingType(displayingTypes),
+      voted,
+      favorites,
+      range,
+      page,
+      currentUserDataOnly,
+      assets,
+      userRoleDataOnly,
+      isFeaturedDataOnly,
+    })
+    pages = data.pages
+    items = page === 1 ? data.items : items.concat(data.items)
+  }
+
+  async function fetch(bypassLoading = false) {
     if (showEmpty) {
       pages = 1
       page = 1
       items = []
       return
     }
-    if (!bypassLoading) loading = true
 
-    queryExplorerItems({
-      types: [EntityKeys.INSIGHT],
-      page: insightsPage,
-    })
-      .then((res) => {
-        if (activeMenu === MenuItem.TRENDING) {
-          insightsPages = res.pages
-          insights = insightsPage === 1 ? res.items : insights.concat(res.items)
-        }
-      })
-      .catch(() => notifyError({ user: $currentUser }))
-      .finally(() => {
-        queryExplorerItems({
-          types: getDisplayingType(displayingTypes),
-          voted,
-          favorites,
-          range,
-          page,
-          currentUserDataOnly,
-          assets,
-          userRoleDataOnly,
-          isFeaturedDataOnly,
-        })
-          .then((res) => {
-            pages = res.pages
-            items = page === 1 ? res.items : items.concat(res.items)
-          })
-          .catch(() => notifyError({ user: $currentUser }))
-          .finally(() => (loading = false))
-      })
+    try {
+      loading = !bypassLoading
+      await setDisplayingItems()
+    } catch {
+      notifyError({ user: $currentUser })
+    } finally {
+      loading = false
+    }
   }
 
   function reset() {
     page = 1
-    insightsPage = 1
     deselectAssets()
     displayingTypes = new Set()
     range = ''
@@ -145,38 +132,10 @@
     return labels
   }
 
-  function filterInsights() {
-    const values = new Set(getDisplayingType(displayingTypes))
-    hasInsights = values.has(EntityKeys.INSIGHT)
-
-    if (!hasInsights) {
-      insights = []
-      insightsPage = 1
-      insightsPages = 1
-    }
-  }
-
   onMount(() => {
-    if (activeMenu === MenuItem.TRENDING) {
-      queryExplorerItems({
-        types: getDisplayingType(displayingTypes),
-        voted,
-        favorites,
-        range,
-        page,
-        currentUserDataOnly,
-        assets,
-        userRoleDataOnly,
-        isFeaturedDataOnly,
-      })
-        .then((res) => {
-          if (res.items.length === 0) activeMenu = MenuItem.NEW
-        })
-        .catch(() => notifyError({ user: $currentUser }))
-    }
-
     pullingTimer = setTimeout(() => fetch(true), 60 * 1000)
   })
+
   onDestroy(() => clearTimeout(pullingTimer))
 </script>
 
@@ -185,26 +144,20 @@
   {favorites}
   title="Explorer"
   {items}
-  {insights}
-  {hasInsights}
   {loading}
   onMore={() => {
     page += 1
-    insightsPage += 1
     trackExplorerShowMore({ page, size: 20 })
   }}
-  hasMore={page < pages}
->
+  hasMore={page < pages}>
   <div slot="header" class="controls row mrg-a mrg--l">
     <TypeSelector
       flat
       onChange={(newTypes) => {
         displayingTypes = newTypes
         page = 1
-        insightsPage = 1
       }}
-      {displayingTypes}
-    />
+      {displayingTypes} />
   </div>
 
   <svelte:fragment let:item>
@@ -214,15 +167,13 @@
         showActions
         type="CHART"
         hasIcons
-        assets={getAssets(item.chartConfiguration)}
-      />
+        assets={getAssets(item.chartConfiguration)} />
     {:else if item.screener}
       <LayoutItem
         item={item.screener}
         showActions
         type="SCREENER"
-        id="{item.screener.id}-watchlist"
-      />
+        id="{item.screener.id}-watchlist" />
     {:else if item.projectWatchlist}
       <LayoutItem item={item.projectWatchlist} showActions type="WATCHLIST" />
     {:else if item.addressWatchlist}
@@ -230,8 +181,7 @@
         item={item.addressWatchlist}
         showActions
         type="ADDRESS"
-        assets={getAddressLabels(item.addressWatchlist.listItems)}
-      />
+        assets={getAddressLabels(item.addressWatchlist.listItems)} />
     {:else if item.insight}
       <LayoutItem item={item.insight} showActions type="INSIGHT" />
     {:else if item.userTrigger}
@@ -240,6 +190,6 @@
   </svelte:fragment>
 </Category>
 
-{#if showEmpty || (!loading && items.length === 0 && insights.length === 0)}
+{#if showEmpty || (!loading && items.length === 0)}
   <EmptyState {activeMenu} />
 {/if}
