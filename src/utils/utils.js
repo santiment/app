@@ -16,7 +16,7 @@ const getAPIUrl = () => {
   return (
     (window.env || {}).BACKEND_URL ||
     process.env.REACT_APP_BACKEND_URL ||
-    window.location.origin
+    'https://app.santiment.net'
   ).replace('app', 'api')
 }
 
@@ -30,7 +30,7 @@ const getConsentUrl = () => {
     (window.env || {}).LOGIN_URL ||
     (window.env || {}).BACKEND_URL ||
     process.env.REACT_APP_BACKEND_URL ||
-    window.location.origin
+    'https://app.santiment.net'
   )
 }
 
