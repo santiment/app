@@ -10,12 +10,13 @@ import { cacheIndicator, Indicator } from 'studio/ChartWidget/MetricSettings/Ind
 import { newExpessionMetric } from 'studio/CombineDialog/utils'
 import { parseMetricGraphValue } from './settings'
 import { getWidgetByKey, parseSubwidgets } from './widgets'
-import { parseDrawings } from 'studio/sharing/drawings'
 import { parseChartAddons } from 'studio/sharing/addons'
 import { ExternalWidgetCreator } from '../Widget'
 // import { parseSharedSidepanel } from '../../../ducks/Studio/url/parse'
 import { getProjectMetricByKey, checkIsProjectMetricKey } from '../../../ducks/Studio/metrics'
 import { COMPARE_CONNECTOR } from '../../../ducks/Studio/url/utils'
+import { parseDrawings } from 'studio/sharing/drawings'
+import { parseDrawings as parseDrawings__legacy } from './drawings'
 
 const CONTROLLER = {
   newProjectMetric,
@@ -163,7 +164,13 @@ export function parseWidget(widget) {
   Widget.colors = parseMetricGraphValue(widget.colors, KnownMetric, metrics)
   Object.assign(Widget, parseAxesMetrics(widget.axesMetrics, KnownMetric))
   Object.assign(Widget, parseSubwidgets(widget.connectedWidgets))
-  Widget.drawings = parseDrawings(widget.drawings)
+
+  try {
+    Widget.drawings = parseDrawings(widget.drawings)
+  } catch (e) {
+    Widget.drawings = parseDrawings__legacy(widget.drawings)
+  }
+
   const { signalMetrics = [] } = widget
   Widget.signalMetrics = parseMetrics(signalMetrics, undefined, KnownMetric)
   Widget.holderLabels = widget.holderLabels
