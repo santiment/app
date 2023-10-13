@@ -19,12 +19,12 @@ export const EtherscanLink = ({
   isExchange,
   label,
   isFull,
-  asLink = true,
   settings,
   className,
   children,
 }) => {
   const link = children || address
+  const asLink = true
 
   const addressShort =
     isFull || typeof link !== 'string' ? link : makeShortAddresLink({ link, isExchange, settings })
