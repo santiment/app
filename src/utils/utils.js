@@ -65,10 +65,7 @@ export const mapToTxLink = (value) =>
     ? `https://etherscan.io/tx/${value}`
     : `https://www.blockchain.com/btc/tx/${value}`
 
-export const mapToTxAddress = (address) =>
-  isEthStrictAddress(address)
-    ? `https://etherscan.io/address/${address}`
-    : `https://www.blockchain.com/btc/address/${address}`
+export const mapToTxAddress = (address) => `/labs/balance?address=${address}`
 
 /**
  * Function to calculate the percentage change between two numbers.
