@@ -112,8 +112,8 @@ const LabelRenderer = ({ name, metadata, forwardedRef, ...rest }) => {
 }
 
 const TransactionTableLabels = ({ labels, className }) => {
-  const visibleLabels = labels.slice(0, 3)
-  const hiddenLabels = labels.slice(3)
+  const visibleLabels = labels.slice(0, 7)
+  const hiddenLabels = labels.slice(7)
 
   return (
     <div className={cx(styles.labels, className)}>
