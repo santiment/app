@@ -21,6 +21,7 @@
     "get-schema": "node scripts/index"
   },
   "dependencies": {
+    "@trainline/react-skeletor": "^1.0.2",
     "apollo-cache-inmemory": "^1.6.3",
     "apollo-client": "^2.6.4",
     "apollo-link": "^1.2.13",
