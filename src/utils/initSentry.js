@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/react'
 
 const initSentry = () => {
   if (!window.env) {
@@ -13,12 +12,7 @@ const initSentry = () => {
     release: `Ver. ${process.env.REACT_APP_VERSION}`,
   }
 
-  Sentry.init(configs)
 
-  Sentry.setTags({
-    git_commit: (process.env.REACT_APP_VERSION || '').split('-')[1],
-    environment: process.env.NODE_ENV,
-  })
 }
 
 export default initSentry

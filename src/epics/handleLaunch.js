@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/react'
 import { ofType } from 'redux-observable'
 import { Observable } from 'rxjs'
 import { mergeMap } from 'rxjs/operators'
@@ -73,7 +72,6 @@ const handleLaunch = (action$, store, { client }) =>
           }
         })
         .catch((error) => {
-          Sentry.captureException(error)
           client.cache.reset()
           if (!/Network error/.test(error)) {
             return Observable.of({
